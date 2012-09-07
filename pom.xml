@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.meeuw</groupId>
+  <artifactId>mihxil-math</artifactId>
+  <name>Mihxil's Math</name>
+  <version>0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.2</version>
+    </dependency>
+  </dependencies>
+  <packaging>jar</packaging>
+
+  <build>
+    <defaultGoal>install</defaultGoal>
+  </build>
+
+</project>
