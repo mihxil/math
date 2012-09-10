@@ -6,6 +6,11 @@
   <artifactId>mihxil-math</artifactId>
   <name>Mihxil's Math</name>
   <version>0.1-SNAPSHOT</version>
+
+  <properties>
+    <github.maven.repository>file:///Users/michiel/github/mvn-repo/</github.maven.repository>
+
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -18,5 +23,17 @@
   <build>
     <defaultGoal>install</defaultGoal>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>repo</id>
+      <url>${github.maven.repository}/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>snapshot-repo</id>
+      <url>${github.maven.repository}/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
 
 </project>
