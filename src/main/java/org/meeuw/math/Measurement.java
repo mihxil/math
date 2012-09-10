@@ -188,7 +188,7 @@ public class Measurement extends java.lang.Number {
      * Split a double up in 2 numbers: a double approximately 1 (the 'coefficent'), and an integer
      * indicating the order of magnitude (the 'exponent').
      */
-    private static  class SplitNumber {
+    static class SplitNumber {
         public double coefficient;
         public int   exponent;
         public SplitNumber(double in) {
@@ -251,7 +251,7 @@ public class Measurement extends java.lang.Number {
 
 
         // for std starting with '1' we allow an extra digit.
-        if (std.coefficient < 2) {
+        if (std.coefficient < 2 && std.coefficient > 0) {
             //System.out.println("Extra digit");
             meanDigits++;
         }
