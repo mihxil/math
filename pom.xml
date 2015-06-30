@@ -19,10 +19,6 @@
   </dependencies>
   <packaging>jar</packaging>
 
-  <build>
-    <defaultGoal>install</defaultGoal>
-  </build>
-
   <distributionManagement>
     <repository>
       <id>repo</id>
