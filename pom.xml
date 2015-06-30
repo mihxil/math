@@ -9,7 +9,6 @@
 
   <properties>
     <github.maven.repository>file:///Users/michiel/github/mvn-repo/</github.maven.repository>
-
   </properties>
   <dependencies>
     <dependency>
@@ -35,5 +34,19 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
