@@ -7,10 +7,29 @@
   <name>Mihxil's Math</name>
   <version>0.1-SNAPSHOT</version>
 
-  <properties>
-    <github.maven.repository>file:///Users/michiel/github/mvn-repo/</github.maven.repository>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
 
-  </properties>
+  <developers>
+    <developer>
+      <id>mihxil</id>
+      <name>Michiel Meeuwissen</name>
+      <email>michiel.meeuwissen+github@gmail.com</email>
+      <url>http://www.meeuw.org</url>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>Europe/Amsterdam</timezone>
+    </developer>
+  </developers>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -24,15 +43,21 @@
     <defaultGoal>install</defaultGoal>
   </build>
 
+  <scm>
+    <connection>scm:git:git://github.com/mihxil/math.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/mihxil/math.git</developerConnection>
+    <url>https://github.com/mihxil/math</url>
+    <tag>HEAD</tag>
+  </scm>
   <distributionManagement>
-    <repository>
-      <id>repo</id>
-      <url>${github.maven.repository}/releases</url>
-    </repository>
     <snapshotRepository>
-      <id>snapshot-repo</id>
-      <url>${github.maven.repository}/snapshots</url>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
+    <repository>
+      <id>ossrh-release</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
   </distributionManagement>
 
 
