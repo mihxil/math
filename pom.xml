@@ -39,16 +39,13 @@
   </dependencies>
   <packaging>jar</packaging>
 
-  <build>
-    <defaultGoal>install</defaultGoal>
-  </build>
-
   <scm>
     <connection>scm:git:git://github.com/mihxil/math.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mihxil/math.git</developerConnection>
     <url>https://github.com/mihxil/math</url>
     <tag>HEAD</tag>
   </scm>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
@@ -60,5 +57,19 @@
     </repository>
   </distributionManagement>
 
+  <build>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
