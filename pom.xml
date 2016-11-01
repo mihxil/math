@@ -127,6 +127,10 @@
                 </goals>
               </execution>
             </executions>
+            <configuration>
+              <additionalparam>-Xdoclint:none</additionalparam>
+              <failOnError>false</failOnError>
+            </configuration>
           </plugin>
         </plugins>
       </build>
