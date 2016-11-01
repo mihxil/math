@@ -14,14 +14,14 @@ import java.util.*;
 
 /**
  * Represents a set of measurement values. The value represents the average value.
- * {@link #toString} presnent the current value, but only the relevant digits. The standard
+ * {@link #toString} present the current value, but only the relevant digits. The standard
  * deviation {@link #getStandardDeviation} is used to determin what digits are relevant.
  *
  * @author Michiel Meeuwissen
  */
 
 
-public class Measurement extends java.lang.Number {
+public class Measurement<T extends Number> extends java.lang.Number {
 
 
     private double sum = 0;
@@ -138,7 +138,7 @@ public class Measurement extends java.lang.Number {
     /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */
-    public static double pow10(int i) {
+    static double pow10(int i) {
         double result = 1;
         while (i > 0) {
             result *= 10;
@@ -148,6 +148,7 @@ public class Measurement extends java.lang.Number {
             result /= 10;
             i++;
         }
+        assert i == 0;
         return result;
     }
     /**
@@ -205,6 +206,7 @@ public class Measurement extends java.lang.Number {
             }
             if (negative) coefficient *= -1;
         }
+        @Override
         public String toString() {
             return coefficient + "\u00B710" + superscript(exponent);
             //return coefficient + "E" + exponent;
