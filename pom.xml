@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.meeuw</groupId>
   <artifactId>mihxil-math</artifactId>
   <name>Mihxil's Math</name>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.2-SNAPSHOT</version>
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math</url>
 
