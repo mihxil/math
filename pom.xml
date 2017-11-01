@@ -5,7 +5,7 @@
   <groupId>org.meeuw</groupId>
   <artifactId>mihxil-math</artifactId>
   <name>Mihxil's Math</name>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.3-SNAPSHOT</version>
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math</url>
 
