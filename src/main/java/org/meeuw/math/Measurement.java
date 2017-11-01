@@ -9,8 +9,10 @@ See http://www.MMBase.org/license
 */
 
 package org.meeuw.math;
-import java.text.*;
-import java.util.*;
+
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.function.Consumer;
 
 /**
  * Represents a set of measurement values. The value represents the average value.
@@ -21,7 +23,7 @@ import java.util.*;
  */
 
 
-public class Measurement<T extends Number> extends java.lang.Number {
+public class Measurement<T extends Number> extends java.lang.Number implements Consumer<Double> {
 
 
     private double sum = 0;
@@ -182,6 +184,12 @@ public class Measurement<T extends Number> extends java.lang.Number {
      */
     public void setMinimumExponent(int m) {
         minimumExponent = m;
+    }
+
+    @Override
+    public void accept(Double value) {
+        enter(value);
+
     }
 
 
