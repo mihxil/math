@@ -24,6 +24,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     private long sum = 0;
     private long squareSum = 0;
     private final Mode mode;
+
     private long instantApprox;
 
     public LongMeasurement() {
@@ -60,6 +61,20 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
      */
     @Override
     public LongMeasurement enter(LongMeasurement m) {
+        if (m.count == 0) {
+            return this;
+        }
+        if (this.count == 0) {
+            this.sum = m.sum;
+            this.squareSum = m.squareSum;
+            this.instantApprox = m.instantApprox;
+            this.count = m.count;
+            return this;
+        }
+        long diff = instantApprox - m.instantApprox;
+        if (diff != 0) {
+            m = m.add(diff);
+        }
         sum += m.sum;
         squareSum += m.squareSum;
         count += m.count;
@@ -139,7 +154,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         }
         for (Instant i : instants) {
             long d = i.toEpochMilli();
-            if (instantApprox == 0) {
+            if (mode == Mode.INSTANT && count == 0) {
                 instantApprox = d;
             }
             d -= instantApprox;
@@ -166,8 +181,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         }
     }
 
-
-    enum Mode {
+    public enum Mode {
         LONG,
         INSTANT,
         DURATION
