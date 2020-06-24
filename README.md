@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/mihxil/math.png?)](https://travis-ci.org/mihxil/math)
+[![Build Status](https://travis-ci.org/mihxil/math.svg?)](https://travis-ci.org/mihxil/math)
 
 
 math
