@@ -1,0 +1,5 @@
+= math
+
+image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci.org/mihxil/math]
+
+Math-related class. E.g. a 'Measurement'.
