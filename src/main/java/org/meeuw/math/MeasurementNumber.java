@@ -20,7 +20,7 @@ import java.util.Locale;
  */
 
 
-public abstract class MeasurementNumber extends Number {
+public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends Number {
 
 
     protected int count = 0;
@@ -70,8 +70,16 @@ public abstract class MeasurementNumber extends Number {
         minimumExponent = m;
     }
 
+    public abstract T enter(T m);
+
+    public abstract T div(double d);
+
+    public abstract T times(double d);
 
 
+    public T combine(T m) {
+        return enter(m);
+    }
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).

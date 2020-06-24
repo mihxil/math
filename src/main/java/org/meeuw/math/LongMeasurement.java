@@ -19,7 +19,7 @@ import java.util.function.LongConsumer;
  *
  * @author Michiel Meeuwissen
  */
-public class LongMeasurement extends MeasurementNumber implements LongConsumer {
+public class LongMeasurement extends MeasurementNumber<LongMeasurement> implements LongConsumer {
 
     private long sum = 0;
     private long squareSum = 0;
@@ -58,6 +58,7 @@ public class LongMeasurement extends MeasurementNumber implements LongConsumer {
      * See also {@link #add(LongMeasurement)} which is something entirely different.
      * @param m
      */
+    @Override
     public LongMeasurement enter(LongMeasurement m) {
         sum += m.sum;
         squareSum += m.squareSum;
@@ -100,9 +101,11 @@ public class LongMeasurement extends MeasurementNumber implements LongConsumer {
     /**
      * Operator overloading would be very handy here, but java sucks.
      */
+    @Override
     public LongMeasurement div(double d) {
         return new LongMeasurement(mode, (long) (sum / d), (long) (squareSum / (d * d)), count);
     }
+    @Override
     public LongMeasurement times(double d) {
         return new LongMeasurement(mode, (long) (sum * d), (long) (squareSum * (d * d)), count);
     }

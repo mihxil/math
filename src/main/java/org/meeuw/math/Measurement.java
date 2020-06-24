@@ -21,7 +21,7 @@ import java.util.function.DoubleConsumer;
  */
 
 
-public class Measurement extends MeasurementNumber implements DoubleConsumer {
+public class Measurement extends MeasurementNumber<Measurement> implements DoubleConsumer {
 
     private double sum = 0;
     private double squareSum = 0;
@@ -53,6 +53,7 @@ public class Measurement extends MeasurementNumber implements DoubleConsumer {
      * statistics.
      * See also {@link #add(Measurement)} which is something entirely different.
      */
+    @Override
     public Measurement enter(Measurement m) {
         sum += m.sum;
         squareSum += m.squareSum;
@@ -88,10 +89,12 @@ public class Measurement extends MeasurementNumber implements DoubleConsumer {
     /**
      * Operator overloading would be very handy here, but java sucks.
      */
+    @Override
     public Measurement div(double d) {
         return new Measurement(sum / d, squareSum / (d * d), count);
     }
 
+    @Override
     public Measurement times(double d) {
         return new Measurement(sum * d, squareSum * (d * d), count);
     }
