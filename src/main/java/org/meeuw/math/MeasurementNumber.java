@@ -81,6 +81,10 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
         return enter(m);
     }
 
+    public void reset() {
+        count = 0;
+    }
+
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.

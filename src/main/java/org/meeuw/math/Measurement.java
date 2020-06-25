@@ -119,6 +119,13 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
         enter(value);
     }
 
+    @Override
+    public void reset() {
+        super.reset();
+        sum = 0;
+        squareSum = 0;
+    }
+
 
 }
 

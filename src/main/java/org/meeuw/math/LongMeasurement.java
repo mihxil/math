@@ -10,6 +10,8 @@ See http://www.MMBase.org/license
 
 package org.meeuw.math;
 
+import lombok.Getter;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.LongConsumer;
@@ -25,7 +27,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     private long squareSum = 0;
     private final Mode mode;
 
-    private long instantApprox;
+    // keep sum around zero, and squareSum not too big.
+    boolean autoGuess = true;
+
+    @Getter
+    private long guessedMean = 0;
 
     public LongMeasurement() {
         this.mode = Mode.LONG;
@@ -33,6 +39,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     public LongMeasurement(Mode mode) {
         this.mode = mode;
     }
+
     protected LongMeasurement(Mode mode, long sum, long squareSum, int count) {
         super(count);
         this.mode = mode;
@@ -45,7 +52,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
      */
     public LongMeasurement enter(long... ds) {
         for(long d : ds) {
-
+            if (autoGuess) {
+                guessedMean = d;
+                autoGuess = false;
+            }
+            d -= guessedMean;
             sum += d;
             squareSum += d * d;
             count++;
@@ -67,11 +78,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         if (this.count == 0) {
             this.sum = m.sum;
             this.squareSum = m.squareSum;
-            this.instantApprox = m.instantApprox;
+            this.guessedMean = m.guessedMean;
             this.count = m.count;
             return this;
         }
-        long diff = instantApprox - m.instantApprox;
+        long diff = guessedMean - m.guessedMean;
         if (diff != 0) {
             m = m.add(diff);
         }
@@ -82,7 +93,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     }
 
     public long getMean() {
-        return sum / count;
+        return guessedMean + (sum / count);
     }
     public long getRoundedMean() {
         return round(getMean());
@@ -96,23 +107,23 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
     @Override
     public double doubleValue() {
-        return getMean();
+        return (double) guessedMean + ((double) sum) / count;
     }
 
     @Override
     public double getStandardDeviation() {
-        double mean = doubleValue();
+        double mean = ((double) sum) / count;
         return Math.sqrt((double) (squareSum / count) - mean * mean);
     }
 
 
     public long getSum() {
-        return sum;
-    }
-    public long getSumOfSquares() {
-        return squareSum;
+        return sum + count * guessedMean;
     }
 
+    public long getSumOfSquares() {
+        return squareSum + 2 * guessedMean * sum + count * (guessedMean * guessedMean);
+    }
     /**
      * Operator overloading would be very handy here, but java sucks.
      */
@@ -136,7 +147,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Assuming that this measurement is from a different set (the mean is <em>principally
      * different</em>)
-     * @todo Not yet correctly implemented
+     *
      */
     public LongMeasurement add(LongMeasurement m) {
         // think about this...
@@ -154,10 +165,6 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         }
         for (Instant i : instants) {
             long d = i.toEpochMilli();
-            if (mode == Mode.INSTANT && count == 0) {
-                instantApprox = d;
-            }
-            d -= instantApprox;
             accept(d);
         }
     }
@@ -174,12 +181,22 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     public String toString() {
         switch(mode) {
             case INSTANT:
-                long rounded = round(getMean() + instantApprox);
+                long rounded = round(getMean());
                 return Instant.ofEpochMilli(rounded).toString();
             default:
                 case LONG: return super.toString();
         }
     }
+
+
+    @Override
+    public void reset() {
+        super.reset();
+        sum = 0;
+        squareSum = 0;
+        autoGuess = true;
+    }
+
 
     public enum Mode {
         LONG,
