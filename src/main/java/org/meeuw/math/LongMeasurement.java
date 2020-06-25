@@ -17,8 +17,6 @@ import java.time.Instant;
 import java.util.function.LongConsumer;
 
 /**
-
- *
  * @author Michiel Meeuwissen
  */
 public class LongMeasurement extends MeasurementNumber<LongMeasurement> implements LongConsumer {
