@@ -14,16 +14,26 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 /**
+ * Keeps tracks the sum and sum of squares of a sequence of long values.
+ *
+ * These
+ *
  * @author Michiel Meeuwissen
  */
-public class LongMeasurement extends MeasurementNumber<LongMeasurement> implements LongConsumer {
+public class LongMeasurement extends MeasurementNumber<LongMeasurement> implements LongConsumer, IntConsumer {
 
     private long sum = 0;
     private long squareSum = 0;
     private final Mode mode;
+    @Getter
+    private long min = Long.MAX_VALUE;
+    @Getter
+    private long max = Long.MIN_VALUE;
+
 
     // keep sum around zero, and squareSum not too big.
     boolean autoGuess = true;
@@ -54,10 +64,13 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
                 guessedMean = d;
                 autoGuess = false;
             }
+            min = Math.min(min, d);
+            max = Math.min(max, d);
             d -= guessedMean;
             sum += d;
             squareSum += d * d;
             count++;
+
         }
         return this;
     }
@@ -80,10 +93,8 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
             this.count = m.count;
             return this;
         }
-        long diff = guessedMean - m.guessedMean;
-        if (diff != 0) {
-            m = m.add(diff);
-        }
+        long diff = m.guessedMean - guessedMean;
+
         sum += m.sum;
         squareSum += m.squareSum;
         count += m.count;
@@ -95,6 +106,12 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     }
     public long getRoundedMean() {
         return round(getMean());
+    }
+
+    @Override
+    public void accept(int value) {
+        enter(value);
+
     }
 
     protected long round(long in) {
@@ -195,6 +212,10 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         autoGuess = true;
     }
 
+
+    public void reguess() {
+
+    }
 
     public enum Mode {
         LONG,
