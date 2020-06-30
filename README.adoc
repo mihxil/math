@@ -2,4 +2,6 @@
 
 image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci.org/mihxil/math]
 
+image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
+
 Math-related class. E.g. a 'Measurement'.
