@@ -1,10 +1,10 @@
 package org.meeuw.math;
 
+import org.junit.jupiter.api.Test;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-
-import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -61,10 +61,17 @@ class LongMeasurementTest {
         mes.combine(mes2);
 
         assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
-        assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 *3 + 4 * 4 + 5 * 5 + 6 *6 + 7*7);
+        assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
         assertThat(mes.doubleValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
 
+        mes.reguess();
+        assertThat(mes.getGuessedMean()).isEqualTo(4);
+
+        assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
+        assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
+        assertThat(mes.doubleValue()).isEqualTo(3.5);
+        assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
 
     }
 

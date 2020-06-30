@@ -31,11 +31,11 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     @Override
     public long longValue() {
-        return (long) doubleValue();
+        return Math.round(doubleValue());
     }
     @Override
     public int intValue() {
-        return (int) doubleValue();
+        return (int) longValue();
     }
     @Override
     public float floatValue() {
@@ -44,11 +44,11 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     @Override
     public byte byteValue() {
-        return (byte) doubleValue();
+        return (byte) longValue();
     }
     @Override
     public short shortValue() {
-        return (short) doubleValue();
+        return (short) longValue();
     }
 
     abstract double getStandardDeviation();

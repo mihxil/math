@@ -50,7 +50,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
     protected LongMeasurement(Mode mode, long sum, long squareSum, int count) {
         super(count);
-        this.mode = mode;
+        this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
         this.sum = sum;
     }
@@ -93,16 +93,16 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
             this.count = m.count;
             return this;
         }
-        long diff = m.guessedMean - guessedMean;
+        long diff = guessedMean - m.guessedMean;
 
-        sum += m.sum;
-        squareSum += m.squareSum;
+        sum += m.sum - m.count * diff;
+        squareSum += m.getSumOfSquares(diff);
         count += m.count;
         return this;
     }
 
-    public long getMean() {
-        return guessedMean + (sum / count);
+    public double getMean() {
+        return (double) guessedMean + ((double) sum / count);
     }
     public long getRoundedMean() {
         return round(getMean());
@@ -114,15 +114,15 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
     }
 
-    protected long round(long in) {
+    protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
-        return (in / orderOfMagnitude) * orderOfMagnitude;
+        return Math.round(in) / orderOfMagnitude * orderOfMagnitude;
     }
 
 
     @Override
     public double doubleValue() {
-        return (double) guessedMean + ((double) sum) / count;
+        return getMean();
     }
 
     @Override
@@ -137,7 +137,12 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     }
 
     public long getSumOfSquares() {
-        return squareSum + 2 * guessedMean * sum + count * (guessedMean * guessedMean);
+        return getSumOfSquares(-1 * guessedMean);
+    }
+
+    protected long getSumOfSquares(long offset) {
+        return squareSum - 2 * offset * sum + count * (offset * offset);
+
     }
     /**
      * Operator overloading would be very handy here, but java sucks.
@@ -200,7 +205,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
                 Duration stddev = Duration.ofMillis((long) getStandardDeviation());
                 return Utils.valueAndError(Instant.ofEpochMilli(rounded).toString(), stddev.toString());
             default:
-                case LONG: return super.toString();
+            case LONG: return super.toString();
         }
     }
 
@@ -215,7 +220,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
 
     public void reguess() {
-
+        long newGuess = longValue();
+        long diff =  newGuess - guessedMean;
+        this.squareSum = getSumOfSquares(diff);
+        this.sum = sum - count * diff;
+        this.guessedMean = newGuess;
     }
 
     public enum Mode {
