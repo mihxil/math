@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -21,4 +19,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Build with Maven
-      run: mvn -B deploy --file pom.xml
+      run: mvn -B deploy -s $GITHUB_WORKSPACE/.github-settings.xml --file pom.xml
