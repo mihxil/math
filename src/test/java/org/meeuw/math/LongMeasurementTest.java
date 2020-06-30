@@ -64,6 +64,8 @@ class LongMeasurementTest {
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
         assertThat(mes.doubleValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes.getGuessedMean()).isEqualTo(0);
+
 
         mes.reguess();
         assertThat(mes.getGuessedMean()).isEqualTo(4);

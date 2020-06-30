@@ -38,6 +38,10 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     // keep sum around zero, and squareSum not too big.
     boolean autoGuess = true;
 
+    /**
+     * The guessed mean is used to offset all values when adding them to the {@link #getUncorrectedSum()} and {@link #getUncorrectedSumOfSquares()}. It defaults to the first value {@link #enter(long...)}ed.
+     * A better value can be determined at any time using {@link #reguess()}
+     */
     @Getter
     private long guessedMean = 0;
 
@@ -142,8 +146,22 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
     protected long getSumOfSquares(long offset) {
         return squareSum - 2 * offset * sum + count * (offset * offset);
-
     }
+
+
+    /**
+     * This implementation keeps track of a 'guessedMean' (see {@link #getGuessedMean()} value. The internal value {@link #getUncorrectedSumOfSquares()}it kept small like this, to avoid long overflows.
+     *
+     * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
+     */
+    public long getUncorrectedSum() {
+        return sum;
+    }
+
+    public long getUncorrectedSumOfSquares() {
+        return squareSum;
+    }
+
     /**
      * Operator overloading would be very handy here, but java sucks.
      */
@@ -219,6 +237,9 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     }
 
 
+    /**
+     * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.
+     */
     public void reguess() {
         long newGuess = longValue();
         long diff =  newGuess - guessedMean;
