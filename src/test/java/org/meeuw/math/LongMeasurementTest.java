@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.3
  */
 
 class LongMeasurementTest {
@@ -23,8 +23,9 @@ class LongMeasurementTest {
         LongMeasurement mes = new LongMeasurement(LongMeasurement.Mode.INSTANT);
 
         mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
-        assertThat(mes.toString()).isEqualTo(expected);
         assertThat(mes.getRoundedMean()).isEqualTo(1593070087000L);
+        assertThat(mes.toString()).startsWith(expected);
+        assertThat(mes.toString()).isEqualTo("2020-06-25T07:28:07Z ± PT0.216S");
     }
 
 

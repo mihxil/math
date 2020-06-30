@@ -136,14 +136,17 @@ public class Utils {
         nf.setGroupingUsed(false);
         return
             (useE ? "(" : "") +
-            nf.format(mean.coefficient) +
-                " \u00B1 " + /* +/- */
-                nf.format(std.coefficient)
+                valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
+
             +
             (useE ?
              (")\u00B710" + /* .10 */
               Utils.superscript(mean.exponent))
              : "");
+    }
+
+    public static String valueAndError(String value, String error) {
+         return value +  " \u00B1 " + error;
     }
 
 }

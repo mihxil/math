@@ -197,7 +197,8 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         switch(mode) {
             case INSTANT:
                 long rounded = round(getMean());
-                return Instant.ofEpochMilli(rounded).toString();
+                Duration stddev = Duration.ofMillis((long) getStandardDeviation());
+                return Utils.valueAndError(Instant.ofEpochMilli(rounded).toString(), stddev.toString());
             default:
                 case LONG: return super.toString();
         }
