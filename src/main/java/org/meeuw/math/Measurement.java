@@ -10,6 +10,8 @@ See http://www.MMBase.org/license
 
 package org.meeuw.math;
 
+import lombok.Getter;
+
 import java.util.function.DoubleConsumer;
 
 /**
@@ -26,6 +28,11 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
     private double sum = 0;
     private double squareSum = 0;
 
+    @Getter
+    private double min = Double.MAX_VALUE;
+    @Getter
+    private double max = Double.MIN_VALUE;
+
 
     public Measurement() {
     }
@@ -40,8 +47,10 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
 
     @Override
     Measurement copy() {
-        return new Measurement(sum, squareSum, count);
-
+        Measurement m =  new Measurement(sum, squareSum, count);
+        m.max = max;
+        m.min = min;
+        return m;
     }
     /**
      * Enters new value(s).
@@ -51,6 +60,8 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
             sum += d;
             squareSum += d * d;
             count++;
+            max = Math.max(max, d);
+            min = Math.max(min, d);
         }
         return this;
     }
@@ -65,6 +76,18 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
         sum += m.sum;
         squareSum += m.squareSum;
         count += m.count;
+        max = Math.max(max, m.max);
+        min = Math.max(min, m.min);
+        return this;
+    }
+
+
+    @Override
+    public Measurement multiply(double d) {
+        sum *= d;
+        squareSum *= d * d;
+        max = Math.round(max * d);
+        min = Math.round(min * d);
         return this;
     }
 
@@ -131,6 +154,8 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
         super.reset();
         sum = 0;
         squareSum = 0;
+        max = Double.MIN_VALUE;
+        min = Double.MAX_VALUE;
     }
 
 

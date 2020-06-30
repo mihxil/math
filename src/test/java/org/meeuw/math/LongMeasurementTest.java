@@ -79,7 +79,7 @@ class LongMeasurementTest {
     }
 
     @Test
-    public void times() {
+    public void timesAndPlus() {
         LongMeasurement mes = new LongMeasurement(LongMeasurement.Mode.DURATION);
 
         mes.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));

@@ -70,9 +70,22 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     public abstract T enter(T m);
 
-    public abstract T div(double d);
 
-    public abstract T times(double d);
+    /**
+     * Operator overloading would be very handy here, but java sucks.
+     */
+    public T divide(double d) {
+        return multiply(1 / d);
+    }
+
+    public abstract T multiply(double d);
+
+    public T times(double d) {
+        return copy().multiply(d);
+    }
+    public T div(double d) {
+        return copy().divide(d);
+    }
 
 
     public T combine(T m) {

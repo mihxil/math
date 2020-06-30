@@ -14,6 +14,7 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.BinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
@@ -181,45 +182,49 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         return squareSum;
     }
 
-    /**
-     * Operator overloading would be very handy here, but java sucks.
-     */
+
     @Override
-    public LongMeasurement div(double d) {
-        return times(1 / d);
-    }
-    @Override
-    public LongMeasurement times(double d) {
-        LongMeasurement m = new LongMeasurement(mode, Math.round((double) sum * d), Math.round((double) squareSum * (d * d)), count,  (long) (guessedMean * d));
-        m.autoGuess = false;
-        m.max = Math.round(max * d);
-        m.min = Math.round(min * d);
-        return m;
+    public LongMeasurement multiply(double d) {
+        sum *= d;
+        squareSum *= d * d;
+        guessedMean *= d;
+        max = Math.round(max * d);
+        min = Math.round(min * d);
+        return this;
     }
 
-    public LongMeasurement plus(long d) {
+    public LongMeasurement add(long d) {
         if (mode != Mode.LONG) {
             throw new IllegalStateException();
         }
-        return _plus(d);
+        return _add(d);
     }
 
-    protected LongMeasurement _plus(long d) {
-        LongMeasurement m = copy().reguess();
-        m.sum += d * count;
-        m.squareSum += d * d * count + 2 * sum * d;
-        m.autoGuess = false;
-        m.max = max + d;
-        m.min = min + d;
-        m.reguess();
-        return m;
+    protected LongMeasurement _add(long d) {
+        reguess();
+        long dcount = d * count;
+        squareSum += d * (dcount + 2 * sum);
+        sum += dcount;
+        autoGuess = false;
+        max = max + d;
+        min = min + d;
+        reguess();
+        return this;
     }
 
-    public LongMeasurement plus(Duration d) {
+    public LongMeasurement add(Duration d) {
         if (mode == Mode.LONG) {
             throw new IllegalStateException();
         }
-        return _plus(d.toMillis());
+        return _add(d.toMillis());
+    }
+
+    public LongMeasurement plus(Duration d) {
+        return copy().add(d);
+    }
+
+    public LongMeasurement plus(long d) {
+        return copy().add(d);
     }
 
     /**
@@ -280,6 +285,8 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         sum = 0;
         squareSum = 0;
         autoGuess = true;
+        max = Long.MIN_VALUE;
+        min = Long.MAX_VALUE;
     }
 
 
@@ -299,6 +306,23 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         LONG,
         INSTANT,
         DURATION
+    }
+
+    public static final class Plus implements BinaryOperator<LongMeasurement> {
+        public static final Plus PLUS = new Plus();
+
+        @Override
+        public LongMeasurement apply(LongMeasurement longMeasurement, LongMeasurement longMeasurement2) {
+            return longMeasurement.plus(longMeasurement2);
+        }
+    }
+
+    public static class Times implements BinaryOperator<LongMeasurement> {
+
+        @Override
+        public LongMeasurement apply(LongMeasurement longMeasurement, LongMeasurement longMeasurement2) {
+            return longMeasurement.plus(longMeasurement2);
+        }
     }
 }
 
