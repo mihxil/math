@@ -30,12 +30,19 @@ public class Measurement extends MeasurementNumber<Measurement> implements Doubl
     public Measurement() {
     }
 
+
+
     protected Measurement(double sum, double squareSum, int count) {
         super(count);
         this.sum = sum;
         this.squareSum = squareSum;
     }
 
+    @Override
+    Measurement copy() {
+        return new Measurement(sum, squareSum, count);
+
+    }
     /**
      * Enters new value(s).
      */

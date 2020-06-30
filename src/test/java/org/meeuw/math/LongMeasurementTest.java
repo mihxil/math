@@ -48,6 +48,7 @@ class LongMeasurementTest {
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 *3 + 4 * 4 + 5 * 5 + 6 *6 + 7*7);
         assertThat(mes.doubleValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes.toString()).isEqualTo("4 ± 2");
 
     }
 
@@ -74,6 +75,25 @@ class LongMeasurementTest {
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
         assertThat(mes.doubleValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+
+    }
+
+    @Test
+    public void times() {
+        LongMeasurement mes = new LongMeasurement(LongMeasurement.Mode.DURATION);
+
+        mes.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
+
+        LongMeasurement mesTimes3 = mes.times(3.0);
+
+        assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofMinutes(5));
+        assertThat(mesTimes3.toString()).isEqualTo("PT5M ± PT24.494S");
+
+        LongMeasurement mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
+        assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24.494S");
+
+
+
 
     }
 

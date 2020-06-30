@@ -52,11 +52,20 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         this.mode = mode;
     }
 
-    protected LongMeasurement(Mode mode, long sum, long squareSum, int count) {
+    protected LongMeasurement(Mode mode, long sum, long squareSum, int count, long guessedMean) {
         super(count);
         this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
         this.sum = sum;
+        this.guessedMean = guessedMean;
+    }
+
+    public LongMeasurement copy() {
+        LongMeasurement c = new LongMeasurement(mode, sum, squareSum, count, guessedMean);
+        c.max = max;
+        c.min = min;
+        c.autoGuess = autoGuess;
+        return c;
     }
 
     /**
@@ -69,7 +78,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
                 autoGuess = false;
             }
             min = Math.min(min, d);
-            max = Math.min(max, d);
+            max = Math.max(max, d);
             d -= guessedMean;
             sum += d;
             squareSum += d * d;
@@ -82,7 +91,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #add(LongMeasurement)} which is something entirely different.
+     * See also {@link #plus(LongMeasurement)} which is something entirely different.
      * @param m
      */
     @Override
@@ -102,12 +111,15 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         sum += m.sum - m.count * diff;
         squareSum += m.getSumOfSquares(diff);
         count += m.count;
+        max = Math.max(max, m.max);
+        min = Math.min(min, m.min);
         return this;
     }
 
     public double getMean() {
         return (double) guessedMean + ((double) sum / count);
     }
+
     public long getRoundedMean() {
         return round(getMean());
     }
@@ -115,7 +127,6 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     @Override
     public void accept(int value) {
         enter(value);
-
     }
 
     protected long round(double in) {
@@ -127,6 +138,14 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     @Override
     public double doubleValue() {
         return getMean();
+    }
+
+    public Instant instantValue() {
+        return Instant.ofEpochMilli(longValue());
+    }
+
+    public Duration durationValue() {
+        return Duration.ofMillis(longValue());
     }
 
     @Override
@@ -167,19 +186,40 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
      */
     @Override
     public LongMeasurement div(double d) {
-        return new LongMeasurement(mode, (long) (sum / d), (long) (squareSum / (d * d)), count);
+        return times(1 / d);
     }
     @Override
     public LongMeasurement times(double d) {
-        return new LongMeasurement(mode, (long) (sum * d), (long) (squareSum * (d * d)), count);
+        LongMeasurement m = new LongMeasurement(mode, Math.round((double) sum * d), Math.round((double) squareSum * (d * d)), count,  (long) (guessedMean * d));
+        m.autoGuess = false;
+        m.max = Math.round(max * d);
+        m.min = Math.round(min * d);
+        return m;
     }
 
-    public LongMeasurement add(long d) {
-        return new LongMeasurement(mode, sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
+    public LongMeasurement plus(long d) {
+        if (mode != Mode.LONG) {
+            throw new IllegalStateException();
+        }
+        return _plus(d);
     }
 
-    public LongMeasurement add(Duration d) {
-        return add(d.toMillis());
+    protected LongMeasurement _plus(long d) {
+        LongMeasurement m = copy().reguess();
+        m.sum += d * count;
+        m.squareSum += d * d * count + 2 * sum * d;
+        m.autoGuess = false;
+        m.max = max + d;
+        m.min = min + d;
+        m.reguess();
+        return m;
+    }
+
+    public LongMeasurement plus(Duration d) {
+        if (mode == Mode.LONG) {
+            throw new IllegalStateException();
+        }
+        return _plus(d.toMillis());
     }
 
     /**
@@ -187,9 +227,9 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
      * different</em>)
      *
      */
-    public LongMeasurement add(LongMeasurement m) {
+    public LongMeasurement plus(LongMeasurement m) {
         // think about this...
-        return new LongMeasurement(mode, m.count * sum + count + m.sum, /* er */ 0, count * m.count);
+        return new LongMeasurement(mode, m.count * sum + count + m.sum, /* er */ 0, count * m.count, 0);
     }
 
     @Override
@@ -218,10 +258,16 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     @Override
     public String toString() {
         switch(mode) {
-            case INSTANT:
+            case INSTANT: {
                 long rounded = round(getMean());
                 Duration stddev = Duration.ofMillis((long) getStandardDeviation());
                 return Utils.valueAndError(Instant.ofEpochMilli(rounded).toString(), stddev.toString());
+            }
+            case DURATION: {
+                long rounded = Math.round(getMean());
+                Duration stddev = Duration.ofMillis((long) getStandardDeviation());
+                return Utils.valueAndError(Duration.ofMillis(rounded).toString(), stddev.toString());
+            }
             default:
             case LONG: return super.toString();
         }
@@ -240,12 +286,13 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.
      */
-    public void reguess() {
+    public LongMeasurement reguess() {
         long newGuess = longValue();
         long diff =  newGuess - guessedMean;
         this.squareSum = getSumOfSquares(diff);
         this.sum = sum - count * diff;
         this.guessedMean = newGuess;
+        return this;
     }
 
     public enum Mode {

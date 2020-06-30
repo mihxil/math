@@ -51,6 +51,8 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
         return (short) longValue();
     }
 
+    abstract T copy();
+
     abstract double getStandardDeviation();
 
     public int getCount() {
