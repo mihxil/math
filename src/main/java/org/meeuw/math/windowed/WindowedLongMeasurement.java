@@ -24,7 +24,7 @@ public class WindowedLongMeasurement extends Windowed<LongMeasurement> implement
         Integer bucketCount,
         LongMeasurement.Mode mode) {
         super(window, bucketDuration, bucketCount);
-        this.mode = mode;
+        this.mode = mode == null ? LongMeasurement.Mode.LONG : mode;
         init();
     }
 
