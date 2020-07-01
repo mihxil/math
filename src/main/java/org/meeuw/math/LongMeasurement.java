@@ -14,6 +14,7 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.function.BinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
@@ -264,9 +265,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     public String toString() {
         switch(mode) {
             case INSTANT: {
-                long rounded = round(getMean());
+                Instant mean = Instant.ofEpochMilli(longValue());
                 Duration stddev = Duration.ofMillis((long) getStandardDeviation());
-                return Utils.valueAndError(Instant.ofEpochMilli(rounded).toString(), stddev.toString());
+                ChronoUnit order = Utils.orderOfMagnitude(stddev);
+                stddev = Utils.round(stddev, order);
+                return Utils.valueAndError(Utils.format(mean, order), stddev.toString());
             }
             case DURATION: {
                 long rounded = Math.round(getMean());
