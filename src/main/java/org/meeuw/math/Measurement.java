@@ -25,12 +25,13 @@ public abstract class Measurement extends Number implements Comparable<Number> {
 
     public abstract double getUncertainty();
 
+    public Measurement combine(Measurement m) {
+        if (! Objects.equals(units, m.units)) {
+            throw new IllegalArgumentException();
+        }
+        throw new UnsupportedOperationException("TODO");
+    }
 
-    /**
-     * Assuming that this measurement is from a different set (the mean is <em>principally
-     * different</em>)
-     *
-     */
     public Measurement plus(Measurement m) {
         if (! Objects.equals(units, m.units)) {
             throw new IllegalArgumentException();

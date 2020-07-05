@@ -33,11 +33,8 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
     @Getter
     private double max = Double.MIN_VALUE;
 
-
     public StatisticalMeasurement() {
     }
-
-
 
     protected StatisticalMeasurement(double sum, double squareSum, int count) {
         super(count);
@@ -48,6 +45,7 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
     @Override
     StatisticalMeasurement copy() {
         StatisticalMeasurement m =  new StatisticalMeasurement(sum, squareSum, count);
+        m.units = units;
         m.max = max;
         m.min = min;
         return m;

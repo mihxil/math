@@ -31,6 +31,7 @@ class WindowedLongStatisticalMeasurementTest {
         Thread.sleep(1);
         impl.accept(Instant.now());
 
+
         log.info(() -> impl.getWindowValue().toString());
 
 

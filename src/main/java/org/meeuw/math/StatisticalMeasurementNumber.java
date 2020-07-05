@@ -91,9 +91,14 @@ public abstract class StatisticalMeasurementNumber<T extends StatisticalMeasurem
         return copy().divide(d);
     }
 
-
-    public T combine(T m) {
-        return enter(m);
+    @Override
+    public Measurement combine(Measurement m) {
+        if (m instanceof StatisticalMeasurementNumber) {
+            T copy = copy();
+            return copy.enter((T) m);
+        } else {
+            return super.combine(m);
+        }
     }
 
     public void reset() {

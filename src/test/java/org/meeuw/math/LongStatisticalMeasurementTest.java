@@ -59,22 +59,22 @@ class LongStatisticalMeasurementTest {
         LongStatisticalMeasurement mes2  = new LongStatisticalMeasurement();
         mes2.enter(4, 5, 6, 7);
 
-        mes.combine(mes2);
+        LongStatisticalMeasurement mes3 = (LongStatisticalMeasurement) mes.combine(mes2);
 
-        assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
-        assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
-        assertThat(mes.doubleValue()).isEqualTo(3.5);
-        assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
-        assertThat(mes.getGuessedMean()).isEqualTo(0);
+        assertThat(mes3.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
+        assertThat(mes3.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
+        assertThat(mes3.doubleValue()).isEqualTo(3.5);
+        assertThat(mes3.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes3.getGuessedMean()).isEqualTo(0);
 
 
-        mes.reguess();
-        assertThat(mes.getGuessedMean()).isEqualTo(4);
+        mes3.reguess();
+        assertThat(mes3.getGuessedMean()).isEqualTo(4);
 
-        assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
-        assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
-        assertThat(mes.doubleValue()).isEqualTo(3.5);
-        assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes3.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
+        assertThat(mes3.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
+        assertThat(mes3.doubleValue()).isEqualTo(3.5);
+        assertThat(mes3.getStandardDeviation()).isEqualTo(2.179449471770337);
 
     }
 

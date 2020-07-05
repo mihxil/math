@@ -151,6 +151,9 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
 
     @Override
     public double getStandardDeviation() {
+        if (count == 0) {
+            return Double.NaN;
+        }
         double mean = ((double) sum) / count;
         return Math.sqrt((double) (squareSum / count) - mean * mean);
     }
