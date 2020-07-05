@@ -63,9 +63,10 @@ public abstract class Measurement extends Number implements Comparable<Number> {
         }
         double u = getUncertainty() / doubleValue();
         double mu = m.getUncertainty() / m.doubleValue();
+        double newValue = doubleValue() * m.doubleValue();
         return new MeasurementImpl(
-            doubleValue() * m.doubleValue(),
-            Math.sqrt( (u * u)  + (mu * mu)),
+            newValue,
+            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu)),
             newUnits
         );
     }
@@ -77,9 +78,11 @@ public abstract class Measurement extends Number implements Comparable<Number> {
         }
         double u = getUncertainty() / doubleValue();
         double mu = m.getUncertainty() / m.doubleValue();
+        double newValue = doubleValue() / m.doubleValue();
+
         return new MeasurementImpl(
-            doubleValue() / m.doubleValue(),
-            Math.sqrt( (u * u)  + (mu * mu)),
+            newValue,
+            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu)),
             newUnits
         );
     }
@@ -99,7 +102,8 @@ public abstract class Measurement extends Number implements Comparable<Number> {
     }
 
     public Measurement times(double multiplication) {
-        return new MeasurementImpl(multiplication * doubleValue(), getUncertainty(), units);
+        return new MeasurementImpl(multiplication * doubleValue(),
+            Math.abs(multiplication) * getUncertainty(), units);
     }
 
 

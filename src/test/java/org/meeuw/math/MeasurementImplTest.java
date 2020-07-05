@@ -22,6 +22,15 @@ class MeasurementImplTest {
 
 
     @Test
+    public void area() {
+        Measurement height = new MeasurementImpl(2.00, 0.03, Units.LENGTH);
+        Measurement width = new MeasurementImpl(3.00, 0.04, Units.LENGTH);
+        Measurement area =  height.times(width);
+        assertThat(area.toString()).isEqualTo("6.00 ± 0.12 m²");
+    }
+
+
+    @Test
     public void illegalAdd() {
         assertThatThrownBy(() -> {
             Measurement door = new MeasurementImpl(2.00, 0.03, Units.DISTANCE);
@@ -37,7 +46,7 @@ class MeasurementImplTest {
 
         Measurement distance = new MeasurementImpl(2.0, 0.05, Units.DISTANCE);
         Measurement duration = distance.dividedBy(speed);
-        assertThat(duration.toString()).isEqualTo("0.33 ± 0.07 s");
+        assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 
 }
