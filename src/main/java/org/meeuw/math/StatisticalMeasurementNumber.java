@@ -17,15 +17,13 @@ package org.meeuw.math;
  */
 
 
-public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends Number {
-
+public abstract class StatisticalMeasurementNumber<T extends StatisticalMeasurementNumber<T>> extends Measurement {
 
     protected int count = 0;
-    protected int minimumExponent = 4;
 
-    public MeasurementNumber() {
+    public StatisticalMeasurementNumber() {
     }
-    protected MeasurementNumber(int count) {
+    protected StatisticalMeasurementNumber(int count) {
         this.count = count;
     }
 
@@ -55,6 +53,11 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     abstract double getStandardDeviation();
 
+    @Override
+    public double getUncertainty() {
+        return getStandardDeviation();
+    }
+
     public int getCount() {
         return count;
     }
@@ -80,6 +83,7 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     public abstract T multiply(double d);
 
+    @Override
     public T times(double d) {
         return copy().multiply(d);
     }
@@ -94,15 +98,6 @@ public abstract class MeasurementNumber<T extends MeasurementNumber<T>> extends 
 
     public void reset() {
         count = 0;
-    }
-
-    /**
-     * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
-     */
-    @Override
-    public String toString() {
-        return Utils.scientificNotation(doubleValue(), getStandardDeviation(), minimumExponent);
     }
 
 }

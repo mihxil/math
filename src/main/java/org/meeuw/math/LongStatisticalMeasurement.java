@@ -15,7 +15,6 @@ import lombok.Getter;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.function.BinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
@@ -26,7 +25,7 @@ import java.util.function.LongConsumer;
  *
  * @author Michiel Meeuwissen
  */
-public class LongMeasurement extends MeasurementNumber<LongMeasurement> implements LongConsumer, IntConsumer {
+public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<LongStatisticalMeasurement> implements LongConsumer, IntConsumer {
 
     private long sum = 0;
     private long squareSum = 0;
@@ -47,14 +46,14 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     @Getter
     private long guessedMean = 0;
 
-    public LongMeasurement() {
+    public LongStatisticalMeasurement() {
         this.mode = Mode.LONG;
     }
-    public LongMeasurement(Mode mode) {
+    public LongStatisticalMeasurement(Mode mode) {
         this.mode = mode;
     }
 
-    protected LongMeasurement(Mode mode, long sum, long squareSum, int count, long guessedMean) {
+    protected LongStatisticalMeasurement(Mode mode, long sum, long squareSum, int count, long guessedMean) {
         super(count);
         this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
@@ -62,8 +61,8 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         this.guessedMean = guessedMean;
     }
 
-    public LongMeasurement copy() {
-        LongMeasurement c = new LongMeasurement(mode, sum, squareSum, count, guessedMean);
+    public LongStatisticalMeasurement copy() {
+        LongStatisticalMeasurement c = new LongStatisticalMeasurement(mode, sum, squareSum, count, guessedMean);
         c.max = max;
         c.min = min;
         c.autoGuess = autoGuess;
@@ -73,7 +72,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Enters new value(s).
      */
-    public LongMeasurement enter(long... ds) {
+    public LongStatisticalMeasurement enter(long... ds) {
         for(long d : ds) {
             if (autoGuess) {
                 guessedMean = d;
@@ -93,11 +92,11 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #plus(LongMeasurement)} which is something entirely different.
+     * See also {@link #plus(LongStatisticalMeasurement)} which is something entirely different.
      * @param m
      */
     @Override
-    public LongMeasurement enter(LongMeasurement m) {
+    public LongStatisticalMeasurement enter(LongStatisticalMeasurement m) {
         if (m.count == 0) {
             return this;
         }
@@ -185,7 +184,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
 
 
     @Override
-    public LongMeasurement multiply(double d) {
+    public LongStatisticalMeasurement multiply(double d) {
         sum *= d;
         squareSum *= d * d;
         guessedMean *= d;
@@ -194,14 +193,14 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         return this;
     }
 
-    public LongMeasurement add(long d) {
+    public LongStatisticalMeasurement add(long d) {
         if (mode != Mode.LONG) {
             throw new IllegalStateException();
         }
         return _add(d);
     }
 
-    protected LongMeasurement _add(long d) {
+    protected LongStatisticalMeasurement _add(long d) {
         reguess();
         long dcount = d * count;
         squareSum += d * (dcount + 2 * sum);
@@ -213,30 +212,22 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         return this;
     }
 
-    public LongMeasurement add(Duration d) {
+    public LongStatisticalMeasurement add(Duration d) {
         if (mode == Mode.LONG) {
             throw new IllegalStateException();
         }
         return _add(d.toMillis());
     }
 
-    public LongMeasurement plus(Duration d) {
+    public LongStatisticalMeasurement plus(Duration d) {
         return copy().add(d);
     }
 
-    public LongMeasurement plus(long d) {
+    public LongStatisticalMeasurement plus(long d) {
         return copy().add(d);
     }
 
-    /**
-     * Assuming that this measurement is from a different set (the mean is <em>principally
-     * different</em>)
-     *
-     */
-    public LongMeasurement plus(LongMeasurement m) {
-        // think about this...
-        return new LongMeasurement(mode, m.count * sum + count + m.sum, /* er */ 0, count * m.count, 0);
-    }
+
 
     @Override
     public void accept(long value) {
@@ -296,7 +287,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
     /**
      * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.
      */
-    public LongMeasurement reguess() {
+    public LongStatisticalMeasurement reguess() {
         long newGuess = longValue();
         long diff =  newGuess - guessedMean;
         this.squareSum = getSumOfSquares(diff);
@@ -311,22 +302,7 @@ public class LongMeasurement extends MeasurementNumber<LongMeasurement> implemen
         DURATION
     }
 
-    public static final class Plus implements BinaryOperator<LongMeasurement> {
-        public static final Plus PLUS = new Plus();
 
-        @Override
-        public LongMeasurement apply(LongMeasurement longMeasurement, LongMeasurement longMeasurement2) {
-            return longMeasurement.plus(longMeasurement2);
-        }
-    }
-
-    public static class Times implements BinaryOperator<LongMeasurement> {
-
-        @Override
-        public LongMeasurement apply(LongMeasurement longMeasurement, LongMeasurement longMeasurement2) {
-            return longMeasurement.plus(longMeasurement2);
-        }
-    }
 }
 
 

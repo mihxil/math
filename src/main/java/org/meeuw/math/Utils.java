@@ -23,18 +23,31 @@ public class Utils {
             i = -1 * i;
         }
         if (i == 0) {
-            bul.insert(0, Character.toChars(0x2070));
+            bul.insert(0, SUPERSCRIPTS[0]);
         }
         while (i > 0) {
             int j = i % 10;
             i /= 10;
-            bul.insert(0, Character.toChars(0x2070 + j)[0]);
+            bul.insert(0, SUPERSCRIPTS[j]);
         }
         if (minus) bul.insert(0, "\u207B");
 
         return bul.toString();
 
     }
+
+    private static final char[] SUPERSCRIPTS = new char[] {
+        0x2070,
+        0x00B9,
+        0x00B2,
+        0x00B3,
+        0x2074,
+        0x2075,
+        0x2076,
+        0x2077,
+        0x2078,
+        0x2079
+    };
 
     /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.

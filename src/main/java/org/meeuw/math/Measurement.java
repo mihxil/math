@@ -1,165 +1,141 @@
-/*
-
-This software is OSI Certified Open Source Software.
-OSI Certified is a certification mark of the Open Source Initiative.
-
-The license (Mozilla version 1.0) can be read at the MMBase site.
-See http://www.MMBase.org/license
-
-*/
-
 package org.meeuw.math;
 
 import lombok.Getter;
+import lombok.Setter;
 
-import java.util.function.DoubleConsumer;
+import java.util.Objects;
+import java.util.function.BinaryOperator;
 
 /**
- * Represents a set of measurement values. The value represents the average value.
- * {@link #toString} present the current value, but only the relevant digits. The standard
- * deviation {@link #getStandardDeviation} is used to determin what digits are relevant.
+ * A number with an uncertainty.
  *
+ * http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
  * @author Michiel Meeuwissen
+ * @since 0.3
  */
-
-
-public class Measurement extends MeasurementNumber<Measurement> implements DoubleConsumer {
-
-    private double sum = 0;
-    private double squareSum = 0;
+public abstract class Measurement extends Number implements Comparable<Number> {
 
     @Getter
-    private double min = Double.MAX_VALUE;
+    @Setter
+    protected int minimumExponent = 4;
+
     @Getter
-    private double max = Double.MIN_VALUE;
+    @Setter
+    protected Units units = null;
 
+    public abstract double getUncertainty();
 
-    public Measurement() {
-    }
-
-
-
-    protected Measurement(double sum, double squareSum, int count) {
-        super(count);
-        this.sum = sum;
-        this.squareSum = squareSum;
-    }
-
-    @Override
-    Measurement copy() {
-        Measurement m =  new Measurement(sum, squareSum, count);
-        m.max = max;
-        m.min = min;
-        return m;
-    }
-    /**
-     * Enters new value(s).
-     */
-    public Measurement enter(double... ds) {
-        for (double d : ds) {
-            sum += d;
-            squareSum += d * d;
-            count++;
-            max = Math.max(max, d);
-            min = Math.max(min, d);
-        }
-        return this;
-    }
-
-    /**
-     * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
-     * statistics.
-     * See also {@link #add(Measurement)} which is something entirely different.
-     */
-    @Override
-    public Measurement enter(Measurement m) {
-        sum += m.sum;
-        squareSum += m.squareSum;
-        count += m.count;
-        max = Math.max(max, m.max);
-        min = Math.max(min, m.min);
-        return this;
-    }
-
-
-    @Override
-    public Measurement multiply(double d) {
-        sum *= d;
-        squareSum *= d * d;
-        max = Math.round(max * d);
-        min = Math.round(min * d);
-        return this;
-    }
-
-    public double getMean() {
-        return sum / count;
-    }
-
-
-    @Override
-    public double doubleValue() {
-        return getMean();
-    }
-
-
-    @Override
-    public double getStandardDeviation() {
-        double mean = getMean();
-        return Math.sqrt(squareSum / count - mean * mean);
-    }
-
-    public double getSum() {
-        return sum;
-    }
-
-    public double getSumOfSquares() {
-        return squareSum;
-    }
-
-    /**
-     * Operator overloading would be very handy here, but java sucks.
-     */
-    @Override
-    public Measurement div(double d) {
-        return new Measurement(sum / d, squareSum / (d * d), count);
-    }
-
-    @Override
-    public Measurement times(double d) {
-        return new Measurement(sum * d, squareSum * (d * d), count);
-    }
-
-    public Measurement add(double d) {
-        return new Measurement(sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
-    }
 
     /**
      * Assuming that this measurement is from a different set (the mean is <em>principally
      * different</em>)
      *
-     * @todo Not yet correctly implemented
      */
-    public Measurement add(Measurement m) {
-        // think about this...
-        return new Measurement(m.count * sum + count + m.sum, /* er */ 0, count * m.count);
+    public Measurement plus(Measurement m) {
+        if (! Objects.equals(units, m.units)) {
+            throw new IllegalArgumentException();
+        }
+        double u = getUncertainty();
+        double mu = m.getUncertainty();
+        return new MeasurementImpl(
+            doubleValue() + m.doubleValue(),
+            Math.sqrt(u * u + mu * mu),
+            units
+        );
     }
+
+    public Measurement minus(Measurement m) {
+        if (! Objects.equals(units, m.units)) {
+            throw new IllegalArgumentException();
+        }
+        double u = getUncertainty();
+        double mu = m.getUncertainty();
+        return new MeasurementImpl(
+            doubleValue() - m.doubleValue(),
+            Math.sqrt(u * u + mu * mu),
+            units
+        );
+    }
+    public Measurement times(Measurement m) {
+        Units newUnits = null;
+        if (units != null) {
+            newUnits = units.times(m.units);
+        }
+        double u = getUncertainty() / doubleValue();
+        double mu = m.getUncertainty() / m.doubleValue();
+        return new MeasurementImpl(
+            doubleValue() * m.doubleValue(),
+            Math.sqrt( (u * u)  + (mu * mu)),
+            newUnits
+        );
+    }
+
+    public Measurement dividedBy(Measurement m) {
+        Units newUnits = null;
+        if (units != null) {
+            newUnits = units.dividedBy(m.units);
+        }
+        double u = getUncertainty() / doubleValue();
+        double mu = m.getUncertainty() / m.doubleValue();
+        return new MeasurementImpl(
+            doubleValue() / m.doubleValue(),
+            Math.sqrt( (u * u)  + (mu * mu)),
+            newUnits
+        );
+    }
+    public Measurement pow(int d) {
+        Units newUnits = null;
+        if (units != null) {
+            newUnits = units.pow(d);
+        }
+        return new MeasurementImpl(
+            Math.pow(doubleValue(), d),
+            Math.abs(d) * Math.pow(doubleValue(), d -1) * getUncertainty(),
+            newUnits);
+    }
+
+    public Measurement negate() {
+        return times(-1f);
+    }
+
+    public Measurement times(double multiplication) {
+        return new MeasurementImpl(multiplication * doubleValue(), getUncertainty(), units);
+    }
+
+
+    /**
+     * Represents the mean value in a scientific notation (using unicode characters).
+     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     */
+    @Override
+    public String toString() {
+        return  Utils.scientificNotation(doubleValue(), getUncertainty(), minimumExponent) +
+            (units == null ? "" : " " + units.toString());
+    }
+
 
     @Override
-    public void accept(double value) {
-        enter(value);
+    public int compareTo(Number o) {
+        return Double.compare(doubleValue(), o.doubleValue());
     }
 
-    @Override
-    public void reset() {
-        super.reset();
-        sum = 0;
-        squareSum = 0;
-        max = Double.MIN_VALUE;
-        min = Double.MAX_VALUE;
+    public static final class Plus implements BinaryOperator<Measurement> {
+        public static final Measurement.Plus PLUS = new Measurement.Plus();
+
+        @Override
+        public Measurement apply(Measurement a1, Measurement a2) {
+            return a1.plus(a2);
+        }
     }
 
+    public static class Times implements BinaryOperator<Measurement> {
+        public static final Measurement.Times TIMES = new Measurement.Times();
+
+
+        @Override
+        public Measurement apply(Measurement a1, Measurement a2) {
+            return a1.times(a2);
+        }
+    }
 
 }
-
-
-
