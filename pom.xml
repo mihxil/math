@@ -5,7 +5,7 @@
   <groupId>org.meeuw</groupId>
   <artifactId>mihxil-math</artifactId>
   <name>Mihxil's Math</name>
-  <version>0.3-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math</url>
 
@@ -71,7 +71,7 @@
     <connection>scm:git:git://github.com/mihxil/math.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/mihxil/math.git</developerConnection>
     <url>https://github.com/mihxil/math</url>
-    <tag>0.3-SNAPSHOT</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
