@@ -5,10 +5,15 @@ import java.util.Arrays;
 import static org.meeuw.math.SIUnits.*;
 
 /**
+ * Represents the units of a {@link UncertainNumber}.
+ *
+ * Basicly keeps track of a integer power for each of the basic SI units.
+ *
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class Units {
+
+    public static final Units DIMENSIONLESS = Units.of();
 
     public static final Units DISTANCE = Units.of(m);
     public static final Units LENGTH = Units.of(m);

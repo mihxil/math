@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.LongSummaryStatistics;
 import java.util.function.LongConsumer;
 
-import org.meeuw.math.LongStatisticalMeasurement;
+import org.meeuw.math.StatisticalLong;
 
 /**
  * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
@@ -13,18 +13,18 @@ import org.meeuw.math.LongStatisticalMeasurement;
  * @author Michiel Meeuwissen
  * @since 1.66
  */
-public class WindowedLongStatisticalMeasurement extends Windowed<LongStatisticalMeasurement> implements LongConsumer {
+public class WindowedStatisticalLong extends Windowed<StatisticalLong> implements LongConsumer {
 
-    private final LongStatisticalMeasurement.Mode mode;
+    private final StatisticalLong.Mode mode;
 
     @lombok.Builder(builderClassName = "Builder")
-    protected WindowedLongStatisticalMeasurement(
+    protected WindowedStatisticalLong(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        LongStatisticalMeasurement.Mode mode) {
+        StatisticalLong.Mode mode) {
         super(window, bucketDuration, bucketCount);
-        this.mode = mode == null ? LongStatisticalMeasurement.Mode.LONG : mode;
+        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
         init();
     }
 
@@ -34,13 +34,13 @@ public class WindowedLongStatisticalMeasurement extends Windowed<LongStatistical
     }
 
     @Override
-    protected LongStatisticalMeasurement[] newBuckets(int bucketCount) {
-        return new LongStatisticalMeasurement[bucketCount];
+    protected StatisticalLong[] newBuckets(int bucketCount) {
+        return new StatisticalLong[bucketCount];
     }
 
     @Override
-    protected LongStatisticalMeasurement initialValue() {
-        return new LongStatisticalMeasurement(mode);
+    protected StatisticalLong initialValue() {
+        return new StatisticalLong(mode);
     }
 
     @Override
@@ -49,18 +49,18 @@ public class WindowedLongStatisticalMeasurement extends Windowed<LongStatistical
     }
 
     public void accept(long... value) {
-        LongStatisticalMeasurement currentBucket = currentBucket();
+        StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(value);
     }
     public void accept(Instant... instant) {
-        LongStatisticalMeasurement currentBucket = currentBucket();
+        StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(instant);
     }
 
     @Override
-    public LongStatisticalMeasurement getWindowValue() {
-        LongStatisticalMeasurement result = initialValue();
-        LongStatisticalMeasurement[] b = getBuckets();
+    public StatisticalLong getWindowValue() {
+        StatisticalLong result = initialValue();
+        StatisticalLong[] b = getBuckets();
         for (int i = b.length -1 ; i >= 0; i--) {
             result.combine(b[i]);
         }
@@ -68,7 +68,7 @@ public class WindowedLongStatisticalMeasurement extends Windowed<LongStatistical
     }
 
     @Deprecated
-    public LongStatisticalMeasurement getCombined() {
+    public StatisticalLong getCombined() {
         return getWindowValue();
     }
 

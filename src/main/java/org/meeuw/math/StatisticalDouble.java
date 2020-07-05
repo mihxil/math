@@ -15,7 +15,7 @@ import lombok.Getter;
 import java.util.function.DoubleConsumer;
 
 /**
- * Represents a set of measurement values. The value represents the average value.
+ * Represents a set of measured values. The value represents the average value.
  * {@link #toString} present the current value, but only the relevant digits. The standard
  * deviation {@link #getStandardDeviation} is used to determin what digits are relevant.
  *
@@ -23,7 +23,7 @@ import java.util.function.DoubleConsumer;
  */
 
 
-public class StatisticalMeasurement extends StatisticalMeasurementNumber<StatisticalMeasurement> implements DoubleConsumer {
+public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> implements DoubleConsumer {
 
     private double sum = 0;
     private double squareSum = 0;
@@ -33,27 +33,29 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
     @Getter
     private double max = Double.MIN_VALUE;
 
-    public StatisticalMeasurement() {
+    public StatisticalDouble() {
     }
 
-    protected StatisticalMeasurement(double sum, double squareSum, int count) {
+    protected StatisticalDouble(double sum, double squareSum, int count) {
         super(count);
         this.sum = sum;
         this.squareSum = squareSum;
     }
 
     @Override
-    StatisticalMeasurement copy() {
-        StatisticalMeasurement m =  new StatisticalMeasurement(sum, squareSum, count);
+    public StatisticalDouble copy() {
+        StatisticalDouble m =  new StatisticalDouble(sum, squareSum, count);
         m.units = units;
         m.max = max;
         m.min = min;
         return m;
     }
+
+
     /**
      * Enters new value(s).
      */
-    public StatisticalMeasurement enter(double... ds) {
+    public StatisticalDouble enter(double... ds) {
         for (double d : ds) {
             sum += d;
             squareSum += d * d;
@@ -67,10 +69,10 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #add(Measurement)} which is something entirely different.
+     * See also {@link #add(UncertainNumber)} which is something entirely different.
      */
     @Override
-    public StatisticalMeasurement enter(StatisticalMeasurement m) {
+    public StatisticalDouble enter(StatisticalDouble m) {
         sum += m.sum;
         squareSum += m.squareSum;
         count += m.count;
@@ -81,7 +83,7 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
 
 
     @Override
-    public StatisticalMeasurement multiply(double d) {
+    public StatisticalDouble multiply(double d) {
         sum *= d;
         squareSum *= d * d;
         max = Math.round(max * d);
@@ -103,6 +105,9 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
     @Override
     public double getStandardDeviation() {
         double mean = getMean();
+        if (count < 2) {
+            return Double.NaN;
+        }
         return Math.sqrt(squareSum / count - mean * mean);
     }
 
@@ -119,17 +124,17 @@ public class StatisticalMeasurement extends StatisticalMeasurementNumber<Statist
      * Operator overloading would be very handy here, but java sucks.
      */
     @Override
-    public StatisticalMeasurement div(double d) {
-        return new StatisticalMeasurement(sum / d, squareSum / (d * d), count);
+    public StatisticalDouble div(double d) {
+        return new StatisticalDouble(sum / d, squareSum / (d * d), count);
     }
 
     @Override
-    public StatisticalMeasurement times(double d) {
-        return new StatisticalMeasurement(sum * d, squareSum * (d * d), count);
+    public StatisticalDouble times(double d) {
+        return new StatisticalDouble(sum * d, squareSum * (d * d), count);
     }
 
-    public StatisticalMeasurement add(double d) {
-        return new StatisticalMeasurement(sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
+    public StatisticalDouble add(double d) {
+        return new StatisticalDouble(sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
     }
 
 

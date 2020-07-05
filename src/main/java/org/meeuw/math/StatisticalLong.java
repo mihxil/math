@@ -21,11 +21,9 @@ import java.util.function.LongConsumer;
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
  *
- * These
- *
  * @author Michiel Meeuwissen
  */
-public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<LongStatisticalMeasurement> implements LongConsumer, IntConsumer {
+public class StatisticalLong extends StatisticalNumber<StatisticalLong> implements LongConsumer, IntConsumer {
 
     private long sum = 0;
     private long squareSum = 0;
@@ -46,14 +44,14 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
     @Getter
     private long guessedMean = 0;
 
-    public LongStatisticalMeasurement() {
+    public StatisticalLong() {
         this.mode = Mode.LONG;
     }
-    public LongStatisticalMeasurement(Mode mode) {
+    public StatisticalLong(Mode mode) {
         this.mode = mode;
     }
 
-    protected LongStatisticalMeasurement(Mode mode, long sum, long squareSum, int count, long guessedMean) {
+    protected StatisticalLong(Mode mode, long sum, long squareSum, int count, long guessedMean) {
         super(count);
         this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
@@ -61,8 +59,9 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
         this.guessedMean = guessedMean;
     }
 
-    public LongStatisticalMeasurement copy() {
-        LongStatisticalMeasurement c = new LongStatisticalMeasurement(mode, sum, squareSum, count, guessedMean);
+    @Override
+    public StatisticalLong copy() {
+        StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);
         c.max = max;
         c.min = min;
         c.autoGuess = autoGuess;
@@ -72,7 +71,7 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
     /**
      * Enters new value(s).
      */
-    public LongStatisticalMeasurement enter(long... ds) {
+    public StatisticalLong enter(long... ds) {
         for(long d : ds) {
             if (autoGuess) {
                 guessedMean = d;
@@ -92,11 +91,11 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #plus(LongStatisticalMeasurement)} which is something entirely different.
+     * See also {@link #plus(StatisticalLong)} which is something entirely different.
      * @param m
      */
     @Override
-    public LongStatisticalMeasurement enter(LongStatisticalMeasurement m) {
+    public StatisticalLong enter(StatisticalLong m) {
         if (m.count == 0) {
             return this;
         }
@@ -187,7 +186,7 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
 
 
     @Override
-    public LongStatisticalMeasurement multiply(double d) {
+    public StatisticalLong multiply(double d) {
         sum *= d;
         squareSum *= d * d;
         guessedMean *= d;
@@ -196,14 +195,14 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
         return this;
     }
 
-    public LongStatisticalMeasurement add(long d) {
+    public StatisticalLong add(long d) {
         if (mode != Mode.LONG) {
             throw new IllegalStateException();
         }
         return _add(d);
     }
 
-    protected LongStatisticalMeasurement _add(long d) {
+    protected StatisticalLong _add(long d) {
         reguess();
         long dcount = d * count;
         squareSum += d * (dcount + 2 * sum);
@@ -215,18 +214,18 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
         return this;
     }
 
-    public LongStatisticalMeasurement add(Duration d) {
+    public StatisticalLong add(Duration d) {
         if (mode == Mode.LONG) {
             throw new IllegalStateException();
         }
         return _add(d.toMillis());
     }
 
-    public LongStatisticalMeasurement plus(Duration d) {
+    public StatisticalLong plus(Duration d) {
         return copy().add(d);
     }
 
-    public LongStatisticalMeasurement plus(long d) {
+    public StatisticalLong plus(long d) {
         return copy().add(d);
     }
 
@@ -290,7 +289,7 @@ public class LongStatisticalMeasurement extends StatisticalMeasurementNumber<Lon
     /**
      * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.
      */
-    public LongStatisticalMeasurement reguess() {
+    public StatisticalLong reguess() {
         long newGuess = longValue();
         long diff =  newGuess - guessedMean;
         this.squareSum = getSumOfSquares(diff);

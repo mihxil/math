@@ -5,20 +5,20 @@ import lombok.extern.java.Log;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.LongStatisticalMeasurement;
+import org.meeuw.math.StatisticalLong;
 
 /**
  * @author Michiel Meeuwissen
  * @since ...
  */
 @Log
-class WindowedLongStatisticalMeasurementTest {
+class WindowedStatisticalLongTest {
 
     @Test
     public void test() throws InterruptedException {
-        WindowedLongStatisticalMeasurement impl = WindowedLongStatisticalMeasurement
+        WindowedStatisticalLong impl = WindowedStatisticalLong
             .builder()
-            .mode(LongStatisticalMeasurement.Mode.INSTANT)
+            .mode(StatisticalLong.Mode.INSTANT)
             .build();
 
         impl.accept(Instant.now());

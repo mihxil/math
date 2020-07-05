@@ -1,26 +1,30 @@
 package org.meeuw.math;
 
+import lombok.Getter;
+
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.3
  */
 public enum Dimension {
 
-
-    T,
-    L,
-    M,
-    I,
-    TH((char) 0x0398),
-    N,
-    J
-    ;
+    T("time"),
+    L("length"),
+    M("mass"),
+    I("electric current"),
+    TH((char) 0x0398, "thermodynamic temperature"),
+    N("amount of substance"),
+    J("luminous intensity");
 
     final String toString;
-    Dimension(char i) {
+    @Getter
+    final String name;
+    Dimension(char i, String name) {
         toString = String.valueOf(i);
+        this.name = name;
     }
-    Dimension() {
+    Dimension(String name) {
+        this.name = name;
         toString = null;
     }
 

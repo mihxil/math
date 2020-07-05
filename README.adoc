@@ -4,4 +4,7 @@ image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci
 
 image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
 
-Math-related class. E.g. a 'Measurement'.
+Math and physics related class. E.g. a class representing a `Measurement`. Including the logic to propagate uncertainties.
+
+Also it includes some classes to keep track of 'sliding window' values of averages.
+

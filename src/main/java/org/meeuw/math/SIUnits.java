@@ -6,7 +6,7 @@ import static org.meeuw.math.Dimension.*;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.3
  */
 public enum SIUnits {
     m(L),

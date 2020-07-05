@@ -2,28 +2,26 @@
 
 This software is OSI Certified Open Source Software.
 OSI Certified is a certification mark of the Open Source Initiative.
-
-The license (Mozilla version 1.0) can be read at the MMBase site.
-See http://www.MMBase.org/license
-
 */
 
 package org.meeuw.math;
 
 /**
- .
+ * A 'statistic' measurement, can receive a number of values, and can calculate the average and standard deviation of those values.
+ *
+ * The idea is that the '{@link #getUncertainty()}' will simply be determined heuristically, and be given by the {@link #getStandardDeviation()}
  *
  * @author Michiel Meeuwissen
  */
 
 
-public abstract class StatisticalMeasurementNumber<T extends StatisticalMeasurementNumber<T>> extends Measurement {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends UncertainNumber {
 
     protected int count = 0;
 
-    public StatisticalMeasurementNumber() {
+    public StatisticalNumber() {
     }
-    protected StatisticalMeasurementNumber(int count) {
+    protected StatisticalNumber(int count) {
         this.count = count;
     }
 
@@ -49,7 +47,7 @@ public abstract class StatisticalMeasurementNumber<T extends StatisticalMeasurem
         return (short) longValue();
     }
 
-    abstract T copy();
+    public abstract T copy();
 
     abstract double getStandardDeviation();
 
@@ -92,13 +90,17 @@ public abstract class StatisticalMeasurementNumber<T extends StatisticalMeasurem
     }
 
     @Override
-    public Measurement combine(Measurement m) {
-        if (m instanceof StatisticalMeasurementNumber) {
-            T copy = copy();
-            return copy.enter((T) m);
+    public UncertainNumber combine(UncertainNumber m) {
+        if (m instanceof StatisticalNumber) {
+            return combine((T) m);
         } else {
             return super.combine(m);
         }
+    }
+
+    public T combine(T m) {
+        T copy = copy();
+        return copy.enter(m);
     }
 
     public void reset() {
