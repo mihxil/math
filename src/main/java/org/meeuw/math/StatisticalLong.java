@@ -102,7 +102,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
      * See also {@link #plus(UncertainNumber)} which is something entirely different.
-     * @param m
+     * @param m The other {@link StatisticalLong} which value must be ented into this one
      */
     @Override
     public StatisticalLong enter(StatisticalLong m) {

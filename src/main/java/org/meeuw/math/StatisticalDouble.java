@@ -72,7 +72,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #add(UncertainNumber)} which is something entirely different.
+     * See also {@link Measurement#plus(UncertainNumber)} which is something entirely different.
      */
     @Override
     public StatisticalDouble enter(StatisticalDouble m) {

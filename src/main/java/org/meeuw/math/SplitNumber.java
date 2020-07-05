@@ -4,9 +4,11 @@ package org.meeuw.math;
  * Split a double up in 2 numbers: a double approximately 1 (the 'coefficent'), and an integer
  * indicating the order of magnitude (the 'exponent').
  */
+
 class SplitNumber {
-    public double coefficient;
-    public int   exponent;
+    double coefficient;
+    int   exponent;
+
     public SplitNumber(double in) {
         boolean negative = in < 0;
         coefficient = Math.abs(in);

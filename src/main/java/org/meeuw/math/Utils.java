@@ -6,9 +6,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 
+import javax.validation.constraints.Min;
+
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class Utils {
 
@@ -69,7 +70,7 @@ public class Utils {
      /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */
-    public static long positivePow10( int i) {
+    public static long positivePow10(@Min(0) int i) {
         long result = 1;
         while (i > 0) {
             result *= 10;
@@ -78,7 +79,6 @@ public class Utils {
         if (i < 0) {
             throw new IllegalArgumentException();
         }
-        assert i == 0;
         return result;
     }
 
@@ -220,6 +220,20 @@ public class Utils {
          }
 
 
+    }
+
+    public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < basic.length; i++) {
+            int b = basic[i];
+            if (b != 0) {
+                builder.append(values[i].name());
+                if (b != 1) {
+                    builder.append(Utils.superscript(b));
+                }
+            }
+        }
+        return builder.toString();
     }
 
 }

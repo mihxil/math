@@ -30,24 +30,6 @@ public class Measurement extends UncertainNumber {
     }
 
     @Override
-    public int intValue() {
-        return (int) Math.round(value);
-
-    }
-
-    @Override
-    public long longValue() {
-        return Math.round(value);
-
-    }
-
-    @Override
-    public float floatValue() {
-        return (float) value;
-
-    }
-
-    @Override
     public double doubleValue() {
         return value;
 

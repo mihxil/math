@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
+import java.util.function.UnaryOperator;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}, and (optionally) {@link #getUnits()}
@@ -13,6 +14,14 @@ import java.util.function.BinaryOperator;
  * @since 0.3
  */
 public abstract class UncertainNumber extends Number implements Comparable<Number> {
+
+    public static final BinaryOperator<UncertainNumber> TIMES = UncertainNumber::times;
+    public static final UnaryOperator<UncertainNumber> UMINUS = UncertainNumber::negate;
+    public static final BinaryOperator<UncertainNumber> PLUS   = UncertainNumber::plus;
+    public static final BinaryOperator<UncertainNumber> MINUS = (a1, a2) -> UMINUS.apply(a2).plus(a1);
+
+
+
 
     @Getter
     protected int minimumExponent = 4;
@@ -87,7 +96,7 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
         );
     }
 
-    public UncertainNumber dividedBy(UncertainNumber m) {
+    public UncertainNumber div(UncertainNumber m) {
         Units newUnits = null;
         if (units != null) {
             newUnits = units.dividedBy(m.units);
@@ -113,23 +122,61 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
             newUnits);
     }
 
+    /**
+     * Creates a new {@link UncertainNumber} representing the negated value of this one.
+     */
     public UncertainNumber negate() {
-        return times(-1f);
+        return times(-1d);
+    }
+
+    /**
+     * Creates a new {@link UncertainNumber} representing a multiple of this one.
+     */
+    public UncertainNumber times(double multiplication) {
+        return new Measurement(multiplication * doubleValue(),
+            Math.abs(multiplication) * getUncertainty(), units);
+    }
+
+    /**
+     * Creates a new {@link UncertainNumber} representing a multiple of this one.
+     */
+    public UncertainNumber div(double divisor) {
+        return times(1d/divisor);
+    }
+
+    @Override
+    public long longValue() {
+        return Math.round(doubleValue());
+    }
+
+    @Override
+    public int intValue() {
+        return (int) longValue();
+    }
+
+    @Override
+    public float floatValue() {
+        return (float) doubleValue();
+    }
+
+    @Override
+    public byte byteValue() {
+        return (byte) longValue();
+    }
+    @Override
+    public short shortValue() {
+        return (short) longValue();
     }
 
     /**
      * The minimum exponent defined how close a number must be to 1, to not use scientific notation
      * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
      * -10000) are presented without useage of scientific notation
+     *
+     * This is used in {@link #toString()}
      */
     public void setMinimumExponent(int m) {
         minimumExponent = m;
-    }
-
-
-    public UncertainNumber times(double multiplication) {
-        return new Measurement(multiplication * doubleValue(),
-            Math.abs(multiplication) * getUncertainty(), units);
     }
 
 
@@ -143,29 +190,9 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
             (units == null ? "" : " " + units.toString());
     }
 
-
     @Override
     public int compareTo(Number o) {
         return Double.compare(doubleValue(), o.doubleValue());
-    }
-
-    public static final class Plus implements BinaryOperator<UncertainNumber> {
-        public static final UncertainNumber.Plus PLUS = new UncertainNumber.Plus();
-
-        @Override
-        public UncertainNumber apply(UncertainNumber a1, UncertainNumber a2) {
-            return a1.plus(a2);
-        }
-    }
-
-    public static class Times implements BinaryOperator<UncertainNumber> {
-        public static final UncertainNumber.Times TIMES = new UncertainNumber.Times();
-
-
-        @Override
-        public UncertainNumber apply(UncertainNumber a1, UncertainNumber a2) {
-            return a1.times(a2);
-        }
     }
 
 }

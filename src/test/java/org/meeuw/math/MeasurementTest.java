@@ -43,9 +43,10 @@ class MeasurementTest {
     public void divide() {
         UncertainNumber speed = new Measurement(6.0, 0.4, Units.SPEED);
         assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 ms⁻¹");
+        assertThat(speed.getUnits().dimensions().toString()).isEqualTo("LT⁻¹");
 
         UncertainNumber distance = new Measurement(2.0, 0.05, Units.DISTANCE);
-        UncertainNumber duration = distance.dividedBy(speed);
+        UncertainNumber duration = distance.div(speed);
         assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 

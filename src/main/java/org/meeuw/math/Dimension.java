@@ -8,9 +8,9 @@ import lombok.Getter;
  */
 public enum Dimension {
 
-    T("time"),
     L("length"),
     M("mass"),
+    T("time"),
     I("electric current"),
     TH((char) 0x0398, "thermodynamic temperature"),
     N("amount of substance"),
