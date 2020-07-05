@@ -34,18 +34,21 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     private double max = Double.MIN_VALUE;
 
     public StatisticalDouble() {
+        this(null);
+    }
+    public StatisticalDouble(Units units) {
+        super(units);
     }
 
-    protected StatisticalDouble(double sum, double squareSum, int count) {
-        super(count);
+    protected StatisticalDouble(Units units, double sum, double squareSum, int count) {
+        super(units, count);
         this.sum = sum;
         this.squareSum = squareSum;
     }
 
     @Override
     public StatisticalDouble copy() {
-        StatisticalDouble m =  new StatisticalDouble(sum, squareSum, count);
-        m.units = units;
+        StatisticalDouble m =  new StatisticalDouble(units, sum, squareSum, count);
         m.max = max;
         m.min = min;
         return m;
@@ -125,16 +128,16 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
      */
     @Override
     public StatisticalDouble div(double d) {
-        return new StatisticalDouble(sum / d, squareSum / (d * d), count);
+        return new StatisticalDouble(units, sum / d, squareSum / (d * d), count);
     }
 
     @Override
     public StatisticalDouble times(double d) {
-        return new StatisticalDouble(sum * d, squareSum * (d * d), count);
+        return new StatisticalDouble(units, sum * d, squareSum * (d * d), count);
     }
 
     public StatisticalDouble add(double d) {
-        return new StatisticalDouble(sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
+        return new StatisticalDouble(units, sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
     }
 
 

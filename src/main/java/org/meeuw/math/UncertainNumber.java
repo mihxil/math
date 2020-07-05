@@ -1,13 +1,12 @@
 package org.meeuw.math;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Objects;
 import java.util.function.BinaryOperator;
 
 /**
- * A number with an uncertainty.
+ * A number with an uncertainty {@link #getUncertainty()}, and (optionally) {@link #getUnits()}
  *
  * http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
  * @author Michiel Meeuwissen
@@ -16,12 +15,14 @@ import java.util.function.BinaryOperator;
 public abstract class UncertainNumber extends Number implements Comparable<Number> {
 
     @Getter
-    @Setter
     protected int minimumExponent = 4;
 
     @Getter
-    @Setter
-    protected Units units = null;
+    protected final Units units;
+
+    protected UncertainNumber(Units units) {
+        this.units = units;
+    }
 
     public abstract double getUncertainty();
 
@@ -115,6 +116,16 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
     public UncertainNumber negate() {
         return times(-1f);
     }
+
+    /**
+     * The minimum exponent defined how close a number must be to 1, to not use scientific notation
+     * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
+     * -10000) are presented without useage of scientific notation
+     */
+    public void setMinimumExponent(int m) {
+        minimumExponent = m;
+    }
+
 
     public UncertainNumber times(double multiplication) {
         return new Measurement(multiplication * doubleValue(),

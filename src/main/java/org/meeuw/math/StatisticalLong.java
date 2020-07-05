@@ -44,15 +44,25 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Getter
     private long guessedMean = 0;
 
-    public StatisticalLong() {
+    public StatisticalLong(Units units) {
+        super(units);
         this.mode = Mode.LONG;
     }
+    public StatisticalLong() {
+        this((Units) null);
+    }
+
     public StatisticalLong(Mode mode) {
+        this(null, mode);
+
+    }
+    public StatisticalLong(Units units, Mode mode) {
+        super(units);
         this.mode = mode;
     }
 
-    protected StatisticalLong(Mode mode, long sum, long squareSum, int count, long guessedMean) {
-        super(count);
+    protected StatisticalLong(Units units, Mode mode, long sum, long squareSum, int count, long guessedMean) {
+        super(units, count);
         this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
         this.sum = sum;
@@ -61,7 +71,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public StatisticalLong copy() {
-        StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);
+        StatisticalLong c = new StatisticalLong(units, mode, sum, squareSum, count, guessedMean);
         c.max = max;
         c.min = min;
         c.autoGuess = autoGuess;
@@ -91,7 +101,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #plus(StatisticalLong)} which is something entirely different.
+     * See also {@link #plus(UncertainNumber)} which is something entirely different.
      * @param m
      */
     @Override

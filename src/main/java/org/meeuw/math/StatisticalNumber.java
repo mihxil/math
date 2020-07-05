@@ -19,9 +19,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
     protected int count = 0;
 
-    public StatisticalNumber() {
+    public StatisticalNumber(Units units) {
+        super(units);
     }
-    protected StatisticalNumber(int count) {
+    protected StatisticalNumber(Units units, int count) {
+        super(units);
         this.count = count;
     }
 
@@ -60,14 +62,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return count;
     }
 
-    /**
-     * The minimum exponent defined how close a number must be to 1, to not use scientific notation
-     * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
-     * -10000) are presented without useage of scientific notation
-     */
-    public void setMinimumExponent(int m) {
-        minimumExponent = m;
-    }
 
     public abstract T enter(T m);
 

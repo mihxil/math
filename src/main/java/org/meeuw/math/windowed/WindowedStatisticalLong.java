@@ -6,6 +6,7 @@ import java.util.LongSummaryStatistics;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.StatisticalLong;
+import org.meeuw.math.Units;
 
 /**
  * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
@@ -16,15 +17,18 @@ import org.meeuw.math.StatisticalLong;
 public class WindowedStatisticalLong extends Windowed<StatisticalLong> implements LongConsumer {
 
     private final StatisticalLong.Mode mode;
+    private final Units units;
 
     @lombok.Builder(builderClassName = "Builder")
     protected WindowedStatisticalLong(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        StatisticalLong.Mode mode) {
+        StatisticalLong.Mode mode,
+        Units units) {
         super(window, bucketDuration, bucketCount);
         this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
+        this.units = units;
         init();
     }
 
@@ -40,7 +44,7 @@ public class WindowedStatisticalLong extends Windowed<StatisticalLong> implement
 
     @Override
     protected StatisticalLong initialValue() {
-        return new StatisticalLong(mode);
+        return new StatisticalLong(units, mode);
     }
 
     @Override

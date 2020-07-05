@@ -18,9 +18,9 @@ public class Measurement extends UncertainNumber {
     }
 
     public Measurement(double value, double uncertainty, Units units) {
+        super(units);
         this.value = value;
         this.uncertainty = uncertainty;
-        this.units = units;
     }
 
     @Override
