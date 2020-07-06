@@ -7,6 +7,8 @@ import java.time.Instant;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.StatisticalLong;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * @author Michiel Meeuwissen
  * @since ...
@@ -32,6 +34,7 @@ class WindowedStatisticalLongTest {
         impl.accept(Instant.now());
 
 
+        assertThat(impl.getWindowValue().getCount()).isEqualTo(5);
         log.info(() -> impl.getWindowValue().toString());
 
 

@@ -39,7 +39,7 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
         return new Measurement(doubleValue(), getUncertainty(), units);
     }
 
-    public UncertainNumber combine(UncertainNumber m) {
+    public UncertainNumber combined(UncertainNumber m) {
         if (! Objects.equals(units, m.units)) {
             throw new IllegalArgumentException();
         }
