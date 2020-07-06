@@ -59,7 +59,7 @@ class LongStatisticalNumberTest {
         StatisticalLong stat2  = new StatisticalLong();
         stat2.enter(1, 3, 5, 7);
 
-        StatisticalLong statCombined = stat1.combine(stat2);
+        StatisticalLong statCombined = stat1.combined(stat2);
 
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
@@ -77,7 +77,7 @@ class LongStatisticalNumberTest {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainNumber combinedMeasurement = stat1.measurementCopy().combine(stat2.measurementCopy());
+        UncertainNumber combinedMeasurement = stat1.measurementCopy().combined(stat2.measurementCopy());
 
         assertThat(combinedMeasurement.doubleValue()).isEqualTo(3.5);
 

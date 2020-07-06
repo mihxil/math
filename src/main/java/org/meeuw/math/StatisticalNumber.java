@@ -8,6 +8,8 @@ package org.meeuw.math;
 
 import lombok.Getter;
 
+import java.util.LongSummaryStatistics;
+
 /**
  * A 'statistic' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation and standard deviation of those values.
  *
@@ -49,21 +51,26 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
      */
     public abstract T enter(T m);
 
-
     /**
-     * A specialized version of {@link #combine(UncertainNumber)}, accepting and returning a {@code T}
+     * Synonymous to {@link #enter(StatisticalNumber)} (except the return value). Does the same though as e.g. {@link LongSummaryStatistics#combine(LongSummaryStatistics)}.
      */
-    public T combine(T m) {
+    public void combine(T m) {
+        enter(m);
+    }
+    /**
+     * A specialized version of {@link #combined(UncertainNumber)}, accepting and returning a {@code T}
+     */
+    public T combined(T m) {
         T copy = copy();
         return copy.enter(m);
     }
 
     @Override
-    public UncertainNumber combine(UncertainNumber m) {
+    public UncertainNumber combined(UncertainNumber m) {
         if (m instanceof StatisticalNumber) {
-            return combine((T) m);
+            return combined((T) m);
         } else {
-            return super.combine(m);
+            return super.combined(m);
         }
     }
 
