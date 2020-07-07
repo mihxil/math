@@ -14,6 +14,7 @@ import java.util.function.LongConsumer;
  */
 public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistics> implements LongConsumer {
 
+    @lombok.Builder
     protected WindowedLongSummaryStatistics(
         Duration window,
         Duration bucketDuration,

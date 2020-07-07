@@ -161,6 +161,14 @@ public abstract class Windowed<T> {
         return result;
     }
 
+    public T[] getRelevantBuckets() {
+        if (! isWarmingUp()){
+            return getBuckets();
+        } else {
+            return Arrays.copyOfRange(getBuckets(), 0, Math.min(buckets.length, (int) (Duration.between(start, Instant.now()).toMillis() / bucketDuration) + 1));
+        }
+    }
+
     /**
      * Returns the current buckets, as a map, where the keys are the period to which they apply.
      * @return SortedMap with the oldest buckets first.

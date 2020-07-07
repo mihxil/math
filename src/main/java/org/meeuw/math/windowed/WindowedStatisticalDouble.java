@@ -12,22 +12,17 @@ import org.meeuw.math.*;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public class WindowedStatisticalDouble extends Windowed<StatisticalDouble> implements DoubleConsumer {
+public class WindowedStatisticalDouble extends WindowedStatisticalNumber<StatisticalDouble> implements DoubleConsumer {
 
-    private final Units units;
-
-    @lombok.Builder(builderClassName = "Builder")
+    @lombok.Builder
     protected WindowedStatisticalDouble(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        StatisticalLong.Mode mode,
         Units units,
         BiConsumer<Event, Windowed<StatisticalDouble>>[] eventListeners
     ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-
-        this.units = units;
+        super(window, bucketDuration, bucketCount, units, eventListeners);
         init();
     }
 
@@ -54,22 +49,6 @@ public class WindowedStatisticalDouble extends Windowed<StatisticalDouble> imple
     public void accept(double... value) {
         StatisticalDouble currentBucket = currentBucket();
         currentBucket.enter(value);
-    }
-
-
-    @Override
-    public StatisticalDouble getWindowValue() {
-        StatisticalDouble result = initialValue();
-        StatisticalDouble[] b = getBuckets();
-        for (int i = b.length -1 ; i >= 0; i--) {
-            result.combine(b[i]);
-        }
-        return result;
-    }
-
-    @Deprecated
-    public StatisticalDouble getCombined() {
-        return getWindowValue();
     }
 
 }

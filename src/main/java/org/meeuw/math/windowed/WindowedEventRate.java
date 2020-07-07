@@ -32,6 +32,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
      * @param bucketCount    The number of buckets the total window time is to be divided in.
      */
 
+    @lombok.Builder
     private WindowedEventRate(
         Duration window,
         Duration bucketDuration,

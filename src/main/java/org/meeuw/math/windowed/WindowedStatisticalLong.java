@@ -11,15 +11,16 @@ import org.meeuw.math.Units;
 
 /**
  * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
- * @see WindowedDoubleSummaryStatistics
+ *
+ * @see WindowedLongSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 1.66
  */
-public class WindowedStatisticalLong extends Windowed<StatisticalLong> implements LongConsumer {
+public class WindowedStatisticalLong extends WindowedStatisticalNumber<StatisticalLong> implements LongConsumer {
 
     private final StatisticalLong.Mode mode;
-    private final Units units;
 
+    @lombok.Builder
     protected WindowedStatisticalLong(
         Duration window,
         Duration bucketDuration,
@@ -28,9 +29,8 @@ public class WindowedStatisticalLong extends Windowed<StatisticalLong> implement
         Units units,
         BiConsumer<Event, Windowed<StatisticalLong>>[] eventListeners
     ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
-        this.units = units;
+        super(window, bucketDuration, bucketCount, units, eventListeners);
+        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;;
         init();
     }
 
@@ -62,20 +62,4 @@ public class WindowedStatisticalLong extends Windowed<StatisticalLong> implement
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(instant);
     }
-
-    @Override
-    public StatisticalLong getWindowValue() {
-        StatisticalLong result = initialValue();
-        StatisticalLong[] b = getBuckets();
-        for (int i = b.length -1 ; i >= 0; i--) {
-            result.combine(b[i]);
-        }
-        return result;
-    }
-
-    @Deprecated
-    public StatisticalLong getCombined() {
-        return getWindowValue();
-    }
-
 }

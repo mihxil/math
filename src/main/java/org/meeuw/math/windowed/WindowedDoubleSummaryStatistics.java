@@ -15,6 +15,7 @@ import java.util.function.DoubleConsumer;
  */
 public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStatistics> implements DoubleConsumer {
 
+    @lombok.Builder
     protected WindowedDoubleSummaryStatistics(
         Duration window,
         Duration bucketDuration,
