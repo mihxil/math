@@ -3,6 +3,7 @@ package org.meeuw.math.windowed;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.LongSummaryStatistics;
+import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 /**
@@ -13,12 +14,13 @@ import java.util.function.LongConsumer;
  */
 public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistics> implements LongConsumer {
 
-    @lombok.Builder(builderClassName = "Builder")
     protected WindowedLongSummaryStatistics(
         Duration window,
         Duration bucketDuration,
-        Integer bucketCount) {
-        super(window, bucketDuration, bucketCount);
+        Integer bucketCount,
+        BiConsumer<Event, Windowed<LongSummaryStatistics>>[] eventListeners
+        ) {
+        super(window, bucketDuration, bucketCount, eventListeners);
     }
 
 

@@ -2,6 +2,7 @@ package org.meeuw.math.windowed;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
 /**
@@ -14,12 +15,13 @@ import java.util.function.DoubleConsumer;
  */
 public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStatistics> implements DoubleConsumer {
 
-    @lombok.Builder(builderClassName = "Builder")
     protected WindowedDoubleSummaryStatistics(
         Duration window,
         Duration bucketDuration,
-        Integer bucketCount) {
-        super(window, bucketDuration, bucketCount);
+        Integer bucketCount,
+        BiConsumer<Event, Windowed<DoubleSummaryStatistics>>[] eventListeners
+        ) {
+        super(window, bucketDuration, bucketCount, eventListeners);
     }
 
 

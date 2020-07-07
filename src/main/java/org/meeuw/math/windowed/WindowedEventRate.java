@@ -3,8 +3,7 @@ package org.meeuw.math.windowed;
 import java.time.Duration;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
-import java.util.function.IntConsumer;
+import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,14 +31,16 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
      */
-    @lombok.Builder(builderClassName = "Builder")
+
     private WindowedEventRate(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        Consumer<WindowedEventRate> reporter
+        Consumer<WindowedEventRate> reporter,
+        BiConsumer<Event, Windowed<AtomicLong>>[] eventListeners
+
         ) {
-        super(window, bucketDuration, bucketCount);
+        super(window, bucketDuration, bucketCount, eventListeners);
         if (reporter != null) {
             backgroundExecutor.scheduleAtFixedRate(
                 () -> {
@@ -73,7 +74,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
     public WindowedEventRate(int unit, TimeUnit timeUnit, int bucketCount) {
         this(Duration.ofMillis(
             TimeUnit.MILLISECONDS.convert(unit, timeUnit) * bucketCount),
-            null, bucketCount, null);
+            null, bucketCount, null, null);
     }
     public WindowedEventRate(int unit, TimeUnit timeUnit) {
         this(unit, timeUnit, 100);

@@ -5,6 +5,7 @@ import lombok.extern.java.Log;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.function.BiConsumer;
 
 import com.google.common.collect.Range;
 
@@ -47,6 +48,8 @@ public abstract class Windowed<T> {
     protected long  currentBucketTime = start.toEpochMilli();
     protected int currentBucketIndex = 0;
 
+    protected BiConsumer<Event, Windowed<T>> eventListeners;
+
 
     /**
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
@@ -56,7 +59,8 @@ public abstract class Windowed<T> {
     protected Windowed(
         Duration window,
         Duration bucketDuration,
-        Integer bucketCount
+        Integer bucketCount,
+        BiConsumer<Event, Windowed<T>>[] eventListeners
         ) {
         if (bucketCount == null) {
             if (window != null && bucketDuration != null) {
@@ -85,6 +89,13 @@ public abstract class Windowed<T> {
             this.bucketDuration = bucketDuration.toMillis();
             this.totalDuration = this.bucketDuration * bucketCount1;
         }
+        this.eventListeners = (e, w) -> {
+            if (eventListeners != null) {
+                for (BiConsumer<Event, Windowed<T>> el : eventListeners) {
+                    el.accept(e, w);
+                }
+            }
+        };
         _init();
     }
 
@@ -192,9 +203,13 @@ public abstract class Windowed<T> {
         long afterBucketBegin = currentTime - currentBucketTime;
         int i = 0;
         while (afterBucketBegin > bucketDuration && (i++) < buckets.length) {
+            eventListeners.accept(Event.SHIFT, this);
             currentBucketIndex++;
             //log.debug("Shifting buckets");
             currentBucketIndex %= buckets.length;
+            if (currentBucketIndex == 0) {
+                eventListeners.accept(Event.WINDOW_COMPLETED, this);
+            }
             if (!resetValue(buckets[currentBucketIndex])) {
                 buckets[currentBucketIndex] = initialValue();
             }
@@ -231,5 +246,9 @@ public abstract class Windowed<T> {
     }
 
 
+    public enum Event {
+        SHIFT,
+        WINDOW_COMPLETED
+    }
 
 }

@@ -2,6 +2,7 @@ package org.meeuw.math.windowed;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 
 /**
@@ -12,12 +13,15 @@ import java.util.function.IntConsumer;
  */
 public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics> implements IntConsumer {
 
-    @lombok.Builder(builderClassName = "Builder")
+
     protected WindowedIntSummaryStatistics(
         Duration window,
         Duration bucketDuration,
-        Integer bucketCount) {
-        super(window, bucketDuration, bucketCount);
+        Integer bucketCount,
+        BiConsumer<Event, Windowed<IntSummaryStatistics>>[] eventListeners
+
+        ) {
+        super(window, bucketDuration, bucketCount, eventListeners);
     }
 
 

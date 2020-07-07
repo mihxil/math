@@ -3,6 +3,7 @@ package org.meeuw.math.windowed;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.LongSummaryStatistics;
+import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.StatisticalLong;
@@ -19,14 +20,15 @@ public class WindowedStatisticalLong extends Windowed<StatisticalLong> implement
     private final StatisticalLong.Mode mode;
     private final Units units;
 
-    @lombok.Builder(builderClassName = "Builder")
     protected WindowedStatisticalLong(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
         StatisticalLong.Mode mode,
-        Units units) {
-        super(window, bucketDuration, bucketCount);
+        Units units,
+        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListeners
+    ) {
+        super(window, bucketDuration, bucketCount, eventListeners);
         this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
         this.units = units;
         init();
