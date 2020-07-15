@@ -10,6 +10,8 @@ import lombok.Getter;
 
 import java.util.LongSummaryStatistics;
 
+import org.meeuw.math.physics.*;
+
 /**
  * A 'statistic' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation and standard deviation of those values.
  *
@@ -93,12 +95,10 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
     public T times(double d) {
         return copy().multiply(d);
     }
+    @Override
     public T div(double d) {
         return copy().divide(d);
     }
-
-
-
 
     public void reset() {
         count = 0;

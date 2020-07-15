@@ -6,7 +6,7 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.StatisticalDouble;
-import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.physics.UncertainNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,8 +21,8 @@ class WindowedStatisticalDoubleTest {
     public void test() throws InterruptedException {
         WindowedStatisticalDouble impl = WindowedStatisticalDouble
             .builder()
-            .window(Duration.ofMillis(10))
-            .bucketCount(10)
+            .bucketDuration(Duration.ofMillis(1))
+            .bucketCount(30)
             .build();
 
         impl.accept(0.1, 0.2);

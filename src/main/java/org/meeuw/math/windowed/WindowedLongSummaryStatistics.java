@@ -24,12 +24,9 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         super(window, bucketDuration, bucketCount, eventListeners);
     }
 
-
-
     @Override
     protected LongSummaryStatistics[] newBuckets(int bucketCount) {
         return new LongSummaryStatistics[bucketCount];
-
     }
 
     @Override
@@ -53,7 +50,6 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         LongSummaryStatistics[] b = getBuckets();
         for (int i = b.length -1 ; i >= 0; i--) {
             result.combine(b[i]);
-
         }
         return result;
     }

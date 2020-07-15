@@ -12,7 +12,8 @@ import javax.validation.constraints.Min;
  * @author Michiel Meeuwissen
  */
 public class Utils {
-
+    public static final String TIMES = "\u00B7";  /* "·10' */
+    public static final String TIMES_10 = TIMES + "10";  /* "·10' */
     /**
      * Returns an integer in 'superscript' notation, using unicode.
      */
@@ -99,13 +100,34 @@ public class Utils {
         return result;
     }
 
+
+    public static String scientificNotation(double meanDouble, int minimumExponent) {
+        SplitNumber mean = SplitNumber.split(meanDouble);
+
+        // For numbers close to 1, we don't use scientific notation.
+        if (Math.abs(mean.exponent) < minimumExponent) {
+            double pow = Utils.pow10(mean.exponent);
+            mean.exponent = 0;
+            mean.coefficient *= pow;
+        }
+        NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        nf.setGroupingUsed(false);
+        boolean useE = mean.exponent != 0;
+
+        return
+            nf.format(mean.coefficient)
+            +
+            (useE ? TIMES_10 + Utils.superscript(mean.exponent)  : "");
+
+    }
+
      /**
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
      */
-     public static String scientificNotation(double meanDouble, double stdDouble, int minimumExponent) {
-        SplitNumber std  = new SplitNumber(stdDouble);
-        SplitNumber mean = new SplitNumber(meanDouble);
+     public static String scientificNotationWithUncertaintity(double meanDouble, double stdDouble, int minimumExponent) {
+        SplitNumber std  = SplitNumber.split(stdDouble);
+        SplitNumber mean = SplitNumber.split(meanDouble);
         boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
 
         // use difference of order of magnitude of std to determin how mean digits of the mean are
@@ -151,14 +173,9 @@ public class Utils {
         nf.setMinimumFractionDigits(fd);
         nf.setGroupingUsed(false);
         return
-            (useE ? "(" : "") +
-                valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
-
+            (useE ? "(" : "") + valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
             +
-            (useE ?
-             (")\u00B710" + /* .10 */
-              Utils.superscript(mean.exponent))
-             : "");
+            (useE ? (")" + TIMES_10 + superscript(mean.exponent)) : "");
     }
 
     public static String valueAndError(String value, String error) {
@@ -218,8 +235,6 @@ public class Utils {
          } else {
              return DateTimeFormatter.ISO_DATE.format(toFormat.atZone(zoneId).toLocalDate());
          }
-
-
     }
 
     public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
@@ -235,5 +250,7 @@ public class Utils {
         }
         return builder.toString();
     }
+
+
 
 }

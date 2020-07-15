@@ -14,6 +14,8 @@ import lombok.Getter;
 
 import java.util.function.DoubleConsumer;
 
+import org.meeuw.math.physics.*;
+
 /**
  * Represents a set of measured values. The value represents the average value.
  * {@link #toString} present the current value, but only the relevant digits. The standard
@@ -25,8 +27,10 @@ import java.util.function.DoubleConsumer;
 
 public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> implements DoubleConsumer {
 
+    @Getter
     private double sum = 0;
-    private double squareSum = 0;
+    @Getter
+    private double sumOfSquares = 0;
 
     @Getter
     private double min = Double.MAX_VALUE;
@@ -36,24 +40,23 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     public StatisticalDouble() {
         this(null);
     }
-    public StatisticalDouble(Units units) {
+    public StatisticalDouble(UnitsImpl units) {
         super(units);
     }
 
-    protected StatisticalDouble(Units units, double sum, double squareSum, int count) {
+    protected StatisticalDouble(Units units, double sum, double sumOfSquares, int count) {
         super(units, count);
         this.sum = sum;
-        this.squareSum = squareSum;
+        this.sumOfSquares = sumOfSquares;
     }
 
     @Override
     public StatisticalDouble copy() {
-        StatisticalDouble m =  new StatisticalDouble(units, sum, squareSum, count);
+        StatisticalDouble m =  new StatisticalDouble(units, sum, sumOfSquares, count);
         m.max = max;
         m.min = min;
         return m;
     }
-
 
     /**
      * Enters new value(s).
@@ -61,7 +64,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     public StatisticalDouble enter(double... ds) {
         for (double d : ds) {
             sum += d;
-            squareSum += d * d;
+            sumOfSquares += d * d;
             count++;
             max = Math.max(max, d);
             min = Math.max(min, d);
@@ -77,18 +80,17 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     @Override
     public StatisticalDouble enter(StatisticalDouble m) {
         sum += m.sum;
-        squareSum += m.squareSum;
+        sumOfSquares += m.sumOfSquares;
         count += m.count;
         max = Math.max(max, m.max);
         min = Math.max(min, m.min);
         return this;
     }
 
-
     @Override
     public StatisticalDouble multiply(double d) {
         sum *= d;
-        squareSum *= d * d;
+        sumOfSquares *= d * d;
         max = Math.round(max * d);
         min = Math.round(min * d);
         return this;
@@ -98,12 +100,10 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
         return sum / count;
     }
 
-
     @Override
     public double doubleValue() {
         return getMean();
     }
-
 
     @Override
     public double getStandardDeviation() {
@@ -111,16 +111,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
         if (count < 2) {
             return Double.NaN;
         }
-        return Math.sqrt(squareSum / count - mean * mean);
-    }
-
-
-    public double getSum() {
-        return sum;
-    }
-
-    public double getSumOfSquares() {
-        return squareSum;
+        return Math.sqrt(sumOfSquares / count - mean * mean);
     }
 
     /**
@@ -128,19 +119,18 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
      */
     @Override
     public StatisticalDouble div(double d) {
-        return new StatisticalDouble(units, sum / d, squareSum / (d * d), count);
+        return new StatisticalDouble(units, sum / d, sumOfSquares / (d * d), count);
     }
 
     @Override
     public StatisticalDouble times(double d) {
-        return new StatisticalDouble(units, sum * d, squareSum * (d * d), count);
+        return new StatisticalDouble(units, sum * d, sumOfSquares * (d * d), count);
     }
 
-    public StatisticalDouble add(double d) {
-        return new StatisticalDouble(units, sum + d * count, squareSum + d * d * count + 2 * sum * d, count);
+    @Override
+    public StatisticalDouble plus(double d) {
+        return new StatisticalDouble(units, sum + d * count, sumOfSquares + d * d * count + 2 * sum * d, count);
     }
-
-
 
     @Override
     public void accept(double value) {
@@ -151,11 +141,10 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     public void reset() {
         super.reset();
         sum = 0;
-        squareSum = 0;
+        sumOfSquares = 0;
         max = Double.MIN_VALUE;
         min = Double.MAX_VALUE;
     }
-
 
 }
 

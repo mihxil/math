@@ -25,12 +25,9 @@ public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics>
         super(window, bucketDuration, bucketCount, eventListeners);
     }
 
-
-
     @Override
     protected IntSummaryStatistics[] newBuckets(int bucketCount) {
         return new IntSummaryStatistics[bucketCount];
-
     }
 
     @Override
@@ -54,7 +51,6 @@ public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics>
         IntSummaryStatistics[] b = getBuckets();
         for (int i = b.length -1 ; i >= 0; i--) {
             result.combine(b[i]);
-
         }
         return result;
     }

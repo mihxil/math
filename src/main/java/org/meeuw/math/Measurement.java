@@ -1,5 +1,7 @@
 package org.meeuw.math;
 
+import org.meeuw.math.physics.*;
+
 /**
  * A number with a uncertainty where the uncertainty is simply explicitely stated.
  *
@@ -26,13 +28,17 @@ public class Measurement extends UncertainNumber {
     @Override
     public double getUncertainty() {
         return uncertainty;
-
     }
 
     @Override
     public double doubleValue() {
         return value;
-
     }
+
+    @Override
+    public UncertainNumber plus(double value) {
+        return new Measurement(this.value + value, uncertainty);
+    }
+
 
 }

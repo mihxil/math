@@ -1,10 +1,9 @@
-package org.meeuw.math;
+package org.meeuw.math.physics;
 
-import lombok.Getter;
-
-import java.util.Objects;
 import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
+
+import org.meeuw.math.*;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}, and (optionally) {@link #getUnits()}
@@ -13,36 +12,22 @@ import java.util.function.UnaryOperator;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class UncertainNumber extends Number implements Comparable<Number> {
+public abstract class UncertainNumber extends PhysicalNumber {
 
     public static final BinaryOperator<UncertainNumber> TIMES = UncertainNumber::times;
     public static final UnaryOperator<UncertainNumber> UMINUS = UncertainNumber::negate;
     public static final BinaryOperator<UncertainNumber> PLUS   = UncertainNumber::plus;
     public static final BinaryOperator<UncertainNumber> MINUS = (a1, a2) -> UMINUS.apply(a2).plus(a1);
 
-
-
-
-    @Getter
-    protected int minimumExponent = 4;
-
-    @Getter
-    protected final Units units;
-
     protected UncertainNumber(Units units) {
-        this.units = units;
+        super(units);
     }
-
-    public abstract double getUncertainty();
 
     public UncertainNumber measurementCopy() {
         return new Measurement(doubleValue(), getUncertainty(), units);
     }
 
     public UncertainNumber combined(UncertainNumber m) {
-        if (! Objects.equals(units, m.units)) {
-            throw new IllegalArgumentException();
-        }
         double u= getUncertainty();
         double mu = m.getUncertainty();
         double weight = 1d / (u * u);
@@ -51,40 +36,36 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
 
         // I'm not absolutely sure about this:
         double uncertaintity = 1d/ Math.sqrt((weight + mweight));
-        return new Measurement(value, uncertaintity, units);
+        return new Measurement(value, uncertaintity, Units.forAddition(units, m.units));
 
     }
 
+    public abstract UncertainNumber plus(double value);
+
+    public UncertainNumber minus(double value) {
+        return plus(-1d * value);
+    }
+
     public UncertainNumber plus(UncertainNumber m) {
-        if (! Objects.equals(units, m.units)) {
-            throw new IllegalArgumentException();
-        }
         double u = getUncertainty();
         double mu = m.getUncertainty();
         return new Measurement(
             doubleValue() + m.doubleValue(),
             Math.sqrt(u * u + mu * mu),
-            units
+            Units.forAddition(units, m.units)
         );
     }
 
     public UncertainNumber minus(UncertainNumber m) {
-        if (! Objects.equals(units, m.units)) {
-            throw new IllegalArgumentException();
-        }
         double u = getUncertainty();
         double mu = m.getUncertainty();
         return new Measurement(
             doubleValue() - m.doubleValue(),
             Math.sqrt(u * u + mu * mu),
-            units
+            Units.forAddition(units, m.units)
         );
     }
     public UncertainNumber times(UncertainNumber m) {
-        Units newUnits = null;
-        if (units != null) {
-            newUnits = units.times(m.units);
-        }
         double u = getUncertainty() / doubleValue();
         double mu = m.getUncertainty() / m.doubleValue();
         double newValue = doubleValue() * m.doubleValue();
@@ -92,15 +73,11 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
             newValue,
             Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu)),
             //Math.abs(newValue) * (u + mu),
-            newUnits
+            Units.forMultiplication(units, m.units)
         );
     }
 
-    public UncertainNumber div(UncertainNumber m) {
-        Units newUnits = null;
-        if (units != null) {
-            newUnits = units.dividedBy(m.units);
-        }
+    public UncertainNumber dividedBy(UncertainNumber m) {
         double u = getUncertainty() / doubleValue();
         double mu = m.getUncertainty() / m.doubleValue();
         double newValue = doubleValue() / m.doubleValue();
@@ -108,77 +85,43 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
         return new Measurement(
             newValue,
             Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu)),
-            newUnits
+            Units.forDivision(units, m.units)
         );
     }
+
+    @Override
+    public UncertainNumber negate() {
+        return times(-1);
+    }
+
+
+    @Override
     public UncertainNumber pow(int d) {
-        Units newUnits = null;
-        if (units != null) {
-            newUnits = units.pow(d);
-        }
         return new Measurement(
             Math.pow(doubleValue(), d),
             Math.abs(d) * Math.pow(doubleValue(), d -1) * getUncertainty(),
-            newUnits);
-    }
-
-    /**
-     * Creates a new {@link UncertainNumber} representing the negated value of this one.
-     */
-    public UncertainNumber negate() {
-        return times(-1d);
+            Units.forExponentiation(units, d));
     }
 
     /**
      * Creates a new {@link UncertainNumber} representing a multiple of this one.
      */
+    @Override
     public UncertainNumber times(double multiplication) {
         return new Measurement(multiplication * doubleValue(),
             Math.abs(multiplication) * getUncertainty(), units);
     }
 
-    /**
-     * Creates a new {@link UncertainNumber} representing a multiple of this one.
-     */
-    public UncertainNumber div(double divisor) {
-        return times(1d/divisor);
+    @Override
+    public UncertainNumber plus(PhysicalNumber m) {
+      return new Measurement(m.doubleValue() * doubleValue(),
+            Math.abs(m.doubleValue()) * getUncertainty(), Units.forMultiplication(units, m.units));
     }
 
     @Override
-    public long longValue() {
-        return Math.round(doubleValue());
+    public UncertainNumber times(PhysicalNumber m) {
+        return times(m.doubleValue());
     }
-
-    @Override
-    public int intValue() {
-        return (int) longValue();
-    }
-
-    @Override
-    public float floatValue() {
-        return (float) doubleValue();
-    }
-
-    @Override
-    public byte byteValue() {
-        return (byte) longValue();
-    }
-    @Override
-    public short shortValue() {
-        return (short) longValue();
-    }
-
-    /**
-     * The minimum exponent defined how close a number must be to 1, to not use scientific notation
-     * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
-     * -10000) are presented without useage of scientific notation
-     *
-     * This is used in {@link #toString()}
-     */
-    public void setMinimumExponent(int m) {
-        minimumExponent = m;
-    }
-
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
@@ -186,13 +129,9 @@ public abstract class UncertainNumber extends Number implements Comparable<Numbe
      */
     @Override
     public String toString() {
-        return  Utils.scientificNotation(doubleValue(), getUncertainty(), minimumExponent) +
+        return  Utils.scientificNotationWithUncertaintity(doubleValue(), getUncertainty(), minimumExponent) +
             (units == null ? "" : " " + units.toString());
     }
 
-    @Override
-    public int compareTo(Number o) {
-        return Double.compare(doubleValue(), o.doubleValue());
-    }
 
 }

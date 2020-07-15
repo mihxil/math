@@ -5,14 +5,26 @@ package org.meeuw.math;
  * indicating the order of magnitude (the 'exponent').
  */
 
-class SplitNumber {
-    double coefficient;
-    int   exponent;
+public class SplitNumber {
+    public double coefficient;
+    public int   exponent;
 
-    public SplitNumber(double in) {
+    public SplitNumber(double coefficient, int exponent) {
+        this.coefficient = coefficient;
+        this.exponent = exponent;
+    }
+
+
+    @Override
+    public String toString() {
+        return coefficient + "\u00B710" + Utils.superscript(exponent);
+        //return coefficient + "E" + exponent;
+    }
+
+    public static SplitNumber split(double in) {
         boolean negative = in < 0;
-        coefficient = Math.abs(in);
-        exponent    = 0;
+        double coefficient = Math.abs(in);
+        int exponent    = 0;
         while (coefficient > 10) {
             coefficient /=10;
             exponent++;
@@ -22,11 +34,7 @@ class SplitNumber {
             exponent--;
         }
         if (negative) coefficient *= -1;
-    }
-    @Override
-    public String toString() {
-        return coefficient + "\u00B710" + Utils.superscript(exponent);
-        //return coefficient + "E" + exponent;
+        return new SplitNumber(coefficient, exponent);
     }
 
 }

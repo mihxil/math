@@ -1,6 +1,7 @@
-package org.meeuw.math;
+package org.meeuw.math.physics;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.Measurement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -42,11 +43,11 @@ class MeasurementTest {
     @Test
     public void divide() {
         UncertainNumber speed = new Measurement(6.0, 0.4, Units.SPEED);
-        assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 ms⁻¹");
+        assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 m·s⁻¹");
         assertThat(speed.getUnits().dimensions().toString()).isEqualTo("LT⁻¹");
 
         UncertainNumber distance = new Measurement(2.0, 0.05, Units.DISTANCE);
-        UncertainNumber duration = distance.div(speed);
+        UncertainNumber duration = distance.dividedBy(speed);
         assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 

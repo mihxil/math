@@ -147,11 +147,8 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
         return getRate(TimeUnit.SECONDS);
     }
 
-
     public String toString() {
         return "" + getRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
     }
-
-
 
 }

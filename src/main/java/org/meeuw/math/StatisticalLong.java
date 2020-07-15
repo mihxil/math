@@ -18,6 +18,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
+import org.meeuw.math.physics.*;
+
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
  *
@@ -44,12 +46,18 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Getter
     private long guessedMean = 0;
 
-    public StatisticalLong(Units units) {
+    public StatisticalLong(UnitsImpl units) {
         super(units);
         this.mode = Mode.LONG;
     }
+
+    @Override
+    public UncertainNumber plus(double value) {
+        return plus(Math.round(value));
+    }
+
     public StatisticalLong() {
-        this((Units) null);
+        this((UnitsImpl) null);
     }
 
     public StatisticalLong(Mode mode) {
@@ -167,7 +175,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return Math.sqrt((double) (squareSum / count) - mean * mean);
     }
 
-
     public long getSum() {
         return sum + count * guessedMean;
     }
@@ -180,9 +187,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return squareSum - 2 * offset * sum + count * (offset * offset);
     }
 
-
     /**
-     * This implementation keeps track of a 'guessedMean' (see {@link #getGuessedMean()} value. The internal value {@link #getUncorrectedSumOfSquares()}it kept small like this, to avoid long overflows.
+     * This implementation keeps track of a 'guessedMean' (see {@link #getGuessedMean()} value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
      *
      * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
      */
@@ -239,8 +245,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return copy().add(d);
     }
 
-
-
     @Override
     public void accept(long value) {
         enter(value);
@@ -284,7 +288,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         }
     }
 
-
     @Override
     public void reset() {
         super.reset();
@@ -294,7 +297,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         max = Long.MIN_VALUE;
         min = Long.MAX_VALUE;
     }
-
 
     /**
      * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.

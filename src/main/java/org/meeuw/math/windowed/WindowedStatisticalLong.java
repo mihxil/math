@@ -2,15 +2,14 @@ package org.meeuw.math.windowed;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.LongSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.StatisticalLong;
-import org.meeuw.math.Units;
+import org.meeuw.math.physics.UnitsImpl;
 
 /**
- * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
+ * {@link StatisticalLong} can be aggregated, and therefor {@link Windowed}.
  *
  * @see WindowedLongSummaryStatistics
  * @author Michiel Meeuwissen
@@ -26,7 +25,7 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         Duration bucketDuration,
         Integer bucketCount,
         StatisticalLong.Mode mode,
-        Units units,
+        UnitsImpl units,
         BiConsumer<Event, Windowed<StatisticalLong>>[] eventListeners
     ) {
         super(window, bucketDuration, bucketCount, units, eventListeners);

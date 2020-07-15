@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.physics;
 
 import lombok.Getter;
 
@@ -7,14 +7,15 @@ import lombok.Getter;
  * @since 0.3
  */
 public enum Dimension {
-
     L("length"),
     M("mass"),
     T("time"),
     I("electric current"),
-    TH((char) 0x0398, "thermodynamic temperature"),
+    TH('\u0398', "thermodynamic temperature"),
     N("amount of substance"),
     J("luminous intensity");
+
+    static int NUMBER = values().length;
 
     final String toString;
     @Getter
@@ -23,6 +24,7 @@ public enum Dimension {
         toString = String.valueOf(i);
         this.name = name;
     }
+
     Dimension(String name) {
         this.name = name;
         toString = null;
@@ -30,6 +32,5 @@ public enum Dimension {
 
     public String toString() {
         return toString == null ? name() : toString;
-
     }
 }

@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.function.BiConsumer;
 
 import org.meeuw.math.*;
+import org.meeuw.math.physics.UnitsImpl;
 
 /**
  * {@link StatisticalNumber}s can be aggregated, and therefor {@link Windowed}.
@@ -16,17 +17,16 @@ import org.meeuw.math.*;
 public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>> extends Windowed<T>  {
 
     @Getter
-    protected final Units units;
+    protected final UnitsImpl units;
 
     protected WindowedStatisticalNumber(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        Units units,
+        UnitsImpl units,
         BiConsumer<Event, Windowed<T>>[] eventListeners
     ) {
         super(window, bucketDuration, bucketCount, eventListeners);
-
         this.units = units;
         init();
     }
@@ -35,7 +35,6 @@ public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>> 
     protected void _init() {
 
     }
-
 
     @Override
     public T getWindowValue() {

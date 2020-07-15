@@ -2,6 +2,7 @@ package org.meeuw.math.windowed;
 
 import lombok.extern.java.Log;
 
+import java.time.Duration;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,8 @@ class WindowedStatisticalLongTest {
     public void test() throws InterruptedException {
         WindowedStatisticalLong impl = WindowedStatisticalLong
             .builder()
+            .bucketCount(20)
+            .bucketDuration(Duration.ofMillis(1))
             .mode(StatisticalLong.Mode.INSTANT)
             .build();
 
