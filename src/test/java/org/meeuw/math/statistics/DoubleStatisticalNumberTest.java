@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.statistics;
 
 import org.junit.jupiter.api.Test;
 

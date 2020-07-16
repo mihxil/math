@@ -1,4 +1,4 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
 
@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.statistics.WindowedEventRate;
 
 import com.google.common.collect.Range;
 

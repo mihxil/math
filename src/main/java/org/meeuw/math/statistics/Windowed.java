@@ -1,4 +1,4 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
 
@@ -213,7 +213,6 @@ public abstract class Windowed<T> {
         while (afterBucketBegin > bucketDuration && (i++) < buckets.length) {
             eventListeners.accept(Event.SHIFT, this);
             currentBucketIndex++;
-            //log.debug("Shifting buckets");
             currentBucketIndex %= buckets.length;
             if (currentBucketIndex == 0) {
                 eventListeners.accept(Event.WINDOW_COMPLETED, this);

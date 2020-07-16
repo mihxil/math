@@ -1,4 +1,4 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import java.time.Duration;
 import java.util.*;

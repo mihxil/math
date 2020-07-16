@@ -8,7 +8,7 @@ See http://www.MMBase.org/license
 
 */
 
-package org.meeuw.math;
+package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
@@ -18,7 +18,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
-import org.meeuw.math.physics.*;
+import org.meeuw.math.Utils;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -46,31 +46,16 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Getter
     private long guessedMean = 0;
 
-    public StatisticalLong(UnitsImpl units) {
-        super(units);
+    public StatisticalLong() {
         this.mode = Mode.LONG;
     }
 
-    @Override
-    public UncertainNumber plus(double value) {
-        return plus(Math.round(value));
-    }
-
-    public StatisticalLong() {
-        this((UnitsImpl) null);
-    }
-
     public StatisticalLong(Mode mode) {
-        this(null, mode);
-
-    }
-    public StatisticalLong(Units units, Mode mode) {
-        super(units);
         this.mode = mode;
     }
 
-    protected StatisticalLong(Units units, Mode mode, long sum, long squareSum, int count, long guessedMean) {
-        super(units, count);
+    protected StatisticalLong(Mode mode, long sum, long squareSum, int count, long guessedMean) {
+        super(count);
         this.mode = mode == null ? Mode.LONG : mode;
         this.squareSum = squareSum;
         this.sum = sum;
@@ -78,8 +63,12 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     @Override
+    public StatisticalLong plus(double summand) {
+        return plus(Math.round(summand));
+    }
+    @Override
     public StatisticalLong copy() {
-        StatisticalLong c = new StatisticalLong(units, mode, sum, squareSum, count, guessedMean);
+        StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);
         c.max = max;
         c.min = min;
         c.autoGuess = autoGuess;
@@ -109,7 +98,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #plus(UncertainNumber)} which is something entirely different.
+     * See also {@link #plus(StatisticalLong)} which is something entirely different.
      * @param m The other {@link StatisticalLong} which value must be ented into this one
      */
     @Override

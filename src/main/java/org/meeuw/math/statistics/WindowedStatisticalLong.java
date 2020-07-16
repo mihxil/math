@@ -1,12 +1,9 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
-
-import org.meeuw.math.StatisticalLong;
-import org.meeuw.math.physics.UnitsImpl;
 
 /**
  * {@link StatisticalLong} can be aggregated, and therefor {@link Windowed}.
@@ -25,10 +22,9 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         Duration bucketDuration,
         Integer bucketCount,
         StatisticalLong.Mode mode,
-        UnitsImpl units,
         BiConsumer<Event, Windowed<StatisticalLong>>[] eventListeners
     ) {
-        super(window, bucketDuration, bucketCount, units, eventListeners);
+        super(window, bucketDuration, bucketCount, eventListeners);
         this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;;
         init();
     }
@@ -45,7 +41,7 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
 
     @Override
     protected StatisticalLong initialValue() {
-        return new StatisticalLong(units, mode);
+        return new StatisticalLong(mode);
     }
 
     @Override

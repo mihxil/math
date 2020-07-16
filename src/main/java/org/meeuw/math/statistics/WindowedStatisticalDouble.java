@@ -1,11 +1,8 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import java.time.Duration;
 import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
-
-import org.meeuw.math.*;
-import org.meeuw.math.physics.UnitsImpl;
 
 /**
  * {@link StatisticalDouble} can be aggregated, and therefor {@link Windowed}.
@@ -20,10 +17,9 @@ public class WindowedStatisticalDouble extends WindowedStatisticalNumber<Statist
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        UnitsImpl units,
         BiConsumer<Event, Windowed<StatisticalDouble>>[] eventListeners
     ) {
-        super(window, bucketDuration, bucketCount, units, eventListeners);
+        super(window, bucketDuration, bucketCount, eventListeners);
         init();
     }
 
@@ -39,7 +35,7 @@ public class WindowedStatisticalDouble extends WindowedStatisticalNumber<Statist
 
     @Override
     protected StatisticalDouble initialValue() {
-        return new StatisticalDouble(units);
+        return new StatisticalDouble();
     }
 
     @Override

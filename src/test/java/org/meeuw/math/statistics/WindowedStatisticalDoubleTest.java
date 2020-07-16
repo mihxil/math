@@ -1,12 +1,10 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
 
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.StatisticalDouble;
-import org.meeuw.math.physics.UncertainNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +19,7 @@ class WindowedStatisticalDoubleTest {
     public void test() throws InterruptedException {
         WindowedStatisticalDouble impl = WindowedStatisticalDouble
             .builder()
-            .bucketDuration(Duration.ofMillis(1))
+            .bucketDuration(Duration.ofMillis(4))
             .bucketCount(30)
             .build();
 
@@ -34,11 +32,13 @@ class WindowedStatisticalDoubleTest {
         impl.accept(0.22, 0.23);
         Thread.sleep(1);
         impl.accept(0.24);
+        log.info(() -> String.valueOf(impl));
         StatisticalDouble windowValue = impl.getWindowValue();
-        assertThat(windowValue.getCount()).isEqualTo(8);
-        UncertainNumber uncertainNumber = windowValue.measurementCopy();
+        ImmutableUncertainNumber uncertainNumber = windowValue.immutableCopy();
         assertThat(windowValue.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(uncertainNumber.toString()).isEqualTo("0.20 ± 0.04");
+        assertThat(windowValue.getCount()).isEqualTo(8);
+
     }
 
 }

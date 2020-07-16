@@ -3,9 +3,10 @@ package org.meeuw.math.physics;
 import java.util.*;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.statistics.AbstractUncertainNumber;
 
 /**
- * Represents the units of a {@link UncertainNumber}.
+ * Represents the units of a {@link AbstractUncertainNumber}.
  *
  * Basicly keeps track of a integer power for each of the basic SI units.
  *
@@ -46,11 +47,11 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
-    public Units pow(int e) {
+    public Units pow(int exponent) {
         List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
         for (int i = 0 ; i < base.size(); i++) {
             UnitExponent n = base.get(i);
-            base.set(i, n.pow(e));
+            base.set(i, n.pow(exponent));
         }
         return new UnitsImpl(base.toArray(new UnitExponent[0]));
     }

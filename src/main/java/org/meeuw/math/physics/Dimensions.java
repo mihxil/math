@@ -4,14 +4,14 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import org.meeuw.math.Group;
+import org.meeuw.math.GroupElement;
 import org.meeuw.math.Utils;
 
 /**
 
  * @author Michiel Meeuwissen
  */
-public class Dimensions implements Group<Dimensions> {
+public class Dimensions implements GroupElement<Dimensions> {
 
     private static final Dimensions ONE = new Dimensions();
 
@@ -46,10 +46,10 @@ public class Dimensions implements Group<Dimensions> {
         return copy;
     }
     @Override
-    public Dimensions pow(int e) {
+    public Dimensions pow(int exponent) {
         Dimensions copy = copy();
         for (int i = 0; i < exponents.length; i++) {
-            copy.exponents[i] *= e;
+            copy.exponents[i] *= exponent;
         }
         return copy;
     }

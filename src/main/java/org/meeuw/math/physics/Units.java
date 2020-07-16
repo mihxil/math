@@ -1,28 +1,14 @@
 package org.meeuw.math.physics;
 
-import org.meeuw.math.Group;
-
-import static org.meeuw.math.physics.SIUnit.*;
+import org.meeuw.math.GroupElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Units extends Iterable<UnitExponent>, Group<Units> {
+public interface Units extends Iterable<UnitExponent>, GroupElement<Units> {
 
     Units DIMENSIONLESS = UnitsImpl.of();
-    Units DISTANCE = UnitsImpl.of(m);
-    Units LENGTH = UnitsImpl.of(m);
-    Units AREA = UnitsImpl.of(m, m);
-    Units VOLUME = UnitsImpl.of(m, m, m);
-    Units TIME = UnitsImpl.of(s);
-    Units SPEED = DISTANCE.dividedBy(TIME);
-
-    Units WEIGHT = UnitsImpl.of(kg);
-    Units TEMPERATURE = UnitsImpl.of(K);
-    Units ELECTRIC_CURRENT = UnitsImpl.of(A);
-    Units AMOUNT_OF_SUBSTANCE = UnitsImpl.of(mol);
-    Units LUMINOUS_INTENSITY = UnitsImpl.of(cd);
 
     Dimensions dimensions();
 
@@ -63,7 +49,7 @@ public interface Units extends Iterable<UnitExponent>, Group<Units> {
         }
         return newUnits;
     }
-    static Units forInversion(UnitsImpl u) {
+    static Units forInversion(Units u) {
         Units newUnits = null;
         if (u != null) {
             newUnits = u.inverse();

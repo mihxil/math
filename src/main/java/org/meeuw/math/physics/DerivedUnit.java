@@ -79,7 +79,7 @@ public class DerivedUnit implements Unit {
     public String toString() {
         return prefix() + name();
     }
-    @Override
+    //@Override
     public Prefix prefix() {
         return prefix;
     }

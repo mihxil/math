@@ -1,7 +1,6 @@
 package org.meeuw.math.physics;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.Measurement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,19 +13,19 @@ class MeasurementTest {
 
     @Test
     public void add() {
-        UncertainNumber door = new Measurement(2.00, 0.03, Units.DISTANCE);
+        Measurement door = new Measurement(2.00, 0.03, SI.DISTANCE);
         assertThat(door.toString()).isEqualTo("2.00 ± 0.03 m");
-        UncertainNumber knob = new Measurement(0.88, 0.04, Units.DISTANCE);
-        UncertainNumber height = door.minus(knob);
+        Measurement knob = new Measurement(0.88, 0.04, SI.DISTANCE);
+        Measurement height = door.minus(knob);
         assertThat(height.toString()).isEqualTo("1.12 ± 0.05 m");
     }
 
 
     @Test
     public void area() {
-        UncertainNumber height = new Measurement(21, 0.2, Units.LENGTH);
-        UncertainNumber width = new Measurement(30, 1, Units.LENGTH);
-        UncertainNumber area =  height.times(width);
+        Measurement height = new Measurement(21, 0.2, SI.LENGTH);
+        Measurement width = new Measurement(30, 1, SI.LENGTH);
+        Measurement area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 22 m²"); // or should that be 27?
     }
 
@@ -34,20 +33,20 @@ class MeasurementTest {
     @Test
     public void illegalAdd() {
         assertThatThrownBy(() -> {
-            UncertainNumber door = new Measurement(2.00, 0.03, Units.DISTANCE);
-            UncertainNumber knob = new Measurement(0.88, 0.04, Units.AMOUNT_OF_SUBSTANCE);
-            UncertainNumber height = door.minus(knob);
+            Measurement door = new Measurement(2.00, 0.03, SI.DISTANCE);
+            Measurement knob = new Measurement(0.88, 0.04, SI.AMOUNT_OF_SUBSTANCE);
+            Measurement height = door.minus(knob);
         }).isInstanceOf(IllegalArgumentException.class);
 
     }
     @Test
     public void divide() {
-        UncertainNumber speed = new Measurement(6.0, 0.4, Units.SPEED);
+        Measurement speed = new Measurement(6.0, 0.4, SI.SPEED);
         assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 m·s⁻¹");
         assertThat(speed.getUnits().dimensions().toString()).isEqualTo("LT⁻¹");
 
-        UncertainNumber distance = new Measurement(2.0, 0.05, Units.DISTANCE);
-        UncertainNumber duration = distance.dividedBy(speed);
+        Measurement distance = new Measurement(2.0, 0.05, SI.DISTANCE);
+        Measurement duration = distance.dividedBy(speed);
         assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 

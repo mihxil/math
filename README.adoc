@@ -8,3 +8,9 @@ Math and physics related class. E.g. a class representing a `Measurement`. Inclu
 
 Also it includes some classes to keep track of 'sliding window' values of averages.
 
+== Statistics
+
+There are several implementation of `StatisticalNumber`, which is object that can keep track of an average and the standard deviation of incoming values.
+
+
+

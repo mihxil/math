@@ -1,11 +1,10 @@
-package org.meeuw.math;
+package org.meeuw.math.statistics;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.physics.UncertainNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -78,7 +77,7 @@ class LongStatisticalNumberTest {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainNumber combinedMeasurement = stat1.measurementCopy().combined(stat2.measurementCopy());
+        UncertainNumber<?> combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.doubleValue()).isEqualTo(3.5);
 

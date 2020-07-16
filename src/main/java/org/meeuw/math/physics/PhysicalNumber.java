@@ -2,54 +2,26 @@ package org.meeuw.math.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.*;
+import org.meeuw.math.statistics.UncertainNumber;
+import org.meeuw.math.statistics.ImmutableUncertainNumber;
 
 /**
- *
+ * An uncertain number but also with {@link Units}
+ *  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber extends Number  implements Comparable<Number>, Field<PhysicalNumber> {
+public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number implements UncertainNumber<T> {
 
-    /**
-     * The minimum exponent defined how close a number must be to 1, to not use scientific notation
-     * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
-     * -10000) are presented without useage of scientific notation
-     *
-     * This is used in {@link #toString()}
-     */
     @Getter
-    protected int minimumExponent = 4;
+    protected final ImmutableUncertainNumber wrapped;
 
     @Getter
     protected final Units units;
 
-    public PhysicalNumber(Units units) {
+    public PhysicalNumber(ImmutableUncertainNumber wrapped, Units units) {
         this.units = units;
-    }
-
-    @Override
-    public long longValue() {
-        return Math.round(doubleValue());
-    }
-
-    @Override
-    public int intValue() {
-        return (int) longValue();
-    }
-
-    @Override
-    public float floatValue() {
-        return (float) doubleValue();
-    }
-
-    @Override
-    public byte byteValue() {
-        return (byte) longValue();
-    }
-    @Override
-    public short shortValue() {
-        return (short) longValue();
+        this.wrapped = wrapped;
     }
 
      /**
@@ -58,34 +30,92 @@ public abstract class PhysicalNumber extends Number  implements Comparable<Numbe
      */
     @Override
     public String toString() {
-        return  Utils.scientificNotation(doubleValue(), minimumExponent) + (units == null ? "" : " " + units.toString());
+        return  wrapped.toString() + (units == null ? "" : " " + units.toString());
     }
+
+    @Override
+    public int intValue() {
+        return (int) longValue();
+    }
+
+    @Override
+    public long longValue() {
+        return Math.round(doubleValue());
+    }
+
+    @Override
+    public float floatValue() {
+        return (float) doubleValue();
+    }
+
+    @Override
+    public double doubleValue() {
+        return  wrapped.doubleValue();
+    }
+    @Override
+    public double getUncertainty() {
+        return  wrapped.getUncertainty();
+    }
+
 
     @Override
     public int compareTo(Number o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
-    public abstract double getUncertainty();
-
-    /**
-     * Creates a new {@link PhysicalNumber} representing the negated value of this one.
-     */
     @Override
-    public PhysicalNumber negate() {
-        return times(-1d);
-    }
-    /**
-     * Creates a new {@link UncertainNumber} representing a multiple of this one.
-     */
-    public abstract PhysicalNumber times(double multiplication);
-
-    /**
-     * Creates a new {@link UncertainNumber} representing a multiple of this one.
-     */
-    public PhysicalNumber div(double divisor) {
-        return times(1d/divisor);
+    public T combined(T m) {
+        return copy(wrapped.combined(m.wrapped), units);
     }
 
+    @Override
+    public T times(double multiplicand) {
+        return copy(wrapped.times(multiplicand), units);
+    }
+
+    @Override
+    public T times(UncertainNumber<?> multiplicand) {
+        Units newUnits;
+        if (multiplicand instanceof PhysicalNumber) {
+             newUnits = Units.forMultiplication(units, ((PhysicalNumber<?>) multiplicand).getUnits());
+        } else {
+            newUnits = units;
+        }
+        return copy(wrapped.times(multiplicand), newUnits);
+    }
+
+    @Override
+    public T dividedBy(UncertainNumber<?> divisor) {
+        return times(divisor.inverse());
+    }
+
+    @Override
+    public T pow(int exponent) {
+        return copy(wrapped.pow(exponent), Units.forExponentiation(units, exponent));
+
+    }
+
+    @Override
+    public T plus(UncertainNumber<?> summand) {
+        Units newUnits;
+        if (summand instanceof PhysicalNumber) {
+             newUnits = Units.forAddition(units, ((PhysicalNumber<?>) summand).getUnits());
+        } else {
+            newUnits = units;
+        }
+        return copy(wrapped.plus(summand), newUnits);
+    }
+
+    @Override
+    public T minus(UncertainNumber<?> subtrahend) {
+        return plus(subtrahend.negate());
+    }
+
+    @Override
+    public T plus(double summand) {
+        return copy(wrapped.plus(summand), units);
+    }
+
+    protected abstract T copy(ImmutableUncertainNumber wrapped, Units units);
 }
 

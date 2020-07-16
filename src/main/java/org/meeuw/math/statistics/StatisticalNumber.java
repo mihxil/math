@@ -4,13 +4,11 @@ This software is OSI Certified Open Source Software.
 OSI Certified is a certification mark of the Open Source Initiative.
 */
 
-package org.meeuw.math;
+package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
 import java.util.LongSummaryStatistics;
-
-import org.meeuw.math.physics.*;
 
 /**
  * A 'statistic' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation and standard deviation of those values.
@@ -21,7 +19,7 @@ import org.meeuw.math.physics.*;
  */
 
 
-public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends UncertainNumber {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<T> {
 
     /**
      * The total number of values which were {@link StatisticalDouble#enter(double...)}ed.
@@ -29,14 +27,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
     @Getter
     protected int count = 0;
 
-    public StatisticalNumber(Units units) {
-        super(units);
+    public StatisticalNumber() {
     }
-    protected StatisticalNumber(Units units, int count) {
-        super(units);
+    protected StatisticalNumber(int count) {
         this.count = count;
     }
-
 
 
     public abstract T copy();
@@ -59,21 +54,17 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
     public void combine(T m) {
         enter(m);
     }
-    /**
+  /*  *//**
      * A specialized version of {@link #combined(UncertainNumber)}, accepting and returning a {@code T}
-     */
+     *//*
+    public UncertainNumber<?> combined(UncertainNumber<?> m) {
+        return super.combined(m);
+    }*/
+
+    @Override
     public T combined(T m) {
         T copy = copy();
         return copy.enter(m);
-    }
-
-    @Override
-    public UncertainNumber combined(UncertainNumber m) {
-        if (m instanceof StatisticalNumber) {
-            return combined((T) m);
-        } else {
-            return super.combined(m);
-        }
     }
 
     /**
@@ -92,16 +83,35 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
 
     @Override
-    public T times(double d) {
-        return copy().multiply(d);
+    public T times(double multiplicand) {
+        return copy().multiply(multiplicand);
     }
     @Override
-    public T div(double d) {
-        return copy().divide(d);
+    public T dividedBy(double divisor) {
+        return copy().divide(divisor);
+    }
+
+    @Override
+    public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
+        return immutableCopy().plus(summand);
+    }
+
+    @Override
+    public ImmutableUncertainNumber times(UncertainNumber<?> multiplicand) {
+        return immutableCopy().times(multiplicand);
+    }
+
+    @Override
+    public T pow(int exponent) {
+        return null;
     }
 
     public void reset() {
         count = 0;
+    }
+
+    public ImmutableUncertainNumber immutableCopy() {
+        return new ImmutableUncertainNumber(doubleValue(), getUncertainty());
     }
 
 }

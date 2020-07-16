@@ -1,0 +1,76 @@
+package org.meeuw.math.statistics;
+
+import lombok.Getter;
+
+/**
+ * @author Michiel Meeuwissen
+ * @since 0.4
+ */
+public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableUncertainNumber> {
+
+    private final double value;
+    @Getter
+    private final double uncertainty;
+
+    public ImmutableUncertainNumber(double value, double uncertainty) {
+        this.value = value;
+        this.uncertainty = uncertainty;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
+
+    @Override
+    public ImmutableUncertainNumber combined(ImmutableUncertainNumber m) {
+        double u = getUncertainty();
+        double mu = m.getUncertainty();
+        double weight = 1d / (u * u);
+        double mweight = 1d / (mu * mu);
+        double value = (doubleValue() * weight + m.doubleValue() * mweight) / (weight + mweight);
+
+        // I'm not absolutely sure about this:
+        double uncertaintity = 1d/ Math.sqrt((weight + mweight));
+        return new ImmutableUncertainNumber(value, uncertaintity);
+    }
+
+    @Override
+    public ImmutableUncertainNumber times(double multiplicand) {
+        return new ImmutableUncertainNumber(multiplicand * doubleValue(),
+            Math.abs(multiplicand) * getUncertainty());
+    }
+
+    @Override
+    public ImmutableUncertainNumber times(UncertainNumber<?> multiplicand) {
+        double u = getUncertainty() / doubleValue();
+        double mu = multiplicand.getUncertainty() / multiplicand.doubleValue();
+        double newValue = doubleValue() * multiplicand.doubleValue();
+        return new ImmutableUncertainNumber(
+            newValue,
+            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
+        );
+    }
+
+    @Override
+    public ImmutableUncertainNumber plus(double summand) {
+        return new ImmutableUncertainNumber(summand + doubleValue(), getUncertainty());
+
+    }
+
+    @Override
+    public ImmutableUncertainNumber pow(int exponent) {
+        return new ImmutableUncertainNumber(Math.pow(doubleValue(), exponent),
+            Math.abs(exponent) * Math.pow(doubleValue(), exponent -1) * getUncertainty());
+    }
+
+    @Override
+    public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
+        double u = getUncertainty();
+        double mu = summand.getUncertainty();
+        return new ImmutableUncertainNumber(
+            doubleValue() + summand.doubleValue(),
+            Math.sqrt(u * u + mu * mu));
+
+    }
+}

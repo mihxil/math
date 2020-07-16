@@ -1,4 +1,4 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
 
@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.StatisticalLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

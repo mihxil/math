@@ -1,4 +1,4 @@
-package org.meeuw.math.windowed;
+package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
 
@@ -7,6 +7,7 @@ import java.util.LongSummaryStatistics;
 
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.statistics.WindowedLongSummaryStatistics;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
