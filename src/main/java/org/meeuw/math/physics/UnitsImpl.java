@@ -30,10 +30,10 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
-    public Units times(Units units) {
+    public Units times(Units multiplier) {
         List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
         OUTER:
-        for (UnitExponent u : units) {
+        for (UnitExponent u : multiplier) {
             for (int i = 0 ; i < base.size(); i++) {
                 UnitExponent n = base.get(i);
                 if (n.unit.equals(u.unit)) {

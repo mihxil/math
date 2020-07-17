@@ -45,6 +45,6 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElem
     /**
      * Creates a new {@link UncertainNumber} representing a multiple of this one.
      */
-    T times(double multiplicand);
+    T times(double multiplier);
 
 }

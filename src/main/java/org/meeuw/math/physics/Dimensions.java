@@ -38,10 +38,10 @@ public class Dimensions implements GroupElement<Dimensions> {
 
 
     @Override
-    public Dimensions times(Dimensions units) {
+    public Dimensions times(Dimensions multiplier) {
         Dimensions copy = copy();
         for (int i = 0; i < exponents.length; i++) {
-            copy.exponents[i] += units.exponents[i];
+            copy.exponents[i] += multiplier.exponents[i];
         }
         return copy;
     }

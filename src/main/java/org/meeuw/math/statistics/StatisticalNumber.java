@@ -83,8 +83,8 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
 
     @Override
-    public T times(double multiplicand) {
-        return copy().multiply(multiplicand);
+    public T times(double multiplier) {
+        return copy().multiply(multiplier);
     }
     @Override
     public T dividedBy(double divisor) {
@@ -97,8 +97,8 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
     }
 
     @Override
-    public ImmutableUncertainNumber times(UncertainNumber<?> multiplicand) {
-        return immutableCopy().times(multiplicand);
+    public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
+        return immutableCopy().times(multiplier);
     }
 
     @Override

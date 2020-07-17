@@ -36,16 +36,16 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     }
 
     @Override
-    public ImmutableUncertainNumber times(double multiplicand) {
-        return new ImmutableUncertainNumber(multiplicand * doubleValue(),
-            Math.abs(multiplicand) * getUncertainty());
+    public ImmutableUncertainNumber times(double multiplier) {
+        return new ImmutableUncertainNumber(multiplier * doubleValue(),
+            Math.abs(multiplier) * getUncertainty());
     }
 
     @Override
-    public ImmutableUncertainNumber times(UncertainNumber<?> multiplicand) {
+    public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
         double u = getUncertainty() / doubleValue();
-        double mu = multiplicand.getUncertainty() / multiplicand.doubleValue();
-        double newValue = doubleValue() * multiplicand.doubleValue();
+        double mu = multiplier.getUncertainty() / multiplier.doubleValue();
+        double newValue = doubleValue() * multiplier.doubleValue();
         return new ImmutableUncertainNumber(
             newValue,
             Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))

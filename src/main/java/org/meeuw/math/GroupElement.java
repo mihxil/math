@@ -11,7 +11,7 @@ public interface GroupElement<F extends GroupElement<F>>  {
      * Multiplies
      */
 
-    F times(F multiplicand);
+    F times(F multiplier);
 
     F pow(int exponent);
 

@@ -69,19 +69,19 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
     @Override
-    public T times(double multiplicand) {
-        return copy(wrapped.times(multiplicand), units);
+    public T times(double multiplier) {
+        return copy(wrapped.times(multiplier), units);
     }
 
     @Override
-    public T times(UncertainNumber<?> multiplicand) {
+    public T times(UncertainNumber<?> multiplier) {
         Units newUnits;
-        if (multiplicand instanceof PhysicalNumber) {
-             newUnits = Units.forMultiplication(units, ((PhysicalNumber<?>) multiplicand).getUnits());
+        if (multiplier instanceof PhysicalNumber) {
+             newUnits = Units.forMultiplication(units, ((PhysicalNumber<?>) multiplier).getUnits());
         } else {
             newUnits = units;
         }
-        return copy(wrapped.times(multiplicand), newUnits);
+        return copy(wrapped.times(multiplier), newUnits);
     }
 
     @Override
