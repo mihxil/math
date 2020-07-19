@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.Group;
  * @author Michiel Meeuwissen
  * @since ...
  */
-public class UnitsGroup implements Group<Units> {
+public class UnitsGroup implements Group<Units, UnitsGroup> {
 
     private static final Units ONE = UnitsImpl.DIMENSIONLESS;
 

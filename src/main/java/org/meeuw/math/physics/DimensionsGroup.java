@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.Group;
  * @author Michiel Meeuwissen
  * @since ...
  */
-public class DimensionsGroup implements Group<Dimensions> {
+public class DimensionsGroup implements Group<Dimensions, DimensionsGroup> {
 
     private static final Dimensions ONE = new Dimensions();
 
