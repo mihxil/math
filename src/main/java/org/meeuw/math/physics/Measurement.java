@@ -19,6 +19,7 @@ public class Measurement extends PhysicalNumber<Measurement> {
     public Measurement(double value, double uncertainty, Units units) {
         this(new ImmutableUncertainNumber(value, uncertainty), units);
     }
+
     public Measurement(ImmutableUncertainNumber wrapped, Units units) {
         super(wrapped, units);
     }

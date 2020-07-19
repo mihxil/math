@@ -1,11 +1,11 @@
-package org.meeuw.math;
+package org.meeuw.math.text;
 
 /**
  * Split a double up in 2 numbers: a double approximately 1 (the 'coefficent'), and an integer
  * indicating the order of magnitude (the 'exponent').
  */
 
-public class SplitNumber {
+class SplitNumber {
     public double coefficient;
     public int   exponent;
 
@@ -17,11 +17,10 @@ public class SplitNumber {
 
     @Override
     public String toString() {
-        return coefficient + "\u00B710" + Utils.superscript(exponent);
-        //return coefficient + "E" + exponent;
+        return coefficient + UncertainNumberFormat.TIMES_10 + UncertainNumberFormat.superscript(exponent);
     }
 
-    public static SplitNumber split(double in) {
+    static SplitNumber split(double in) {
         boolean negative = in < 0;
         double coefficient = Math.abs(in);
         int exponent    = 0;

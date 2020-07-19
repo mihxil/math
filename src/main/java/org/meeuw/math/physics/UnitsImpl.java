@@ -2,8 +2,8 @@ package org.meeuw.math.physics;
 
 import java.util.*;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.statistics.AbstractUncertainNumber;
+import org.meeuw.math.text.UncertainNumberFormat;
 
 /**
  * Represents the units of a {@link AbstractUncertainNumber}.
@@ -79,7 +79,7 @@ public class UnitsImpl implements Units  {
         for (UnitExponent e :exponents) {
             if (e.exponent != 0) {
                 if (builder.length() > 0) {
-                    builder.append(Utils.TIMES);
+                    builder.append(UncertainNumberFormat.TIMES);
                 }
 
                 builder.append(e.toString());

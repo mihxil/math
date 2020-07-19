@@ -14,7 +14,6 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
@@ -29,6 +28,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     private long sum = 0;
     private long squareSum = 0;
+    @Getter
     private final Mode mode;
     @Getter
     private long min = Long.MAX_VALUE;
@@ -257,25 +257,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         }
     }
 
-    @Override
-    public String toString() {
-        switch(mode) {
-            case INSTANT: {
-                Instant mean = Instant.ofEpochMilli(longValue());
-                Duration stddev = Duration.ofMillis((long) getStandardDeviation());
-                ChronoUnit order = Utils.orderOfMagnitude(stddev);
-                stddev = Utils.round(stddev, order);
-                return Utils.valueAndError(Utils.format(mean, order), stddev.toString());
-            }
-            case DURATION: {
-                long rounded = Math.round(getMean());
-                Duration stddev = Duration.ofMillis((long) getStandardDeviation());
-                return Utils.valueAndError(Duration.ofMillis(rounded).toString(), stddev.toString());
-            }
-            default:
-            case LONG: return super.toString();
-        }
-    }
 
     @Override
     public void reset() {
