@@ -86,7 +86,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
 
     @Override
     public T dividedBy(UncertainNumber<?> divisor) {
-        return times(divisor.inverse());
+        return times(divisor.reciprocal());
     }
 
     @Override
@@ -108,7 +108,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
 
     @Override
     public T minus(UncertainNumber<?> subtrahend) {
-        return plus(subtrahend.negate());
+        return plus(subtrahend.negation());
     }
 
     @Override

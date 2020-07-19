@@ -28,7 +28,7 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElem
     }
 
     @Override
-    default T negate() {
+    default T negation() {
         return times(-1d);
     }
 

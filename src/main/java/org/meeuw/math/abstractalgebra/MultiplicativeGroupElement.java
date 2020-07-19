@@ -6,9 +6,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F, A>, A extends AlgebraicStructure<F>> {
-
-    A structure();
+public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F, A>, A extends AlgebraicStructure<F, A>> extends AlgebraicElement<F, A> {
 
     /**
      * Multiplies
@@ -18,11 +16,14 @@ public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement
 
     F pow(int exponent);
 
-    default F inverse() {
+    /**
+     * The multiplicative inverse
+     */
+    default F reciprocal() {
         return pow(-1);
     }
     default F dividedBy(F divisor) {
-        return times(divisor.inverse());
+        return times(divisor.reciprocal());
     }
 
 }

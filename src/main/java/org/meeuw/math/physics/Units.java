@@ -52,7 +52,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
     static Units forInversion(Units u) {
         Units newUnits = null;
         if (u != null) {
-            newUnits = u.inverse();
+            newUnits = u.reciprocal();
         }
         return newUnits;
     }

@@ -1,16 +1,23 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.util.*;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F, A>, A extends MultiplicativeGroup<F, A>> extends AlgebraicStructure<F> {
+public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F, A>, A extends MultiplicativeGroup<F, A>> extends AlgebraicStructure<F, A> {
 
+    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
+
+    /**
+     * The multiplicative group by definition has an element that is 'one'.
+     */
     F one();
 
     @Override
-    default boolean supports(Operator operator) {
-        return operator == Operator.MULTIPLICATION || operator == Operator.DIVISION;
+    default Set<Operator> supportedOperators() {
+        return operators;
     }
 
 }
