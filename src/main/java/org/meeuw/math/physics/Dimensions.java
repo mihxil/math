@@ -4,16 +4,15 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import org.meeuw.math.GroupElement;
+import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.text.UncertainNumberFormat;
 
 /**
 
  * @author Michiel Meeuwissen
  */
-public class Dimensions implements GroupElement<Dimensions> {
+public class Dimensions implements GroupElement<Dimensions, DimensionsGroup> {
 
-    private static final Dimensions ONE = new Dimensions();
 
     @Getter
     final int[] exponents = new int[Dimension.values().length];
@@ -36,6 +35,11 @@ public class Dimensions implements GroupElement<Dimensions> {
         return UncertainNumberFormat.toString(Dimension.values(), exponents);
     }
 
+
+    @Override
+    public DimensionsGroup structure() {
+        return DimensionsGroup.INSTANCE;
+    }
 
     @Override
     public Dimensions times(Dimensions multiplier) {

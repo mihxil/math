@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.abstractalgebra;
 
 /**
  * An element for the algebraic 'group' (where the operation is multiplication)
@@ -6,7 +6,10 @@ package org.meeuw.math;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface GroupElement<F extends GroupElement<F>>  {
+public interface GroupElement<F extends GroupElement<F, A>, A extends AlgebraicStructure<F>> {
+
+    A structure();
+
     /**
      * Multiplies
      */

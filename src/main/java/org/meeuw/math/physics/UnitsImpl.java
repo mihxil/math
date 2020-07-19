@@ -30,6 +30,12 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
+    public UnitsGroup structure() {
+        return UnitsGroup.INSTANCE;
+
+    }
+
+    @Override
     public Units times(Units multiplier) {
         List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
         OUTER:

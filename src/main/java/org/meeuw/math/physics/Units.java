@@ -1,12 +1,12 @@
 package org.meeuw.math.physics;
 
-import org.meeuw.math.GroupElement;
+import org.meeuw.math.abstractalgebra.GroupElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Units extends Iterable<UnitExponent>, GroupElement<Units> {
+public interface Units extends Iterable<UnitExponent>, GroupElement<Units, UnitsGroup> {
 
     Units DIMENSIONLESS = UnitsImpl.of();
 

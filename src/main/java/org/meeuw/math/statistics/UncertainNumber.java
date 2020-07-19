@@ -1,6 +1,6 @@
 package org.meeuw.math.statistics;
 
-import org.meeuw.math.FieldElement;
+import org.meeuw.math.abstractalgebra.FieldElement;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -10,7 +10,12 @@ import org.meeuw.math.FieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElement<UncertainNumber<?>>, Comparable<Number> {
+public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElement<UncertainNumber<?>, UncertainNumbers>, Comparable<Number> {
+
+    @Override
+    default UncertainNumbers structure() {
+        return UncertainNumbers.INSTANCE;
+    }
 
     double EXACT = -1d;
 

@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.abstractalgebra;
 
 /**
  * An element of an algebraic Field. Next to multiplication, also addition is defined.
@@ -6,7 +6,7 @@ package org.meeuw.math;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface FieldElement<F extends FieldElement<F>> extends GroupElement<F> {
+public interface FieldElement<F extends FieldElement<F, A>, A extends AlgebraicStructure<F>> extends GroupElement<F, A> {
 
     F plus(F summand);
 
