@@ -5,4 +5,6 @@ package org.meeuw.math.abstractalgebra;
  * @since ...
  */
 public interface AlgebraicStructure<F> {
+
+    boolean supports(Operator operator);
 }

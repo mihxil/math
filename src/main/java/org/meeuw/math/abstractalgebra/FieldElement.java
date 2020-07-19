@@ -6,13 +6,9 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface FieldElement<F extends FieldElement<F, A>, A extends AlgebraicStructure<F>> extends GroupElement<F, A> {
+public interface FieldElement<F extends FieldElement<F, A>, A extends AlgebraicStructure<F>> extends
+    MultiplicativeGroupElement<F, A>,
+    AdditionGroupElement<F, A> {
 
-    F plus(F summand);
-
-    default F minus(F subtrahend) {
-        return plus(subtrahend.negate());
-    }
-    F negate();
 
 }

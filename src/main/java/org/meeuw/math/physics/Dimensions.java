@@ -4,14 +4,14 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import org.meeuw.math.abstractalgebra.GroupElement;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.text.UncertainNumberFormat;
 
 /**
 
  * @author Michiel Meeuwissen
  */
-public class Dimensions implements GroupElement<Dimensions, DimensionsGroup> {
+public class Dimensions implements MultiplicativeGroupElement<Dimensions, DimensionsGroup> {
 
 
     @Getter

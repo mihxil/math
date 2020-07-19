@@ -50,4 +50,11 @@ class MeasurementTest {
         assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 
+    @Test
+    public void structure() {
+        Measurement a = new Measurement(6.0, 0.4, SI.SPEED);
+        assertThat(a.plus(a.structure().zero())).isEqualTo(a);
+        assertThat(a.times(a.structure().one())).isEqualTo(a);
+    }
+
 }

@@ -6,7 +6,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface GroupElement<F extends GroupElement<F, A>, A extends AlgebraicStructure<F>> {
+public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F, A>, A extends AlgebraicStructure<F>> {
 
     A structure();
 
