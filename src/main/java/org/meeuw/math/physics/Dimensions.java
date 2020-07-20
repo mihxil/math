@@ -42,6 +42,12 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions, Dimens
     }
 
     @Override
+    public Dimensions self() {
+        return this;
+
+    }
+
+    @Override
     public Dimensions times(Dimensions multiplier) {
         Dimensions copy = copy();
         for (int i = 0; i < exponents.length; i++) {

@@ -81,7 +81,9 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
 
         ImmutableUncertainNumber that = (ImmutableUncertainNumber) o;
 
-        if (Double.compare(that.value, value) != 0) return false;
+        if (Double.compare(that.value, value) != 0) {
+            return false;
+        }
         return Double.compare(that.uncertainty, uncertainty) == 0;
     }
 

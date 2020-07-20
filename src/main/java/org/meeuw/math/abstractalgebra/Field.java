@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import java.util.*;
 
 /**
+ * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
  * @author Michiel Meeuwissen
  * @since 0.4
  */

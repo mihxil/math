@@ -11,6 +11,8 @@ public class UncertainNumbers implements Field<UncertainNumber<?>, UncertainNumb
 
     public static UncertainNumbers INSTANCE = new UncertainNumbers();
 
+
+
     private UncertainNumbers() {
 
     }
@@ -19,7 +21,6 @@ public class UncertainNumbers implements Field<UncertainNumber<?>, UncertainNumb
     @Override
     public ImmutableUncertainNumber zero() {
         return new ImmutableUncertainNumber(0, 0);
-
     }
 
     @Override

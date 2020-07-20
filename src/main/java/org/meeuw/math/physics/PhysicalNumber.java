@@ -119,13 +119,20 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     protected abstract T copy(ImmutableUncertainNumber wrapped, Units units);
 
     @Override
+    public T self() {
+        return (T) this;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         PhysicalNumber<?> that = (PhysicalNumber<?>) o;
 
-        if (wrapped != null ? !wrapped.equals(that.wrapped) : that.wrapped != null) return false;
+        if (wrapped != null ? !wrapped.equals(that.wrapped) : that.wrapped != null) {
+            return false;
+        }
         return units != null ? units.equals(that.units) : that.units == null;
     }
 

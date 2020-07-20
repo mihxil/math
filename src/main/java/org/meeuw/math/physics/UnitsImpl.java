@@ -36,6 +36,12 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
+    public Units self() {
+        return this;
+
+    }
+
+    @Override
     public Units times(Units multiplier) {
         List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
         OUTER:

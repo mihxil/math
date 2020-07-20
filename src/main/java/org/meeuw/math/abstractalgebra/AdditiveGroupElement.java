@@ -6,17 +6,39 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupElement<F extends AdditiveGroupElement<F, A>, A extends AlgebraicStructure<F, A>> extends AlgebraicElement<F, A> {
+public interface AdditiveGroupElement<F extends AdditiveGroupElement<F, A>, A extends AdditiveGroup<F, A>> extends AlgebraicElement<F, A> {
 
     F plus(F summand);
-
-    default F minus(F subtrahend) {
-        return plus(subtrahend.negation());
-    }
 
      /**
      * The additive inverse
      */
     F negation();
+
+    default F minus(F subtrahend) {
+        return plus(subtrahend.negation());
+    }
+
+    /**
+     * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicativeGroupElement)}
+     *
+     * It's actually also more or less similarar to {@link MultiplicativeGroupElement#pow(int)}
+     */
+    default F repeatedPlus(int multiplier) {
+
+        if (multiplier == 0) {
+            return structure().zero();
+        }
+        int m = Math.abs(multiplier);
+        F result = self();
+        while (--m > 0) {
+            result = result.plus(self());
+        }
+        if (multiplier < 0) {
+            return result.negation();
+        } else {
+            return result;
+        }
+    }
 
 }

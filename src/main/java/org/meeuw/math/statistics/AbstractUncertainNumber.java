@@ -54,5 +54,9 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
+    @Override
+    public T self() {
+        return (T) this;
+    }
 
 }

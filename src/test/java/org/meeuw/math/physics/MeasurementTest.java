@@ -55,6 +55,13 @@ class MeasurementTest {
         Measurement a = new Measurement(6.0, 0.4, SI.SPEED);
         assertThat(a.plus(a.structure().zero())).isEqualTo(a);
         assertThat(a.times(a.structure().one())).isEqualTo(a);
+
+        assertThat(a.times(2d)).isEqualTo(new Measurement(12.0, 0.8, SI.SPEED));
+
+        // FAILS
+        // And btw, repetive addition should handle uncertaintities more like times(double)
+//        assertThat(a.repeatedPlus(2)).isEqualTo(new Measurement(12.0, 0.6, SI.SPEED));
+
     }
 
 }
