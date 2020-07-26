@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.meeuw</groupId>
+    <artifactId>mihxil-math-parent</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>mihxil-math</artifactId>
+  <name>Mihxil's Math</name>
+  <packaging>jar</packaging>
+  <description>The base dependency of the modules in the project. It provides the scaffolding for:
+    - abstract algebra's to ensure a common interface for basic operations
+    - an 'uncertain number' interface plus a SPI for formatting those
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
+
+
+
+
+</project>

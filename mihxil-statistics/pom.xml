@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.meeuw</groupId>
+    <artifactId>mihxil-math-parent</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>mihxil-statistics</artifactId>
+  <name>Mihxil's Statistics</name>
+  <packaging>jar</packaging>
+  <description>Straight forward code to calculate average and standard deviations of a number of incoming values.
+
+  Also provides utility to do this in a 'sliding window' in time.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.meeuw</groupId>
+      <artifactId>mihxil-math</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+  </dependencies>
+
+
+</project>

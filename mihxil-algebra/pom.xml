@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.meeuw</groupId>
+    <artifactId>mihxil-math-parent</artifactId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <artifactId>mihxil-algebra</artifactId>
+  <name>Mihxil's Algebra</name>
+  <packaging>jar</packaging>
+
+  <description>
+    Some more implementation of abstract algebra's.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>org.meeuw</groupId>
+      <artifactId>mihxil-math</artifactId>
+    </dependency>
+  </dependencies>
+
+
+</project>
