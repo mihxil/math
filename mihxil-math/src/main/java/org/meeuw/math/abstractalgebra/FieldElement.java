@@ -9,6 +9,4 @@ package org.meeuw.math.abstractalgebra;
 public interface FieldElement<F extends FieldElement<F, A>, A extends Field<F, A>> extends
     MultiplicativeGroupElement<F, A>,
     AdditiveGroupElement<F, A> {
-
-
 }

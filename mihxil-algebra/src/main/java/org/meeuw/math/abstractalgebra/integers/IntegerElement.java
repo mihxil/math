@@ -9,6 +9,10 @@ import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
 public class IntegerElement implements AdditiveGroupElement<IntegerElement, IntegersGroup> {
     private final int value;
 
+    public static IntegerElement of(int value){
+        return new IntegerElement(value);
+    }
+
     public IntegerElement(int value) {
         this.value = value;
     }

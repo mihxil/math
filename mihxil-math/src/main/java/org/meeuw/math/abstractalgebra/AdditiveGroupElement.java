@@ -22,10 +22,9 @@ public interface AdditiveGroupElement<F extends AdditiveGroupElement<F, A>, A ex
     /**
      * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicativeGroupElement)}
      *
-     * It's actually also more or less similarar to {@link MultiplicativeGroupElement#pow(int)}
+     * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
      */
     default F repeatedPlus(int multiplier) {
-
         if (multiplier == 0) {
             return structure().zero();
         }

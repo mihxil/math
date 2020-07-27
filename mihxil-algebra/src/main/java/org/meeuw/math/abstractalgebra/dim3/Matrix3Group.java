@@ -4,11 +4,11 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public class Matrix3Group implements MultiplicativeGroup<Matrix3, Matrix3Group> {
 
-    public static Matrix3Group INSTANCE = new Matrix3Group();
+    public static final Matrix3Group INSTANCE = new Matrix3Group();
 
     private Matrix3Group() {
 

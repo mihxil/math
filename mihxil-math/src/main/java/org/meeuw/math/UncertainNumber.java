@@ -1,6 +1,6 @@
 package org.meeuw.math;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -10,7 +10,7 @@ import org.meeuw.math.abstractalgebra.FieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElement<UncertainNumber<?>, UncertainNumbers>, Comparable<Number> {
+public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberFieldElement<UncertainNumber<?>, UncertainNumbers>, Comparable<Number> {
 
     @Override
     default UncertainNumbers structure() {
@@ -50,6 +50,7 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends FieldElem
     /**
      * Creates a new {@link UncertainNumber} representing a multiple of this one.
      */
+    @Override
     T times(double multiplier);
 
 }

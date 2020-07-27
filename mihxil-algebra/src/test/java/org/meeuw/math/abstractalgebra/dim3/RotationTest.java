@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
 
 /**
  * @author Michiel Meeuwissen
@@ -11,13 +12,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RotationTest {
 
     @Test
-    public void rotx() {
-        Rotation z = Rotation.Rz(Math.PI / 2);
+    public void roty() {
+        Rotation y = Rotation.Ry(Math.PI);
+        Vector3 v = of(1, 0, 0);
+        Vector3 rotated = y.rotate(v);
+        assertThat(rotated).isEqualTo(of(-1, 0, 0));
+    }
 
-        Vector3 v = new Vector3(0, 1, 0);
-
+     @Test
+    public void rotz() {
+        Rotation z = Rotation.Rz(Math.PI);
+        Vector3 v = of(0, 1, 0);
         Vector3 rotated = z.rotate(v);
-        assertThat(rotated).isEqualTo(new Vector3(0, -1, 0));
+        assertThat(rotated).isEqualTo(of(0, -1, 0));
     }
 
 

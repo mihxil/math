@@ -1,6 +1,8 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.doubles.DoubleElement;
+import org.meeuw.math.abstractalgebra.doubles.DoubleField;
 
 /**
  * @author Michiel Meeuwissen
@@ -8,13 +10,20 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  */
 public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGroup> {
 
-    final Matrix3 rot;
+    final FieldMatrix3<DoubleElement, DoubleField> rot;
+
     private Rotation() {
-        rot = new Matrix3();
+        rot = new FieldMatrix3<>(DoubleField.INSTANCE);
     }
 
     public Rotation(double[][] values) {
-        rot = new Matrix3(values);
+        rot = FieldMatrix3.of(
+            new DoubleElement[][] {
+                {new DoubleElement(values[0][0]), new DoubleElement(values[0][1]), new DoubleElement(values[0][2])},
+                {new DoubleElement(values[1][0]), new DoubleElement(values[1][1]), new DoubleElement(values[1][2])},
+                {new DoubleElement(values[2][0]), new DoubleElement(values[2][1]), new DoubleElement(values[2][2])}
+            }
+        );
     }
 
     public static Rotation Rx(double phi) {
@@ -26,6 +35,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
             {0, sin, cos},
         });
     }
+
     public static Rotation Ry(double phi) {
         double cos = Math.cos(phi);
         double sin = Math.sin(phi);
@@ -41,7 +51,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
         double sin = Math.sin(phi);
         return new Rotation(new double[][]{
             {cos, -1 * sin, 0},
-            {sin, -1 * cos, 0},
+            {sin, cos, 0},
             {0, 0, 1}
         });
     }
@@ -54,16 +64,16 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
     @Override
     public Rotation self() {
         return this;
-
     }
 
     @Override
     public Rotation times(Rotation multiplier) {
-        return new Rotation(multiplier.rot.times(multiplier.rot).values);
+        return new Rotation(
+            multiplier.rot.times(multiplier.rot).values
+        );
     }
 
-
-    public Vector3 rotate(Vector3 in) {
+    public FieldVector3<DoubleElement, DoubleField> rotate(FieldVector3<DoubleElement, DoubleField> in) {
         return in.times(rot);
     }
 
@@ -75,5 +85,10 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
         }
         return result;
 
+    }
+
+    @Override
+    public String toString() {
+        return rot.toString();
     }
 }

@@ -1,13 +1,13 @@
 package org.meeuw.math;
 
 
-import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.NumberField;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumbers implements Field<UncertainNumber<?>, UncertainNumbers> {
+public class UncertainNumbers implements NumberField<UncertainNumber<?>, UncertainNumbers> {
 
     public static UncertainNumbers INSTANCE = new UncertainNumbers();
 

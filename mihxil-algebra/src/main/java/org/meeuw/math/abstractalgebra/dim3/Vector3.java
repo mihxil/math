@@ -3,11 +3,15 @@ package org.meeuw.math.abstractalgebra.dim3;
 /**
  * @author Michiel Meeuwissen
  */
-public class Vector3 {
+public class Vector3  {
 
     final double x;
     final double y;
     final double z;
+
+    public static Vector3 of(double x, double y, double z) {
+        return new Vector3(x, y, z);
+    }
 
     public Vector3(double x, double y, double z) {
         this.x = x;
@@ -15,12 +19,16 @@ public class Vector3 {
         this.z = z;
     }
 
-    Vector3 times(Matrix3 matrix3) {
-        return new Vector3(
-            matrix3.values[0][0] * x +  matrix3.values[0][1] * y + matrix3.values[0][2],
-            matrix3.values[1][0] * x +  matrix3.values[1][1] * y + matrix3.values[1][2],
-            matrix3.values[2][0] * x +  matrix3.values[2][1] * y + matrix3.values[2][2]
+    public Vector3 times(Matrix3 matrix3) {
+        return of(
+            matrix3.values[0][0] * x +  matrix3.values[0][1] * y + matrix3.values[0][2] * z,
+            matrix3.values[1][0] * x +  matrix3.values[1][1] * y + matrix3.values[1][2] * z,
+            matrix3.values[2][0] * x +  matrix3.values[2][1] * y + matrix3.values[2][2] * z
         );
+    }
+
+    public Vector3 times(double multiplier) {
+        return of(x * multiplier, y * multiplier, z * multiplier);
     }
 
     @Override
@@ -47,6 +55,7 @@ public class Vector3 {
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
+
 
     @Override
     public String toString() {
