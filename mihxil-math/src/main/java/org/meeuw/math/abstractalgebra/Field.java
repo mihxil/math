@@ -7,9 +7,9 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Field<F extends FieldElement<F, A>, A extends Field<F, A>> extends
-    MultiplicativeGroup<F, A>,
-    AdditiveGroup<F, A> {
+public interface Field<F extends FieldElement<F>> extends
+    MultiplicativeGroup<F>,
+    AdditiveGroup<F> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));
 

@@ -8,12 +8,12 @@ import org.meeuw.math.abstractalgebra.doubles.DoubleField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGroup> {
+public class Rotation implements MultiplicativeGroupElement<Rotation> {
 
-    final FieldMatrix3<DoubleElement, DoubleField> rot;
+    final FieldMatrix3<DoubleElement> rot;
 
     private Rotation() {
-        rot = new FieldMatrix3<>(DoubleField.INSTANCE);
+        rot = new FieldMatrix3<DoubleElement>(DoubleField.INSTANCE);
     }
 
     public Rotation(double[][] values) {
@@ -77,7 +77,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
         );
     }
 
-    public FieldVector3<DoubleElement, DoubleField> rotate(FieldVector3<DoubleElement, DoubleField> in) {
+    public FieldVector3<DoubleElement> rotate(FieldVector3<DoubleElement> in) {
         return in.times(rot);
     }
 

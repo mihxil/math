@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.NumberField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class DoubleField implements NumberField<DoubleElement, DoubleField> {
+public class DoubleField implements NumberField<DoubleElement> {
 
     public static final DoubleField INSTANCE = new DoubleField();
 

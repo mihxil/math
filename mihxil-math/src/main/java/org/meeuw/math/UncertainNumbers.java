@@ -7,7 +7,7 @@ import org.meeuw.math.abstractalgebra.NumberField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumbers implements NumberField<UncertainNumber<?>, UncertainNumbers> {
+public class UncertainNumbers implements NumberField<UncertainNumber<?>> {
 
     public static final UncertainNumbers INSTANCE = new UncertainNumbers();
 

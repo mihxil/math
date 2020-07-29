@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElement<Units, UnitsGroup> {
+public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElement<Units> {
 
     Units DIMENSIONLESS = UnitsImpl.of();
 

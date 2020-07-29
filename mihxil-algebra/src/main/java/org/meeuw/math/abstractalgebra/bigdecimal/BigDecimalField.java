@@ -7,7 +7,7 @@ import org.meeuw.math.abstractalgebra.NumberField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalField implements NumberField<BigDecimalElement, BigDecimalField> {
+public class BigDecimalField implements NumberField<BigDecimalElement> {
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 

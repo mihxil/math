@@ -11,7 +11,7 @@ import org.meeuw.math.text.UncertainNumberFormat;
 
  * @author Michiel Meeuwissen
  */
-public class Dimensions implements MultiplicativeGroupElement<Dimensions, DimensionsGroup> {
+public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
 
 
     @Getter

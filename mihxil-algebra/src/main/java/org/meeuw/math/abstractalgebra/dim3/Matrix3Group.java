@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Matrix3Group implements MultiplicativeGroup<Matrix3, Matrix3Group> {
+public class Matrix3Group implements MultiplicativeGroup<Matrix3> {
 
     public static final Matrix3Group INSTANCE = new Matrix3Group();
 

@@ -11,7 +11,7 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @since 0.4
  */
 public interface UncertainNumber<T extends UncertainNumber<T>> extends
-    NumberFieldElement<UncertainNumber<?>, UncertainNumbers> {
+    NumberFieldElement<UncertainNumber<?>> {
 
     @Override
     default UncertainNumbers structure() {

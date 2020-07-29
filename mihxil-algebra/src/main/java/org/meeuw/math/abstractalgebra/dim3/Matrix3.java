@@ -13,7 +13,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  * @since 0.4
  */
 @EqualsAndHashCode
-public class Matrix3 implements MultiplicativeGroupElement<Matrix3, Matrix3Group> {
+public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
 
     final double[][] values;
 

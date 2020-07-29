@@ -7,7 +7,7 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroup<F extends AdditiveGroupElement<F, A>, A extends AdditiveGroup<F, A>> extends AlgebraicStructure<F, A> {
+public interface AdditiveGroup<F extends AdditiveGroupElement<F>>   extends AlgebraicStructure<F>  {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION)));
 

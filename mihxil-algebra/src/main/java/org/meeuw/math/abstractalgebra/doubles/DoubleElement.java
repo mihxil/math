@@ -8,7 +8,7 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class DoubleElement extends Number implements  NumberFieldElement<DoubleElement, DoubleField> {
+public class DoubleElement extends Number implements  NumberFieldElement<DoubleElement> {
 
     public static final DoubleElement ONE = new DoubleElement(1d);
     public static final DoubleElement ZERO = new DoubleElement(0d);

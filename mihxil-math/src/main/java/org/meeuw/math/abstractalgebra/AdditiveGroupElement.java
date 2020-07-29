@@ -6,7 +6,10 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupElement<F extends AdditiveGroupElement<F, A>, A extends AdditiveGroup<F, A>> extends AlgebraicElement<F, A> {
+public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends AlgebraicElement<F> {
+
+    @Override
+    AdditiveGroup<F> structure();
 
     F plus(F summand);
 

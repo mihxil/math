@@ -7,7 +7,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RotationGroup implements MultiplicativeGroup<Rotation, RotationGroup> {
+public class RotationGroup implements MultiplicativeGroup<Rotation> {
 
     public static final RotationGroup INSTANCE = new RotationGroup();
 

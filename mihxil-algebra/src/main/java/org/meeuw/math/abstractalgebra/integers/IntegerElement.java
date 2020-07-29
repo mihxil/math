@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement implements AdditiveGroupElement<IntegerElement, IntegersGroup> {
+public class IntegerElement implements AdditiveGroupElement<IntegerElement> {
     private final int value;
 
     public static IntegerElement of(int value){

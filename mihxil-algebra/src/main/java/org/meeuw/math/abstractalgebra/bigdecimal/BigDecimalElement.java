@@ -8,7 +8,7 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement implements NumberFieldElement<BigDecimalElement, BigDecimalField> {
+public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);

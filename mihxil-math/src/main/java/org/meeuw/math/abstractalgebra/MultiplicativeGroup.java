@@ -7,7 +7,7 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F, A>, A extends MultiplicativeGroup<F, A>> extends AlgebraicStructure<F, A> {
+public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F>> extends AlgebraicStructure<F> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
 

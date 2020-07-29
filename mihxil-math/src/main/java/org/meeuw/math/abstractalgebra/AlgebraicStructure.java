@@ -7,7 +7,7 @@ import java.util.Set;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AlgebraicStructure<F extends AlgebraicElement<F, A>, A extends AlgebraicStructure<F, A>> {
+public interface AlgebraicStructure<F extends AlgebraicElement<F>> {
 
     Set<Operator> supportedOperators();
 

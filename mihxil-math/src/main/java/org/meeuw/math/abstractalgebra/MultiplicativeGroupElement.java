@@ -6,7 +6,10 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F, A>, A extends MultiplicativeGroup<F, A>> extends AlgebraicElement<F, A> {
+public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F>> extends AlgebraicElement<F> {
+
+    @Override
+    MultiplicativeGroup<F> structure();
 
     /**
      * Multiplies

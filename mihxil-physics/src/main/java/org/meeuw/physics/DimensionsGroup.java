@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
  * @author Michiel Meeuwissen
  * @since ...
  */
-public class DimensionsGroup implements MultiplicativeGroup<Dimensions, DimensionsGroup> {
+public class DimensionsGroup implements MultiplicativeGroup<Dimensions> {
 
     private static final Dimensions ONE = new Dimensions();
 

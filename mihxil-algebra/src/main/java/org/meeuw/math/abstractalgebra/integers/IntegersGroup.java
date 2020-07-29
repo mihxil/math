@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.AdditiveGroup;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegersGroup implements AdditiveGroup<IntegerElement, IntegersGroup> {
+public class IntegersGroup implements AdditiveGroup<IntegerElement> {
 
     public static final IntegersGroup INSTANCE = new IntegersGroup();
 
