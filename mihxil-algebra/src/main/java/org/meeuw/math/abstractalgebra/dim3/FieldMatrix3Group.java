@@ -3,6 +3,8 @@ package org.meeuw.math.abstractalgebra.dim3;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
+ * A square 3x3 matrix of any {@link NumberFieldElement}s.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

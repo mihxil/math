@@ -48,6 +48,7 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public T self() {
         return (T) this;

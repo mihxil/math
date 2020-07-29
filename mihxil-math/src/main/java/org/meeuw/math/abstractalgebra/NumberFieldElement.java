@@ -1,12 +1,14 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * * A {@link FieldElement} that is is also a {@link Number} (which sadly is not an interface, so we don't implement it.
+ * * A {@link FieldElement} that is is also a {@link Number} (which sadly is not an interface, so we can't extend it here).
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberFieldElement<F extends NumberFieldElement<F, A>, A extends NumberField<F, A>>   extends FieldElement<F, A>, Comparable<Number> {
+public interface NumberFieldElement<F extends NumberFieldElement<F, A>, A extends NumberField<F, A>>   extends
+    FieldElement<F, A>,
+    Comparable<Number> {
 
     F times(double multiplier);
 

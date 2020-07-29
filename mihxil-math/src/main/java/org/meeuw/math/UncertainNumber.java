@@ -10,7 +10,8 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberFieldElement<UncertainNumber<?>, UncertainNumbers>, Comparable<Number> {
+public interface UncertainNumber<T extends UncertainNumber<T>> extends
+    NumberFieldElement<UncertainNumber<?>, UncertainNumbers> {
 
     @Override
     default UncertainNumbers structure() {
@@ -19,6 +20,7 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberFie
 
     double EXACT = -1d;
 
+    @Override
     double doubleValue();
 
     double getUncertainty();

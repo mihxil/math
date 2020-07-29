@@ -11,7 +11,6 @@ import javax.validation.constraints.Min;
  */
 public class Utils {
 
-
     /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */

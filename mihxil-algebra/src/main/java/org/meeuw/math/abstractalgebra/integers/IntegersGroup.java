@@ -9,12 +9,12 @@ import org.meeuw.math.abstractalgebra.AdditiveGroup;
 public class IntegersGroup implements AdditiveGroup<IntegerElement, IntegersGroup> {
 
     public static final IntegersGroup INSTANCE = new IntegersGroup();
-    private IntegersGroup() {
 
+    private IntegersGroup() {
     }
+
     @Override
     public IntegerElement zero() {
         return new IntegerElement(0);
-
     }
 }

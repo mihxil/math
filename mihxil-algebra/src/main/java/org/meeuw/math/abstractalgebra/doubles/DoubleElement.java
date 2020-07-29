@@ -13,15 +13,15 @@ public class DoubleElement extends Number implements  NumberFieldElement<DoubleE
     public static final DoubleElement ONE = new DoubleElement(1d);
     public static final DoubleElement ZERO = new DoubleElement(0d);
 
-    private final Double value;
+    public final Double value;
 
     public static DoubleElement of(Double value) {
         return new DoubleElement(value);
     }
 
     public static DoubleElement[] of(double... values) {
-        Arrays.stream(values)
-            .map(v -> DoubleElement.of(Double.valueOf(v))).toArray(i -> new DoubleElement[i]);
+        return Arrays.stream(values)
+            .mapToObj(v -> DoubleElement.of(Double.valueOf(v))).toArray(DoubleElement[]::new);
     }
 
     public DoubleElement(Double value) {
@@ -86,6 +86,25 @@ public class DoubleElement extends Number implements  NumberFieldElement<DoubleE
     @Override
     public int compareTo(Number o) {
         return value.compareTo(o.doubleValue());
+    }
 
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DoubleElement that = (DoubleElement) o;
+
+        return value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }

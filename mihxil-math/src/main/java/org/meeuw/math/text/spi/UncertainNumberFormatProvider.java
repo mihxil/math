@@ -7,10 +7,9 @@ import org.meeuw.math.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
- * @since -.4
+ * @since 0.4
  */
 public abstract class UncertainNumberFormatProvider {
-
 
     public abstract Format getInstance(int minimumExponent);
 

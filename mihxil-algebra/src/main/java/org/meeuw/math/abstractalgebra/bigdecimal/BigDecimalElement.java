@@ -2,13 +2,13 @@ package org.meeuw.math.abstractalgebra.bigdecimal;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement implements FieldElement<BigDecimalElement, BigDecimalField> {
+public class BigDecimalElement implements NumberFieldElement<BigDecimalElement, BigDecimalField> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
@@ -23,7 +23,6 @@ public class BigDecimalElement implements FieldElement<BigDecimalElement, BigDec
     public BigDecimalElement plus(BigDecimalElement summand) {
         return new BigDecimalElement(value.add(summand.value));
     }
-
 
     @Override
     public BigDecimalElement negation() {
@@ -43,12 +42,50 @@ public class BigDecimalElement implements FieldElement<BigDecimalElement, BigDec
     @Override
     public BigDecimalField structure() {
         return BigDecimalField.INSTANCE;
-
     }
 
     @Override
     public BigDecimalElement self() {
         return this;
+    }
+
+    @Override
+    public BigDecimalElement times(double multiplier) {
+        return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier));
+
+    }
+
+    @Override
+    public int intValue() {
+        return value.intValueExact();
+
+    }
+
+    @Override
+    public long longValue() {
+        return value.longValueExact();
+
+    }
+
+    @Override
+    public float floatValue() {
+        return value.floatValue();
+
+    }
+
+    @Override
+    public double doubleValue() {
+        return value.doubleValue();
+
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        if (o instanceof BigDecimal) {
+            return value.compareTo((BigDecimal) o);
+        } else {
+            return value.compareTo(BigDecimal.valueOf(o.doubleValue()));
+        }
 
     }
 }

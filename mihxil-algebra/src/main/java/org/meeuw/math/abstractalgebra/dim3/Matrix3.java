@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
+ * A square 3x3 matrix of {@code double}s
  * @author Michiel Meeuwissen
  * @since 0.4
  */

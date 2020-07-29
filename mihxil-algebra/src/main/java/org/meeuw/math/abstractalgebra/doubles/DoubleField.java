@@ -13,7 +13,6 @@ public class DoubleField implements NumberField<DoubleElement, DoubleField> {
     @Override
     public DoubleElement zero() {
         return DoubleElement.ZERO;
-
     }
 
     @Override

@@ -26,6 +26,10 @@ public class Rotation implements MultiplicativeGroupElement<Rotation, RotationGr
         );
     }
 
+    public Rotation(DoubleElement[][] values) {
+        rot = FieldMatrix3.of(values);
+    }
+
     public static Rotation Rx(double phi) {
         double cos = Math.cos(phi);
         double sin = Math.sin(phi);

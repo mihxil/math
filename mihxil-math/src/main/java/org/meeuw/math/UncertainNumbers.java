@@ -9,12 +9,10 @@ import org.meeuw.math.abstractalgebra.NumberField;
  */
 public class UncertainNumbers implements NumberField<UncertainNumber<?>, UncertainNumbers> {
 
-    public static UncertainNumbers INSTANCE = new UncertainNumbers();
+    public static final UncertainNumbers INSTANCE = new UncertainNumbers();
 
     private UncertainNumbers() {
-
     }
-
 
     @Override
     public ImmutableUncertainNumber zero() {
