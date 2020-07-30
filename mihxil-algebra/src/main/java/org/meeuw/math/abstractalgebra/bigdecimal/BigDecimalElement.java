@@ -30,6 +30,11 @@ public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> 
     }
 
     @Override
+    public int compareTo(BigDecimalElement compare) {
+        return value.compareTo(compare.value);
+    }
+
+    @Override
     public BigDecimalElement times(BigDecimalElement multiplier) {
         return new BigDecimalElement(value.multiply(multiplier.value));
     }
@@ -49,16 +54,13 @@ public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> 
         return this;
     }
 
-    @Override
     public BigDecimalElement times(double multiplier) {
         return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier));
-
     }
 
     @Override
     public int intValue() {
         return value.intValueExact();
-
     }
 
     @Override

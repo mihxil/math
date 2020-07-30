@@ -2,7 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public interface MultiplicableElement<F extends MultiplicableElement<F>> {
 

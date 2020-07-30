@@ -1,19 +1,20 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import org.meeuw.math.abstractalgebra.AlgebraicNumber;
 import org.meeuw.math.abstractalgebra.RngElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class EvenIntegerElement implements RngElement<EvenIntegerElement> {
-    private final int value;
+public class EvenIntegerElement extends AlgebraicNumber<EvenIntegerElement>  implements RngElement<EvenIntegerElement> {
+    private final long value;
 
-    public static EvenIntegerElement of(int value){
+    public static EvenIntegerElement of(long value){
         return new EvenIntegerElement(value);
     }
 
-    public EvenIntegerElement(int value) {
+    public EvenIntegerElement(long value) {
         if (value % 2 == 1) {
             throw new IllegalArgumentException();
         }
@@ -29,6 +30,11 @@ public class EvenIntegerElement implements RngElement<EvenIntegerElement> {
     @Override
     public EvenIntegerElement negation() {
         return new EvenIntegerElement(-1 * value);
+    }
+
+    @Override
+    public int compareTo(EvenIntegerElement compare) {
+        return Long.compare(value, compare.value);
     }
 
     @Override
@@ -58,11 +64,29 @@ public class EvenIntegerElement implements RngElement<EvenIntegerElement> {
 
     @Override
     public int hashCode() {
-        return value;
+        return Long.hashCode(value);
     }
 
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        return Long.compare(value, o.longValue());
+
+    }
+
+    @Override
+    public long longValue() {
+        return value;
+
+    }
+
+    @Override
+    public double doubleValue() {
+        return 0;
+
     }
 }

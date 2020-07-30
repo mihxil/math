@@ -43,8 +43,8 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
     public short shortValue() {
         return (short) longValue();
     }
-    @Override
-    public int compareTo(Number o) {
+
+    public int compareTo(T o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 

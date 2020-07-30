@@ -18,12 +18,24 @@ public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends
      */
     F negation();
 
+    default boolean isNegative() {
+        return compareTo(structure().zero()) < 0;
+    }
+    default boolean isPositive() {
+        return compareTo(structure().zero()) > 0;
+    }
+    default boolean isZero() {
+        return compareTo(structure().zero()) == 0;
+    }
+
+    int compareTo(F compare);
+
     default F minus(F subtrahend) {
         return plus(subtrahend.negation());
     }
 
     /**
-     * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicativeGroupElement)}
+     * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicableElement)}}
      *
      * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
      */
@@ -42,5 +54,6 @@ public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends
             return result;
         }
     }
+
 
 }

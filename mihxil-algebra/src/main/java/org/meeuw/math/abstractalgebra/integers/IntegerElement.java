@@ -1,19 +1,19 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.RingElement;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement implements RingElement<IntegerElement> {
-    private final int value;
+public class IntegerElement extends AlgebraicNumber<IntegerElement> implements RingElement<IntegerElement> {
+    private final long value;
 
-    public static IntegerElement of(int value){
+    public static IntegerElement of(long value){
         return new IntegerElement(value);
     }
 
-    public IntegerElement(int value) {
+    public IntegerElement(long value) {
         this.value = value;
     }
 
@@ -26,7 +26,6 @@ public class IntegerElement implements RingElement<IntegerElement> {
     @Override
     public IntegerElement negation() {
         return new IntegerElement(-1 * value);
-
     }
 
     @Override
@@ -57,11 +56,33 @@ public class IntegerElement implements RingElement<IntegerElement> {
 
     @Override
     public int hashCode() {
-        return value;
+        return (int) value;
     }
 
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+
+    @Override
+    public int compareTo(IntegerElement o) {
+        return Long.compare(value, o.value);
+    }
+
+    @Override
+    public long longValue() {
+        return value;
+    }
+
+    @Override
+    public double doubleValue() {
+        return value;
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        return Long.compare(value, o.longValue());
+
     }
 }

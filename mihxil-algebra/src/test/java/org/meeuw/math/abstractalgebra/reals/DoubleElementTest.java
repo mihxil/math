@@ -1,10 +1,9 @@
-package org.meeuw.math.abstractalgebra.doubles;
+package org.meeuw.math.abstractalgebra.reals;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.meeuw.math.abstractalgebra.doubles.DoubleElement.of;
+import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
 
 /**
  * @author Michiel Meeuwissen

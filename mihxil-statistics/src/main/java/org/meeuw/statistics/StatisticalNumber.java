@@ -93,12 +93,10 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return copy().divide(divisor);
     }
 
-    @Override
     public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
         return immutableCopy().plus(summand);
     }
 
-    @Override
     public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
         return immutableCopy().times(multiplier);
     }

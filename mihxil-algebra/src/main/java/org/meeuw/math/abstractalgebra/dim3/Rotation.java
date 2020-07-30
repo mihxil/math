@@ -1,8 +1,8 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.abstractalgebra.doubles.DoubleElement;
-import org.meeuw.math.abstractalgebra.doubles.DoubleField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
  * @author Michiel Meeuwissen
@@ -10,21 +10,21 @@ import org.meeuw.math.abstractalgebra.doubles.DoubleField;
  */
 public class Rotation implements MultiplicativeGroupElement<Rotation> {
 
-    final FieldMatrix3<DoubleElement> rot;
+    final FieldMatrix3<RealNumber> rot;
 
     private Rotation() {
-        rot = new FieldMatrix3<DoubleElement>(DoubleField.INSTANCE);
+        rot = new FieldMatrix3<RealNumber>(RealField.INSTANCE);
     }
 
     public Rotation(double[][] values) {
         rot = FieldMatrix3.of(
-            new DoubleElement(values[0][0]), new DoubleElement(values[0][1]), new DoubleElement(values[0][2]),
-            new DoubleElement(values[1][0]), new DoubleElement(values[1][1]), new DoubleElement(values[1][2]),
-            new DoubleElement(values[2][0]), new DoubleElement(values[2][1]), new DoubleElement(values[2][2])
+            new RealNumber(values[0][0]), new RealNumber(values[0][1]), new RealNumber(values[0][2]),
+            new RealNumber(values[1][0]), new RealNumber(values[1][1]), new RealNumber(values[1][2]),
+            new RealNumber(values[2][0]), new RealNumber(values[2][1]), new RealNumber(values[2][2])
         );
     }
 
-    public Rotation(DoubleElement[][] values) {
+    public Rotation(RealNumber[][] values) {
         rot = FieldMatrix3.of(
             values[0][0], values[0][1], values[0][2],
             values[1][0], values[1][1], values[1][2],
@@ -79,7 +79,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
         );
     }
 
-    public FieldVector3<DoubleElement> rotate(FieldVector3<DoubleElement> in) {
+    public FieldVector3<RealNumber> rotate(FieldVector3<RealNumber> in) {
         return in.times(rot);
     }
 

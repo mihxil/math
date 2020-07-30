@@ -8,6 +8,9 @@ import lombok.Getter;
  */
 public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableUncertainNumber> {
 
+    public static final ImmutableUncertainNumber ZERO = new ImmutableUncertainNumber(0, 0);
+    public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, 0);
+
     private final double value;
     @Getter
     private final double uncertainty;
@@ -15,6 +18,11 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     public ImmutableUncertainNumber(double value, double uncertainty) {
         this.value = value;
         this.uncertainty = uncertainty;
+    }
+
+    @Override
+    public UncertainNumbers<ImmutableUncertainNumber> structure() {
+        return new UncertainNumbers<>(ONE, ZERO);
     }
 
     @Override
@@ -41,7 +49,6 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
             Math.abs(multiplier) * getUncertainty());
     }
 
-    @Override
     public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
         double u = getUncertainty() / doubleValue();
         double mu = multiplier.getUncertainty() / multiplier.doubleValue();
@@ -64,7 +71,6 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
             Math.abs(exponent) * Math.pow(doubleValue(), exponent -1) * getUncertainty());
     }
 
-    @Override
     public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
         double u = getUncertainty();
         double mu = summand.getUncertainty();
@@ -96,5 +102,28 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
         temp = Double.doubleToLongBits(uncertainty);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    public int compareTo(UncertainNumber<?> o) {
+        return Double.compare(doubleValue(), o.doubleValue());
+
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        return Double.compare(doubleValue(), o.doubleValue());
+
+    }
+
+    @Override
+    public ImmutableUncertainNumber plus(ImmutableUncertainNumber summand) {
+        return plus((UncertainNumber<?>) summand);
+
+    }
+
+    @Override
+    public ImmutableUncertainNumber times(ImmutableUncertainNumber multiplier) {
+        return times((UncertainNumber<?>) multiplier);
+
     }
 }

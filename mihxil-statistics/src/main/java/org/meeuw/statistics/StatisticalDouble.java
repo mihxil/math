@@ -15,6 +15,7 @@ import lombok.Getter;
 import java.util.function.DoubleConsumer;
 
 import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.UncertainNumbers;
 
 /**
  * Represents a set of measured values. The value represents the average value.
@@ -98,6 +99,20 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
+    public UncertainNumbers<StatisticalDouble> structure() {
+        return new UncertainNumbers<>(
+            new StatisticalDouble(0, 0, 1),
+            new StatisticalDouble(1, 1, 1)
+        );
+
+    }
+
+    @Override
+    public StatisticalDouble plus(StatisticalDouble summand) {
+        return null;
+    }
+
+    @Override
     public double doubleValue() {
         return getMean();
     }
@@ -132,7 +147,17 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
 
+    @Override
+    public int compareTo(Number o) {
+        return 0;
 
+    }
+
+    @Override
+    public StatisticalDouble times(StatisticalDouble multiplier) {
+        return null;
+
+    }
 }
 
 

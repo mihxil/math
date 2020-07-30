@@ -18,6 +18,11 @@
       <groupId>org.meeuw</groupId>
       <artifactId>mihxil-math</artifactId>
     </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
 

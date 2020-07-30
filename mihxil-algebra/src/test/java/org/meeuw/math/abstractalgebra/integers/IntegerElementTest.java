@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.Collectors;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
 
@@ -23,8 +25,11 @@ class IntegerElementTest {
 
         assertThat(two.plus(two.structure().zero())).isEqualTo(two);
 
+    }
 
-
-
+    @Test
+    void stream() {
+        assertThat(Integers.INSTANCE.stream().limit(11).map(IntegerElement::longValue)
+            .collect(Collectors.toList())).containsExactly(0L, 1L, -1L, 2L, -2L, 3L, -3L, 4L, -4L, 5L, -5L);
     }
 }

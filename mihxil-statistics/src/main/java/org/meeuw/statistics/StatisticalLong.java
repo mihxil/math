@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
+import org.meeuw.math.UncertainNumbers;
 import org.meeuw.math.Utils;
 
 /**
@@ -136,11 +137,37 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         enter(value);
     }
 
+    @Override
+    public int compareTo(Number o) {
+        return Double.compare(doubleValue(), o.doubleValue());
+    }
+
+    @Override
+    public StatisticalLong times(StatisticalLong multiplier) {
+        return null;
+
+    }
+
     protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
         return Math.round(in) / orderOfMagnitude * orderOfMagnitude;
     }
 
+
+    @Override
+    public UncertainNumbers<StatisticalLong> structure() {
+        return new UncertainNumbers<>(
+            new StatisticalLong(mode, 0, 0, 0, 0),
+            new StatisticalLong(mode, 0, 0, 0, 1)
+        );
+
+    }
+
+    @Override
+    public StatisticalLong plus(StatisticalLong summand) {
+        return null;
+
+    }
 
     @Override
     public double doubleValue() {

@@ -2,8 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.ImmutableUncertainNumber;
-import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -26,6 +25,18 @@ public class PhysicalConstant extends PhysicalNumber<PhysicalConstant> {
     public PhysicalConstant(ImmutableUncertainNumber wrapped, Units units, String name) {
         super(wrapped, units);
         this.name = name;
+    }
+
+    @Override
+    public UncertainNumbers<PhysicalConstant> structure() {
+        return new UncertainNumbers<>(new PhysicalConstant(0, units, "zero"), new PhysicalConstant(1, units, "one"));
+
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        return 0;
+
     }
 
     @Override

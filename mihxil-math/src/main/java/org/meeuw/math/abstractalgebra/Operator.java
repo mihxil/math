@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra;
 /**
  * Basic operations of arithmetic
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public enum Operator {
     ADDITION,

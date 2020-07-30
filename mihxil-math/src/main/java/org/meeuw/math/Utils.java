@@ -1,10 +1,12 @@
 package org.meeuw.math;
 
-import java.time.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-
-import javax.validation.constraints.Min;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,10 +33,18 @@ public class Utils {
      /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */
-    public static long positivePow10(@Min(0) int i) {
+     public static long positivePow10(@Min(0) int i) {
+         return positivePow(10, i);
+
+     }
+
+     /**
+     * Returns base to the power i, a utility in java.lang.Math for that lacks.
+     */
+     public static long positivePow(@NotNull long base, @Min(0) int i) {
         long result = 1;
         while (i > 0) {
-            result *= 10;
+            result *= base;
             i--;
         }
         if (i < 0) {
@@ -42,6 +52,7 @@ public class Utils {
         }
         return result;
     }
+
 
      /**
      * A crude order of magnitude implemention

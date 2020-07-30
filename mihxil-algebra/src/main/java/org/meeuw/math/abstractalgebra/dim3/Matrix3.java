@@ -1,11 +1,10 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import lombok.EqualsAndHashCode;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
  * A square 3x3 matrix of {@code double}s
@@ -30,7 +29,11 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     }
 
     private static Matrix3 of(double[] value) {
-        return of(value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8]);
+        return of(
+                value[0], value[1], value[2],
+                value[3], value[4], value[5],
+                value[6], value[7], value[8]
+        );
     }
 
     Matrix3(double[][] values) {
@@ -85,7 +88,7 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
                 for (int k = 0; k < 3; k++) {
                     v += values[i][k] * matrix3[k][j];
                 }
-                result[i + j * 3] = v;
+                result[i * 3 + j] = v;
             }
         }
         return result;

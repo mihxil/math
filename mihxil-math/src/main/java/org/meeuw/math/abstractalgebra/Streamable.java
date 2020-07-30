@@ -1,11 +1,12 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.util.stream.Stream;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberField<F extends NumberFieldElement<F>> extends
-    Field<F>  {
+public interface Streamable<T> {
 
-
+    Stream<T> stream();
 }

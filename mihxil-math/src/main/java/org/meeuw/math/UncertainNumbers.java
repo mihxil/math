@@ -7,20 +7,23 @@ import org.meeuw.math.abstractalgebra.NumberField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumbers implements NumberField<UncertainNumber<?>> {
+public class UncertainNumbers<T extends UncertainNumber<T>> implements NumberField<T> {
 
-    public static final UncertainNumbers INSTANCE = new UncertainNumbers();
+    T zero;
+    T one;
 
-    private UncertainNumbers() {
+    public UncertainNumbers(T zero, T one) {
+        this.zero = zero;
+        this.one = one;
     }
 
     @Override
-    public ImmutableUncertainNumber zero() {
-        return new ImmutableUncertainNumber(0, 0);
+    public T zero() {
+        return zero;
     }
 
     @Override
-    public ImmutableUncertainNumber one() {
-        return new ImmutableUncertainNumber(1d, 0);
+    public T one() {
+        return one;
     }
 }

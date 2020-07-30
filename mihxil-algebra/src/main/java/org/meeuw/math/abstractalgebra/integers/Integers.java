@@ -1,26 +1,36 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import org.meeuw.math.abstractalgebra.Ring;
+import org.meeuw.math.abstractalgebra.Streamable;
+
+import java.util.stream.Stream;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Integers implements Ring<IntegerElement> {
+public class Integers implements Ring<IntegerElement>, Streamable<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
+    public static final IntegerElement ZERO = IntegerElement.of(0);
+    public static final IntegerElement ONE = IntegerElement.of(1);
 
     private Integers() {
     }
 
     @Override
     public IntegerElement zero() {
-        return new IntegerElement(0);
+        return ZERO;
     }
 
     @Override
     public IntegerElement one() {
-        return new IntegerElement(1);
+        return ONE;
 
+    }
+
+    @Override
+    public Stream<IntegerElement> stream() {
+        return Stream.iterate(zero(), i -> i.isPositive() ? i.negation() : i.negation().plus(one()));
     }
 }

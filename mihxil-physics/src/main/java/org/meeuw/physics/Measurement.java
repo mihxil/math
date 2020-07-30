@@ -1,6 +1,7 @@
 package org.meeuw.physics;
 
 import org.meeuw.math.ImmutableUncertainNumber;
+import org.meeuw.math.UncertainNumbers;
 
 /**
  * A number with a uncertainty where the uncertainty is simply explicitely stated.
@@ -22,6 +23,17 @@ public class Measurement extends PhysicalNumber<Measurement> {
 
     public Measurement(ImmutableUncertainNumber wrapped, Units units) {
         super(wrapped, units);
+    }
+
+    @Override
+    public int compareTo(Number o) {
+        return Double.compare(doubleValue(), o.doubleValue());
+
+    }
+
+    @Override
+    public UncertainNumbers<Measurement> structure() {
+        return new UncertainNumbers<>(new Measurement(0, 0, units), new Measurement(1, 0, units));
     }
 
     @Override

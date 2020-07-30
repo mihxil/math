@@ -1,9 +1,9 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
-
-import org.meeuw.math.UncertainNumber;
 import org.meeuw.math.ImmutableUncertainNumber;
+import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.abstractalgebra.AlgebraicNumber;
 
 /**
  * An uncertain number but also with {@link Units}
@@ -11,7 +11,9 @@ import org.meeuw.math.ImmutableUncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number implements UncertainNumber<T> {
+public abstract class PhysicalNumber<T extends PhysicalNumber<T>>
+    extends AlgebraicNumber<T>
+    implements  UncertainNumber<T> {
 
     @Getter
     protected final ImmutableUncertainNumber wrapped;
@@ -58,8 +60,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
 
-    @Override
-    public int compareTo(Number o) {
+    public int compareTo(T o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
@@ -74,7 +75,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
     @Override
-    public T times(UncertainNumber<?> multiplier) {
+    public T times(T multiplier) {
         Units newUnits;
         if (multiplier instanceof PhysicalNumber) {
              newUnits = Units.forMultiplication(units, ((PhysicalNumber<?>) multiplier).getUnits());
@@ -85,7 +86,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
     @Override
-    public T dividedBy(UncertainNumber<?> divisor) {
+    public T dividedBy(T  divisor) {
         return times(divisor.reciprocal());
     }
 
@@ -96,10 +97,10 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
     @Override
-    public T plus(UncertainNumber<?> summand) {
+    public T plus(T summand) {
         Units newUnits;
         if (summand instanceof PhysicalNumber) {
-             newUnits = Units.forAddition(units, ((PhysicalNumber<?>) summand).getUnits());
+             newUnits = Units.forAddition(units, summand.getUnits());
         } else {
             newUnits = units;
         }
@@ -107,7 +108,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>> extends Number
     }
 
     @Override
-    public T minus(UncertainNumber<?> subtrahend) {
+    public T minus(T subtrahend) {
         return plus(subtrahend.negation());
     }
 

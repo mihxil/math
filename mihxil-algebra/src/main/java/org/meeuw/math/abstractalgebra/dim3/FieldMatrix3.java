@@ -1,11 +1,13 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import lombok.EqualsAndHashCode;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.NumberField;
+import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,19 +29,24 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
 
     @SuppressWarnings("unchecked")
     public static <F extends NumberFieldElement<F>> FieldMatrix3<F> of(
-        F v11, F v12, F v13,
-        F v21, F v22, F v23,
-        F v31, F v32, F v33
+        F v00, F v01, F v02,
+        F v10, F v11, F v12,
+        F v20, F v21, F v22
         ) {
-        return new FieldMatrix3<F>((F[][]) new Object[][] {
-            {v11, v12, v13},
-            {v21, v22, v23},
-            {v31, v32, v33}
-        }
-        );
+        F[][] fs = (F[][]) Array.newInstance(v11.getClass(), 3, 3);
+        fs[0][0]  = v00;
+        fs[0][1]  = v01;
+        fs[0][2]  = v02;
+
+        fs[1][0]  = v10;
+        fs[1][1]  = v11;
+        fs[1][2]  = v12;
+
+        fs[2][0]  = v20;
+        fs[2][1]  = v21;
+        fs[2][2]  = v22;
+        return new FieldMatrix3<F>(fs);
     }
-
-
 
     private FieldMatrix3(F[][] values) {
         this.elementStructure = values[0][0].structure();
@@ -104,7 +111,7 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    F[] timesDouble(double multiplier) {
+    F[] elementTimes(F multiplier) {
         F[]result = (F[]) new Object[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -114,9 +121,6 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
         return result;
     }
 
-    public FieldMatrix3<F> times(double multiplier) {
-        return FieldMatrix3.of(timesDouble(multiplier));
-    }
 
     double determinant() {
         //double A =(values[0][2] *  values[2][2] - );

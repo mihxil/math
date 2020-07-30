@@ -25,7 +25,8 @@ class Matrix3Test {
                 14, 16, 18
             }
         );
-        assertThat(example.times(example.structure().one())).isEqualTo(example);
+        assertThat(example.times(example.structure().one()))
+                .isEqualTo(example);
     }
 
     @Test
