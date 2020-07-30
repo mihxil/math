@@ -3,6 +3,10 @@ package org.meeuw.math.abstractalgebra;
 /**
  * * A {@link FieldElement} that is is also a {@link Number} (which sadly is not an interface, so we can't extend it here).
  *
+ * This means it has all converion methods like {@link #intValue()}, {@link #doubleValue()}.
+ *
+ * Also the method {@link #times(double)} can be defined then, to accomodate scalar multiplication.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -14,6 +18,10 @@ public interface NumberFieldElement<F extends NumberFieldElement<F>>   extends
     NumberField<F> structure();
 
     F times(double multiplier);
+
+    default <G extends NumberFieldElement<G>> F times(G multiplier) {
+        return times(multiplier.doubleValue());
+    }
 
     /**
      * Returns the value of the specified number as an {@code int},
