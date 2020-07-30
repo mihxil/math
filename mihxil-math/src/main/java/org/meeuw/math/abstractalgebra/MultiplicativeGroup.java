@@ -7,14 +7,11 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F>> extends AlgebraicStructure<F> {
+public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F>> extends MultiplicativeMonoid<F> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
 
-    /**
-     * The multiplicative group by definition has an element that is 'one', the multiplicative identity element.
-     */
-    F one();
+
 
     @Override
     default Set<Operator> supportedOperators() {

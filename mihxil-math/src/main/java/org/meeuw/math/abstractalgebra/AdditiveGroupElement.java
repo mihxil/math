@@ -6,12 +6,10 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends AlgebraicElement<F> {
+public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends AdditiveMonoidElement<F> {
 
     @Override
     AdditiveGroup<F> structure();
-
-    F plus(F summand);
 
      /**
      * The additive inverse

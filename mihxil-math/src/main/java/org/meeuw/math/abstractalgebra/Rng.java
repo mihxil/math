@@ -7,7 +7,7 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Rng<F extends RngElement<F>> extends AdditiveGroup<F> {
+public interface Rng<F extends RngElement<F>> extends AdditiveGroup<F>, MultiplicativeSemiGroup<F> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION)));
 

@@ -10,7 +10,7 @@ import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 /**
- * Implementation of the field of Rational Numbers.
+ * Implementation of the field of Rational Numbers, commonly referred to as ℚ
  *
  * @author Michiel Meeuwissen
  * @since 0.4

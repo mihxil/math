@@ -6,6 +6,7 @@ import org.meeuw.math.abstractalgebra.Streamable;
 import java.util.stream.Stream;
 
 /**
+ * The Ring of integers, commonly referred to as ℤ.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
