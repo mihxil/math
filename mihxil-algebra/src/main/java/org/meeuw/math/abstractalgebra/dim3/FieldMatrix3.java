@@ -21,11 +21,27 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
 
     final F zero;
 
-    public static <F extends NumberFieldElement<F>> FieldMatrix3<F> of(F[][] values) {
-        return new FieldMatrix3<>(values);
+    private static <F extends NumberFieldElement<F>> FieldMatrix3<F> of(F[] array) {
+        return of(array[0], array[1],array[2],array[3],array[4], array[5], array[6], array[7], array[8]);
     }
 
-    public FieldMatrix3(F[][] values) {
+    @SuppressWarnings("unchecked")
+    public static <F extends NumberFieldElement<F>> FieldMatrix3<F> of(
+        F v11, F v12, F v13,
+        F v21, F v22, F v23,
+        F v31, F v32, F v33
+        ) {
+        return new FieldMatrix3<F>((F[][]) new Object[][] {
+            {v11, v12, v13},
+            {v21, v22, v23},
+            {v31, v32, v33}
+        }
+        );
+    }
+
+
+
+    private FieldMatrix3(F[][] values) {
         this.elementStructure = values[0][0].structure();
         this.values = values;
         this.zero = this.elementStructure.zero();
@@ -63,7 +79,7 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
 
     @Override
     public FieldMatrix3Group<F> structure() {
-        return new FieldMatrix3Group<F>(elementStructure);
+        return new FieldMatrix3Group<>(elementStructure);
     }
 
     @Override
@@ -73,26 +89,26 @@ public class FieldMatrix3<F extends NumberFieldElement<F>>
 
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    F[][] timesDouble(F[][] matrix3) {
-        F[][] result = (F[][]) new Object[3][3];
+    F[] timesDouble(F[][] matrix3) {
+        F[] result = (F[]) new Object[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 F v = elementStructure.zero();
                 for (int k = 0; k < 3; k++) {
                     v = v.plus(values[i][k].times(matrix3[k][j]));
                 }
-                result[i][j] = v;
+                result[i * 3 + j] = v;
             }
         }
         return result;
     }
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
-    F[][] timesDouble(double multiplier) {
-        F[][] result = (F[][]) new Object[3][3];
+    F[] timesDouble(double multiplier) {
+        F[]result = (F[]) new Object[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                result[i][j] = values[i][j].times(multiplier);
+                result[i * 3 + j] = values[i][j].times(multiplier);
             }
         }
         return result;

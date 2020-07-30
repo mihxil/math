@@ -13,16 +13,16 @@ class Matrix3Test {
 
     @Test
     void times() {
-        Matrix3 example = of(new double[][] {
-            {1, 2, 4},
-            {4, 5, 6},
-            {7, 8, 9}
-        });
+        Matrix3 example = of(
+            1, 2, 4,
+            4, 5, 6,
+            7, 8, 9
+        );
         assertThat(example.timesDouble(2)).isEqualTo(
-            new double[][] {
-            {2, 4, 8},
-            {8, 10, 12},
-            {14, 16, 18}
+            new double[] {
+                2, 4, 8,
+                8, 10, 12,
+                14, 16, 18
             }
         );
         assertThat(example.times(example.structure().one())).isEqualTo(example);

@@ -8,7 +8,7 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface FieldElement<F extends FieldElement<F>> extends
     MultiplicativeGroupElement<F>,
-    AdditiveGroupElement<F> {
+    RingElement<F> {
 
     @Override
     Field<F> structure();

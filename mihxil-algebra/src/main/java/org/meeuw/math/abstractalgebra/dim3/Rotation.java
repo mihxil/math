@@ -18,16 +18,18 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
 
     public Rotation(double[][] values) {
         rot = FieldMatrix3.of(
-            new DoubleElement[][] {
-                {new DoubleElement(values[0][0]), new DoubleElement(values[0][1]), new DoubleElement(values[0][2])},
-                {new DoubleElement(values[1][0]), new DoubleElement(values[1][1]), new DoubleElement(values[1][2])},
-                {new DoubleElement(values[2][0]), new DoubleElement(values[2][1]), new DoubleElement(values[2][2])}
-            }
+            new DoubleElement(values[0][0]), new DoubleElement(values[0][1]), new DoubleElement(values[0][2]),
+            new DoubleElement(values[1][0]), new DoubleElement(values[1][1]), new DoubleElement(values[1][2]),
+            new DoubleElement(values[2][0]), new DoubleElement(values[2][1]), new DoubleElement(values[2][2])
         );
     }
 
     public Rotation(DoubleElement[][] values) {
-        rot = FieldMatrix3.of(values);
+        rot = FieldMatrix3.of(
+            values[0][0], values[0][1], values[0][2],
+            values[1][0], values[1][1], values[1][2],
+            values[2][0], values[2][1],values[2][2]
+        );
     }
 
     public static Rotation Rx(double phi) {

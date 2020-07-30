@@ -1,12 +1,12 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
+import org.meeuw.math.abstractalgebra.RingElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement implements AdditiveGroupElement<IntegerElement> {
+public class IntegerElement implements RingElement<IntegerElement> {
     private final int value;
 
     public static IntegerElement of(int value){
@@ -30,9 +30,13 @@ public class IntegerElement implements AdditiveGroupElement<IntegerElement> {
     }
 
     @Override
-    public IntegersGroup structure() {
-        return IntegersGroup.INSTANCE;
+    public Integers structure() {
+        return Integers.INSTANCE;
+    }
 
+    @Override
+    public IntegerElement times(IntegerElement multiplier) {
+        return new IntegerElement(value * multiplier.value);
     }
 
     @Override

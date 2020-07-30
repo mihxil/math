@@ -18,16 +18,15 @@ public class FieldMatrix3Group<F extends NumberFieldElement<F>> implements
 
     }
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
     @Override
     public FieldMatrix3<F> one() {
         F one = elementStructure.one();
         F zero = elementStructure.zero();
-        return new FieldMatrix3<>((F[][]) new Object[][]{
-            {one, zero, zero},
-            {zero, one, zero},
-            {zero, zero, one}
-        });
+        return FieldMatrix3.of(
+            one, zero, zero,
+            zero, one, zero,
+            zero, zero, one
+        );
 
     }
 }

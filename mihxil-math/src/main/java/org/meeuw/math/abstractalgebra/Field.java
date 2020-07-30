@@ -9,7 +9,7 @@ import java.util.*;
  */
 public interface Field<F extends FieldElement<F>> extends
     MultiplicativeGroup<F>,
-    AdditiveGroup<F> {
+    Ring<F> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));
 

@@ -15,7 +15,6 @@ public interface NumberFieldElement<F extends NumberFieldElement<F>>   extends
 
     F times(double multiplier);
 
-
     /**
      * Returns the value of the specified number as an {@code int},
      * which may involve rounding or truncation.
