@@ -6,6 +6,7 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
 import java.util.Arrays;
 
 /**
+ * A real number (backend by a double)
  * @author Michiel Meeuwissen
  * @since 0.4
  */

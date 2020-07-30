@@ -1,7 +1,7 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
-import org.meeuw.math.abstractalgebra.bigdecimal.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import java.math.BigDecimal;

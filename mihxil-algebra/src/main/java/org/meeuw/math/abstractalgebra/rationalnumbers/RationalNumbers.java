@@ -15,9 +15,9 @@ import static java.math.BigInteger.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumberField implements NumberField<RationalNumber>, Streamable<RationalNumber> {
+public class RationalNumbers implements NumberField<RationalNumber>, Streamable<RationalNumber> {
 
-	public static final RationalNumberField INSTANCE = new RationalNumberField();
+	public static final RationalNumbers INSTANCE = new RationalNumbers();
 
 	@Override
 	public RationalNumber zero() {

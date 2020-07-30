@@ -32,8 +32,8 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
 	}
 
 	@Override
-	public RationalNumberField structure() {
-		return new RationalNumberField();
+	public RationalNumbers structure() {
+		return new RationalNumbers();
 
 	}
 

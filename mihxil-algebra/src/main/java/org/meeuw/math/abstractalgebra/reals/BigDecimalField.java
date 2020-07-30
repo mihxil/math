@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.bigdecimal;
+package org.meeuw.math.abstractalgebra.reals;
 
 import org.meeuw.math.abstractalgebra.NumberField;
 

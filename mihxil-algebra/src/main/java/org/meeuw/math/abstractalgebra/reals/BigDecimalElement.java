@@ -1,10 +1,11 @@
-package org.meeuw.math.abstractalgebra.bigdecimal;
-
-import java.math.BigDecimal;
+package org.meeuw.math.abstractalgebra.reals;
 
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
+import java.math.BigDecimal;
+
 /**
+ *  A real number (backend by a big decimal)
  * @author Michiel Meeuwissen
  * @since 0.4
  */

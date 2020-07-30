@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
-import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumberField.INSTANCE;
+import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 /**
  * @author Michiel Meeuwissen

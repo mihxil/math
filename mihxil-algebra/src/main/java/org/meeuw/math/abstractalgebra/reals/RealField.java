@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.reals;
 import org.meeuw.math.abstractalgebra.NumberField;
 
 /**
+ * The field of real numbers.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
