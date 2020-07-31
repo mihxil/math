@@ -11,6 +11,9 @@ import java.math.BigInteger;
  */
 public class RationalNumber implements NumberFieldElement<RationalNumber> {
 
+    public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
+    public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
+
     private final BigInteger numerator;
     private @NotNull final BigInteger denominator;
 
@@ -50,7 +53,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
                     denominator.pow(e),
                     numerator.pow(e));
         } else if (e == 0) {
-            return structure().one();
+            return ONE;
         } else {
             return new RationalNumber(
                     numerator.pow(e),
@@ -127,7 +130,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
 
     @Override
     public String toString() {
-        return numerator  + (denominator.equals(BigInteger.ONE) ? "" : ("/" + denominator));
+        return numerator  + (denominator.equals(BigInteger.ONE) ? "" : ("\u2044" + denominator));
     }
 
 }

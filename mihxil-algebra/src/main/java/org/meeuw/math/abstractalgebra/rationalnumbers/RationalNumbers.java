@@ -1,13 +1,12 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
-import java.math.BigInteger;
-import java.util.stream.Stream;
-
 import org.meeuw.math.abstractalgebra.NumberField;
 import org.meeuw.math.abstractalgebra.Streamable;
 
+import java.math.BigInteger;
+import java.util.stream.Stream;
+
 import static java.math.BigInteger.ONE;
-import static java.math.BigInteger.ZERO;
 
 /**
  * Implementation of the field of Rational Numbers, commonly referred to as ℚ
@@ -21,12 +20,12 @@ public class RationalNumbers implements NumberField<RationalNumber>, Streamable<
 
     @Override
     public RationalNumber zero() {
-        return new RationalNumber(ZERO, ONE);
+        return RationalNumber.ZERO;
     }
 
     @Override
     public RationalNumber one() {
-        return new RationalNumber(ONE, ONE);
+        return RationalNumber.ONE;
     }
 
     @Override
@@ -35,6 +34,13 @@ public class RationalNumbers implements NumberField<RationalNumber>, Streamable<
                 State::next).map(State::rationalNumber);
     }
 
+    /**
+     * Helper class for {@link #stream()}. Contains the logic to find the 'next' rational number.
+     *
+     * They are found by tracing diagonals in the positive numerator/denominator plain (alternating also producing negative values).
+     *
+     * And thus obtained fractions that can be simplified are skipped.
+     */
     private static class State  {
         final long size;
         final long numerator;
