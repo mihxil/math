@@ -54,11 +54,11 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>>
     public double doubleValue() {
         return  wrapped.doubleValue();
     }
+
     @Override
     public double getUncertainty() {
         return  wrapped.getUncertainty();
     }
-
 
     public int compareTo(T o) {
         return Double.compare(doubleValue(), o.doubleValue());

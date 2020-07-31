@@ -6,7 +6,7 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface AdditiveMonoidElement<F extends AdditiveMonoidElement<F>> extends AlgebraicElement<F> {
 
-	AdditiveMonoid<F> structure();
+    AdditiveMonoid<F> structure();
 
-	F plus(F summand);
+    F plus(F summand);
 }

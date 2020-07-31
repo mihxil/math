@@ -6,7 +6,7 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface MultiplicativeMonoidElement<F extends MultiplicativeMonoidElement<F>> extends MultiplicativeSemiGroupElement<F> {
 
-	MultiplicativeMonoid<F> structure();
+    MultiplicativeMonoid<F> structure();
 
-	F times(F summand);
+    F times(F summand);
 }

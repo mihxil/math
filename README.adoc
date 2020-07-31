@@ -1,16 +1,31 @@
 = math
+:toc:
 
 image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci.org/mihxil/math]
 
 image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
 
-Math and physics related class. E.g. a class representing a `Measurement`. Including the logic to propagate uncertainties.
+Math and physics related class.
 
-Also it includes some classes to keep track of 'sliding window' values of averages.
+== mihxil-math
 
-== Statistics
+The common dependency of the modules in the project. It provides the scaffolding for:
 
-There are several implementation of `StatisticalNumber`, which is object that can keep track of an average and the standard deviation of incoming values.
+- abstract algebra's to ensure a common interface for basic operations
+- an 'uncertain number' interface plus a SPI for formatting those
 
+== mihxil-statistics
 
+Implementations of `UncertainNumber`, based on calculating standard deviations on sets of incoming data, and using that as the uncertaintiy value.
 
+Also, it includes some classes to keep track of 'sliding window' values of averages.
+
+== mihxil-physics
+
+This module envolves mostly `PhysicalNumber` and it's derivitates. A `PhysicalNumber` is a `UncertainNumber` but the uncertaintity is states (it is  `Measurement`), and knows how to propages those uncertainties when doing algebraic operations.
+
+Also a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
+
+== mihxil-algebra
+
+This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).

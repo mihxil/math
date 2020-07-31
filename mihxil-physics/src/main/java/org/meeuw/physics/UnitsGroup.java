@@ -18,6 +18,5 @@ public class UnitsGroup implements MultiplicativeGroup<Units> {
     @Override
     public Units one() {
         return ONE;
-
     }
 }

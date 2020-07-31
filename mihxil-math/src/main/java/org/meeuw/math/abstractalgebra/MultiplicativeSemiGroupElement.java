@@ -6,7 +6,7 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface MultiplicativeSemiGroupElement<F extends MultiplicativeSemiGroupElement<F>> extends AlgebraicElement<F> {
 
-	MultiplicativeSemiGroup<F> structure();
+    MultiplicativeSemiGroup<F> structure();
 
-	F times(F summand);
+    F times(F summand);
 }

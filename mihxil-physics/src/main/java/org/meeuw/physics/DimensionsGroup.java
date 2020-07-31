@@ -13,12 +13,10 @@ public class DimensionsGroup implements MultiplicativeGroup<Dimensions> {
     public static final DimensionsGroup INSTANCE = new DimensionsGroup();
 
     private DimensionsGroup() {
-
     }
 
     @Override
     public Dimensions one() {
         return ONE;
-
     }
 }

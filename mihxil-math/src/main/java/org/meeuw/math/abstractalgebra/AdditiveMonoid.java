@@ -11,14 +11,14 @@ import java.util.Set;
  */
 public interface AdditiveMonoid<F extends AdditiveMonoidElement<F>> extends AlgebraicStructure<F> {
 
-	Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION)));
+    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION)));
 
-	/**
+    /**
      * The additive group by definition has an element that is 'zero',  the additive identity element.
      */
     F zero();
 
-	@Override
+    @Override
     default Set<Operator> supportedOperators() {
         return operators;
     }

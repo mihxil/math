@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
 
   <description>
-    Some more implementation of abstract algebra's.
+    Some more implementations of abstract algebra's.
   </description>
   <dependencies>
     <dependency>

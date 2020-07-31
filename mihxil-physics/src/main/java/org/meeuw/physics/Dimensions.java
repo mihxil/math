@@ -1,11 +1,10 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
-
-import java.util.Arrays;
-
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.text.UncertainNumberFormat;
+
+import java.util.Arrays;
 
 /**
 
@@ -44,7 +43,6 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     @Override
     public Dimensions self() {
         return this;
-
     }
 
     @Override

@@ -15,7 +15,6 @@ public class FieldMatrix3Group<F extends NumberFieldElement<F>> implements
 
     FieldMatrix3Group(NumberField<F> elementStructure) {
         this.elementStructure = elementStructure;
-
     }
 
     @Override
@@ -27,6 +26,5 @@ public class FieldMatrix3Group<F extends NumberFieldElement<F>> implements
             zero, one, zero,
             zero, zero, one
         );
-
     }
 }

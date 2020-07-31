@@ -28,7 +28,6 @@ public class Measurement extends PhysicalNumber<Measurement> {
     @Override
     public int compareTo(Number o) {
         return Double.compare(doubleValue(), o.doubleValue());
-
     }
 
     @Override

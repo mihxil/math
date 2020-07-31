@@ -75,18 +75,15 @@ public class EvenIntegerElement extends AlgebraicNumber<EvenIntegerElement>  imp
     @Override
     public int compareTo(Number o) {
         return Long.compare(value, o.longValue());
-
     }
 
     @Override
     public long longValue() {
         return value;
-
     }
 
     @Override
     public double doubleValue() {
         return 0;
-
     }
 }

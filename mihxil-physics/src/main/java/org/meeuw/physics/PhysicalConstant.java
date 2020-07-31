@@ -36,12 +36,10 @@ public class PhysicalConstant extends PhysicalNumber<PhysicalConstant> {
     @Override
     public int compareTo(Number o) {
         return 0;
-
     }
 
     @Override
     protected PhysicalConstant copy(ImmutableUncertainNumber wrapped, Units units) {
         return new PhysicalConstant(wrapped, units, name);
-
     }
 }

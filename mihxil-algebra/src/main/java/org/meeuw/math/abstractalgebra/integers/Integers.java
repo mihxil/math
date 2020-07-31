@@ -27,7 +27,6 @@ public class Integers implements Ring<IntegerElement>, Streamable<IntegerElement
     @Override
     public IntegerElement one() {
         return ONE;
-
     }
 
     @Override

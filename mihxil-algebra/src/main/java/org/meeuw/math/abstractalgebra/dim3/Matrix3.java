@@ -64,19 +64,16 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     @Override
     public Matrix3 pow(int exponent) {
         return null;
-
     }
 
     @Override
     public Matrix3Group structure() {
         return Matrix3Group.INSTANCE;
-
     }
 
     @Override
     public Matrix3 self() {
         return this;
-
     }
 
 

@@ -37,7 +37,6 @@ class MeasurementTest {
             Measurement knob = new Measurement(0.88, 0.04, SI.AMOUNT_OF_SUBSTANCE);
             Measurement height = door.minus(knob);
         }).isInstanceOf(IllegalArgumentException.class);
-
     }
     @Test
     public void divide() {
@@ -61,7 +60,6 @@ class MeasurementTest {
         // FAILS
         // And btw, repetive addition should handle uncertaintities more like times(double)
 //        assertThat(a.repeatedPlus(2)).isEqualTo(new Measurement(12.0, 0.6, SI.SPEED));
-
     }
 
 }

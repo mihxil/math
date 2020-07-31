@@ -21,7 +21,6 @@ class DerivedUnitTest {
         assertThat(SI.eV.toString()).isEqualTo("eV");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
         assertThat(SI.eV.getSiFactor()).isEqualTo(1.602176634E-19);
-
     }
 
     @Test
@@ -29,6 +28,5 @@ class DerivedUnitTest {
         assertThat(new DerivedUnit(SI.Prefixes.k, SIUnit.m));
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
         assertThat(SI.eV.getSiFactor()).isEqualTo(1.602176634E-19);
-
     }
 }

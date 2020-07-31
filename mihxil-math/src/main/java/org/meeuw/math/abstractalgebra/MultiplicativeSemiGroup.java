@@ -11,10 +11,10 @@ import java.util.Set;
  */
 public interface MultiplicativeSemiGroup<F extends MultiplicativeSemiGroupElement<F>> extends AlgebraicStructure<F> {
 
-	Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
+    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
 
 
-	@Override
+    @Override
     default Set<Operator> supportedOperators() {
         return operators;
     }

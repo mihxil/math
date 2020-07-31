@@ -7,7 +7,7 @@ package org.meeuw.math.abstractalgebra;
 public interface MultiplicativeMonoid<F extends MultiplicativeMonoidElement<F>> extends MultiplicativeSemiGroup<F> {
 
 
-	/**
+    /**
      * The multiplicative group by definition has an element that is 'one', the multiplicative identity element.
      */
     F one();

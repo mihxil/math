@@ -67,19 +67,16 @@ public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> 
     @Override
     public long longValue() {
         return value.longValueExact();
-
     }
 
     @Override
     public float floatValue() {
         return value.floatValue();
-
     }
 
     @Override
     public double doubleValue() {
         return value.doubleValue();
-
     }
 
     @Override
@@ -89,6 +86,5 @@ public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> 
         } else {
             return value.compareTo(BigDecimal.valueOf(o.doubleValue()));
         }
-
     }
 }

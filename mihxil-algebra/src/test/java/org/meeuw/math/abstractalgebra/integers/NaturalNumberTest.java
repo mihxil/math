@@ -12,10 +12,10 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
  */
 class NaturalNumberTest {
 
-	@Test
-	public void test() {
-		assertThatThrownBy(() -> {of(1).times(of(-1));}).isInstanceOf(IllegalArgumentException.class);
+    @Test
+    public void test() {
+        assertThatThrownBy(() -> {of(1).times(of(-1));}).isInstanceOf(IllegalArgumentException.class);
 
-		assertThat(of(5).plus(of(7))).isEqualTo(of(12));
-	}
+        assertThat(of(5).plus(of(7))).isEqualTo(of(12));
+    }
 }

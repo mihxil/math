@@ -11,7 +11,6 @@ public class Matrix3Group implements MultiplicativeGroup<Matrix3> {
     public static final Matrix3Group INSTANCE = new Matrix3Group();
 
     private Matrix3Group() {
-
     }
 
     @Override
@@ -21,6 +20,5 @@ public class Matrix3Group implements MultiplicativeGroup<Matrix3> {
             {0, 1, 0},
             {0 , 0, 1}
         });
-
     }
 }

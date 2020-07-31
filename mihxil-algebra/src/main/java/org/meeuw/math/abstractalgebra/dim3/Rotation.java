@@ -90,7 +90,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
             result = result.times(this);
         }
         return result;
-
     }
 
     @Override
