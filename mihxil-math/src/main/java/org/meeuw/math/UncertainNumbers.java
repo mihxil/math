@@ -9,8 +9,8 @@ import org.meeuw.math.abstractalgebra.NumberField;
  */
 public class UncertainNumbers<T extends UncertainNumber<T>> implements NumberField<T> {
 
-    T zero;
-    T one;
+    final T zero;
+    final T one;
 
     public UncertainNumbers(T zero, T one) {
         this.zero = zero;

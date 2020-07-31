@@ -1,26 +1,26 @@
 package org.meeuw.math.text.spi;
 
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
+
 import java.text.Format;
 import java.util.ServiceLoader;
-
-import org.meeuw.math.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class UncertainNumberFormatProvider {
+public abstract class AlgebraicElementFormatProvider {
 
     public abstract Format getInstance(int minimumExponent);
 
-    public abstract int weight(UncertainNumber<?> weight);
+    public abstract int weight(AlgebraicElement<?> weight);
 
 
-    public static  Format getFormat(UncertainNumber<?> object, int minimumExponent ) {
-        final ServiceLoader<UncertainNumberFormatProvider> loader = ServiceLoader.load(UncertainNumberFormatProvider.class);
+    public static  Format getFormat(AlgebraicElement<?> object, int minimumExponent ) {
+        final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
         Format format = null;
         int weight = -1;
-        for (UncertainNumberFormatProvider e : loader) {
+        for (AlgebraicElementFormatProvider e : loader) {
             if (e.weight(object) > weight) {
                 format = e.getInstance(minimumExponent);
                 weight = e.weight(object);

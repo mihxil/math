@@ -1,9 +1,12 @@
 package org.meeuw.physics;
 
-import java.util.*;
-
 import org.meeuw.math.AbstractUncertainNumber;
 import org.meeuw.math.text.UncertainNumberFormat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents the units of a {@link AbstractUncertainNumber}.
@@ -98,5 +101,21 @@ public class UnitsImpl implements Units  {
             }
         }
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UnitsImpl that = (UnitsImpl) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(exponents, that.exponents);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(exponents);
     }
 }

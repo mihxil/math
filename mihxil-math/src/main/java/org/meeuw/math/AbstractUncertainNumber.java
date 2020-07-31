@@ -1,6 +1,6 @@
 package org.meeuw.math;
 
-import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -17,7 +17,7 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
      */
     @Override
     public String toString() {
-        return UncertainNumberFormatProvider.getFormat(this, 4).format(this);
+        return AlgebraicElementFormatProvider.getFormat(this, 4).format(this);
     }
 
     @Override

@@ -11,9 +11,9 @@ import org.meeuw.math.abstractalgebra.AlgebraicNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber<T extends PhysicalNumber<T>>
-    extends AlgebraicNumber<T>
-    implements  UncertainNumber<T> {
+public abstract class PhysicalNumber
+    extends AlgebraicNumber<PhysicalNumber>
+    implements  UncertainNumber<PhysicalNumber> {
 
     @Getter
     protected final ImmutableUncertainNumber wrapped;
@@ -60,68 +60,67 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>>
         return  wrapped.getUncertainty();
     }
 
-    public int compareTo(T o) {
+    public int compareTo(PhysicalNumber o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
     @Override
-    public T combined(T m) {
+    public PhysicalNumber combined(PhysicalNumber m) {
         return copy(wrapped.combined(m.wrapped), units);
     }
 
     @Override
-    public T times(double multiplier) {
+    public PhysicalNumber times(double multiplier) {
         return copy(wrapped.times(multiplier), units);
     }
 
     @Override
-    public T times(T multiplier) {
-        Units newUnits;
-        if (multiplier instanceof PhysicalNumber) {
-             newUnits = Units.forMultiplication(units, ((PhysicalNumber<?>) multiplier).getUnits());
-        } else {
-            newUnits = units;
-        }
-        return copy(wrapped.times(multiplier), newUnits);
+    public PhysicalNumber times(PhysicalNumber multiplier) {
+        return copy(wrapped.times(multiplier),  Units.forMultiplication(units, multiplier.getUnits()));
+    }
+
+    public PhysicalNumber times(UncertainNumber<?> multiplier) {
+        return copy(wrapped.times(multiplier), units);
     }
 
     @Override
-    public T dividedBy(T  divisor) {
+    public PhysicalNumber dividedBy(PhysicalNumber  divisor) {
         return times(divisor.reciprocal());
     }
 
     @Override
-    public T pow(int exponent) {
+    public PhysicalNumber pow(int exponent) {
         return copy(wrapped.pow(exponent), Units.forExponentiation(units, exponent));
 
     }
 
     @Override
-    public T plus(T summand) {
-        Units newUnits;
-        if (summand instanceof PhysicalNumber) {
-             newUnits = Units.forAddition(units, summand.getUnits());
-        } else {
-            newUnits = units;
-        }
-        return copy(wrapped.plus(summand), newUnits);
+    public PhysicalNumber plus(PhysicalNumber summand) {
+        return copy(wrapped.plus(summand), Units.forAddition(units, summand.getUnits()));
     }
 
     @Override
-    public T minus(T subtrahend) {
+    public PhysicalNumber minus(PhysicalNumber subtrahend) {
         return plus(subtrahend.negation());
     }
 
     @Override
-    public T plus(double summand) {
+    public PhysicalNumber plus(double summand) {
         return copy(wrapped.plus(summand), units);
     }
 
-    protected abstract T copy(ImmutableUncertainNumber wrapped, Units units);
+    protected abstract PhysicalNumber copy(ImmutableUncertainNumber wrapped, Units units);
 
     @Override
-    public T self() {
-        return (T) this;
+    public PhysicalNumber self() {
+        return  this;
+    }
+
+    @Override
+    public PhysicalNumbers  structure() {
+        return new PhysicalNumbers(
+                new Measurement(0, 0, units),
+                new Measurement(1, 0, Units.DIMENSIONLESS));
     }
 
     @Override
@@ -129,7 +128,7 @@ public abstract class PhysicalNumber<T extends PhysicalNumber<T>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PhysicalNumber<?> that = (PhysicalNumber<?>) o;
+        PhysicalNumber that = (PhysicalNumber) o;
 
         if (wrapped != null ? !wrapped.equals(that.wrapped) : that.wrapped != null) {
             return false;

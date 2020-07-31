@@ -8,7 +8,7 @@ import org.meeuw.math.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class PhysicalConstant extends PhysicalNumber<PhysicalConstant> {
+public class PhysicalConstant extends PhysicalNumber {
 
     public static final PhysicalConstant NA = new PhysicalConstant(6.02214076e23d, Units.DIMENSIONLESS.dividedBy(UnitsImpl.of(SIUnit.mol)), "Avogadro's number");
     public static final PhysicalConstant c  = new PhysicalConstant(299792458d, UnitsImpl.of(SIUnit.m).dividedBy(UnitsImpl.of(SIUnit.s)), "speed of light");
@@ -25,12 +25,6 @@ public class PhysicalConstant extends PhysicalNumber<PhysicalConstant> {
     public PhysicalConstant(ImmutableUncertainNumber wrapped, Units units, String name) {
         super(wrapped, units);
         this.name = name;
-    }
-
-    @Override
-    public UncertainNumbers<PhysicalConstant> structure() {
-        return new UncertainNumbers<>(new PhysicalConstant(0, units, "zero"), new PhysicalConstant(1, units, "one"));
-
     }
 
     @Override

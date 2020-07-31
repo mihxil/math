@@ -8,7 +8,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 
 class RationalNumberTest {
@@ -32,36 +32,37 @@ class RationalNumberTest {
 
     @Test
     public void stream() {
-        assertThat(INSTANCE.stream().limit(30).map(RationalNumber::toString)).containsExactly("0",
-    "1",
-    "-1",
-    "2",
-    "-2",
-    "1/2",
-    "-1/2",
-    "3",
-    "-3",
-    "1/3",
-    "-1/3",
-    "4",
-    "-4",
-    "3/2",
-    "-3/2",
-    "2/3",
-    "-2/3",
-    "1/4",
-    "-1/4",
-    "5",
-    "-5",
-    "1/5",
-    "-1/5",
-    "6",
-    "-6",
-    "5/2",
-    "-5/2",
-    "4/3",
-    "-4/3",
-    "3/4");
+        assertThat(INSTANCE.stream().limit(30).map(RationalNumber::toString)).containsExactly(
+                "0",
+                "1",
+                "-1",
+                "2",
+                "-2",
+                "1⁄2",
+                "-1⁄2",
+                "3",
+                "-3",
+                "1⁄3",
+                "-1⁄3",
+                "4",
+                "-4",
+                "3⁄2",
+                "-3⁄2",
+                "2⁄3",
+                "-2⁄3",
+                "1⁄4",
+                "-1⁄4",
+                "5",
+                "-5",
+                "1⁄5",
+                "-1⁄5",
+                "6",
+                "-6",
+                "5⁄2",
+                "-5⁄2",
+                "4⁄3",
+                "-4⁄3",
+                "3⁄4");
 
     }
 

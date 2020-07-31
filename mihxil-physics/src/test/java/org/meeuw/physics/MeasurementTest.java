@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 class MeasurementTest {
 
@@ -16,7 +16,7 @@ class MeasurementTest {
         Measurement door = new Measurement(2.00, 0.03, SI.DISTANCE);
         assertThat(door.toString()).isEqualTo("2.00 ± 0.03 m");
         Measurement knob = new Measurement(0.88, 0.04, SI.DISTANCE);
-        Measurement height = door.minus(knob);
+        PhysicalNumber height = door.minus(knob);
         assertThat(height.toString()).isEqualTo("1.12 ± 0.05 m");
     }
 
@@ -25,7 +25,7 @@ class MeasurementTest {
     public void area() {
         Measurement height = new Measurement(21, 0.2, SI.LENGTH);
         Measurement width = new Measurement(30, 1, SI.LENGTH);
-        Measurement area =  height.times(width);
+        PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 22 m²"); // or should that be 27?
     }
 
@@ -35,7 +35,7 @@ class MeasurementTest {
         assertThatThrownBy(() -> {
             Measurement door = new Measurement(2.00, 0.03, SI.DISTANCE);
             Measurement knob = new Measurement(0.88, 0.04, SI.AMOUNT_OF_SUBSTANCE);
-            Measurement height = door.minus(knob);
+            PhysicalNumber height = door.minus(knob);
         }).isInstanceOf(IllegalArgumentException.class);
     }
     @Test
@@ -45,7 +45,7 @@ class MeasurementTest {
         assertThat(speed.getUnits().dimensions().toString()).isEqualTo("LT⁻¹");
 
         Measurement distance = new Measurement(2.0, 0.05, SI.DISTANCE);
-        Measurement duration = distance.dividedBy(speed);
+        PhysicalNumber duration = distance.dividedBy(speed);
         assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
     }
 

@@ -60,8 +60,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
                     denominator.pow(e));
 
         }
-
-
     }
 
     @Override
@@ -70,7 +68,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
                 numerator.multiply(summand.denominator)
                         .add(summand.numerator.multiply(denominator)),
                 denominator.multiply(summand.denominator)
-
         );
 
     }
@@ -97,7 +94,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
                 numerator.multiply(multiplier.numerator),
                 denominator.multiply(multiplier.denominator)
         );
-
     }
 
     @Override
