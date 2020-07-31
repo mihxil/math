@@ -1,6 +1,6 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.Utils;
 
 /**
  * @author Michiel Meeuwissen
@@ -36,7 +36,7 @@ public class UnitExponent {
 
     @Override
     public String toString() {
-        return unit.name() + (exponent != 1 ? UncertainNumberFormat.superscript(exponent) : "");
+        return unit.name() + (exponent != 1 ? Utils.superscript(exponent) : "");
     }
 
 }

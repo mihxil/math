@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 import javax.validation.constraints.NotNull;
@@ -126,7 +127,11 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
 
     @Override
     public String toString() {
-        return numerator  + (denominator.equals(BigInteger.ONE) ? "" : ("\u2044" + denominator));
+        if (denominator.equals(BigInteger.ONE)) {
+            return numerator.toString();
+        } else {
+            return (isNegative() ? "-" : "") + Utils.superscript(numerator.abs().longValue()) + "\u2044" + Utils.subscript(denominator.longValue());
+        }
     }
 
 }

@@ -1,12 +1,16 @@
 package org.meeuw.math.text;
 
-import lombok.*;
-
-import java.text.*;
-import java.util.Locale;
-
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 import org.meeuw.math.UncertainNumber;
 import org.meeuw.math.Utils;
+
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+import java.util.Locale;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,45 +54,9 @@ public class UncertainNumberFormat extends Format {
     @Override
     public Object parseObject(String source, ParsePosition pos) {
         throw new UnsupportedOperationException();
-
     }
 
-    /**
-     * Returns an integer in 'superscript' notation, using unicode.
-     */
-    public static String superscript(int i) {
-        StringBuilder bul = new StringBuilder();
-        boolean minus = false;
-        if (i < 0) {
-            minus = true;
-            i = -1 * i;
-        }
-        if (i == 0) {
-            bul.insert(0, SUPERSCRIPTS[0]);
-        }
-        while (i > 0) {
-            int j = i % 10;
-            i /= 10;
-            bul.insert(0, SUPERSCRIPTS[j]);
-        }
-        if (minus) bul.insert(0, "\u207B");
 
-        return bul.toString();
-
-    }
-
-    private static final char[] SUPERSCRIPTS = new char[] {
-        0x2070,
-        0x00B9,
-        0x00B2,
-        0x00B3,
-        0x2074,
-        0x2075,
-        0x2076,
-        0x2077,
-        0x2078,
-        0x2079
-    };
 
 
     /**
@@ -145,7 +113,7 @@ public class UncertainNumberFormat extends Format {
         return
             (useE ? "(" : "") + valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
             +
-            (useE ? (")" + TIMES_10 + superscript(mean.exponent)) : "");
+            (useE ? (")" + TIMES_10 + Utils.superscript(mean.exponent)) : "");
     }
 
     public static String valueAndError(String value, String error) {
@@ -168,7 +136,7 @@ public class UncertainNumberFormat extends Format {
         return
             nf.format(mean.coefficient)
             +
-            (useE ? TIMES_10 + superscript(mean.exponent)  : "");
+            (useE ? TIMES_10 + Utils.superscript(mean.exponent)  : "");
 
     }
 
@@ -180,7 +148,7 @@ public class UncertainNumberFormat extends Format {
             if (b != 0) {
                 builder.append(values[i].name());
                 if (b != 1) {
-                    builder.append(superscript(b));
+                    builder.append(Utils.superscript(b));
                 }
             }
         }
