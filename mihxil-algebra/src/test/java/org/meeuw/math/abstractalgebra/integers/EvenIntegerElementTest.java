@@ -1,8 +1,12 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.junit.jupiter.api.Test;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 
 import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.RngTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -12,7 +16,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest {
+class EvenIntegerElementTest implements RngTheory<EvenIntegerElement> {
 
     @Test
     public void test() {
@@ -23,6 +27,11 @@ class EvenIntegerElementTest {
         assertThat(of(2).plus(of(4).negation())).isEqualTo(of(-2));
 
         assertThat(of(2).plus(of(2).structure().zero())).isEqualTo(of(2));
+    }
+
+    @Override
+    public Arbitrary<EvenIntegerElement> elements() {
+        return Arbitraries.randomValue((random) -> EvenIntegerElement.of(2 * (random.nextLong() / 2)));
     }
 
     @Test

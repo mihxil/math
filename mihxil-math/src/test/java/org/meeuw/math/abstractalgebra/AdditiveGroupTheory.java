@@ -1,9 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import net.jqwik.api.Arbitrary;
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
-import net.jqwik.api.Provide;
+import net.jqwik.api.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,4 +30,6 @@ public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> {
 
     @Provide
     Arbitrary<F> elements();
+
+
 }

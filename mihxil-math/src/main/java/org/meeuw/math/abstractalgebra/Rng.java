@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import java.util.*;
 
 /**
- * Like a {@link Ring} but without multiplicative identify.
+ * Like a {@link Ring} but without multiplicative identity.
  * @author Michiel Meeuwissen
  * @since 0.4
  */

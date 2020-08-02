@@ -1,8 +1,11 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.junit.jupiter.api.Test;
+import net.jqwik.api.*;
 
 import java.util.stream.Collectors;
+
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.RingTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
@@ -11,7 +14,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class IntegerElementTest {
+class IntegerElementTest implements RingTheory<IntegerElement> {
 
     @Test
     void test() {
@@ -31,5 +34,10 @@ class IntegerElementTest {
     void stream() {
         assertThat(Integers.INSTANCE.stream().limit(11).map(IntegerElement::longValue)
             .collect(Collectors.toList())).containsExactly(0L, 1L, -1L, 2L, -2L, 3L, -3L, 4L, -4L, 5L, -5L);
+    }
+
+    @Provide
+    public Arbitrary<IntegerElement> elements() {
+        return Arbitraries.randomValue((random) -> IntegerElement.of(random.nextLong()));
     }
 }

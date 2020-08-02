@@ -1,13 +1,11 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.abstractalgebra.*;
+
 /**
- *  The natural numbers ℕ
+ * The natural numbers ℕ
  * @author Michiel Meeuwissen
  * @since 0.4
  */

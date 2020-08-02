@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import net.jqwik.api.*;
+
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
@@ -9,7 +12,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class DoubleElementTest {
+class RealNumberTest implements FieldTheory<RealNumber> {
 
 
     @Test
@@ -17,4 +20,8 @@ class DoubleElementTest {
         assertThat(of(5d).times(of(6d))).isEqualTo(of(30d));
     }
 
+    @Provide
+    public Arbitrary<RealNumber> elements() {
+        return Arbitraries.randomValue((random) -> of(random.nextDouble()));
+    }
 }
