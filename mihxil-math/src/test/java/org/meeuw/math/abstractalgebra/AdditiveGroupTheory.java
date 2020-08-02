@@ -14,7 +14,7 @@ public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> {
     default void minus(
             @ForAll("elements") F v1,
             @ForAll("elements") F v2) {
-		assertThat(v1.minus(v2)).isEqualTo(v1.plus(v2.negation()));
+        assertThat(v1.minus(v2)).isEqualTo(v1.plus(v2.negation()));
     }
 
     @Property

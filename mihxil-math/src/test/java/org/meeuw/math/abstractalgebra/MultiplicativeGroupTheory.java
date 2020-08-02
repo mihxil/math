@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public interface MultiplicativeGroupTheory<F extends MultiplicativeGroupElement<F>> extends MultiplicativeSemiGroupTheory<F> {
 
-	@Property
+    @Property
     default void division(
         @ForAll("elements") F v1,
         @ForAll("elements") F v2) {
 
-		assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
+        assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
     }
     @Property
     default void one(

@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class DoubleStatisticalNumberTest {
 
 
-	@Property
-	boolean absoluteValueOfAllNumbersIsPositive(@ForAll FieldElement<?> aFieldEleent) {
-		return true;
-	}
+    @Property
+    boolean absoluteValueOfAllNumbersIsPositive(@ForAll FieldElement<?> aFieldEleent) {
+        return true;
+    }
 
 
     @Test

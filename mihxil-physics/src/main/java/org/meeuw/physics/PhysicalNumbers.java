@@ -13,12 +13,12 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
  */
 public class PhysicalNumbers implements MultiplicativeGroup<PhysicalNumber> {
 
-	public static final PhysicalConstant ONE = new PhysicalConstant(1, Units.DIMENSIONLESS, "one");
+    public static final PhysicalConstant ONE = new PhysicalConstant(1, Units.DIMENSIONLESS, "one");
 
-	public static final PhysicalNumbers INSTANCE = new PhysicalNumbers();
+    public static final PhysicalNumbers INSTANCE = new PhysicalNumbers();
 
-	@Override
-	public PhysicalNumber one() {
-		return ONE;
-	}
+    @Override
+    public PhysicalNumber one() {
+        return ONE;
+    }
 }
