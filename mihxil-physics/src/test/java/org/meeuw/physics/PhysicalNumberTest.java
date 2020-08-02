@@ -5,7 +5,7 @@ import net.jqwik.api.Arbitrary;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
 
-import static org.meeuw.physics.SI.*;
+import static org.meeuw.physics.UnitsImplTest.units;
 
 
 /**
@@ -14,7 +14,7 @@ import static org.meeuw.physics.SI.*;
  */
 class PhysicalNumberTest implements MultiplicativeGroupTheory<PhysicalNumber> {
 
-	Units[] units = {DISTANCE, LENGTH, AREA, VOLUME, TIME, SPEED, WEIGHT, TEMPERATURE, ELECTRIC_CURRENT, AMOUNT_OF_SUBSTANCE, LUMINOUS_INTENSITY};
+
 
 
 	@Override
