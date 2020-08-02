@@ -3,5 +3,5 @@ jdk:
   - openjdk8
 
 script: mvn --fail-never -T 1C clean test install
-after_success:
+after_script:
  - bash <(curl -s https://codecov.io/bash)
