@@ -3,7 +3,7 @@ package org.meeuw.physics;
 import lombok.Getter;
 import org.meeuw.math.ImmutableUncertainNumber;
 import org.meeuw.math.UncertainNumber;
-import org.meeuw.math.abstractalgebra.AlgebraicNumber;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
  * An uncertain number but also with {@link Units}
@@ -12,8 +12,8 @@ import org.meeuw.math.abstractalgebra.AlgebraicNumber;
  * @since 0.4
  */
 public abstract class PhysicalNumber
-    extends AlgebraicNumber<PhysicalNumber>
-    implements  UncertainNumber<PhysicalNumber> {
+    extends Number
+    implements MultiplicativeGroupElement<PhysicalNumber>, UncertainNumber<PhysicalNumber> {
 
     @Getter
     protected final ImmutableUncertainNumber wrapped;
@@ -94,12 +94,10 @@ public abstract class PhysicalNumber
 
     }
 
-    @Override
     public PhysicalNumber plus(PhysicalNumber summand) {
         return copy(wrapped.plus(summand), Units.forAddition(units, summand.getUnits()));
     }
 
-    @Override
     public PhysicalNumber minus(PhysicalNumber subtrahend) {
         return plus(subtrahend.negation());
     }
@@ -117,10 +115,12 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public PhysicalNumbers  structure() {
-        return new PhysicalNumbers(
-                new Measurement(0, 0, units),
-                new Measurement(1, 0, Units.DIMENSIONLESS));
+    public PhysicalNumbers structure() {
+        return PhysicalNumbers.INSTANCE;
+    }
+
+    public PhysicalNumber negation() {
+        return times(-1);
     }
 
     @Override

@@ -84,6 +84,11 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
+    public PhysicalConstant zero() {
+        return new PhysicalConstant(0, this, "zero " + toString());
+    }
+
+    @Override
     public Iterator<UnitExponent> iterator() {
         return Arrays.stream(exponents).iterator();
     }

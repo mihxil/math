@@ -1,12 +1,13 @@
 package org.meeuw.math;
 
 import lombok.Getter;
+import org.meeuw.math.abstractalgebra.FieldElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableUncertainNumber> {
+public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableUncertainNumber> implements FieldElement<ImmutableUncertainNumber> {
 
     public static final ImmutableUncertainNumber ZERO = new ImmutableUncertainNumber(0, 0);
     public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, 0);
@@ -21,8 +22,13 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     }
 
     @Override
-    public UncertainNumbers<ImmutableUncertainNumber> structure() {
-        return new UncertainNumbers<>(ONE, ZERO);
+    public UncertainNumbersField<ImmutableUncertainNumber> structure() {
+        return new UncertainNumbersField<>(ONE, ZERO);
+    }
+
+    @Override
+    public ImmutableUncertainNumber negation() {
+        return times(-1);
     }
 
     @Override

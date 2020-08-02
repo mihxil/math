@@ -1,13 +1,13 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.AlgebraicNumber;
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.RngElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class EvenIntegerElement extends AlgebraicNumber<EvenIntegerElement>  implements RngElement<EvenIntegerElement> {
+public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement> implements RngElement<EvenIntegerElement> {
     private final long value;
 
     public static EvenIntegerElement of(long value){

@@ -5,8 +5,6 @@ package org.meeuw.math.abstractalgebra;
  *
  * This means it has all conversion methods like {@link #intValue()}, {@link #doubleValue()}.
  *
- * Also the method {@link #times(double)} can be defined then, to accomodate scalar multiplication.
- *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

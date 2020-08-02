@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement extends AlgebraicNumber<IntegerElement> implements RingElement<IntegerElement> {
+public class IntegerElement extends AbstractNumberElement<IntegerElement> implements RingElement<IntegerElement> {
     private final long value;
 
     public static IntegerElement of(long value){

@@ -175,6 +175,29 @@ public class Utils {
         return bul.toString();
     }
 
+    public static String subscript(CharSequence i) {
+        return script(i, '\u208B', SUBSCRIPTS);
+    }
+    public static String superscript(CharSequence i) {
+        return script(i, '\u207B', SUPERSCRIPTS);
+    }
+
+    private static String script(CharSequence i, char minus, char[] digits) {
+        StringBuilder bul = new StringBuilder();
+
+        i.chars().forEach(c -> {
+            if (Character.isDigit(c)) {
+                bul.append(digits[c - '0']);
+            } else if (c == '-') {
+                bul.append('\u208B');
+            } else {
+                bul.append(c);
+            }
+        });
+        return bul.toString();
+    }
+
+
     private static final char[] SUPERSCRIPTS = new char[] {
             0x2070,
             0x00B9,

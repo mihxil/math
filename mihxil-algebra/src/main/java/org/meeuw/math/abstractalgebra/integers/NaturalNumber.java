@@ -1,7 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.abstractalgebra.AlgebraicNumber;
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 
 import javax.validation.constraints.Min;
@@ -11,7 +11,7 @@ import javax.validation.constraints.Min;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NaturalNumber extends AlgebraicNumber<NaturalNumber> implements MultiplicativeMonoidElement<NaturalNumber>, AdditiveMonoidElement<NaturalNumber>
+public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implements MultiplicativeMonoidElement<NaturalNumber>, AdditiveMonoidElement<NaturalNumber>
  {
     public static NaturalNumber ZERO = of(0);
     public static NaturalNumber ONE = of(1);

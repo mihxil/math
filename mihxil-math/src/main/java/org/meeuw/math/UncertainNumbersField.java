@@ -1,18 +1,19 @@
 package org.meeuw.math;
 
 
-import org.meeuw.math.abstractalgebra.NumberField;
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.FieldElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumbers<T extends UncertainNumber<T>> implements NumberField<T> {
+public class UncertainNumbersField<T extends UncertainNumber<T> & FieldElement<T>> implements Field<T> {
 
     final T zero;
     final T one;
 
-    public UncertainNumbers(T zero, T one) {
+    public UncertainNumbersField(T zero, T one) {
         this.zero = zero;
         this.one = one;
     }

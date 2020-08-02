@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import net.jqwik.api.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
@@ -11,7 +14,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @since 0.4
  */
 
-class RationalNumberTest {
+class RationalNumberTest implements FieldTheory<RationalNumber> {
 
     @Test
     public void test() {
@@ -62,9 +65,30 @@ class RationalNumberTest {
                 "-⁵⁄₂",
                 "⁴⁄₃",
                 "-⁴⁄₃",
-                "³⁄₄");
-
+                "³⁄₄"
+        );
     }
 
+
+    @Provide
+    public Arbitrary<RationalNumber> elements() {
+        return Arbitraries.randomValue((random) -> {
+            long numerator = random.nextLong();
+            long denumator = 0L;
+            while (denumator == 0L) {
+                denumator = random.nextLong();
+            }
+            return RationalNumber.of(numerator, denumator);
+        });
+    }
+
+
+    @Disabled
+    @Test
+    public void all() {
+        INSTANCE.stream().forEach(i -> {
+            System.out.println(i.toString() + ":" + i.bigDecimalValue());
+        });
+    }
 
 }

@@ -12,6 +12,8 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
 
     Dimensions dimensions();
 
+    PhysicalConstant zero();
+
     static boolean dimensionEquals(Units u1, Units u2) {
         if (u1 == null) {
             return u2 == null;

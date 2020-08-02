@@ -1,12 +1,11 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberElement<F extends NumberElement<F>> extends Comparable<Number> {
-
-
+public interface NumberElement<F extends NumberElement<F>> extends Comparable<Number>,  AlgebraicElement<F> {
 
     /**
      * Returns the value of the specified number as an {@code int},

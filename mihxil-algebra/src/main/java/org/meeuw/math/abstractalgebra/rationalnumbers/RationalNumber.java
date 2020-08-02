@@ -1,10 +1,13 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import lombok.Getter;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.MathContext;
 
 /**
  * @author Michiel Meeuwissen
@@ -15,7 +18,9 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
+    @Getter
     private final BigInteger numerator;
+    @Getter
     private @NotNull final BigInteger denominator;
 
     public static RationalNumber of(long numerator, @NotNull long denominator) {
@@ -27,12 +32,14 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
     }
 
     public RationalNumber(BigInteger numerator, BigInteger denominator) {
-        BigInteger gcd = numerator.abs().gcd(denominator.abs());
-        boolean nn = numerator.abs().equals(numerator);
-        boolean dn = denominator.abs().equals(denominator);
+        BigInteger gcd = numerator.gcd(denominator);
+        BigInteger anumerator = numerator.abs();
+        BigInteger adenominator = denominator.abs();
+        boolean nn = anumerator.equals(numerator);
+        boolean dn = adenominator.equals(denominator);
         boolean positive = (nn && dn) || (!nn && !dn);
-        this.numerator = positive ? numerator.abs().divide(gcd) : numerator.abs().divide(gcd).negate();
-        this.denominator = denominator.abs().divide(gcd);
+        this.numerator = positive ? anumerator.divide(gcd) : anumerator.divide(gcd).negate();
+        this.denominator = adenominator.divide(gcd);
     }
 
     @Override
@@ -107,6 +114,11 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
         return numerator.doubleValue() / denominator.doubleValue();
     }
 
+    private static final  MathContext MATH_CONTEXT = new MathContext(40);
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -130,7 +142,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
         if (denominator.equals(BigInteger.ONE)) {
             return numerator.toString();
         } else {
-            return (isNegative() ? "-" : "") + Utils.superscript(numerator.abs().longValue()) + "\u2044" + Utils.subscript(denominator.longValue());
+            return (isNegative() ? "-" : "") + Utils.superscript(numerator.abs().toString()) + "\u2044" + Utils.subscript(denominator.toString());
         }
     }
 

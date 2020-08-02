@@ -1,6 +1,6 @@
 package org.meeuw.math;
 
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.abstractalgebra.NumberElement;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -10,11 +10,7 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<T extends UncertainNumber<T>> extends
-    NumberFieldElement<T> {
-
-    @Override
-    UncertainNumbers<T> structure();
+public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberElement<T> {
 
     double EXACT = -1d;
 
@@ -26,12 +22,6 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends
     default boolean isExact() {
         return getUncertainty() < 0d;
     }
-
-    @Override
-    default T negation() {
-        return times(-1d);
-    }
-
     default T dividedBy(double divisor) {
         return times(1d / divisor);
     }

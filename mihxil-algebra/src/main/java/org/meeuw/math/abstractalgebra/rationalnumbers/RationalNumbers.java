@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.util.stream.Stream;
 
 import static java.math.BigInteger.ONE;
+import static java.math.BigInteger.ZERO;
 
 /**
  * Implementation of the field of Rational Numbers, commonly referred to as ℚ
@@ -42,35 +43,35 @@ public class RationalNumbers implements NumberField<RationalNumber>, Streamable<
      * And thus obtained fractions that can be simplified are skipped.
      */
     private static class State  {
-        final long size;
-        final long numerator;
-        final long denominator;
+        final BigInteger size;
+        final BigInteger numerator;
+        final BigInteger denominator;
 
         private State() {
-            this(0, 0, 1);
+            this(ZERO, ZERO, ONE);
         }
-        private State(long size, long numerator, long denominator) {
+        private State(BigInteger size, BigInteger numerator, BigInteger denominator) {
             this.size = size;
             this.numerator = numerator;
             this.denominator = denominator;
         }
 
         RationalNumber rationalNumber() {
-            return RationalNumber.of(numerator, denominator);
+            return new RationalNumber(numerator, denominator);
         }
         public State _next() {
-            long an = Math.abs(numerator);
-            if (an <= 1) {
-                return new State(size + 1, size + 1, 1);
+            BigInteger an = numerator.abs();
+            if (an.compareTo(ONE) < 0) {
+                return new State(size.add(ONE), size.add(ONE), ONE);
             }
-            return new State(size, an - 1, denominator + 1);
+            return new State(size, an.add(ONE.negate()), denominator.add(ONE));
         }
         public boolean unique() {
-            return BigInteger.valueOf(numerator).gcd(BigInteger.valueOf(denominator)).equals(ONE);
+            return numerator.gcd(denominator).equals(ONE);
         }
         public State next() {
-            if (numerator > 0) {
-                return new State(size, numerator * -1, denominator);
+            if (numerator.compareTo(ZERO) > 0) {
+                return new State(size, numerator.negate(), denominator);
             }
 
             State proposal = _next();

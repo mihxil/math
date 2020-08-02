@@ -11,11 +11,10 @@ See http://www.MMBase.org/license
 package org.meeuw.statistics;
 
 import lombok.Getter;
+import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.UncertainNumbersField;
 
 import java.util.function.DoubleConsumer;
-
-import org.meeuw.math.UncertainNumber;
-import org.meeuw.math.UncertainNumbers;
 
 /**
  * Represents a set of measured values. The value represents the average value.
@@ -99,8 +98,8 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
-    public UncertainNumbers<StatisticalDouble> structure() {
-        return new UncertainNumbers<>(
+    public UncertainNumbersField<StatisticalDouble> structure() {
+        return new UncertainNumbersField<>(
             new StatisticalDouble(0, 0, 1),
             new StatisticalDouble(1, 1, 1)
         );
@@ -150,14 +149,13 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     @Override
     public int compareTo(Number o) {
         return 0;
-
     }
 
     @Override
     public StatisticalDouble times(StatisticalDouble multiplier) {
         return null;
-
     }
+
 }
 
 

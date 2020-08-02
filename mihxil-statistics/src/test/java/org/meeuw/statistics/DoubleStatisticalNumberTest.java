@@ -1,13 +1,24 @@
 package org.meeuw.statistics;
 
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.FieldElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 /**
  * @author Michiel Meeuwissen
  */
 public class DoubleStatisticalNumberTest {
+
+
+	@Property
+	boolean absoluteValueOfAllNumbersIsPositive(@ForAll FieldElement<?> aFieldEleent) {
+		return true;
+	}
+
 
     @Test
     public void test1() {

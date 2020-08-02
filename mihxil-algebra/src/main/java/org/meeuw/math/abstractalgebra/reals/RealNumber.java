@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import org.meeuw.math.abstractalgebra.AlgebraicNumber;
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.Arrays;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RealNumber extends AlgebraicNumber<RealNumber> implements  NumberFieldElement<RealNumber> {
+public class RealNumber extends AbstractNumberElement<RealNumber> implements  NumberFieldElement<RealNumber> {
 
     public static final RealNumber ONE = new RealNumber(1d);
     public static final RealNumber ZERO = new RealNumber(0d);
