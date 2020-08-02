@@ -12,7 +12,7 @@ import org.meeuw.math.abstractalgebra.NumberElement;
  */
 public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberElement<T> {
 
-    double EXACT = -1d;
+    double EXACT = 0d;
 
     @Override
     double doubleValue();
@@ -20,8 +20,9 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberEle
     double getUncertainty();
 
     default boolean isExact() {
-        return getUncertainty() < 0d;
+        return getUncertainty() == EXACT;
     }
+
     default T dividedBy(double divisor) {
         return times(1d / divisor);
     }

@@ -9,19 +9,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public interface MultiplicativeGroupTheory<F extends MultiplicativeGroupElement<F>> {
 
 	@Property
-    default void multiplicateGroupTheory(
-            @ForAll("elements") F rn1,
-            @ForAll("elements") F rn2) {
-        F rn3 = rn1.dividedBy(rn2);
-        System.out.println(rn1 + "/" + rn2 + "=" + rn3);
-        assertThat(rn1.times(rn2)).isEqualTo(rn2.times(rn1));
-        assertThat(rn1.times(rn1.structure().one())).isEqualTo(rn1);
+    default void division(
+        @ForAll("elements") F v1,
+        @ForAll("elements") F v2) {
+
+		assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
     }
-     @Provide
-	 Arbitrary<F> elements();
+
+    @Property
+    default void multiplicativeCommutativity (
+        @ForAll("elements") F v1,
+        @ForAll("elements") F v2) {
+        assertThat(v1.times(v2)).isEqualTo(v2.times(v1));
+    }
+    @Property
+    default void one(
+        @ForAll("elements") F v) {
+        assertThat(v.times(v.structure().one())).isEqualTo(v);
+    }
+
+    @Provide
+    Arbitrary<F> elements();
 }

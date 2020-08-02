@@ -19,9 +19,11 @@ public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends
     default boolean isNegative() {
         return compareTo(structure().zero()) < 0;
     }
+
     default boolean isPositive() {
         return compareTo(structure().zero()) > 0;
     }
+
     default boolean isZero() {
         return compareTo(structure().zero()) == 0;
     }

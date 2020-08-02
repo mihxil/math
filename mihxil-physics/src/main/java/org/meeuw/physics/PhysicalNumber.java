@@ -126,14 +126,8 @@ public abstract class PhysicalNumber
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PhysicalNumber that = (PhysicalNumber) o;
-
-        if (wrapped != null ? !wrapped.equals(that.wrapped) : that.wrapped != null) {
-            return false;
-        }
-        return units != null ? units.equals(that.units) : that.units == null;
+        if (!(o instanceof PhysicalNumber)) return false;
+        return toString().equals(o.toString());
     }
 
     @Override
