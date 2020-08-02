@@ -2,8 +2,9 @@
 :toc:
 
 image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci.org/mihxil/math]
-
 image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
+image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
+
 
 Math and physics related class.
 
