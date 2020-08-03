@@ -13,14 +13,14 @@ public interface MultiplicativeGroupTheory<F extends MultiplicativeGroupElement<
 
     @Property
     default void division(
-        @ForAll("elements") F v1,
-        @ForAll("elements") F v2) {
+        @ForAll(ELEMENTS) F v1,
+        @ForAll(ELEMENTS) F v2) {
 
         assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
     }
     @Property
     default void one(
-        @ForAll("elements") F v) {
+        @ForAll(ELEMENTS) F v) {
         assertThat(v.times(v.structure().one())).isEqualTo(v);
     }
 

@@ -11,29 +11,29 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> extends AlgebraicStructureTheory<F> {
 
     @Property
-    default void additiveGroupOperators(@ForAll("element") F v1) {
+    default void additiveGroupOperators(@ForAll(ELEMENT) F v1) {
         assertThat(v1.structure().supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
     }
 
     @Property
     default void minus(
-            @ForAll("elements") F v1,
-            @ForAll("elements") F v2) {
+            @ForAll(ELEMENTS) F v1,
+            @ForAll(ELEMENTS) F v2) {
         assertThat(v1.minus(v2)).isEqualTo(v1.plus(v2.negation()));
     }
 
     @Property
     default void additiveCommutativity (
-            @ForAll("elements") F v1,
-            @ForAll("elements") F v2) {
+            @ForAll(ELEMENTS) F v1,
+            @ForAll(ELEMENTS) F v2) {
         assertThat(v1.plus(v2)).isEqualTo(v2.plus(v1));
     }
 
     @Property
     default void additiveAssociativity (
-            @ForAll("elements") F v1,
-            @ForAll("elements") F v2,
-            @ForAll("elements") F v3
+            @ForAll(ELEMENTS) F v1,
+            @ForAll(ELEMENTS) F v2,
+            @ForAll(ELEMENTS) F v3
             ) {
         assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
     }

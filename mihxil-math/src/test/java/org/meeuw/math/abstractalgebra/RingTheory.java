@@ -14,7 +14,7 @@ public interface RingTheory<F extends RingElement<F>> extends AdditiveGroupTheor
 
     @Property
     default void one(
-        @ForAll("elements") F v) {
+        @ForAll(ELEMENTS) F v) {
         assertThat(v.times(v.structure().one())).isEqualTo(v);
     }
 }
