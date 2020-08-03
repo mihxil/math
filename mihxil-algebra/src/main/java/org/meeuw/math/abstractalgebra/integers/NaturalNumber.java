@@ -1,8 +1,10 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import javax.validation.constraints.Min;
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
+import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
+import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 
-import org.meeuw.math.abstractalgebra.*;
+import javax.validation.constraints.Min;
 
 /**
  * The natural numbers ℕ
@@ -60,6 +62,11 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
      @Override
      public double doubleValue() {
          return value;
+     }
+
+     @Override
+     public int compareTo(NaturalNumber naturalNumber) {
+         return Long.compare(value, naturalNumber.value);
      }
 
      @Override

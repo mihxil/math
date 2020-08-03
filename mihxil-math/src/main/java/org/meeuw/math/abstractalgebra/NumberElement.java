@@ -76,5 +76,19 @@ public interface NumberElement<F extends NumberElement<F>> extends Comparable<Nu
         return (short)intValue();
     }
 
+    default boolean isNegative() {
+        return compareTo(0d) < 0;
+    }
+
+    default boolean isPositive() {
+        return compareTo(0d) > 0;
+    }
+
+    default boolean isZero() {
+        return compareTo(0d) == 0;
+    }
+
+
+    int compareTo(F f);
 
 }

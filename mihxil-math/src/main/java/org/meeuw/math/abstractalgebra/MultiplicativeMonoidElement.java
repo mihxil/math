@@ -8,5 +8,5 @@ public interface MultiplicativeMonoidElement<F extends MultiplicativeMonoidEleme
 
     MultiplicativeMonoid<F> structure();
 
-    F times(F summand);
+    F times(F multiplier);
 }
