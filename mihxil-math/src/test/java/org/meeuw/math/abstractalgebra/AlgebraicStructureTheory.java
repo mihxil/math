@@ -21,6 +21,8 @@ public interface AlgebraicStructureTheory<F extends AlgebraicElement<F>>  {
             assertThat(v.structure()).isInstanceOf(Streamable.class);
             if (v.structure().cardinality().compareTo(new Cardinality(10000)) < 0) {
                 assertThat(((Streamable) v.structure()).stream().count()).isEqualTo(v.structure().cardinality().getValue());
+            } else {
+                assertThat(((Streamable) v.structure()).stream().limit(10001)).hasSizeGreaterThanOrEqualTo(10000);
             }
         } else {
             assertThat(v.structure()).isNotInstanceOf(Streamable.class);
