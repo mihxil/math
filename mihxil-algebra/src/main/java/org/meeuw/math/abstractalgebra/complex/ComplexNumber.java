@@ -50,6 +50,13 @@ public class ComplexNumber<F extends NumberFieldElement<F>> implements FieldElem
 	}
 
 	@Override
+	public ComplexNumber<F> reciprocal() {
+		F denominator = this.real.sqr().plus(this.imaginairy.sqr());
+		return of(this.real.dividedBy(denominator), this.imaginairy.negation().dividedBy(denominator));
+	}
+
+
+	@Override
 	public ComplexNumber<F> plus(ComplexNumber<F> summand) {
 		return new ComplexNumber<>(
 				this.real.plus(summand.real),
