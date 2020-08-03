@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.NumberField;
 
 /**
@@ -19,5 +20,10 @@ public class BigDecimalField implements NumberField<BigDecimalElement> {
     @Override
     public BigDecimalElement one() {
         return BigDecimalElement.ONE;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_1;
     }
 }

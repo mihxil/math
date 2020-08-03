@@ -1,5 +1,6 @@
 package org.meeuw.physics;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
 
 /**
@@ -18,5 +19,10 @@ public class UnitsGroup implements MultiplicativeGroup<Units> {
     @Override
     public Units one() {
         return ONE;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
     }
 }

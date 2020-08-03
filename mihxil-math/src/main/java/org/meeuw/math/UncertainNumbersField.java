@@ -1,8 +1,7 @@
 package org.meeuw.math;
 
 
-import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -26,5 +25,10 @@ public class UncertainNumbersField<T extends UncertainNumber<T> & FieldElement<T
     @Override
     public T one() {
         return one;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return zero.structure().cardinality();
     }
 }

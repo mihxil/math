@@ -1,10 +1,10 @@
 package org.meeuw.physics;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class DimensionsGroup implements MultiplicativeGroup<Dimensions> {
 
@@ -18,5 +18,10 @@ public class DimensionsGroup implements MultiplicativeGroup<Dimensions> {
     @Override
     public Dimensions one() {
         return ONE;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
     }
 }

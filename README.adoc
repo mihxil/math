@@ -17,13 +17,13 @@ The common dependency of the modules in the project. It provides the scaffolding
 
 == mihxil-statistics
 
-Implementations of `UncertainNumber`, based on calculating standard deviations on sets of incoming data, and using that as the uncertaintiy value.
+Implementations of `UncertainNumber`, based on calculating standard deviations on sets of incoming data, and using that as the uncertainty value.
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
 == mihxil-physics
 
-This module envolves mostly `PhysicalNumber` and it's derivitates. A `PhysicalNumber` is a `UncertainNumber` but the uncertaintity is states (it is  `Measurement`), and knows how to propages those uncertainties when doing algebraic operations.
+This module envolves mostly around `PhysicalNumber` and its derivitates. A `PhysicalNumber` is a `UncertainNumber` but the uncertainty is stated (it is  `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
 
 Also a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
 

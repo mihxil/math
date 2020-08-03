@@ -1,6 +1,11 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
+ * The base interface for elements of algebraic structures.
+ *
+ * Every element in a algebraic structure has at least a reference to the {@link AlgebraicStructure} where it is an element
+ * of. See {@link #structure()}.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

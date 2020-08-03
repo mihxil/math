@@ -1,15 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.AdditiveMonoid;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoid;
-import org.meeuw.math.abstractalgebra.Operator;
-import org.meeuw.math.abstractalgebra.Streamable;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
+
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -37,8 +31,13 @@ public class NaturalNumbers implements MultiplicativeMonoid<NaturalNumber>, Addi
     public Set<Operator> supportedOperators() {
         return operators;
     }
-     @Override
-     public Stream<NaturalNumber> stream() {
-         return  Stream.iterate(zero(), i -> i.plus(one()));
-     }
+    @Override
+    public Stream<NaturalNumber> stream() {
+        return  Stream.iterate(zero(), i -> i.plus(one()));
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
+    }
 }

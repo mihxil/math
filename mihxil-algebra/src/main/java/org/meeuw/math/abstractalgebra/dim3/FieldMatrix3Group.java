@@ -27,4 +27,9 @@ public class FieldMatrix3Group<F extends NumberFieldElement<F>> implements
             zero, zero, one
         );
     }
+
+    @Override
+    public Cardinality cardinality() {
+        return elementStructure.cardinality();
+    }
 }

@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
 
 /**
@@ -20,5 +21,10 @@ public class Matrix3Group implements MultiplicativeGroup<Matrix3> {
             {0, 1, 0},
             {0 , 0, 1}
         });
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_1;
     }
 }

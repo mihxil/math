@@ -1,9 +1,8 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.Ring;
-import org.meeuw.math.abstractalgebra.Streamable;
-
 import java.util.stream.Stream;
+
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * The Ring of integers, commonly referred to as ℤ.
@@ -32,5 +31,10 @@ public class Integers implements Ring<IntegerElement>, Streamable<IntegerElement
     @Override
     public Stream<IntegerElement> stream() {
         return Stream.iterate(zero(), i -> i.isPositive() ? i.negation() : i.negation().plus(one()));
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
     }
 }

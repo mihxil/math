@@ -14,14 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
 
-ComplexNumbers<RationalNumber> structure = new ComplexNumbers<>(RationalNumbers.INSTANCE);
+    ComplexNumbers<RationalNumber> structure = new ComplexNumbers<>(RationalNumbers.INSTANCE);
 
-@Override
-public Arbitrary<ComplexNumber<RationalNumber>> elements() {
-return Arbitraries.of(
-ComplexNumber.of(RationalNumber.of(3), RationalNumber.ZERO),
-structure.i(),
-ComplexNumber.of(RationalNumber.of(3), RationalNumber.of(-2))
-);
-}
+    @Override
+    public Arbitrary<ComplexNumber<RationalNumber>> elements() {
+        return Arbitraries.of(
+            ComplexNumber.of(RationalNumber.of(3), RationalNumber.ZERO),
+            structure.i(),
+            ComplexNumber.of(RationalNumber.of(3), RationalNumber.of(-2))
+        );
+    }
 }

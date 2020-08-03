@@ -1,5 +1,6 @@
 package org.meeuw.physics;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
 
 /**
@@ -20,5 +21,10 @@ public class PhysicalNumbers implements MultiplicativeGroup<PhysicalNumber> {
     @Override
     public PhysicalNumber one() {
         return ONE;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_1;
     }
 }

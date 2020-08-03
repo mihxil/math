@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.NumberField;
 
 /**
@@ -19,5 +20,10 @@ public class RealField implements NumberField<RealNumber> {
     @Override
     public RealNumber one() {
         return RealNumber.ONE;
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_1;
     }
 }

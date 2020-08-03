@@ -1,6 +1,8 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
  * SO(3) group
@@ -21,5 +23,10 @@ public class RotationGroup implements MultiplicativeGroup<Rotation> {
             {0, 1, 0},
             {0, 0, 1}
         });
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return RealField.INSTANCE.cardinality();
     }
 }

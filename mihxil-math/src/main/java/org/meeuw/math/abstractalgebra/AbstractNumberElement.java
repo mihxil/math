@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
+ * Some
  * @author Michiel Meeuwissen
  * @since .0.4
  */

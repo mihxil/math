@@ -1,5 +1,6 @@
 package org.meeuw.math;
 
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
@@ -9,7 +10,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<T>> extends Number implements UncertainNumber<T> {
+public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<T>> extends Number implements UncertainNumber<T>, AlgebraicElement<T> {
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).

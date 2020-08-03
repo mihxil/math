@@ -26,4 +26,9 @@ public class EvenIntegers  implements Rng<EvenIntegerElement>, Streamable<EvenIn
     public Stream<EvenIntegerElement> stream() {
         return Stream.iterate(zero(), i -> i.isPositive() ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
     }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
+    }
 }

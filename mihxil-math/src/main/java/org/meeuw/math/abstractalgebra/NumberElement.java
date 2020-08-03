@@ -1,11 +1,13 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
+ * Some algebraic elements are like numbers.  This basicly means that they are {@link Comparable} to a {@link Number}, and to
+ * other instances of the same type (See {@link #compareTo(NumberElement)})
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberElement<F extends NumberElement<F>> extends Comparable<Number>,  AlgebraicElement<F> {
+public interface NumberElement<F extends NumberElement<F>> extends Comparable<Number> {
 
     /**
      * Returns the value of the specified number as an {@code int},

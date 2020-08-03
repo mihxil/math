@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
+ * This algebraic structure defines also the multiplicative identify {@link #one()}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -1,10 +1,9 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
-import org.meeuw.math.abstractalgebra.NumberField;
-import org.meeuw.math.abstractalgebra.Streamable;
-
 import java.math.BigInteger;
 import java.util.stream.Stream;
+
+import org.meeuw.math.abstractalgebra.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
@@ -80,6 +79,11 @@ public class RationalNumbers implements NumberField<RationalNumber>, Streamable<
             }
             return proposal;
         }
+    }
+
+    @Override
+    public Cardinality cardinality() {
+        return Cardinality.ALEPH_0;
     }
 
 }
