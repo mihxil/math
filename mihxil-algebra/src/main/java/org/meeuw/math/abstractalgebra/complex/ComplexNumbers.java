@@ -10,24 +10,24 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  */
 public class ComplexNumbers<F extends NumberFieldElement<F>> implements Field<ComplexNumber<F>> {
 
-	private final NumberField<F> field;
+private final NumberField<F> field;
 
-	public ComplexNumbers(NumberField<F> field) {
-		this.field = field;
-	}
+public ComplexNumbers(NumberField<F> field) {
+this.field = field;
+}
 
-	@Override
-	public ComplexNumber<F> zero() {
-		return new ComplexNumber<>(this.field.zero(), this.field.zero());
-	}
+@Override
+public ComplexNumber<F> zero() {
+return new ComplexNumber<>(this.field.zero(), this.field.zero());
+}
 
-	@Override
-	public ComplexNumber<F> one() {
-		return new ComplexNumber<>(this.field.one(), this.field.zero());
-	}
+@Override
+public ComplexNumber<F> one() {
+return new ComplexNumber<>(this.field.one(), this.field.zero());
+}
 
-	public ComplexNumber<F> i() {
-		return new ComplexNumber<>(this.field.zero(), this.field.one());
-	}
+public ComplexNumber<F> i() {
+return new ComplexNumber<>(this.field.zero(), this.field.one());
+}
 
 }
