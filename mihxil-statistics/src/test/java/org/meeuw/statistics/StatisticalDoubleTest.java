@@ -1,9 +1,11 @@
 package org.meeuw.statistics;
 
+import net.jqwik.api.Arbitrary;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
-public class DoubleStatisticalNumberTest {
+public class StatisticalDoubleTest implements FieldTheory<StatisticalDouble> {
 
 
     @Property
@@ -69,4 +71,8 @@ public class DoubleStatisticalNumberTest {
         assertThat(new StatisticalDouble().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203).toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
     }
 
+    @Override
+    public Arbitrary<StatisticalDouble> elements() {
+        return null;
+    }
 }

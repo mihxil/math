@@ -1,11 +1,13 @@
 package org.meeuw.statistics;
 
+import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.abstractalgebra.FieldTheory;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-
-import org.junit.jupiter.api.Test;
-import org.meeuw.math.UncertainNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 0.3
  */
 
-class LongStatisticalNumberTest {
+class StatisticalLongTest implements FieldTheory<StatisticalLong> {
 
     @Test
     public void instants() {
@@ -50,7 +52,6 @@ class LongStatisticalNumberTest {
         assertThat(mes.doubleValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(mes.toString()).isEqualTo("4 ± 2");
-
     }
 
     @Test
@@ -83,9 +84,6 @@ class LongStatisticalNumberTest {
         assertThat(combinedMeasurement.doubleValue()).isEqualTo(3.5);
 
         assertThat(combinedMeasurement.toString()).isEqualTo("3.5 ± 1.6");
-
-
-
     }
 
     @Test
@@ -101,10 +99,10 @@ class LongStatisticalNumberTest {
 
         StatisticalLong mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
         assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24.494S");
-
-
-
-
     }
 
+    @Override
+    public Arbitrary<StatisticalLong> elements() {
+        return null;
+    }
 }

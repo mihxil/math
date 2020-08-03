@@ -14,9 +14,6 @@ import static org.meeuw.physics.UnitsImplTest.units;
  */
 class PhysicalNumberTest implements MultiplicativeGroupTheory<PhysicalNumber> {
 
-
-
-
     @Override
     public Arbitrary<PhysicalNumber> elements() {
         return Arbitraries
