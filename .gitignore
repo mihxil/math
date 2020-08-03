@@ -1,9 +1,4 @@
-*.class
 .idea
 *.iml
-
-# Package Files #
-*.jar
-*.war
-*.ear
+.jqwik-database
 target
