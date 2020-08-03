@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> extends AlgebraicStructureTheory<F> {
 
     @Property
-    default void additiveGroupOperators(@ForAll("elements") F v1) {
+    default void additiveGroupOperators(@ForAll("element") F v1) {
         assertThat(v1.structure().supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
     }
 

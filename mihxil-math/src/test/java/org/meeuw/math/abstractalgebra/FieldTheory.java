@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface FieldTheory<F extends FieldElement<F>> extends MultiplicativeGroupTheory<F>, AdditiveGroupTheory<F>  {
 
 	@Property
-    default void fieldOperators(@ForAll("elements") F v1) {
+    default void fieldOperators(@ForAll("element") F v1) {
         assertThat(v1.structure().supportedOperators()).contains(Operator.values());
     }
 

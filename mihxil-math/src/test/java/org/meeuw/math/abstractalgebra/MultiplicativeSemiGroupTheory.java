@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface MultiplicativeSemiGroupTheory<F extends MultiplicativeSemiGroupElement<F>> extends AlgebraicStructureTheory<F> {
 
     @Property
-    default void multiplicativeSemiGroupOperators(@ForAll("elements") F v1) {
+    default void multiplicativeSemiGroupOperators(@ForAll("element") F v1) {
         assertThat(v1.structure().supportedOperators()).contains(Operator.MULTIPLICATION);
     }
 
