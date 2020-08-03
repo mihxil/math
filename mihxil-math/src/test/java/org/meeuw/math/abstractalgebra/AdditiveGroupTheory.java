@@ -8,7 +8,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> {
+public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> extends AlgebraicStructureTheory<F> {
+
+    @Property
+    default void additiveGroupOperators(@ForAll("elements") F v1) {
+        assertThat(v1.structure().supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
+    }
 
     @Property
     default void minus(
@@ -38,9 +43,5 @@ public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> {
     default void zero(@ForAll("elements") F v) {
         assertThat(v.plus(v.structure().zero())).isEqualTo(v);
     }
-
-    @Provide
-    Arbitrary<F> elements();
-
 
 }

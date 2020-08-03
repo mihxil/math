@@ -10,6 +10,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public interface RingTheory<F extends RingElement<F>> extends AdditiveGroupTheory<F>, RngTheory<F> {
 
+
+
     @Property
     default void one(
         @ForAll("elements") F v) {

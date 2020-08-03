@@ -1,9 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
-import net.jqwik.api.Arbitrary;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
-import net.jqwik.api.Provide;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -26,6 +24,5 @@ public interface MultiplicativeGroupTheory<F extends MultiplicativeGroupElement<
         assertThat(v.times(v.structure().one())).isEqualTo(v);
     }
 
-    @Provide
-    Arbitrary<F> elements();
+
 }
