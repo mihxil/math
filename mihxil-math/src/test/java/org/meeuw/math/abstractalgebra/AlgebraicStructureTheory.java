@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import net.jqwik.api.*;
 
+import org.junit.platform.commons.logging.LoggerFactory;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -30,6 +32,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  {
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
+        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> "Cardinaly of " + s  + s.cardinality());
     }
 
     @Provide
