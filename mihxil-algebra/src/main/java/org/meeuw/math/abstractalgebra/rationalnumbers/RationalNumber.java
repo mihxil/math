@@ -1,13 +1,13 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import lombok.Getter;
-import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
+
+import java.math.*;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.MathContext;
+
+import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
  * @author Michiel Meeuwissen

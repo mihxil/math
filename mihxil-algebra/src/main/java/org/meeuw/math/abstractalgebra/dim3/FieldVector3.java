@@ -53,9 +53,9 @@ public class FieldVector3<E extends NumberFieldElement<E>> {
 
         FieldVector3<?> vector3 = (FieldVector3) o;
 
-        return vector3.x.equals(x) &&
-            vector3.y.equals(y) &&
-            vector3.z.equals(z);
+        return x.equalsWithEpsilon((E) vector3.x) &&
+            y.equalsWithEpsilon((E) vector3.y) &&
+            z.equalsWithEpsilon((E) vector3.z);
     }
 
 

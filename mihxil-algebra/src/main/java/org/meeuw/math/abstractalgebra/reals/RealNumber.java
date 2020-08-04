@@ -1,9 +1,9 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import java.util.Arrays;
+
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
-
-import java.util.Arrays;
 
 /**
  * A real number (backend by a double)
@@ -60,7 +60,6 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
         return this;
     }
 
-
     @Override
     public long longValue() {
         return Math.round(value);
@@ -104,6 +103,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     @Override
     public int hashCode() {
         return Double.hashCode(value);
+    }
+
+    @Override
+    public RealNumber epsilon() {
+        return new RealNumber(Math.max(1e-15d, value / 1e15d));
     }
 
 }

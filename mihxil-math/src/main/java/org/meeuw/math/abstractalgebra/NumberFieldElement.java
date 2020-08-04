@@ -15,6 +15,16 @@ public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
     @Override
     NumberField<E> structure();
 
-
+    default boolean equalsWithEpsilon(E other, E epsilon) {
+        E lower = minus(epsilon);
+        E upper = plus(epsilon);
+        return lower.compareTo(other) <= 0 && upper.compareTo(other) >= 0;
+    }
+    default E epsilon() {
+        return structure().zero();
+    }
+    default boolean equalsWithEpsilon(E other) {
+        return equalsWithEpsilon(other, epsilon());
+    }
 
 }
