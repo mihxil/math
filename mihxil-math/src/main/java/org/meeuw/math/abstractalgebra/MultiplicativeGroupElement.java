@@ -19,7 +19,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     }
 
     /**
-     * if multiplication and division is definied, then so is exponentation
+     * if multiplication and division is definied, then so is exponentation to any integer power.
      */
     default E pow(int exponent) {
         E result = structure().one();

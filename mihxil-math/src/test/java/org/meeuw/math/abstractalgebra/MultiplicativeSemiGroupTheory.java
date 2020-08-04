@@ -33,4 +33,13 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThat((v1.times(v2)).times(v3)).isEqualTo(v1.times((v2.times(v3))));
     }
 
+    @Property
+    default void powPositiveExponents(
+         @ForAll(ELEMENTS) E v1
+    )  {
+        assertThat(v1.pow(1)).isEqualTo(v1);
+        assertThat(v1.pow(2)).isEqualTo(v1.times(v1));
+        assertThat(v1.pow(3)).isEqualTo(v1.times(v1).times(v1));
+    }
+
 }

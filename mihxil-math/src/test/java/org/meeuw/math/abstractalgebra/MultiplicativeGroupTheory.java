@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>> extends MultiplicativeSemiGroupTheory<E> {
+public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoidTheory<E> {
 
     @Property
     default void division(
@@ -25,13 +25,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
 
     @Property
-    default void pow(
+    default void powNegativeExponents(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThat(v1.pow(0)).isEqualTo(v1.structure().one());
-        assertThat(v1.pow(1)).isEqualTo(v1);
-        assertThat(v1.pow(2)).isEqualTo(v1.times(v1));
-        assertThat(v1.pow(3)).isEqualTo(v1.times(v1).times(v1));
         assertThat(v1.pow(-1)).isEqualTo(v1.reciprocal());
         assertThat(v1.pow(-2)).isEqualTo(v1.structure().one().dividedBy(v1.times(v1)));
         assertThat(v1.pow(-3)).isEqualTo(v1.structure().one().dividedBy(v1.times(v1).times(v1)));
