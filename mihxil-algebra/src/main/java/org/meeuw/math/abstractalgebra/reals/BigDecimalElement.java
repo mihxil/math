@@ -1,15 +1,16 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
-
 import java.math.BigDecimal;
+
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
+import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
  *  A real number (backend by a big decimal)
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement implements NumberFieldElement<BigDecimalElement> {
+public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> implements NumberFieldElement<BigDecimalElement> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
