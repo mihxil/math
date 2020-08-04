@@ -22,13 +22,14 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      * if multiplication and division is definied, then so is exponentation
      */
     default E pow(int exponent) {
-        if (exponent < 0) {
-            throw new UnsupportedOperationException();
-        }
         E result = structure().one();
         while (exponent > 0) {
             result = result.times(self());
             exponent--;
+        }
+        while(exponent < 0) {
+            result = result.dividedBy(self());
+            exponent++;
         }
         return result;
     }

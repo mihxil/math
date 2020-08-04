@@ -12,17 +12,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeGroupTheory<E>, AdditiveGroupTheory<E>  {
 
 @Property
-    default void fieldOperators(@ForAll(ELEMENT) AlgebraicStructure<E> s) {
+    default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         assertThat(s.supportedOperators()).contains(Operator.values());
     }
 
-@Property
-default void distributivity (
-            @ForAll(ELEMENTS) E v1,
-            @ForAll(ELEMENTS) E v2,
-            @ForAll(ELEMENTS) E v3
-            ) {
-assertThat(v1.times(v2.plus(v3))).isEqualTo(v1.times(v2).plus(v1.times(v3)));
+    @Property
+    default void distributivity (
+        @ForAll(ELEMENTS) E v1,
+        @ForAll(ELEMENTS) E v2,
+        @ForAll(ELEMENTS) E v3
+    ) {
+        assertThat(v1.times(v2.plus(v3))).isEqualTo(v1.times(v2).plus(v1.times(v3)));
     }
 
 }

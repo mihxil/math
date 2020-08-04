@@ -10,7 +10,7 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class NaturalNumberTest {
+class NaturalNumberTest  {
 
     @Test
     public void test() {
