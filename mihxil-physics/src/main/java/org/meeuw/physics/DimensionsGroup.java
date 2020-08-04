@@ -28,8 +28,20 @@ public class DimensionsGroup implements MultiplicativeGroup<Dimensions>, Streama
 
     @Override
     public Stream<Dimensions> stream() {
+        long[] counters = new long[Dimension.values().length];
         // TODO:
-        return Stream.empty();
+        return Stream.iterate(new State(), State::next).map(State::dimensions);
+    }
 
+    private static class State {
+        int[] counters = new int[Dimension.values().length];
+        int max = 1;
+        int i = 0;
+        Dimensions dimensions() {
+            return new Dimensions(counters);
+        }
+        public State next() {
+          return this;
+        }
     }
 }

@@ -7,7 +7,7 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroup<F extends MultiplicativeGroupElement<F>> extends MultiplicativeMonoid<F> {
+public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoid<E> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
 

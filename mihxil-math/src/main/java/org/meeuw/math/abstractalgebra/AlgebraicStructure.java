@@ -10,9 +10,9 @@ import java.util.Set;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
- * @param <F> The type of the elements of this structure
+ * @param <E> The type of the elements of this structure
  */
-public interface AlgebraicStructure<F extends AlgebraicElement<F>> {
+public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     default Set<Operator> supportedOperators() {
         return Collections.emptySet();

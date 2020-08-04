@@ -8,39 +8,39 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupTheory<F extends AdditiveGroupElement<F>> extends AlgebraicStructureTheory<F> {
+public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends AlgebraicStructureTheory<E> {
 
     @Property
-    default void additiveGroupOperators(@ForAll(ELEMENT) F v1) {
-        assertThat(v1.structure().supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
+    default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        assertThat(s.supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
     }
 
     @Property
     default void minus(
-            @ForAll(ELEMENTS) F v1,
-            @ForAll(ELEMENTS) F v2) {
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2) {
         assertThat(v1.minus(v2)).isEqualTo(v1.plus(v2.negation()));
     }
 
     @Property
     default void additiveCommutativity (
-            @ForAll(ELEMENTS) F v1,
-            @ForAll(ELEMENTS) F v2) {
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2) {
         assertThat(v1.plus(v2)).isEqualTo(v2.plus(v1));
     }
 
     @Property
     default void additiveAssociativity (
-            @ForAll(ELEMENTS) F v1,
-            @ForAll(ELEMENTS) F v2,
-            @ForAll(ELEMENTS) F v3
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2,
+            @ForAll(ELEMENTS) E v3
             ) {
         assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
     }
 
 
     @Property
-    default void zero(@ForAll("elements") F v) {
+    default void zero(@ForAll("elements") E v) {
         assertThat(v.plus(v.structure().zero())).isEqualTo(v);
     }
 

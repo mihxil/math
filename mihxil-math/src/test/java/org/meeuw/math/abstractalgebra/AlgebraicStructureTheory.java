@@ -8,32 +8,40 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AlgebraicStructureTheory<F extends AlgebraicElement<F>>  {
+public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  {
 
     String ELEMENT = "element";
+    String STRUCTURE = "structure";
+
     String ELEMENTS = "elements";
 
 
+    @SuppressWarnings("rawtypes")
     @Property()
     default void cardinality(
-        @ForAll(ELEMENTS) F v) {
-        if (v.structure().cardinality().compareTo(Cardinality.ALEPH_1) < 0) {
-            assertThat(v.structure()).isInstanceOf(Streamable.class);
-            if (v.structure().cardinality().compareTo(new Cardinality(10000)) < 0) {
-                assertThat(((Streamable) v.structure()).stream().count()).isEqualTo(v.structure().cardinality().getValue());
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        if (s.cardinality().compareTo(Cardinality.ALEPH_1) < 0) {
+            assertThat(s).isInstanceOf(Streamable.class);
+            if (s.cardinality().compareTo(new Cardinality(10000)) < 0) {
+                assertThat(((Streamable) s).stream()).doesNotHaveDuplicates().hasSize((int) s.cardinality().getValue());
             } else {
-                assertThat(((Streamable) v.structure()).stream().limit(10001)).hasSizeGreaterThanOrEqualTo(10000);
+                assertThat(((Streamable) s).stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
             }
         } else {
-            assertThat(v.structure()).isNotInstanceOf(Streamable.class);
+            assertThat(s).isNotInstanceOf(Streamable.class);
         }
     }
 
     @Provide
-    Arbitrary<F> elements();
+    Arbitrary<E> elements();
 
     @Provide
-    default Arbitrary<F> element() {
+    default Arbitrary<E> element() {
         return Arbitraries.of(elements().sample());
+    }
+
+    @Provide
+    default Arbitrary<AlgebraicStructure<E>> structure() {
+        return Arbitraries.of(elements().sample().structure());
     }
 }

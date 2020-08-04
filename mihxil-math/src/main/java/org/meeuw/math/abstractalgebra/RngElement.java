@@ -6,8 +6,8 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface RngElement<F extends RngElement<F>> extends AdditiveGroupElement<F>, MultiplicativeSemiGroupElement<F> {
+public interface RngElement<E extends RngElement<E>> extends AdditiveGroupElement<E>, MultiplicativeSemiGroupElement<E> {
 
     @Override
-    Rng<F> structure();
+    Rng<E> structure();
 }

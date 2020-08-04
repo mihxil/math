@@ -8,16 +8,17 @@ package org.meeuw.math.abstractalgebra;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E> The self type
  */
-public interface AlgebraicElement<F extends AlgebraicElement<F>> {
+public interface AlgebraicElement<E extends AlgebraicElement<E>> {
 
     /**
      * Returns the {@link AlgebraicStructure} associated with the object.
      */
-    AlgebraicStructure<F> structure();
+    AlgebraicStructure<E> structure();
 
     /**
      * Returns the object itself. This exists to have 'this' available in default methods.
      */
-    F self();
+    E self();
 }

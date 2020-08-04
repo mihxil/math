@@ -6,19 +6,19 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends AdditiveMonoidElement<F> {
+public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends AdditiveMonoidElement<E> {
 
     @Override
-    AdditiveGroup<F> structure();
+    AdditiveGroup<E> structure();
 
      /**
      * The additive inverse
      */
-    F negation();
+    E negation();
 
 
 
-    default F minus(F subtrahend) {
+    default E minus(E subtrahend) {
         return plus(subtrahend.negation());
     }
 
@@ -27,12 +27,12 @@ public interface AdditiveGroupElement<F extends AdditiveGroupElement<F>> extends
      *
      * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
      */
-    default F repeatedPlus(int multiplier) {
+    default E repeatedPlus(int multiplier) {
         if (multiplier == 0) {
             return structure().zero();
         }
         int m = Math.abs(multiplier);
-        F result = self();
+        E result = self();
         while (--m > 0) {
             result = result.plus(self());
         }

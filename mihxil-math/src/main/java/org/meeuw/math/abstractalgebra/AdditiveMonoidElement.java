@@ -4,9 +4,9 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveMonoidElement<F extends AdditiveMonoidElement<F>> extends AlgebraicElement<F> {
+public interface AdditiveMonoidElement<E extends AdditiveMonoidElement<E>> extends AlgebraicElement<E> {
 
-    AdditiveMonoid<F> structure();
+    AdditiveMonoid<E> structure();
 
-    F plus(F summand);
+    E plus(E summand);
 }

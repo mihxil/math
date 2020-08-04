@@ -9,55 +9,55 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ComplexNumber<F extends NumberFieldElement<F>> implements FieldElement<ComplexNumber<F>> {
+public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElement<ComplexNumber<E>> {
 
-private final F real;
-private final F imaginairy;
+private final E real;
+private final E imaginairy;
 @Getter
-private final NumberField<F> elementStructure;
+private final NumberField<E> elementStructure;
 
 
-public static <F extends NumberFieldElement<F>> ComplexNumber<F> of(F r, F imaginairy) {
+public static <E extends NumberFieldElement<E>> ComplexNumber<E> of(F r, E imaginairy) {
 return new ComplexNumber<>(r, imaginairy);
 }
 
-public ComplexNumber(F real, F imaginairy) {
+public ComplexNumber(F real, E imaginairy) {
 this.real = real;
 this.imaginairy = imaginairy;
 this.elementStructure = real.structure();
 }
 
 @Override
-public ComplexNumbers<F> structure() {
-return new ComplexNumbers<F>(elementStructure);
+public ComplexNumbers<E> structure() {
+return new ComplexNumbers<E>(elementStructure);
 }
 
 @Override
-public ComplexNumber<F> self() {
+public ComplexNumber<E> self() {
 return this;
 }
 
 @Override
-public ComplexNumber<F> times(ComplexNumber<F> multiplier) {
+public ComplexNumber<E> times(ComplexNumber<E> multiplier) {
 return new ComplexNumber<>(
 this.real.times(multiplier.real).minus(this.imaginairy.times(multiplier.imaginairy)),
 this.real.times(multiplier.imaginairy).plus(this.imaginairy.times(multiplier.real)));
 }
 
 @Override
-public ComplexNumber<F> pow(int exponent) {
+public ComplexNumber<E> pow(int exponent) {
 return null;
 }
 
 @Override
-public ComplexNumber<F> reciprocal() {
+public ComplexNumber<E> reciprocal() {
 F denominator = this.real.sqr().plus(this.imaginairy.sqr());
 return of(this.real.dividedBy(denominator), this.imaginairy.negation().dividedBy(denominator));
 }
 
 
 @Override
-public ComplexNumber<F> plus(ComplexNumber<F> summand) {
+public ComplexNumber<E> plus(ComplexNumber<E> summand) {
 return new ComplexNumber<>(
 this.real.plus(summand.real),
 this.imaginairy.plus(summand.imaginairy)
@@ -65,7 +65,7 @@ this.imaginairy.plus(summand.imaginairy)
 }
 
 @Override
-public ComplexNumber<F> negation() {
+public ComplexNumber<E> negation() {
 return new ComplexNumber<>(
 this.real.negation(),
 this.imaginairy.negation()

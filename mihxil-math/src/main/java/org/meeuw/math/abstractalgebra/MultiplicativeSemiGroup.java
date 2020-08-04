@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeSemiGroup<F extends MultiplicativeSemiGroupElement<F>> extends AlgebraicStructure<F> {
+public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructure<E> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
 

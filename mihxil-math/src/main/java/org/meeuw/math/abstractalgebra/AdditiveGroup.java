@@ -8,7 +8,7 @@ import java.util.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroup<F extends AdditiveGroupElement<F>>   extends AdditiveMonoid<F>  {
+public interface AdditiveGroup<E extends AdditiveGroupElement<E>>   extends AdditiveMonoid<E>  {
 
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION)));
 

@@ -6,10 +6,10 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface FieldElement<F extends FieldElement<F>> extends
-    MultiplicativeGroupElement<F>,
-    RingElement<F> {
+public interface FieldElement<E extends FieldElement<E>> extends
+    MultiplicativeGroupElement<E>,
+    RingElement<E> {
 
     @Override
-    Field<F> structure();
+    Field<E> structure();
 }

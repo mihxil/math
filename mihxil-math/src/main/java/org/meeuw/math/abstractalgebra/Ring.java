@@ -6,7 +6,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Ring<F extends RingElement<F>> extends Rng<F> {
+public interface Ring<E extends RingElement<E>> extends Rng<E> {
 
-    F one();
+    E one();
 }

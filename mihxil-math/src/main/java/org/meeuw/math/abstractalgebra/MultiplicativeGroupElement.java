@@ -6,26 +6,26 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement<F>> extends MultiplicativeMonoidElement<F> {
+public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoidElement<E> {
 
     @Override
-    MultiplicativeGroup<F> structure();
+    MultiplicativeGroup<E> structure();
 
     /**
      * The multiplicative inverse
      */
-    default F reciprocal() {
+    default E reciprocal() {
         return pow(-1);
     }
 
     /**
      * if multiplication and division is definied, then so is exponentation
      */
-    default F pow(int exponent) {
+    default E pow(int exponent) {
         if (exponent < 0) {
             throw new UnsupportedOperationException();
         }
-        F result = structure().one();
+        E result = structure().one();
         while (exponent > 0) {
             result = result.times(self());
             exponent--;
@@ -34,14 +34,14 @@ public interface MultiplicativeGroupElement<F extends MultiplicativeGroupElement
     }
 
 
-    default F dividedBy(F divisor) {
+    default E dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }
 
     /**
      * Returns this elemented multiplied by itself.
      */
-    default F sqr() {
+    default E sqr() {
         return times(self());
     }
 

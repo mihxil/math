@@ -7,7 +7,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberElement<F extends NumberElement<F>> extends Comparable<Number> {
+public interface NumberElement<E extends NumberElement<E>> extends Comparable<Number> {
 
     /**
      * Returns the value of the specified number as an {@code int},
@@ -91,6 +91,6 @@ public interface NumberElement<F extends NumberElement<F>> extends Comparable<Nu
     }
 
 
-    int compareTo(F f);
+    int compareTo(E f);
 
 }

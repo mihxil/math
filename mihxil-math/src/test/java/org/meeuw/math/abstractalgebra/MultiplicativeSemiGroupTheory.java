@@ -8,27 +8,27 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeSemiGroupTheory<F extends MultiplicativeSemiGroupElement<F>> extends AlgebraicStructureTheory<F> {
+public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructureTheory<E> {
 
     @Property
-    default void multiplicativeSemiGroupOperators(@ForAll(ELEMENT) F v1) {
-        assertThat(v1.structure().supportedOperators()).contains(Operator.MULTIPLICATION);
+    default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        assertThat(s.supportedOperators()).contains(Operator.MULTIPLICATION);
     }
 
 
     @Property
     default void multiplicativeCommutativity (
-        @ForAll(ELEMENTS) F v1,
-        @ForAll(ELEMENTS) F v2) {
+        @ForAll(ELEMENTS) E v1,
+        @ForAll(ELEMENTS) E v2) {
         assertThat(v1.times(v2)).isEqualTo(v2.times(v1));
     }
 
 
     @Property
     default void multiplicativeAssociativity (
-            @ForAll(ELEMENTS) F v1,
-            @ForAll(ELEMENTS) F v2,
-            @ForAll(ELEMENTS) F v3
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2,
+            @ForAll(ELEMENTS) E v3
             ) {
         assertThat((v1.times(v2)).times(v3)).isEqualTo(v1.times((v2.times(v3))));
     }

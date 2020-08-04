@@ -1,12 +1,13 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * Some
+ * Abstract implementation of {@link NumberElement}. Extends from {@link Number}, and implements some of its methods.
+ *
  * @author Michiel Meeuwissen
- * @since .0.4
+ * @since 0.4
  */
-public abstract  class AbstractNumberElement<F extends AbstractNumberElement<F>> extends Number
-        implements NumberElement<F> {
+public abstract  class AbstractNumberElement<E extends AbstractNumberElement<E>> extends Number
+        implements NumberElement<E> {
 
     @Override
     public int intValue() {

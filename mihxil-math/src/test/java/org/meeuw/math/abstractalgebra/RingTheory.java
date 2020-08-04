@@ -8,13 +8,13 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface RingTheory<F extends RingElement<F>> extends AdditiveGroupTheory<F>, RngTheory<F> {
+public interface RingTheory<E extends RingElement<E>> extends AdditiveGroupTheory<E>, RngTheory<E> {
 
 
 
     @Property
     default void one(
-        @ForAll(ELEMENTS) F v) {
+        @ForAll(ELEMENTS) E v) {
         assertThat(v.times(v.structure().one())).isEqualTo(v);
     }
 }

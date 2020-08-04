@@ -4,9 +4,9 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeMonoidElement<F extends MultiplicativeMonoidElement<F>> extends MultiplicativeSemiGroupElement<F> {
+public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidElement<E>> extends MultiplicativeSemiGroupElement<E> {
 
-    MultiplicativeMonoid<F> structure();
+    MultiplicativeMonoid<E> structure();
 
-    F times(F multiplier);
+    E times(E multiplier);
 }

@@ -8,12 +8,12 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberFieldElement<F extends NumberFieldElement<F>>   extends
-    FieldElement<F>,
-    NumberElement<F> {
+public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
+    FieldElement<E>,
+    NumberElement<E> {
 
     @Override
-    NumberField<F> structure();
+    NumberField<E> structure();
 
 
 

@@ -13,7 +13,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
     final FieldMatrix3<RealNumber> rot;
 
     private Rotation() {
-        rot = new FieldMatrix3<RealNumber>(RealField.INSTANCE);
+        rot = new FieldMatrix3<>(RealField.INSTANCE);
     }
 
     public Rotation(double[][] values) {
