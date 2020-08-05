@@ -45,11 +45,6 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     }
 
     @Override
-    public ComplexNumber<E> pow(int exponent) {
-        return null;
-    }
-
-    @Override
     public ComplexNumber<E> reciprocal() {
         E denominator = this.real.sqr().plus(this.imaginairy.sqr());
         return of(this.real.dividedBy(denominator), this.imaginairy.negation().dividedBy(denominator));

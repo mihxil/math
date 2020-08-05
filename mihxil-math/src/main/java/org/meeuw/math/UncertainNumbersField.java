@@ -29,6 +29,6 @@ public class UncertainNumbersField<T extends UncertainNumber<T> & FieldElement<T
 
     @Override
     public Cardinality cardinality() {
-        return zero.structure().cardinality();
+        return Cardinality.ALEPH_1;
     }
 }

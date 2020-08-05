@@ -1,8 +1,7 @@
 package org.meeuw.statistics;
 
-import net.jqwik.api.Arbitrary;
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
+import net.jqwik.api.*;
+
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.FieldTheory;
@@ -73,6 +72,9 @@ public class StatisticalDoubleTest implements FieldTheory<StatisticalDouble> {
 
     @Override
     public Arbitrary<StatisticalDouble> elements() {
-        return null;
+        StatisticalDouble v1 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023);
+        StatisticalDouble v2 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).times(2);
+        StatisticalDouble v3 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).times(3);
+        return Arbitraries.of(v1, v2, v3);
     }
 }

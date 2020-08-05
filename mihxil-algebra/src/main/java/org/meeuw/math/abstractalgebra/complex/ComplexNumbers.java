@@ -30,6 +30,7 @@ public class ComplexNumbers<E extends NumberFieldElement<E>> implements Field<Co
 
     @Override
     public Cardinality cardinality() {
-        return field.cardinality();
+        //return field.cardinality(); // might be doable...
+        return Cardinality.ALEPH_1;
     }
 }

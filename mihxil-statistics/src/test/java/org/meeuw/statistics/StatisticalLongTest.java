@@ -1,13 +1,15 @@
 package org.meeuw.statistics;
 
+import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-import org.junit.jupiter.api.Test;
-import org.meeuw.math.UncertainNumber;
-import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -103,6 +105,12 @@ class StatisticalLongTest implements FieldTheory<StatisticalLong> {
 
     @Override
     public Arbitrary<StatisticalLong> elements() {
-        return null;
+        StatisticalLong mes1 = new StatisticalLong(StatisticalLong.Mode.DURATION);
+        mes1.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
+
+        StatisticalLong mes2 = new StatisticalLong(StatisticalLong.Mode.DURATION);
+        mes2.enter(Duration.ofSeconds(201), Duration.ofSeconds(200), Duration.ofSeconds(400), Duration.ofSeconds(199));
+
+        return Arbitraries.of(mes1, mes2);
     }
 }

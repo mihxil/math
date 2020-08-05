@@ -97,7 +97,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
 
         RealNumber that = (RealNumber) o;
 
-        return value == that.value;
+        return equalsWithEpsilon(that);
     }
 
     @Override
