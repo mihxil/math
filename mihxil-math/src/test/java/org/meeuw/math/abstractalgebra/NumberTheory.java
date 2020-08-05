@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -12,13 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<E> {
 
     @Property
-    default void compareTo(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
+    default void compareToConsistentWithEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
         int ct = e1.compareTo(e2);
         if (ct == 0) {
             assertThat(e1).isEqualTo(e2);
             assertThat(e2).isEqualTo(e1);
         } else {
-            assertThat(ct).isEqualTo(-1 * e2.compareTo(e1));
+            assertThat(e1).isNotEqualTo(e2);
+            assertThat(e2).isNotEqualTo(e1);
         }
+        assertThat(signum(ct)).isEqualTo(-1 * signum(e2.compareTo(e1)));
     }
 }
