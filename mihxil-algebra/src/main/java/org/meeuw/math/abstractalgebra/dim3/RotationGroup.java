@@ -4,7 +4,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
- * SO(3) group
+ * SO(3) group. A non-abelian multiplicative group.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -17,11 +18,7 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     }
     @Override
     public Rotation one() {
-        return new Rotation(new double[][]{
-            {1, 0, 0},
-            {0, 1, 0},
-            {0, 0, 1}
-        });
+        return Rotation.ONE;
     }
 
     @Override

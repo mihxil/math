@@ -11,7 +11,7 @@ public interface Field<E extends FieldElement<E>> extends
     MultiplicativeAbelianGroup<E>,
     Ring<E> {
 
-    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));
 
     @Override
     default boolean supports(Operator operator) {
@@ -20,7 +20,7 @@ public interface Field<E extends FieldElement<E>> extends
 
     @Override
     default Set<Operator> supportedOperators() {
-        return operators;
+        return OPERATORS;
 
     }
 }

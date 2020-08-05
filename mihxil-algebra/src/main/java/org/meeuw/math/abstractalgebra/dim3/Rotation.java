@@ -10,6 +10,12 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
  */
 public class Rotation implements MultiplicativeGroupElement<Rotation> {
 
+    public static final Rotation ONE = new Rotation(new double[][]{
+        {1, 0, 0},
+        {0, 1, 0},
+        {0, 0, 1}
+    });
+
     final FieldMatrix3<RealNumber> rot;
 
     private Rotation() {

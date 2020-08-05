@@ -10,11 +10,11 @@ import java.util.*;
  */
 public interface Rng<E extends RngElement<E>> extends AdditiveGroup<E>, MultiplicativeSemiGroup<E> {
 
-    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION)));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION)));
 
     @Override
     default Set<Operator> supportedOperators() {
-        return operators;
+        return OPERATORS;
     }
 
 

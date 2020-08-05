@@ -13,12 +13,12 @@ import java.util.Set;
  */
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructure<E> {
 
-    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
 
 
     @Override
     default Set<Operator> supportedOperators() {
-        return operators;
+        return OPERATORS;
     }
 
 }

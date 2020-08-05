@@ -9,13 +9,13 @@ import java.util.*;
  */
 public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoid<E> {
 
-    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
 
 
 
     @Override
     default Set<Operator> supportedOperators() {
-        return operators;
+        return OPERATORS;
     }
 
 }
