@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeGroupTheory<E>, AdditiveGroupTheory<E>  {
+public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeAbelianGroupTheory<E>, AdditiveGroupTheory<E>  {
 
     @Property
     default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {

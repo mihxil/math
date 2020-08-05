@@ -13,7 +13,6 @@ public interface AdditiveGroup<E extends AdditiveGroupElement<E>>   extends Addi
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION)));
 
 
-
     @Override
     default Set<Operator> supportedOperators() {
         return OPERATORS;

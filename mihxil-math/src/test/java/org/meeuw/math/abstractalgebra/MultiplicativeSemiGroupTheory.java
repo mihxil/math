@@ -16,12 +16,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     }
 
 
-    @Property
-    default void multiplicativeCommutativity (
-        @ForAll(ELEMENTS) E v1,
-        @ForAll(ELEMENTS) E v2) {
-        assertThat(v1.times(v2)).isEqualTo(v2.times(v1));
-    }
 
 
     @Property

@@ -9,7 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoidTheory<E> {
+public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
+    extends MultiplicativeMonoidTheory<E> {
 
     @Property
     default void division(

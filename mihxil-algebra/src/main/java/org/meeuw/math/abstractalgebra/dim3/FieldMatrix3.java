@@ -1,7 +1,5 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import lombok.EqualsAndHashCode;
-
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -12,7 +10,6 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@EqualsAndHashCode
 public class FieldMatrix3<E extends NumberFieldElement<E>>
     implements MultiplicativeGroupElement<FieldMatrix3<E>> {
 
@@ -69,10 +66,10 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         return of(timesDouble(multiplier.values));
     }
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    @SuppressWarnings({"unchecked"})
     public FieldVector3<E>[] asVectors() {
 
-        FieldVector3<E>[] result = (FieldVector3<E>[]) Array.newInstance(structure().elementClass(), 3);
+        FieldVector3<E>[] result = (FieldVector3<E>[]) new FieldVector3[3];
         result[0] = FieldVector3.of(values[0][0], values[0][1], values[0][2]);
         result[1] = FieldVector3.of(values[1][0], values[1][1], values[1][2]);
         result[2] = FieldVector3.of(values[2][0], values[2][1], values[2][2]);
@@ -132,5 +129,20 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     @Override
     public String toString() {
         return "(" + Arrays.stream(asVectors()).map(FieldVector3::toString).collect(Collectors.joining(", ")) + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FieldMatrix3<?> that = (FieldMatrix3<?>) o;
+
+        return Arrays.deepEquals(values, that.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(values);
     }
 }

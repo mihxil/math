@@ -8,7 +8,7 @@ import java.util.*;
  * @since 0.4
  */
 public interface Field<E extends FieldElement<E>> extends
-    MultiplicativeGroup<E>,
+    MultiplicativeAbelianGroup<E>,
     Ring<E> {
 
     Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));

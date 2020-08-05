@@ -3,7 +3,7 @@ package org.meeuw.physics;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroupTheory;
 
 import static org.meeuw.physics.UnitsImplTest.units;
 
@@ -12,7 +12,7 @@ import static org.meeuw.physics.UnitsImplTest.units;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class PhysicalNumberTest implements MultiplicativeGroupTheory<PhysicalNumber> {
+class PhysicalNumberTest implements MultiplicativeAbelianGroupTheory<PhysicalNumber> {
 
     @Override
     public Arbitrary<PhysicalNumber> elements() {

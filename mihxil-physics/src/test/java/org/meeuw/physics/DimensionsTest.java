@@ -3,7 +3,7 @@ package org.meeuw.physics;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroupTheory;
 
 import static org.meeuw.physics.Dimension.*;
 
@@ -11,7 +11,7 @@ import static org.meeuw.physics.Dimension.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class DimensionsTest implements MultiplicativeGroupTheory<Dimensions> {
+class DimensionsTest implements MultiplicativeAbelianGroupTheory<Dimensions> {
 
     @Override
     public Arbitrary<Dimensions> elements() {

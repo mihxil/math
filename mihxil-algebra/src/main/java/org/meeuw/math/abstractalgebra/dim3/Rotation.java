@@ -75,7 +75,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
     @Override
     public Rotation times(Rotation multiplier) {
         return new Rotation(
-            multiplier.rot.times(multiplier.rot).values
+            rot.times(multiplier.rot).values
         );
     }
 
@@ -95,5 +95,20 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
     @Override
     public String toString() {
         return rot.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rotation rotation = (Rotation) o;
+
+        return rot.equals(rotation.rot);
+    }
+
+    @Override
+    public int hashCode() {
+        return rot.hashCode();
     }
 }
