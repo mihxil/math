@@ -10,13 +10,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  {
+public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extends ElementTheory<E> {
 
-    String ELEMENT = "element";
     String STRUCTURE = "structure";
-
-    String ELEMENTS = "elements";
-
 
     @SuppressWarnings("rawtypes")
     @Property()
@@ -33,14 +29,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
         LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> "Cardinaly of " + s  + s.cardinality());
-    }
-
-    @Provide
-    Arbitrary<E> elements();
-
-    @Provide
-    default Arbitrary<E> element() {
-        return Arbitraries.of(elements().sample());
     }
 
     @Provide

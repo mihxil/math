@@ -5,6 +5,7 @@ import net.jqwik.api.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.NumberTheory;
 import org.meeuw.math.abstractalgebra.RingTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +15,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class IntegerElementTest implements RingTheory<IntegerElement> {
+class IntegerElementTest implements RingTheory<IntegerElement>, NumberTheory<IntegerElement> {
 
     @Test
     void test() {
@@ -27,7 +28,15 @@ class IntegerElementTest implements RingTheory<IntegerElement> {
         assertThat(two.times(two.structure().one())).isEqualTo(two);
 
         assertThat(two.plus(two.structure().zero())).isEqualTo(two);
+    }
 
+    @Property
+    void strings(@ForAll(ELEMENTS) IntegerElement integerElement) {
+        assertThat(integerElement.toString()).isEqualTo(Long.toString(integerElement.longValue()));
+    }
+    @Property
+    void doubles(@ForAll(ELEMENTS) IntegerElement integerElement) {
+        assertThat(integerElement.doubleValue()).isEqualTo(Double.valueOf(integerElement.longValue()));
     }
 
     @Test

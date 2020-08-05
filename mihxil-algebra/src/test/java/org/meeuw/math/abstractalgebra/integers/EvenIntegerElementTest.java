@@ -6,6 +6,7 @@ import net.jqwik.api.Arbitrary;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.NumberTheory;
 import org.meeuw.math.abstractalgebra.RngTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest implements RngTheory<EvenIntegerElement> {
+class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, NumberTheory<EvenIntegerElement> {
 
     @Test
     public void test() {

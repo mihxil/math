@@ -90,7 +90,6 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
         return compareTo(0d) == 0;
     }
 
-
     int compareTo(E f);
 
 }

@@ -1,9 +1,11 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import net.jqwik.api.*;
+
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.FieldTheory;
+import org.meeuw.math.abstractalgebra.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
@@ -14,7 +16,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @since 0.4
  */
 
-class RationalNumberTest implements FieldTheory<RationalNumber> {
+class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<RationalNumber> {
 
     @Test
     public void test() {

@@ -5,6 +5,7 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidTheory;
+import org.meeuw.math.abstractalgebra.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,7 +15,7 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class NaturalNumberTest implements MultiplicativeMonoidTheory<NaturalNumber> {
+class NaturalNumberTest implements MultiplicativeMonoidTheory<NaturalNumber>, NumberTheory<NaturalNumber> {
 
     @Test
     public void test() {
