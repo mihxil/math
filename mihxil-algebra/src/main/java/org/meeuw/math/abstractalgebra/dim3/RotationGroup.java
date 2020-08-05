@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import org.meeuw.math.abstractalgebra.Cardinality;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
@@ -9,12 +8,12 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RotationGroup implements MultiplicativeGroup<Rotation> {
+public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implements MultiplicativeGroup<Rotation> {
 
     public static final RotationGroup INSTANCE = new RotationGroup();
 
     private RotationGroup() {
-
+        super(Rotation.class);
     }
     @Override
     public Rotation one() {

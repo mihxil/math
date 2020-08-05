@@ -24,4 +24,6 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     Cardinality cardinality();
 
+    Class<E> elementClass();
+
 }

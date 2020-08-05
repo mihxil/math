@@ -6,11 +6,12 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ComplexNumbers<E extends NumberFieldElement<E>> implements Field<ComplexNumber<E>> {
+public class ComplexNumbers<E extends NumberFieldElement<E>> extends AbstractAlgebraicStructure<ComplexNumber<E>> implements Field<ComplexNumber<E>> {
 
     private final NumberField<E> field;
 
     public ComplexNumbers(NumberField<E> field) {
+        super((Class) ComplexNumber.class);
         this.field = field;
     }
 

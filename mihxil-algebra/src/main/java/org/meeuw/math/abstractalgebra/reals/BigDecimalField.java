@@ -1,16 +1,19 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import org.meeuw.math.abstractalgebra.Cardinality;
-import org.meeuw.math.abstractalgebra.NumberField;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * The algebra for {@link java.math.BigDecimal} (wrapped in {@link BigDecimalElement}
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalField implements NumberField<BigDecimalElement> {
+public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElement> implements NumberField<BigDecimalElement> {
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
+
+    protected BigDecimalField() {
+        super(BigDecimalElement.class);
+    }
 
     @Override
     public BigDecimalElement zero() {

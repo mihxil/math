@@ -8,13 +8,14 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class EvenIntegers  implements Rng<EvenIntegerElement>, Streamable<EvenIntegerElement>  {
+public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement> implements Rng<EvenIntegerElement>, Streamable<EvenIntegerElement>  {
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
     public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
 
     private EvenIntegers() {
+        super(EvenIntegerElement.class);
     }
 
     @Override

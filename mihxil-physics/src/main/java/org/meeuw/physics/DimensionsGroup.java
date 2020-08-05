@@ -7,13 +7,14 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * @author Michiel Meeuwissen
  */
-public class DimensionsGroup implements MultiplicativeGroup<Dimensions>, Streamable<Dimensions> {
+public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> implements MultiplicativeGroup<Dimensions>, Streamable<Dimensions> {
 
     private static final Dimensions ONE = new Dimensions();
 
     public static final DimensionsGroup INSTANCE = new DimensionsGroup();
 
     private DimensionsGroup() {
+        super(Dimensions.class);
     }
 
     @Override

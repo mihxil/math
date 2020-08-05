@@ -9,13 +9,15 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NaturalNumbers implements MultiplicativeMonoid<NaturalNumber>, AdditiveMonoid<NaturalNumber>, Streamable<NaturalNumber> {
+public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber> implements MultiplicativeMonoid<NaturalNumber>, AdditiveMonoid<NaturalNumber>, Streamable<NaturalNumber> {
 
-    Set<Operator> operators = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.ADDITION)));
+    private static final Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.ADDITION)));
 
+    public static final NaturalNumbers INSTANCE = new NaturalNumbers();
 
-
-    public static NaturalNumbers INSTANCE = new NaturalNumbers();
+    protected NaturalNumbers() {
+        super(NaturalNumber.class);
+    }
 
     @Override
     public NaturalNumber zero() {
@@ -29,7 +31,7 @@ public class NaturalNumbers implements MultiplicativeMonoid<NaturalNumber>, Addi
 
     @Override
     public Set<Operator> supportedOperators() {
-        return operators;
+        return OPERATORS;
     }
     @Override
     public Stream<NaturalNumber> stream() {

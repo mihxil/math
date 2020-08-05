@@ -14,9 +14,13 @@ import static java.math.BigInteger.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumbers implements NumberField<RationalNumber>, Streamable<RationalNumber> {
+public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements NumberField<RationalNumber>, Streamable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
+
+    protected RationalNumbers() {
+        super(RationalNumber.class);
+    }
 
     @Override
     public RationalNumber zero() {

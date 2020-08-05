@@ -71,11 +71,12 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @SuppressWarnings({"unchecked", "ConstantConditions"})
     public FieldVector3<E>[] asVectors() {
-        return (FieldVector3<E>[]) new Object[] {
-            FieldVector3.of(values[0][0], values[0][1], values[0][2]),
-            FieldVector3.of(values[1][0], values[1][1], values[1][2]),
-            FieldVector3.of(values[2][0], values[2][1], values[2][2])
-        };
+
+        FieldVector3<E>[] result = (FieldVector3<E>[]) Array.newInstance(structure().elementClass(), 3);
+        result[0] = FieldVector3.of(values[0][0], values[0][1], values[0][2]);
+        result[1] = FieldVector3.of(values[1][0], values[1][1], values[1][2]);
+        result[2] = FieldVector3.of(values[2][0], values[2][1], values[2][2]);
+        return result;
     }
 
     @Override
@@ -94,9 +95,9 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    @SuppressWarnings({"unchecked"})
     E[] timesDouble(E[][] matrix3) {
-        E[] result = (E[]) new Object[9];
+        E[] result = (E[]) Array.newInstance(elementStructure.elementClass(), 9);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 E v = elementStructure.zero();

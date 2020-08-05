@@ -1,16 +1,19 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import org.meeuw.math.abstractalgebra.Cardinality;
-import org.meeuw.math.abstractalgebra.NumberField;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * The field of real numbers.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RealField implements NumberField<RealNumber> {
+public class RealField extends AbstractAlgebraicStructure<RealNumber> implements NumberField<RealNumber> {
 
     public static final RealField INSTANCE = new RealField();
+
+    private RealField() {
+        super(RealNumber.class);
+    }
 
     @Override
     public RealNumber zero() {

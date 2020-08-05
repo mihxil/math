@@ -8,12 +8,14 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix3Group<E extends NumberFieldElement<E>> implements
-    MultiplicativeGroup<FieldMatrix3<E>> {
+public class FieldMatrix3Group<E extends NumberFieldElement<E>>
+    extends AbstractAlgebraicStructure<FieldMatrix3<E>>
+    implements MultiplicativeGroup<FieldMatrix3<E>> {
 
     private final NumberField<E> elementStructure;
 
     FieldMatrix3Group(NumberField<E> elementStructure) {
+        super((Class) FieldMatrix3.class);
         this.elementStructure = elementStructure;
     }
 

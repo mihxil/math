@@ -9,13 +9,14 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Integers implements Ring<IntegerElement>, Streamable<IntegerElement> {
+public class Integers extends AbstractAlgebraicStructure<IntegerElement> implements Ring<IntegerElement>, Streamable<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
 
     private Integers() {
+        super(IntegerElement.class);
     }
 
     @Override
