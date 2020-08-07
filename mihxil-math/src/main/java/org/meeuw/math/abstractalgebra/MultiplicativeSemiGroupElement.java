@@ -15,9 +15,15 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     E times(E multiplier);
 
     /**
+     * less verbose version of {@link #times(MultiplicativeSemiGroupElement)}
+     */
+    default E x(E multiplier) {
+        return times(multiplier);
+    }
+    /**
      * if multiplication is defined, then so is exponentation, as long as the exponent is positive
      */
-    default E pow(@Min(0) int exponent) {
+    default E pow(@Min(1) int exponent) {
         E result = self();
         while (exponent > 1) {
             result = result.times(self());

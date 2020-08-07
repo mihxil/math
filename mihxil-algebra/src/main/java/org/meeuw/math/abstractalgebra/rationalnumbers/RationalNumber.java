@@ -111,7 +111,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
 
     @Override
     public double doubleValue() {
-        return numerator.doubleValue() / denominator.doubleValue();
+        return bigDecimalValue().doubleValue();
     }
 
     private static final  MathContext MATH_CONTEXT = new MathContext(40);

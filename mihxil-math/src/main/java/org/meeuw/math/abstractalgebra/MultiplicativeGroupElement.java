@@ -3,6 +3,11 @@ package org.meeuw.math.abstractalgebra;
 /**
  * An element for the algebraic 'group' (where the operation is multiplication)
  *
+ * The operations {@link #reciprocal()}, {@link #dividedBy(MultiplicativeGroupElement)} and {@link #pow(int)} are on default implemented
+ * using one of the others.
+ *
+ * You have to override at least one, to break the otherwise stack overflow.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -19,7 +24,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     }
 
     /**
-     * if multiplication and division is definied, then so is exponentation to any integer power.
+     * if multiplication and division is defined, then so is exponentation to any integer power.
      */
     default E pow(int exponent) {
         E result = structure().one();

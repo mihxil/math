@@ -21,7 +21,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     public void roty() {
         Rotation y = Rotation.Ry(PI);
         FieldVector3<RealNumber> v = of(1, 0, 0);
-        FieldVector3<RealNumber> rotated = y.rotate(v);
+        FieldVector3<RealNumber> rotated = y.apply(v);
         assertThat(rotated).isEqualTo(of(-1, 0, 0));
     }
 
@@ -29,7 +29,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     public void rotz() {
         Rotation z = Rotation.Rz(PI);
         FieldVector3<RealNumber> v = of(0, 1, 0);
-        FieldVector3<RealNumber> rotated = z.rotate(v);
+        FieldVector3<RealNumber> rotated = z.apply(v);
         assertThat(rotated).isEqualTo(of(0, -1, 0));
     }
 

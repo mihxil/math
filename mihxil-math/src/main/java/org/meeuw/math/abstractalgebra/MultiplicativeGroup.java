@@ -11,8 +11,6 @@ public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>> ex
 
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.DIVISION)));
 
-
-
     @Override
     default Set<Operator> supportedOperators() {
         return OPERATORS;

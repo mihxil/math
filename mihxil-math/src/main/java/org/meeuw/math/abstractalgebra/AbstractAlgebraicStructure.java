@@ -12,15 +12,8 @@ public abstract class AbstractAlgebraicStructure<F extends AlgebraicElement<F>> 
         this.elementClass = elementClass;
     }
 
-    @Override
-    public Cardinality cardinality() {
-        return null;
-
-    }
-
-    @Override
+   @Override
     public Class<F> elementClass() {
         return elementClass;
-
     }
 }

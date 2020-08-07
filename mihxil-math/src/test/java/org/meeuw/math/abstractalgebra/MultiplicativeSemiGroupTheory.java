@@ -16,8 +16,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     }
 
 
-
-
     @Property
     default void multiplicativeAssociativity (
             @ForAll(ELEMENTS) E v1,

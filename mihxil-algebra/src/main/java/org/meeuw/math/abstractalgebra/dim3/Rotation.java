@@ -1,14 +1,16 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.util.function.UnaryOperator;
+
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Rotation implements MultiplicativeGroupElement<Rotation> {
+public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOperator<FieldVector3<RealNumber>> {
 
     public static final Rotation ONE = new Rotation(new double[][]{
         {1, 0, 0},
@@ -84,9 +86,12 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
             rot.times(multiplier.rot).values
         );
     }
-
-    public FieldVector3<RealNumber> rotate(FieldVector3<RealNumber> in) {
+    protected FieldVector3<RealNumber> rotate(FieldVector3<RealNumber> in) {
         return in.times(rot);
+    }
+    @Override
+    public FieldVector3<RealNumber> apply(FieldVector3<RealNumber> in) {
+        return rotate(in);
     }
 
     @Override
@@ -117,4 +122,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation> {
     public int hashCode() {
         return rot.hashCode();
     }
+
+
 }
