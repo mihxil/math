@@ -3,6 +3,9 @@ package org.meeuw.math.abstractalgebra.permutations;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
 
@@ -26,6 +29,10 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
         assertThat(permutation.structure().cardinality().getValue()).isEqualTo(3 * 2 * 1);
 
+        permutation.structure().stream().forEach(p -> {
+            System.out.println(IntStream.of(p.value).boxed().map(Object::toString).collect(Collectors.joining(", ")));
+        });
+
     }
 
     @Test
@@ -47,8 +54,8 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
         Permutation r = Permutation.of(2, 4, 1, 3, 5, 10, 6, 8, 9, 7);
         assertThat(r.cycleNotation()).isEqualTo("(1 2 4 3)(6 10 7)");
-
     }
+
 
     @Test
     public void times() {
@@ -57,10 +64,10 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         Permutation p = Permutation.of(2, 4, 1, 3, 5);
         String[] permutedp = p.permute(values);
         String[] permutedqp = q.permute(permutedp);
-        Permutation product = p.x(q);
+        Permutation product = q.x(p);
+        assertThat(product.toString()).isEqualTo("(1435)");
         String[] permutedproduct = product.permute(values);
         assertThat(permutedproduct).containsExactly(permutedqp);
-        assertThat(product.toString()).isEqualTo("(42531)");
     }
 
     @Override

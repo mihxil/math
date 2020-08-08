@@ -15,7 +15,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 public class Permutation implements MultiplicativeGroupElement<Permutation>, UnaryOperator<Object[]> {
 
 
-    private final int[] value;
+    final int[] value;
     private final int offset;
     private List<Cycle> cycles;
 
@@ -125,7 +125,7 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
     }
 
     public class Cycle {
-        private final int[] value;
+        final int[] value;
 
         public Cycle(int[] value) {
             this.value = value;
@@ -133,6 +133,14 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
 
         Permutation getParent() {
             return Permutation.this;
+        }
+
+        public Cycle reciprocal() {
+            int[] rec = new int[value.length];
+            for (int i = 0; i < rec.length; i++) {
+                rec[i] = value[value.length - i - 1];
+            }
+            return new Cycle(rec);
         }
 
         public String toString() {

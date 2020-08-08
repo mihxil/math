@@ -28,7 +28,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
-        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> "Cardinaly of " + s  + s.cardinality());
+        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> ("Cardinality of " + s  + ":" + s.cardinality()));
     }
 
     @Provide
