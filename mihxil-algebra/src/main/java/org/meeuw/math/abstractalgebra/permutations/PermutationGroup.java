@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.permutations;
 import lombok.Getter;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -14,12 +15,19 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> implements MultiplicativeGroup<Permutation>, Streamable<Permutation> {
 
+    private static Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
+
+
     @Getter
     private final int degree;
 
     private Permutation one;
 
-    public PermutationGroup(int degree) {
+    public static PermutationGroup ofDegree(int degrees) {
+        return INSTANCES.computeIfAbsent(degrees, PermutationGroup::new);
+    }
+
+    private PermutationGroup(int degree) {
         super(Permutation.class);
         this.degree = degree;
 

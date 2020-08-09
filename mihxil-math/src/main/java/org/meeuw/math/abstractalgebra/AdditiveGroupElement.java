@@ -16,8 +16,6 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends
      */
     E negation();
 
-
-
     default E minus(E subtrahend) {
         return plus(subtrahend.negation());
     }
@@ -42,6 +40,5 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends
             return result;
         }
     }
-
 
 }

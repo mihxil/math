@@ -14,6 +14,9 @@ import java.util.Set;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
+    /**
+     * Returns the {@link Operator}s that elements of this structure {@link #supports(Operator)}
+     */
     default Set<Operator> getSupportedOperators() {
         return Collections.emptySet();
     }
@@ -22,8 +25,14 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
         return getSupportedOperators().contains(operator);
     }
 
+    /**
+     * Returns the cardinality of the complete set of this structure.
+     */
     Cardinality getCardinality();
 
+     /**
+     * Returns the class of the elements of this algebraic structure
+     */
     Class<E> getElementClass();
 
 }

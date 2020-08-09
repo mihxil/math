@@ -15,7 +15,6 @@ public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
     @Override
     NumberField<E> getStructure();
 
-
     /**
      * Checks if a certain other value is equal, but allow for some deviations (rounding errors).
      */

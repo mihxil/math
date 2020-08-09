@@ -38,7 +38,7 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
 
     @Override
     public PermutationGroup getStructure() {
-        return new PermutationGroup(value.length);
+        return PermutationGroup.ofDegree(value.length);
     }
 
     @Override
@@ -57,9 +57,14 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
 
     @SuppressWarnings("unchecked")
     public <P> P[] permute(P... values) {
-        P[] result = (P[]) Array.newInstance(values[0].getClass(), value.length);
+        P[] result = (P[]) Array.newInstance(values[0].getClass(), values.length);
         for (int i = 0 ; i < value.length; i++) {
             result[value[i]] = values[i];
+        }
+
+        // copy the rest
+        if (values.length - value.length >= 0) {
+            System.arraycopy(values, value.length, result, value.length, values.length - value.length);
         }
         return result;
     }

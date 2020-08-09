@@ -6,7 +6,7 @@ import org.meeuw.math.Utils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UnitExponent {
+public class UnitExponent implements Comparable<UnitExponent> {
 
     final int exponent;
     final Unit unit;
@@ -39,4 +39,26 @@ public class UnitExponent {
         return unit.name() + (exponent != 1 ? Utils.superscript(exponent) : "");
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UnitExponent that = (UnitExponent) o;
+
+        if (exponent != that.exponent) return false;
+        return unit.equals(that.unit);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = exponent;
+        result = 31 * result + unit.hashCode();
+        return result;
+    }
+
+    @Override
+    public int compareTo(UnitExponent o) {
+        return 0;
+    }
 }

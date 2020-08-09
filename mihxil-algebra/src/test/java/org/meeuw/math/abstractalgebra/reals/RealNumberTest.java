@@ -16,7 +16,6 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
 class RealNumberTest implements FieldTheory<RealNumber>, NumberTheory<RealNumber>
  {
 
-
     @Test
     public void test() {
         assertThat(of(5d).times(of(6d))).isEqualTo(of(30d));

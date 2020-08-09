@@ -1,12 +1,9 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
-import org.meeuw.math.text.UncertainNumberFormat;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
 
 /**
  * Represents the units of a {@link AbstractUncertainNumber}.
@@ -35,13 +32,11 @@ public class UnitsImpl implements Units  {
     @Override
     public UnitsGroup getStructure() {
         return UnitsGroup.INSTANCE;
-
     }
 
     @Override
     public Units self() {
         return this;
-
     }
 
     @Override

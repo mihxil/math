@@ -127,7 +127,8 @@ public abstract class PhysicalNumber
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PhysicalNumber)) return false;
-        return wrapped.toString().equals(wrapped.toString()) && units.equals(((PhysicalNumber) o).units);
+        PhysicalNumber of = (PhysicalNumber) o;
+        return wrapped.toString().equals(of.wrapped.toString()) && units.equals(of.units);
     }
 
     @Override

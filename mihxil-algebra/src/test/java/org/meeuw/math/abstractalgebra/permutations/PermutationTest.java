@@ -46,6 +46,19 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     }
 
     @Test
+    public void permuteSmall() {
+        String[] values = new String[] { "a", "b", "c"};
+
+        Permutation permutation = Permutation.of(1);
+        assertThat(permutation.getStructure().stream()).hasSize(1);
+        assertThat(permutation.apply(values)).isEqualTo(values);
+
+        Permutation empty = Permutation.of();
+        assertThat(empty.getStructure().stream()).hasSize(1);
+        assertThat(empty.apply(values)).isEqualTo(values);
+    }
+
+    @Test
     public void cycles() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
         assertThat(q.getCycles().toString()).isEqualTo("[(15), (24), (3)]");
@@ -87,6 +100,10 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @Override
     public Arbitrary<Permutation> elements() {
-        return Arbitraries.of(Permutation.of(2, 4, 1, 3, 5));
+        return Arbitraries.of(
+            Permutation.of(2, 4, 1, 3, 5),
+            Permutation.of(1, 2, 3, 4, 5),
+            Permutation.of(1, 2, 3, 5, 4)
+        );
     }
 }

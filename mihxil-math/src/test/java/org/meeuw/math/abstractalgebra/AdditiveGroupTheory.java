@@ -38,6 +38,13 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
         assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
     }
 
+    @Property
+    default void repeatedPlus(
+            @ForAll(ELEMENTS) E v1
+            ) {
+        assertThat((v1.repeatedPlus(5))).isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
+    }
+
 
     @Property
     default void zero(@ForAll("elements") E v) {
