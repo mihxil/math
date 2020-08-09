@@ -11,5 +11,5 @@ public interface FieldElement<E extends FieldElement<E>> extends
     RingElement<E> {
 
     @Override
-    Field<E> structure();
+    Field<E> getStructure();
 }

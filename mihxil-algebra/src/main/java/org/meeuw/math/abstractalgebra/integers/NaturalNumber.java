@@ -35,7 +35,7 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
     }
 
     @Override
-    public NaturalNumbers structure() {
+    public NaturalNumbers getStructure() {
         return NaturalNumbers.INSTANCE;
     }
 

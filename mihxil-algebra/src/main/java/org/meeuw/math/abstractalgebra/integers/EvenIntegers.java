@@ -29,7 +29,7 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 }

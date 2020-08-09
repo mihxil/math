@@ -3,8 +3,8 @@ package org.meeuw.math.abstractalgebra.permutations;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
-
     @Test
     public void permute() {
         String[] values = new String[] { "a", "b", "c"};
@@ -25,13 +24,24 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         Permutation permutation = Permutation.of(2, 3, 1);
         String[] permuted = permutation.permute(values);
         assertThat(permuted).containsExactly("c", "a", "b");
-        assertThat(permutation.structure().one().permute(values)).containsExactly("a", "b", "c");
+        assertThat(permutation.getStructure().one().permute(values)).containsExactly("a", "b", "c");
 
-        assertThat(permutation.structure().cardinality().getValue()).isEqualTo(3 * 2 * 1);
+        assertThat(permutation.getStructure().getCardinality().getValue()).isEqualTo(3 * 2 * 1);
 
-        permutation.structure().stream().forEach(p -> {
-            System.out.println(IntStream.of(p.value).boxed().map(Object::toString).collect(Collectors.joining(", ")));
+        List<String> test = new ArrayList<>();
+        permutation.getStructure().stream().forEach(p -> {
+            String s = Arrays.stream(p.apply(values)).map(Object::toString).collect(Collectors.joining(", "));
+            System.out.println(s);
+            test.add(s);
         });
+        assertThat(test).containsExactly(
+            "a, b, c",
+            "a, c, b",
+            "b, a, c",
+            "c, a, b",
+            "b, c, a",
+            "c, b, a"
+        );
 
     }
 

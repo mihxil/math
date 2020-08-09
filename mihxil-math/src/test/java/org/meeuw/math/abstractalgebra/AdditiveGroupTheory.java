@@ -12,7 +12,7 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
 
     @Property
     default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        assertThat(s.supportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
+        assertThat(s.getSupportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
     }
 
     @Property
@@ -41,7 +41,7 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
 
     @Property
     default void zero(@ForAll("elements") E v) {
-        assertThat(v.plus(v.structure().zero())).isEqualTo(v);
+        assertThat(v.plus(v.getStructure().zero())).isEqualTo(v);
     }
 
 }

@@ -13,7 +13,7 @@ public interface Rng<E extends RngElement<E>> extends AdditiveGroup<E>, Multipli
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION)));
 
     @Override
-    default Set<Operator> supportedOperators() {
+    default Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

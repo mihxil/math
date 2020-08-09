@@ -19,7 +19,7 @@ public interface AdditiveMonoid<E extends AdditiveMonoidElement<E>> extends Alge
     E zero();
 
     @Override
-    default Set<Operator> supportedOperators() {
+    default Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

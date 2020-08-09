@@ -23,7 +23,7 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> impl
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 

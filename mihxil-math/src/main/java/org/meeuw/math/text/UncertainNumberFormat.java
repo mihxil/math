@@ -3,7 +3,7 @@ package org.meeuw.math.text;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.Utils;
 
 import java.text.FieldPosition;

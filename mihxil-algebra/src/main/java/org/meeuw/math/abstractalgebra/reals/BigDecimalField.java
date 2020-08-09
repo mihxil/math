@@ -26,7 +26,7 @@ public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElemen
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
     }
 }

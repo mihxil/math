@@ -29,7 +29,7 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement> implem
     }
 
     @Override
-    public Integers structure() {
+    public Integers getStructure() {
         return Integers.INSTANCE;
     }
 

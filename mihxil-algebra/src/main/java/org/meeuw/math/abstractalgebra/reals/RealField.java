@@ -26,7 +26,7 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber> implements
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
     }
 }

@@ -8,5 +8,5 @@ package org.meeuw.math.abstractalgebra;
 public interface RingElement<E extends RingElement<E>> extends RngElement<E> {
 
     @Override
-    Ring<E> structure();
+    Ring<E> getStructure();
 }

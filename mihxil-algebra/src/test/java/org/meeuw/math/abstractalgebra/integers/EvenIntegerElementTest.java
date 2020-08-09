@@ -27,7 +27,7 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, NumberThe
         assertThat(of(2).plus(of(4))).isEqualTo(of(6));
         assertThat(of(2).plus(of(4).negation())).isEqualTo(of(-2));
 
-        assertThat(of(2).plus(of(2).structure().zero())).isEqualTo(of(2));
+        assertThat(of(2).plus(of(2).getStructure().zero())).isEqualTo(of(2));
     }
 
     @Override

@@ -1,8 +1,8 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
-import org.meeuw.math.ImmutableUncertainNumber;
-import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
@@ -115,7 +115,7 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public PhysicalNumbers structure() {
+    public PhysicalNumbers getStructure() {
         return PhysicalNumbers.INSTANCE;
     }
 

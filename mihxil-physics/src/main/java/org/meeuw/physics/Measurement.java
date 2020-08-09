@@ -1,6 +1,6 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 
 /**
  * A number with a uncertainty where the uncertainty is simply explicitely stated.

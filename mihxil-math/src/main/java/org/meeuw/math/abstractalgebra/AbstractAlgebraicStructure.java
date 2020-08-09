@@ -13,7 +13,7 @@ public abstract class AbstractAlgebraicStructure<F extends AlgebraicElement<F>> 
     }
 
    @Override
-    public Class<F> elementClass() {
+    public Class<F> getElementClass() {
         return elementClass;
     }
 }

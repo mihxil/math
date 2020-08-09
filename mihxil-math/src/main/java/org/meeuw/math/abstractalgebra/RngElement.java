@@ -9,5 +9,5 @@ package org.meeuw.math.abstractalgebra;
 public interface RngElement<E extends RngElement<E>> extends AdditiveGroupElement<E>, MultiplicativeSemiGroupElement<E> {
 
     @Override
-    Rng<E> structure();
+    Rng<E> getStructure();
 }

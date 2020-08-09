@@ -38,7 +38,7 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
     }
 
     @Override
-    public EvenIntegers structure() {
+    public EvenIntegers getStructure() {
         return EvenIntegers.INSTANCE;
     }
 

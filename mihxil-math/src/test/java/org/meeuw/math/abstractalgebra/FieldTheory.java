@@ -13,7 +13,7 @@ public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeAb
 
     @Property
     default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        assertThat(s.supportedOperators()).contains(Operator.values());
+        assertThat(s.getSupportedOperators()).contains(Operator.values());
     }
 
     @Property

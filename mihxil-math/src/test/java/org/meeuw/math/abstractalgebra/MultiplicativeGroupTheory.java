@@ -22,7 +22,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     @Property
     default void one(
         @ForAll(ELEMENTS) E v) {
-        assertThat(v.times(v.structure().one())).isEqualTo(v);
+        assertThat(v.times(v.getStructure().one())).isEqualTo(v);
     }
 
     @Property
@@ -30,8 +30,8 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E v1
     )  {
         assertThat(v1.pow(-1)).isEqualTo(v1.reciprocal());
-        assertThat(v1.pow(-2)).isEqualTo(v1.structure().one().dividedBy(v1.times(v1)));
-        assertThat(v1.pow(-3)).isEqualTo(v1.structure().one().dividedBy(v1.times(v1).times(v1)));
+        assertThat(v1.pow(-2)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
+        assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
     }
 
 

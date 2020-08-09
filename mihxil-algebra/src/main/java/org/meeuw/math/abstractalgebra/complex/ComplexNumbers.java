@@ -30,7 +30,7 @@ public class ComplexNumbers<E extends NumberFieldElement<E>> extends AbstractAlg
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         //return field.cardinality(); // might be doable...
         return Cardinality.ALEPH_1;
     }

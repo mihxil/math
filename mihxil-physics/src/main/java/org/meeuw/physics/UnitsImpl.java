@@ -1,6 +1,6 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.AbstractUncertainNumber;
+import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
 import org.meeuw.math.text.UncertainNumberFormat;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
-    public UnitsGroup structure() {
+    public UnitsGroup getStructure() {
         return UnitsGroup.INSTANCE;
 
     }

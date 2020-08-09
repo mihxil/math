@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.uncertainnumbers;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;

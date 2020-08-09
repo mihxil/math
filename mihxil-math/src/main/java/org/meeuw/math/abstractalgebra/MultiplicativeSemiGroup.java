@@ -17,7 +17,7 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
 
 
     @Override
-    default Set<Operator> supportedOperators() {
+    default Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

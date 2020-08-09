@@ -14,16 +14,16 @@ import java.util.Set;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
-    default Set<Operator> supportedOperators() {
+    default Set<Operator> getSupportedOperators() {
         return Collections.emptySet();
     }
 
     default boolean supports(Operator operator) {
-        return supportedOperators().contains(operator);
+        return getSupportedOperators().contains(operator);
     }
 
-    Cardinality cardinality();
+    Cardinality getCardinality();
 
-    Class<E> elementClass();
+    Class<E> getElementClass();
 
 }

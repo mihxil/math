@@ -24,11 +24,11 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     public ComplexNumber(E real, E imaginairy) {
         this.real = real;
         this.imaginairy = imaginairy;
-        this.elementStructure = real.structure();
+        this.elementStructure = real.getStructure();
     }
 
     @Override
-    public ComplexNumbers<E> structure() {
+    public ComplexNumbers<E> getStructure() {
         return new ComplexNumbers<E>(elementStructure);
     }
 

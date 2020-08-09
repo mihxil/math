@@ -30,7 +30,7 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber> im
     }
 
     @Override
-    public Set<Operator> supportedOperators() {
+    public Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
     @Override
@@ -39,7 +39,7 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber> im
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 }

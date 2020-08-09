@@ -25,9 +25,9 @@ class IntegerElementTest implements RingTheory<IntegerElement>, NumberTheory<Int
 
         assertThat(of(2).times(of(-5))).isEqualTo(of(-10));
         IntegerElement two = of(2);
-        assertThat(two.times(two.structure().one())).isEqualTo(two);
+        assertThat(two.times(two.getStructure().one())).isEqualTo(two);
 
-        assertThat(two.plus(two.structure().zero())).isEqualTo(two);
+        assertThat(two.plus(two.getStructure().zero())).isEqualTo(two);
     }
 
     @Property

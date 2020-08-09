@@ -22,8 +22,14 @@ public interface ElementTheory<E>  {
     }
 
     @Property
-    default void testEquals(@ForAll(ELEMENTS) E e) {
-        assertThat(e).isEqualTo(e);
-        assertThat(e).isNotEqualTo(new Object());
+    default void testEqualsSelf(@ForAll(ELEMENTS) E e) {
+        assertThat(e.equals(e)).isTrue();
+        assertThat(e.equals(null)).isFalse();
+        assertThat(e.equals(new Object())).isFalse();
+    }
+      @Property
+    default void testEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
+        assertThat(e1.equals(e2)).isEqualTo(e2.equals(e1));
+
     }
 }

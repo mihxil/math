@@ -43,7 +43,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
     }
 
     @Override
-    public RationalNumbers structure() {
+    public RationalNumbers getStructure() {
         return new RationalNumbers();
     }
 

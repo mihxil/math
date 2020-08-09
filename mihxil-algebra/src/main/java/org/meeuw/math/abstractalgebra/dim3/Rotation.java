@@ -71,7 +71,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     }
 
     @Override
-    public RotationGroup structure() {
+    public RotationGroup getStructure() {
         return RotationGroup.INSTANCE;
     }
 
@@ -96,7 +96,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
 
     @Override
     public Rotation pow(int exponent) {
-        Rotation result = structure().one();
+        Rotation result = getStructure().one();
         for (int i = 0; i < exponent; i++) {
             result = result.times(this);
         }

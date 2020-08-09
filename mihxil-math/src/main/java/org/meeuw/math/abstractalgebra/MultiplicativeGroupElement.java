@@ -14,7 +14,7 @@ package org.meeuw.math.abstractalgebra;
 public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoidElement<E> {
 
     @Override
-    MultiplicativeGroup<E> structure();
+    MultiplicativeGroup<E> getStructure();
 
     /**
      * The multiplicative inverse
@@ -27,7 +27,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      * if multiplication and division is defined, then so is exponentation to any integer power.
      */
     default E pow(int exponent) {
-        E result = structure().one();
+        E result = getStructure().one();
         while (exponent > 0) {
             result = result.times(self());
             exponent--;

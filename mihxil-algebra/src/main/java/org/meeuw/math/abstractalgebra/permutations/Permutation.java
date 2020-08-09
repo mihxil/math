@@ -37,7 +37,7 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
     }
 
     @Override
-    public PermutationGroup structure() {
+    public PermutationGroup getStructure() {
         return new PermutationGroup(value.length);
     }
 

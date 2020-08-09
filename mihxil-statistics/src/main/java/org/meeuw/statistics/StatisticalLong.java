@@ -11,7 +11,7 @@ See http://www.MMBase.org/license
 package org.meeuw.statistics;
 
 import lombok.Getter;
-import org.meeuw.math.UncertainNumbersField;
+import org.meeuw.math.uncertainnumbers.UncertainNumbersField;
 import org.meeuw.math.Utils;
 
 import java.time.Duration;
@@ -154,7 +154,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
 
     @Override
-    public UncertainNumbersField<StatisticalLong> structure() {
+    public UncertainNumbersField<StatisticalLong> getStructure() {
         return new UncertainNumbersField<>(
             new StatisticalLong(mode, 0, 0, 0, 0),
             new StatisticalLong(mode, 0, 0, 0, 1)

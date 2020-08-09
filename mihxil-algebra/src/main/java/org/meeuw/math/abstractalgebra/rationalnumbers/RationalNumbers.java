@@ -86,7 +86,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 

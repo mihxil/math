@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
 import org.meeuw.math.abstractalgebra.FieldElement;
@@ -22,7 +22,7 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     }
 
     @Override
-    public UncertainNumbersField<ImmutableUncertainNumber> structure() {
+    public UncertainNumbersField<ImmutableUncertainNumber> getStructure() {
         return new UncertainNumbersField<>(ONE, ZERO);
     }
 

@@ -19,7 +19,7 @@ public interface Field<E extends FieldElement<E>> extends
     }
 
     @Override
-    default Set<Operator> supportedOperators() {
+    default Set<Operator> getSupportedOperators() {
         return OPERATORS;
 
     }

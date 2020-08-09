@@ -13,6 +13,6 @@ public interface RngTheory<E extends RngElement<E>> extends AdditiveGroupTheory<
 
     @Property
     default void rngOperators(@ForAll(ELEMENT) E v1) {
-        assertThat(v1.structure().supportedOperators()).contains(Operator.MULTIPLICATION, Operator.ADDITION, Operator.SUBTRACTION);
+        assertThat(v1.getStructure().getSupportedOperators()).contains(Operator.MULTIPLICATION, Operator.ADDITION, Operator.SUBTRACTION);
     }
 }

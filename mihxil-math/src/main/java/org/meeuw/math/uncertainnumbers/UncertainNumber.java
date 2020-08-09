@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.uncertainnumbers;
 
 import org.meeuw.math.abstractalgebra.NumberElement;
 

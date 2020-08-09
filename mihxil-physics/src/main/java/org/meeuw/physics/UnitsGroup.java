@@ -24,7 +24,7 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 

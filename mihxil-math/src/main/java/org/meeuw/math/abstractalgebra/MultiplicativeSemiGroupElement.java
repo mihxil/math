@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
  */
 public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicElement<E> {
 
-    MultiplicativeSemiGroup<E> structure();
+    MultiplicativeSemiGroup<E> getStructure();
 
     E times(E multiplier);
 

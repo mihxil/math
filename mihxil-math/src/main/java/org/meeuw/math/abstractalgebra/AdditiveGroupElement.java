@@ -9,7 +9,7 @@ package org.meeuw.math.abstractalgebra;
 public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends AdditiveMonoidElement<E> {
 
     @Override
-    AdditiveGroup<E> structure();
+    AdditiveGroup<E> getStructure();
 
      /**
      * The additive inverse
@@ -29,7 +29,7 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends
      */
     default E repeatedPlus(int multiplier) {
         if (multiplier == 0) {
-            return structure().zero();
+            return getStructure().zero();
         }
         int m = Math.abs(multiplier);
         E result = self();

@@ -7,9 +7,9 @@ OSI Certified is a certification mark of the Open Source Initiative.
 package org.meeuw.statistics;
 
 import lombok.Getter;
-import org.meeuw.math.AbstractUncertainNumber;
-import org.meeuw.math.ImmutableUncertainNumber;
-import org.meeuw.math.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.FieldElement;
 
 import java.util.LongSummaryStatistics;

@@ -13,7 +13,7 @@ public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
     NumberElement<E> {
 
     @Override
-    NumberField<E> structure();
+    NumberField<E> getStructure();
 
 
     /**
@@ -29,10 +29,10 @@ public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
      * Returns an estimation of the current representation precision. E.g. if the field is backend by a {@link Double} then
      * there will a about 15 decimal places, so this value is about 10^15 times as small as the value itself.
      *
-     * The default implementation return {@link #structure()}{@link Field#zero()}. So then it is assumed that the representation is <em>exact</em>
+     * The default implementation return {@link #getStructure()}{@link Field#zero()}. So then it is assumed that the representation is <em>exact</em>
      */
     default E epsilon() {
-        return structure().zero();
+        return this.getStructure().zero();
     }
 
     /**

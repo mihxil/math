@@ -35,7 +35,7 @@ public class Integers extends AbstractAlgebraicStructure<IntegerElement> impleme
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
 }

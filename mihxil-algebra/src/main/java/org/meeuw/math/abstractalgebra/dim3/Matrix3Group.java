@@ -24,7 +24,7 @@ public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3> implements
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
     }
 }

@@ -38,7 +38,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         long i = 1;
         long answer = 1;
         while(++i <= degree) {
@@ -72,7 +72,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
         };
         return StreamSupport.stream(Spliterators.spliterator(
                 iterator,
-                cardinality().getValue(),
+                getCardinality().getValue(),
                 Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 
     }

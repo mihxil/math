@@ -18,21 +18,21 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property()
     default void cardinality(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        if (s.cardinality().compareTo(Cardinality.ALEPH_1) < 0) {
+        if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
-            if (s.cardinality().compareTo(new Cardinality(10000)) < 0) {
-                assertThat(((Streamable) s).stream()).doesNotHaveDuplicates().hasSize((int) s.cardinality().getValue());
+            if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
+                assertThat(((Streamable) s).stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
             } else {
                 assertThat(((Streamable) s).stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
             }
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
-        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> ("Cardinality of " + s  + ":" + s.cardinality()));
+        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
     }
 
     @Provide
     default Arbitrary<AlgebraicStructure<E>> structure() {
-        return Arbitraries.of(elements().sample().structure());
+        return Arbitraries.of(elements().sample().getStructure());
     }
 }

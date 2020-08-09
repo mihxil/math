@@ -8,13 +8,13 @@ import javax.validation.constraints.Min;
  */
 public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidElement<E>> extends MultiplicativeSemiGroupElement<E> {
 
-    MultiplicativeMonoid<E> structure();
+    MultiplicativeMonoid<E> getStructure();
 
     /**
      * if multiplication is defined, then so is exponentation, as long as the exponent is non negative
      */
     default E pow(@Min(0) int exponent) {
-        E result = structure().one();
+        E result = getStructure().one();
         while (exponent > 0) {
             result = result.times(self());
             exponent--;

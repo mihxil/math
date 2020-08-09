@@ -2,7 +2,8 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.*;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen

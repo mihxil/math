@@ -45,7 +45,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     private FieldMatrix3(E[][] values) {
-        this.elementStructure = values[0][0].structure();
+        this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();
     }
@@ -82,7 +82,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3Group<E> structure() {
+    public FieldMatrix3Group<E> getStructure() {
         return new FieldMatrix3Group<>(elementStructure);
     }
 
@@ -94,7 +94,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @SuppressWarnings({"unchecked"})
     E[] timesDouble(E[][] matrix3) {
-        E[] result = (E[]) Array.newInstance(elementStructure.elementClass(), 9);
+        E[] result = (E[]) Array.newInstance(elementStructure.getElementClass(), 9);
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 E v = elementStructure.zero();

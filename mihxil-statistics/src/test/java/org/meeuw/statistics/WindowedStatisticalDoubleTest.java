@@ -5,7 +5,7 @@ import lombok.extern.java.Log;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

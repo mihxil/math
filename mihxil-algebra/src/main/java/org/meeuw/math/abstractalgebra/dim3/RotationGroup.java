@@ -22,7 +22,7 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     }
 
     @Override
-    public Cardinality cardinality() {
-        return RealField.INSTANCE.cardinality();
+    public Cardinality getCardinality() {
+        return RealField.INSTANCE.getCardinality();
     }
 }

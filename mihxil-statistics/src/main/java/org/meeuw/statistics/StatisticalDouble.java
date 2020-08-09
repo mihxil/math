@@ -11,8 +11,8 @@ See http://www.MMBase.org/license
 package org.meeuw.statistics;
 
 import lombok.Getter;
-import org.meeuw.math.UncertainNumber;
-import org.meeuw.math.UncertainNumbersField;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumbersField;
 
 import java.util.function.DoubleConsumer;
 
@@ -98,7 +98,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
-    public UncertainNumbersField<StatisticalDouble> structure() {
+    public UncertainNumbersField<StatisticalDouble> getStructure() {
         return new UncertainNumbersField<>(
             new StatisticalDouble(0, 0, 1),
             new StatisticalDouble(1, 1, 1)

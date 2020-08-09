@@ -1,12 +1,12 @@
 = math
 :toc:
+:toclevels: 4
 
 image:https://travis-ci.org/mihxil/math.svg?[Build Status,link=https://travis-ci.org/mihxil/math]
 image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
 image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
 
-
-Math and physics related class.
+Math and physics related classes. This is a hobby project which grew from the classes in 'mihxil-statistics' which are actually used.
 
 == mihxil-math
 
@@ -14,6 +14,25 @@ The common dependency of the modules in the project. It provides the scaffolding
 
 - abstract algebra's to ensure a common interface for basic operations
 - an 'uncertain number' interface plus a SPI for formatting those
+
+=== Abstract Algebras
+
+The idea is that every 'abstract algebra' consists of the implementation of two interfaces.
+
+- One of the extensions of `org.meeuw.math.abstractalgebra.AlgebraicElement` defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
+
+- One of the corresponding extensions of `org.meeuw.math.abstractalgebra.AlgebraicStructure`, e.g. `org.meeuw.math.abstractalgebra.Field`.
+
+==== Algebraic elements
+
+For example it may be `org.meeuw.math.abstractalgebra.FieldElement` the have  addition, subtraction, multiplication, and division.
+
+==== Algebraic structure
+
+Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'. If the cardinality is 'countable', the structure can also implement `org.meeuw.math.abstractalgebra.Streamable` to actually produce all possible elements.
+
+The algebraic structure will also contain methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero')
+
 
 == mihxil-statistics
 
@@ -30,3 +49,33 @@ Also a `PhysicalNumber` can be assigned `Units`. This can be used for proper dis
 == mihxil-algebra
 
 This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
+
+
+.features
+|===
+| feature | element class | algebra class | description | features
+| real numbers
+|`org.meeuw.math.abstractalgebra.reals.RealNumber`
+| `org.meeuw.math.abstractalgebra.reals.RealField`
+| The field of real numbers, backed by the java primitive `double`
+|
+
+| arbitrary precision real numbers
+| `org.meeuw.math.abstractalgebra.reals.BigDecimalElement`
+| `org.meeuw.math.abstractalgebra.reals.BigDecimalField`
+| The field of real numbers, backed by the java arbitrary precision 'BigDecimal'
+|
+
+| rational numbers
+| `org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber`
+| `org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers`
+| The field of rational numbers. Implemented using two arbitrary sized `BigIntegers`.
+| Can be streamed (resulting an infinite stream of rational numbers)
+
+| permutations
+| `org.meeuw.math.abstractalgebra.permutations.Permutation`
+| `org.meeuw.math.abstractalgebra.permutations.PermutationGroup`
+| The permutation group. An example of a non-abelian finite group.
+| Contains an implementation of 'all permutation'
+a permuation is a function, and operators on any array of big enough size.
+|===

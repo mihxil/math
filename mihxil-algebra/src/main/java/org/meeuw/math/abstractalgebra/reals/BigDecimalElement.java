@@ -47,7 +47,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     }
 
     @Override
-    public BigDecimalField structure() {
+    public BigDecimalField getStructure() {
         return BigDecimalField.INSTANCE;
     }
 

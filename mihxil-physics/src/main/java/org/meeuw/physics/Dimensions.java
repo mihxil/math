@@ -36,7 +36,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
 
 
     @Override
-    public DimensionsGroup structure() {
+    public DimensionsGroup getStructure() {
         return DimensionsGroup.INSTANCE;
     }
 

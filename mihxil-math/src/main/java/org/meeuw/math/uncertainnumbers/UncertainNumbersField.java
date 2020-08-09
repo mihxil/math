@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.uncertainnumbers;
 
 
 import org.meeuw.math.abstractalgebra.*;
@@ -31,7 +31,7 @@ public class UncertainNumbersField<T extends UncertainNumber<T> & FieldElement<T
     }
 
     @Override
-    public Cardinality cardinality() {
+    public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
     }
 }

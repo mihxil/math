@@ -51,7 +51,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     }
 
     @Override
-    public RealField structure() {
+    public RealField getStructure() {
         return RealField.INSTANCE;
     }
 

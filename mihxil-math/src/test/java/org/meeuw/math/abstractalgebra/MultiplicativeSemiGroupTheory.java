@@ -12,7 +12,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        assertThat(s.supportedOperators()).contains(Operator.MULTIPLICATION);
+        assertThat(s.getSupportedOperators()).contains(Operator.MULTIPLICATION);
     }
 
 
