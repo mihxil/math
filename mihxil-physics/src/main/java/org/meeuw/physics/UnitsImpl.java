@@ -48,10 +48,15 @@ public class UnitsImpl implements Units  {
                 UnitExponent n = base.get(i);
                 if (n.unit.equals(u.unit)) {
                     base.set(i, n.times(u));
+                    if (base.get(i).exponent == 0) {
+                        base.remove(i);
+                    }
                     continue OUTER;
                 }
             }
-            base.add(u);
+            if (u.exponent != 0) {
+                base.add(u);
+            }
         }
         return new UnitsImpl(base.toArray(new UnitExponent[0]));
     }
@@ -62,6 +67,10 @@ public class UnitsImpl implements Units  {
         for (int i = 0 ; i < base.size(); i++) {
             UnitExponent n = base.get(i);
             base.set(i, n.pow(exponent));
+            if (base.get(i).exponent == 0) {
+                base.remove(i--);
+            }
+
         }
         return new UnitsImpl(base.toArray(new UnitExponent[0]));
     }
@@ -109,9 +118,13 @@ public class UnitsImpl implements Units  {
         if (o == null || getClass() != o.getClass()) return false;
 
         UnitsImpl that = (UnitsImpl) o;
+        return Arrays.equals(getCanonicalExponents(), that.getCanonicalExponents());
+    }
 
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(exponents, that.exponents);
+    public UnitExponent[] getCanonicalExponents() {
+        UnitExponent[] copy = Arrays.copyOf(exponents, exponents.length);
+        Arrays.sort(copy);
+        return copy;
     }
 
     @Override

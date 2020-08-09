@@ -30,7 +30,7 @@ public class PhysicalConstant extends PhysicalNumber {
 
     @Override
     public int compareTo(Number o) {
-        return 0;
+        return Double.compare(doubleValue(), o.doubleValue());
     }
 
     @Override

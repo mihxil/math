@@ -59,6 +59,6 @@ public class UnitExponent implements Comparable<UnitExponent> {
 
     @Override
     public int compareTo(UnitExponent o) {
-        return 0;
+        return unit.name().compareTo(o.unit.name());
     }
 }
