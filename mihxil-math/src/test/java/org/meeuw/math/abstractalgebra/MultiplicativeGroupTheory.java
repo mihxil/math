@@ -35,4 +35,15 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
 
 
+    @Property
+    default void reciprocal(
+         @ForAll(ELEMENTS) E e
+    )  {
+        assertThat(e.reciprocal().reciprocal()).isEqualTo(e);
+        assertThat(e.reciprocal().times(e)).isEqualTo(e.getStructure().one());
+
+
+    }
+
+
 }
