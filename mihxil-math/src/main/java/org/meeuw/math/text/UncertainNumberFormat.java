@@ -113,7 +113,7 @@ public class UncertainNumberFormat extends Format {
         return
             (useE ? "(" : "") + valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
             +
-            (useE ? (")" + TIMES_10 + Utils.superscript(mean.exponent)) : "");
+            (useE ? (")" + TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
     }
 
     public static String valueAndError(String value, String error) {
@@ -136,7 +136,7 @@ public class UncertainNumberFormat extends Format {
         return
             nf.format(mean.coefficient)
             +
-            (useE ? TIMES_10 + Utils.superscript(mean.exponent)  : "");
+            (useE ? TIMES_10 + TextUtils.superscript(mean.exponent)  : "");
 
     }
 
@@ -148,7 +148,7 @@ public class UncertainNumberFormat extends Format {
             if (b != 0) {
                 builder.append(values[i].name());
                 if (b != 1) {
-                    builder.append(Utils.superscript(b));
+                    builder.append(TextUtils.superscript(b));
                 }
             }
         }

@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import java.util.stream.Stream;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -30,7 +31,14 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
 
     @Override
     public Stream<Units> stream() {
-        // TODO
-        return Stream.empty();
+        return Utils.stream(SIUnit.values().length).map(
+            array -> {
+                UnitExponent[] units = new UnitExponent[array.length];
+                for (int i = 0; i < array.length; i++) {
+                    units[i] = new UnitExponent(SIUnit.values()[i], array[i]);
+                }
+                return new UnitsImpl(units);
+            }
+        );
     }
 }

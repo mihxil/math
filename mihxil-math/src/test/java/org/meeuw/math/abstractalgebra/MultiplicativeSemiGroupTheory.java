@@ -8,7 +8,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructureTheory<E> {
+public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroupElement<E>>
+    extends AlgebraicStructureTheory<E> {
 
     @Property
     default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {

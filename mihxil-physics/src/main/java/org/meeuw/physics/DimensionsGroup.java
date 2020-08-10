@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import java.util.stream.Stream;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -29,20 +30,8 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> impl
 
     @Override
     public Stream<Dimensions> stream() {
-        long[] counters = new long[Dimension.values().length];
-        // TODO:
-        return Stream.iterate(new State(), State::next).map(State::dimensions);
-    }
-
-    private static class State {
-        int[] counters = new int[Dimension.values().length];
-        int max = 1;
-        int i = 0;
-        Dimensions dimensions() {
-            return new Dimensions(counters);
-        }
-        public State next() {
-          return this;
-        }
+        return Utils.stream(Dimension.values().length).map(
+            Dimensions::new
+        );
     }
 }

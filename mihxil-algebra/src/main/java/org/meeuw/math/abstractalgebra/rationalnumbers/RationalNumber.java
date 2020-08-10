@@ -6,8 +6,8 @@ import java.math.*;
 
 import javax.validation.constraints.NotNull;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -142,7 +142,7 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
         if (denominator.equals(BigInteger.ONE)) {
             return numerator.toString();
         } else {
-            return (isNegative() ? "-" : "") + Utils.superscript(numerator.abs().toString()) + "\u2044" + Utils.subscript(denominator.toString());
+            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "\u2044" + TextUtils.subscript(denominator.toString());
         }
     }
 

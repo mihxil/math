@@ -1,6 +1,6 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -36,7 +36,7 @@ public class UnitExponent implements Comparable<UnitExponent> {
 
     @Override
     public String toString() {
-        return unit.name() + (exponent != 1 ? Utils.superscript(exponent) : "");
+        return unit.name() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
     }
 
     @Override

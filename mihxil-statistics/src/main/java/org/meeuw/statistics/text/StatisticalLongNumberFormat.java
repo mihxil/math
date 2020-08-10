@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.statistics.StatisticalLong;
 
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
@@ -28,7 +29,7 @@ public class StatisticalLongNumberFormat extends Format {
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
                      ChronoUnit order = Utils.orderOfMagnitude(stddev);
                      stddev = Utils.round(stddev, order);
-                     toAppendTo.append(valueAndError(Utils.format(mean, order), stddev.toString()));
+                     toAppendTo.append(valueAndError(TextUtils.format(mean, order), stddev.toString()));
                      return toAppendTo;
                  }
                  case DURATION: {

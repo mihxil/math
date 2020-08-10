@@ -2,7 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import net.jqwik.api.*;
 
-import org.junit.platform.commons.logging.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,6 +19,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property()
     default void cardinality(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+
+        Logger log = LogManager.getLogger(AlgebraicStructureTheory.class);
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
             if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
@@ -25,10 +28,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             } else {
                 assertThat(((Streamable) s).stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
             }
+            ((Streamable<E>) s).stream().limit(500).forEach(e -> log.info(e::toString));
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
-        LoggerFactory.getLogger(AlgebraicStructureTheory.class).info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
+        log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
+
+
     }
 
     @Provide

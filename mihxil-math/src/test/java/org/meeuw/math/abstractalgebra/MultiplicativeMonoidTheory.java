@@ -9,7 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElement<E>> extends MultiplicativeSemiGroupTheory<E> {
+public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElement<E>>
+    extends MultiplicativeSemiGroupTheory<E> {
 
  @Property
     default void powExponentZero(

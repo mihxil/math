@@ -2,7 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import lombok.Getter;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * Represents the concept of 'Cardinality' of an {@link AlgebraicStructure}. i.e. the number of elements,
@@ -19,13 +19,15 @@ public class Cardinality implements Comparable<Cardinality> {
     public static final Cardinality ALEPH_0 = new Cardinality(-1){
         @Override
         public String toString() {
-            return "\05D0" + Utils.subscript(0);
+            // aleph left to right
+            return "\u05D0\u200E" + TextUtils.subscript(0);
         }
     };
     public static final Cardinality ALEPH_1 = new Cardinality(-2) {
         @Override
         public String toString() {
-            return "\05D0" + Utils.subscript(1);
+            //  aleph left to right
+            return "\u05D0\u200E" + TextUtils.subscript(1);
         }
     };
 

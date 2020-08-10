@@ -1,12 +1,13 @@
 package org.meeuw.math;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author Michiel Meeuwissen
@@ -113,113 +114,73 @@ public class Utils {
          return instant.truncatedTo(trunc);
     }
 
-    public static String format(Instant instant, ChronoUnit order) {
-         return format(ZoneId.systemDefault(), instant, order);
+    public static Stream<int[]> stream(int degree) {
+        return Stream.iterate(new State(degree), State::next).map(State::array);
     }
 
+    static class State {
+        final int degree;
+        final int[] counters;
+        IntState intState = new IntState(0, 1);
+        int[] next;
 
-
-    public static String format(ZoneId zoneId, Instant instant, ChronoUnit order) {
-         Instant toFormat = round(instant, order);
-         if (order.ordinal() < ChronoUnit.DAYS.ordinal()) {
-             return DateTimeFormatter.ISO_DATE_TIME.format(toFormat.atZone(zoneId).toLocalDateTime());
-         } else {
-             return DateTimeFormatter.ISO_DATE.format(toFormat.atZone(zoneId).toLocalDate());
-         }
-    }
-
-
-    /**
-     * Returns an integer in 'superscript' notation, using unicode.
-     */
-    public static String superscript(long i) {
-        StringBuilder bul = new StringBuilder();
-        boolean minus = false;
-        if (i < 0) {
-            minus = true;
-            i = -1 * i;
+        State(int degree) {
+            this.degree = degree;
+            counters = new int[degree];
+            this.next = Arrays.copyOf(counters, degree);
         }
-        if (i == 0) {
-            bul.insert(0, SUPERSCRIPTS[0]);
+        int[] array() {
+            return next;
         }
-        while (i > 0) {
-            int j = (int) (i % 10);
-            i /= 10;
-            bul.insert(0, SUPERSCRIPTS[j]);
-        }
-        if (minus) bul.insert(0, "\u207B");
-
-        return bul.toString();
-    }
-
-      /**
-     * Returns an integer in 'superscript' notation, using unicode.
-     */
-    public static String subscript(long i) {
-        StringBuilder bul = new StringBuilder();
-        boolean minus = false;
-        if (i < 0) {
-            minus = true;
-            i = -1 * i;
-        }
-        if (i == 0) {
-            bul.insert(0, SUBSCRIPTS[0]);
-        }
-        while (i > 0) {
-            int j = (int) (i % 10);
-            i /= 10;
-            bul.insert(0, SUBSCRIPTS[j]);
-        }
-        if (minus) bul.insert(0, "\u208B");
-
-        return bul.toString();
-    }
-
-    public static String subscript(CharSequence i) {
-        return script(i, '\u208B', SUBSCRIPTS);
-    }
-    public static String superscript(CharSequence i) {
-        return script(i, '\u207B', SUPERSCRIPTS);
-    }
-
-    private static String script(CharSequence i, char minus, char[] digits) {
-        StringBuilder bul = new StringBuilder();
-
-        i.chars().forEach(c -> {
-            if (Character.isDigit(c)) {
-                bul.append(digits[c - '0']);
-            } else if (c == '-') {
-                bul.append('\u208B');
-            } else {
-                bul.append(c);
+        public State next() {
+            inc(counters, intState);
+            this.next = Arrays.copyOf(counters, degree);
+            if (max() < intState.max) {
+                return next();
             }
-        });
-        return bul.toString();
+            return this;
+        }
+
+        private int max() {
+            int m = 0;
+            for (int c : counters) {
+                int abs = Math.abs(c);
+                if (abs > m) {
+                    m = abs;
+                }
+            }
+            return m;
+        }
     }
 
 
-    private static final char[] SUPERSCRIPTS = new char[] {
-            0x2070,
-            0x00B9,
-            0x00B2,
-            0x00B3,
-            0x2074,
-            0x2075,
-            0x2076,
-            0x2077,
-            0x2078,
-            0x2079
-    };
-     private static final char[] SUBSCRIPTS = new char[] {
-             0x2080,
-             0x2081,
-             0x2082,
-             0x2083,
-             0x2084,
-             0x2085,
-             0x2086,
-             0x2087,
-             0x2088,
-             0x2089
-    };
+    static void inc(int[] counters, IntState state) {
+        counters[state.index] *= -1;
+        if (counters[state.index] < 0) {
+            return;
+        }
+        counters[state.index]++;
+        if (counters[state.index] > state.max) {
+            counters[state.index] = 0;
+            if (state.index + 1 < counters.length) {
+                state.index++;
+                inc(counters, state);
+            } else {
+                counters[0] = state.max;
+                state.max++;
+                inc(counters, state);
+            }
+        }
+    }
+
+    static class IntState {
+        int index;
+        int max;
+
+        IntState(int index, int max) {
+            this.index = index;
+            this.max = max;
+        }
+    }
+
 }
