@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.complex;
 
+import lombok.Getter;
+
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -8,25 +10,26 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class ComplexNumbers<E extends NumberFieldElement<E>> extends AbstractAlgebraicStructure<ComplexNumber<E>> implements Field<ComplexNumber<E>> {
 
-    private final NumberField<E> field;
+    @Getter
+    private final NumberField<E> elementStructure;
 
-    public ComplexNumbers(NumberField<E> field) {
+    public ComplexNumbers(NumberField<E> elementStructure) {
         super((Class) ComplexNumber.class);
-        this.field = field;
+        this.elementStructure = elementStructure;
     }
 
     @Override
     public ComplexNumber<E> zero() {
-        return new ComplexNumber<>(this.field.zero(), this.field.zero());
+        return new ComplexNumber<>(this.elementStructure.zero(), this.elementStructure.zero());
     }
 
     @Override
     public ComplexNumber<E> one() {
-        return new ComplexNumber<>(this.field.one(), this.field.zero());
+        return new ComplexNumber<>(this.elementStructure.one(), this.elementStructure.zero());
     }
 
     public ComplexNumber<E> i() {
-        return new ComplexNumber<>(this.field.zero(), this.field.one());
+        return new ComplexNumber<>(this.elementStructure.zero(), this.elementStructure.one());
     }
 
     @Override

@@ -89,6 +89,9 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
     default boolean isZero() {
         return compareTo(0d) == 0;
     }
+    default boolean isOne() {
+        return compareTo(1d) == 0;
+    }
 
     int compareTo(E f);
 

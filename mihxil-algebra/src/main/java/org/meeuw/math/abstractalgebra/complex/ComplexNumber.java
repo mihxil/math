@@ -1,8 +1,6 @@
 package org.meeuw.math.abstractalgebra.complex;
 
-import lombok.Getter;
 import org.meeuw.math.abstractalgebra.FieldElement;
-import org.meeuw.math.abstractalgebra.NumberField;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
@@ -13,8 +11,6 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
 
     private final E real;
     private final E imaginairy;
-    @Getter
-    private final NumberField<E> elementStructure;
 
 
     public static <E extends NumberFieldElement<E>> ComplexNumber<E> of(E r, E imaginairy) {
@@ -24,12 +20,11 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     public ComplexNumber(E real, E imaginairy) {
         this.real = real;
         this.imaginairy = imaginairy;
-        this.elementStructure = real.getStructure();
     }
 
     @Override
     public ComplexNumbers<E> getStructure() {
-        return new ComplexNumbers<E>(elementStructure);
+        return new ComplexNumbers<E>(real.getStructure());
     }
 
     @Override
@@ -42,6 +37,12 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         return new ComplexNumber<>(
             this.real.times(multiplier.real).minus(this.imaginairy.times(multiplier.imaginairy)),
             this.real.times(multiplier.imaginairy).plus(this.imaginairy.times(multiplier.real)));
+    }
+
+    public ComplexNumber<E> times(E multiplier) {
+        return new ComplexNumber<>(
+            this.real.times(multiplier), this.imaginairy.times(multiplier)
+        );
     }
 
     @Override
@@ -87,7 +88,22 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
 
     @Override
     public String toString() {
-        return real.toString() + imaginairy.toString() + "i";
-
- }
+        StringBuilder result = new StringBuilder();
+        if (!real.isZero()) {
+            result.append(real.toString());
+        }
+        if (!imaginairy.isZero()) {
+            if (result.length() > 0) {
+                result.append(" + ");
+            }
+            if (!imaginairy.isOne()) {
+                result.append(imaginairy.toString());
+            }
+            result.append("i");
+        }
+        if (result.length() == 0) {
+            result.append("0");
+        }
+        return result.toString();
+    }
 }
