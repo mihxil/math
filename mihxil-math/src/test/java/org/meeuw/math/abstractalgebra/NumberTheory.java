@@ -18,6 +18,7 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
         if (ct == 0) {
             assertThat(e1).isEqualTo(e2);
             assertThat(e2).isEqualTo(e1);
+            assertThat(e1.hashCode()).isEqualTo(e2.hashCode());
         } else {
             assertThat(e1).isNotEqualTo(e2);
             assertThat(e2).isNotEqualTo(e1);
