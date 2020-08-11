@@ -34,9 +34,9 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
         if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
             assertThat(e1.longValue()).isEqualTo(e1.intValue());
         }
-        assertThat(e1.compareTo(e1.longValue())).isEqualTo(0);
-        assertThat(e1.compareTo(e1.longValue() + 1)).isLessThan(0);
-        assertThat(e1.compareTo(e1.longValue() - 1)).isGreaterThan(0);
+        assertThat(e1.compareTo(e1.doubleValue())).isEqualTo(0);
+        assertThat(e1.compareTo(e1.doubleValue() + 1)).isLessThan(0);
+        assertThat(e1.compareTo(e1.doubleValue() - 1)).isGreaterThan(0);
     }
 
 

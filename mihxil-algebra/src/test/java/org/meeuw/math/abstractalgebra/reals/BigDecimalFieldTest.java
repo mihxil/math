@@ -20,7 +20,7 @@ class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheor
 
     @Test
     public void test() {
-        assertThat(of(5d).times(of(6d))).isEqualTo(of(30d));
+        assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
     }
 
     @Provide
