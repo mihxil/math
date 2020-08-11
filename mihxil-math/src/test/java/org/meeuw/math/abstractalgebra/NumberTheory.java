@@ -3,6 +3,8 @@ package org.meeuw.math.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import org.assertj.core.data.Offset;
+
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,4 +27,17 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
         }
         assertThat(signum(ct)).isEqualTo(-1 * signum(e2.compareTo(e1)));
     }
+
+    @Property
+    default void implementsNumber(@ForAll(ELEMENTS) E e1) {
+        assertThat(e1.doubleValue()).isCloseTo(e1.floatValue(), Offset.offset(Math.abs(e1.doubleValue() / 1e7)));
+        if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
+            assertThat(e1.longValue()).isEqualTo(e1.intValue());
+        }
+        assertThat(e1.compareTo(e1.longValue())).isEqualTo(0);
+        assertThat(e1.compareTo(e1.longValue() + 1)).isLessThan(0);
+        assertThat(e1.compareTo(e1.longValue() - 1)).isGreaterThan(0);
+    }
+
+
 }

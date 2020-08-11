@@ -84,6 +84,6 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
 
     @Override
     public double doubleValue() {
-        return 0;
+        return value;
     }
 }
