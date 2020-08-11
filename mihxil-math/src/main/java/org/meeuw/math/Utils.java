@@ -3,7 +3,6 @@ package org.meeuw.math;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.stream.Stream;
 
 import javax.validation.constraints.Min;
@@ -90,6 +89,7 @@ public class Utils {
         }
         return order;
     }
+
     public static Duration round(Duration duration, ChronoUnit order) {
         switch(order) {
             case DAYS:
@@ -115,27 +115,37 @@ public class Utils {
     }
 
     public static Stream<int[]> stream(int degree) {
-        return Stream.iterate(new State(degree), State::next).map(State::array);
+        return Stream.iterate(new State(degree), State::next)
+            .map(State::array);
     }
 
     static class State {
         final int degree;
         final int[] counters;
-        IntState intState = new IntState(0, 1);
+        int max = 0;
         int[] next;
 
         State(int degree) {
             this.degree = degree;
             counters = new int[degree];
-            this.next = Arrays.copyOf(counters, degree);
+            makeNext();
         }
         int[] array() {
             return next;
         }
+
+        void makeNext() {
+            this.next = new int[degree];
+            int offset = max / 2;
+            for (int i = 0; i < degree; i++) {
+                this.next[i] = counters[i] - offset;
+            }
+        }
+
         public State next() {
-            inc(counters, intState);
-            this.next = Arrays.copyOf(counters, degree);
-            if (max() < intState.max) {
+            max = inc(counters, max);
+            makeNext();
+            if (max() < max) {
                 return next();
             }
             return this;
@@ -143,44 +153,42 @@ public class Utils {
 
         private int max() {
             int m = 0;
-            for (int c : counters) {
+            for (int c : next) {
                 int abs = Math.abs(c);
                 if (abs > m) {
                     m = abs;
                 }
             }
-            return m;
+            return m * 2;
         }
     }
 
+    /**
+     * Fills the array as if it is kind of a number system (with infinite base, but fixed number of digits)
+     * Also we fill from the left.
+     *
+     * The idea is to first produce values with low base, and if we filled those, then increase the base with 2 (we want to produce
+     * negative values, and afterwards shift base /2).
+     *
+     * This will produce duplicates, which are filtered out in {@link State}
+     *
+     */
+    static int inc(int[] counters, int base) {
+        return inc(counters, 0, base);
+    }
 
-    static void inc(int[] counters, IntState state) {
-        counters[state.index] *= -1;
-        if (counters[state.index] < 0) {
-            return;
-        }
-        counters[state.index]++;
-        if (counters[state.index] > state.max) {
-            counters[state.index] = 0;
-            if (state.index + 1 < counters.length) {
-                state.index++;
-                inc(counters, state);
+    private static int inc(int[] counters, int index, int base) {
+        counters[index]++;
+        if (counters[index] > base) {
+            counters[index] = 0;
+            if (index + 1 < counters.length) {
+                return inc(counters, index + 1, base);
             } else {
-                counters[0] = state.max;
-                state.max++;
-                inc(counters, state);
+                counters[0] = base;
+                return inc(counters, 0, base + 2);
             }
         }
-    }
-
-    static class IntState {
-        int index;
-        int max;
-
-        IntState(int index, int max) {
-            this.index = index;
-            this.max = max;
-        }
+        return base;
     }
 
 }

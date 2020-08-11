@@ -50,30 +50,22 @@ class UtilsTest {
     @Test
     public void incForStream() {
         int[] counters = new int[] {0, 0};
-        Utils.IntState state = new Utils.IntState(0, 1);
-        Utils.inc(counters, state);
-        assertThat(state.max).isEqualTo(1);
+        int max = 0;
+        max = Utils.inc(counters, max);
+        assertThat(max).isEqualTo(2);
         assertThat(counters).containsExactly(1, 0);
-        Utils.inc(counters, state);
-        assertThat(counters).containsExactly(-1, 0);
-        Utils.inc(counters, state);
-        assertThat(counters).containsExactly(0, 1);
-        Utils.inc(counters, state);
-        assertThat(counters).containsExactly(0, -1);
-        Utils.inc(counters, state);
-        assertThat(counters).containsExactly(1, 0);
-        Utils.inc(counters, state);
-        Utils.inc(counters, state);
+        max = Utils.inc(counters, max);
         assertThat(counters).containsExactly(2, 0);
-        Utils.inc(counters, state);
-        Utils.inc(counters, state);
+        max = Utils.inc(counters, max);
         assertThat(counters).containsExactly(0, 1);
-        Utils.inc(counters, state);
-        Utils.inc(counters, state);
+        max = Utils.inc(counters, max);
         assertThat(counters).containsExactly(1, 1);
-        Utils.inc(counters, state);
-        Utils.inc(counters, state);
+        max = Utils.inc(counters, max);
         assertThat(counters).containsExactly(2, 1);
+        max = Utils.inc(counters, max);
+        assertThat(counters).containsExactly(0, 2);
+        max = Utils.inc(counters, max);
+        assertThat(counters).containsExactly(1, 2);
 
 
         log.info(Arrays.stream(counters).mapToObj(String::valueOf).collect(joining(", ")));
@@ -82,6 +74,7 @@ class UtilsTest {
 
     @Test
     public void stream() {
+
         Utils.stream(3).limit(100).forEach(i -> {
             log.info(() -> Arrays.stream(i).mapToObj(String::valueOf).collect(joining(", ")));
         });

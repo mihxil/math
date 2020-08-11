@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
@@ -16,6 +17,10 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
 
     private final BigDecimal value;
+
+    public static BigDecimalElement of(double doubleValue){
+        return new BigDecimalElement(BigDecimal.valueOf(doubleValue));
+    }
 
     public BigDecimalElement(BigDecimal value) {
         this.value = value;
@@ -43,7 +48,16 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
 
     @Override
     public BigDecimalElement pow(int exponent) {
-        return new BigDecimalElement(value.pow(exponent));
+        if (exponent < 0) {
+            return ONE.dividedBy(pow(-1 * exponent));
+        } else {
+            return new BigDecimalElement(value.pow(exponent));
+        }
+    }
+
+    @Override
+    public BigDecimalElement reciprocal() {
+        return new BigDecimalElement(BigDecimal.ONE.divide(value, MathContext.DECIMAL32));
     }
 
     @Override
@@ -87,5 +101,25 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
         } else {
             return value.compareTo(BigDecimal.valueOf(o.doubleValue()));
         }
+    }
+
+    @Override
+    public String toString() {
+        return value.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BigDecimalElement that = (BigDecimalElement) o;
+
+        return value.equals(that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
     }
 }
