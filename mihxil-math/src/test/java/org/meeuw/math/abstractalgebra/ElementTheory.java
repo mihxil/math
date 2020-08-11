@@ -30,6 +30,9 @@ public interface ElementTheory<E>  {
       @Property
     default void testEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
         assertThat(e1.equals(e2)).isEqualTo(e2.equals(e1));
+        if (e1.equals(e2)) {
+            assertThat(e1.hashCode()).isEqualTo(e2.hashCode());
+        }
 
     }
 }
