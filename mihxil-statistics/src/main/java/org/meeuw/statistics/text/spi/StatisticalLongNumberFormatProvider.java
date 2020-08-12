@@ -2,6 +2,7 @@ package org.meeuw.statistics.text.spi;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.statistics.StatisticalLong;
 import org.meeuw.statistics.text.StatisticalLongNumberFormat;
 
 /**
@@ -16,8 +17,12 @@ public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatP
     }
 
     @Override
-    public int weight(AlgebraicElement<?> weight) {
-        return weight instanceof StatisticalLongNumberFormat ? 1 : -1;
+    public int weight(AlgebraicElement<?> element) {
+        if (element instanceof StatisticalLong) {
+            StatisticalLong e = (StatisticalLong) element;
+            return e.getMode() != StatisticalLong.Mode.LONG ? 0 : 10;
+        }
+        return -1;
 
     }
 }

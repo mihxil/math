@@ -42,7 +42,9 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
     default void repeatedPlus(
             @ForAll(ELEMENTS) E v1
             ) {
+        assertThat((v1.repeatedPlus(0))).isEqualTo(v1.getStructure().zero());
         assertThat((v1.repeatedPlus(5))).isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
+        assertThat((v1.repeatedPlus(-5))).isEqualTo(v1.repeatedPlus(5).negation());
     }
 
 

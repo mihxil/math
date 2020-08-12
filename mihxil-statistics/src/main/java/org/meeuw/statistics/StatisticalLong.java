@@ -11,13 +11,14 @@ See http://www.MMBase.org/license
 package org.meeuw.statistics;
 
 import lombok.Getter;
-import org.meeuw.math.uncertainnumbers.UncertainNumbersField;
-import org.meeuw.math.Utils;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+
+import org.meeuw.math.Utils;
+import org.meeuw.math.uncertainnumbers.UncertainNumbersField;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -143,8 +144,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public StatisticalLong times(StatisticalLong multiplier) {
-        return null;
-
+        throw new UnsupportedOperationException();
     }
 
     protected long round(double in) {
@@ -164,8 +164,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public StatisticalLong plus(StatisticalLong summand) {
-        return null;
-
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -1,7 +1,8 @@
 package org.meeuw.math.text.spi;
 
 import java.text.Format;
-import java.util.ServiceLoader;
+import java.util.*;
+import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
@@ -15,17 +16,26 @@ public abstract class AlgebraicElementFormatProvider {
 
     public abstract int weight(AlgebraicElement<?> weight);
 
-
-    public static Format getFormat(AlgebraicElement<?> object, int minimumExponent ) {
+    public static Stream<Format> getFormat(AlgebraicElement<?> object, int minimumExponent ) {
         final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
-        Format format = null;
-        int weight = -1;
-        for (AlgebraicElementFormatProvider e : loader) {
-            if (e.weight(object) > weight) {
-                format = e.getInstance(minimumExponent);
-                weight = e.weight(object);
-            }
-        }
-        return format;
+        List<AlgebraicElementFormatProvider> list = new ArrayList<>();
+        loader.iterator().forEachRemaining(list::add);
+        list.sort(Comparator.comparingInt(e -> e.weight(object)));
+
+        return list.stream().map(p -> p.getInstance(minimumExponent));
+    }
+
+    public static String toString(AlgebraicElement<?> object, int minimumExponent ) {
+        return getFormat(object, minimumExponent)
+            .map(f -> {
+                try {
+                    return f.format(object);
+                } catch (IllegalArgumentException iea) {
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElse("<TO STRING FAILED>");
     }
 }

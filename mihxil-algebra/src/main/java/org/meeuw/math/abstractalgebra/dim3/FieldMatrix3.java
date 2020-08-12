@@ -20,7 +20,11 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     final E zero;
 
     private static <E extends NumberFieldElement<E>> FieldMatrix3<E> of(E[] array) {
-        return of(array[0], array[1],array[2],array[3],array[4], array[5], array[6], array[7], array[8]);
+        return of(
+            array[0], array[1], array[2],
+            array[3], array[4], array[5],
+            array[6], array[7], array[8]
+        );
     }
 
     @SuppressWarnings("unchecked")
@@ -48,18 +52,9 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();
-    }
+        assert !determinant().isZero(); // the object _must be invertible__
 
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
-    FieldMatrix3(NumberField<E> structure) {
-        this.elementStructure = structure;
-        this.zero = this.elementStructure.zero();
-        this.values = (E[][]) new Object[][] {
-            {zero, zero, zero},
-            {zero, zero, zero},
-            {zero, zero, zero}
-         };
-     }
+    }
 
     @Override
     public FieldMatrix3<E> times(FieldMatrix3<E> multiplier) {
@@ -77,13 +72,24 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3<E> pow(int exponent) {
-        return null;
+    public FieldMatrix3<E> reciprocal() {
+        final E[][] transpose = (E[][]) new Object[][] {
+            {zero, zero, zero},
+            {zero, zero, zero},
+            {zero, zero, zero}
+         };
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                transpose[i][j] = values[j][i];
+            }
+        }
+        //
+        return new FieldMatrix3<>(transpose);
     }
 
     @Override
     public FieldMatrix3Group<E> getStructure() {
-        return new FieldMatrix3Group<>(elementStructure);
+        return FieldMatrix3Group.of(elementStructure);
     }
 
     @Override
@@ -119,12 +125,25 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
 
-    double determinant() {
-        //double A =(values[0][2] *  values[2][2] - );
-        double B;
-        double C;
-        return 0;
+    E determinant() {
+        E a = values[0][0];
+        E b = values[0][1];
+        E c = values[0][2];
+        E d = values[1][0];
+        E e = values[1][1];
+        E f = values[1][2];
+        E g = values[2][0];
+        E h = values[2][1];
+        E i = values[2][2];
+        return a.times(e.times(i).minus(f.times(h)))
+            .minus(
+                b.times(d.times(i).minus(f.times(g)))
+            ).plus(
+                c.times(d.times(h).minus(e.times(g)))
+            );
     }
+
+
 
     @Override
     public String toString() {

@@ -36,6 +36,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     @Override
     public Arbitrary<Rotation> elements() {
-        return Arbitraries.of(Rotation.Ry(PI / 2), Rotation.Rz(PI / 3), Rotation.Ry(PI / 6).times(Rotation.Rx(PI / 9)));
+        return Arbitraries.of(
+            Rotation.Ry(PI / 2), Rotation.Rz(PI / 3), Rotation.Ry(PI / 6).times(Rotation.Rx(PI / 9)));
     }
 }

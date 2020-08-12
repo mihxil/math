@@ -18,7 +18,7 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
      */
     @Override
     public String toString() {
-        return AlgebraicElementFormatProvider.getFormat(this, 4).format(this);
+        return AlgebraicElementFormatProvider.toString(this, 4);
     }
 
     @Override

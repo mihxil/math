@@ -1,9 +1,9 @@
 package org.meeuw.statistics;
 
-import net.jqwik.api.*;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,12 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 public class StatisticalDoubleTest implements FieldTheory<StatisticalDouble> {
-
-
-    @Property
-    boolean absoluteValueOfAllNumbersIsPositive(@ForAll FieldElement<?> aFieldEleent) {
-        return true;
-    }
 
 
     @Test

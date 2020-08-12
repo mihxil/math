@@ -2,8 +2,9 @@ package org.meeuw.math.abstractalgebra.dim3;
 
 import java.util.function.UnaryOperator;
 
+import javax.validation.constraints.Min;
+
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
@@ -19,10 +20,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     });
 
     final FieldMatrix3<RealNumber> rot;
-
-    private Rotation() {
-        rot = new FieldMatrix3<>(RealField.INSTANCE);
-    }
 
     public Rotation(double[][] values) {
         rot = FieldMatrix3.of(
@@ -95,13 +92,15 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     }
 
     @Override
-    public Rotation pow(int exponent) {
+    public Rotation pow(@Min(0) int exponent) {
         Rotation result = getStructure().one();
         for (int i = 0; i < exponent; i++) {
             result = result.times(this);
         }
         return result;
     }
+
+
 
     @Override
     public String toString() {

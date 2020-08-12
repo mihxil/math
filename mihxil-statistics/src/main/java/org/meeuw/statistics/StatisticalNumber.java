@@ -7,12 +7,11 @@ OSI Certified is a certification mark of the Open Source Initiative.
 package org.meeuw.statistics;
 
 import lombok.Getter;
-import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
-import org.meeuw.math.abstractalgebra.FieldElement;
 
 import java.util.LongSummaryStatistics;
+
+import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * A 'statistic' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation and standard deviation of those values.
@@ -109,7 +108,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
     @Override
     public T pow(int exponent) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     public void reset() {
@@ -120,6 +119,20 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return new ImmutableUncertainNumber(doubleValue(), getUncertainty());
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!StatisticalNumber.class.isInstance(o)) return false;
+        StatisticalNumber<?> that = (StatisticalNumber<?>) o;
+
+        return that.toString().equals(o.toString());
+    }
+
+    @Override
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }
 
 

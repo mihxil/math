@@ -15,7 +15,7 @@ import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public class StatisticalLongNumberFormat extends Format {
 
@@ -42,7 +42,7 @@ public class StatisticalLongNumberFormat extends Format {
             }
          }
 
-         throw new IllegalArgumentException("Cannot format given Object as a StatisticalLong");
+         throw new IllegalArgumentException("Cannot format given " + number.getClass() + " as a StatisticalLong");
     }
 
     @Override

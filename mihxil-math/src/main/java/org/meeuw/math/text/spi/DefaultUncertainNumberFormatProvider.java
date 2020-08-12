@@ -1,14 +1,17 @@
 package org.meeuw.math.text.spi;
 
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public class DefaultUncertainNumberFormatProvider extends AlgebraicElementFormatProvider {
+
+    public static final DefaultUncertainNumberFormatProvider INSTANCE = new DefaultUncertainNumberFormatProvider();
+
     @Override
     public UncertainNumberFormat getInstance(int minimumExponent) {
         UncertainNumberFormat format = new UncertainNumberFormat();
