@@ -16,7 +16,6 @@ public class UnitsImpl implements Units  {
 
     private final UnitExponent[] exponents;
 
-
     public UnitsImpl(Unit... units) {
         this(Unit.toArray(units));
     }
@@ -70,7 +69,6 @@ public class UnitsImpl implements Units  {
             if (base.get(i).exponent == 0) {
                 base.remove(i--);
             }
-
         }
         return new UnitsImpl(base.toArray(new UnitExponent[0]));
     }

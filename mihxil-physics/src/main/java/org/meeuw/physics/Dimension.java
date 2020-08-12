@@ -18,8 +18,10 @@ public enum Dimension {
     static int NUMBER = values().length;
 
     final String toString;
+
     @Getter
     final String name;
+
     Dimension(char i, String name) {
         toString = String.valueOf(i);
         this.name = name;

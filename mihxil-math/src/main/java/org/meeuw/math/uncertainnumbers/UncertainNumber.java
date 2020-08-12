@@ -1,5 +1,9 @@
 package org.meeuw.math.uncertainnumbers;
 
+import lombok.Getter;
+
+import java.util.function.Predicate;
+
 import org.meeuw.math.abstractalgebra.NumberElement;
 
 /**
@@ -42,5 +46,34 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberEle
      * Creates a new {@link UncertainNumber} representing a multiple of this one.
      */
     T times(double multiplier);
+
+    default boolean equals(UncertainNumber<?> value, double interval) {
+        return Range.of(doubleValue(), getUncertainty(), interval).contains(value.doubleValue())
+            ||  Range.of(value.doubleValue(), value.getUncertainty(), interval).contains(doubleValue());
+    }
+
+    @Getter
+    class Range implements Predicate<Double> {
+        private final double low;
+        private final double high;
+
+        public static Range of(double value, double uncertainty, double interval) {
+            double halfRange = uncertainty * interval;
+            return new Range(value - halfRange, value + halfRange);
+        }
+
+        public Range(double low, double high) {
+            this.low = low;
+            this.high = high;
+        }
+
+        public boolean contains(double value) {
+            return this.low <= value && this.high >= value;
+        }
+        @Override
+        public boolean test(Double value) {
+            return value != null && contains(value);
+        }
+    }
 
 }

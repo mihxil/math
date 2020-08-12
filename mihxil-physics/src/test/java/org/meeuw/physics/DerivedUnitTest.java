@@ -13,12 +13,14 @@ class DerivedUnitTest {
     @Test
     public void N() {
         assertThat(SI.N.toString()).isEqualTo("N");
+        assertThat(SI.N.getDescription()).isEqualTo("Newton");
         assertThat(SI.N.getDimensions().toString()).isEqualTo("LMT⁻²");
     }
 
     @Test
     public void eV() {
         assertThat(SI.eV.toString()).isEqualTo("eV");
+        assertThat(SI.eV.getDescription()).isEqualTo("electonvolt");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
         assertThat(SI.eV.getSiFactor()).isEqualTo(1.602176634E-19);
     }

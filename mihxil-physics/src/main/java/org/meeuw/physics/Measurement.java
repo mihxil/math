@@ -12,10 +12,6 @@ import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
  */
 public class Measurement extends PhysicalNumber {
 
-    public Measurement(double value, double uncertainty) {
-        this(value, uncertainty, null);
-    }
-
     public Measurement(double value, double uncertainty, Units units) {
         this(new ImmutableUncertainNumber(value, uncertainty), units);
     }

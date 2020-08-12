@@ -12,6 +12,8 @@ class PhysicalConstantTest {
     @Test
     public void NA() {
         assertThat(PhysicalConstant.NA.toString()).isEqualTo("6.022·10²³ mol⁻¹");
+        assertThat(PhysicalConstant.NA.getName()).isEqualTo("Avogadro's number");
+
     }
 
     @Test

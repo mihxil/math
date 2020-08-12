@@ -3,7 +3,6 @@ package org.meeuw.physics;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroupTheory;
 
 import static org.meeuw.physics.Dimension.*;
@@ -22,8 +21,4 @@ class DimensionsTest implements MultiplicativeAbelianGroupTheory<Dimensions> {
         );
     }
 
-    @Test
-    public void stream() {
-
-    }
 }

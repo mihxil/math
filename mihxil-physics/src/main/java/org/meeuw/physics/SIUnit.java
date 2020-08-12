@@ -27,7 +27,6 @@ public enum SIUnit implements Unit {
         }
     }
 
-
     @Getter
     private final Dimension dimension;
 
@@ -48,7 +47,6 @@ public enum SIUnit implements Unit {
         exponents[ord] = 1;
         return new Dimensions(exponents);
     }
-
 
     public Prefix prefix() {
         return Prefix.NONE;

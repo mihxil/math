@@ -1,6 +1,8 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
+
+import org.meeuw.math.Utils;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
@@ -128,12 +130,12 @@ public abstract class PhysicalNumber
         if (this == o) return true;
         if (!(o instanceof PhysicalNumber)) return false;
         PhysicalNumber of = (PhysicalNumber) o;
-        return wrapped.toString().equals(of.wrapped.toString()) && units.equals(of.units);
+        return wrapped.equals(of.wrapped, 1) && units.equals(of.units);
     }
 
     @Override
     public int hashCode() {
-        int result = wrapped != null ? wrapped.hashCode() : 0;
+        int result = Utils.log10(wrapped.doubleValue());
         result = 31 * result + (units != null ? units.hashCode() : 0);
         return result;
     }

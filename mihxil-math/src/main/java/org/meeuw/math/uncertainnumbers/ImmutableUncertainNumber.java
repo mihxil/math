@@ -68,7 +68,6 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     @Override
     public ImmutableUncertainNumber plus(double summand) {
         return new ImmutableUncertainNumber(summand + doubleValue(), getUncertainty());
-
     }
 
     @Override
@@ -112,24 +111,20 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
 
     public int compareTo(UncertainNumber<?> o) {
         return Double.compare(doubleValue(), o.doubleValue());
-
     }
 
     @Override
     public int compareTo(Number o) {
         return Double.compare(doubleValue(), o.doubleValue());
-
     }
 
     @Override
     public ImmutableUncertainNumber plus(ImmutableUncertainNumber summand) {
         return plus((UncertainNumber<?>) summand);
-
     }
 
     @Override
     public ImmutableUncertainNumber times(ImmutableUncertainNumber multiplier) {
         return times((UncertainNumber<?>) multiplier);
-
     }
 }
