@@ -10,7 +10,6 @@ import lombok.Getter;
 
 import java.util.LongSummaryStatistics;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.uncertainnumbers.*;
 
 /**
@@ -22,7 +21,7 @@ import org.meeuw.math.uncertainnumbers.*;
  */
 
 
-public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<T> implements FieldElement<T> {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<UncertainNumberElement> implements UncertainNumberElement {
 
     /**
      * The total number of values which were {@link StatisticalDouble#enter(double...)}ed.
@@ -35,7 +34,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
     protected StatisticalNumber(int count) {
         this.count = count;
     }
-
 
     public abstract T copy();
 
@@ -64,7 +62,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return super.combined(m);
     }*/
 
-    @Override
     public T combined(T m) {
         T copy = copy();
         return copy.enter(m);
@@ -94,21 +91,19 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return copy().divide(divisor);
     }
 
-    public T negation() {
+    public UncertainNumberElement negation() {
         return times(-1);
     }
 
-    public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
-        return immutableCopy().plus(summand);
-    }
 
-    public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
+
+    public UncertainNumber times(UncertainNumber multiplier) {
         return immutableCopy().times(multiplier);
     }
 
     @Override
-    public T pow(int exponent) {
-        throw new UnsupportedOperationException();
+    public UncertainNumberElement pow(int exponent) {
+        return (UncertainNumberElement) super.pow(exponent);
     }
 
     public void reset() {
@@ -119,14 +114,20 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return new ImmutableUncertainNumber(doubleValue(), getUncertainty());
     }
 
+    @Override
+    public UncertainNumberElement times(UncertainNumberElement multiplier) {
+        return (UncertainNumberElement) super.times(multiplier);
+    }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!StatisticalNumber.class.isInstance(o)) return false;
-        StatisticalNumber<?> that = (StatisticalNumber<?>) o;
+    public UncertainNumberElement plus(UncertainNumberElement summand) {
+        return (UncertainNumberElement) super.plus(summand);
+    }
 
-        return that.toString().equals(o.toString());
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @Override
+    public boolean equals(Object o) {
+        return equals(o, 1);
     }
 
     @Override

@@ -40,8 +40,6 @@ public class TextUtils {
     }
 
 
-
-
     /**
      * Returns an integer in 'superscript' notation, using unicode.
      */
@@ -82,7 +80,7 @@ public class TextUtils {
             } else if (c == '-') {
                 bul.append('\u208B');
             } else {
-                bul.append(c);
+                bul.append((char) c);
             }
         });
         return bul.toString();

@@ -3,9 +3,8 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * An uncertain number but also with {@link Units}
@@ -15,15 +14,15 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  */
 public abstract class PhysicalNumber
     extends Number
-    implements MultiplicativeGroupElement<PhysicalNumber>, UncertainNumber<PhysicalNumber> {
+    implements MultiplicativeGroupElement<PhysicalNumber>, UncertainNumber {
 
     @Getter
-    protected final ImmutableUncertainNumber wrapped;
+    protected final UncertainNumber wrapped;
 
     @Getter
     protected final Units units;
 
-    public PhysicalNumber(ImmutableUncertainNumber wrapped, Units units) {
+    public PhysicalNumber(UncertainNumber wrapped, Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }
@@ -67,8 +66,8 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public PhysicalNumber combined(PhysicalNumber m) {
-        return copy(wrapped.combined(m.wrapped), units);
+    public PhysicalNumber combined(UncertainNumber m) {
+        return copy(wrapped.combined(m), units);
     }
 
     @Override
@@ -81,7 +80,8 @@ public abstract class PhysicalNumber
         return copy(wrapped.times(multiplier),  Units.forMultiplication(units, multiplier.getUnits()));
     }
 
-    public PhysicalNumber times(UncertainNumber<?> multiplier) {
+    @Override
+    public PhysicalNumber times(UncertainNumber multiplier) {
         return copy(wrapped.times(multiplier), units);
     }
 
@@ -109,7 +109,7 @@ public abstract class PhysicalNumber
         return copy(wrapped.plus(summand), units);
     }
 
-    protected abstract PhysicalNumber copy(ImmutableUncertainNumber wrapped, Units units);
+    protected abstract PhysicalNumber copy(UncertainNumber wrapped, Units units);
 
     @Override
     public PhysicalNumber self() {
@@ -138,6 +138,11 @@ public abstract class PhysicalNumber
         int result = Utils.log10(wrapped.doubleValue());
         result = 31 * result + (units != null ? units.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(UncertainNumber f) {
+        return Double.compare(doubleValue(),f.doubleValue());
     }
 }
 

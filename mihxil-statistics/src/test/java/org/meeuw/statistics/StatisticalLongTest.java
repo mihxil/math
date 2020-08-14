@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.abstractalgebra.FieldTheory;
+import org.meeuw.math.uncertainnumbers.UncertainNumberElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 0.3
  */
 
-class StatisticalLongTest implements FieldTheory<StatisticalLong> {
+class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
 
     @Test
     public void instants() {
@@ -81,7 +82,7 @@ class StatisticalLongTest implements FieldTheory<StatisticalLong> {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainNumber<?> combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
+        UncertainNumber combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.doubleValue()).isEqualTo(3.5);
 
@@ -104,7 +105,7 @@ class StatisticalLongTest implements FieldTheory<StatisticalLong> {
     }
 
     @Override
-    public Arbitrary<StatisticalLong> elements() {
+    public Arbitrary<UncertainNumberElement> elements() {
         StatisticalLong mes1 = new StatisticalLong(StatisticalLong.Mode.DURATION);
         mes1.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
 

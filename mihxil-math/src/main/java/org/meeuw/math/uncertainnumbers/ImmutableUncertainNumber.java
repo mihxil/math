@@ -1,13 +1,14 @@
 package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
-import org.meeuw.math.abstractalgebra.FieldElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableUncertainNumber> implements FieldElement<ImmutableUncertainNumber> {
+public class ImmutableUncertainNumber
+    extends AbstractUncertainNumber<UncertainNumberElement>
+    implements UncertainNumberElement {
 
     public static final ImmutableUncertainNumber ZERO = new ImmutableUncertainNumber(0, 0);
     public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, 0);
@@ -22,13 +23,13 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     }
 
     @Override
-    public UncertainNumbersField<ImmutableUncertainNumber> getStructure() {
-        return new UncertainNumbersField<>(ONE, ZERO);
+    public UncertainNumbersField getStructure() {
+        return UncertainNumbersField.INSTANCE;
     }
 
     @Override
     public ImmutableUncertainNumber negation() {
-        return times(-1);
+        return (ImmutableUncertainNumber) times(-1);
     }
 
     @Override
@@ -37,65 +38,19 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
     }
 
     @Override
-    public ImmutableUncertainNumber combined(ImmutableUncertainNumber m) {
-        double u = getUncertainty();
-        double mu = m.getUncertainty();
-        double weight = 1d / (u * u);
-        double mweight = 1d / (mu * mu);
-        double value = (doubleValue() * weight + m.doubleValue() * mweight) / (weight + mweight);
-
-        // I'm not absolutely sure about this:
-        double uncertaintity = 1d/ Math.sqrt((weight + mweight));
-        return new ImmutableUncertainNumber(value, uncertaintity);
+    public ImmutableUncertainNumber times(UncertainNumberElement multiplier) {
+        return (ImmutableUncertainNumber) super.times(multiplier);
     }
 
     @Override
-    public ImmutableUncertainNumber times(double multiplier) {
-        return new ImmutableUncertainNumber(multiplier * doubleValue(),
-            Math.abs(multiplier) * getUncertainty());
+    public ImmutableUncertainNumber plus(UncertainNumberElement summand) {
+        return (ImmutableUncertainNumber) super.plus(summand);
     }
 
-    public ImmutableUncertainNumber times(UncertainNumber<?> multiplier) {
-        double u = getUncertainty() / doubleValue();
-        double mu = multiplier.getUncertainty() / multiplier.doubleValue();
-        double newValue = doubleValue() * multiplier.doubleValue();
-        return new ImmutableUncertainNumber(
-            newValue,
-            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
-        );
-    }
-
-    @Override
-    public ImmutableUncertainNumber plus(double summand) {
-        return new ImmutableUncertainNumber(summand + doubleValue(), getUncertainty());
-    }
-
-    @Override
-    public ImmutableUncertainNumber pow(int exponent) {
-        return new ImmutableUncertainNumber(Math.pow(doubleValue(), exponent),
-            Math.abs(exponent) * Math.pow(doubleValue(), exponent -1) * getUncertainty());
-    }
-
-    public ImmutableUncertainNumber plus(UncertainNumber<?> summand) {
-        double u = getUncertainty();
-        double mu = summand.getUncertainty();
-        return new ImmutableUncertainNumber(
-            doubleValue() + summand.doubleValue(),
-            Math.sqrt(u * u + mu * mu));
-
-    }
-
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ImmutableUncertainNumber that = (ImmutableUncertainNumber) o;
-
-        if (Double.compare(that.value, value) != 0) {
-            return false;
-        }
-        return Double.compare(that.uncertainty, uncertainty) == 0;
+        return equals(o, 1);
     }
 
     @Override
@@ -109,7 +64,7 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
         return result;
     }
 
-    public int compareTo(UncertainNumber<?> o) {
+    public int compareTo(UncertainNumber o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
@@ -118,13 +73,4 @@ public class ImmutableUncertainNumber extends AbstractUncertainNumber<ImmutableU
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
-    @Override
-    public ImmutableUncertainNumber plus(ImmutableUncertainNumber summand) {
-        return plus((UncertainNumber<?>) summand);
-    }
-
-    @Override
-    public ImmutableUncertainNumber times(ImmutableUncertainNumber multiplier) {
-        return times((UncertainNumber<?>) multiplier);
-    }
 }

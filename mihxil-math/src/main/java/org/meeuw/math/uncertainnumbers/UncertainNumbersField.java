@@ -7,27 +7,24 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumbersField<T extends UncertainNumber<T> & FieldElement<T>>
-    extends AbstractAlgebraicStructure<T>
-    implements Field<T> {
+public class UncertainNumbersField
+    extends AbstractAlgebraicStructure<UncertainNumberElement>
+    implements Field<UncertainNumberElement> {
 
-    final T zero;
-    final T one;
+    public static final UncertainNumbersField INSTANCE = new UncertainNumbersField();
 
-    public UncertainNumbersField(T zero, T one) {
-        super((Class<T>) zero.getClass());
-        this.zero = zero;
-        this.one = one;
+    private UncertainNumbersField() {
+        super(UncertainNumberElement.class);
     }
 
     @Override
-    public T zero() {
-        return zero;
+    public ImmutableUncertainNumber zero() {
+        return ImmutableUncertainNumber.ZERO;
     }
 
     @Override
-    public T one() {
-        return one;
+    public ImmutableUncertainNumber one() {
+        return ImmutableUncertainNumber.ONE;
     }
 
     @Override

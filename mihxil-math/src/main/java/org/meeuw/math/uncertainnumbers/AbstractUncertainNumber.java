@@ -10,7 +10,8 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<T>> extends Number implements UncertainNumber<T>, AlgebraicElement<T> {
+public abstract class AbstractUncertainNumber<E extends AlgebraicElement<E>> extends Number
+    implements UncertainNumber, AlgebraicElement<E> {
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
@@ -45,14 +46,14 @@ public abstract class AbstractUncertainNumber<T extends AbstractUncertainNumber<
         return (short) longValue();
     }
 
-    public int compareTo(T o) {
+    public int compareTo(UncertainNumber o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public T self() {
-        return (T) this;
+    public E self() {
+        return (E) this;
     }
 
 }

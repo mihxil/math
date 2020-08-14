@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
+
+import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -16,6 +19,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @since 0.4
  */
 
+@Log4j2
 class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<RationalNumber> {
 
     @Test
@@ -37,7 +41,11 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
 
     @Test
     public void stream() {
-        assertThat(INSTANCE.stream().limit(30).map(RationalNumber::toString)).containsExactly(
+        assertThat(INSTANCE
+            .stream()
+            .limit(30)
+            .map(RationalNumber::toString))
+            .containsExactly(
                 "0",
                 "1",
                 "-1",
@@ -71,9 +79,9 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
         );
     }
 
-
     @Provide
     public Arbitrary<RationalNumber> elements() {
+        Arbitraries.bigDecimals().shrinkTowards(BigDecimal.ONE).withDistribution(RandomDistribution.gaussian());
         return Arbitraries.randomValue((random) -> {
             long numerator = random.nextLong();
             long denumator = 0L;

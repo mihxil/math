@@ -1,16 +1,12 @@
 package org.meeuw.math.text;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
-import org.meeuw.math.Utils;
+import lombok.*;
 
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.NumberFormat;
-import java.text.ParsePosition;
+import java.text.*;
 import java.util.Locale;
+
+import org.meeuw.math.Utils;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
@@ -38,8 +34,8 @@ public class UncertainNumberFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber<?>) {
-            UncertainNumber<?> uncertainNumber = (UncertainNumber<?>) number;
+        if (number instanceof UncertainNumber) {
+            UncertainNumber uncertainNumber = (UncertainNumber) number;
             if (uncertainNumber.isExact()) {
                 toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {
@@ -120,7 +116,7 @@ public class UncertainNumberFormat extends Format {
          return value +  " \u00B1 " + error;
     }
 
-       public static String scientificNotation(double meanDouble, int minimumExponent) {
+    public static String scientificNotation(double meanDouble, int minimumExponent) {
         SplitNumber mean = SplitNumber.split(meanDouble);
 
         // For numbers close to 1, we don't use scientific notation.
@@ -130,6 +126,7 @@ public class UncertainNumberFormat extends Format {
             mean.coefficient *= pow;
         }
         NumberFormat nf = NumberFormat.getInstance(Locale.US);
+        nf.setMaximumFractionDigits(14);
         nf.setGroupingUsed(false);
         boolean useE = mean.exponent != 0;
 

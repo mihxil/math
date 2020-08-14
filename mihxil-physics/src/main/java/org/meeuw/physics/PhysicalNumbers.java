@@ -13,7 +13,7 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber> implements MultiplicativeGroup<PhysicalNumber> {
 
-    public static final PhysicalConstant ONE = new PhysicalConstant(1, Units.DIMENSIONLESS, "one");
+    public static final PhysicalConstant ONE = new PhysicalConstant("1", 1, Units.DIMENSIONLESS, "one");
 
     public static final PhysicalNumbers INSTANCE = new PhysicalNumbers();
 

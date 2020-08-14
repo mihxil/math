@@ -86,6 +86,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     protected FieldVector3<RealNumber> rotate(FieldVector3<RealNumber> in) {
         return in.times(rot);
     }
+
     @Override
     public FieldVector3<RealNumber> apply(FieldVector3<RealNumber> in) {
         return rotate(in);

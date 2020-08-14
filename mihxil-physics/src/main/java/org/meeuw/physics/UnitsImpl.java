@@ -87,7 +87,7 @@ public class UnitsImpl implements Units  {
 
     @Override
     public PhysicalConstant zero() {
-        return new PhysicalConstant(0, this, "zero " + toString());
+        return new PhysicalConstant("0", 0, this, "zero " + toString());
     }
 
     @Override

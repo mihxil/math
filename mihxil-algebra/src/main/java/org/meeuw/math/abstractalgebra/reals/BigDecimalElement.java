@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
@@ -15,6 +16,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
+    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI));
 
     private final BigDecimal value;
 

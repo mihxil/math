@@ -25,6 +25,6 @@ class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheor
 
     @Provide
     public Arbitrary<BigDecimalElement> elements() {
-        return Arbitraries.randomValue((random) -> of(random.nextDouble()));
+        return Arbitraries.randomValue((random) -> of(random.nextDouble())).injectDuplicates(0.1);
     }
 }

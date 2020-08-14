@@ -11,6 +11,7 @@ public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElemen
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 
+
     protected BigDecimalField() {
         super(BigDecimalElement.class);
     }

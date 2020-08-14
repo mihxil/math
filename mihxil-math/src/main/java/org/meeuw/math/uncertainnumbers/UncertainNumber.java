@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.function.Predicate;
 
-import org.meeuw.math.abstractalgebra.NumberElement;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -14,7 +14,7 @@ import org.meeuw.math.abstractalgebra.NumberElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberElement<T> {
+public interface UncertainNumber extends NumberElement<UncertainNumber>  {
 
     double EXACT = 0d;
 
@@ -27,42 +27,92 @@ public interface UncertainNumber<T extends UncertainNumber<T>> extends NumberEle
         return getUncertainty() == EXACT;
     }
 
-    default T dividedBy(double divisor) {
+    default UncertainNumber dividedBy(double divisor) {
         return times(1d / divisor);
     }
 
-    T plus(double summand);
 
-    default T minus(double subtrahend) {
+    default UncertainNumber plus(double summand) {
+        return new ImmutableUncertainNumber(summand + doubleValue(), getUncertainty());
+    }
+
+    default UncertainNumber minus(double subtrahend) {
         return plus(-1d * subtrahend);
     }
 
     /**
      * Creates a new uncertain number, combining this one with another one.
      */
-    T combined(T m);
+    default UncertainNumber combined(UncertainNumber m) {
+        double u = getUncertainty();
+        double mu = m.getUncertainty();
+        double weight = 1d / (u * u);
+        double mweight = 1d / (mu * mu);
+        double value = (doubleValue() * weight + m.doubleValue() * mweight) / (weight + mweight);
+
+        // I'm not absolutely sure about this:
+        double uncertaintity = 1d/ Math.sqrt((weight + mweight));
+        return new ImmutableUncertainNumber(value, uncertaintity);
+    }
 
     /**
      * Creates a new {@link UncertainNumber} representing a multiple of this one.
      */
-    T times(double multiplier);
+    default UncertainNumber times(double multiplier) {
+        return new ImmutableUncertainNumber(multiplier * doubleValue(),
+            Math.abs(multiplier) * getUncertainty());
+    }
 
-    default boolean equals(UncertainNumber<?> value, double interval) {
-        return Range.of(doubleValue(), getUncertainty(), interval).contains(value.doubleValue())
-            ||  Range.of(value.doubleValue(), value.getUncertainty(), interval).contains(doubleValue());
+
+    default UncertainNumber times(UncertainNumber multiplier) {
+        double u = getUncertainty() / doubleValue();
+        double mu = multiplier.getUncertainty() / multiplier.doubleValue();
+        double newValue = doubleValue() * multiplier.doubleValue();
+        return new ImmutableUncertainNumber(
+            newValue,
+            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
+        );
+    }
+
+    default UncertainNumber pow(int exponent) {
+        return new ImmutableUncertainNumber(Math.pow(doubleValue(), exponent),
+            Math.abs(exponent) * Math.pow(doubleValue(), exponent -1) * getUncertainty());
+    }
+
+    default UncertainNumber plus(UncertainNumber summand) {
+        double u = getUncertainty();
+        double mu = summand.getUncertainty();
+        return new ImmutableUncertainNumber(
+            doubleValue() + summand.doubleValue(),
+            Math.sqrt(u * u + mu * mu));
+
+    }
+
+    default boolean equals(Object value, double sds) {
+        if (this == value) return true;
+        if (! (value instanceof UncertainNumber)) {
+            return false;
+        }
+        UncertainNumber other = (UncertainNumber) value;
+        return getConfidenceInterval(sds).contains(other.doubleValue())
+            ||  other.getConfidenceInterval(sds).contains(doubleValue());
+    }
+
+    default ConfidenceInterval getConfidenceInterval(double sds) {
+        return ConfidenceInterval.of(doubleValue(), getUncertainty(), sds);
     }
 
     @Getter
-    class Range implements Predicate<Double> {
+    class ConfidenceInterval implements Predicate<Double> {
         private final double low;
         private final double high;
 
-        public static Range of(double value, double uncertainty, double interval) {
+        public static ConfidenceInterval of(double value, double uncertainty, double interval) {
             double halfRange = uncertainty * interval;
-            return new Range(value - halfRange, value + halfRange);
+            return new ConfidenceInterval(value - halfRange, value + halfRange);
         }
 
-        public Range(double low, double high) {
+        public ConfidenceInterval(double low, double high) {
             this.low = low;
             this.high = high;
         }

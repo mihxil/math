@@ -142,11 +142,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
-    @Override
-    public StatisticalLong times(StatisticalLong multiplier) {
-        throw new UnsupportedOperationException();
-    }
-
     protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
         return Math.round(in) / orderOfMagnitude * orderOfMagnitude;
@@ -154,18 +149,10 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
 
     @Override
-    public UncertainNumbersField<StatisticalLong> getStructure() {
-        return new UncertainNumbersField<>(
-            new StatisticalLong(mode, 0, 0, 0, 0),
-            new StatisticalLong(mode, 0, 0, 0, 1)
-        );
-
+    public UncertainNumbersField getStructure() {
+        return  UncertainNumbersField.INSTANCE;
     }
 
-    @Override
-    public StatisticalLong plus(StatisticalLong summand) {
-        throw new UnsupportedOperationException();
-    }
 
     @Override
     public double doubleValue() {
