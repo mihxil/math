@@ -15,8 +15,9 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
      */
     default E pow(@Min(0) int exponent) {
         E result = getStructure().one();
+        E self = (E) this;
         while (exponent > 0) {
-            result = result.times(self());
+            result = result.times(self);
             exponent--;
         }
         if(exponent < 0) {

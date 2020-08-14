@@ -1,10 +1,11 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.text.UncertainNumberFormat;
 
 import java.util.Arrays;
+
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.text.UncertainNumberFormat;
 
 /**
 
@@ -38,11 +39,6 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     @Override
     public DimensionsGroup getStructure() {
         return DimensionsGroup.INSTANCE;
-    }
-
-    @Override
-    public Dimensions self() {
-        return this;
     }
 
     @Override

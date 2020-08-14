@@ -30,9 +30,10 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends
             return getStructure().zero();
         }
         int m = Math.abs(multiplier);
-        E result = self();
+        E self = (E) this;
+        E result = self;
         while (--m > 0) {
-            result = result.plus(self());
+            result = result.plus(self);
         }
         if (multiplier < 0) {
             return result.negation();

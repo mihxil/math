@@ -35,12 +35,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
     }
 
-    default void self(
-        @ForAll(ELEMENTS) AlgebraicElement<E> e) {
-        assertThat(e.self()).isEqualTo(e);
-        assertThat(e.self() == e).isTrue();
-    }
-
     @Provide
     default Arbitrary<AlgebraicStructure<E>> structure() {
         return Arbitraries.of(elements().sample().getStructure());

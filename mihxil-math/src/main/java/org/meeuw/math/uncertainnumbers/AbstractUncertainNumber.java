@@ -50,10 +50,4 @@ public abstract class AbstractUncertainNumber<E extends AlgebraicElement<E>> ext
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public E self() {
-        return (E) this;
-    }
-
 }

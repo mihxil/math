@@ -24,9 +24,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * if multiplication is defined, then so is exponentation, as long as the exponent is a positive integer.
      */
     default E pow(@Min(1) int exponent) {
-        E result = self();
+        E self = (E) this;
+        E result = self;
         while (exponent > 1) {
-            result = result.times(self());
+            result = result.times(self);
             exponent--;
         }
         if(exponent < 1) {

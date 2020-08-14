@@ -28,12 +28,13 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      */
     default E pow(int exponent) {
         E result = getStructure().one();
+        E self = (E) this;
         while (exponent > 0) {
-            result = result.times(self());
+            result = result.times(self);
             exponent--;
         }
         while(exponent < 0) {
-            result = result.dividedBy(self());
+            result = result.dividedBy(self);
             exponent++;
         }
         return result;
@@ -48,7 +49,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      * Returns this elemented multiplied by itself.
      */
     default E sqr() {
-        return times(self());
+        return times((E) this);
     }
 
 

@@ -17,8 +17,4 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> {
      */
     AlgebraicStructure<E> getStructure();
 
-    /**
-     * Returns the object itself. This exists to have 'this' available in default methods.
-     */
-    E self();
 }

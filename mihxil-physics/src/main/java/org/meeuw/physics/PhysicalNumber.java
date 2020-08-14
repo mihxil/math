@@ -2,7 +2,6 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -112,11 +111,6 @@ public abstract class PhysicalNumber
     protected abstract PhysicalNumber copy(UncertainNumber wrapped, Units units);
 
     @Override
-    public PhysicalNumber self() {
-        return  this;
-    }
-
-    @Override
     public PhysicalNumbers getStructure() {
         return PhysicalNumbers.INSTANCE;
     }
@@ -135,7 +129,7 @@ public abstract class PhysicalNumber
 
     @Override
     public int hashCode() {
-        int result = Utils.log10(wrapped.doubleValue());
+        int result = 0;
         result = 31 * result + (units != null ? units.hashCode() : 0);
         return result;
     }
