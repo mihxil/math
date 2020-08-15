@@ -9,6 +9,8 @@ module org.meeuw.physics {
     requires static lombok;
     exports org.meeuw.physics;
 
+    requires transitive org.mapstruct.processor;
+
     uses AlgebraicElementFormatProvider;
 
 
