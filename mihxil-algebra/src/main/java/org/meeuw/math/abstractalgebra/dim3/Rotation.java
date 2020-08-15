@@ -73,11 +73,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     }
 
     @Override
-    public Rotation self() {
-        return this;
-    }
-
-    @Override
     public Rotation times(Rotation multiplier) {
         return new Rotation(
             rot.times(multiplier.rot).values
@@ -100,7 +95,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
         }
         return result;
     }
-
 
 
     @Override

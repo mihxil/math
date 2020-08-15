@@ -28,11 +28,6 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     }
 
     @Override
-    public ComplexNumber<E> self() {
-        return this;
-    }
-
-    @Override
     public ComplexNumber<E> times(ComplexNumber<E> multiplier) {
         return new ComplexNumber<>(
             this.real.times(multiplier.real).minus(this.imaginairy.times(multiplier.imaginairy)),

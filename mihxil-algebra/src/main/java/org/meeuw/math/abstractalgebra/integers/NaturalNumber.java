@@ -1,10 +1,8 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-
 import javax.validation.constraints.Min;
+
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * The natural numbers ℕ
@@ -37,11 +35,6 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
     @Override
     public NaturalNumbers getStructure() {
         return NaturalNumbers.INSTANCE;
-    }
-
-    @Override
-    public NaturalNumber self() {
-        return this;
     }
 
     @Override

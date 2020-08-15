@@ -15,6 +15,7 @@
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
+    <module>report-aggregation</module>
   </modules>
 
   <properties>
@@ -58,6 +59,21 @@
         <version>${project.version}</version>
         <type>test-jar</type>
         <classifier>tests</classifier>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw</groupId>
+        <artifactId>mihxil-algebra</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw</groupId>
+        <artifactId>mihxil-physics</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw</groupId>
+        <artifactId>mihxil-statistics</artifactId>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.validation</groupId>
@@ -190,12 +206,13 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-         <executions>
+        <version>0.8.5</version>
+        <executions>
           <execution>
-            <id>report-aggregate</id>
-            <phase>verify</phase>
+            <id>report</id>
+            <phase>test</phase>
             <goals>
-              <goal>report-aggregate</goal>
+              <goal>prepare-agent</goal>
             </goals>
           </execution>
         </executions>
@@ -213,25 +230,17 @@
             <projectArtifactId>${project.artifactId}</projectArtifactId>
           </systemPropertyVariables>
         </configuration>
-      </plugin>
+       </plugin>
         <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.8.5</version>
         <executions>
           <execution>
-            <goals>
-              <goal>prepare-agent</goal>
-            </goals>
-            <configuration>
-              <append>true</append>
-            </configuration>
-          </execution>
-          <execution>
             <id>report</id>
             <phase>test</phase>
             <goals>
-              <goal>report-aggregate</goal>
+              <goal>report</goal>
             </goals>
           </execution>
         </executions>

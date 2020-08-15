@@ -48,11 +48,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
     }
 
     @Override
-    public RationalNumber self() {
-        return this;
-    }
-
-    @Override
     public RationalNumber pow(int exponent) {
         int e = exponent;
         if (e < 0) {

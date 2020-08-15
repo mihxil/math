@@ -56,11 +56,6 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     }
 
     @Override
-    public RealNumber self() {
-        return this;
-    }
-
-    @Override
     public long longValue() {
         return Math.round(value);
     }

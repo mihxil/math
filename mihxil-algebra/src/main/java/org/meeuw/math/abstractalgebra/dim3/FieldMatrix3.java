@@ -92,12 +92,6 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         return FieldMatrix3Group.of(elementStructure);
     }
 
-    @Override
-    public FieldMatrix3<E> self() {
-        return this;
-    }
-
-
     @SuppressWarnings({"unchecked"})
     E[] timesDouble(E[][] matrix3) {
         E[] result = (E[]) Array.newInstance(elementStructure.getElementClass(), 9);

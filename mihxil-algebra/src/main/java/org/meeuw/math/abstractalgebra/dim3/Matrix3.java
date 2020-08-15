@@ -1,10 +1,11 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import lombok.EqualsAndHashCode;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
+
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
  * A square 3x3 matrix of {@code double}s
@@ -70,12 +71,6 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     public Matrix3Group getStructure() {
         return Matrix3Group.INSTANCE;
     }
-
-    @Override
-    public Matrix3 self() {
-        return this;
-    }
-
 
     double[] timesDouble(double[][] matrix3) {
         double[] result = new double[9];

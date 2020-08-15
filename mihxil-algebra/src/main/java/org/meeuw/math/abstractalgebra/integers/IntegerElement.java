@@ -20,7 +20,6 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement> implem
     @Override
     public IntegerElement plus(IntegerElement summand) {
         return new IntegerElement(value + summand.value);
-
     }
 
     @Override
@@ -36,12 +35,6 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement> implem
     @Override
     public IntegerElement times(IntegerElement multiplier) {
         return new IntegerElement(value * multiplier.value);
-    }
-
-    @Override
-    public IntegerElement self() {
-        return this;
-
     }
 
     @Override

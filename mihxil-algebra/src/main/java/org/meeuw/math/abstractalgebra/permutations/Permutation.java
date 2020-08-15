@@ -42,11 +42,6 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
     }
 
     @Override
-    public Permutation self() {
-        return this;
-    }
-
-    @Override
     public Permutation reciprocal() {
         int[] result = new int[value.length];
         for (int i = 0; i < value.length; i++) {

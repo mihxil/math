@@ -67,11 +67,6 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
         return BigDecimalField.INSTANCE;
     }
 
-    @Override
-    public BigDecimalElement self() {
-        return this;
-    }
-
     public BigDecimalElement times(double multiplier) {
         return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier));
     }
