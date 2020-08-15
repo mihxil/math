@@ -12,6 +12,8 @@
 
   <modules>
     <module>mihxil-math</module>
+    <module>mihxil-math-theories</module>
+
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
@@ -20,6 +22,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.target.version>8</java.target.version>
+    <lombok.version>1.18.12</lombok.version>
   </properties>
 
 
@@ -55,10 +59,9 @@
       </dependency>
       <dependency>
         <groupId>org.meeuw</groupId>
-        <artifactId>mihxil-math</artifactId>
+        <artifactId>mihxil-math-theories</artifactId>
         <version>${project.version}</version>
-        <type>test-jar</type>
-        <classifier>tests</classifier>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.meeuw</groupId>
@@ -100,8 +103,8 @@
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
-        <version>1.18.12</version>
-        <scope>provided</scope>
+        <version>${lombok.version}</version>
+        <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>org.assertj</groupId>
@@ -162,13 +165,64 @@
     <defaultGoal>install</defaultGoal>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>11</source>
+          <target>11</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+          <!--
+          <annotationProcessors>
+            <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+          </annotationProcessors>
+          -->
+          <compilerArgs>
+            <arg>-AprintErrorStack</arg>
+            <arg>-Awarns</arg>
+          </compilerArgs>
         </configuration>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <!-- compile everything to ensure module-info contains right entries -->
+              <source>11</source>
+              <release>11</release>
+            </configuration>
+          </execution>
+          <execution>
+            <id>base-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <!-- recompile everything for target VM except the module-info.java -->
+            <configuration>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+              <source>${java.target.version}</source>
+              <release>${java.target.version}</release>
+            </configuration>
+          </execution>
+          <execution>
+            <id>test-compile</id>
+            <phase>process-test-sources</phase>
+            <goals>
+              <goal>testCompile</goal>
+            </goals>
+            <configuration>
+              <source>11</source>
+              <release>11</release>
+            </configuration>
+          </execution>
+        </executions>
+
       </plugin>
 
       <plugin>

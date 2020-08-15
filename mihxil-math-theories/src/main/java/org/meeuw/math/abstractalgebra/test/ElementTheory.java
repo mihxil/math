@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 

@@ -6,7 +6,7 @@
     <artifactId>mihxil-math-parent</artifactId>
     <version>0.4-SNAPSHOT</version>
   </parent>
-  <artifactId>report-aggregration</artifactId>
+  <artifactId>report-aggregation</artifactId>
   <packaging>pom</packaging>
 
   <dependencies>

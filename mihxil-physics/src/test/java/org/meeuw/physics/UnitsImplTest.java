@@ -3,7 +3,7 @@ package org.meeuw.physics;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroupTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
 
 import static org.meeuw.physics.SI.*;
 

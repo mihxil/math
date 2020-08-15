@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - openjdk8
+  - openjdk11
 
 script: mvn --fail-at-end -T 1C clean test install
 after_script:

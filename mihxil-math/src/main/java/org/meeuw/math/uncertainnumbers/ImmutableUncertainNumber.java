@@ -14,6 +14,7 @@ public class ImmutableUncertainNumber
     public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, 0);
 
     private final double value;
+
     @Getter
     private final double uncertainty;
 

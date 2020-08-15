@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
-import org.meeuw.math.abstractalgebra.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.uncertainnumbers.UncertainNumberElement;
 
 import static org.assertj.core.api.Assertions.assertThat;

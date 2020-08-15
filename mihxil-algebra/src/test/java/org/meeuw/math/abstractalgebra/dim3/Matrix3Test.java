@@ -4,7 +4,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.Matrix3.of;

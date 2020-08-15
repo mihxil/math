@@ -4,8 +4,8 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThat;

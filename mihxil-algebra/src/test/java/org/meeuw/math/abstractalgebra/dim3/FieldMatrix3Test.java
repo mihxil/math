@@ -3,8 +3,8 @@ package org.meeuw.math.abstractalgebra.dim3;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 

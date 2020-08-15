@@ -4,8 +4,8 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoidTheory;
-import org.meeuw.math.abstractalgebra.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
+import org.meeuw.math.abstractalgebra.test.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

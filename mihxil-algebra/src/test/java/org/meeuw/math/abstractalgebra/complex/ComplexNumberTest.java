@@ -4,9 +4,9 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.FieldTheory;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,7 +1,10 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
+
+import org.meeuw.math.abstractalgebra.Operator;
+import org.meeuw.math.abstractalgebra.RngElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

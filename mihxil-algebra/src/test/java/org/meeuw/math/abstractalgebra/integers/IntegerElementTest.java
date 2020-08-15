@@ -5,8 +5,8 @@ import net.jqwik.api.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.NumberTheory;
-import org.meeuw.math.abstractalgebra.RingTheory;
+import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.RingTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;

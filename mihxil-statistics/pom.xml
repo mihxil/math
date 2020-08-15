@@ -20,9 +20,7 @@
     </dependency>
     <dependency>
       <groupId>org.meeuw</groupId>
-      <artifactId>mihxil-math</artifactId>
-      <classifier>tests</classifier>
-      <type>test-jar</type>
+      <artifactId>mihxil-math-theories</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>

@@ -6,8 +6,8 @@ import net.jqwik.api.Arbitrary;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.NumberTheory;
-import org.meeuw.math.abstractalgebra.RngTheory;
+import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.RngTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

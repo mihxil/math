@@ -6,29 +6,28 @@
     <artifactId>mihxil-math-parent</artifactId>
     <version>0.4-SNAPSHOT</version>
   </parent>
-  <artifactId>mihxil-algebra</artifactId>
-  <name>Mihxil's Algebra</name>
+  <artifactId>mihxil-math-theories</artifactId>
+  <name>Mihxil's Math theories</name>
   <packaging>jar</packaging>
-
-  <description>
-    Some more implementations of abstract algebra's.
-  </description>
   <dependencies>
     <dependency>
       <groupId>org.meeuw</groupId>
       <artifactId>mihxil-math</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.meeuw</groupId>
-      <artifactId>mihxil-math-theories</artifactId>
-      <scope>test</scope>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>javax.validation</groupId>
-      <artifactId>validation-api</artifactId>
-      <optional>true</optional>
+      <groupId>net.jqwik</groupId>
+      <artifactId>jqwik</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
-
-
 </project>

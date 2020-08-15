@@ -1,12 +1,10 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
-import net.jqwik.api.Provide;
+import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.FieldTheory;
-import org.meeuw.math.abstractalgebra.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;

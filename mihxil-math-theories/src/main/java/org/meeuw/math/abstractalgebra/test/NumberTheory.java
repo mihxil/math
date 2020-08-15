@@ -1,9 +1,10 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.assertj.core.data.Offset;
+import org.meeuw.math.abstractalgebra.NumberElement;
 
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;

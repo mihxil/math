@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

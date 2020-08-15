@@ -3,8 +3,8 @@ package org.meeuw.math.abstractalgebra.reals;
 import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.FieldTheory;
-import org.meeuw.math.abstractalgebra.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class RealNumberTest implements FieldTheory<RealNumber>, NumberTheory<RealNumber>  {
+class RealNumberTest implements FieldTheory<RealNumber>, NumberTheory<RealNumber> {
 
     @Test
     public void test() {

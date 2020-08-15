@@ -1,6 +1,7 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.abstractalgebra.test;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.Cardinality;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
