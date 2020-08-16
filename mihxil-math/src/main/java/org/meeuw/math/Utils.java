@@ -76,6 +76,16 @@ public class Utils {
         return result;
     }
 
+    public static int log10(long d) {
+        d = Math.abs(d);
+        int result = 0;
+        while (d >= 1) {
+            d /= 10;
+            result++;
+        }
+        return result;
+    }
+
 
 
     public static ChronoUnit orderOfMagnitude(Duration stddev) {

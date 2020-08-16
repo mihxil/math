@@ -12,8 +12,8 @@ public class ImmutableUncertainNumber
     extends AbstractUncertainNumber<UncertainNumberElement>
     implements UncertainNumberElement {
 
-    public static final ImmutableUncertainNumber ZERO = new ImmutableUncertainNumber(0, 0);
-    public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, 0);
+    public static final ImmutableUncertainNumber ZERO = new ImmutableUncertainNumber(0, EXACT);
+    public static final ImmutableUncertainNumber ONE = new ImmutableUncertainNumber(1, EXACT);
 
     private final double value;
 

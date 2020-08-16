@@ -1,7 +1,9 @@
 package org.meeuw.statistics;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import lombok.extern.log4j.Log4j2;
+import net.jqwik.api.*;
+
+import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
@@ -13,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
+@Log4j2
 public class StatisticalDoubleTest implements FieldTheory<UncertainNumberElement> {
 
 
@@ -65,11 +68,38 @@ public class StatisticalDoubleTest implements FieldTheory<UncertainNumberElement
         assertThat(new StatisticalDouble().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203).toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
     }
 
+    @Test
+    public void testEqualsWhenOnlyOne() {
+        StatisticalDouble d1 = new StatisticalDouble();
+        StatisticalDouble d2 = new StatisticalDouble();
+        assertThat(d1).isEqualTo(d2);
+        d1.enter(0.5);
+        d2.enter(0.5);
+        assertThat(d1).isEqualTo(d2);
+    }
+
+    @Property
+    public void testString(@ForAll(ELEMENTS) StatisticalDouble e) {
+        try {
+            log.info("{} {}", e.getCount(), e);
+        } catch (Exception ex) {
+            log.warn(ex.getMessage());
+        }
+    }
+
     @Override
     public Arbitrary<UncertainNumberElement> elements() {
-        StatisticalDouble v1 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023);
-        StatisticalDouble v2 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).times(2);
-        StatisticalDouble v3 = new StatisticalDouble().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).times(3);
-        return Arbitraries.of(v1, v2, v3);
+        Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
+        Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);
+        Arbitrary<Random> random = Arbitraries.randoms();
+        return Combinators.combine(amounts, averages, random)
+            .flatAs((am, av, r) -> {
+                StatisticalDouble sd = new StatisticalDouble();
+                r.doubles(am).forEach(d -> {
+                    sd.accept(av + d * av / 3);
+                });
+                return Arbitraries.of(sd);
+            });
+
     }
 }

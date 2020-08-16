@@ -94,6 +94,13 @@ public interface UncertainNumber extends NumberElement<UncertainNumber>  {
             return false;
         }
         UncertainNumber other = (UncertainNumber) value;
+        if (Double.isNaN(doubleValue())) {
+            return Double.isNaN(other.doubleValue());
+        }
+        if (Double.isNaN(getUncertainty()) && Double.isNaN(other.getUncertainty())) {
+            return toString().equals(other.toString());
+
+        }
         return getConfidenceInterval(sds).contains(other.doubleValue())
             ||  other.getConfidenceInterval(sds).contains(doubleValue());
     }
@@ -108,7 +115,7 @@ public interface UncertainNumber extends NumberElement<UncertainNumber>  {
         private final double high;
 
         public static ConfidenceInterval of(double value, double uncertainty, double interval) {
-            double halfRange = uncertainty * interval;
+            double halfRange = Double.isNaN(uncertainty) ? 0 : uncertainty * interval;
             return new ConfidenceInterval(value - halfRange, value + halfRange);
         }
 
@@ -118,7 +125,7 @@ public interface UncertainNumber extends NumberElement<UncertainNumber>  {
         }
 
         public boolean contains(double value) {
-            return this.low <= value && this.high >= value;
+            return this.low <= value && value <= this.high;
         }
         @Override
         public boolean test(Double value) {

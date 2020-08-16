@@ -1,6 +1,6 @@
 package org.meeuw.statistics;
 
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 
@@ -11,9 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
-@Log
+@Log4j2
 class WindowedStatisticalDoubleTest {
 
     @Test

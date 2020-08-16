@@ -44,6 +44,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return getStandardDeviation();
     }
 
+    @Override
+    public boolean isExact() {
+        return false;
+    }
+
     /**
      * Enters all values of another instance of this {@link StatisticalNumber}, effectively combining the given one into this one.
      */
@@ -95,8 +100,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return times(-1);
     }
 
-
-
     public UncertainNumber times(UncertainNumber multiplier) {
         return immutableCopy().times(multiplier);
     }
@@ -132,7 +135,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
     @Override
     public int hashCode() {
-        return toString().hashCode();
+        return 0;
     }
 }
 
