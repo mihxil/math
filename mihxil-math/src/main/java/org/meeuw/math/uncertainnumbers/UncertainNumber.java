@@ -75,8 +75,13 @@ public interface UncertainNumber extends NumberElement<UncertainNumber>  {
     }
 
     default UncertainNumber pow(int exponent) {
-        return new ImmutableUncertainNumber(Math.pow(doubleValue(), exponent),
-            Math.abs(exponent) * Math.pow(doubleValue(), exponent -1) * getUncertainty());
+        double v = Math.pow(doubleValue(), exponent);
+        if (!Double.isFinite(v)) {
+            throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
+        }
+        return new ImmutableUncertainNumber(
+            v,
+            Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * getUncertainty());
     }
 
     default UncertainNumber plus(UncertainNumber summand) {

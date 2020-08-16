@@ -16,7 +16,7 @@ public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElemen
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 
     @Getter
-    private MathContext mathContext = MathContext.DECIMAL128;
+    private final MathContext mathContext = MathContext.DECIMAL128;
 
 
     protected BigDecimalField() {

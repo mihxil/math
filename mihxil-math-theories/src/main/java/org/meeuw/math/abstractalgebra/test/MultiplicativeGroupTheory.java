@@ -2,7 +2,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,6 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoidTheory<E> {
+
+    @Property
+    default void multiplicativeGroupOperators(@ForAll(STRUCTURE) MultiplicativeGroup<?> group) {
+        assertThat(group.getSupportedOperators()).contains(Operator.MULTIPLICATION, Operator.DIVISION);
+    }
 
     @Property
     default void division(
@@ -55,6 +60,8 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
         }
     }
+
+
 
 
 }

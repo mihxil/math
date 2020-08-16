@@ -1,11 +1,11 @@
 package org.meeuw.statistics;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -106,12 +106,17 @@ class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
 
     @Override
     public Arbitrary<UncertainNumberElement> elements() {
-        StatisticalLong mes1 = new StatisticalLong(StatisticalLong.Mode.DURATION);
-        mes1.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
 
-        StatisticalLong mes2 = new StatisticalLong(StatisticalLong.Mode.DURATION);
-        mes2.enter(Duration.ofSeconds(201), Duration.ofSeconds(200), Duration.ofSeconds(400), Duration.ofSeconds(199));
-
-        return Arbitraries.of(mes1, mes2);
+        Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
+        Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);
+        Arbitrary<Random> random = Arbitraries.randoms();
+        return Combinators.combine(amounts, averages, random)
+            .flatAs((am, av, r) -> {
+                StatisticalLong sd = new StatisticalLong();
+                r.doubles(am).forEach(d -> {
+                    sd.accept((long) (av + d * av / 3));
+                });
+                return Arbitraries.of(sd);
+            });
     }
 }

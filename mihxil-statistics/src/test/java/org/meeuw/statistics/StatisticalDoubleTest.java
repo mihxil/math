@@ -80,11 +80,7 @@ public class StatisticalDoubleTest implements FieldTheory<UncertainNumberElement
 
     @Property
     public void testString(@ForAll(ELEMENTS) StatisticalDouble e) {
-        try {
-            log.info("{} {}", e.getCount(), e);
-        } catch (Exception ex) {
-            log.warn(ex.getMessage());
-        }
+        log.info("{} {}", e.getCount(), e);
     }
 
     @Override

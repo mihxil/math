@@ -17,6 +17,8 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
     public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI));
+    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e));
+
 
     private final BigDecimal value;
 
