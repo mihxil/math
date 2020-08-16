@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.util.Objects;
+
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
@@ -69,9 +71,7 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         if (o == null || getClass() != o.getClass()) return false;
 
         ComplexNumber<?> that = (ComplexNumber<?>) o;
-
-        if (real != null ? !real.equals(that.real) : that.real != null) return false;
-        return imaginary != null ? imaginary.equals(that.imaginary) : that.imaginary == null;
+        return Objects.equals(real, that.real) && Objects.equals(imaginary, that.imaginary);
     }
 
     @Override
