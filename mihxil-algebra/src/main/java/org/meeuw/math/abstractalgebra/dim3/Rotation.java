@@ -21,7 +21,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
 
     final FieldMatrix3<RealNumber> rot;
 
-    public Rotation(double[][] values) {
+    private Rotation(double[][] values) {
         rot = FieldMatrix3.of(
             new RealNumber(values[0][0]), new RealNumber(values[0][1]), new RealNumber(values[0][2]),
             new RealNumber(values[1][0]), new RealNumber(values[1][1]), new RealNumber(values[1][2]),
@@ -29,7 +29,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
         );
     }
 
-    public Rotation(RealNumber[][] values) {
+    private Rotation(RealNumber[][] values) {
         rot = FieldMatrix3.of(
             values[0][0], values[0][1], values[0][2],
             values[1][0], values[1][1], values[1][2],

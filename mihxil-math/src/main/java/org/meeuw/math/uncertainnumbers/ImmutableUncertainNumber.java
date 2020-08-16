@@ -2,6 +2,8 @@ package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -36,6 +38,11 @@ public class ImmutableUncertainNumber
     @Override
     public double doubleValue() {
         return value;
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(value);
     }
 
     @Override

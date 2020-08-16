@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigDecimal;
+
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.RngElement;
 
@@ -33,11 +35,6 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
     }
 
     @Override
-    public int compareTo(EvenIntegerElement compare) {
-        return Long.compare(value, compare.value);
-    }
-
-    @Override
     public EvenIntegers getStructure() {
         return EvenIntegers.INSTANCE;
     }
@@ -68,11 +65,6 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
     }
 
     @Override
-    public int compareTo(Number o) {
-        return Long.compare(value, o.longValue());
-    }
-
-    @Override
     public long longValue() {
         return value;
     }
@@ -80,5 +72,15 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
     @Override
     public double doubleValue() {
         return value;
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(value);
+    }
+
+    @Override
+    public int compareTo(EvenIntegerElement f) {
+        return Long.compare(value, f.value);
     }
 }

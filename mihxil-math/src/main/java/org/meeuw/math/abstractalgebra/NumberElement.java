@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.math.BigDecimal;
+
 /**
  * Some algebraic elements are like numbers.  This basicly means that they are {@link Comparable} to a {@link Number}, and to
  * other instances of the same type (See {@link #compareTo(NumberElement)})
@@ -77,6 +79,8 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
     default short shortValue() {
         return (short)intValue();
     }
+
+    BigDecimal bigDecimalValue();
 
     default boolean isNegative() {
         return compareTo(0d) < 0;

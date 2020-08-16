@@ -1,5 +1,9 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import lombok.Getter;
+
+import java.math.MathContext;
+
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -10,6 +14,9 @@ import org.meeuw.math.abstractalgebra.*;
 public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElement> implements NumberField<BigDecimalElement> {
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
+
+    @Getter
+    private MathContext mathContext = MathContext.DECIMAL128;
 
 
     protected BigDecimalField() {

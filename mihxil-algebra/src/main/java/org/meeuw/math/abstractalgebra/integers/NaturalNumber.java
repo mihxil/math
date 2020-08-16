@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigDecimal;
+
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -55,6 +57,11 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
      @Override
      public double doubleValue() {
          return value;
+     }
+
+     @Override
+     public BigDecimal bigDecimalValue() {
+         return new BigDecimal(value);
      }
 
      @Override

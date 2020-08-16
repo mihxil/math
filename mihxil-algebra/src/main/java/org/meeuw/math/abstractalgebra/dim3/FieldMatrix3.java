@@ -151,7 +151,13 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
         FieldMatrix3<?> that = (FieldMatrix3<?>) o;
 
-        return Arrays.deepEquals(values, that.values);
+        boolean result = true;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result &= values[i][j].equalsWithEpsilon((E) that.values[i][j], values[i][j].epsilon());
+            }
+        }
+        return result;
     }
 
     @Override

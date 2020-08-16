@@ -3,6 +3,8 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import java.math.BigDecimal;
+
 import org.assertj.core.data.Offset;
 import org.meeuw.math.abstractalgebra.NumberElement;
 
@@ -35,9 +37,14 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
         if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
             assertThat(e1.longValue()).isEqualTo(e1.intValue());
         }
-        assertThat(e1.compareTo(e1.doubleValue())).isEqualTo(0);
-        assertThat(e1.compareTo(e1.doubleValue() + 1)).isLessThan(0);
-        assertThat(e1.compareTo(e1.doubleValue() - 1)).isGreaterThan(0);
+        assertThat(e1.compareTo(e1.bigDecimalValue())).withFailMessage("Not equal to its bigDecimal value %s != %s", e1, e1.bigDecimalValue()).isEqualTo(0);
+        BigDecimal offset = BigDecimal.ONE;
+        getLogger().info("Offset for {} {}", e1.bigDecimalValue(), offset);
+        BigDecimal plus  = e1.bigDecimalValue().add(offset);
+        BigDecimal minus  = e1.bigDecimalValue().add(offset.negate());
+        assertThat(e1.compareTo(plus)).withFailMessage("%s %s", e1, plus).isLessThan(0);
+        assertThat(e1.compareTo(minus)).withFailMessage("%s %s", e1, minus).isGreaterThan(0);
+
     }
 
 

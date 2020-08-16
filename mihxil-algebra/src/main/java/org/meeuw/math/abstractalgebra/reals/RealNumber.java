@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
@@ -63,6 +64,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     @Override
     public double doubleValue() {
         return value;
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(value);
     }
 
     public RealNumber times(double multiplier) {

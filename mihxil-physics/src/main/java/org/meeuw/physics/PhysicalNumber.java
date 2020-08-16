@@ -2,6 +2,8 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
+
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -56,9 +58,16 @@ public abstract class PhysicalNumber
     }
 
     @Override
+    public BigDecimal bigDecimalValue() {
+        return wrapped.bigDecimalValue();
+    }
+
+    @Override
     public double getUncertainty() {
         return  wrapped.getUncertainty();
     }
+
+
 
     public int compareTo(PhysicalNumber o) {
         return Double.compare(doubleValue(), o.doubleValue());

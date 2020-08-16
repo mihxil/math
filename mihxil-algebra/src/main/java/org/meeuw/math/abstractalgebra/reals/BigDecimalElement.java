@@ -59,7 +59,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
 
     @Override
     public BigDecimalElement reciprocal() {
-        return new BigDecimalElement(BigDecimal.ONE.divide(value, MathContext.DECIMAL32));
+        return new BigDecimalElement(BigDecimal.ONE.divide(value, getStructure().getMathContext()));
     }
 
     @Override
@@ -84,6 +84,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     @Override
     public float floatValue() {
         return value.floatValue();
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return value;
     }
 
     @Override
@@ -112,7 +117,8 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
 
         BigDecimalElement that = (BigDecimalElement) o;
 
-        return value.equals(that.value);
+        MathContext mc = getStructure().getMathContext();
+        return value.round(mc).compareTo(that.value.round(mc)) == 0;
     }
 
     @Override

@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.*;
+import java.math.BigDecimal;
+
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
+import org.meeuw.math.abstractalgebra.RingElement;
 
 /**
  * @author Michiel Meeuwissen
@@ -77,5 +80,10 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement> implem
     public int compareTo(Number o) {
         return Long.compare(value, o.longValue());
 
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(value);
     }
 }

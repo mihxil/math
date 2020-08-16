@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.integers;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
+import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,10 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, NumberThe
         assertThat(of(2).plus(of(2).getStructure().zero())).isEqualTo(of(2));
     }
 
+    @Test
+    public void compareTo() {
+        assertThat(new EvenIntegerElement(-2019178024101599495L).compareTo(new BigDecimal(-2019178024101599496L))).isGreaterThan(0);
+    }
     @Override
     public Arbitrary<EvenIntegerElement> elements() {
         return Arbitraries.randomValue((random) -> EvenIntegerElement.of(2 * (random.nextLong() / 2)));

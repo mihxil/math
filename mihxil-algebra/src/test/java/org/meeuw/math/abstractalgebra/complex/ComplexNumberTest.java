@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
 
-    ComplexNumbers<RationalNumber> structure = new ComplexNumbers<>(RationalNumbers.INSTANCE);
+    static final ComplexNumbers<RationalNumber> structure = ComplexNumbers.of(RationalNumbers.INSTANCE);
 
     @Test
     public void string() {

@@ -10,40 +10,40 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
 public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElement<ComplexNumber<E>> {
 
     private final E real;
-    private final E imaginairy;
+    private final E imaginary;
 
 
     public static <E extends NumberFieldElement<E>> ComplexNumber<E> of(E r, E imaginairy) {
         return new ComplexNumber<>(r, imaginairy);
     }
 
-    public ComplexNumber(E real, E imaginairy) {
+    public ComplexNumber(E real, E imaginary) {
         this.real = real;
-        this.imaginairy = imaginairy;
+        this.imaginary = imaginary;
     }
 
     @Override
     public ComplexNumbers<E> getStructure() {
-        return new ComplexNumbers<E>(real.getStructure());
+        return ComplexNumbers.of(real.getStructure());
     }
 
     @Override
     public ComplexNumber<E> times(ComplexNumber<E> multiplier) {
         return new ComplexNumber<>(
-            this.real.times(multiplier.real).minus(this.imaginairy.times(multiplier.imaginairy)),
-            this.real.times(multiplier.imaginairy).plus(this.imaginairy.times(multiplier.real)));
+            this.real.times(multiplier.real).minus(this.imaginary.times(multiplier.imaginary)),
+            this.real.times(multiplier.imaginary).plus(this.imaginary.times(multiplier.real)));
     }
 
     public ComplexNumber<E> times(E multiplier) {
         return new ComplexNumber<>(
-            this.real.times(multiplier), this.imaginairy.times(multiplier)
+            this.real.times(multiplier), this.imaginary.times(multiplier)
         );
     }
 
     @Override
     public ComplexNumber<E> reciprocal() {
-        E denominator = this.real.sqr().plus(this.imaginairy.sqr());
-        return of(this.real.dividedBy(denominator), this.imaginairy.negation().dividedBy(denominator));
+        E denominator = this.real.sqr().plus(this.imaginary.sqr());
+        return of(this.real.dividedBy(denominator), this.imaginary.negation().dividedBy(denominator));
     }
 
 
@@ -51,7 +51,7 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     public ComplexNumber<E> plus(ComplexNumber<E> summand) {
         return new ComplexNumber<>(
             this.real.plus(summand.real),
-            this.imaginairy.plus(summand.imaginairy)
+            this.imaginary.plus(summand.imaginary)
         );
     }
 
@@ -59,7 +59,7 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     public ComplexNumber<E> negation() {
         return new ComplexNumber<>(
             this.real.negation(),
-            this.imaginairy.negation()
+            this.imaginary.negation()
         );
     }
 
@@ -71,13 +71,13 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         ComplexNumber<?> that = (ComplexNumber<?>) o;
 
         if (real != null ? !real.equals(that.real) : that.real != null) return false;
-        return imaginairy != null ? imaginairy.equals(that.imaginairy) : that.imaginairy == null;
+        return imaginary != null ? imaginary.equals(that.imaginary) : that.imaginary == null;
     }
 
     @Override
     public int hashCode() {
         int result = real != null ? real.hashCode() : 0;
-        result = 31 * result + (imaginairy != null ? imaginairy.hashCode() : 0);
+        result = 31 * result + (imaginary != null ? imaginary.hashCode() : 0);
         return result;
     }
 
@@ -87,12 +87,12 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         if (!real.isZero()) {
             result.append(real.toString());
         }
-        if (!imaginairy.isZero()) {
+        if (!imaginary.isZero()) {
             if (result.length() > 0) {
                 result.append(" + ");
             }
-            if (!imaginairy.isOne()) {
-                result.append(imaginairy.toString());
+            if (!imaginary.isOne()) {
+                result.append(imaginary.toString());
             }
             result.append("i");
         }

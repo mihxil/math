@@ -38,6 +38,8 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
                 State::next).map(State::rationalNumber);
     }
 
+
+
     /**
      * Helper class for {@link #stream()}. Contains the logic to find the 'next' rational number.
      *
@@ -90,4 +92,14 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         return Cardinality.ALEPH_0;
     }
 
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof RationalNumbers;
+    }
 }
