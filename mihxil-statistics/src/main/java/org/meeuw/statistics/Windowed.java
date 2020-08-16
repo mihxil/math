@@ -4,6 +4,7 @@ import lombok.extern.java.Log;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BiConsumer;
 
@@ -42,7 +43,7 @@ public abstract class Windowed<T> {
     protected final T[] buckets;
     protected final long bucketDuration; // ms
     protected final long totalDuration;  // ms
-    protected final Instant start = Instant.now(); //.truncatedTo(ChronoUnit.SECONDS);
+    protected final Instant start = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private boolean warmingUp = true;
     protected long  currentBucketTime = start.toEpochMilli();
