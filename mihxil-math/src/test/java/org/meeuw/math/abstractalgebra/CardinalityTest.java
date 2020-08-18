@@ -40,6 +40,12 @@ class CardinalityTest {
         assertThat(c1.compareTo(c2)).isEqualTo(-1 * c2.compareTo(c1));
     }
 
+    @Property
+    public void moreEquals(@ForAll("cardinalities") Cardinality c1) {
+        assertThat(c1).isNotEqualTo(null);
+        assertThat(c1).isNotEqualTo(new Object());
+    }
+
 
 
     @Provide
