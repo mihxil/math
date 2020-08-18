@@ -17,10 +17,10 @@ public interface ElementTheory<E>  {
     String ELEMENTS = "elements";
 
     @Provide
-    Arbitrary<E> elements();
+    Arbitrary<? extends E> elements();
 
     @Provide
-    default Arbitrary<E> element() {
+    default Arbitrary<? extends E> element() {
         return Arbitraries.of(elements().sample());
     }
 

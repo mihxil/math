@@ -63,13 +63,8 @@ public class ImmutableUncertainNumber
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        temp = Double.doubleToLongBits(value);
-        result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(uncertainty);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        // must return constant to ensure that this is consistent with equals
+        return 0;
     }
 
     public int compareTo(UncertainNumber o) {
