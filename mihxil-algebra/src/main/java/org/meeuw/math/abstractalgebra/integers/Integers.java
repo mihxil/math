@@ -4,6 +4,9 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 
+import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ONE;
+import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
+
 /**
  * The Ring of integers, commonly referred to as ℤ.
  * @author Michiel Meeuwissen
@@ -12,8 +15,7 @@ import org.meeuw.math.abstractalgebra.*;
 public class Integers extends AbstractAlgebraicStructure<IntegerElement> implements Ring<IntegerElement>, Streamable<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
-    public static final IntegerElement ZERO = IntegerElement.of(0);
-    public static final IntegerElement ONE = IntegerElement.of(1);
+
 
     private Integers() {
         super(IntegerElement.class);

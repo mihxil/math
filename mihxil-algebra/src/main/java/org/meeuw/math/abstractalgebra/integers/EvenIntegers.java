@@ -4,6 +4,8 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 
+import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.ZERO;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -12,7 +14,7 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
-    public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
+
 
     private EvenIntegers() {
         super(EvenIntegerElement.class);

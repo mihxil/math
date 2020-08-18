@@ -15,7 +15,7 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> implements MultiplicativeGroup<Permutation>, Streamable<Permutation> {
 
-    private static Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
 
 
     @Getter

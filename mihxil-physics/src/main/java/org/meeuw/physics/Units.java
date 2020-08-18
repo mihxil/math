@@ -19,7 +19,6 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
             return u2 == null;
         }
         return u1.dimensions().equals(u2.dimensions());
-
     }
 
     static Units forAddition(Units u1, Units u2) {
@@ -44,6 +43,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         }
         return newUnits;
     }
+
     static Units forExponentiation(Units u, int e) {
         Units newUnits = null;
         if (u != null) {
@@ -51,6 +51,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         }
         return newUnits;
     }
+
     static Units forInversion(Units u) {
         Units newUnits = null;
         if (u != null) {
@@ -58,6 +59,5 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         }
         return newUnits;
     }
-
 
 }

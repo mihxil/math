@@ -10,6 +10,10 @@ import org.meeuw.math.abstractalgebra.RingElement;
  * @since 0.4
  */
 public class IntegerElement extends AbstractNumberElement<IntegerElement> implements RingElement<IntegerElement> {
+
+    public static final IntegerElement ZERO = IntegerElement.of(0);
+    public static final IntegerElement ONE = IntegerElement.of(1);
+
     private final long value;
 
     public static IntegerElement of(long value){

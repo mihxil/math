@@ -10,6 +10,9 @@ import org.meeuw.math.abstractalgebra.RngElement;
  * @since 0.4
  */
 public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement> implements RngElement<EvenIntegerElement> {
+
+    public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
+
     private final long value;
 
     public static EvenIntegerElement of(long value){

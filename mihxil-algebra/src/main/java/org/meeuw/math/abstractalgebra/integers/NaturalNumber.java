@@ -13,8 +13,8 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implements MultiplicativeMonoidElement<NaturalNumber>, AdditiveMonoidElement<NaturalNumber>
  {
-    public static NaturalNumber ZERO = of(0);
-    public static NaturalNumber ONE = of(1);
+    public static final NaturalNumber ZERO = of(0);
+    public static final NaturalNumber ONE = of(1);
 
     private final @Min(0) long value;
 
