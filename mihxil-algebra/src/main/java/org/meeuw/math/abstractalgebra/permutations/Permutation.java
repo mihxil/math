@@ -1,6 +1,5 @@
 package org.meeuw.math.abstractalgebra.permutations;
 
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -52,15 +51,11 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
 
     @SuppressWarnings("unchecked")
     public <P> P[] permute(P... values) {
-        P[] result = (P[]) Array.newInstance(values[0].getClass(), values.length);
+        P[] result = Arrays.copyOf(values, values.length);
         for (int i = 0 ; i < value.length; i++) {
             result[value[i]] = values[i];
         }
 
-        // copy the rest
-        if (values.length - value.length >= 0) {
-            System.arraycopy(values, value.length, result, value.length, values.length - value.length);
-        }
         return result;
     }
 
@@ -146,6 +141,21 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
         public String toString() {
             String join = Permutation.this.value.length > 9 ? " " : "";
             return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Cycle cycle = (Cycle) o;
+
+            return Arrays.equals(value, cycle.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(value);
         }
     }
 

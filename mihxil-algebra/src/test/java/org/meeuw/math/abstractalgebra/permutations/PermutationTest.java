@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.permutations;
 
+import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
@@ -15,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @Test
@@ -31,7 +33,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         List<String> test = new ArrayList<>();
         permutation.getStructure().stream().forEach(p -> {
             String s = Arrays.stream(p.apply(values)).map(Object::toString).collect(Collectors.joining(", "));
-            System.out.println(s);
+            log.info(s);
             test.add(s);
         });
         assertThat(test).containsExactly(
@@ -58,6 +60,8 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         assertThat(empty.apply(values)).isEqualTo(values);
     }
 
+
+
     @Test
     public void cycles() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
@@ -65,6 +69,12 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
         Permutation p = Permutation.of(2, 4, 1, 3, 5);
         assertThat(p.getCycles().toString()).isEqualTo("[(1243), (5)]");
+
+        for (Permutation.Cycle c : p.getCycles()) {
+            assertThat(c.getParent()).isSameAs(p);
+            assertThat(c.reciprocal().reciprocal()).isEqualTo(c);
+
+        }
 
 
     }
