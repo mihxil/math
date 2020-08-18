@@ -42,7 +42,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Provide
-    default Arbitrary<AlgebraicStructure<E>> structure() {
+    default Arbitrary<AlgebraicStructure<? extends E>> structure() {
         return Arbitraries.of(elements().sample().getStructure());
     }
 }
