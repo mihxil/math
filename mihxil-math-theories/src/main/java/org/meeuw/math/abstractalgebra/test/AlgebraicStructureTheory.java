@@ -3,6 +3,9 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.*;
@@ -49,15 +52,25 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    Map<AlgebraicStructure<?>, AtomicLong> counts = new HashMap<>();
+
     @SuppressWarnings("unchecked")
     @Property
-    default void operators(@ForAll(STRUCTURE) AlgebraicStructure<E> s, @ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) throws InvocationTargetException, IllegalAccessException {
+    default void operators(
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) throws InvocationTargetException, IllegalAccessException {
+        AtomicLong count = counts.computeIfAbsent(s, k -> new AtomicLong(0));
         for (Operator o : s.getSupportedOperators()) {
             E result = (E) o.getMethod().invoke(e1, e2);
-            getLogger().info("" + e1 + "." + o.getSymbol() + e2 + " = " + result);
             assertThat(result.getStructure()).isSameAs(s);
+            if (count.incrementAndGet() < 20) {
+                getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " = " + result);
+            }
+
         }
     }
+
+
 
     @Provide
     default Arbitrary<AlgebraicStructure<? extends E>> structure() {
