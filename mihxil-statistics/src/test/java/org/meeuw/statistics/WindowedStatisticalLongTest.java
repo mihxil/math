@@ -50,19 +50,43 @@ class WindowedStatisticalLongTest {
         Thread.sleep(1);
         impl.accept(Instant.now());
         Thread.sleep(1);
-        impl.accept(Instant.now());
+        impl.accept(Instant.now(), Instant.now().plus(Duration.ofMillis(1)));
         Thread.sleep(1);
         impl.accept(Instant.now());
         Thread.sleep(1);
         impl.accept(Instant.now());
 
 
-        assertThat(impl.getWindowValue().getCount()).isEqualTo(5);
+        assertThat(impl.getWindowValue().getCount()).isEqualTo(6);
         log.info(() -> "toString: " + impl.getWindowValue().toString());
         Thread.sleep(impl.getStart().plus(impl.getTotalDuration()).toEpochMilli() - System.currentTimeMillis());
         impl.shiftBuckets();
         assertThat(events).hasSize(1);
 
+    }
+
+
+    @Test
+    public void testNormal() throws InterruptedException {
+        final int bucketCount = 20;
+        final int bucketDuration = 10; // ms
+        WindowedStatisticalLong impl = WindowedStatisticalLong
+            .builder()
+            .bucketCount(bucketCount)
+            .bucketDuration(Duration.ofMillis(bucketDuration))
+            .mode(StatisticalLong.Mode.LONG)
+            .build();
+
+
+        impl.accept(100L);
+        Thread.sleep(1);
+
+        impl.accept(101L, 150L);
+
+
+
+        assertThat(impl.getWindowValue().getCount()).isEqualTo(3);
+        log.info(() -> "toString: " + impl.getWindowValue().toString());
     }
 
 }

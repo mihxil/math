@@ -70,7 +70,7 @@ public class WindowedEventRateTest {
             if (i % 100 == 0) {
                 log.info(String.format("%d duration: %s", i, (System.currentTimeMillis() - start) + " ms. Measured rate " + rate.getRate(TimeUnit.SECONDS) + " #/s (" + rate.isWarmingUp() + ")"));
             }
-            rate.newEvent();
+            rate.accept(1);
 
         }
 
