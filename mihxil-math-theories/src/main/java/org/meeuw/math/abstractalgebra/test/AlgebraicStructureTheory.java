@@ -2,7 +2,8 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.apache.logging.log4j.LogManager;
+import java.lang.reflect.InvocationTargetException;
+
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -21,7 +22,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void cardinality(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
 
-        Logger log = LogManager.getLogger(AlgebraicStructureTheory.class);
+        Logger log = getLogger();
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
             if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
@@ -42,9 +43,19 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void operators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+    default void supportedOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         for (Operator o : s.getSupportedOperators()) {
             assertThat(s.supports(o)).isTrue();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Property
+    default void operators(@ForAll(STRUCTURE) AlgebraicStructure<E> s, @ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) throws InvocationTargetException, IllegalAccessException {
+        for (Operator o : s.getSupportedOperators()) {
+            E result = (E) o.getMethod().invoke(e1, e2);
+            getLogger().info("" + e1 + "." + o.getSymbol() + e2 + " = " + result);
+            assertThat(result.getStructure()).isSameAs(s);
         }
     }
 
