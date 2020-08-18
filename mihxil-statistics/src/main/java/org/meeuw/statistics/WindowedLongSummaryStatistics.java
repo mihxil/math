@@ -53,9 +53,4 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         return result;
     }
 
-    @Deprecated
-    public LongSummaryStatistics getCombined() {
-        return getWindowValue();
-    }
-
 }

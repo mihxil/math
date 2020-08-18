@@ -6,7 +6,7 @@ import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 
 /**
- * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
+ * {@link IntSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
  * @see WindowedDoubleSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 1.66
@@ -48,11 +48,6 @@ public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics>
             result.combine(b[i]);
         }
         return result;
-    }
-
-    @Deprecated
-    public IntSummaryStatistics getCombined() {
-        return getWindowValue();
     }
 
 }
