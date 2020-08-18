@@ -16,6 +16,7 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public interface UncertainNumber extends NumberElement<UncertainNumber>  {
 
+    double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
     @Override
@@ -120,7 +121,7 @@ public interface UncertainNumber extends NumberElement<UncertainNumber>  {
         private final double high;
 
         public static ConfidenceInterval of(double value, double uncertainty, double interval) {
-            double halfRange = Double.isNaN(uncertainty) ? 0 : uncertainty * interval;
+            double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * NaN_EPSILON) : uncertainty * interval;
             return new ConfidenceInterval(value - halfRange, value + halfRange);
         }
 

@@ -61,10 +61,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         @ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) throws InvocationTargetException, IllegalAccessException {
         AtomicLong count = counts.computeIfAbsent(s, k -> new AtomicLong(0));
         for (Operator o : s.getSupportedOperators()) {
-            E result = (E) o.getMethod().invoke(e1, e2);
-            assertThat(result.getStructure()).isSameAs(s);
-            if (count.incrementAndGet() < 20) {
-                getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " = " + result);
+            try {
+                E result = (E) o.getMethod().invoke(e1, e2);
+                assertThat(result.getStructure()).isSameAs(s);
+                if (count.incrementAndGet() < 20) {
+                    getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " = " + result);
+                }
+            } catch (ArithmeticException ae) {
+                getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " -> " + ae.getMessage());
             }
 
         }
