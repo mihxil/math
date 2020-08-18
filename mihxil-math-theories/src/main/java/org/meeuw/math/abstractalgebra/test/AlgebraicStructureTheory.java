@@ -41,6 +41,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();
     }
 
+    @Property
+    default void operators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        for (Operator o : s.getSupportedOperators()) {
+            assertThat(s.supports(o)).isTrue();
+        }
+    }
+
     @Provide
     default Arbitrary<AlgebraicStructure<? extends E>> structure() {
         return Arbitraries.of(elements().sample().getStructure());
