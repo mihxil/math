@@ -2,8 +2,6 @@ package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -41,11 +39,6 @@ public class ImmutableUncertainNumber
     }
 
     @Override
-    public BigDecimal bigDecimalValue() {
-        return new BigDecimal(value);
-    }
-
-    @Override
     public ImmutableUncertainNumber times(UncertainNumberElement multiplier) {
         return (ImmutableUncertainNumber) super.times(multiplier);
     }
@@ -65,10 +58,6 @@ public class ImmutableUncertainNumber
     public int hashCode() {
         // must return constant to ensure that this is consistent with equals
         return 0;
-    }
-
-    public int compareTo(UncertainNumber o) {
-        return Double.compare(doubleValue(), o.doubleValue());
     }
 
     @Override

@@ -54,6 +54,9 @@ public abstract class AbstractUncertainNumber<E extends AlgebraicElement<E>> ext
     }
 
     public int compareTo(UncertainNumber o) {
+        if (equals(o)) {
+            return 0;
+        }
         return Double.compare(doubleValue(), o.doubleValue());
     }
 

@@ -37,6 +37,14 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
         if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
             assertThat(e1.longValue()).isEqualTo(e1.intValue());
         }
+
+        if (e1.longValue() < Byte.MAX_VALUE && e1.longValue() > Byte.MIN_VALUE) {
+            assertThat(e1.longValue()).isEqualTo(e1.byteValue());
+        }
+
+        if (e1.longValue() < Short.MAX_VALUE && e1.longValue() > Short.MIN_VALUE) {
+            assertThat(e1.longValue()).isEqualTo(e1.shortValue());
+        }
         assertThat(e1.compareTo(e1.bigDecimalValue())).withFailMessage("Not equal to its bigDecimal value %s != %s", e1, e1.bigDecimalValue()).isEqualTo(0);
         BigDecimal offset = BigDecimal.ONE;
         getLogger().debug("Offset for {} {}", e1.bigDecimalValue(), offset);
