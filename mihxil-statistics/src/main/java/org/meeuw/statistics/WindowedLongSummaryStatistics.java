@@ -1,5 +1,7 @@
 package org.meeuw.statistics;
 
+import lombok.extern.java.Log;
+
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.LongSummaryStatistics;
@@ -12,6 +14,7 @@ import java.util.function.LongConsumer;
  * @author Michiel Meeuwissen
  * @since 1.66
  */
+@Log
 public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistics> implements LongConsumer {
 
     @lombok.Builder
@@ -21,12 +24,7 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         Integer bucketCount,
         BiConsumer<Event, Windowed<LongSummaryStatistics>>[] eventListeners
         ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-    }
-
-    @Override
-    protected LongSummaryStatistics[] newBuckets(int bucketCount) {
-        return new LongSummaryStatistics[bucketCount];
+        super(LongSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners);
     }
 
     @Override
@@ -47,8 +45,9 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
     @Override
     public LongSummaryStatistics getWindowValue() {
         LongSummaryStatistics result = new LongSummaryStatistics();
-        LongSummaryStatistics[] b = getBuckets();
-        for (int i = b.length -1 ; i >= 0; i--) {
+        LongSummaryStatistics[] b = getRelevantBuckets();
+        log.info(() -> Arrays.asList(b).toString());
+        for (int i = b.length - 1 ; i >= 0; i--) {
             result.combine(b[i]);
         }
         return result;

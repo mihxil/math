@@ -22,12 +22,7 @@ public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics>
         BiConsumer<Event, Windowed<IntSummaryStatistics>>[] eventListeners
 
         ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-    }
-
-    @Override
-    protected IntSummaryStatistics[] newBuckets(int bucketCount) {
-        return new IntSummaryStatistics[bucketCount];
+        super(IntSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
         BiConsumer<Event, Windowed<AtomicLong>>[] eventListeners
 
         ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
+        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListeners);
         if (reporter != null) {
             backgroundExecutor.scheduleAtFixedRate(
                 () -> {
@@ -52,13 +52,6 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
                     }
             }, 0, this.bucketDuration, TimeUnit.MILLISECONDS);
         }
-    }
-
-
-
-    @Override
-    protected AtomicLong[] newBuckets(int bucketCount) {
-        return new AtomicLong[bucketCount];
     }
 
     @Override

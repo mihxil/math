@@ -32,4 +32,10 @@ class PhysicalConstantTest {
         log.info("{}={}", hbar.getSymbol(), hbar.toString());
     }
 
+    @Test
+    public void G() {
+        assertThat(G.toString()).isEqualTo("(6.67430 ± 0.00015)·10⁻¹¹ m³·s⁻²·kg⁻¹");
+        log.info("{}={}", G.getSymbol(), G.toString());
+    }
+
 }

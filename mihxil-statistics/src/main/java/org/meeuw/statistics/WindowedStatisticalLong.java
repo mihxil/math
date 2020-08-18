@@ -22,21 +22,10 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         Duration bucketDuration,
         Integer bucketCount,
         StatisticalLong.Mode mode,
-        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListeners
+        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListenersArray
     ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;;
-        init();
-    }
-
-    @Override
-    protected void _init() {
-
-    }
-
-    @Override
-    protected StatisticalLong[] newBuckets(int bucketCount) {
-        return new StatisticalLong[bucketCount];
+        super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray);
+        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
     }
 
     @Override
@@ -56,5 +45,13 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
     public void accept(Instant... instant) {
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(instant);
+    }
+
+    public static class Builder {
+        @SafeVarargs
+        public final Builder eventListeners(BiConsumer<Event, Windowed<StatisticalLong>>... eventListeners) {
+            return eventListenersArray(eventListeners);
+        }
+
     }
 }

@@ -19,18 +19,7 @@ public class WindowedStatisticalDouble extends WindowedStatisticalNumber<Statist
         Integer bucketCount,
         BiConsumer<Event, Windowed<StatisticalDouble>>[] eventListeners
     ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-        init();
-    }
-
-    @Override
-    protected void _init() {
-
-    }
-
-    @Override
-    protected StatisticalDouble[] newBuckets(int bucketCount) {
-        return new StatisticalDouble[bucketCount];
+        super(StatisticalDouble.class, window, bucketDuration, bucketCount, eventListeners);
     }
 
     @Override

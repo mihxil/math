@@ -18,6 +18,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumbersField;
 
 /**
@@ -99,7 +100,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link #plus(StatisticalLong)} which is something entirely different.
+     * See also {@link StatisticalLong#plus(UncertainNumber)}} which is something entirely different.
      * @param m The other {@link StatisticalLong} which value must be ented into this one
      */
     @Override

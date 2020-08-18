@@ -113,9 +113,9 @@ class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
         return Combinators.combine(amounts, averages, random)
             .flatAs((am, av, r) -> {
                 StatisticalLong sd = new StatisticalLong();
-                r.doubles(am).forEach(d -> {
-                    sd.accept((long) (av + d * av / 3));
-                });
+                r.doubles(am).forEach(d ->
+                    sd.accept((long) (av + d * av / 3))
+                );
                 return Arbitraries.of(sd);
             });
     }

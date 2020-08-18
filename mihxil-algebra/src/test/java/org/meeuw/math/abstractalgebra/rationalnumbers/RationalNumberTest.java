@@ -3,8 +3,6 @@ package org.meeuw.math.abstractalgebra.rationalnumbers;
 import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
@@ -35,8 +33,6 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
 
         assertThat(of(10).dividedBy(of(3))).isEqualTo(of(10, 3));
         assertThat(of(1).dividedBy(of(3))).isEqualTo(of(1, 3));
-
-
     }
 
     @Test
@@ -81,7 +77,6 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
 
     @Provide
     public Arbitrary<RationalNumber> elements() {
-        Arbitraries.bigDecimals().shrinkTowards(BigDecimal.ONE).withDistribution(RandomDistribution.gaussian());
         return Arbitraries.randomValue((random) -> {
             long numerator = random.nextLong();
             long denumator = 0L;

@@ -2,6 +2,7 @@ package org.meeuw.statistics;
 
 import lombok.extern.java.Log;
 
+import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -41,15 +42,18 @@ import com.google.common.collect.Range;
 public abstract class Windowed<T> {
 
     protected final T[] buckets;
+
+    private boolean bucketsInited = false;
+
     protected final long bucketDuration; // ms
     protected final long totalDuration;  // ms
-    protected final Instant start = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    protected final Instant start;
 
     private boolean warmingUp = true;
-    protected long  currentBucketTime = start.toEpochMilli();
-    protected int currentBucketIndex = 0;
+    protected long  currentBucketTime;
+    protected int   currentBucketIndex = 0;
 
-    protected BiConsumer<Event, Windowed<T>> eventListeners;
+    protected final BiConsumer<Event, Windowed<T>> eventListeners;
 
 
     /**
@@ -58,6 +62,7 @@ public abstract class Windowed<T> {
      * @param bucketCount    The number of buckets the total window time is to be divided in.
      */
     protected Windowed(
+        Class<T> bucketClass,
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
@@ -70,7 +75,7 @@ public abstract class Windowed<T> {
             }
         }
         int bucketCount1 = bucketCount == null ? 20 : bucketCount;
-        buckets = newBuckets(bucketCount1);
+        buckets = (T[]) Array.newInstance(bucketClass, bucketCount1);
         if (window == null && bucketDuration == null) {
             // if both unspecified, take a default window of 5 minutes
             window = Duration.ofMinutes(5);
@@ -97,19 +102,15 @@ public abstract class Windowed<T> {
                 }
             }
         };
-        _init();
+        this.start = now();
+        this.currentBucketTime = start.toEpochMilli();
     }
 
-    protected void _init() {
-        init();
-    }
-
-    protected void init() {
+    private void initBuckets() {
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = initialValue();
         }
     }
-
 
     /**
      * The total duration, or 'window' we are looking at.
@@ -144,7 +145,7 @@ public abstract class Windowed<T> {
      */
     public boolean isWarmingUp() {
         if (warmingUp) {
-            warmingUp = Instant.now().isBefore(start.plus(getTotalDuration()));
+            warmingUp = now().isBefore(start.plus(getTotalDuration()));
         }
         return warmingUp;
     }
@@ -154,10 +155,14 @@ public abstract class Windowed<T> {
      * the newest (current) one.
      */
     public T[] getBuckets() {
+        return getBuckets(buckets.length);
+    }
+
+    protected T[] getBuckets(int max) {
         shiftBuckets();
-        T[] result = newBuckets(buckets.length);
-        for (int i = 0; i < buckets.length; i++) {
-            result[buckets.length - 1 - i] = buckets[(currentBucketIndex - i + buckets.length) % buckets.length];
+        T[] result = Arrays.copyOf(buckets, max);
+        for (int i = 0; i < max; i++) {
+            result[max - 1 - i] = buckets[(currentBucketIndex - i + buckets.length) % buckets.length];
         }
         return result;
     }
@@ -166,7 +171,9 @@ public abstract class Windowed<T> {
         if (! isWarmingUp()){
             return getBuckets();
         } else {
-            return Arrays.copyOfRange(getBuckets(), 0, Math.min(buckets.length, (int) (Duration.between(start, Instant.now()).toMillis() / bucketDuration) + 1));
+            Duration relevantDuration = Duration.between(start, now());
+            int relevantBuckets = (int) (relevantDuration.toMillis() / bucketDuration) + 1;
+            return getBuckets(relevantBuckets);
         }
     }
 
@@ -188,9 +195,6 @@ public abstract class Windowed<T> {
 
     }
 
-
-    abstract T[] newBuckets(int bucketCount);
-
     abstract T initialValue();
 
     /**
@@ -202,12 +206,21 @@ public abstract class Windowed<T> {
         return false;
     }
 
+    private void initBucketsIfNecessary() {
+        if (! bucketsInited) {
+            initBuckets();
+            bucketsInited = true;
+            log.fine(() -> "Time to init " + Duration.between(start, now()));
+        }
+    }
+
     protected T currentBucket() {
         shiftBuckets();
         return buckets[currentBucketIndex];
     }
 
     protected void shiftBuckets() {
+        initBucketsIfNecessary();
         long currentTime = System.currentTimeMillis();
         long afterBucketBegin = currentTime - currentBucketTime;
         int i = 0;
@@ -236,10 +249,10 @@ public abstract class Windowed<T> {
     public Duration getRelevantDuration() {
         shiftBuckets();
         if (isWarmingUp()) {
-            return Duration.between(start, Instant.now());
+            return Duration.between(start, now().truncatedTo(ChronoUnit.MILLIS));
         } else {
             return Duration.ofMillis(
-                (buckets.length -1) * bucketDuration // archived buckets (all but one, the current bucket)
+                (buckets.length - 1) * bucketDuration // archived buckets (all but one, the current bucket)
                     +
                     System.currentTimeMillis() - currentBucketTime // current bucket is not yet complete
             );
@@ -253,6 +266,9 @@ public abstract class Windowed<T> {
         return getStart() + " - " + getStart().plus(getTotalDuration()) + " (" + getBucketCount() + " buckets) :"  + getWindowValue();
     }
 
+    private static Instant now() {
+        return Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    }
 
     public enum Event {
         SHIFT,

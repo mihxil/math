@@ -22,12 +22,7 @@ public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStati
         Integer bucketCount,
         BiConsumer<Event, Windowed<DoubleSummaryStatistics>>[] eventListeners
         ) {
-        super(window, bucketDuration, bucketCount, eventListeners);
-    }
-
-    @Override
-    protected DoubleSummaryStatistics[] newBuckets(int bucketCount) {
-        return new DoubleSummaryStatistics[bucketCount];
+        super(DoubleSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners);
     }
 
     @Override
@@ -53,11 +48,6 @@ public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStati
             result.combine(b[i]);
         }
         return result;
-    }
-
-    @Deprecated
-    public DoubleSummaryStatistics getCombined() {
-        return getWindowValue();
     }
 
 }
