@@ -68,8 +68,8 @@ public class WindowedEventRateTest {
             .bucketCount(5)
             .window(Duration.ofSeconds(5))
             .reporter((we) -> {
-                log.info("{}", we);
-                consumer.add(we.getRate());
+                log.info("{}: for window {}", we.getRate(), we.getWindowValue());
+                consumer.add(we.getRate(Duration.ofSeconds(1)));
             })
             .eventListeners((event, atomicLongWindowed) -> eventListeners.add(event))
 

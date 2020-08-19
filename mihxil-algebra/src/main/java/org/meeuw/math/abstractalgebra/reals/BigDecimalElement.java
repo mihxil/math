@@ -6,6 +6,7 @@ import java.math.MathContext;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  *  A real number (backend by a big decimal)

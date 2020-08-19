@@ -13,7 +13,8 @@ import static org.meeuw.physics.SI.*;
  */
 class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
-    static Units[] units = {DISTANCE, LENGTH, AREA, VOLUME, TIME, SPEED, WEIGHT, TEMPERATURE, ELECTRIC_CURRENT, AMOUNT_OF_SUBSTANCE, LUMINOUS_INTENSITY};
+    static Units[] units = {
+        DISTANCE, LENGTH, AREA, VOLUME, TIME, SPEED, WEIGHT, TEMPERATURE, ELECTRIC_CURRENT, AMOUNT_OF_SUBSTANCE, LUMINOUS_INTENSITY};
 
     @Override
     public Arbitrary<Units> elements() {

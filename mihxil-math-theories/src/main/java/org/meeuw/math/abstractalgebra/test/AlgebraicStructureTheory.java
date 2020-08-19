@@ -2,7 +2,6 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -54,7 +53,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     Map<AlgebraicStructure<?>, AtomicLong> counts = new HashMap<>();
 
-    @SuppressWarnings("unchecked")
     @Property
     default void operators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
@@ -62,12 +60,12 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         AtomicLong count = counts.computeIfAbsent(s, k -> new AtomicLong(0));
         for (Operator o : s.getSupportedOperators()) {
             try {
-                E result = (E) o.getMethod().invoke(e1, e2);
+                E result = o.apply(e1, e2);
                 assertThat(result.getStructure()).isSameAs(s);
                 if (count.incrementAndGet() < 20) {
                     getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " = " + result);
                 }
-            } catch (InvocationTargetException ae) {
+            } catch (Throwable ae) {
                 if (ae.getCause() instanceof ArithmeticException) {
                     getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " -> " + ae.getMessage());
                 } else {

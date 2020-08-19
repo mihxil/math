@@ -6,6 +6,9 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.RECIPROCAL;
 
 /**
  * @author Michiel Meeuwissen
@@ -16,6 +19,18 @@ public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeAb
     @Property
     default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         assertThat(s.getSupportedOperators()).contains(Operator.values());
+    }
+
+    @Property
+    default void operatorEnums(
+        @ForAll(ELEMENTS) E e1,
+        @ForAll(ELEMENTS) E e2) {
+        assertThat(MULTIPLICATION.andThen(NEGATION).apply(e1, e2)).isEqualTo(e1.times(e2).negation());
+
+        assertThat(Operator.ADDITION.andThen(NEGATION.compose(RECIPROCAL)).apply(e1, e2)).isEqualTo(e1.plus(e2).negation().reciprocal());
+
+        assertThat(Operator.ADDITION.andThen(RECIPROCAL.andThen(NEGATION)).apply(e1, e2)).isEqualTo(e1.plus(e2).negation().reciprocal());
+
     }
 
     @Property

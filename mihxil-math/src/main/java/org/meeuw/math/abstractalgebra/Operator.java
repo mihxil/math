@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public enum Operator {
+public enum Operator implements AlgebraicBinaryOperator {
     ADDITION(getBinaryOperator(AdditiveMonoidElement.class, "plus"), "+"),
     SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), "-"),
     MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), "⋅"),
@@ -28,13 +28,17 @@ public enum Operator {
         this.symbol = symbol;
     }
 
+
+    @SuppressWarnings("unchecked")
+    @SneakyThrows
+    @Override
+    public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
+        return (E) getMethod().invoke(element1, element2);
+    }
+
     @SneakyThrows
     public static Method getBinaryOperator(Class<?> clazz, String name) {
-        try {
-            return clazz.getMethod(name, clazz);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+        return clazz.getMethod(name, clazz);
     }
+
 }
