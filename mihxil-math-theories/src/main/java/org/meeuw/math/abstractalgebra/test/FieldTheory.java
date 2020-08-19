@@ -7,8 +7,7 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.RECIPROCAL;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,9 +26,9 @@ public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeAb
         @ForAll(ELEMENTS) E e2) {
         assertThat(MULTIPLICATION.andThen(NEGATION).apply(e1, e2)).isEqualTo(e1.times(e2).negation());
 
-        assertThat(Operator.ADDITION.andThen(NEGATION.compose(RECIPROCAL)).apply(e1, e2)).isEqualTo(e1.plus(e2).negation().reciprocal());
+        assertThat(Operator.ADDITION.andThen(SQR.compose(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).negation()).sqr());
 
-        assertThat(Operator.ADDITION.andThen(RECIPROCAL.andThen(NEGATION)).apply(e1, e2)).isEqualTo(e1.plus(e2).negation().reciprocal());
+        assertThat(Operator.ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).sqr()).negation());
 
     }
 
