@@ -38,10 +38,10 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
         Duration bucketDuration,
         Integer bucketCount,
         Consumer<WindowedEventRate> reporter,
-        BiConsumer<Event, Windowed<AtomicLong>>[] eventListeners
+        BiConsumer<Event, Windowed<AtomicLong>>[] eventListenersArray
 
         ) {
-        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListeners);
+        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray);
         if (reporter != null) {
             backgroundExecutor.scheduleAtFixedRate(
                 () -> {
@@ -142,6 +142,15 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
 
     public String toString() {
         return "" + getRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
+    }
+
+
+    public static class Builder {
+
+        @SafeVarargs
+        public final Builder eventListeners(BiConsumer<Event, Windowed<AtomicLong>>... eventListeners) {
+            return eventListenersArray(eventListeners);
+        }
     }
 
 }

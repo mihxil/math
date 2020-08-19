@@ -1,6 +1,6 @@
 package org.meeuw.statistics;
 
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,7 +19,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * @author Michiel Meeuwissen
  * @since 0.38
  */
-@Log
+@Log4j2
 public class WindowedEventRateTest {
 
 
@@ -61,9 +61,19 @@ public class WindowedEventRateTest {
 
     @Test
     public void test() throws InterruptedException {
+        List<Double> consumer = new ArrayList<>();
+        List<Windowed.Event> eventListeners = new ArrayList<>();
+
         WindowedEventRate rate = WindowedEventRate.builder()
             .bucketCount(5)
-            .window(Duration.ofSeconds(5)).build();
+            .window(Duration.ofSeconds(5))
+            .reporter((we) -> {
+                log.info("{}", we);
+                consumer.add(we.getRate());
+            })
+            .eventListeners((event, atomicLongWindowed) -> eventListeners.add(event))
+
+            .build();
         long start = System.currentTimeMillis();
 
         for (int i = 0; i < 1000; i++) {
@@ -81,14 +91,19 @@ public class WindowedEventRateTest {
         Thread.sleep(201L);
 
         assertThat(rate.isWarmingUp()).isFalse();
-        log.info(() -> "ranges: " + rate.getRanges());
+        log.info("ranges: {}", rate.getRanges());
+
+        log.info("events: {}", eventListeners);
+        log.info("consumers: {}", consumer);
     }
 
 
     @Test
     public void testAccuracyDuringWarmup() throws InterruptedException {
+
         WindowedEventRate rate = WindowedEventRate.builder()
             .window(Duration.ofMillis(1500))
+
             .bucketCount(50).build();
 
         assertThat(rate.getBuckets()).hasSize(50);
@@ -141,6 +156,7 @@ public class WindowedEventRateTest {
         assertThat(rate.getBucketCount()).isEqualTo(20);
         assertThat(rate.getBucketDuration()).isEqualTo(Duration.ofSeconds(15));
     }
+
 }
 
 
