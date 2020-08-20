@@ -48,7 +48,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         return new FieldMatrix3<E>(fs);
     }
 
-    private FieldMatrix3(E[][] values) {
+    FieldMatrix3(E[][] values) {
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();
@@ -58,7 +58,27 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @Override
     public FieldMatrix3<E> times(FieldMatrix3<E> multiplier) {
-        return of(timesDouble(multiplier.values));
+        return new FieldMatrix3<>(timesMatrix(multiplier.values));
+    }
+
+    public FieldMatrix3<E> times(E multiplier) {
+        E[][] result = empty();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i][j] = values[i][j].times(multiplier);
+            }
+        }
+        return new FieldMatrix3<>(result);
+    }
+
+    public FieldMatrix3<E> dividedBy(E divisor) {
+        E[][] result = empty();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i][j] = values[i][j].dividedBy(divisor);
+            }
+        }
+        return new FieldMatrix3<>(result);
     }
 
     @SuppressWarnings({"unchecked"})
@@ -73,18 +93,45 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @Override
     public FieldMatrix3<E> reciprocal() {
-        final E[][] transpose = (E[][]) new Object[][] {
-            {zero, zero, zero},
-            {zero, zero, zero},
-            {zero, zero, zero}
-         };
+        return adjugate().dividedBy(determinant());
+    }
+
+    public FieldMatrix3<E> adjugate() {
+        return new FieldMatrix3<>(adjugateMatrix());
+    }
+
+    E[][] adjugateMatrix() {
+        final E[][] adjugate =  empty();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjugate[j][i] = determinant2x2(
+                    values[skip(0, i)][skip(0, j)], values[skip(0, i)][skip(1, j)],
+                    values[skip(1, i)][skip(0, j)], values[skip(1, i)][skip(1, j)]
+                );
+                if ((i + j) % 2 == 1) {
+                    adjugate[j][i] = adjugate[j][i].negation();
+                }
+            }
+        }
+        return adjugate;
+    }
+    private int skip(int i, int skip) {
+        return i < skip ? i : i + 1;
+    }
+
+    private E[][] transposedMatrix() {
+        final E[][] transpose =  empty();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 transpose[i][j] = values[j][i];
             }
         }
-        //
-        return new FieldMatrix3<>(transpose);
+        return transpose;
+    }
+
+    @SuppressWarnings("unchecked")
+    private E[][] empty() {
+         return (E[][]) Array.newInstance(elementStructure.getElementClass(), 3, 3);
     }
 
     @Override
@@ -92,16 +139,15 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         return FieldMatrix3Group.of(elementStructure);
     }
 
-    @SuppressWarnings({"unchecked"})
-    E[] timesDouble(E[][] matrix3) {
-        E[] result = (E[]) Array.newInstance(elementStructure.getElementClass(), 9);
+    E[][] timesMatrix(E[][] matrix3) {
+        E[][] result = empty();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 E v = elementStructure.zero();
                 for (int k = 0; k < 3; k++) {
                     v = v.plus(values[i][k].times(matrix3[k][j]));
                 }
-                result[i * 3 + j] = v;
+                result[i][j] = v;
             }
         }
         return result;
@@ -135,6 +181,10 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
             ).plus(
                 c.times(d.times(h).minus(e.times(g)))
             );
+    }
+
+    E determinant2x2(E a, E b, E c, E d) {
+        return a.times(d).minus(b.times(c));
     }
 
 

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public interface VectorSpaceTheory<E extends FieldElement<E>, V extends VectorInterface<E, V>> extends ElementTheory<E> {
 

@@ -49,4 +49,5 @@ public class FieldMatrix3Group<E extends NumberFieldElement<E>>
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_1; //elementStructure.getCardinality();
     }
+
 }

@@ -2,8 +2,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.RingElement;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
