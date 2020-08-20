@@ -3,51 +3,51 @@ package org.meeuw.math.abstractalgebra.vectorspace;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.abstractalgebra.Vector;
+import org.meeuw.math.abstractalgebra.VectorInterface;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class VectorImpl<E extends FieldElement<E>> implements Vector<E, VectorImpl<E>>, Iterable<E> {
+public class Vector<E extends FieldElement<E>> implements VectorInterface<E, Vector<E>>, Iterable<E> {
 
     private final E[] values;
 
-    VectorImpl(E[] values) {
+    Vector(E[] values) {
         this.values = values;
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> VectorImpl<E> of(E... values) {
-        return new VectorImpl<>(values);
+    public static <E extends FieldElement<E>> Vector<E> of(E... values) {
+        return new Vector<>(values);
     }
 
     @Override
-    public VectorImpl<E> times(E multiplier) {
+    public Vector<E> times(E multiplier) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].times(multiplier);
         }
-        return new VectorImpl<>(copy);
+        return new Vector<>(copy);
     }
 
     @Override
-    public VectorImpl<E> plus(VectorImpl<E> summand) {
+    public Vector<E> plus(Vector<E> summand) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].plus(summand.values[i]);
         }
-        return new VectorImpl<>(copy);
+        return new Vector<>(copy);
     }
 
     @Override
-    public VectorImpl<E> inverse() {
+    public Vector<E> inverse() {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].negation();
         }
-        return new VectorImpl<>(copy);
+        return new Vector<>(copy);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class VectorImpl<E extends FieldElement<E>> implements Vector<E, VectorIm
     }
 
     @Override
-    public VectorSpace<E, VectorImpl<E>> getSpace() {
-        return VectorSpaceImpl.of(values.length, values[0].getStructure());
+    public VectorSpace<E> getSpace() {
+        return VectorSpace.of(values.length, values[0].getStructure());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class VectorImpl<E extends FieldElement<E>> implements Vector<E, VectorIm
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        VectorImpl<?> vector = (VectorImpl<?>) o;
+        Vector<?> vector = (Vector<?>) o;
         return Arrays.equals(values, vector.values);
     }
 

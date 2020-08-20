@@ -12,30 +12,30 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class VectorSpaceImpl<E extends FieldElement<E>> implements VectorSpace<E, VectorImpl<E>> {
+public class VectorSpace<E extends FieldElement<E>> implements VectorSpaceInterface<E, Vector<E>> {
 
-    private static final Map<Key, VectorSpaceImpl<?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<Key, VectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
     private final Field<E> field;
-    private final VectorImpl<E> zero;
+    private final Vector<E> zero;
     private final int dimension;
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends FieldElement<E>>  VectorSpaceImpl<E> of(int dimension, Field<E> field) {
+    public static <E extends FieldElement<E>> VectorSpace<E> of(int dimension, Field<E> field) {
         Key key = new Key(field.getElementClass(), dimension);
-        return (VectorSpaceImpl<E>) INSTANCES.computeIfAbsent(key, (k)  -> new VectorSpaceImpl<>(dimension, field));
+        return (VectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new VectorSpace<>(dimension, field));
     }
 
     @SuppressWarnings("unchecked")
-    private VectorSpaceImpl(int dimension, Field<E> field) {
+    private VectorSpace(int dimension, Field<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
         for (int i = 0; i < dimension; i ++) {
             zeroElement[i] = field.zero();
         }
-        this.zero = new VectorImpl<E>(zeroElement);
+        this.zero = new Vector<E>(zeroElement);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class VectorSpaceImpl<E extends FieldElement<E>> implements VectorSpace<E
     }
 
     @Override
-    public VectorImpl<E> zero() {
+    public Vector<E> zero() {
         return zero;
     }
 

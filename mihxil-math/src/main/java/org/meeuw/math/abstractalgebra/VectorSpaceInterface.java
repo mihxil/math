@@ -4,7 +4,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorSpace<E extends FieldElement<E>, V extends Vector<E, V>> {
+public interface VectorSpaceInterface<E extends FieldElement<E>, V extends VectorInterface<E, V>> {
 
     int getDimension();
 

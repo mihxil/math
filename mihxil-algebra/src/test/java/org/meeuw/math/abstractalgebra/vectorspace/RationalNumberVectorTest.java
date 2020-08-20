@@ -11,12 +11,12 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class VectorImplTest implements VectorSpaceTheory<RationalNumber, VectorImpl<RationalNumber>> {
+class RationalNumberVectorTest implements VectorSpaceTheory<RationalNumber, Vector<RationalNumber>> {
 
 
     @Override
-    public Arbitrary<? extends VectorImpl<RationalNumber>> vectors() {
-        return Arbitraries.randomValue(INSTANCE::nextRandom).tuple3().map((t) -> VectorImpl.of(t.get1(), t.get2(), t.get3()));
+    public Arbitrary<? extends Vector<RationalNumber>> vectors() {
+        return Arbitraries.randomValue(INSTANCE::nextRandom).tuple3().map((t) -> Vector.of(t.get1(), t.get2(), t.get3()));
     }
 
     @Provide

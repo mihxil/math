@@ -5,7 +5,7 @@ import net.jqwik.api.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.meeuw.math.abstractalgebra.FieldElement;
-import org.meeuw.math.abstractalgebra.Vector;
+import org.meeuw.math.abstractalgebra.VectorInterface;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Michiel Meeuwissen
  * @since ...
  */
-public interface VectorSpaceTheory<E extends FieldElement<E>, V extends Vector<E, V>> extends ElementTheory<E> {
+public interface VectorSpaceTheory<E extends FieldElement<E>, V extends VectorInterface<E, V>> extends ElementTheory<E> {
 
     String VECTORS = "vectors";
 
