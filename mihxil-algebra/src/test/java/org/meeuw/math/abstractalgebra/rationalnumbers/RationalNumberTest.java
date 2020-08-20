@@ -5,8 +5,6 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.Operator;
-import org.meeuw.math.abstractalgebra.UnaryOperator;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.abstractalgebra.test.NumberTheory;
 
@@ -81,14 +79,7 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
 
     @Provide
     public Arbitrary<RationalNumber> elements() {
-        return Arbitraries.randomValue((random) -> {
-            long numerator = random.nextLong();
-            long denumator = 0L;
-            while (denumator == 0L) {
-                denumator = random.nextLong();
-            }
-            return RationalNumber.of(numerator, denumator);
-        });
+        return Arbitraries.randomValue(INSTANCE::nextRandom);
     }
 
 
@@ -99,5 +90,6 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
             System.out.println(i.toString() + ":" + i.bigDecimalValue());
         });
     }
+
 
 }

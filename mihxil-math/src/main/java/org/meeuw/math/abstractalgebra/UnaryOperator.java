@@ -14,9 +14,10 @@ import org.meeuw.math.text.TextUtils;
 public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     NEGATION(getUnaryOperator(AdditiveGroupElement.class, "negation"), "-"),
-    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"), TextUtils.superscript("-1")),
-    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), TextUtils.superscript("2"))
 
+    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"), TextUtils.superscript("-1")),
+
+    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), TextUtils.superscript("2"))
 
     ;
 

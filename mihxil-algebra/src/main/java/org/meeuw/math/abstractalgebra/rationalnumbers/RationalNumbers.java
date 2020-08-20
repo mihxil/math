@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import java.math.BigInteger;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -38,6 +39,15 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
                 State::next).map(State::rationalNumber);
     }
 
+
+    public RationalNumber nextRandom(Random random) {
+        long numerator = random.nextLong();
+        long denumator = 0L;
+        while (denumator == 0L) {
+            denumator = random.nextLong();
+        }
+        return RationalNumber.of(numerator, denumator);
+    }
 
 
     /**

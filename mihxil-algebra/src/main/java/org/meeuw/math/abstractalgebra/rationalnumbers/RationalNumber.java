@@ -6,6 +6,7 @@ import java.math.*;
 
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 import org.meeuw.math.text.TextUtils;
 
@@ -13,7 +14,7 @@ import org.meeuw.math.text.TextUtils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumber implements NumberFieldElement<RationalNumber> {
+public class RationalNumber extends AbstractNumberElement<RationalNumber> implements NumberFieldElement<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
@@ -61,7 +62,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
             return new RationalNumber(
                     numerator.pow(e),
                     denominator.pow(e));
-
         }
     }
 
@@ -72,7 +72,6 @@ public class RationalNumber implements NumberFieldElement<RationalNumber> {
                         .add(summand.numerator.multiply(denominator)),
                 denominator.multiply(summand.denominator)
         );
-
     }
 
     @Override

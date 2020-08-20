@@ -33,6 +33,7 @@ public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<
 
     @Property
     default void implementsNumber(@ForAll(ELEMENTS) E e1) {
+        assertThat(e1).isInstanceOf(Number.class);
         assertThat(e1.doubleValue()).isCloseTo(e1.floatValue(), Offset.offset(Math.abs(e1.doubleValue() / 1e7)));
         if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
             assertThat(e1.longValue()).isEqualTo(e1.intValue());
