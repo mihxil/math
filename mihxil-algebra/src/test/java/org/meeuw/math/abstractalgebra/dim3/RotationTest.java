@@ -10,6 +10,7 @@ import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.FieldVector3.of;
+import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -19,7 +20,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     @Test
     public void roty() {
-        Rotation y = Rotation.Ry(PI);
+        Rotation y = Ry(PI);
         FieldVector3<RealNumber> v = of(1, 0, 0);
         FieldVector3<RealNumber> rotated = y.apply(v);
         assertThat(rotated).isEqualTo(of(-1, 0, 0));
@@ -36,7 +37,6 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     @Override
     public Arbitrary<Rotation> elements() {
-        return Arbitraries.of(
-            Rotation.Ry(PI / 2), Rotation.Rz(PI / 3), Rotation.Ry(PI / 6).times(Rotation.Rx(PI / 9)));
+        return Arbitraries.randoms().map(r -> r.nextDouble() * 2 * PI).tuple3().map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())));
     }
 }

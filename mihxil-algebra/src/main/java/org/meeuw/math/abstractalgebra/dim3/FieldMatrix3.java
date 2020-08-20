@@ -83,7 +83,6 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @SuppressWarnings({"unchecked"})
     public FieldVector3<E>[] asVectors() {
-
         FieldVector3<E>[] result = (FieldVector3<E>[]) new FieldVector3[3];
         result[0] = FieldVector3.of(values[0][0], values[0][1], values[0][2]);
         result[1] = FieldVector3.of(values[1][0], values[1][1], values[1][2]);
