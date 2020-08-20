@@ -94,12 +94,57 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     public Matrix3 times(double multiplier) {
         return Matrix3.of(timesDouble(multiplier));
     }
+    public Matrix3 dividedBy(double multiplier) {
+        return Matrix3.of(timesDouble(1 / multiplier));
+    }
 
     double determinant() {
-        //double A =(values[0][2] *  values[2][2] - );
-        double B;
-        double C;
-        return 0;
+        double a = values[0][0];
+        double b = values[0][1];
+        double c = values[0][2];
+        double d = values[1][0];
+        double e = values[1][1];
+        double f = values[1][2];
+        double g = values[2][0];
+        double h = values[2][1];
+        double i = values[2][2];
+        return
+            a * (e * i - f * h)
+                -  b * (d * i - f * g)
+                + c * (d * h - e * g);
+    }
+    double determinant2x2(double a, double b, double c, double d) {
+        return a * d - b * c;
+    }
+
+
+     @Override
+    // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
+    public Matrix3 reciprocal() {
+        return adjugate().dividedBy(determinant());
+    }
+
+    public Matrix3 adjugate() {
+        return new Matrix3(adjugateMatrix());
+    }
+
+    double[][] adjugateMatrix() {
+        final double[][] adjugate =  new double[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                adjugate[j][i] = determinant2x2(
+                    values[skip(0, i)][skip(0, j)], values[skip(0, i)][skip(1, j)],
+                    values[skip(1, i)][skip(0, j)], values[skip(1, i)][skip(1, j)]
+                );
+                if ((i + j) % 2 == 1) {
+                    adjugate[j][i] = adjugate[j][i] * -1;
+                }
+            }
+        }
+        return adjugate;
+    }
+    private int skip(int i, int skip) {
+        return i < skip ? i : i + 1;
     }
 
     @Override

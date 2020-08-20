@@ -18,7 +18,6 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber>> {
 
 
-
     @Test
     public void adjugate() {
         FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(

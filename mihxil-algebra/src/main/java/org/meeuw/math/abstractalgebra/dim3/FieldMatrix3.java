@@ -72,13 +72,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     public FieldMatrix3<E> dividedBy(E divisor) {
-        E[][] result = empty();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result[i][j] = values[i][j].dividedBy(divisor);
-            }
-        }
-        return new FieldMatrix3<>(result);
+        return times(divisor.reciprocal());
     }
 
     @SuppressWarnings({"unchecked"})
@@ -91,6 +85,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     @Override
+    // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
     public FieldMatrix3<E> reciprocal() {
         return adjugate().dividedBy(determinant());
     }
@@ -117,6 +112,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     private int skip(int i, int skip) {
         return i < skip ? i : i + 1;
     }
+/*
 
     private E[][] transposedMatrix() {
         final E[][] transpose =  empty();
@@ -127,6 +123,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         }
         return transpose;
     }
+*/
 
     @SuppressWarnings("unchecked")
     private E[][] empty() {
@@ -151,18 +148,6 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         }
         return result;
     }
-
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
-    E[] elementTimes(E multiplier) {
-        E[]result = (E[]) new Object[9];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                result[i * 3 + j] = values[i][j].times(multiplier);
-            }
-        }
-        return result;
-    }
-
 
     E determinant() {
         E a = values[0][0];
