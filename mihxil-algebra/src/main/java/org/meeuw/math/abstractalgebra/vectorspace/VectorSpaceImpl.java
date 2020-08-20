@@ -55,13 +55,7 @@ public class VectorSpaceImpl<E extends FieldElement<E>> implements VectorSpace<E
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        VectorSpaceImpl<?> that = (VectorSpaceImpl<?>) o;
-
-        if (dimension != that.dimension) return false;
-        return field.equals(that.field);
+        return this == o;
     }
 
     @Override
