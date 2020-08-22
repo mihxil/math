@@ -13,10 +13,6 @@ public interface Field<E extends FieldElement<E>> extends
 
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.values())));
 
-    @Override
-    default boolean supports(Operator operator) {
-        return true;
-    }
 
     @Override
     default Set<Operator> getSupportedOperators() {

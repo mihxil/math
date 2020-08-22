@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.text.UncertainDoubleFormat;
 
 /**
 
@@ -32,7 +32,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     }
 
     public String toString() {
-        return UncertainNumberFormat.toString(Dimension.values(), exponents);
+        return UncertainDoubleFormat.toString(Dimension.values(), exponents);
     }
 
 

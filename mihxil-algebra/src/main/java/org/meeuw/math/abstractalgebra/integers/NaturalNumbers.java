@@ -9,7 +9,9 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber> implements MultiplicativeMonoid<NaturalNumber>, AdditiveMonoid<NaturalNumber>, Streamable<NaturalNumber> {
+public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
+    implements MultiplicativeMonoid<NaturalNumber>,
+    AdditiveMonoid<NaturalNumber>, Streamable<NaturalNumber> {
 
     private static final Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.ADDITION)));
 

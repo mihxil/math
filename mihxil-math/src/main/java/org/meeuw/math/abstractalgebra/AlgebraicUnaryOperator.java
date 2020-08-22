@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
+ * Like a {@link java.util.function.UnaryOperator} but not generic itself.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -3,9 +3,12 @@ package org.meeuw.math.abstractalgebra;
 import java.util.Objects;
 
 /**
+ * Like {@link java.util.function.BinaryOperator}, but the difference is that this is not itself generic, but only its {@link #apply(AlgebraicElement, AlgebraicElement)} method.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@FunctionalInterface
 public interface AlgebraicBinaryOperator {
 
     <E extends AlgebraicElement<E>> E apply(E arg1, E arg2);

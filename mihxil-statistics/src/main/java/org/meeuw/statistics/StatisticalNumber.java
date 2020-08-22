@@ -21,7 +21,7 @@ import org.meeuw.math.uncertainnumbers.*;
  */
 
 
-public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<UncertainDoubleElement> implements UncertainDoubleElement {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainDouble<UncertainDoubleElement> implements UncertainDoubleElement {
 
     /**
      * The total number of values which were {@link StatisticalDouble#enter(double...)}ed.

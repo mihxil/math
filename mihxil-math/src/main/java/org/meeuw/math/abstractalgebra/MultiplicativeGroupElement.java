@@ -15,7 +15,6 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
 
     @Override
     MultiplicativeGroup<E> getStructure();
-
     /**
      * The multiplicative inverse
      */

@@ -13,10 +13,11 @@ import java.util.function.BinaryOperator;
  * @since 0.4
  */
 public enum Operator implements AlgebraicBinaryOperator {
-    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + "+" + b),
-    SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), (a, b) -> a + "-" + b),
-    MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + "⋅" + b),
-    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + "/" + b);
+
+    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + " + " + b),
+    SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), (a, b) -> a + " - " + b),
+    MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + " ⋅ " + b),
+    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b);
 
     @Getter
     final Method method;

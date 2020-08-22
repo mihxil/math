@@ -14,7 +14,8 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> implements NumberFieldElement<BigDecimalElement>, UncertainNumber<BigDecimal> {
+public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
+    implements NumberFieldElement<BigDecimalElement>, UncertainNumber<BigDecimal> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
@@ -103,8 +104,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     }
 
     public BigDecimalElement times(double multiplier) {
-        return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier),
-            uncertainty(multiplier).multiply(uncertainty));
+        return new BigDecimalElement(
+            new BigDecimal(value.doubleValue() * multiplier),
+            uncertainty.multiply(new BigDecimal(multiplier))
+        );
+
     }
 
     @Override

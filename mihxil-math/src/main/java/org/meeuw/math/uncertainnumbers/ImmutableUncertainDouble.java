@@ -7,7 +7,7 @@ import lombok.Getter;
  * @since 0.4
  */
 public class ImmutableUncertainDouble
-    extends AbstractUncertainNumber<UncertainDoubleElement>
+    extends AbstractUncertainDouble<UncertainDoubleElement>
     implements UncertainDoubleElement {
 
     public static final ImmutableUncertainDouble ZERO = new ImmutableUncertainDouble(0, EXACT);

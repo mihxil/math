@@ -7,7 +7,8 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RealField extends AbstractAlgebraicStructure<RealNumber> implements NumberField<RealNumber> {
+public class RealField extends AbstractAlgebraicStructure<RealNumber> implements
+    NumberField<RealNumber> {
 
     public static final RealField INSTANCE = new RealField();
 

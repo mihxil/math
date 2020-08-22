@@ -22,7 +22,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.target.version>8</java.target.version>
     <lombok.version>1.18.12</lombok.version>
     <jacoco.version>0.8.5</jacoco.version>
@@ -245,10 +244,15 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.0.0-M5</version>
           <configuration>
-            <testFailureIgnore>true</testFailureIgnore>
+            <testFailureIgnore>false</testFailureIgnore>
+            <encoding>UTF-8</encoding>
             <systemPropertyVariables>
               <projectArtifactId>${project.artifactId}</projectArtifactId>
+              <file.encoding>UTF-8</file.encoding>
             </systemPropertyVariables>
+            <argLine>-Dfile.encoding=UTF-8</argLine>
+            <reuseForks>false</reuseForks>
+            <forkCount>1</forkCount>
           </configuration>
         </plugin>
         <plugin>

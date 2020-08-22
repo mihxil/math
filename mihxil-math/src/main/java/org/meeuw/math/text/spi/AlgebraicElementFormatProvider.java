@@ -12,21 +12,21 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
  */
 public abstract class AlgebraicElementFormatProvider {
 
-    public abstract Format getInstance(int minimumExponent);
+    public abstract Format getInstance(Configuration configuration);
 
     public abstract int weight(AlgebraicElement<?> weight);
 
-    public static Stream<Format> getFormat(AlgebraicElement<?> object, int minimumExponent ) {
+    public static <C extends Configuration> Stream<Format> getFormat(AlgebraicElement<?> object, Configuration configuration ) {
         final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
         List<AlgebraicElementFormatProvider> list = new ArrayList<>();
         loader.iterator().forEachRemaining(list::add);
         list.sort(Comparator.comparingInt(e -> e.weight(object)));
 
-        return list.stream().map(p -> p.getInstance(minimumExponent));
+        return list.stream().map(p -> p.getInstance(configuration));
     }
 
-    public static String toString(AlgebraicElement<?> object, int minimumExponent ) {
-        return getFormat(object, minimumExponent)
+    public static String toString(AlgebraicElement<?> object, Configuration configuration ) {
+        return getFormat(object, configuration)
             .map(f -> {
                 try {
                     return f.format(object);

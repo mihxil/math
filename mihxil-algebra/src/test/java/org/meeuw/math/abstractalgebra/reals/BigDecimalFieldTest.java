@@ -15,7 +15,6 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
  */
 class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheory<BigDecimalElement>  {
 
-
     @Test
     public void test() {
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));

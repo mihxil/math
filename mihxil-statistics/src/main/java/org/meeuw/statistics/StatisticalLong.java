@@ -154,7 +154,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return  UncertainDoubleField.INSTANCE;
     }
 
-
     @Override
     public double doubleValue() {
         return getMean();

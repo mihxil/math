@@ -15,14 +15,10 @@ import java.util.Set;
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     /**
-     * Returns the {@link Operator}s that elements of this structure {@link #supports(Operator)}
+     * Returns the {@link Operator}s that elements of this structure support.
      */
     default Set<Operator> getSupportedOperators() {
         return Collections.emptySet();
-    }
-
-    default boolean supports(Operator operator) {
-        return getSupportedOperators().contains(operator);
     }
 
     /**

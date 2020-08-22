@@ -6,7 +6,7 @@ import net.jqwik.api.Property;
 import java.math.BigDecimal;
 
 import org.assertj.core.data.Offset;
-import org.meeuw.math.abstractalgebra.NumberElement;
+import org.meeuw.math.numbers.NumberElement;
 
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;

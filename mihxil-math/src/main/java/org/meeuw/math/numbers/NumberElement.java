@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 
@@ -82,20 +82,7 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
 
     BigDecimal bigDecimalValue();
 
-    default boolean isNegative() {
-        return compareTo(0d) < 0;
-    }
 
-    default boolean isPositive() {
-        return compareTo(0d) > 0;
-    }
-
-    default boolean isZero() {
-        return compareTo(0d) == 0;
-    }
-    default boolean isOne() {
-        return compareTo(1d) == 0;
-    }
 
     int compareTo(E f);
 

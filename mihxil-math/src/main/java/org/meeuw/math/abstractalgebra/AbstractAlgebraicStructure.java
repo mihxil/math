@@ -8,7 +8,8 @@ import lombok.Getter;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class AbstractAlgebraicStructure<F extends AlgebraicElement<F>> implements AlgebraicStructure<F> {
+public abstract class AbstractAlgebraicStructure<F extends AlgebraicElement<F>>
+    implements AlgebraicStructure<F> {
 
     @Getter
     private final Class<F> elementClass;

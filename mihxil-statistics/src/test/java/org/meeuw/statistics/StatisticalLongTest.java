@@ -108,7 +108,7 @@ class StatisticalLongTest implements FieldTheory<UncertainDoubleElement> {
     public Arbitrary<UncertainDoubleElement> elements() {
 
         Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
-        Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);
+        Arbitrary<Long> averages = Arbitraries.longs().between(-1000, 1000);
         Arbitrary<Random> random = Arbitraries.randoms();
         return Combinators.combine(amounts, averages, random)
             .flatAs((am, av, r) -> {

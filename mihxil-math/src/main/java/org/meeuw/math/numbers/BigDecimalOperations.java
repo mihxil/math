@@ -11,7 +11,6 @@ public class BigDecimalOperations extends NumberOperations<BigDecimal> {
 
     public static final BigDecimalOperations INSTANCE = new BigDecimalOperations();
 
-
     private MathContext mathContext = MathContext.DECIMAL128;
     @Override
     public BigDecimal sqr(BigDecimal v) {

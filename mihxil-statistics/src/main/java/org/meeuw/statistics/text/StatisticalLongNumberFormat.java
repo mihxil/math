@@ -11,7 +11,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.statistics.StatisticalLong;
 
-import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
+import static org.meeuw.math.text.UncertainDoubleFormat.valueAndError;
 
 /**
  * @author Michiel Meeuwissen

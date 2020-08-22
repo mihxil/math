@@ -2,6 +2,7 @@ package org.meeuw.statistics.text.spi;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.statistics.StatisticalLong;
 import org.meeuw.statistics.text.StatisticalLongNumberFormat;
 
@@ -11,7 +12,7 @@ import org.meeuw.statistics.text.StatisticalLongNumberFormat;
  */
 public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatProvider {
     @Override
-    public StatisticalLongNumberFormat getInstance(int minimumExponent) {
+    public StatisticalLongNumberFormat getInstance(Configuration minimumExponent) {
         StatisticalLongNumberFormat format = new StatisticalLongNumberFormat();
         return format;
     }

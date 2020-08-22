@@ -1,12 +1,13 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * Elements of a {@link MultiplicativeSemiGroup} can be multiplied by each other (via {@link #times(AdditiveSemiGroupElement)}.
+ * Elements of a {@link AdditiveSemiGroup} can be added to each other (via {@link #plus(AdditiveSemiGroupElement)}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>> extends AlgebraicElement<E> {
+public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
+    extends AlgebraicElement<E> {
 
     AdditiveSemiGroup<E> getStructure();
 

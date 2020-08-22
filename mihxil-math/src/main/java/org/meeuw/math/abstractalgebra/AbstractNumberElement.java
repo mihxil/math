@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.numbers.NumberElement;
+
 /**
  * Abstract implementation of {@link NumberElement}. Extends from {@link Number}, and implements some of its methods.
  *

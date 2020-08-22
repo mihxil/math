@@ -2,11 +2,11 @@ package org.meeuw.physics;
 
 import java.util.*;
 
-import org.meeuw.math.text.UncertainNumberFormat;
-import org.meeuw.math.uncertainnumbers.AbstractUncertainNumber;
+import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 
 /**
- * Represents the units of a {@link AbstractUncertainNumber}.
+ * Represents the units of a {@link AbstractUncertainDouble}.
  *
  * Basicly keeps track of a integer power for each of the basic SI units.
  *
@@ -96,7 +96,7 @@ public class UnitsImpl implements Units  {
         for (UnitExponent e :exponents) {
             if (e.exponent != 0) {
                 if (builder.length() > 0) {
-                    builder.append(UncertainNumberFormat.TIMES);
+                    builder.append(UncertainDoubleFormat.TIMES);
                 }
 
                 builder.append(e.toString());

@@ -49,13 +49,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();
     }
 
-    @Property
-    default void supportedOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        for (Operator o : s.getSupportedOperators()) {
-            assertThat(s.supports(o)).isTrue();
-        }
-    }
-
     Map<AlgebraicStructure<?>, AtomicLong> counts = new HashMap<>();
 
     @Property

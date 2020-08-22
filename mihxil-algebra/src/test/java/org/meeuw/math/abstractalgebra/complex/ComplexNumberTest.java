@@ -22,9 +22,12 @@ class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
     public void string() {
         assertThat(structure.zero().toString()).isEqualTo("0");
         assertThat(structure.one().toString()).isEqualTo("1");
+        assertThat(structure.one().negation().toString()).isEqualTo("-1");
         assertThat(structure.i().toString()).isEqualTo("i");
+        assertThat(structure.i().negation().toString()).isEqualTo("-i");
         assertThat(structure.i().times(structure.getElementStructure().one().times(RationalNumber.of(3))).toString()).isEqualTo("3i");
         assertThat(structure.one().plus(structure.i().times(structure.getElementStructure().one().times(RationalNumber.of(3)))).toString()).isEqualTo("1 + 3i");
+        assertThat(structure.one().minus(structure.i().times(structure.getElementStructure().one().times(RationalNumber.of(3)))).toString()).isEqualTo("1 - 3i");
 
     }
 

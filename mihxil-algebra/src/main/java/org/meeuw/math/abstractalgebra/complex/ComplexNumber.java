@@ -84,15 +84,27 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        if (!real.isZero()) {
+        boolean hasReal = ! real.isZero();
+        if (hasReal) {
             result.append(real.toString());
         }
         if (!imaginary.isZero()) {
-            if (result.length() > 0) {
-                result.append(" + ");
+            if (hasReal) {
+                result.append(' ');
             }
-            if (!imaginary.isOne()) {
-                result.append(imaginary.toString());
+            if (imaginary.isNegative()) {
+                result.append('-');
+            } else {
+                if (hasReal) {
+                    result.append('+');
+                }
+            }
+            if (hasReal) {
+                result.append(' ');
+            }
+            E abs = imaginary.abs();
+            if (! abs.isOne()) {
+                result.append(abs.toString());
             }
             result.append("i");
         }

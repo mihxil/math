@@ -19,7 +19,7 @@ class SplitNumber {
 
     @Override
     public String toString() {
-        return coefficient + UncertainNumberFormat.TIMES_10 + TextUtils.superscript(exponent);
+        return coefficient + UncertainDoubleFormat.TIMES_10 + TextUtils.superscript(exponent);
     }
 
     static SplitNumber split(double in) {

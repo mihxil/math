@@ -12,7 +12,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainNumberFormat extends Format {
+public class UncertainDoubleFormat extends Format {
 
     static final int VALUE_FIELD = 0;
     static final int UNCERTAINTITY_FIELD = 1;
@@ -51,8 +51,6 @@ public class UncertainNumberFormat extends Format {
     public Object parseObject(String source, ParsePosition pos) {
         throw new UnsupportedOperationException();
     }
-
-
 
 
     /**

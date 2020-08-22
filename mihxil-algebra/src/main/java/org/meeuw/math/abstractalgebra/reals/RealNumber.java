@@ -83,7 +83,6 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     @Override
     public int compareTo(RealNumber o) {
         return Double.compare(value, o.value);
-
     }
 
     @Override

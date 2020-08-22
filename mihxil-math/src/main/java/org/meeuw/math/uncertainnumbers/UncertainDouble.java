@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.function.Predicate;
 
-import org.meeuw.math.abstractalgebra.NumberElement;
+import org.meeuw.math.numbers.SignedNumberElement;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -18,7 +18,7 @@ import org.meeuw.math.abstractalgebra.NumberElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble extends Comparable<Number>, NumberElement<UncertainDouble> {
+public interface UncertainDouble extends Comparable<Number>, SignedNumberElement<UncertainDouble> {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
@@ -34,7 +34,6 @@ public interface UncertainDouble extends Comparable<Number>, NumberElement<Uncer
     default UncertainDouble dividedBy(double divisor) {
         return times(1d / divisor);
     }
-
 
     default UncertainDouble plus(double summand) {
         return new ImmutableUncertainDouble(summand + doubleValue(), getUncertainty());

@@ -11,7 +11,9 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implements MultiplicativeMonoidElement<NaturalNumber>, AdditiveMonoidElement<NaturalNumber>
+public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implements
+    MultiplicativeMonoidElement<NaturalNumber>,
+    AdditiveMonoidElement<NaturalNumber>
  {
     public static final NaturalNumber ZERO = of(0);
     public static final NaturalNumber ONE = of(1);

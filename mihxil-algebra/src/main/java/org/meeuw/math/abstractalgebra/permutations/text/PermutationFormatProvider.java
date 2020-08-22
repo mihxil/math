@@ -4,6 +4,7 @@ import java.text.Format;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.math.text.spi.Configuration;
 
 /**
  * @author Michiel Meeuwissen
@@ -12,7 +13,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
-    public Format getInstance(int minimumExponent) {
+    public Format getInstance(Configuration minimumExponent) {
         return null;
     }
 

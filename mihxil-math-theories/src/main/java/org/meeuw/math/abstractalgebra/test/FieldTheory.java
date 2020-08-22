@@ -13,7 +13,9 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface FieldTheory<E extends FieldElement<E>> extends MultiplicativeAbelianGroupTheory<E>, AdditiveGroupTheory<E>  {
+public interface FieldTheory<E extends FieldElement<E>> extends
+    MultiplicativeAbelianGroupTheory<E>,
+    AdditiveGroupTheory<E>  {
 
     @Property
     default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
