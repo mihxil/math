@@ -1,7 +1,5 @@
 package org.meeuw.math.uncertainnumbers;
 
-import java.math.BigDecimal;
-
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
@@ -13,7 +11,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @since 0.3
  */
 public abstract class AbstractUncertainNumber<E extends AlgebraicElement<E>> extends Number
-    implements UncertainNumber, AlgebraicElement<E> {
+    implements UncertainDouble, AlgebraicElement<E> {
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
@@ -48,12 +46,9 @@ public abstract class AbstractUncertainNumber<E extends AlgebraicElement<E>> ext
         return (short) longValue();
     }
 
-    @Override
-    public BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(doubleValue());
-    }
 
-    public int compareTo(UncertainNumber o) {
+
+    public int compareTo(UncertainDouble o) {
         if (equals(o)) {
             return 0;
         }

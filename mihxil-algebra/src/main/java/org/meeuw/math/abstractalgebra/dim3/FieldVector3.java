@@ -6,6 +6,8 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
+import static java.math.BigDecimal.ZERO;
+
 /**
  * @author Michiel Meeuwissen
  */
@@ -24,7 +26,7 @@ public class FieldVector3<E extends NumberFieldElement<E>> {
     }
 
     public static FieldVector3<BigDecimalElement> of(BigDecimal x, BigDecimal y, BigDecimal z) {
-        return new FieldVector3<>(new BigDecimalElement(x), new BigDecimalElement(y), new BigDecimalElement(z));
+        return new FieldVector3<>(new BigDecimalElement(x, ZERO), new BigDecimalElement(y, ZERO), new BigDecimalElement(z, ZERO));
     }
 
     public FieldVector3(E x, E y, E z) {

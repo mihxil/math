@@ -9,13 +9,13 @@ import org.meeuw.math.abstractalgebra.test.FieldTheory;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainNumberElement> {
+class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainDoubleElement> {
 
     @Override
-    public Arbitrary<ImmutableUncertainNumber> elements() {
+    public Arbitrary<ImmutableUncertainDouble> elements() {
         return Arbitraries.randomValue(r -> {
             double value = 10000 * (r.nextDouble() - 0.5d);
-            return new ImmutableUncertainNumber(value, Math.abs(value * r.nextDouble()));
+            return new ImmutableUncertainDouble(value, Math.abs(value * r.nextDouble()));
         });
 
     }

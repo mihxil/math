@@ -1,11 +1,12 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.numbers.BigDecimalOperations;
+import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -13,32 +14,46 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> implements NumberFieldElement<BigDecimalElement> {
+public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> implements NumberFieldElement<BigDecimalElement>, UncertainNumber<BigDecimal> {
 
-    public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE);
-    public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO);
-    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI));
-    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e));
-
+    public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
+    public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
+    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-100"));
+    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e), new BigDecimal("1e-100"));
 
     private final BigDecimal value;
+    private final BigDecimal uncertainty;
 
     public static BigDecimalElement of(double doubleValue){
-        return new BigDecimalElement(BigDecimal.valueOf(doubleValue));
+        return new BigDecimalElement(BigDecimal.valueOf(doubleValue), uncertainty(doubleValue));
+    }
+    public static BigDecimalElement of(String stringValue){
+        return new BigDecimalElement(new BigDecimal(stringValue), BigDecimal.ZERO);
     }
 
-    public BigDecimalElement(BigDecimal value) {
-        this.value = value;
+    public static BigDecimal uncertainty(double doubleValue) {
+        BigDecimal u = BigDecimal.valueOf(doubleValue / 1e16);
+        return BigDecimal.ONE.scaleByPowerOfTen(u.precision() - u.scale());
     }
+
+    public BigDecimalElement(BigDecimal value, BigDecimal uncertainty) {
+        this.value = value;
+        this.uncertainty = uncertainty;
+    }
+    public BigDecimalElement(UncertainNumber<BigDecimal> value) {
+        this.value = value.getValue();
+        this.uncertainty = value.getUncertainty();
+    }
+
 
     @Override
     public BigDecimalElement plus(BigDecimalElement summand) {
-        return new BigDecimalElement(value.add(summand.value));
+        return new BigDecimalElement(UncertainNumber.super.plus(summand));
     }
 
     @Override
     public BigDecimalElement negation() {
-        return new BigDecimalElement(value.negate());
+        return new BigDecimalElement(value.negate(), uncertainty);
     }
 
     @Override
@@ -48,7 +63,22 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
 
     @Override
     public BigDecimalElement times(BigDecimalElement multiplier) {
-        return new BigDecimalElement(value.multiply(multiplier.value));
+        return new BigDecimalElement(UncertainNumber.super.times(multiplier));
+    }
+
+    @Override
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    @Override
+    public BigDecimal getUncertainty() {
+        return uncertainty;
+    }
+
+    @Override
+    public NumberOperations<BigDecimal> operations() {
+        return BigDecimalOperations.INSTANCE;
     }
 
     @Override
@@ -56,13 +86,15 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
         if (exponent < 0) {
             return ONE.dividedBy(pow(-1 * exponent));
         } else {
-            return new BigDecimalElement(value.pow(exponent));
+            return new BigDecimalElement(value.pow(exponent), uncertainty);
         }
     }
 
     @Override
     public BigDecimalElement reciprocal() {
-        return new BigDecimalElement(BigDecimal.ONE.divide(value, getStructure().getMathContext()));
+        //return new BigDecimalElement(UncertainNumber.super.reciprocal());
+
+        return new BigDecimalElement(BigDecimal.ONE.divide(value, getStructure().getMathContext()), uncertainty);
     }
 
     @Override
@@ -71,7 +103,8 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
     }
 
     public BigDecimalElement times(double multiplier) {
-        return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier));
+        return new BigDecimalElement(new BigDecimal(value.doubleValue() * multiplier),
+            uncertainty(multiplier).multiply(uncertainty));
     }
 
     @Override
@@ -119,9 +152,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement> 
         if (o == null || getClass() != o.getClass()) return false;
 
         BigDecimalElement that = (BigDecimalElement) o;
-
-        MathContext mc = getStructure().getMathContext();
-        return value.round(mc).compareTo(that.value.round(mc)) == 0;
+        return equals(that, 1);
     }
 
     @Override

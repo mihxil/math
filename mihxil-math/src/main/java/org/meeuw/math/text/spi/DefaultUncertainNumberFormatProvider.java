@@ -2,7 +2,7 @@ package org.meeuw.math.text.spi;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainNumberFormat;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -21,7 +21,7 @@ public class DefaultUncertainNumberFormatProvider extends AlgebraicElementFormat
 
     @Override
     public int weight(AlgebraicElement<?> weight) {
-        return weight instanceof UncertainNumber ? 1 : 0;
+        return weight instanceof UncertainDouble ? 1 : 0;
     }
 
 }

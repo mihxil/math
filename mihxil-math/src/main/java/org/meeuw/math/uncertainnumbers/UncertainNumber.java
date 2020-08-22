@@ -1,142 +1,120 @@
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
+import java.math.BigDecimal;
 
-import java.util.function.Predicate;
-
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.numbers.NumberOperations;
 
 /**
- * A number with an uncertainty {@link #getUncertainty()}
- *
- * Also defines scalar operations.
- *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber extends NumberElement<UncertainNumber>  {
+public interface UncertainNumber<N extends Number> {
 
-    double NaN_EPSILON = 0.001;
-    double EXACT = 0d;
+    N getValue();
 
-    @Override
-    double doubleValue();
+    N getUncertainty();
 
-    double getUncertainty();
+    NumberOperations<N> operations();
 
-    default boolean isExact() {
-        return getUncertainty() == EXACT;
-    }
-
-    default UncertainNumber dividedBy(double divisor) {
-        return times(1d / divisor);
+    default UncertainNumber<N> dividedBy(N divisor) {
+        return times(operations().reciprocal(divisor));
     }
 
 
-    default UncertainNumber plus(double summand) {
-        return new ImmutableUncertainNumber(summand + doubleValue(), getUncertainty());
+    default UncertainNumber<N> plus(N summand) {
+        return new ImmutableUncertainNumber<N>(operations().add(summand, getValue()), getUncertainty());
     }
 
-    default UncertainNumber minus(double subtrahend) {
-        return plus(-1d * subtrahend);
+    default UncertainNumber<N> minus(N subtrahend) {
+        return plus(operations().negate(subtrahend));
     }
 
     /**
      * Creates a new uncertain number, combining this one with another one.
      */
-    default UncertainNumber combined(UncertainNumber m) {
-        double u = getUncertainty();
-        double mu = m.getUncertainty();
-        double weight = 1d / (u * u);
-        double mweight = 1d / (mu * mu);
-        double value = (doubleValue() * weight + m.doubleValue() * mweight) / (weight + mweight);
+    default UncertainNumber<N> combined(UncertainNumber<N> m) {
+        NumberOperations<N> o = operations();
+        N u = getUncertainty();
+        N mu = m.getUncertainty();
+        N weight = o.reciprocal(o.sqr(u));
+        N mweight = o.reciprocal(o.sqr(mu));
+        N value = o.add(o.multiply(getValue(), weight), o.divide(o.multiply(m.getValue(), mweight), o.multiply(weight,  mweight)));
 
         // I'm not absolutely sure about this:
-        double uncertaintity = 1d/ Math.sqrt((weight + mweight));
-        return new ImmutableUncertainNumber(value, uncertaintity);
+        N uncertaintity = o.reciprocal(o.sqrt(o.add(weight, mweight)));
+        return new ImmutableUncertainNumber<>(value, uncertaintity);
     }
 
     /**
-     * Creates a new {@link UncertainNumber} representing a multiple of this one.
+     * Creates a new {@link UncertainDouble} representing a multiple of this one.
      */
-    default UncertainNumber times(double multiplier) {
-        return new ImmutableUncertainNumber(multiplier * doubleValue(),
-            Math.abs(multiplier) * getUncertainty());
+    default UncertainNumber<N> times(N multiplier) {
+        NumberOperations<N> o = operations();
+        return new ImmutableUncertainNumber<>(o.multiply(multiplier, getValue()),
+            o.multiplyUncertainty(multiplier,  getUncertainty()));
     }
 
 
-    default UncertainNumber times(UncertainNumber multiplier) {
-        double u = getUncertainty() / doubleValue();
-        double mu = multiplier.getUncertainty() / multiplier.doubleValue();
-        double newValue = doubleValue() * multiplier.doubleValue();
-        return new ImmutableUncertainNumber(
+    default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
+        NumberOperations<N> o = operations();
+
+        N u = o.divide(getUncertainty(), getValue());
+        N mu = o.divide(multiplier.getUncertainty(),  multiplier.getValue());
+        N newValue = o.multiply(getValue(), multiplier.getValue());
+        return new ImmutableUncertainNumber<>(
             newValue,
-            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
+            o.multiply(o.abs(newValue), o.sqrt(o.add(o.sqr(u), o.sqr(mu))))
         );
     }
 
-    default UncertainNumber pow(int exponent) {
-        double v = Math.pow(doubleValue(), exponent);
-        if (!Double.isFinite(v)) {
-            throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
+    default UncertainNumber<N> pow(int exponent) {
+        NumberOperations<N> o = operations();
+
+        N v = o.pow(getValue(), exponent);
+        if (!o.isFinite(v)) {
+            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
         }
-        return new ImmutableUncertainNumber(
+        return new ImmutableUncertainNumber<>(
             v,
-            Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * getUncertainty());
+            o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
     }
 
-    default UncertainNumber plus(UncertainNumber summand) {
-        double u = getUncertainty();
-        double mu = summand.getUncertainty();
-        return new ImmutableUncertainNumber(
-            doubleValue() + summand.doubleValue(),
-            Math.sqrt(u * u + mu * mu));
+    default UncertainNumber<N> plus(UncertainNumber<N> summand) {
+        NumberOperations<N> o = operations();
+
+        N u = getUncertainty();
+        N mu = summand.getUncertainty();
+        return new ImmutableUncertainNumber<>(
+            o.add(getValue(), summand.getValue()),
+            o.sqrt(o.add(o.sqr(u), o.sqr(mu))));
 
     }
 
-    default boolean equals(Object value, double sds) {
+    default boolean equals(Object value, int sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainNumber)) {
             return false;
         }
-        UncertainNumber other = (UncertainNumber) value;
-        if (Double.isNaN(doubleValue())) {
-            return Double.isNaN(other.doubleValue());
+        NumberOperations<N> o = operations();
+
+        UncertainNumber<N> other = (UncertainNumber) value;
+        if (o.isNaN(getValue())) {
+            return o.isNaN(other.getValue());
         }
-        if (Double.isNaN(getUncertainty()) && Double.isNaN(other.getUncertainty())) {
+        if (o.isNaN(getUncertainty()) && o.isNaN(other.getUncertainty())) {
             return toString().equals(other.toString());
 
         }
-        return getConfidenceInterval(sds).contains(other.doubleValue())
-            ||  other.getConfidenceInterval(sds).contains(doubleValue());
+        return getConfidenceInterval(sds).contains(other.getValue())
+            ||  other.getConfidenceInterval(sds).contains(getValue());
     }
 
-    default ConfidenceInterval getConfidenceInterval(double sds) {
-        return ConfidenceInterval.of(doubleValue(), getUncertainty(), sds);
+    default BigDecimal bigDecimalValue() {
+        return operations().bigDecimalValue(getValue());
     }
 
-    @Getter
-    class ConfidenceInterval implements Predicate<Double> {
-        private final double low;
-        private final double high;
-
-        public static ConfidenceInterval of(double value, double uncertainty, double interval) {
-            double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * NaN_EPSILON) : uncertainty * interval;
-            return new ConfidenceInterval(value - halfRange, value + halfRange);
-        }
-
-        public ConfidenceInterval(double low, double high) {
-            this.low = low;
-            this.high = high;
-        }
-
-        public boolean contains(double value) {
-            return this.low <= value && value <= this.high;
-        }
-        @Override
-        public boolean test(Double value) {
-            return value != null && contains(value);
-        }
+    default ConfidenceInterval<N> getConfidenceInterval(int sds) {
+        return ConfidenceInterval.of(getValue(), getUncertainty(), sds);
     }
 
 }

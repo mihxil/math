@@ -72,7 +72,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link StatisticalDouble#plus(UncertainNumber)} which is something entirely different.
+     * See also {@link StatisticalDouble#plus(UncertainDouble)} which is something entirely different.
      */
     @Override
     public StatisticalDouble enter(StatisticalDouble m) {
@@ -98,8 +98,8 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
-    public UncertainNumbersField getStructure() {
-        return UncertainNumbersField.INSTANCE;
+    public UncertainDoubleField getStructure() {
+        return UncertainDoubleField.INSTANCE;
     }
 
     @Override

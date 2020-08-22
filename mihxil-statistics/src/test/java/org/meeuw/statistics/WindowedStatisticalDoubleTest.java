@@ -5,7 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,7 +34,7 @@ class WindowedStatisticalDoubleTest {
         impl.accept(0.24);
         log.info(() -> String.valueOf(impl));
         StatisticalDouble windowValue = impl.getWindowValue();
-        ImmutableUncertainNumber uncertainNumber = windowValue.immutableCopy();
+        ImmutableUncertainDouble uncertainNumber = windowValue.immutableCopy();
         assertThat(windowValue.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(uncertainNumber.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(windowValue.getCount()).isEqualTo(8);

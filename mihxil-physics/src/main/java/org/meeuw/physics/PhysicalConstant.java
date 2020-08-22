@@ -2,8 +2,8 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainDouble;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.text.TextUtils.subscript;
 
@@ -22,7 +22,7 @@ public class PhysicalConstant extends PhysicalNumber {
     public static final PhysicalConstant hbar  = new PhysicalConstant("\u0127", 1.0545718176461563912624280033022807447228263300204131224219234705984359127347390624985306286124570001989184744174155120232087219301212030916619114529221059634766659521109532072460048990299368330557758e-34,  UnitsImpl.of(SI.J).times(UnitsImpl.of(SIUnit.s)), "Reduced Planck constant");
 
     public static final PhysicalConstant G  = new PhysicalConstant("G",
-        new ImmutableUncertainNumber(6.6743e-11d, 0.00015e-11d), UnitsImpl.of(SIUnit.m, SIUnit.m, SIUnit.m).dividedBy(UnitsImpl.of(SIUnit.kg, SIUnit.s, SIUnit.s)), "Gravitational Constant");
+        new ImmutableUncertainDouble(6.6743e-11d, 0.00015e-11d), UnitsImpl.of(SIUnit.m, SIUnit.m, SIUnit.m).dividedBy(UnitsImpl.of(SIUnit.kg, SIUnit.s, SIUnit.s)), "Gravitational Constant");
 
 
     @Getter
@@ -32,10 +32,10 @@ public class PhysicalConstant extends PhysicalNumber {
     private final String symbol;
 
     public PhysicalConstant(String symbol, double value, Units units, String name) {
-        this(symbol, new ImmutableUncertainNumber(value, UncertainNumber.EXACT), units, name);
+        this(symbol, new ImmutableUncertainDouble(value, UncertainDouble.EXACT), units, name);
     }
 
-    public PhysicalConstant(String symbol, UncertainNumber wrapped, Units units, String name) {
+    public PhysicalConstant(String symbol, UncertainDouble wrapped, Units units, String name) {
         super(wrapped, units);
         this.name = name;
         this.symbol = symbol;
@@ -47,7 +47,7 @@ public class PhysicalConstant extends PhysicalNumber {
     }
 
     @Override
-    protected PhysicalConstant copy(UncertainNumber wrapped, Units units) {
+    protected PhysicalConstant copy(UncertainDouble wrapped, Units units) {
         return new PhysicalConstant(symbol, wrapped, units, name);
     }
 

@@ -6,7 +6,7 @@ import java.text.*;
 import java.util.Locale;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -34,8 +34,8 @@ public class UncertainNumberFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber) {
-            UncertainNumber uncertainNumber = (UncertainNumber) number;
+        if (number instanceof UncertainDouble) {
+            UncertainDouble uncertainNumber = (UncertainDouble) number;
             if (uncertainNumber.isExact()) {
                 toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {

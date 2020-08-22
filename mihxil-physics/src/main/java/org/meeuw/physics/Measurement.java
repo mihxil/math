@@ -1,7 +1,7 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainDouble;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
  * A number with a uncertainty where the uncertainty is simply explicitely stated.
@@ -14,10 +14,10 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
 public class Measurement extends PhysicalNumber {
 
     public Measurement(double value, double uncertainty, Units units) {
-        this(new ImmutableUncertainNumber(value, uncertainty), units);
+        this(new ImmutableUncertainDouble(value, uncertainty), units);
     }
 
-    public Measurement(UncertainNumber wrapped, Units units) {
+    public Measurement(UncertainDouble wrapped, Units units) {
         super(wrapped, units);
     }
 
@@ -28,7 +28,7 @@ public class Measurement extends PhysicalNumber {
 
 
     @Override
-    protected Measurement copy(UncertainNumber wrapped, Units units) {
+    protected Measurement copy(UncertainDouble wrapped, Units units) {
         return new Measurement(wrapped, units);
     }
 

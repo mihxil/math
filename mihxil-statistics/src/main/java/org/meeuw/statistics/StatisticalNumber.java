@@ -21,7 +21,7 @@ import org.meeuw.math.uncertainnumbers.*;
  */
 
 
-public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<UncertainNumberElement> implements UncertainNumberElement {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainNumber<UncertainDoubleElement> implements UncertainDoubleElement {
 
     /**
      * The total number of values which were {@link StatisticalDouble#enter(double...)}ed.
@@ -61,7 +61,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         enter(m);
     }
   /*  *//**
-     * A specialized version of {@link #combined(UncertainNumber)}, accepting and returning a {@code T}
+     * A specialized version of {@link #combined(UncertainDouble)}, accepting and returning a {@code T}
      *//*
     public UncertainNumber<?> combined(UncertainNumber<?> m) {
         return super.combined(m);
@@ -96,35 +96,35 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return copy().divide(divisor);
     }
 
-    public UncertainNumberElement negation() {
+    public UncertainDoubleElement negation() {
         return times(-1);
     }
 
-    public UncertainNumber times(UncertainNumber multiplier) {
+    public UncertainDouble times(UncertainDouble multiplier) {
         return immutableCopy().times(multiplier);
     }
 
     @Override
-    public UncertainNumberElement pow(int exponent) {
-        return (UncertainNumberElement) super.pow(exponent);
+    public UncertainDoubleElement pow(int exponent) {
+        return (UncertainDoubleElement) super.pow(exponent);
     }
 
     public void reset() {
         count = 0;
     }
 
-    public ImmutableUncertainNumber immutableCopy() {
-        return new ImmutableUncertainNumber(doubleValue(), getUncertainty());
+    public ImmutableUncertainDouble immutableCopy() {
+        return new ImmutableUncertainDouble(doubleValue(), getUncertainty());
     }
 
     @Override
-    public UncertainNumberElement times(UncertainNumberElement multiplier) {
-        return (UncertainNumberElement) super.times(multiplier);
+    public UncertainDoubleElement times(UncertainDoubleElement multiplier) {
+        return (UncertainDoubleElement) super.times(multiplier);
     }
 
     @Override
-    public UncertainNumberElement plus(UncertainNumberElement summand) {
-        return (UncertainNumberElement) super.plus(summand);
+    public UncertainDoubleElement plus(UncertainDoubleElement summand) {
+        return (UncertainDoubleElement) super.plus(summand);
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")

@@ -8,9 +8,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.uncertainnumbers.UncertainNumberElement;
+import org.meeuw.math.uncertainnumbers.UncertainDoubleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 0.3
  */
 
-class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
+class StatisticalLongTest implements FieldTheory<UncertainDoubleElement> {
 
     @Test
     public void instants() {
@@ -82,7 +82,7 @@ class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainNumber combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
+        UncertainDouble combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.doubleValue()).isEqualTo(3.5);
 
@@ -105,7 +105,7 @@ class StatisticalLongTest implements FieldTheory<UncertainNumberElement> {
     }
 
     @Override
-    public Arbitrary<UncertainNumberElement> elements() {
+    public Arbitrary<UncertainDoubleElement> elements() {
 
         Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
         Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);

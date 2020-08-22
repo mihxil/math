@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * @since 0.4
  */
 public enum Operator implements AlgebraicBinaryOperator {
-    ADDITION(getBinaryOperator(AdditiveMonoidElement.class, "plus"), "+"),
+    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), "+"),
     SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), "-"),
     MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), "⋅"),
     DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), "/");

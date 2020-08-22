@@ -9,13 +9,13 @@ import org.meeuw.math.abstractalgebra.test.NumberTheory;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ImmutableUncertainNumberTest implements NumberTheory<UncertainNumber> {
+class ImmutableUncertainNumberTest implements NumberTheory<UncertainDouble> {
 
     @Override
-    public Arbitrary<ImmutableUncertainNumber> elements() {
+    public Arbitrary<ImmutableUncertainDouble> elements() {
         return Arbitraries.randomValue(r -> {
             double value = 10000 * (r.nextDouble() - 0.5d);
-            return new ImmutableUncertainNumber(value, Math.abs(value * r.nextDouble()));
+            return new ImmutableUncertainDouble(value, Math.abs(value * r.nextDouble()));
         });
 
     }
