@@ -14,7 +14,8 @@ import org.meeuw.math.text.TextUtils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumber extends AbstractNumberElement<RationalNumber> implements NumberFieldElement<RationalNumber> {
+public class RationalNumber extends AbstractNumberElement<RationalNumber>
+    implements NumberFieldElement<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
@@ -111,6 +112,11 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber> implem
     private static final  MathContext MATH_CONTEXT = new MathContext(40);
     public BigDecimal bigDecimalValue() {
         return new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+    }
+
+    @Override
+    public int signum() {
+        return numerator.signum();
     }
 
     @Override

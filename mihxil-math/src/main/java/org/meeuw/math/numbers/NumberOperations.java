@@ -63,6 +63,8 @@ public abstract class NumberOperations<N extends Number> {
 
     public abstract boolean isNaN(N n1);
 
+    public abstract int signum(N n);
+
     public abstract  BigDecimal bigDecimalValue(N n);
 
 

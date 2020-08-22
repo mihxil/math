@@ -76,6 +76,11 @@ public class DoubleOperations extends NumberOperations<Double> {
     }
 
     @Override
+    public int signum(Double aDouble) {
+        return (int) Math.signum(aDouble);
+    }
+
+    @Override
     public BigDecimal bigDecimalValue(Double d) {
         return BigDecimal.valueOf(d);
     }

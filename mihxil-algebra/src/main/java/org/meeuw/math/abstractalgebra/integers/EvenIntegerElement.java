@@ -85,6 +85,11 @@ public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement
     }
 
     @Override
+    public int signum() {
+        return Long.signum(value);
+    }
+
+    @Override
     public int compareTo(EvenIntegerElement f) {
         return Long.compare(value, f.value);
     }

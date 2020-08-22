@@ -91,4 +91,9 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement>
     public BigDecimal bigDecimalValue() {
         return new BigDecimal(value);
     }
+
+    @Override
+    public int signum() {
+        return Long.signum(value);
+    }
 }

@@ -79,6 +79,11 @@ public class BigDecimalOperations extends NumberOperations<BigDecimal> {
     }
 
     @Override
+    public int signum(BigDecimal bigDecimal) {
+        return bigDecimal.signum();
+    }
+
+    @Override
     public BigDecimal bigDecimalValue(BigDecimal bigDecimal) {
         return bigDecimal;
     }

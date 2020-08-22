@@ -71,6 +71,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
         return new BigDecimal(value);
     }
 
+    @Override
+    public int signum() {
+        return (int) Math.signum(value);
+    }
+
     public RealNumber times(double multiplier) {
         return new RealNumber(value * multiplier);
     }

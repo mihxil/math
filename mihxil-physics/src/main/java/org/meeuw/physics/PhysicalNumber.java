@@ -13,7 +13,8 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber implements MultiplicativeGroupElement<PhysicalNumber>, UncertainDouble {
+public abstract class PhysicalNumber implements
+    MultiplicativeGroupElement<PhysicalNumber>, UncertainDouble {
 
     @Getter
     protected final UncertainDouble wrapped;
@@ -124,6 +125,12 @@ public abstract class PhysicalNumber implements MultiplicativeGroupElement<Physi
 
     public PhysicalNumber negation() {
         return times(-1);
+    }
+
+
+    @Override
+    public int signum() {
+        return wrapped.signum();
     }
 
     @Override

@@ -6,17 +6,15 @@ package org.meeuw.math.numbers;
  */
 public interface SignedNumberElement<E extends SignedNumberElement<E>> extends NumberElement<E> {
 
-      default boolean isNegative() {
-        return compareTo(0d) < 0;
+
+    default boolean isNegative() {
+        return signum() == -1;
     }
 
     default boolean isPositive() {
-        return compareTo(0d) > 0;
+        return signum() ==  1;
     }
 
-    default boolean isZero() {
-        return compareTo(0d) == 0;
-    }
     default boolean isOne() {
         return compareTo(1d) == 0;
     }

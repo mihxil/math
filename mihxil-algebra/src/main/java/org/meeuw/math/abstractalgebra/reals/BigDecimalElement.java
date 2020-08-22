@@ -132,6 +132,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     }
 
     @Override
+    public int signum() {
+        return value.signum();
+    }
+
+    @Override
     public double doubleValue() {
         return value.doubleValue();
     }

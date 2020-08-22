@@ -49,7 +49,10 @@ public abstract class AbstractUncertainDouble<E extends AlgebraicElement<E>> ext
         return (short) longValue();
     }
 
-
+    @Override
+    public int signum() {
+        return (int) Math.signum(doubleValue());
+    }
 
     public int compareTo(UncertainDouble o) {
         if (equals(o)) {

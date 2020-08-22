@@ -83,6 +83,11 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
     BigDecimal bigDecimalValue();
 
 
+    default boolean isZero() {
+        return signum() == 0;
+    }
+
+    int signum();
 
     int compareTo(E f);
 

@@ -6,7 +6,8 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends AdditiveMonoidElement<E> {
+public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
+    extends AdditiveMonoidElement<E> {
 
     @Override
     AdditiveGroup<E> getStructure();

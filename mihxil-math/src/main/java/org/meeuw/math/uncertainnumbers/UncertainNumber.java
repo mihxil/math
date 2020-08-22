@@ -87,7 +87,10 @@ public interface UncertainNumber<N extends Number> {
         return new ImmutableUncertainNumber<>(
             o.add(getValue(), summand.getValue()),
             o.sqrt(o.add(o.sqr(u), o.sqr(mu))));
+    }
 
+    default int sgn() {
+        return  operations().signum(getValue());
     }
 
     default boolean equals(Object value, int sds) {

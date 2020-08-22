@@ -67,6 +67,11 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
      }
 
      @Override
+     public int signum() {
+         return Long.signum(value);
+     }
+
+     @Override
      public int compareTo(NaturalNumber naturalNumber) {
          return Long.compare(value, naturalNumber.value);
      }

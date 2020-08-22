@@ -4,7 +4,8 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorInterface<E extends FieldElement<E>, V extends VectorInterface<E, V>> extends Iterable<E> {
+public interface VectorInterface<E extends FieldElement<E>, V extends VectorInterface<E, V>>
+    extends Iterable<E> {
 
     V times(E multiplier);
 
