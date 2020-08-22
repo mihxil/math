@@ -26,6 +26,7 @@ class NaturalNumberTest implements MultiplicativeMonoidTheory<NaturalNumber>, Nu
 
     @Override
     public Arbitrary<NaturalNumber> elements() {
-        return Arbitraries.randomValue(r -> new NaturalNumber(Math.abs(r.nextInt(100_000))));
+        return Arbitraries.randomValue(r ->
+            new NaturalNumber(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
     }
 }
