@@ -44,6 +44,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
     }
 
+
     @Property
     default void structureSameInstance(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();

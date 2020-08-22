@@ -136,18 +136,4 @@ public class UncertainDoubleFormat extends Format {
     }
 
 
-    public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < basic.length; i++) {
-            int b = basic[i];
-            if (b != 0) {
-                builder.append(values[i].name());
-                if (b != 1) {
-                    builder.append(TextUtils.superscript(b));
-                }
-            }
-        }
-        return builder.toString();
-    }
-
 }

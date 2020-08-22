@@ -8,6 +8,8 @@ import java.util.stream.Stream;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.text.TextUtils;
+
 /**
  * @author Michiel Meeuwissen
  */
@@ -136,6 +138,20 @@ public class Utils {
     public static Stream<int[]> stream(int degree) {
         return Stream.iterate(new State(degree), State::next)
             .map(State::array);
+    }
+
+    public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < basic.length; i++) {
+            int b = basic[i];
+            if (b != 0) {
+                builder.append(values[i].toString());
+                if (b != 1) {
+                    builder.append(TextUtils.superscript(b));
+                }
+            }
+        }
+        return builder.toString();
     }
 
     static class State {
