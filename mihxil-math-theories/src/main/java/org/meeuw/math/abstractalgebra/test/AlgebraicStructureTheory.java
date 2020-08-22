@@ -19,7 +19,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     String STRUCTURE = "structure";
 
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings("unchecked")
     @Property()
     default void cardinality(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
@@ -27,12 +27,17 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         Logger log = getLogger();
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
+            Streamable<E> streamAble = (Streamable<E>) s;
             if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
-                assertThat(((Streamable) s).stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
+                assertThat(streamAble.stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
             } else {
-                assertThat(((Streamable) s).stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
+                assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
             }
-            ((Streamable<E>) s).stream().limit(500).forEach(e -> log.info(e::toString));
+            streamAble.stream().limit(100).forEach(e -> log.info(e::toString));
+            log.info("Skipping to 1000");
+            streamAble.stream().skip(1000).limit(100).forEach(e -> log.info(e::toString));
+            log.info("Skipping to 1000000");
+            streamAble.stream().skip(1000000).limit(100).forEach(e -> log.info(e::toString));
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
@@ -56,18 +61,19 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void operators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
-        @ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) throws Throwable {
+        @ForAll(ELEMENTS) E e1,
+        @ForAll(ELEMENTS) E e2) throws Throwable {
         AtomicLong count = counts.computeIfAbsent(s, k -> new AtomicLong(0));
         for (Operator o : s.getSupportedOperators()) {
             try {
                 E result = o.apply(e1, e2);
                 assertThat(result.getStructure()).isSameAs(s);
-                if (count.incrementAndGet() < 20) {
-                    getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " = " + result);
+                if (count.incrementAndGet() < 200) {
+                    getLogger().info(o.stringify(e1, e2) + " = " + result);
                 }
             } catch (Throwable ae) {
                 if (ae.getCause() instanceof ArithmeticException) {
-                    getLogger().info("" + e1 + " " + o.getSymbol() + " " + e2 + " -> " + ae.getMessage());
+                    getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {
                     throw ae.getCause();
                 }

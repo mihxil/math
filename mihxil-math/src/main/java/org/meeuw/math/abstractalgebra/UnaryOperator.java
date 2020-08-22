@@ -13,11 +13,11 @@ import org.meeuw.math.text.TextUtils;
  */
 public enum UnaryOperator implements AlgebraicUnaryOperator {
 
-    NEGATION(getUnaryOperator(AdditiveGroupElement.class, "negation"), "-"),
+    NEGATION(getUnaryOperator(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
 
-    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"), TextUtils.superscript("-1")),
+    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + TextUtils.superscript("-1")),
 
-    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), TextUtils.superscript("2"))
+    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + TextUtils.superscript("2"))
 
     ;
 
@@ -25,9 +25,9 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
     final Method method;
 
     @Getter
-    final String symbol;
+    final java.util.function.UnaryOperator<CharSequence> symbol;
 
-    UnaryOperator(Method method, String symbol) {
+    UnaryOperator(Method method, java.util.function.UnaryOperator<CharSequence> symbol) {
         this.method = method;
         this.symbol = symbol;
     }

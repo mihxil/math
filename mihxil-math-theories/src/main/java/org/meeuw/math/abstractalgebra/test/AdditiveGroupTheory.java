@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends AlgebraicStructureTheory<E> {
+public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends AdditiveMonoidTheory<E> {
 
     @Property
     default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
@@ -33,15 +33,6 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
     }
 
     @Property
-    default void additiveAssociativity (
-            @ForAll(ELEMENTS) E v1,
-            @ForAll(ELEMENTS) E v2,
-            @ForAll(ELEMENTS) E v3
-            ) {
-        assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
-    }
-
-    @Property
     default void repeatedPlus(
             @ForAll(ELEMENTS) E v1
             ) {
@@ -50,10 +41,5 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
         assertThat((v1.repeatedPlus(-5))).isEqualTo(v1.repeatedPlus(5).negation());
     }
 
-
-    @Property
-    default void zero(@ForAll("elements") E v) {
-        assertThat(v.plus(v.getStructure().zero())).isEqualTo(v);
-    }
 
 }

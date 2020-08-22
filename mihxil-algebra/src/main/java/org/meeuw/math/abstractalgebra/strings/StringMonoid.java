@@ -33,23 +33,40 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement> impl
             State::inc).map(State::get);
 
     }
+    private static final int firstChar;
+    private static final int lastChar;
+
+    static {
+       int f = 1;
+        while (! validChar(f)) {
+            f++;
+        }
+        firstChar = f;
+        f = Integer.MAX_VALUE;
+        while (! validChar(f)) {
+            f--;
+        }
+        lastChar = f;
+
+    }
+
+    protected static boolean validChar(int i) {
+        return  Character.isDefined(i) && !Character.isISOControl(i);
+    }
 
     public static class State {
-        private final int i;
-        private final char[] chars;
+        private final int[] chars;
 
-        public State(char[] chars, int i) {
+        public State(int[] chars) {
             this.chars = chars;
-            this.i = i;
         }
         public State() {
-            this.chars = new char[0];
-            this.i = -1;
+            this.chars = new int[0];
         }
 
         boolean filled() {
-            for (char c : chars) {
-                if (c != Character.MAX_VALUE) {
+            for (int c : chars) {
+                if (c != lastChar) {
                     return false;
                 }
             }
@@ -58,25 +75,35 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement> impl
 
         public State inc() {
             if (filled()) {
-                char[] newChars = new char[chars.length + 1];
-                Arrays.fill(newChars, Character.MIN_VALUE);
-                return new State(newChars, newChars.length - 1);
+                int[] newChars = new int[chars.length + 1];
+                Arrays.fill(newChars, firstChar);
+                return new State(newChars);
             } else {
-                char[] copy = Arrays.copyOf(chars, chars.length);
-                if (copy[i] == Character.MAX_VALUE) {
-                    copy[i] = Character.MIN_VALUE;
-                    return new State(copy, i - 1);
+                final int[] copy = Arrays.copyOf(chars, chars.length);
+                final int lastIndex = copy.length - 1;
+                if (copy[lastIndex] == lastChar) {
+                    copy[lastIndex] = firstChar;
+                    int j = lastIndex - 1;
+                    while (copy[j] == lastChar) {
+                        j--;
+                    }
+                    copy[j]++;
+                    return new State(copy);
                 } else {
-                    copy[i]++;
-                    return new State(copy, i);
+                    copy[lastIndex]++;
+                    while (!validChar(copy[lastIndex])) {
+                        copy[lastIndex]++;
+                    }
+                    return new State(copy);
                 }
 
             }
         }
 
         public StringElement get() {
-            return new StringElement(new String(chars));
+            return new StringElement(new String(chars, 0, chars.length));
         }
+
     }
 
 

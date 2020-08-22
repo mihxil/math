@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
@@ -14,9 +13,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber
-    extends AbstractNumberElement<PhysicalNumber>
-    implements MultiplicativeGroupElement<PhysicalNumber>, UncertainDouble {
+public abstract class PhysicalNumber implements MultiplicativeGroupElement<PhysicalNumber>, UncertainDouble {
 
     @Getter
     protected final UncertainDouble wrapped;

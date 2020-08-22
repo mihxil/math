@@ -21,7 +21,7 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>> extends
     }
 
     /**
-     * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicableElement)}}
+     * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicativeSemiGroupElement)}
      *
      * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
      */

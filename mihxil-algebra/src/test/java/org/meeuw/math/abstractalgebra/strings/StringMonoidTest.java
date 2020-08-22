@@ -13,6 +13,6 @@ class StringMonoidTest implements AdditiveMonoidTheory<StringElement> {
     @Override
     @Provide
     public Arbitrary<StringElement> elements() {
-        return Arbitraries.of("a", "ab", "abdef", "").map(StringElement::new);
+        return Arbitraries.of("a", "foo", "bar", "").map(StringElement::new);
     }
 }

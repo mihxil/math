@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
+import java.util.function.BinaryOperator;
 
 /**
  * The basic operations of arithmetic
@@ -12,20 +13,20 @@ import java.lang.reflect.Method;
  * @since 0.4
  */
 public enum Operator implements AlgebraicBinaryOperator {
-    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), "+"),
-    SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), "-"),
-    MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), "⋅"),
-    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), "/");
+    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + "+" + b),
+    SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), (a, b) -> a + "-" + b),
+    MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + "⋅" + b),
+    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + "/" + b);
 
     @Getter
     final Method method;
 
     @Getter
-    final String symbol;
+    final BinaryOperator<CharSequence> stringify;
 
-    Operator(Method method, String symbol) {
+    Operator(Method method, BinaryOperator<CharSequence> stringify) {
         this.method = method;
-        this.symbol = symbol;
+        this.stringify = stringify;
     }
 
 
@@ -34,6 +35,11 @@ public enum Operator implements AlgebraicBinaryOperator {
     @Override
     public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
         return (E) getMethod().invoke(element1, element2);
+    }
+
+    public  <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {
+        return stringify.apply(element1.toString(), element2.toString()).toString();
+
     }
 
     @SneakyThrows
