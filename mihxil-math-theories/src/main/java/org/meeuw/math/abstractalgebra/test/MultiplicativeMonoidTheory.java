@@ -14,7 +14,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElement<E>>
     extends MultiplicativeSemiGroupTheory<E> {
 
- @Property
+    @Property
+    default void one(
+        @ForAll(ELEMENTS) E v) {
+        assertThat(v.times(v.getStructure().one())).isEqualTo(v);
+    }
+
+
+    @Property
     default void powExponentZero(
          @ForAll(ELEMENTS) E v1
     )  {

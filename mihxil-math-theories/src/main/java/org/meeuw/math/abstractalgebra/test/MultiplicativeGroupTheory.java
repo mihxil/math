@@ -28,11 +28,6 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
         }
     }
-    @Property
-    default void one(
-        @ForAll(ELEMENTS) E v) {
-        assertThat(v.times(v.getStructure().one())).isEqualTo(v);
-    }
 
     @Property
     default void powNegativeExponents(
