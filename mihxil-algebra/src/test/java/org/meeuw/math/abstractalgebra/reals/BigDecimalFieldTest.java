@@ -29,8 +29,6 @@ class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheor
 
         assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("5e-19");
 
-
-
         assertThat(of("5").getUncertainty()).isEqualTo("0");
     }
 

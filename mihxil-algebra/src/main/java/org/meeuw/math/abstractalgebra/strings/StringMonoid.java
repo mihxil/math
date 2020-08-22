@@ -33,25 +33,11 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement> impl
             State::inc).map(State::get);
 
     }
-    private static final int firstChar;
-    private static final int lastChar;
-
-    static {
-       int f = 1;
-        while (! validChar(f)) {
-            f++;
-        }
-        firstChar = f;
-        f = Integer.MAX_VALUE;
-        while (! validChar(f)) {
-            f--;
-        }
-        lastChar = f;
-
-    }
+    private static final int firstChar = 32;
+    private static final int lastChar = 195101;
 
     protected static boolean validChar(int i) {
-        return  Character.isDefined(i) && !Character.isISOControl(i);
+        return  Character.isDefined(i) && (Character.isLetterOrDigit(i) || Character.isSpaceChar(i));
     }
 
     public static class State {
@@ -96,7 +82,6 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement> impl
                     }
                     return new State(copy);
                 }
-
             }
         }
 

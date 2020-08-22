@@ -13,6 +13,8 @@ import javax.validation.constraints.NotNull;
  */
 public class Utils {
 
+    private Utils() {}
+
     /**
      * 1000 decimals of pi
      */
