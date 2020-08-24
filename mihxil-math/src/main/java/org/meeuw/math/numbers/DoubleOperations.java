@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class DoubleOperations extends NumberOperations<Double> {
+public strictfp class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     public static final DoubleOperations INSTANCE = new DoubleOperations();
 

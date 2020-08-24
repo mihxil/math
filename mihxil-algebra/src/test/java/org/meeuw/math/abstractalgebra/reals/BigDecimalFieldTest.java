@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheory<BigDecimalElement>  {
+strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheory<BigDecimalElement>  {
 
     @Test
     public void test() {
@@ -22,13 +22,17 @@ class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheor
 
     @Test
     public void uncertainty() {
-        assertThat(of(5).getUncertainty()).isEqualTo("1e-15");
-        assertThat(of(50).getUncertainty()).isEqualTo("1e-14");
-        assertThat(of(5e-4).getUncertainty()).isEqualTo("1e-19");
+        assertThat(of(5).getUncertainty()).isEqualTo("8.9E-16");
+        assertThat(of(50).getUncertainty()).isEqualTo("7.2E-15");
+        assertThat(of(5e-4).getUncertainty()).isEqualTo("1.1E-19");
 
-        assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("5e-19");
+        assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("5.5E-19");
 
         assertThat(of("5").getUncertainty()).isEqualTo("0");
+        assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("1");
+        assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("1.4142135623730951");
+
+
     }
 
     @Provide

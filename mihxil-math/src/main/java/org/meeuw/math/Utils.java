@@ -154,6 +154,16 @@ public class Utils {
         return builder.toString();
     }
 
+    /**
+     * Given a double value, returns the bit the power of 2 exponent that the least significant bit in the IEEE 754 representation of the double represents.
+     *
+     * pow(2, <this value>) is an estimate of the 'uncertaintity' in this double. More precision it simply cannot represent.
+     */
+    public static int leastSignifantBit(double doubleValue) {
+        int exponent = (int) ((((Double.doubleToLongBits(doubleValue) & 0x7ff0000000000000L) >> 52) - 1023) - 52);
+        return exponent;
+    }
+
     static class State {
         final int degree;
         final int[] counters;

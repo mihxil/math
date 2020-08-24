@@ -3,6 +3,7 @@ package org.meeuw.math.uncertainnumbers;
 import java.math.BigDecimal;
 
 import org.meeuw.math.numbers.NumberOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 
 /**
  * @author Michiel Meeuwissen
@@ -15,6 +16,14 @@ public interface UncertainNumber<N extends Number> {
     N getUncertainty();
 
     NumberOperations<N> operations();
+
+    /**
+     * When calculating the uncertainty it is normally enough to use a version of {@link #operations()} that does calculations
+     * with less precision.
+     */
+    default UncertaintyNumberOperations<N> uncertaintyOperations() {
+        return (UncertaintyNumberOperations<N>) operations();
+    }
 
     default UncertainNumber<N> dividedBy(N divisor) {
         return times(operations().reciprocal(divisor));
@@ -40,8 +49,9 @@ public interface UncertainNumber<N extends Number> {
         N mweight = o.reciprocal(o.sqr(mu));
         N value = o.add(o.multiply(getValue(), weight), o.divide(o.multiply(m.getValue(), mweight), o.multiply(weight,  mweight)));
 
+        NumberOperations<N> uo = uncertaintyOperations();
         // I'm not absolutely sure about this:
-        N uncertaintity = o.reciprocal(o.sqrt(o.add(weight, mweight)));
+        N uncertaintity = uo.reciprocal(uo.sqrt(uo.add(weight, mweight)));
         return new ImmutableUncertainNumber<>(value, uncertaintity);
     }
 
@@ -50,8 +60,10 @@ public interface UncertainNumber<N extends Number> {
      */
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
+        UncertaintyNumberOperations<N> uo = uncertaintyOperations();
+
         return new ImmutableUncertainNumber<>(o.multiply(multiplier, getValue()),
-            o.multiplyUncertainty(multiplier,  getUncertainty()));
+            uo.multiplyUncertainty(multiplier,  getUncertainty()));
     }
 
 
@@ -61,9 +73,12 @@ public interface UncertainNumber<N extends Number> {
         N u = o.divide(getUncertainty(), getValue());
         N mu = o.divide(multiplier.getUncertainty(),  multiplier.getValue());
         N newValue = o.multiply(getValue(), multiplier.getValue());
+
+        NumberOperations<N> uo = uncertaintyOperations();
+
         return new ImmutableUncertainNumber<>(
             newValue,
-            o.multiply(o.abs(newValue), o.sqrt(o.add(o.sqr(u), o.sqr(mu))))
+            uo.multiply(uo.abs(newValue), uo.sqrt(uo.add(uo.sqr(u), uo.sqr(mu))))
         );
     }
 
@@ -86,7 +101,7 @@ public interface UncertainNumber<N extends Number> {
         N mu = summand.getUncertainty();
         return new ImmutableUncertainNumber<>(
             o.add(getValue(), summand.getValue()),
-            o.sqrt(o.add(o.sqr(u), o.sqr(mu))));
+            (o.sqrt(o.add(o.sqr(u), o.sqr(mu)))));
     }
 
     default int sgn() {

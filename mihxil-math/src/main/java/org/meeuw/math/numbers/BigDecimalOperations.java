@@ -7,11 +7,16 @@ import java.math.MathContext;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalOperations extends NumberOperations<BigDecimal> {
+public strictfp class BigDecimalOperations implements UncertaintyNumberOperations<BigDecimal> {
 
-    public static final BigDecimalOperations INSTANCE = new BigDecimalOperations();
+    public static final BigDecimalOperations INSTANCE = new BigDecimalOperations(MathContext.DECIMAL128);
 
-    private MathContext mathContext = MathContext.DECIMAL128;
+    private final MathContext mathContext;
+
+    public BigDecimalOperations(MathContext mathContext) {
+        this.mathContext = mathContext;
+    }
+
     @Override
     public BigDecimal sqr(BigDecimal v) {
         return v.multiply(v);
@@ -20,7 +25,7 @@ public class BigDecimalOperations extends NumberOperations<BigDecimal> {
     @Override
     public BigDecimal sqrt(BigDecimal v) {
         //return v.sqrt(mathContext);
-        return BigDecimal.valueOf(Math.sqrt(v.doubleValue()));
+        return BigDecimal.valueOf(Math.sqrt(v.doubleValue())).round(mathContext);
     }
 
     @Override

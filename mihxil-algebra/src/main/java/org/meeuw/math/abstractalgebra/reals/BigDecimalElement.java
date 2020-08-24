@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import java.math.BigDecimal;
+import java.math.*;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
@@ -18,9 +18,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     implements NumberFieldElement<BigDecimalElement>, UncertainNumber<BigDecimal> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
+
+
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
-    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-100"));
-    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e), new BigDecimal("1e-100"));
+    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-" + (Utils.PI.length() - 1)));
+    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e), new BigDecimal("1e-" +  (Utils.e.length() - 1)));
 
     private final BigDecimal value;
     private final BigDecimal uncertainty;
@@ -33,8 +35,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     }
 
     public static BigDecimal uncertainty(double doubleValue) {
-        BigDecimal u = BigDecimal.valueOf(doubleValue / 1e16);
-        return BigDecimal.ONE.scaleByPowerOfTen(u.precision() - u.scale());
+        return new BigDecimal(2).pow(Utils.leastSignifantBit(doubleValue), new MathContext(2, RoundingMode.UP));
     }
 
     public BigDecimalElement(BigDecimal value, BigDecimal uncertainty) {

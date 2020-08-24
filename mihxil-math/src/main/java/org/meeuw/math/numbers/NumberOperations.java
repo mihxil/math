@@ -6,9 +6,9 @@ import java.math.BigDecimal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class NumberOperations<N extends Number> {
+public interface NumberOperations<N extends Number> {
 
-    public static <N extends Number> NumberOperations<N> of(N n) {
+    static <N extends Number> NumberOperations<N> of(N n) {
         if (n instanceof BigDecimal) {
             return (NumberOperations<N>) BigDecimalOperations.INSTANCE;
         } else {
@@ -16,19 +16,19 @@ public abstract class NumberOperations<N extends Number> {
         }
     }
 
-    public abstract N sqr(N v);
+    N sqr(N v);
 
-    public abstract N sqrt(N v);
+    N sqrt(N v);
 
-    public abstract N abs(N v);
+    N abs(N v);
 
-    public abstract N reciprocal(N v);
+    N reciprocal(N v);
 
-    public abstract N negate(N v);
+    N negate(N v);
 
-    public abstract N multiply(N n1, N n2);
+    N multiply(N n1, N n2);
 
-    public N multiply(int n1, N n2) {
+    default N multiply(int n1, N n2) {
         N result = n2;
         for (int i = n1; i > 1; i--) {
             result = add(result, n2);
@@ -37,39 +37,36 @@ public abstract class NumberOperations<N extends Number> {
     }
 
 
-    public abstract N divide(N n1, N n2);
+    N divide(N n1, N n2);
 
-    public abstract N add(N n1, N n2);
+    N add(N n1, N n2);
 
-    public  N minus(N n1, N n2) {
+    default N minus(N n1, N n2) {
         return add(n1, negate(n2));
     }
 
-    public abstract N pow(N n1, int exponent);
+    N pow(N n1, int exponent);
 
-    public abstract boolean lt(N n1, N n2);
+    boolean lt(N n1, N n2);
 
-    public abstract boolean lte(N n1, N n2);
+    boolean lte(N n1, N n2);
 
-    public  boolean gt(N n1, N n2) {
+    default boolean gt(N n1, N n2) {
         return ! lte(n1, n2);
     }
 
-    public boolean gte(N n1, N n2) {
+    default boolean gte(N n1, N n2) {
         return ! lt(n1, n2);
     }
 
-    public abstract boolean isFinite(N n1);
+    boolean isFinite(N n1);
 
-    public abstract boolean isNaN(N n1);
+    boolean isNaN(N n1);
 
-    public abstract int signum(N n);
+    int signum(N n);
 
-    public abstract  BigDecimal bigDecimalValue(N n);
+    BigDecimal bigDecimalValue(N n);
 
 
-    public N multiplyUncertainty(N multiplier, N uncertainty) {
-        return multiply(abs(multiplier),  uncertainty);
-    }
 
 }
