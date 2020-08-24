@@ -8,7 +8,8 @@ import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
 /**
- * A real number (backend by a double)
+ * A real number (backend by a double). No considerations for uncertainty propagation.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -25,7 +26,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
 
     public static RealNumber[] of(double... values) {
         return Arrays.stream(values)
-            .mapToObj(v -> RealNumber.of(Double.valueOf(v))).toArray(RealNumber[]::new);
+            .mapToObj(RealNumber::of).toArray(RealNumber[]::new);
     }
 
     public RealNumber(Double value) {
@@ -102,18 +103,17 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
         if (o == null || getClass() != o.getClass()) return false;
 
         RealNumber that = (RealNumber) o;
-
-        return equalsWithEpsilon(that);
+        return getStructure().getEquivalence().test(this, that);
     }
 
     @Override
     public int hashCode() {
-        return Double.hashCode(value);
+        return 0;
     }
 
     @Override
     public RealNumber epsilon() {
-        return new RealNumber(Utils.pow2(Utils.leastSignifantBit(value)));
+        return new RealNumber(10 * Utils.pow2(Utils.leastSignifantBit(value)));
     }
 
 }

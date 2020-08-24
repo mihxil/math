@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -183,12 +184,12 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldMatrix3<?> that = (FieldMatrix3<?>) o;
-
+        FieldMatrix3<E> that = (FieldMatrix3<E>) o;
+        Equivalence<E> equivalence = values[0][0].getStructure().getEquivalence();
         boolean result = true;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                result &= values[i][j].equalsWithEpsilon((E) that.values[i][j], values[i][j].epsilon());
+                result &= equivalence.test(values[i][j], that.values[i][j]);
             }
         }
         return result;
@@ -196,6 +197,6 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
 
     @Override
     public int hashCode() {
-        return Arrays.deepHashCode(values);
+        return 0;
     }
 }

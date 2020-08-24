@@ -17,4 +17,6 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> {
      */
     AlgebraicStructure<E> getStructure();
 
+
+
 }
