@@ -2,8 +2,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.Logger;
@@ -77,9 +76,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
 
-
     @Provide
     default Arbitrary<AlgebraicStructure<? extends E>> structure() {
         return Arbitraries.of(elements().sample().getStructure());
     }
+
 }

@@ -1,7 +1,5 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import lombok.EqualsAndHashCode;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -9,11 +7,15 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
  * A square 3x3 matrix of {@code double}s
+ *
+ * Note this does not use {@link org.meeuw.math.uncertainnumbers.UncertainDouble} to back the matrix, but simple 'doubles'
+ * This means that rounding errors are not considered, and theory testing may involve some fiddling with {@link jdk
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@EqualsAndHashCode
-public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
+public strictfp class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
+
 
     final double[][] values;
 
@@ -145,6 +147,20 @@ public class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     }
     private int skip(int i, int skip) {
         return i < skip ? i : i + 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Matrix3 matrix3 = (Matrix3) o;
+        return getStructure().getEquivalence().test(this, matrix3);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 
     @Override

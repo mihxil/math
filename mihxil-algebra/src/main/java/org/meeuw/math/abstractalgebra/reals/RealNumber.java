@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 
@@ -112,7 +113,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
 
     @Override
     public RealNumber epsilon() {
-        return new RealNumber(Math.max(1e-15d, value / 1e15d));
+        return new RealNumber(Utils.pow2(Utils.leastSignifantBit(value)));
     }
 
 }

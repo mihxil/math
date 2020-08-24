@@ -1,7 +1,8 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
+
+import org.meeuw.math.Equivalence;
 
 /**
  * The base interface of all algebraic structures.
@@ -31,4 +32,12 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
      */
     Class<E> getElementClass();
 
+    /**
+     * Returns a functional interface that can check whether two elements of this structure are equal.
+     *
+     * Default this simple returns {@link Objects#equals(Object, Object)}.
+     */
+    default Equivalence<E> getEquivalence() {
+        return Objects::equals;
+    }
 }

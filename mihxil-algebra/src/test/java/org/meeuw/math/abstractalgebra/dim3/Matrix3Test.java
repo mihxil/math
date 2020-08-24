@@ -2,6 +2,10 @@ package org.meeuw.math.abstractalgebra.dim3;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import net.jqwik.api.lifecycle.AfterProperty;
+import net.jqwik.api.lifecycle.BeforeProperty;
+
+import java.math.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
@@ -13,6 +17,19 @@ import static org.meeuw.math.abstractalgebra.dim3.Matrix3.of;
  * @author Michiel Meeuwissen
  */
 class Matrix3Test implements MultiplicativeGroupTheory<Matrix3> {
+
+
+    @BeforeProperty
+    public void approx() {
+        Matrix3Group.INSTANCE.setDoubleEquivalence((v1, v2) -> round(v1) == round(v2));
+    }
+    @AfterProperty
+    public  void shutdown() {
+        Matrix3Group.INSTANCE.clearDoubleEquivalence();
+    }
+    public static double round(double v) {
+        return BigDecimal.valueOf(v).round(new MathContext(2)).setScale(0, RoundingMode.HALF_UP).doubleValue();
+    }
 
     @Test
     void times() {
@@ -32,17 +49,7 @@ class Matrix3Test implements MultiplicativeGroupTheory<Matrix3> {
                 .isEqualTo(example);
     }
 
-    @Test
-    void pow() {
-    }
 
-    @Test
-    void testTimes() {
-    }
-
-    @Test
-    void testTimes1() {
-    }
 
     @Override
     public Arbitrary<Matrix3> elements() {

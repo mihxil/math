@@ -6,12 +6,16 @@ import java.util.stream.Stream;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
+ * The 'Monoid' (multiplicative and additive) of natural numbers.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
-    implements MultiplicativeMonoid<NaturalNumber>,
-    AdditiveMonoid<NaturalNumber>, Streamable<NaturalNumber> {
+    implements
+    MultiplicativeMonoid<NaturalNumber>,
+    AdditiveMonoid<NaturalNumber>,
+    Streamable<NaturalNumber> {
 
     private static final Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION, Operator.ADDITION)));
 

@@ -28,13 +28,27 @@ public class Utils {
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */
     public static double pow10(int i) {
+        return pow(10, i);
+    }
+
+    /**
+       * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
+     */
+    public static double pow2(int i) {
+        return pow(2, i);
+    }
+
+    /**
+     * Returns base to the power i, a utility in java.lang.Math for that lacks.
+     */
+    public static double pow(int base, int i) {
         double result = 1;
         while (i > 0) {
-            result *= 10;
+            result *= base;
             i--;
         }
         while (i < 0) {
-            result /= 10;
+            result /= base;
             i++;
         }
         assert i == 0;
