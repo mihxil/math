@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 
@@ -24,5 +25,10 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     @Override
     public Cardinality getCardinality() {
         return RealField.INSTANCE.getCardinality();
+    }
+
+    @Override
+    public Equivalence<Rotation> getEquivalence() {
+        return (e1, e2) -> e1.rot.getStructure().getEquivalence().test(e1.rot, e2.rot);
     }
 }

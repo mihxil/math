@@ -40,7 +40,7 @@ public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
      * Using  {@link #epsilon()}, checks whether an other value is 'equal', but consider rounding errors, which would not make the values actually different.
      */
     default boolean equalsWithEpsilon(E other) {
-        return equalsWithEpsilon(other, epsilon());
+        return equalsWithEpsilon(other, getStructure().max(epsilon(), other.epsilon()));
     }
 
 }

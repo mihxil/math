@@ -105,8 +105,7 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
         if (o == null || getClass() != o.getClass()) return false;
 
         Rotation rotation = (Rotation) o;
-
-        return rot.equals(rotation.rot);
+        return getStructure().getEquivalence().test(this, rotation);
     }
 
     @Override

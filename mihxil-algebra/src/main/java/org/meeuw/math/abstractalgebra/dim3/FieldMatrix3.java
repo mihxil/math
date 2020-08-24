@@ -185,7 +185,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
         if (o == null || getClass() != o.getClass()) return false;
 
         FieldMatrix3<E> that = (FieldMatrix3<E>) o;
-        Equivalence<E> equivalence = values[0][0].getStructure().getEquivalence();
+        Equivalence<E> equivalence = elementStructure.getEquivalence();
         boolean result = true;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
