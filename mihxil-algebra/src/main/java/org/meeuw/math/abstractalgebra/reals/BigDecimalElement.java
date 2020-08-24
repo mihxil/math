@@ -167,6 +167,6 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return 0;
     }
 }
