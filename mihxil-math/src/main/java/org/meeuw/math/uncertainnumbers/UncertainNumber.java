@@ -101,7 +101,8 @@ public interface UncertainNumber<N extends Number> {
         N mu = summand.getUncertainty();
         return new ImmutableUncertainNumber<>(
             o.add(getValue(), summand.getValue()),
-            (o.sqrt(o.add(o.sqr(u), o.sqr(mu)))));
+            (o.sqrt(o.add(o.sqr(u), o.sqr(mu))))
+        );
     }
 
     default int sgn() {

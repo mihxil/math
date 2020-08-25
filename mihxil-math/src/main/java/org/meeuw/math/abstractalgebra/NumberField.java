@@ -14,8 +14,26 @@ public interface NumberField<E extends NumberFieldElement<E>> extends Field<E>  
         return NumberFieldElement::equalsWithEpsilon;
     }
 
-    default E max(E e1, E e2) {
-        return e1.compareTo(e2 ) > 0 ? e1 : e2;
+    @SuppressWarnings("unchecked")
+    default E max(E e, E... es) {
+        E result = e;
+        for (E e2 : es) {
+            if (e2.compareTo(result) > 0) {
+                result = e2;
+            }
+        }
+        return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    default E min(E e, E... es) {
+        E result = e;
+        for (E e2 : es) {
+            if (e2.compareTo(result) < 0) {
+                result = e2;
+            }
+        }
+        return result;
     }
 
 }

@@ -55,6 +55,23 @@ public class Utils {
         return result;
     }
 
+    /**
+     * Returns base to the power i, a utility in java.lang.Math for that lacks.
+     */
+    public static double pow(double base, int i) {
+        double result = 1;
+        while (i > 0) {
+            result *= base;
+            i--;
+        }
+        while (i < 0) {
+            result /= base;
+            i++;
+        }
+        assert i == 0;
+        return result;
+    }
+
      /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      */
@@ -174,8 +191,8 @@ public class Utils {
      * pow(2, <this value>) is an estimate of the 'uncertaintity' in this double. More precision it simply cannot represent.
      */
     public static int leastSignifantBit(double doubleValue) {
-        int exponent = (int) ((((Double.doubleToLongBits(doubleValue) & 0x7ff0000000000000L) >> 52) - 1023) - 52);
-        return exponent;
+        long exponent = (int) ((((Double.doubleToLongBits(doubleValue) & 0x7ff0000000000000L) >> 52) - 1023) - 51);
+        return (int) exponent;
     }
 
     static class State {

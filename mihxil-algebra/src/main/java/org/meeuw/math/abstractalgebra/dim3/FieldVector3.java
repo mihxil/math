@@ -22,7 +22,7 @@ public class FieldVector3<E extends NumberFieldElement<E>> {
     }
 
     public static FieldVector3<RealNumber> of(double x, double y, double z) {
-        return new FieldVector3<>(new RealNumber(x), new RealNumber(y), new RealNumber(z));
+        return new FieldVector3<>(RealNumber.of(x), RealNumber.of(y), RealNumber.of(z));
     }
 
     public static FieldVector3<BigDecimalElement> of(BigDecimal x, BigDecimal y, BigDecimal z) {

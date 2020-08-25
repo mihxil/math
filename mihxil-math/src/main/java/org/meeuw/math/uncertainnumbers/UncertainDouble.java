@@ -1,9 +1,6 @@
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
-import java.util.function.Predicate;
 
 import org.meeuw.math.numbers.SignedNumberElement;
 
@@ -117,32 +114,8 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumberElement
         return BigDecimal.valueOf(doubleValue());
     }
 
-    default ConfidenceInterval getConfidenceInterval(double sds) {
-        return ConfidenceInterval.of(doubleValue(), getUncertainty(), sds);
-    }
-
-    @Getter
-    class ConfidenceInterval implements Predicate<Double> {
-        private final double low;
-        private final double high;
-
-        public static ConfidenceInterval of(double value, double uncertainty, double interval) {
-            double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * NaN_EPSILON) : uncertainty * interval;
-            return new ConfidenceInterval(value - halfRange, value + halfRange);
-        }
-
-        public ConfidenceInterval(double low, double high) {
-            this.low = low;
-            this.high = high;
-        }
-
-        public boolean contains(double value) {
-            return this.low <= value && value <= this.high;
-        }
-        @Override
-        public boolean test(Double value) {
-            return value != null && contains(value);
-        }
+    default DoubleConfidenceInterval getConfidenceInterval(double sds) {
+        return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), sds);
     }
 
 }

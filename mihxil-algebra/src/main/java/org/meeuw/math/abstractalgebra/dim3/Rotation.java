@@ -5,6 +5,8 @@ import java.util.function.UnaryOperator;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
+import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -21,9 +23,9 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
 
     private Rotation(double[][] values) {
         rot = FieldMatrix3.of(
-            new RealNumber(values[0][0]), new RealNumber(values[0][1]), new RealNumber(values[0][2]),
-            new RealNumber(values[1][0]), new RealNumber(values[1][1]), new RealNumber(values[1][2]),
-            new RealNumber(values[2][0]), new RealNumber(values[2][1]), new RealNumber(values[2][2])
+            of(values[0][0]), of(values[0][1]), of(values[0][2]),
+            of(values[1][0]), of(values[1][1]), of(values[1][2]),
+            of(values[2][0]), of(values[2][1]), of(values[2][2])
         );
     }
 

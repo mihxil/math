@@ -1,11 +1,14 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 
 /**
  * A real number (backend by a double). No considerations for uncertainty propagation.
@@ -13,17 +16,20 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RealNumber extends AbstractNumberElement<RealNumber> implements  NumberFieldElement<RealNumber> {
+public class RealNumber extends AbstractNumberElement<RealNumber> implements NumberFieldElement<RealNumber> {
 
-    public static final int EPSILON_FACTOR = 100000;
+    public static final int EPSILON_FACTOR = 1;
 
-    public static final RealNumber ONE = new RealNumber(1d);
-    public static final RealNumber ZERO = new RealNumber(0d);
+    public static final RealNumber ONE = new RealNumber(1d, 0);
+    public static final RealNumber ZERO = new RealNumber(0d, 0);
 
-    public final double value;
+    @Getter
+    final double value;
+    @Getter
+    final double uncertainty;
 
-    public static RealNumber of(Double value) {
-        return new RealNumber(value);
+    public static RealNumber of(double value) {
+        return new RealNumber(value, Utils.pow2(Utils.leastSignifantBit(value)));
     }
 
     public static RealNumber[] of(double... values) {
@@ -31,28 +37,40 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
             .mapToObj(RealNumber::of).toArray(RealNumber[]::new);
     }
 
-    public RealNumber(Double value) {
+    public RealNumber(double value, double uncertaintity) {
         this.value = value;
+        this.uncertainty = uncertaintity;
     }
 
     @Override
     public RealNumber plus(RealNumber summand) {
-        return new RealNumber(value + summand.value);
+        return new RealNumber(
+            value + summand.value,
+            uncertainty + summand.uncertainty
+        );
     }
 
     @Override
     public RealNumber negation() {
-        return new RealNumber(-1 * value);
+        return new RealNumber(-1 * value, uncertainty);
     }
 
     @Override
     public RealNumber times(RealNumber multiplier) {
-        return new RealNumber(value * multiplier.value);
+        if (multiplier == ONE) {
+            return this;
+        }
+        double newValue = value * multiplier.value;
+        return new RealNumber(newValue,
+            Math.abs(newValue) * (uncertainty / value + multiplier.uncertainty / multiplier.uncertainty)
+        );
     }
 
     @Override
     public RealNumber pow(int exponent) {
-        return new RealNumber(Math.pow(value, exponent));
+        return new RealNumber(Math.pow(value, exponent),
+            uncertainty * (Math.abs(exponent) *  Utils.pow(value, exponent - 1))
+        );
     }
 
     @Override
@@ -81,7 +99,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
     }
 
     public RealNumber times(double multiplier) {
-        return new RealNumber(value * multiplier);
+        return new RealNumber(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
     @Override
@@ -91,6 +109,9 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
 
     @Override
     public int compareTo(RealNumber o) {
+        if (getConfidenceInterval().contains(o.value) || o.getConfidenceInterval().contains(value)) {
+            return 0;
+        }
         return Double.compare(value, o.value);
     }
 
@@ -115,11 +136,10 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements  Nu
 
     @Override
     public RealNumber epsilon() {
-        double v = value;
-        if (v == 0) {
-            v = 1;
-        }
-        return new RealNumber(EPSILON_FACTOR * Utils.pow2(Utils.leastSignifantBit(v)));
+        return new RealNumber(EPSILON_FACTOR * uncertainty, 0);
     }
 
+    public DoubleConfidenceInterval getConfidenceInterval() {
+        return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), EPSILON_FACTOR);
+    }
 }
