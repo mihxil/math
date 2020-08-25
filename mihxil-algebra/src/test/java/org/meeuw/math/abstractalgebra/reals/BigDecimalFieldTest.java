@@ -22,15 +22,15 @@ strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, Nu
 
     @Test
     public void uncertainty() {
-        assertThat(of(5).getUncertainty()).isEqualTo("8.9E-16");
-        assertThat(of(50).getUncertainty()).isEqualTo("7.2E-15");
-        assertThat(of(5e-4).getUncertainty()).isEqualTo("1.1E-19");
+        assertThat(of(5).getUncertainty()).isEqualTo("1.8E-15");
+        assertThat(of(50).getUncertainty()).isEqualTo("1.5E-14");
+        assertThat(of(5e-4).getUncertainty()).isEqualTo("2.2E-19");
 
-        assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("5.5E-19");
+        assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("1.10E-18");
 
         assertThat(of("5").getUncertainty()).isEqualTo("0");
-        assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("1");
-        assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("1.4142135623730951");
+        assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("2");
+        assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("2.8284271247461903");
 
 
     }
