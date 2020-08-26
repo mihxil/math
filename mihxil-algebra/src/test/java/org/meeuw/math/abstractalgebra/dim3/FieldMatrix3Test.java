@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -15,6 +14,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@PropertyDefaults(tries = 100)
 class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber>> {
 
 
@@ -39,10 +39,12 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     public Arbitrary<FieldMatrix3<RationalNumber>> elements() {
         return
             Arbitraries.randoms().map(RationalNumbers.INSTANCE::nextRandom).list().ofSize(9)
-            .map( l -> FieldMatrix3.of(
-                l.get(0), l.get(1), l.get(2),
-                l.get(3), l.get(4), l.get(5),
-                l.get(6), l.get(7), l.get(8)
-            )).filter(e -> ! e.determinant().equals(RationalNumber.ZERO));
+
+                .map( l -> FieldMatrix3.of(
+                    l.get(0), l.get(1), l.get(2),
+                    l.get(3), l.get(4), l.get(5),
+                    l.get(6), l.get(7), l.get(8)
+                )).filter(e -> ! e.determinant().equals(RationalNumber.ZERO))
+            ;
     }
 }
