@@ -195,6 +195,10 @@ public class Utils {
         return (int) exponent;
     }
 
+    public static double uncertaintyForDouble(double doubleValue) {
+        return pow2(leastSignifantBit(doubleValue));
+    }
+
     static class State {
         final int degree;
         final int[] counters;

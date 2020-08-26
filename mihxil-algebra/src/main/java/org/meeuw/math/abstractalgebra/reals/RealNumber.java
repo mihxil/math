@@ -10,6 +10,8 @@ import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 
+import static org.meeuw.math.Utils.uncertaintyForDouble;
+
 /**
  * A real number (backend by a double). No considerations for uncertainty propagation.
  *
@@ -29,7 +31,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
     final double uncertainty;
 
     public static RealNumber of(double value) {
-        return new RealNumber(value, Utils.pow2(Utils.leastSignifantBit(value)));
+        return new RealNumber(value, uncertaintyForDouble(value));
     }
 
     public static RealNumber[] of(double... values) {
@@ -44,9 +46,10 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
 
     @Override
     public RealNumber plus(RealNumber summand) {
+        double newValue = value + summand.value;
         return new RealNumber(
             value + summand.value,
-            uncertainty + summand.uncertainty
+            uncertainty + summand.uncertainty + uncertaintyForDouble(newValue)
         );
     }
 
@@ -62,14 +65,15 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         }
         double newValue = value * multiplier.value;
         return new RealNumber(newValue,
-            Math.abs(newValue) * (uncertainty / value + multiplier.uncertainty / multiplier.uncertainty)
+            Math.abs(newValue) * (uncertainty / value + multiplier.uncertainty / multiplier.uncertainty) + uncertaintyForDouble(newValue)
         );
     }
 
     @Override
     public RealNumber pow(int exponent) {
-        return new RealNumber(Math.pow(value, exponent),
-            uncertainty * (Math.abs(exponent) *  Utils.pow(value, exponent - 1))
+        double newValue = Math.pow(value, exponent);
+        return new RealNumber(newValue,
+            uncertainty * (Math.abs(exponent) *  Utils.pow(value, exponent - 1)) +  uncertaintyForDouble(newValue)
         );
     }
 
