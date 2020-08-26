@@ -2,6 +2,7 @@ language: java
 jdk:
   - openjdk11
 
+install: skip
 script: mvn --fail-at-end -T 1C clean test install
 after_script:
  - bash <(curl -s https://codecov.io/bash)
