@@ -26,6 +26,6 @@ class RealNumberTest implements FieldTheory<RealNumber>, NumberTheory<RealNumber
 
     @Provide
     public Arbitrary<RealNumber> elements() {
-        return Arbitraries.randomValue((random) -> of(random.nextDouble())).injectDuplicates(0.1);
+        return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 100)).injectDuplicates(0.1);
     }
 }
