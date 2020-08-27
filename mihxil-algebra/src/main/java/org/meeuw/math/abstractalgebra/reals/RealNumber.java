@@ -20,10 +20,11 @@ import static org.meeuw.math.Utils.uncertaintyForDouble;
  */
 public class RealNumber extends AbstractNumberElement<RealNumber> implements NumberFieldElement<RealNumber> {
 
-    public static final int EPSILON_FACTOR = 1;
+    public static final int EPSILON_FACTOR = 2;
 
     public static final RealNumber ONE = new RealNumber(1d, 0);
     public static final RealNumber ZERO = new RealNumber(0d, 0);
+    public static final RealNumber SMALLEST = new RealNumber(0d, Utils.uncertaintyForDouble(0));
 
     @Getter
     final double value;
@@ -41,6 +42,12 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
 
     public RealNumber(double value, double uncertaintity) {
         this.value = value;
+        if (Double.isNaN(uncertaintity)) {
+            throw new IllegalArgumentException();
+        }
+        if (uncertaintity < 0) {
+            throw new IllegalArgumentException();
+        }
         this.uncertainty = uncertaintity;
     }
 
@@ -64,8 +71,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
             return this;
         }
         double newValue = value * multiplier.value;
+        if (newValue == 0) {
+            return RealNumber.SMALLEST;
+        }
         return new RealNumber(newValue,
-            Math.abs(newValue) * (uncertainty / value + multiplier.uncertainty / multiplier.uncertainty) + uncertaintyForDouble(newValue)
+            Math.abs(newValue) * (Math.abs(uncertainty / value) + Math.abs(multiplier.uncertainty / multiplier.value)) + uncertaintyForDouble(newValue)
         );
     }
 
@@ -73,7 +83,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
     public RealNumber pow(int exponent) {
         double newValue = Math.pow(value, exponent);
         return new RealNumber(newValue,
-            uncertainty * (Math.abs(exponent) *  Utils.pow(value, exponent - 1)) +  uncertaintyForDouble(newValue)
+            uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
         );
     }
 
@@ -106,6 +116,14 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         return new RealNumber(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
+    public RealNumber sin() {
+        return new RealNumber(Math.sin(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
+    }
+
+    public RealNumber cos() {
+        return new RealNumber(Math.cos(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
+    }
+
     @Override
     public int compareTo(Number o) {
         return Double.compare(value, o.doubleValue());
@@ -130,7 +148,8 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         if (o == null || getClass() != o.getClass()) return false;
 
         RealNumber that = (RealNumber) o;
-        return getStructure().getEquivalence().test(this, that);
+        boolean result = getStructure().getEquivalence().test(this, that);
+        return result;
     }
 
     @Override

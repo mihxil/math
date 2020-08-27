@@ -13,11 +13,16 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  */
 public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOperator<FieldVector3<RealNumber>> {
 
-    public static final Rotation ONE = new Rotation(new double[][]{
-        {1, 0, 0},
-        {0, 1, 0},
-        {0, 0, 1}
+
+    private static final RealNumber U = RealNumber.ONE;
+    private static final RealNumber Z = RealNumber.ZERO;
+
+    public static final Rotation ONE = new Rotation(new RealNumber[][]{
+        {U, Z, Z},
+        {Z, U, Z},
+        {Z, Z, U}
     });
+
 
     final FieldMatrix3<RealNumber> rot;
 
@@ -41,32 +46,33 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOper
     }
 
     public static Rotation Rx(double phi) {
-        double cos = Math.cos(phi);
-        double sin = Math.sin(phi);
-        return new Rotation(new double[][]{
-            {1, 0, 0},
-            {0, cos, -1 * sin},
-            {0, sin, cos},
+        RealNumber cos = RealNumber.of(phi).cos();
+        RealNumber sin = RealNumber.of(phi).sin();
+
+        return new Rotation(new RealNumber[][]{
+            {U, Z, Z},
+            {Z, cos, sin.negation()},
+            {Z, sin, cos},
         });
     }
 
     public static Rotation Ry(double phi) {
-        double cos = Math.cos(phi);
-        double sin = Math.sin(phi);
-        return new Rotation(new double[][]{
-            {cos, 0, sin},
-            {0, 1, 0},
-            {-1 * sin, 0, cos}
+        RealNumber cos = RealNumber.of(phi).cos();
+        RealNumber sin = RealNumber.of(phi).sin();
+        return new Rotation(new RealNumber[][]{
+            {cos, Z, sin},
+            {Z, U, Z},
+            {sin.negation(), Z, cos}
         });
     }
 
     public static Rotation Rz(double phi) {
-        double cos = Math.cos(phi);
-        double sin = Math.sin(phi);
-        return new Rotation(new double[][]{
-            {cos, -1 * sin, 0},
-            {sin, cos, 0},
-            {0, 0, 1}
+        RealNumber cos = RealNumber.of(phi).cos();
+        RealNumber sin = RealNumber.of(phi).sin();
+        return new Rotation(new RealNumber[][]{
+            {cos, sin.negation(), Z},
+            {sin, cos, Z},
+            {Z, Z, U}
         });
     }
 

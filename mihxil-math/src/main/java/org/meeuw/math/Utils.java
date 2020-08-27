@@ -42,6 +42,7 @@ public class Utils {
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
      */
     public static double pow(int base, int i) {
+
         double result = 1;
         while (i > 0) {
             result *= base;
