@@ -6,6 +6,7 @@ import java.text.*;
 import java.util.Locale;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
@@ -14,11 +15,9 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  */
 public class UncertainDoubleFormat extends Format {
 
-    static final int VALUE_FIELD = 0;
-    static final int UNCERTAINTITY_FIELD = 1;
-
     public static final String TIMES = "\u00B7";  /* "·10' */
     public static final String TIMES_10 = TIMES + "10";  /* "·10' */
+    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
 
 
     /**
@@ -32,6 +31,10 @@ public class UncertainDoubleFormat extends Format {
     @Setter
     private int minimumExponent = 4;
 
+    @Getter
+    @Setter
+    private Configuration.UncertaintyNotation uncertaintyNotation = Configuration.UncertaintyNotation.PLUS_MINUS;
+
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         if (number instanceof UncertainDouble) {
@@ -39,7 +42,7 @@ public class UncertainDoubleFormat extends Format {
             if (uncertainNumber.isExact()) {
                 toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {
-                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.getUncertainty(), minimumExponent));
+                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.getUncertainty()));
             }
             return toAppendTo;
         } else {
@@ -57,7 +60,9 @@ public class UncertainDoubleFormat extends Format {
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
      */
-     public static String scientificNotationWithUncertainty(double meanDouble, double stdDouble, int minimumExponent) {
+     String scientificNotationWithUncertainty(
+         double meanDouble,
+         double stdDouble) {
         SplitNumber std  = SplitNumber.split(stdDouble);
         SplitNumber mean = SplitNumber.split(meanDouble);
         boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
@@ -98,21 +103,40 @@ public class UncertainDoubleFormat extends Format {
 
         boolean useE = mean.exponent != 0;
 
-        NumberFormat nf = NumberFormat.getInstance(Locale.US);
         int fd = meanDigits -  Utils.log10(largeError ? std.coefficient :  mean.coefficient);
         //System.out.println(meanDigits + " -> " + mean + " -> " + fd);
-        nf.setMaximumFractionDigits(fd);
-        nf.setMinimumFractionDigits(fd);
-        nf.setGroupingUsed(false);
+        NUMBER_FORMAT.setMaximumFractionDigits(fd);
+        NUMBER_FORMAT.setMinimumFractionDigits(fd);
+        NUMBER_FORMAT.setGroupingUsed(false);
+        final boolean useBrackets = useE && uncertaintyNotation == Configuration.UncertaintyNotation.PLUS_MINUS;
         return
-            (useE ? "(" : "") + valueAndError(nf.format(mean.coefficient), nf.format(std.coefficient))
+            (useBrackets ? "(" : "") + valueAndError(NUMBER_FORMAT.format(mean.coefficient), NUMBER_FORMAT.format(std.coefficient), uncertaintyNotation)
             +
-            (useE ? (")" + TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
+            (useBrackets ? ")" : "") + (useE ? (TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
     }
 
-    public static String valueAndError(String value, String error) {
-         return value +  " \u00B1 " + error;
+    public static String valuePlusMinError(String value, String error) {
+        return value +  " \u00B1 " + error;
     }
+
+    public static String valueParenthesesError(String value, String error) {
+        int i = 0;
+        while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
+             i++;
+         }
+         return value +  "(" + error.substring(i) + ")";
+    }
+
+    public static String valueAndError(String value, String error, Configuration.UncertaintyNotation uncertaintyNotation) {
+         switch(uncertaintyNotation) {
+
+             case PARENTHESES: return valueParenthesesError(value, error);
+             default:
+             case PLUS_MINUS: return valuePlusMinError(value, error);
+         }
+    }
+
+
 
     public static String scientificNotation(double meanDouble, int minimumExponent) {
         SplitNumber mean = SplitNumber.split(meanDouble);

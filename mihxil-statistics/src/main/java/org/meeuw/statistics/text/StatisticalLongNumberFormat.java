@@ -11,7 +11,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.statistics.StatisticalLong;
 
-import static org.meeuw.math.text.UncertainDoubleFormat.valueAndError;
+import static org.meeuw.math.text.UncertainDoubleFormat.valuePlusMinError;
 
 /**
  * @author Michiel Meeuwissen
@@ -29,13 +29,13 @@ public class StatisticalLongNumberFormat extends Format {
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
                      ChronoUnit order = Utils.orderOfMagnitude(stddev);
                      stddev = Utils.round(stddev, order);
-                     toAppendTo.append(valueAndError(TextUtils.format(mean, order), stddev.toString()));
+                     toAppendTo.append(valuePlusMinError(TextUtils.format(mean, order), stddev.toString()));
                      return toAppendTo;
                  }
                  case DURATION: {
                      long rounded = Math.round(statisticalLong.getMean());
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
-                     toAppendTo.append(valueAndError(Duration.ofMillis(rounded).toString(), stddev.toString()));
+                     toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;
                  }
                  default:

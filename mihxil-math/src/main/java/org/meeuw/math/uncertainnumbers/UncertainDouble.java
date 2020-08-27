@@ -1,8 +1,10 @@
 package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
+import java.util.function.Consumer;
 
 import org.meeuw.math.numbers.SignedNumberElement;
+import org.meeuw.math.text.spi.Configuration;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -19,6 +21,30 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumberElement
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
+    ThreadLocal<Configuration> CONFIGURATION = ThreadLocal.withInitial(() ->
+        Configuration.builder()
+            .minimalExponent(4)
+            .build());
+
+    static void with(Configuration configuration, Runnable r) {
+        try {
+            CONFIGURATION.set(configuration);
+            r.run();
+        } finally {
+            CONFIGURATION.remove();
+        }
+    }
+
+    static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
+        try {
+            Configuration.Builder builder = CONFIGURATION.get().toBuilder();
+            configuration.accept(builder);
+            CONFIGURATION.set(builder.build());
+            r.run();
+        } finally {
+            CONFIGURATION.remove();
+        }
+    }
 
     double doubleValue();
 

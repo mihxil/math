@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.text.spi.Configuration.UncertaintyNotation.PARENTHESES;
+import static org.meeuw.math.uncertainnumbers.UncertainDouble.with;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,6 +29,11 @@ class MeasurementTest {
         Measurement width = new Measurement(30, 1, SI.LENGTH);
         PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 22 m²"); // or should that be 27?
+        with((ub) -> ub.uncertaintyNotation(PARENTHESES),
+            () -> {
+                assertThat(area.toString()).isEqualTo("630(22) m²");
+            }
+        );
     }
 
 

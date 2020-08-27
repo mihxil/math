@@ -14,7 +14,6 @@ public class ImmutableUncertainDouble
     public static final ImmutableUncertainDouble ONE = new ImmutableUncertainDouble(1, EXACT);
 
     private final double value;
-
     @Getter
     private final double uncertainty;
 

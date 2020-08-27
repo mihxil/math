@@ -10,12 +10,11 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  */
 public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvider {
 
-    public static final UncertainDoubleFormatProvider INSTANCE = new UncertainDoubleFormatProvider();
-
     @Override
     public UncertainDoubleFormat getInstance(Configuration configuration) {
         UncertainDoubleFormat format = new UncertainDoubleFormat();
         format.setMinimumExponent(configuration.getMinimalExponent());
+        format.setUncertaintyNotation(configuration.getUncertaintyNotation());
         return format;
     }
 
