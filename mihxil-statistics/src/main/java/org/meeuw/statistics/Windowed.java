@@ -9,7 +9,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-import com.google.common.collect.Range;
+import org.meeuw.math.Interval;
+
 
 /**
  * Some metrics can be aggregated per unit of time. A 'Windowed' instance targets to accommodate that.
@@ -181,14 +182,14 @@ public abstract class Windowed<T> {
      * Returns the current buckets, as a map, where the keys are the period to which they apply.
      * @return SortedMap with the oldest buckets first.
      */
-    public SortedMap<Range<Instant>, T> getRanges() {
+    public SortedMap<Interval<Instant>, T> getRanges() {
         shiftBuckets();
-        SortedMap<Range<Instant>, T> result = new TreeMap<>(Comparator.comparing(Range::lowerEndpoint));
+        SortedMap<Interval<Instant>, T> result = new TreeMap<>(Interval.lowerEndPointComparator());
         Instant end = Instant.ofEpochMilli(currentBucketTime)
             .plusMillis(bucketDuration);
         for (int i = 0; i < buckets.length; i++) {
             Instant begin = end.minusMillis(bucketDuration);
-            result.put(Range.closedOpen(begin, end), buckets[(currentBucketIndex - i + buckets.length) % buckets.length]);
+            result.put(Interval.closedOpen(begin, end), buckets[(currentBucketIndex - i + buckets.length) % buckets.length]);
             end = begin;
         }
         return result;

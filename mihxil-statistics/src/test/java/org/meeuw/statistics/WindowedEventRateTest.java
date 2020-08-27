@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.Interval;
 
-import com.google.common.collect.Range;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -39,7 +39,7 @@ public class WindowedEventRateTest {
         assertThat(buckets[buckets.length - 2].get()).isEqualTo(1); // one bucketDuration ago
         assertThat(buckets[buckets.length - 3].get()).isEqualTo(0); // longer ago
 
-        List<Map.Entry<Range<Instant>, AtomicLong>> ranges =
+        List<Map.Entry<Interval<Instant>, AtomicLong>> ranges =
             new ArrayList<>(rate.getRanges().entrySet());
         assertThat(ranges.get(buckets.length - 1).getValue().longValue()).isEqualTo(2); // current bucket
         assertThat(ranges.get(buckets.length - 2).getValue().longValue()).isEqualTo(1); // one buckedDuration ago
