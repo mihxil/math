@@ -79,4 +79,21 @@ class UtilsTest {
             log.info(() -> Arrays.stream(i).mapToObj(String::valueOf).collect(joining(", ")));
         });
     }
+
+    @Test
+    public void log10() {
+        long start = System.currentTimeMillis();
+        int d = 0;
+        for (int i = 0; i < 1000000L; i++) {
+            d = Utils.log10(123456789);
+
+        }
+        log.info("{} : {}", d, System.currentTimeMillis() -start);
+        assertThat(Utils.log10(10)).isEqualTo(1);
+        assertThat(Utils.log10(100)).isEqualTo(2);
+        assertThat(Utils.log10(10d)).isEqualTo(1);
+        assertThat(Utils.log10(20d)).isEqualTo(1);
+
+
+    }
 }

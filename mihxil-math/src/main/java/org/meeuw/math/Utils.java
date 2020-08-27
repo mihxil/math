@@ -98,29 +98,25 @@ public class Utils {
 
      /**
      * A crude order of magnitude implemention
+      *
+      * This is like {@code Math.log10(Mat.abs(d))}
      */
     public static int log10(double d) {
-        d = Math.abs(d);
-        int result = 0;
-        while (d >= 1) {
-            d /= 10;
-            result++;
-        }
-        while (d > 0 && d < 0.1) {
-            d *= 10;
-            result--;
-        }
-        return result;
+        return (int) Math.log10(Math.abs(d));
     }
 
-    public static int log10(long d) {
-        d = Math.abs(d);
-        int result = 0;
-        while (d >= 1) {
-            d /= 10;
-            result++;
-        }
-        return result;
+    /**
+     * A crude order of magnitude implemention
+      *
+      * This is like {@code Math.log10(Mat.abs(l))}
+     */
+    public static int log10(long l) {
+        // it's hard to improve performance of Math.log.
+        return (int) Math.log10(Math.abs(l));
+
+        // this branchless version would just be 'approximately' correct, and it only just a bit faster.
+
+        //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
 
 
