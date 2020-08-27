@@ -36,14 +36,9 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumberElement
     }
 
     static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
-        try {
-            Configuration.Builder builder = CONFIGURATION.get().toBuilder();
-            configuration.accept(builder);
-            CONFIGURATION.set(builder.build());
-            r.run();
-        } finally {
-            CONFIGURATION.remove();
-        }
+        Configuration.Builder builder = CONFIGURATION.get().toBuilder();
+        configuration.accept(builder);
+        with(builder.build(), r);
     }
 
     double doubleValue();
