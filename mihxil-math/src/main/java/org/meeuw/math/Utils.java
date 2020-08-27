@@ -103,7 +103,7 @@ public class Utils {
       * This is like {@code Math.log10(Mat.abs(d))}
      */
     public static int log10(double d) {
-        return (int) Math.log10(Math.abs(d));
+        return (int) Math.ceil(Math.log10(Math.abs(d)));
     }
 
     /**

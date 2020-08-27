@@ -85,7 +85,7 @@ public class UncertainDoubleFormat extends Format {
 
         // For numbers close to 1, we don't use scientific notation.
         if (Math.abs(mean.exponent) < minimumExponent ||
-            // neither do we do that if the precission is so high, that we'd show the complete
+            // neither do we do that if the precision is so high, that we'd show the complete
             // number anyway
             (mean.exponent > 0 && meanDigits > mean.exponent)) {
 
