@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.rationalnumbers;
 import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.abstractalgebra.test.NumberTheory;
@@ -83,11 +82,10 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<Ra
     }
 
 
-    @Disabled
     @Test
     public void all() {
-        INSTANCE.stream().forEach(i -> {
-            System.out.println(i.toString() + ":" + i.bigDecimalValue());
+        INSTANCE.stream().limit(100).forEach(i -> {
+            log.info(i.toString() + ":" + i.bigDecimalValue());
         });
     }
 

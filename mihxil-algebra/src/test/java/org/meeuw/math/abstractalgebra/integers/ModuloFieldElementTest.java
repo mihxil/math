@@ -2,8 +2,6 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.integers.ModuloField;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
 /**
@@ -16,6 +14,6 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
     @Provide
     public Arbitrary<? extends ModuloFieldElement> elements() {
         ModuloField structure = ModuloField.of(13);
-        return Arbitraries.integers().between(0, 12).map(i -> new ModuloFieldElement(i, structure));
+        return Arbitraries.integers().between(0, 12).map(i -> new ModuloFieldElement(i, structure)).injectDuplicates(0.1);
     }
 }

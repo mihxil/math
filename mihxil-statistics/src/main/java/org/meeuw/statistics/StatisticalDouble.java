@@ -103,6 +103,11 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
+    public UncertainDoubleElement reciprocal() {
+        return pow(-1);
+    }
+
+    @Override
     public double doubleValue() {
         return getMean();
     }

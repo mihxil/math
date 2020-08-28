@@ -21,14 +21,15 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     @Getter
     final Cardinality cardinality;
 
-
-    final E one = element(1);
-    final E zero = element(0);
+    final E one;
+    final E zero;
 
     ModuloStructure(Class<E> eClass, int divisor) {
         super(eClass);
         this.divisor = divisor;
         this.cardinality = new Cardinality(divisor);
+         one = element(1);
+         zero = element(0);
     }
 
     @Override

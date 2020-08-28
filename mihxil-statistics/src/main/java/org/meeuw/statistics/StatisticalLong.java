@@ -18,8 +18,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.UncertainDoubleField;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -152,6 +151,11 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Override
     public UncertainDoubleField getStructure() {
         return  UncertainDoubleField.INSTANCE;
+    }
+
+    @Override
+    public UncertainDoubleElement reciprocal() {
+        return pow(-1);
     }
 
     @Override
