@@ -16,6 +16,8 @@ public interface Unit {
 
     String name();
 
+    double getSIFactor();
+
     static UnitExponent[] toArray(Unit... units) {
         Map<Unit, AtomicInteger> map = new HashMap<>();
         for (Unit unit : units) {

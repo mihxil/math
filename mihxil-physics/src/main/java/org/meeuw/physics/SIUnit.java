@@ -52,4 +52,16 @@ public enum SIUnit implements Unit {
         return Prefix.NONE;
     }
 
+    public static Units toUnits(int[] exponents) {
+        UnitExponent[] unitExponents =  new UnitExponent[Dimension.values().length];
+        for (int i = 0; i < exponents.length; i++) {
+            unitExponents[i] = UnitExponent.of(values()[i], exponents[i]);
+        }
+        return new UnitsImpl(1, unitExponents);
+    }
+
+    @Override
+    public double getSIFactor() {
+        return 1;
+    }
 }

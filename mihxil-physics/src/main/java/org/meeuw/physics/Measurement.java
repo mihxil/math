@@ -16,6 +16,9 @@ public class Measurement extends PhysicalNumber {
     public Measurement(double value, double uncertainty, Units units) {
         this(new ImmutableUncertainDouble(value, uncertainty), units);
     }
+    public Measurement(double value, double uncertainty, DerivedUnit derivedUnit) {
+        this(new ImmutableUncertainDouble(value, uncertainty), UnitsImpl.of(derivedUnit));
+    }
 
     public Measurement(UncertainDouble wrapped, Units units) {
         super(wrapped, units);
@@ -33,5 +36,8 @@ public class Measurement extends PhysicalNumber {
     }
 
 
-
+    @Override
+    public PhysicalNumber reciprocal() {
+        return pow(-1);
+    }
 }

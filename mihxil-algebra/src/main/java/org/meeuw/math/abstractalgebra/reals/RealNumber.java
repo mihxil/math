@@ -93,6 +93,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
     }
 
     @Override
+    public RealNumber reciprocal() {
+        return pow(-1);
+    }
+
+    @Override
     public long longValue() {
         return Math.round(value);
     }

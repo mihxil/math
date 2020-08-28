@@ -52,4 +52,8 @@ public class PhysicalConstant extends PhysicalNumber {
     }
 
 
+    @Override
+    public PhysicalNumber reciprocal() {
+        return pow(-1);
+    }
 }

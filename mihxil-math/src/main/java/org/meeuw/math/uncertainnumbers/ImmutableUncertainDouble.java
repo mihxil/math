@@ -28,6 +28,11 @@ public class ImmutableUncertainDouble
     }
 
     @Override
+    public UncertainDoubleElement reciprocal() {
+        return pow(-1);
+    }
+
+    @Override
     public ImmutableUncertainDouble negation() {
         return (ImmutableUncertainDouble) times(-1);
     }

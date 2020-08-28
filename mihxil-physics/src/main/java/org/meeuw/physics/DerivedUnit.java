@@ -12,7 +12,8 @@ public class DerivedUnit implements Unit {
 
     @Getter
     @EqualsAndHashCode.Include
-    final double siFactor;
+    final double SIFactor;
+
     @EqualsAndHashCode.Include
     final int[] exponents = new int[SIUnit.values().length];
 
@@ -34,7 +35,7 @@ public class DerivedUnit implements Unit {
         this.dimensions = new Dimensions(exponents);
         this.name = name;
         this.description = description;
-        this.siFactor = siFactor;
+        this.SIFactor = siFactor;
         this.prefix = Prefix.NONE;
     }
 
@@ -46,15 +47,25 @@ public class DerivedUnit implements Unit {
         this.dimensions = derivedUnit.dimensions;
         this.name = name;
         this.description = description;
-        this.siFactor = derivedUnit.siFactor * siFactor;
+        this.SIFactor = derivedUnit.SIFactor * siFactor;
         this.prefix = derivedUnit.prefix();
     }
+
+    public DerivedUnit(String name, String description, double siFactor, SIUnit siUnit) {
+        this.exponents[siUnit.ordinal()] = 1;
+        this.dimensions = siUnit.getDimensions();
+        this.name = name;
+        this.description = description;
+        this.prefix = Prefix.NONE;
+        this.SIFactor = siFactor;
+    }
+
     public DerivedUnit(Prefix prefix, DerivedUnit unit) {
         System.arraycopy(unit.exponents, 0, this.exponents, 0, unit.exponents.length);
         this.dimensions = new Dimensions(exponents);
         this.name = unit.name;
         this.description = prefix.toString() + "(" + unit.description + ")";
-        this.siFactor = unit.siFactor * prefix.getAsDouble();
+        this.SIFactor = unit.SIFactor * prefix.getAsDouble();
         this.prefix = prefix;
     }
     public DerivedUnit(Prefix prefix, SIUnit unit) {
@@ -82,6 +93,11 @@ public class DerivedUnit implements Unit {
     //@Override
     public Prefix prefix() {
         return prefix;
+    }
+
+    public PhysicalConstant toSI() {
+        return new PhysicalConstant(name, SIFactor,
+            SIUnit.toUnits(exponents),description);
     }
 
 }

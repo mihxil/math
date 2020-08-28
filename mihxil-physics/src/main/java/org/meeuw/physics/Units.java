@@ -8,11 +8,20 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  */
 public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElement<Units> {
 
-    Units DIMENSIONLESS = UnitsImpl.of();
+    Units DIMENSIONLESS = UnitsImpl.of(1);
 
     Dimensions dimensions();
 
     PhysicalConstant zero();
+
+    double getSIFactor();
+
+    default double conversionFactor(Units units) {
+        if (! Units.dimensionEquals(this, units)) {
+            throw new IllegalArgumentException();
+        }
+        return getSIFactor() / units.getSIFactor();
+    }
 
     static boolean dimensionEquals(Units u1, Units u2) {
         if (u1 == null) {

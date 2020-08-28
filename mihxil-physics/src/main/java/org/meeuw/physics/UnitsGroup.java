@@ -37,7 +37,7 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
                 for (int i = 0; i < array.length; i++) {
                     units[i] = new UnitExponent(SIUnit.values()[i], array[i]);
                 }
-                return new UnitsImpl(units);
+                return new UnitsImpl(1, units);
             }
         );
     }

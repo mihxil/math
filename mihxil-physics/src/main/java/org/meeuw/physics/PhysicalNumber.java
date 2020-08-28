@@ -104,7 +104,21 @@ public abstract class PhysicalNumber implements
     }
 
     public PhysicalNumber plus(PhysicalNumber summand) {
-        return copy(wrapped.plus(summand), Units.forAddition(units, summand.getUnits()));
+        summand = summand.toUnits(this.getUnits());
+        return copy(wrapped.plus(summand),
+            Units.forAddition(units, summand.getUnits())
+        );
+    }
+
+    /**
+     *
+     */
+    public PhysicalNumber toUnits(Units target) {
+        if (getUnits().equals(target)) {
+            return this;
+        }
+        double factor = getUnits().conversionFactor(target);
+        return copy(wrapped.times(factor), target);
     }
 
     public PhysicalNumber minus(PhysicalNumber subtrahend) {

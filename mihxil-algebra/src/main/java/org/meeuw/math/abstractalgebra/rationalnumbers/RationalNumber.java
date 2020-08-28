@@ -50,6 +50,11 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
     }
 
     @Override
+    public RationalNumber reciprocal() {
+        return new RationalNumber(denominator, numerator);
+    }
+
+    @Override
     public RationalNumber pow(int exponent) {
         int e = exponent;
         if (e < 0) {

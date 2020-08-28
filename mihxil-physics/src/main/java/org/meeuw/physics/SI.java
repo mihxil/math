@@ -66,4 +66,8 @@ public class SI {
 
     public static final DerivedUnit eV =
         new DerivedUnit("eV", "electonvolt", 1.602176634E-19, J);
+
+    public static final DerivedUnit AU = new DerivedUnit("AU", "Astronomical Unit", 149597870700d, m);
+    public static final DerivedUnit pc = new DerivedUnit("pc", "parsec", 648000 / Math.PI, AU);
+    public static final DerivedUnit ly = new DerivedUnit("ly", "lightyear", 9460730472580800d, m);
 }
