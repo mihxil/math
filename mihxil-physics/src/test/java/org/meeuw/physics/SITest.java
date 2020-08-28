@@ -14,8 +14,6 @@ class SITest {
     @Test
     public void ly() {
         assertThat(SI.ly.toString()).isEqualTo("ly");
-        assertThat(SI.ly).isEqualTo("ly");
-
         assertThat(SI.ly.toSI().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
     }
 

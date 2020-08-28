@@ -36,12 +36,12 @@ class PhysicalConstantTest {
 
     @Test
     public void G() {
-        assertThat(G.toString()).isEqualTo("(6.67430 ± 0.00015)·10⁻¹¹ m³·s⁻²·kg⁻¹");
+        assertThat(G.toString()).isEqualTo("(6.67430 ± 0.00015)·10⁻¹¹ m³·kg⁻¹·s⁻²");
         log.info("{}={}", G.getSymbol(), G.toString());
 
         with((ub) -> ub.uncertaintyNotation(PARENTHESES),
             () -> {
-                assertThat(G.toString()).isEqualTo("6.67430(15)·10⁻¹¹ m³·s⁻²·kg⁻¹");
+                assertThat(G.toString()).isEqualTo("6.67430(15)·10⁻¹¹ m³·kg⁻¹·s⁻²");
             }
         );
     }
