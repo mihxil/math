@@ -52,6 +52,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     Map<AlgebraicStructure<?>, AtomicLong> counts = new HashMap<>();
 
     @Property
+    default void elementClass(
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e
+        ) {
+        assertThat(e).isInstanceOf(s.getElementClass());
+    }
+
+    @Property
     default void operators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
         @ForAll(ELEMENTS) E e1,
@@ -74,6 +82,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
         }
     }
+
+
 
 
     @Provide

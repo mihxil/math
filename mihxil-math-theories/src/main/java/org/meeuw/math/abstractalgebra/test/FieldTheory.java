@@ -27,9 +27,7 @@ public interface FieldTheory<E extends FieldElement<E>> extends
         @ForAll(ELEMENTS) E e1,
         @ForAll(ELEMENTS) E e2) {
         assertThat(MULTIPLICATION.andThen(NEGATION).apply(e1, e2)).isEqualTo(e1.times(e2).negation());
-
         assertThat(Operator.ADDITION.andThen(SQR.compose(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).negation()).sqr());
-
         assertThat(Operator.ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).sqr()).negation());
 
     }

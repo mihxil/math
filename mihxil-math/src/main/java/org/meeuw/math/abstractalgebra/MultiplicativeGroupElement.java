@@ -15,12 +15,11 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
 
     @Override
     MultiplicativeGroup<E> getStructure();
+
     /**
      * The multiplicative inverse
      */
-    default E reciprocal() {
-        return pow(-1);
-    }
+    E reciprocal();
 
     /**
      * if multiplication and division is defined, then so is exponentation to any integer power.
