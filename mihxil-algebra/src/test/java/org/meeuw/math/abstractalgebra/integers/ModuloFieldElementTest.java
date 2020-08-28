@@ -1,7 +1,9 @@
-package org.meeuw.math.abstractalgebra.modulo;
+package org.meeuw.math.abstractalgebra.integers;
 
 import net.jqwik.api.*;
 
+import org.meeuw.math.abstractalgebra.integers.ModuloField;
+import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
 /**

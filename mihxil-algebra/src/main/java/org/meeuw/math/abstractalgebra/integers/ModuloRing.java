@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.modulo;
+package org.meeuw.math.abstractalgebra.integers;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

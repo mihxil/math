@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.modulo;
+package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +14,7 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
     final int value;
     final S structure;
 
-    public ModuloElement(int value, S structure) {
+    ModuloElement(int value, S structure) {
         this.value = value % structure.divisor;
         this.structure = structure;
     }
