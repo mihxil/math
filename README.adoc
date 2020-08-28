@@ -12,16 +12,48 @@ Math and physics related classes. This is a hobby project which grew from the cl
 
 The common dependency of the modules in the project. It provides the scaffolding for:
 
-- abstract algebra's to ensure a common interface for basic operations
-- an 'uncertain number' interface plus a SPI for formatting those
+- abstract algebra's to ensure a common interface for basic operations.
+- an 'uncertain number' interface, plus an implemention of a an algebraic field of uncertain number'
+- a SPI for formatting the elements of abstract algebra's, and an implementation to format these uncertain number, using proper rounding and scientific notation.
 
 === Abstract Algebras
 
 The idea is that every 'abstract algebra' consists of the implementation of two interfaces.
 
-- One of the extensions of `org.meeuw.math.abstractalgebra.AlgebraicElement` defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
+- One of the extensions of  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
 
-- One of the corresponding extensions of `org.meeuw.math.abstractalgebra.AlgebraicStructure`, e.g. `org.meeuw.math.abstractalgebra.Field`.
+- One of the corresponding extensions of link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.Field`].
+
+The terminology which is adopted is this:
+
+|===
+|Algebraic operation  | operator | operator name |
+
+|addition | + | plus | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
+|subtraction | - | minus | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|multiplication |  ⋅  | times | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
+|division | / | dividedBy | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+
+| negation |   | negation
+| reciprocation | |  reciprocal
+
+|===
+
+It was chose that the method on the elements itself is the operator. So e.g.:
+
+```java
+  RationalNumber e1, e2, e3;
+  ...
+  e3 = e1.times(e2);
+
+```
+
+So, the 'operator names' are used as method names, and alway take the value of the element itself plus zero (for the unary operators) or one (for the binary operators) parameter, and create a new value from the same algebra.
+
+Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented staticly (`void add(e1, e2)`) or are modifying the element itself.
+
+Most implementation are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
+
 
 ==== Algebraic elements
 
