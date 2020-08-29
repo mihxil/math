@@ -9,9 +9,11 @@
   <artifactId>mihxil-statistics</artifactId>
   <name>Mihxil's Statistics</name>
   <packaging>jar</packaging>
-  <description>Straight forward code to calculate average and standard deviations of a number of incoming values.
+  <description>
+    Straight forward code to calculate average and standard deviations of a number of incoming values.
 
-  Also provides utility to do this in a 'sliding window' in time.</description>
+    Also provides utility to do this in a 'sliding window' in time.
+  </description>
 
   <dependencies>
     <dependency>

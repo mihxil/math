@@ -9,8 +9,9 @@
   <artifactId>mihxil-physics</artifactId>
   <name>Mihxil's Physics</name>
   <packaging>jar</packaging>
-  <description>Contains the structure to associate units and dimensions to (uncertain) numbers. i.e. an object to represent a 'measurement'</description>
-
+  <description>
+    Contains the structure to associate units and dimensions to (uncertain) numbers. i.e. an object to represent a 'measurement'
+  </description>
   <dependencies>
     <dependency>
       <groupId>org.meeuw</groupId>

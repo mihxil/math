@@ -9,7 +9,8 @@
   <artifactId>mihxil-math</artifactId>
   <name>Mihxil's Math</name>
   <packaging>jar</packaging>
-  <description>The base dependency of the modules in the project. It provides the scaffolding for:
+  <description>
+    The base dependency of the modules in the project. It provides the scaffolding for:
     - abstract algebra's to ensure a common interface for basic operations
     - an 'uncertain number' interface plus a SPI for formatting those
   </description>

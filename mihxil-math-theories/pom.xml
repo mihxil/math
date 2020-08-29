@@ -8,6 +8,10 @@
   </parent>
   <artifactId>mihxil-math-theories</artifactId>
   <name>Mihxil's Math theories</name>
+  <description>
+    Contains the jqwik interfaces to check the theoretical properties of algebraic structures.
+    This normally is a test dependency only.
+  </description>
   <packaging>jar</packaging>
   <dependencies>
     <dependency>

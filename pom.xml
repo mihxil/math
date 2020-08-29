@@ -261,6 +261,9 @@
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
           <version>${jacoco.version}</version>
+          <configuration>
+            <append>true</append>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -329,6 +332,4 @@
       </build>
     </profile>
   </profiles>
-
-
 </project>
