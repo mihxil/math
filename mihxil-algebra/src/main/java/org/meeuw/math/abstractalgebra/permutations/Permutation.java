@@ -6,32 +6,33 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.permutations.text.Offset;
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.math.text.spi.Configuration;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Permutation implements MultiplicativeGroupElement<Permutation>, UnaryOperator<Object[]> {
+public class Permutation  implements MultiplicativeGroupElement<Permutation>, UnaryOperator<Object[]> {
 
 
     final int[] value;
-    private final int offset;
     private List<Cycle> cycles;
 
     public static Permutation of(int... value) {
         int[] v = value;
         for (int i = 0; i < value.length; i++) {
-            v[i] -= 1;
+            v[i]--;
         }
-        return new Permutation(1, v);
+        return new Permutation(v);
     }
 
     public static Permutation zeroOffset(int... value) {
-        return new Permutation(0, value);
+        return new Permutation(value);
     }
 
-    private Permutation(int offset, int... value) {
-        this.offset = offset;
+    private Permutation(int... value) {
         this.value = value;
     }
 
@@ -46,7 +47,7 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
         for (int i = 0; i < value.length; i++) {
             result[value[i]] = i;
         }
-        return new Permutation(offset, result);
+        return new Permutation(result);
     }
 
     @SuppressWarnings("unchecked")
@@ -55,7 +56,6 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
         for (int i = 0 ; i < value.length; i++) {
             result[value[i]] = values[i];
         }
-
         return result;
     }
 
@@ -65,7 +65,7 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
         for (int i = 0 ; i < result.length; i++) {
             result[i] = value[multiplier.value[i]];
         }
-        return new Permutation(offset, result);
+        return new Permutation(result);
     }
 
     public List<Cycle> getCycles() {
@@ -98,8 +98,8 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
     }
 
 
-    protected String cycleNotation() {
-        String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString()).collect(Collectors.joining());
+    public String cycleNotation(int offset) {
+        String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString(offset)).collect(Collectors.joining());
         if (s.length() == 0) {
             return "()";
         } else {
@@ -107,16 +107,20 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
         }
     }
 
-    @Override
-    public String toString() {
-        //String join = value.length > 9 ? " " : "";
-        //return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
-        return cycleNotation();
+    public String listNotation(int offset) {
+        String join = value.length > 9 ? " " : "";
+        return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
     }
+
 
     @Override
     public Object[] apply(Object[] objects) {
         return permute(objects);
+    }
+
+    @Override
+    public String toString() {
+        return AlgebraicElementFormatProvider.toString(this);
     }
 
     public class Cycle {
@@ -138,9 +142,13 @@ public class Permutation implements MultiplicativeGroupElement<Permutation>, Una
             return new Cycle(rec);
         }
 
-        public String toString() {
+        public String toString(int offset) {
             String join = Permutation.this.value.length > 9 ? " " : "";
             return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
+        }
+
+        public String toString() {
+            return toString(Configuration.get().getPropertyOrDefault(Offset.class.getName(), Offset.ONE).getAsInt());
         }
 
         @Override

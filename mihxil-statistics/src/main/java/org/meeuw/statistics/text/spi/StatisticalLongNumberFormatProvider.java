@@ -12,7 +12,7 @@ import org.meeuw.statistics.text.StatisticalLongNumberFormat;
  */
 public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatProvider {
     @Override
-    public StatisticalLongNumberFormat getInstance(Configuration minimumExponent) {
+    public StatisticalLongNumberFormat getInstance(Configuration configuration) {
         StatisticalLongNumberFormat format = new StatisticalLongNumberFormat();
         return format;
     }

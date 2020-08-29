@@ -20,10 +20,15 @@ public abstract class AlgebraicElementFormatProvider {
         final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
         List<AlgebraicElementFormatProvider> list = new ArrayList<>();
         loader.iterator().forEachRemaining(list::add);
-        list.sort(Comparator.comparingInt(e -> e.weight(object)));
+        list.sort(Comparator.comparingInt(e -> -1 * e.weight(object)));
 
         return list.stream().map(p -> p.getInstance(configuration));
     }
+
+    public static String toString(AlgebraicElement<?> object) {
+        return toString(object, Configuration.get());
+    }
+
 
     public static String toString(AlgebraicElement<?> object, Configuration configuration ) {
         return getFormat(object, configuration)

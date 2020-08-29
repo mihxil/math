@@ -19,8 +19,8 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
     }
 
     @Override
-    public int weight(AlgebraicElement<?> weight) {
-        return weight instanceof UncertainDouble ? 1 : 0;
+    public int weight(AlgebraicElement<?> element) {
+        return element instanceof UncertainDouble ? 1 : 0;
     }
 
 }

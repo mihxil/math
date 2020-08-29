@@ -43,4 +43,6 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     public NumberOperations<N> operations() {
         return NumberOperations.of(value);
     }
+
+
 }

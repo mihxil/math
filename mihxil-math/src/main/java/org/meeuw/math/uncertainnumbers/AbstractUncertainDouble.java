@@ -19,7 +19,7 @@ public abstract class AbstractUncertainDouble<E extends AlgebraicElement<E>> ext
      */
     @Override
     public String toString() {
-        return AlgebraicElementFormatProvider.toString(this, CONFIGURATION.get());
+        return AlgebraicElementFormatProvider.toString(this);
     }
 
     @Override

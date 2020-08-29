@@ -21,25 +21,6 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumberElement
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
-    ThreadLocal<Configuration> CONFIGURATION = ThreadLocal.withInitial(() ->
-        Configuration.builder()
-            .minimalExponent(4)
-            .build());
-
-    static void with(Configuration configuration, Runnable r) {
-        try {
-            CONFIGURATION.set(configuration);
-            r.run();
-        } finally {
-            CONFIGURATION.remove();
-        }
-    }
-
-    static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
-        Configuration.Builder builder = CONFIGURATION.get().toBuilder();
-        configuration.accept(builder);
-        with(builder.build(), r);
-    }
 
     double doubleValue();
 

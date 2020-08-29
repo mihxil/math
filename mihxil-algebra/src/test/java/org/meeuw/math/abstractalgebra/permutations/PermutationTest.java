@@ -8,7 +8,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.permutations.text.Notation;
+import org.meeuw.math.abstractalgebra.permutations.text.Offset;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.text.spi.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,6 +21,20 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Log4j2
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
+
+    @Test
+    public void testToString() {
+        Permutation permutation = Permutation.of(2, 3, 1, 5, 4);
+        assertThat(permutation.toString()).isEqualTo("(123)(45)");
+        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () -> {
+            assertThat(permutation.toString()).isEqualTo("(23154)");
+        });
+        Configuration.with(b -> b.property(Offset.class.getName(), Offset.ZERO), () -> {
+            assertThat(permutation.toString()).isEqualTo("(012)(34)");
+        });
+
+    }
+
 
     @Test
     public void permute() {
@@ -82,13 +99,13 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     @Test
     public void cycleNotation() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
-        assertThat(q.cycleNotation()).isEqualTo("(15)(24)");
+        assertThat(q.cycleNotation(1)).isEqualTo("(15)(24)");
 
         Permutation p = Permutation.of(2, 4, 1, 3, 5);
-        assertThat(p.cycleNotation()).isEqualTo("(1243)");
+        assertThat(p.cycleNotation(1)).isEqualTo("(1243)");
 
         Permutation r = Permutation.of(2, 4, 1, 3, 5, 10, 6, 8, 9, 7);
-        assertThat(r.cycleNotation()).isEqualTo("(1 2 4 3)(6 10 7)");
+        assertThat(r.cycleNotation(1)).isEqualTo("(1 2 4 3)(6 10 7)");
 
         assertThat(p.getStructure().one().toString()).isEqualTo("()");
 

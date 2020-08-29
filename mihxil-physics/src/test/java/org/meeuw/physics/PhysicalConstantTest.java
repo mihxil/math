@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.text.spi.Configuration.UncertaintyNotation.PARENTHESES;
-import static org.meeuw.math.uncertainnumbers.UncertainDouble.with;
+import static org.meeuw.math.text.spi.Configuration.with;
 import static org.meeuw.physics.PhysicalConstant.*;
 
 /**
