@@ -3,14 +3,14 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.math.BigDecimal;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.numbers.SignedNumberElement;
+import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public class IntegerElement extends AbstractNumberElement<IntegerElement>
-    implements RingElement<IntegerElement>, SignedNumberElement<IntegerElement> {
+    implements RingElement<IntegerElement>, SignedNumber<IntegerElement> {
 
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);

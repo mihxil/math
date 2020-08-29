@@ -9,7 +9,8 @@ import org.meeuw.math.abstractalgebra.NumberFieldElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElement<ComplexNumber<E>> {
+public class ComplexNumber<E extends NumberFieldElement<E>>
+    implements FieldElement<ComplexNumber<E>> {
 
     private final E real;
     private final E imaginary;
@@ -23,6 +24,7 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         this.real = real;
         this.imaginary = imaginary;
     }
+
 
     @Override
     public ComplexNumbers<E> getStructure() {
@@ -113,4 +115,5 @@ public class ComplexNumber<E extends NumberFieldElement<E>> implements FieldElem
         }
         return result.toString();
     }
+
 }

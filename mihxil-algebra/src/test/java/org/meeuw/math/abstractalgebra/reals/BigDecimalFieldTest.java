@@ -4,7 +4,7 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, NumberTheory<BigDecimalElement>  {
+strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, SignedNumberTheory<BigDecimalElement> {
 
     @Test
     public void test() {

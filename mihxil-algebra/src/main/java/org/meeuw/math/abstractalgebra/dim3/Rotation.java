@@ -13,7 +13,6 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  */
 public class Rotation implements MultiplicativeGroupElement<Rotation>, UnaryOperator<FieldVector3<RealNumber>> {
 
-
     private static final RealNumber U = RealNumber.ONE;
     private static final RealNumber Z = RealNumber.ZERO;
 

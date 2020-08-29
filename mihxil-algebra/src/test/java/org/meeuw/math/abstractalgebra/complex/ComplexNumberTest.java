@@ -31,6 +31,11 @@ class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
 
     }
 
+    @Test
+    public void isqr() {
+        assertThat(structure.i().sqr()).isEqualTo(structure.one().negation());
+    }
+
     @Override
     public Arbitrary<ComplexNumber<RationalNumber>> elements() {
         return Arbitraries.of(

@@ -5,7 +5,7 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
@@ -17,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  */
 
 @Log4j2
-class RationalNumberTest implements FieldTheory<RationalNumber>, NumberTheory<RationalNumber> {
+class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberTheory<RationalNumber> {
 
     @Test
     public void test() {

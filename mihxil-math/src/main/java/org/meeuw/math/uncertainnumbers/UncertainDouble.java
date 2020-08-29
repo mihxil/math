@@ -1,10 +1,8 @@
 package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
-import java.util.function.Consumer;
 
-import org.meeuw.math.numbers.SignedNumberElement;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -17,7 +15,7 @@ import org.meeuw.math.text.spi.Configuration;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble extends Comparable<Number>, SignedNumberElement<UncertainDouble> {
+public interface UncertainDouble extends Comparable<Number>, SignedNumber<UncertainDouble> {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;

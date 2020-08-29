@@ -181,6 +181,13 @@ Another well-known field is the field of complex numbers.
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/ComplexNumber.java[`ComplexNumber`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.java[`ComplexNumbers`]
 
+==== Quaternions
+
+Quaternions are forming a 'non-commutative' field, a link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/DivisionRing.java
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/quaternions/Quaternion.java[`Quaternion`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java[`Quaternions`]
+
 ==== Matrix and rotation groups
 
 ===== SO(3)

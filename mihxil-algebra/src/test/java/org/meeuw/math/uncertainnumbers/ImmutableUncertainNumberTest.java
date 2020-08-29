@@ -3,13 +3,13 @@ package org.meeuw.math.uncertainnumbers;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ImmutableUncertainNumberTest implements NumberTheory<UncertainDouble> {
+class ImmutableUncertainNumberTest implements SignedNumberTheory<UncertainDouble> {
 
     @Override
     public Arbitrary<ImmutableUncertainDouble> elements() {

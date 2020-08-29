@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.abstractalgebra.test.RngTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +18,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, NumberTheory<EvenIntegerElement> {
+class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNumberTheory<EvenIntegerElement> {
 
     @Test
     public void test() {

@@ -2,16 +2,16 @@ package org.meeuw.math.abstractalgebra;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.numbers.NumberElement;
+import org.meeuw.math.numbers.Numerical;
 
 /**
- * Abstract implementation of {@link NumberElement}. Extends from {@link Number}, and implements some of its methods.
+ * Abstract implementation of {@link Numerical}. Extends from {@link Number}, and implements some of its methods.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public abstract  class AbstractNumberElement<E extends AbstractNumberElement<E>> extends Number
-        implements NumberElement<E> {
+        implements Numerical<E> {
 
     @Override
     public int intValue() {

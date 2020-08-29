@@ -5,7 +5,7 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
@@ -15,7 +15,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @since 0.4
  */
 @Log4j2
-class RealNumberTest implements FieldTheory<RealNumber>, NumberTheory<RealNumber> {
+class RealNumberTest implements FieldTheory<RealNumber>, SignedNumberTheory<RealNumber> {
 
     @Test
     public void test() {

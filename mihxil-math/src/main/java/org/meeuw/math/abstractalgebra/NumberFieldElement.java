@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import org.meeuw.math.numbers.SignedNumberElement;
+import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * * A {@link FieldElement} that is is also a {@link Number} (which sadly is not an interface, so we can't extend it here).
@@ -10,9 +10,9 @@ import org.meeuw.math.numbers.SignedNumberElement;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberFieldElement<E extends NumberFieldElement<E>>   extends
+public interface NumberFieldElement<E extends NumberFieldElement<E>> extends
     FieldElement<E>,
-    SignedNumberElement<E> {
+    SignedNumber<E> {
 
     @Override
     NumberField<E> getStructure();

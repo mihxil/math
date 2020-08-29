@@ -5,10 +5,8 @@ import net.jqwik.api.Property;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.api.Assumptions;
 import org.assertj.core.data.Offset;
-import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.numbers.NumberElement;
+import org.meeuw.math.numbers.Numerical;
 
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,29 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberTheory<E extends NumberElement<E>> extends ElementTheory<E> {
-
-    @Property
-    default void signumOfZero(@ForAll(ELEMENT) E e) {
-        Assumptions.assumeThat(e).isInstanceOf(AdditiveMonoidElement.class);
-        assertThat(((NumberElement) ((AdditiveMonoidElement<?>) e).getStructure().zero()).signum()).isEqualTo(0);
-    }
-
-    @Property
-    default void compareToConsistentWithSgnum(@ForAll(ELEMENTS) E e) {
-        Assumptions.assumeThat(e).isInstanceOf(AdditiveMonoidElement.class);
-        E zero = (E) ((AdditiveMonoidElement<?>) e).getStructure().zero();
-        int compareToZero = e.compareTo(zero);
-
-        if (compareToZero == 0) {
-            assertThat(e.signum()).isEqualTo(0);
-            assertThat(e).isEqualTo(zero);
-        } else if (compareToZero < 0) {
-            assertThat(e.signum()).isEqualTo(-1);
-        } else {
-            assertThat(e.signum()).isEqualTo(1);
-        }
-    }
+public interface NumberTheory<E extends Numerical<E>> extends ElementTheory<E> {
 
     @Property
     default void compareToConsistentWithEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {

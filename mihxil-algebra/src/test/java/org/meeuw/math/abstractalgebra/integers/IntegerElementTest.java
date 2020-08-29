@@ -5,7 +5,7 @@ import net.jqwik.api.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.abstractalgebra.test.RingTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +15,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class IntegerElementTest implements RingTheory<IntegerElement>, NumberTheory<IntegerElement> {
+class IntegerElementTest implements RingTheory<IntegerElement>, SignedNumberTheory<IntegerElement> {
 
     @Test
     void test() {

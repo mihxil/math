@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 
 /**
  * Some algebraic elements are like numbers.  This basicly means that they are {@link Comparable} to a {@link Number}, and to
- * other instances of the same type (See {@link #compareTo(NumberElement)})
+ * other instances of the same type (See {@link #compareTo(Numerical)})
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface NumberElement<E extends NumberElement<E>> extends Comparable<Number> {
+public interface Numerical<E extends Numerical<E>> extends Comparable<Number> {
 
     /**
      * Returns the value of the specified number as an {@code int},
@@ -82,12 +82,6 @@ public interface NumberElement<E extends NumberElement<E>> extends Comparable<Nu
 
     BigDecimal bigDecimalValue();
 
-
-    default boolean isZero() {
-        return signum() == 0;
-    }
-
-    int signum();
 
     int compareTo(E f);
 

@@ -3,12 +3,14 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.math.BigDecimal;
 
 import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.abstractalgebra.NumberField;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static java.math.BigDecimal.ZERO;
 
 /**
+ * A 3 dimension vector on a {@link NumberField}.
  * @author Michiel Meeuwissen
  */
 public class FieldVector3<E extends NumberFieldElement<E>> {

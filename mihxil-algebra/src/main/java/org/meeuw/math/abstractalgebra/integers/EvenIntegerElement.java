@@ -4,14 +4,14 @@ import java.math.BigDecimal;
 
 import org.meeuw.math.abstractalgebra.AbstractNumberElement;
 import org.meeuw.math.abstractalgebra.RngElement;
-import org.meeuw.math.numbers.SignedNumberElement;
+import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public class EvenIntegerElement extends AbstractNumberElement<EvenIntegerElement>
-    implements SignedNumberElement<EvenIntegerElement>, RngElement<EvenIntegerElement> {
+    implements SignedNumber<EvenIntegerElement>, RngElement<EvenIntegerElement> {
 
     public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
 

@@ -20,7 +20,6 @@ class NaturalNumberTest implements MultiplicativeMonoidTheory<NaturalNumber>, Nu
     @Test
     public void test() {
         assertThatThrownBy(() -> {of(1).times(of(-1));}).isInstanceOf(IllegalArgumentException.class);
-
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 
