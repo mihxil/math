@@ -183,7 +183,7 @@ Another well-known field is the field of complex numbers.
 
 ==== Quaternions
 
-Quaternions are forming a 'non-commutative' field, a link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/DivisionRing.java
+Quaternions are forming a 'non-commutative' field, a link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/DivisionRing.java[DivisionRing]
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/quaternions/Quaternion.java[`Quaternion`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java[`Quaternions`]
@@ -191,20 +191,20 @@ Quaternions are forming a 'non-commutative' field, a link:mihxil-math/src/main/j
 ==== Matrix and rotation groups
 
 ===== SO(3)
- A non-abelian multiplicative group.
+
+Another non-abelian (not-commutative) multiplicative group.
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/Rotation.java[`Rotation`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/RotationGroup.java[`RotationGroup`]
 
 ==== Strings
 
-Actually one of the simplest algebraic object you can thing of are the strings. The form an additive monoid.
+Actually one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringElement.java[`StringElement`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringMonoid.java[`StringMonoid`]
 
 Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementation to stream all possible strings.
-
 
 ==== Vector spaces
 
