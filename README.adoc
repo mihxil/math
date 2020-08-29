@@ -105,7 +105,7 @@ This contains various implementations of the algebraic structure interfaces of `
 === Features
 ==== Real numbers
 
-The field of real numbers. Backed by java primitive `double`s. A `RealNumber` is also 'uncertain', which is used to keep track of rounding errors.
+The field of real numbers. Backed by java primitive `double`. A `RealNumber` is also 'uncertain', which is used to keep track of rounding errors.
 
 - element  link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/RealNumber.java[`RealNumber`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/RealField.java[`RealField`]
@@ -114,8 +114,8 @@ The field of real numbers. Backed by java primitive `double`s. A `RealNumber` is
 
 ==== Arbitrary precision real numbers
 
-The field of reals numbers, but backed by java's `BigDecimal'. This means that it support arbitrary precision, but, since this still
-is not exact this still is uncertain, and rounding errors are propagated.
+The field of reals numbers, but backed by java's `BigDecimal`. This means that it supports arbitrary precision, but, since this still
+is not _exact_ this still is uncertain, and rounding errors are propagated.
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/BigDecimalElement.java[`BigDecimalElement`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/BigDecimalField.java[`BigDecimalField`]
@@ -128,7 +128,9 @@ The field of rational numbers. Implemented using two arbitrary sized `BigInteger
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/RationalNumber.java[`RationalNumber`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/RationalNumbers.java[`RationalNumbers`]
 
-Also, division is exact in this field, so this does not implement `UncertainNumber'. The cardinality is countable so this does implement `Streamable`.
+Also, since division is exact in this field, this does _not_ implement `UncertainNumber`.
+
+The cardinality is countable (ℵ~0~) so this _does_ implement `Streamable`.
 
 ==== Permutations
 
@@ -140,6 +142,7 @@ The permutation group. An example of a non-abelian finite group.
 This is group is finite, so streamable. This means that the group also contains an implementation of 'all permutations' (this is non-trivial, it's using Knuth's algorithm).
 
 The permutation elements themselves are implemented as a `java.util.function.UnaryOperator` on `Object[]` which then performs the actual permutation.
+
 
 ==== Integers
 The most basic algebraic structure which can be created from integers are the integers (ℤ) themselves. They form a ring:
@@ -166,16 +169,25 @@ Integers can be simply restricted via modulo arithmetic to form a finite ring:
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRingElement.java[`ModuloRingElement`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRing.java[`ModuloRing`]
 
-if the 'divisor' is a prime, then they even form a field, because the reciprocal can be defined:
+If the 'divisor' is a prime, then they even form a field, because the reciprocal can be defined:
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloFieldElement.java[`ModuleFieldElement`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java[`ModuloField`]
 
 ==== Complex numbers
 
-Another well-known field is the field of complex numbers
+Another well-known field is the field of complex numbers.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/ComplexNumber.java[`ComplexNumber`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.java[`ComplexNumbers`]
 
 ==== Matrix and rotation groups
+
+===== SO(3)
+ A non-abelian multiplicative group.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/Rotation.java[`Rotation`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/RotationGroup.java[`RotationGroup`]
 
 ==== Strings
 
