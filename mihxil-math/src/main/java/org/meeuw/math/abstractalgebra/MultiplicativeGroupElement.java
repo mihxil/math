@@ -44,7 +44,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     }
 
     /**
-     * Returns this elemented multiplied by itself.
+     * Returns this element multiplied by itself.
      */
     default E sqr() {
         return times((E) this);

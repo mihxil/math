@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra.quaternions;
 
 import lombok.EqualsAndHashCode;
 
+import lombok.Getter;
+
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -12,9 +14,13 @@ import org.meeuw.math.abstractalgebra.*;
 public class Quaternion<E extends NumberFieldElement<E>>
     implements DivisionRingElement<Quaternion<E>> {
 
+    @Getter
     private final E a;
+    @Getter
     private final E b;
+    @Getter
     private final E c;
+    @Getter
     private final E d;
 
     public Quaternion(E a, E b, E c, E d) {

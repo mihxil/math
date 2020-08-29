@@ -44,6 +44,14 @@ class QuaternionTest implements DivisionRingTheory<Quaternion<RationalNumber>> {
         assertThat(e1.times(e2).conjugate()).isEqualTo(e2.conjugate().times(e1.conjugate()));
     }
 
+    @Property
+    public void elementClass(@ForAll(ELEMENT) Quaternion<RationalNumber> e) {
+        assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getA().getStructure());
+        assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getB().getStructure());
+        assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getC().getStructure());
+        assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getD().getStructure());
+    }
+
     @Override
     public Arbitrary<? extends Quaternion<RationalNumber>> elements() {
         return Arbitraries.randoms().map(r ->

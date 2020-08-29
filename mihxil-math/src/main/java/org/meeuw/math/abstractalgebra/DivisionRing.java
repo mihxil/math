@@ -6,7 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A division ring or 'skewed field', is non-commutative field.
+ * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.
+ *
+ * In other words it is  'skewed field', or  non-commutative field.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
