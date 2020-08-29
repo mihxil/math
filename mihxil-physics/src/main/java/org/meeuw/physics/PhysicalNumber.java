@@ -66,8 +66,6 @@ public abstract class PhysicalNumber implements
         return  wrapped.getUncertainty();
     }
 
-
-
     public int compareTo(PhysicalNumber o) {
         return Double.compare(doubleValue(), o.doubleValue());
     }
@@ -100,9 +98,15 @@ public abstract class PhysicalNumber implements
     @Override
     public PhysicalNumber pow(int exponent) {
         return copy(wrapped.pow(exponent), Units.forExponentiation(units, exponent));
-
     }
 
+    /**
+     * Return a new physical number which is the sum of this one and another one.
+     *
+     * Units will implicitely be converted, and the resulting value will have the units of this.
+     *
+     * @throws IllegalArgumentException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
+     */
     public PhysicalNumber plus(PhysicalNumber summand) {
         summand = summand.toUnits(this.getUnits());
         return copy(wrapped.plus(summand),
@@ -111,7 +115,9 @@ public abstract class PhysicalNumber implements
     }
 
     /**
+     * Converts this to a new physical number but represented in the given units.
      *
+     * @throws IllegalArgumentException if the target units are not compatible (have different dimensions)
      */
     public PhysicalNumber toUnits(Units target) {
         if (getUnits().equals(target)) {
@@ -121,6 +127,10 @@ public abstract class PhysicalNumber implements
         return copy(wrapped.times(factor), target);
     }
 
+    /**
+     * Just adds {@link #plus(PhysicalNumber)}{@link #negation()}.
+     * @see #plus(PhysicalNumber)
+     */
     public PhysicalNumber minus(PhysicalNumber subtrahend) {
         return plus(subtrahend.negation());
     }
@@ -140,7 +150,6 @@ public abstract class PhysicalNumber implements
     public PhysicalNumber negation() {
         return times(-1);
     }
-
 
     @Override
     public int signum() {

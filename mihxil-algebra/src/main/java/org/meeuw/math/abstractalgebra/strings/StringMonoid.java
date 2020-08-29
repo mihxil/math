@@ -9,7 +9,8 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class StringMonoid extends AbstractAlgebraicStructure<StringElement> implements AdditiveMonoid<StringElement>, Streamable<StringElement> {
+public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
+    implements AdditiveMonoid<StringElement>, Streamable<StringElement> {
 
     public static final StringMonoid INSTANCE = new StringMonoid();
 

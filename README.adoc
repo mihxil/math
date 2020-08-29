@@ -13,8 +13,8 @@ Math and physics related classes. This is a hobby project which grew from the cl
 The common dependency of the modules in the project. It provides the scaffolding for:
 
 - abstract algebra's to ensure a common interface for basic operations.
-- an 'uncertain number' interface, plus an implemention of a an algebraic field of uncertain number'
-- a SPI for formatting the elements of abstract algebra's, and an implementation to format these uncertain number, using proper rounding and scientific notation.
+- An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers
+- An SPI for formatting the elements of abstract algebra's, and an implementation to format these uncertain number, using proper rounding and scientific notation.
 
 === Abstract Algebras
 
@@ -22,7 +22,7 @@ The idea is that every 'abstract algebra' consists of the implementation of two 
 
 - One of the extensions of  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
 
-- One of the corresponding extensions of link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.Field`].
+- One of the corresponding extensions of link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`].
 
 The terminology which is adopted is this:
 
@@ -39,31 +39,36 @@ The terminology which is adopted is this:
 
 |===
 
-It was chose that the method on the elements itself is the operator. So e.g.:
+The methods on the elements take the name of the corresponding operator. So e.g.:
 
-```java
-  RationalNumber e1, e2, e3;
-  ...
-  e3 = e1.times(e2);
+[source,java]
+----
+RationalNumber e1, e2, e3;
+e3 = e1.times(e2);
+----
 
-```
+These methods always take the value of the element itself plus zero parameters (for the unary operators) or one parameter (for the binary operators), and create a new value from the same algebra.
 
-So, the 'operator names' are used as method names, and alway take the value of the element itself plus zero (for the unary operators) or one (for the binary operators) parameter, and create a new value from the same algebra.
+Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented statically (`void add(e1, e2)`) or are modifying the element itself.
 
-Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented staticly (`void add(e1, e2)`) or are modifying the element itself.
-
-Most implementation are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
+Most implementations are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
 
 
-==== Algebraic elements
-
-For example it may be `org.meeuw.math.abstractalgebra.FieldElement` the have  addition, subtraction, multiplication, and division.
 
 ==== Algebraic structure
 
-Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'. If the cardinality is 'countable', the structure can also implement `org.meeuw.math.abstractalgebra.Streamable` to actually produce all possible elements.
+Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'. If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
 
-The algebraic structure will also contain methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero')
+The algebraic structure will also contain methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero').
+
+==== Testing
+
+In link:mihxil-math-theories/src/main/java/org/meeuw/math/abstractalgebra/test/[mihxil-math-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementation implement these interfaces and provide the code to supply a bunch of example link:https://github.com/mihxil/math/blob/3d216db560e1930aff890cf11c3f63f56b002710/mihxil-math-theories/src/main/java/org/meeuw/math/abstractalgebra/test/ElementTheory.java#L20[`elements`].
+
+Default methods then test wheter all theoretical possibilities and limitation of the algebraic structure are indeed working.
+
+==== Implementation of equals/hashcode
+
 
 
 == mihxil-statistics
@@ -72,42 +77,120 @@ Implementations of `UncertainDouble`, based on calculating standard deviations o
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
+
 == mihxil-physics
 
-This module envolves mostly around `PhysicalNumber` and its derivitates. A `PhysicalNumber` is a `UncertainDouble` but the uncertainty is stated (it is  `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
+This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `UncertainDouble`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
 
-Also a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
+Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
+
+[source,java]
+----
+PhysicalNumber lys = new Measurement(2, 0.1, SI.ly);
+PhysicalNumber psc = new Measurement(1, 0.1, SI.pc);
+log.info("{} + {} = {}", lys, psc, lys.plus(psc));
+assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.3 ly");
+assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.10 pc");
+----
+
+Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).
+
+Physical numbers can freely multiplied and divided by each other.
+
 
 == mihxil-algebra
 
 This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
 
+=== Features
+==== Real numbers
 
-.features
-|===
-| feature | element class | algebra class | description | features
-| real numbers
-|`org.meeuw.math.abstractalgebra.reals.RealNumber`
-| `org.meeuw.math.abstractalgebra.reals.RealField`
-| The field of real numbers, backed by the java primitive `double`
-|
+The field of real numbers. Backed by java primitive `double`s. A `RealNumber` is also 'uncertain', which is used to keep track of rounding errors.
 
-| arbitrary precision real numbers
-| `org.meeuw.math.abstractalgebra.reals.BigDecimalElement`
-| `org.meeuw.math.abstractalgebra.reals.BigDecimalField`
-| The field of real numbers, backed by the java arbitrary precision 'BigDecimal'
-|
+- element  link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/RealNumber.java[`RealNumber`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/RealField.java[`RealField`]
 
-| rational numbers
-| `org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber`
-| `org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers`
-| The field of rational numbers. Implemented using two arbitrary sized `BigIntegers`.
-| Can be streamed (resulting an infinite stream of rational numbers)
 
-| permutations
-| `org.meeuw.math.abstractalgebra.permutations.Permutation`
-| `org.meeuw.math.abstractalgebra.permutations.PermutationGroup`
-| The permutation group. An example of a non-abelian finite group.
-| Contains an implementation of 'all permutation'
-a permuation is a function, and operators on any array of big enough size.
-|===
+
+==== Arbitrary precision real numbers
+
+The field of reals numbers, but backed by java's `BigDecimal'. This means that it support arbitrary precision, but, since this still
+is not exact this still is uncertain, and rounding errors are propagated.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/BigDecimalElement.java[`BigDecimalElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/BigDecimalField.java[`BigDecimalField`]
+
+
+==== Rational numbers
+
+The field of rational numbers. Implemented using two arbitrary sized `BigIntegers`.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/RationalNumber.java[`RationalNumber`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/RationalNumbers.java[`RationalNumbers`]
+
+Also, division is exact in this field, so this does not implement `UncertainNumber'. The cardinality is countable so this does implement `Streamable`.
+
+==== Permutations
+
+The permutation group. An example of a non-abelian finite group.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/permutations/Permutation.java[`Permutation`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java[`PermutationGroup`]
+
+This is group is finite, so streamable. This means that the group also contains an implementation of 'all permutations' (this is non-trivial, it's using Knuth's algorithm).
+
+The permutation elements themselves are implemented as a `java.util.function.UnaryOperator` on `Object[]` which then performs the actual permutation.
+
+==== Integers
+The most basic algebraic structure which can be created from integers are the integers (ℤ) themselves. They form a ring:
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/IntegerElement.java[`IntegerElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Integers.java[`Integers`]
+
+
+==== Even integers
+As an example of a 'rng' ( a ring with the existence of the multiplicative identity 1), the event integers can serve
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/EvenIntegerElement.java[`EvenIntegerElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/EvenIntegers.java[`EvenIntegers`]
+
+==== Natural numbers
+In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a so called 'monoid' (both additive and multiplicative).
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumber.java[`NaturalNumber`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java[`NaturalNumbers`]
+
+==== Modulo groups
+Integers can be simply restricted via modulo arithmetic to form a finite ring:
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRingElement.java[`ModuloRingElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRing.java[`ModuloRing`]
+
+if the 'divisor' is a prime, then they even form a field, because the reciprocal can be defined:
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloFieldElement.java[`ModuleFieldElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java[`ModuloField`]
+
+==== Complex numbers
+
+Another well-known field is the field of complex numbers
+
+==== Matrix and rotation groups
+
+==== Strings
+
+Actually one of the simplest algebraic object you can thing of are the strings. The form an additive monoid.
+
+- element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringElement.java[`StringElement`]
+- structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringMonoid.java[`StringMonoid`]
+
+Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementation to stream all possible strings.
+
+
+==== Vector spaces
+
+
+
+
+
+
