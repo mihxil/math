@@ -18,6 +18,7 @@
       <groupId>org.meeuw</groupId>
       <artifactId>mihxil-algebra</artifactId>
     </dependency>
+
     <dependency>
       <groupId>org.meeuw</groupId>
       <artifactId>mihxil-physics</artifactId>

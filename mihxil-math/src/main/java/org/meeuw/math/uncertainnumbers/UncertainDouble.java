@@ -1,8 +1,7 @@
 package org.meeuw.math.uncertainnumbers;
 
-import java.math.BigDecimal;
-
 import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -15,12 +14,12 @@ import org.meeuw.math.numbers.SignedNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble extends Comparable<Number>, SignedNumber<UncertainDouble> {
+public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNumber{
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
-    double doubleValue();
+    double getValue();
 
     double getUncertainty();
 
@@ -28,69 +27,76 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumber<Uncert
         return getUncertainty() == EXACT;
     }
 
-    default UncertainDouble dividedBy(double divisor) {
+    default D dividedBy(double divisor) {
         return times(1d / divisor);
     }
 
-    default UncertainDouble plus(double summand) {
-        return new ImmutableUncertainDouble(summand + doubleValue(), getUncertainty());
+    default D plus(double summand) {
+        return of(summand + getValue(), getUncertainty());
     }
 
-    default UncertainDouble minus(double subtrahend) {
+    default D minus(double subtrahend) {
         return plus(-1d * subtrahend);
     }
 
     /**
      * Creates a new uncertain number, combining this one with another one.
      */
-    default UncertainDouble combined(UncertainDouble m) {
+    default D combined(UncertainReal m) {
         double u = getUncertainty();
         double mu = m.getUncertainty();
         double weight = 1d / (u * u);
         double mweight = 1d / (mu * mu);
-        double value = (doubleValue() * weight + m.doubleValue() * mweight) / (weight + mweight);
+        double value = (getValue() * weight + m.getValue() * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
         double uncertaintity = 1d/ Math.sqrt((weight + mweight));
-        return new ImmutableUncertainDouble(value, uncertaintity);
+        return of(value, uncertaintity);
     }
 
     /**
      * Creates a new {@link UncertainDouble} representing a multiple of this one.
      */
-    default UncertainDouble times(double multiplier) {
-        return new ImmutableUncertainDouble(multiplier * doubleValue(),
+    default D times(double multiplier) {
+        return of(multiplier * getValue(),
             Math.abs(multiplier) * getUncertainty());
     }
 
+    default D negation() {
+        return times(-1);
+    }
 
-    default UncertainDouble times(UncertainDouble multiplier) {
-        double u = getUncertainty() / doubleValue();
-        double mu = multiplier.getUncertainty() / multiplier.doubleValue();
-        double newValue = doubleValue() * multiplier.doubleValue();
-        return new ImmutableUncertainDouble(
-            newValue,
-            Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
+    default D times(D multiplier) {
+        double u = getUncertainty() / getValue();
+        double mu = multiplier.getUncertainty() / multiplier.getValue();
+        double newValue = getValue() * multiplier.getValue();
+        return of(newValue, Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
         );
     }
 
-    default UncertainDouble pow(int exponent) {
-        double v = Math.pow(doubleValue(), exponent);
+    default D pow(int exponent) {
+        double v = Math.pow(getValue(), exponent);
         if (!Double.isFinite(v)) {
-            throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
+            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
         }
-        return new ImmutableUncertainDouble(
+        return of(
             v,
-            Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * getUncertainty());
+            Math.abs(exponent) * Math.pow(getValue(), exponent - 1) * getUncertainty());
     }
 
-    default UncertainDouble plus(UncertainDouble summand) {
+    default D plus(D summand) {
         double u = getUncertainty();
         double mu = summand.getUncertainty();
-        return new ImmutableUncertainDouble(
-            doubleValue() + summand.doubleValue(),
+        return of(
+            getValue() + summand.getValue(),
             Math.sqrt(u * u + mu * mu));
 
+    }
+
+
+    @Override
+    default int signum() {
+        return (int) Math.signum(getValue());
     }
 
     default boolean equals(Object value, double sds) {
@@ -98,24 +104,23 @@ public interface UncertainDouble extends Comparable<Number>, SignedNumber<Uncert
         if (! (value instanceof UncertainDouble)) {
             return false;
         }
-        UncertainDouble other = (UncertainDouble) value;
-        if (Double.isNaN(doubleValue())) {
-            return Double.isNaN(other.doubleValue());
+        D other = (D) value;
+        if (Double.isNaN(getValue())) {
+            return Double.isNaN(other.getValue());
         }
         if (Double.isNaN(getUncertainty()) && Double.isNaN(other.getUncertainty())) {
             return toString().equals(other.toString());
 
         }
-        return getConfidenceInterval(sds).contains(other.doubleValue())
-            ||  other.getConfidenceInterval(sds).contains(doubleValue());
+        return getConfidenceInterval(sds).contains(other.getValue())
+            ||  other.getConfidenceInterval(sds).contains(getValue());
     }
 
-    default BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(doubleValue());
-    }
+    D of(double value, double uncertainty);
 
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
-        return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), sds);
+        return DoubleConfidenceInterval.of(getValue(), getUncertainty(), sds);
     }
+
 
 }

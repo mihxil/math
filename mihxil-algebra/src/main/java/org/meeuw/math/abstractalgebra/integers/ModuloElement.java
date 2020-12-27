@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+
 import org.meeuw.math.abstractalgebra.RingElement;
 
 /**
@@ -9,7 +11,10 @@ import org.meeuw.math.abstractalgebra.RingElement;
  * @since 0.4
  */
 @EqualsAndHashCode
-public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>> implements RingElement<E> {
+public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
+    implements RingElement<E>, Serializable {
+
+    private static final long serialVersionUID = 0L;
 
     final int value;
     final S structure;

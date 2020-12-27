@@ -1,7 +1,9 @@
 package org.meeuw.physics;
 
-import org.meeuw.math.uncertainnumbers.ImmutableUncertainDouble;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import lombok.NonNull;
+
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * A number with a uncertainty where the uncertainty is simply explicitely stated.
@@ -14,27 +16,20 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 public class Measurement extends PhysicalNumber {
 
     public Measurement(double value, double uncertainty, Units units) {
-        this(new ImmutableUncertainDouble(value, uncertainty), units);
+        this(new UncertainDoubleElement(value, uncertainty), units);
     }
     public Measurement(double value, double uncertainty, DerivedUnit derivedUnit) {
-        this(new ImmutableUncertainDouble(value, uncertainty), UnitsImpl.of(derivedUnit));
+        this(new UncertainDoubleElement(value, uncertainty), UnitsImpl.of(derivedUnit));
     }
 
-    public Measurement(UncertainDouble wrapped, Units units) {
+    public Measurement(UncertainReal wrapped, Units units) {
         super(wrapped, units);
     }
 
     @Override
-    public int compareTo(Number o) {
-        return Double.compare(doubleValue(), o.doubleValue());
-    }
-
-
-    @Override
-    protected Measurement copy(UncertainDouble wrapped, Units units) {
+    protected Measurement copy(@NonNull UncertainReal wrapped, @NonNull Units units) {
         return new Measurement(wrapped, units);
     }
-
 
     @Override
     public PhysicalNumber reciprocal() {

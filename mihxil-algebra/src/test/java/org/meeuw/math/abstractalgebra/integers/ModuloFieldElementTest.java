@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import net.jqwik.api.*;
 
+import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
 /**
@@ -9,6 +10,9 @@ import org.meeuw.math.abstractalgebra.test.FieldTheory;
  * @since 0.4
  */
 class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
+
+    @Test
+
 
     @Override
     @Provide

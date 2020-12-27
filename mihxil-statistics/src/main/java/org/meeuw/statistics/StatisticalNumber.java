@@ -1,16 +1,14 @@
-/*
-
-This software is OSI Certified Open Source Software.
-OSI Certified is a certification mark of the Open Source Initiative.
-*/
-
 package org.meeuw.statistics;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.LongSummaryStatistics;
 
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.uncertainnumbers.*;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * A 'statistic' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation and standard deviation of those values.
@@ -21,7 +19,7 @@ import org.meeuw.math.uncertainnumbers.*;
  */
 
 
-public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends AbstractUncertainDouble<UncertainDoubleElement> implements UncertainDoubleElement {
+public abstract class StatisticalNumber<T extends StatisticalNumber<T> & UncertainReal> implements UncertainReal {
 
     /**
      * The total number of values which were {@link StatisticalDouble#enter(double...)}ed.
@@ -96,36 +94,40 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
         return copy().divide(divisor);
     }
 
-    public UncertainDoubleElement negation() {
+    @Override
+    public T negation() {
         return times(-1);
     }
 
-    public UncertainDouble times(UncertainDouble multiplier) {
-        return immutableCopy().times(multiplier);
-    }
 
     @Override
     public UncertainDoubleElement pow(int exponent) {
-        return (UncertainDoubleElement) super.pow(exponent);
+        return new UncertainDoubleElement(Math.pow(getValue(), exponent), getUncertainty());
     }
 
     public void reset() {
         count = 0;
     }
 
-    public ImmutableUncertainDouble immutableCopy() {
-        return new ImmutableUncertainDouble(doubleValue(), getUncertainty());
+    public UncertainDoubleElement immutableCopy() {
+        return of(getValue(), getUncertainty());
     }
 
     @Override
+    public UncertainDoubleElement of(double value, double uncertainty) {
+        return new UncertainDoubleElement(value, uncertainty);
+    }
+
+ /*   @Override
     public UncertainDoubleElement times(UncertainDoubleElement multiplier) {
         return (UncertainDoubleElement) super.times(multiplier);
-    }
+        }
+    */
 
-    @Override
+   /* @Override
     public UncertainDoubleElement plus(UncertainDoubleElement summand) {
         return (UncertainDoubleElement) super.plus(summand);
-    }
+    }*/
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
@@ -135,6 +137,67 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T>> extends 
 
     @Override
     public int hashCode() {
+        return 0;
+    }
+
+    /**
+     * Represents the mean value in a scientific notation (using unicode characters).
+     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     */
+    @Override
+    public String toString() {
+        return AlgebraicElementFormatProvider.toString(this);
+    }
+
+
+
+    @Override
+    public UncertainReal sqrt() {
+        return null;
+    }
+
+    @Override
+    public UncertainReal sin() {
+        return null;
+    }
+
+    @Override
+    public UncertainReal cos() {
+        return null;
+    }
+
+    @Override
+    public UncertainReal pow(UncertainReal exponent) {
+        return null;
+    }
+
+    @Override
+    public UncertainReal times(UncertainReal multiplier) {
+        return null;
+    }
+
+    @Override
+    public UncertainReal plus(UncertainReal summand) {
+        return null;
+    }
+
+    @Override
+    public long longValue() {
+        return 0;
+    }
+
+    @Override
+    public double doubleValue() {
+        return 0;
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return null;
+    }
+
+    @Override
+    public int compareTo(UncertainReal o) {
         return 0;
     }
 }

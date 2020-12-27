@@ -29,7 +29,6 @@ public abstract class AlgebraicElementFormatProvider {
         return toString(object, Configuration.get());
     }
 
-
     public static String toString(AlgebraicElement<?> object, Configuration configuration ) {
         return getFormat(object, configuration)
             .map(f -> {

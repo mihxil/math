@@ -40,9 +40,9 @@ public class UncertainDoubleFormat extends Format {
         if (number instanceof UncertainDouble) {
             UncertainDouble uncertainNumber = (UncertainDouble) number;
             if (uncertainNumber.isExact()) {
-                toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
+                toAppendTo.append(scientificNotation(uncertainNumber.getValue(), minimumExponent));
             } else {
-                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.getUncertainty()));
+                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.getValue(), uncertainNumber.getUncertainty()));
             }
             return toAppendTo;
         } else {

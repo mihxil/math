@@ -1,64 +1,35 @@
 package org.meeuw.math.abstractalgebra.complex;
 
-import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Log
-public class ComplexNumbers<E extends NumberFieldElement<E>> extends AbstractAlgebraicStructure<ComplexNumber<E>> implements Field<ComplexNumber<E>> {
+public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNumber>
+    implements
+    Field<ComplexNumber>,
+    MetricSpace<ComplexNumber, RealNumber> {
 
-    @Getter
-    private final NumberField<E> elementStructure;
+    public static ComplexNumbers INSTANCE = new ComplexNumbers();
 
-    private final ComplexNumber<E> zero;
-    private final ComplexNumber<E> one;
-    private final ComplexNumber<E> i;
 
-    private static final Map<NumberField<?>, ComplexNumbers<?>> INSTANCES = new ConcurrentHashMap<>();
-
-    @SuppressWarnings("unchecked")
-    public static <E extends NumberFieldElement<E>> ComplexNumbers<E> of(NumberField<E> numberFieldElement) {
-        return (ComplexNumbers<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
-            log.info("Created new instance for " + k);
-            return new ComplexNumbers<>(k);
-            }
-
-        );
-    }
-
-    private ComplexNumbers(NumberField<E> elementStructure) {
-        super((Class) ComplexNumber.class);
-        this.elementStructure = elementStructure;
-        this.zero = new ComplexNumber<>(this.elementStructure.zero(), this.elementStructure.zero());
-        this.one  = new ComplexNumber<>(this.elementStructure.one(), this.elementStructure.zero());
-        this.i =  new ComplexNumber<>(this.elementStructure.zero(), this.elementStructure.one());
+    private ComplexNumbers() {
+        super(ComplexNumber.class, RealField.INSTANCE);
     }
 
     @Override
-    public ComplexNumber<E> zero() {
-        return zero;
+    ComplexNumber of(RealNumber real, RealNumber imaginary) {
+        return new ComplexNumber(real, imaginary);
     }
 
     @Override
-    public ComplexNumber<E> one() {
-        return one;
-    }
-
-    public ComplexNumber<E> i() {
-        return i;
-    }
-
-    @Override
-    public Cardinality getCardinality() {
-        //return field.cardinality(); // might be doable...
-        return Cardinality.ALEPH_1;
+    public String toString() {
+        return "ℂ";
     }
 }

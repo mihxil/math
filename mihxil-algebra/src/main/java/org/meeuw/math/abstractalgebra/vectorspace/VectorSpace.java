@@ -12,30 +12,30 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class VectorSpace<E extends FieldElement<E>> implements VectorSpaceInterface<E, Vector<E>> {
+public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpaceInterface<E, Vector<E>> {
 
     private static final Map<Key, VectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
-    private final Field<E> field;
+    private final ScalarField<E> field;
     private final Vector<E> zero;
     private final int dimension;
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends FieldElement<E>> VectorSpace<E> of(int dimension, Field<E> field) {
+    public static <E extends ScalarFieldElement<E>> VectorSpace<E> of(int dimension, ScalarField<E> field) {
         Key key = new Key(field.getElementClass(), dimension);
         return (VectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new VectorSpace<>(dimension, field));
     }
 
     @SuppressWarnings("unchecked")
-    private VectorSpace(int dimension, Field<E> field) {
+    private VectorSpace(int dimension, ScalarField<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
         for (int i = 0; i < dimension; i ++) {
             zeroElement[i] = field.zero();
         }
-        this.zero = new Vector<E>(zeroElement);
+        this.zero = new Vector<>(zeroElement);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class VectorSpace<E extends FieldElement<E>> implements VectorSpaceInterf
     }
 
     @Override
-    public Field<E> getField() {
+    public ScalarField<E> getField() {
         return field;
     }
 

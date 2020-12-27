@@ -11,16 +11,16 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix3<E extends NumberFieldElement<E>>
+public class FieldMatrix3<E extends ScalarFieldElement<E>>
     implements MultiplicativeGroupElement<FieldMatrix3<E>> {
 
     final E[][] values;
 
-    final NumberField<E> elementStructure;
+    final ScalarField<E> elementStructure;
 
     final E zero;
 
-    private static <E extends NumberFieldElement<E>> FieldMatrix3<E> of(E[] array) {
+    private static <E extends CompleteFieldElement<E>> FieldMatrix3<E> of(E[] array) {
         return of(
             array[0], array[1], array[2],
             array[3], array[4], array[5],
@@ -29,7 +29,7 @@ public class FieldMatrix3<E extends NumberFieldElement<E>>
     }
 
     @SuppressWarnings("unchecked")
-    public static <E extends NumberFieldElement<E>> FieldMatrix3<E> of(
+    public static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
         E v00, E v01, E v02,
         E v10, E v11, E v12,
         E v20, E v21, E v22

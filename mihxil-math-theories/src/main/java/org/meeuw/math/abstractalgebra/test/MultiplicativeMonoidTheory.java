@@ -20,7 +20,6 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
         assertThat(v.times(v.getStructure().one())).isEqualTo(v);
     }
 
-
     @Property
     default void powExponentZero(
          @ForAll(ELEMENTS) E v1

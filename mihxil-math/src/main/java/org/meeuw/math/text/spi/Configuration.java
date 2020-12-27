@@ -60,6 +60,7 @@ public class Configuration {
         this.properties.putAll(properties);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T getPropertyOrDefault(String key, T defaultValue) {
         return (T) properties.getOrDefault(key, defaultValue);
     }

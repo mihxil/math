@@ -1,38 +1,25 @@
 package org.meeuw.math.numbers;
 
 /**
- * A number that also has a clearly defined concept of 'negativity'.
- *
- * E.g. a complex number is comparable but it is not 'signed'.
+ * An object with a clearly defined concept of 'negativity'.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface SignedNumber<E extends SignedNumber<E>> extends Numerical<E> {
+public interface SignedNumber {
 
-
-    default boolean isNegative() {
-        return signum() == -1;
-    }
+    int signum();
 
     default boolean isPositive() {
-        return signum() ==  1;
+        return signum() > 0;
     }
 
-    default boolean isOne() {
-        return compareTo(1d) == 0;
+    default boolean isNegative() {
+        return signum() < 0;
     }
 
     default boolean isZero() {
         return signum() == 0;
     }
 
-    E negation();
-
-    default E abs() {
-        return isNegative() ? negation() : (E) this;
-    }
-
-
-    int signum();
 }

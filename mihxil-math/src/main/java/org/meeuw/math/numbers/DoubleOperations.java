@@ -56,6 +56,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
+    public Double pow(Double n1, Double exponent) {
+        return Math.pow(n1, exponent);
+    }
+
+    @Override
     public boolean lt(Double n1, Double n2) {
         return n1 < n2;
     }
@@ -84,4 +89,15 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     public BigDecimal bigDecimalValue(Double d) {
         return BigDecimal.valueOf(d);
     }
+
+    @Override
+    public Double sin(Double aDouble) {
+        return Math.sin(aDouble);
+    }
+
+    @Override
+    public Double cos(Double aDouble) {
+        return Math.cos(aDouble);
+    }
+
 }

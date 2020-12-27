@@ -9,4 +9,5 @@ public interface Field<E extends FieldElement<E>> extends
     DivisionRing<E>,
     MultiplicativeAbelianGroup<E> {
 
+
 }

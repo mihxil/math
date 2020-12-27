@@ -3,14 +3,13 @@ package org.meeuw.math.abstractalgebra.vectorspace;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.abstractalgebra.VectorInterface;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Vector<E extends FieldElement<E>> implements VectorInterface<E, Vector<E>>, Iterable<E> {
+public class Vector<E extends ScalarFieldElement<E>> implements VectorInterface<E, Vector<E>>, Iterable<E> {
 
     private final E[] values;
 
@@ -19,7 +18,7 @@ public class Vector<E extends FieldElement<E>> implements VectorInterface<E, Vec
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> Vector<E> of(E... values) {
+    public static <E extends ScalarFieldElement<E>> Vector<E> of(E... values) {
         return new Vector<>(values);
     }
 
@@ -28,6 +27,15 @@ public class Vector<E extends FieldElement<E>> implements VectorInterface<E, Vec
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].times(multiplier);
+        }
+        return new Vector<>(copy);
+    }
+
+    @Override
+    public Vector<E> dividedBy(E divisor) {
+        E[] copy = Arrays.copyOf(values, values.length);
+        for (int i = 0; i < copy.length; i ++) {
+            copy[i] =  copy[i].dividedBy(divisor);
         }
         return new Vector<>(copy);
     }

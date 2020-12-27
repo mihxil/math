@@ -47,6 +47,8 @@ public interface NumberOperations<N extends Number> {
 
     N pow(N n1, int exponent);
 
+    N pow(N n1, N exponent);
+
     boolean lt(N n1, N n2);
 
     boolean lte(N n1, N n2);
@@ -67,6 +69,8 @@ public interface NumberOperations<N extends Number> {
 
     BigDecimal bigDecimalValue(N n);
 
+    N sin(N n);
 
+    N cos(N n);
 
 }

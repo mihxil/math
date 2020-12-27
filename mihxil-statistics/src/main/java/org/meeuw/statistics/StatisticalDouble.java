@@ -1,20 +1,11 @@
-/*
-
-This software is OSI Certified Open Source Software.
-OSI Certified is a certification mark of the Open Source Initiative.
-
-The license (Mozilla version 1.0) can be read at the MMBase site.
-See http://www.MMBase.org/license
-
-*/
-
 package org.meeuw.statistics;
 
 import lombok.Getter;
 
 import java.util.function.DoubleConsumer;
 
-import org.meeuw.math.uncertainnumbers.*;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.*;
 
 /**
  * Represents a set of measured values. The value represents the average value.
@@ -98,9 +89,10 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
-    public UncertainDoubleField getStructure() {
-        return UncertainDoubleField.INSTANCE;
+    public UncertainRealField getStructure() {
+        return UncertainRealField.INSTANCE;
     }
+
 
     @Override
     public UncertainDoubleElement reciprocal() {
@@ -108,9 +100,11 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     }
 
     @Override
-    public double doubleValue() {
+    public double getValue() {
         return getMean();
     }
+
+
 
     @Override
     public double getStandardDeviation() {
@@ -144,8 +138,12 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
 
 
     @Override
-    public int compareTo(Number o) {
-        return Double.compare(doubleValue(), o.doubleValue());
+    public UncertainReal abs() {
+        if (isPositive()) {
+            return this;
+        } else {
+            return new StatisticalDouble(-1 * sum, sumOfSquares, count);
+        }
     }
 
 

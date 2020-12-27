@@ -10,5 +10,4 @@ public interface FieldTheory<E extends FieldElement<E>> extends
     MultiplicativeAbelianGroupTheory<E>,
     DivisionRingTheory<E>  {
 
-
 }

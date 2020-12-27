@@ -1,5 +1,7 @@
 package org.meeuw.math.numbers;
 
+import ch.obermuhlner.math.big.BigDecimalMath;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -64,6 +66,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
+    public BigDecimal pow(BigDecimal n1, BigDecimal exponent) {
+        return BigDecimalMath.pow(n1, exponent, mathContext);
+    }
+
+    @Override
     public boolean lt(BigDecimal n1, BigDecimal n2) {
         return n1.compareTo(n2) < 0;
     }
@@ -91,5 +98,15 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Override
     public BigDecimal bigDecimalValue(BigDecimal bigDecimal) {
         return bigDecimal;
+    }
+
+    @Override
+    public BigDecimal sin(BigDecimal bigDecimal) {
+        return BigDecimalMath.sin(bigDecimal, mathContext);
+    }
+
+    @Override
+    public BigDecimal cos(BigDecimal bigDecimal) {
+        return BigDecimalMath.cos(bigDecimal, mathContext);
     }
 }

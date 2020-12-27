@@ -6,19 +6,23 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
- * A real number (backend by a double). No considerations for uncertainty propagation.
+ * A real number (backend by a double).
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RealNumber extends AbstractNumberElement<RealNumber> implements NumberFieldElement<RealNumber> {
+public class RealNumber
+    implements
+    CompleteFieldElement<RealNumber>,
+    ScalarFieldElement<RealNumber>,
+    MetricSpaceElement<RealNumber, RealNumber>
+{
 
     public static final int EPSILON_FACTOR = 2;
 
@@ -28,6 +32,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
 
     @Getter
     final double value;
+
     @Getter
     final double uncertainty;
 
@@ -66,6 +71,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
     }
 
     @Override
+    public RealNumber minus(RealNumber subtrahend) {
+        return plus(negation());
+    }
+
+    @Override
     public RealNumber times(RealNumber multiplier) {
         if (multiplier == ONE) {
             return this;
@@ -85,6 +95,11 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         return new RealNumber(newValue,
             uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
         );
+    }
+
+    @Override
+    public RealNumber dividedBy(RealNumber divisor) {
+        return null;
     }
 
     @Override
@@ -109,7 +124,12 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
 
     @Override
     public BigDecimal bigDecimalValue() {
-        return new BigDecimal(value);
+        return null;
+    }
+
+    @Override
+    public boolean isOne() {
+        return false;
     }
 
     @Override
@@ -117,22 +137,26 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         return (int) Math.signum(value);
     }
 
+
     public RealNumber times(double multiplier) {
         return new RealNumber(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
+    @Override
     public RealNumber sin() {
         return new RealNumber(Math.sin(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
     }
 
+    @Override
     public RealNumber cos() {
         return new RealNumber(Math.cos(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
     }
 
     @Override
-    public int compareTo(Number o) {
-        return Double.compare(value, o.doubleValue());
+    public RealNumber distanceTo(RealNumber otherElement) {
+        return minus(otherElement).abs();
     }
+
 
     @Override
     public int compareTo(RealNumber o) {
@@ -140,6 +164,21 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
             return 0;
         }
         return Double.compare(value, o.value);
+    }
+
+    @Override
+    public RealNumber sqr() {
+        return null;
+    }
+
+    @Override
+    public RealNumber sqrt() {
+        return new RealNumber(Math.sqrt(value), uncertainty);
+    }
+
+    @Override
+    public RealNumber pow(RealNumber exponent) {
+        return new RealNumber(Math.pow(value, exponent.value), uncertainty);
     }
 
     @Override
@@ -153,7 +192,7 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         if (o == null || getClass() != o.getClass()) return false;
 
         RealNumber that = (RealNumber) o;
-        boolean result = getStructure().getEquivalence().test(this, that);
+        boolean result = getConfidenceInterval().contains(that.value);
         return result;
     }
 
@@ -162,12 +201,13 @@ public class RealNumber extends AbstractNumberElement<RealNumber> implements Num
         return 0;
     }
 
-    @Override
-    public RealNumber epsilon() {
-        return new RealNumber(EPSILON_FACTOR * uncertainty, 0);
-    }
 
     public DoubleConfidenceInterval getConfidenceInterval() {
         return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), EPSILON_FACTOR);
+    }
+
+    @Override
+    public RealNumber abs() {
+        return new RealNumber(Math.abs(value), uncertainty);
     }
 }

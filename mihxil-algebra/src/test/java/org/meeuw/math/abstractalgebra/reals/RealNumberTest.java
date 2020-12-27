@@ -20,11 +20,12 @@ class RealNumberTest implements FieldTheory<RealNumber>, SignedNumberTheory<Real
     @Test
     public void test() {
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
-        assertThat(of(0d).epsilon().value).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
-
+        assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * - 4.9E-324);
+        assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
     }
 
-    @Provide
+    @Override
+	@Provide
     public Arbitrary<RealNumber> elements() {
         return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 100)).injectDuplicates(0.1);
     }

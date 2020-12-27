@@ -3,10 +3,9 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.math.*;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
-import org.meeuw.math.numbers.NumberOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -14,11 +13,11 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
-    implements NumberFieldElement<BigDecimalElement>, UncertainNumber<BigDecimal> {
+public class BigDecimalElement
+    implements ScalarFieldElement<BigDecimalElement>, CompleteFieldElement<BigDecimalElement>, MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
+    UncertainNumber<BigDecimal> {
 
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
-
 
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
     public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-" + (Utils.PI.length() - 1)));
@@ -54,6 +53,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     }
 
     @Override
+    public BigDecimalElement minus(BigDecimalElement n1) {
+        return new BigDecimalElement(value.min(n1.value), operations().addUncertainty(uncertainty, n1.uncertainty));
+    }
+
+    @Override
     public BigDecimalElement negation() {
         return new BigDecimalElement(value.negate(), uncertainty);
     }
@@ -61,6 +65,36 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     @Override
     public int compareTo(BigDecimalElement compare) {
         return value.compareTo(compare.value);
+    }
+
+    @Override
+    public BigDecimalElement sqr() {
+        return new BigDecimalElement(value.multiply(value), uncertainty.multiply(uncertainty));
+    }
+
+    @Override
+    public BigDecimalElement dividedBy(BigDecimalElement n) {
+        return new BigDecimalElement(operations().divide(value, n.value), operations().multiplyUncertainty(uncertainty, n.uncertainty));
+    }
+
+    @Override
+    public BigDecimalElement sqrt() {
+        return new BigDecimalElement(operations().sqrt(value), operations().sqrt(uncertainty));
+    }
+
+    @Override
+    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) {
+        return new BigDecimalElement(operations().pow(value, bigDecimalElement.value), uncertainty);
+    }
+
+    @Override
+    public BigDecimalElement sin() {
+        return new BigDecimalElement(operations().sin(value), uncertainty);
+    }
+
+    @Override
+    public BigDecimalElement cos() {
+        return new BigDecimalElement(operations().cos(value), uncertainty);
     }
 
     @Override
@@ -79,7 +113,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     }
 
     @Override
-    public NumberOperations<BigDecimal> operations() {
+    public UncertaintyNumberOperations<BigDecimal> operations() {
         return BigDecimalOperations.INSTANCE;
     }
 
@@ -133,6 +167,11 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     }
 
     @Override
+    public boolean isOne() {
+        return value.equals(BigDecimal.ONE);
+    }
+
+    @Override
     public int signum() {
         return value.signum();
     }
@@ -142,7 +181,7 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
         return value.doubleValue();
     }
 
-    @Override
+    //@Override
     public int compareTo(Number o) {
         if (o instanceof BigDecimal) {
             return value.compareTo((BigDecimal) o);
@@ -168,5 +207,15 @@ public class BigDecimalElement extends AbstractNumberElement<BigDecimalElement>
     @Override
     public int hashCode() {
         return 0;
+    }
+
+    @Override
+    public BigDecimalElement abs() {
+        return new BigDecimalElement(value.abs(), uncertainty);
+    }
+
+    @Override
+    public BigDecimalElement distanceTo(BigDecimalElement otherElement) {
+        return new BigDecimalElement(getValue().min(otherElement.getValue()).abs(), getUncertainty());
     }
 }

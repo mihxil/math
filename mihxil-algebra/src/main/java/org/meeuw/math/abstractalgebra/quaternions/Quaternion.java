@@ -1,27 +1,34 @@
 package org.meeuw.math.abstractalgebra.quaternions;
 
 import lombok.EqualsAndHashCode;
-
 import lombok.Getter;
 
+import java.io.Serializable;
+
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.numbers.Sizeable;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @EqualsAndHashCode
-public class Quaternion<E extends NumberFieldElement<E>>
-    implements DivisionRingElement<Quaternion<E>> {
+public class Quaternion<E extends ScalarFieldElement<E>>
+    implements
+    DivisionRingElement<Quaternion<E>>,
+    Sizeable<E>,
+    Serializable {
+
+    static final long serialVersionUID = 0L;
 
     @Getter
-    private final E a;
+    final E a;
     @Getter
-    private final E b;
+    final E b;
     @Getter
-    private final E c;
+    final E c;
     @Getter
-    private final E d;
+    final E d;
 
     public Quaternion(E a, E b, E c, E d) {
         this.a = a;
@@ -40,7 +47,7 @@ public class Quaternion<E extends NumberFieldElement<E>>
      */
     @Override
     public Quaternion<E> times(Quaternion<E> multiplier) {
-        return new Quaternion<>(
+        return new Quaternion<E>(
             a.times(multiplier.a).minus(b.times(multiplier.b)).minus(c.times(multiplier.c)).minus(d.times(multiplier.d)),
             a.times(multiplier.b).plus (b.times(multiplier.a)).plus (c.times(multiplier.d)).minus(d.times(multiplier.c)),
             a.times(multiplier.c).minus(b.times(multiplier.d)).plus (c.times(multiplier.a)).plus (d.times(multiplier.b)),
@@ -116,16 +123,19 @@ public class Quaternion<E extends NumberFieldElement<E>>
         append(b, result, 'i');
         append(c, result, 'j');
         append(d, result, 'k');
+        if (result.length() == 0) {
+            result.append('0');
+        }
         return result.toString();
     }
 
-    protected void append(E imaginary, StringBuilder result, char i) {
+    protected void append(E value, StringBuilder result, char i) {
         boolean hasValues = result.length() > 0;
-        if (!imaginary.isZero()) {
+        if (!value.isZero()) {
             if (hasValues) {
                 result.append(' ');
             }
-            if (imaginary.isNegative()) {
+            if (value.isNegative()) {
                 result.append('-');
             } else {
                 if (hasValues) {
@@ -135,7 +145,7 @@ public class Quaternion<E extends NumberFieldElement<E>>
             if (hasValues) {
                 result.append(' ');
             }
-            E abs = imaginary.abs();
+            E abs = value.abs();
             if (! abs.isOne()) {
                 result.append(abs.toString());
             }
@@ -143,5 +153,13 @@ public class Quaternion<E extends NumberFieldElement<E>>
         }
     }
 
+    @Override
+    public E abs() {
+        if (getStructure().getElementStructure() instanceof CompleteField) {
+            return (E) ((CompleteFieldElement) (a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr()))).sqrt();
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
 
 }

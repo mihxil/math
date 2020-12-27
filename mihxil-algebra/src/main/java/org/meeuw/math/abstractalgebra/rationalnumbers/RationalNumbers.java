@@ -15,7 +15,7 @@ import static java.math.BigInteger.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements NumberField<RationalNumber>, Streamable<RationalNumber> {
+public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements ScalarField<RationalNumber>, Streamable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
@@ -38,7 +38,6 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         return Stream.iterate(new State(),
                 State::next).map(State::rationalNumber);
     }
-
 
     public RationalNumber nextRandom(Random random) {
         long numerator = random.nextLong();
@@ -111,5 +110,10 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     @Override
     public boolean equals(Object obj) {
         return obj instanceof RationalNumbers;
+    }
+
+    @Override
+    public String toString() {
+        return "ℚ";
     }
 }

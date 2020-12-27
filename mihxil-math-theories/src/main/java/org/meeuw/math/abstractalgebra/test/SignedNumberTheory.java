@@ -5,6 +5,7 @@ import net.jqwik.api.Property;
 
 import org.assertj.core.api.Assumptions;
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
+import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface SignedNumberTheory<E extends SignedNumber<E>> extends NumberTheory<E> {
+public interface SignedNumberTheory<E extends SignedNumber & Scalar<E>> extends NumberTheory<E> {
 
     @Property
     default void signumOfZero(@ForAll(ELEMENT) E e) {

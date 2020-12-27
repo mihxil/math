@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 
 /**
  * @author Michiel Meeuwissen
- * @since 0.
+ * @since 0.4
  */
 public class StringElement implements AdditiveMonoidElement<StringElement>, CharSequence {
 

@@ -43,7 +43,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
     }
 
-
     @Property
     default void structureSameInstance(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();
@@ -68,6 +67,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         for (Operator o : s.getSupportedOperators()) {
             try {
                 E result = o.apply(e1, e2);
+                assertThat(result)
+                    .withFailMessage("operator " + o + "(" + e1 + ", " + e2 + ") resulted null").isNotNull();
                 assertThat(result.getStructure()).isSameAs(s);
                 if (count.incrementAndGet() < 200) {
                     getLogger().info(o.stringify(e1, e2) + " = " + result);
@@ -76,7 +77,11 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 if (ae.getCause() instanceof ArithmeticException) {
                     getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {
-                    throw ae.getCause();
+                    if (ae.getCause() != null) {
+                        throw ae.getCause();
+                    } else {
+                        throw ae;
+                    }
                 }
             }
 

@@ -9,6 +9,7 @@ package org.meeuw.math.abstractalgebra;
 public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
     extends AlgebraicElement<E> {
 
+    @Override
     AdditiveSemiGroup<E> getStructure();
 
     E plus(E summand);

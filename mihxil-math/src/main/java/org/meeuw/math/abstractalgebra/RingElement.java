@@ -9,4 +9,5 @@ public interface RingElement<E extends RingElement<E>> extends RngElement<E> {
 
     @Override
     Ring<E> getStructure();
+
 }

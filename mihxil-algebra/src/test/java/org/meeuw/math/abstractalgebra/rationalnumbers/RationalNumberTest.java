@@ -76,7 +76,8 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberThe
         );
     }
 
-    @Provide
+    @Override
+	@Provide
     public Arbitrary<RationalNumber> elements() {
         return Arbitraries.randomValue(INSTANCE::nextRandom);
     }

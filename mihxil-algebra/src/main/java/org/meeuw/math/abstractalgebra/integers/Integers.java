@@ -41,4 +41,9 @@ public class Integers extends AbstractAlgebraicStructure<IntegerElement>
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
+
+    @Override
+    public String toString() {
+        return "ℤ";
+    }
 }

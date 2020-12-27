@@ -26,6 +26,7 @@ public interface ElementTheory<E>  {
     }
 
 
+    @SuppressWarnings({"EqualsWithItself", "ConstantConditions"})
     @Property
     default void testEqualsSelf(@ForAll(ELEMENTS) E e) {
         assertThat(e.equals(e)).isTrue();

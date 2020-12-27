@@ -13,7 +13,6 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  */
 public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
 
-
     @Getter
     final int[] exponents = new int[Dimension.values().length];
 

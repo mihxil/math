@@ -19,7 +19,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThat(s.getSupportedOperators()).contains(Operator.MULTIPLICATION);
     }
 
-
     @Property
     default void multiplicativeAssociativity (
             @ForAll(ELEMENTS) E v1,

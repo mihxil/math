@@ -11,7 +11,8 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoidElement<E> {
+public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement<E>>
+    extends MultiplicativeMonoidElement<E> {
 
     @Override
     MultiplicativeGroup<E> getStructure();
@@ -22,33 +23,25 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     E reciprocal();
 
     /**
-     * if multiplication and division is defined, then so is exponentation to any integer power.
+     * if multiplication and division is defined, then so is exponentiation to any integer power.
+     *
+     * This default implementation is doing exponentiation by squaring
      */
-    default E pow(int exponent) {
-        E result = getStructure().one();
-        E self = (E) this;
-        while (exponent > 0) {
-            result = result.times(self);
-            exponent--;
+    @Override
+    default E pow(int n) {
+        if (n < 0) {
+            n *= -1;
+            return reciprocal().pow(n);
         }
-        while(exponent < 0) {
-            result = result.dividedBy(self);
-            exponent++;
+        if (n == 0) {
+            return getStructure().one();
         }
-        return result;
+        return MultiplicativeMonoidElement.super.pow(n);
     }
 
 
     default E dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }
-
-    /**
-     * Returns this element multiplied by itself.
-     */
-    default E sqr() {
-        return times((E) this);
-    }
-
 
 }

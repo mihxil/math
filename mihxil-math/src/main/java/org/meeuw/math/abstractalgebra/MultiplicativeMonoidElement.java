@@ -8,21 +8,26 @@ import javax.validation.constraints.Min;
  */
 public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidElement<E>> extends MultiplicativeSemiGroupElement<E> {
 
+    @Override
     MultiplicativeMonoid<E> getStructure();
 
     /**
-     * if multiplication is defined, then so is exponentation, as long as the exponent is non negative
+     * if multiplication is defined, then so is exponentiation, as long as the exponent is non negative
      */
-    default E pow(@Min(0) int exponent) {
-        E result = getStructure().one();
-        E self = (E) this;
-        while (exponent > 0) {
-            result = result.times(self);
-            exponent--;
-        }
-        if(exponent < 0) {
+    @Override
+    default E pow(@Min(0) int n) {
+        if (n < 0) {
             throw new IllegalArgumentException();
         }
-        return result;
+        if (n == 0) {
+            return getStructure().one();
+        }
+        return MultiplicativeSemiGroupElement.super.pow(n);
     }
+
+    default boolean isOne() {
+        return getStructure().one().equals(this);
+    }
+
+
 }

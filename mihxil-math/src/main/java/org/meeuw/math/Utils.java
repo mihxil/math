@@ -61,6 +61,9 @@ public class Utils {
      */
     public static double pow(double base, int i) {
         double result = 1;
+        // branching will make this slow
+
+        // Math.pow(base, i); will problably perform better?
         while (i > 0) {
             result *= base;
             i--;

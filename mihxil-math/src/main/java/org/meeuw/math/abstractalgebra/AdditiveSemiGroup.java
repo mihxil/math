@@ -12,7 +12,6 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
 
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION)));
 
-
     @Override
     default Set<Operator> getSupportedOperators() {
         return OPERATORS;

@@ -2,24 +2,27 @@ package org.meeuw.math.abstractalgebra.dim3;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
-import org.meeuw.math.abstractalgebra.NumberField;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.numbers.Sizeable;
 
 import static java.math.BigDecimal.ZERO;
 
 /**
- * A 3 dimension vector on a {@link NumberField}.
+ * A 3 dimension vector on a {@link CompleteField}.
  * @author Michiel Meeuwissen
  */
-public class FieldVector3<E extends NumberFieldElement<E>> {
+public class FieldVector3<E extends ScalarFieldElement<E>>
+    implements
+    Sizeable<E>,
+    WithScalarOperations<FieldVector3<E>, E> {
 
     final E x;
     final E y;
     final E z;
 
-    public static <E extends NumberFieldElement<E>> FieldVector3<E> of(E x, E y, E z) {
+    public static <E extends ScalarFieldElement<E>> FieldVector3<E> of(E x, E y, E z) {
         return new FieldVector3<>(x, y, z);
     }
 
@@ -57,9 +60,9 @@ public class FieldVector3<E extends NumberFieldElement<E>> {
 
         FieldVector3<?> vector3 = (FieldVector3) o;
 
-        return x.equalsWithEpsilon((E) vector3.x) &&
-            y.equalsWithEpsilon((E) vector3.y) &&
-            z.equalsWithEpsilon((E) vector3.z);
+        return x.equals((E) vector3.x) &&
+            y.equals((E) vector3.y) &&
+            z.equals((E) vector3.z);
     }
 
 
@@ -67,5 +70,25 @@ public class FieldVector3<E extends NumberFieldElement<E>> {
     @Override
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";
+    }
+
+    @Override
+    public E abs() {
+        E result  = (x.sqr().plus(y.sqr()).plus(z.sqr()));
+        if (result instanceof CompleteFieldElement) {
+            return (E) ((CompleteFieldElement<?>) result).sqrt();
+        } else {
+            throw new UnsupportedOperationException();
+        }
+    }
+
+    @Override
+    public FieldVector3<E> times(E multiplier) {
+        return new FieldVector3<>(x.times(multiplier), y.times(multiplier), z.times(multiplier));
+    }
+
+    @Override
+    public FieldVector3<E> dividedBy(E divisor) {
+        return new FieldVector3<>(x.dividedBy(divisor), y.dividedBy(divisor), z.dividedBy(divisor));
     }
 }

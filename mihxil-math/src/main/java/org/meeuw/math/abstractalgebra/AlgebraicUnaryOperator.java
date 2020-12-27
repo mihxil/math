@@ -9,8 +9,8 @@ import java.util.function.Function;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@FunctionalInterface
 public interface AlgebraicUnaryOperator {
-
 
     <E extends AlgebraicElement<E>> E apply(E e);
 
@@ -50,7 +50,7 @@ public interface AlgebraicUnaryOperator {
      *
      * @see Function#compose(Function)
      */
-    default AlgebraicUnaryOperator andThen(AlgebraicUnaryOperator  after) {
+    default AlgebraicUnaryOperator andThen(final AlgebraicUnaryOperator after) {
         Objects.requireNonNull(after);
         return new AlgebraicUnaryOperator() {
             @Override

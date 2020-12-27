@@ -4,7 +4,6 @@ import java.util.function.IntSupplier;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public enum Offset implements IntSupplier {
     ZERO(0),

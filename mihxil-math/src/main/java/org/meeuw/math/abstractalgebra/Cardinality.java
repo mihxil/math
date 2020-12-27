@@ -31,6 +31,16 @@ public class Cardinality implements Comparable<Cardinality> {
         }
     };
 
+    /**
+     * The cardinality of the continuum. According to the continuum hypothesis this equals {@link #ALEPH_1}
+     */
+    public static final Cardinality C = new Cardinality(-3) {
+        @Override
+        public String toString() {
+            return "\uD835\uDCEC\t\uD835\uDD20";
+        }
+    };
+
 
     public Cardinality(long value) {
         this.value = value;

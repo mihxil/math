@@ -3,13 +3,13 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 
 /**
- * Some algebraic elements are like numbers.  This basicly means that they are {@link Comparable} to a {@link Number}, and to
- * other instances of the same type (See {@link #compareTo(Numerical)})
+ * A scalar is the closest thing to a {@link Number} interface
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <SELF> self reference
  */
-public interface Numerical<E extends Numerical<E>> extends Comparable<Number> {
+public interface Scalar<SELF extends Scalar<SELF>> extends Comparable<SELF>, SignedNumber, Sizeable<SELF> {
 
     /**
      * Returns the value of the specified number as an {@code int},
@@ -83,6 +83,12 @@ public interface Numerical<E extends Numerical<E>> extends Comparable<Number> {
     BigDecimal bigDecimalValue();
 
 
-    int compareTo(E f);
+    default boolean isFinite() {
+        return true;
+    }
+
+    default boolean isNaN() {
+        return false;
+    }
 
 }

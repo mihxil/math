@@ -20,55 +20,29 @@ public class TextUtils {
      * Returns an integer in 'superscript' notation, using unicode.
      */
     public static String superscript(long i) {
-        StringBuilder bul = new StringBuilder();
-        boolean minus = false;
-        if (i < 0) {
-            minus = true;
-            i = -1 * i;
-        }
-        if (i == 0) {
-            bul.insert(0, SUPERSCRIPTS[0]);
-        }
-        while (i > 0) {
-            int j = (int) (i % 10);
-            i /= 10;
-            bul.insert(0, SUPERSCRIPTS[j]);
-        }
-        if (minus) bul.insert(0, "\u207B");
-
-        return bul.toString();
+        return script(i, SUPER_MINUS, SUPERSCRIPTS);
     }
-
 
     /**
      * Returns an integer in 'superscript' notation, using unicode.
      */
     public static String subscript(long i) {
-        StringBuilder bul = new StringBuilder();
-        boolean minus = false;
-        if (i < 0) {
-            minus = true;
-            i = -1 * i;
-        }
-        if (i == 0) {
-            bul.insert(0, SUBSCRIPTS[0]);
-        }
-        while (i > 0) {
-            int j = (int) (i % 10);
-            i /= 10;
-            bul.insert(0, SUBSCRIPTS[j]);
-        }
-        if (minus) bul.insert(0, "\u208B");
-
-        return bul.toString();
+        return script(i, SUB_MINUS, SUBSCRIPTS);
     }
 
     public static String subscript(CharSequence i) {
-        return script(i, '\u208B', SUBSCRIPTS);
+        return script(i, SUB_MINUS, SUBSCRIPTS);
     }
 
     public static String superscript(CharSequence i) {
-        return script(i, '\u207B', SUPERSCRIPTS);
+        return script(i, SUPER_MINUS, SUPERSCRIPTS);
+    }
+
+    private static String script(long i, char minusChar, char[] digits) {
+        StringBuilder bul = new StringBuilder();
+        boolean minus = script(bul, i, digits);
+        if (minus) bul.insert(0, minusChar);
+        return bul.toString();
     }
 
     private static String script(CharSequence i, char minus, char[] digits) {
@@ -78,7 +52,7 @@ public class TextUtils {
             if (Character.isDigit(c)) {
                 bul.append(digits[c - '0']);
             } else if (c == '-') {
-                bul.append('\u208B');
+                bul.append(minus);
             } else {
                 bul.append((char) c);
             }
@@ -86,7 +60,24 @@ public class TextUtils {
         return bul.toString();
     }
 
-      private static final char[] SUPERSCRIPTS = new char[] {
+    private static boolean script(StringBuilder bul, long i, char[] digits) {
+        boolean minus = false;
+        if (i < 0) {
+            minus = true;
+            i = -1 * i;
+        }
+        if (i == 0) {
+            bul.insert(0, digits[0]);
+        }
+        while (i > 0) {
+            int j = (int) (i % 10);
+            i /= 10;
+            bul.insert(0, digits[j]);
+        }
+        return minus;
+    }
+
+    private static final char[] SUPERSCRIPTS = new char[] {
             0x2070,
             0x00B9,
             0x00B2,
@@ -98,7 +89,9 @@ public class TextUtils {
             0x2078,
             0x2079
     };
-     private static final char[] SUBSCRIPTS = new char[] {
+    private static final char SUPER_MINUS = '\u207B';
+
+    private static final char[] SUBSCRIPTS = new char[] {
              0x2080,
              0x2081,
              0x2082,
@@ -110,6 +103,7 @@ public class TextUtils {
              0x2088,
              0x2089
     };
+    private static final char SUB_MINUS = '\u208B';
 
     public static String format(Instant instant, ChronoUnit order) {
          return format(ZoneId.systemDefault(), instant, order);
@@ -122,5 +116,49 @@ public class TextUtils {
          } else {
              return DateTimeFormatter.ISO_DATE.format(toFormat.atZone(zoneId).toLocalDate());
          }
+    }
+
+        /**
+     * Gives a representation of the string which is completely 'underlined' (using unicode control characters)
+     * @since 2.11
+     */
+    public static String underLine(CharSequence s) {
+        return controlEach(s, '\u0332');
+    }
+
+    /**
+     * Gives a representation of the string which is completely 'double underlined' (using unicode control characters)
+     */
+    public static String underLineDouble(CharSequence s) {
+        return controlEach(s, '\u0333');
+    }
+
+    /**
+     * Gives a representation of the string which is completely 'overlined' (using unicode control characters)
+     */
+    public static String overLine(CharSequence s) {
+        return controlEach(s, '\u0305');
+    }
+
+    /**
+     * Gives a representation of the string which is completely 'double overlined' (using unicode control characters)
+     */
+    public static String overLineDouble(CharSequence s) {
+        return controlEach(s, '\u033f');
+    }
+
+    /**
+     * @since 2.11
+     */
+    public static String controlEach(CharSequence s, Character control) {
+        if (s == null) {
+            return null;
+        }
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i <  s.length(); i++) {
+            result.append(s.charAt(i));
+            result.append(control);
+        }
+        return result.toString();
     }
 }

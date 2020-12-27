@@ -41,9 +41,7 @@ public class DerivedUnit implements Unit {
 
 
     public DerivedUnit(String name, String description, double siFactor, DerivedUnit derivedUnit) {
-        for (int i = 0; i < this.exponents.length; i++) {
-            this.exponents[i] = derivedUnit.exponents[i];
-        }
+        System.arraycopy(derivedUnit.exponents, 0, this.exponents, 0, this.exponents.length);
         this.dimensions = derivedUnit.dimensions;
         this.name = name;
         this.description = description;

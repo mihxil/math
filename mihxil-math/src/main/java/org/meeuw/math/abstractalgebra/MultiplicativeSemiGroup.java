@@ -1,9 +1,10 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableSet;
+import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 
 /**
  * The algebraic structure that only defines multiplication. There might be no multiplicatie identity {@link MultiplicativeMonoid#one()}
@@ -13,8 +14,7 @@ import java.util.Set;
  */
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructure<E> {
 
-    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.MULTIPLICATION)));
-
+    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(singletonList(MULTIPLICATION)));
 
     @Override
     default Set<Operator> getSupportedOperators() {

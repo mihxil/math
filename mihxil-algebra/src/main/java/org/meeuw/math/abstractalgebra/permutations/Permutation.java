@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.permutations;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
@@ -14,11 +15,15 @@ import org.meeuw.math.text.spi.Configuration;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Permutation  implements MultiplicativeGroupElement<Permutation>, UnaryOperator<Object[]> {
-
+public class Permutation  implements
+    MultiplicativeGroupElement<Permutation>,
+    UnaryOperator<Object[]>,
+    Serializable
+{
+    private static final long serialVersionUID = 0L;
 
     final int[] value;
-    private List<Cycle> cycles;
+    private transient List<Cycle> cycles;
 
     public static Permutation of(int... value) {
         int[] v = value;

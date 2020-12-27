@@ -11,7 +11,11 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElement> implements NumberField<BigDecimalElement> {
+public class BigDecimalField
+    extends AbstractAlgebraicStructure<BigDecimalElement>
+    implements
+    CompleteField<BigDecimalElement>,
+    MetricSpace<BigDecimalElement, BigDecimalElement> {
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 
@@ -35,6 +39,6 @@ public class BigDecimalField extends AbstractAlgebraicStructure<BigDecimalElemen
 
     @Override
     public Cardinality getCardinality() {
-        return Cardinality.ALEPH_1;
+        return Cardinality.C;
     }
 }

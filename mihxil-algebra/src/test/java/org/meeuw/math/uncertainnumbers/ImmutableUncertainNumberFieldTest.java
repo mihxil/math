@@ -5,6 +5,8 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,20 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainDoubleElement> {
+class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainReal> {
 
     @Test
     public void testToString() {
-        ImmutableUncertainDouble uncertainDouble = new ImmutableUncertainDouble(5, 1);
+        UncertainDoubleElement uncertainDouble = new UncertainDoubleElement(5, 1);
         assertThat(uncertainDouble.toString()).isEqualTo("5.0 ± 1.0");
 
     }
 
     @Override
-    public Arbitrary<ImmutableUncertainDouble> elements() {
+    public Arbitrary<UncertainDoubleElement> elements() {
         return Arbitraries.randomValue(r -> {
             double value = 10000 * (r.nextDouble() - 0.5d);
-            return new ImmutableUncertainDouble(value, Math.abs(value * r.nextDouble()));
+            return new UncertainDoubleElement(value, Math.abs(value * r.nextDouble()));
         });
 
     }

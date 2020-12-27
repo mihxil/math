@@ -9,4 +9,5 @@ package org.meeuw.math.abstractalgebra;
 public interface Ring<E extends RingElement<E>> extends Rng<E> {
 
     E one();
+
 }

@@ -18,4 +18,5 @@ public interface AdditiveMonoidTheory<E extends AdditiveMonoidElement<E>>
     default void zero(@ForAll(ELEMENTS) E e) {
         assertThat(e.plus(e.getStructure().zero())).isEqualTo(e);
     }
+
 }

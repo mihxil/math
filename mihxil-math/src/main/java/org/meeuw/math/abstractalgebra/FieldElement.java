@@ -12,4 +12,5 @@ public interface FieldElement<E extends FieldElement<E>> extends
 
     @Override
     Field<E> getStructure();
+
 }

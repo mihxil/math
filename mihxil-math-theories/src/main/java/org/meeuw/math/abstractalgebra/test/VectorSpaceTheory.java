@@ -4,7 +4,7 @@ import net.jqwik.api.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.VectorInterface;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorSpaceTheory<E extends FieldElement<E>, V extends VectorInterface<E, V>> extends ElementTheory<E> {
+public interface VectorSpaceTheory<E extends ScalarFieldElement<E>, V extends VectorInterface<E, V>> extends ElementTheory<E> {
 
     String VECTORS = "vectors";
 
@@ -28,30 +28,24 @@ public interface VectorSpaceTheory<E extends FieldElement<E>, V extends VectorIn
             v1.get(i);
         }
         AtomicInteger count = new AtomicInteger(0);
-        v1.forEach(e -> {
-            count.incrementAndGet();
-        });
+        v1.forEach(e -> count.incrementAndGet());
         assertThat(count.intValue()).isEqualTo(dim);
 
         count.set(0);
         v1.spliterator().forEachRemaining(
-            e -> {
-            count.incrementAndGet();
-        }
+            e -> count.incrementAndGet()
         );
         assertThat(count.intValue()).isEqualTo(dim);
 
-        assertThatThrownBy(() -> {
-            v1.get(dim);
-        }).isInstanceOf(ArrayIndexOutOfBoundsException.class);
+        assertThatThrownBy(() ->
+            v1.get(dim)
+        ).isInstanceOf(ArrayIndexOutOfBoundsException.class);
     }
 
     @Property
     default void toString(@ForAll(VECTORS) V v1) {
         String toString = v1.toString();
-        v1.forEach(e -> {
-            assertThat(toString).contains(e.toString());
-        });
+        v1.forEach(e -> assertThat(toString).contains(e.toString()));
     }
 
 

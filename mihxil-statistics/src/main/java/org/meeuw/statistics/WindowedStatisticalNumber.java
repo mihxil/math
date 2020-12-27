@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.function.BiConsumer;
 
 /**
- * {@link StatisticalNumber}s can be aggregated, and therefor {@link Windowed}.
+ * {@link StatisticalNumber}s can be aggregated, and therefore {@link Windowed}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

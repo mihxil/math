@@ -10,4 +10,5 @@ public interface RngElement<E extends RngElement<E>> extends AdditiveGroupElemen
 
     @Override
     Rng<E> getStructure();
+
 }

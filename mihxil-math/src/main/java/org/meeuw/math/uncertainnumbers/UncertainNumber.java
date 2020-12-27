@@ -2,10 +2,11 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.numbers.NumberOperations;
-import org.meeuw.math.numbers.UncertaintyNumberOperations;
+import org.meeuw.math.numbers.*;
 
 /**
+ * The interface representing an uncertain number. It makes no
+ * assumptions about the implemented algebra yet.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -31,7 +32,7 @@ public interface UncertainNumber<N extends Number> {
 
 
     default UncertainNumber<N> plus(N summand) {
-        return new ImmutableUncertainNumber<N>(operations().add(summand, getValue()), getUncertainty());
+        return new ImmutableUncertainNumber<>(operations().add(summand, getValue()), getUncertainty());
     }
 
     default UncertainNumber<N> minus(N subtrahend) {
@@ -105,7 +106,7 @@ public interface UncertainNumber<N extends Number> {
         );
     }
 
-    default int sgn() {
+    default int signum() {
         return  operations().signum(getValue());
     }
 

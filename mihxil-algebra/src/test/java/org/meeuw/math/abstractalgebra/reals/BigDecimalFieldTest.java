@@ -35,7 +35,8 @@ strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, Si
 
     }
 
-    @Provide
+    @Override
+	@Provide
     public Arbitrary<BigDecimalElement> elements() {
         return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 1000)).injectDuplicates(0.1);
     }

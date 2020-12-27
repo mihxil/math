@@ -2,15 +2,17 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.numbers.SignedNumber;
+import javax.validation.constraints.Min;
+
+import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.RingElement;
+import org.meeuw.math.numbers.Scalar;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement extends AbstractNumberElement<IntegerElement>
-    implements RingElement<IntegerElement>, SignedNumber<IntegerElement> {
+public class IntegerElement implements RingElement<IntegerElement>, Scalar<IntegerElement> {
 
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
@@ -30,9 +32,15 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement>
         return new IntegerElement(value + summand.value);
     }
 
+
     @Override
-    public IntegerElement negation() {
-        return new IntegerElement(-1 * value);
+    public IntegerElement minus(IntegerElement summand) {
+        return plus(summand.negation());
+    }
+
+    @Override
+    public IntegerElement repeatedPlus(int multiplier) {
+        return new IntegerElement(value * multiplier);
     }
 
     @Override
@@ -41,8 +49,27 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement>
     }
 
     @Override
+    public boolean isZero() {
+        return value == 0;
+    }
+
+    @Override
     public IntegerElement times(IntegerElement multiplier) {
         return new IntegerElement(value * multiplier.value);
+    }
+
+    @Override
+    public IntegerElement pow(@Min(1) int n) {
+        return new IntegerElement(Utils.positivePow(value, n));
+    }
+
+    @Override
+    public IntegerElement sqr() {
+        return new IntegerElement(value * value);
+    }
+
+    public IntegerElement dividedBy(IntegerElement n) {
+        return new IntegerElement(value / n.value);
     }
 
     @Override
@@ -82,18 +109,23 @@ public class IntegerElement extends AbstractNumberElement<IntegerElement>
     }
 
     @Override
-    public int compareTo(Number o) {
-        return Long.compare(value, o.longValue());
-
+    public BigDecimal bigDecimalValue() {
+        return BigDecimal.valueOf(value);
     }
 
+
     @Override
-    public BigDecimal bigDecimalValue() {
-        return new BigDecimal(value);
+    public IntegerElement negation() {
+        return new IntegerElement(-1 * value);
     }
 
     @Override
     public int signum() {
         return Long.signum(value);
+    }
+
+    @Override
+    public IntegerElement abs() {
+        return new IntegerElement(Math.abs(value));
     }
 }

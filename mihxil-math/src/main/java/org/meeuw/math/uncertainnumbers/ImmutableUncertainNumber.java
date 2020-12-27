@@ -20,7 +20,6 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
         this.uncertainty = uncertainty;
     }
 
-
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
@@ -33,7 +32,6 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
         return 0;
     }
 
-
     @Override
     public N getValue() {
         return value;
@@ -43,6 +41,5 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     public NumberOperations<N> operations() {
         return NumberOperations.of(value);
     }
-
 
 }

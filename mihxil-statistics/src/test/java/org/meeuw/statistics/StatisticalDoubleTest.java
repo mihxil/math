@@ -7,7 +7,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.uncertainnumbers.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
-public class StatisticalDoubleTest implements FieldTheory<UncertainDoubleElement> {
+public class StatisticalDoubleTest implements FieldTheory<UncertainReal> {
 
 
     @Test
@@ -84,7 +84,7 @@ public class StatisticalDoubleTest implements FieldTheory<UncertainDoubleElement
     }
 
     @Override
-    public Arbitrary<UncertainDoubleElement> elements() {
+    public Arbitrary<UncertainReal> elements() {
         Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
         Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);
         Arbitrary<Random> random = Arbitraries.randoms();

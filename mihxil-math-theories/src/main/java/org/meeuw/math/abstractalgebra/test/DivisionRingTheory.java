@@ -6,6 +6,7 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
 import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.SQR;
@@ -28,8 +29,8 @@ public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
         @ForAll(ELEMENTS) E e1,
         @ForAll(ELEMENTS) E e2) {
         assertThat(MULTIPLICATION.andThen(NEGATION).apply(e1, e2)).isEqualTo(e1.times(e2).negation());
-        assertThat(Operator.ADDITION.andThen(SQR.compose(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).negation()).sqr());
-        assertThat(Operator.ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).sqr()).negation());
+        assertThat(ADDITION.andThen(SQR.compose(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).negation()).sqr());
+        assertThat(ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).sqr()).negation());
 
     }
 

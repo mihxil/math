@@ -15,8 +15,6 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
-
-
     private EvenIntegers() {
         super(EvenIntegerElement.class);
     }
@@ -28,7 +26,7 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
 
     @Override
     public Stream<EvenIntegerElement> stream() {
-        return Stream.iterate(zero(), i -> i.isPositive() ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
+        return Stream.iterate(zero(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
     }
 
     @Override

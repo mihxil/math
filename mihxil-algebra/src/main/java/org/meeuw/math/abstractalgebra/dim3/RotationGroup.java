@@ -31,4 +31,9 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     public Equivalence<Rotation> getEquivalence() {
         return (e1, e2) -> e1.rot.getStructure().getEquivalence().test(e1.rot, e2.rot);
     }
+
+    @Override
+    public String toString() {
+        return "SO(3)";
+    }
 }

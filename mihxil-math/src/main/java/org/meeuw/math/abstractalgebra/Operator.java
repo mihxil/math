@@ -17,7 +17,9 @@ public enum Operator implements AlgebraicBinaryOperator {
     ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + " + " + b),
     SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), (a, b) -> a + " - " + b),
     MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + " ⋅ " + b),
-    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b);
+    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b),
+    POWER(getBinaryOperator(CompleteFieldElement.class, "pow"), (a, b) -> a + " ^ " + b);
+
 
     @Getter
     final Method method;
@@ -30,17 +32,19 @@ public enum Operator implements AlgebraicBinaryOperator {
         this.stringify = stringify;
     }
 
-
     @SuppressWarnings("unchecked")
     @SneakyThrows
     @Override
     public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
-        return (E) getMethod().invoke(element1, element2);
+        E result = (E) method.invoke(element1, element2);
+        if (result == null) {
+            throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
+        }
+        return result;
     }
 
     public  <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {
         return stringify.apply(element1.toString(), element2.toString()).toString();
-
     }
 
     @SneakyThrows

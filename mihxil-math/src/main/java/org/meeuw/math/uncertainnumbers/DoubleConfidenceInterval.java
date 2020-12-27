@@ -5,12 +5,15 @@ import lombok.Getter;
 import java.util.function.Predicate;
 
 /**
+ * Like {@link ConfidenceInterval}, but backed by primitive doubles.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Getter
 public
 class DoubleConfidenceInterval implements Predicate<Double> {
+
     private final double low;
     private final double high;
 

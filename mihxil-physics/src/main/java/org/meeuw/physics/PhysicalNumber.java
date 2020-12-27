@@ -1,28 +1,38 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.math.BigDecimal;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.numbers.Scalar;
+import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * An uncertain number but also with {@link Units}
+ *
+ * This makes it not a {@link org.meeuw.math.abstractalgebra.FieldElement}, but merely a {@link MultiplicativeGroupElement}, since you cannot add any physical number to another.
  *  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber implements
-    MultiplicativeGroupElement<PhysicalNumber>, UncertainDouble {
+public abstract class PhysicalNumber extends Number
+    implements MultiplicativeGroupElement<PhysicalNumber>,
+    UncertainDouble<PhysicalNumber>,
+    Scalar<PhysicalNumber>,
+    Comparable<PhysicalNumber>,
+    SignedNumber {
 
     @Getter
-    protected final UncertainDouble wrapped;
+    protected final UncertainReal wrapped;
 
     @Getter
     protected final Units units;
 
-    public PhysicalNumber(UncertainDouble wrapped, Units units) {
+    public PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }
@@ -33,7 +43,7 @@ public abstract class PhysicalNumber implements
      */
     @Override
     public String toString() {
-        return  wrapped.toString() + " " + units.toString();
+        return wrapped + " " + units;
     }
 
     @Override
@@ -43,17 +53,17 @@ public abstract class PhysicalNumber implements
 
     @Override
     public long longValue() {
-        return Math.round(doubleValue());
+        return Math.round(getValue());
     }
 
     @Override
     public float floatValue() {
-        return (float) doubleValue();
+        return (float) getValue();
     }
 
     @Override
-    public double doubleValue() {
-        return  wrapped.doubleValue();
+    public double getValue() {
+        return  wrapped.getValue();
     }
 
     @Override
@@ -66,12 +76,8 @@ public abstract class PhysicalNumber implements
         return  wrapped.getUncertainty();
     }
 
-    public int compareTo(PhysicalNumber o) {
-        return Double.compare(doubleValue(), o.doubleValue());
-    }
-
     @Override
-    public PhysicalNumber combined(UncertainDouble m) {
+    public PhysicalNumber combined(UncertainReal m) {
         return copy(wrapped.combined(m), units);
     }
 
@@ -80,13 +86,13 @@ public abstract class PhysicalNumber implements
         return copy(wrapped.times(multiplier), units);
     }
 
-    @Override
-    public PhysicalNumber times(PhysicalNumber multiplier) {
-        return copy(wrapped.times(multiplier),  Units.forMultiplication(units, multiplier.getUnits()));
-    }
 
     @Override
-    public PhysicalNumber times(UncertainDouble multiplier) {
+    public PhysicalNumber times(PhysicalNumber multiplier) {
+        return copy(wrapped.times(multiplier.wrapped),  Units.forMultiplication(units, multiplier.getUnits()));
+    }
+
+    public PhysicalNumber times(UncertainReal multiplier) {
         return copy(wrapped.times(multiplier), units);
     }
 
@@ -107,9 +113,10 @@ public abstract class PhysicalNumber implements
      *
      * @throws IllegalArgumentException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
      */
+    @Override
     public PhysicalNumber plus(PhysicalNumber summand) {
         summand = summand.toUnits(this.getUnits());
-        return copy(wrapped.plus(summand),
+        return copy(wrapped.plus(summand.wrapped),
             Units.forAddition(units, summand.getUnits())
         );
     }
@@ -140,13 +147,14 @@ public abstract class PhysicalNumber implements
         return copy(wrapped.plus(summand), units);
     }
 
-    protected abstract PhysicalNumber copy(UncertainDouble wrapped, Units units);
+    protected abstract PhysicalNumber copy(UncertainReal wrapped, Units units);
 
     @Override
     public PhysicalNumbers getStructure() {
         return PhysicalNumbers.INSTANCE;
     }
 
+    @Override
     public PhysicalNumber negation() {
         return times(-1);
     }
@@ -155,6 +163,28 @@ public abstract class PhysicalNumber implements
     public int signum() {
         return wrapped.signum();
     }
+
+    @Override
+    public PhysicalNumber abs() {
+        if (isPositive()) {
+            return this;
+        } else {
+            return new Measurement(wrapped.abs(), getUnits());
+        }
+    }
+
+
+    @Override
+    public double doubleValue() {
+        return wrapped.doubleValue();
+    }
+
+    @Override
+    public PhysicalNumber of(double value, double uncertainty) {
+        return new Measurement(value, uncertainty, units);
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -171,8 +201,9 @@ public abstract class PhysicalNumber implements
         return result;
     }
 
-    public int compareTo(UncertainDouble f) {
-        return Double.compare(doubleValue(),f.doubleValue());
+    @Override
+    public int compareTo(PhysicalNumber f) {
+        return Double.compare(getValue(),f.getValue());
     }
 }
 

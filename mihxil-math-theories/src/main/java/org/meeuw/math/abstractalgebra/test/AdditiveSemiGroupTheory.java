@@ -28,6 +28,4 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
         assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
     }
 
-
-
 }

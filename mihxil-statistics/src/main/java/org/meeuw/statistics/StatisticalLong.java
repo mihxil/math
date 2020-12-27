@@ -1,13 +1,3 @@
-/*
-
-This software is OSI Certified Open Source Software.
-OSI Certified is a certification mark of the Open Source Initiative.
-
-The license (Mozilla version 1.0) can be read at the MMBase site.
-See http://www.MMBase.org/license
-
-*/
-
 package org.meeuw.statistics;
 
 import lombok.Getter;
@@ -19,6 +9,7 @@ import java.util.function.LongConsumer;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.uncertainnumbers.*;
+import org.meeuw.math.uncertainnumbers.field.*;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -138,9 +129,14 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     @Override
-    public int compareTo(Number o) {
-        return Double.compare(doubleValue(), o.doubleValue());
+    public UncertainReal abs() {
+        if (sum >= 0) {
+            return this;
+        } else {
+            return new StatisticalLong(mode, Math.abs(sum), squareSum, count, Math.abs(guessedMean));
+        }
     }
+
 
     protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
@@ -149,8 +145,18 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
 
     @Override
-    public UncertainDoubleField getStructure() {
-        return  UncertainDoubleField.INSTANCE;
+    public UncertainRealField getStructure() {
+        return  UncertainRealField.INSTANCE;
+    }
+
+    @Override
+    public UncertainReal times(UncertainReal multiplier) {
+        return null;
+    }
+
+    @Override
+    public UncertainReal plus(UncertainReal summand) {
+        return null;
     }
 
     @Override
@@ -159,9 +165,10 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     @Override
-    public double doubleValue() {
+    public double getValue() {
         return getMean();
     }
+
 
     public Instant instantValue() {
         return Instant.ofEpochMilli(longValue());

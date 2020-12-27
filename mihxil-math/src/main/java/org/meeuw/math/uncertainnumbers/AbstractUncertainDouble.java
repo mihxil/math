@@ -1,7 +1,8 @@
 package org.meeuw.math.uncertainnumbers;
 
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import java.math.BigDecimal;
+
+import org.meeuw.math.numbers.Scalar;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -10,17 +11,10 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class AbstractUncertainDouble<E extends AlgebraicElement<E>> extends Number
-    implements UncertainDouble, AlgebraicElement<E> {
+public abstract class AbstractUncertainDouble<D extends UncertainDouble<D> & Scalar<D>>
+    extends Number
+    implements Comparable<D>, UncertainDouble<D>, Scalar<D> {
 
-    /**
-     * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
-     */
-    @Override
-    public String toString() {
-        return AlgebraicElementFormatProvider.toString(this);
-    }
 
     @Override
     public long longValue() {
@@ -47,15 +41,21 @@ public abstract class AbstractUncertainDouble<E extends AlgebraicElement<E>> ext
     }
 
     @Override
-    public int signum() {
-        return (int) Math.signum(doubleValue());
-    }
-
-    public int compareTo(UncertainDouble o) {
+    public int compareTo(D o) {
         if (equals(o)) {
             return 0;
         }
-        return Double.compare(doubleValue(), o.doubleValue());
+        return Double.compare(doubleValue(), o.getValue());
+    }
+
+    @Override
+    public double doubleValue() {
+        return getValue();
+    }
+
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return BigDecimal.valueOf(doubleValue());
     }
 
 }

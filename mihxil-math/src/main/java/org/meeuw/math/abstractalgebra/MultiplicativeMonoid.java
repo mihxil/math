@@ -12,5 +12,4 @@ public interface MultiplicativeMonoid<E extends MultiplicativeMonoidElement<E>> 
      */
     E one();
 
-
 }

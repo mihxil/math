@@ -10,6 +10,7 @@ import javax.validation.constraints.Min;
  */
 public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicElement<E> {
 
+    @Override
     MultiplicativeSemiGroup<E> getStructure();
 
     E times(E multiplier);
@@ -21,18 +22,33 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
         return times(multiplier);
     }
     /**
-     * if multiplication is defined, then so is exponentation, as long as the exponent is a positive integer.
+     * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
      */
-    default E pow(@Min(1) int exponent) {
-        E self = (E) this;
-        E result = self;
-        while (exponent > 1) {
-            result = result.times(self);
-            exponent--;
-        }
-        if(exponent < 1) {
+    @SuppressWarnings({"ConstantConditions", "unchecked"})
+    default E pow(@Min(1) int n) {
+        if (n < 0) {
             throw new IllegalArgumentException();
         }
-        return result;
+        if (n == 0) {
+            throw new IllegalArgumentException();
+        }
+        E y = null;
+        E x = (E) this;
+        while (n > 1) {
+            if (n % 2 == 1) {
+                y = y == null ? x : x.times(y);
+                n = (n - 1) / 2;
+            }
+            x = x.times(x);
+        }
+        return y == null ? x : x.times(y);
     }
+
+    /**
+     * Returns this element multiplied by itself.
+     */
+    default E sqr() {
+        return times((E) this);
+    }
+
 }

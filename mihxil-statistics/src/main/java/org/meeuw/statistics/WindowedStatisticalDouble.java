@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
 /**
- * {@link StatisticalDouble} can be aggregated, and therefor {@link Windowed}.
+ * {@link StatisticalDouble} can be aggregated, and therefore {@link Windowed}.
  * @see WindowedDoubleSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 0.3

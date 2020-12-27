@@ -6,6 +6,10 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface AdditiveMonoidElement<E extends AdditiveMonoidElement<E>> extends AdditiveSemiGroupElement<E> {
 
+    @Override
     AdditiveMonoid<E> getStructure();
 
+    default boolean isZero() {
+        return getStructure().zero().equals(this);
+    }
 }

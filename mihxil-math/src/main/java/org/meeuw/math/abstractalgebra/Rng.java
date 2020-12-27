@@ -2,6 +2,10 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.*;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+import static org.meeuw.math.abstractalgebra.Operator.*;
+
 /**
  * Like a {@link Ring} but without multiplicative identity.
  *
@@ -10,12 +14,11 @@ import java.util.*;
  */
 public interface Rng<E extends RngElement<E>> extends AdditiveGroup<E>, MultiplicativeSemiGroup<E> {
 
-    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION)));
+    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(ADDITION, SUBTRACTION, MULTIPLICATION)));
 
     @Override
     default Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
-
 
 }

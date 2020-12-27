@@ -13,14 +13,14 @@ public class SI {
     public static final Units DISTANCE = of(m);
     public static final Units LENGTH   = of(m);
     public static final Units AREA     = of(m, m);
-    public static final Units VOLUME = of(m, m, m);
-    public static final Units TIME = of(s);
-    public static final Units SPEED = DISTANCE.dividedBy(TIME);
-    public static final Units WEIGHT = of(kg);
-    public static final Units TEMPERATURE = of(K);
-    public static final Units ELECTRIC_CURRENT = of(A);
+    public static final Units VOLUME   = of(m, m, m);
+    public static final Units TIME     = of(s);
+    public static final Units SPEED    = DISTANCE.dividedBy(TIME);
+    public static final Units WEIGHT   = of(kg);
+    public static final Units TEMPERATURE         = of(K);
+    public static final Units ELECTRIC_CURRENT    = of(A);
     public static final Units AMOUNT_OF_SUBSTANCE = of(mol);
-    public static final Units LUMINOUS_INTENSITY = of(cd);
+    public static final Units LUMINOUS_INTENSITY  = of(cd);
 
     public enum Prefixes implements Prefix {
 

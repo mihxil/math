@@ -19,7 +19,8 @@ class RationalNumberVectorTest implements VectorSpaceTheory<RationalNumber, Vect
         return Arbitraries.randomValue(INSTANCE::nextRandom).tuple3().map((t) -> Vector.of(t.get1(), t.get2(), t.get3()));
     }
 
-    @Provide
+    @Override
+	@Provide
     public Arbitrary<RationalNumber> elements() {
         return Arbitraries.randomValue(INSTANCE::nextRandom);
     }

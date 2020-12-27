@@ -5,7 +5,6 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,9 +13,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
+class GaussianRationalTest implements FieldTheory<GaussianRational> {
 
-    static final ComplexNumbers<RationalNumber> structure = ComplexNumbers.of(RationalNumbers.INSTANCE);
+    static final GaussianRationals structure = GaussianRationals.INSTANCE;
 
     @Test
     public void string() {
@@ -37,11 +36,11 @@ class ComplexNumberTest implements FieldTheory<ComplexNumber<RationalNumber>> {
     }
 
     @Override
-    public Arbitrary<ComplexNumber<RationalNumber>> elements() {
+    public Arbitrary<GaussianRational> elements() {
         return Arbitraries.of(
-            ComplexNumber.of(RationalNumber.of(3), RationalNumber.ZERO),
+            new GaussianRational(RationalNumber.of(3), RationalNumber.ZERO),
             structure.i(),
-            ComplexNumber.of(RationalNumber.of(3), RationalNumber.of(-2))
+            new GaussianRational(RationalNumber.of(3), RationalNumber.of(-2))
         );
     }
 }

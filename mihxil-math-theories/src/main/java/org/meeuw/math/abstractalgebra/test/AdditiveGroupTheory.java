@@ -26,6 +26,13 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends 
     }
 
     @Property
+    default void minusIsAnticommutative(
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2) {
+        assertThat(v1.minus(v2)).isEqualTo(v2.minus(v1).negation());
+    }
+
+    @Property
     default void additiveCommutativity (
             @ForAll(ELEMENTS) E v1,
             @ForAll(ELEMENTS) E v2) {

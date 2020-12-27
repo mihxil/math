@@ -45,6 +45,7 @@ class IntegerElementTest implements RingTheory<IntegerElement>, SignedNumberTheo
             .collect(Collectors.toList())).containsExactly(0L, 1L, -1L, 2L, -2L, 3L, -3L, 4L, -4L, 5L, -5L);
     }
 
+    @Override
     @Provide
     public Arbitrary<IntegerElement> elements() {
         return Arbitraries.frequencyOf(

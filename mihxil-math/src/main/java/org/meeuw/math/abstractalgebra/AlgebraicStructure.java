@@ -28,16 +28,17 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
     Cardinality getCardinality();
 
      /**
-     * Returns the class of the elements of this algebraic structure
+     * Returns the java class of the elements of this algebraic structure
      */
     Class<E> getElementClass();
 
     /**
      * Returns a functional interface that can check whether two elements of this structure are equal.
      *
-     * Default this simple returns {@link Objects#equals(Object, Object)}.
+     * Default this simply returns {@link Objects#equals(Object, Object)}.
      */
     default Equivalence<E> getEquivalence() {
         return Objects::equals;
     }
+
 }

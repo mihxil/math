@@ -12,13 +12,14 @@ import org.meeuw.math.numbers.NumberOperations;
  */
 @Getter
 public class ConfidenceInterval<N extends Number> implements Predicate<N> {
+
 	private final N low;
 	private final N high;
 	private final Predicate<N> predicate;
 
 	public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int interval) {
 	    NumberOperations<N> op = NumberOperations.of(value);
-		N halfRange = op.multiply(interval, uncertainty);
+		N halfRange = op.multiply(value, uncertainty);
 		return new ConfidenceInterval<>(op, op.minus(value, halfRange), op.add(value, halfRange));
 	}
 
@@ -36,4 +37,5 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 	public boolean test(N value) {
 		return value != null && contains(value);
 	}
+
 }

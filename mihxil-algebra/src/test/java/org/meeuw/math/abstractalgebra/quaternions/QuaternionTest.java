@@ -28,6 +28,7 @@ class QuaternionTest implements DivisionRingTheory<Quaternion<RationalNumber>> {
 
     @Test
     public void testToString() {
+        assertThat(structure.zero().toString()).isEqualTo("0");
         assertThat(structure.one().times(of(2)).toString()).isEqualTo("2");
         assertThat(structure.i().times(of(2)).toString()).isEqualTo("2i");
         assertThat(structure.j().times(of(2)).toString()).isEqualTo("2j");

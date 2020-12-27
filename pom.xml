@@ -17,14 +17,17 @@
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
+
     <module>report-aggregation</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.target.version>8</java.target.version>
-    <lombok.version>1.18.12</lombok.version>
-    <jacoco.version>0.8.5</jacoco.version>
+    <lombok.version>1.18.16</lombok.version>
+    <jacoco.version>0.8.6</jacoco.version>
+    <big-math.version>2.3.0</big-math.version>
+    <log4j.version>2.14.0</log4j.version>
   </properties>
 
 
@@ -80,6 +83,12 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>ch.obermuhlner</groupId>
+        <artifactId>big-math</artifactId>
+        <version>${big-math.version}</version>
+        <optional>true</optional>
+      </dependency>
+      <dependency>
         <groupId>javax.validation</groupId>
         <artifactId>validation-api</artifactId>
         <version>2.0.1.Final</version>
@@ -87,24 +96,24 @@
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter</artifactId>
-        <version>5.7.0-RC1</version>
+        <version>5.7.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>net.jqwik</groupId>
         <artifactId>jqwik</artifactId>
-        <version>1.3.5</version>
+        <version>1.3.10</version>
         <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.13.3</version>
+        <version>${log4j.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-jul</artifactId>
-        <version>2.13.3</version>
+        <version>${log4j.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -116,7 +125,7 @@
       <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
-        <version>3.17.0</version>
+        <version>3.18.1</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -150,7 +159,7 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-core</artifactId>
-      <version>2.13.3</version>
+      <version>${log4j.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

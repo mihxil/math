@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
  * A square 3x3 matrix of {@code double}s
  *
- * Note this does not use {@link org.meeuw.math.uncertainnumbers.UncertainDouble} to back the matrix, but simple 'doubles'
+ * Note this does not use {@link UncertainDouble} to back the matrix, but simple 'doubles'
  * This means that rounding errors are not considered, and theory testing may involve some fiddling with {@link jdk
  *
  * @author Michiel Meeuwissen

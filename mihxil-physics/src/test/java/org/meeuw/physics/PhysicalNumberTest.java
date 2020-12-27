@@ -33,7 +33,7 @@ class PhysicalNumberTest implements MultiplicativeAbelianGroupTheory<PhysicalNum
         PhysicalNumber two_pc = new Measurement(2, 0.1, pc);
 
         PhysicalNumber inLightYear = two_pc.toUnits(UnitsImpl.of(SI.ly));
-        assertThat(inLightYear.doubleValue()).isEqualTo(6.523127554334867);
+        assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
 
 

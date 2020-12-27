@@ -6,16 +6,16 @@ import java.math.*;
 
 import javax.validation.constraints.NotNull;
 
-import org.meeuw.math.abstractalgebra.AbstractNumberElement;
-import org.meeuw.math.abstractalgebra.NumberFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumber extends AbstractNumberElement<RationalNumber>
-    implements NumberFieldElement<RationalNumber> {
+public class RationalNumber extends Number
+    implements ScalarFieldElement<RationalNumber>, SignedNumber {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
@@ -72,6 +72,24 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
     }
 
     @Override
+    public boolean isZero() {
+        return numerator.equals(BigInteger.ZERO);
+    }
+
+    @Override
+    public RationalNumber sqr() {
+        return new RationalNumber(numerator.multiply(numerator), denominator.multiply(denominator));
+    }
+
+    @Override
+    public RationalNumber dividedBy(RationalNumber divisor) {
+        return new RationalNumber(
+            numerator.multiply(divisor.denominator),
+            denominator.multiply(divisor.numerator)
+        );
+    }
+
+    @Override
     public RationalNumber plus(RationalNumber summand) {
         return new RationalNumber(
                 numerator.multiply(summand.denominator)
@@ -80,6 +98,7 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
         );
     }
 
+
     @Override
     public RationalNumber negation() {
         return new RationalNumber(
@@ -87,14 +106,16 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
     }
 
     @Override
+    public RationalNumber minus(RationalNumber subtrahend) {
+        return plus(subtrahend.times(-1));
+    }
+
+
+    @Override
     public int compareTo(RationalNumber compare) {
         return numerator.multiply(compare.denominator).compareTo(compare.numerator.multiply(denominator));
     }
 
-    @Override
-    public int compareTo(Number o) {
-        return Double.compare(doubleValue(), o.doubleValue());
-    }
 
     @Override
     public RationalNumber times(RationalNumber multiplier) {
@@ -104,9 +125,25 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
         );
     }
 
+    public RationalNumber times(long multiplier) {
+        return new RationalNumber(
+                numerator.multiply(BigInteger.valueOf(multiplier)),
+                denominator
+        );
+    }
+    @Override
+    public int intValue() {
+        return numerator.divide(denominator).intValue();
+    }
+
     @Override
     public long longValue() {
-        return (long) doubleValue();
+        return numerator.divide(denominator).longValue();
+    }
+
+    @Override
+    public float floatValue() {
+        return (float) numerator.longValue() / denominator.longValue();
     }
 
     @Override
@@ -115,8 +152,15 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
     }
 
     private static final  MathContext MATH_CONTEXT = new MathContext(40);
+
+    @Override
     public BigDecimal bigDecimalValue() {
         return new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+    }
+
+    @Override
+    public boolean isOne() {
+        return this.equals(ONE);
     }
 
     @Override
@@ -131,14 +175,13 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
 
         RationalNumber that = (RationalNumber) o;
 
-        if (numerator != null ? !numerator.equals(that.numerator) : that.numerator != null) return false;
-        return denominator != null ? denominator.equals(that.denominator) : that.denominator == null;
+        return numerator.equals(that.numerator) && denominator.equals(that.denominator);
     }
 
     @Override
     public int hashCode() {
-        int result = numerator != null ? numerator.hashCode() : 0;
-        result = 31 * result + (denominator != null ? denominator.hashCode() : 0);
+        int result = numerator.hashCode();
+        result = 31 * result + denominator.hashCode();
         return result;
     }
 
@@ -151,4 +194,8 @@ public class RationalNumber extends AbstractNumberElement<RationalNumber>
         }
     }
 
+    @Override
+    public RationalNumber abs() {
+        return new RationalNumber(numerator.abs(), denominator);
+    }
 }

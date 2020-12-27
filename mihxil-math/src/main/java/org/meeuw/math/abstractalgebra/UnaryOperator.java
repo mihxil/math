@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
 
+import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -17,8 +18,15 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + TextUtils.superscript("-1")),
 
-    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + TextUtils.superscript("2"))
+    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + TextUtils.superscript("2")),
 
+    ABS(getUnaryOperator(Sizeable.class, "abs"), (s) -> "|" + s +"|"),
+
+    SQRT(getUnaryOperator(CompleteFieldElement.class, "sqrt"), (s) -> "√" + TextUtils.overLine(s)),
+
+    SIN(getUnaryOperator(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
+
+    COS(getUnaryOperator(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")")
     ;
 
     @Getter
@@ -32,6 +40,7 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
         this.symbol = symbol;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E e) {
@@ -40,6 +49,7 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     @SneakyThrows
     public static Method getUnaryOperator(Class<?> clazz, String name) {
-        return clazz.getMethod(name);
+        Method m = clazz.getMethod(name);
+        return m;
     }
 }

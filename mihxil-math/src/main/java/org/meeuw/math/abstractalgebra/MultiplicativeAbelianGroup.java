@@ -7,4 +7,5 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface MultiplicativeAbelianGroup<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeGroup<E> {
+
 }

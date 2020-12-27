@@ -63,6 +63,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
             Permutation p = one();
             final int[] values = Arrays.copyOf(p.value, degree);
 
+            @Override
             public boolean hasNext() {
                 return p != null;
             }

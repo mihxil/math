@@ -4,16 +4,19 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
+import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
+import org.meeuw.math.numbers.Scalar;
 
 /**
  * The natural numbers ℕ
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implements
+public class NaturalNumber  implements
     MultiplicativeMonoidElement<NaturalNumber>,
-    AdditiveMonoidElement<NaturalNumber>
+    AdditiveMonoidElement<NaturalNumber>,
+    Scalar<NaturalNumber>
  {
     public static final NaturalNumber ZERO = of(0);
     public static final NaturalNumber ONE = of(1);
@@ -46,10 +49,6 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
         return of(value * summand.value);
     }
 
-     @Override
-     public int compareTo(Number o) {
-         return Long.compare(value, o.longValue());
-     }
 
      @Override
      public long longValue() {
@@ -89,5 +88,20 @@ public class NaturalNumber extends AbstractNumberElement<NaturalNumber> implemen
      @Override
      public int hashCode() {
          return (int) (value ^ (value >>> 32));
+     }
+
+     @Override
+     public NaturalNumber abs() {
+         return this;
+     }
+
+     @Override
+     public int signum() {
+         return Long.signum(value);
+     }
+
+     @Override
+     public boolean isZero() {
+        return value == 0;
      }
  }

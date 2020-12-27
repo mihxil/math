@@ -9,35 +9,37 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
+ * The division ring of quaternions ℍ.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Log
-public class Quaternions<E extends NumberFieldElement<E>> extends AbstractAlgebraicStructure<Quaternion<E>>
+public class Quaternions<E extends ScalarFieldElement<E>>
+    extends AbstractAlgebraicStructure<Quaternion<E>>
     implements DivisionRing<Quaternion<E>> {
 
-    private static final Map<NumberField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends NumberFieldElement<E>> Quaternions<E> of(NumberField<E> numberFieldElement) {
+    public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
         return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
             log.info("Created new instance for " + k);
-            return new Quaternions<>(k);
+            return new Quaternions<>(numberFieldElement);
             }
         );
     }
 
     @Getter
-    private final NumberField<E> elementStructure;
+    private final ScalarField<E> elementStructure;
 
     private final Quaternion<E> zero;
     private final Quaternion<E> one;
-    private final Quaternion<E> i;
+    private final Quaternion<E>  i;
     private final Quaternion<E> j;
     private final Quaternion<E> k;
 
-    private Quaternions(NumberField<E> elementStructure) {
+    private Quaternions(ScalarField<E> elementStructure) {
         super((Class) Quaternion.class);
         this.elementStructure = elementStructure;
         E z = this.elementStructure.zero();
@@ -71,5 +73,10 @@ public class Quaternions<E extends NumberFieldElement<E>> extends AbstractAlgebr
     }
     public Quaternion<E> k() {
         return k;
+    }
+
+    @Override
+    public String toString() {
+        return "ℍ";
     }
 }
