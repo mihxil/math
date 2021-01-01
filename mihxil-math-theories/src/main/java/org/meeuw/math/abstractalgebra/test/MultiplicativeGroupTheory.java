@@ -5,6 +5,7 @@ import net.jqwik.api.*;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,17 +32,36 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
 
     @Property
-    default void powNegativeExponents(
+    default void powNegative1(
          @ForAll(ELEMENTS) E v1
     )  {
         try {
             assertThat(v1.pow(-1)).isEqualTo(v1.reciprocal());
-            assertThat(v1.pow(-2)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
-            assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
         } catch (ArithmeticException ae) {
-            getLogger().warn("Negative power of " + v1 + ": " + ae.getMessage());
+            getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
+    @Property
+    default void powNegative2(
+         @ForAll(ELEMENTS) E v1
+    )  {
+        try {
+            assertThat(v1.pow(-2)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
+        } catch (ArithmeticException ae) {
+            getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
+        }
+    }
+    @Property
+    default void powNegative3(
+         @ForAll(ELEMENTS) E v1
+    )  {
+        try {
+            assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
+        } catch (ArithmeticException ae) {
+            getLogger().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
+        }
+    }
+
 
 
     @Property(shrinking = ShrinkingMode.OFF)

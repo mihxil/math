@@ -74,7 +74,6 @@ class UtilsTest {
 
     @Test
     public void stream() {
-
         Utils.stream(3).limit(100).forEach(i -> {
             log.info(() -> Arrays.stream(i).mapToObj(String::valueOf).collect(joining(", ")));
         });
@@ -86,14 +85,21 @@ class UtilsTest {
         int d = 0;
         for (int i = 0; i < 1000000L; i++) {
             d = Utils.log10(123456789);
-
         }
         log.info("{} : {}", d, System.currentTimeMillis() -start);
         assertThat(Utils.log10(10)).isEqualTo(1);
         assertThat(Utils.log10(100)).isEqualTo(2);
         assertThat(Utils.log10(10d)).isEqualTo(1);
         assertThat(Utils.log10(20d)).isEqualTo(1);
+    }
 
-
+    @Test
+    public void uncertaintityForDouble() {
+        assertThat(Utils.uncertaintyForDouble(0)).isEqualTo(4.9E-324);
+        assertThat(Utils.uncertaintyForDouble(1e-300)).isEqualTo(3.31561842E-316);
+        assertThat(Utils.uncertaintyForDouble(1e-100)).isEqualTo(2.5379418373156492E-116);
+        assertThat(Utils.uncertaintyForDouble(1e-16)).isEqualTo(2.465190328815662E-32);
+        assertThat(Utils.uncertaintyForDouble(-1)).isEqualTo(4.440892098500626E-16);
+        assertThat(Utils.uncertaintyForDouble(1)).isEqualTo(4.440892098500626E-16);
     }
 }

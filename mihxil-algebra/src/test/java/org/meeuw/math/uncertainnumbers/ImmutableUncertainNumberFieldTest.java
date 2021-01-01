@@ -29,6 +29,11 @@ class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainReal> {
             double value = 10000 * (r.nextDouble() - 0.5d);
             return new UncertainDoubleElement(value, Math.abs(value * r.nextDouble()));
         });
+    }
 
+    @Test
+    public void pow() {
+        UncertainDoubleElement w = new UncertainDoubleElement(-1971, 680);
+        assertThat(w.pow(-2).getUncertainty()).isPositive();
     }
 }

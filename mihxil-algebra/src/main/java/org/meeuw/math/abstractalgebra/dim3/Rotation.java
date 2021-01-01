@@ -11,7 +11,8 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Rotation implements MultiplicativeGroupElement<Rotation>,
+public class Rotation implements
+    MultiplicativeGroupElement<Rotation>,
     UnaryOperator<FieldVector3<RealNumber>> {
 
     private static final RealNumber U = RealNumber.ONE;
@@ -101,7 +102,6 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>,
         return new Rotation(rot.reciprocal());
     }
 
-
     @Override
     public String toString() {
         return rot.toString();
@@ -120,6 +120,5 @@ public class Rotation implements MultiplicativeGroupElement<Rotation>,
     public int hashCode() {
         return rot.hashCode();
     }
-
 
 }

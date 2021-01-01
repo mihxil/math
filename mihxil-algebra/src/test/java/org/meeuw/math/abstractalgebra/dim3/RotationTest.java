@@ -1,7 +1,7 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import lombok.extern.log4j.Log4j2;
+import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -16,7 +16,28 @@ import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class RotationTest implements MultiplicativeGroupTheory<Rotation> {
+
+    @Test
+    public void rotx() {
+        Rotation half = Rx(PI);
+        Rotation quarter= Rx(PI / 2);
+        FieldVector3<RealNumber> v = of(0, 1, 0);
+        FieldVector3<RealNumber> rotated = half.apply(v);
+        assertThat(rotated).isEqualTo(of(0, -1, 0));
+
+        FieldVector3<RealNumber> rotatedQuarter = quarter.apply(v);
+        assertThat(rotatedQuarter).isEqualTo(of(0, 0, -1));
+
+        RealNumber det = half.rot.determinant();
+        log.info("Determinant of {}: {}", half, det);
+        Rotation reciprocal = half.reciprocal();
+        log.info("{}", reciprocal);
+
+        Rotation pow = half.pow(-1);
+        log.info("{}", pow);
+    }
 
     @Test
     public void roty() {
@@ -26,7 +47,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
         assertThat(rotated).isEqualTo(of(-1, 0, 0));
     }
 
-     @Test
+    @Test
     public void rotz() {
         Rotation z = Rotation.Rz(PI);
         FieldVector3<RealNumber> v = of(0, 1, 0);
@@ -34,9 +55,16 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
         assertThat(rotated).isEqualTo(of(0, -1, 0));
     }
 
+    @Property
+    public void determinantShouldBeOne(@ForAll(ELEMENTS) Rotation r) {
+        RealNumber determinant = r.rot.determinant();
+        assertThat(determinant.isOne()).withFailMessage("det(" + r.rot + ") = " + determinant + " != 1").isTrue();
+    }
 
     @Override
     public Arbitrary<Rotation> elements() {
-        return Arbitraries.randoms().map(r -> r.nextDouble() * 2 * PI).tuple3().map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())));
+        return Arbitraries.randoms()
+            .map(r -> r.nextDouble() * 2 * PI).tuple3()
+            .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())));
     }
 }

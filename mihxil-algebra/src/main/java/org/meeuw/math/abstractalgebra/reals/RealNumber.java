@@ -23,7 +23,6 @@ public class RealNumber
     ScalarFieldElement<RealNumber>,
     MetricSpaceElement<RealNumber, RealNumber>
 {
-
     public static final int EPSILON_FACTOR = 2;
 
     public static final RealNumber ONE = new RealNumber(1d, 0);
@@ -45,15 +44,12 @@ public class RealNumber
             .mapToObj(RealNumber::of).toArray(RealNumber[]::new);
     }
 
-    public RealNumber(double value, double uncertaintity) {
+    public RealNumber(double value, double uncertainty) {
         this.value = value;
-        if (Double.isNaN(uncertaintity)) {
-            throw new IllegalArgumentException();
+        if (uncertainty < 0) {
+            throw new IllegalArgumentException("Uncertainty cannot be negative");
         }
-        if (uncertaintity < 0) {
-            throw new IllegalArgumentException();
-        }
-        this.uncertainty = uncertaintity;
+        this.uncertainty = uncertainty;
     }
 
     @Override
@@ -80,13 +76,14 @@ public class RealNumber
         if (multiplier == ONE) {
             return this;
         }
-        double newValue = value * multiplier.value;
-        if (newValue == 0) {
-            return RealNumber.SMALLEST;
-        }
-        return new RealNumber(newValue,
-            Math.abs(newValue) * (Math.abs(uncertainty / value) + Math.abs(multiplier.uncertainty / multiplier.value)) + uncertaintyForDouble(newValue)
-        );
+        return RealField.INSTANCE.considerMultiplicationByZero(this, multiplier);
+    }
+
+    protected boolean isExactlyZero() {
+        return value == 0 && isExact();
+    }
+    protected boolean isExact() {
+        return uncertainty == 0;
     }
 
     @Override
@@ -99,7 +96,7 @@ public class RealNumber
 
     @Override
     public RealNumber dividedBy(RealNumber divisor) {
-        return null;
+        return times(divisor.reciprocal());
     }
 
     @Override

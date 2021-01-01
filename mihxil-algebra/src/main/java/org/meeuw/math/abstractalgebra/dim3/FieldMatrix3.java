@@ -54,7 +54,6 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         this.values = values;
         this.zero = this.elementStructure.zero();
         assert !determinant().isZero(); // the object _must be invertible__
-
     }
 
     @Override
@@ -88,7 +87,11 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
     public FieldMatrix3<E> reciprocal() {
-        return adjugate().dividedBy(determinant());
+        E det = determinant();
+        if (det.isZero()) {
+            throw new IllegalStateException("Determinant of " + this + " is zero");
+        }
+        return adjugate().dividedBy(det);
     }
 
     public FieldMatrix3<E> adjugate() {
@@ -160,12 +163,13 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         E g = values[2][0];
         E h = values[2][1];
         E i = values[2][2];
-        return a.times(e.times(i).minus(f.times(h)))
-            .minus(
-                b.times(d.times(i).minus(f.times(g)))
-            ).plus(
-                c.times(d.times(h).minus(e.times(g)))
-            );
+        return
+            a.times(e.times(i))
+                .minus(a.times(f).times(h))
+                .minus(b.times(d).times(i))
+                .plus(b.times(f).times(g))
+                .plus(c.times(d).times(h))
+                .minus(c.times(e).times(g));
     }
 
     E determinant2x2(E a, E b, E c, E d) {

@@ -29,11 +29,23 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     }
 
     @Property
-    default void powPositiveExponents(
+    default void pow1(
          @ForAll(ELEMENTS) E v1
     )  {
         assertThat(v1.pow(1)).isEqualTo(v1);
+    }
+
+    @Property
+    default void pow2(
+         @ForAll(ELEMENTS) E v1
+    )  {
         assertThat(v1.pow(2)).isEqualTo(v1.times(v1));
+    }
+
+    @Property
+    default void pow3(
+         @ForAll(ELEMENTS) E v1
+    )  {
         assertThat(v1.pow(3)).isEqualTo(v1.times(v1).times(v1));
     }
 

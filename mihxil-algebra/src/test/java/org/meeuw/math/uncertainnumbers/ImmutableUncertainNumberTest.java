@@ -19,6 +19,7 @@ class ImmutableUncertainNumberTest implements SignedNumberTheory<UncertainReal> 
             double value = 10000 * (r.nextDouble() - 0.5d);
             return new UncertainDoubleElement(value, Math.abs(value * r.nextDouble()));
         });
-
     }
+
+
 }

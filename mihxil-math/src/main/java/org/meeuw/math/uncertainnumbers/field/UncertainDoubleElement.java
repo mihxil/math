@@ -90,7 +90,7 @@ public class UncertainDoubleElement
     @Override
     public  UncertainDoubleElement pow(int exponent) {
         return new UncertainDoubleElement(Math.pow(getValue(), exponent),
-            Math.abs(exponent) * Math.pow(getValue(), exponent -1) * getUncertainty());
+            Math.abs(exponent) * Math.pow(Math.abs(getValue()), exponent -1) * getUncertainty());
     }
 
     @Override
