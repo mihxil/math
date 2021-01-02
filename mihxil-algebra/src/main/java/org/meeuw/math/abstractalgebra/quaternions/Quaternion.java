@@ -17,7 +17,8 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     implements
     DivisionRingElement<Quaternion<E>>,
     Sizeable<E>,
-    Serializable {
+    Serializable,
+    WithScalarOperations<Quaternion<E>, E> {
 
     static final long serialVersionUID = 0L;
 
@@ -47,14 +48,15 @@ public class Quaternion<E extends ScalarFieldElement<E>>
      */
     @Override
     public Quaternion<E> times(Quaternion<E> multiplier) {
-        return new Quaternion<E>(
+        return new Quaternion<>(
             a.times(multiplier.a).minus(b.times(multiplier.b)).minus(c.times(multiplier.c)).minus(d.times(multiplier.d)),
-            a.times(multiplier.b).plus (b.times(multiplier.a)).plus (c.times(multiplier.d)).minus(d.times(multiplier.c)),
-            a.times(multiplier.c).minus(b.times(multiplier.d)).plus (c.times(multiplier.a)).plus (d.times(multiplier.b)),
-            a.times(multiplier.d).plus( b.times(multiplier.c)).minus(c.times(multiplier.b)).plus (d.times(multiplier.a))
+            a.times(multiplier.b).plus(b.times(multiplier.a)).plus(c.times(multiplier.d)).minus(d.times(multiplier.c)),
+            a.times(multiplier.c).minus(b.times(multiplier.d)).plus(c.times(multiplier.a)).plus(d.times(multiplier.b)),
+            a.times(multiplier.d).plus(b.times(multiplier.c)).minus(c.times(multiplier.b)).plus(d.times(multiplier.a))
         );
     }
 
+    @Override
     public Quaternion<E> times(E multiplier) {
         return new Quaternion<>(
             a.times(multiplier),
@@ -64,6 +66,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         );
     }
 
+    @Override
     public Quaternion<E> dividedBy(E multiplier) {
         return new Quaternion<>(
             a.dividedBy(multiplier),

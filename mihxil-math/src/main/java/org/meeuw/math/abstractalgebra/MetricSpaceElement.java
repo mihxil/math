@@ -4,7 +4,7 @@ import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.Sizeable;
 
 /**
- * Elements of a metric space define a {@link #distanceTo(MetricSpaceElement)} other elements in the {@link MetricSpace}
+ * Elements of a metric space define a {@link #distanceTo(MetricSpaceElement)} other elements in the same {@link MetricSpace}
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> self reference

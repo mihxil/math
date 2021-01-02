@@ -12,7 +12,9 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 public class FieldMatrix3<E extends ScalarFieldElement<E>>
-    implements MultiplicativeGroupElement<FieldMatrix3<E>> {
+    implements MultiplicativeGroupElement<FieldMatrix3<E>>,
+    WithScalarOperations<FieldMatrix3<E>, E>
+{
 
     final E[][] values;
 
@@ -61,6 +63,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         return new FieldMatrix3<>(timesMatrix(multiplier.values));
     }
 
+    @Override
     public FieldMatrix3<E> times(E multiplier) {
         E[][] result = empty();
         for (int i = 0; i < 3; i++) {
@@ -71,6 +74,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         return new FieldMatrix3<>(result);
     }
 
+    @Override
     public FieldMatrix3<E> dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }
@@ -183,6 +187,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         return "(" + Arrays.stream(asVectors()).map(FieldVector3::toString).collect(Collectors.joining(", ")) + ")";
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

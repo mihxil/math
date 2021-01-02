@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.WithScalarOperations;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
@@ -15,7 +17,8 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
+public strictfp class Matrix3 implements
+    MultiplicativeGroupElement<Matrix3>, WithScalarOperations<Matrix3, RealNumber> {
 
 
     final double[][] values;
@@ -31,6 +34,7 @@ public strictfp class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
             {v31, v32, v33}
         });
     }
+
 
     private static Matrix3 of(double[] value) {
         return of(
@@ -100,6 +104,17 @@ public strictfp class Matrix3 implements MultiplicativeGroupElement<Matrix3> {
     public Matrix3 dividedBy(double multiplier) {
         return Matrix3.of(timesDouble(1 / multiplier));
     }
+
+    @Override
+    public Matrix3 times(RealNumber multiplier) {
+        return times(multiplier.getValue());
+    }
+
+    @Override
+    public Matrix3 dividedBy(RealNumber divisor) {
+        return dividedBy(divisor.getValue());
+    }
+
 
     double determinant() {
         double a = values[0][0];

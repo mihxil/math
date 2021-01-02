@@ -11,12 +11,12 @@ package org.meeuw.math.abstractalgebra;
 public interface WithScalarOperations<E, S extends ScalarFieldElement<S>> {
 
     /**
-     * Multiplies the current object with a scalar and returs a new instance
+     * Multiplies the current object with a scalar and returns a new instance
      */
     E times(S multiplier);
 
     /**
-     * Divides the current object with a scalar and returs a new instance
+     * Divides the current object with a scalar and returns a new instance
      */
     E dividedBy(S divisor);
 

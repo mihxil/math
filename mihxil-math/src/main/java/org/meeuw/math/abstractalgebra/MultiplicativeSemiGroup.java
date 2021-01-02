@@ -12,7 +12,8 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicStructure<E> {
+public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>>
+    extends AlgebraicStructure<E> {
 
     Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(singletonList(MULTIPLICATION)));
 

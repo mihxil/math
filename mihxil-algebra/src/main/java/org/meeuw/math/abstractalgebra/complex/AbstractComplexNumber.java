@@ -5,8 +5,7 @@ import lombok.Getter;
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -15,6 +14,7 @@ import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E>, E extends ScalarFieldElement<E>>
     implements
     FieldElement<S>,
+    WithScalarOperations<S, E>,
     Serializable {
 
     static final long serialVersionUID = 0L;
@@ -41,8 +41,17 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
             this.real.times(multiplier.imaginary).plus(this.imaginary.times(multiplier.real)));
     }
 
+    @Override
     public S times(E multiplier) {
         return of(this.real.times(multiplier), this.imaginary.times(multiplier));
+    }
+
+    @Override
+    public S dividedBy(E divisor) {
+        return of(
+            this.real.dividedBy(divisor),
+            this.imaginary.dividedBy(divisor)
+        );
     }
 
     @Override
@@ -70,6 +79,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         );
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

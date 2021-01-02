@@ -27,7 +27,7 @@ public class EvenIntegerElement
 
     public EvenIntegerElement(long value) {
         if (value % 2 == 1) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("The argument mus be even (" + value + " isn't)");
         }
         this.value = value;
     }

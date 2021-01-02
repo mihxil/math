@@ -6,8 +6,7 @@ package org.meeuw.math.abstractalgebra;
  * Every element in a algebraic structure has at least a reference to the {@link AlgebraicStructure} of wich it is an element
  * of. See {@link #getStructure()}.
  *
- * An algebraic element should basicly be unmodifiable, at least in the sense that it from the start on it should represent the same
- * <em>value</em>.
+ * An algebraic element should basicly be unmodifiable, at least in the sense that it from the start on  should represent the same <em>value</em>.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

@@ -55,6 +55,10 @@ public class Permutation  implements
         return new Permutation(result);
     }
 
+    /**
+     * Executes this permutaion on the given array of values.
+     * @throws IndexOutOfBoundsException if the given array is too short.
+     */
     @SuppressWarnings("unchecked")
     public <P> P[] permute(P... values) {
         P[] result = Arrays.copyOf(values, values.length);
@@ -118,6 +122,9 @@ public class Permutation  implements
     }
 
 
+    /**
+     * Calls {@link #permute(Object[])}
+     */
     @Override
     public Object[] apply(Object[] objects) {
         return permute(objects);

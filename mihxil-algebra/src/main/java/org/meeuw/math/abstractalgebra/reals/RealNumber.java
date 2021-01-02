@@ -7,7 +7,9 @@ import java.util.Arrays;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
@@ -21,13 +23,16 @@ public class RealNumber
     implements
     CompleteFieldElement<RealNumber>,
     ScalarFieldElement<RealNumber>,
-    MetricSpaceElement<RealNumber, RealNumber>
+    MetricSpaceElement<RealNumber, RealNumber>,
+    UncertainDouble<RealNumber>
 {
     public static final int EPSILON_FACTOR = 2;
+    public static final double UNCERTAINTY_FOR_ONE = Utils.uncertaintyForDouble(1);
+    public static final double UNCERTAINTY_FOR_ZERO = Utils.uncertaintyForDouble(0);
 
     public static final RealNumber ONE = new RealNumber(1d, 0);
     public static final RealNumber ZERO = new RealNumber(0d, 0);
-    public static final RealNumber SMALLEST = new RealNumber(0d, Utils.uncertaintyForDouble(0));
+    public static final RealNumber SMALLEST = new RealNumber(0d, UNCERTAINTY_FOR_ZERO);
 
     @Getter
     final double value;
@@ -56,7 +61,7 @@ public class RealNumber
     public RealNumber plus(RealNumber summand) {
         double newValue = value + summand.value;
         return new RealNumber(
-            value + summand.value,
+            newValue,
             uncertainty + summand.uncertainty + uncertaintyForDouble(newValue)
         );
     }
@@ -82,8 +87,13 @@ public class RealNumber
     protected boolean isExactlyZero() {
         return value == 0 && isExact();
     }
-    protected boolean isExact() {
+    @Override
+    public boolean isExact() {
         return uncertainty == 0;
+    }
+
+    public double getFractionalUncertainty() {
+        return uncertainty / (Math.abs(value) + uncertainty); // add uncertainty to avoid division by zero.
     }
 
     @Override
@@ -121,7 +131,7 @@ public class RealNumber
 
     @Override
     public BigDecimal bigDecimalValue() {
-        return null;
+        return new BigDecimal(value);
     }
 
     @Override
@@ -134,26 +144,31 @@ public class RealNumber
         return (int) Math.signum(value);
     }
 
+    @Override
+    public RealNumber of(double value, double uncertainty) {
+        return new RealNumber(value, uncertainty);
+    }
 
+    @Override
     public RealNumber times(double multiplier) {
         return new RealNumber(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
     @Override
     public RealNumber sin() {
-        return new RealNumber(Math.sin(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
+        return new RealNumber(Math.sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
     public RealNumber cos() {
-        return new RealNumber(Math.cos(value), Math.max(uncertainty, Utils.uncertaintyForDouble(1)));
+        return new RealNumber(Math.cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
+
 
     @Override
     public RealNumber distanceTo(RealNumber otherElement) {
         return minus(otherElement).abs();
     }
-
 
     @Override
     public int compareTo(RealNumber o) {
@@ -165,7 +180,8 @@ public class RealNumber
 
     @Override
     public RealNumber sqr() {
-        return null;
+        double sq = value * value;
+        return new RealNumber(sq, sq * getFractionalUncertainty() * 2);
     }
 
     @Override
@@ -180,7 +196,7 @@ public class RealNumber
 
     @Override
     public String toString() {
-        return String.valueOf(value);
+        return AlgebraicElementFormatProvider.toString(this);
     }
 
     @Override
@@ -197,7 +213,6 @@ public class RealNumber
     public int hashCode() {
         return 0;
     }
-
 
     public DoubleConfidenceInterval getConfidenceInterval() {
         return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), EPSILON_FACTOR);

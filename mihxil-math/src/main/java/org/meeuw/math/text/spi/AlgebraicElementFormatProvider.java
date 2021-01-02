@@ -20,6 +20,7 @@ public abstract class AlgebraicElementFormatProvider {
         final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
         List<AlgebraicElementFormatProvider> list = new ArrayList<>();
         loader.iterator().forEachRemaining(list::add);
+        list.removeIf(e -> e.weight(object) < 0);
         list.sort(Comparator.comparingInt(e -> -1 * e.weight(object)));
 
         return list.stream().map(p -> p.getInstance(configuration));

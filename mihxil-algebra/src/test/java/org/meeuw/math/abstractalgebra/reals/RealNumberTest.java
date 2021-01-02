@@ -24,6 +24,14 @@ class RealNumberTest implements FieldTheory<RealNumber>, SignedNumberTheory<Real
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
     }
 
+    @Test
+    public void fractionalUncertainty() {
+        RealNumber ex = new RealNumber(2.36, 0.04);
+        assertThat(ex.getFractionalUncertainty()).isEqualTo(0.016666666666666666);
+        assertThat(ex.sqr().getFractionalUncertainty()).isEqualTo(0.03225806451612903);
+        assertThat(ex.sqr().toString()).isEqualTo("5.57 ± 0.19");
+    }
+
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {

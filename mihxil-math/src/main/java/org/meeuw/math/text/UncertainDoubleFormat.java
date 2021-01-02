@@ -38,7 +38,7 @@ public class UncertainDoubleFormat extends Format {
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         if (number instanceof UncertainDouble) {
-            UncertainDouble uncertainNumber = (UncertainDouble) number;
+            UncertainDouble<?> uncertainNumber = (UncertainDouble<?>) number;
             if (uncertainNumber.isExact()) {
                 toAppendTo.append(scientificNotation(uncertainNumber.getValue(), minimumExponent));
             } else {

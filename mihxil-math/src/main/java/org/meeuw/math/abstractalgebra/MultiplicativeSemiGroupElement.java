@@ -27,10 +27,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     default E pow(@Min(1) int n) {
         if (n < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Not defined for negative exponents");
         }
         if (n == 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Not definied for exponent = 0");
         }
         E y = null;
         E x = (E) this;
@@ -38,6 +38,8 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
             if (n % 2 == 1) {
                 y = y == null ? x : x.times(y);
                 n = (n - 1) / 2;
+            } else {
+                n /= 2;
             }
             x = x.times(x);
         }
@@ -47,6 +49,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     /**
      * Returns this element multiplied by itself.
      */
+    @SuppressWarnings("unchecked")
     default E sqr() {
         return times((E) this);
     }

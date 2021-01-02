@@ -14,7 +14,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNumber{
+public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNumber {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;

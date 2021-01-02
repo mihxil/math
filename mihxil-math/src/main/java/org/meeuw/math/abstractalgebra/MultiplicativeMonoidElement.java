@@ -3,10 +3,12 @@ package org.meeuw.math.abstractalgebra;
 import javax.validation.constraints.Min;
 
 /**
+ * An element of the {@link MultiplicativeMonoid} structure.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidElement<E>> extends MultiplicativeSemiGroupElement<E> {
+public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidElement<E>>
+    extends MultiplicativeSemiGroupElement<E> {
 
     @Override
     MultiplicativeMonoid<E> getStructure();
