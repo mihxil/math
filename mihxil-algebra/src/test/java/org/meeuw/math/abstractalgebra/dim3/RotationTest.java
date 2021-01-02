@@ -31,7 +31,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
         assertThat(rotatedQuarter).isEqualTo(of(0, 0, -1));
 
         RealNumber det = half.rot.determinant();
-        log.info("Determinant of {}: {}", half, det);
+        log.info("Determinant of {}: {}", half.rot, det);
         Rotation reciprocal = half.reciprocal();
         log.info("{}", reciprocal);
 

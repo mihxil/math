@@ -10,7 +10,8 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 @Log
-public abstract class AbstractComplexNumbers<S extends AbstractComplexNumber<S, E>, E extends ScalarFieldElement<E>> extends AbstractAlgebraicStructure<S>
+public abstract class AbstractComplexNumbers<S extends AbstractComplexNumber<S, E>, E extends ScalarFieldElement<E>>
+    extends AbstractAlgebraicStructure<S>
     implements Field<S> {
 
     @Getter

@@ -54,7 +54,10 @@ public class BigDecimalElement
 
     @Override
     public BigDecimalElement minus(BigDecimalElement n1) {
-        return new BigDecimalElement(value.min(n1.value), operations().addUncertainty(uncertainty, n1.uncertainty));
+        return new BigDecimalElement(
+            value.subtract(n1.value),
+            operations().addUncertainty(uncertainty, n1.uncertainty)
+        );
     }
 
     @Override

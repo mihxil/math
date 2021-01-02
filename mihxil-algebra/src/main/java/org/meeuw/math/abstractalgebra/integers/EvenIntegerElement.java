@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
@@ -35,9 +36,7 @@ public class EvenIntegerElement
     @Override
     public EvenIntegerElement plus(EvenIntegerElement summand) {
         return new EvenIntegerElement(value + summand.value);
-
     }
-
 
     @Override
     public EvenIntegerElement negation() {
@@ -65,7 +64,7 @@ public class EvenIntegerElement
 
     @Override
     public EvenIntegerElement pow(@Min(1) int n) {
-        return new EvenIntegerElement((long) Math.pow(value, n));
+        return new EvenIntegerElement(Utils.positivePow(value, n));
     }
 
     @Override

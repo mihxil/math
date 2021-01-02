@@ -41,4 +41,8 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
         return Objects::equals;
     }
 
+    default String getDescription() {
+        return getClass().getSimpleName();
+    }
+
 }

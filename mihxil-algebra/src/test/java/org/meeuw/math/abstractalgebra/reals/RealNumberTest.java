@@ -20,8 +20,13 @@ class RealNumberTest implements FieldTheory<RealNumber>, SignedNumberTheory<Real
     @Test
     public void test() {
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
-        assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * - 4.9E-324);
+        assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
+    }
+
+    @Test
+    public void minus() {
+        assertThat(of(1).minus(of(0))).isEqualTo(of(1));
     }
 
     @Test

@@ -19,6 +19,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  */
 class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNumberTheory<EvenIntegerElement> {
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void test() {
         assertThatThrownBy(() -> of(1)).isInstanceOf(IllegalArgumentException.class);
@@ -35,6 +36,7 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNum
         //assertThat(new EvenIntegerElement(-2019178024101599495L).compareTo(
         //new BigDecimal(-2019178024101599496L))).isGreaterThan(0);
     }
+
     @Override
     public Arbitrary<EvenIntegerElement> elements() {
         return Arbitraries.randomValue((random) -> EvenIntegerElement.of(2 * (random.nextLong() / 2)));

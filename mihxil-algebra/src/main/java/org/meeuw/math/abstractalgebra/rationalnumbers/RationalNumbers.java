@@ -83,6 +83,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         public boolean unique() {
             return numerator.gcd(denominator).equals(ONE);
         }
+
         public State next() {
             if (numerator.compareTo(ZERO) > 0) {
                 return new State(size, numerator.negate(), denominator);
@@ -100,7 +101,6 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
     }
-
 
     @Override
     public int hashCode() {

@@ -19,7 +19,6 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 @Log4j2
 class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber>> {
 
-
     @Test
     public void adjugate() {
         FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(
@@ -48,6 +47,10 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
         log.info("Determinant {}", determinant);
     }
 
+    @Test
+    public void determinantOfIdentity() {
+        assertThat(FieldMatrix3Group.of(RationalNumbers.INSTANCE).one().determinant()).isEqualTo(of(1));
+    }
 
     @Override
     public Arbitrary<FieldMatrix3<RationalNumber>> elements() {
@@ -57,7 +60,8 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
                     l.get(0), l.get(1), l.get(2),
                     l.get(3), l.get(4), l.get(5),
                     l.get(6), l.get(7), l.get(8)
-                )).filter(e -> ! e.determinant().equals(RationalNumber.ZERO))
+                )).filter(e -> ! e.determinant().equals(RationalNumber.ZERO)
+            )
             ;
     }
 }

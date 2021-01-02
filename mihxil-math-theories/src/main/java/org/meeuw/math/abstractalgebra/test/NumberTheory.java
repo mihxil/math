@@ -32,8 +32,8 @@ public interface NumberTheory<E extends Scalar<E>> extends ElementTheory<E> {
     }
 
     @Property
-    default void implementsNumber(@ForAll(ELEMENTS) E e1) {
-        assertThat(e1).isInstanceOf(Number.class);
+    default void implementsScalar(@ForAll(ELEMENTS) E e1) {
+        assertThat(e1).isInstanceOf(Scalar.class);
         assertThat(e1.doubleValue()).isCloseTo(e1.floatValue(), Offset.offset(Math.abs(e1.doubleValue() / 1e7)));
         if (e1.longValue() < Integer.MAX_VALUE && e1.longValue() > Integer.MIN_VALUE) {
             assertThat(e1.longValue()).isEqualTo(e1.intValue());

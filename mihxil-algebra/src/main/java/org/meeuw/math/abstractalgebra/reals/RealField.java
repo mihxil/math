@@ -33,7 +33,6 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         return Cardinality.ALEPH_1;
     }
 
-
     public RealNumber considerMultiplicationByZero(RealNumber r1, RealNumber r2) {
         double newValue = r1.value * r2.value;
         if (r1.isExactlyZero() || r2.isExactlyZero()) {

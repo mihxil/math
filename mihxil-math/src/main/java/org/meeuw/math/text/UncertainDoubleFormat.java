@@ -17,7 +17,6 @@ public class UncertainDoubleFormat extends Format {
 
     public static final String TIMES = "\u00B7";  /* "·10' */
     public static final String TIMES_10 = TIMES + "10";  /* "·10' */
-    private static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance(Locale.US);
 
 
     /**
@@ -34,6 +33,11 @@ public class UncertainDoubleFormat extends Format {
     @Getter
     @Setter
     private Configuration.UncertaintyNotation uncertaintyNotation = Configuration.UncertaintyNotation.PLUS_MINUS;
+
+    @Getter
+    @Setter
+    private NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
@@ -60,9 +64,9 @@ public class UncertainDoubleFormat extends Format {
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
      */
-     String scientificNotationWithUncertainty(
-         double meanDouble,
-         double stdDouble) {
+    String scientificNotationWithUncertainty(
+        double meanDouble,
+        double stdDouble) {
         SplitNumber std  = SplitNumber.split(stdDouble);
         SplitNumber mean = SplitNumber.split(meanDouble);
         boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
@@ -88,7 +92,7 @@ public class UncertainDoubleFormat extends Format {
         std.coefficient /= Utils.pow10(magnitudeDifference);
 
 
-        // For numbers close to 1, we don't use scientific notation.
+         // For numbers close to 1, we don't use scientific notation.
         if (Math.abs(mean.exponent) < minimumExponent ||
             // neither do we do that if the precision is so high, that we'd show the complete
             // number anyway
@@ -103,14 +107,15 @@ public class UncertainDoubleFormat extends Format {
 
         boolean useE = mean.exponent != 0;
 
-        int fd = meanDigits -  Utils.log10(largeError ? std.coefficient :  mean.coefficient);
+        int fd = meanDigits -  Utils.log10(largeError ? std.coefficient :  mean.coefficient) - 1;
         //System.out.println(meanDigits + " -> " + mean + " -> " + fd);
-        NUMBER_FORMAT.setMaximumFractionDigits(fd);
-        NUMBER_FORMAT.setMinimumFractionDigits(fd);
-        NUMBER_FORMAT.setGroupingUsed(false);
+        NumberFormat format = (NumberFormat) numberFormat.clone();
+        format.setMaximumFractionDigits(fd);
+        format.setMinimumFractionDigits(fd);
+        format.setGroupingUsed(false);
         final boolean useBrackets = useE && uncertaintyNotation == Configuration.UncertaintyNotation.PLUS_MINUS;
         return
-            (useBrackets ? "(" : "") + valueAndError(NUMBER_FORMAT.format(mean.coefficient), NUMBER_FORMAT.format(std.coefficient), uncertaintyNotation)
+            (useBrackets ? "(" : "") + valueAndError(format.format(mean.coefficient), format.format(std.coefficient), uncertaintyNotation)
             +
             (useBrackets ? ")" : "") + (useE ? (TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
     }

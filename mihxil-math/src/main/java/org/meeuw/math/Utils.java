@@ -79,25 +79,28 @@ public class Utils {
         return result;
     }
 
-     /**
+    /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
+     *
+     * @see #positivePow(long, int)
      */
-     public static long positivePow10(@Min(0) int i) {
-         return positivePow(10, i);
+    public static long positivePow10(@Min(0) int i) {
+        return positivePow(10, i);
+    }
 
-     }
-
-     /**
+    /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
+     *
+     * This is more exact than {@link Math#pow(double, double)} (though probably not faster)
      */
-     public static long positivePow(@NotNull long base, @Min(0) int i) {
+    public static long positivePow(@NotNull long base, @Min(0) int i) {
+        if (i < 0) {
+            throw new IllegalArgumentException();
+        }
         long result = 1;
         while (i > 0) {
             result *= base;
             i--;
-        }
-        if (i < 0) {
-            throw new IllegalArgumentException();
         }
         return result;
     }
@@ -109,7 +112,7 @@ public class Utils {
       * This is like {@code Math.log10(Mat.abs(d))}
      */
     public static int log10(double d) {
-        return (int) Math.ceil(Math.log10(Math.abs(d)));
+        return (int) Math.floor(Math.log10(Math.abs(d)));
     }
 
     /**
@@ -121,7 +124,7 @@ public class Utils {
         // it's hard to improve performance of Math.log.
         return (int) Math.log10(Math.abs(l));
 
-        // this branchless version would just be 'approximately' correct, and it only just a bit faster.
+        // this branchless version would just be 'approximately' correct, and it is only just a bit faster.
 
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }

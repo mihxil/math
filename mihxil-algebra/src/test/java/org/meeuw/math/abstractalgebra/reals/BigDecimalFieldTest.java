@@ -8,6 +8,7 @@ import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,8 +32,13 @@ strictfp class BigDecimalFieldTest implements FieldTheory<BigDecimalElement>, Si
         assertThat(of("5").getUncertainty()).isEqualTo("0");
         assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("2");
         assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("2.8284271247461903");
+    }
 
-
+    @Test
+    public void basic() {
+        assertThat(of(5).minus(of(4))).isEqualTo(of(1));
+        assertThat(of(5).plus(INSTANCE.zero())).isEqualTo(of(5));
+        assertThat(of("-539.4562718339926").plus(INSTANCE.zero())).isEqualTo(of("-539.4562718339926"));
     }
 
     @Override

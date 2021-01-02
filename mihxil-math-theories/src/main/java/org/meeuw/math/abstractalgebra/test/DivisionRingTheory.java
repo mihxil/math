@@ -6,8 +6,7 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
-import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
+import static org.meeuw.math.abstractalgebra.Operator.*;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.SQR;
 
@@ -21,7 +20,7 @@ public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
 
     @Property
     default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.values());
+        assertThat(s.getSupportedOperators()).contains(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
     }
 
     @Property

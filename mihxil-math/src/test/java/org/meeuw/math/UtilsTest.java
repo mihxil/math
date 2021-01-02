@@ -90,6 +90,7 @@ class UtilsTest {
         assertThat(Utils.log10(10)).isEqualTo(1);
         assertThat(Utils.log10(100)).isEqualTo(2);
         assertThat(Utils.log10(10d)).isEqualTo(1);
+        assertThat(Utils.log10(20)).isEqualTo(1);
         assertThat(Utils.log10(20d)).isEqualTo(1);
     }
 

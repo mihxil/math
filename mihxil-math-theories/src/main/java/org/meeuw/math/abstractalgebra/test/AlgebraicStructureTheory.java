@@ -2,7 +2,8 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
 
         Logger log = getLogger();
+
+        log.info("Testing {} ({})", s.toString(), s.getDescription());
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
             Streamable<E> streamAble = (Streamable<E>) s;

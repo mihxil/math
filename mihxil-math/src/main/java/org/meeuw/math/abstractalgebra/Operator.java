@@ -36,11 +36,15 @@ public enum Operator implements AlgebraicBinaryOperator {
     @SneakyThrows
     @Override
     public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
-        E result = (E) method.invoke(element1, element2);
-        if (result == null) {
-            throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
+        try {
+            E result = (E) method.invoke(element1, element2);
+            if (result == null) {
+                throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
+            }
+            return result;
+        } catch (IllegalArgumentException iae){
+            throw new IllegalStateException(method + "(" + element1 + ',' + element2 + "): " + iae.getMessage());
         }
-        return result;
     }
 
     public  <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {

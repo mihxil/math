@@ -167,13 +167,12 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         E g = values[2][0];
         E h = values[2][1];
         E i = values[2][2];
-        return
-            a.times(e.times(i))
-                .minus(a.times(f).times(h))
-                .minus(b.times(d).times(i))
-                .plus(b.times(f).times(g))
-                .plus(c.times(d).times(h))
-                .minus(c.times(e).times(g));
+        return a.times((e.times(i)).minus(f.times(h)))
+            .minus(
+                b.times((d.times(i)).minus(f.times(g)))
+            ).plus(
+                c.times((d.times(h)).minus(e.times(g)))
+            );
     }
 
     E determinant2x2(E a, E b, E c, E d) {

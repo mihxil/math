@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -87,8 +88,13 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
     }
 
     @Override
-    public String toString() {
+    public String getDescription() {
         return "permutation group of degree " + degree;
+    }
+
+    @Override
+    public String toString() {
+        return "S" + TextUtils.subscript(degree);
     }
 
     /**

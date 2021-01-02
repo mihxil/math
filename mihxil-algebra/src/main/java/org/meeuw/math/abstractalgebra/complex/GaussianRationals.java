@@ -1,6 +1,10 @@
 package org.meeuw.math.abstractalgebra.complex;
 
-import org.meeuw.math.abstractalgebra.*;
+import java.util.stream.Stream;
+
+import org.meeuw.math.Streams;
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
@@ -8,7 +12,8 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber> implements Field<GaussianRational> {
+public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber>
+    implements Field<GaussianRational>, Streamable<GaussianRational> {
 
     public static GaussianRationals INSTANCE = new GaussianRationals();
 
@@ -17,9 +22,17 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     }
 
     @Override
+    public Stream<GaussianRational> stream() {
+        return Streams.diagonalStream(
+            RationalNumbers.INSTANCE::stream,
+            RationalNumbers.INSTANCE::stream,
+            this::of
+        );
+    }
+
+    @Override
     GaussianRational of(RationalNumber real, RationalNumber imaginary) {
         return new GaussianRational(real, imaginary);
     }
-
 
 }

@@ -110,6 +110,7 @@ public interface UncertainNumber<N extends Number> {
         return  operations().signum(getValue());
     }
 
+    @SuppressWarnings("unchecked")
     default boolean equals(Object value, int sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainNumber)) {
@@ -117,7 +118,7 @@ public interface UncertainNumber<N extends Number> {
         }
         NumberOperations<N> o = operations();
 
-        UncertainNumber<N> other = (UncertainNumber) value;
+        UncertainNumber<N> other = (UncertainNumber<N>) value;
         if (o.isNaN(getValue())) {
             return o.isNaN(other.getValue());
         }

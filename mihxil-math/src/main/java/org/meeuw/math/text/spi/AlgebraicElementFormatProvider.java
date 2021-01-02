@@ -22,7 +22,6 @@ public abstract class AlgebraicElementFormatProvider {
         loader.iterator().forEachRemaining(list::add);
         list.removeIf(e -> e.weight(object) < 0);
         list.sort(Comparator.comparingInt(e -> -1 * e.weight(object)));
-
         return list.stream().map(p -> p.getInstance(configuration));
     }
 

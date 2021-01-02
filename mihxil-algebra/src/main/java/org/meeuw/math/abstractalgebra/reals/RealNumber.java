@@ -73,7 +73,7 @@ public class RealNumber
 
     @Override
     public RealNumber minus(RealNumber subtrahend) {
-        return plus(negation());
+        return plus(subtrahend.negation());
     }
 
     @Override
