@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.meeuw.math.abstractalgebra.Operator.*;
+
 /**
  * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.
  *
@@ -17,7 +19,7 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     MultiplicativeGroup<E>,
     Ring<E> {
 
-    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION, Operator.SUBTRACTION, Operator.MULTIPLICATION, Operator.DIVISION)));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION)));
 
     @Override
     default Set<Operator> getSupportedOperators() {

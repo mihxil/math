@@ -23,6 +23,13 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
     }
 
     /**
+     * Returns the {@link UnaryOperator}s that elements of this structure support.
+     */
+    default Set<UnaryOperator> getSupportedUnaryOperators() {
+        return Collections.emptySet();
+    }
+
+    /**
      * Returns the cardinality of the complete set of this structure.
      */
     Cardinality getCardinality();

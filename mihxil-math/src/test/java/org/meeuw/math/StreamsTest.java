@@ -4,16 +4,17 @@ import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
 import java.math.BigInteger;
+import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 @Log4j2
 class StreamsTest {
@@ -27,31 +28,89 @@ class StreamsTest {
             this.a = a;
             this.b = b;
         }
+        @Override
+        public String toString() {
+            return a + "," + b;
+        }
     }
 
     @Test
     public void bigIntegerStream() {
         Stream<BigInteger> stream = Streams.bigIntegerStream(true);
-        stream.limit(5000).forEach(i -> {
-            log.info(i);
+        assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
+            0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5
+        );
+    }
+    @Test
+    public void reverseBigIntegerStream() {
+        Stream<BigInteger> stream = Streams.reverseBigIntegerStream(BigInteger.valueOf(5), true);
+        assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
+            5, -5, 4, -4, 3, -3, 2, -2, 1, -1, 0
+        );
+    }
+
+
+    @Test
+    public void trySplit() throws ExecutionException, InterruptedException, TimeoutException {
+        // https://michaelbespalov.medium.com/parallel-stream-pitfalls-and-how-to-avoid-them-91f11808a16c
+        final List<String> collected = new ArrayList<>(Collections.nCopies(100, null));
+        ForkJoinPool customThreadPool = new ForkJoinPool(2);
+        ForkJoinTask<?> submit = customThreadPool.submit(() -> {
+            Stream<BigInteger> stream = Streams.bigIntegerStream(true);
+            stream.parallel().forEach(i -> {
+                log.info(i);
+                if (Math.abs(i.intValue()) < 100) {
+                    collected.set(i.intValue(), Thread.currentThread().getName());
+                } else {
+                    synchronized (StreamsTest.this) {
+                        StreamsTest.this.notifyAll();
+                    }
+                }
+            });
         });
+        synchronized (this) {
+            while (collected.contains(null)) {
+                this.wait();
+            }
+        }
+        log.info("" + collected);
+        submit.cancel(true);
     }
 
     @Test
     public void bigPositiveIntegerStream() {
         Stream<BigInteger> stream = Streams.bigIntegerStream(false);
-        assertThat(stream.limit(20))
-            .startsWith(valueOf(0), valueOf(1), valueOf(2), valueOf(3), valueOf(4));
+        assertThat(stream.limit(20).mapToInt(BigInteger::intValue)).containsExactly(
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
+        );
     }
 
     @Test
     public void diagonalStream() {
         Stream<A> aStream = Streams.diagonalStream(
-            () -> Streams.bigIntegerStream(true),
+            () -> Streams.bigIntegerStream(false),
             () -> Streams.bigIntegerStream(false), A::new);
-        aStream.limit(100).forEach(i -> {
-            log.info(i);
-        });
 
+        assertThat(aStream.limit(20).map(A::toString)).containsExactly(
+            "0,0",
+            "1,0",
+            "0,1",
+            "2,0",
+            "1,1",
+            "0,2",
+            "3,0",
+            "2,1",
+            "1,2",
+            "0,3",
+            "4,0",
+            "3,1",
+            "2,2",
+            "1,3",
+            "0,4",
+            "5,0",
+            "4,1",
+            "3,2",
+            "2,3",
+            "1,4");
     }
 }

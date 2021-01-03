@@ -11,7 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>> extends AdditiveMonoidTheory<E> {
+public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
+    extends AdditiveMonoidTheory<E> {
 
     @Property
     default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {

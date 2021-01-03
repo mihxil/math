@@ -4,11 +4,9 @@ import lombok.Getter;
 import lombok.ToString;
 
 import java.math.BigInteger;
-import java.util.Iterator;
-import java.util.Spliterator;
+import java.util.*;
 import java.util.function.*;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.stream.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
@@ -24,31 +22,62 @@ public class Streams {
     }
 
     public static Stream<BigInteger> bigIntegerStream(BigInteger start, final boolean includeNegatives) {
-        return StreamSupport.stream(new BigIntegerSpliterator(start, includeNegatives), false);
+        return StreamSupport.stream(
+            BigIntegerSpliterator.builder()
+                .start(start)
+                .includeNegatives(includeNegatives).build(),
+            false);
+    }
+
+    public static Stream<BigInteger> reverseBigIntegerStream(BigInteger start, final boolean includeNegatives) {
+        return StreamSupport.stream(
+            BigIntegerSpliterator.builder()
+                .start(start)
+                .includeNegatives(includeNegatives)
+                .step(BigInteger.valueOf(-1L))
+                .build(),
+            false);
     }
 
     public static <E, F> Stream<F> diagonalStream(
-        Supplier<Stream<E>> stream1, Supplier<Stream<E>> stream2, BiFunction<E, E, F> combiner) {
+        Function<Long, Stream<E>> stream1, Supplier<Stream<E>> stream2, BiFunction<E, E, F> combiner) {
         return Stream.iterate(new State<E, F>(1L, stream1, stream2), State::next)
             .map(s -> combiner.apply(s.getA(), s.getB()));
     }
 
+    public static <E, F> Stream<F> diagonalStream(
+        Supplier<Stream<E>> stream1, Supplier<Stream<E>> stream2, BiFunction<E, E, F> combiner) {
+        return diagonalStream(
+            (size) -> reverseStream(stream1.get(), size), stream2, combiner);
+    }
 
+    public static <E> Stream<E> reverseStream(Stream<E> stream, long start) {
+        List<E> collect = stream.limit(start).collect(Collectors.toList());
+        Collections.reverse(collect);
+        return collect.stream();
+    }
+
+
+    /**
+     * A s
+     */
     @ToString
     static class BigIntegerSpliterator implements Spliterator<BigInteger> {
         private BigInteger current;
         private boolean negatives;
-        private BigInteger step = ONE;
-        private boolean acceptNegative = false;
+        private BigInteger step;
+        private boolean acceptNegative;
 
-        public BigIntegerSpliterator(BigInteger start, boolean includeNegatives) {
+        @lombok.Builder
+        public BigIntegerSpliterator(BigInteger start, boolean includeNegatives, BigInteger step) {
             this.current = start;
             this.negatives = includeNegatives;
+            this.step = step == null ? ONE : step;
+            this.acceptNegative = negatives && this.step.intValue() < 0;
         }
 
         protected BigIntegerSpliterator copy() {
-            BigIntegerSpliterator c = new BigIntegerSpliterator(current, negatives);
-            c.step = step;
+            BigIntegerSpliterator c = new BigIntegerSpliterator(current, negatives, step);
             c.acceptNegative = acceptNegative;
             return c;
         }
@@ -89,7 +118,6 @@ public class Streams {
                 if (current.intValue() == 0) {
                     otherStream.advance();
                 }
-                System.out.println("" + this + "  and " + otherStream);
                 return otherStream;
             } else {
                 if (step.intValue() > 2) {
@@ -99,7 +127,6 @@ public class Streams {
                 step = step.multiply(BigInteger.valueOf(2));
                 BigIntegerSpliterator otherStream = copy();
                 otherStream.current = otherStream.step.add(prevStep);
-                System.out.println("" + this + "  and " + otherStream);
                 return otherStream;
             }
         }
@@ -117,11 +144,12 @@ public class Streams {
     }
 
     /**
-     WIP
+     *  Helper class for {@link #diagonalStream(Supplier, Supplier, BiFunction)} ()}. Contains the logic to combine two stream.
+     * They are found by tracing diagonals in the plain spanned by the two stream.
      */
     private static class State<E, F>  {
         final long size;
-        final Supplier<Stream<E>> v1;
+        final Function<Long, Stream<E>> v1;
         final Supplier<Stream<E>> v2;
         @Getter
         final Iterator<E> ia;
@@ -133,17 +161,17 @@ public class Streams {
         @Getter
         final E b;
 
-        private State(long size, Supplier<Stream<E>> v1, Supplier<Stream<E>> v2) {
+        private State(long size, Function<Long, Stream<E>> v1, Supplier<Stream<E>> v2) {
             this.size = size;
             this.v1 = v1;
             this.v2 = v2;
-            this.ia = v1.get().limit(size).iterator();
+            this.ia = v1.apply(size).limit(size).iterator();
             this.ib = v2.get().limit(size).iterator();
             this.a = ia.next();
             this.b = ib.next();
         }
 
-        private State(long size, Supplier<Stream<E>> v1, Supplier<Stream<E>> v2, Iterator<E> ia, Iterator<E> ib, E a, E b) {
+        private State(long size,  Function<Long, Stream<E>> v1, Supplier<Stream<E>> v2, Iterator<E> ia, Iterator<E> ib, E a, E b) {
             this.size = size;
             this.v1 = v1;
             this.v2 = v2;
@@ -154,21 +182,15 @@ public class Streams {
         }
 
         public State<E, F> next() {
-            if (! ia.hasNext() & ! ib.hasNext()) {
+            if (! ia.hasNext()) {
                 return new State<>(size + 1, v1, v2);
-            } else if (ib.hasNext()) {
-                return copy(a, ib.next());
             } else {
-                return copy(ia.next());
+                return copy(ia.next(), ib.next());
             }
         }
 
         private State<E, F> copy(E a, E b) {
             return new State<>(size, v1, v2, ia, ib, a, b);
-        }
-
-        private State<E, F> copy(E a) {
-            return new State<>(size, v1, v2, ia, v2.get().limit(size).iterator(), a, b);
         }
     }
 }

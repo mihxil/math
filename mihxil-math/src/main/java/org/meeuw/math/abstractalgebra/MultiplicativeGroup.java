@@ -12,7 +12,8 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>> extends MultiplicativeMonoid<E> {
+public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>>
+    extends MultiplicativeMonoid<E> {
 
     Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(MULTIPLICATION, DIVISION)));
 

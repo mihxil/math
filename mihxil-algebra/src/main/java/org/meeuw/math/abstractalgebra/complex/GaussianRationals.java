@@ -24,7 +24,7 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     @Override
     public Stream<GaussianRational> stream() {
         return Streams.diagonalStream(
-            RationalNumbers.INSTANCE::stream,
+            RationalNumbers.INSTANCE::reverseStream,
             RationalNumbers.INSTANCE::stream,
             this::of
         );

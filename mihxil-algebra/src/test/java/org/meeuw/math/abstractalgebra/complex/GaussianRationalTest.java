@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.complex;
 
+import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
@@ -13,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class GaussianRationalTest implements FieldTheory<GaussianRational> {
 
     static final GaussianRationals structure = GaussianRationals.INSTANCE;
@@ -33,6 +35,13 @@ class GaussianRationalTest implements FieldTheory<GaussianRational> {
     @Test
     public void isqr() {
         assertThat(structure.i().sqr()).isEqualTo(structure.one().negation());
+    }
+
+    @Test
+    public void stream() {
+        structure.stream().limit(10).forEach(i -> {
+            log.info(i);
+        });
     }
 
     @Override

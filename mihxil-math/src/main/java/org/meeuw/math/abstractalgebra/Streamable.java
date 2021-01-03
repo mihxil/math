@@ -1,5 +1,8 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -11,5 +14,15 @@ import java.util.stream.Stream;
 public interface Streamable<T> {
 
     Stream<T> stream();
+
+    /**
+     * Sometimes it is usefull to be able to produce an 'reversed' stream.
+     * This default implementation just bases it on {@link #stream()}, but it may be implementable more efficiently.
+     */
+    default Stream<T> reverseStream(long first) {
+        List<T> s = stream().limit(first).collect(Collectors.toList());
+        Collections.reverse(s);
+        return s.stream();
+    }
 
 }

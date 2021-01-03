@@ -73,7 +73,15 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberThe
                 "⁴⁄₃",
                 "-⁴⁄₃",
                 "³⁄₄"
+            );
+    }
+    @Test
+    public void reverseStream() {
+        assertThat(INSTANCE.reverseStream(10)).map(RationalNumber::toString).containsExactly(
+            "¹⁄₃", "-3", "3", "-¹⁄₂", "¹⁄₂", "-2", "2", "-1", "1", "0"
         );
+
+
     }
 
     @Override
