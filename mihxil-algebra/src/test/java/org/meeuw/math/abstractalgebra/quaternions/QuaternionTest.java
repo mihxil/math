@@ -36,12 +36,13 @@ class QuaternionTest implements DivisionRingTheory<Quaternion<RationalNumber>> {
     }
 
     @Property
-    public void conjugate(@ForAll(ELEMENTS) Quaternion<RationalNumber> e) {
+    public void conjugateOfConjugateIsSelf(@ForAll(ELEMENTS) Quaternion<RationalNumber> e) {
         assertThat(e.conjugate().conjugate()).isEqualTo(e);
     }
 
     @Property
-    public void conjugate(@ForAll(ELEMENTS) Quaternion<RationalNumber> e1, @ForAll(ELEMENTS) Quaternion<RationalNumber> e2) {
+    public void conjugateOfProductIsProductOfConjugates(@ForAll(ELEMENTS) Quaternion<RationalNumber> e1,
+                                                        @ForAll(ELEMENTS) Quaternion<RationalNumber> e2) {
         assertThat(e1.times(e2).conjugate()).isEqualTo(e2.conjugate().times(e1.conjugate()));
     }
 
