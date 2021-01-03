@@ -31,12 +31,17 @@ class UncertainDoubleFormatTest {
     }
 
     @Test
+    public void zero() {
+        UncertainDoubleFormat formatter = new UncertainDoubleFormat();
+        assertThat(formatter.scientificNotationWithUncertainty(0, 0)).isEqualTo("0 ± 0");
+    }
+
+    @Test
     public void parentheses() {
         UncertainDoubleFormat formatter = new UncertainDoubleFormat();
         formatter.setUncertaintyNotation(Configuration.UncertaintyNotation.PARENTHESES);
         assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
         assertThat(formatter.scientificNotationWithUncertainty(1234.234, 0.0456)).isEqualTo("1234.23(5)");
-
     }
 
 }

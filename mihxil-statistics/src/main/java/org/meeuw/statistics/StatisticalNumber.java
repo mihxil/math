@@ -5,8 +5,9 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.LongSummaryStatistics;
 
+import org.meeuw.math.numbers.DoubleOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -26,6 +27,8 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
      */
     @Getter
     protected int count = 0;
+
+    UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     public StatisticalNumber() {
     }
@@ -58,12 +61,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     public void combine(T m) {
         enter(m);
     }
-  /*  *//**
-     * A specialized version of {@link #combined(UncertainDouble)}, accepting and returning a {@code T}
-     *//*
-    public UncertainNumber<?> combined(UncertainNumber<?> m) {
-        return super.combined(m);
-    }*/
 
     public T combined(T m) {
         T copy = copy();
@@ -118,16 +115,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         return new UncertainDoubleElement(value, uncertainty);
     }
 
- /*   @Override
-    public UncertainDoubleElement times(UncertainDoubleElement multiplier) {
-        return (UncertainDoubleElement) super.times(multiplier);
-        }
-    */
-
-   /* @Override
-    public UncertainDoubleElement plus(UncertainDoubleElement summand) {
-        return (UncertainDoubleElement) super.plus(summand);
-    }*/
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
@@ -153,47 +140,48 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainReal sqrt() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public UncertainReal sin() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public UncertainReal cos() {
-        return null;
+        throw new UnsupportedOperationException();
+
     }
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        return null;
+        return of(operations.pow(getValue(), exponent.getValue()),operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
     }
 
     @Override
     public UncertainReal times(UncertainReal multiplier) {
-        return null;
+        return of(getValue() * multiplier.getValue(), operations.multiplyUncertainty(multiplier.doubleValue(), getUncertainty()));
     }
 
     @Override
     public UncertainReal plus(UncertainReal summand) {
-        return null;
+        return of(getValue() + summand.getValue(), operations.addUncertainty(getUncertainty(), summand.getUncertainty()));
     }
 
     @Override
     public long longValue() {
-        return 0;
+        return (long) getValue();
     }
 
     @Override
     public double doubleValue() {
-        return 0;
+        return getValue();
     }
 
     @Override
     public BigDecimal bigDecimalValue() {
-        return null;
+        return BigDecimal.valueOf(doubleValue());
     }
 
     @Override

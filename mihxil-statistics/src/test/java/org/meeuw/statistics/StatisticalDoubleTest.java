@@ -26,7 +26,7 @@ public class StatisticalDoubleTest implements FieldTheory<UncertainReal> {
 
     @Test
     public void test2() {
-        assertThat(new StatisticalDouble().enter(0, 0).toString()).isEqualTo("0.0 ± 0.0");
+        assertThat(new StatisticalDouble().enter(0, 0).toString()).isEqualTo("0 ± 0");
     }
 
     @Test
