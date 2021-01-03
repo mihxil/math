@@ -37,10 +37,12 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         double newValue = r1.value * r2.value;
         if (r1.isExactlyZero() || r2.isExactlyZero()) {
             return zero();
-        } else if (r1.value == 0 || r2.value == 0) {
-            return new RealNumber(newValue, Double.MAX_VALUE);
+        } else if (r1.value == 0) {
+            return new RealNumber(newValue, r1.uncertainty);
+        } else if (r2.value == 0) {
+            return new RealNumber(newValue, r2.uncertainty);
         } else if (Double.isNaN(r1.value) || Double.isNaN(r2.value)) {
-            return new RealNumber(newValue, Double.MAX_VALUE);
+            return new RealNumber(newValue, Double.NaN);
         } else {
             if (newValue == 0) {
                 return RealNumber.SMALLEST;

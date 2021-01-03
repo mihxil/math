@@ -37,6 +37,15 @@ class RealNumberTest implements FieldTheory<RealNumber>, SignedNumberTheory<Real
         assertThat(ex.sqr().toString()).isEqualTo("5.57 ± 0.19");
     }
 
+    @Test
+    public void nearZero() {
+        RealNumber zero = RealNumber.SMALLEST;
+        RealNumber someNumber = new RealNumber(5, 0.1);
+
+        RealNumber product = someNumber.times(zero);
+        log.info("{} . {} = {}", someNumber, zero, product);
+    }
+
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {

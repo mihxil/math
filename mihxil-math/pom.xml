@@ -25,7 +25,9 @@
     <dependency>
       <groupId>ch.obermuhlner</groupId>
       <artifactId>big-math</artifactId>
-      <optional>true</optional> <!-- only needed when using BigDecimal stuff -->
+      <!-- TODO, should be optional, but jqwik gets confused?
+      <optional>true</optional> - only needed when using BigDecimal stuff
+      -->
     </dependency>
 
     <dependency>
@@ -38,6 +40,7 @@
       <artifactId>log4j-jul</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
 </project>

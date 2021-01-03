@@ -28,7 +28,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
         assertThat(rotated).isEqualTo(of(0, -1, 0));
 
         FieldVector3<RealNumber> rotatedQuarter = quarter.apply(v);
-        assertThat(rotatedQuarter).isEqualTo(of(0, 0, -1));
+        assertThat(rotatedQuarter).isEqualTo(of(0, 0, 1));
 
         RealNumber det = half.rot.determinant();
         log.info("Determinant of {}: {}", half.rot, det);
@@ -58,7 +58,8 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     @Property
     public void determinantShouldBeOne(@ForAll(ELEMENTS) Rotation r) {
         RealNumber determinant = r.rot.determinant();
-        assertThat(determinant.isOne()).withFailMessage("det(" + r.rot + ") = " + determinant + " != 1").isTrue();
+        assertThat(determinant.equals(RealNumber.ONE))
+            .withFailMessage("det(" + r.rot + ") = " + determinant + " != 1").isTrue();
     }
 
     @Override
