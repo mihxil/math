@@ -136,22 +136,19 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         return AlgebraicElementFormatProvider.toString(this);
     }
 
-
-
     @Override
     public UncertainReal sqrt() {
-        throw new UnsupportedOperationException();
+        return of(operations.sqrt(getValue()), getUncertainty());
     }
 
     @Override
     public UncertainReal sin() {
-        throw new UnsupportedOperationException();
+        return of(operations.sin(getValue()), getUncertainty());
     }
 
     @Override
     public UncertainReal cos() {
-        throw new UnsupportedOperationException();
-
+        return of(operations.cos(getValue()), getUncertainty());
     }
 
     @Override

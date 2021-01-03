@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 0.3
  */
 
-class StatisticalLongTest implements FieldTheory<UncertainReal> {
+class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
     @Test
     public void instants() {
@@ -82,7 +82,7 @@ class StatisticalLongTest implements FieldTheory<UncertainReal> {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainDouble combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
+        UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.getValue()).isEqualTo(3.5);
 

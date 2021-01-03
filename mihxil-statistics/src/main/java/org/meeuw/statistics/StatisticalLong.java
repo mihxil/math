@@ -149,15 +149,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return  UncertainRealField.INSTANCE;
     }
 
-    @Override
-    public UncertainReal times(UncertainReal multiplier) {
-        return null;
-    }
-
-    @Override
-    public UncertainReal plus(UncertainReal summand) {
-        return null;
-    }
 
     @Override
     public UncertainDoubleElement reciprocal() {
