@@ -27,15 +27,15 @@ The idea is that every 'abstract algebra' consists of the implementation of two 
 The terminology which is adopted is this:
 
 |===
-|Algebraic operation  | operator | operator name |
+|Algebraic operation  | operator | operator name | result name | argument name | defined in
 
-|addition | + | plus | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
-|subtraction | - | minus | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
-|multiplication |  ⋅  | times | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
-|division | / | dividedBy | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
-
-| negation |   | negation
-| reciprocation | |  reciprocal
+|addition | + | plus | sum | summand | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
+|subtraction | - | minus | difference | subtrahend | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|multiplication |  ⋅  | times | product | multiplier | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
+|division | / | dividedBy | quotient | divisor | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|negation      | | negation | negation||
+|reciprocation | |  reciprocal | reciprocal||
+|exponentiation | | pow | power| exponent|
 
 |===
 
