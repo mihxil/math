@@ -39,10 +39,12 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         return Stream.concat(
             Stream.of(zero()),
             Streams.diagonalStream(
-                (s) -> Streams.reverseBigIntegerStream(BigInteger.valueOf(s), true), // TODO more efficient reveStream
+                (s) -> Streams.reverseBigIntegerStream(BigInteger.valueOf(s), false),
                 () -> Streams.bigIntegerStream(ONE, false),
-                (a, b) -> a.abs().gcd(b).equals(ONE) ? new RationalNumber(a, b) : null)
-                .filter(Objects::nonNull));
+                (a, b) -> a.abs().gcd(b).equals(ONE) ? new RationalNumber(a.negate(), b) : null)
+                .filter(Objects::nonNull)
+                .flatMap(s -> Stream.of(s, s.negation()))
+        );
     }
 
 

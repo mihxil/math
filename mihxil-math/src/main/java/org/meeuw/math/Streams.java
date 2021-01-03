@@ -1,10 +1,10 @@
 package org.meeuw.math;
 
 import lombok.Getter;
-import lombok.ToString;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -16,6 +16,8 @@ import static java.math.BigInteger.ZERO;
  * @since 0.4
  */
 public class Streams {
+
+    public static final int MAX_THREADS = 4;
 
     public static Stream<BigInteger> bigIntegerStream(boolean includeNegatives) {
         return bigIntegerStream(ZERO, includeNegatives);
@@ -58,35 +60,39 @@ public class Streams {
     }
 
 
-    /**
-     * A s
-     */
-    @ToString
     static class BigIntegerSpliterator implements Spliterator<BigInteger> {
         private BigInteger current;
         private boolean negatives;
         private BigInteger step;
         private boolean acceptNegative;
+        private final BigInteger stepSignum;
+        private final AtomicInteger thread;
 
         @lombok.Builder
-        public BigIntegerSpliterator(BigInteger start, boolean includeNegatives, BigInteger step) {
+        private BigIntegerSpliterator(BigInteger start, boolean includeNegatives, BigInteger step, AtomicInteger thread) {
             this.current = start;
             this.negatives = includeNegatives;
             this.step = step == null ? ONE : step;
-            this.acceptNegative = negatives && this.step.intValue() < 0;
+            this.stepSignum = BigInteger.valueOf(this.step.signum());
+            this.acceptNegative = false;
+            this.thread = thread == null ? new AtomicInteger(1) : thread;
         }
+        @lombok.Builder
+        public BigIntegerSpliterator(BigInteger start, boolean includeNegatives, BigInteger step) {
+            this(start, includeNegatives, step, null);
+         }
 
         protected BigIntegerSpliterator copy() {
-            BigIntegerSpliterator c = new BigIntegerSpliterator(current, negatives, step);
+            BigIntegerSpliterator c = new BigIntegerSpliterator(current, negatives, step, thread);
             c.acceptNegative = acceptNegative;
             return c;
         }
 
         protected void accept(Consumer<? super BigInteger> action) {
             if (acceptNegative) {
-                action.accept(current.negate());
+                action.accept(current.negate().multiply(stepSignum));
             } else {
-                action.accept(current);
+                action.accept(current.multiply(stepSignum));
             }
         }
         protected void advance() {
@@ -110,7 +116,16 @@ public class Streams {
         }
 
         @Override
-        public Spliterator<BigInteger> trySplit() {
+        public BigIntegerSpliterator trySplit() {
+            if (thread.get() >= MAX_THREADS) {
+                return null;
+            }
+            return _trySplit();
+
+        }
+
+        BigIntegerSpliterator _trySplit() {
+            thread.incrementAndGet();
             if (negatives) {
                 negatives = false;
                 BigIntegerSpliterator otherStream = copy();
@@ -120,13 +135,10 @@ public class Streams {
                 }
                 return otherStream;
             } else {
-                if (step.intValue() > 2) {
-                    return null;
-                }
                 BigInteger prevStep = step;
                 step = step.multiply(BigInteger.valueOf(2));
                 BigIntegerSpliterator otherStream = copy();
-                otherStream.current = otherStream.step.add(prevStep);
+                otherStream.current = otherStream.current.add(prevStep);
                 return otherStream;
             }
         }
@@ -138,7 +150,7 @@ public class Streams {
 
         @Override
         public int characteristics() {
-            return DISTINCT & NONNULL & IMMUTABLE & ORDERED;
+            return DISTINCT | NONNULL | IMMUTABLE;
         }
 
     }
@@ -151,9 +163,7 @@ public class Streams {
         final long size;
         final Function<Long, Stream<E>> v1;
         final Supplier<Stream<E>> v2;
-        @Getter
         final Iterator<E> ia;
-        @Getter
         final Iterator<E> ib;
 
         @Getter
