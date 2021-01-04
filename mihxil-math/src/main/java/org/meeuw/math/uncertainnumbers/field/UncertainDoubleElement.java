@@ -98,7 +98,6 @@ public class UncertainDoubleElement
         return new UncertainDoubleElement(value, uncertainty);
     }
 
-
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {

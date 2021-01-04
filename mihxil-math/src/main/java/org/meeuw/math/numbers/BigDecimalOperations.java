@@ -2,8 +2,7 @@ package org.meeuw.math.numbers;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -17,6 +16,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     public BigDecimalOperations(MathContext mathContext) {
         this.mathContext = mathContext;
+    }
+
+    @Override
+    public BigDecimal getFractionalUncertainty(BigDecimal value, BigDecimal uncertainty) {
+        return uncertainty.divide(value.add(uncertainty), RoundingMode.HALF_UP);
     }
 
     @Override

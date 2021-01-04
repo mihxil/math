@@ -47,7 +47,6 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         );
     }
 
-
     public RationalNumber nextRandom(Random random) {
         long numerator = random.nextLong();
         long denumator = 0L;
@@ -56,7 +55,6 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         }
         return RationalNumber.of(numerator, denumator);
     }
-
 
     @Override
     public Cardinality getCardinality() {

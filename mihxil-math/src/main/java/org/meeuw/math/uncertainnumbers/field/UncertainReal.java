@@ -28,7 +28,6 @@ public interface UncertainReal
         return UncertainDouble.super.plus(summand);
     }
 
-
     @Override
     default boolean isZero() {
         return CompleteFieldElement.super.isZero();

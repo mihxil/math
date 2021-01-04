@@ -1,5 +1,6 @@
 package org.meeuw.math.uncertainnumbers;
 
+import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -22,6 +23,10 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
     double getValue();
 
     double getUncertainty();
+
+    default double getFractionalUncertainty() {
+        return operations().getFractionalUncertainty(getValue(), getUncertainty());
+    }
 
     default boolean isExact() {
         return getUncertainty() == EXACT;
@@ -120,6 +125,10 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
 
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
         return DoubleConfidenceInterval.of(getValue(), getUncertainty(), sds);
+    }
+
+    default DoubleOperations operations() {
+        return DoubleOperations.INSTANCE;
     }
 
 

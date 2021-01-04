@@ -3,6 +3,7 @@ package org.meeuw.math.uncertainnumbers;
 import lombok.Getter;
 
 import org.meeuw.math.numbers.NumberOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 
 /**
  * @author Michiel Meeuwissen
@@ -38,8 +39,13 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     }
 
     @Override
-    public NumberOperations<N> operations() {
-        return NumberOperations.of(value);
+    public N getFractionalUncertainty() {
+        return operations().getFractionalUncertainty(getValue(), getUncertainty());
+    }
+
+    @Override
+    public UncertaintyNumberOperations<N> operations() {
+        return UncertaintyNumberOperations.of(value);
     }
 
 }

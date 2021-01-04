@@ -16,6 +16,8 @@ public interface NumberOperations<N extends Number> {
         }
     }
 
+    N  getFractionalUncertainty(N value, N unc);
+
     N sqr(N v);
 
     N sqrt(N v);
@@ -35,7 +37,6 @@ public interface NumberOperations<N extends Number> {
         }
         return result;
     }
-
 
     N divide(N n1, N n2);
 

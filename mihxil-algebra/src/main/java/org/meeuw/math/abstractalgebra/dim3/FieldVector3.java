@@ -11,6 +11,7 @@ import static java.math.BigDecimal.ZERO;
 
 /**
  * A 3 dimension vector on a {@link CompleteField}.
+ *
  * @author Michiel Meeuwissen
  */
 public class FieldVector3<E extends ScalarFieldElement<E>>

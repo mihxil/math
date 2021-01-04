@@ -106,7 +106,6 @@ public class Permutation  implements
         return cycles;
     }
 
-
     public String cycleNotation(int offset) {
         String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString(offset)).collect(Collectors.joining());
         if (s.length() == 0) {
@@ -120,7 +119,6 @@ public class Permutation  implements
         String join = value.length > 9 ? " " : "";
         return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
     }
-
 
     /**
      * Calls {@link #permute(Object[])}

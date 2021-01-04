@@ -7,6 +7,8 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
+ * The {@link Field} of {@link ComplexNumber}s.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

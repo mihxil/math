@@ -31,7 +31,6 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         this.imaginary = imaginary;
     }
 
-
     abstract S of(E real, E imaginary);
 
     @Override

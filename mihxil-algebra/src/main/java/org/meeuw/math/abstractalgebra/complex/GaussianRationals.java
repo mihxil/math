@@ -9,6 +9,8 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
 /**
+ * The {@link Field} of {@link GaussianRational}s.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -34,7 +34,7 @@ public class BigDecimalElement
     }
 
     public static BigDecimal uncertainty(double doubleValue) {
-        return new BigDecimal(2).pow(Utils.leastSignifantBit(doubleValue), new MathContext(2, RoundingMode.UP));
+        return BigDecimal.valueOf(Utils.uncertaintyForDouble(doubleValue));
     }
 
     public BigDecimalElement(BigDecimal value, BigDecimal uncertainty) {
@@ -113,6 +113,11 @@ public class BigDecimalElement
     @Override
     public BigDecimal getUncertainty() {
         return uncertainty;
+    }
+
+    @Override
+    public BigDecimal getFractionalUncertainty() {
+        return operations().getFractionalUncertainty(value, uncertainty);
     }
 
     @Override

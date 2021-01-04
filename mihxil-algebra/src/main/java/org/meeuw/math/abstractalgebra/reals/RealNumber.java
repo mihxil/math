@@ -92,10 +92,6 @@ public class RealNumber
         return uncertainty == 0;
     }
 
-    public double getFractionalUncertainty() {
-        return uncertainty / (Math.abs(value) + uncertainty); // add uncertainty to avoid division by zero.
-    }
-
     @Override
     public RealNumber pow(int exponent) {
         double newValue = Math.pow(value, exponent);

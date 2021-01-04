@@ -16,7 +16,9 @@ public interface UncertainNumber<N extends Number> {
 
     N getUncertainty();
 
-    NumberOperations<N> operations();
+    N getFractionalUncertainty();
+
+    UncertaintyNumberOperations<N> operations();
 
     /**
      * When calculating the uncertainty it is normally enough to use a version of {@link #operations()} that does calculations
@@ -69,10 +71,10 @@ public interface UncertainNumber<N extends Number> {
 
 
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
-        NumberOperations<N> o = operations();
+        UncertaintyNumberOperations<N> o = operations();
 
-        N u = o.divide(getUncertainty(), getValue());
-        N mu = o.divide(multiplier.getUncertainty(),  multiplier.getValue());
+        N u = o.getFractionalUncertainty(getValue(), getUncertainty());
+        N mu = o.getFractionalUncertainty(multiplier.getValue(), multiplier.getUncertainty());
         N newValue = o.multiply(getValue(), multiplier.getValue());
 
         NumberOperations<N> uo = uncertaintyOperations();

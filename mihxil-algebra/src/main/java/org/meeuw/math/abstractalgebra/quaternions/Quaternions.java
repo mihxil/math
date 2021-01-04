@@ -20,7 +20,6 @@ public class Quaternions<E extends ScalarFieldElement<E>>
 
     private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
-
     @SuppressWarnings("unchecked")
     public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
         return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {

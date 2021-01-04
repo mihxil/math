@@ -15,7 +15,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D> & Sca
     extends Number
     implements Comparable<D>, UncertainDouble<D>, Scalar<D> {
 
-
     @Override
     public long longValue() {
         return Math.round(doubleValue());

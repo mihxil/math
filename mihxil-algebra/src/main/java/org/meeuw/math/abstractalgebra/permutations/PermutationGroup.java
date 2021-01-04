@@ -18,7 +18,6 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
 
     private static final Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
 
-
     @Getter
     private final int degree;
 
@@ -55,8 +54,6 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
         }
         return new Cardinality(answer);
     }
-
-
 
     @Override
     public Stream<Permutation> stream() {

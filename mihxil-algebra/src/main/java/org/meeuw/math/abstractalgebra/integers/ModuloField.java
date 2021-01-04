@@ -30,5 +30,4 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         return new ModuloFieldElement(v, this);
     }
 
-
 }

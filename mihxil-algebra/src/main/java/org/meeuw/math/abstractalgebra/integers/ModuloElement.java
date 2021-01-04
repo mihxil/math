@@ -44,11 +44,9 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
         return structure.element(-1 * value );
     }
 
-
     @Override
     public String toString() {
         return String.valueOf(value); /* + "%" + structure.divisor;*/
     }
-
 
 }

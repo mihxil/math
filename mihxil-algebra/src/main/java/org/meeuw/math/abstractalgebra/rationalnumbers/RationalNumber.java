@@ -98,7 +98,6 @@ public class RationalNumber extends Number
         );
     }
 
-
     @Override
     public RationalNumber negation() {
         return new RationalNumber(
@@ -110,12 +109,10 @@ public class RationalNumber extends Number
         return plus(subtrahend.times(-1));
     }
 
-
     @Override
     public int compareTo(RationalNumber compare) {
         return numerator.multiply(compare.denominator).compareTo(compare.numerator.multiply(denominator));
     }
-
 
     @Override
     public RationalNumber times(RationalNumber multiplier) {
@@ -131,6 +128,7 @@ public class RationalNumber extends Number
                 denominator
         );
     }
+
     @Override
     public int intValue() {
         return numerator.divide(denominator).intValue();

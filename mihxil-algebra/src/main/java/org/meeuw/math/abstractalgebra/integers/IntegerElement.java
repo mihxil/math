@@ -32,7 +32,6 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
         return new IntegerElement(value + summand.value);
     }
 
-
     @Override
     public IntegerElement minus(IntegerElement summand) {
         return plus(summand.negation());
@@ -68,8 +67,18 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
         return new IntegerElement(value * value);
     }
 
-    public IntegerElement dividedBy(IntegerElement n) {
-        return new IntegerElement(value / n.value);
+    /**
+     * Euclidean division of integers.
+     */
+    public IntegerElement dividedBy(IntegerElement divisor) {
+        return new IntegerElement(value / divisor.value);
+    }
+
+    /**
+     * The remainder of euclidean division of integers.
+     */
+     public IntegerElement mod(IntegerElement divisor) {
+        return new IntegerElement(value % divisor.value);
     }
 
     @Override

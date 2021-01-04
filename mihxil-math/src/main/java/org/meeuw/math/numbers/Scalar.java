@@ -51,7 +51,6 @@ public interface Scalar<SELF extends Scalar<SELF>> extends Comparable<SELF>, Sig
      */
     double doubleValue();
 
-
     /**
      * Returns the value of the specified number as a {@code byte},
      * which may involve rounding or truncation.
@@ -81,7 +80,6 @@ public interface Scalar<SELF extends Scalar<SELF>> extends Comparable<SELF>, Sig
     }
 
     BigDecimal bigDecimalValue();
-
 
     default boolean isFinite() {
         return true;

@@ -6,6 +6,10 @@ import lombok.extern.java.Log;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
+ * An abstract implementation of complex number, which remains agnostic about the exact type of the real an imaginary components
+ * Normally it would be {@link org.meeuw.math.abstractalgebra.reals.RealNumber}'s leading to {@link ComplexNumber}, but it can
+ * (e.g.) also be {@link org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber} and then this becomes a {@link GaussianRational}
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

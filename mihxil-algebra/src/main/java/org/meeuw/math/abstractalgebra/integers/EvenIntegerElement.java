@@ -108,8 +108,6 @@ public class EvenIntegerElement
         return BigDecimal.valueOf(value);
     }
 
-
-
     @Override
     public int signum() {
         return Long.signum(value);
@@ -119,7 +117,6 @@ public class EvenIntegerElement
     public int compareTo(EvenIntegerElement f) {
         return Long.compare(value, f.value);
     }
-
 
     @Override
     public EvenIntegerElement abs() {

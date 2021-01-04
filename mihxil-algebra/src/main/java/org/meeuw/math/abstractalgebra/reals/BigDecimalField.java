@@ -22,7 +22,6 @@ public class BigDecimalField
     @Getter
     private final MathContext mathContext = MathContext.DECIMAL128;
 
-
     protected BigDecimalField() {
         super(BigDecimalElement.class);
     }

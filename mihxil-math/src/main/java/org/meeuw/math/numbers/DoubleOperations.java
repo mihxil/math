@@ -11,6 +11,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     public static final DoubleOperations INSTANCE = new DoubleOperations();
 
     @Override
+    public Double getFractionalUncertainty(Double value, Double uncertainty) {
+        return uncertainty / (value + uncertainty); // add uncertainty to avoid division by zero.
+    }
+
+    @Override
     public Double sqr(Double v) {
         return v * v;
     }

@@ -17,7 +17,7 @@ public class NaturalNumber  implements
     MultiplicativeMonoidElement<NaturalNumber>,
     AdditiveMonoidElement<NaturalNumber>,
     Scalar<NaturalNumber>
- {
+{
     public static final NaturalNumber ZERO = of(0);
     public static final NaturalNumber ONE = of(1);
 
@@ -49,59 +49,58 @@ public class NaturalNumber  implements
         return of(value * summand.value);
     }
 
+    @Override
+    public long longValue() {
+        return value;
+    }
 
-     @Override
-     public long longValue() {
-         return value;
-     }
+    @Override
+    public double doubleValue() {
+        return value;
+    }
 
-     @Override
-     public double doubleValue() {
-         return value;
-     }
+    @Override
+    public BigDecimal bigDecimalValue() {
+        return new BigDecimal(value);
+    }
 
-     @Override
-     public BigDecimal bigDecimalValue() {
-         return new BigDecimal(value);
-     }
+    @Override
+    public int compareTo(NaturalNumber naturalNumber) {
+        return Long.compare(value, naturalNumber.value);
+    }
 
-     @Override
-     public int compareTo(NaturalNumber naturalNumber) {
-         return Long.compare(value, naturalNumber.value);
-     }
-
-     @Override
-     public String toString() {
+    @Override
+    public String toString() {
         return String.valueOf(value);
-     }
+    }
 
-     @Override
-     public boolean equals(Object o) {
-         if (this == o) return true;
-         if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-         NaturalNumber that = (NaturalNumber) o;
+        NaturalNumber that = (NaturalNumber) o;
 
-         return value == that.value;
-     }
+        return value == that.value;
+    }
 
-     @Override
-     public int hashCode() {
-         return (int) (value ^ (value >>> 32));
-     }
+    @Override
+    public int hashCode() {
+        return (int) (value ^ (value >>> 32));
+    }
 
-     @Override
-     public NaturalNumber abs() {
-         return this;
-     }
+    @Override
+    public NaturalNumber abs() {
+        return this;
+    }
 
-     @Override
-     public int signum() {
-         return Long.signum(value);
-     }
+    @Override
+    public int signum() {
+        return Long.signum(value);
+    }
 
-     @Override
-     public boolean isZero() {
+    @Override
+    public boolean isZero() {
         return value == 0;
-     }
- }
+    }
+}
