@@ -33,9 +33,14 @@ The terminology which is adopted is this:
 |subtraction | - | minus | difference | subtrahend | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
 |multiplication |  ⋅  | times | product | multiplier | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
 |division | / | dividedBy | quotient | divisor | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
-|negation      | | negation | negation||
-|reciprocation | |  reciprocal | reciprocal||
-|exponentiation | | pow | power| exponent|
+|negation      | | negation | negation|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|reciprocation | |  reciprocal | reciprocal|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|exponentiation | | pow | power| exponent| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|square root | | sqrt | square root| | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|sine | | sin | sine| | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|cosine | | cos | cosine| | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|metric or distance|| distanceTo | distance|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+|absolute value, distance to zero|| abs| absolute value|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
 
 |===
 
