@@ -61,4 +61,12 @@ public class Vector3  {
     public String toString() {
         return "(" + x + "," + y + "," + z + ")";
     }
+
+    public Vector3 times(Double multiplier) {
+        return new Vector3(x * multiplier, y * multiplier, z * multiplier);
+    }
+
+    public Vector3 dividedBy(Double divisor) {
+        return new Vector3(x / divisor, y / divisor, z / divisor);
+    }
 }

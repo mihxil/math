@@ -32,7 +32,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     }
 
     public static FieldVector3<BigDecimalElement> of(BigDecimal x, BigDecimal y, BigDecimal z) {
-        return new FieldVector3<>(new BigDecimalElement(x, ZERO), new BigDecimalElement(y, ZERO), new BigDecimalElement(z, ZERO));
+        return of(new BigDecimalElement(x, ZERO), new BigDecimalElement(y, ZERO), new BigDecimalElement(z, ZERO));
     }
 
     public FieldVector3(E x, E y, E z) {
