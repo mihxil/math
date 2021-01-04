@@ -29,11 +29,10 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
         StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
 
         mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
-        assertThat(mes.getRoundedMean()).isEqualTo(1593070087000L);
+        assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
         //assertThat(mes.toString()).startsWith(expected);
         assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
     }
-
 
     @Test
     public void longs() {
@@ -74,7 +73,7 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
 
         statCombined.reguess();
-        assertThat(statCombined.getGuessedMean()).isEqualTo(4);
+        assertThat(statCombined.getGuessedMean()).isEqualTo(3);
 
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
