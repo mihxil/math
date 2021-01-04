@@ -31,6 +31,10 @@ public class Vector3  {
         return of(x * multiplier, y * multiplier, z * multiplier);
     }
 
+    public Vector3 dividedBy(double divisor) {
+        return of(x / divisor, y / divisor, z / divisor);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,11 +66,5 @@ public class Vector3  {
         return "(" + x + "," + y + "," + z + ")";
     }
 
-    public Vector3 times(Double multiplier) {
-        return new Vector3(x * multiplier, y * multiplier, z * multiplier);
-    }
 
-    public Vector3 dividedBy(Double divisor) {
-        return new Vector3(x / divisor, y / divisor, z / divisor);
-    }
 }
