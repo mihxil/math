@@ -9,6 +9,8 @@ image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,li
 
 Math and physics related classes. This is a hobby project which grew from the classes in 'mihxil-statistics' which are actually used.
 
+link:https://mihxil.github.io/math/[this file in html]
+
 == mihxil-math
 
 The common dependency of the modules in the project. It provides the scaffolding for:
