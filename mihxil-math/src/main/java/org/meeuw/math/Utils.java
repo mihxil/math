@@ -278,8 +278,11 @@ public class Utils {
     }
 
 
+    /**
+     * Simple prime test. 6k ± 1 optimization only. Not suitable for (very) large numbers.
+     */
     public static boolean isPrime(int n) {
-        if (n < 3) {
+        if (n <= 3) {
             return n > 1;
         } else if (n % 2 == 0 || n % 3 == 0) {
             return false;

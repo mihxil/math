@@ -209,13 +209,13 @@ The most basic algebraic structure which can be created from integers are the in
 
 
 ==== Even integers
-As an example of a 'rng' ( a ring with the existence of the multiplicative identity 1), the event integers can serve
+As an example of a 'rng' (a ring without the existence of the multiplicative identity 1), the even integers can serve
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/EvenIntegerElement.java[`EvenIntegerElement`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/EvenIntegers.java[`EvenIntegers`]
 
 ==== Natural numbers
-In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a so called 'monoid' (both additive and multiplicative).
+In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a 'monoid' (both additive and multiplicative).
 
 - element link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumber.java[`NaturalNumber`]
 - structure link:mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java[`NaturalNumbers`]
