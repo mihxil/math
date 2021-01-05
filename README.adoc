@@ -72,7 +72,6 @@ The algebraic structure will also contain methods to obtain 'special elements' l
 Some algebraic elements are like 'real' numbers. There are several interfaces dedicated to formalising properties of that.
 
 |===
-
 | class/interface  | description
 
 | link:mihxil-math/src/main/java/org/meeuw/math/numbers/Scalar.java[`Scalar`] | generic interface that defines method to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. it extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
@@ -95,8 +94,14 @@ It is not always an absolute choice on how propagations must happen, some interp
 | operation | formula | current uncertainty propagation algorithm
 
 | summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 - Δb^2}]
-| multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
+| multiplication | latexmath:[a ± Δa \cdot b ± Δb] | ..
+| exponentiation |
+| sin/cos |
 |===
+
+===== Zero
+
+Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefor for now fractional uncertainity is implemented like latexmath:[ \frac{Δa}{a +  Δa}] (rather then latexmath:[ \frac{Δa}{a}])
 
 
 ==== Testing
