@@ -118,6 +118,12 @@ Default methods then test wheter all theoretical possibilities and limitation of
 
 ==== Implementation of equals/hashcode
 
+When a value has uncertainty then 'equals' also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.
+
+In this case the `hashCode` must be a fixed value, because otherwise we can't garantuee that equal values have equal hashCode.
+
+So it's probably a bad idea to use uncertain values as hash keys or so.
+
 
 
 == mihxil-statistics
