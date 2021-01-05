@@ -86,7 +86,9 @@ Some algebraic elements are like 'real' numbers. There are several interfaces de
 
 For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in value, and try to propagate the sensibly when performing operations on them.
 
-The 'physics' module will add to this that these kind of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+
+The 'statistics' module introduces 'uncertain' numbers where the uncertainty is the standard deviation in a collected set of values. These numbers are examples where the numbers are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless other objects with frozen value and uncertainty.
 
 It is not always an absolute choice on how propagations must happen, some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations', which is not currently pluggable or configurable, but it may well be.
 
