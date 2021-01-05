@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.meeuw.math.abstractalgebra</OriginalElement>
+  <nodes>
+    <node x="507.4375" y="103.0">org.meeuw.math.abstractalgebra.AlgebraicStructure</node>
+    <node x="436.3022357723578" y="978.0">org.meeuw.math.abstractalgebra.Ring</node>
+    <node x="1510.029268292683" y="1081.0">org.meeuw.math.abstractalgebra.FieldElement</node>
+    <node x="885.5522357723578" y="337.0">org.meeuw.math.abstractalgebra.AbstractAlgebraicStructure</node>
+    <node x="1050.9375" y="1093.0">org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup</node>
+    <node x="323.25" y="337.0">org.meeuw.math.abstractalgebra.AdditiveSemiGroup</node>
+    <node x="536.2743902439026" y="674.0">org.meeuw.math.abstractalgebra.RngElement</node>
+    <node x="661.2743902439026" y="832.0">org.meeuw.math.abstractalgebra.RingElement</node>
+    <node x="356.25" y="495.0">org.meeuw.math.abstractalgebra.AdditiveMonoid</node>
+    <node x="1124.4375" y="1207.0">org.meeuw.math.abstractalgebra.Field</node>
+    <node x="973.0243902439026" y="832.0">org.meeuw.math.abstractalgebra.MultiplicativeMonoid</node>
+    <node x="1135.4375" y="1533.0">org.meeuw.math.abstractalgebra.CompleteField</node>
+    <node x="607.3440040650407" y="1081.0">org.meeuw.math.abstractalgebra.DivisionRing</node>
+    <node x="979.5522357723578" y="451.0">org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement</node>
+    <node x="1236.9690040650407" y="652.0">org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement</node>
+    <node x="1279.6875" y="1309.0">org.meeuw.math.abstractalgebra.CompleteFieldElement</node>
+    <node x="995.7743902439026" y="978.0">org.meeuw.math.abstractalgebra.MultiplicativeGroup</node>
+    <node x="0.0" y="462.0">org.meeuw.math.abstractalgebra.AdditiveGroupElement</node>
+    <node x="315.8022357723578" y="832.0">org.meeuw.math.abstractalgebra.Rng</node>
+    <node x="1529.9375" y="1500.0">org.meeuw.math.abstractalgebra.VectorInterface</node>
+    <node x="740.7743902439026" y="978.0">org.meeuw.math.abstractalgebra.DivisionRingElement</node>
+    <node x="25.2952235772359" y="674.0">org.meeuw.math.abstractalgebra.AdditiveGroup</node>
+    <node x="1537.6875" y="1342.0">org.meeuw.math.abstractalgebra.WithScalarOperations</node>
+    <node x="1538.779268292683" y="1184.0">org.meeuw.math.abstractalgebra.ScalarFieldElement</node>
+    <node x="1670.6875" y="1691.0">org.meeuw.math.abstractalgebra.VectorSpaceInterface</node>
+    <node x="806.2743902439026" y="674.0">org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup</node>
+    <node x="58.25" y="326.0">org.meeuw.math.abstractalgebra.AdditiveMonoidElement</node>
+    <node x="1134.6875" y="1365.0">org.meeuw.math.abstractalgebra.ScalarField</node>
+    <node x="195.0" y="136.0">org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement</node>
+    <node x="1307.9690040650407" y="799.0">org.meeuw.math.abstractalgebra.MultiplicativeGroupElement</node>
+    <node x="814.1147357723578" y="0.0">org.meeuw.math.abstractalgebra.AlgebraicElement</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.meeuw.math.abstractalgebra.VectorSpaceInterface" target="org.meeuw.math.abstractalgebra.VectorInterface">
+      <point x="-48.25" y="-48.5" />
+      <point x="1718.9375" y="1666.0" />
+      <point x="1667.4375" y="1666.0" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.DivisionRing" target="org.meeuw.math.abstractalgebra.MultiplicativeGroup">
+      <point x="95.0" y="-26.5" />
+      <point x="844.8440040650407" y="1061.0" />
+      <point x="1067.0243902439026" y="1061.0" />
+      <point x="-71.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AlgebraicStructure" target="org.meeuw.math.abstractalgebra.AlgebraicElement">
+      <point x="0.0" y="-81.5" />
+      <point x="682.9375" y="83.0" />
+      <point x="911.9897357723578" y="83.0" />
+      <point x="-32.625" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Ring" target="org.meeuw.math.abstractalgebra.Rng">
+      <point x="-22.0" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveSemiGroup" target="org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement">
+      <point x="-71.25" y="-26.5" />
+      <point x="66.5" y="48.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeGroupElement" target="org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement">
+      <point x="0.0" y="-59.5" />
+      <point x="68.0" y="48.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.CompleteField" target="org.meeuw.math.abstractalgebra.ScalarField">
+      <point x="-87.75" y="-37.5" />
+      <point x="1223.1875" y="1475.0" />
+      <point x="1197.1875" y="1475.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.RngElement" target="org.meeuw.math.abstractalgebra.AdditiveGroupElement">
+      <point x="-44.5" y="-26.5" />
+      <point x="580.7743902439026" y="622.0" />
+      <point x="179.25" y="622.0" />
+      <point x="59.75" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Field" target="org.meeuw.math.abstractalgebra.DivisionRing">
+      <point x="-27.66666666666663" y="-14.5" />
+      <point x="1138.2708333333333" y="1159.0" />
+      <point x="749.8440040650407" y="1159.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeGroup" target="org.meeuw.math.abstractalgebra.MultiplicativeMonoid">
+      <point x="-71.25" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.ScalarFieldElement" target="org.meeuw.math.abstractalgebra.FieldElement">
+      <point x="0.0" y="-37.5" />
+      <point x="45.75" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Rng" target="org.meeuw.math.abstractalgebra.RngElement">
+      <point x="0.0" y="-26.5" />
+      <point x="458.3022357723578" y="769.0" />
+      <point x="580.7743902439026" y="769.0" />
+      <point x="-44.5" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.FieldElement" target="org.meeuw.math.abstractalgebra.MultiplicativeGroupElement">
+      <point x="45.75" y="-26.5" />
+      <point x="1647.279268292683" y="958.0" />
+      <point x="1540.7190040650407" y="958.0" />
+      <point x="99.74999999999994" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup" target="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement">
+      <point x="71.25" y="-26.5" />
+      <point x="1020.0243902439026" y="632.0" />
+      <point x="1126.0522357723578" y="632.0" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Rng" target="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup">
+      <point x="95.0" y="-26.5" />
+      <point x="553.3022357723578" y="779.0" />
+      <point x="877.5243902439026" y="779.0" />
+      <point x="-71.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup" target="org.meeuw.math.abstractalgebra.MultiplicativeGroup">
+      <point x="-57.5" y="-14.5" />
+      <point x="1108.4375" y="1061.0" />
+      <point x="1209.5243902439026" y="1061.0" />
+      <point x="71.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Field" target="org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup">
+      <point x="0.0" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeMonoid" target="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup">
+      <point x="-47.0" y="-26.5" />
+      <point x="71.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveGroup" target="org.meeuw.math.abstractalgebra.AdditiveGroupElement">
+      <point x="-71.25" y="-26.5" />
+      <point x="96.5452235772359" y="632.0" />
+      <point x="59.75" y="632.0" />
+      <point x="-59.75" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.ScalarField" target="org.meeuw.math.abstractalgebra.Field">
+      <point x="-31.25" y="-14.5" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement" target="org.meeuw.math.abstractalgebra.AlgebraicElement">
+      <point x="0.0" y="-48.5" />
+      <point x="328.0" y="73.0" />
+      <point x="846.7397357723578" y="73.0" />
+      <point x="-97.875" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.VectorInterface" target="org.meeuw.math.abstractalgebra.WithScalarOperations">
+      <point x="-68.75" y="-70.5" />
+      <point x="1598.6875" y="1475.0" />
+      <point x="1631.6875" y="1475.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.DivisionRingElement" target="org.meeuw.math.abstractalgebra.RingElement">
+      <point x="-56.249999999999886" y="-26.5" />
+      <point x="45.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.WithScalarOperations" target="org.meeuw.math.abstractalgebra.ScalarFieldElement">
+      <point x="0.0" y="-37.5" />
+      <point x="1631.6875" y="1289.0" />
+      <point x="1647.279268292683" y="1289.0" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AbstractAlgebraicStructure" target="org.meeuw.math.abstractalgebra.AlgebraicElement">
+      <point x="57.5" y="-26.5" />
+      <point x="1058.0522357723578" y="83.0" />
+      <point x="977.2397357723578" y="83.0" />
+      <point x="32.625" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveMonoidElement" target="org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement">
+      <point x="0.0" y="-37.5" />
+      <point x="180.75" y="306.0" />
+      <point x="261.5" y="306.0" />
+      <point x="-66.5" y="48.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement" target="org.meeuw.math.abstractalgebra.AlgebraicElement">
+      <point x="0.0" y="-70.5" />
+      <point x="1126.0522357723578" y="73.0" />
+      <point x="1042.4897357723578" y="73.0" />
+      <point x="97.875" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Ring" target="org.meeuw.math.abstractalgebra.RingElement">
+      <point x="22.0" y="-26.5" />
+      <point x="502.3022357723578" y="958.0" />
+      <point x="706.5243902439026" y="958.0" />
+      <point x="-45.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AbstractAlgebraicStructure" target="org.meeuw.math.abstractalgebra.AlgebraicStructure">
+      <point x="-57.5" y="-26.5" />
+      <point x="943.0522357723578" y="306.0" />
+      <point x="814.5625" y="306.0" />
+      <point x="131.625" y="81.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveMonoid" target="org.meeuw.math.abstractalgebra.AdditiveMonoidElement">
+      <point x="-36.5" y="-26.5" />
+      <point x="392.75" y="426.0" />
+      <point x="242.0" y="426.0" />
+      <point x="61.25" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.DivisionRingElement" target="org.meeuw.math.abstractalgebra.MultiplicativeGroupElement">
+      <point x="56.250000000000114" y="-26.5" />
+      <point x="909.5243902439026" y="938.0" />
+      <point x="1341.2190040650407" y="938.0" />
+      <point x="-99.75" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeGroup" target="org.meeuw.math.abstractalgebra.MultiplicativeGroupElement">
+      <point x="71.25" y="-26.5" />
+      <point x="1209.5243902439026" y="948.0" />
+      <point x="1407.7190040650407" y="948.0" />
+      <point x="-33.25" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveMonoid" target="org.meeuw.math.abstractalgebra.AdditiveSemiGroup">
+      <point x="36.5" y="-26.5" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveGroupElement" target="org.meeuw.math.abstractalgebra.AdditiveMonoidElement">
+      <point x="0.0" y="-59.5" />
+      <point x="-61.25" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.DivisionRing" target="org.meeuw.math.abstractalgebra.Ring">
+      <point x="-95.0" y="-26.5" />
+      <point x="654.8440040650407" y="1061.0" />
+      <point x="480.3022357723578" y="1061.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveSemiGroup" target="org.meeuw.math.abstractalgebra.AlgebraicStructure">
+      <point x="71.25" y="-26.5" />
+      <point x="537.0" y="306.0" />
+      <point x="639.0625" y="306.0" />
+      <point x="-43.875" y="81.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Rng" target="org.meeuw.math.abstractalgebra.AdditiveGroup">
+      <point x="-95.0" y="-26.5" />
+      <point x="363.3022357723578" y="779.0" />
+      <point x="167.7952235772359" y="779.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.VectorSpaceInterface" target="org.meeuw.math.abstractalgebra.ScalarFieldElement">
+      <point x="48.25" y="-48.5" />
+      <point x="1815.4375" y="1279.0" />
+      <point x="1734.079268292683" y="1279.0" />
+      <point x="86.80000000000007" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.VectorInterface" target="org.meeuw.math.abstractalgebra.ScalarFieldElement">
+      <point x="68.75" y="-70.5" />
+      <point x="1736.1875" y="1289.0" />
+      <point x="1690.679268292683" y="1289.0" />
+      <point x="43.40000000000009" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeMonoid" target="org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement">
+      <point x="47.0" y="-26.5" />
+      <point x="1114.0243902439026" y="779.0" />
+      <point x="1304.9690040650407" y="779.0" />
+      <point x="-68.0" y="48.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.CompleteFieldElement" target="org.meeuw.math.abstractalgebra.ScalarFieldElement">
+      <point x="0.0" y="-70.5" />
+      <point x="1398.6875" y="1289.0" />
+      <point x="1603.8792682926828" y="1289.0" />
+      <point x="-43.39999999999998" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup" target="org.meeuw.math.abstractalgebra.MultiplicativeGroupElement">
+      <point x="57.5" y="-14.5" />
+      <point x="1223.4375" y="1061.0" />
+      <point x="1348.5243902439026" y="1061.0" />
+      <point x="1348.5243902439026" y="958.0" />
+      <point x="1474.2190040650407" y="958.0" />
+      <point x="33.25" y="59.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.DivisionRing" target="org.meeuw.math.abstractalgebra.DivisionRingElement">
+      <point x="0.0" y="-26.5" />
+      <point x="749.8440040650407" y="1061.0" />
+      <point x="797.0243902439026" y="1061.0" />
+      <point x="-56.25" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement" target="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement">
+      <point x="0.0" y="-48.5" />
+      <point x="1372.9690040650407" y="632.0" />
+      <point x="1223.7189024390245" y="632.0" />
+      <point x="97.66666666666663" y="70.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.CompleteField" target="org.meeuw.math.abstractalgebra.CompleteFieldElement">
+      <point x="87.75" y="-37.5" />
+      <point x="0.0" y="70.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.FieldElement" target="org.meeuw.math.abstractalgebra.DivisionRingElement">
+      <point x="-45.75" y="-26.5" />
+      <point x="1555.779268292683" y="1051.0" />
+      <point x="909.5243902439026" y="1051.0" />
+      <point x="56.250000000000114" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup" target="org.meeuw.math.abstractalgebra.AlgebraicStructure">
+      <point x="-71.25" y="-26.5" />
+      <point x="877.5243902439026" y="612.0" />
+      <point x="726.8125" y="612.0" />
+      <point x="43.875" y="81.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.Field" target="org.meeuw.math.abstractalgebra.FieldElement">
+      <point x="27.66666666666663" y="-14.5" />
+      <point x="1193.6041666666665" y="1159.0" />
+      <point x="1555.779268292683" y="1159.0" />
+      <point x="-45.75" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.RngElement" target="org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement">
+      <point x="44.5" y="-26.5" />
+      <point x="669.7743902439026" y="622.0" />
+      <point x="1028.385569105691" y="622.0" />
+      <point x="-97.66666666666663" y="70.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.RingElement" target="org.meeuw.math.abstractalgebra.RngElement">
+      <point x="0.0" y="-26.5" />
+      <point x="751.7743902439026" y="769.0" />
+      <point x="669.7743902439026" y="769.0" />
+      <point x="44.5" y="26.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.ScalarField" target="org.meeuw.math.abstractalgebra.ScalarFieldElement">
+      <point x="31.25" y="-14.5" />
+      <point x="1228.4375" y="1279.0" />
+      <point x="1560.479268292683" y="1279.0" />
+      <point x="-86.8" y="37.5" />
+    </edge>
+    <edge source="org.meeuw.math.abstractalgebra.AdditiveGroup" target="org.meeuw.math.abstractalgebra.AdditiveMonoid">
+      <point x="71.25" y="-26.5" />
+      <point x="239.0452235772359" y="632.0" />
+      <point x="429.25" y="632.0" />
+      <point x="0.0" y="26.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.2217920353982301" x="932.0" y="894.0" />
+  <SelectedNodes>
+    <node>org.meeuw.math.abstractalgebra.AlgebraicStructure</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>public</VISIBILITY>
+</Diagram>
+

@@ -41,7 +41,7 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
         return  Character.isDefined(i) && (Character.isLetterOrDigit(i) || Character.isSpaceChar(i));
     }
 
-    public static class State {
+    private static class State {
         private final int[] chars;
 
         public State(int[] chars) {
