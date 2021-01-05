@@ -107,7 +107,7 @@ It is not always an absolute choice on how propagations must happen, some interp
 
 ===== Zero
 
-Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefor for now fractional uncertainity is implemented like latexmath:[ \frac{Δa}{a +  Δa}] (rather then latexmath:[ \frac{Δa}{a}])
+Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefor for now fractional uncertainity is implemented like latexmath:[ \frac{Δa}{|a| +  Δa}] (rather then latexmath:[ \frac{Δa}{|a|}]), where the denominator can never become zero because the uncertainty is strictly bigger than zero.
 
 
 ==== Testing
