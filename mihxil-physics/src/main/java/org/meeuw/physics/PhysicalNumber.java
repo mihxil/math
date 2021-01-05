@@ -116,8 +116,7 @@ public abstract class PhysicalNumber extends Number
     @Override
     public PhysicalNumber plus(PhysicalNumber summand) {
         summand = summand.toUnits(this.getUnits());
-        return copy(wrapped.plus(summand.wrapped),
-            Units.forAddition(units, summand.getUnits())
+        return copy(wrapped.plus(summand.wrapped), Units.forAddition(units, summand.getUnits())
         );
     }
 
@@ -132,6 +131,10 @@ public abstract class PhysicalNumber extends Number
         }
         double factor = getUnits().conversionFactor(target);
         return copy(wrapped.times(factor), target);
+    }
+
+    public PhysicalNumber toUnits(Unit... units) {
+        return toUnits(UnitsImpl.of(units));
     }
 
     /**

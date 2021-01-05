@@ -22,7 +22,7 @@ class PhysicalNumberTest implements MultiplicativeAbelianGroupTheory<PhysicalNum
     public void add() {
         PhysicalNumber lys = new Measurement(2, 0.1, SI.ly);
         PhysicalNumber psc = new Measurement(1, 0.1, SI.pc);
-        log.info("{} + {} = {}", lys, psc, lys.plus(psc));
+        log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(SI.ly), lys.plus(psc));
         assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.3 ly");
         assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.10 pc");
     }

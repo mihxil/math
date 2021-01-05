@@ -1,6 +1,7 @@
 = math
 :toc:
 :toclevels: 4
+:stem:
 
 image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
 // image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
@@ -65,6 +66,38 @@ Most implementations are strictly read-only, but at least all algebraic operatio
 Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'. If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
 
 The algebraic structure will also contain methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero').
+
+==== Numbers
+
+Some algebraic elements are like 'real' numbers. There are several interfaces dedicated to formalising properties of that.
+
+|===
+
+| class/interface  | description
+
+| link:mihxil-math/src/main/java/org/meeuw/math/numbers/Scalar.java[`Scalar`] | generic interface that defines method to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. it extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
+ | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] | A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra.  We well behaves field element that also behaves as a 'Number' may implement `ScalarFieldElement`
+| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] | Even more similar to the everyday concept of number an algebraic field element becomes if it is 'complete', this in some way means 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible.
+| link:mihxil-math/src/main/java/org/meeuw/math/numbers/NumberOperations.java[`NumberOperations`] |
+
+|===
+
+
+==== Numbers and propagation of uncertainties
+
+For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in value, and try to propagate the sensibly when performing operations on them.
+
+The 'physics' module will add to this that these kind of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+
+It is not always an absolute choice on how propagations must happen, some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations', which is not currently pluggable or configurable, but it may well be.
+
+|===
+| operation | formula | current uncertainty propagation algorithm
+
+| summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 - Δb^2}]
+| multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
+|===
+
 
 ==== Testing
 

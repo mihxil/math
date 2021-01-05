@@ -94,7 +94,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
         double mu = summand.getUncertainty();
         return of(
             getValue() + summand.getValue(),
-            Math.sqrt(u * u + mu * mu));
+            operations().addUncertainty(u, mu));
 
     }
 
