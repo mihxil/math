@@ -2,6 +2,8 @@
 :toc:
 :toclevels: 4
 :stem:
+:source-highlighter: coderay
+
 
 image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
 // image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
@@ -9,7 +11,7 @@ image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,li
 
 Math and physics related classes. This is a hobby project which grew from the classes in 'mihxil-statistics' which are actually used.
 
-link:https://mihxil.github.io/math/[this file in html]
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathemathical equations.
 
 == mihxil-math
 
