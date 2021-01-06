@@ -75,7 +75,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
         double u = getUncertainty() / getValue();
         double mu = multiplier.getUncertainty() / multiplier.getValue();
         double newValue = getValue() * multiplier.getValue();
-        return of(newValue, Math.abs(newValue) * Math.sqrt( (u * u)  + (mu * mu))
+        return of(newValue,
+            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
         );
     }
 

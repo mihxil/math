@@ -63,10 +63,11 @@ public interface UncertainNumber<N extends Number> {
      */
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
-        UncertaintyNumberOperations<N> uo = uncertaintyOperations();
-
-        return new ImmutableUncertainNumber<>(o.multiply(multiplier, getValue()),
-            uo.multiplyUncertainty(multiplier,  getUncertainty()));
+        N newvalue = o.multiply(multiplier, getValue());
+        return new ImmutableUncertainNumber<>(
+            newvalue,
+            o.multiply(o.abs(multiplier), getUncertainty())
+        );
     }
 
 

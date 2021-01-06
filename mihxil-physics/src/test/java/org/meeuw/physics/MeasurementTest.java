@@ -19,23 +19,19 @@ class MeasurementTest {
         assertThat(door.toString()).isEqualTo("2.00 ± 0.03 m");
         Measurement knob = new Measurement(0.88, 0.04, SI.DISTANCE);
         PhysicalNumber height = door.minus(knob);
-        assertThat(height.toString()).isEqualTo("1.12 ± 0.05 m");
+        assertThat(height.toString()).isEqualTo("1.12 ± 0.07 m");
     }
-
 
     @Test
     public void area() {
         Measurement height = new Measurement(21, 0.2, SI.LENGTH);
         Measurement width = new Measurement(30, 1, SI.LENGTH);
         PhysicalNumber area =  height.times(width);
-        assertThat(area.toString()).isEqualTo("630 ± 22 m²"); // or should that be 27?
+        assertThat(area.toString()).isEqualTo("630 ± 21 m²"); // or should that be 27?
         with((ub) -> ub.uncertaintyNotation(PARENTHESES),
-            () -> {
-                assertThat(area.toString()).isEqualTo("630(22) m²");
-            }
+            () -> assertThat(area.toString()).isEqualTo("630(21) m²")
         );
     }
-
 
     @Test
     public void illegalAdd() {
@@ -45,6 +41,7 @@ class MeasurementTest {
             PhysicalNumber height = door.minus(knob);
         }).isInstanceOf(IllegalArgumentException.class);
     }
+
     @Test
     public void divide() {
         Measurement speed = new Measurement(6.0, 0.4, SI.SPEED);

@@ -36,8 +36,9 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
-        return new UncertainDoubleElement(getValue() * multiplier.getValue(),
-            operations.multiplyUncertainty(uncertainty, multiplier.getUncertainty()));
+        double newValue = getValue() * multiplier.getValue();
+        return new UncertainDoubleElement(newValue,
+            operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()));
     }
 
     @Override

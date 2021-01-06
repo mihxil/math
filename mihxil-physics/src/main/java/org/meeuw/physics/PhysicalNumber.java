@@ -37,7 +37,7 @@ public abstract class PhysicalNumber extends Number
         this.wrapped = wrapped;
     }
 
-     /**
+    /**
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
      */
@@ -86,10 +86,12 @@ public abstract class PhysicalNumber extends Number
         return copy(wrapped.times(multiplier), units);
     }
 
-
     @Override
     public PhysicalNumber times(PhysicalNumber multiplier) {
-        return copy(wrapped.times(multiplier.wrapped),  Units.forMultiplication(units, multiplier.getUnits()));
+        return copy(
+            wrapped.times(multiplier.wrapped),
+            Units.forMultiplication(units, multiplier.getUnits())
+        );
     }
 
     public PhysicalNumber times(UncertainReal multiplier) {

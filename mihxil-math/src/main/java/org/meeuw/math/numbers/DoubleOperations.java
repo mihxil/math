@@ -1,6 +1,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
+import java.util.stream.Stream;
 
 /**
  * @author Michiel Meeuwissen
@@ -45,6 +46,10 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         return n1 * n2;
     }
 
+    public Double multiply(Double... ns) {
+        return Stream.of(ns).reduce(1d, (a, b) -> a * b);
+    }
+
     @Override
     public Double divide(Double n1, Double n2) {
         return n1 / n2;
@@ -53,6 +58,10 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public Double add(Double n1, Double n2) {
         return n1 + n2;
+    }
+
+    public Double add(Double... ns) {
+        return Stream.of(ns).reduce(0d, Double::sum);
     }
 
     @Override

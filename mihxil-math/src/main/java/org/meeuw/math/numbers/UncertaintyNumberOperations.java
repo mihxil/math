@@ -17,8 +17,9 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
         }
     }
 
-    default N multiplyUncertainty(N multiplier, N uncertainty) {
-        return multiply(abs(multiplier),  uncertainty);
+
+    default N multipliedUncertainty(N newValue, N fractionUncertainty1, N fractionalUncertainty2) {
+        return multiply(abs(newValue), sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))));
     }
 
     default N addUncertainty(N uncertainty1, N uncertainty2) {
