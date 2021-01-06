@@ -17,6 +17,8 @@ public class BigDecimalElement
     implements ScalarFieldElement<BigDecimalElement>, CompleteFieldElement<BigDecimalElement>, MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
     UncertainNumber<BigDecimal> {
 
+    private static final MathContext UNCERTAINTY_MATH_CONTEXT= new MathContext(2, RoundingMode.HALF_UP);
+
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
 
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
@@ -77,7 +79,9 @@ public class BigDecimalElement
 
     @Override
     public BigDecimalElement dividedBy(BigDecimalElement n) {
-        return new BigDecimalElement(operations().divide(value, n.value), operations().multiplyUncertainty(uncertainty, n.uncertainty));
+        BigDecimal newValue = operations().divide(value, n.value);
+        return new BigDecimalElement(value,
+            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), n.getFractionalUncertainty()));
     }
 
     @Override
@@ -112,7 +116,7 @@ public class BigDecimalElement
 
     @Override
     public BigDecimal getUncertainty() {
-        return uncertainty;
+        return uncertainty.round(UNCERTAINTY_MATH_CONTEXT);
     }
 
     @Override
@@ -137,8 +141,8 @@ public class BigDecimalElement
     @Override
     public BigDecimalElement reciprocal() {
         //return new BigDecimalElement(UncertainNumber.super.reciprocal());
-
-        return new BigDecimalElement(BigDecimal.ONE.divide(value, getStructure().getMathContext()), uncertainty);
+        BigDecimal newValue =  BigDecimal.ONE.divide(value, getStructure().getMathContext());
+        return new BigDecimalElement(newValue, getFractionalUncertainty().multiply(newValue));
     }
 
     @Override
