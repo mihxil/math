@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.function.DoubleConsumer;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.*;
 
@@ -96,7 +97,11 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
 
     @Override
     public UncertainDoubleElement reciprocal() {
-        return pow(-1);
+        if (getValue() == 0d) {
+            throw new ArithmeticException("Division by zero");
+        }
+        double value = 1d / getValue();
+        return new UncertainDoubleElement(value, value * getFractionalUncertainty() + Utils.uncertaintyForDouble(value));
     }
 
     @Override

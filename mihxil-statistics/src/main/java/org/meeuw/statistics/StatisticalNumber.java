@@ -158,7 +158,9 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainReal times(UncertainReal multiplier) {
-        return of(getValue() * multiplier.getValue(), operations.multiplyUncertainty(multiplier.doubleValue(), getUncertainty()));
+        double v = getValue() * multiplier.getValue();
+        return of(v,
+            operations.multipliedUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()));
     }
 
     @Override

@@ -143,16 +143,19 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return Math.round(in) / orderOfMagnitude * orderOfMagnitude;
     }
 
-
     @Override
     public UncertainRealField getStructure() {
-        return  UncertainRealField.INSTANCE;
+        return UncertainRealField.INSTANCE;
     }
 
 
     @Override
     public UncertainDoubleElement reciprocal() {
-        return pow(-1);
+        if (getValue() == 0d) {
+            throw new ArithmeticException("Division by zero");
+        }
+        double v = 1d / getValue();
+        return new UncertainDoubleElement(v, getFractionalUncertainty() * v + Utils.uncertaintyForDouble(v));
     }
 
     @Override
