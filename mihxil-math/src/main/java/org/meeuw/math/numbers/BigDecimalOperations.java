@@ -86,7 +86,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public boolean isFinite(BigDecimal n1) {
-        return false;
+        return true;
     }
 
     @Override

@@ -72,22 +72,10 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
     }
 
     default D times(D multiplier) {
-        double u = getUncertainty() / getValue();
-        double mu = multiplier.getUncertainty() / multiplier.getValue();
         double newValue = getValue() * multiplier.getValue();
         return of(newValue,
             operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
         );
-    }
-
-    default D pow(int exponent) {
-        double v = Math.pow(getValue(), exponent);
-        if (!Double.isFinite(v)) {
-            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
-        }
-        return of(
-            v,
-            Math.abs(exponent) * Math.pow(getValue(), exponent - 1) * getUncertainty());
     }
 
     default D plus(D summand) {
@@ -99,6 +87,15 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
 
     }
 
+    default D pow(int exponent) {
+        double v = Math.pow(getValue(), exponent);
+        if (!Double.isFinite(v)) {
+            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
+        }
+        return of(
+            v,
+            Math.abs(exponent) * Math.pow(getValue(), exponent - 1) * getUncertainty());
+    }
 
     @Override
     default int signum() {
@@ -131,6 +128,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
     default DoubleOperations operations() {
         return DoubleOperations.INSTANCE;
     }
+
 
 
 }
