@@ -1,5 +1,6 @@
 package org.meeuw.statistics;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 
@@ -17,9 +18,10 @@ public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>> 
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        BiConsumer<Event, Windowed<T>>[] eventListeners
+        BiConsumer<Event, Windowed<T>>[] eventListeners,
+        Clock clock
     ) {
-        super(bucketClass, window, bucketDuration, bucketCount, eventListeners);
+        super(bucketClass, window, bucketDuration, bucketCount, eventListeners, clock);
     }
 
     @Override

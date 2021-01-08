@@ -1,7 +1,9 @@
 package org.meeuw.statistics;
 
+import java.time.Clock;
 import java.time.Duration;
-import java.util.*;
+import java.util.Arrays;
+import java.util.DoubleSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
@@ -20,9 +22,10 @@ public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStati
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        BiConsumer<Event, Windowed<DoubleSummaryStatistics>>[] eventListeners
+        BiConsumer<Event, Windowed<DoubleSummaryStatistics>>[] eventListeners,
+        Clock clock
         ) {
-        super(DoubleSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners);
+        super(DoubleSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, clock);
     }
 
     @Override

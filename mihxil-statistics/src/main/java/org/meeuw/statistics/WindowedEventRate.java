@@ -1,5 +1,6 @@
 package org.meeuw.statistics;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -38,10 +39,10 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
         Duration bucketDuration,
         Integer bucketCount,
         Consumer<WindowedEventRate> reporter,
-        BiConsumer<Event, Windowed<AtomicLong>>[] eventListenersArray
-
+        BiConsumer<Event, Windowed<AtomicLong>>[] eventListenersArray,
+        Clock clock
         ) {
-        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray);
+        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         if (reporter != null) {
             backgroundExecutor.scheduleAtFixedRate(
                 () -> {
@@ -68,7 +69,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
     public WindowedEventRate(int unit, TimeUnit timeUnit, int bucketCount) {
         this(Duration.ofMillis(
             TimeUnit.MILLISECONDS.convert(unit, timeUnit) * bucketCount),
-            null, bucketCount, null, null);
+            null, bucketCount, null, null, null);
     }
     public WindowedEventRate(int unit, TimeUnit timeUnit) {
         this(unit, timeUnit, 100);

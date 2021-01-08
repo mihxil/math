@@ -2,6 +2,7 @@ package org.meeuw.statistics;
 
 import lombok.extern.java.Log;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.LongSummaryStatistics;
@@ -22,9 +23,10 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        BiConsumer<Event, Windowed<LongSummaryStatistics>>[] eventListeners
+        BiConsumer<Event, Windowed<LongSummaryStatistics>>[] eventListeners,
+        Clock clock
         ) {
-        super(LongSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners);
+        super(LongSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, clock);
     }
 
     @Override

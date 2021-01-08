@@ -3,8 +3,7 @@ package org.meeuw.statistics;
 import lombok.extern.java.Log;
 
 import java.lang.reflect.Array;
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -49,10 +48,12 @@ public abstract class Windowed<T> {
     protected final long bucketDuration; // ms
     protected final long totalDuration;  // ms
     protected final Instant start;
+    protected final Clock clock;
 
     private boolean warmingUp = true;
     protected long  currentBucketTime;
     protected int   currentBucketIndex = 0;
+
 
     protected final BiConsumer<Event, Windowed<T>> eventListeners;
 
@@ -67,7 +68,8 @@ public abstract class Windowed<T> {
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        BiConsumer<Event, Windowed<T>>[] eventListeners
+        BiConsumer<Event, Windowed<T>>[] eventListeners,
+        Clock clock
         ) {
         if (bucketCount == null) {
             if (window != null && bucketDuration != null) {
@@ -103,6 +105,7 @@ public abstract class Windowed<T> {
                 }
             }
         };
+        this.clock = clock == null ? Clock.systemUTC() : clock;
         this.start = now();
         this.currentBucketTime = start.toEpochMilli();
     }
@@ -222,7 +225,7 @@ public abstract class Windowed<T> {
 
     protected void shiftBuckets() {
         initBucketsIfNecessary();
-        long currentTime = System.currentTimeMillis();
+        long currentTime = clock.millis();
         long afterBucketBegin = currentTime - currentBucketTime;
         int i = 0;
         while (afterBucketBegin > bucketDuration && (i++) < buckets.length) {
@@ -255,7 +258,7 @@ public abstract class Windowed<T> {
             return Duration.ofMillis(
                 (buckets.length - 1) * bucketDuration // archived buckets (all but one, the current bucket)
                     +
-                    System.currentTimeMillis() - currentBucketTime // current bucket is not yet complete
+                    clock.millis() - currentBucketTime // current bucket is not yet complete
             );
         }
     }
@@ -267,8 +270,8 @@ public abstract class Windowed<T> {
         return getStart() + " - " + getStart().plus(getTotalDuration()) + " (" + getBucketCount() + " buckets) :"  + getWindowValue();
     }
 
-    private static Instant now() {
-        return Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    protected Instant now() {
+        return Instant.now(clock).truncatedTo(ChronoUnit.MILLIS);
     }
 
     public enum Event {

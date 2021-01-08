@@ -1,7 +1,6 @@
 package org.meeuw.statistics;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
@@ -22,9 +21,10 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         Duration bucketDuration,
         Integer bucketCount,
         StatisticalLong.Mode mode,
-        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListenersArray
+        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListenersArray,
+        Clock clock
     ) {
-        super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray);
+        super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
     }
 
