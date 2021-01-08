@@ -78,13 +78,14 @@ public class WindowedEventRateTest {
             .eventListeners((event, atomicLongWindowed) -> eventListeners.add(event))
 
             .build();
-        long start = System.currentTimeMillis();
+        long start = clock.millis();
 
         for (int i = 0; i < 1000; i++) {
             if (i % 100 == 0) {
-                log.info(String.format("%d duration: %s", i, (System.currentTimeMillis() - start) + " ms. Measured rate " + rate.getRate(TimeUnit.SECONDS) + " #/s (" + rate.isWarmingUp() + ")"));
+                log.info(String.format("%d duration: %s", i, (clock.millis() - start) + " ms. Measured rate " + rate.getRate(TimeUnit.SECONDS) + " #/s (" + rate.isWarmingUp() + ")"));
             }
             rate.accept(1);
+            clock.tick(i % 2);
 
         }
 
