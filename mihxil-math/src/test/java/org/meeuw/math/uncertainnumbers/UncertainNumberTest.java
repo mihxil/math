@@ -62,5 +62,14 @@ class UncertainNumberTest {
         assertThat(difference.getUncertainty()).isEqualTo(valueOf(0.1));
     }
 
+    @Test
+    void combined() {
+        A a1 = new A(valueOf(1), valueOf(0.1));
+        A a2 = new A(valueOf(1.1), valueOf(0.05));
+        UncertainNumber<BigDecimal> combined = a1.combined(a2);
+        assertThat(combined.getValue()).isEqualTo(valueOf(1.08));
+        assertThat(combined.getUncertainty()).isEqualTo(valueOf(0.044721359549995794));
+    }
+
 
 }

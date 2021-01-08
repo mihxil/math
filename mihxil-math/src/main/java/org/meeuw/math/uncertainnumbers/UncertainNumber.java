@@ -58,6 +58,7 @@ public interface UncertainNumber<N extends Number> {
 
     /**
      * Creates a new uncertain number, combining this one with another one.
+     * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Variance_weights
      */
     default UncertainNumber<N> combined(UncertainNumber<N> m) {
         NumberOperations<N> o = operations();
@@ -65,11 +66,18 @@ public interface UncertainNumber<N extends Number> {
         N mu = m.getUncertainty();
         N weight = o.reciprocal(o.sqr(u));
         N mweight = o.reciprocal(o.sqr(mu));
-        N value = o.add(o.multiply(getValue(), weight), o.divide(o.multiply(m.getValue(), mweight), o.multiply(weight,  mweight)));
+        N value = o.divide(
+            o.add(o.multiply(getValue(), weight), o.multiply(m.getValue(), mweight)),
+            o.add(weight,  mweight)
+        );
 
         NumberOperations<N> uo = uncertaintyOperations();
-        // I'm not absolutely sure about this:
-        N uncertaintity = uo.reciprocal(uo.sqrt(uo.add(weight, mweight)));
+
+        N uncertaintity = uo.sqrt(
+            o.reciprocal(
+                o.add(o.reciprocal(o.sqr(u)), o.reciprocal(o.sqr(mu)))
+            )
+        );
         return new ImmutableUncertainNumber<>(value, uncertaintity);
     }
 

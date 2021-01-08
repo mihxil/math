@@ -8,6 +8,10 @@ import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+
 
 /**
  * An implementation of {@link Windowed} with {@link AtomicLong} values.
@@ -22,7 +26,7 @@ import java.util.logging.Logger;
  * @author Michiel Meeuwissen
  * @since 0.38
  */
-public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsumer {
+public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsumer, UncertainDouble<UncertainReal> {
 
 
     private static final ScheduledExecutorService backgroundExecutor = Executors.newScheduledThreadPool(5);
@@ -53,6 +57,31 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
                     }
             }, 0, this.bucketDuration, TimeUnit.MILLISECONDS);
         }
+    }
+
+
+    /**
+     * Rate in /s (See {@link #getRate()}
+     */
+    @Override
+    public double getValue() {
+        return getRate();
+    }
+
+    @Override
+    public double getUncertainty() {
+        shiftBuckets();
+        StatisticalLong statisticalLong = new StatisticalLong();
+        for (AtomicLong bucket : buckets) {
+            statisticalLong.enter(bucket.get());
+        }
+        // TODO
+        return statisticalLong.getUncertainty();
+    }
+
+    @Override
+    public UncertainDoubleElement of(double value, double uncertainty) {
+        return new UncertainDoubleElement(value, uncertainty);
     }
 
     @Override
