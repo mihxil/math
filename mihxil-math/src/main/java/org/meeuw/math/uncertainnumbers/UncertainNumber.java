@@ -76,17 +76,19 @@ public interface UncertainNumber<N extends Number> {
 
 
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
-        UncertaintyNumberOperations<N> o = operations();
-
-        N u = o.getFractionalUncertainty(getValue(), getUncertainty());
-        N mu = o.getFractionalUncertainty(multiplier.getValue(), multiplier.getUncertainty());
-        N newValue = o.multiply(getValue(), multiplier.getValue());
-
-        NumberOperations<N> uo = uncertaintyOperations();
-
+        N newValue = operations().multiply(getValue(), multiplier.getValue());
         return new ImmutableUncertainNumber<>(
             newValue,
-            uo.multiply(uo.abs(newValue), uo.sqrt(uo.add(uo.sqr(u), uo.sqr(mu))))
+            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
+        );
+    }
+
+
+    default UncertainNumber<N> plus(UncertainNumber<N> summand) {
+        NumberOperations<N> o = operations();
+        return new ImmutableUncertainNumber<>(
+            o.add(getValue(), summand.getValue()),
+            operations().addUncertainty(getUncertainty(), summand.getUncertainty())
         );
     }
 
@@ -102,16 +104,6 @@ public interface UncertainNumber<N extends Number> {
             o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
     }
 
-    default UncertainNumber<N> plus(UncertainNumber<N> summand) {
-        NumberOperations<N> o = operations();
-
-        N u = getUncertainty();
-        N mu = summand.getUncertainty();
-        return new ImmutableUncertainNumber<>(
-            o.add(getValue(), summand.getValue()),
-            (o.sqrt(o.add(o.sqr(u), o.sqr(mu))))
-        );
-    }
 
     default int signum() {
         return  operations().signum(getValue());
