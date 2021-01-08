@@ -80,7 +80,7 @@ public class BigDecimalElement
     @Override
     public BigDecimalElement dividedBy(BigDecimalElement n) {
         BigDecimal newValue = operations().divide(value, n.value);
-        return new BigDecimalElement(value,
+        return new BigDecimalElement(newValue,
             operations().multipliedUncertainty(newValue, getFractionalUncertainty(), n.getFractionalUncertainty()));
     }
 
@@ -119,10 +119,6 @@ public class BigDecimalElement
         return uncertainty.round(UNCERTAINTY_MATH_CONTEXT);
     }
 
-    @Override
-    public BigDecimal getFractionalUncertainty() {
-        return operations().getFractionalUncertainty(value, uncertainty);
-    }
 
     @Override
     public UncertaintyNumberOperations<BigDecimal> operations() {

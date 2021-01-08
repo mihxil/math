@@ -16,9 +16,13 @@ public interface UncertainNumber<N extends Number> {
 
     N getUncertainty();
 
-    N getFractionalUncertainty();
+    default N getFractionalUncertainty() {
+        return operations().getFractionalUncertainty(getValue(), getUncertainty());
+    }
 
-    UncertaintyNumberOperations<N> operations();
+    default UncertaintyNumberOperations<N> operations() {
+        return UncertaintyNumberOperations.of(getValue());
+    }
 
     /**
      * When calculating the uncertainty it is normally enough to use a version of {@link #operations()} that does calculations
@@ -28,10 +32,21 @@ public interface UncertainNumber<N extends Number> {
         return (UncertaintyNumberOperations<N>) operations();
     }
 
+    /**
+     * Creates a new {@link UncertainDouble} representing a multiple of this one.
+     */
+    default UncertainNumber<N> times(N multiplier) {
+        NumberOperations<N> o = operations();
+        N newvalue = o.multiply(multiplier, getValue());
+        return new ImmutableUncertainNumber<>(
+            newvalue,
+            o.multiply(o.abs(multiplier), getUncertainty())
+        );
+    }
+
     default UncertainNumber<N> dividedBy(N divisor) {
         return times(operations().reciprocal(divisor));
     }
-
 
     default UncertainNumber<N> plus(N summand) {
         return new ImmutableUncertainNumber<>(operations().add(summand, getValue()), getUncertainty());
@@ -58,17 +73,6 @@ public interface UncertainNumber<N extends Number> {
         return new ImmutableUncertainNumber<>(value, uncertaintity);
     }
 
-    /**
-     * Creates a new {@link UncertainDouble} representing a multiple of this one.
-     */
-    default UncertainNumber<N> times(N multiplier) {
-        NumberOperations<N> o = operations();
-        N newvalue = o.multiply(multiplier, getValue());
-        return new ImmutableUncertainNumber<>(
-            newvalue,
-            o.multiply(o.abs(multiplier), getUncertainty())
-        );
-    }
 
 
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
