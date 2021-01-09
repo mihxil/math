@@ -11,7 +11,10 @@ image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,li
 
 Math and physics related classes. This is a hobby project which grew from the classes in 'mihxil-statistics' which are actually used.
 
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathemathical equations.
+ifdef::env-github[]
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations.
+endif::[]
+
 
 == mihxil-math
 
