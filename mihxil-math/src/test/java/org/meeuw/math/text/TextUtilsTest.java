@@ -48,5 +48,11 @@ public class TextUtilsTest {
         assertThat(TextUtils.overLineDouble("foo bar 123")).isEqualTo("f̿o̿o̿ ̿b̿a̿r̿ ̿1̿2̿3̿");
     }
 
+
+    @Test
+    public void controlNull() {
+        assertThat(TextUtils.controlEach(null, '\u033f')).isNull();
+    }
+
 }
 

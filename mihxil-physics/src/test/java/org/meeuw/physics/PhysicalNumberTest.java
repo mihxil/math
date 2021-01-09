@@ -6,6 +6,7 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
+import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.UnitsImplTest.units;
@@ -16,7 +17,9 @@ import static org.meeuw.physics.UnitsImplTest.units;
  * @since 0.4
  */
 @Log4j2
-class PhysicalNumberTest implements MultiplicativeAbelianGroupTheory<PhysicalNumber> {
+class PhysicalNumberTest implements
+    MultiplicativeAbelianGroupTheory<PhysicalNumber>,
+    ScalarTheory<PhysicalNumber> {
 
     @Test
     public void add() {

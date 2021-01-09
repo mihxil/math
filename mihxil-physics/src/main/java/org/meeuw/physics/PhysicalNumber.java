@@ -15,7 +15,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * An uncertain number but also with {@link Units}
  *
  * This makes it not a {@link org.meeuw.math.abstractalgebra.FieldElement}, but merely a {@link MultiplicativeGroupElement}, since you cannot add any physical number to another.
- *  *
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
