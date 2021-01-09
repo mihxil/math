@@ -5,6 +5,7 @@ import net.jqwik.api.*;
 import org.assertj.core.data.Percentage;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
+import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.Operator.POWER;
@@ -14,7 +15,7 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends FieldTheory<E> {
+public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends FieldTheory<E>, ScalarTheory<E>, SignedNumberTheory<E> {
 
     @Property
     default void getUnary(@ForAll(STRUCTURE) CompleteField<E> struct) {

@@ -14,7 +14,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @since 0.4
  */
 @Log4j2
-class RealNumberTest implements CompleteFieldTheory<RealNumber>, SignedNumberTheory<RealNumber> {
+class RealNumberTest implements CompleteFieldTheory<RealNumber> {
 
     @Test
     public void test() {
