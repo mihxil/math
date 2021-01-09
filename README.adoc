@@ -104,10 +104,10 @@ It is not always an absolute choice on how propagations must happen, some interp
 |===
 | operation | formula | current uncertainty propagation algorithm
 
-| summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 - Δb^2}]
+| summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
 | multiplication | latexmath:[a ± Δa \cdot b ± Δb] | ..
-| exponentiation |
-| sin/cos |
+| exponentiation | |
+| sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]|
 |===
 
 ===== Zero
