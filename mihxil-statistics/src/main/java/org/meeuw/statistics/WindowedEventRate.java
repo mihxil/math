@@ -26,7 +26,8 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.38
  */
-public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsumer, UncertainDouble<UncertainReal> {
+public class WindowedEventRate extends Windowed<AtomicLong> implements
+    IntConsumer, UncertainDouble<UncertainReal> {
 
 
     private static final ScheduledExecutorService backgroundExecutor = Executors.newScheduledThreadPool(5);
@@ -72,11 +73,15 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
     public double getUncertainty() {
         shiftBuckets();
         StatisticalLong statisticalLong = new StatisticalLong();
-        for (AtomicLong bucket : buckets) {
+        for (AtomicLong bucket : getRelevantBuckets()) {
             statisticalLong.enter(bucket.get());
         }
-        // TODO
-        return statisticalLong.getUncertainty();
+        return 1000 * statisticalLong.getUncertainty() * getRelevantBuckets().length
+            / getTotalDuration().toMillis();
+    }
+
+    public UncertainReal getUncertainRate() {
+        return of(getValue(), getUncertainty());
     }
 
     @Override
@@ -171,7 +176,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements IntConsum
     }
 
     public String toString() {
-        return "" + getRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
+        return "" + getUncertainRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
     }
 
 

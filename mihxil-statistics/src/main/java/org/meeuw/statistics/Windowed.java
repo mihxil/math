@@ -7,6 +7,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
 
 import org.meeuw.math.Interval;
 
@@ -101,7 +102,11 @@ public abstract class Windowed<T> {
         this.eventListeners = (e, w) -> {
             if (eventListeners != null) {
                 for (BiConsumer<Event, Windowed<T>> el : eventListeners) {
-                    el.accept(e, w);
+                    try {
+                        el.accept(e, w);
+                    } catch (Throwable t) {
+                        log.log(Level.WARNING, t.getMessage());
+                    }
                 }
             }
         };

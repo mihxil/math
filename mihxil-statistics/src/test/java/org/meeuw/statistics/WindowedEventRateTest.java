@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.Interval;
 import org.meeuw.math.TestClock;
+import org.meeuw.math.text.spi.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -21,7 +22,6 @@ import static org.assertj.core.data.Percentage.withPercentage;
  */
 @Log4j2
 public class WindowedEventRateTest {
-
 
     @Test
     public void testBuckets() {
@@ -63,7 +63,7 @@ public class WindowedEventRateTest {
 
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
         final List<Double> consumer = new ArrayList<>();
         final List<Windowed.Event> eventListeners = new ArrayList<>();
         final TestClock clock = new TestClock();
@@ -73,10 +73,24 @@ public class WindowedEventRateTest {
             .window(Duration.ofSeconds(5))
             .clock(clock)
             .reporter((we) -> {
-                log.info("{}: for window {}", we.getRate(), we.getWindowValue());
-                consumer.add(we.getRate(Duration.ofSeconds(1)));
+                log.info("{}: for window {} ({})", we.getRate(), we.getWindowValue(), we.getTotalCount());
+                synchronized (consumer) {
+                    consumer.add(we.getRate(Duration.ofSeconds(1)));
+                    if (consumer.size() == 2) {
+                        throw new RuntimeException("exception from reporter");
+                    }
+                    consumer.notifyAll();
+
+                }
+
             })
-            .eventListeners((event, atomicLongWindowed) -> eventListeners.add(event))
+            .eventListeners((event, atomicLongWindowed) -> {
+                log.debug("{}/{}", event, atomicLongWindowed);
+                eventListeners.add(event);
+                if (eventListeners.size() % 3 == 0) {
+                    throw new RuntimeException("foo bar");
+                }
+            })
 
             .build();
         long start = clock.millis();
@@ -100,7 +114,12 @@ public class WindowedEventRateTest {
         log.info("ranges: {}", rate.getRanges());
 
         log.info("events: {}", eventListeners);
-        log.info("consumers: {}", consumer);
+        synchronized (consumer) {
+            while (consumer.size() < 5) {
+                log.info("consumers: {}", consumer);
+                consumer.wait();
+            }
+        }
     }
 
 
@@ -164,25 +183,38 @@ public class WindowedEventRateTest {
             .build();
         assertThat(rate.getBucketCount()).isEqualTo(20);
         assertThat(rate.getBucketDuration()).isEqualTo(Duration.ofSeconds(15));
+    }
 
+    @Test
+    public void constructor() {
+        WindowedEventRate rate = new WindowedEventRate(TimeUnit.MINUTES);
+        assertThat(rate.getBucketCount()).isEqualTo(100);
+        assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofMinutes(100));
     }
 
 
     @Test
     public void string() {
-        TestClock clock = new TestClock();
-        WindowedEventRate rate = WindowedEventRate.builder()
-            .window(Duration.ofSeconds(10))
-            .clock(clock)
-            .build();
-        for (int i = 0; i< 10; i++) {
-            rate.accept(5 + (i % 3));
-            clock.tick();
-        }
-        clock.tick(50);
-        assertThat(rate.isWarmingUp()).isFalse();
-        assertThat(rate.toString()).isEqualTo("5.654450261780105 /s");
+        Configuration.with(Configuration.builder()
+            .uncertaintyNotation(Configuration.UncertaintyNotation.PARENTHESES)
+            .build(),
+            () -> {
 
+                TestClock clock = new TestClock();
+                WindowedEventRate rate = WindowedEventRate.builder()
+                    .window(Duration.ofSeconds(100))
+                    .bucketCount(10)
+                    .clock(clock)
+                    .build();
+                for (int i = 0; i < 100; i++) {
+                    rate.accept(5 + (i % 3));
+                    clock.tick();
+                }
+                clock.tick(50);
+                assertThat(rate.isWarmingUp()).isFalse();
+                assertThat(rate.getRate()).isEqualTo(5.930038867295947);
+                assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
+            });
     }
 
 }
