@@ -1,20 +1,21 @@
-package org.meeuw.statistics;
+package org.meeuw.math;
 
 import lombok.Getter;
 
 import java.time.*;
+import java.time.temporal.TemporalAmount;
 
 /**
- * a {@link Clock} (mainly for testing).
+ * A {@link Clock}, which must be explicitely 'ticked'. This is of course mainly useful for testing
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public class TestClock extends Clock {
 
     @Getter
-    final ZoneId zone;
+    private final ZoneId zone;
 
-    Instant instant;
+    private Instant instant;
 
     public TestClock(ZoneId zone, Instant instant) {
         this.zone = zone;
@@ -22,7 +23,7 @@ public class TestClock extends Clock {
     }
 
     public TestClock() {
-        this(ZoneId.of("Europe/Amsterdam"), Instant.now());
+        this(ZoneId.systemDefault(), Instant.now());
     }
 
     @Override
@@ -35,17 +36,30 @@ public class TestClock extends Clock {
         return instant;
     }
 
-    public void tick(Duration duration){
+    /**
+     * Progresses the clock the given amount of time.
+     */
+    public void tick(TemporalAmount duration){
         instant = instant.plus(duration);
     }
+
+    /**
+     * Progresses the clock with the number of given millis.
+     */
     public void tick(long millis) {
         instant = instant.plusMillis(millis);
     }
 
+    /**
+     * Progresses the clock with the number of given millis. (Drop in replacement for {@link Thread#sleep(long)})
+     */
     public void sleep(long millis) {
         tick(millis);
     }
 
+    /**
+     * Progresses the clock with exactly one second
+     */
     public void tick() {
         tick(Duration.ofSeconds(1));
     }

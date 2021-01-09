@@ -5,7 +5,7 @@ import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * {@link StatisticalLong} can be aggregated, and therefor {@link Windowed}.
+ * {@link StatisticalLong} can be aggregated, and therefore {@link Windowed}.
  *
  * @see WindowedLongSummaryStatistics
  * @author Michiel Meeuwissen
@@ -42,6 +42,7 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(value);
     }
+
     public void accept(Instant... instant) {
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(instant);

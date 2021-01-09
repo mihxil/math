@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.TestClock;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;

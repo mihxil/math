@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.TestClock;
 import org.meeuw.statistics.Windowed.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
