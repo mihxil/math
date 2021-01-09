@@ -24,22 +24,22 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
     }
 
     static boolean dimensionEquals(Units u1, Units u2) {
-        if (u1 == null) {
-            return u2 == null;
+        if (u1 == null || u2 == null) {
+            return u2 == null && u1 == null;
         }
         return u1.dimensions().equals(u2.dimensions());
     }
 
     static Units forAddition(Units u1, Units u2) {
         if (! dimensionEquals(u1, u2)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Cannot add [" + (u1 == null ? "null" : u1.dimensions()) + "] to [" + (u2 == null ? "null" : u2.dimensions()) + "]");
         }
         return u1;
     }
 
     static Units forMultiplication(Units u1, Units u2) {
         Units newUnits = null;
-        if (u1 != null) {
+        if (u1 != null && u2 != null) {
             newUnits = u1.times(u2);
         }
         return newUnits;
@@ -47,7 +47,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
 
     static Units forDivision(Units u1, Units u2) {
         Units newUnits = null;
-        if (u1 != null) {
+        if (u1 != null && u2 != null) {
             newUnits = u1.dividedBy(u2);
         }
         return newUnits;

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.physics.UnitsImplTest.units;
+import static org.meeuw.physics.UnitsImplTest.UNITS;
 
 
 /**
@@ -48,7 +48,7 @@ class PhysicalNumberTest implements
                 (random) -> new Measurement(
                     random.nextDouble() * 100,
                     Math.abs(random.nextDouble() * 10),
-                    units[random.nextInt(units.length)])
+                    UNITS[random.nextInt(UNITS.length)])
             );
 /*
         return Arbitraries.of(
