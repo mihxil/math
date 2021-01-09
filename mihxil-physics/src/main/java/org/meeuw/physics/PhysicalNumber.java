@@ -178,7 +178,6 @@ public abstract class PhysicalNumber extends Number
         }
     }
 
-
     @Override
     public double doubleValue() {
         return wrapped.doubleValue();
@@ -188,8 +187,6 @@ public abstract class PhysicalNumber extends Number
     public PhysicalNumber of(double value, double uncertainty) {
         return new Measurement(value, uncertainty, units);
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -201,9 +198,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public int hashCode() {
-        int result = 0;
-        result = 31 * result + (units != null ? units.hashCode() : 0);
-        return result;
+        return  (units != null ? units.hashCode() : 0);
     }
 
     @Override
