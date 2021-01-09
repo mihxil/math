@@ -7,6 +7,7 @@ import org.meeuw.math.numbers.*;
 /**
  * The interface representing an uncertain number. It makes no
  * assumptions about the implemented algebra yet.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -27,6 +27,18 @@ class UncertainNumberTest {
         }
     }
 
+    public static class UND implements UncertainNumber<Double> {
+        @Getter
+        final Double value;
+        @Getter
+        final Double uncertainty;
+
+        public UND(Double value, Double uncertainty) {
+            this.value = value;
+            this.uncertainty = uncertainty;
+        }
+    }
+
 
     @Test
     void times() {
@@ -63,13 +75,34 @@ class UncertainNumberTest {
     }
 
     @Test
+    void pow() {
+        A a = new A(valueOf(2), valueOf(0.1));
+        UncertainNumber<BigDecimal> pow = a.pow(3);
+        assertThat(pow.getValue()).isEqualTo(valueOf(8));
+        assertThat(pow.getUncertainty()).isEqualTo(valueOf(1.2));
+    }
+
+    @Test
     void combined() {
         A a1 = new A(valueOf(1), valueOf(0.1));
         A a2 = new A(valueOf(1.1), valueOf(0.05));
         UncertainNumber<BigDecimal> combined = a1.combined(a2);
-        assertThat(combined.getValue()).isEqualTo(valueOf(1.08));
+        assertThat(combined.bigDecimalValue()).isEqualTo(valueOf(1.08));
         assertThat(combined.getUncertainty()).isEqualTo(valueOf(0.044721359549995794));
     }
 
+    @Test
+    void equals() {
+        A a = new A(valueOf(1), valueOf(0.1));
+        A b = new A(valueOf(1.05), valueOf(0.0001));
+        assertThat(a.equals(b, 1)).isTrue();
+        assertThat(b.equals(a, 1)).isTrue();
+        assertThat(a.equals(a, 1)).isTrue();
+
+        UND d1 = new UND(1d, 0.1);
+        UND d2 = new UND(Double.NaN, 0.1);
+        assertThat(d1.equals(d2, 1)).isFalse();
+        assertThat(d2.equals(new UND(Double.NaN, 2d), 1)).isTrue();
+    }
 
 }
