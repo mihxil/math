@@ -1,7 +1,6 @@
 package org.meeuw.physics;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -19,7 +18,7 @@ public interface Unit {
     double getSIFactor();
 
     static UnitExponent[] toArray(Unit... units) {
-        Map<Unit, AtomicInteger> map = new HashMap<>();
+        Map<Unit, AtomicInteger> map = new LinkedHashMap<>();
         for (Unit unit : units) {
             map.computeIfAbsent(unit, (u) -> new AtomicInteger(0)).incrementAndGet();
         }

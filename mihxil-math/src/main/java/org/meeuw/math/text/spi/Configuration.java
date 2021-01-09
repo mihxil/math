@@ -16,7 +16,8 @@ public class Configuration {
     public static final Configuration.Builder DEFAULT = Configuration.builder()
         .minimalExponent(4);
 
-    private static final ThreadLocal<Configuration> CONFIGURATION = ThreadLocal.withInitial(DEFAULT::build);
+    private static final ThreadLocal<Configuration> CONFIGURATION =
+        ThreadLocal.withInitial(DEFAULT::build);
 
     public static Configuration get() {
         return CONFIGURATION.get();
