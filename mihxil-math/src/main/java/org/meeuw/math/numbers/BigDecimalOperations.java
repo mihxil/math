@@ -18,12 +18,12 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         this.mathContext = mathContext;
     }
 
-    @Override
+        @Override
     public BigDecimal getFractionalUncertainty(BigDecimal value, BigDecimal uncertainty) {
         if (uncertainty.equals(BigDecimal.ZERO)) {
             return BigDecimal.ZERO;
         }
-        return uncertainty.divide(value.abs().add(uncertainty), RoundingMode.HALF_UP);
+        return uncertainty.divide(value.abs().add(uncertainty), mathContext);
     }
 
     @Override

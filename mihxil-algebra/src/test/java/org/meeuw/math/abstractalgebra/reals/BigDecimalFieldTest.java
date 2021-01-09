@@ -41,6 +41,14 @@ strictfp class BigDecimalFieldTest implements CompleteFieldTheory<BigDecimalElem
         assertThat(of("-539.4562718339926").plus(INSTANCE.zero())).isEqualTo(of("-539.4562718339926"));
     }
 
+    @Test
+    public void reciprocalExample() {
+        BigDecimalElement e = of(-859.3420301563415);
+        BigDecimalElement reciprocal = e.reciprocal();
+        BigDecimalElement timesItself = reciprocal.times(e);
+        assertThat(timesItself.equals(e.getStructure().one())).isTrue();
+    }
+
     @Override
 	@Provide
     public Arbitrary<BigDecimalElement> elements() {
