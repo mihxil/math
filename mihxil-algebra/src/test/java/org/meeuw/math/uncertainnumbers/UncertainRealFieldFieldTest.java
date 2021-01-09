@@ -4,7 +4,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ImmutableUncertainNumberFieldTest implements FieldTheory<UncertainReal> {
+class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> {
 
     @Test
     public void testToString() {

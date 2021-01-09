@@ -20,7 +20,7 @@ public interface NumberOperations<N extends Number> {
 
     N sqr(N v);
 
-    N sqrt(N v);
+    N sqrt(N radicand);
 
     N abs(N v);
 

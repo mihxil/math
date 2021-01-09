@@ -8,7 +8,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 
 /**
- * The most basic implementation of an {@link UncertainReal}. Immutable, based on {@code double}s.
+ * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -73,12 +73,12 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement sin() {
-        throw new UnsupportedOperationException();
+        return new UncertainDoubleElement(operations().sin(value), uncertainty);
     }
 
     @Override
     public UncertainDoubleElement cos() {
-        throw new UnsupportedOperationException();
+        return new UncertainDoubleElement(operations().cos(value), uncertainty);
     }
 
     @Override

@@ -32,9 +32,9 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal sqrt(BigDecimal v) {
+    public BigDecimal sqrt(BigDecimal radicand) {
         //return v.sqrt(mathContext);
-        return BigDecimal.valueOf(Math.sqrt(v.doubleValue())).round(mathContext);
+        return BigDecimal.valueOf(Math.sqrt(radicand.doubleValue())).round(mathContext);
     }
 
     @Override

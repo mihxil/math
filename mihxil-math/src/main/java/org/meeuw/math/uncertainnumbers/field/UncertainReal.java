@@ -4,6 +4,8 @@ import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
+ * An element of the {@link UncertainRealField}.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

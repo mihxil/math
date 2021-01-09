@@ -91,7 +91,7 @@ public class WindowedEventRateTest {
 
         clock.tick(4800L);
 
-        log.info("duration: " + (System.currentTimeMillis() - start) + " ms. Measured rate " + rate.getRate(TimeUnit.SECONDS) + " #/s (" + rate.isWarmingUp() + ")");
+        log.info("duration: " + (clock.millis() - start) + " ms. Measured rate " + rate.getRate(TimeUnit.SECONDS) + " #/s (" + rate.isWarmingUp() + ")");
 
         clock.sleep(201L);
 

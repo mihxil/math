@@ -124,7 +124,9 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> impl
     @Override
     public StatisticalDouble plus(double summand) {
         return
-            new StatisticalDouble(sum + summand * count, sumOfSquares + summand * summand * count + 2 * sum * summand, count);
+            new StatisticalDouble(
+                sum + summand * count,
+                sumOfSquares + summand * summand * count + 2 * sum * summand, count);
     }
 
     @Override

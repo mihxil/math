@@ -22,8 +22,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double sqrt(Double v) {
-        return Math.sqrt(v);
+    public Double sqrt(Double radicand) {
+        return Math.sqrt(radicand);
     }
 
     @Override
