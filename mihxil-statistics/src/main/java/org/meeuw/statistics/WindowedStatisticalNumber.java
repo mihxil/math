@@ -10,7 +10,8 @@ import java.util.function.BiConsumer;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>> extends Windowed<T>  {
+public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>>
+    extends Windowed<T>  {
 
 
     protected WindowedStatisticalNumber(

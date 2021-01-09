@@ -18,16 +18,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WindowedIntSummaryStatisticsTest {
 
     @Test
-    public void test() throws InterruptedException {
+    public void test() {
+        TestClock clock = new TestClock();
         WindowedIntSummaryStatistics instance =
             WindowedIntSummaryStatistics.builder()
                 .bucketCount(10)
                 .bucketDuration(Duration.ofSeconds(1))
+                .clock(clock)
                 .build();
 
         instance.accept(100);
         instance.accept(200);
-        Thread.sleep(1000L);
+        clock.sleep(1001L);
         instance.accept(200, 300);
         IntSummaryStatistics[] buckets = instance.getBuckets();
         IntSummaryStatistics combined = instance.getWindowValue();

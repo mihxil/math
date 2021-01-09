@@ -3,7 +3,6 @@ package org.meeuw.statistics;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -21,7 +20,8 @@ import static org.meeuw.statistics.Windowed.Event.WINDOW_COMPLETED;
 class WindowedStatisticalLongTest {
 
     @Test
-    public void test() throws InterruptedException {
+    public void test() {
+        TestClock clock = new TestClock();
         final List<Event> events = new ArrayList<>();
         BiConsumer<Event , Windowed<StatisticalLong>> listener = (e, l) -> {
             if (e == WINDOW_COMPLETED) {
@@ -40,26 +40,27 @@ class WindowedStatisticalLongTest {
             .bucketDuration(Duration.ofMillis(bucketDuration))
             .mode(StatisticalLong.Mode.INSTANT)
             .eventListeners(listener)
+            .clock(clock)
             .build();
 
         assertThat(impl.getTotalDuration()).isEqualTo(Duration.ofMillis(bucketCount * bucketDuration));
         assertThat(impl.getBucketDuration()).isEqualTo(Duration.ofMillis(bucketDuration));
         events.clear();
 
-        impl.accept(Instant.now());
-        Thread.sleep(1);
-        impl.accept(Instant.now());
-        Thread.sleep(1);
-        impl.accept(Instant.now(), Instant.now().plus(Duration.ofMillis(1)));
-        Thread.sleep(1);
-        impl.accept(Instant.now());
-        Thread.sleep(1);
-        impl.accept(Instant.now());
+        impl.accept(clock.instant());
+        clock.sleep(1);
+        impl.accept(clock.instant());
+        clock.sleep(1);
+        impl.accept(clock.instant(), clock.instant().plus(Duration.ofMillis(1)));
+        clock.sleep(1);
+        impl.accept(clock.instant());
+        clock.sleep(1);
+        impl.accept(clock.instant());
 
 
         assertThat(impl.getWindowValue().getCount()).isEqualTo(6);
         log.info(() -> "toString: " + impl.getWindowValue().toString());
-        Thread.sleep(impl.getStart().plus(impl.getTotalDuration()).toEpochMilli() - System.currentTimeMillis());
+        clock.sleep(impl.getStart().plus(impl.getTotalDuration()).toEpochMilli() - clock.millis() + 1);
         impl.shiftBuckets();
         assertThat(events).hasSize(1);
 
@@ -70,16 +71,19 @@ class WindowedStatisticalLongTest {
     public void testNormal() throws InterruptedException {
         final int bucketCount = 20;
         final int bucketDuration = 10; // ms
+        TestClock clock = new TestClock();
+
         WindowedStatisticalLong impl = WindowedStatisticalLong
             .builder()
             .bucketCount(bucketCount)
             .bucketDuration(Duration.ofMillis(bucketDuration))
             .mode(StatisticalLong.Mode.LONG)
+            .clock(clock)
             .build();
 
 
         impl.accept(100L);
-        Thread.sleep(1);
+        clock.sleep(1);
 
         impl.accept(101L, 150L);
 

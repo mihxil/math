@@ -102,6 +102,8 @@ class UncertainNumberTest {
         UND d1 = new UND(1d, 0.1);
         UND d2 = new UND(Double.NaN, 0.1);
         assertThat(d1.equals(d2, 1)).isFalse();
+        assertThat(d2.equals(d1, 1)).isFalse();
+
         assertThat(d2.equals(new UND(Double.NaN, 2d), 1)).isTrue();
     }
 

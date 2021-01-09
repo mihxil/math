@@ -130,6 +130,9 @@ public interface UncertainNumber<N extends Number> {
         if (o.isNaN(getValue())) {
             return o.isNaN(other.getValue());
         }
+        if (o.isNaN(other.getValue())) {
+            return o.isNaN(getValue());
+        }
         if (o.isNaN(getUncertainty()) && o.isNaN(other.getUncertainty())) {
             return toString().equals(other.toString());
 

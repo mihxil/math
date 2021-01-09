@@ -16,21 +16,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WindowedStatisticalDoubleTest {
 
     @Test
-    public void test() throws InterruptedException {
+    public void test() {
+        TestClock clock = new TestClock();
+
         WindowedStatisticalDouble impl = WindowedStatisticalDouble
             .builder()
             .bucketDuration(Duration.ofMillis(4))
             .bucketCount(30)
+            .clock(clock)
             .build();
 
         impl.accept(0.1, 0.2);
-        Thread.sleep(1);
+        clock.sleep(1);
         impl.accept(0.2, 0.21);
-        Thread.sleep(1);
+        clock.sleep(1);
         impl.accept(0.19);
-        Thread.sleep(1);
+        clock.sleep(1);
         impl.accept(0.22, 0.23);
-        Thread.sleep(1);
+        clock.sleep(1);
         impl.accept(0.24);
         log.info(() -> String.valueOf(impl));
         StatisticalDouble windowValue = impl.getWindowValue();
