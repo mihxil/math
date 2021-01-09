@@ -129,6 +129,13 @@ In this case the `hashCode` must be a fixed value, because otherwise we can't ga
 
 So it's probably a bad idea to use uncertain values as hash keys or so.
 
+=== Formatting
+
+NOTE: Work in progress
+
+A service loader is provided which provides implementations of `java.text.Format` which can be used to convert algebraic elements to a string. `#toString` can be based on it.
+
+The formatters have access to a (thread local) configuration object. This way a consistent way is available to configure how e.g. uncertainties must be represented.
 
 
 == mihxil-statistics
@@ -136,6 +143,8 @@ So it's probably a bad idea to use uncertain values as hash keys or so.
 Implementations of `UncertainDouble`, based on calculating standard deviations on sets of incoming data, and using that as the uncertainty value.
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
+
+
 
 
 == mihxil-physics
