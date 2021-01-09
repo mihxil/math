@@ -6,7 +6,9 @@ import lombok.SneakyThrows;
 import java.lang.reflect.Method;
 
 import org.meeuw.math.numbers.Sizeable;
-import org.meeuw.math.text.TextUtils;
+
+import static org.meeuw.math.text.TextUtils.overLine;
+import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
  * @author Michiel Meeuwissen
@@ -16,13 +18,13 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     NEGATION(getUnaryOperator(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
 
-    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + TextUtils.superscript("-1")),
+    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),
 
-    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + TextUtils.superscript("2")),
+    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
-    ABS(getUnaryOperator(Sizeable.class, "abs"), (s) -> "|" + s +"|"),
+    ABS(getUnaryOperator(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
-    SQRT(getUnaryOperator(CompleteFieldElement.class, "sqrt"), (s) -> "√" + TextUtils.overLine(s)),
+    SQRT(getUnaryOperator(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
 
     SIN(getUnaryOperator(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
 

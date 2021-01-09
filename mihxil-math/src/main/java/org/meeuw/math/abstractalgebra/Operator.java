@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.BinaryOperator;
 
@@ -43,16 +44,18 @@ public enum Operator implements AlgebraicBinaryOperator {
             }
             return result;
         } catch (IllegalArgumentException iae){
-            throw new IllegalStateException(method + "(" + element1 + ',' + element2 + "): " + iae.getMessage());
+            throw new IllegalArgumentException(method.getDeclaringClass().getName() + "." + method.getName() + "(" + element1 + ',' + element2 + "): " + iae.getMessage());
+        } catch (InvocationTargetException ite) {
+            throw ite.getCause();
         }
     }
 
-    public  <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {
+    public <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {
         return stringify.apply(element1.toString(), element2.toString()).toString();
     }
 
     @SneakyThrows
-    public static Method getBinaryOperator(Class<?> clazz, String name) {
+    private static Method getBinaryOperator(Class<?> clazz, String name) {
         return clazz.getMethod(name, clazz);
     }
 
