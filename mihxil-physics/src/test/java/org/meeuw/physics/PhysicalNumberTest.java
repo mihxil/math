@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.SI.DISTANCE;
 import static org.meeuw.physics.UnitsImplTest.UNITS;
 
 
@@ -18,7 +19,8 @@ import static org.meeuw.physics.UnitsImplTest.UNITS;
 @Log4j2
 class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
-    NumberTheory<PhysicalNumber>, SignedNumberTheory<PhysicalNumber> {
+    NumberTheory<PhysicalNumber>,
+    SignedNumberTheory<PhysicalNumber> {
 
     @Test
     public void add() {
@@ -42,19 +44,19 @@ class PhysicalNumberTest implements
     }
 
     @Override
-    public Arbitrary<PhysicalNumber> elements() {
+    public Arbitrary<? extends PhysicalNumber> elements() {
         return Arbitraries
-            .randomValue(
+            .<PhysicalNumber>randomValue(
                 (random) -> new Measurement(
-                    random.nextDouble() * 100,
+                    random.nextDouble() * 200 - 100,
                     Math.abs(random.nextDouble() * 10),
                     UNITS[random.nextInt(UNITS.length)])
-            );
-/*
-        return Arbitraries.of(
-            new Measurement(0.6, 0.1, DISTANCE),
-            PhysicalConstant.c,
-            PhysicalNumbers.ONE
-        ).,*/
+            )
+            .injectDuplicates(0.01)
+            .edgeCases(config -> {
+                config.add(new Measurement(0, 0.001, DISTANCE));
+                config.add(PhysicalConstant.c);
+            });
+
     }
 }

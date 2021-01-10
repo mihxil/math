@@ -1,11 +1,9 @@
 package org.meeuw.math.abstractalgebra.complex;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.abstractalgebra.test.*;
 
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
 
@@ -15,7 +13,8 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  */
 class ComplexNumberTest implements
     FieldTheory<ComplexNumber>,
-    MetricSpaceTheory<ComplexNumber, RealNumber> {
+    MetricSpaceTheory<ComplexNumber, RealNumber>,
+    WithScalarTheory<ComplexNumber, RealNumber> {
 
     static final ComplexNumbers structure = ComplexNumbers.INSTANCE;
 
@@ -33,5 +32,12 @@ class ComplexNumberTest implements
                 config.add(structure.one());
                 config.add(structure.zero());
             });
+    }
+
+    @Override
+    public Arbitrary<RealNumber> scalars() {
+        return Arbitraries.of(
+            RealNumber.of(0, 1, 2, -1)
+        );
     }
 }

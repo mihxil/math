@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.test.DivisionRingTheory;
+import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
@@ -14,7 +15,9 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class QuaternionTest implements DivisionRingTheory<Quaternion<RationalNumber>> {
+class QuaternionTest implements
+    DivisionRingTheory<Quaternion<RationalNumber>>,
+    WithScalarTheory<Quaternion<RationalNumber>, RationalNumber> {
 
     static final Quaternions<RationalNumber> structure = Quaternions.of(RationalNumbers.INSTANCE);
 
@@ -63,5 +66,15 @@ class QuaternionTest implements DivisionRingTheory<Quaternion<RationalNumber>> {
                 RationalNumbers.INSTANCE.nextRandom(r),
                 RationalNumbers.INSTANCE.nextRandom(r)
             ));
+    }
+
+    @Override
+    public Arbitrary<RationalNumber> scalars() {
+        return Arbitraries.of(
+            RationalNumber.of(1),
+            RationalNumber.of(0),
+            RationalNumber.of(2),
+            RationalNumber.of(-1)
+        );
     }
 }

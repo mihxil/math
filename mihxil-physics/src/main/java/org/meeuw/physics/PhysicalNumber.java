@@ -105,7 +105,9 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public PhysicalNumber pow(int exponent) {
-        return copy(wrapped.pow(exponent), Units.forExponentiation(units, exponent));
+        return copy(
+            wrapped.pow(exponent),
+            Units.forExponentiation(units, exponent));
     }
 
     /**

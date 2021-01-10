@@ -7,6 +7,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,7 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 @Log4j2
-class GaussianRationalTest implements FieldTheory<GaussianRational> {
+class GaussianRationalTest implements
+    FieldTheory<GaussianRational>,
+    WithScalarTheory<GaussianRational, RationalNumber> {
 
     static final GaussianRationals structure = GaussianRationals.INSTANCE;
 
@@ -78,5 +81,15 @@ class GaussianRationalTest implements FieldTheory<GaussianRational> {
                 config.add(structure.one());
                 config.add(structure.zero());
             });
+    }
+
+    @Override
+    public Arbitrary<RationalNumber> scalars() {
+        return Arbitraries.of(
+            RationalNumber.of(1),
+            RationalNumber.of(0),
+            RationalNumber.of(2),
+            RationalNumber.of(-1)
+        );
     }
 }

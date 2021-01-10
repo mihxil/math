@@ -35,7 +35,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E v1
     )  {
         try {
-            assertThat(v1.pow(-1)).isEqualTo(v1.reciprocal());
+            assertThat(v1.pow(-1).equals(v1.reciprocal())).isTrue();
         } catch (ArithmeticException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
@@ -45,7 +45,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E v1
     )  {
         try {
-            assertThat(v1.pow(-2)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
+            assertThat(v1.pow(-2)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
         } catch (ArithmeticException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
