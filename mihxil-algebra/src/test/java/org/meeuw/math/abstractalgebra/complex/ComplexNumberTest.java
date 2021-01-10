@@ -13,7 +13,9 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ComplexNumberTest implements FieldTheory<ComplexNumber>, MetricSpaceTheory<ComplexNumber, RealNumber> {
+class ComplexNumberTest implements
+    FieldTheory<ComplexNumber>,
+    MetricSpaceTheory<ComplexNumber, RealNumber> {
 
     static final ComplexNumbers structure = ComplexNumbers.INSTANCE;
 

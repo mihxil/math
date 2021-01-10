@@ -20,7 +20,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
         @Override
     public BigDecimal getFractionalUncertainty(BigDecimal value, BigDecimal uncertainty) {
-        if (uncertainty.equals(BigDecimal.ZERO)) {
+        if (uncertainty.signum() == 0) {
             return BigDecimal.ZERO;
         }
         return uncertainty.divide(value.abs().add(uncertainty), mathContext);

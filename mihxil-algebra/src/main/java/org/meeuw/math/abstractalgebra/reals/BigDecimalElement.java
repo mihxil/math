@@ -226,6 +226,7 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement distanceTo(BigDecimalElement otherElement) {
-        return new BigDecimalElement(getValue().min(otherElement.getValue()).abs(), getUncertainty());
+        return new BigDecimalElement(
+            getValue().subtract(otherElement.getValue()).abs(), getUncertainty());
     }
 }

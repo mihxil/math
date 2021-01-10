@@ -82,6 +82,7 @@ public interface Scalar<SELF extends Scalar<SELF>>
 
     BigDecimal bigDecimalValue();
 
+
     default boolean isFinite() {
         return true;
     }

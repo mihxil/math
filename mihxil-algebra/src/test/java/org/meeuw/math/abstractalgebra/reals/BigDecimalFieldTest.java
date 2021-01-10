@@ -14,7 +14,8 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-strictfp class BigDecimalFieldTest implements CompleteFieldTheory<BigDecimalElement>,
+strictfp class BigDecimalFieldTest implements
+    CompleteFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
     @Test

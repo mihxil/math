@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.complex;
 import lombok.Getter;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import org.meeuw.math.abstractalgebra.*;
 
@@ -85,7 +84,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         if (o == null || getClass() != o.getClass()) return false;
 
         AbstractComplexNumber<?, ?> that = (AbstractComplexNumber) o;
-        return Objects.equals(real, that.real) && Objects.equals(imaginary, that.imaginary);
+        return real.equals(that.real) && imaginary.equals(that.imaginary);
     }
 
     @Override
