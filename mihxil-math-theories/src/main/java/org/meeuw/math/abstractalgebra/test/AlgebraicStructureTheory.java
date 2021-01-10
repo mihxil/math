@@ -76,15 +76,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 if (count.incrementAndGet() < 200) {
                     getLogger().info(o.stringify(e1, e2) + " = " + result);
                 }
+            } catch (ArithmeticException ae) {
+                getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
-                if (ae.getCause() instanceof ArithmeticException) {
-                    getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
+                if (ae.getCause() != null) {
+                    throw ae.getCause();
                 } else {
-                    if (ae.getCause() != null) {
-                        throw ae.getCause();
-                    } else {
-                        throw ae;
-                    }
+                    throw ae;
                 }
             }
 

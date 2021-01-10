@@ -2,8 +2,6 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.numbers.Scalar;
-
 /**
  * A number with an uncertainty {@link #getUncertainty()}
  *
@@ -11,9 +9,9 @@ import org.meeuw.math.numbers.Scalar;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class AbstractUncertainDouble<D extends UncertainDouble<D> & Scalar<D>>
+public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     extends Number
-    implements Comparable<D>, UncertainDouble<D>, Scalar<D> {
+    implements Comparable<D>, UncertainDouble<D> {
 
     @Override
     public long longValue() {
@@ -57,4 +55,8 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D> & Sca
         return BigDecimal.valueOf(doubleValue());
     }
 
+    @Override
+    public D plus(D summand) {
+        return UncertainDouble.super.plus(summand);
+    }
 }

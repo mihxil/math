@@ -15,7 +15,8 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends FieldTheory<E>, ScalarTheory<E>, SignedNumberTheory<E> {
+public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
+    FieldTheory<E>, ScalarTheory<E>, SignedNumberTheory<E> {
 
     @Property
     default void getUnary(@ForAll(STRUCTURE) CompleteField<E> struct) {

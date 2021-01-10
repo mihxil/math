@@ -112,6 +112,9 @@ public class RealNumber
 
     @Override
     public RealNumber reciprocal() {
+        if (isZero()) {
+            throw new ArithmeticException();
+        }
         return pow(-1);
     }
 

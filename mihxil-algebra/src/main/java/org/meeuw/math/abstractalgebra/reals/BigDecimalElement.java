@@ -13,8 +13,10 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class BigDecimalElement
-    implements ScalarFieldElement<BigDecimalElement>, CompleteFieldElement<BigDecimalElement>, MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
+public class BigDecimalElement implements
+    ScalarFieldElement<BigDecimalElement>,
+    CompleteFieldElement<BigDecimalElement>,
+    MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
     UncertainNumber<BigDecimal> {
 
     private static final MathContext UNCERTAINTY_MATH_CONTEXT= new MathContext(2, RoundingMode.HALF_UP);

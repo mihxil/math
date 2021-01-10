@@ -26,6 +26,8 @@ strictfp class UncertainDoubleTest {
         public A of(double value, double uncertainty) {
             return new A(value, uncertainty);
         }
+
+
     }
 
     @Test

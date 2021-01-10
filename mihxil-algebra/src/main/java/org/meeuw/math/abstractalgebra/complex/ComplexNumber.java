@@ -34,7 +34,10 @@ public class ComplexNumber extends AbstractComplexNumber<ComplexNumber, RealNumb
 
     @Override
     public RealNumber distanceTo(ComplexNumber otherElement) {
-        RealNumber norm = (real.sqr().plus(imaginary.sqr()));
+        RealNumber norm = (
+            (real.minus(otherElement.real)).sqr()
+                .plus(
+                    (imaginary.minus(otherElement.imaginary)).sqr()));
         return norm.sqrt();
     }
 }

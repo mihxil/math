@@ -4,7 +4,8 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
@@ -14,7 +15,9 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @since 0.4
  */
 @Log4j2
-class RealNumberTest implements CompleteFieldTheory<RealNumber> {
+class RealNumberTest implements
+    CompleteFieldTheory<RealNumber>,
+    MetricSpaceTheory<RealNumber, RealNumber> {
 
     @Test
     public void test() {
@@ -48,6 +51,15 @@ class RealNumberTest implements CompleteFieldTheory<RealNumber> {
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {
-        return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 100)).injectDuplicates(0.1);
+        return
+            Arbitraries.randomValue(
+                (random) -> of(2000 * random.nextDouble() - 1000))
+                .injectDuplicates(0.1)
+                .edgeCases(realNumberConfig -> {
+                    realNumberConfig.add(RealNumber.of(0));
+                    realNumberConfig.add(RealNumber.of(-1));
+                    realNumberConfig.add(RealNumber.of(1));
+                })
+            ;
     }
 }

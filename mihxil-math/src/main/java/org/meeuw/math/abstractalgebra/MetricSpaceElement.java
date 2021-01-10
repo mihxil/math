@@ -10,7 +10,8 @@ import org.meeuw.math.numbers.Sizeable;
  * @param <E> self reference
  * @param <S> the type of the distance
  */
-public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extends Scalar<S>> extends Sizeable<S> {
+public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extends Scalar<S>>
+    extends Sizeable<S> {
 
     MetricSpace<E, S> getStructure();
 

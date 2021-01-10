@@ -23,7 +23,6 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     default void division(
         @ForAll(ELEMENTS) E v1,
         @ForAll(ELEMENTS) E v2) {
-
         try {
             assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
         } catch (ArithmeticException ae) {

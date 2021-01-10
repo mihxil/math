@@ -39,17 +39,44 @@ class GaussianRationalTest implements FieldTheory<GaussianRational> {
 
     @Test
     public void stream() {
-        structure.stream().limit(10).forEach(i -> {
-            log.info(i);
-        });
+        assertThat(structure.stream().limit(20)).map(AbstractComplexNumber::toString).containsExactly(
+            "0",
+            "1",
+            "i",
+            "-1",
+            "1 + i",
+            "-i",
+            "2",
+            "-1 + i",
+            "1 - i",
+            "2i",
+            "-2",
+            "2 + i",
+            "-1 - i",
+            "1 + 2i",
+            "-2i",
+            "¹⁄₂",
+            "-2 + i",
+            "2 - i",
+            "-1 + 2i",
+            "1 - 2i"
+        );
+
     }
 
     @Override
     public Arbitrary<GaussianRational> elements() {
-        return Arbitraries.of(
-            new GaussianRational(RationalNumber.of(3), RationalNumber.ZERO),
-            structure.i(),
-            new GaussianRational(RationalNumber.of(3), RationalNumber.of(-2))
-        );
+        return Arbitraries.randomValue(
+            (random) ->
+                new GaussianRational(
+                    RationalNumber.of(random.nextInt(200) - 100, random.nextInt(100) + 1),
+                    RationalNumber.of(random.nextInt(200) - 100, random.nextInt(100) + 1))
+        )
+            .injectDuplicates(0.1)
+            .edgeCases(config -> {
+                config.add(structure.i());
+                config.add(structure.one());
+                config.add(structure.zero());
+            });
     }
 }

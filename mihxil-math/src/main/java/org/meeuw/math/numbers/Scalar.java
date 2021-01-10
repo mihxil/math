@@ -9,7 +9,8 @@ import java.math.BigDecimal;
  * @since 0.4
  * @param <SELF> self reference
  */
-public interface Scalar<SELF extends Scalar<SELF>> extends Comparable<SELF>, SignedNumber, Sizeable<SELF> {
+public interface Scalar<SELF extends Scalar<SELF>>
+    extends Comparable<SELF>, SignedNumber, Sizeable<SELF> {
 
     /**
      * Returns the value of the specified number as an {@code int},
@@ -89,4 +90,19 @@ public interface Scalar<SELF extends Scalar<SELF>> extends Comparable<SELF>, Sig
         return false;
     }
 
+    default boolean lt(SELF other) {
+        return compareTo(other) < 0;
+    }
+
+    default boolean gt(SELF other) {
+        return compareTo(other) > 0;
+    }
+
+    default boolean lte(SELF other) {
+        return lt(other) || equals(other);
+    }
+
+    default boolean gte(SELF other) {
+        return gt(other) || equals(other);
+    }
 }

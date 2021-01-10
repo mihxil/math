@@ -1,7 +1,8 @@
 package org.meeuw.math.uncertainnumbers;
 
-import org.meeuw.math.numbers.DoubleOperations;
-import org.meeuw.math.numbers.SignedNumber;
+import java.math.BigDecimal;
+
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -15,7 +16,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNumber {
+public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D> {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
@@ -130,5 +131,32 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends SignedNum
     }
 
 
+    @Override
+    default long longValue() {
+        return (long) getValue();
+    }
 
+    @Override
+    default double doubleValue() {
+        return getValue();
+    }
+
+    @Override
+    default BigDecimal bigDecimalValue() {
+        return BigDecimal.valueOf(getValue());
+    }
+
+
+    @Override
+    default D abs() {
+        return of(Math.abs(getValue()), getUncertainty());
+    }
+    @Override
+    default int compareTo(D o) {
+        if (this.equals(o)) {
+            return 0;
+        } else {
+            return Double.compare(getValue(), o.getValue());
+        }
+    }
 }

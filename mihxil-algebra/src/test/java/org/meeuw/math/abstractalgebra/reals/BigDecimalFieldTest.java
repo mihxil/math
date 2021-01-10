@@ -4,6 +4,7 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
@@ -13,7 +14,8 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-strictfp class BigDecimalFieldTest implements CompleteFieldTheory<BigDecimalElement> {
+strictfp class BigDecimalFieldTest implements CompleteFieldTheory<BigDecimalElement>,
+    MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
     @Test
     public void test() {
@@ -51,6 +53,13 @@ strictfp class BigDecimalFieldTest implements CompleteFieldTheory<BigDecimalElem
     @Override
 	@Provide
     public Arbitrary<BigDecimalElement> elements() {
-        return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 1000)).injectDuplicates(0.1);
+        return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 1000))
+            .injectDuplicates(0.1)
+            .edgeCases(config -> {
+                config.add(BigDecimalElement.ZERO);
+                config.add(BigDecimalElement.ONE);
+                config.add(BigDecimalElement.ONE.reciprocal());
+            })
+            ;
     }
 }
