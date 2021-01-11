@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,6 +14,7 @@ import org.meeuw.math.text.TextUtils;
 
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,7 +35,6 @@ class UtilsTest {
         assertThat(Utils.round(Duration.ofMillis(12345567L), ChronoUnit.MILLIS).toString()).isEqualTo("PT3H25M45.567S");
         assertThat(Utils.round(Duration.ofMillis(1112345567L), ChronoUnit.DAYS).toString()).isEqualTo("PT309H");
         assertThat(Utils.round(Duration.ofMillis(1112345567L), ChronoUnit.HOURS).toString()).isEqualTo("PT309H");
-
     }
 
     @Test
@@ -51,7 +52,7 @@ class UtilsTest {
 
     @Test
     public void incForStream() {
-        int[] counters = new int[] {0, 0};
+        int[] counters = {0, 0};
         int max = 0;
         max = Utils.inc(counters, max);
         assertThat(max).isEqualTo(2);
@@ -71,14 +72,23 @@ class UtilsTest {
 
 
         log.info(Arrays.stream(counters).mapToObj(String::valueOf).collect(joining(", ")));
-
     }
 
     @Test
     public void stream() {
-        Utils.stream(3).limit(100).forEach(i -> {
-            log.info(() -> Arrays.stream(i).mapToObj(String::valueOf).collect(joining(", ")));
-        });
+        assertThat(Utils.stream(2).limit(10).map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
+            "0, 0",
+            "0, -1",
+            "1, -1",
+            "-1, 0",
+            "1, 0",
+            "-1, 1",
+            "0, 1",
+            "1, 1",
+            "1, -2",
+            "2, -2"
+        );
+
     }
 
     @Test
@@ -97,6 +107,12 @@ class UtilsTest {
     }
 
     @Test
+    public void positivePower() {
+        assertThatThrownBy(() -> Utils.positivePow10(-1)).isInstanceOf(IllegalArgumentException.class);
+        assertThat(Utils.positivePow10(2)).isEqualTo(100);
+    }
+
+    @Test
     public void uncertaintityForDouble() {
         assertThat(Utils.uncertaintyForDouble(0)).isEqualTo(4.9E-324);
         assertThat(Utils.uncertaintyForDouble(1e-300)).isEqualTo(3.31561842E-316);
@@ -112,7 +128,7 @@ class UtilsTest {
         assertThat(Utils.isPrime(prime)).isTrue();
     }
     @ParameterizedTest
-    @ValueSource(ints = {4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81,82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100})
+    @ValueSource(ints = {0, 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81,82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100})
     public void isNotPrime(int composite) {
         assertThat(Utils.isPrime(composite)).isFalse();
     }

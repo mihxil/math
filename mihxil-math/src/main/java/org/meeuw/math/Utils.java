@@ -172,11 +172,21 @@ public class Utils {
          return instant.truncatedTo(trunc);
     }
 
-    public static Stream<int[]> stream(int degree) {
-        return Stream.iterate(new State(degree), State::next)
+    /**
+     * Returns an infinite stream of integer arrays of given length
+     *
+     * It will start with an array with only zeros. Then it will return array filled with all possible combinations of -1, 0, 1, then with all possibles arrays with only -2, -1, 0, 1, 2 and so on.
+     *
+     */
+    public static Stream<int[]> stream(int length) {
+        return Stream.iterate(new State(length), State::next)
             .map(State::array);
     }
 
+    /**
+     * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
+     * create a string representation of that using superscript notation.
+     */
     public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < basic.length; i++) {
@@ -204,6 +214,29 @@ public class Utils {
     public static double uncertaintyForDouble(double doubleValue) {
         return pow2(leastSignifantBit(doubleValue));
     }
+
+
+    /**
+     * Simple prime test. 6k ± 1 optimization only. Not suitable for (very) large numbers.
+     */
+    public static boolean isPrime(int n) {
+        if (n <= 3) {
+            return n > 1;
+        } else if (n % 2 == 0 || n % 3 == 0) {
+            return false;
+        }
+        int i = 5;
+        while (i * i <= n) {
+            if (n % i == 0 || n % (i + 2) == 0) {
+                return false;
+            }
+            i += 6;
+        }
+        return true;
+    }
+
+
+
 
     static class State {
         final int degree;
@@ -275,26 +308,6 @@ public class Utils {
             }
         }
         return base;
-    }
-
-
-    /**
-     * Simple prime test. 6k ± 1 optimization only. Not suitable for (very) large numbers.
-     */
-    public static boolean isPrime(int n) {
-        if (n <= 3) {
-            return n > 1;
-        } else if (n % 2 == 0 || n % 3 == 0) {
-            return false;
-        }
-        int i = 5;
-        while (i * i <= n) {
-            if (n % i == 0 || n % (i + 2) == 0) {
-                return false;
-            }
-            i += 6;
-        }
-        return true;
     }
 
 }

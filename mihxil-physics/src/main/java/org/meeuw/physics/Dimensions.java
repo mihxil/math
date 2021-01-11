@@ -30,6 +30,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
         return new Dimensions(dimensions);
     }
 
+    @Override
     public String toString() {
         return Utils.toString(Dimension.values(), exponents);
     }
