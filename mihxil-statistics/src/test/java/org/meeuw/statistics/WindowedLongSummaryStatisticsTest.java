@@ -7,6 +7,7 @@ import java.util.LongSummaryStatistics;
 
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.TestClock;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -18,16 +19,19 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class WindowedLongSummaryStatisticsTest {
 
     @Test
-    public void test() throws InterruptedException {
+    public void test() {
+        TestClock clock = new TestClock();
+
         WindowedLongSummaryStatistics instance =
             WindowedLongSummaryStatistics.builder()
                 .bucketCount(10)
                 .bucketDuration(Duration.ofSeconds(1))
+                .clock(clock)
                 .build();
 
         instance.accept(100L);
         instance.accept(200L);
-        Thread.sleep(1000L);
+        clock.sleep(1001L);
         instance.accept(200L, 300L);
         LongSummaryStatistics[] buckets = instance.getBuckets();
         LongSummaryStatistics combined = instance.getWindowValue();
