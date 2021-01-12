@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.reals;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
@@ -42,11 +41,6 @@ public class RealNumber
 
     public static RealNumber of(double value) {
         return new RealNumber(value, uncertaintyForDouble(value));
-    }
-
-    public static RealNumber[] of(double... values) {
-        return Arrays.stream(values)
-            .mapToObj(RealNumber::of).toArray(RealNumber[]::new);
     }
 
     public RealNumber(double value, double uncertainty) {
@@ -155,12 +149,12 @@ public class RealNumber
 
     @Override
     public RealNumber sin() {
-        return of(Math.sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return of(operations().sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
     public RealNumber cos() {
-        return of(Math.cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return of(operations().cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
@@ -184,7 +178,7 @@ public class RealNumber
 
     @Override
     public RealNumber sqrt() {
-        return of(Math.sqrt(value), uncertainty);
+        return of(Math.sqrt(value), Math.max(uncertainty, Utils.uncertaintyForDouble(value)));
     }
 
     @Override

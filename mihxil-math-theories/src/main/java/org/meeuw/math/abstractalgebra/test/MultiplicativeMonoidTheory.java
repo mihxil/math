@@ -26,4 +26,21 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
     )  {
         assertThat(v1.pow(0)).isEqualTo(v1.getStructure().one());
     }
+
+    @Property
+    default void isOne(
+         @ForAll(ELEMENTS) E v1,
+         @ForAll(ELEMENTS) E v2
+    )  {
+        if (v1.isOne()) {
+            assertThat(v2.times(v1)).isEqualTo(v2);
+            assertThat(v1.times(v2)).isEqualTo(v2);
+        }
+        if (v2.isOne()) {
+            assertThat(v1.times(v2)).isEqualTo(v1);
+            assertThat(v2.times(v1)).isEqualTo(v1);
+        }
+
+
+    }
 }

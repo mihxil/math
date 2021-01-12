@@ -191,15 +191,6 @@ public class BigDecimalElement implements
         return value.doubleValue();
     }
 
-    //@Override
-    public int compareTo(Number o) {
-        if (o instanceof BigDecimal) {
-            return value.compareTo((BigDecimal) o);
-        } else {
-            return value.compareTo(BigDecimal.valueOf(o.doubleValue()));
-        }
-    }
-
     @Override
     public String toString() {
         return value.toString();

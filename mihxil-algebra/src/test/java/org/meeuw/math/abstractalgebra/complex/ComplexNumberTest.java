@@ -37,7 +37,7 @@ class ComplexNumberTest implements
     @Override
     public Arbitrary<RealNumber> scalars() {
         return Arbitraries.of(
-            RealNumber.of(0, 1, 2, -1)
+            RealNumber.of(0), RealNumber.of(1), RealNumber.of(2), RealNumber.of(-1)
         );
     }
 }
