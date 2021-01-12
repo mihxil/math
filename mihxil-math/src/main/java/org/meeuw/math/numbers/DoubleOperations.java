@@ -33,7 +33,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public Double reciprocal(Double v) {
-        return 1 / v;
+        return divide(1d, v);
     }
 
     @Override
@@ -52,6 +52,9 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public Double divide(Double n1, Double n2) {
+        if (n2 == 0d) {
+            throw new ArithmeticException("division by zero");
+        }
         return n1 / n2;
     }
 
