@@ -32,6 +32,12 @@ public interface UncertainReal
 
     @Override
     default boolean isZero() {
-        return CompleteFieldElement.super.isZero();
+        return isExact() && CompleteFieldElement.super.isZero();
     }
+
+    @Override
+    default boolean isOne() {
+        return isExact() && CompleteFieldElement.super.isOne();
+    }
+
 }

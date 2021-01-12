@@ -59,4 +59,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     public D plus(D summand) {
         return UncertainDouble.super.plus(summand);
     }
+
+
 }
