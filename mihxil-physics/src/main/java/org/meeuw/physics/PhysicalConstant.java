@@ -57,8 +57,4 @@ public class PhysicalConstant extends PhysicalNumber {
         return new PhysicalConstant(symbol, wrapped, units, name);
     }
 
-    @Override
-    public PhysicalNumber reciprocal() {
-        return pow(-1);
-    }
 }

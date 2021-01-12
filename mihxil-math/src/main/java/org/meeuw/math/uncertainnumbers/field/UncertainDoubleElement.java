@@ -90,6 +90,10 @@ public class UncertainDoubleElement
 
     @Override
     public  UncertainDoubleElement pow(int exponent) {
+        double v = getValue();
+        if (v == 0 && exponent <= 0) {
+            throw new ArithmeticException();
+        }
         return new UncertainDoubleElement(
             Math.pow(getValue(), exponent),
             Math.abs(exponent) * Math.pow(Math.abs(getValue()), exponent -1) * getUncertainty());

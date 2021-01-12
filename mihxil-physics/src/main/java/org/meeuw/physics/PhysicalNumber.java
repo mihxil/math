@@ -124,6 +124,12 @@ public abstract class PhysicalNumber extends Number
         );
     }
 
+    @Override
+    public PhysicalNumber reciprocal() {
+
+        return pow(-1);
+    }
+
     /**
      * Converts this to a new physical number but represented in the given units.
      *
@@ -205,7 +211,10 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public int compareTo(PhysicalNumber f) {
-        return Double.compare(getValue(),f.getValue());
+        if (equals(f)) {
+            return 0;
+        }
+        return Double.compare(getValue(), f.getValue());
     }
 }
 
