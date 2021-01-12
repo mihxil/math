@@ -81,7 +81,7 @@ public class RealNumber
         if (multiplier == ONE) {
             return this;
         }
-        return RealField.INSTANCE.considerMultiplicationByZero(this, multiplier);
+        return RealField.INSTANCE.considerMultiplicationBySpecialValues(this, multiplier);
     }
 
     protected boolean isExactlyZero() {

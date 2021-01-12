@@ -33,14 +33,16 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         return Cardinality.ALEPH_1;
     }
 
-    public RealNumber considerMultiplicationByZero(RealNumber r1, RealNumber r2) {
+    public RealNumber considerMultiplicationBySpecialValues(RealNumber r1, RealNumber r2) {
         double newValue = r1.value * r2.value;
+        // multiplication by zero
         if (r1.isExactlyZero() || r2.isExactlyZero()) {
             return zero();
         } else if (r1.value == 0) {
             return new RealNumber(newValue, r1.uncertainty);
         } else if (r2.value == 0) {
             return new RealNumber(newValue, r2.uncertainty);
+            // NaN
         } else if (Double.isNaN(r1.value) || Double.isNaN(r2.value)) {
             return new RealNumber(newValue, Double.NaN);
         } else {

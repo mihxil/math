@@ -48,6 +48,29 @@ class RealNumberTest implements
         log.info("{} . {} = {}", someNumber, zero, product);
     }
 
+    @Test
+    public void considerMultiplicationByZero() {
+        RealNumber a = new RealNumber(Double.NaN, 1d);
+        RealNumber b = new RealNumber(0, 1d);
+
+        RealNumber realNumber = RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b);
+        assertThat(realNumber.getValue()).isEqualTo(Double.valueOf(Double.NaN));
+
+        assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
+    }
+
+    @Test
+    public void considerMultiplicationByNaN() {
+        RealNumber a = new RealNumber(Double.NaN, 1d);
+        RealNumber b = new RealNumber(1, 1d);
+
+        RealNumber realNumber = RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b);
+        assertThat(realNumber.getValue()).isEqualTo(Double.valueOf(Double.NaN));
+
+        assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
+    }
+
+
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {
