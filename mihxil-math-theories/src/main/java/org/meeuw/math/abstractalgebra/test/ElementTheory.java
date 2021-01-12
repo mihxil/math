@@ -43,6 +43,9 @@ public interface ElementTheory<E>  {
         if (e1.equals(e2)) {
             assertThat(e1.hashCode()).isEqualTo(e2.hashCode());
         }
+        if(e1.hashCode() != e2.hashCode()) {
+            assertThat(e1.equals(e2)).isFalse();
+        }
     }
 
     default Logger getLogger() {

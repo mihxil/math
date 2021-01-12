@@ -28,7 +28,7 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
     }
 
     @SuppressWarnings("unchecked")
-    private VectorSpace(int dimension, ScalarField<E> field) {
+    VectorSpace(int dimension, ScalarField<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);

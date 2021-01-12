@@ -9,18 +9,20 @@ import org.meeuw.math.abstractalgebra.VectorInterface;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.abstractalgebra.test.WithScalarTheory.SCALARS;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorSpaceTheory<E extends ScalarFieldElement<E>, V extends VectorInterface<E, V>> extends ElementTheory<E> {
-
-    String VECTORS = "vectors";
+public interface VectorSpaceTheory<
+    V extends VectorInterface<S, V>, S extends ScalarFieldElement<S>
+    >
+    extends ElementTheory<V> {
 
 
     @Property
-    default void dimension(@ForAll(VECTORS) V v1) {
+    default void dimension(@ForAll(ELEMENTS) V v1) {
         int dim = v1.getSpace().getDimension();
         assertThat(dim).isGreaterThan(0);
 
@@ -43,14 +45,14 @@ public interface VectorSpaceTheory<E extends ScalarFieldElement<E>, V extends Ve
     }
 
     @Property
-    default void toString(@ForAll(VECTORS) V v1) {
+    default void toString(@ForAll(ELEMENTS) V v1) {
         String toString = v1.toString();
         v1.forEach(e -> assertThat(toString).contains(e.toString()));
     }
 
 
     @Property
-    default void space(@ForAll(VECTORS) V v1, @ForAll(VECTORS) V v2) {
+    default void space(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2) {
         assertThat(v1.getSpace().getDimension()).isEqualTo(v2.getSpace().getDimension());
         assertThat(v1.getSpace().getField()).isEqualTo(v2.getSpace().getField());
         assertThat(v1.getSpace().zero()).isEqualTo(v2.getSpace().zero());
@@ -60,45 +62,46 @@ public interface VectorSpaceTheory<E extends ScalarFieldElement<E>, V extends Ve
     }
 
     @Property
-    default void associativity(@ForAll(VECTORS) V v1, @ForAll(VECTORS) V v2, @ForAll(VECTORS) V v3) {
+    default void associativity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(ELEMENTS) V v3) {
         assertThat(v1.plus(v2.plus(v3))).isEqualTo((v1.plus(v2)).plus(v3));
     }
 
     @Property
-    default void commutativity(@ForAll(VECTORS) V v1, @ForAll(VECTORS) V v2) {
+    default void commutativity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2) {
         assertThat(v1.plus(v2)).isEqualTo(v2.plus(v1));
     }
 
     @Property
-    default void inverse(@ForAll(VECTORS) V v1) {
+    default void inverse(@ForAll(ELEMENTS) V v1) {
         assertThat(v1.plus(v1.inverse())).isEqualTo(v1.getSpace().zero());
     }
 
     @Property
-    default void compatibility(@ForAll(VECTORS) V v, @ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
+    default void compatibility(@ForAll(ELEMENTS) V v, @ForAll(SCALARS) S a, @ForAll(SCALARS) S b) {
         assertThat((v.times(a)).times(b)).isEqualTo(v.times(a.times(b)));
     }
 
 
     @Property
-    default void scalarIdentity(@ForAll(VECTORS) V v) {
+    default void scalarIdentity(@ForAll(ELEMENTS) V v) {
         assertThat(v.times(v.getSpace().getField().one())).isEqualTo(v);
     }
 
 
     @Property
-    default void vectorDistributivity(@ForAll(VECTORS) V v1, @ForAll(VECTORS) V v2, @ForAll(ELEMENTS) E e) {
+    default void vectorDistributivity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(SCALARS) S e) {
         assertThat((v1.plus(v2)).times(e)).isEqualTo((v1.times(e)).plus(v2.times(e)));
     }
 
 
     @Property
-    default void scalarDistributivity(@ForAll(VECTORS) V v, @ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
+    default void scalarDistributivity(
+        @ForAll(ELEMENTS) V v,
+        @ForAll(SCALARS) S e1, @ForAll(SCALARS) S e2) {
         assertThat((v.times(e1.plus(e2)))).isEqualTo((v.times(e1)).plus(v.times(e2)));
     }
 
-
     @Provide
-    Arbitrary<? extends V> vectors();
+    Arbitrary<? extends S> scalars();
 
 }

@@ -11,7 +11,8 @@ import static org.meeuw.math.abstractalgebra.test.ElementTheory.ELEMENTS;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface WithScalarTheory<E extends WithScalarOperations<E, S> & AlgebraicElement<E>,
+public interface WithScalarTheory<
+    E extends WithScalarOperations<E, S>,
     S extends ScalarFieldElement<S>> {
 
 

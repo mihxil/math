@@ -9,7 +9,8 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Vector<E extends ScalarFieldElement<E>> implements VectorInterface<E, Vector<E>>, Iterable<E> {
+public class Vector<E extends ScalarFieldElement<E>> implements
+    VectorInterface<E, Vector<E>>, Iterable<E> {
 
     private final E[] values;
 
@@ -84,7 +85,7 @@ public class Vector<E extends ScalarFieldElement<E>> implements VectorInterface<
 
     @Override
     public int hashCode() {
-        return 0;
+        return Arrays.hashCode(values);
     }
 
     @Override
