@@ -185,7 +185,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public int compareTo(UncertainReal o) {
-        return 0;
+        if (equals(o)) {
+            return 0;
+        } else {
+            return Double.compare(getValue(), o.getValue());
+        }
     }
 }
 
