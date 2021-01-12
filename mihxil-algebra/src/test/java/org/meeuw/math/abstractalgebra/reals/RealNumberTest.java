@@ -52,13 +52,17 @@ class RealNumberTest implements
 
     @Test
     public void considerMultiplicationByZero() {
-        RealNumber a = new RealNumber(Double.NaN, 1d);
-        RealNumber b = new RealNumber(0, 1d);
+        RealNumber nan = new RealNumber(Double.NaN, 1d);
+        RealNumber zero = new RealNumber(0, 1d);
 
-        RealNumber realNumber = RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b);
-        assertThat(realNumber.getValue()).isEqualTo(Double.valueOf(Double.NaN));
+        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(nan, zero).getValue()).isEqualTo(Double.valueOf(Double.NaN));
+        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(zero, nan).getValue()).isEqualTo(Double.valueOf(Double.NaN));
 
         assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
+        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getValue()).isEqualTo(0);
+        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(1);
+        assertThat(new RealNumber(0, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(4.9E-324);
+
     }
 
     @Test
@@ -66,8 +70,9 @@ class RealNumberTest implements
         RealNumber a = new RealNumber(Double.NaN, 1d);
         RealNumber b = new RealNumber(1, 1d);
 
-        RealNumber realNumber = RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b);
-        assertThat(realNumber.getValue()).isEqualTo(Double.valueOf(Double.NaN));
+
+        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b).getValue()).isEqualTo(Double.valueOf(Double.NaN));
+        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(b, a).getValue()).isEqualTo(Double.valueOf(Double.NaN));
 
         assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
     }

@@ -60,7 +60,7 @@ public class RealNumber
     @Override
     public RealNumber plus(RealNumber summand) {
         double newValue = value + summand.value;
-        return new RealNumber(
+        return of(
             newValue,
             uncertainty + summand.uncertainty + uncertaintyForDouble(newValue)
         );
@@ -68,7 +68,7 @@ public class RealNumber
 
     @Override
     public RealNumber negation() {
-        return new RealNumber(-1 * value, uncertainty);
+        return of(-1 * value, uncertainty);
     }
 
     @Override
@@ -135,7 +135,7 @@ public class RealNumber
 
     @Override
     public boolean isOne() {
-        return false;
+        return isExact() && value == 1;
     }
 
     @Override
@@ -150,19 +150,18 @@ public class RealNumber
 
     @Override
     public RealNumber times(double multiplier) {
-        return new RealNumber(value * multiplier, uncertainty * Math.abs(multiplier));
+        return of(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
     @Override
     public RealNumber sin() {
-        return new RealNumber(Math.sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return of(Math.sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
     public RealNumber cos() {
-        return new RealNumber(Math.cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return of(Math.cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
-
 
     @Override
     public RealNumber distanceTo(RealNumber otherElement) {
@@ -180,17 +179,26 @@ public class RealNumber
     @Override
     public RealNumber sqr() {
         double sq = value * value;
-        return new RealNumber(sq, sq * getFractionalUncertainty() * 2);
+        return of(sq, sq * getFractionalUncertainty() * 2);
     }
 
     @Override
     public RealNumber sqrt() {
-        return new RealNumber(Math.sqrt(value), uncertainty);
+        return of(Math.sqrt(value), uncertainty);
     }
 
     @Override
     public RealNumber pow(RealNumber exponent) {
-        return new RealNumber(Math.pow(value, exponent.value), uncertainty);
+        return of(Math.pow(value, exponent.value), uncertainty);
+    }
+
+    @Override
+    public RealNumber abs() {
+        return of(Math.abs(value), uncertainty);
+    }
+
+    public DoubleConfidenceInterval getConfidenceInterval() {
+        return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), EPSILON_FACTOR);
     }
 
     @Override
@@ -214,12 +222,4 @@ public class RealNumber
         return 0;
     }
 
-    public DoubleConfidenceInterval getConfidenceInterval() {
-        return DoubleConfidenceInterval.of(doubleValue(), getUncertainty(), EPSILON_FACTOR);
-    }
-
-    @Override
-    public RealNumber abs() {
-        return new RealNumber(Math.abs(value), uncertainty);
-    }
 }
