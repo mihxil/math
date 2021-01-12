@@ -1,9 +1,13 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
+
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +18,7 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class FieldVector3Test  {
+class FieldVector3Test  implements WithScalarTheory<FieldVector3<RealNumber>, RealNumber> {
 
     @Test
     public void abs() {
@@ -46,4 +50,22 @@ class FieldVector3Test  {
         assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
     }
 
+
+    @Override
+    public Arbitrary<RealNumber> scalars() {
+        return Arbitraries.randomValue(r ->
+            new RealNumber(r.nextDouble() * 10, Math.abs(r.nextDouble()))
+        ).injectDuplicates(0.1)
+            .edgeCases((config) -> {
+                config.add(RealNumber.ZERO);
+                config.add(RealNumber.ONE);
+            });
+    }
+
+    @Override
+    public Arbitrary<? extends FieldVector3<RealNumber>> elements() {
+        return Arbitraries.randomValue(r ->
+            FieldVector3.of(r.nextDouble() * 100, r.nextDouble() * 100, r.nextDouble()* 100)
+        ).injectDuplicates(0.1);
+    }
 }

@@ -2,10 +2,10 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.WithScalarOperations;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.test.ElementTheory.ELEMENTS;
 
 /**
  * @author Michiel Meeuwissen
@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.test.ElementTheory.ELEMENTS;
  */
 public interface WithScalarTheory<
     E extends WithScalarOperations<E, S>,
-    S extends ScalarFieldElement<S>> {
+    S extends ScalarFieldElement<S>> extends ElementTheory<E> {
 
 
     String SCALARS = "scalars";
