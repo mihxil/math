@@ -76,6 +76,11 @@
       </dependency>
       <dependency>
         <groupId>org.meeuw</groupId>
+        <artifactId>mihxil-math-test</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw</groupId>
         <artifactId>mihxil-algebra</artifactId>
         <version>${project.version}</version>
       </dependency>
