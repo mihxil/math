@@ -69,7 +69,10 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
         StatisticalLong statCombined = stat1.combined(stat2);
 
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
+        assertThat(statCombined.getSum()).isEqualTo(statCombined.getUncorrectedSum());
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
+        assertThat(statCombined.getSumOfSquares()).isEqualTo(statCombined.getUncorrectedSumOfSquares());
+
         assertThat(statCombined.getValue()).isEqualTo(3.5);
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(statCombined.getGuessedMean()).isEqualTo(0);
@@ -110,7 +113,7 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
     public Arbitrary<UncertainReal> elements() {
 
         Arbitrary<Integer> amounts = Arbitraries.integers()
-            .between(1, 100)
+            .between(2, 100)
             .shrinkTowards(2)
             .withDistribution(RandomDistribution.uniform());
         Arbitrary<Long> averages = Arbitraries.longs().between(-1000, 1000);

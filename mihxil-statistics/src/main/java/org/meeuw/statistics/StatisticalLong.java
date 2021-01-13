@@ -130,10 +130,10 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public UncertainReal abs() {
-        if (sum >= 0) {
+        if (getValue() >= 0) {
             return this;
         } else {
-            return new StatisticalLong(mode, Math.abs(sum), squareSum, count, Math.abs(guessedMean));
+            return new UncertainDoubleElement(getValue(), getUncertainty()).abs();
         }
     }
 

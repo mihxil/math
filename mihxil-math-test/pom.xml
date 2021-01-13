@@ -8,6 +8,11 @@
   </parent>
   <artifactId>mihxil-math-test</artifactId>
   <packaging>jar</packaging>
+  <description>
+    This module is used to further test some classes in mihxil-math.
+
+    Mainly to be able to use the theories from mihxil-math-theories, without introducing a circular dependency.
+  </description>
 
   <dependencies>
     <dependency>

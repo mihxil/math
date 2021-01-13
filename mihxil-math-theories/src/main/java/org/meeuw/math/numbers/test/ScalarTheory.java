@@ -17,8 +17,10 @@ public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S> {
 
     @Property
     default void abs(@ForAll(ELEMENTS) S scalar) {
-        getLogger().debug("abs({}) = {}", scalar, scalar.abs());
-        assertThat(scalar.abs().isNegative()).isFalse();
+        S abs = scalar.abs();
+        getLogger().debug("abs({}) = {}", scalar, abs);
+        assertThat(abs.isNegative()).withFailMessage(() -> "abs(" + scalar  + ") = " + abs + " is negative").isFalse();
+        assertThat(abs.doubleValue()).isEqualTo(Math.abs(scalar.doubleValue()));
     }
 
     @Property
