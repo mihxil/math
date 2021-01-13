@@ -1,10 +1,9 @@
 package org.meeuw.statistics.text;
 
-import lombok.NonNull;
+import lombok.*;
 
 import java.text.*;
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.meeuw.math.Utils;
@@ -19,7 +18,11 @@ import static org.meeuw.math.text.UncertainDoubleFormat.valuePlusMinError;
  */
 public class StatisticalLongNumberFormat extends Format {
 
-     @Override
+    @Getter
+    @Setter
+    ZoneId zoneId = ZoneId.systemDefault();
+
+    @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
          if (number instanceof StatisticalLong) {
              StatisticalLong statisticalLong = (StatisticalLong) number;
@@ -29,7 +32,7 @@ public class StatisticalLongNumberFormat extends Format {
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
                      ChronoUnit order = Utils.orderOfMagnitude(stddev);
                      stddev = Utils.round(stddev, order);
-                     toAppendTo.append(valuePlusMinError(TextUtils.format(mean, order), stddev.toString()));
+                     toAppendTo.append(valuePlusMinError(TextUtils.format(zoneId, mean, order), stddev.toString()));
                      return toAppendTo;
                  }
                  case DURATION: {

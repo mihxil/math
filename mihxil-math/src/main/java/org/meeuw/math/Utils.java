@@ -13,7 +13,7 @@ import org.meeuw.math.text.TextUtils;
 /**
  * @author Michiel Meeuwissen
  */
-public class Utils {
+public final class Utils {
 
     private Utils() {}
 

@@ -11,7 +11,7 @@ import org.meeuw.math.Utils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class TextUtils {
+public final class TextUtils {
 
     private TextUtils() {
     }
@@ -77,7 +77,7 @@ public class TextUtils {
         return minus;
     }
 
-    private static final char[] SUPERSCRIPTS = new char[] {
+    private static final char[] SUPERSCRIPTS = {
             0x2070,
             0x00B9,
             0x00B2,
@@ -91,7 +91,7 @@ public class TextUtils {
     };
     private static final char SUPER_MINUS = '\u207B';
 
-    private static final char[] SUBSCRIPTS = new char[] {
+    private static final char[] SUBSCRIPTS = {
              0x2080,
              0x2081,
              0x2082,

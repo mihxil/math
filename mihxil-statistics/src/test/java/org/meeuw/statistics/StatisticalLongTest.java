@@ -2,15 +2,16 @@ package org.meeuw.statistics;
 
 import net.jqwik.api.*;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,14 +25,18 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
     @Test
     public void instants() {
-        Instant now = Instant.ofEpochMilli(1593070087406L);
-        String expected = now.truncatedTo(ChronoUnit.MILLIS).toString();
-        StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
+        Configuration.with(Configuration.builder()
+            .property(StatisticalLongNumberFormatProvider.ZONE_ID, ZoneId.of("Europe/Amsterdam"))
+            .build(), () -> {
+            Instant now = Instant.ofEpochMilli(1593070087406L);
+            String expected = now.truncatedTo(ChronoUnit.MILLIS).toString();
+            StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
 
-        mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
-        assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
-        //assertThat(mes.toString()).startsWith(expected);
-        assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
+            mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
+            assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
+            //assertThat(mes.toString()).startsWith(expected);
+            assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
+        });
     }
 
     @Test

@@ -1,5 +1,7 @@
 package org.meeuw.statistics.text.spi;
 
+import java.time.ZoneId;
+
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.text.spi.Configuration;
@@ -11,9 +13,13 @@ import org.meeuw.statistics.text.StatisticalLongNumberFormat;
  * @since 0.4
  */
 public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatProvider {
+
+    public static final String ZONE_ID = "ZONE_ID";
+
     @Override
     public StatisticalLongNumberFormat getInstance(Configuration configuration) {
         StatisticalLongNumberFormat format = new StatisticalLongNumberFormat();
+        format.setZoneId(configuration.getPropertyOrDefault(ZONE_ID, ZoneId.systemDefault()));
         return format;
     }
 
