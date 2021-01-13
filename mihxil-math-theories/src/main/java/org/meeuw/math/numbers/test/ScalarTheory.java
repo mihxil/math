@@ -33,6 +33,26 @@ public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S> {
         }
     }
 
+    @Property
+    default void ltgt(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
+        if (scalar1.lt(scalar2)) {
+            assertThat(scalar2.lt(scalar1)).isFalse();
+            assertThat(scalar2.gt(scalar1)).isTrue();
+            assertThat(scalar1.gt(scalar2)).isFalse();
+        } else {
+            assertThat(scalar2.lte(scalar1)).isTrue();
+            assertThat(scalar1.gte(scalar2)).isTrue();
+        }
+    }
+    @Property
+    default void ltegte(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
+        if (scalar1.lte(scalar2)) {
+            assertThat(scalar1.lt(scalar2) || scalar2.equals(scalar1)).isTrue();
+        } else {
+            assertThat(scalar1.gt(scalar2)).isTrue();
+        }
+    }
+
 
     @Property
     default void integerValues(@ForAll(ELEMENTS) S scalar) {
