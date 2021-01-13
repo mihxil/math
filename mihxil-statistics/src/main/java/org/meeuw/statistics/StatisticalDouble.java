@@ -17,7 +17,8 @@ import org.meeuw.math.uncertainnumbers.field.*;
  */
 
 
-public class StatisticalDouble extends StatisticalNumber<StatisticalDouble> implements DoubleConsumer {
+public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
+    implements DoubleConsumer {
 
     @Getter
     private double sum = 0;

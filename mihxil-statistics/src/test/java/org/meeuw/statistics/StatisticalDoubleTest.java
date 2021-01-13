@@ -6,7 +6,7 @@ import net.jqwik.api.*;
 import java.util.Random;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
-public class StatisticalDoubleTest implements FieldTheory<UncertainReal> {
+public class StatisticalDoubleTest implements CompleteFieldTheory<UncertainReal> {
 
 
     @Test
@@ -76,6 +76,15 @@ public class StatisticalDoubleTest implements FieldTheory<UncertainReal> {
         d1.enter(0.5);
         d2.enter(0.5);
         assertThat(d1).isEqualTo(d2);
+    }
+
+    @Test
+    public void reset() {
+        StatisticalDouble d = new StatisticalDouble();
+        d.enter(1, 2, 3);
+        d.reset();
+        d.enter(3, 4, 5);
+        assertThat(d.getValue()).isEqualTo(4);
     }
 
     @Property
