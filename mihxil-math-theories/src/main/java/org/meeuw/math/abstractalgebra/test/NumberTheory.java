@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 import org.assertj.core.data.Offset;
 import org.meeuw.math.numbers.Scalar;
+import org.meeuw.util.test.ElementTheory;
 
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;

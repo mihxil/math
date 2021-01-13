@@ -44,12 +44,14 @@ public class Configuration {
     }
 
     @Getter
+    @With
     private final int minimalExponent;
 
     @Getter
+    @With
     private final UncertaintyNotation uncertaintyNotation;
 
-    private final Map<String, Object> properties = new HashMap<>();
+    private final Map<String, Object> properties;
 
     @lombok.Builder(toBuilder = true, buildMethodName = "_build")
     private  Configuration(
@@ -58,12 +60,23 @@ public class Configuration {
         Map<String, Object> properties) {
         this.minimalExponent = minimalExponent == null ? 4 : minimalExponent;
         this.uncertaintyNotation = uncertaintyNotation == null ? UncertaintyNotation.PLUS_MINUS : uncertaintyNotation;
+        this.properties = new HashMap<>();
         this.properties.putAll(properties);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T getPropertyOrDefault(String key, T defaultValue) {
         return (T) properties.getOrDefault(key, defaultValue);
+    }
+
+    public <T> Configuration withProperty(String key, T value) {
+        return toBuilder()
+            .property(key, value)
+            .build();
+    }
+
+    public void run(Runnable run) {
+        with(this, run);
     }
 
     public static class Builder {

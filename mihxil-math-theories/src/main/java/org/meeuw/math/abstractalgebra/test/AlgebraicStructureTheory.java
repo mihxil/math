@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

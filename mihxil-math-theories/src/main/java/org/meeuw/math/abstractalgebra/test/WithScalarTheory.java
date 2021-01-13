@@ -4,6 +4,7 @@ import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.WithScalarOperations;
+import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

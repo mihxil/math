@@ -195,11 +195,8 @@ public class WindowedEventRateTest {
 
     @Test
     public void string() {
-        Configuration.with(Configuration.builder()
-            .uncertaintyNotation(Configuration.UncertaintyNotation.PARENTHESES)
-            .build(),
+        Configuration.get().withUncertaintyNotation(Configuration.UncertaintyNotation.PARENTHESES).run(
             () -> {
-
                 TestClock clock = new TestClock();
                 WindowedEventRate rate = WindowedEventRate.builder()
                     .window(Duration.ofSeconds(100))

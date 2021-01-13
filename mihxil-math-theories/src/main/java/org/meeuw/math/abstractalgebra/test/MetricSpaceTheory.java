@@ -8,7 +8,7 @@ import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.numbers.Scalar;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.test.ElementTheory.ELEMENTS;
+import static org.meeuw.util.test.ElementTheory.ELEMENTS;
 
 /**
  * @author Michiel Meeuwissen

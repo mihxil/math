@@ -1,15 +1,21 @@
 package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.math.text.UncertainDoubleFormat;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
  */
-strictfp class UncertainDoubleTest {
+strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A> {
+
 
     @Getter
     static class A implements UncertainDouble<A> {
@@ -25,6 +31,10 @@ strictfp class UncertainDoubleTest {
         @Override
         public A of(double value, double uncertainty) {
             return new A(value, uncertainty);
+        }
+        @Override
+        public String toString() {
+            return value + UncertainDoubleFormat.PLUSMIN + uncertainty;
         }
 
 
@@ -83,6 +93,21 @@ strictfp class UncertainDoubleTest {
         A power = a.pow(3);
         assertThat(power.value).isEqualTo(8);
         assertThat(power.uncertainty).isEqualTo(1.2000000000000002);
+
+
+        assertThatThrownBy(() -> a.pow(Integer.MAX_VALUE))
+            .isInstanceOf(ArithmeticException.class);
+    }
+
+
+    @Override
+    public Arbitrary<? extends A> elements() {
+        return Arbitraries.randomValue(
+            random -> new A(random.nextDouble() * 200 - 100, random.nextDouble() * 10)
+        ).edgeCases(config -> {
+            config.add(new A(0, 0));
+            config.add(new A(1, 0));
+        });
     }
 
 

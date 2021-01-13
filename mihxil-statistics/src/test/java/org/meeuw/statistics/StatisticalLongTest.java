@@ -11,10 +11,10 @@ import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider.ZONE_ID;
 
 /**
  * @author Michiel Meeuwissen
@@ -25,9 +25,7 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
     @Test
     public void instants() {
-        Configuration.with(Configuration.builder()
-            .property(StatisticalLongNumberFormatProvider.ZONE_ID, ZoneId.of("Europe/Amsterdam"))
-            .build(), () -> {
+        Configuration.get().withProperty(ZONE_ID, ZoneId.of("Europe/Amsterdam")).run(() -> {
             Instant now = Instant.ofEpochMilli(1593070087406L);
             String expected = now.truncatedTo(ChronoUnit.MILLIS).toString();
             StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
