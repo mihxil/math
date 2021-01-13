@@ -7,7 +7,7 @@
     <version>0.4-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-math-test</artifactId>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
