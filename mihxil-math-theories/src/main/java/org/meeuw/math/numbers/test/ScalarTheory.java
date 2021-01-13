@@ -21,6 +21,16 @@ public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S> {
         assertThat(scalar.abs().isNegative()).isFalse();
     }
 
+    @Property
+    default void compareTo(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
+        if (scalar1.compareTo(scalar2) > 0) {
+            assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isGreaterThan(0);
+        }
+        if (scalar1.compareTo(scalar2) < 0) {
+            assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isLessThan(0);
+        }
+    }
+
 
     @Property
     default void integerValues(@ForAll(ELEMENTS) S scalar) {

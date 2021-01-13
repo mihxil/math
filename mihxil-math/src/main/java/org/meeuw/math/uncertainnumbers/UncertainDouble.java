@@ -146,11 +146,11 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
         return BigDecimal.valueOf(getValue());
     }
 
-
     @Override
     default D abs() {
         return of(Math.abs(getValue()), getUncertainty());
     }
+
     @Override
     default int compareTo(D o) {
         if (this.equals(o)) {
