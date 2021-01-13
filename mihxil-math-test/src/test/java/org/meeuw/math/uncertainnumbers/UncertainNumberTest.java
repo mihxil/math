@@ -1,6 +1,5 @@
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
@@ -31,15 +30,10 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
         }
     }
 
-    public static class UND implements UncertainNumber<Double> {
-        @Getter
-        final Double value;
-        @Getter
-        final Double uncertainty;
+    public static class UND extends ImmutableUncertainNumber<Double> {
 
         public UND(Double value, Double uncertainty) {
-            this.value = value;
-            this.uncertainty = uncertainty;
+            super(value, uncertainty);
         }
     }
 
