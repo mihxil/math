@@ -1,10 +1,13 @@
 package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.util.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,17 +16,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class UncertainNumberTest {
+class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
 
-    public static class A implements UncertainNumber<BigDecimal> {
-        @Getter
-        final BigDecimal value;
-        @Getter
-        final BigDecimal uncertainty;
+    @Override
+    public Arbitrary<? extends A> elements() {
+        return Arbitraries.randomValue((random) -> new A(BigDecimal.valueOf(random.nextDouble() * 1000 - 500),
+            BigDecimal.valueOf(random.nextDouble() * 10)))
+            .injectDuplicates(0.1);
+    }
 
+    public static class A extends ImmutableUncertainNumber<BigDecimal> {
         public A(BigDecimal value, BigDecimal uncertainty) {
-            this.value = value;
-            this.uncertainty = uncertainty;
+            super(value, uncertainty);
         }
     }
 

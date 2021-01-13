@@ -141,6 +141,7 @@ public interface UncertainNumber<N extends Number> {
             ||  other.getConfidenceInterval(sds).contains(getValue());
     }
 
+
     default BigDecimal bigDecimalValue() {
         return operations().bigDecimalValue(getValue());
     }
