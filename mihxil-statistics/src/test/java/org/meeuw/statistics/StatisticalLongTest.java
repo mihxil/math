@@ -111,7 +111,10 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
     @Override
     public Arbitrary<UncertainReal> elements() {
 
-        Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
+        Arbitrary<Integer> amounts = Arbitraries.integers()
+            .between(1, 100)
+            .shrinkTowards(2)
+            .withDistribution(RandomDistribution.uniform());
         Arbitrary<Long> averages = Arbitraries.longs().between(-1000, 1000);
         Arbitrary<Random> random = Arbitraries.randoms();
         return Combinators.combine(amounts, averages, random)
