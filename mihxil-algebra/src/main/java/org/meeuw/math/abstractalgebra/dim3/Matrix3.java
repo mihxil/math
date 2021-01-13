@@ -48,14 +48,6 @@ public strictfp class Matrix3 implements
         this.values = values;
     }
 
-     Matrix3() {
-         this.values = new double[][] {
-             {0, 0, 0},
-             {0, 0, 0},
-             {0, 0, 0}
-         };
-     }
-
     @Override
     public Matrix3 times(Matrix3 multiplier) {
         return of(timesDouble(multiplier.values));

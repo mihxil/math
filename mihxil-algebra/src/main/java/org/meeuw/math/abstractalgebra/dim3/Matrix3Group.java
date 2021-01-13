@@ -7,7 +7,8 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3> implements MultiplicativeGroup<Matrix3> {
+public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
+    implements MultiplicativeGroup<Matrix3> {
 
     public static final Matrix3Group INSTANCE = new Matrix3Group();
 

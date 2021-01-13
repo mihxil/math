@@ -8,7 +8,10 @@ import net.jqwik.api.lifecycle.BeforeProperty;
 import java.math.*;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.Matrix3.of;
@@ -16,7 +19,7 @@ import static org.meeuw.math.abstractalgebra.dim3.Matrix3.of;
 /**
  * @author Michiel Meeuwissen
  */
-class Matrix3Test implements MultiplicativeGroupTheory<Matrix3> {
+class Matrix3Test implements MultiplicativeGroupTheory<Matrix3>, WithScalarTheory<Matrix3, RealNumber> {
 
 
     @BeforeProperty
@@ -29,6 +32,17 @@ class Matrix3Test implements MultiplicativeGroupTheory<Matrix3> {
     }
     public static double round(double v) {
         return BigDecimal.valueOf(v).round(new MathContext(2)).setScale(0, RoundingMode.HALF_UP).doubleValue();
+    }
+
+    @Override
+    public Arbitrary<RealNumber> scalars() {
+        return Arbitraries.randomValue((random) ->
+            new RealNumber(random.nextDouble() * 200 - 100, random.nextDouble() * 10))
+            .edgeCases(config -> {
+                config.add(RealField.INSTANCE.zero());
+                config.add(RealField.INSTANCE.one());
+                config.add(RealField.INSTANCE.one().times(-1));
+            });
     }
 
     @Test
