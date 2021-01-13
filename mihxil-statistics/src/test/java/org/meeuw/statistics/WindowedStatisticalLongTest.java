@@ -69,7 +69,7 @@ class WindowedStatisticalLongTest {
 
 
     @Test
-    public void testNormal() throws InterruptedException {
+    public void testNormal() {
         final int bucketCount = 20;
         final int bucketDuration = 10; // ms
         TestClock clock = new TestClock();
@@ -78,7 +78,6 @@ class WindowedStatisticalLongTest {
             .builder()
             .bucketCount(bucketCount)
             .bucketDuration(Duration.ofMillis(bucketDuration))
-            .mode(StatisticalLong.Mode.LONG)
             .clock(clock)
             .build();
 
