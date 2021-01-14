@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
@@ -17,6 +19,7 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
 
+    @Getter
     private final long value;
 
     public static IntegerElement of(long value){

@@ -49,4 +49,10 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThat(v1.pow(3)).isEqualTo(v1.times(v1).times(v1));
     }
 
+    @Property
+    default void sqr(@ForAll(ELEMENTS) E v) {
+        assertThat(v.sqr()).isNotNull().isEqualTo(v.times(v));
+    }
+
+
 }

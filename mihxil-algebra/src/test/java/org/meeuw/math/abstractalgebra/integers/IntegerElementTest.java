@@ -5,8 +5,8 @@ import net.jqwik.api.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.abstractalgebra.test.RingTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
@@ -31,13 +31,22 @@ class IntegerElementTest implements RingTheory<IntegerElement>, SignedNumberTheo
     }
 
     @Property
+    void eucledianDivision(@ForAll(ELEMENTS) IntegerElement e1, @ForAll(ELEMENTS) IntegerElement e2) {
+        Assume.that(!e2.isZero());
+        assertThat(e1.dividedBy(e2).getValue()).isEqualTo(e1.getValue() / e2.getValue());
+        assertThat(e1.dividedBy(e2).times(e2).plus(e1.mod(e2))).isEqualTo(e1);
+    }
+
+    @Property
     void strings(@ForAll(ELEMENTS) IntegerElement integerElement) {
         assertThat(integerElement.toString()).isEqualTo(Long.toString(integerElement.longValue()));
     }
+
     @Property
     void doubles(@ForAll(ELEMENTS) IntegerElement integerElement) {
         assertThat(integerElement.doubleValue()).isEqualTo(Double.valueOf(integerElement.longValue()));
     }
+
 
     @Test
     void stream() {
@@ -51,6 +60,10 @@ class IntegerElementTest implements RingTheory<IntegerElement>, SignedNumberTheo
         return Arbitraries.frequencyOf(
             Tuple.of(1, Arbitraries.of(IntegerElement.ZERO, IntegerElement.ONE, IntegerElement.ONE.negation())),
             Tuple.of(20, Arbitraries.randomValue((random) -> IntegerElement.of(random.nextInt())))
-        );
+        ).injectDuplicates(0.1)
+            .edgeCases(integerElementConfig -> {
+                integerElementConfig.add(IntegerElement.of(2 * 2 * 2 * 2 * 2));
+            });
+
     }
 }

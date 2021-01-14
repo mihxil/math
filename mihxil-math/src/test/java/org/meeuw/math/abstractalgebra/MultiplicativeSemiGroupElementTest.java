@@ -53,4 +53,5 @@ class MultiplicativeSemiGroupElementTest {
         assertThat(a.pow(4).value).isEqualTo(16);
         assertThat(a.pow(5).value).isEqualTo(32);
     }
+
 }
