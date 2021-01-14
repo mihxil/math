@@ -3,7 +3,10 @@ package org.meeuw.math.abstractalgebra.dim3;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,13 +16,24 @@ import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class Vector3Test implements ElementTheory<Vector3> {
+class Vector3Test implements
+    ElementTheory<Vector3>, WithScalarTheory<Vector3, Double> {
 
     @Override
     public Arbitrary<? extends Vector3> elements() {
         return Arbitraries.randomValue(r ->
             new Vector3(r.nextDouble(), r.nextDouble(), r.nextDouble())
         );
+    }
+
+    @Override
+    public Arbitrary<Double> scalars() {
+        return Arbitraries.randomValue(
+            Random::nextDouble
+        ).edgeCases(c  -> {
+            c.add(0d);
+            c.add(1d);
+        });
     }
 
     @Test

@@ -1,9 +1,13 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import org.meeuw.math.abstractalgebra.WithScalarOperations;
+
+import static org.meeuw.math.Utils.uncertaintyForDouble;
+
 /**
  * @author Michiel Meeuwissen
  */
-public class Vector3  {
+public class Vector3  implements WithScalarOperations<Vector3, Double> {
 
     final double x;
     final double y;
@@ -42,9 +46,9 @@ public class Vector3  {
 
         Vector3 vector3 = (Vector3) o;
 
-        if (Double.compare(vector3.x, x) != 0) return false;
-        if (Double.compare(vector3.y, y) != 0) return false;
-        return Double.compare(vector3.z, z) == 0;
+        if (Math.abs(vector3.x - x) > 2 * uncertaintyForDouble(x)) return false;
+        if (Math.abs(vector3.y -  y) > 2 * uncertaintyForDouble(y)) return false;
+        return Math.abs(vector3.z -  z) < 2 * uncertaintyForDouble(z);
     }
 
     @Override
@@ -67,4 +71,13 @@ public class Vector3  {
     }
 
 
+    @Override
+    public Vector3 times(Double multiplier) {
+        return new Vector3(x * multiplier, y * multiplier, z * multiplier);
+    }
+
+    @Override
+    public Vector3 dividedBy(Double divisor) {
+        return new Vector3(x / divisor, y / divisor, z / divisor);
+    }
 }

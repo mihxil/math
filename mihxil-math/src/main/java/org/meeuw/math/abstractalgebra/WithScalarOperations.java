@@ -8,7 +8,7 @@ package org.meeuw.math.abstractalgebra;
  * @param <E> Self reference
  * @param <S> The type of the scalars
  */
-public interface WithScalarOperations<E, S extends ScalarFieldElement<S>> {
+public interface WithScalarOperations<E, S> {
 
     /**
      * Multiplies the current object with a scalar and returns a new instance
