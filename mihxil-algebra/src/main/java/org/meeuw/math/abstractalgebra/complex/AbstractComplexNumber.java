@@ -89,8 +89,8 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
 
     @Override
     public int hashCode() {
-        int result = real != null ? real.hashCode() : 0;
-        result = 31 * result + (imaginary != null ? imaginary.hashCode() : 0);
+        int result = real.hashCode();
+        result = 31 * result + imaginary.hashCode();
         return result;
     }
 
