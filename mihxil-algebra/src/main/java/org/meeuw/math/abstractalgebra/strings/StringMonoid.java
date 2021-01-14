@@ -30,30 +30,34 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
 
     @Override
     public Stream<StringElement> stream() {
-        return Stream.iterate(new State(),
-            State::inc).map(State::get);
-
+        return stream(new State());
     }
-    private static final int firstChar = 32;
-    private static final int lastChar = 195101;
+
+    Stream<StringElement> stream(State state) {
+        return Stream.iterate(state,
+            State::inc).map(State::get);
+    }
+    static final int FIRST_CHAR = 32;
+    static final int LAST_CHAR = 195101;
 
     protected static boolean validChar(int i) {
-        return  Character.isDefined(i) && (Character.isLetterOrDigit(i) || Character.isSpaceChar(i));
+        return  Character.isDefined(i) &&
+            (Character.isLetterOrDigit(i) || Character.isSpaceChar(i));
     }
 
-    private static class State {
+    static class State {
         private final int[] chars;
 
-        public State(int[] chars) {
+        public State(int... chars) {
             this.chars = chars;
         }
         public State() {
-            this.chars = new int[0];
+            this(new int[0]);
         }
 
         boolean filled() {
             for (int c : chars) {
-                if (c != lastChar) {
+                if (c != LAST_CHAR) {
                     return false;
                 }
             }
@@ -63,15 +67,15 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
         public State inc() {
             if (filled()) {
                 int[] newChars = new int[chars.length + 1];
-                Arrays.fill(newChars, firstChar);
+                Arrays.fill(newChars, FIRST_CHAR);
                 return new State(newChars);
             } else {
                 final int[] copy = Arrays.copyOf(chars, chars.length);
                 final int lastIndex = copy.length - 1;
-                if (copy[lastIndex] == lastChar) {
-                    copy[lastIndex] = firstChar;
+                if (copy[lastIndex] == LAST_CHAR) {
+                    copy[lastIndex] = FIRST_CHAR;
                     int j = lastIndex - 1;
-                    while (copy[j] == lastChar) {
+                    while (copy[j] == LAST_CHAR) {
                         j--;
                     }
                     copy[j]++;

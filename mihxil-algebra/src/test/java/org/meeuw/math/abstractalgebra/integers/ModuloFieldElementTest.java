@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import net.jqwik.api.*;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 
@@ -12,7 +13,11 @@ import org.meeuw.math.abstractalgebra.test.FieldTheory;
 class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
 
     @Test
-
+    public void illegal() {
+        Assertions.assertThatThrownBy(() ->
+            ModuloField.of(16) // must be prime
+        ).isInstanceOf(IllegalArgumentException.class);
+    }
 
     @Override
     @Provide
