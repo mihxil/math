@@ -4,8 +4,8 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
-import org.meeuw.math.abstractalgebra.test.NumberTheory;
+import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,11 +15,14 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class NaturalNumberTest implements MultiplicativeMonoidTheory<NaturalNumber>, NumberTheory<NaturalNumber> {
+class NaturalNumberTest implements
+    MultiplicativeMonoidTheory<NaturalNumber>,
+    AdditiveMonoidTheory<NaturalNumber>,
+    NumberTheory<NaturalNumber>, ScalarTheory<NaturalNumber> {
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> {of(1).times(of(-1));}).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(IllegalArgumentException.class);
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 
