@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
@@ -16,10 +18,12 @@ import org.meeuw.math.numbers.SignedNumber;
 public class EvenIntegerElement
     implements
     SignedNumber,
-    RngElement<EvenIntegerElement>, Scalar<EvenIntegerElement> {
+    RngElement<EvenIntegerElement>,
+    Scalar<EvenIntegerElement> {
 
     public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
 
+    @Getter
     private final long value;
 
     public static EvenIntegerElement of(long value){
@@ -46,10 +50,6 @@ public class EvenIntegerElement
     @Override
     public EvenIntegerElement minus(EvenIntegerElement subtrahend) {
         return new EvenIntegerElement(value - subtrahend.value);
-    }
-
-    public Long getValue() {
-        return value;
     }
 
     @Override
