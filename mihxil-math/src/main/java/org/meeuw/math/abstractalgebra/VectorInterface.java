@@ -4,7 +4,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorInterface<S extends ScalarFieldElement<S>, V extends VectorInterface<S, V>>
+public interface VectorInterface<V extends VectorInterface<V, S>, S extends ScalarFieldElement<S>>
     extends Iterable<S>,
     WithScalarOperations<V, S> {
 
@@ -13,7 +13,9 @@ public interface VectorInterface<S extends ScalarFieldElement<S>, V extends Vect
 
     V plus(V summand);
 
-    V inverse();
+    S dot(V multiplier);
+
+    V negation();
 
     S get(int i);
 

@@ -11,8 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface WithScalarTheory<
-    E extends WithScalarOperations<E, S>,
+public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
     S> extends ElementTheory<E> {
 
 

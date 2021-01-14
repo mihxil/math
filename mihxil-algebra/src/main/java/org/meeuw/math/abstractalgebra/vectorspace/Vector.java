@@ -10,7 +10,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 public class Vector<E extends ScalarFieldElement<E>> implements
-    VectorInterface<E, Vector<E>>, Iterable<E> {
+    VectorInterface<Vector<E>, E>, Iterable<E> {
 
     private final E[] values;
 
@@ -51,12 +51,21 @@ public class Vector<E extends ScalarFieldElement<E>> implements
     }
 
     @Override
-    public Vector<E> inverse() {
+    public Vector<E> negation() {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].negation();
         }
         return new Vector<>(copy);
+    }
+
+    @Override
+    public E dot(Vector<E> e) {
+        E result = values[0].getStructure().zero();
+        for (int i = 0; i < values.length; i++) {
+            result = result.plus(values[i].times(e.values[i]));
+        }
+        return result;
     }
 
     @Override

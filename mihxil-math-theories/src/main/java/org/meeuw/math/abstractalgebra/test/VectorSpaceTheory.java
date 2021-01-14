@@ -17,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.test.WithScalarTheory.SCALARS;
  * @since 0.4
  */
 public interface VectorSpaceTheory<
-    V extends VectorInterface<S, V>, S extends ScalarFieldElement<S>
+    V extends VectorInterface<V, S>, S extends ScalarFieldElement<S>
     >
     extends ElementTheory<V> {
 
@@ -74,7 +74,7 @@ public interface VectorSpaceTheory<
 
     @Property
     default void inverse(@ForAll(ELEMENTS) V v1) {
-        assertThat(v1.plus(v1.inverse())).isEqualTo(v1.getSpace().zero());
+        assertThat(v1.plus(v1.negation())).isEqualTo(v1.getSpace().zero());
     }
 
     @Property
@@ -101,6 +101,23 @@ public interface VectorSpaceTheory<
         @ForAll(SCALARS) S e1, @ForAll(SCALARS) S e2) {
         assertThat((v.times(e1.plus(e2)))).isEqualTo((v.times(e1)).plus(v.times(e2)));
     }
+
+    @Property
+    default void dotCommutative(
+        @ForAll(ELEMENTS) V a,
+        @ForAll(ELEMENTS) V b) {
+        assertThat(a.dot(b)).isEqualTo(b.dot(a));
+    }
+
+    @Property
+    default void dotDistributive(
+        @ForAll(ELEMENTS) V a,
+        @ForAll(ELEMENTS) V b,
+        @ForAll(ELEMENTS) V c
+        ) {
+        assertThat(a.dot(b.plus(c))).isEqualTo((a.dot(b)).plus(a.dot(c)));
+    }
+
 
     @Provide
     Arbitrary<? extends S> scalars();

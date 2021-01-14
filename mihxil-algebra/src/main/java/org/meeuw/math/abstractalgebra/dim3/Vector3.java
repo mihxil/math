@@ -1,13 +1,18 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
-import org.meeuw.math.abstractalgebra.WithScalarOperations;
+import java.util.Iterator;
+import java.util.stream.Stream;
+
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
  */
-public class Vector3  implements WithScalarOperations<Vector3, Double> {
+public class Vector3  implements VectorInterface<Vector3, RealNumber>,
+    WithScalarOperations<Vector3, RealNumber> {
 
     final double x;
     final double y;
@@ -31,13 +36,6 @@ public class Vector3  implements WithScalarOperations<Vector3, Double> {
         );
     }
 
-    public Vector3 times(double multiplier) {
-        return of(x * multiplier, y * multiplier, z * multiplier);
-    }
-
-    public Vector3 dividedBy(double divisor) {
-        return of(x / divisor, y / divisor, z / divisor);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -71,13 +69,60 @@ public class Vector3  implements WithScalarOperations<Vector3, Double> {
     }
 
 
-    @Override
-    public Vector3 times(Double multiplier) {
-        return new Vector3(x * multiplier, y * multiplier, z * multiplier);
+    public Vector3 times(double multiplier) {
+        return of(x * multiplier, y * multiplier, z * multiplier);
+    }
+
+    public Vector3 dividedBy(double divisor) {
+        return of(x / divisor, y / divisor, z / divisor);
     }
 
     @Override
-    public Vector3 dividedBy(Double divisor) {
-        return new Vector3(x / divisor, y / divisor, z / divisor);
+    public Vector3 times(RealNumber multiplier) {
+        return times(multiplier.doubleValue());
+    }
+
+    @Override
+    public Vector3 dividedBy(RealNumber divisor) {
+        return dividedBy(divisor.doubleValue());
+    }
+
+    @Override
+    public Vector3 plus(Vector3 summand) {
+        return of(x + summand.x, y + summand.y, z + summand.z);
+    }
+
+    @Override
+    public RealNumber dot(Vector3 multiplier) {
+        return RealNumber.of(x * multiplier.x + y * multiplier.y + z * multiplier.z);
+    }
+
+    @Override
+    public Vector3 negation() {
+        return of(-1 * x, -1 * y, -1 * z);
+    }
+
+    @Override
+    public RealNumber get(int i) {
+        switch(i) {
+            case 0:
+                return RealNumber.of(x);
+            case 1:
+                return RealNumber.of(y);
+            case 2:
+                return RealNumber.of(z);
+            default:
+                throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
+    @Override
+    public VectorSpaceInterface<RealNumber, Vector3> getSpace() {
+        return null;
+    }
+
+    @Override
+    public Iterator<RealNumber> iterator() {
+        return Stream.of(x, y, z).map(RealNumber::of).iterator();
     }
 }

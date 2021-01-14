@@ -36,11 +36,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             } else {
                 assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
             }
-            streamAble.stream().limit(100).forEach(e -> log.info(e::toString));
+            streamAble.stream().limit(20).forEach(e -> log.info(e::toString));
             log.info("Skipping to 1000");
-            streamAble.stream().skip(1000).limit(100).forEach(e -> log.info(e::toString));
+            streamAble.stream().skip(1000).limit(20).forEach(e -> log.debug(e::toString));
             log.info("Skipping to 1000000");
-            streamAble.stream().skip(1000000).limit(100).forEach(e -> log.info(e::toString));
+            streamAble.stream().skip(1000000).limit(20).forEach(e ->
+
+                log.debug(e::toString));
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
