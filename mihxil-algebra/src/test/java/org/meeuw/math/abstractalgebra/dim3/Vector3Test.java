@@ -1,6 +1,10 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
+
 import org.junit.jupiter.api.Test;
+import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
@@ -9,7 +13,14 @@ import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class Vector3Test {
+class Vector3Test implements ElementTheory<Vector3> {
+
+    @Override
+    public Arbitrary<? extends Vector3> elements() {
+        return Arbitraries.randomValue(r ->
+            new Vector3(r.nextDouble(), r.nextDouble(), r.nextDouble())
+        );
+    }
 
     @Test
     void timesMatrix() {
