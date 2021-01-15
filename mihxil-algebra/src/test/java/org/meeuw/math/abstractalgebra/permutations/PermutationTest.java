@@ -26,19 +26,25 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     public void testToString() {
         Permutation permutation = Permutation.of(2, 3, 1, 5, 4);
         assertThat(permutation.toString()).isEqualTo("(123)(45)");
-        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () -> {
-            assertThat(permutation.toString()).isEqualTo("(23154)");
-        });
-        Configuration.with(b -> b.property(Offset.class.getName(), Offset.ZERO), () -> {
-            assertThat(permutation.toString()).isEqualTo("(012)(34)");
-        });
+        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () ->
+            assertThat(permutation.toString()).isEqualTo("(23154)")
+        );
+        Configuration.with(b -> b.property(Offset.class.getName(), Offset.ZERO), () ->
+            assertThat(permutation.toString()).isEqualTo("(012)(34)")
+        );
+
+        Permutation longPermutation = Permutation.of(10, 2, 3, 1, 5, 4, 6, 7, 8, 9);
+        assertThat(longPermutation.toString()).isEqualTo("(1 10 9 8 7 6 4)");
+
+
 
     }
 
 
+    @SuppressWarnings("PointlessArithmeticExpression")
     @Test
     public void permute() {
-        String[] values = new String[] { "a", "b", "c"};
+        String[] values = { "a", "b", "c"};
 
         Permutation permutation = Permutation.of(2, 3, 1);
         String[] permuted = permutation.permute(values);
@@ -66,7 +72,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @Test
     public void permuteSmall() {
-        String[] values = new String[] { "a", "b", "c"};
+        String[] values = { "a", "b", "c"};
 
         Permutation permutation = Permutation.of(1);
         assertThat(permutation.getStructure().stream()).hasSize(1);
@@ -79,6 +85,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void cycles() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
@@ -90,10 +97,20 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         for (Permutation.Cycle c : p.getCycles()) {
             assertThat(c.getParent()).isSameAs(p);
             assertThat(c.reciprocal().reciprocal()).isEqualTo(c);
-
         }
 
+        Permutation.Cycle cycle1 = p.new Cycle(1, 5);
+        Permutation.Cycle cycle2 = p.new Cycle(2, 5);
 
+
+        assertThat(cycle1.equals(cycle2)).isFalse();
+        assertThat(cycle1.equals(null)).isFalse();
+        assertThat(cycle1.equals(new Object())).isFalse();
+
+        Permutation.Cycle cycle1q = q.new Cycle(1, 5);
+        assertThat(cycle1.equals(cycle1q)).isFalse();
+
+        assertThat(cycle1.hashCode()).isEqualTo(997);
     }
 
     @Test
@@ -115,7 +132,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     @Test
     public void times() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
-        String[] values = new String[] {"a", "b", "c", "d", "e"};
+        String[] values = {"a", "b", "c", "d", "e"};
         Permutation p = Permutation.of(2, 4, 1, 3, 5);
         String[] permutedp = p.permute(values);
         String[] permutedqp = q.permute(permutedp);

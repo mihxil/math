@@ -136,7 +136,7 @@ public class Permutation  implements
     public class Cycle {
         final int[] value;
 
-        public Cycle(int[] value) {
+        Cycle(int... value) {
             this.value = value;
         }
 
@@ -157,6 +157,7 @@ public class Permutation  implements
             return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
         }
 
+        @Override
         public String toString() {
             return toString(Configuration.get().getPropertyOrDefault(Offset.class.getName(), Offset.ONE).getAsInt());
         }
@@ -168,7 +169,7 @@ public class Permutation  implements
 
             Cycle cycle = (Cycle) o;
 
-            return Arrays.equals(value, cycle.value);
+            return Objects.equals(getParent(), cycle.getParent()) && Arrays.equals(value, cycle.value);
         }
 
         @Override
