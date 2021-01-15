@@ -88,6 +88,8 @@ class RealNumberTest implements
                 .edgeCases(realNumberConfig -> {
                     realNumberConfig.add(RealNumber.of(0));
                     realNumberConfig.add(RealNumber.of(-1));
+                    realNumberConfig.add(RealNumber.ONE);
+                    realNumberConfig.add(RealNumber.ZERO);
                     realNumberConfig.add(RealNumber.of(1));
                 })
             ;
