@@ -16,7 +16,7 @@ public class FieldVector3Space<E extends ScalarFieldElement<E>>
 
     final ScalarField<E> scalarField;
 
-    private FieldVector3Space(ScalarField<E> scalarField) {
+    FieldVector3Space(ScalarField<E> scalarField) {
         this.scalarField = scalarField;
     }
 

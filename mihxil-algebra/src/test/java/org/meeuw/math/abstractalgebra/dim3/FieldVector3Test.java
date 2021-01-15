@@ -5,8 +5,8 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.util.test.ElementTheory;
@@ -53,6 +53,12 @@ class FieldVector3Test  implements
     public void string() {
         FieldVector3<BigDecimalElement> v = FieldVector3.of(of(3), of(-4), of(0));
         assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
+    }
+
+    @Test
+    public void spaceEquals() {
+        assertThat(new FieldVector3Space<>(RealField.INSTANCE).equals(new FieldVector3Space<>(RealField.INSTANCE))).isTrue();
+        assertThat(new FieldVector3Space<>(RationalNumbers.INSTANCE).equals(new FieldVector3Space<>(RealField.INSTANCE))).isFalse();
     }
 
 

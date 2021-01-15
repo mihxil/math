@@ -58,8 +58,9 @@ public interface VectorSpaceTheory<
         assertThat(v1.getSpace().getDimension()).isEqualTo(v2.getSpace().getDimension());
         assertThat(v1.getSpace().getField()).isEqualTo(v2.getSpace().getField());
         assertThat(v1.getSpace().zero()).isEqualTo(v2.getSpace().zero());
-        assertThat(v1.getSpace()).isEqualTo(v2.getSpace());
+        assertThat(v1.getSpace().equals(v2.getSpace())).isTrue();
         assertThat(v1.getSpace()).isSameAs(v2.getSpace());
+        assertThat(v1.getSpace().equals(new Object())).isFalse();
         //assertThat(v1.getSpace().toString()).contains(v1.getSpace().getField().toString());
     }
 
