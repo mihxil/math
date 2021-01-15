@@ -164,7 +164,7 @@ public class RealNumber
 
     @Override
     public int compareTo(RealNumber o) {
-        if (getConfidenceInterval().contains(o.value) || o.getConfidenceInterval().contains(value)) {
+        if (confidenceEquals(o)) {
             return 0;
         }
         return Double.compare(value, o.value);
@@ -206,6 +206,10 @@ public class RealNumber
         if (o == null || getClass() != o.getClass()) return false;
 
         RealNumber that = (RealNumber) o;
+        return confidenceEquals(that);
+    }
+
+    protected boolean confidenceEquals(RealNumber that) {
         return getConfidenceInterval().contains(that.value) || that.getConfidenceInterval().contains(value);
     }
 
