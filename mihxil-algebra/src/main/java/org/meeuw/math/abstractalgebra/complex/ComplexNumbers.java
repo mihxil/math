@@ -18,7 +18,7 @@ public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNu
     Field<ComplexNumber>,
     MetricSpace<ComplexNumber, RealNumber> {
 
-    public static ComplexNumbers INSTANCE = new ComplexNumbers();
+    public static final ComplexNumbers INSTANCE = new ComplexNumbers();
 
 
     private ComplexNumbers() {

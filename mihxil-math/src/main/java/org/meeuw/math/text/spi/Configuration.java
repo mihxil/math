@@ -80,7 +80,7 @@ public class Configuration {
     }
 
     public static class Builder {
-        Map<String, Object> p = new HashMap<>();
+        final Map<String, Object> p = new HashMap<>();
         public Configuration.Builder property(String key, Object object) {
             p.put(key, object);
             return this;

@@ -79,14 +79,13 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
                         j--;
                     }
                     copy[j]++;
-                    return new State(copy);
                 } else {
                     copy[lastIndex]++;
                     while (!validChar(copy[lastIndex])) {
                         copy[lastIndex]++;
                     }
-                    return new State(copy);
                 }
+                return new State(copy);
             }
         }
 

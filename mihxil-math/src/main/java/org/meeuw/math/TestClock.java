@@ -27,13 +27,17 @@ public class TestClock extends Clock {
     }
 
     @Override
-    public Clock withZone(ZoneId zone) {
+    public TestClock withZone(ZoneId zone) {
         return new TestClock(zone, instant);
     }
 
     @Override
     public Instant instant() {
         return instant;
+    }
+
+    public LocalDateTime localDateTime() {
+        return LocalDateTime.ofInstant(instant(), zone);
     }
 
     /**

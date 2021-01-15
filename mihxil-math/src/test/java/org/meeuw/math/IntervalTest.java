@@ -17,7 +17,7 @@ class IntervalTest {
     void closedOpen() {
         Interval<Integer> closedOpen = Interval.closedOpen(1, 10);
         assertThat(closedOpen).accepts(1, 2, 3, 4, 5, 6, 7, 8, 9);
-        assertThat(closedOpen).rejects(0, 10);
+        assertThat(closedOpen).rejects(0, 10, 20);
         assertThat(closedOpen.toString()).isEqualTo("[1,10)");
         assertThat(closedOpen.lowerEndpoint()).isEqualTo(1);
         assertThat(closedOpen.upperEndpoint()).isEqualTo(10);
@@ -27,7 +27,7 @@ class IntervalTest {
     void openClosed() {
         Interval<Double> closedOpen = Interval.openClosed(0d, 10d);
         assertThat(closedOpen).accepts(0.1d, 2d, 3.333d, 10d);
-        assertThat(closedOpen).rejects(-0d, 10.001d, 11d);
+        assertThat(closedOpen).rejects(-10d, -0d, 10.001d, 11d);
         assertThat(closedOpen.toString()).isEqualTo("(0.0,10.0]");
     }
 

@@ -8,7 +8,7 @@ import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
 /**
- * {@link DoubleSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
+ * {@link DoubleSummaryStatistics} can be aggregated, and therefore {@link Windowed}.
  *
  * Every 'bucket' of the window is one '{@link DoubleSummaryStatistics}, and the {@link #getWindowValue()} is just all bucket values
  * {@link DoubleSummaryStatistics#combine(DoubleSummaryStatistics)}d.

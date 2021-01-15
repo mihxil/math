@@ -10,7 +10,7 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  */
 public class Vector3Space implements VectorSpaceInterface<RealNumber, Vector3> {
 
-    public static Vector3Space INSTANCE = new Vector3Space();
+    public static final Vector3Space INSTANCE = new Vector3Space();
 
     @Override
     public int getDimension() {

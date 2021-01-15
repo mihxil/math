@@ -25,10 +25,12 @@ public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
 
     private final FieldMatrix3<E> one;
 
+    @SuppressWarnings("unchecked")
     public static <E extends ScalarFieldElement<E>> FieldMatrix3Group<E> of(ScalarField<E> elementStructure) {
-        return (FieldMatrix3Group<E>) INSTANCES.computeIfAbsent(elementStructure, (es) -> new FieldMatrix3Group<>(es));
+        return (FieldMatrix3Group<E>) INSTANCES.computeIfAbsent(elementStructure, FieldMatrix3Group::new);
     }
 
+    @SuppressWarnings("unchecked")
     private  FieldMatrix3Group(ScalarField<E> elementStructure) {
         super((Class) FieldMatrix3.class);
         this.elementStructure = elementStructure;

@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 /**
- * {@link LongSummaryStatistics} can be aggregated, and therefor {@link Windowed}.
+ * {@link LongSummaryStatistics} can be aggregated, and therefore {@link Windowed}.
  * @see WindowedDoubleSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 1.66

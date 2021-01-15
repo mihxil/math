@@ -3,7 +3,7 @@ package org.meeuw.math.text;
 import org.meeuw.math.Utils;
 
 /**
- * Split a double up in 2 numbers: a double approximately 1 (the 'coefficent'), and an integer
+ * Split a double up in 2 numbers: a double approximately 1 (the 'coefficient'), and an integer
  * indicating the order of magnitude (the 'exponent').
  */
 

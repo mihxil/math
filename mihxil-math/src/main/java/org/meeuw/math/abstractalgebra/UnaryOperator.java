@@ -51,7 +51,6 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     @SneakyThrows
     public static Method getUnaryOperator(Class<?> clazz, String name) {
-        Method m = clazz.getMethod(name);
-        return m;
+        return clazz.getMethod(name);
     }
 }

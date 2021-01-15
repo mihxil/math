@@ -13,6 +13,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider.ZONE_ID;
 
@@ -34,6 +35,8 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
             assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
             //assertThat(mes.toString()).startsWith(expected);
             assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
+
+            assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
         });
     }
 
@@ -57,6 +60,9 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
         assertThat(mes.getValue()).isEqualTo(3.5);
         assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
         assertThat(mes.toString()).isEqualTo("4 ± 2");
+
+        assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
+        assertThatThrownBy(() -> mes.enter(Instant.now())).isInstanceOf(IllegalStateException.class);
     }
 
     @Test

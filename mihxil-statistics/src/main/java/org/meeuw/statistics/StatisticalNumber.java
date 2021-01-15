@@ -28,7 +28,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @Getter
     protected int count = 0;
 
-    UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
+    static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     public StatisticalNumber() {
     }

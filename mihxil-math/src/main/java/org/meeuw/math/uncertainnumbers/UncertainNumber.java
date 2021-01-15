@@ -30,7 +30,7 @@ public interface UncertainNumber<N extends Number> {
      * with less precision.
      */
     default UncertaintyNumberOperations<N> uncertaintyOperations() {
-        return (UncertaintyNumberOperations<N>) operations();
+        return operations();
     }
 
     /**
@@ -74,12 +74,12 @@ public interface UncertainNumber<N extends Number> {
 
         NumberOperations<N> uo = uncertaintyOperations();
 
-        N uncertaintity = uo.sqrt(
+        N uncertainty = uo.sqrt(
             o.reciprocal(
                 o.add(o.reciprocal(o.sqr(u)), o.reciprocal(o.sqr(mu)))
             )
         );
-        return new ImmutableUncertainNumber<>(value, uncertaintity);
+        return new ImmutableUncertainNumber<>(value, uncertainty);
     }
 
 

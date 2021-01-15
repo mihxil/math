@@ -26,6 +26,11 @@ class UtilsTest {
 
     @Test
     void orderOfMagnitude() {
+        assertThat(Utils.orderOfMagnitude(Duration.ofMillis(1))).isEqualTo(ChronoUnit.MILLIS);
+        assertThat(Utils.orderOfMagnitude(Duration.ofSeconds(100))).isEqualTo(ChronoUnit.SECONDS);
+        assertThat(Utils.orderOfMagnitude(Duration.ofMinutes(100))).isEqualTo(ChronoUnit.MINUTES);
+        assertThat(Utils.orderOfMagnitude(Duration.ofHours(20))).isEqualTo(ChronoUnit.HOURS);
+        assertThat(Utils.orderOfMagnitude(Duration.ofDays(10))).isEqualTo(ChronoUnit.DAYS);
     }
 
     @Test
@@ -35,6 +40,7 @@ class UtilsTest {
         assertThat(Utils.round(Duration.ofMillis(12345567L), ChronoUnit.MILLIS).toString()).isEqualTo("PT3H25M45.567S");
         assertThat(Utils.round(Duration.ofMillis(1112345567L), ChronoUnit.DAYS).toString()).isEqualTo("PT309H");
         assertThat(Utils.round(Duration.ofMillis(1112345567L), ChronoUnit.HOURS).toString()).isEqualTo("PT309H");
+        assertThatThrownBy(() -> Utils.round(Duration.ofMillis(1112345567L), ChronoUnit.YEARS)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -121,6 +127,7 @@ class UtilsTest {
         assertThat(Utils.uncertaintyForDouble(-1)).isEqualTo(4.440892098500626E-16);
         assertThat(Utils.uncertaintyForDouble(1)).isEqualTo(4.440892098500626E-16);
     }
+
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199})

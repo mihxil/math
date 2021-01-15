@@ -48,7 +48,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         fs[2][0]  = v20;
         fs[2][1]  = v21;
         fs[2][2]  = v22;
-        return new FieldMatrix3<E>(fs);
+        return new FieldMatrix3<>(fs);
     }
 
     FieldMatrix3(E[][] values) {

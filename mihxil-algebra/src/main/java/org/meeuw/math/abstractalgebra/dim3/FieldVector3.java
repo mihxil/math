@@ -64,9 +64,9 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
 
         FieldVector3<?> vector3 = (FieldVector3) o;
 
-        return x.equals((E) vector3.x) &&
-            y.equals((E) vector3.y) &&
-            z.equals((E) vector3.z);
+        return x.equals(vector3.x) &&
+            y.equals(vector3.y) &&
+            z.equals(vector3.z);
     }
 
 

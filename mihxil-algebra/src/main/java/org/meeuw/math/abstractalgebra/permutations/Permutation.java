@@ -26,11 +26,10 @@ public class Permutation  implements
     private transient List<Cycle> cycles;
 
     public static Permutation of(int... value) {
-        int[] v = value;
         for (int i = 0; i < value.length; i++) {
-            v[i]--;
+            value[i]--;
         }
-        return new Permutation(v);
+        return new Permutation(value);
     }
 
     public static Permutation zeroOffset(int... value) {
@@ -56,7 +55,7 @@ public class Permutation  implements
     }
 
     /**
-     * Executes this permutaion on the given array of values.
+     * Executes this permutation on the given array of values.
      * @throws IndexOutOfBoundsException if the given array is too short.
      */
     @SuppressWarnings("unchecked")

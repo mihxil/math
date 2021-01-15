@@ -19,6 +19,7 @@ public interface Prefix extends DoubleSupplier {
         }
     };
 
+    @Override
     String toString();
 
 }

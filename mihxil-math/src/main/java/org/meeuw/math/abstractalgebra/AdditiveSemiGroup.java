@@ -10,7 +10,7 @@ import java.util.*;
  */
 public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extends AlgebraicStructure<E> {
 
-    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(Operator.ADDITION)));
+    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList(Operator.ADDITION)));
 
     @Override
     default Set<Operator> getSupportedOperators() {

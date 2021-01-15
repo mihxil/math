@@ -15,7 +15,7 @@ public enum Dimension {
     N("amount of substance"),
     J("luminous intensity");
 
-    static int NUMBER = values().length;
+    static final int NUMBER = values().length;
 
     final String toString;
 
@@ -32,6 +32,7 @@ public enum Dimension {
         toString = null;
     }
 
+    @Override
     public String toString() {
         return toString == null ? name() : toString;
     }

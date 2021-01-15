@@ -175,6 +175,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
         return getRate(TimeUnit.SECONDS);
     }
 
+    @Override
     public String toString() {
         return "" + getUncertainRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
     }

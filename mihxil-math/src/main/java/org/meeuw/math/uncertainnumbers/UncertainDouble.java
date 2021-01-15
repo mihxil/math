@@ -56,8 +56,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
         double value = (getValue() * weight + m.getValue() * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
-        double uncertaintity = 1d/ Math.sqrt((weight + mweight));
-        return of(value, uncertaintity);
+        double uncertainty = 1d/ Math.sqrt((weight + mweight));
+        return of(value, uncertainty);
     }
 
     /**

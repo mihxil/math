@@ -18,7 +18,7 @@ public enum SIUnit implements Unit {
     mol(N, "mole"),
     cd(J, "candela");
 
-    static int NUMBER = values().length;
+    static final int NUMBER = values().length;
 
     static {
         assert NUMBER == Dimension.NUMBER;

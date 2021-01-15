@@ -26,6 +26,7 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
      *
      * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
      */
+    @SuppressWarnings("unchecked")
     default E repeatedPlus(int multiplier) {
         if (multiplier == 0) {
             return getStructure().zero();

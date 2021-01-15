@@ -206,9 +206,7 @@ public class RealNumber
         if (o == null || getClass() != o.getClass()) return false;
 
         RealNumber that = (RealNumber) o;
-        boolean result =
-            getConfidenceInterval().contains(that.value) || that.getConfidenceInterval().contains(value);
-        return result;
+        return getConfidenceInterval().contains(that.value) || that.getConfidenceInterval().contains(value);
     }
 
     @Override

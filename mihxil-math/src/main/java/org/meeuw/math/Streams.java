@@ -15,7 +15,11 @@ import static java.math.BigInteger.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Streams {
+public final class Streams {
+
+    private Streams() {
+
+    }
 
     public static final int MAX_THREADS = 4;
 
