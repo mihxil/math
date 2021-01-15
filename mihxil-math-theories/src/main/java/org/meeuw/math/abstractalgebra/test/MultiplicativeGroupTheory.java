@@ -3,6 +3,8 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.ReciprocalMathException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.text.TextUtils.superscript;
@@ -25,7 +27,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         @ForAll(ELEMENTS) E v2) {
         try {
             assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
-        } catch (ArithmeticException ae) {
+        } catch (DivisionByZeroException ae) {
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
         }
     }
@@ -36,7 +38,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-1).equals(v1.reciprocal())).isTrue();
-        } catch (ArithmeticException ae) {
+        } catch (ReciprocalMathException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
@@ -46,7 +48,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-2)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
-        } catch (ArithmeticException ae) {
+        } catch (ReciprocalMathException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
@@ -56,12 +58,10 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
-        } catch (ArithmeticException ae) {
+        } catch (ReciprocalMathException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         }
     }
-
-
 
     @Property(shrinking = ShrinkingMode.OFF)
     default void reciprocal(
@@ -70,7 +70,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         try {
             assertThat(e.reciprocal().reciprocal()).isEqualTo(e);
             assertThat(e.reciprocal().times(e)).isEqualTo(e.getStructure().one());
-        } catch (ArithmeticException ae) {
+        } catch (ReciprocalMathException ae) {
             // The element may be zero
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
         }
