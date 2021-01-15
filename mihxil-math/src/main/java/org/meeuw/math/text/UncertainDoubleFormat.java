@@ -9,6 +9,8 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
+import static org.meeuw.math.Utils.uncertaintyForDouble;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -39,12 +41,20 @@ public class UncertainDoubleFormat extends Format {
     @Setter
     private NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
 
+    @Getter
+    @Setter
+    private double considerRoundingErrorFactor = 2d;
+
+
+    private boolean roundingErrorsOnly(double value, double uncertainty) {
+        return uncertainty < uncertaintyForDouble(value) * considerRoundingErrorFactor;
+    }
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         if (number instanceof UncertainDouble) {
             UncertainDouble<?> uncertainNumber = (UncertainDouble<?>) number;
-            if (uncertainNumber.isExact()) {
+            if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.getValue(), uncertainNumber.getUncertainty())) {
                 toAppendTo.append(scientificNotation(uncertainNumber.getValue(), minimumExponent));
             } else {
                 toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.getValue(), uncertainNumber.getUncertainty()));

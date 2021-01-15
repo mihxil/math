@@ -5,6 +5,7 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.util.test.ElementTheory;
 
@@ -17,6 +18,7 @@ import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
  */
 class Vector3Test implements
     ElementTheory<Vector3>,
+    VectorSpaceTheory<Vector3, RealNumber>,
     WithScalarTheory<Vector3, RealNumber> {
 
     @Override

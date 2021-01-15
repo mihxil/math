@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.util.test.ElementTheory;
 
@@ -19,7 +20,10 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class FieldVector3Test  implements WithScalarTheory<FieldVector3<RealNumber>, RealNumber>, ElementTheory<FieldVector3<RealNumber>> {
+class FieldVector3Test  implements
+    WithScalarTheory<FieldVector3<RealNumber>, RealNumber>,
+    VectorSpaceTheory<FieldVector3<RealNumber>, RealNumber>,
+    ElementTheory<FieldVector3<RealNumber>> {
 
     @Test
     public void abs() {

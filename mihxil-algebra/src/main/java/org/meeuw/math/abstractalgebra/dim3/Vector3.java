@@ -11,7 +11,8 @@ import static org.meeuw.math.Utils.uncertaintyForDouble;
 /**
  * @author Michiel Meeuwissen
  */
-public class Vector3  implements VectorInterface<Vector3, RealNumber>,
+public class Vector3 implements
+    VectorInterface<Vector3, RealNumber>,
     WithScalarOperations<Vector3, RealNumber> {
 
     final double x;
@@ -118,7 +119,7 @@ public class Vector3  implements VectorInterface<Vector3, RealNumber>,
 
     @Override
     public VectorSpaceInterface<RealNumber, Vector3> getSpace() {
-        return null;
+        return Vector3Space.INSTANCE;
     }
 
     @Override

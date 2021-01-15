@@ -1,6 +1,8 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
@@ -17,6 +19,7 @@ import static java.math.BigDecimal.ZERO;
 public class FieldVector3<E extends ScalarFieldElement<E>>
     implements
     Sizeable<E>,
+    VectorInterface<FieldVector3<E>, E>,
     WithScalarOperations<FieldVector3<E>, E> {
 
     final E x;
@@ -85,11 +88,46 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
 
     @Override
     public FieldVector3<E> times(E multiplier) {
-        return new FieldVector3<>(x.times(multiplier), y.times(multiplier), z.times(multiplier));
+        return of(x.times(multiplier), y.times(multiplier), z.times(multiplier));
+    }
+
+    @Override
+    public FieldVector3<E> plus(FieldVector3<E> summand) {
+        return of(x.plus(summand.x), y.plus(summand.y), z.plus(summand.z));
+    }
+
+    @Override
+    public E dot(FieldVector3<E> multiplier) {
+        return (x.times(multiplier.x)).plus(y.times(multiplier.y)).plus(z.times(multiplier.z));
+    }
+
+    @Override
+    public FieldVector3<E> negation() {
+        return of(x.negation(), y.negation(), z.negation());
+    }
+
+    @Override
+    public E get(int i) {
+        switch(i) {
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            default: throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+
+    @Override
+    public VectorSpaceInterface<E, FieldVector3<E>> getSpace() {
+        return FieldVector3Space.of(x.getStructure());
     }
 
     @Override
     public FieldVector3<E> dividedBy(E divisor) {
         return new FieldVector3<>(x.dividedBy(divisor), y.dividedBy(divisor), z.dividedBy(divisor));
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return Arrays.asList(x, y, z).iterator();
     }
 }

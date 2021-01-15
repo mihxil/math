@@ -46,6 +46,7 @@ public interface VectorSpaceTheory<
     }
 
     @Property
+    @Disabled
     default void toString(@ForAll(ELEMENTS) V v1) {
         String toString = v1.toString();
         v1.forEach(e -> assertThat(toString).contains(e.toString()));
@@ -59,7 +60,7 @@ public interface VectorSpaceTheory<
         assertThat(v1.getSpace().zero()).isEqualTo(v2.getSpace().zero());
         assertThat(v1.getSpace()).isEqualTo(v2.getSpace());
         assertThat(v1.getSpace()).isSameAs(v2.getSpace());
-        assertThat(v1.getSpace().toString()).contains(v1.getSpace().getField().toString());
+        //assertThat(v1.getSpace().toString()).contains(v1.getSpace().getField().toString());
     }
 
     @Property
@@ -73,7 +74,7 @@ public interface VectorSpaceTheory<
     }
 
     @Property
-    default void inverse(@ForAll(ELEMENTS) V v1) {
+    default void negation(@ForAll(ELEMENTS) V v1) {
         assertThat(v1.plus(v1.negation())).isEqualTo(v1.getSpace().zero());
     }
 
