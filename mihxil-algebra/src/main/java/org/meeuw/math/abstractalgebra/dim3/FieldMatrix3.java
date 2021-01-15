@@ -22,14 +22,6 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     final E zero;
 
-    private static <E extends CompleteFieldElement<E>> FieldMatrix3<E> of(E[] array) {
-        return of(
-            array[0], array[1], array[2],
-            array[3], array[4], array[5],
-            array[6], array[7], array[8]
-        );
-    }
-
     @SuppressWarnings("unchecked")
     public static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
         E v00, E v01, E v02,

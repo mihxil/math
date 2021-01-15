@@ -33,11 +33,11 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
             assertThat(permutation.toString()).isEqualTo("(012)(34)")
         );
 
-        Permutation longPermutation = Permutation.of(10, 2, 3, 1, 5, 4, 6, 7, 8, 9);
-        assertThat(longPermutation.toString()).isEqualTo("(1 10 9 8 7 6 4)");
-
-
-
+        Permutation longPermutation = Permutation.of(10, 1, 3, 7, 5, 6, 4, 9, 8, 2);
+        assertThat(longPermutation.toString()).isEqualTo("(1 10 2)(4 7)(8 9)");
+        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () ->
+            assertThat(longPermutation.toString()).isEqualTo("(10 1 3 7 5 6 4 9 8 2)")
+        );
     }
 
 
