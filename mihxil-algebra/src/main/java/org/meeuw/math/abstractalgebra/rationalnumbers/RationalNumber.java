@@ -7,6 +7,7 @@ import java.math.*;
 import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
@@ -40,8 +41,12 @@ public class RationalNumber extends Number
         boolean nn = anumerator.equals(numerator);
         boolean dn = adenominator.equals(denominator);
         boolean positive = (nn && dn) || (!nn && !dn);
-        this.numerator = positive ? anumerator.divide(gcd) : anumerator.divide(gcd).negate();
-        this.denominator = adenominator.divide(gcd);
+        try {
+            this.numerator = positive ? anumerator.divide(gcd) : anumerator.divide(gcd).negate();
+            this.denominator = adenominator.divide(gcd);
+        } catch (ArithmeticException ae) {
+            throw new DivisionByZeroException(ae);
+        }
     }
 
     @Override
