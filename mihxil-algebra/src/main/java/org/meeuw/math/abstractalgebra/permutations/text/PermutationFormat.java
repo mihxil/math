@@ -1,6 +1,8 @@
 package org.meeuw.math.abstractalgebra.permutations.text;
 
 import java.text.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 
@@ -31,8 +33,30 @@ public class PermutationFormat extends Format {
         return toAppendTo;
     }
 
+    /**
+     * only support list notation for now.
+     */
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException();
+        int open = pos.getIndex();
+        if (source.charAt(open) != '(') {
+            pos.setErrorIndex(open);
+            return null;
+        }
+        List<Integer> result = new ArrayList<>();
+        int close = source.indexOf(')', open + 1);
+        if (close == -1) {
+            pos.setErrorIndex(open);
+            return null;
+        }
+        String subsource = source.substring(open + 1, close);
+        String[] string = subsource.split(" ");
+        if (string.length == 1 && string[0].length() > 1) {
+            string = subsource.split("");
+        }
+        for (String s : string) {
+            result.add(Integer.parseInt(s));
+        }
+        return Permutation.zeroOffset(result.stream().mapToInt(in-> in - offset.getAsInt()).toArray());
     }
 }
