@@ -55,9 +55,12 @@ class FieldVector3Test  implements
         assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
     }
 
+    @SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
     public void spaceEquals() {
         assertThat(new FieldVector3Space<>(RealField.INSTANCE).equals(new FieldVector3Space<>(RealField.INSTANCE))).isTrue();
+        assertThat(new FieldVector3Space<>(RealField.INSTANCE).hashCode()).isEqualTo(new FieldVector3Space<>(RealField.INSTANCE).hashCode());
+        assertThat(new FieldVector3Space<>(RealField.INSTANCE).equals(null)).isFalse();
         assertThat(new FieldVector3Space<>(RationalNumbers.INSTANCE).equals(new FieldVector3Space<>(RealField.INSTANCE))).isFalse();
     }
 
