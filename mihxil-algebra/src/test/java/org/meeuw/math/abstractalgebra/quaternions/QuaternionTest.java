@@ -5,10 +5,12 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.DivisionRingTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 
 /**
@@ -36,6 +38,12 @@ class QuaternionTest implements
         assertThat(structure.i().times(of(2)).toString()).isEqualTo("2i");
         assertThat(structure.j().times(of(2)).toString()).isEqualTo("2j");
         assertThat(new Quaternion<>(of(0), of(1), of(-2), of(3)).dividedBy(of(2)).toString()).isEqualTo("¹⁄₂i - j + ³⁄₂k");
+    }
+
+    @Test
+    public void abs() {
+        assertThatThrownBy(() -> new Quaternion<>(RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1)).abs()).isInstanceOf(UnsupportedOperationException.class);
+        assertThat(new Quaternion<>(RealNumber.of(1), RealNumber.of(1), RealNumber.of(1), RealNumber.of(1)).abs()).isEqualTo(RealNumber.of(2));
     }
 
     @Property
