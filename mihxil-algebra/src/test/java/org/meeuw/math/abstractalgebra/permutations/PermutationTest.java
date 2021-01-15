@@ -91,7 +91,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
 
-    @SuppressWarnings("ConstantConditions")
+    @SuppressWarnings({"ConstantConditions", "EqualsWithItself"})
     @Test
     public void cycles() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
@@ -110,6 +110,8 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
         assertThat(cycle1.equals(cycle2)).isFalse();
+        assertThat(cycle1.equals(cycle1)).isTrue();
+
         assertThat(cycle1.equals(null)).isFalse();
         assertThat(cycle1.equals(new Object())).isFalse();
 
