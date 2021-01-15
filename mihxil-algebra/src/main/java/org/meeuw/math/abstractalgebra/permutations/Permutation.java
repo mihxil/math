@@ -6,6 +6,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.*;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.abstractalgebra.permutations.text.Offset;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.text.spi.Configuration;
@@ -41,7 +42,7 @@ public class Permutation  implements
             int[] copy = Arrays.copyOf(this.value, this.value.length);
             Arrays.sort(copy);
             if (!IntStream.range(0, value.length).allMatch(i -> Arrays.binarySearch(copy, i) >= 0)) {
-                throw new IllegalArgumentException("Permutation is invalid " + listNotation(0));
+                throw new InvalidElementCreationException("Permutation is invalid " + listNotation(0));
             }
         }
     }

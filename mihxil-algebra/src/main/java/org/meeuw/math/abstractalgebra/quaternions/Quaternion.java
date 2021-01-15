@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.io.Serializable;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
 /**
@@ -161,7 +162,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         if (getStructure().getElementStructure() instanceof CompleteField) {
             return (E) ((CompleteFieldElement) (a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr()))).sqrt();
         } else {
-            throw new UnsupportedOperationException();
+            throw new FieldInCompleteException("Field of " + this + " is not complete");
         }
     }
 

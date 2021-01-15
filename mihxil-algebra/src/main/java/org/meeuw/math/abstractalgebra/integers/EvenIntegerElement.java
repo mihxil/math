@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.RngElement;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 
@@ -32,7 +33,7 @@ public class EvenIntegerElement
 
     public EvenIntegerElement(long value) {
         if (value % 2 == 1) {
-            throw new IllegalArgumentException("The argument mus be even (" + value + " isn't)");
+            throw new InvalidElementCreationException("The argument mus be even (" + value + " isn't)");
         }
         this.value = value;
     }

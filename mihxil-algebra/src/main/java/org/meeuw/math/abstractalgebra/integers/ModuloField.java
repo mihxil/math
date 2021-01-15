@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 /**
  * @author Michiel Meeuwissen
@@ -21,7 +22,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     private ModuloField(int divisor) {
         super(ModuloFieldElement.class, divisor);
         if (! Utils.isPrime(divisor)) {
-            throw new IllegalArgumentException("" + divisor + " is not prime");
+            throw new InvalidElementCreationException("" + divisor + " is not prime");
         }
     }
 

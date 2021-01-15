@@ -17,7 +17,7 @@ public interface VectorInterface<V extends VectorInterface<V, S>, S extends Scal
 
     V negation();
 
-    S get(int i);
+    S get(int i) throws ArrayIndexOutOfBoundsException;
 
     VectorSpaceInterface<S, V> getSpace();
 

@@ -4,6 +4,7 @@ import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.exceptions.ReciprocalMathException;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,7 +23,7 @@ public class ModuloFieldElement extends ModuloElement<ModuloFieldElement, Modulo
 
         // use Extended Euclidean algorithms
         if (! first.isPresent()) {
-            throw new ArithmeticException("No reciprocal found for " + value);
+            throw new ReciprocalMathException("No reciprocal found for " + value);
         }
         return new ModuloFieldElement(first.getAsInt(), structure);
     }

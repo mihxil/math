@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.numbers.Sizeable;
@@ -82,7 +83,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         if (result instanceof CompleteFieldElement) {
             return (E) ((CompleteFieldElement<?>) result).sqrt();
         } else {
-            throw new UnsupportedOperationException();
+            throw new FieldInCompleteException("Field of " + this + " is not complete");
         }
     }
 

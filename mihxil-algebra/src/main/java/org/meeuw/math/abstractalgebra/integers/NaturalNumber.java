@@ -6,6 +6,7 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -29,7 +30,7 @@ public class NaturalNumber  implements
 
     public NaturalNumber(@Min(0) long value) {
         if (value < 0) {
-            throw new IllegalArgumentException();
+            throw new InvalidElementCreationException("Natural numbers must be non-negative");
         }
         this.value = value;
     }

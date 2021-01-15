@@ -4,6 +4,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.*;
@@ -34,7 +35,7 @@ class FieldVector3Test  implements
     @Test
     public void absOfRational() {
         FieldVector3<RationalNumber> v = FieldVector3.of(RationalNumber.of(3), RationalNumber.of(-4), RationalNumber.of(0));
-        assertThatThrownBy(v::abs).isInstanceOf(UnsupportedOperationException.class);
+        assertThatThrownBy(v::abs).isInstanceOf(FieldInCompleteException.class);
     }
 
     @Test
