@@ -61,7 +61,7 @@ class Vector3Test implements
     @Test
     public void stringEqualsHashCode() {
         Vector3 example = of(1, 2, 3);
-        assertThat(example.toString()).isEqualTo("(1.0,2.0,3.0)");
+        assertThat(example.toString()).isEqualTo("(1.0, 2.0, 3.0)");
 
         assertThat(example.equals(example)).isTrue();
         assertThat(example.equals("bla")).isFalse();
@@ -71,6 +71,5 @@ class Vector3Test implements
         assertThat(example.equals(of(1, 2, 3))).isTrue();
 
         assertThat(example.hashCode()).isEqualTo(of(1, 2, 3).hashCode());
-
     }
 }
