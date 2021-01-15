@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import lombok.Getter;
+import lombok.NonNull;
 
 import java.math.*;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
@@ -34,7 +36,10 @@ public class RationalNumber extends Number
         return of(longValue, 1);
     }
 
-    public RationalNumber(BigInteger numerator, BigInteger denominator) {
+    public RationalNumber(@NonNull BigInteger numerator, @NonNull BigInteger denominator) throws InvalidElementCreationException {
+        if (denominator.longValue() == 0) {
+            throw new InvalidElementCreationException("Denominator cannot be zero");
+        }
         BigInteger gcd = numerator.gcd(denominator);
         BigInteger anumerator = numerator.abs();
         BigInteger adenominator = denominator.abs();
@@ -47,6 +52,7 @@ public class RationalNumber extends Number
         } catch (ArithmeticException ae) {
             throw new DivisionByZeroException(ae);
         }
+
     }
 
     @Override

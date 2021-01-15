@@ -6,8 +6,10 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
@@ -32,6 +34,8 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberThe
 
         assertThat(of(10).dividedBy(of(3))).isEqualTo(of(10, 3));
         assertThat(of(1).dividedBy(of(3))).isEqualTo(of(1, 3));
+
+        assertThatThrownBy(() -> of(10, 0)).isInstanceOf(InvalidElementCreationException.class);
     }
 
 
