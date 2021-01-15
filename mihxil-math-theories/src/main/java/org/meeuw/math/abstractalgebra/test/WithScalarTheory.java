@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.WithScalarOperations;
-import org.meeuw.math.exceptions.ReciprocalMathException;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +24,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
 
         try {
             assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
-        } catch (ReciprocalMathException ae) {
+        } catch (ReciprocalException ae) {
             getLogger().info("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
         }
         //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
@@ -34,7 +34,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
     default void dividedBy(@ForAll(ELEMENTS) E e, @ForAll(SCALARS) S scalar) {
         try {
             assertThat(e.dividedBy(scalar)).isNotNull();
-        } catch (ReciprocalMathException ae) {
+        } catch (ReciprocalException ae) {
             //
         }
     }

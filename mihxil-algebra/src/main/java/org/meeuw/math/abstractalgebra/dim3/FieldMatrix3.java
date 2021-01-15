@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.ReciprocalMathException;
+import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
  * @author Michiel Meeuwissen
@@ -83,10 +83,10 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
-    public FieldMatrix3<E> reciprocal() throws ReciprocalMathException {
+    public FieldMatrix3<E> reciprocal() throws ReciprocalException {
         E det = determinant();
         if (det.isZero()) {
-            throw new ReciprocalMathException("Determinant of " + this + " is zero");
+            throw new ReciprocalException("Determinant of " + this + " is zero");
         }
         return adjugate().dividedBy(det);
     }

@@ -6,8 +6,7 @@ import java.math.BigDecimal;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -48,7 +47,7 @@ public class RealNumber
     public RealNumber(double value, double uncertainty) {
         this.value = value;
         if (uncertainty < 0) {
-            throw new InvalidElementCreationException("Uncertainty cannot be negative");
+            throw new InvalidUncertaintyException("Uncertainty cannot be negative");
         }
         this.uncertainty = uncertainty;
     }

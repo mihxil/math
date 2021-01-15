@@ -6,6 +6,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.exceptions.InvalidUncertaintyException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,7 +23,7 @@ class RealNumberTest implements
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> new RealNumber(1, 0).of(1, -1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new RealNumber(1, 0).of(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
         assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
