@@ -4,7 +4,8 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +19,7 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
 class NaturalNumberTest implements
     MultiplicativeMonoidTheory<NaturalNumber>,
     AdditiveMonoidTheory<NaturalNumber>,
-    NumberTheory<NaturalNumber>, ScalarTheory<NaturalNumber> {
+    ScalarTheory<NaturalNumber> {
 
     @Test
     public void test() {
