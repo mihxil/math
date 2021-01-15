@@ -26,6 +26,24 @@ class RealNumberTest implements
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
         assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
+
+    }
+
+    @Test
+    public void confidenceInterval() {
+        assertThat(new RealNumber(5, 0.5).equals(new RealNumber(6, 2))).isTrue();
+        assertThat(new RealNumber(6, 2).equals(new RealNumber(5, 0.5))).isTrue();
+        assertThat(new RealNumber(6, 2).equals(new RealNumber(5, 1.5))).isTrue();
+        assertThat(new RealNumber(6, 0.1).equals(new RealNumber(5, 0.1))).isFalse();
+    }
+
+    @Test
+    public void string() {
+        assertThat(RealNumber.of(1).toString()).isEqualTo("1");
+        RealNumber half  = of(1).dividedBy(of(2));
+        assertThat(half.getUncertainty()).isEqualTo(8.881784197001247E-16);
+        assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
+        assertThat(new RealNumber(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
 
     @Test
