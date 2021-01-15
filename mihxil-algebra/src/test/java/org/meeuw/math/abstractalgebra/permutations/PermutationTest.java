@@ -14,6 +14,7 @@ import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.text.spi.Configuration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
@@ -21,6 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Log4j2
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
+
+    @Test
+    public void invalid() {
+        assertThatThrownBy(() ->  Permutation.of(1, 5, 8)).isInstanceOf(IllegalArgumentException.class);
+    }
 
     @Test
     public void testToString() {

@@ -70,7 +70,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
             public Permutation next() {
                 Permutation value = p;
                 if (permute(values)) {
-                    p = Permutation.zeroOffset(Arrays.copyOf(values, degree));
+                    p = new Permutation(false, Arrays.copyOf(values, degree));
                 } else {
                     p = null;
                 }

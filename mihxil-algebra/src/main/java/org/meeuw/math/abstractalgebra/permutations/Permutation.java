@@ -3,8 +3,7 @@ package org.meeuw.math.abstractalgebra.permutations;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.UnaryOperator;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.permutations.text.Offset;
@@ -29,15 +28,22 @@ public class Permutation  implements
         for (int i = 0; i < value.length; i++) {
             value[i]--;
         }
-        return new Permutation(value);
+        return new Permutation(true, value);
     }
 
     public static Permutation zeroOffset(int... value) {
-        return new Permutation(value);
+        return new Permutation(true, value);
     }
 
-    private Permutation(int... value) {
+    Permutation(boolean validate, int... value) {
         this.value = value;
+        if (validate) {
+            int[] copy = Arrays.copyOf(this.value, this.value.length);
+            Arrays.sort(copy);
+            if (!IntStream.range(0, value.length).allMatch(i -> Arrays.binarySearch(copy, i) >= 0)) {
+                throw new IllegalArgumentException("Permutation is invalid " + listNotation(0));
+            }
+        }
     }
 
     @Override
@@ -51,7 +57,7 @@ public class Permutation  implements
         for (int i = 0; i < value.length; i++) {
             result[value[i]] = i;
         }
-        return new Permutation(result);
+        return new Permutation(false, result);
     }
 
     /**
@@ -73,7 +79,7 @@ public class Permutation  implements
         for (int i = 0 ; i < result.length; i++) {
             result[i] = value[multiplier.value[i]];
         }
-        return new Permutation(result);
+        return new Permutation(false, result);
     }
 
     public List<Cycle> getCycles() {
