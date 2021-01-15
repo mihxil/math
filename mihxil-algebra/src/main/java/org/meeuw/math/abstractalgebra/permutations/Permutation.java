@@ -25,18 +25,18 @@ public class Permutation  implements
     final int[] value;
     private transient List<Cycle> cycles;
 
-    public static Permutation of(int... value) {
+    public static Permutation of(int... value) throws InvalidElementCreationException {
         for (int i = 0; i < value.length; i++) {
             value[i]--;
         }
         return new Permutation(true, value);
     }
 
-    public static Permutation zeroOffset(int... value) {
+    public static Permutation zeroOffset(int... value) throws InvalidElementCreationException {
         return new Permutation(true, value);
     }
 
-    Permutation(boolean validate, int... value) {
+    Permutation(boolean validate, int... value) throws InvalidElementCreationException {
         this.value = value;
         if (validate) {
             int[] copy = Arrays.copyOf(this.value, this.value.length);
