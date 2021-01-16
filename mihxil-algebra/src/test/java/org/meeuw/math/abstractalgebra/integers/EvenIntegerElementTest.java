@@ -19,7 +19,6 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  */
 class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNumberTheory<EvenIntegerElement> {
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void test() {
         assertThatThrownBy(() -> of(1)).isInstanceOf(IllegalArgumentException.class);

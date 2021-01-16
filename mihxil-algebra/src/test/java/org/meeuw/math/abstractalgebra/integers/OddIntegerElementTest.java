@@ -6,7 +6,10 @@ import net.jqwik.api.Arbitrary;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.InvalidOperationException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,19 +22,22 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.of;
  */
 class OddIntegerElementTest implements MultiplicativeMonoidTheory<OddIntegerElement>, SignedNumberTheory<OddIntegerElement>, ScalarTheory<OddIntegerElement> {
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Test
     public void test() {
-        assertThatThrownBy(() -> of(0)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> of(0)).isInstanceOf(InvalidElementCreationException.class);
 
         assertThat(of(3).times(of(5))).isEqualTo(of(15));
         assertThat(of(3).plus(4)).isEqualTo(of(7));
+        assertThat(of(3).plus(EvenIntegerElement.of(-8))).isEqualTo(of(-5));
+
         assertThat(of(3).plus(-4)).isEqualTo(of(-1));
 
-        assertThatThrownBy(() -> of(1).plus(1)).isInstanceOf(ArithmeticException.class);
+        assertThatThrownBy(() -> of(1).plus(1)).isInstanceOf(InvalidOperationException.class);
 
 
         assertThat(of(3).times(OddIntegerElement.ONE)).isEqualTo(of(3));
+
+
     }
 
 

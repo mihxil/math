@@ -65,13 +65,16 @@ public class OddIntegerElement
         return new OddIntegerElement(-1 * value);
     }
 
-    public OddIntegerElement plus(long summand) throws ArithmeticException{
+    public OddIntegerElement plus(long summand) throws InvalidOperationException {
         if (summand % 2 == 1) {
             throw new InvalidOperationException("Can only add even integer to odd integers");
         }
         return new OddIntegerElement(value + summand);
     }
 
+    public OddIntegerElement plus(EvenIntegerElement summand) throws ArithmeticException{
+        return new OddIntegerElement(value + summand.getValue());
+    }
 
     @Override
     public boolean equals(Object o) {
