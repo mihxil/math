@@ -13,13 +13,13 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  */
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField> implements Field<ModuloFieldElement> {
 
-    private static final Map<Integer, ModuloField> instances = new ConcurrentHashMap<>();
+    private static final Map<Integer, ModuloField> INSTANCES = new ConcurrentHashMap<>();
 
-    public static ModuloField of(int divisor) {
-        return instances.computeIfAbsent(divisor, ModuloField::new);
+    public static ModuloField of(int divisor) throws InvalidElementCreationException {
+        return INSTANCES.computeIfAbsent(divisor, ModuloField::new);
     }
 
-    private ModuloField(int divisor) {
+    private ModuloField(int divisor) throws InvalidElementCreationException {
         super(ModuloFieldElement.class, divisor);
         if (! Utils.isPrime(divisor)) {
             throw new InvalidElementCreationException("" + divisor + " is not prime");
