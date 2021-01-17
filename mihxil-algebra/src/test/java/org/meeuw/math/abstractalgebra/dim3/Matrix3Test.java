@@ -31,6 +31,9 @@ class Matrix3Test implements MultiplicativeGroupTheory<Matrix3>, WithScalarTheor
         Matrix3Group.INSTANCE.clearDoubleEquivalence();
     }
     public static double round(double v) {
+        if (Double.isNaN(v)){
+            return v;
+        }
         return BigDecimal.valueOf(v).round(new MathContext(2)).setScale(0, RoundingMode.HALF_UP).doubleValue();
     }
 

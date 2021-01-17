@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
@@ -104,6 +105,9 @@ public strictfp class Matrix3 implements
 
     @Override
     public Matrix3 dividedBy(RealNumber divisor) {
+        if (divisor.isZero()) {
+            throw new DivisionByZeroException(this, divisor);
+        }
         return dividedBy(divisor.getValue());
     }
 

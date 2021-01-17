@@ -4,10 +4,10 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -50,7 +50,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Test
-    public void reciprocal() {
+    public void illegalReciprocal() {
         FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(
             of(2), of(0), of(-1),
             of(2), of(0), of(-1),
@@ -58,7 +58,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
         );
 
         assertThat(fm.determinant()).isEqualTo(RationalNumber.ZERO);
-        assertThatThrownBy(fm::reciprocal).isInstanceOf(MathException.class);
+        assertThatThrownBy(fm::reciprocal).isInstanceOf(ReciprocalException.class);
     }
 
     @Test
