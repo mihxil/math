@@ -5,11 +5,15 @@ package org.meeuw.math.exceptions;
  */
 public class DivisionByZeroException extends ReciprocalException {
 
-    public DivisionByZeroException(ArithmeticException e) {
-        this(e.getMessage());
-        initCause(e);
-    }
     public DivisionByZeroException(String s) {
         super(s);
+    }
+    public DivisionByZeroException(Object e, Object divisor) {
+        super("Division by zero exception: " + e + "/" + divisor);
+    }
+
+    public DivisionByZeroException(Object e, Object divisor, Throwable cause) {
+        super("Division by zero exception: " + e + "/" + divisor);
+        initCause(cause);
     }
 }

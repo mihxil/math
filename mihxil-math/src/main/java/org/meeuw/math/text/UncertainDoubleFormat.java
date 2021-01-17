@@ -43,7 +43,7 @@ public class UncertainDoubleFormat extends Format {
 
     @Getter
     @Setter
-    private double considerRoundingErrorFactor = 20d;
+    private double considerRoundingErrorFactor = 1000d;
 
 
     private boolean roundingErrorsOnly(double value, double uncertainty) {

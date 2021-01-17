@@ -61,19 +61,19 @@ public class OddIntegerElement
     }
 
 
-    public OddIntegerElement negation() throws ArithmeticException {
+    public OddIntegerElement negation() {
         return new OddIntegerElement(-1 * value);
     }
 
-    public OddIntegerElement plus(long summand) throws InvalidOperationException {
+    OddIntegerElement plus(long summand) throws InvalidOperationException {
         if (summand % 2 == 1) {
             throw new InvalidOperationException("Can only add even integer to odd integers");
         }
         return new OddIntegerElement(value + summand);
     }
 
-    public OddIntegerElement plus(EvenIntegerElement summand) throws ArithmeticException{
-        return new OddIntegerElement(value + summand.getValue());
+    public OddIntegerElement plus(EvenIntegerElement summand) {
+        return plus(summand.getValue());
     }
 
     @Override

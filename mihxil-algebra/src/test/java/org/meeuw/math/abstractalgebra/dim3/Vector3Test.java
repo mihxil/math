@@ -24,8 +24,12 @@ class Vector3Test implements
     @Override
     public Arbitrary<? extends Vector3> elements() {
         return Arbitraries.randomValue(r ->
-            new Vector3(r.nextDouble(), r.nextDouble(), r.nextDouble())
-        );
+            Vector3.of(r.nextDouble(), r.nextDouble(), r.nextDouble())
+        ).injectDuplicates(0.1)
+            .edgeCases(config -> {
+                config.add(Vector3.of(0, 0, 1));
+                config.add(Vector3.of(0, 1, 0));
+            });
     }
 
     @Override

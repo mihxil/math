@@ -41,6 +41,13 @@ class GaussianRationalTest implements
     }
 
     @Test
+    public void pow3Example() {
+        GaussianRational gaussian = new GaussianRational(RationalNumber.of(-77, 100),
+            RationalNumber.of(-75, 64));
+        assertThat(gaussian.pow(-3).toString()).isEqualTo("⁴⁵⁵⁶³⁰⁴⁷²⁴⁷⁸⁷²⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉ + ⁷⁹⁷⁰⁶⁶⁴⁹⁶⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉i");
+    }
+
+    @Test
     public void stream() {
         assertThat(structure.stream().limit(20)).map(AbstractComplexNumber::toString).containsExactly(
             "0",

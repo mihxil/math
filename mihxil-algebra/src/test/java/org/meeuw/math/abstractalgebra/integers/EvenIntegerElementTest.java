@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.RngTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,7 +22,7 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNum
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> of(1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> of(1)).isInstanceOf(InvalidElementCreationException.class);
 
         assertThat(of(2).times(of(4))).isEqualTo(of(8));
         assertThat(of(2).plus(of(4))).isEqualTo(of(6));

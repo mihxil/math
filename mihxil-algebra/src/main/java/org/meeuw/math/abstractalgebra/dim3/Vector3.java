@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
@@ -75,6 +76,9 @@ public class Vector3 implements
     }
 
     public Vector3 dividedBy(double divisor) {
+        if (divisor == 0) {
+            throw new DivisionByZeroException(this, divisor);
+        }
         return of(x / divisor, y / divisor, z / divisor);
     }
 

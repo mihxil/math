@@ -100,9 +100,9 @@ public class StatisticalDoubleTest implements CompleteFieldTheory<UncertainReal>
         return Combinators.combine(amounts, averages, random)
             .flatAs((am, av, r) -> {
                 StatisticalDouble sd = new StatisticalDouble();
-                r.doubles(am).forEach(d -> {
-                    sd.accept(av + d * av / 3);
-                });
+                r.doubles(am).forEach(d ->
+                    sd.accept(av + d * av / 3)
+                );
                 return Arbitraries.of(sd);
             });
 

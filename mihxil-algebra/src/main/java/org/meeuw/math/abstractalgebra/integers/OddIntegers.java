@@ -27,7 +27,7 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
 
     @Override
     public Stream<OddIntegerElement> stream() {
-        return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(2));
+        return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
     }
 
     @Override

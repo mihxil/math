@@ -5,6 +5,7 @@ import net.jqwik.api.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 /**
  * @author Michiel Meeuwissen
@@ -16,7 +17,7 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
     public void illegal() {
         Assertions.assertThatThrownBy(() ->
             ModuloField.of(16) // must be prime
-        ).isInstanceOf(IllegalArgumentException.class);
+        ).isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Override

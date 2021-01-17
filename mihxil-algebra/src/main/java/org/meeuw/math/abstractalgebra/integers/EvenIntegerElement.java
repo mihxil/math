@@ -43,6 +43,11 @@ public class EvenIntegerElement
         return new EvenIntegerElement(value + summand.value);
     }
 
+
+    public OddIntegerElement plus(OddIntegerElement summand) {
+        return new OddIntegerElement(value + summand.getValue());
+    }
+
     @Override
     public EvenIntegerElement negation() {
         return new EvenIntegerElement(-1 * value);

@@ -4,6 +4,9 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.*;
 
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.ReciprocalException;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -59,7 +62,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public BigDecimal divide(BigDecimal n1, BigDecimal n2) {
-        return n1.divide(n2, mathContext);
+        try {
+            return n1.divide(n2, mathContext);
+        } catch (ArithmeticException ae) {
+            throw new DivisionByZeroException(n1, n2, ae);
+        }
     }
 
     @Override
@@ -74,7 +81,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public BigDecimal pow(BigDecimal n1, BigDecimal exponent) {
-        return BigDecimalMath.pow(n1, exponent, mathContext);
+        try {
+            return BigDecimalMath.pow(n1, exponent, mathContext);
+        } catch (ArithmeticException ae) {
+            throw new ReciprocalException(ae);
+        }
     }
 
     @Override

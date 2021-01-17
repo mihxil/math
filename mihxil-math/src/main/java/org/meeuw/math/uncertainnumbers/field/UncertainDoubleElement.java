@@ -2,6 +2,7 @@ package org.meeuw.math.uncertainnumbers.field;
 
 import lombok.Getter;
 
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
@@ -91,8 +92,8 @@ public class UncertainDoubleElement
     @Override
     public  UncertainDoubleElement pow(int exponent) {
         double v = getValue();
-        if (v == 0 && exponent <= 0) {
-            throw new ArithmeticException();
+        if (v == 0 && exponent < 0) {
+            throw new ReciprocalException(v + "^" + exponent);
         }
         return new UncertainDoubleElement(
             Math.pow(getValue(), exponent),

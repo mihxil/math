@@ -8,6 +8,7 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.*;
 
@@ -152,7 +153,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Override
     public UncertainDoubleElement reciprocal() {
         if (getValue() == 0d) {
-            throw new ArithmeticException("Division by zero");
+            throw new DivisionByZeroException("Division by zero");
         }
         double v = 1d / getValue();
         return new UncertainDoubleElement(v, getFractionalUncertainty() * v + Utils.uncertaintyForDouble(v));

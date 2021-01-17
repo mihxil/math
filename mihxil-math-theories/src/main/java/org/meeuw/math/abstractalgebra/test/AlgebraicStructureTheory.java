@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,7 +81,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 if (count.incrementAndGet() < 200) {
                     getLogger().info(o.stringify(e1, e2) + " = " + result);
                 }
-            } catch (DivisionByZeroException ae) {
+            } catch (ReciprocalException ae) {
                 getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
                 if (ae.getCause() != null) {

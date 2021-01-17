@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +26,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         @ForAll(ELEMENTS) E v2) {
         try {
             assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
-        } catch (DivisionByZeroException ae) {
+        } catch (ReciprocalException ae) {
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
         }
     }

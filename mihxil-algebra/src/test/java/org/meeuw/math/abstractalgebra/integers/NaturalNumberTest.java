@@ -6,6 +6,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +24,7 @@ class NaturalNumberTest implements
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(InvalidElementCreationException.class);
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 

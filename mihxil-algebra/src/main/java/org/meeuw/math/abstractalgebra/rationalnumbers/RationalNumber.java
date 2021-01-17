@@ -8,6 +8,7 @@ import java.math.*;
 import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
@@ -36,7 +37,7 @@ public class RationalNumber extends Number
     }
 
     public RationalNumber(@NonNull BigInteger numerator, @NonNull BigInteger denominator) throws InvalidElementCreationException {
-        if (denominator.longValue() == 0) {
+        if (denominator.equals(BigInteger.ZERO)) {
             throw new InvalidElementCreationException("Denominator cannot be zero");
         }
         BigInteger gcd = numerator.gcd(denominator);
@@ -88,6 +89,9 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber dividedBy(RationalNumber divisor) {
+        if (divisor.isZero()) {
+            throw new DivisionByZeroException(this, divisor);
+        }
         return new RationalNumber(
             numerator.multiply(divisor.denominator),
             denominator.multiply(divisor.numerator)
@@ -96,10 +100,10 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber plus(RationalNumber summand) {
+
         return new RationalNumber(
-                numerator.multiply(summand.denominator)
-                        .add(summand.numerator.multiply(denominator)),
-                denominator.multiply(summand.denominator)
+            numerator.multiply(summand.denominator).add(summand.numerator.multiply(denominator)),
+            denominator.multiply(summand.denominator)
         );
     }
 

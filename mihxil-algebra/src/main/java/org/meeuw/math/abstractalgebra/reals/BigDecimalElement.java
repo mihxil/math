@@ -4,6 +4,7 @@ import java.math.*;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -139,8 +140,12 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement reciprocal() {
         //return new BigDecimalElement(UncertainNumber.super.reciprocal());
-        BigDecimal newValue =  BigDecimal.ONE.divide(value, getStructure().getMathContext());
-        return new BigDecimalElement(newValue, getFractionalUncertainty().multiply(newValue));
+        try {
+            BigDecimal newValue = BigDecimal.ONE.divide(value, getStructure().getMathContext());
+            return new BigDecimalElement(newValue, getFractionalUncertainty().multiply(newValue));
+        } catch (ArithmeticException ae) {
+            throw new DivisionByZeroException(BigDecimal.ONE, value, ae);
+        }
     }
 
     @Override

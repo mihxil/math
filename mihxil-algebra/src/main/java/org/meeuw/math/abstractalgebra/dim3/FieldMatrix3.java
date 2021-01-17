@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
@@ -84,11 +85,16 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
     public FieldMatrix3<E> reciprocal() throws ReciprocalException {
-        E det = determinant();
-        if (det.isZero()) {
-            throw new ReciprocalException("Determinant of " + this + " is zero");
+        try {
+            E det = determinant();
+            if (det.isZero()) {
+                throw new ReciprocalException("Determinant of " + this + " is zero");
+            }
+
+            return adjugate().dividedBy(det);
+        } catch (InvalidElementCreationException invalidElementCreationException) {
+            throw new ReciprocalException(invalidElementCreationException);
         }
-        return adjugate().dividedBy(det);
     }
 
     public FieldMatrix3<E> adjugate() {
@@ -161,10 +167,10 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         E h = values[2][1];
         E i = values[2][2];
         return a.times((e.times(i)).minus(f.times(h)))
-            .minus(
-                b.times((d.times(i)).minus(f.times(g)))
-            ).plus(
-                c.times((d.times(h)).minus(e.times(g)))
+                .minus(
+                    b.times((d.times(i)).minus(f.times(g)))
+                ).plus(
+                    c.times((d.times(h)).minus(e.times(g)))
             );
     }
 
