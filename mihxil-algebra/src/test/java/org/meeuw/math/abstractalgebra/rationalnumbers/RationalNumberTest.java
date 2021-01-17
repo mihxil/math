@@ -23,6 +23,7 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberThe
 
     @Test
     public void test() {
+        assertThatThrownBy(() -> new RationalNumber(null, null)).isInstanceOf(NullPointerException.class);
         assertThat(of(1, 4).times(of(1, 2))).isEqualTo(of(1, 8));
 
         assertThat(of(2, 5).times(of(1, 2))).isEqualTo(of(1, 5));

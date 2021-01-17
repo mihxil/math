@@ -18,6 +18,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
 
     String SCALARS = "scalars";
 
+
     @Property
     default void times(@ForAll(ELEMENTS) E e, @ForAll(SCALARS) S scalar) {
         assertThat(e.times(scalar)).isNotNull();
@@ -25,7 +26,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
         try {
             assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
         } catch (ReciprocalException ae) {
-            getLogger().info("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
+            getLogger().debug("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
         }
         //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
     }

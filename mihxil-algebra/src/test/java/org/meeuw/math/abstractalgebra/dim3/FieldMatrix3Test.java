@@ -51,13 +51,15 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
 
     @Test
     public void illegalReciprocal() {
-        FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(
-            of(2), of(0), of(-1),
-            of(2), of(0), of(-1),
-            of(1), of(4), of(5)
+
+        FieldMatrix3<RationalNumber> fm = new FieldMatrix3<RationalNumber> (
+            new RationalNumber[][] {
+                new RationalNumber[]{of(2), of(0), of(-1)},
+                new RationalNumber[]{of(2), of(0), of(-1)},
+                new RationalNumber[]{of(1), of(4), of(5)}
+            }
         );
 
-        assertThat(fm.determinant()).isEqualTo(RationalNumber.ZERO);
         assertThatThrownBy(fm::reciprocal).isInstanceOf(ReciprocalException.class);
     }
 
@@ -74,8 +76,8 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
                     l.get(0), l.get(1), l.get(2),
                     l.get(3), l.get(4), l.get(5),
                     l.get(6), l.get(7), l.get(8)
-                )).filter(e -> ! e.determinant().equals(RationalNumber.ZERO)
-            )
+                )
+                )
             ;
     }
 }

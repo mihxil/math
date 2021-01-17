@@ -56,7 +56,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(e1.getStructure().equals(e2.getStructure())).isTrue();
     }
 
-    Map<AlgebraicStructure<?>, AtomicLong> counts = new HashMap<>();
+    Map<AlgebraicStructure<?>, AtomicLong> COUNTS = new HashMap<>();
 
     @Property
     default void elementClass(
@@ -71,15 +71,19 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
         @ForAll(ELEMENTS) E e1,
         @ForAll(ELEMENTS) E e2) throws Throwable {
-        AtomicLong count = counts.computeIfAbsent(s, k -> new AtomicLong(0));
+
+        AtomicLong count = COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        int size = s.getSupportedOperators().size();
         for (Operator o : s.getSupportedOperators()) {
             try {
                 E result = o.apply(e1, e2);
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ", " + e2 + ") resulted null").isNotNull();
                 assertThat(result.getStructure()).isSameAs(s);
-                if (count.incrementAndGet() < 200) {
+                if (count.incrementAndGet() < (size * 3L)) { // show three example of every operator
                     getLogger().info(o.stringify(e1, e2) + " = " + result);
+                } else {
+                    getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
             } catch (ReciprocalException ae) {
                 getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
