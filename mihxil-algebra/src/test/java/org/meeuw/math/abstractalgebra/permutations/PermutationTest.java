@@ -8,14 +8,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.abstractalgebra.permutations.text.Notation;
-import org.meeuw.math.abstractalgebra.permutations.text.Offset;
+import org.meeuw.math.abstractalgebra.permutations.text.*;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.text.configuration.ConfigurationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.abstractalgebra.permutations.text.Notation.LIST;
+import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,16 +34,16 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     public void testToString() {
         Permutation permutation = Permutation.of(2, 3, 1, 5, 4);
         assertThat(permutation.toString()).isEqualTo("(123)(45)");
-        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () ->
+        ConfigurationService.get().with(PermutationConfiguration.class, b -> b.withNotation(LIST)).run(() ->
             assertThat(permutation.toString()).isEqualTo("(23154)")
         );
-        Configuration.with(b -> b.property(Offset.class.getName(), Offset.ZERO), () ->
+        ConfigurationService.get().with(PermutationConfiguration.class, b -> b.withOffset(ZERO)).run(() ->
             assertThat(permutation.toString()).isEqualTo("(012)(34)")
         );
 
         Permutation longPermutation = Permutation.of(10, 1, 3, 7, 5, 6, 4, 9, 8, 2);
         assertThat(longPermutation.toString()).isEqualTo("(1 10 2)(4 7)(8 9)");
-        Configuration.with(b -> b.property(Notation.class.getName(), Notation.LIST), () ->
+        ConfigurationService.get().with(PermutationConfiguration.class, b -> b.withNotation(LIST)).run(() ->
             assertThat(longPermutation.toString()).isEqualTo("(10 1 3 7 5 6 4 9 8 2)")
         );
     }

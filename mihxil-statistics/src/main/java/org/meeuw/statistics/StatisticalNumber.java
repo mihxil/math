@@ -7,7 +7,7 @@ import java.util.LongSummaryStatistics;
 
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.math.text.spi.FormatServiceProvider;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -133,7 +133,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
      */
     @Override
     public String toString() {
-        return AlgebraicElementFormatProvider.toString(this);
+        return FormatServiceProvider.toString(this);
     }
 
     @Override

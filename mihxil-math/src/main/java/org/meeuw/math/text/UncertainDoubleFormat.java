@@ -6,7 +6,7 @@ import java.text.*;
 import java.util.Locale;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
@@ -35,7 +35,7 @@ public class UncertainDoubleFormat extends Format {
 
     @Getter
     @Setter
-    private Configuration.UncertaintyNotation uncertaintyNotation = Configuration.UncertaintyNotation.PLUS_MINUS;
+    private UncertaintyConfiguration.Notation uncertaintyNotation = UncertaintyConfiguration.Notation.PLUS_MINUS;
 
     @Getter
     @Setter
@@ -124,7 +124,7 @@ public class UncertainDoubleFormat extends Format {
         format.setMaximumFractionDigits(fd);
         format.setMinimumFractionDigits(fd);
         format.setGroupingUsed(false);
-        final boolean useBrackets = useE && uncertaintyNotation == Configuration.UncertaintyNotation.PLUS_MINUS;
+        final boolean useBrackets = useE && uncertaintyNotation == UncertaintyConfiguration.Notation.PARENTHESES.PLUS_MINUS;
         return
             (useBrackets ? "(" : "") + valueAndError(format.format(mean.coefficient), format.format(std.coefficient), uncertaintyNotation)
             +
@@ -143,7 +143,7 @@ public class UncertainDoubleFormat extends Format {
          return value +  "(" + error.substring(i) + ")";
     }
 
-    public static String valueAndError(String value, String error, Configuration.UncertaintyNotation uncertaintyNotation) {
+    public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
          switch(uncertaintyNotation) {
 
              case PARENTHESES: return valueParenthesesError(value, error);

@@ -8,14 +8,14 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.text.configuration.ConfigurationService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.statistics.text.TimeConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider.ZONE_ID;
 
 /**
  * @author Michiel Meeuwissen
@@ -26,7 +26,7 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
     @Test
     public void instants() {
-        Configuration.get().withProperty(ZONE_ID, ZoneId.of("Europe/Amsterdam")).run(() -> {
+        ConfigurationService.get().with(TimeConfiguration.class, tz -> tz.withZoneId(ZoneId.of("Europe/Amsterdam"))).run(() -> {
             Instant now = Instant.ofEpochMilli(1593070087406L);
             String expected = now.truncatedTo(ChronoUnit.MILLIS).toString();
             StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);

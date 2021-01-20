@@ -3,10 +3,11 @@ package org.meeuw.physics;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.text.configuration.ConfigurationService;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.text.spi.Configuration.UncertaintyNotation.PARENTHESES;
-import static org.meeuw.math.text.spi.Configuration.with;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 import static org.meeuw.physics.PhysicalConstant.*;
 
 /**
@@ -39,10 +40,8 @@ class PhysicalConstantTest {
         assertThat(G.toString()).isEqualTo("(6.67430 ± 0.00015)·10⁻¹¹ m³·kg⁻¹·s⁻²");
         log.info("{}={}", G.getSymbol(), G.toString());
 
-        with((ub) -> ub.uncertaintyNotation(PARENTHESES),
-            () -> {
-                assertThat(G.toString()).isEqualTo("6.67430(15)·10⁻¹¹ m³·kg⁻¹·s⁻²");
-            }
+        ConfigurationService.get().with(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES)).run(
+            () -> assertThat(G.toString()).isEqualTo("6.67430(15)·10⁻¹¹ m³·kg⁻¹·s⁻²")
         );
     }
 

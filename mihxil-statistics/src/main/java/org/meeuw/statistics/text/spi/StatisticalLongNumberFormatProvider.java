@@ -1,12 +1,15 @@
 package org.meeuw.statistics.text.spi;
 
 import java.time.ZoneId;
+import java.util.*;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.configuration.Configuration;
+import org.meeuw.math.text.configuration.ConfigurationService;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.math.text.spi.Configuration;
 import org.meeuw.statistics.StatisticalLong;
 import org.meeuw.statistics.text.StatisticalLongNumberFormat;
+import org.meeuw.statistics.text.TimeConfiguration;
 
 /**
  * @author Michiel Meeuwissen
@@ -14,12 +17,10 @@ import org.meeuw.statistics.text.StatisticalLongNumberFormat;
  */
 public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatProvider {
 
-    public static final String ZONE_ID = "ZONE_ID";
-
     @Override
-    public StatisticalLongNumberFormat getInstance(Configuration configuration) {
+    public StatisticalLongNumberFormat getInstance(ConfigurationService configuration) {
         StatisticalLongNumberFormat format = new StatisticalLongNumberFormat();
-        format.setZoneId(configuration.getPropertyOrDefault(ZONE_ID, ZoneId.systemDefault()));
+        format.setZoneId(configuration.get(TimeConfiguration.class).getZoneId());
         return format;
     }
 
@@ -31,5 +32,10 @@ public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatP
         }
         return -1;
 
+    }
+
+    @Override
+    public List<Configuration> getConfigurationSettings() {
+        return Arrays.asList(new TimeConfiguration(ZoneId.systemDefault()));
     }
 }

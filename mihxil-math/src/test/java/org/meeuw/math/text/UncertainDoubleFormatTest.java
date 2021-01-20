@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -39,7 +39,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void parentheses() {
         UncertainDoubleFormat formatter = new UncertainDoubleFormat();
-        formatter.setUncertaintyNotation(Configuration.UncertaintyNotation.PARENTHESES);
+        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
         assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
         assertThat(formatter.scientificNotationWithUncertainty(1234.234, 0.0456)).isEqualTo("1234.23(5)");
     }

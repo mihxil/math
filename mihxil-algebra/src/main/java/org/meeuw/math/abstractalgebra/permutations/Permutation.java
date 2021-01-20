@@ -3,13 +3,14 @@ package org.meeuw.math.abstractalgebra.permutations;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.UnaryOperator;
-import java.util.stream.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.abstractalgebra.permutations.text.Offset;
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.math.text.spi.Configuration;
+import org.meeuw.math.text.configuration.ConfigurationService;
+import org.meeuw.math.text.spi.FormatServiceProvider;
 
 /**
  * @author Michiel Meeuwissen
@@ -136,7 +137,7 @@ public class Permutation  implements
 
     @Override
     public String toString() {
-        return AlgebraicElementFormatProvider.toString(this);
+        return FormatServiceProvider.toString(this);
     }
 
     public class Cycle {
@@ -165,7 +166,7 @@ public class Permutation  implements
 
         @Override
         public String toString() {
-            return toString(Configuration.get().getPropertyOrDefault(Offset.class.getName(), Offset.ONE).getAsInt());
+            return toString(ConfigurationService.get().get(PermutationConfiguration.class).getOffset().getAsInt());
         }
 
         @Override
