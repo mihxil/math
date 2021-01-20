@@ -27,8 +27,10 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNum
         assertThat(of(2).times(of(4))).isEqualTo(of(8));
         assertThat(of(2).plus(of(4))).isEqualTo(of(6));
         assertThat(of(2).plus(of(4).negation())).isEqualTo(of(-2));
-
         assertThat(of(2).plus(of(2).getStructure().zero())).isEqualTo(of(2));
+
+        assertThat(of(2).plus(OddIntegerElement.of(5).negation())).isEqualTo(OddIntegerElement.of(7));
+
     }
 
     @Test

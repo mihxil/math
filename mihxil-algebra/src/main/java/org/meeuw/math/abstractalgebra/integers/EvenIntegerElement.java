@@ -28,13 +28,13 @@ public class EvenIntegerElement
     private final long value;
 
     public static EvenIntegerElement of(long value){
-        return new EvenIntegerElement(value);
-    }
-
-    public EvenIntegerElement(long value) {
         if (value % 2 == 1) {
             throw new InvalidElementCreationException("The argument mus be even (" + value + " isn't)");
         }
+        return new EvenIntegerElement(value);
+    }
+
+    private EvenIntegerElement(long value) {
         this.value = value;
     }
 
@@ -42,7 +42,6 @@ public class EvenIntegerElement
     public EvenIntegerElement plus(EvenIntegerElement summand) {
         return new EvenIntegerElement(value + summand.value);
     }
-
 
     public OddIntegerElement plus(OddIntegerElement summand) {
         return new OddIntegerElement(value + summand.getValue());

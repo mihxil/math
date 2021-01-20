@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.InvalidOperationException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 
@@ -29,13 +28,13 @@ public class OddIntegerElement
     private final long value;
 
     public static OddIntegerElement of(long value){
+        if (value % 2 == 0) {
+               throw new InvalidElementCreationException("The argument mus be odd (" + value + " isn't)");
+        }
         return new OddIntegerElement(value);
     }
 
-    public OddIntegerElement(long value) {
-        if (value % 2 == 0) {
-            throw new InvalidElementCreationException("The argument mus be odd (" + value + " isn't)");
-        }
+    OddIntegerElement(long value) {
         this.value = value;
     }
 
@@ -65,15 +64,8 @@ public class OddIntegerElement
         return new OddIntegerElement(-1 * value);
     }
 
-    OddIntegerElement plus(long summand) throws InvalidOperationException {
-        if (summand % 2 == 1) {
-            throw new InvalidOperationException("Can only add even integer to odd integers");
-        }
-        return new OddIntegerElement(value + summand);
-    }
-
-    public OddIntegerElement plus(EvenIntegerElement summand) {
-        return plus(summand.getValue());
+    public OddIntegerElement plus(EvenIntegerElement summand)  {
+        return new OddIntegerElement(value + summand.getValue());
     }
 
     @Override
