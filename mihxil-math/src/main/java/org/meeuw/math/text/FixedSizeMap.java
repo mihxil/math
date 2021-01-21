@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
+ * @since 0.4
  */
 public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
 
@@ -21,6 +21,11 @@ public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
         } else {
             throw new UnsupportedOperationException();
         }
+    }
+
+    @Override
+    public V get(Object k) {
+        return wrapped.get(k);
     }
 
     @Override
