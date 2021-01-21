@@ -39,7 +39,7 @@ strictfp class BigDecimalFieldTest implements
     @Test
     public void basic() {
         assertThat(of(5).minus(of(4))).isEqualTo(of(1));
-        assertThat(of(5).plus(INSTANCE.zero())).isEqualTo(of(5));
+        assertThat(of(5).p(INSTANCE.zero())).isEqualTo(of(5));
         assertThat(of("-539.4562718339926").plus(INSTANCE.zero())).isEqualTo(of("-539.4562718339926"));
     }
 
