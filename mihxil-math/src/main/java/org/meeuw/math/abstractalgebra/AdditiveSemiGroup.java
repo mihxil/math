@@ -12,9 +12,16 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
 
     Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList(Operator.ADDITION)));
 
+    Set<UnaryOperator> UNARY_OPERATORS = Collections.unmodifiableSet(new HashSet<>(Collections.singletonList(UnaryOperator.NEGATION)));
+
     @Override
     default Set<Operator> getSupportedOperators() {
         return OPERATORS;
+    }
+
+    @Override
+    default Set<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
 }

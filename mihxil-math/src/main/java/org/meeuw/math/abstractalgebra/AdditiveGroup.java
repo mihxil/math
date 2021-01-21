@@ -12,7 +12,7 @@ import static org.meeuw.math.abstractalgebra.Operator.SUBTRACTION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroup<E extends AdditiveGroupElement<E>>   extends AdditiveMonoid<E>  {
+public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>  {
 
     Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(Arrays.asList(ADDITION, SUBTRACTION)));
 

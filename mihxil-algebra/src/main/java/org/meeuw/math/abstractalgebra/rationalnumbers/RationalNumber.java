@@ -28,15 +28,19 @@ public class RationalNumber extends Number
     @Getter
     private @NotNull final BigInteger denominator;
 
-    public static RationalNumber of(long numerator, @NotNull long denominator) {
+    public static RationalNumber of(long numerator, long denominator) {
         return new RationalNumber(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
+    }
+
+    public static RationalNumber of(@NonNull BigInteger numerator, @NonNull BigInteger denominator) {
+        return new RationalNumber(numerator, denominator);
     }
 
     public static RationalNumber of(long longValue) {
         return of(longValue, 1);
     }
 
-    public RationalNumber(@NonNull BigInteger numerator, @NonNull BigInteger denominator) throws InvalidElementCreationException {
+    RationalNumber(@NonNull BigInteger numerator, @NonNull BigInteger denominator) throws InvalidElementCreationException {
         if (denominator.equals(BigInteger.ZERO)) {
             throw new InvalidElementCreationException("Denominator cannot be zero");
         }
