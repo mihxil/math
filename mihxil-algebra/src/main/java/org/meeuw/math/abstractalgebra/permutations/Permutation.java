@@ -9,8 +9,9 @@ import java.util.stream.IntStream;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.text.configuration.Configuration;
 import org.meeuw.math.text.spi.FormatServiceProvider;
+
+import static org.meeuw.math.text.spi.FormatServiceProvider.getConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen
@@ -166,7 +167,7 @@ public class Permutation  implements
 
         @Override
         public String toString() {
-            return toString(Configuration.get().get(PermutationConfiguration.class).getOffset().getAsInt());
+            return toString(getConfigurationAspect(PermutationConfiguration.class).getOffset().getAsInt());
         }
 
         @Override
