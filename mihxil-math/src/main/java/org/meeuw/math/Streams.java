@@ -18,7 +18,6 @@ import static java.math.BigInteger.ZERO;
 public final class Streams {
 
     private Streams() {
-
     }
 
     public static final int MAX_THREADS = 4;
@@ -45,18 +44,39 @@ public final class Streams {
             false);
     }
 
-    public static <E, F> Stream<F> diagonalStream(
-        Function<Long, Stream<E>> stream1, Supplier<Stream<E>> stream2, BiFunction<E, E, F> combiner) {
-        return Stream.iterate(new State<E, F>(1L, stream1, stream2), State::next)
+    /**
+     * Contains the logic to combine two streams.
+     * They are found by tracing diagonals in the plain spanned by the two stream.
+     * @param stream1 A function to create new stream, which returns all values from the nth value down to the first
+     * @param stream2 A supplier to create a new stream
+     * @param combiner A bifunction to combine the two values supplied by the two stream to one new value
+     */
+    public static <E1, E2, F> Stream<F> diagonalStream(
+        Function<Long, Stream<E1>> stream1,
+        Supplier<Stream<E2>> stream2,
+        BiFunction<E1, E2, F> combiner) {
+        return Stream.iterate(new State<E1, E2, F>(1L, stream1, stream2), State::next)
             .map(s -> combiner.apply(s.getA(), s.getB()));
     }
 
-    public static <E, F> Stream<F> diagonalStream(
-        Supplier<Stream<E>> stream1, Supplier<Stream<E>> stream2, BiFunction<E, E, F> combiner) {
+    /**
+     * Defaulting version of {@link #diagonalStream(Function, Supplier, BiFunction)}.
+     *
+     *
+     * @param stream1 The first stream, which will be reversed using {@link #reverseStream(Stream, long)}
+     *
+     */
+    public static <E1, E2, F> Stream<F> diagonalStream(
+        Supplier<Stream<E1>> stream1,
+        Supplier<Stream<E2>> stream2,
+        BiFunction<E1, E2, F> combiner) {
         return diagonalStream(
             (size) -> reverseStream(stream1.get(), size), stream2, combiner);
     }
 
+    /**
+     * Reverses a stream. This happens by collecting it to al list first, and then stream that backwards.*
+     */
     public static <E> Stream<E> reverseStream(Stream<E> stream, long start) {
         List<E> collect = stream.limit(start).collect(Collectors.toList());
         Collections.reverse(collect);
@@ -160,22 +180,21 @@ public final class Streams {
     }
 
     /**
-     *  Helper class for {@link #diagonalStream(Supplier, Supplier, BiFunction)} ()}. Contains the logic to combine two stream.
-     * They are found by tracing diagonals in the plain spanned by the two stream.
+     * Helper class for {@link #diagonalStream(Supplier, Supplier, BiFunction)}.
      */
-    private static class State<E, F>  {
+    private static class State<E1, E2, F>  {
         final long size;
-        final Function<Long, Stream<E>> v1;
-        final Supplier<Stream<E>> v2;
-        final Iterator<E> ia;
-        final Iterator<E> ib;
+        final Function<Long, Stream<E1>> v1;
+        final Supplier<Stream<E2>> v2;
+        final Iterator<E1> ia;
+        final Iterator<E2> ib;
 
         @Getter
-        final E a;
+        final E1 a;
         @Getter
-        final E b;
+        final E2 b;
 
-        private State(long size, Function<Long, Stream<E>> v1, Supplier<Stream<E>> v2) {
+        private State(long size, Function<Long, Stream<E1>> v1, Supplier<Stream<E2>> v2) {
             this.size = size;
             this.v1 = v1;
             this.v2 = v2;
@@ -185,7 +204,7 @@ public final class Streams {
             this.b = ib.next();
         }
 
-        private State(long size,  Function<Long, Stream<E>> v1, Supplier<Stream<E>> v2, Iterator<E> ia, Iterator<E> ib, E a, E b) {
+        private State(long size,  Function<Long, Stream<E1>> v1, Supplier<Stream<E2>> v2, Iterator<E1> ia, Iterator<E2> ib, E1 a, E2 b) {
             this.size = size;
             this.v1 = v1;
             this.v2 = v2;
@@ -195,7 +214,7 @@ public final class Streams {
             this.b = b;
         }
 
-        public State<E, F> next() {
+        public State<E1, E2, F> next() {
             if (! ia.hasNext()) {
                 return new State<>(size + 1, v1, v2);
             } else {
@@ -203,7 +222,7 @@ public final class Streams {
             }
         }
 
-        private State<E, F> copy(E a, E b) {
+        private State<E1, E2, F> copy(E1 a, E2 b) {
             return new State<>(size, v1, v2, ia, ib, a, b);
         }
     }

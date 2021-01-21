@@ -7,12 +7,16 @@ import lombok.*;
  * @since 0.4
  */
 @ToString
-public class UncertaintyConfiguration implements Configuration {
+public class UncertaintyConfiguration implements ConfigurationAspect {
 
 
     @lombok.Builder
-    public UncertaintyConfiguration(Notation notation) {
+    private UncertaintyConfiguration(Notation notation) {
         this.notation = notation;
+    }
+
+    public UncertaintyConfiguration() {
+        this(Notation.PLUS_MINUS);
     }
 
     @Getter

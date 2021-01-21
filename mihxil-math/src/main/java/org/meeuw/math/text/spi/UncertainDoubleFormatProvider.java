@@ -8,6 +8,8 @@ import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.*;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
+import static org.meeuw.math.text.spi.FormatServiceProvider.getConfigurationAspect;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -15,10 +17,10 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
-    public UncertainDoubleFormat getInstance(ConfigurationService configuration) {
+    public UncertainDoubleFormat getInstance(Configuration configuration) {
         UncertainDoubleFormat format = new UncertainDoubleFormat();
-        format.setMinimumExponent(ConfigurationService.getConfiguration(NumberConfiguration.class).getMinimalExponent());
-        format.setUncertaintyNotation(ConfigurationService.getConfiguration(UncertaintyConfiguration.class).getNotation());
+        format.setMinimumExponent(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent());
+        format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
         return format;
     }
 
@@ -28,11 +30,8 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
     }
 
     @Override
-    public List<Configuration> getConfigurationSettings() {
-        return Arrays.asList(
-            new NumberConfiguration(4),
-            new UncertaintyConfiguration(UncertaintyConfiguration.Notation.PLUS_MINUS)
-        );
+    public List<Class<? extends ConfigurationAspect>> getConfigurationAspects() {
+        return Arrays.asList(NumberConfiguration.class, UncertaintyConfiguration.class);
     }
 
 }

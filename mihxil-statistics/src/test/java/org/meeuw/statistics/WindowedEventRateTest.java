@@ -11,12 +11,12 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.Interval;
 import org.meeuw.math.TestClock;
-import org.meeuw.math.text.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
+import static org.meeuw.math.text.spi.FormatServiceProvider.with;
 
 /**
  * @author Michiel Meeuwissen
@@ -197,7 +197,7 @@ public class WindowedEventRateTest {
 
     @Test
     public void string() {
-        ConfigurationService.get().with(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES)).run(
+        with(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
             () -> {
                 TestClock clock = new TestClock();
                 WindowedEventRate rate = WindowedEventRate.builder()

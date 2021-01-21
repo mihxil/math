@@ -7,14 +7,19 @@ import lombok.*;
  * @since 0.4
  */
 @ToString
-public class NumberConfiguration implements Configuration {
+@EqualsAndHashCode
+public class NumberConfiguration implements ConfigurationAspect {
 
     @Getter
     @With
     private final int minimalExponent;
 
     @lombok.Builder
-    public NumberConfiguration(int minimalExponent) {
+    private NumberConfiguration(int minimalExponent) {
         this.minimalExponent = minimalExponent;
+    }
+
+    public NumberConfiguration() {
+        this(4);
     }
 }

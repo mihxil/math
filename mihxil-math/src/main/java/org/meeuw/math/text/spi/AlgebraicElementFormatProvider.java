@@ -4,8 +4,8 @@ import java.text.Format;
 import java.util.List;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.configuration.ConfigurationAspect;
 import org.meeuw.math.text.configuration.Configuration;
-import org.meeuw.math.text.configuration.ConfigurationService;
 
 /**
  * @author Michiel Meeuwissen
@@ -13,10 +13,21 @@ import org.meeuw.math.text.configuration.ConfigurationService;
  */
 public abstract class AlgebraicElementFormatProvider {
 
-    public abstract Format getInstance(ConfigurationService configuration);
+    public abstract Format getInstance(Configuration configuration);
 
     public abstract int weight(AlgebraicElement<?> weight);
 
-    public abstract List<Configuration> getConfigurationSettings();
+    public abstract List<Class<? extends ConfigurationAspect>> getConfigurationAspects();
+
+    @Override
+    public String toString() {
+        StringBuilder build = new StringBuilder();
+        build.append(getClass().getSimpleName());
+        List<Class<? extends ConfigurationAspect>> configurationAspects = getConfigurationAspects();
+        if (! configurationAspects.isEmpty()) {
+            build.append(" ").append(configurationAspects);
+        }
+        return build.toString();
+    }
 
 }

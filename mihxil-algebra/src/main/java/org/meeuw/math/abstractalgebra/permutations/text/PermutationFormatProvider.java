@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
+import org.meeuw.math.text.configuration.ConfigurationAspect;
 import org.meeuw.math.text.configuration.Configuration;
-import org.meeuw.math.text.configuration.ConfigurationService;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
@@ -17,7 +17,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
-    public Format getInstance(ConfigurationService configuration) {
+    public Format getInstance(Configuration configuration) {
         PermutationConfiguration conf = configuration.get(PermutationConfiguration.class);
         return new PermutationFormat(conf.getNotation(), conf.getOffset());
     }
@@ -28,11 +28,8 @@ public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
     }
 
     @Override
-    public List<Configuration> getConfigurationSettings() {
-        return Arrays.asList(PermutationConfiguration.builder()
-            .notation(Notation.CYCLES)
-            .offset(Offset.ONE)
-            .build());
+    public List<Class<? extends ConfigurationAspect>> getConfigurationAspects() {
+        return Arrays.asList(PermutationConfiguration.class);
     }
 
 }
