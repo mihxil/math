@@ -6,13 +6,24 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * @author Michiel Meeuwissen
  */
 class PermutationFormatTest {
+
+    @Test
+    public void format() {
+        final PermutationFormat format = new PermutationFormat(Notation.LIST, Offset.ONE);
+        assertThatThrownBy(() -> format.format(new Object())).isInstanceOf(IllegalArgumentException.class);
+
+        Permutation permutation = Permutation.of(2, 1, 4, 3);
+        assertThat(format.format(permutation)).isEqualTo("(2143)");
+        PermutationFormat cycleFormat = format.withNotation(Notation.CYCLES).withOffset(Offset.ZERO);
+        assertThat(cycleFormat.format(permutation)).isEqualTo("(01)(23)");
+    }
+
 
     @Test
     void parseObject() throws ParseException {

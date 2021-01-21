@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.permutations.text;
 
+import lombok.With;
+
 import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +14,9 @@ import org.meeuw.math.abstractalgebra.permutations.Permutation;
  */
 public class PermutationFormat extends Format {
 
+    @With
     private final Notation notation;
+    @With
     private final Offset offset;
 
     public PermutationFormat(Notation notation, Offset offset) {
@@ -22,15 +26,21 @@ public class PermutationFormat extends Format {
 
     @Override
     public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-        int o = offset.getAsInt();
-        switch (notation) {
-            case CYCLES:
-                toAppendTo.append(((Permutation) obj).cycleNotation(o));
-                break;
-            case LIST:
-                toAppendTo.append(((Permutation) obj).listNotation(o));
+
+        if (obj instanceof Permutation) {
+            int o = offset.getAsInt();
+            Permutation p = (Permutation) obj;
+            switch (notation) {
+                case CYCLES:
+                    toAppendTo.append(p.cycleNotation(o));
+                    break;
+                case LIST:
+                    toAppendTo.append(p.listNotation(o));
+            }
+            return toAppendTo;
+        } else {
+            throw new IllegalArgumentException();
         }
-        return toAppendTo;
     }
 
     /**
