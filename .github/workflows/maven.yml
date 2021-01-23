@@ -1,4 +1,5 @@
-name: Build and deploy
+name: build
+
 
 on:
   push:
@@ -17,3 +18,5 @@ jobs:
         java-version: 1.8
     - name: Build with Maven
       run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B deploy -s $GITHUB_WORKSPACE/.github-settings.xml --file pom.xml
+    - name: codecoe
+      run: bash <(curl -s https://codecov.io/bash)
