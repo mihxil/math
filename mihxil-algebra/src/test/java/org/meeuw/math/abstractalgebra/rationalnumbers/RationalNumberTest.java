@@ -3,13 +3,12 @@ package org.meeuw.math.abstractalgebra.rationalnumbers;
 import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 
-import java.math.BigInteger;
-
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
+import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
@@ -25,10 +24,11 @@ class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberThe
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> RationalNumber.of(null, BigInteger.valueOf(1))).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> RationalNumber.of(BigInteger.valueOf(1L), null)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> RationalNumber.of(BigInteger.valueOf(1L), BigInteger.valueOf(0))).isInstanceOf(InvalidElementCreationException.class);
-        assertThat(of(1, 4).times(of(1, 2))).isEqualTo(of(1, 8));
+        assertThatThrownBy(() -> RationalNumber.of(null, valueOf(1))).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> RationalNumber.of(valueOf(1L), null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> RationalNumber.of(valueOf(1L), valueOf(0))).isInstanceOf(InvalidElementCreationException.class);
+        assertThat(of(valueOf(1L), valueOf(4L))
+            .times(of(1, 2))).isEqualTo(of(1, 8));
 
         assertThat(of(2, 5).times(of(1, 2))).isEqualTo(of(1, 5));
 

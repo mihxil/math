@@ -33,6 +33,13 @@ class PermutationFormatTest {
     }
 
     @Test
+    void parseObjectWithSpaces() throws ParseException {
+        PermutationFormat format = new PermutationFormat(Notation.LIST, Offset.ONE);
+        Permutation perm = (Permutation) format.parseObject("(3 2 1)");
+        assertThat(perm.permute("a", "b", "c")).containsExactly("c", "b", "a");
+    }
+
+    @Test
     void parseObjectShort() throws ParseException {
         PermutationFormat format = new PermutationFormat(Notation.LIST, Offset.ONE);
         Permutation perm = (Permutation) format.parseObject("(1)");

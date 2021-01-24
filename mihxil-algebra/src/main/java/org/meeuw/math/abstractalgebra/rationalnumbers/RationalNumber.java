@@ -32,7 +32,7 @@ public class RationalNumber extends Number
         return new RationalNumber(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
     }
 
-    public static RationalNumber of(@NonNull BigInteger numerator, @NonNull BigInteger denominator) {
+    public static RationalNumber of(@NotNull BigInteger numerator, @NotNull BigInteger denominator) {
         return new RationalNumber(numerator, denominator);
     }
 

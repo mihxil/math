@@ -6,6 +6,8 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 
 /**
@@ -19,7 +21,7 @@ public class PermutationFormat extends Format {
     @With
     private final Offset offset;
 
-    public PermutationFormat(Notation notation, Offset offset) {
+    public PermutationFormat(@NotNull Notation notation, @NotNull Offset offset) {
         this.notation = notation;
         this.offset = offset;
     }
