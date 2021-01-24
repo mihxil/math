@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -95,7 +96,7 @@ public final class Utils {
      */
     public static long positivePow(@NotNull long base, @Min(0) int i) {
         if (i < 0) {
-            throw new IllegalArgumentException();
+            throw new ReciprocalException(base +  "^" + i + " is impossible");
         }
         long result = 1;
         while (i > 0) {

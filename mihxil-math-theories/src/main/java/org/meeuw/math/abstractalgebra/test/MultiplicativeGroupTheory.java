@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,33 +32,37 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         }
     }
 
+    @Override
     @Property
+    @Label("powNegative1 group")
     default void powNegative1(
          @ForAll(ELEMENTS) E v1
     )  {
         try {
             assertThat(v1.pow(-1).equals(v1.reciprocal())).isTrue();
-        } catch (ReciprocalException ae) {
+        } catch (DivisionByZeroException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
+    @Override
     @Property
     default void powNegative2(
          @ForAll(ELEMENTS) E v1
     )  {
         try {
             assertThat(v1.pow(-2)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
-        } catch (ReciprocalException ae) {
+        } catch (DivisionByZeroException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
+    @Override
     @Property
     default void powNegative3(
          @ForAll(ELEMENTS) E v1
     )  {
         try {
             assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
-        } catch (ReciprocalException ae) {
+        } catch (DivisionByZeroException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         }
     }

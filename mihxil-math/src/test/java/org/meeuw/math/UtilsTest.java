@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
 import static java.util.stream.Collectors.joining;
@@ -114,7 +115,7 @@ class UtilsTest {
 
     @Test
     public void positivePower() {
-        assertThatThrownBy(() -> Utils.positivePow10(-1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> Utils.positivePow10(-1)).isInstanceOf(ReciprocalException.class);
         assertThat(Utils.positivePow10(2)).isEqualTo(100);
     }
 

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.numbers.Scalar;
 
@@ -14,7 +15,7 @@ import org.meeuw.math.numbers.Scalar;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement implements RingElement<IntegerElement>, Scalar<IntegerElement> {
+public class IntegerElement implements RingElement<IntegerElement>, Scalar<IntegerElement>, MultiplicativeMonoidElement<IntegerElement> {
 
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);

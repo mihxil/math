@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.exceptions.ReciprocalException;
+
 /**
  * An element of the {@link MultiplicativeMonoid} structure.
  * @author Michiel Meeuwissen
@@ -19,7 +21,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
     @Override
     default E pow(@Min(0) int n) {
         if (n < 0) {
-            throw new IllegalArgumentException();
+            throw new ReciprocalException("");
         }
         if (n == 0) {
             return getStructure().one();

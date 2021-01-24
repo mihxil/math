@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
  * @since 0.4
  */
 public class Integers extends AbstractAlgebraicStructure<IntegerElement>
-    implements Ring<IntegerElement>, Streamable<IntegerElement> {
+    implements Ring<IntegerElement>, Streamable<IntegerElement>, MultiplicativeMonoid<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
 

@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 
 import java.util.stream.Collectors;
 
@@ -18,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNumberTheory<EvenIntegerElement> {
+class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>,SignedNumberTheory<EvenIntegerElement> {
 
     @Test
     public void test() {
@@ -29,7 +28,7 @@ class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>, SignedNum
         assertThat(of(2).plus(of(4).negation())).isEqualTo(of(-2));
         assertThat(of(2).plus(of(2).getStructure().zero())).isEqualTo(of(2));
 
-        assertThat(of(2).plus(OddIntegerElement.of(5).negation())).isEqualTo(OddIntegerElement.of(7));
+        assertThat(of(2).plus(OddIntegerElement.of(5).negation())).isEqualTo(OddIntegerElement.of(-3));
 
     }
 
