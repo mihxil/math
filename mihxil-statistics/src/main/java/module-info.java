@@ -6,14 +6,13 @@ import org.meeuw.statistics.text.spi.StatisticalLongNumberFormatProvider;
  * @since 0.4
  */
 module org.meeuw.statistics {
+    requires static lombok;
+    requires java.logging;
+    requires org.meeuw.math;
+
     exports org.meeuw.statistics;
     exports org.meeuw.statistics.text;
 
-    requires static org.checkerframework.checker.qual;
-    requires static lombok;
-    requires org.meeuw.math;
-    requires com.google.common;
-    requires java.logging;
 
     uses AlgebraicElementFormatProvider;
 

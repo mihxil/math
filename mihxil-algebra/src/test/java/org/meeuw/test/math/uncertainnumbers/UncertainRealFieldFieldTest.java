@@ -1,4 +1,4 @@
-package org.meeuw.math.uncertainnumbers;
+package org.meeuw.test.math.uncertainnumbers;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;

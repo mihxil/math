@@ -140,17 +140,16 @@ public final class FormatServiceProvider {
         final ServiceLoader<AlgebraicElementFormatProvider> loader =
             ServiceLoader.load(AlgebraicElementFormatProvider.class);
         loader.iterator().forEachRemaining(
-            algebraicElementFormatProvider -> {
+            algebraicElementFormatProvider ->
                 algebraicElementFormatProvider.getConfigurationAspects().forEach(c -> {
-                        try {
-                            ConfigurationAspect configurationAspect = c.newInstance();
-                            m.put(c, configurationAspect);
-                        } catch (InstantiationException | IllegalAccessException e) {
-                            log.log(Level.WARNING, e.getMessage(), e);
-                        }
+                    try {
+                        ConfigurationAspect configurationAspect = c.newInstance();
+                        m.put(c, configurationAspect);
+                    } catch (InstantiationException | IllegalAccessException e) {
+                        log.log(Level.WARNING, e.getMessage(), e);
                     }
-                );
-            }
+                }
+            )
         );
         return new FixedSizeMap<>(m);
     }

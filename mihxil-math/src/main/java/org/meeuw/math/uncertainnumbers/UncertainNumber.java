@@ -34,7 +34,7 @@ public interface UncertainNumber<N extends Number> {
     }
 
     /**
-     * Creates a new {@link UncertainDouble} representing a multiple of this one.
+     * Creates a new {@link org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber} representing a multiple of this one.
      */
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
