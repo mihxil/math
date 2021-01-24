@@ -12,8 +12,11 @@ class ModuloRingElementTest implements RingTheory<ModuloRingElement> {
 
     @Override
     @Provide
-    public Arbitrary<? extends ModuloRingElement> elements() {
+    public Arbitrary<ModuloRingElement> elements() {
         ModuloRing structure = ModuloRing.of(10);
-        return Arbitraries.integers().between(0, 10).map(i -> new ModuloRingElement(i, structure)).injectDuplicates(0.1);
+        return Arbitraries.integers()
+            .between(0, 10).map(i -> new ModuloRingElement(i, structure))
+            .injectDuplicates(0.1)
+            ;
     }
 }

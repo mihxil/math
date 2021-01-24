@@ -2,9 +2,12 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import net.jqwik.api.*;
 
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
 
 /**
@@ -18,9 +21,15 @@ class ComplexNumberTest implements
 
     static final ComplexNumbers structure = ComplexNumbers.INSTANCE;
 
+    @Test
+    public void isMultiplicativeSemiGroupElement() {
+        ComplexNumber cn = new ComplexNumber(of(1), of(1));
+        assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
+    }
+
 
     @Override
-    public Arbitrary<? extends ComplexNumber> elements() {
+    public Arbitrary<ComplexNumber> elements() {
         return Arbitraries.randomValue(
             (random) ->
                 new ComplexNumber(

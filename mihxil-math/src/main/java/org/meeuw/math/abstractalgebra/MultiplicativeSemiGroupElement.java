@@ -2,6 +2,9 @@ package org.meeuw.math.abstractalgebra;
 
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.ReciprocalException;
+
 /**
  * Elements of a {@link MultiplicativeSemiGroup} can be multiplied by each other (via {@link #times(MultiplicativeSemiGroupElement)}.
  *
@@ -27,10 +30,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     default E pow(@Min(1) int n) {
         if (n < 0) {
-            throw new IllegalArgumentException("Not defined for negative exponents");
+            throw new ReciprocalException("Not defined for negative exponents");
         }
         if (n == 0) {
-            throw new IllegalArgumentException("Not definied for exponent = 0");
+            throw new DivisionByZeroException("Not definied for exponent = 0");
         }
         E y = null;
         E x = (E) this;

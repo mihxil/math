@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 
@@ -69,6 +70,9 @@ public class EvenIntegerElement
 
     @Override
     public EvenIntegerElement pow(@Min(1) int n) {
+        if (n == 0) {
+            throw new ReciprocalException("" + this + "^0");
+        }
         return new EvenIntegerElement(Utils.positivePow(value, n));
     }
 

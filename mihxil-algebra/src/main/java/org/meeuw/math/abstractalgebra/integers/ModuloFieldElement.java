@@ -4,6 +4,7 @@ import java.util.OptionalInt;
 import java.util.stream.IntStream;
 
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
@@ -19,7 +20,13 @@ public class ModuloFieldElement extends ModuloElement<ModuloFieldElement, Modulo
     @Override
     public ModuloFieldElement reciprocal() {
         // this is very crude:
-        OptionalInt first = IntStream.range(1, structure.divisor).filter(a -> (a * value) % structure.divisor == 1).findFirst();
+        if (value == 0) {
+            throw new DivisionByZeroException("reciprocal of 0");
+        }
+        OptionalInt first = IntStream
+            .range(1, structure.divisor)
+            .filter(a -> (a * value) % structure.divisor == 1)
+            .findFirst();
 
         // use Extended Euclidean algorithms
         if (! first.isPresent()) {

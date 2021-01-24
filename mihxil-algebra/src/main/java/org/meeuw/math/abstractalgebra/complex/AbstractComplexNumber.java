@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.io.Serializable;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 
 /**
  * @author Michiel Meeuwissen
@@ -57,7 +57,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
     public S reciprocal() {
         E denominator = this.real.sqr().plus(this.imaginary.sqr());
         if (denominator.isZero()) {
-            throw new ReciprocalException("Denominator was 0");
+            throw new DivisionByZeroException("Denominator was 0");
         }
         return of(
             this.real.dividedBy(denominator),

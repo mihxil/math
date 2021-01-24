@@ -17,7 +17,9 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest implements RngTheory<EvenIntegerElement>,SignedNumberTheory<EvenIntegerElement> {
+class EvenIntegerElementTest implements
+    RngTheory<EvenIntegerElement>,
+    SignedNumberTheory<EvenIntegerElement> {
 
     @Test
     public void test() {
