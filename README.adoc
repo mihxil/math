@@ -8,6 +8,8 @@
 //image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
 image:https://github.com/mihxil/math/workflows/build/badge.svg?[Build Status,link=https://github.com/mihxil/math/actions?query=workflow%3Abuild]
 image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
+image:https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw/mihxil-math.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/]
+image:http://www.javadoc.io/badge/org.meeuw/mihxil-math.svg?color=blue[javadoc,link=http://www.javadoc.io/doc/org.meeuw/mihil-math]
 
 Math and physics related classes.
 
