@@ -3,7 +3,8 @@ package org.meeuw.math.abstractalgebra.vectorspace;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.VectorInterface;
 
 /**
  * @author Michiel Meeuwissen
@@ -79,25 +80,6 @@ public class Vector<E extends ScalarFieldElement<E>> implements
     }
 
     @Override
-    public String toString() {
-        return "(" + Arrays.stream(values).map(Object::toString).collect(Collectors.joining(", ")) + ")";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Vector<?> vector = (Vector<?>) o;
-        return Arrays.equals(values, vector.values);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(values);
-    }
-
-    @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             int i = 0;
@@ -117,4 +99,25 @@ public class Vector<E extends ScalarFieldElement<E>> implements
     public Spliterator<E> spliterator() {
         return Arrays.spliterator(values);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Vector<?> vector = (Vector<?>) o;
+        return Arrays.equals(values, vector.values);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(values);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + Arrays.stream(values).map(Object::toString).collect(Collectors.joining(", ")) + ")";
+    }
+
+
 }

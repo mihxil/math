@@ -23,6 +23,9 @@ public class RationalNumber extends Number
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
+    private static final  MathContext MATH_CONTEXT = new MathContext(40);
+
+
     @Getter
     private final BigInteger numerator;
     @Getter
@@ -162,7 +165,6 @@ public class RationalNumber extends Number
         return bigDecimalValue().doubleValue();
     }
 
-    private static final  MathContext MATH_CONTEXT = new MathContext(40);
 
     @Override
     public BigDecimal bigDecimalValue() {
@@ -177,6 +179,11 @@ public class RationalNumber extends Number
     @Override
     public int signum() {
         return numerator.signum();
+    }
+
+    @Override
+    public RationalNumber abs() {
+        return new RationalNumber(numerator.abs(), denominator);
     }
 
     @Override
@@ -205,8 +212,5 @@ public class RationalNumber extends Number
         }
     }
 
-    @Override
-    public RationalNumber abs() {
-        return new RationalNumber(numerator.abs(), denominator);
-    }
+
 }

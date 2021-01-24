@@ -94,11 +94,6 @@ public class Rotation implements
     }
 
     @Override
-    public String toString() {
-        return rot.toString();
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -110,6 +105,11 @@ public class Rotation implements
     @Override
     public int hashCode() {
         return rot.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return rot.toString();
     }
 
 }

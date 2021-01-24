@@ -81,27 +81,6 @@ public class EvenIntegerElement
         return new EvenIntegerElement(value * value);
     }
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EvenIntegerElement that = (EvenIntegerElement) o;
-
-        return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Long.hashCode(value);
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
     @Override
     public long longValue() {
         return value;
@@ -136,4 +115,25 @@ public class EvenIntegerElement
     public boolean isZero() {
         return value == 0;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        EvenIntegerElement that = (EvenIntegerElement) o;
+
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
 }

@@ -31,11 +31,6 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     }
 
     @Override
-    public String toString() {
-        return Utils.toString(Dimension.values(), exponents);
-    }
-
-    @Override
     public DimensionsGroup getStructure() {
         return DimensionsGroup.INSTANCE;
     }
@@ -79,6 +74,11 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     @Override
     public int hashCode() {
         return Arrays.hashCode(exponents);
+    }
+
+    @Override
+    public String toString() {
+        return Utils.toString(Dimension.values(), exponents);
     }
 
 }

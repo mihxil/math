@@ -21,6 +21,4 @@ public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends Additi
         return OPERATORS;
     }
 
-
-
 }

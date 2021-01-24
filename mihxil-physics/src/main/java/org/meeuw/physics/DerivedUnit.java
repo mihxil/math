@@ -84,10 +84,6 @@ public class DerivedUnit implements Unit {
         return name;
     }
 
-    @Override
-    public String toString() {
-        return prefix() + name();
-    }
     //@Override
     public Prefix prefix() {
         return prefix;
@@ -96,6 +92,11 @@ public class DerivedUnit implements Unit {
     public PhysicalConstant toSI() {
         return new PhysicalConstant(name, SIFactor,
             SIUnit.toUnits(exponents),description);
+    }
+
+    @Override
+    public String toString() {
+        return prefix() + name();
     }
 
 }

@@ -115,27 +115,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         return new UncertainDoubleElement(value, uncertainty);
     }
 
-
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
-    @Override
-    public boolean equals(Object o) {
-        return equals(o, 1);
-    }
-
-    @Override
-    public int hashCode() {
-        return 0;
-    }
-
-    /**
-     * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
-     */
-    @Override
-    public String toString() {
-        return FormatServiceProvider.toString(this);
-    }
-
     @Override
     public UncertainReal sqrt() {
         return of(operations.sqrt(getValue()), getUncertainty());
@@ -190,6 +169,26 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         } else {
             return Double.compare(getValue(), o.getValue());
         }
+    }
+
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @Override
+    public boolean equals(Object o) {
+        return equals(o, 1);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
+    }
+
+    /**
+     * Represents the mean value in a scientific notation (using unicode characters).
+     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     */
+    @Override
+    public String toString() {
+        return FormatServiceProvider.toString(this);
     }
 }
 

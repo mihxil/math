@@ -58,24 +58,6 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         return of(x.times(multiplier), y.times(multiplier), z.times(multiplier));
     }*/
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FieldVector3<?> vector3 = (FieldVector3) o;
-
-        return x.equals(vector3.x) &&
-            y.equals(vector3.y) &&
-            z.equals(vector3.z);
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "(" + x + "," + y + "," + z + ")";
-    }
 
     @Override
     public E abs() {
@@ -131,4 +113,22 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     public Iterator<E> iterator() {
         return Arrays.asList(x, y, z).iterator();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FieldVector3<?> vector3 = (FieldVector3) o;
+
+        return x.equals(vector3.x) &&
+            y.equals(vector3.y) &&
+            z.equals(vector3.z);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + "," + y + "," + z + ")";
+    }
+
 }

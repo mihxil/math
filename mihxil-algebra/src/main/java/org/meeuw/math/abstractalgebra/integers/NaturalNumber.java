@@ -71,8 +71,18 @@ public class NaturalNumber  implements
     }
 
     @Override
-    public String toString() {
-        return String.valueOf(value);
+    public NaturalNumber abs() {
+        return this;
+    }
+
+    @Override
+    public int signum() {
+        return Long.signum(value);
+    }
+
+    @Override
+    public boolean isZero() {
+        return value == 0;
     }
 
     @Override
@@ -91,17 +101,7 @@ public class NaturalNumber  implements
     }
 
     @Override
-    public NaturalNumber abs() {
-        return this;
-    }
-
-    @Override
-    public int signum() {
-        return Long.signum(value);
-    }
-
-    @Override
-    public boolean isZero() {
-        return value == 0;
+    public String toString() {
+        return String.valueOf(value);
     }
 }

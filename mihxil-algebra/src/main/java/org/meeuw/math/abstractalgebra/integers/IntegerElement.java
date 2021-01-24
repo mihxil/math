@@ -86,27 +86,6 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IntegerElement that = (IntegerElement) o;
-
-        return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-
-    @Override
     public int compareTo(IntegerElement o) {
         return Long.compare(value, o.value);
     }
@@ -141,4 +120,25 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
     public IntegerElement abs() {
         return new IntegerElement(Math.abs(value));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        IntegerElement that = (IntegerElement) o;
+
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) value;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
+
 }

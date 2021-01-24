@@ -25,5 +25,4 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E pow(E exponent);
 
-
 }

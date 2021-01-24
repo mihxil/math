@@ -197,8 +197,14 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public String toString() {
-        return value.toString();
+    public BigDecimalElement abs() {
+        return new BigDecimalElement(value.abs(), uncertainty);
+    }
+
+    @Override
+    public BigDecimalElement distanceTo(BigDecimalElement otherElement) {
+        return new BigDecimalElement(
+            getValue().subtract(otherElement.getValue()).abs(), getUncertainty());
     }
 
     @Override
@@ -216,13 +222,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement abs() {
-        return new BigDecimalElement(value.abs(), uncertainty);
-    }
-
-    @Override
-    public BigDecimalElement distanceTo(BigDecimalElement otherElement) {
-        return new BigDecimalElement(
-            getValue().subtract(otherElement.getValue()).abs(), getUncertainty());
+    public String toString() {
+        return value.toString();
     }
 }

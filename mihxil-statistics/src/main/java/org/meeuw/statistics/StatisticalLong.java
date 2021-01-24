@@ -164,7 +164,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return getMean();
     }
 
-
     public Instant instantValue() {
         return Instant.ofEpochMilli(longValue());
     }
@@ -303,7 +302,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         INSTANT,
         DURATION
     }
-
 
 }
 

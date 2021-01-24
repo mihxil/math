@@ -117,6 +117,18 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         );
     }
 
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    @Override
+    public E abs() {
+        if (getStructure().getElementStructure() instanceof CompleteField) {
+            return (E) ((CompleteFieldElement) (a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr()))).sqrt();
+        } else {
+            throw new FieldInCompleteException("Field of " + this + " is not complete");
+        }
+    }
+
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -132,6 +144,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         }
         return result.toString();
     }
+
 
     protected void append(E value, StringBuilder result, char i) {
         boolean hasValues = result.length() > 0;
@@ -154,15 +167,6 @@ public class Quaternion<E extends ScalarFieldElement<E>>
                 result.append(abs.toString());
             }
             result.append(i);
-        }
-    }
-
-    @Override
-    public E abs() {
-        if (getStructure().getElementStructure() instanceof CompleteField) {
-            return (E) ((CompleteFieldElement) (a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr()))).sqrt();
-        } else {
-            throw new FieldInCompleteException("Field of " + this + " is not complete");
         }
     }
 

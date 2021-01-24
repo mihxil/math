@@ -51,7 +51,6 @@ public class PhysicalConstant extends PhysicalNumber {
     }
 
 
-
     @Override
     protected PhysicalConstant copy(UncertainReal wrapped, Units units) {
         return new PhysicalConstant(symbol, wrapped, units, name);

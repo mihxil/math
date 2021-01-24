@@ -35,11 +35,6 @@ public class UnitExponent implements Comparable<UnitExponent> {
     }
 
     @Override
-    public String toString() {
-        return unit.name() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -61,4 +56,10 @@ public class UnitExponent implements Comparable<UnitExponent> {
     public int compareTo(UnitExponent o) {
         return unit.name().compareTo(o.unit.name());
     }
+
+    @Override
+    public String toString() {
+        return unit.name() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
+    }
+
 }

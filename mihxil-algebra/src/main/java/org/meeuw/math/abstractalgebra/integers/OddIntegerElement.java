@@ -69,26 +69,6 @@ public class OddIntegerElement
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OddIntegerElement that = (OddIntegerElement) o;
-
-        return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Long.hashCode(value);
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
-    }
-
-    @Override
     public long longValue() {
         return value;
     }
@@ -121,5 +101,25 @@ public class OddIntegerElement
     @Override
     public boolean isZero() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OddIntegerElement that = (OddIntegerElement) o;
+
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.hashCode(value);
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
     }
 }

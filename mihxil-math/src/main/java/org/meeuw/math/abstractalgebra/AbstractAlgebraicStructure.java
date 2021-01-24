@@ -17,4 +17,10 @@ public abstract class AbstractAlgebraicStructure<F extends AlgebraicElement<F>>
     protected AbstractAlgebraicStructure(Class<F> elementClass) {
         this.elementClass = elementClass;
     }
+
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
 }

@@ -111,8 +111,6 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
         return getMean();
     }
 
-
-
     @Override
     public double getStandardDeviation() {
         double mean = getMean();

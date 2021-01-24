@@ -110,6 +110,26 @@ public class UnitsImpl implements Units  {
         return Arrays.stream(exponents).iterator();
     }
 
+    public UnitExponent[] getCanonicalExponents() {
+        UnitExponent[] copy = Arrays.copyOf(exponents, exponents.length);
+        Arrays.sort(copy);
+        return copy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UnitsImpl that = (UnitsImpl) o;
+        return Arrays.equals(getCanonicalExponents(), that.getCanonicalExponents());
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(exponents);
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
@@ -125,23 +145,4 @@ public class UnitsImpl implements Units  {
         return builder.toString();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UnitsImpl that = (UnitsImpl) o;
-        return Arrays.equals(getCanonicalExponents(), that.getCanonicalExponents());
-    }
-
-    public UnitExponent[] getCanonicalExponents() {
-        UnitExponent[] copy = Arrays.copyOf(exponents, exponents.length);
-        Arrays.sort(copy);
-        return copy;
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(exponents);
-    }
 }

@@ -137,6 +137,21 @@ public class Permutation  implements
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Permutation that = (Permutation) o;
+
+        return Arrays.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(value);
+    }
+
+    @Override
     public String toString() {
         return FormatServiceProvider.toString(this);
     }
@@ -186,18 +201,4 @@ public class Permutation  implements
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Permutation that = (Permutation) o;
-
-        return Arrays.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(value);
-    }
 }

@@ -64,6 +64,7 @@ public abstract class Windowed<T> {
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
      */
+    @SuppressWarnings("unchecked")
     protected Windowed(
         Class<T> bucketClass,
         Duration window,

@@ -7,4 +7,5 @@ package org.meeuw.math.abstractalgebra;
  * @param <E>
  */
 public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
+
 }

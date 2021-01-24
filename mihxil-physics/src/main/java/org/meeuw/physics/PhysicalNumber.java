@@ -37,14 +37,6 @@ public abstract class PhysicalNumber extends Number
         this.wrapped = wrapped;
     }
 
-    /**
-     * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
-     */
-    @Override
-    public String toString() {
-        return wrapped + " " + units;
-    }
 
     @Override
     public int intValue() {
@@ -216,5 +208,15 @@ public abstract class PhysicalNumber extends Number
         }
         return Double.compare(getValue(), f.getValue());
     }
+
+    /**
+     * Represents the mean value in a scientific notation (using unicode characters).
+     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     */
+    @Override
+    public String toString() {
+        return wrapped + " " + units;
+    }
+
 }
 
