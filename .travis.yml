@@ -1,3 +1,4 @@
+# switch off. Using github actions
 language: java
 jdk:
   - openjdk11
