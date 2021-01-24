@@ -5,8 +5,8 @@
 :source-highlighter: coderay
 
 
-image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
-// image:https://github.com/mihxil/math/workflows/Maven%20Package/badge.svg[]
+//image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
+image:https://github.com/mihxil/math/workflows/build/badge.svg?[Build Status,link=https://github.com/mihxil/math/actions?query=workflow%3Abuild]
 image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
 
 Math and physics related classes.
