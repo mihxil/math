@@ -330,6 +330,7 @@
             <dependency>
               <groupId>ch.obermuhlner</groupId>
               <artifactId>big-math</artifactId>
+              <version>${big-math.version}</version>
             </dependency>
           </dependencies>
         </plugin>
