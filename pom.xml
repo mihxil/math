@@ -326,6 +326,12 @@
             </systemPropertyVariables>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
           </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>ch.obermuhlner</groupId>
+              <artifactId>big-math</artifactId>
+            </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <groupId>org.jacoco</groupId>
