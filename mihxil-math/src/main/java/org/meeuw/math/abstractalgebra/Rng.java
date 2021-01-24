@@ -12,7 +12,7 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Rng<E extends RngElement<E>> extends AdditiveGroup<E>, MultiplicativeSemiGroup<E> {
+public interface Rng<E extends RngElement<E>> extends AdditiveAbelianGroup<E>, MultiplicativeSemiGroup<E> {
 
     Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(ADDITION, SUBTRACTION, MULTIPLICATION)));
 
