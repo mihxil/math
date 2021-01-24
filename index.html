@@ -66,7 +66,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="image"><a class="image" href="https://travis-ci.com/mihxil/math"><img src="https://travis-ci.com/mihxil/math.svg?" alt="Build Status"></a></span>
+<p><span class="image"><a class="image" href="https://github.com/mihxil/math/actions?query=workflow%3Abuild"><img src="https://github.com/mihxil/math/workflows/build/badge.svg?" alt="Build Status"></a></span>
 <span class="image"><a class="image" href="https://codecov.io/gh/mihxil/math"><img src="https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg" alt="codecov"></a></span></p>
 </div>
 <div class="paragraph">
@@ -83,10 +83,10 @@
 <div class="ulist">
 <ul>
 <li>
-<p>abstract algebra&#8217;s to ensure a common interface for basic operations.</p>
+<p>abstract algebra&#8217;s to ensure a common interface for basic operations. Java does not provide operator overloading. But this is some way even better. The basic algebraic operations are formalized in strict mathematically definied interfaces. Implementation of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.</p>
 </li>
 <li>
-<p>An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers</p>
+<p>An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers.</p>
 </li>
 <li>
 <p>An SPI for formatting the elements of abstract algebra&#8217;s, and an implementation to format these uncertain number, using proper rounding and scientific notation.</p>
@@ -309,7 +309,7 @@ e3 = e1.times(e2);</code></pre>
 <div class="sect3">
 <h4 id="_numbers_and_propagation_of_uncertainties">Numbers and propagation of uncertainties</h4>
 <div class="paragraph">
-<p>For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in value, and try to propagate the sensibly when performing operations on them.</p>
+<p>For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on the numbers.</p>
 </div>
 <div class="paragraph">
 <p>The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually <em>measuring</em> things.</p>
@@ -381,7 +381,7 @@ e3 = e1.times(e2);</code></pre>
 <p>In this case the <code>hashCode</code> must be a fixed value, because otherwise we can&#8217;t garantuee that equal values have equal hashCode.</p>
 </div>
 <div class="paragraph">
-<p>So it&#8217;s probably a bad idea to use uncertain values as hash keys or so.</p>
+<p>So it&#8217;s a bad idea to use uncertain values as hash keys.</p>
 </div>
 </div>
 </div>
@@ -688,7 +688,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-14 15:22:31 +0100
+Last updated 2021-01-24 15:58:10 +0100
 </div>
 </div>
 <link rel="stylesheet" href="./coderay-asciidoctor.css">

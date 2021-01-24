@@ -23,8 +23,6 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.strings;
     exports org.meeuw.math.abstractalgebra.vectorspace;
 
-
-
     uses AlgebraicElementFormatProvider;
 
     provides AlgebraicElementFormatProvider with PermutationFormatProvider;
