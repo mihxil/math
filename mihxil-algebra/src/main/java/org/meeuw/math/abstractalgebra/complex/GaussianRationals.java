@@ -37,4 +37,9 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
         return new GaussianRational(real, imaginary);
     }
 
+    @Override
+    public String toString() {
+        return "\u1D410(i)";
+    }
+
 }

@@ -30,10 +30,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     default E pow(@Min(1) int n) {
         if (n < 0) {
-            throw new ReciprocalException("Not defined for negative exponents");
+            throw new DivisionByZeroException("Not defined for negative exponents");
         }
         if (n == 0) {
-            throw new DivisionByZeroException("Not definied for exponent = 0");
+            throw new ReciprocalException("Not definied for exponent = 0");
         }
         E y = null;
         E x = (E) this;

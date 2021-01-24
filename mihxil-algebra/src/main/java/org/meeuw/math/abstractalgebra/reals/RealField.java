@@ -33,6 +33,11 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         return Cardinality.ALEPH_1;
     }
 
+    @Override
+    public String toString() {
+        return "ℝ";
+    }
+
     public RealNumber considerMultiplicationBySpecialValues(RealNumber r1, RealNumber r2) {
         double newValue = r1.value * r2.value;
         // multiplication by zero

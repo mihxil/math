@@ -46,7 +46,7 @@ class PhysicalNumberTest implements
     }
 
     @Override
-    public Arbitrary<? extends PhysicalNumber> elements() {
+    public Arbitrary<PhysicalNumber> elements() {
         return Arbitraries
             .<PhysicalNumber>randomValue(
                 (random) -> new Measurement(

@@ -67,7 +67,7 @@ class QuaternionTest implements
     }
 
     @Override
-    public Arbitrary<? extends Quaternion<RationalNumber>> elements() {
+    public Arbitrary<Quaternion<RationalNumber>> elements() {
         return Arbitraries.randoms().map(r ->
             new Quaternion<>(
                 RationalNumbers.INSTANCE.nextRandom(r),
