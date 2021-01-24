@@ -19,7 +19,12 @@ import org.meeuw.math.text.configuration.ConfigurationAspect;
  * @since 0.4
  */
 @Log
-public class FormatServiceProvider {
+public final class FormatServiceProvider {
+
+    private FormatServiceProvider() {
+    }
+    private static final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> INITIAL_MAP
+        = Collections.unmodifiableMap(createConfigurationMap());
 
     private static final Configuration.Builder DEFAULT = Configuration.builder();
 
@@ -125,7 +130,12 @@ public class FormatServiceProvider {
         with(builder.build(), r);
     }
 
-    public static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
+
+    public static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {
+        return new FixedSizeMap<>(new HashMap<>(INITIAL_MAP));
+    }
+
+    private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
         Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = new HashMap<>();
         final ServiceLoader<AlgebraicElementFormatProvider> loader =
             ServiceLoader.load(AlgebraicElementFormatProvider.class);

@@ -8,7 +8,7 @@ import java.util.function.UnaryOperator;
 
 import org.meeuw.math.text.FixedSizeMap;
 
-import static org.meeuw.math.text.spi.FormatServiceProvider.createConfigurationMap;
+import static org.meeuw.math.text.spi.FormatServiceProvider.newConfigurationMap;
 
 /**
  * Immutable object containing all {@link ConfigurationAspect}s.
@@ -47,7 +47,7 @@ public class Configuration {
     }
 
     public Builder toBuilder() {
-        FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = createConfigurationMap();
+        FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = newConfigurationMap();
         newMap.putAll(map);
         return new Builder(newMap);
     }
@@ -63,7 +63,7 @@ public class Configuration {
             this.configuration = configuration;
         }
         public Builder() {
-            this.configuration = createConfigurationMap();
+            this.configuration = newConfigurationMap();
         }
 
         @SuppressWarnings("unchecked")
@@ -80,7 +80,7 @@ public class Configuration {
     }
 
     private static Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> immutableCopy(Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration) {
-        FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = createConfigurationMap();
+        FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = newConfigurationMap();
         newMap.putAll(configuration);
         return Collections.unmodifiableMap(newMap);
 

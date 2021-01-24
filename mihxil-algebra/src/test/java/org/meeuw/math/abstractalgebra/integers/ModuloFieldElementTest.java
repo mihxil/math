@@ -23,8 +23,9 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
     @Override
     @Provide
     public Arbitrary<ModuloFieldElement> elements() {
-        ModuloField structure = ModuloField.of(13);
+        final ModuloField structure = ModuloField.of(13);
         return Arbitraries.integers().between(0, 12)
-            .map(i -> new ModuloFieldElement(i, structure)).injectDuplicates(0.1);
+            .map(structure::element)
+            .injectDuplicates(0.1);
     }
 }

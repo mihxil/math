@@ -20,8 +20,8 @@ endif::[]
 
 The common dependency of the modules in the project. It provides the scaffolding for:
 
-- abstract algebra's to ensure a common interface for basic operations.
-- An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers
+- abstract algebra's to ensure a common interface for basic operations. Java does not provide operator overloading. But this is some way even better. The basic algebraic operations are formalized in strict mathematically definied interfaces. Implementation of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.
+- An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers.
 - An SPI for formatting the elements of abstract algebra's, and an implementation to format these uncertain number, using proper rounding and scientific notation.
 
 === Abstract Algebras
@@ -93,7 +93,7 @@ Some algebraic elements are like 'real' numbers. There are several interfaces de
 
 ==== Numbers and propagation of uncertainties
 
-For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in value, and try to propagate the sensibly when performing operations on them.
+For real numbers it is true that most of them  cannot be represented exactly, and it may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on the numbers.
 
 The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
 
@@ -127,7 +127,7 @@ When a value has uncertainty then 'equals' also considers it. So objects may e.g
 
 In this case the `hashCode` must be a fixed value, because otherwise we can't garantuee that equal values have equal hashCode.
 
-So it's probably a bad idea to use uncertain values as hash keys or so.
+So it's a bad idea to use uncertain values as hash keys.
 
 === Formatting
 
