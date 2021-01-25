@@ -9,9 +9,9 @@ import java.util.stream.IntStream;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.text.spi.FormatServiceProvider;
+import org.meeuw.math.text.spi.FormatService;
 
-import static org.meeuw.math.text.spi.FormatServiceProvider.getConfigurationAspect;
+import static org.meeuw.math.text.spi.FormatService.getConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen
@@ -156,7 +156,7 @@ public class Permutation  implements
 
     @Override
     public String toString() {
-        return FormatServiceProvider.toString(this);
+        return FormatService.toString(this);
     }
 
     public class Cycle {

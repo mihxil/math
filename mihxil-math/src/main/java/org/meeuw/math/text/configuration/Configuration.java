@@ -8,7 +8,7 @@ import java.util.function.UnaryOperator;
 
 import org.meeuw.math.text.FixedSizeMap;
 
-import static org.meeuw.math.text.spi.FormatServiceProvider.newConfigurationMap;
+import static org.meeuw.math.text.spi.FormatService.newConfigurationMap;
 
 /**
  * Immutable object containing all {@link ConfigurationAspect}s.
@@ -31,7 +31,7 @@ public class Configuration {
      * @return the configuration aspect instance of that class currently configured in this configuration object
      */
     @SuppressWarnings("unchecked")
-    public <E extends ConfigurationAspect> E get(Class<E> clazz) {
+    public <E extends ConfigurationAspect> E getAspect(Class<E> clazz) {
         E result =  (E) map.get(clazz);
         if (result == null) {
             throw new ConfigurationException("No configuration aspect with class " + clazz + " registered");
@@ -45,7 +45,7 @@ public class Configuration {
      * @param config The operator that given the exising value for the aspect, produces a new one
      */
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {
-        return toBuilder().config(clazz, config).build();
+        return toBuilder().aspect(clazz, config).build();
     }
 
     public Builder toBuilder() {
@@ -69,7 +69,7 @@ public class Configuration {
         }
 
         @SuppressWarnings("unchecked")
-        public <E extends ConfigurationAspect> Builder config(Class<E> clazz, UnaryOperator<E> config) {
+        public <E extends ConfigurationAspect> Builder aspect(Class<E> clazz, UnaryOperator<E> config) {
             E template = (E) configuration.get(clazz);
             E newConfig = config.apply(template);
             configuration.put(clazz, newConfig);

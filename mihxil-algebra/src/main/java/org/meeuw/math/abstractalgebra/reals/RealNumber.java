@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.text.spi.FormatServiceProvider;
+import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
@@ -216,7 +216,7 @@ public class RealNumber
 
     @Override
     public String toString() {
-        return FormatServiceProvider.toString(this);
+        return FormatService.toString(this);
     }
 
 }

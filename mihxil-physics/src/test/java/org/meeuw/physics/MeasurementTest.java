@@ -2,7 +2,7 @@ package org.meeuw.physics;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.text.spi.FormatServiceProvider;
+import org.meeuw.math.text.spi.FormatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,7 +29,7 @@ class MeasurementTest {
         Measurement width = new Measurement(30, 1, SI.LENGTH);
         PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 21 m²"); // or should that be 27?
-        FormatServiceProvider.with(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
+        FormatService.with(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
             () -> assertThat(area.toString()).isEqualTo("630(21) m²")
         );
     }

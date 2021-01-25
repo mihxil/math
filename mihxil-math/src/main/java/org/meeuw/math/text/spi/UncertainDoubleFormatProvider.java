@@ -8,7 +8,7 @@ import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.*;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
-import static org.meeuw.math.text.spi.FormatServiceProvider.getConfigurationAspect;
+import static org.meeuw.math.text.spi.FormatService.getConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen

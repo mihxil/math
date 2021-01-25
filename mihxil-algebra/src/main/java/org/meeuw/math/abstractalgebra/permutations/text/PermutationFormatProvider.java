@@ -18,7 +18,7 @@ public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
     public Format getInstance(Configuration configuration) {
-        PermutationConfiguration conf = configuration.get(PermutationConfiguration.class);
+        PermutationConfiguration conf = configuration.getAspect(PermutationConfiguration.class);
         return new PermutationFormat(conf.getNotation(), conf.getOffset());
     }
 

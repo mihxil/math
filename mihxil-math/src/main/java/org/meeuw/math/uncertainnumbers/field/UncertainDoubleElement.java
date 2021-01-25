@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
-import org.meeuw.math.text.spi.FormatServiceProvider;
+import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 
 /**
@@ -132,7 +132,7 @@ public class UncertainDoubleElement
      */
     @Override
     public String toString() {
-        return FormatServiceProvider.toString(this);
+        return FormatService.toString(this);
     }
 
 

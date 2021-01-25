@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.permutations.text.Notation.LIST;
 import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
-import static org.meeuw.math.text.spi.FormatServiceProvider.with;
+import static org.meeuw.math.text.spi.FormatService.with;
 
 /**
  * @author Michiel Meeuwissen

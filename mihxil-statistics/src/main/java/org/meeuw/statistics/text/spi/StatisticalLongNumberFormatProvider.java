@@ -20,7 +20,7 @@ public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatP
     @Override
     public StatisticalLongNumberFormat getInstance(Configuration configuration) {
         StatisticalLongNumberFormat format = new StatisticalLongNumberFormat();
-        format.setZoneId(configuration.get(TimeConfiguration.class).getZoneId());
+        format.setZoneId(configuration.getAspect(TimeConfiguration.class).getZoneId());
         return format;
     }
 

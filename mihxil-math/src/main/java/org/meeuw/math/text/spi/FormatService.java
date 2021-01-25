@@ -19,9 +19,9 @@ import org.meeuw.math.text.configuration.ConfigurationAspect;
  * @since 0.4
  */
 @Log
-public final class FormatServiceProvider {
+public final class FormatService {
 
-    private FormatServiceProvider() {
+    private FormatService() {
     }
     private static final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> INITIAL_MAP
         = Collections.unmodifiableMap(createConfigurationMap());
@@ -94,7 +94,7 @@ public final class FormatServiceProvider {
      * @param clazz the class of the aspect to obtain
      */
     public static <E extends ConfigurationAspect> E getConfigurationAspect(Class<E> clazz) {
-        return CONFIGURATION.get().get(clazz);
+        return CONFIGURATION.get().getAspect(clazz);
     }
 
     public static void with(Configuration configuration, Runnable r) {
