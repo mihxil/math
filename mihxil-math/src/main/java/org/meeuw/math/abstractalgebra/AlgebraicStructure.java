@@ -17,6 +17,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     /**
      * Returns the {@link Operator}s that elements of this structure support.
+     * @return the set of all supported binary operators in this algebraic structure
      */
     default Set<Operator> getSupportedOperators() {
         return Collections.emptySet();
@@ -24,23 +25,24 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     /**
      * Returns the {@link UnaryOperator}s that elements of this structure support.
+     * @return the set of all supported unary operators in this algebraic structure
      */
     default Set<UnaryOperator> getSupportedUnaryOperators() {
         return Collections.emptySet();
     }
 
     /**
-     * Returns the cardinality of the complete set of this structure.
+     * @return the cardinality of the complete set of this structure.
      */
     Cardinality getCardinality();
 
      /**
-     * Returns the java class of the elements of this algebraic structure
+     * @return the java class of the elements of this algebraic structure
      */
     Class<E> getElementClass();
 
     /**
-     * Returns a functional interface that can check whether two elements of this structure are equal.
+     * @return a functional interface that can check whether two elements of this structure are equal.
      *
      * Default this simply returns {@link Objects#equals(Object, Object)}.
      */

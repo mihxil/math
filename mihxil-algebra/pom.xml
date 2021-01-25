@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-algebra</artifactId>
-  <name>Mihxil's Algebra</name>
+  <name>Math - algebra</name>
   <packaging>jar</packaging>
 
   <description>

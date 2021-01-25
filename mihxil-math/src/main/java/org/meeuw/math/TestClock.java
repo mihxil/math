@@ -42,6 +42,7 @@ public class TestClock extends Clock {
 
     /**
      * Progresses the clock the given amount of time.
+     * @param duration The amount of time to progress this clock
      */
     public void tick(TemporalAmount duration){
         instant = instant.plus(duration);
@@ -49,6 +50,7 @@ public class TestClock extends Clock {
 
     /**
      * Progresses the clock with the number of given millis.
+     * @param millis The amount of milliseconds to progress this clock
      */
     public void tick(long millis) {
         instant = instant.plusMillis(millis);
@@ -56,6 +58,10 @@ public class TestClock extends Clock {
 
     /**
      * Progresses the clock with the number of given millis. (Drop in replacement for {@link Thread#sleep(long)})
+     *
+     * It's a kind of virtual sleep, because this will not actually take time.
+     *
+     * @param millis The amount of milliseconds to progress this clock
      */
     public void sleep(long millis) {
         tick(millis);

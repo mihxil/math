@@ -50,6 +50,10 @@ public final class Streams {
      * @param stream1 A function to create new stream, which returns all values from the nth value down to the first
      * @param stream2 A supplier to create a new stream
      * @param combiner A bifunction to combine the two values supplied by the two stream to one new value
+     * @param <E1> type of the elements of the first stream
+     * @param <E2> type of the elements of the second stream
+     * @param <F> type of the elements of the resulting stream
+     * @return a new stream created using the two given stream suppliers
      */
     public static <E1, E2, F> Stream<F> diagonalStream(
         Function<Long, Stream<E1>> stream1,
@@ -64,7 +68,13 @@ public final class Streams {
      *
      *
      * @param stream1 The first stream, which will be reversed using {@link #reverseStream(Stream, long)}
-     *
+     * @param stream2 The second stream
+     * @param combiner The function which produces elements of the name stream using elements from the two given streams
+     * @param <E1> type of the elements of the first stream
+     * @param <E2> type of the elements of the second stream
+     * @param <F> type of the elements of the resulting stream
+     * @return  a new stream created using the two given stream suppliers
+     * @see #diagonalStream(Function, Supplier, BiFunction)
      */
     public static <E1, E2, F> Stream<F> diagonalStream(
         Supplier<Stream<E1>> stream1,
@@ -76,6 +86,7 @@ public final class Streams {
 
     /**
      * Reverses a stream. This happens by collecting it to al list first, and then stream that backwards.*
+     * @param <E> the type of the stream elements
      */
     public static <E> Stream<E> reverseStream(Stream<E> stream, long start) {
         List<E> collect = stream.limit(start).collect(Collectors.toList());

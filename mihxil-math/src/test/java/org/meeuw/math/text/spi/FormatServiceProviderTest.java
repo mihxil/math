@@ -28,7 +28,10 @@ class FormatServiceProviderTest {
 
     @Test
     public void testConfigurationAspects() {
-        defaultConfiguration((con) -> con.config(NumberConfiguration.class, c -> c.withMinimalExponent(4)));
+        defaultConfiguration((con) -> con
+            .config(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+            .config(TestConfigurationAspect.class, c -> c.withSomeInt(5))
+        );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
         with(NumberConfiguration.class, (b) -> b.withMinimalExponent(6), () -> {
@@ -40,8 +43,13 @@ class FormatServiceProviderTest {
         defaultConfiguration((con) -> con.config(NumberConfiguration.class, c -> c.withMinimalExponent(5)));
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(5);
 
-        with(FormatServiceProvider.getConfiguration().with(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5)), () -> {
-            assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(5);
+        with(
+            FormatServiceProvider.getConfiguration()
+                .with(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
+                .with(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
+            , () -> {
+                assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(5);
+                assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(3);
 
         });
         assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(0);

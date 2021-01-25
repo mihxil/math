@@ -16,10 +16,15 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @Override
     MultiplicativeSemiGroup<E> getStructure();
 
+    /**
+     * @param multiplier the element to multiply with
+     * @return this * multiplier
+     */
     E times(E multiplier);
 
     /**
      * less verbose version of {@link #times(MultiplicativeSemiGroupElement)}
+     * @param multiplier the element to multiply with
      */
     default E x(E multiplier) {
         return times(multiplier);

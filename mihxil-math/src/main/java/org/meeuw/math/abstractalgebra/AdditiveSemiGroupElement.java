@@ -12,13 +12,18 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
     @Override
     AdditiveSemiGroup<E> getStructure();
 
+    /**
+     * @param summand the element to add to this one
+     * @return this + summand
+     */
     E plus(E summand);
 
     /**
      * less verbose version of {@link #plus(AdditiveSemiGroupElement)}
+     * @param summand the element to add to this one
      */
-    default E p(E multiplier) {
-        return plus(multiplier);
+    default E p(E summand) {
+        return plus(summand);
     }
 
 }

@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-statistics</artifactId>
-  <name>Mihxil's Statistics</name>
+  <name>Math - statistics</name>
   <packaging>jar</packaging>
   <description>
     Straight forward code to calculate average and standard deviations of a number of incoming values.

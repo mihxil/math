@@ -27,6 +27,8 @@ public class Configuration {
 
     /**
      * Returns the aspect with given class.
+     * @param <E> the class of the configuration aspect
+     * @return the configuration aspect instance of that class currently configured in this configuration object
      */
     @SuppressWarnings("unchecked")
     public <E extends ConfigurationAspect> E get(Class<E> clazz) {

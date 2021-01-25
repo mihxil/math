@@ -3,6 +3,10 @@ package org.meeuw.math.text;
 import java.util.*;
 
 /**
+ * A simply map which allows for changing mappings, but not add or deleting them.
+ *
+ * This is used when representing configurations.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

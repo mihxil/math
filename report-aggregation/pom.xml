@@ -7,6 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>report-aggregation</artifactId>
+  <name>Math - report aggregation</name>
   <packaging>pom</packaging>
 
   <dependencies>

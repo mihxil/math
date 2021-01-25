@@ -12,8 +12,8 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
     @Override
     AdditiveGroup<E> getStructure();
 
-     /**
-     * The additive inverse
+    /**
+     * @return the additive inverse of this element
      */
     E negation();
 
@@ -25,6 +25,8 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
      * If addition is defined, then you can also have 'repeated' addition. This is a bit, but not quite like {@link MultiplicativeGroupElement#times(MultiplicativeSemiGroupElement)}
      *
      * It's actually also more or less similar to {@link MultiplicativeGroupElement#pow(int)}
+     * @param multiplier the number of times this element is to be added to itself
+     * @return this * multiplier
      */
     @SuppressWarnings("unchecked")
     default E repeatedPlus(int multiplier) {

@@ -17,14 +17,16 @@ public final class TextUtils {
     }
 
     /**
-     * Returns an integer in 'superscript' notation, using unicode.
+     * @param i an integer
+     * @return an integer in 'superscript' notation, using unicode.
      */
     public static String superscript(long i) {
         return script(i, SUPER_MINUS, SUPERSCRIPTS);
     }
 
     /**
-     * Returns an integer in 'superscript' notation, using unicode.
+     * @param i an integer
+     * @return an integer in 'superscript' notation, using unicode.
      */
     public static String subscript(long i) {
         return script(i, SUB_MINUS, SUBSCRIPTS);
@@ -147,9 +149,6 @@ public final class TextUtils {
         return controlEach(s, '\u033f');
     }
 
-    /**
-     * @since 2.11
-     */
     public static String controlEach(CharSequence s, Character control) {
         if (s == null) {
             return null;

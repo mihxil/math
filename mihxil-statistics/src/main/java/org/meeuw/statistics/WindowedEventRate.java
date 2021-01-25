@@ -62,7 +62,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
 
 
     /**
-     * Rate in /s (See {@link #getRate()}
+     * @return rate in /s (See {@link #getRate()}
      */
     @Override
     public double getValue() {
@@ -119,6 +119,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
 
     /**
      * Registers a number of events at once.
+     * @param count The number of events to register
      */
     public void newEvents(int count) {
         currentBucket().getAndAdd(count);
@@ -150,7 +151,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
      * The current rate as a number of events per given unit of time.
      * See also {@link #getRate(Duration)} and {@link #getRate()}
      * @param unit The unit of time to express the rate in.
-
+     * @return the rate as a double
      */
     public double getRate(TimeUnit unit) {
         long totalCount = getTotalCount();
@@ -160,6 +161,8 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
 
     /**
      * See also {@link #getRate(TimeUnit)} and {@link #getRate()}
+     * @return the rate as a double
+     * @param perInterval The reciprocal unit of the rate to report e.g. 1 second or 1 minute.
      */
     public double getRate(Duration perInterval) {
         long totalCount = getTotalCount();
@@ -168,8 +171,8 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
     }
 
     /**
-     * The current rate as a number of events per SI unit of time (the second)
-     * See also {@link #getRate(TimeUnit)}
+     * @return the current rate as a number of events per SI unit of time (the second)
+     * @see #getRate(TimeUnit)
      */
     public double getRate() {
         return getRate(TimeUnit.SECONDS);

@@ -82,14 +82,16 @@ public final class FormatServiceProvider {
     }
 
     /**
-     * Returns the current configuration object
+     * @return the current configuration object
      */
     public  static Configuration getConfiguration() {
         return CONFIGURATION.get();
     }
 
     /**
-     * Returns an aspect of the the current configuration object
+     * @return an aspect of the the current configuration object
+     * @param <E> The type of the aspect to obtain
+     * @param clazz the class of the aspect to obtain
      */
     public static <E extends ConfigurationAspect> E getConfigurationAspect(Class<E> clazz) {
         return CONFIGURATION.get().get(clazz);

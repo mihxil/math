@@ -17,6 +17,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * The idea is that the '{@link #getUncertainty()}' will simply be determined heuristically, and be given by the {@link #getStandardDeviation()}
  *
  * @author Michiel Meeuwissen
+ * @param <T> the type of the numbers to aggregate
  */
 
 
@@ -52,6 +53,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     /**
      * Enters all values of another instance of this {@link StatisticalNumber}, effectively combining the given one into this one.
+     * @param m the
      */
     public abstract T enter(T m);
 
@@ -78,6 +80,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
      * Multiplies the current instant by a value, and returns {@code this}
      *
      * @see #times(double)
+     * @return this
      */
     public abstract T multiply(double d);
 

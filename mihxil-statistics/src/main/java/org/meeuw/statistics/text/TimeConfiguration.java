@@ -15,6 +15,7 @@ import org.meeuw.math.text.configuration.ConfigurationAspect;
  * @since 0.4
  */
 public class TimeConfiguration implements ConfigurationAspect {
+
     @Getter
     @With
     final ZoneId zoneId;

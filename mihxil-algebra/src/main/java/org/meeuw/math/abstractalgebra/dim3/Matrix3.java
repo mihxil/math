@@ -13,7 +13,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
  * A square 3x3 matrix of {@code double}s
  *
  * Note this does not use {@link UncertainDouble} to back the matrix, but simple 'doubles'
- * This means that rounding errors are not considered, and theory testing may involve some fiddling with {@link jdk
+ * This means that rounding errors are not considered, and theory testing may involve some fiddling.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

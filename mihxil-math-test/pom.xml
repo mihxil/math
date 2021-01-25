@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-math-test</artifactId>
-  <name>Mihxil's Math test module</name>
+  <name>Math - core test</name>
 
   <packaging>jar</packaging>
   <description>
@@ -15,6 +15,10 @@
 
     Mainly to be able to use the theories from mihxil-math-theories, without introducing a circular dependency.
   </description>
+
+  <properties>
+    <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
+  </properties>
 
   <dependencies>
     <dependency>

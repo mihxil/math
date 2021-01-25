@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-math</artifactId>
-  <name>Mihxil's Math</name>
+  <name>Math - core</name>
   <packaging>jar</packaging>
   <description>
     The base dependency of the modules in the project. It provides the scaffolding for:

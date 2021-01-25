@@ -15,7 +15,7 @@ package org.meeuw.math.abstractalgebra;
 public interface AlgebraicElement<E extends AlgebraicElement<E>> {
 
     /**
-     * Returns the {@link AlgebraicStructure} associated with the object.
+     * @return the {@link AlgebraicStructure} associated with the object.
      */
     AlgebraicStructure<E> getStructure();
 

@@ -60,9 +60,13 @@ public abstract class Windowed<T> {
 
 
     /**
+     * @param bucketClass    The type of the objects in the buckets
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
+     * @param eventListeners These can receive notification about interesting events
+     * @param clock          The clock implementation to use. Useful for test cases.
+     *
      */
     @SuppressWarnings("unchecked")
     protected Windowed(
@@ -144,7 +148,7 @@ public abstract class Windowed<T> {
     }
 
     /**
-     * At which instant the measurements started
+     * @return at which instant the measurements started
      */
     public Instant getStart() {
         return start;
@@ -152,6 +156,7 @@ public abstract class Windowed<T> {
 
     /**
      * We are still warming up, if since {@link #getStart()} not yet {@link #getTotalDuration()} has elapsed
+     * @return a boolean
      */
     public boolean isWarmingUp() {
         if (warmingUp) {
@@ -161,7 +166,7 @@ public abstract class Windowed<T> {
     }
 
     /**
-     * Returns the current buckets, ordered by time. This means that the first one is the oldest one, and the last one is
+     * @return the current buckets, ordered by time. This means that the first one is the oldest one, and the last one is
      * the newest (current) one.
      */
     public T[] getBuckets() {

@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-physics</artifactId>
-  <name>Mihxil's Physics</name>
+  <name>Math - physics</name>
   <packaging>jar</packaging>
   <description>
     Contains the structure to associate units and dimensions to (uncertain) numbers. i.e. an object to represent a 'measurement'

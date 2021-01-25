@@ -7,7 +7,7 @@
     <version>0.5-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-math-theories</artifactId>
-  <name>Mihxil's Math theories</name>
+  <name>Math - theories</name>
   <description>
     Contains the jqwik interfaces to check the theoretical properties of algebraic structures.
     This normally is a test dependency only.

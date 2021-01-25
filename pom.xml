@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.meeuw.math</groupId>
   <artifactId>mihxil-math-parent</artifactId>
-  <name>Mihxil's Math Parent</name>
+  <name>Math - parent</name>
   <packaging>pom</packaging>
   <version>0.5-SNAPSHOT</version>
 
@@ -12,14 +12,10 @@
   <modules>
     <module>mihxil-math</module>
     <module>mihxil-math-theories</module>
-    <module>mihxil-math-test</module>
-
 
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
-
-    <module>report-aggregation</module>
   </modules>
 
   <properties>
@@ -353,8 +349,29 @@
 
   <profiles>
     <profile>
-      <id>deploy</id>
+      <id>no-deploy</id>
       <build>
+        <defaultGoal>clean test</defaultGoal>
+      </build>
+      <activation>
+        <property>
+          <name>!deploy</name>
+        </property>
+      </activation>
+      <modules>
+        <module>mihxil-math-test</module>
+        <module>report-aggregation</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>deploy</id>
+      <activation>
+        <property>
+          <name>deploy</name>
+        </property>
+      </activation>
+      <build>
+        <defaultGoal>deploy</defaultGoal>
         <plugins>
           <plugin>
             <groupId>org.sonatype.plugins</groupId>

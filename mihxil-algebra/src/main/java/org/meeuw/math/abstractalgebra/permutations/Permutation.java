@@ -66,6 +66,9 @@ public class Permutation  implements
     /**
      * Executes this permutation on the given array of values.
      * @throws IndexOutOfBoundsException if the given array is too short.
+     * @param <P> the type of the values
+     * @param values the values
+     * @return the same values but now permuted with this permutation
      */
     @SuppressWarnings("unchecked")
     public <P> P[] permute(P... values) {

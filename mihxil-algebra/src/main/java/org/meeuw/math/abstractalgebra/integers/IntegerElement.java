@@ -73,6 +73,8 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
 
     /**
      * Euclidean division of integers.
+     * @param divisor integer divisor
+     * @return this / divisor
      */
     public IntegerElement dividedBy(IntegerElement divisor) {
         return new IntegerElement(value / divisor.value);
@@ -80,6 +82,8 @@ public class IntegerElement implements RingElement<IntegerElement>, Scalar<Integ
 
     /**
      * The remainder of euclidean division of integers.
+     * @param divisor integer divisor
+     * @return this % divisor
      */
      public IntegerElement mod(IntegerElement divisor) {
         return new IntegerElement(value % divisor.value);
