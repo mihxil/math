@@ -19,13 +19,14 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B
-    - name: Deploy with Maven
-      run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -s $GITHUB_WORKSPACE/.github-settings.xml -Dgpg.skip=true
+      run: mvn -B -fn
     - name: codecov
       run: bash <(curl -s https://codecov.io/bash)
     - name: Publish Test Report
       uses: scacap/action-surefire-report@v1
       if: always()
       with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Deploy with Maven
+      run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github-settings.xml -Dgpg.skip=true
+
