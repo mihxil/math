@@ -10,6 +10,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 11
@@ -18,8 +20,6 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn -B
-      with:
-        MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     - name: Deploy with Maven
       run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -s $GITHUB_WORKSPACE/.github-settings.xml
     - name: codecov
