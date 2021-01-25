@@ -17,7 +17,7 @@ jobs:
       with:
         java-version: 11
     - name: Predownload maven dependencies
-      run:  mvn -q dependency:go-offline
+      run:  mvn  -q dependency:resolve-plugin dependency:resolve -N --file mihxil-math/pom.xml
     - name: Build with Maven
       run: mvn
     - name: Deploy with Maven
