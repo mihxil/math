@@ -16,10 +16,10 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Predownload maven dependencies
-      run:  mvn  -q dependency:resolve-plugins dependency:resolve -N --file mihxil-math/pom.xml
     - name: Build with Maven
       run: mvn -B
+      with:
+        MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     - name: Deploy with Maven
       run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -s $GITHUB_WORKSPACE/.github-settings.xml
     - name: codecov
