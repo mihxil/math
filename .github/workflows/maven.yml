@@ -21,7 +21,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B
     - name: Deploy with Maven
-      run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -s $GITHUB_WORKSPACE/.github-settings.xml
+      run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -s $GITHUB_WORKSPACE/.github-settings.xml -Dgpg.skip=true
     - name: codecov
       run: bash <(curl -s https://codecov.io/bash)
     - name: Publish Test Report
