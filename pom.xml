@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.meeuw</groupId>
+  <groupId>org.meeuw.math</groupId>
   <artifactId>mihxil-math-parent</artifactId>
   <name>Mihxil's Math Parent</name>
   <packaging>pom</packaging>
@@ -63,33 +63,33 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-math</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-math-theories</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-math-test</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-algebra</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-physics</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.meeuw</groupId>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-statistics</artifactId>
         <version>${project.version}</version>
       </dependency>
