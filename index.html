@@ -67,7 +67,10 @@
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://github.com/mihxil/math/actions?query=workflow%3Abuild"><img src="https://github.com/mihxil/math/workflows/build/badge.svg?" alt="Build Status"></a></span>
-<span class="image"><a class="image" href="https://codecov.io/gh/mihxil/math"><img src="https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg" alt="codecov"></a></span></p>
+<span class="image"><a class="image" href="https://codecov.io/gh/mihxil/math"><img src="https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg" alt="codecov"></a></span>
+<span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw%22"><img src="https://img.shields.io/maven-central/v/org.meeuw/mihxil-math.svg?label=Maven%20Central" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/"><img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg" alt="snapshots"></a></span>
+<span class="image"><a class="image" href="http://www.javadoc.io/doc/org.meeuw/mihxil-math"><img src="http://www.javadoc.io/badge/org.meeuw/mihxil-math.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
 <div class="paragraph">
 <p>Math and physics related classes.</p>
@@ -387,23 +390,62 @@ e3 = e1.times(e2);</code></pre>
 </div>
 <div class="sect2">
 <h3 id="_formatting">Formatting</h3>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-Work in progress
-</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>A service loader is provided which provides implementations of <code>AlgebraicElementFormatProvider</code> which can create instances of <code>java.text.Format</code> which in turn can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
 </div>
 <div class="paragraph">
-<p>A service loader is provided which provides implementations of <code>java.text.Format</code> which can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
+<p>The formatters have access to a (thread local) configuration object. This way a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available <code>AlgebraicElementFormatProvider</code>  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
-<p>The formatters have access to a (thread local) configuration object. This way a consistent way is available to configure how e.g. uncertainties must be represented.</p>
+<p>The service giving access to the format-providers is <code>FormatService</code>. It is also responsible for managing the <code>Configuration</code> thread locals.</p>
+</div>
+<div class="paragraph">
+<p>Like this it can be consulted</p>
+</div>
+<div class="listingblock">
+<div class="title">Accessing configuration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
+
+ <span class="predefined-type">Configuration</span> configuration = FormatService.getConfiguration();
+ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+ <span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would however probably mainly be used in <em>implementations</em>. Actual configuration can be done in two basicly distinct ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>global defaults can be set</p>
+</li>
+<li>
+<p>for a block these can be overriden</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">setting global defaults</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> FormatService.defaultConfiguration((con) -&gt;
+  con.aspect(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+     .aspect(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
+ );</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">temporary overrides</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> FormatService.with((con) -&gt; con
+   .aspect(TestConfigurationAspect.class, (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
+   .aspect(NumberConfiguration.class, (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
+   , () -&gt; {
+     assertThat(FormatService.getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(<span class="integer">5</span>);
+     assertThat(FormatService.getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(<span class="integer">3</span>);
+
+ });</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -688,7 +730,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-24 15:58:10 +0100
+Last updated 2021-01-25 22:56:23 +0100
 </div>
 </div>
 <link rel="stylesheet" href="./coderay-asciidoctor.css">
