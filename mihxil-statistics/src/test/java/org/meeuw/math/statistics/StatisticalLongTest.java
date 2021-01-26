@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.statistics;
 
 import net.jqwik.api.*;
 
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.statistics.text.TimeConfiguration;
+import org.meeuw.math.statistics.text.TimeConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

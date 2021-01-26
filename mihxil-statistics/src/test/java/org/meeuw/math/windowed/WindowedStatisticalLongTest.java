@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -9,10 +9,11 @@ import java.util.function.BiConsumer;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.TestClock;
-import org.meeuw.statistics.Windowed.Event;
+import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.windowed.Windowed.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.statistics.Windowed.Event.WINDOW_COMPLETED;
+import static org.meeuw.math.windowed.Windowed.Event.WINDOW_COMPLETED;
 
 /**
  * @author Michiel Meeuwissen

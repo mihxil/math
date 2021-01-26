@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.statistics;
 
 import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;

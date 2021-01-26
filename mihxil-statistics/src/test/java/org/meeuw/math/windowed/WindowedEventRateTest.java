@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.Interval;
 import org.meeuw.math.TestClock;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.windowed.Windowed;
+import org.meeuw.math.windowed.WindowedEventRate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
