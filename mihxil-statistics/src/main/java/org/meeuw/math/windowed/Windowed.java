@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import lombok.extern.java.Log;
 
@@ -127,21 +127,21 @@ public abstract class Windowed<T> {
     }
 
     /**
-     * The total duration, or 'window' we are looking at.
+     * @return the total duration, or 'window' we are looking at.
      */
     public Duration getTotalDuration() {
         return Duration.ofMillis(totalDuration);
     }
 
     /**
-     * The duration of one bucket
+     * @return the duration of one bucket
      */
     public Duration getBucketDuration() {
         return Duration.ofMillis(bucketDuration);
     }
 
     /**
-     * The number of buckets this window is divided in
+     * @return the number of buckets this window is divided in
      */
     public int getBucketCount() {
         return buckets.length;
@@ -255,7 +255,7 @@ public abstract class Windowed<T> {
     }
 
     /**
-     * Returns the current duration of the complete window
+     * @return the current duration of the complete window
      * If we are warming up, then this will be the time since we started.
      * Otherwise only the current bucket is 'warming up', and the
      * relevant duration will be less than the configured 'window', but more than

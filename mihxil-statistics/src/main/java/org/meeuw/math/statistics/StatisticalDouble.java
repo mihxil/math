@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.statistics;
 
 import lombok.Getter;
 

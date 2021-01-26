@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.statistics.StatisticalLong;
 
 
 /**

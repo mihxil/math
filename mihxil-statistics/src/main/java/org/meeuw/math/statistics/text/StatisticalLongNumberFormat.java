@@ -1,4 +1,4 @@
-package org.meeuw.statistics.text;
+package org.meeuw.math.statistics.text;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.statistics.StatisticalLong;
+import org.meeuw.math.statistics.StatisticalLong;
 
 import static org.meeuw.math.text.UncertainDoubleFormat.valuePlusMinError;
 

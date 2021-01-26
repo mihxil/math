@@ -1,4 +1,4 @@
-package org.meeuw.statistics;
+package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
@@ -197,6 +197,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      * This implementation keeps track of a 'guessedMean' (see {@link #getGuessedMean()} value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
      *
      * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
+     * @return the uncorrected sum
      */
     public long getUncorrectedSum() {
         return sum;
@@ -287,6 +288,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     /**
      * Uses the current {@link #getMean()} value as a new offset for values when keeping track of the sum and sum of squares of the values.
+     * @return this
      */
     public StatisticalLong reguess() {
         long newGuess = longValue();

@@ -1,8 +1,10 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import java.time.*;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
+
+import org.meeuw.math.statistics.StatisticalLong;
 
 /**
  * {@link StatisticalLong} can be aggregated, and therefore {@link Windowed}.

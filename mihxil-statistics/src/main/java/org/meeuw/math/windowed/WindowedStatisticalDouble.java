@@ -1,9 +1,11 @@
-package org.meeuw.statistics;
+package org.meeuw.math.windowed;
 
 import java.time.Clock;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
+
+import org.meeuw.math.statistics.StatisticalDouble;
 
 /**
  * {@link StatisticalDouble} can be aggregated, and therefore {@link Windowed}.
