@@ -28,7 +28,8 @@ public class Configuration {
 
     /**
      * Returns the aspect with given class.
-     * @param <E> the class of the configuration aspect
+     * @param <E> the type of the configuration aspect
+     * @param clazz the class of the configuration aspect
      * @return the configuration aspect instance of that class currently configured in this configuration object
      */
     @SuppressWarnings("unchecked")
@@ -45,10 +46,11 @@ public class Configuration {
     }
 
     /**
-     * Returns a new {@link Configuration} with a changed {@link ConfigurationAspect}
+     * @return a new {@link Configuration} with a changed {@link ConfigurationAspect}
      * @param clazz The configuration aspect class
      * @param <E> the type of the class
      * @param config The operator that given the exising value for the aspect, produces a new one
+
      */
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {
         return toBuilder().aspect(clazz, config).build();

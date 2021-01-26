@@ -51,6 +51,8 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
 
     /**
      * Enters new value(s).
+     * @param ds doubles to add
+     * @return this
      */
     public StatisticalDouble enter(double... ds) {
         for (double d : ds) {

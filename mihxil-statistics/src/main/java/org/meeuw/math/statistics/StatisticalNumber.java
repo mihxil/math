@@ -53,12 +53,15 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     /**
      * Enters all values of another instance of this {@link StatisticalNumber}, effectively combining the given one into this one.
-     * @param m the
+     * @param m another statistical number
+     * @return this
      */
     public abstract T enter(T m);
 
     /**
      * Synonymous to {@link #enter(StatisticalNumber)} (except the return value). Does the same though as e.g. {@link LongSummaryStatistics#combine(LongSummaryStatistics)}.
+     * @param m anothe statistical number
+     * @see #enter(StatisticalNumber)
      */
     public void combine(T m) {
         enter(m);
@@ -71,18 +74,21 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     /**
      * Divides the current instant by a value, and returns {@code this}
+     * @param divisor divisor
+     * @return this
      */
-    public T divide(double d) {
-        return multiply(1 / d);
+    public T divide(double divisor) {
+        return multiply(1 / divisor);
     }
 
     /**
      * Multiplies the current instant by a value, and returns {@code this}
      *
      * @see #times(double)
+     * @param multiplier multiplier
      * @return this
      */
-    public abstract T multiply(double d);
+    public abstract T multiply(double multiplier);
 
 
     @Override

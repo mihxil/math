@@ -9,6 +9,7 @@ public interface MultiplicativeMonoid<E extends MultiplicativeMonoidElement<E>> 
 
     /**
      * The multiplicative group by definition has an element that is 'one', the multiplicative identity element.
+     * @return the multiplicative identify element 1
      */
     E one();
 

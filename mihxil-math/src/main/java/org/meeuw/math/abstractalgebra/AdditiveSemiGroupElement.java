@@ -21,6 +21,8 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
     /**
      * less verbose version of {@link #plus(AdditiveSemiGroupElement)}
      * @param summand the element to add to this one
+     * @return this + summand
+     * @see #plus(AdditiveSemiGroupElement)
      */
     default E p(E summand) {
         return plus(summand);

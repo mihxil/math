@@ -70,6 +70,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     /**
      * Enters new value(s).
+     * @param ds new values
+     * @return this
      */
     public StatisticalLong enter(long... ds) {
         for(long d : ds) {
@@ -194,10 +196,11 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     /**
-     * This implementation keeps track of a 'guessedMean' (see {@link #getGuessedMean()} value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
+     * This implementation keeps track of a 'guessedMean' value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
      *
      * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
      * @return the uncorrected sum
+//     * @see #getGuessedMean()
      */
     public long getUncorrectedSum() {
         return sum;

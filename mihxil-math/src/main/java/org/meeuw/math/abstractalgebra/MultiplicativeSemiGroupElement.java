@@ -25,12 +25,15 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     /**
      * less verbose version of {@link #times(MultiplicativeSemiGroupElement)}
      * @param multiplier the element to multiply with
+     * @return this * multiplier
      */
     default E x(E multiplier) {
         return times(multiplier);
     }
     /**
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
+     * @param n the exponent
+     * @return this <sup>n</sup>
      */
     @SuppressWarnings({"ConstantConditions", "unchecked"})
     default E pow(@Min(1) int n) {
@@ -55,7 +58,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     }
 
     /**
-     * Returns this element multiplied by itself.
+     * @return this element multiplied by itself.
      */
     @SuppressWarnings("unchecked")
     default E sqr() {
