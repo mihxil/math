@@ -23,6 +23,7 @@ public final class FormatService {
 
     private FormatService() {
     }
+
     private static final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> INITIAL_MAP
         = Collections.unmodifiableMap(createConfigurationMap());
 
@@ -33,7 +34,9 @@ public final class FormatService {
 
 
     /**
-     * Returns all available {@link Format} instances that would be available for the given algebraic element
+     * @param object an algebraic element for which a {@code Format} is needed
+     * @param configuration an object to configure these instances
+     * @return all available {@link Format} instances that would be available for the given algebraic element
      */
     public static Stream<Format> getFormat(AlgebraicElement<?> object, Configuration configuration) {
         final List<AlgebraicElementFormatProvider> list = new ArrayList<>();
@@ -53,7 +56,8 @@ public final class FormatService {
     }
 
     /**
-     *
+     * @param object the element to creaate an string representation for
+     * @return string representation of the given algebraic element.
      */
     public static String toString(AlgebraicElement<?> object) {
         return toString(object, getConfiguration());
@@ -75,6 +79,7 @@ public final class FormatService {
 
     /**
      * Configures the default configuration object.
+     * @param  consumer the code to configure the new default configuration. it will receive a {@link org.meeuw.math.text.configuration.Configuration.Builder} with the existing configuration.
      */
     public static void defaultConfiguration(Consumer<Configuration.Builder> consumer) {
         consumer.accept(DEFAULT);
@@ -86,6 +91,19 @@ public final class FormatService {
      */
     public  static Configuration getConfiguration() {
         return CONFIGURATION.get();
+    }
+
+
+    /**
+     * Sets the given configuration object as a thread local
+     * @param configuration the new configuration
+     */
+    public  static void  setConfiguration(Configuration configuration) {
+        CONFIGURATION.set(configuration);
+    }
+
+    public static void resetToDefaults() {
+        CONFIGURATION.remove();
     }
 
     /**
@@ -139,8 +157,7 @@ public final class FormatService {
 
     private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
         Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = new HashMap<>();
-        final ServiceLoader<AlgebraicElementFormatProvider> loader =
-            ServiceLoader.load(AlgebraicElementFormatProvider.class);
+        final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
         loader.iterator().forEachRemaining(
             algebraicElementFormatProvider ->
                 algebraicElementFormatProvider.getConfigurationAspects().forEach(c -> {

@@ -25,10 +25,12 @@ class FormatServiceTest {
     }
 
     @Test
-    public void getConfiguration() {
+    public void getAndSetConfiguration() {
         Configuration configuration = FormatService.getConfiguration();
         NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         int minimalExponent = aspect.getMinimalExponent();
+        FormatService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
+        assertThat(FormatService.getConfiguration().getAspectValue(NumberConfiguration.class, NumberConfiguration::getMinimalExponent)).isEqualTo(8);
     }
 
 

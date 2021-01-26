@@ -87,6 +87,8 @@ public final class Streams {
     /**
      * Reverses a stream. This happens by collecting it to al list first, and then stream that backwards.*
      * @param <E> the type of the stream elements
+     * @param stream the stream to reverse
+     * @param start the index of this stream that will be the first element of the reversed stream
      */
     public static <E> Stream<E> reverseStream(Stream<E> stream, long start) {
         List<E> collect = stream.limit(start).collect(Collectors.toList());

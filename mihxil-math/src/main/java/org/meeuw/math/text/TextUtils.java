@@ -120,30 +120,33 @@ public final class TextUtils {
          }
     }
 
-        /**
-     * Gives a representation of the string which is completely 'underlined' (using unicode control characters)
-     * @since 2.11
+    /**
+     * @param s a charsequence to underline
+     * @return a representation of the string which is completely 'underlined' (using unicode control characters)
      */
     public static String underLine(CharSequence s) {
         return controlEach(s, '\u0332');
     }
 
     /**
-     * Gives a representation of the string which is completely 'double underlined' (using unicode control characters)
+     * @param s a charsequence to underline double
+     * @return a representation of the string which is completely 'double underlined' (using unicode control characters)
      */
     public static String underLineDouble(CharSequence s) {
         return controlEach(s, '\u0333');
     }
 
     /**
-     * Gives a representation of the string which is completely 'overlined' (using unicode control characters)
+     * @param s a charsequence to overline
+     * @return a representation of the string which is completely 'overlined' (using unicode control characters)
      */
     public static String overLine(CharSequence s) {
         return controlEach(s, '\u0305');
     }
 
     /**
-     * Gives a representation of the string which is completely 'double overlined' (using unicode control characters)
+     * @param s a charsequence to overline double
+     * @return a representation of the string which is completely 'double overlined' (using unicode control characters)
      */
     public static String overLineDouble(CharSequence s) {
         return controlEach(s, '\u033f');

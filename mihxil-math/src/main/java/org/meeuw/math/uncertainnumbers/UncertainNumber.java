@@ -27,7 +27,8 @@ public interface UncertainNumber<N extends Number> {
 
     /**
      * When calculating the uncertainty it is normally enough to use a version of {@link #operations()} that does calculations
-     * with less precision.
+     * with less precision
+     * @return the operations object which is used for uncertainty propagation
      */
     default UncertaintyNumberOperations<N> uncertaintyOperations() {
         return operations();
@@ -35,6 +36,8 @@ public interface UncertainNumber<N extends Number> {
 
     /**
      * Creates a new {@link org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber} representing a multiple of this one.
+     * @param multiplier a number to multiply this white
+     * @return a new (immutable) uncertain number representing a multiple of this one
      */
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
@@ -60,6 +63,8 @@ public interface UncertainNumber<N extends Number> {
     /**
      * Creates a new uncertain number, combining this one with another one.
      * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Variance_weights
+     * @param m another uncertain number
+     * @return a new (immuatable) uncertain number representing the (weighted) average of this one and {@code m}
      */
     default UncertainNumber<N> combined(UncertainNumber<N> m) {
         NumberOperations<N> o = operations();

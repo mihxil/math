@@ -9,7 +9,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import static org.meeuw.math.text.TextUtils.subscript;
 
 /**
- * <p>A physical constant is a {@link PhysicalNumber} but to it are associated a {@link #getName()} and a {@link #getSymbol()}
+ * <p>A physical constant is a {@link PhysicalNumber} but to it are associated a {@code name} and a {@code symbol}
  * </p>
  * <p>
  * Some physical constants are principally error free. E.g. the value of {@link #c} has an uncertainty of {@link UncertainReal#EXACT}, because {@code c} has indeed an exact value. Any remaining uncertainty is in the <em>units</em>, because {@code c} is used to <em>define</em> them.

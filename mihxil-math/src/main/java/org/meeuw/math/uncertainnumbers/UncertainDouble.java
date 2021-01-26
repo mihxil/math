@@ -46,7 +46,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
     }
 
     /**
-     * Creates a new uncertain number, combining this one with another one.
+     * @param m  another uncertain real to combine with this one
+     * @return a new uncertain number, combining this one with another one, representing a weighted average
      */
     default D combined(UncertainReal m) {
         double u = getUncertainty();
@@ -61,7 +62,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
     }
 
     /**
-     * Creates a new {@link UncertainDouble} representing a multiple of this one.
+     * @param multiplier a double to multiply this with
+     * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
     default D times(double multiplier) {
         return of(multiplier * getValue(),

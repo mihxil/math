@@ -1,8 +1,11 @@
 = math
-:toc:
+Michiel Meeuwissen
+:sectnums:
+:toc: left
 :toclevels: 4
 :stem:
 :source-highlighter: coderay
+:multipage-level: 1
 
 
 //image:https://travis-ci.com/mihxil/math.svg?[Build Status,link=https://travis-ci.com/mihxil/math]
@@ -21,11 +24,11 @@ endif::[]
 
 == mihxil-math
 
-The common dependency of the modules in the project. It provides the scaffolding for:
+The core dependency of the modules in the project. It provides the scaffolding for:
 
-- abstract algebra's to ensure a common interface for basic operations. Java does not provide operator overloading. But this is some way even better. The basic algebraic operations are formalized in strict mathematically definied interfaces. Implementation of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.
+- Abstract algebras to ensure a common interface for basic operations. Java does not provide operator overloading. This provides an alternative. Implementations of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.
 - An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers.
-- An SPI for formatting the elements of abstract algebra's, and an implementation to format these uncertain number, using proper rounding and scientific notation.
+- An Service Provider Interface for formatting the elements of abstract algebras.  The core module only provides an implementation to format  uncertain numbers, using proper rounding and scientific notation.
 
 === Abstract Algebras
 
@@ -40,15 +43,15 @@ The terminology which is adopted is this:
 |===
 |Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
 
-|addition | + | plus | add | sum | summand
+|addition | `+` | plus | add | sum | summand
 | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
-|subtraction | - | minus | subtract | difference | subtrahend | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
-|multiplication |  ⋅  | times | multiply | product | multiplier | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
-|division | / | dividedBy | divide | quotient |  divisor | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
-|negation      | - | negation | negate | negation|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
-|reciprocation | 1/ |  reciprocal | | reciprocal|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
-|exponentiation | ^ | pow | pow | power| exponent| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-|square root | √ | sqrt | radicand
+|subtraction | `-` | minus | subtract | difference | subtrahend | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|multiplication |  `⋅`  | times | multiply | product | multiplier | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
+|division | `/` | dividedBy | divide | quotient |  divisor | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|negation      | `-` | negation | negate | negation|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|reciprocation | `1/` |  reciprocal | | reciprocal|| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|exponentiation | `^` | pow | pow | power| exponent| link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|square root | `√` | sqrt | radicand
  | square root| | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |sine | `sin()`| sin | sin | sine| angle | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |cosine | `cos()` | cos | cos | cosine| angle | link:mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
@@ -61,8 +64,8 @@ The methods on the elements take the name of the corresponding operator. So e.g.
 
 [source,java]
 ----
-RationalNumber e1, e2, e3;
-e3 = e1.times(e2);
+RationalNumber a, b, c;
+c = a.times(b);
 ----
 
 These methods always take the value of the element itself plus zero parameters (for the unary operators) or one parameter (for the binary operators), and create a new value from the same algebra.
@@ -134,12 +137,11 @@ So it's a bad idea to use uncertain values as hash keys.
 
 === Formatting
 
-A service loader is provided which provides implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
+A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
 
-The formatters have access to a (thread local) configuration object. This way a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`  communicate the 'configuration aspects' which it can use.
+The formatters have access to a (thread local) configuration object. Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
 
-
-The service giving access to the format-providers is `FormatService`. It is also responsible for managing the `Configuration` thread locals.
+The service giving access to the format-providers is `FormatService`. Which is collection of static functions. It is also responsible for managing the `Configuration` thread locals.
 
 Like this it can be consulted
 
@@ -152,10 +154,37 @@ import static org.meeuw.math.text.spi.FormatService.*;
  NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
  int minimalExponent = aspect.getMinimalExponent();
 ----
-This would however probably mainly be used in _implementations_. Actual configuration can be done in two basicly distinct ways.
+This would however probably mainly be used in _implementations_.
 
-- global defaults can be set
-- for a block these can be overriden
+Actual configuration can be done in two basicly distinct ways.
+
+- a new configuration object can be set as a thread local
+- global default configuration object can be set
+
+.temporary overrides
+[source,java]
+----
+Configuration configuration = FormatService.getConfiguration();
+FormatService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
+
+... code ...
+
+FormatService.resetToDefaults();
+----
+
+There are some utilities in FormatService that makes this process a bit easier.
+
+.temporary overrides utilities
+[source, java]
+ FormatService.with((configurationBuilder) -> configurationBuilder
+   .aspect(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
+   .aspect(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
+   , () -> {
+ ... code ...
+ });
+----
+
+Gloabel defaults can be set similarly
 
 .setting global defaults
 [source,java]
@@ -164,19 +193,6 @@ This would however probably mainly be used in _implementations_. Actual configur
   con.aspect(NumberConfiguration.class, c -> c.withMinimalExponent(4))
      .aspect(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
  );
-----
-
-.temporary overrides
-[source,java]
-----
- FormatService.with((con) -> con
-   .aspect(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
-   .aspect(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
-   , () -> {
-     assertThat(FormatService.getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(5);
-     assertThat(FormatService.getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(3);
-
- });
 ----
 
 == mihxil-statistics

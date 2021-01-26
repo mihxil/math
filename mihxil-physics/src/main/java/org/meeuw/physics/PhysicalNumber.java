@@ -103,11 +103,11 @@ public abstract class PhysicalNumber extends Number
     }
 
     /**
-     * Return a new physical number which is the sum of this one and another one.
-     *
      * Units will implicitely be converted, and the resulting value will have the units of this.
      *
      * @throws IllegalArgumentException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
+     * @param summand the physical number to add to this one
+     * @return  a new physical number which is the sum of this one and another one.
      */
     @Override
     public PhysicalNumber plus(PhysicalNumber summand) {
@@ -126,6 +126,8 @@ public abstract class PhysicalNumber extends Number
      * Converts this to a new physical number but represented in the given units.
      *
      * @throws IllegalArgumentException if the target units are not compatible (have different dimensions)
+     * @param target the new units
+     * @return a new physical number representing the same value as this one, only in different units
      */
     public PhysicalNumber toUnits(Units target) {
         if (getUnits().equals(target)) {
@@ -142,6 +144,8 @@ public abstract class PhysicalNumber extends Number
     /**
      * Just adds {@link #plus(PhysicalNumber)}{@link #negation()}.
      * @see #plus(PhysicalNumber)
+     * @param subtrahend to physical number to substract form this one
+     * @return the current number minus the subtrahend
      */
     public PhysicalNumber minus(PhysicalNumber subtrahend) {
         return plus(subtrahend.negation());

@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import org.meeuw.math.text.FixedSizeMap;
@@ -39,9 +40,14 @@ public class Configuration {
         return result;
     }
 
+    public <E extends ConfigurationAspect, V> V getAspectValue(Class<E> clazz, Function<E, V> getter) {
+        return getter.apply(getAspect(clazz));
+    }
+
     /**
      * Returns a new {@link Configuration} with a changed {@link ConfigurationAspect}
      * @param clazz The configuration aspect class
+     * @param <E> the type of the class
      * @param config The operator that given the exising value for the aspect, produces a new one
      */
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {

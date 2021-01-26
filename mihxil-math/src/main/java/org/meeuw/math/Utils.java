@@ -94,33 +94,40 @@ public final class Utils {
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      *
      * @see #positivePow(long, int)
+     * @param e  the exponent
+     * @return 10<sup>e</sup>
      */
-    public static long positivePow10(@Min(0) int i) {
-        return positivePow(10, i);
+    public static long positivePow10(@Min(0) int e) {
+        return positivePow(10, e);
     }
 
     /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
      *
      * This is more exact than {@link Math#pow(double, double)} (though probably not faster)
+     * @param base the base
+     * @param e  the exponent
+     * @return base<sup>e</sup>
      */
-    public static long positivePow(@NotNull long base, @Min(0) int i) {
-        if (i < 0) {
-            throw new ReciprocalException(base +  "^" + i + " is impossible");
+    public static long positivePow(@NotNull long base, @Min(0) int e) {
+        if (e < 0) {
+            throw new ReciprocalException(base +  "^" + e + " is impossible");
         }
         long result = 1;
-        while (i > 0) {
+        while (e > 0) {
             result *= base;
-            i--;
+            e--;
         }
         return result;
     }
 
 
-     /**
+    /**
      * A crude order of magnitude implemention
-      *
-      * This is like {@code Math.log10(Mat.abs(d))}
+     *
+     * This is like {@code Math.log10(Mat.abs(d))}
+     * @param d a double
+     * @return <sup>10</sup>log(d)
      */
     public static int log10(double d) {
         return (int) Math.floor(Math.log10(Math.abs(d)));
@@ -128,8 +135,10 @@ public final class Utils {
 
     /**
      * A crude order of magnitude implemention
-      *
-      * This is like {@code Math.log10(Mat.abs(l))}
+     *
+     * This is like {@code Math.log10(Mat.abs(l))}
+     * @param l a long
+     * @return round(<sup>10</sup>log(d))
      */
     public static int log10(long l) {
         // it's hard to improve performance of Math.log.
@@ -139,7 +148,6 @@ public final class Utils {
 
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
-
 
 
     public static ChronoUnit orderOfMagnitude(Duration stddev) {
@@ -184,9 +192,11 @@ public final class Utils {
     }
 
     /**
-     * Returns an infinite stream of integer arrays of given length
+     *
      *
      * It will start with an array with only zeros. Then it will return array filled with all possible combinations of -1, 0, 1, then with all possibles arrays with only -2, -1, 0, 1, 2 and so on.
+     * @param length the length of all arrays to produce
+     * @return an infinite stream of integer arrays of given length
      *
      */
     public static Stream<int[]> stream(int length) {
@@ -197,11 +207,15 @@ public final class Utils {
     /**
      * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
      * create a string representation of that using superscript notation.
+     * @param <T> the type of the enums
+     * @param values the enum values
+     * @param exponents the associated exponents
+     * @return a string
      */
-    public static <T extends Enum<T>> String toString(T[] values, int[] basic) {
+    public static <T extends Enum<T>> String toString(T[] values, int[] exponents) {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < basic.length; i++) {
-            int b = basic[i];
+        for (int i = 0; i < exponents.length; i++) {
+            int b = exponents[i];
             if (b != 0) {
                 builder.append(values[i].toString());
                 if (b != 1) {
@@ -213,9 +227,9 @@ public final class Utils {
     }
 
     /**
-     * Given a double value, returns the bit the power of 2 exponent that the least significant bit in the IEEE 754 representation of the double represents.
-     *
-     * pow(2, <this value>) is an estimate of the 'uncertainty' in this double. More precision it simply cannot represent.
+     * pow(2, &lt;this value&gt;) is an estimate of the 'uncertainty' in this double. More precision it simply cannot represent.
+     * @param doubleValue a double value
+     * @return the bit the power of 2 exponent that the least significant bit in the IEEE 754 representation of the double represents.
      */
     public static int leastSignificantBit(double doubleValue) {
         long exponent = (int) ((((Double.doubleToLongBits(doubleValue) & 0x7ff0000000000000L) >> 52) - 1023) - 51);
@@ -229,6 +243,8 @@ public final class Utils {
 
     /**
      * Simple prime test. 6k ± 1 optimization only. Not suitable for (very) large numbers.
+     * @param n an inter to test for primeness
+     * @return wether the argument is prime or not
      */
     public static boolean isPrime(int n) {
         if (n <= 3) {
