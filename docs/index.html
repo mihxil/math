@@ -419,7 +419,8 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="listingblock">
 <div class="title">Accessing configuration</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration.Configuration</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
 
  <span class="predefined-type">Configuration</span> configuration = FormatService.getConfiguration();
  NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
@@ -763,7 +764,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-26 23:35:54 +0100
+Last updated 2021-01-27 20:42:13 +0100
 </div>
 </div>
 <script type="text/x-mathjax-config">
