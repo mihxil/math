@@ -6,6 +6,8 @@ import java.text.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
+import javax.validation.constraints.NotNull;
+
 import org.meeuw.math.Utils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.statistics.StatisticalLong;
@@ -23,7 +25,7 @@ public class StatisticalLongNumberFormat extends Format {
     ZoneId zoneId = ZoneId.systemDefault();
 
     @Override
-    public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
+    public StringBuffer format(Object number, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
          if (number instanceof StatisticalLong) {
              StatisticalLong statisticalLong = (StatisticalLong) number;
              switch (statisticalLong.getMode()) {

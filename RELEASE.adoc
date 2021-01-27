@@ -3,4 +3,7 @@
 mvn release:branch -DbranchName=0.4-SNAPSHOT -DdevelopmentVersion=0.5-SNAPSHOT
 git checkout 0.4-SNAPSHOT
 mvn -Ddeploy release:prepare release:perform -DreleaseVersion=0.4.0 -DdevelopmentVersion=0.4.1-SNAPSHOT
+
+curl https://www.javadoc.io/doc/org.meeuw.math/mihxil-math/latest/index.html\
+https://www.javadoc.io/doc/org.meeuw.math/mihxil-math-theories/latest/index.html
 ----

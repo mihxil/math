@@ -1,7 +1,6 @@
 package org.meeuw.math.statistics.text.spi;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.configuration.Configuration;
@@ -31,11 +30,10 @@ public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatP
             return e.getMode() != StatisticalLong.Mode.LONG ? 10 : 0;
         }
         return -1;
-
     }
 
     @Override
     public List<Class<? extends ConfigurationAspect>> getConfigurationAspects() {
-        return Arrays.asList(TimeConfiguration.class);
+        return Collections.singletonList(TimeConfiguration.class);
     }
 }
