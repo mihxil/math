@@ -3,6 +3,8 @@ package org.meeuw.math.text.spi;
 import java.util.Arrays;
 import java.util.List;
 
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.*;

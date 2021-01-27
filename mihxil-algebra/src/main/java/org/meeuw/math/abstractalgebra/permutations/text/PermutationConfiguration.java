@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra.permutations.text;
 import lombok.Getter;
 import lombok.With;
 
-import org.meeuw.math.text.configuration.ConfigurationAspect;
+import org.meeuw.configuration.ConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen

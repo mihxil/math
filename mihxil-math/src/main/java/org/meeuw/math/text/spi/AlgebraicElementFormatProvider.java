@@ -4,8 +4,8 @@ import java.text.Format;
 import java.util.List;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.configuration.ConfigurationAspect;
-import org.meeuw.math.text.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.Configuration;
 
 /**
  * @author Michiel Meeuwissen

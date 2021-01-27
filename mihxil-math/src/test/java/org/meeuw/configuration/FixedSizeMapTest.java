@@ -1,6 +1,7 @@
-package org.meeuw.math.text;
+package org.meeuw.configuration;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 

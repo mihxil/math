@@ -5,7 +5,7 @@ import lombok.With;
 
 import java.time.ZoneId;
 
-import org.meeuw.math.text.configuration.ConfigurationAspect;
+import org.meeuw.configuration.ConfigurationAspect;
 
 /**
  * Contains time related settings.

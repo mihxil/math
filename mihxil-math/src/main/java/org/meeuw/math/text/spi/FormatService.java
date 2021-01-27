@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.FixedSizeMap;
-import org.meeuw.math.text.configuration.Configuration;
-import org.meeuw.math.text.configuration.ConfigurationAspect;
+import org.meeuw.configuration.FixedSizeMap;
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen
@@ -79,7 +79,7 @@ public final class FormatService {
 
     /**
      * Configures the default configuration object.
-     * @param  consumer the code to configure the new default configuration. it will receive a {@link org.meeuw.math.text.configuration.Configuration.Builder} with the existing configuration.
+     * @param  consumer the code to configure the new default configuration. it will receive a {@link Configuration.Builder} with the existing configuration.
      */
     public static void defaultConfiguration(Consumer<Configuration.Builder> consumer) {
         consumer.accept(DEFAULT);

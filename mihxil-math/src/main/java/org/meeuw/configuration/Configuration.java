@@ -1,4 +1,4 @@
-package org.meeuw.math.text.configuration;
+package org.meeuw.configuration;
 
 import lombok.EqualsAndHashCode;
 
@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
-
-import org.meeuw.math.text.FixedSizeMap;
 
 import static org.meeuw.math.text.spi.FormatService.newConfigurationMap;
 

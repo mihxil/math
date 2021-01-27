@@ -1,4 +1,4 @@
-package org.meeuw.math.text;
+package org.meeuw.configuration;
 
 import java.util.*;
 

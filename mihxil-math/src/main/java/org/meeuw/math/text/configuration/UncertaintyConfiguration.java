@@ -2,6 +2,8 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
+import org.meeuw.configuration.ConfigurationAspect;
+
 /**
  * This configuration aspect defines how uncertainties must be formatted
  * @author Michiel Meeuwissen

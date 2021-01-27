@@ -152,6 +152,7 @@ Like this it can be consulted
 .Accessing configuration
 [source,java]
 ----
+import static org.meeuw.configuration.Configuration;
 import static org.meeuw.math.text.spi.FormatService.*;
 
  Configuration configuration = FormatService.getConfiguration();

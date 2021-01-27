@@ -4,13 +4,12 @@ import java.text.Format;
 import java.util.*;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.configuration.Configuration;
-import org.meeuw.math.text.configuration.ConfigurationAspect;
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class TestFormatProvider extends AlgebraicElementFormatProvider {
     @Override

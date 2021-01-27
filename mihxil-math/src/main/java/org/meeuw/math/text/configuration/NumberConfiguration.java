@@ -2,6 +2,8 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
+import org.meeuw.configuration.ConfigurationAspect;
+
 /**
  * The configuration aspect which specifies how numbers should be formatted.
  *

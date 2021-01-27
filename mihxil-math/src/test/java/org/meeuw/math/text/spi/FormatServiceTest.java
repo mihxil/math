@@ -1,6 +1,8 @@
 package org.meeuw.math.text.spi;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationException;
 import org.meeuw.math.text.configuration.*;
 import org.meeuw.math.text.spi.test.InvalidConfigurationAspect;
 import org.meeuw.math.text.spi.test.TestConfigurationAspect;

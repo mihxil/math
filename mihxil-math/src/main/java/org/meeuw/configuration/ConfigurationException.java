@@ -1,4 +1,4 @@
-package org.meeuw.math.text.configuration;
+package org.meeuw.configuration;
 
 /**
  * @author Michiel Meeuwissen
