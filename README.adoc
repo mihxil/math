@@ -18,8 +18,7 @@ Michiel Meeuwissen
 image:{gh}workflows/build/badge.svg?[Build Status,link={gh}actions?query=workflow%3Abuild]
 image:https://codecov.io/gh/mihxil/math/branch/master/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
 image:https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/]
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
-image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
 
 
 ifdef::env-github[]
@@ -28,6 +27,8 @@ endif::[]
 
 
 == mihxil-math
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
 
 The core dependency of the modules in the project. It provides the scaffolding for:
 
@@ -201,7 +202,7 @@ Gloabel defaults can be set similarly
 ----
 
 == mihxil-statistics
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/report-statistics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
 
@@ -213,8 +214,8 @@ Also, it includes some classes to keep track of 'sliding window' values of avera
 
 
 == mihxil-physics
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
-image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/report-physics]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
 
 
 This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `UncertainDouble`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
@@ -238,7 +239,7 @@ Physical numbers can freely multiplied and divided by each other.
 
 
 == mihxil-algebra
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg?label=Maven%20Central[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
 
 This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
