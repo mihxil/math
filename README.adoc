@@ -27,7 +27,7 @@ See link:https://mihxil.github.io/math/[this file in html] for proper display of
 endif::[]
 
 
-== mihxil-math
+== math
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
 
@@ -202,7 +202,7 @@ Gloabel defaults can be set similarly
  );
 ----
 
-== mihxil-statistics
+== statistics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
@@ -211,10 +211,23 @@ Implementations of `UncertainDouble`, based on calculating standard deviations o
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
+.example of WindowedEventRate
+[source,java]
+----
+WindowedEventRate rate = WindowedEventRate.builder()
+            .bucketCount(50)
+            .window(Duration.ofMinutes(50))
+            .build();
+rate.newEvent();
+...
+..
+log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
+
+log.info("Measured rate: {}", rate); // toString
+----
 
 
-
-== mihxil-physics
+== physics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-physics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
 
@@ -239,7 +252,7 @@ Physical numbers themselves are actually only forming a multiplicative group, be
 Physical numbers can freely multiplied and divided by each other.
 
 
-== mihxil-algebra
+== algebra
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
 
