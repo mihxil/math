@@ -35,7 +35,7 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     @Test
     public void forMultiplication() {
-        assertThat(Units.forMultiplication(DISTANCE, TIME)).isEqualTo(UnitsImpl.of(m, s));
+        assertThat(Units.forMultiplication(DISTANCE, TIME)).isEqualTo(Units.of(m, s));
         assertThat(Units.forMultiplication(null, TIME)).isNull();
         assertThat(Units.forMultiplication(DISTANCE, null)).isNull();
     }
@@ -51,7 +51,7 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     @Test
     public void forExponentiation() {
-        assertThat(Units.forExponentiation(DISTANCE, 2)).isEqualTo(UnitsImpl.of(m, m));
+        assertThat(Units.forExponentiation(DISTANCE, 2)).isEqualTo(Units.of(m, m));
         assertThat(Units.forExponentiation(null, 2)).isNull();
     }
 

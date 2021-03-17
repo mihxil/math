@@ -1,13 +1,13 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.math.*;
+
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import net.jqwik.api.lifecycle.AfterProperty;
 import net.jqwik.api.lifecycle.BeforeProperty;
-
-import java.math.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
@@ -41,6 +41,7 @@ class Matrix3Test implements MultiplicativeGroupTheory<Matrix3>, WithScalarTheor
     public Arbitrary<RealNumber> scalars() {
         return Arbitraries.randomValue((random) ->
             new RealNumber(random.nextDouble() * 200 - 100, random.nextDouble() * 10))
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(RealField.INSTANCE.zero());
                 config.add(RealField.INSTANCE.one());

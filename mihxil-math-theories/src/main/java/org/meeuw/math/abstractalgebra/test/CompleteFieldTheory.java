@@ -5,9 +5,11 @@ import net.jqwik.api.*;
 import org.assertj.core.data.Percentage;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.Operator.POWER;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
@@ -49,6 +51,13 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     @Property
     default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
         Assume.that(! e.isNegative());
+        if (e.isZero()) {
+            if (exponent.isNegative()) {
+                assertThatThrownBy(() -> e.pow(exponent)).isInstanceOf(ReciprocalException.class);
+                return;
+            }
+        }
+
         E pow = e.pow(exponent);
         assertThat(pow.doubleValue()).isCloseTo(Math.pow(e.doubleValue(), exponent.doubleValue()), Percentage.withPercentage(0.1));
     }

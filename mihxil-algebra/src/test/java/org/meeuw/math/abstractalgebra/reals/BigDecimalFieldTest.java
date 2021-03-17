@@ -1,8 +1,8 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import net.jqwik.api.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 
@@ -56,6 +56,7 @@ strictfp class BigDecimalFieldTest implements
     public Arbitrary<BigDecimalElement> elements() {
         return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 1000))
             .injectDuplicates(0.1)
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(BigDecimalElement.ZERO);
                 config.add(BigDecimalElement.ONE);

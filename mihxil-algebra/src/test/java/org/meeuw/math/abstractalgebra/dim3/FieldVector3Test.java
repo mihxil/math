@@ -70,7 +70,9 @@ class FieldVector3Test  implements
     public Arbitrary<RealNumber> scalars() {
         return Arbitraries.randomValue(r ->
             new RealNumber(r.nextDouble() * 10, Math.abs(r.nextDouble()))
-        ).injectDuplicates(0.1)
+        )
+            .injectDuplicates(0.1)
+            .dontShrink()
             .edgeCases((config) -> {
                 config.add(RealNumber.ZERO);
                 config.add(RealNumber.ONE);
@@ -81,6 +83,9 @@ class FieldVector3Test  implements
     public Arbitrary<? extends FieldVector3<RealNumber>> elements() {
         return Arbitraries.randomValue(r ->
             FieldVector3.of(r.nextDouble() * 100, r.nextDouble() * 100, r.nextDouble()* 100)
-        ).injectDuplicates(0.1);
+        )
+            .injectDuplicates(0.1)
+
+            ;
     }
 }

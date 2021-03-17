@@ -29,7 +29,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         }
 
         @Override
-        public A of(double value, double uncertainty) {
+        public A _of(double value, double uncertainty) {
             return new A(value, uncertainty);
         }
         @Override
@@ -118,7 +118,9 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
     public Arbitrary<? extends A> elements() {
         return Arbitraries.randomValue(
             random -> new A(random.nextDouble() * 200 - 100, random.nextDouble() * 10)
-        ).edgeCases(config -> {
+        )
+            .dontShrink()
+            .edgeCases(config -> {
             config.add(new A(0, 0));
             config.add(new A(1, 0));
         });

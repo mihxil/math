@@ -35,10 +35,10 @@ class PhysicalNumberTest implements
 
     @Test
     public void toUnits() {
-        Units pc = UnitsImpl.of(SI.pc);
+        Units pc = Units.of(SI.pc);
         PhysicalNumber two_pc = new Measurement(2, 0.1, pc);
 
-        PhysicalNumber inLightYear = two_pc.toUnits(UnitsImpl.of(SI.ly));
+        PhysicalNumber inLightYear = two_pc.toUnits(Units.of(SI.ly));
         assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
 
@@ -47,18 +47,20 @@ class PhysicalNumberTest implements
 
     @Override
     public Arbitrary<PhysicalNumber> elements() {
-        return Arbitraries
-            .<PhysicalNumber>randomValue(
-                (random) -> new Measurement(
-                    random.nextDouble() * 200 - 100,
-                    Math.abs(random.nextDouble() * 10),
-                    UNITS[random.nextInt(UNITS.length)])
-            )
-            .injectDuplicates(0.01)
-            .edgeCases(config -> {
-                config.add(new Measurement(0, 0.001, DISTANCE));
-                config.add(PhysicalConstant.c);
-            });
+        return
+            Arbitraries
+                .<PhysicalNumber>randomValue(
+                    (random) -> new Measurement(
+                        random.nextDouble() * 200 - 100,
+                        Math.abs(random.nextDouble() * 10),
+                        UNITS[random.nextInt(UNITS.length)])
+                )
+                .injectDuplicates(0.01)
+                .dontShrink()
+                .edgeCases(config -> {
+                    config.add(new Measurement(0, 0.001, DISTANCE));
+                    config.add(PhysicalConstant.c);
+                });
 
     }
 }

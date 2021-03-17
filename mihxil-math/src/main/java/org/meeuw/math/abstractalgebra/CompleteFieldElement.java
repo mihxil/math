@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.SignedNumber;
 
 /**
@@ -23,6 +24,6 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E cos();
 
-    E pow(E exponent);
+    E pow(E exponent) throws ReciprocalException;
 
 }

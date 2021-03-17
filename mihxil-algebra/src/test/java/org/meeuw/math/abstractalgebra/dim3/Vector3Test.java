@@ -25,7 +25,9 @@ class Vector3Test implements
     public Arbitrary<? extends Vector3> elements() {
         return Arbitraries.randomValue(r ->
             Vector3.of(r.nextDouble(), r.nextDouble(), r.nextDouble())
-        ).injectDuplicates(0.1)
+        )
+            .injectDuplicates(0.1)
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(Vector3.of(0, 0, 1));
                 config.add(Vector3.of(0, 1, 0));
@@ -36,7 +38,8 @@ class Vector3Test implements
     public Arbitrary<RealNumber> scalars() {
         return Arbitraries.randomValue(random ->
             RealNumber.of(random.nextDouble())
-        ).edgeCases(c  -> {
+        ).dontShrink()
+            .edgeCases(c  -> {
             c.add(RealNumber.ONE);
             c.add(RealNumber.ZERO);
         });

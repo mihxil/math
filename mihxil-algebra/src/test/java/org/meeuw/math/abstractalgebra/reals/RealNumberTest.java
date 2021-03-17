@@ -23,7 +23,7 @@ class RealNumberTest implements
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> new RealNumber(1, 0).of(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
+        assertThatThrownBy(() -> new RealNumber(1, 0)._of(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
         assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);
@@ -104,6 +104,7 @@ class RealNumberTest implements
             Arbitraries.randomValue(
                 (random) -> of(2000 * random.nextDouble() - 1000))
                 .injectDuplicates(0.1)
+                .dontShrink()
                 .edgeCases(realNumberConfig -> {
                     realNumberConfig.add(RealNumber.of(0));
                     realNumberConfig.add(RealNumber.of(-1));

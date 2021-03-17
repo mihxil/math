@@ -1,8 +1,8 @@
 package org.meeuw.math.abstractalgebra.quaternions;
 
 import net.jqwik.api.*;
-
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;

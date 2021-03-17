@@ -1,6 +1,9 @@
 package org.meeuw.math.text.spi;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
+
 import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationException;
 import org.meeuw.math.text.configuration.*;
@@ -15,15 +18,21 @@ import static org.meeuw.math.text.spi.FormatService.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Isolated
 class FormatServiceTest {
+
+    @AfterAll
+    public static void restoreDefaults() {
+        Configuration configuration = FormatService.getConfiguration();
+        FormatService.setConfiguration(configuration.toBuilder().defaults().build());
+    }
 
     @Test
     public void getFormat() {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
-            .containsExactly(
-                "TestFormatProvider [class org.meeuw.math.text.spi.test.TestConfigurationAspect, class org.meeuw.math.text.spi.test.InvalidConfigurationAspect]",
-                "UncertainDoubleFormatProvider [class org.meeuw.math.text.configuration.NumberConfiguration, class org.meeuw.math.text.configuration.UncertaintyConfiguration]");
+            .contains("TestFormatProvider [class org.meeuw.math.text.spi.test.TestConfigurationAspect, class org.meeuw.math.text.spi.test.InvalidConfigurationAspect]",
+    "UncertainDoubleFormatProvider [class org.meeuw.math.text.configuration.NumberConfiguration, class org.meeuw.math.text.configuration.UncertaintyConfiguration]");
     }
 
     @Test

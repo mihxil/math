@@ -83,6 +83,7 @@ class GaussianRationalTest implements
                     RationalNumber.of(random.nextInt(200) - 100, random.nextInt(100) + 1))
         )
             .injectDuplicates(0.1)
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(structure.i());
                 config.add(structure.one());

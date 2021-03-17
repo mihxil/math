@@ -20,16 +20,16 @@ class DerivedUnitTest {
     @Test
     public void eV() {
         assertThat(SI.eV.toString()).isEqualTo("eV");
-        assertThat(SI.eV.getDescription()).isEqualTo("electonvolt");
+        assertThat(SI.eV.getDescription()).isEqualTo("electronvolt");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
-        assertThat(SI.eV.getSIFactor()).isEqualTo(1.602176634E-19);
+        assertThat(SI.eV.getSIFactor().getValue()).isEqualTo(1.602176634E-19);
     }
 
     @Test
     public void kmph() {
-        assertThat(new DerivedUnit(SI.Prefixes.k, SIUnit.m));
+        assertThat(new DerivedUnit(SI.Prefixes.k, SIUnit.m).toString()).isEqualTo("km");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
-        assertThat(SI.eV.getSIFactor()).isEqualTo(1.602176634E-19);
+        assertThat(SI.eV.getSIFactor().getValue()).isEqualTo(1.602176634E-19);
     }
 
 }

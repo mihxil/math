@@ -36,6 +36,7 @@ class ComplexNumberTest implements
                     of(200 * random.nextDouble() - 100),
                     of(200 * random.nextDouble() - 100)))
             .injectDuplicates(0.1)
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(structure.i());
                 config.add(structure.one());

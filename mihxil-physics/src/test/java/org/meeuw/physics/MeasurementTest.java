@@ -1,6 +1,7 @@
 package org.meeuw.physics;
 
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.FormatService;
 
@@ -12,7 +13,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class MeasurementTest {
+class MeasurementTest  {
 
     @Test
     public void add() {
@@ -47,7 +48,7 @@ class MeasurementTest {
     public void divide() {
         Measurement speed = new Measurement(6.0, 0.4, SI.SPEED);
         assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 m·s⁻¹");
-        assertThat(speed.getUnits().dimensions().toString()).isEqualTo("LT⁻¹");
+        assertThat(speed.getUnits().getDimensions().toString()).isEqualTo("LT⁻¹");
 
         Measurement distance = new Measurement(2.0, 0.05, SI.DISTANCE);
         PhysicalNumber duration = distance.dividedBy(speed);
@@ -55,7 +56,7 @@ class MeasurementTest {
     }
 
     @Test
-    public void structure() {
+    public void testStructure() {
         Measurement a = new Measurement(6.0, 0.4, SI.SPEED);
         assertThat(a.plus(a.getUnits().zero())).isEqualTo(a);
         assertThat(a.times(a.getStructure().one())).isEqualTo(a);

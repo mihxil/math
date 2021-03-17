@@ -1,11 +1,11 @@
 package org.meeuw.math.abstractalgebra.vectorspace;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
-
 import java.util.Arrays;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
@@ -68,6 +68,7 @@ class RationalNumberVectorTest implements
         return Arbitraries
             .randomValue(INSTANCE::nextRandom)
             .injectDuplicates(1)
+            .dontShrink()
             .edgeCases(config -> {
                 config.add(RationalNumber.ONE);
                 config.add(RationalNumber.ZERO);
