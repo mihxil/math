@@ -24,12 +24,27 @@ public class NumberConfiguration implements ConfigurationAspect {
     @With
     private final int minimalExponent;
 
+    @Getter
+    @With
+    private final Thousands thousands;
+
+
     @lombok.Builder
-    private NumberConfiguration(int minimalExponent) {
+    private NumberConfiguration(int minimalExponent, Thousands thousands) {
         this.minimalExponent = minimalExponent;
+        this.thousands = thousands;
     }
 
     public NumberConfiguration() {
-        this(4);
+        this(4, Thousands.NONE);
+    }
+
+    enum Thousands {
+        NONE,
+        DOT,
+        COMMA,
+        LOCALE,
+        UNDERSCORE,
+        SPACE
     }
 }
