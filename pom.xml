@@ -25,8 +25,8 @@
     <big-math.version>2.3.0</big-math.version>
 
     <!-- test dependencies -->
-    <log4j.version>2.14.0</log4j.version>
-    <jqwik.version>1.4.0</jqwik.version>
+    <log4j.version>2.14.1</log4j.version>
+    <jqwik.version>1.5.0</jqwik.version>
     <junit.version>5.8.0-M1</junit.version>
     <jacoco.version>0.8.6</jacoco.version>
     <assertj.version>3.19.0</assertj.version>

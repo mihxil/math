@@ -8,7 +8,7 @@
   </parent>
   <artifactId>report-aggregation</artifactId>
   <name>Math - report aggregation</name>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
