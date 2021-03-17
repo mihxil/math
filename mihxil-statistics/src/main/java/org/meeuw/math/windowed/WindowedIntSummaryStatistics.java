@@ -2,7 +2,8 @@ package org.meeuw.math.windowed;
 
 import java.time.Clock;
 import java.time.Duration;
-import java.util.*;
+import java.util.Arrays;
+import java.util.IntSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
 

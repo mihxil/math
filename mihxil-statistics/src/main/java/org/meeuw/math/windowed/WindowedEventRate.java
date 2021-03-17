@@ -8,10 +8,11 @@ import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.physics.*;
 
 
 /**
@@ -70,6 +71,9 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
         return getRate();
     }
 
+    /**
+     * @return the uncertainty in the rate in /s (See {@link #getRate()}
+     */
     @Override
     public double getUncertainty() {
         shiftBuckets();
@@ -82,11 +86,11 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
     }
 
     public UncertainReal getUncertainRate() {
-        return of(getValue(), getUncertainty());
+        return _of(getRate(), getUncertainty());
     }
 
     @Override
-    public UncertainDoubleElement of(double value, double uncertainty) {
+    public UncertainDoubleElement _of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
     }
 
@@ -146,6 +150,10 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
     @Override
     public AtomicLong getWindowValue() {
         return new AtomicLong(getTotalCount());
+    }
+
+    public PhysicalNumber toPhysicalNumber() {
+        return new Measurement(getUncertainRate(), Units.of(SIUnit.s).reciprocal());
     }
 
     /**

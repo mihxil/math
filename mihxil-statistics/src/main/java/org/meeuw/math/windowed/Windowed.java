@@ -55,7 +55,6 @@ public abstract class Windowed<T> {
     protected long  currentBucketTime;
     protected int   currentBucketIndex = 0;
 
-
     protected final BiConsumer<Event, Windowed<T>> eventListeners;
 
 
