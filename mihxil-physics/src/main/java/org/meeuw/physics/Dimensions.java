@@ -4,11 +4,11 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.text.spi.FormatService;
 
 /**
-
+ * A dimensions object represent a physical dimensional analysis.
  * @author Michiel Meeuwissen
  */
 public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
@@ -17,7 +17,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
     final int[] exponents = new int[Dimension.values().length];
 
     public Dimensions(Dimension... dimensions) {
-        for (Dimension  v: dimensions) {
+        for (Dimension  v : dimensions) {
             exponents[v.ordinal()]++;
         }
     }
@@ -78,7 +78,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
 
     @Override
     public String toString() {
-        return Utils.toString(Dimension.values(), exponents);
+        return FormatService.toString(this);
     }
 
 }
