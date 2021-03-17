@@ -1,6 +1,7 @@
 package org.meeuw.configuration;
 
 import lombok.EqualsAndHashCode;
+import lombok.SneakyThrows;
 
 import java.util.Collections;
 import java.util.Map;
@@ -79,6 +80,19 @@ public class Configuration {
             E template = (E) configuration.get(clazz);
             E newConfig = config.apply(template);
             configuration.put(clazz, newConfig);
+            return this;
+        }
+
+        @SneakyThrows
+        public <E extends ConfigurationAspect> Builder aspectDefault(Class<E> clazz) {
+            configuration.put(clazz, clazz.newInstance());
+            return this;
+        }
+
+        public Builder defaults() {
+            for (Class<? extends ConfigurationAspect> c : configuration.keySet()) {
+                aspectDefault(c);
+            }
             return this;
         }
 
