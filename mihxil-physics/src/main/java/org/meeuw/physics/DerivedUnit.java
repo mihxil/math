@@ -3,6 +3,13 @@ package org.meeuw.physics;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.List;
+
+import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+
+import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -12,7 +19,7 @@ public class DerivedUnit implements Unit {
 
     @Getter
     @EqualsAndHashCode.Include
-    final double SIFactor;
+    final UncertainReal SIFactor;
 
     @EqualsAndHashCode.Include
     final int[] exponents = new int[SIUnit.values().length];
@@ -23,12 +30,13 @@ public class DerivedUnit implements Unit {
     final Dimensions dimensions;
 
     @EqualsAndHashCode.Include
+    @Getter
     final String name;
 
     @Getter
     final String description;
 
-    public DerivedUnit(double siFactor, String name, String description, UnitExponent... siExponents) {
+    public DerivedUnit(UncertainReal siFactor, String name, String description, UnitExponent... siExponents) {
         for (UnitExponent f : siExponents) {
             this.exponents[((SIUnit) f.unit).ordinal()] = f.exponent;
         }
@@ -39,17 +47,32 @@ public class DerivedUnit implements Unit {
         this.prefix = Prefix.NONE;
     }
 
+    @lombok.Builder
+    public DerivedUnit(UncertainReal siFactor, String name, String description, List<UnitExponent> siExponents) {
+        this(siFactor, name, description, siExponents.toArray(UnitExponent[]::new));
+    }
 
-    public DerivedUnit(String name, String description, double siFactor, DerivedUnit derivedUnit) {
+
+    public DerivedUnit(Units units, String name, String description) {
+        System.arraycopy(units.getDimensions().getExponents(), 0, this.exponents, 0, this.exponents.length);
+        this.dimensions = new Dimensions(exponents);
+        this.name = name;
+        this.description = description;
+        this.SIFactor = units.getSIFactor();
+        this.prefix = Prefix.NONE;
+    }
+
+
+    public DerivedUnit(String name, String description, UncertainReal siFactor, DerivedUnit derivedUnit) {
         System.arraycopy(derivedUnit.exponents, 0, this.exponents, 0, this.exponents.length);
         this.dimensions = derivedUnit.dimensions;
         this.name = name;
         this.description = description;
-        this.SIFactor = derivedUnit.SIFactor * siFactor;
+        this.SIFactor = derivedUnit.SIFactor.times(siFactor);
         this.prefix = derivedUnit.prefix();
     }
 
-    public DerivedUnit(String name, String description, double siFactor, SIUnit siUnit) {
+    public DerivedUnit(String name, String description, UncertainReal siFactor, SIUnit siUnit) {
         this.exponents[siUnit.ordinal()] = 1;
         this.dimensions = siUnit.getDimensions();
         this.name = name;
@@ -63,15 +86,15 @@ public class DerivedUnit implements Unit {
         this.dimensions = new Dimensions(exponents);
         this.name = unit.name;
         this.description = prefix.toString() + "(" + unit.description + ")";
-        this.SIFactor = unit.SIFactor * prefix.getAsDouble();
+        this.SIFactor = unit.SIFactor.times(prefix.getAsDouble());
         this.prefix = prefix;
     }
     public DerivedUnit(Prefix prefix, SIUnit unit) {
-        this(prefix, new DerivedUnit(1d, unit.name(), unit.getDescription(), new UnitExponent(unit, 1)));
+        this(prefix, new DerivedUnit(INSTANCE.one(), unit.name(), unit.getDescription(), new UnitExponent(unit, 1)));
     }
 
     public DerivedUnit(String name, String description, UnitExponent... factors) {
-        this(1, name, description,  factors);
+        this(INSTANCE.one(), name, description,  factors);
     }
 
     @Override
@@ -99,4 +122,25 @@ public class DerivedUnit implements Unit {
         return prefix() + name();
     }
 
+    @Override
+    public Units times(Units multiplier) {
+        // TODO
+        return DerivedUnit.builder()
+            .siFactor(SIFactor.times(multiplier.getSIFactor()))
+            .name(name + TextUtils.TIMES + multiplier)
+            .build();
+    }
+
+    @Override
+    public Units reciprocal() {
+        // TODO
+        return DerivedUnit.builder()
+            .siFactor(SIFactor.reciprocal())
+            .name(name + TextUtils.superscript(-1))
+            .build();
+    }
+
+    public static class Builder {
+
+    }
 }
