@@ -8,7 +8,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since .0.6
  */
-public class CGS implements SystemOfMeasurements{
+public class CGS implements SystemOfMeasurements {
     @Override
     public Unit forDimension(Dimension dimension) {
         return null;
