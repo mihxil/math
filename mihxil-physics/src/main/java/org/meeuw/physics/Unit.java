@@ -4,18 +4,27 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Unit {
+public interface Unit extends Units {
 
+    /**
+     * @return the dimensional analysis for this unit
+     */
+    @Override
     Dimensions getDimensions();
 
     String getDescription();
 
     String name();
 
-    double getSIFactor();
+
+    @Override
+    default Iterator<UnitExponent> iterator() {
+        return Collections.singleton(new UnitExponent(this, 1)).iterator();
+    }
 
     static UnitExponent[] toArray(Unit... units) {
         Map<Unit, AtomicInteger> map = new LinkedHashMap<>();

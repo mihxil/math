@@ -16,14 +16,22 @@ import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 public class UncertainDoubleElement
     extends AbstractUncertainDouble<UncertainReal> implements UncertainReal {
 
-    public static final UncertainDoubleElement ZERO = new UncertainDoubleElement(0, EXACT);
-    public static final UncertainDoubleElement ONE  = new UncertainDoubleElement(1, EXACT);
+    public static final UncertainDoubleElement ZERO = exact(0);
+    public static final UncertainDoubleElement ONE  = exact(1);
 
     private final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     private final double value;
     @Getter
     private final double uncertainty;
+
+    public static UncertainDoubleElement exact(double value) {
+        return new UncertainDoubleElement(value, EXACT);
+    }
+
+    public static UncertainDoubleElement of(double value, double uncertainty) {
+        return new UncertainDoubleElement(value, uncertainty);
+    }
 
     public UncertainDoubleElement(double value, double uncertainty) {
         this.value = value;
@@ -38,13 +46,13 @@ public class UncertainDoubleElement
     @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
         double newValue = getValue() * multiplier.getValue();
-        return new UncertainDoubleElement(newValue,
+        return of(newValue,
             operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()));
     }
 
     @Override
     public UncertainDoubleElement plus(UncertainReal summand) {
-        return new UncertainDoubleElement(getValue() + summand.getValue(),
+        return of(getValue() + summand.getValue(),
             operations.add(uncertainty, summand.getUncertainty()));
     }
 
@@ -65,26 +73,26 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement sqrt() {
-        return new UncertainDoubleElement(Math.sqrt(value), uncertainty);
+        return of(Math.sqrt(value), uncertainty);
     }
 
     public UncertainDoubleElement pow(UncertainDoubleElement uncertainDoubleElement) {
-        return new UncertainDoubleElement(Math.pow(value, uncertainDoubleElement.getValue()), uncertainty);
+        return of(Math.pow(value, uncertainDoubleElement.getValue()), uncertainty);
     }
 
     @Override
     public UncertainDoubleElement sin() {
-        return new UncertainDoubleElement(operations().sin(value), uncertainty);
+        return of(operations().sin(value), uncertainty);
     }
 
     @Override
     public UncertainDoubleElement cos() {
-        return new UncertainDoubleElement(operations().cos(value), uncertainty);
+        return of(operations().cos(value), uncertainty);
     }
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        return new UncertainDoubleElement(
+        return of(
             Math.pow(getValue(), exponent.getValue()),
             operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
     }
@@ -95,14 +103,19 @@ public class UncertainDoubleElement
         if (v == 0 && exponent < 0) {
             throw new DivisionByZeroException(v + "^" + exponent);
         }
-        return new UncertainDoubleElement(
+        return of(
             Math.pow(getValue(), exponent),
             Math.abs(exponent) * Math.pow(Math.abs(getValue()), exponent -1) * getUncertainty());
     }
 
     @Override
-    public UncertainDoubleElement of(double value, double uncertainty) {
-        return new UncertainDoubleElement(value, uncertainty);
+    public UncertainDoubleElement abs() {
+        return of(Math.abs(getValue()), uncertainty);
+    }
+
+    @Override
+    public UncertainDoubleElement _of(double value, double uncertainty) {
+        return of(value, uncertainty);
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
@@ -121,10 +134,7 @@ public class UncertainDoubleElement
         return Double.compare(getValue(), o.doubleValue());
     }
 
-    @Override
-    public UncertainDoubleElement abs() {
-        return new UncertainDoubleElement(Math.abs(getValue()), uncertainty);
-    }
+
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).

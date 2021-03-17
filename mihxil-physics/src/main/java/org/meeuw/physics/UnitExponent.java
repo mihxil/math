@@ -1,5 +1,7 @@
 package org.meeuw.physics;
 
+import lombok.Getter;
+
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -8,7 +10,9 @@ import org.meeuw.math.text.TextUtils;
  */
 public class UnitExponent implements Comparable<UnitExponent> {
 
+    @Getter
     final int exponent;
+    @Getter
     final Unit unit;
 
     public UnitExponent(Unit unit, int exponent) {

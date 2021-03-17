@@ -4,8 +4,9 @@ import lombok.Getter;
 
 import java.util.*;
 
-import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * Represents the units of a {@link AbstractUncertainDouble}.
@@ -17,28 +18,17 @@ import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 public class UnitsImpl implements Units  {
 
     @Getter
-    private final double SIFactor;
+    private final UncertainReal SIFactor;
+    @Getter
     private final UnitExponent[] exponents;
 
-    public UnitsImpl(double siFactor, Unit... units) {
+    public UnitsImpl(UncertainReal siFactor, Unit... units) {
         this(siFactor, Unit.toArray(units));
     }
 
-    public UnitsImpl(double siFactor, UnitExponent... units) {
+    public UnitsImpl(UncertainReal siFactor, UnitExponent... units) {
         this.exponents = units;
         this.SIFactor = siFactor;
-    }
-
-    public static UnitsImpl of(double siFactor, Unit... units) {
-        return new UnitsImpl(siFactor, units);
-    }
-
-    public static UnitsImpl of(Unit... units) {
-        double factor = 1;
-        for (Unit u : units) {
-            factor *= u.getSIFactor();
-        }
-        return new UnitsImpl(factor, units);
     }
 
     @Override
@@ -70,7 +60,7 @@ public class UnitsImpl implements Units  {
                 base.add(u);
             }
         }
-        return new UnitsImpl(SIFactor * multiplier.getSIFactor(), base.toArray(new UnitExponent[0]));
+        return new UnitsImpl(SIFactor.times(multiplier.getSIFactor()), base.toArray(new UnitExponent[0]));
     }
 
     @Override
@@ -83,11 +73,11 @@ public class UnitsImpl implements Units  {
                 base.remove(i--);
             }
         }
-        return new UnitsImpl(Math.pow(SIFactor, exponent), base.toArray(new UnitExponent[0]));
+        return new UnitsImpl(SIFactor.pow(exponent), base.toArray(new UnitExponent[0]));
     }
 
     @Override
-    public Dimensions dimensions() {
+    public Dimensions getDimensions() {
         int[] dimexponents =  new int[Dimension.NUMBER];
         for (UnitExponent u : exponents) {
             int[] uexponents = u.getDimensions().getExponents();
@@ -97,13 +87,6 @@ public class UnitsImpl implements Units  {
         }
         return new Dimensions(dimexponents);
     }
-
-    @Override
-    public PhysicalConstant zero() {
-        return new PhysicalConstant("0", 0, this, "zero " + toString());
-    }
-
-
 
     @Override
     public Iterator<UnitExponent> iterator() {
@@ -132,17 +115,7 @@ public class UnitsImpl implements Units  {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (UnitExponent e :exponents) {
-            if (e.exponent != 0) {
-                if (builder.length() > 0) {
-                    builder.append(UncertainDoubleFormat.TIMES);
-                }
-
-                builder.append(e.toString());
-            }
-        }
-        return builder.toString();
+        return FormatService.toString(this);
     }
 
 }

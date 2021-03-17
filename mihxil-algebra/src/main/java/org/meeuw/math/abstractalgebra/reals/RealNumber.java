@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -55,7 +56,7 @@ public class RealNumber
     @Override
     public RealNumber plus(RealNumber summand) {
         double newValue = value + summand.value;
-        return of(
+        return _of(
             newValue,
             uncertainty + summand.uncertainty + uncertaintyForDouble(newValue)
         );
@@ -63,7 +64,7 @@ public class RealNumber
 
     @Override
     public RealNumber negation() {
-        return of(-1 * value, uncertainty);
+        return _of(-1 * value, uncertainty);
     }
 
     @Override
@@ -90,6 +91,9 @@ public class RealNumber
     @Override
     public RealNumber pow(int exponent) {
         double newValue = Math.pow(value, exponent);
+        if (value == 0 && exponent < 0) {
+            throw new DivisionByZeroException("0" + TextUtils.superscript(exponent));
+        }
         return new RealNumber(newValue,
             uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
         );
@@ -139,23 +143,23 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber of(double value, double uncertainty) {
+    public RealNumber _of(double value, double uncertainty) {
         return new RealNumber(value, uncertainty);
     }
 
     @Override
     public RealNumber times(double multiplier) {
-        return of(value * multiplier, uncertainty * Math.abs(multiplier));
+        return _of(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
     @Override
     public RealNumber sin() {
-        return of(operations().sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return _of(operations().sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
     public RealNumber cos() {
-        return of(operations().cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        return _of(operations().cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
     }
 
     @Override
@@ -174,22 +178,25 @@ public class RealNumber
     @Override
     public RealNumber sqr() {
         double sq = value * value;
-        return of(sq, sq * getFractionalUncertainty() * 2);
+        return _of(sq, sq * getFractionalUncertainty() * 2);
     }
 
     @Override
     public RealNumber sqrt() {
-        return of(Math.sqrt(value), Math.max(uncertainty, Utils.uncertaintyForDouble(value)));
+        return _of(Math.sqrt(value), Math.max(uncertainty, Utils.uncertaintyForDouble(value)));
     }
 
     @Override
     public RealNumber pow(RealNumber exponent) {
-        return of(Math.pow(value, exponent.value), uncertainty);
+        if (value == 0 && exponent.isNegative()) {
+            throw new DivisionByZeroException("0 ^ " + exponent);
+        }
+        return _of(Math.pow(value, exponent.value), uncertainty);
     }
 
     @Override
     public RealNumber abs() {
-        return of(Math.abs(value), uncertainty);
+        return _of(Math.abs(value), uncertainty);
     }
 
     public DoubleConfidenceInterval getConfidenceInterval() {

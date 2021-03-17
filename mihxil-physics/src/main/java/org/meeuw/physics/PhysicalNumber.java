@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -105,27 +106,25 @@ public abstract class PhysicalNumber extends Number
     /**
      * Units will implicitely be converted, and the resulting value will have the units of this.
      *
-     * @throws IllegalArgumentException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
+     * @throws DimensionsMismatchException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
      * @param summand the physical number to add to this one
      * @return  a new physical number which is the sum of this one and another one.
      */
     @Override
     public PhysicalNumber plus(PhysicalNumber summand) {
         summand = summand.toUnits(this.getUnits());
-        return copy(wrapped.plus(summand.wrapped), Units.forAddition(units, summand.getUnits())
-        );
+        return copy(wrapped.plus(summand.wrapped), Units.forAddition(units, summand.getUnits()));
     }
 
     @Override
     public PhysicalNumber reciprocal() {
-
         return pow(-1);
     }
 
     /**
      * Converts this to a new physical number but represented in the given units.
      *
-     * @throws IllegalArgumentException if the target units are not compatible (have different dimensions)
+     * @throws DimensionsMismatchException if the target units are not compatible (have different dimensions)
      * @param target the new units
      * @return a new physical number representing the same value as this one, only in different units
      */
@@ -133,12 +132,12 @@ public abstract class PhysicalNumber extends Number
         if (getUnits().equals(target)) {
             return this;
         }
-        double factor = getUnits().conversionFactor(target);
+        UncertainReal factor = getUnits().conversionFactor(target);
         return copy(wrapped.times(factor), target);
     }
 
     public PhysicalNumber toUnits(Unit... units) {
-        return toUnits(UnitsImpl.of(units));
+        return toUnits(Units.of(units));
     }
 
     /**
@@ -188,7 +187,7 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public PhysicalNumber of(double value, double uncertainty) {
+    public PhysicalNumber _of(double value, double uncertainty) {
         return new Measurement(value, uncertainty, units);
     }
 
@@ -219,7 +218,7 @@ public abstract class PhysicalNumber extends Number
      */
     @Override
     public String toString() {
-        return wrapped + " " + units;
+        return FormatService.toString(this);
     }
 
 }

@@ -38,7 +38,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
     }
 
     default D plus(double summand) {
-        return of(summand + getValue(), getUncertainty());
+        return _of(summand + getValue(), getUncertainty());
     }
 
     default D minus(double subtrahend) {
@@ -58,7 +58,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
 
         // I'm not absolutely sure about this:
         double uncertainty = 1d/ Math.sqrt((weight + mweight));
-        return of(value, uncertainty);
+        return _of(value, uncertainty);
     }
 
     /**
@@ -66,7 +66,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
      * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
     default D times(double multiplier) {
-        return of(multiplier * getValue(),
+        return _of(multiplier * getValue(),
             Math.abs(multiplier) * getUncertainty());
     }
 
@@ -76,7 +76,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
 
     default D times(D multiplier) {
         double newValue = getValue() * multiplier.getValue();
-        return of(newValue,
+        return _of(newValue,
             operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
         );
     }
@@ -84,7 +84,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
     default D plus(D summand) {
         double u = getUncertainty();
         double mu = summand.getUncertainty();
-        return of(
+        return _of(
             getValue() + summand.getValue(),
             operations().addUncertainty(u, mu));
 
@@ -95,7 +95,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
         if (!Double.isFinite(v)) {
             throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
         }
-        return of(
+        return _of(
             v,
             Math.abs(exponent) * Math.pow(getValue(), exponent - 1) * getUncertainty());
     }
@@ -122,7 +122,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
             ||  other.getConfidenceInterval(sds).contains(getValue());
     }
 
-    D of(double value, double uncertainty);
+    D _of(double value, double uncertainty);
 
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
         return DoubleConfidenceInterval.of(getValue(), getUncertainty(), sds);
@@ -150,7 +150,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D
 
     @Override
     default D abs() {
-        return of(Math.abs(getValue()), getUncertainty());
+        return _of(Math.abs(getValue()), getUncertainty());
     }
 
     @Override

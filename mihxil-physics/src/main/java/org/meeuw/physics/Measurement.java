@@ -19,7 +19,7 @@ public class Measurement extends PhysicalNumber {
         this(new UncertainDoubleElement(value, uncertainty), units);
     }
     public Measurement(double value, double uncertainty, DerivedUnit derivedUnit) {
-        this(new UncertainDoubleElement(value, uncertainty), UnitsImpl.of(derivedUnit));
+        this(new UncertainDoubleElement(value, uncertainty), Units.of(derivedUnit));
     }
 
     public Measurement(UncertainReal wrapped, Units units) {

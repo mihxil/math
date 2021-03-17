@@ -6,7 +6,7 @@ import net.jqwik.api.Arbitrary;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.numbers.test.ScalarTheory;
-import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.TextUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -34,7 +34,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         }
         @Override
         public String toString() {
-            return value + UncertainDoubleFormat.PLUSMIN + uncertainty;
+            return value + TextUtils.PLUSMIN + uncertainty;
         }
 
         @Override

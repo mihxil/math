@@ -116,44 +116,44 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     }
 
     public UncertainDoubleElement immutableCopy() {
-        return of(getValue(), getUncertainty());
+        return _of(getValue(), getUncertainty());
     }
 
     @Override
-    public UncertainDoubleElement of(double value, double uncertainty) {
+    public UncertainDoubleElement _of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
     }
 
     @Override
     public UncertainReal sqrt() {
-        return of(operations.sqrt(getValue()), getUncertainty());
+        return _of(operations.sqrt(getValue()), getUncertainty());
     }
 
     @Override
     public UncertainReal sin() {
-        return of(operations.sin(getValue()), getUncertainty());
+        return _of(operations.sin(getValue()), getUncertainty());
     }
 
     @Override
     public UncertainReal cos() {
-        return of(operations.cos(getValue()), getUncertainty());
+        return _of(operations.cos(getValue()), getUncertainty());
     }
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        return of(operations.pow(getValue(), exponent.getValue()),operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
+        return _of(operations.pow(getValue(), exponent.getValue()),operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
     }
 
     @Override
     public UncertainReal times(UncertainReal multiplier) {
         double v = getValue() * multiplier.getValue();
-        return of(v,
+        return _of(v,
             operations.multipliedUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()));
     }
 
     @Override
     public UncertainReal plus(UncertainReal summand) {
-        return of(getValue() + summand.getValue(), operations.addUncertainty(getUncertainty(), summand.getUncertainty()));
+        return _of(getValue() + summand.getValue(), operations.addUncertainty(getUncertainty(), summand.getUncertainty()));
     }
 
     @Override

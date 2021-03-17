@@ -1,6 +1,10 @@
 package org.meeuw.physics;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class DerivedUnitTest {
+class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
     @Test
     public void N() {
@@ -32,4 +36,8 @@ class DerivedUnitTest {
         assertThat(SI.eV.getSIFactor().getValue()).isEqualTo(1.602176634E-19);
     }
 
+    @Override
+    public Arbitrary<Units> elements() {
+        return Arbitraries.of(SI.eV, SI.N, SI.eV);
+    }
 }
