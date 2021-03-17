@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
 import static java.math.BigDecimal.ZERO;
@@ -110,6 +110,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     }
 
     @Override
+    @lombok.NonNull
     public Iterator<E> iterator() {
         return Arrays.asList(x, y, z).iterator();
     }
@@ -124,6 +125,14 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         return x.equals(vector3.x) &&
             y.equals(vector3.y) &&
             z.equals(vector3.z);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x.hashCode();
+        result = 31 * result + y.hashCode();
+        result = 31 * result + z.hashCode();
+        return result;
     }
 
     @Override
