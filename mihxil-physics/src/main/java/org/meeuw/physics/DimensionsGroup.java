@@ -8,7 +8,8 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * @author Michiel Meeuwissen
  */
-public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> implements MultiplicativeAbelianGroup<Dimensions>, Streamable<Dimensions> {
+public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> implements
+    MultiplicativeAbelianGroup<Dimensions>, Streamable<Dimensions> {
 
     private static final Dimensions ONE = new Dimensions();
 
