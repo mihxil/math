@@ -3,6 +3,7 @@ package org.meeuw.physics;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntFunction;
 
@@ -49,7 +50,10 @@ public class DerivedUnit implements Unit {
     }
 
     @lombok.Builder
-    public DerivedUnit(UncertainReal siFactor, String name, String description, List<UnitExponent> siExponents) {
+    public DerivedUnit(UncertainReal siFactor,
+                       String name,
+                       String description,
+                       List<UnitExponent> siExponents) {
         this(siFactor, name, description, siExponents.toArray(new IntFunction<UnitExponent[]>() {
             @Override
             public UnitExponent[] apply(int value) {
@@ -131,10 +135,14 @@ public class DerivedUnit implements Unit {
 
     @Override
     public Units times(Units multiplier) {
+        if (multiplier.isOne()){
+            return this;
+        }
         // TODO
         return DerivedUnit.builder()
             .siFactor(SIFactor.times(multiplier.getSIFactor()))
             .name(name + TextUtils.TIMES + multiplier)
+            .siExponents(new ArrayList<>())
             .build();
     }
 
@@ -144,10 +152,13 @@ public class DerivedUnit implements Unit {
         return DerivedUnit.builder()
             .siFactor(SIFactor.reciprocal())
             .name(name + TextUtils.superscript(-1))
+            .siExponents(new ArrayList<>())
             .build();
     }
 
     public static class Builder {
+
+
 
     }
 }
