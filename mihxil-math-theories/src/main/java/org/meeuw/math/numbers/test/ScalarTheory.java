@@ -1,11 +1,11 @@
 package org.meeuw.math.numbers.test;
 
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
-
 import java.math.BigDecimal;
 
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
 import org.assertj.core.data.Offset;
+
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.util.test.ElementTheory;
 
@@ -70,7 +70,6 @@ public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S> {
     @Property
     default void floatValues(@ForAll(ELEMENTS) S scalar) {
         assertThat(scalar.floatValue()).isCloseTo((float) scalar.doubleValue(), withPercentage(0.1d));
-
         assertThat(scalar.bigDecimalValue().doubleValue()).isEqualTo(scalar.doubleValue());
     }
 

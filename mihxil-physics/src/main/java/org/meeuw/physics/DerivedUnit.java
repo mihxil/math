@@ -49,7 +49,7 @@ public class DerivedUnit implements Unit {
 
     @lombok.Builder
     public DerivedUnit(UncertainReal siFactor, String name, String description, List<UnitExponent> siExponents) {
-        this(siFactor, name, description, siExponents.toArray(UnitExponent[]::new));
+        this(siFactor, name, description, siExponents.toArray(i -> new UnitExponent[i]));
     }
 
 
