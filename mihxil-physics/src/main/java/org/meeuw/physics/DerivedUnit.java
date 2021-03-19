@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.function.IntFunction;
 
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -49,7 +50,13 @@ public class DerivedUnit implements Unit {
 
     @lombok.Builder
     public DerivedUnit(UncertainReal siFactor, String name, String description, List<UnitExponent> siExponents) {
-        this(siFactor, name, description, siExponents.toArray(i -> new UnitExponent[i]));
+        this(siFactor, name, description, siExponents.toArray(new IntFunction<UnitExponent[]>() {
+            @Override
+            public UnitExponent[] apply(int value) {
+                return new UnitExponent[value];
+
+            }
+        }));
     }
 
 
