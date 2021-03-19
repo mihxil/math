@@ -19,7 +19,7 @@ jobs:
       with:
         java-version: 11
     - name: Build with Maven
-      run: mvn -B -fn
+      run: mvn -B -fae
     - name: codecov
       run: bash <(curl -s https://codecov.io/bash)
     - name: Publish Test Report
