@@ -50,7 +50,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E v1
     )  {
         try {
-            assertThat(v1.pow(-2)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1)));
+            E powMinus2 = v1.pow(-2);
+            E oneDividedBySqr = v1.getStructure().one().dividedBy(v1.times(v1));
+            assertThat(powMinus2).usingDefaultComparator().isEqualTo(oneDividedBySqr);
         } catch (DivisionByZeroException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
@@ -61,7 +63,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E v1
     )  {
         try {
-            assertThat(v1.pow(-3)).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
+            assertThat(v1.pow(-3)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
         } catch (DivisionByZeroException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         }
@@ -72,8 +74,10 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
          @ForAll(ELEMENTS) E e
     )  {
         try {
-            assertThat(e.reciprocal().reciprocal()).isEqualTo(e);
-            assertThat(e.reciprocal().times(e)).isEqualTo(e.getStructure().one());
+            E reciprocal = e.reciprocal();
+            assertThat(reciprocal.reciprocal()).isEqualTo(e);
+            E reciprocalTimesSelf = reciprocal.times(e);
+            assertThat(reciprocalTimesSelf).usingDefaultComparator().isEqualTo(e.getStructure().one());
         } catch (ReciprocalException ae) {
             // The element may be zero
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);

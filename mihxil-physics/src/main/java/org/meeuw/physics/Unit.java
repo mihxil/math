@@ -1,5 +1,7 @@
 package org.meeuw.physics;
 
+import lombok.NonNull;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -22,6 +24,7 @@ public interface Unit extends Units {
 
 
     @Override
+    @NonNull
     default Iterator<UnitExponent> iterator() {
         return Collections.singleton(new UnitExponent(this, 1)).iterator();
     }

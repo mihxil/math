@@ -2,6 +2,8 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.util.Optional;
+
 import org.meeuw.math.Utils;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact;
@@ -61,6 +63,35 @@ public class SI implements SystemOfMeasurements {
         public double getAsDouble() {
             return factor;
         }
+
+        @Override
+        public Optional<BinaryPrefixes> times(Prefix prefix) {
+            if (prefix instanceof BinaryPrefixes) {
+                return forFactor(factor * ((BinaryPrefixes) prefix).factor);
+            }
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<BinaryPrefixes> dividedBy(Prefix prefix) {
+            if (prefix instanceof BinaryPrefixes) {
+                return forFactor(factor / ((BinaryPrefixes) prefix).factor);
+            }
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<BinaryPrefixes> reciprocal() {
+            return Optional.empty();
+        }
+        public static Optional<BinaryPrefixes> forFactor(long factor) {
+              for (BinaryPrefixes p : BinaryPrefixes.values()) {
+                  if (p.factor == factor) {
+                      return Optional.of(p);
+                  }
+              }
+              return Optional.empty();
+        }
     }
 
     public enum Prefixes implements Prefix {
@@ -88,6 +119,7 @@ public class SI implements SystemOfMeasurements {
         //public static final BigInteger Y = Z.multiply(BigInteger.valueOf(1000));
 
         final double doubleValue;
+
         @Getter
         final int pow;
 
@@ -99,6 +131,36 @@ public class SI implements SystemOfMeasurements {
         @Override
         public double getAsDouble() {
             return doubleValue;
+        }
+
+        @Override
+        public Optional<Prefixes> times(Prefix prefix) {
+            if (prefix instanceof Prefixes) {
+                return forPow(pow + ((Prefixes) prefix).pow);
+            }
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Prefixes> dividedBy(Prefix prefix) {
+            if (prefix instanceof Prefixes) {
+                return forPow(pow - ((Prefixes) prefix).pow);
+            }
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<Prefixes> reciprocal() {
+            return forPow(-1 * pow);
+        }
+
+        public static Optional<Prefixes> forPow(int pow) {
+              for (Prefixes p : values()) {
+                  if (p.pow == pow) {
+                      return Optional.of(p);
+                  }
+              }
+              return Optional.empty();
         }
     }
 

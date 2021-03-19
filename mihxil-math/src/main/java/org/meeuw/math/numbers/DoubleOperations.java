@@ -3,6 +3,8 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Utils;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -13,7 +15,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public Double getFractionalUncertainty(Double value, Double uncertainty) {
-        return uncertainty / (abs(value) + uncertainty); // add uncertainty to avoid division by zero.
+        double u = Math.max(uncertainty, Utils.uncertaintyForDouble(value));
+        return u  / (abs(value) + u); // add uncertainty to avoid division by zero.
     }
 
     @Override

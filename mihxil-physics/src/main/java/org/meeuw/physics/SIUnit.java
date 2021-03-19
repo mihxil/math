@@ -33,8 +33,6 @@ public enum SIUnit implements Unit {
     @Getter
     private final Dimension dimension;
 
-    @Getter
-    private final Dimensions dimensions;
 
     @Getter
     private final String description;
@@ -42,7 +40,6 @@ public enum SIUnit implements Unit {
     SIUnit(Dimension dimension, String description) {
         this.dimension = dimension;
         this.description = description;
-        this.dimensions = getDimensions(ordinal());
     }
 
 
@@ -56,6 +53,11 @@ public enum SIUnit implements Unit {
         return Units.of(this).reciprocal();
     }
 
+
+    @Override
+    public Dimensions getDimensions() {
+        return getDimensions(ordinal());
+    }
 
     private static  Dimensions getDimensions(int ord) {
         int[] exponents = new int[7];

@@ -12,6 +12,7 @@ public class UnitExponent implements Comparable<UnitExponent> {
 
     @Getter
     final int exponent;
+
     @Getter
     final Unit unit;
 

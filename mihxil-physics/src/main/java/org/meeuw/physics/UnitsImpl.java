@@ -60,6 +60,12 @@ public class UnitsImpl implements Units  {
                 base.add(u);
             }
         }
+        if (base.size() == 0) {
+            return Units.DIMENSIONLESS;
+        }
+        if (base.size() == 1 && base.get(0).exponent == 1) {
+            return base.get(0).unit;
+        }
         return new UnitsImpl(SIFactor.times(multiplier.getSIFactor()), base.toArray(new UnitExponent[0]));
     }
 

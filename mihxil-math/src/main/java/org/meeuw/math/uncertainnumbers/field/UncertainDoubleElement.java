@@ -17,9 +17,22 @@ public class UncertainDoubleElement
     extends AbstractUncertainDouble<UncertainReal> implements UncertainReal {
 
     public static final UncertainDoubleElement ZERO = exact(0);
-    public static final UncertainDoubleElement ONE  = exact(1);
+    public static final UncertainDoubleElement ONE  = new UncertainDoubleElement(1, EXACT) {
+        @Override
+        public UncertainDoubleElement sqrt() {
+            return this;
+        }
+        @Override
+        public UncertainDoubleElement sqr() {
+            return this;
+        }
+        @Override
+        public UncertainDoubleElement pow(int exponent) {
+            return this;
+        }
+    };
 
-    private final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
+    private static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     private final double value;
     @Getter
@@ -45,6 +58,9 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
+        if (multiplier.isOne()){
+            return this;
+        }
         double newValue = getValue() * multiplier.getValue();
         return of(newValue,
             operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()));
@@ -133,8 +149,6 @@ public class UncertainDoubleElement
     public int compareTo(Number o) {
         return Double.compare(getValue(), o.doubleValue());
     }
-
-
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
