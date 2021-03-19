@@ -5,7 +5,6 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.IntFunction;
 
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -38,7 +37,11 @@ public class DerivedUnit implements Unit {
     @Getter
     final String description;
 
-    public DerivedUnit(UncertainReal siFactor, String name, String description, UnitExponent... siExponents) {
+    public DerivedUnit(
+        UncertainReal siFactor,
+        String name,
+        String description,
+        UnitExponent... siExponents) {
         for (UnitExponent f : siExponents) {
             this.exponents[((SIUnit) f.unit).ordinal()] = f.exponent;
         }
@@ -50,17 +53,12 @@ public class DerivedUnit implements Unit {
     }
 
     @lombok.Builder
-    public DerivedUnit(UncertainReal siFactor,
-                       String name,
-                       String description,
-                       List<UnitExponent> siExponents) {
-        this(siFactor, name, description, siExponents.toArray(new IntFunction<UnitExponent[]>() {
-            @Override
-            public UnitExponent[] apply(int value) {
-                return new UnitExponent[value];
-
-            }
-        }));
+    public DerivedUnit(
+        UncertainReal siFactor,
+        String name,
+        String description,
+        List<UnitExponent> siExponents) {
+        this(siFactor, name, description, siExponents.stream().toArray(UnitExponent[]::new));
     }
 
 
