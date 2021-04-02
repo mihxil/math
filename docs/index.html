@@ -19,7 +19,7 @@
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_mihxil_math">1. mihxil-math</a>
+<li><a href="#_math">1. math</a>
 <ul class="sectlevel2">
 <li><a href="#_abstract_algebras">1.1. Abstract Algebras</a>
 <ul class="sectlevel3">
@@ -34,12 +34,16 @@
 <li><a href="#_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</a></li>
 </ul>
 </li>
-<li><a href="#_formatting">1.2. Formatting</a></li>
+<li><a href="#_formatting">1.2. Formatting</a>
+<ul class="sectlevel3">
+<li><a href="#_unicode">1.2.1. unicode</a></li>
 </ul>
 </li>
-<li><a href="#_mihxil_statistics">2. mihxil-statistics</a></li>
-<li><a href="#_mihxil_physics">3. mihxil-physics</a></li>
-<li><a href="#_mihxil_algebra">4. mihxil-algebra</a>
+</ul>
+</li>
+<li><a href="#_statistics">2. statistics</a></li>
+<li><a href="#_physics">3. physics</a></li>
+<li><a href="#_algebra">4. algebra</a>
 <ul class="sectlevel2">
 <li><a href="#_features">4.1. Features</a>
 <ul class="sectlevel3">
@@ -80,7 +84,7 @@
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mihxil_math">1. mihxil-math</h2>
+<h2 id="_math">1. math</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-math"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg" alt="Maven Central"></a></span>
@@ -310,7 +314,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/numbers/Scalar.java"><code>Scalar</code></a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">generic interface that defines method to convert to java (primitive) number objects. Like <code>doubleValue()</code> and <code>intValue()</code>. It extends a few interfaces for some properties which can be applied to other structures to, like <code>Sizeable</code> and <code>SignedNumber</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A generic interface that defines method to convert to java (primitive) number objects. Like <code>doubleValue()</code> and <code>intValue()</code>. It extends a few interfaces for some properties which can be applied to other structures to, like <code>Sizeable</code> and <code>SignedNumber</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/ScalarFieldElement.java"><code>ScalarFieldElement</code></a></p></td>
@@ -333,7 +337,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>Most real numbers cannot be represented exactly. It may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on them.</p>
 </div>
 <div class="paragraph">
-<p>The 'physics' module will adds to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually <em>measuring</em> things.</p>
+<p>The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually <em>measuring</em> things.</p>
 </div>
 <div class="paragraph">
 <p>The 'statistics' module introduces uncertain numbers where the uncertainty defined as the standard deviation in a collected set of values. These numbers are examples where the numbers are actually stateful, because new values can be added to the set. This should not actually change the <em>value</em> represented by  the object though, only decrease its <em>uncertainty</em>. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.</p>
@@ -396,7 +400,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</h4>
 <div class="paragraph">
-<p>When a value has uncertainty then 'equals' also considers it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.</p>
+<p>When a value has uncertainty, then 'equals' also considers it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.</p>
 </div>
 <div class="paragraph">
 <p>In this case the <code>hashCode</code> must be a fixed value, because otherwise we can&#8217;t garantuee that equal values have equal hashCode.</p>
@@ -415,7 +419,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>The formatters have access to a (thread local) configuration object. Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
-<p>The service giving access to the format-providers is <code>FormatService</code>. Which is collection of static functions. It is also responsible for managing the <code>Configuration</code> thread locals.</p>
+<p>The service giving access to the format-providers is <code>FormatService</code>. This is a collection of static functions. It is also responsible for managing the <code>Configuration</code> thread locals.</p>
 </div>
 <div class="paragraph">
 <p>Like this it can be consulted</p>
@@ -474,7 +478,7 @@ FormatService.resetToDefaults();</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Gloabel defaults can be set similarly</p>
+<p>Global defaults can be set similarly</p>
 </div>
 <div class="listingblock">
 <div class="title">setting global defaults</div>
@@ -485,11 +489,17 @@ FormatService.resetToDefaults();</code></pre>
  );</code></pre>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_unicode">1.2.1. unicode</h4>
+<div class="paragraph">
+<p>Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mihxil_statistics">2. mihxil-statistics</h2>
+<h2 id="_statistics">2. statistics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg" alt="Maven Central"></a></span>
@@ -501,10 +511,25 @@ FormatService.resetToDefaults();</code></pre>
 <div class="paragraph">
 <p>Also, it includes some classes to keep track of 'sliding window' values of averages.</p>
 </div>
+<div class="listingblock">
+<div class="title">example of WindowedEventRate</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WindowedEventRate rate = WindowedEventRate.builder()
+            .bucketCount(<span class="integer">50</span>)
+            .window(<span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">50</span>))
+            .build();
+rate.newEvent();
+...
+..
+log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Measured rate: {} /s</span><span class="delimiter">&quot;</span></span>,  rate.getRate(<span class="predefined-type">TimeUnit</span>.SECONDS) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> #/s</span><span class="delimiter">&quot;</span></span>);
+
+log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Measured rate: {}</span><span class="delimiter">&quot;</span></span>, rate); <span class="comment">// toString</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mihxil_physics">3. mihxil-physics</h2>
+<h2 id="_physics">3. physics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-physics"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg" alt="Maven Central"></a></span>
@@ -530,12 +555,12 @@ assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec
 <p>Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).</p>
 </div>
 <div class="paragraph">
-<p>Physical numbers can freely multiplied and divided by each other.</p>
+<p>Physical numbers can freely be multiplied and divided by each other.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_mihxil_algebra">4. mihxil-algebra</h2>
+<h2 id="_algebra">4. algebra</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg" alt="Maven Central"></a></span>
@@ -780,7 +805,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-01-27 22:22:30 +0100
+Last updated 2021-04-02 23:38:50 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

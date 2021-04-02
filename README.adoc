@@ -96,7 +96,7 @@ Some algebraic elements are like 'real' numbers. There are several interfaces de
 |===
 | class/interface  | description
 
-| link:{ghm}numbers/Scalar.java[`Scalar`] | generic interface that defines method to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
+| link:{ghm}numbers/Scalar.java[`Scalar`] | A generic interface that defines method to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
  | link:{ghm}abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] | A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra. Well-behaved field elements that also behave as a 'Number' may implement `ScalarFieldElement`
 | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] | Even more similar to the everyday concept of number an algebraic field element are 'complete' field elements.  This in some way means 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible.
 | link:{ghm}numbers/NumberOperations.java[`NumberOperations`] |
@@ -107,7 +107,7 @@ Some algebraic elements are like 'real' numbers. There are several interfaces de
 
 Most real numbers cannot be represented exactly. It may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on them.
 
-The 'physics' module will adds to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
 
 The 'statistics' module introduces uncertain numbers where the uncertainty defined as the standard deviation in a collected set of values. These numbers are examples where the numbers are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.
 
@@ -135,7 +135,7 @@ Default methods then test wheter all theoretical possibilities and limitation of
 
 ==== Implementation of equals/hashcode
 
-When a value has uncertainty then 'equals' also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.
+When a value has uncertainty, then 'equals' also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.
 
 In this case the `hashCode` must be a fixed value, because otherwise we can't garantuee that equal values have equal hashCode.
 
@@ -147,7 +147,7 @@ A service loader is provided for implementations of `AlgebraicElementFormatProvi
 
 The formatters have access to a (thread local) configuration object. Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
 
-The service giving access to the format-providers is `FormatService`. Which is collection of static functions. It is also responsible for managing the `Configuration` thread locals.
+The service giving access to the format-providers is `FormatService`. This is a collection of static functions. It is also responsible for managing the `Configuration` thread locals.
 
 Like this it can be consulted
 
@@ -191,7 +191,7 @@ There are some utilities in FormatService that makes this process a bit easier.
  });
 ----
 
-Gloabel defaults can be set similarly
+Global defaults can be set similarly
 
 .setting global defaults
 [source,java]
@@ -201,6 +201,11 @@ Gloabel defaults can be set similarly
      .aspect(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
  );
 ----
+
+==== unicode
+
+Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
+
 
 == statistics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
@@ -249,7 +254,7 @@ assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec
 
 Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).
 
-Physical numbers can freely multiplied and divided by each other.
+Physical numbers can freely be multiplied and divided by each other.
 
 
 == algebra

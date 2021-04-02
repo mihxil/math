@@ -81,8 +81,9 @@ public class Vector<E extends ScalarFieldElement<E>> implements
 
     @Override
     public Iterator<E> iterator() {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             int i = 0;
+
             @Override
             public boolean hasNext() {
                 return i < values.length;

@@ -21,7 +21,7 @@ public enum Dimension {
     /**
      * Just an alias if you can't type greek
      */
-    static Dimension TH = Θ;
+    static final Dimension TH = Θ;
 
     static final int NUMBER = values().length;
 

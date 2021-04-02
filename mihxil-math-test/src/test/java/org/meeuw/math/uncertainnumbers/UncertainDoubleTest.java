@@ -1,8 +1,8 @@
 package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+
+import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.numbers.test.ScalarTheory;
@@ -111,6 +111,11 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
 
         assertThatThrownBy(() -> a.pow(Integer.MAX_VALUE))
             .isInstanceOf(ArithmeticException.class);
+    }
+
+    @Property
+    void multiply(A a1, A a2) {
+        assertThat(a1.times(a2).value).isEqualTo(a1.value * a2.value);
     }
 
 
