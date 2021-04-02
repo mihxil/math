@@ -37,6 +37,13 @@ class UncertainDoubleFormatTest {
     }
 
     @Test
+    public void infinity() {
+        UncertainDoubleFormat formatter = new UncertainDoubleFormat();
+        assertThat(formatter.scientificNotationWithUncertainty(Double.POSITIVE_INFINITY, 0)).isEqualTo("∞");
+        assertThat(formatter.scientificNotationWithUncertainty(Double.NEGATIVE_INFINITY, 0)).isEqualTo("-∞");
+    }
+
+    @Test
     public void parentheses() {
         UncertainDoubleFormat formatter = new UncertainDoubleFormat();
         formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
