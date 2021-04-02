@@ -15,7 +15,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
- * A real number (backend by a double).
+ * A real number (backend by a double). It is uncertain, but only because of rounding errors.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -191,7 +191,9 @@ public class RealNumber
         if (value == 0 && exponent.isNegative()) {
             throw new DivisionByZeroException("0 ^ " + exponent);
         }
-        return _of(Math.pow(value, exponent.value), uncertainty);
+        return _of(Math.pow(value, exponent.value),
+            uncertainty
+        );
     }
 
     @Override
