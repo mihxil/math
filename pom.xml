@@ -21,12 +21,12 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.target.version>8</java.target.version>
-    <lombok.version>1.18.18</lombok.version>
+    <lombok.version>1.18.20</lombok.version>
     <big-math.version>2.3.0</big-math.version>
 
     <!-- test dependencies -->
     <log4j.version>2.14.1</log4j.version>
-    <jqwik.version>1.5.0</jqwik.version>
+    <jqwik.version>1.5.1</jqwik.version>
     <junit.version>5.8.0-M1</junit.version>
     <jacoco.version>0.8.6</jacoco.version>
     <assertj.version>3.19.0</assertj.version>
