@@ -27,7 +27,7 @@ public class PermutationFormat extends Format {
     }
 
     @Override
-    public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
+    public StringBuffer format(Object obj, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
 
         if (obj instanceof Permutation) {
             int o = offset.getAsInt();
