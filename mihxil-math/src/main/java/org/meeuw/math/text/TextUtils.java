@@ -15,6 +15,7 @@ public final class TextUtils {
 
     public static final String TIMES = "\u00B7";  /* "·10' */
     public static final String PLUSMIN = "\u00B1";
+    public static final String INFINITY = "\u221E";
 
     private TextUtils() {
     }
