@@ -19,13 +19,18 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     @With
     private final Notation notation;
 
+    @Getter
+    @With
+    private final double considerRoundingErrorFactor;
+
     @lombok.Builder
-    private UncertaintyConfiguration(Notation notation) {
+    private UncertaintyConfiguration(Notation notation,  double considerRoundingErrorFactor) {
         this.notation = notation;
+        this.considerRoundingErrorFactor = considerRoundingErrorFactor;
     }
 
     public UncertaintyConfiguration() {
-        this(Notation.PLUS_MINUS);
+        this(Notation.PLUS_MINUS, 1000d);
     }
 
 
