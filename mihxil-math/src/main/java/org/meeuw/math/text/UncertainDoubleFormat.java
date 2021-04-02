@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.text.*;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -68,7 +69,6 @@ public class UncertainDoubleFormat extends Format {
         throw new UnsupportedOperationException();
     }
 
-
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
@@ -76,57 +76,60 @@ public class UncertainDoubleFormat extends Format {
     String scientificNotationWithUncertainty(
         double meanDouble,
         double stdDouble) {
-        SplitNumber std  = SplitNumber.split(stdDouble);
-        SplitNumber mean = SplitNumber.split(meanDouble);
-        boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
+        return formatInfinity(meanDouble).orElseGet(() -> {
+            SplitNumber mean = SplitNumber.split(meanDouble);
+            SplitNumber std = SplitNumber.split(stdDouble);
 
-        // use difference of order of magnitude of std to determin how mean digits of the mean are
-        // relevant
-        int magnitudeDifference = mean.exponent - std.exponent;
-        //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
-        int meanDigits = Math.max(0, magnitudeDifference) + 1;
+            boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
 
-
-        // for std starting with '1' we allow an extra digit.
-        if (std.coefficient < 2 && std.coefficient > 0) {
-            //System.out.println("Extra digit");
-            meanDigits++;
-        }
-
-        //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
+            // use difference of order of magnitude of std to determin how mean digits of the mean are
+            // relevant
+            int magnitudeDifference = mean.exponent - std.exponent;
+            //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
+            int meanDigits = Math.max(0, magnitudeDifference) + 1;
 
 
-        // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
-        // match the exponent of mean.
-        std.coefficient /= Utils.pow10(magnitudeDifference);
+            // for std starting with '1' we allow an extra digit.
+            if (std.coefficient < 2 && std.coefficient > 0) {
+                //System.out.println("Extra digit");
+                meanDigits++;
+            }
+
+            //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
 
 
-         // For numbers close to 1, we don't use scientific notation.
-        if (Math.abs(mean.exponent) < minimumExponent ||
-            // neither do we do that if the precision is so high, that we'd show the complete
-            // number anyway
-            (mean.exponent > 0 && meanDigits > mean.exponent)) {
+            // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
+            // match the exponent of mean.
+            std.coefficient /= Utils.pow10(magnitudeDifference);
 
-            double pow = Utils.pow10(mean.exponent);
-            mean.exponent = 0;
-            mean.coefficient *= pow;
-            std.coefficient  *= pow;
 
-        }
+            // For numbers close to 1, we don't use scientific notation.
+            if (Math.abs(mean.exponent) < minimumExponent ||
+                // neither do we do that if the precision is so high, that we'd show the complete
+                // number anyway
+                (mean.exponent > 0 && meanDigits > mean.exponent)) {
 
-        boolean useE = mean.exponent != 0;
+                double pow = Utils.pow10(mean.exponent);
+                mean.exponent = 0;
+                mean.coefficient *= pow;
+                std.coefficient *= pow;
 
-        int fd = meanDigits -  Utils.log10(largeError ? std.coefficient :  mean.coefficient) - 1;
-        //System.out.println(meanDigits + " -> " + mean + " -> " + fd);
-        NumberFormat format = (NumberFormat) numberFormat.clone();
-        format.setMaximumFractionDigits(fd);
-        format.setMinimumFractionDigits(fd);
-        format.setGroupingUsed(false);
-        final boolean useBrackets = useE && uncertaintyNotation == UncertaintyConfiguration.Notation.PARENTHESES.PLUS_MINUS;
-        return
-            (useBrackets ? "(" : "") + valueAndError(format.format(mean.coefficient), format.format(std.coefficient), uncertaintyNotation)
-            +
-            (useBrackets ? ")" : "") + (useE ? (TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
+            }
+
+            boolean useE = mean.exponent != 0;
+
+            int fd = meanDigits - Utils.log10(largeError ? std.coefficient : mean.coefficient) - 1;
+            //System.out.println(meanDigits + " -> " + mean + " -> " + fd);
+            NumberFormat format = (NumberFormat) numberFormat.clone();
+            format.setMaximumFractionDigits(fd);
+            format.setMinimumFractionDigits(fd);
+            format.setGroupingUsed(false);
+            final boolean useBrackets = useE && uncertaintyNotation == UncertaintyConfiguration.Notation.PLUS_MINUS;
+            return
+                (useBrackets ? "(" : "") + valueAndError(format.format(mean.coefficient), format.format(std.coefficient), uncertaintyNotation)
+                    +
+                    (useBrackets ? ")" : "") + (useE ? (TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
+        });
     }
 
     public static String valuePlusMinError(String value, String error) {
@@ -153,24 +156,33 @@ public class UncertainDoubleFormat extends Format {
 
 
     public static String scientificNotation(double meanDouble, int minimumExponent) {
-        SplitNumber mean = SplitNumber.split(meanDouble);
+        return formatInfinity(meanDouble).orElseGet(() -> {
+            SplitNumber mean = SplitNumber.split(meanDouble);
 
-        // For numbers close to 1, we don't use scientific notation.
-        if (Math.abs(mean.exponent) < minimumExponent) {
-            double pow = Utils.pow10(mean.exponent);
-            mean.exponent = 0;
-            mean.coefficient *= pow;
+            // For numbers close to 1, we don't use scientific notation.
+            if (Math.abs(mean.exponent) < minimumExponent) {
+                double pow = Utils.pow10(mean.exponent);
+                mean.exponent = 0;
+                mean.coefficient *= pow;
+            }
+            NumberFormat nf = NumberFormat.getInstance(Locale.US);
+            nf.setMaximumFractionDigits(14);
+            nf.setGroupingUsed(false);
+            boolean useE = mean.exponent != 0;
+
+            return
+                nf.format(mean.coefficient)
+                    +
+                    (useE ? TIMES_10 + TextUtils.superscript(mean.exponent) : "");
+        });
+    }
+
+    public static Optional<String> formatInfinity(double meanDouble) {
+        if (Double.isInfinite(meanDouble)) {
+            return Optional.of((meanDouble < 0 ? "-" : "") + TextUtils.INFINITY);
+        } else {
+            return Optional.empty();
         }
-        NumberFormat nf = NumberFormat.getInstance(Locale.US);
-        nf.setMaximumFractionDigits(14);
-        nf.setGroupingUsed(false);
-        boolean useE = mean.exponent != 0;
-
-        return
-            nf.format(mean.coefficient)
-            +
-            (useE ? TIMES_10 + TextUtils.superscript(mean.exponent)  : "");
-
     }
 
 
