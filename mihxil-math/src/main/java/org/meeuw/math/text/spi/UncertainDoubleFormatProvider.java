@@ -23,6 +23,7 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
         UncertainDoubleFormat format = new UncertainDoubleFormat();
         format.setMinimumExponent(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent());
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
+        format.setConsiderRoundingErrorFactor(getConfigurationAspect(UncertaintyConfiguration.class).getConsiderRoundingErrorFactor());
         return format;
     }
 
