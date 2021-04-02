@@ -263,7 +263,13 @@ public final class Utils {
     }
 
 
-
+    public static double max(double... values) {
+        double max = Double.NEGATIVE_INFINITY;
+        for (double tmp : values) {
+            max = Math.max(max, tmp);
+        }
+        return max;
+    }
 
     static class State {
         final int degree;
