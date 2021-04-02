@@ -25,7 +25,6 @@ public class RationalNumber extends Number
 
     private static final  MathContext MATH_CONTEXT = new MathContext(40);
 
-
     @Getter
     private final BigInteger numerator;
     @Getter
@@ -165,7 +164,6 @@ public class RationalNumber extends Number
         return bigDecimalValue().doubleValue();
     }
 
-
     @Override
     public BigDecimal bigDecimalValue() {
         return new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
@@ -211,6 +209,5 @@ public class RationalNumber extends Number
             return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "\u2044" + TextUtils.subscript(denominator.toString());
         }
     }
-
 
 }
