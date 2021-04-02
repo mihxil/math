@@ -1,6 +1,7 @@
 package org.meeuw.math.exceptions;
 
 /**
+ * Division by zero is mostly impossible. It's like multiplying by the reciprocal of {@link org.meeuw.math.abstractalgebra.AdditiveGroup#zero}
  * @author Michiel Meeuwissen
  */
 public class DivisionByZeroException extends ReciprocalException {
