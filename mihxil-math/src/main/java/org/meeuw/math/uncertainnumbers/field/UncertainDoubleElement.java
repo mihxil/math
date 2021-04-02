@@ -2,6 +2,7 @@ package org.meeuw.math.uncertainnumbers.field;
 
 import lombok.Getter;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
@@ -10,6 +11,9 @@ import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 
 /**
  * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
+ *
+ * The structure is {@link UncertainRealField}
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -68,8 +72,18 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement plus(UncertainReal summand) {
-        return of(getValue() + summand.getValue(),
-            operations.add(uncertainty, summand.getUncertainty()));
+        double v1 = getValue();
+        double v2 = summand.getValue();
+        double result  = v1 + v2;
+        return of(
+            result,
+            Utils.max(
+                operations.add(uncertainty, summand.getUncertainty()),
+                Utils.uncertaintyForDouble(result),
+                Utils.uncertaintyForDouble(v1),
+                Utils.uncertaintyForDouble(v2)
+            )
+        );
     }
 
     @Override
@@ -92,10 +106,6 @@ public class UncertainDoubleElement
         return of(Math.sqrt(value), uncertainty);
     }
 
-    public UncertainDoubleElement pow(UncertainDoubleElement uncertainDoubleElement) {
-        return of(Math.pow(value, uncertainDoubleElement.getValue()), uncertainty);
-    }
-
     @Override
     public UncertainDoubleElement sin() {
         return of(operations().sin(value), uncertainty);
@@ -108,9 +118,18 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
+        double result = Math.pow(value, exponent.getValue());
         return of(
-            Math.pow(getValue(), exponent.getValue()),
-            operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
+            result,
+            Utils.max(
+                Utils.uncertaintyForDouble(result),
+                operations.powerUncertainty(
+                    value,
+                    Math.max(uncertainty, Utils.uncertaintyForDouble(value)),
+                    exponent.getValue(),
+                    Math.max(exponent.getUncertainty(), Utils.uncertaintyForDouble(exponent.getValue()))
+                )
+            ));
     }
 
     @Override
