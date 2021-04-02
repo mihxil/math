@@ -5,6 +5,7 @@ import java.math.*;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -34,8 +35,13 @@ public class BigDecimalElement implements
     public static BigDecimalElement of(double doubleValue){
         return new BigDecimalElement(BigDecimal.valueOf(doubleValue), uncertainty(doubleValue));
     }
+
     public static BigDecimalElement of(String stringValue){
-        return new BigDecimalElement(new BigDecimal(stringValue), BigDecimal.ZERO);
+        return of(new BigDecimal(stringValue));
+    }
+
+    public static BigDecimalElement of(BigDecimal bigDecimal){
+        return new BigDecimalElement(bigDecimal, BigDecimal.ZERO);
     }
 
     public static BigDecimal uncertainty(double doubleValue) {
@@ -93,7 +99,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) {
+    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws ReciprocalException {
         return new BigDecimalElement(operations().pow(value, bigDecimalElement.value), uncertainty);
     }
 
