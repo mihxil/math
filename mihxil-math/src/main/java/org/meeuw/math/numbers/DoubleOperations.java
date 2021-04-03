@@ -49,6 +49,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         return n1 * n2;
     }
 
+    @Override
     public Double multiply(Double... ns) {
         return Stream.of(ns).reduce(1d, (a, b) -> a * b);
     }
@@ -66,6 +67,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         return n1 + n2;
     }
 
+    @Override
     public Double add(Double... ns) {
         return Stream.of(ns).reduce(0d, Double::sum);
     }
@@ -118,6 +120,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public Double cos(Double aDouble) {
         return Math.cos(aDouble);
+    }
+
+    @Override
+    public Double ln(Double v) {
+        return Math.log(v);
     }
 
 }

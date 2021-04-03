@@ -30,6 +30,11 @@ public interface NumberOperations<N extends Number> {
 
     N multiply(N n1, N n2);
 
+    N multiply(N... n1);
+
+
+    N ln(N n);
+
     default N multiply(int n1, N n2) {
         N result = n2;
         for (int i = n1; i > 1; i--) {
@@ -41,6 +46,8 @@ public interface NumberOperations<N extends Number> {
     N divide(N n1, N n2);
 
     N add(N n1, N n2);
+
+    N add(N... n);
 
     default N minus(N n1, N n2) {
         return add(n1, negate(n2));

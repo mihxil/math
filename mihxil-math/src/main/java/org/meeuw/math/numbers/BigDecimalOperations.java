@@ -3,6 +3,7 @@ package org.meeuw.math.numbers;
 import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.*;
+import java.util.stream.Stream;
 
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -59,6 +60,15 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public BigDecimal multiply(BigDecimal n1, BigDecimal n2) {
         return n1.multiply(n2);
     }
+    @Override
+    public BigDecimal multiply(BigDecimal... ns) {
+        return Stream.of(ns).reduce(BigDecimal.ONE, BigDecimal::multiply);
+    }
+
+    @Override
+    public BigDecimal ln(BigDecimal bigDecimal) {
+        return BigDecimalMath.log(bigDecimal, mathContext);
+    }
 
     @Override
     public BigDecimal divide(BigDecimal n1, BigDecimal n2) {
@@ -72,6 +82,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Override
     public BigDecimal add(BigDecimal n1, BigDecimal n2) {
         return n1.add(n2);
+    }
+
+    @Override
+    public BigDecimal add(BigDecimal... n) {
+        return Stream.of(n).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     @Override
