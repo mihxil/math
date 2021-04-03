@@ -27,7 +27,10 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     }
 
     default N powerUncertainty(N base, N baseUncertainty, N exponent, N exponentUncertainty) {
-        return multiply(baseUncertainty, exponent);
+        //https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations
+        return multiply(abs(pow(base, exponent)), sqrt(
+            add(sqr(divide(multiply(exponent, baseUncertainty), base)), sqr(multiply(ln(base), exponentUncertainty)))
+        ));
     }
 
 }

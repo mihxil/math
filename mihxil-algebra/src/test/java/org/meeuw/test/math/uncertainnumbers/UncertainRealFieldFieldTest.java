@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.Operator;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
@@ -39,22 +40,31 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
 
     @Property
     public void errorPropagation(
-        @ForAll("bigdecimals") BigDecimal r1,
-        @ForAll("bigdecimals") BigDecimal r2, @ForAll Operator operator) {
+        @ForAll("bigdecimals") final BigDecimal r1,
+        @ForAll("bigdecimals") final BigDecimal r2,
+        @ForAll Operator operator) {
+
         FormatService.with(
             (configurationBuilder) -> configurationBuilder.aspect(UncertaintyConfiguration.class, (nc) -> nc.withConsiderRoundingErrorFactor(0)), () -> {
-
+                BigDecimal big2 = r2;
+                if (operator == Operator.POWER) {
+                    big2 = big2.divide(BigDecimal.valueOf(100));
+                }
                 UncertainReal a = UncertainDoubleElement.exact(r1.doubleValue());
-                UncertainReal b = UncertainDoubleElement.exact(r2.doubleValue());
+                UncertainReal b = UncertainDoubleElement.exact(big2.doubleValue());
 
                 UncertainReal applied = operator.apply(a, b);
                 log.info("{} = {}", operator.stringify(a, b), applied);
                 BigDecimalElement ba = BigDecimalElement.of(r1);
-                BigDecimalElement bb = BigDecimalElement.of(r2);
-                BigDecimalElement exactApplied = operator.apply(ba, bb);
-                log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
+                BigDecimalElement bb = BigDecimalElement.of(big2);
+                try {
+                    BigDecimalElement exactApplied = operator.apply(ba, bb);
+                    log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
 
-                assertThat(applied.equals(UncertainDoubleElement.exact(exactApplied.doubleValue()))).isTrue();
+                    assertThat(applied.equals(UncertainDoubleElement.exact(exactApplied.doubleValue()))).isTrue();
+                } catch (ReciprocalException rce) {
+                    log.info("{} -> {}", operator.stringify(ba, bb), rce.getMessage());
+                }
             });
 
     }
@@ -73,7 +83,8 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
         return Arbitraries.randomValue(r -> {
             BigInteger a = new BigInteger(10, r);
             BigInteger b = new BigInteger(40, r);
-            return new BigDecimal(a  + "." + b);
+            return new BigDecimal((r.nextBoolean() ? "+" : "-") + a  + "." + b);
         });
     }
+
 }
