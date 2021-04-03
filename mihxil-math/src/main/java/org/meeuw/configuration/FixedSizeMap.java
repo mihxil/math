@@ -3,7 +3,7 @@ package org.meeuw.configuration;
 import java.util.*;
 
 /**
- * A simply map which allows for changing mappings, but not add or deleting them.
+ * A simple {@link Map} implementation which allows for changing mappings, but not adding or deleting them.
  *
  * This is used when representing configurations.
  *
