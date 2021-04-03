@@ -109,17 +109,17 @@
 <div class="sect2">
 <h3 id="_abstract_algebras">1.1. Abstract Algebras</h3>
 <div class="paragraph">
-<p>The idea is that every 'abstract algebra' consists of the implementation of two interfaces.</p>
+<p>The idea is that every 'abstract algebra' consists of the implementation of two interfaces</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>One of the extensions of  <a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicElement.java"><code>org.meeuw.math.abstractalgebra.AlgebraicElement</code></a> defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.</p>
 </li>
 <li>
-<p>One of the corresponding extensions of <a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java"><code>org.meeuw.math.abstractalgebra.AlgebraicStructure</code></a>, e.g.  <a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java"><code>org.meeuw.math.abstractalgebra.Field</code></a>.</p>
+<p>One of the corresponding extensions of <a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java"><code>org.meeuw.math.abstractalgebra.AlgebraicStructure</code></a>, e.g.  <a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java"><code>org.meeuw.math.abstractalgebra.Field</code></a>,  defines properties of the structure itself.</p>
 </li>
-</ul>
+</ol>
 </div>
 <div class="paragraph">
 <p>The terminology which is adopted is this:</p>
@@ -292,13 +292,13 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 </table>
 </div>
 <div class="paragraph">
-<p>The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero').</p>
+<p>The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (`one' and `zero').</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_numbers">1.1.2. Numbers</h4>
 <div class="paragraph">
-<p>Some algebraic elements are like 'real' numbers. There are several interfaces dedicated to formalising properties of that.</p>
+<p>Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -314,7 +314,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/numbers/Scalar.java"><code>Scalar</code></a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A generic interface that defines method to convert to java (primitive) number objects. Like <code>doubleValue()</code> and <code>intValue()</code>. It extends a few interfaces for some properties which can be applied to other structures to, like <code>Sizeable</code> and <code>SignedNumber</code>.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A generic interface that defines the methods to convert to java (primitive) number objects. Like <code>doubleValue()</code> and <code>intValue()</code>. It extends a few interfaces for some properties which can be applied to other structures to, like <code>Sizeable</code> and <code>SignedNumber</code>.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/ScalarFieldElement.java"><code>ScalarFieldElement</code></a></p></td>
@@ -322,7 +322,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java"><code>CompleteFieldElement</code></a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Even more similar to the everyday concept of number an algebraic field element are 'complete' field elements.  This in some way means 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Even more similar to the everyday concept of a number are elements of an algebraic field that is 'complete'.  This in some way means that is has 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible within the algebra.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/master/mihxil-math/src/main/java/org/meeuw/math/numbers/NumberOperations.java"><code>NumberOperations</code></a></p></td>
@@ -340,10 +340,10 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually <em>measuring</em> things.</p>
 </div>
 <div class="paragraph">
-<p>The 'statistics' module introduces uncertain numbers where the uncertainty defined as the standard deviation in a collected set of values. These numbers are examples where the numbers are actually stateful, because new values can be added to the set. This should not actually change the <em>value</em> represented by  the object though, only decrease its <em>uncertainty</em>. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.</p>
+<p>The 'statistics' module introduces uncertain numbers where the uncertainty is defined as the standard deviation in a collected set of values. These numbers are examples of elements that are actually stateful, because new values can be added to the set. This should not actually change the <em>value</em> represented by  the object though, only decrease its <em>uncertainty</em>. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.</p>
 </div>
 <div class="paragraph">
-<p>It is not always an absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.</p>
+<p>It is not always absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -391,19 +391,19 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_testing">1.1.4. Testing</h4>
 <div class="paragraph">
-<p>In <a href="{gmt}abstractalgebra/test/">mihxil-math-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementation implement these interfaces and provide the code to supply a bunch of example link: {gmt}abstractalgebra/test/ElementTheory.java#L20[<code>elements</code>].</p>
+<p>In <a href="{gmt}abstractalgebra/test/">mihxil-math-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example <a href="{gmt}abstractalgebra/test/ElementTheory.java#L20"><code>elements</code></a>.</p>
 </div>
 <div class="paragraph">
-<p>Default methods then test wheter all theoretical possibilities and limitation of the algebraic structure are indeed working.</p>
+<p>Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.</p>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</h4>
 <div class="paragraph">
-<p>When a value has uncertainty, then 'equals' also considers it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.</p>
+<p>When a value has uncertainty, then <code>equals</code> also considers it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.</p>
 </div>
 <div class="paragraph">
-<p>In this case the <code>hashCode</code> must be a fixed value, because otherwise we can&#8217;t garantuee that equal values have equal hashCode.</p>
+<p>In this case the <code>hashCode</code> must be a fixed value, because otherwise we can&#8217;t guarantee that equal values have equal hashCode.</p>
 </div>
 <div class="paragraph">
 <p>So it&#8217;s a bad idea to use uncertain values as hash keys.</p>
@@ -439,7 +439,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>This would however probably mainly be used in <em>implementations</em>.</p>
 </div>
 <div class="paragraph">
-<p>Actual configuration can be done in two basicly distinct ways.</p>
+<p>Actual configuration can be done in two basically distinct ways.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -506,7 +506,7 @@ FormatService.resetToDefaults();</code></pre>
 <span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
 <div class="paragraph">
-<p>Implementations of <code>UncertainDouble</code>, based on calculating standard deviations on sets of incoming data, and using that as the uncertainty value.</p>
+<p>Implementations of <code>UncertainDouble</code>, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.</p>
 </div>
 <div class="paragraph">
 <p>Also, it includes some classes to keep track of 'sliding window' values of averages.</p>
@@ -805,7 +805,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-02 23:38:50 +0200
+Last updated 2021-04-03 14:47:07 +0200
 </div>
 </div>
 <script type="text/x-mathjax-config">

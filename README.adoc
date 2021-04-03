@@ -39,11 +39,11 @@ The core dependency of the modules in the project. It provides the scaffolding f
 
 === Abstract Algebras
 
-The idea is that every 'abstract algebra' consists of the implementation of two interfaces.
+The idea is that every 'abstract algebra' consists of the implementation of two interfaces
 
-- One of the extensions of  link:{ghm}abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
+. One of the extensions of  link:{ghm}abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
 
-- One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`].
+. One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`],  defines properties of the structure itself.
 
 The terminology which is adopted is this:
 
@@ -87,18 +87,24 @@ Every algebraic element object has a reference to (the same)  instance of this s
 
 NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:{ghm}abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
 
-The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition ('one' and 'zero').
+The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (`one' and `zero').
 
 ==== Numbers
 
-Some algebraic elements are like 'real' numbers. There are several interfaces dedicated to formalising properties of that.
+Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.
 
 |===
 | class/interface  | description
 
-| link:{ghm}numbers/Scalar.java[`Scalar`] | A generic interface that defines method to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
- | link:{ghm}abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] | A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra. Well-behaved field elements that also behave as a 'Number' may implement `ScalarFieldElement`
-| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] | Even more similar to the everyday concept of number an algebraic field element are 'complete' field elements.  This in some way means 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible.
+| link:{ghm}numbers/Scalar.java[`Scalar`] |
+A generic interface that defines the methods to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
+
+| link:{ghm}abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] |
+A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra. Well-behaved field elements that also behave as a 'Number' may implement `ScalarFieldElement`
+
+| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] |
+Even more similar to the everyday concept of a number are elements of an algebraic field that is 'complete'.  This in some way means that is has 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible within the algebra.
+
 | link:{ghm}numbers/NumberOperations.java[`NumberOperations`] |
 |===
 
@@ -109,9 +115,9 @@ Most real numbers cannot be represented exactly. It may be of interest to keep t
 
 The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
 
-The 'statistics' module introduces uncertain numbers where the uncertainty defined as the standard deviation in a collected set of values. These numbers are examples where the numbers are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.
+The 'statistics' module introduces uncertain numbers where the uncertainty is defined as the standard deviation in a collected set of values. These numbers are examples of elements that are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.
 
-It is not always an absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.
+It is not always absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.
 
 |===
 | operation | formula | current uncertainty propagation algorithm
@@ -129,15 +135,15 @@ Sometimes the value with uncertainty is exactly _zero_, so fractional uncertaint
 
 ==== Testing
 
-In link:{gmt}abstractalgebra/test/[mihxil-math-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementation implement these interfaces and provide the code to supply a bunch of example link: {gmt}abstractalgebra/test/ElementTheory.java#L20[`elements`].
+In link:{gmt}abstractalgebra/test/[mihxil-math-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{gmt}abstractalgebra/test/ElementTheory.java#L20[`elements`].
 
-Default methods then test wheter all theoretical possibilities and limitation of the algebraic structure are indeed working.
+Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
 
 ==== Implementation of equals/hashcode
 
-When a value has uncertainty, then 'equals' also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than te uncertainty, and so the values are at 'probably' equals.
+When a value has uncertainty, then `equals` also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
 
-In this case the `hashCode` must be a fixed value, because otherwise we can't garantuee that equal values have equal hashCode.
+In this case the `hashCode` must be a fixed value, because otherwise we can't guarantee that equal values have equal hashCode.
 
 So it's a bad idea to use uncertain values as hash keys.
 
@@ -163,7 +169,7 @@ import static org.meeuw.math.text.spi.FormatService.*;
 ----
 This would however probably mainly be used in _implementations_.
 
-Actual configuration can be done in two basicly distinct ways.
+Actual configuration can be done in two basically distinct ways.
 
 - a new configuration object can be set as a thread local
 - global default configuration object can be set
@@ -212,7 +218,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.sv
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
 
-Implementations of `UncertainDouble`, based on calculating standard deviations on sets of incoming data, and using that as the uncertainty value.
+Implementations of `UncertainDouble`, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
