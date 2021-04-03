@@ -102,6 +102,10 @@ public final class FormatService {
         CONFIGURATION.set(configuration);
     }
 
+    /**
+     * Unsets the configuration thread local, effectively resetting it the default settings.
+     */
+
     public static void resetToDefaults() {
         CONFIGURATION.remove();
     }
@@ -134,6 +138,9 @@ public final class FormatService {
         });
     }
 
+    /**
+     * Executes code with a certain configuration
+     */
     public static <R> R with(Configuration configuration, Supplier<R> r) {
         Configuration before = CONFIGURATION.get();
         try {

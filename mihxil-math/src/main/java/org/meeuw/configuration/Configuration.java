@@ -40,6 +40,13 @@ public class Configuration {
         return result;
     }
 
+    /**
+     * Gets a value of a certain configuration aspect
+     * @param <E> the type of the configuration aspect
+     * @param clazz the class of the configuration aspect
+     * @param getter a function to get the value from the instance of the aspect (probably a method reference)
+     * @return the request configuration aspect value
+     */
     public <E extends ConfigurationAspect, V> V getAspectValue(Class<E> clazz, Function<E, V> getter) {
         return getter.apply(getAspect(clazz));
     }
@@ -49,7 +56,6 @@ public class Configuration {
      * @param clazz The configuration aspect class
      * @param <E> the type of the class
      * @param config The operator that given the exising value for the aspect, produces a new one
-
      */
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {
         return toBuilder().aspect(clazz, config).build();
