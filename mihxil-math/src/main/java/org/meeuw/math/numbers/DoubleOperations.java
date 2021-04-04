@@ -89,7 +89,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public boolean lte(Double n1, Double n2) {
-        return n2 <= n2;
+        return n1 <= n2;
     }
 
     @Override

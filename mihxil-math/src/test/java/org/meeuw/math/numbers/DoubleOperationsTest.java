@@ -2,8 +2,8 @@ package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.data.Offset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -55,6 +55,7 @@ class DoubleOperationsTest {
     void multiply() {
         assertThat(INSTANCE.multiply(5d, 3d)).isEqualTo(15d);
         assertThat(INSTANCE.multiply(5d, 3d, -4d)).isEqualTo(-60);
+        assertThat(INSTANCE.multiply(5, 3d)).isEqualTo(15);
     }
 
     @Test
@@ -95,6 +96,13 @@ class DoubleOperationsTest {
     }
 
     @Test
+    void gte() {
+        assertThat(INSTANCE.gte(1d, 2d)).isFalse();
+        assertThat(INSTANCE.gte(2d, 1d)).isTrue();
+        assertThat(INSTANCE.gte(2d, 2d)).isTrue();
+    }
+
+    @Test
     void isFinite() {
         assertThat(INSTANCE.isFinite(1d)).isTrue();
         assertThat(INSTANCE.isFinite(Double.NEGATIVE_INFINITY)).isFalse();
@@ -127,5 +135,14 @@ class DoubleOperationsTest {
     @Test
     void cos() {
         assertThat(INSTANCE.cos(Math.PI)).isCloseTo(-1, Offset.offset(0.0001));
+    }
+
+    @Test
+    void max() {
+        assertThat(INSTANCE.max(1d, 2d, 3d, 3d, 4d, 5d, -10d, -2d)).isEqualTo(5d);
+    }
+    @Test
+    void min() {
+        assertThat(INSTANCE.min(1d, 2d, 3d, 3d, 4d, 5d, -10d, -2d)).isEqualTo(-10d);
     }
 }

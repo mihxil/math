@@ -1,8 +1,8 @@
 package org.meeuw.math.numbers.test;
 
-import net.jqwik.api.*;
-
 import java.math.BigDecimal;
+
+import net.jqwik.api.*;
 
 import org.meeuw.math.numbers.NumberOperations;
 
@@ -10,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public interface NumberOperationsTheory<N extends Number> {
 
@@ -23,9 +22,6 @@ public interface NumberOperationsTheory<N extends Number> {
 
     @Property
     default void  getFractionalUncertainty(N value, N unc) {
-
-
-
 
 
     }

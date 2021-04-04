@@ -82,9 +82,12 @@ public interface NumberOperations<N extends Number> {
         }
     }
 
-
     default N max(N... n) {
         return Arrays.stream(n).max(this::compare).orElse(null);
+    }
+
+    default N min(N... n) {
+        return Arrays.stream(n).min(this::compare).orElse(null);
     }
 
     boolean isFinite(N n1);
