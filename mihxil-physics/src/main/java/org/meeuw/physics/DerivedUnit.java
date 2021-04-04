@@ -1,6 +1,5 @@
 package org.meeuw.physics;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.*;
@@ -14,17 +13,12 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class DerivedUnit implements Unit {
 
     @Getter
-    @EqualsAndHashCode.Include
     final UncertainReal SIFactor;
 
-    @EqualsAndHashCode.Include
     final int[] exponents = new int[SIUnit.values().length];
-
-    @EqualsAndHashCode.Include
     @Getter
     final Prefix prefix;
 
@@ -173,6 +167,16 @@ public class DerivedUnit implements Unit {
             .name("(" + name + ")" + TextUtils.superscript(-1))
             .exponents(exponents)
             .build();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return Units.equals(this, o);
+    }
+
+    @Override
+    public int hashCode() {
+        return 0;
     }
 
     public static class Builder {

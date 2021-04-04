@@ -63,9 +63,6 @@ public class UnitsImpl implements Units  {
         if (base.size() == 0) {
             return Units.DIMENSIONLESS;
         }
-        if (base.size() == 1 && base.get(0).exponent == 1) {
-            return base.get(0).unit;
-        }
         return new UnitsImpl(SIFactor.times(multiplier.getSIFactor()), base.toArray(new UnitExponent[0]));
     }
 
@@ -105,13 +102,10 @@ public class UnitsImpl implements Units  {
         return copy;
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UnitsImpl that = (UnitsImpl) o;
-        return Arrays.equals(getCanonicalExponents(), that.getCanonicalExponents());
+        return Units.equals(this, o);
     }
 
     @Override

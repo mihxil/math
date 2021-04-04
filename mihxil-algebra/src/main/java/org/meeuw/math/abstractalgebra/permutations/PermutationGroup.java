@@ -57,7 +57,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> im
 
     @Override
     public Stream<Permutation> stream() {
-        final Iterator<Permutation> iterator = new Iterator<>() {
+        final Iterator<Permutation> iterator = new Iterator<Permutation>() {
             Permutation p = one();
             final int[] values = Arrays.copyOf(p.value, degree);
 

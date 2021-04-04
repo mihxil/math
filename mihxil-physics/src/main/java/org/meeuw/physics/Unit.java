@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * The representation of a singular 'unit'.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

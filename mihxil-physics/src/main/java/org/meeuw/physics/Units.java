@@ -7,7 +7,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact;
 
 /**
- *
+ * The representation of the units of a certain value.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -61,9 +61,23 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         return u1.getDimensions().equals(u2.getDimensions());
     }
 
+    static boolean equals(Units u1, Units u2) {
+        return dimensionEquals(u1, u2) && u1.getSIFactor().equals(u2.getSIFactor());
+    }
+
+    static boolean equals(Units u1, Object o) {
+        return o instanceof Units && equals(u1, (Units) o);
+    }
+
+    /**
+     * Returns a new Units object suitable for the result of adding the two quantities with given units.
+     *
+     * @return the first parameter if it is compatible with the second parameter
+     * @throws DimensionsMismatchException if the two dimensions are not {@link #dimensionEquals(Units, Units)}
+     */
     static Units forAddition(Units u1, Units u2) {
         if (! dimensionEquals(u1, u2)) {
-            throw new IllegalArgumentException("Cannot add [" + (u1 == null ? "null" : u1.getDimensions()) + "] to [" + (u2 == null ? "null" : u2.getDimensions()) + "]");
+            throw new DimensionsMismatchException("Cannot add [" + (u1 == null ? "null" : u1.getDimensions()) + "] to [" + (u2 == null ? "null" : u2.getDimensions()) + "]");
         }
         return u1;
     }
