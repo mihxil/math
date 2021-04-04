@@ -1,6 +1,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 /**
  * @author Michiel Meeuwissen
@@ -30,6 +31,7 @@ public interface NumberOperations<N extends Number> {
 
     N multiply(N n1, N n2);
 
+    @SuppressWarnings("unchecked")
     N multiply(N... n1);
 
 
@@ -47,6 +49,7 @@ public interface NumberOperations<N extends Number> {
 
     N add(N n1, N n2);
 
+    @SuppressWarnings("unchecked")
     N add(N... n);
 
     default N minus(N n1, N n2) {
@@ -69,6 +72,21 @@ public interface NumberOperations<N extends Number> {
         return ! lt(n1, n2);
     }
 
+    default int compare(N n1, N n2) {
+        if (lt(n1, n2)) {
+            return -1;
+        } else if (gt(n1, n2)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+
+    default N max(N... n) {
+        return Arrays.stream(n).max(this::compare).orElse(null);
+    }
+
     boolean isFinite(N n1);
 
     boolean isNaN(N n1);
@@ -80,5 +98,7 @@ public interface NumberOperations<N extends Number> {
     N sin(N n);
 
     N cos(N n);
+
+    boolean isZero(N n);
 
 }

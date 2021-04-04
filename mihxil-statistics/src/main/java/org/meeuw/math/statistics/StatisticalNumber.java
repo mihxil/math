@@ -141,7 +141,14 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        return _of(operations.pow(getValue(), exponent.getValue()),operations.powerUncertainty(getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty()));
+        Double result = operations.pow(getValue(), exponent.getValue());
+        return _of(
+            result,
+            operations.powerUncertainty(
+                getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty(),
+                result
+            )
+        );
     }
 
     @Override

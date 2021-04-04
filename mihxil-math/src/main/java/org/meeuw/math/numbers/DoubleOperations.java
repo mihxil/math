@@ -123,8 +123,17 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
+    public boolean isZero(Double aDouble) {
+        return aDouble == 0d;
+    }
+
+    @Override
     public Double ln(Double v) {
         return Math.log(v);
     }
 
+    @Override
+    public Double roundingUncertainty(Double aDouble) {
+        return Utils.uncertaintyForDouble(aDouble);
+    }
 }

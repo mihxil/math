@@ -142,4 +142,14 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public BigDecimal cos(BigDecimal bigDecimal) {
         return BigDecimalMath.cos(bigDecimal, mathContext);
     }
+
+    @Override
+    public boolean isZero(BigDecimal bigDecimal) {
+        return bigDecimal.equals(BigDecimal.ZERO);
+    }
+
+    @Override
+    public BigDecimal roundingUncertainty(BigDecimal bigDecimal) {
+        return BigDecimal.ZERO;
+    }
 }

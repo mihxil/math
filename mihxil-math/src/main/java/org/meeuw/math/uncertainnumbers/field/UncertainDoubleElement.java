@@ -127,7 +127,8 @@ public class UncertainDoubleElement
                     value,
                     Math.max(uncertainty, Utils.uncertaintyForDouble(value)),
                     exponent.getValue(),
-                    Math.max(exponent.getUncertainty(), Utils.uncertaintyForDouble(exponent.getValue()))
+                    Math.max(exponent.getUncertainty(), Utils.uncertaintyForDouble(exponent.getValue())),
+                    result
                 )
             ));
     }
