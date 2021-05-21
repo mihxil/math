@@ -50,6 +50,11 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         currentBucket.enter(instant);
     }
 
+    public void accept(Duration... duration) {
+        StatisticalLong currentBucket = currentBucket();
+        currentBucket.enter(duration);
+    }
+
     public static class Builder {
         @SafeVarargs
         public final Builder eventListeners(BiConsumer<Event, Windowed<StatisticalLong>>... eventListeners) {
