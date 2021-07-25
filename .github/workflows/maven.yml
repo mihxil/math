@@ -24,9 +24,7 @@ jobs:
       run: bash <(curl -s https://codecov.io/bash)
     - name: Publish Test Report
       uses: scacap/action-surefire-report@v1
-      if: ${{ github.event_name == 'push' }}
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      if: always() && ${{ github.event_name == 'push' }}      
     - name: Deploy with Maven
       run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
       if: ${{ github.event_name == 'push' }}
