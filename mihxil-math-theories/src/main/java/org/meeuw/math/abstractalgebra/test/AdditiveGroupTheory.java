@@ -28,13 +28,31 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
 
 
     @Property
-    default void repeatedPlus(
+    default void repeatedPlusZeroTimes(
             @ForAll(ELEMENTS) E v1
             ) {
         assertThat((v1.repeatedPlus(0))).isEqualTo(v1.getStructure().zero());
-        assertThat((v1.repeatedPlus(5))).isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
-        assertThat((v1.repeatedPlus(-5))).isEqualTo(v1.repeatedPlus(5).negation());
     }
 
+    @Property
+    default void repeatedPlusOneTimes(
+            @ForAll(ELEMENTS) E v1
+            ) {
+        assertThat((v1.repeatedPlus(1))).isEqualTo(v1);
+    }
+
+    @Property
+    default void repeatedPlusPositiveTimes(
+            @ForAll(ELEMENTS) E v1
+            ) {
+        assertThat((v1.repeatedPlus(5))).isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
+    }
+
+    @Property
+    default void repeatedPlusNegativeTimes(
+            @ForAll(ELEMENTS) E v1
+            ) {
+        assertThat((v1.repeatedPlus(-5))).isEqualTo(v1.repeatedPlus(5).negation());
+    }
 
 }
