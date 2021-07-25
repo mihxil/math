@@ -48,6 +48,7 @@ public class Dimensions implements MultiplicativeGroupElement<Dimensions> {
         }
         return copy;
     }
+
     @Override
     public Dimensions pow(int exponent) {
         Dimensions copy = copy();

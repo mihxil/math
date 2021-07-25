@@ -19,6 +19,7 @@ public class DerivedUnit implements Unit {
     final UncertainReal SIFactor;
 
     final int[] exponents = new int[SIUnit.values().length];
+
     @Getter
     final Prefix prefix;
 
