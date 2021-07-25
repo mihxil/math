@@ -18,12 +18,12 @@ import static org.meeuw.physics.SIUnit.s;
  */
 class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
-    static final Units[] UNITS = {
-        DISTANCE, LENGTH, AREA, VOLUME, TIME, SPEED, WEIGHT, TEMPERATURE, ELECTRIC_CURRENT, AMOUNT_OF_SUBSTANCE, LUMINOUS_INTENSITY};
+    Units DISTANCE = INSTANCE.forDimensions(DimensionalAnalysis.DISTANCE);
+    Units TIME = INSTANCE.forDimensions(DimensionalAnalysis.TIME);
 
     @Override
     public Arbitrary<Units> elements() {
-        return Arbitraries.of(UNITS);
+        return Arbitraries.of(DimensionalAnalysis.getQuantities()).map(INSTANCE::forDimensions);
     }
 
     @Test

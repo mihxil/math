@@ -32,6 +32,8 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     }
     /**
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
+     *
+     * This default implementation is doing <a href="https://en.wikipedia.org/wiki/Exponentiation_by_squaring">exponentiation by squaring</a>
      * @param n the exponent
      * @return this <sup>n</sup>
      */

@@ -20,7 +20,23 @@ import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 public class UncertainDoubleElement
     extends AbstractUncertainDouble<UncertainReal> implements UncertainReal {
 
-    public static final UncertainDoubleElement ZERO = exact(0);
+    public static final UncertainDoubleElement ZERO = new UncertainDoubleElement(0, EXACT) {
+        @Override
+        public UncertainDoubleElement sqrt() {
+            return this;
+        }
+        @Override
+        public UncertainDoubleElement sqr() {
+            return this;
+        }
+        @Override
+        public UncertainDoubleElement pow(int exponent) {
+            if (exponent == 0) {
+                return ONE;
+            }
+            return this;
+        }
+    };
     public static final UncertainDoubleElement ONE  = new UncertainDoubleElement(1, EXACT) {
         @Override
         public UncertainDoubleElement sqrt() {
@@ -42,7 +58,7 @@ public class UncertainDoubleElement
     @Getter
     private final double uncertainty;
 
-    public static UncertainDoubleElement exact(double value) {
+    public static UncertainDoubleElement exactly(double value) {
         return new UncertainDoubleElement(value, EXACT);
     }
 
@@ -154,7 +170,7 @@ public class UncertainDoubleElement
         return of(value, uncertainty);
     }
 
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return equals(o, 1);

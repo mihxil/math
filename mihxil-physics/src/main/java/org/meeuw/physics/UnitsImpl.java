@@ -11,7 +11,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 /**
  * Represents the units of a {@link AbstractUncertainDouble}.
  *
- * Basicly keeps track of a integer power for each of the basic SI units.
+ * Basically keeps track of a integer power for each of the basic SI units, plus one factor.
  *
  * @author Michiel Meeuwissen
  */
@@ -19,6 +19,7 @@ public class UnitsImpl implements Units  {
 
     @Getter
     private final UncertainReal SIFactor;
+
     @Getter
     private final UnitExponent[] exponents;
 
@@ -28,6 +29,11 @@ public class UnitsImpl implements Units  {
 
     public UnitsImpl(UncertainReal siFactor, UnitExponent... units) {
         this.exponents = units;
+        this.SIFactor = siFactor;
+    }
+
+    public UnitsImpl(UncertainReal siFactor, DimensionalAnalysis units) {
+        this.exponents = units.stream().filter(e -> e.getExponent() != 0).map(DimensionExponent::toUnitExponent).toArray(UnitExponent[]::new);
         this.SIFactor = siFactor;
     }
 
@@ -80,7 +86,7 @@ public class UnitsImpl implements Units  {
     }
 
     @Override
-    public Dimensions getDimensions() {
+    public DimensionalAnalysis getDimensions() {
         int[] dimexponents =  new int[Dimension.NUMBER];
         for (UnitExponent u : exponents) {
             int[] uexponents = u.getDimensions().getExponents();
@@ -88,7 +94,7 @@ public class UnitsImpl implements Units  {
                 dimexponents[i] += uexponents[i];
             }
         }
-        return new Dimensions(dimexponents);
+        return new DimensionalAnalysis(dimexponents);
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -10,13 +11,16 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  */
 public class CGS implements SystemOfMeasurements {
     @Override
+    @NonNull
     public Unit forDimension(Dimension dimension) {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
-    public Units forDimensions(Dimensions dimension) {
-        return null;
+    @NonNull
+    public Units forDimensions(DimensionalAnalysis dimension) {
+        throw new UnsupportedOperationException();
+
     }
 
     enum CGSUnit implements Unit {
@@ -33,7 +37,7 @@ public class CGS implements SystemOfMeasurements {
         }
 
         @Override
-        public Dimensions getDimensions() {
+        public DimensionalAnalysis getDimensions() {
             return null;
         }
 

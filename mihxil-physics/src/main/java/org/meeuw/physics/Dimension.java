@@ -7,8 +7,7 @@ import lombok.Getter;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public enum Dimension {
-
+public enum Dimension implements DimensionExponent {
 
     L("length"),
     M("mass"),
@@ -43,5 +42,20 @@ public enum Dimension {
     @Override
     public String toString() {
         return toString == null ? name() : toString;
+    }
+
+    @Override
+    public Dimension getDimension() {
+        return this;
+    }
+
+    @Override
+    public int getExponent() {
+        return 1;
+    }
+
+    public SIUnit getSIUnit() {
+        return SIUnit.valueOf(this);
+
     }
 }

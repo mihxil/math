@@ -17,7 +17,7 @@ public interface Unit extends Units {
      * @return the dimensional analysis for this unit
      */
     @Override
-    Dimensions getDimensions();
+    DimensionalAnalysis getDimensions();
 
     String getDescription();
 

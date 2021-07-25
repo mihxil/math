@@ -14,20 +14,21 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @since 0.4
  */
 class MeasurementTest  {
-
+    Units DISTANCE = SI.INSTANCE.forDimensions(DimensionalAnalysis.DISTANCE);
+    Units LENGTH = SI.INSTANCE.forDimensions(DimensionalAnalysis.LENGTH);
     @Test
     public void add() {
-        Measurement door = new Measurement(2.00, 0.03, SI.DISTANCE);
+        Measurement door = new Measurement(2.00, 0.03, DISTANCE);
         assertThat(door.toString()).isEqualTo("2.00 ± 0.03 m");
-        Measurement knob = new Measurement(0.88, 0.04, SI.DISTANCE);
+        Measurement knob = new Measurement(0.88, 0.04, DISTANCE);
         PhysicalNumber height = door.minus(knob);
         assertThat(height.toString()).isEqualTo("1.12 ± 0.07 m");
     }
 
     @Test
     public void area() {
-        Measurement height = new Measurement(21, 0.2, SI.LENGTH);
-        Measurement width = new Measurement(30, 1, SI.LENGTH);
+        Measurement height = new Measurement(21, 0.2, LENGTH);
+        Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 21 m²"); // or should that be 27?
         FormatService.with(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
@@ -46,7 +47,7 @@ class MeasurementTest  {
 
     @Test
     public void divide() {
-        Measurement speed = new Measurement(6.0, 0.4, SI.SPEED);
+        Measurement speed = new Measurement(6.0, 0.4, SI.VELOCITY);
         assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 m·s⁻¹");
         assertThat(speed.getUnits().getDimensions().toString()).isEqualTo("LT⁻¹");
 
@@ -57,11 +58,11 @@ class MeasurementTest  {
 
     @Test
     public void testStructure() {
-        Measurement a = new Measurement(6.0, 0.4, SI.SPEED);
+        Measurement a = new Measurement(6.0, 0.4, SI.VELOCITY);
         assertThat(a.plus(a.getUnits().zero())).isEqualTo(a);
         assertThat(a.times(a.getStructure().one())).isEqualTo(a);
 
-        assertThat(a.times(2d)).isEqualTo(new Measurement(12.0, 0.8, SI.SPEED));
+        assertThat(a.times(2d)).isEqualTo(new Measurement(12.0, 0.8, SI.VELOCITY));
 
         // FAILS
         // And btw, repetive addition should handle uncertaintities more like times(double)

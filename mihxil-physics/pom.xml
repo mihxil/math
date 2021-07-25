@@ -10,7 +10,7 @@
   <name>Math - physics</name>
   <packaging>jar</packaging>
   <description>
-    Contains the structure to associate units and dimensions to (uncertain) numbers. i.e. an object to represent a 'measurement'
+    Contains the structure to associate units and dimensionalAnalysis to (uncertain) numbers. i.e. an object to represent a 'measurement'
   </description>
   <dependencies>
     <dependency>

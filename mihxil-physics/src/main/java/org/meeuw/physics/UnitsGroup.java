@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
  * @author Michiel Meeuwissen
@@ -39,7 +39,7 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
                 for (int i = 0; i < array.length; i++) {
                     units[i] = new UnitExponent(SIUnit.values()[i], array[i]);
                 }
-                return new UnitsImpl(exact(1), units);
+                return new UnitsImpl(exactly(1), units);
             }
         );
     }

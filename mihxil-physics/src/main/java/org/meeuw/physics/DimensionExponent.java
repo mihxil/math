@@ -1,0 +1,43 @@
+package org.meeuw.physics;
+
+import lombok.Data;
+
+import org.meeuw.math.Utils;
+
+
+public interface DimensionExponent {
+
+    Dimension getDimension();
+
+    int getExponent();
+
+    static DimensionExponent of(Dimension e, int exponent) {
+        if (exponent == 1) {
+            return e;
+        } else {
+            return new Impl(e, exponent);
+        }
+    }
+
+    default DimensionExponent with(int i) {
+        return of(getDimension(), i);
+    }
+    default DimensionExponent reciprocal() {
+        return of(getDimension(), getExponent() * - 1);
+    }
+
+    default UnitExponent toUnitExponent() {
+        return UnitExponent.of(getDimension().getSIUnit(), getExponent());
+    }
+
+    @Data
+    class Impl implements DimensionExponent {
+        final Dimension dimension;
+        final int exponent;
+
+        @Override
+        public String toString() {
+            return Utils.toString(new Dimension[] {dimension}, new int[] {exponent});
+        }
+    }
+}

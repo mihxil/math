@@ -11,7 +11,6 @@ import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.SI.DISTANCE;
-import static org.meeuw.physics.UnitsImplTest.UNITS;
 
 
 /**
@@ -41,19 +40,23 @@ class PhysicalNumberTest implements
         PhysicalNumber inLightYear = two_pc.toUnits(Units.of(SI.ly));
         assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
-
-
     }
 
+    @Test
+    public void setPrefix() {
+        Units km = Units.of(SIUnit.m);
+
+    }
     @Override
     public Arbitrary<PhysicalNumber> elements() {
+        final DimensionalAnalysis[] quantities = DimensionalAnalysis.getQuantities();
         return
             Arbitraries
                 .<PhysicalNumber>randomValue(
                     (random) -> new Measurement(
                         random.nextDouble() * 200 - 100,
                         Math.abs(random.nextDouble() * 10),
-                        UNITS[random.nextInt(UNITS.length)])
+                        SI.INSTANCE.forDimensions(quantities[random.nextInt(quantities.length)]))
                 )
                 .injectDuplicates(0.01)
                 .dontShrink()

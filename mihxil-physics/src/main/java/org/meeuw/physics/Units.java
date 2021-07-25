@@ -4,7 +4,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
  * The representation of the units of a certain value.
@@ -13,7 +13,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  */
 public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElement<Units> {
 
-    Units DIMENSIONLESS = of(exact(1));
+    Units DIMENSIONLESS = of(exactly(1));
 
     @Override
     default UnitsGroup getStructure() {
@@ -36,7 +36,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         return new UnitsImpl(factor, units);
     }
 
-    Dimensions getDimensions();
+    DimensionalAnalysis getDimensions();
 
     /**
      * Returns a constant representing a 0 with this units.

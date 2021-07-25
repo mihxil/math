@@ -1,11 +1,11 @@
 package org.meeuw.math.uncertainnumbers;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
-
 import java.math.BigDecimal;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.util.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;

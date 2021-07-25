@@ -25,7 +25,7 @@ public class UnitExponent implements Comparable<UnitExponent> {
         return new UnitExponent(u, exponent);
     }
 
-    public Dimensions getDimensions() {
+    public DimensionalAnalysis getDimensions() {
         return unit.getDimensions().pow(exponent);
     }
 

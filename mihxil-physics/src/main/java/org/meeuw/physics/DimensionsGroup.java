@@ -8,19 +8,19 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * @author Michiel Meeuwissen
  */
-public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> implements
-    MultiplicativeAbelianGroup<Dimensions>, Streamable<Dimensions> {
+public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnalysis> implements
+    MultiplicativeAbelianGroup<DimensionalAnalysis>, Streamable<DimensionalAnalysis> {
 
-    private static final Dimensions ONE = new Dimensions();
+    private static final DimensionalAnalysis ONE = new DimensionalAnalysis();
 
     public static final DimensionsGroup INSTANCE = new DimensionsGroup();
 
     private DimensionsGroup() {
-        super(Dimensions.class);
+        super(DimensionalAnalysis.class);
     }
 
     @Override
-    public Dimensions one() {
+    public DimensionalAnalysis one() {
         return ONE;
     }
 
@@ -30,9 +30,9 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<Dimensions> impl
     }
 
     @Override
-    public Stream<Dimensions> stream() {
+    public Stream<DimensionalAnalysis> stream() {
         return Utils.stream(Dimension.values().length).map(
-            Dimensions::new
+            DimensionalAnalysis::new
         );
     }
 }

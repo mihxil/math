@@ -18,6 +18,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,8 +51,8 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
                 if (operator == Operator.POWER) {
                     big2 = big2.divide(BigDecimal.valueOf(100));
                 }
-                UncertainReal a = UncertainDoubleElement.exact(r1.doubleValue());
-                UncertainReal b = UncertainDoubleElement.exact(big2.doubleValue());
+                UncertainReal a = exactly(r1.doubleValue());
+                UncertainReal b = exactly(big2.doubleValue());
 
                 UncertainReal applied = operator.apply(a, b);
                 log.info("{} = {}", operator.stringify(a, b), applied);
@@ -61,7 +62,7 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
                     BigDecimalElement exactApplied = operator.apply(ba, bb);
                     log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
 
-                    assertThat(applied.equals(UncertainDoubleElement.exact(exactApplied.doubleValue()))).isTrue();
+                    assertThat(applied.equals(exactly(exactApplied.doubleValue()))).isTrue();
                 } catch (ReciprocalException rce) {
                     log.info("{} -> {}", operator.stringify(ba, bb), rce.getMessage());
                 }

@@ -102,8 +102,8 @@ public class DerivedUnit implements Unit {
     }
 
     @Override
-    public Dimensions getDimensions() {
-        return new Dimensions(this.exponents);
+    public DimensionalAnalysis getDimensions() {
+        return new DimensionalAnalysis(this.exponents);
     }
 
     @Override

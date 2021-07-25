@@ -4,12 +4,13 @@ import lombok.Getter;
 
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.physics.DimensionalAnalysis.*;
 import static org.meeuw.physics.SIUnit.*;
 import static org.meeuw.physics.UnitExponent.of;
-import static org.meeuw.physics.Units.of;
 
 /**
  * The International System of Units
@@ -18,29 +19,50 @@ import static org.meeuw.physics.Units.of;
  */
 public class SI implements SystemOfMeasurements {
 
-    public static final Units DISTANCE = of(m);
-    public static final Units LENGTH   = of(m);
-    public static final Units AREA     = of(m, m);
-    public static final Units VOLUME   = of(m, m, m);
-    public static final Units TIME     = of(s);
-    public static final Units SPEED    = DISTANCE.dividedBy(TIME);
-    public static final Units WEIGHT   = of(kg);
-    public static final Units TEMPERATURE         = of(K);
-    public static final Units ELECTRIC_CURRENT    = of(A);
-    public static final Units AMOUNT_OF_SUBSTANCE = of(mol);
-    public static final Units LUMINOUS_INTENSITY  = of(cd);
+    public static final SI INSTANCE = new SI();
+
+    public static final Units DISTANCE = INSTANCE.forDimensions(DimensionalAnalysis.DISTANCE);
+    public static final Units LENGTH   = INSTANCE.forDimensions(DimensionalAnalysis.LENGTH);
+    public static final Units AREA     = INSTANCE.forDimensions(DimensionalAnalysis.AREA);
+    public static final Units VOLUME   = INSTANCE.forDimensions(DimensionalAnalysis.VOLUME);
+    public static final Units TIME     = INSTANCE.forDimensions(DimensionalAnalysis.TIME);
+    public static final Units VELOCITY = INSTANCE.forDimensions(DimensionalAnalysis.VELOCITY);
+    public static final Units WEIGHT   = INSTANCE.forDimensions(DimensionalAnalysis.WEIGHT);
+    public static final Units TEMPERATURE         = INSTANCE.forDimensions(DimensionalAnalysis.TEMPERATURE);
+    public static final Units ELECTRIC_CURRENT    = INSTANCE.forDimensions(DimensionalAnalysis.ELECTRIC_CURRENT);
+    public static final Units AMOUNT_OF_SUBSTANCE = INSTANCE.forDimensions(DimensionalAnalysis.AMOUNT_OF_SUBSTANCE);
+    public static final Units LUMINOUS_INTENSITY  = INSTANCE.forDimensions(DimensionalAnalysis.LUMINOUS_INTENSITY);
+
+
+    private SI() {
+
+    }
 
     @Override
+    @NonNull
     public SIUnit forDimension(Dimension dimension) {
         return SIUnit.valueOf(dimension);
     }
 
     @Override
-    public Units forDimensions(Dimensions dimensions) {
-        // TODO
-        return null;
-
+    @NonNull
+    public Units forDimensions(DimensionalAnalysis dimensions) {
+        if (FORCE.equals(dimensions)) {
+            return N;
+        }
+        if (ENERGY.equals(dimensions)) {
+            return J;
+        }
+        if (FREQUENCY.equals(dimensions)) {
+            return Hz;
+        }
+        if (PRESSURE.equals(dimensions)) {
+            return Pa;
+        }
+        return SystemOfMeasurements.super.forDimensions(dimensions);
     }
+
+
 
     public enum BinaryPrefixes implements Prefix {
         KiB(1024),
@@ -174,15 +196,15 @@ public class SI implements SystemOfMeasurements {
         new DerivedUnit("J", "joule", of(kg, 1), of(m, 2), of(s, -2));
 
     public static final DerivedUnit min =
-        new DerivedUnit(exact(60), "min", "minute", of(s, 1));
+        new DerivedUnit(exactly(60), "min", "minute", of(s, 1));
     public static final DerivedUnit hours =
-        new DerivedUnit(exact(60 * 60), "h", "hour", of(s, 1));
+        new DerivedUnit(exactly(60 * 60), "h", "hour", of(s, 1));
 
 
     public static final DerivedUnit eV =
-        new DerivedUnit("eV", "electronvolt", exact(1.602176634E-19), J);
+        new DerivedUnit("eV", "electron-volt", exactly(1.602176634E-19), J);
 
-    public static final DerivedUnit AU = new DerivedUnit("AU", "Astronomical Unit", exact(149597870700d), m);
-    public static final DerivedUnit pc = new DerivedUnit("pc", "parsec", exact(648000 / Math.PI), AU);
-    public static final DerivedUnit ly = new DerivedUnit("ly", "lightyear", exact(9460730472580800d), m);
+    public static final DerivedUnit AU = new DerivedUnit("AU", "Astronomical Unit", exactly(149597870700d), m);
+    public static final DerivedUnit pc = new DerivedUnit("pc", "parsec", exactly(648000 / Math.PI), AU);
+    public static final DerivedUnit ly = new DerivedUnit("ly", "light-year", exactly(9460730472580800d), m);
 }

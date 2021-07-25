@@ -13,21 +13,21 @@ import static org.meeuw.physics.Dimension.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class DimensionsTest implements MultiplicativeAbelianGroupTheory<Dimensions> {
+class DimensionalAnalysisTest implements MultiplicativeAbelianGroupTheory<DimensionalAnalysis> {
 
     @Test
     public void string() {
-        Dimensions of = Dimensions.of(I, I);
+        DimensionalAnalysis of = DimensionalAnalysis.of(I, I);
         assertThat(of.toString()).isEqualTo("I²");
         assertThat(of.dividedBy(of).toString()).isEqualTo("1");
 
     }
 
     @Override
-    public Arbitrary<Dimensions> elements() {
+    public Arbitrary<DimensionalAnalysis> elements() {
         return Arbitraries.of(
-            Dimensions.of(I, L),
-            Dimensions.of(I, I,T, Θ)
+            DimensionalAnalysis.of(I, L),
+            DimensionalAnalysis.of(I, I,T, Θ)
         );
     }
 

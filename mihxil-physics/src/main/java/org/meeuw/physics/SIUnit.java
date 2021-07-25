@@ -55,14 +55,14 @@ public enum SIUnit implements Unit {
 
 
     @Override
-    public Dimensions getDimensions() {
+    public DimensionalAnalysis getDimensions() {
         return getDimensions(ordinal());
     }
 
-    private static  Dimensions getDimensions(int ord) {
+    private static DimensionalAnalysis getDimensions(int ord) {
         int[] exponents = new int[7];
         exponents[ord] = 1;
-        return new Dimensions(exponents);
+        return new DimensionalAnalysis(exponents);
     }
 
     public Prefix prefix() {

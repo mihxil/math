@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -13,6 +14,7 @@ import static org.meeuw.physics.Dimension.*;
  */
 public class Planck  implements SystemOfMeasurements {
     @Override
+    @NonNull
     public Unit forDimension(Dimension dimension) {
         switch(dimension) {
             case L: return PlanckUnit.PlanckLength;
@@ -24,11 +26,6 @@ public class Planck  implements SystemOfMeasurements {
             case J: return SIUnit.cd;
         }
         throw new IllegalArgumentException();
-    }
-
-    @Override
-    public Units forDimensions(Dimensions dimension) {
-        return null;
     }
 
     enum PlanckUnit implements Unit {
@@ -50,8 +47,8 @@ public class Planck  implements SystemOfMeasurements {
         }
 
         @Override
-        public Dimensions getDimensions() {
-            return Dimensions.of(dimension);
+        public DimensionalAnalysis getDimensions() {
+            return DimensionalAnalysis.of(dimension);
         }
 
         @Override

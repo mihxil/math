@@ -7,8 +7,8 @@ import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.physics.Dimensions;
-import org.meeuw.physics.text.DimensionsFormat;
+import org.meeuw.physics.DimensionalAnalysis;
+import org.meeuw.physics.text.DimensionalAnalysisFormat;
 
 /**
  * @author Michiel Meeuwissen
@@ -17,14 +17,14 @@ import org.meeuw.physics.text.DimensionsFormat;
 public class DimensionsFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
-    public DimensionsFormat getInstance(Configuration configuration) {
-        DimensionsFormat format = new DimensionsFormat();
+    public DimensionalAnalysisFormat getInstance(Configuration configuration) {
+        DimensionalAnalysisFormat format = new DimensionalAnalysisFormat();
         return format;
     }
 
     @Override
     public int weight(AlgebraicElement<?> element) {
-        if (element instanceof Dimensions) {
+        if (element instanceof DimensionalAnalysis) {
             return 10;
         }
         return -1;

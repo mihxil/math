@@ -24,7 +24,7 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
     @Test
     public void eV() {
         assertThat(SI.eV.toString()).isEqualTo("eV");
-        assertThat(SI.eV.getDescription()).isEqualTo("electronvolt");
+        assertThat(SI.eV.getDescription()).isEqualTo("electron-volt");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
         assertThat(SI.eV.getSIFactor().getValue()).isEqualTo(1.602176634E-19);
     }
