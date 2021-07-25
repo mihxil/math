@@ -2,6 +2,7 @@ package org.meeuw.math.text.spi;
 
 import lombok.extern.java.Log;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.Format;
 import java.util.*;
 import java.util.function.*;
@@ -169,9 +170,9 @@ public final class FormatService {
             algebraicElementFormatProvider ->
                 algebraicElementFormatProvider.getConfigurationAspects().forEach(c -> {
                     try {
-                        ConfigurationAspect configurationAspect = c.newInstance();
+                        ConfigurationAspect configurationAspect =  c.getDeclaredConstructor().newInstance();
                         m.put(c, configurationAspect);
-                    } catch (InstantiationException | IllegalAccessException e) {
+                    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                         log.log(Level.WARNING, e.getMessage(), e);
                     }
                 }
