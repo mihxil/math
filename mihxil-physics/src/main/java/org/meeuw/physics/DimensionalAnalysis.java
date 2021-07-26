@@ -50,7 +50,7 @@ public class DimensionalAnalysis implements MultiplicativeGroupElement<Dimension
 
     private static final DimensionalAnalysis[] QUANTITIES;
     static {
-        List<DimensionalAnalysis> result = new ArrayList<>();
+        final List<DimensionalAnalysis> result = new ArrayList<>();
         for (Field f : DimensionalAnalysis.class.getDeclaredFields()) {
             if (Modifier.isPublic(f.getModifiers()) && Modifier.isStatic(f.getModifiers()) && f.getType().equals(DimensionalAnalysis.class)) {
                 try {
