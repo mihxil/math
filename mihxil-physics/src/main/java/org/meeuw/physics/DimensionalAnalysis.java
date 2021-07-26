@@ -61,7 +61,7 @@ public class DimensionalAnalysis implements MultiplicativeGroupElement<Dimension
 
             }
         }
-        QUANTITIES = result.toArray(DimensionalAnalysis[]::new);
+        QUANTITIES = result.toArray(new DimensionalAnalysis[0]);
     }
     public static DimensionalAnalysis[] getQuantities() {
         return QUANTITIES;
