@@ -20,6 +20,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
     <java.target.version>8</java.target.version>
     <!-- compile time -->
     <lombok.version>1.18.20</lombok.version>
@@ -39,7 +41,7 @@
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
       <distribution>repo</distribution>
       <comments>A business-friendly OSS license</comments>
     </license>
@@ -50,7 +52,7 @@
       <id>mihxil</id>
       <name>Michiel Meeuwissen</name>
       <email>michiel.meeuwissen+github@gmail.com</email>
-      <url>http://www.meeuw.org</url>
+      <url>https://meeuw.org</url>
       <roles>
         <role>architect</role>
         <role>developer</role>
@@ -160,7 +162,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.16.0</version>
+      <version>3.17.0</version>
       <scope>provided</scope>
     </dependency>
   <!--  <dependency>
@@ -304,6 +306,7 @@
           <version>3.0.0-M5</version>
           <configuration>
             <testFailureIgnore>true</testFailureIgnore>
+            <encoding>UTF-8</encoding>
             <systemPropertyVariables>
               <projectArtifactId>${project.artifactId}</projectArtifactId>
             </systemPropertyVariables>
@@ -399,7 +402,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.6</version>
+            <version>3.0.1</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -426,7 +429,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.2.0</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
