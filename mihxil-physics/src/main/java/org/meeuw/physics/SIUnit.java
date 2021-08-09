@@ -66,7 +66,7 @@ public enum SIUnit implements Unit {
     }
 
     public Prefix prefix() {
-        return Prefix.NONE;
+        return SI.DecimalPrefix.none;
     }
 
     public static Units toUnits(int[] exponents) {

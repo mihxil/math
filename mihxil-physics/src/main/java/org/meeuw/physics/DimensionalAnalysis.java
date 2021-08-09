@@ -22,7 +22,8 @@ import static org.meeuw.physics.Dimension.*;
  *
  * @author Michiel Meeuwissen
  */
-public class DimensionalAnalysis implements MultiplicativeGroupElement<DimensionalAnalysis>, Streamable<DimensionExponent> {
+public class DimensionalAnalysis
+    implements MultiplicativeGroupElement<DimensionalAnalysis>, Streamable<DimensionExponent> {
 
     public static final DimensionalAnalysis DISTANCE = of(L);
     public static final DimensionalAnalysis LENGTH   = of(L);

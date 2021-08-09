@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
@@ -11,7 +12,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  */
 public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
     @Override
-    public Unit forDimension(Dimension dimension) {
+    public @NonNull Unit forDimension(Dimension dimension) {
         return null;
     }
 

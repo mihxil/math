@@ -21,7 +21,7 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
     }
 
     default Prefix getPrefix() {
-        return Prefix.NONE;
+        return SI.DecimalPrefix.none;
     }
 
     static UnitsImpl of(UncertainReal siFactor, Unit... units) {

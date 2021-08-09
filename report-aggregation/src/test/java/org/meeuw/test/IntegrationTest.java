@@ -22,7 +22,7 @@ public class IntegrationTest {
         clock.tick();
         rate.newEvent();
         PhysicalNumber measurement = rate.toPhysicalNumber();
-        PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hours).reciprocal());
+        PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
         System.out.println("Rate: " + rateInHours);
     }
 }

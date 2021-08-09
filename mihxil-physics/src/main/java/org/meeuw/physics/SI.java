@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.math.BigInteger;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -64,51 +65,74 @@ public class SI implements SystemOfMeasurements {
 
 
 
-    public enum BinaryPrefixes implements Prefix {
-        KiB(1024),
-        MiB(1024 * KiB.factor),
-        GiB(1024 * MiB.factor),
-        TiB(1024 * GiB.factor),
-        PiB(1024 * TiB.factor),
-        EiB(1024 * PiB.factor),
-        ZiB(1024 * EiB.factor),
-        YiB(1024 * ZiB.factor),
+    public enum BinaryPrefix implements Prefix {
+
+        none(BigInteger.ONE, ""),
+        Ki(BigInteger.valueOf(1024)),
+        Mi(Ki.factor.multiply(Ki.factor)),
+        Gi(Ki.factor.multiply(Mi.factor)),
+        Ti(Ki.factor.multiply(Gi.factor)),
+        Pi(Ki.factor.multiply(Ti.factor)),
+        Ei(Ki.factor.multiply(Pi.factor)),
+        Zi(Ki.factor.multiply(Ei.factor)),
+        Yi(Ki.factor.multiply(Zi.factor))
         ;
 
-        private final long factor;
+        private final BigInteger factor;
+        private final String string;
 
-        BinaryPrefixes(long factor) {
+        BinaryPrefix(BigInteger factor) {
             this.factor = factor;
+            this.string = name();
+        }
+        BinaryPrefix(BigInteger factor, String string) {
+            this.factor = factor;
+            this.string = string;
         }
 
         @Override
         public double getAsDouble() {
-            return factor;
+            return factor.doubleValue();
         }
 
         @Override
-        public Optional<BinaryPrefixes> times(Prefix prefix) {
-            if (prefix instanceof BinaryPrefixes) {
-                return forFactor(factor * ((BinaryPrefixes) prefix).factor);
+        public Optional<BinaryPrefix> times(Prefix prefix) {
+            if (prefix instanceof BinaryPrefix) {
+                return forFactor(factor.multiply(((BinaryPrefix) prefix).factor));
             }
             return Optional.empty();
         }
 
         @Override
-        public Optional<BinaryPrefixes> dividedBy(Prefix prefix) {
-            if (prefix instanceof BinaryPrefixes) {
-                return forFactor(factor / ((BinaryPrefixes) prefix).factor);
+        public Optional<BinaryPrefix> dividedBy(Prefix prefix) {
+            if (prefix instanceof BinaryPrefix) {
+                return forFactor(factor.divide(((BinaryPrefix) prefix).factor));
             }
             return Optional.empty();
         }
 
         @Override
-        public Optional<BinaryPrefixes> reciprocal() {
+        public Optional<BinaryPrefix> reciprocal() {
             return Optional.empty();
         }
-        public static Optional<BinaryPrefixes> forFactor(long factor) {
-              for (BinaryPrefixes p : BinaryPrefixes.values()) {
-                  if (p.factor == factor) {
+
+        @Override
+        public Optional<? extends Prefix> inc() {
+            return forFactor(factor.multiply(Ki.factor));
+        }
+
+        @Override
+        public Optional<? extends Prefix> dec() {
+            return forFactor(factor.multiply(Ki.factor));
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
+        public static Optional<BinaryPrefix> forFactor(BigInteger factor) {
+              for (BinaryPrefix p : BinaryPrefix.values()) {
+                  if (p.factor.equals(factor)) {
                       return Optional.of(p);
                   }
               }
@@ -116,7 +140,7 @@ public class SI implements SystemOfMeasurements {
         }
     }
 
-    public enum Prefixes implements Prefix {
+    public enum DecimalPrefix implements Prefix {
         y(-24),
         z(-21),
         a(-18),
@@ -128,6 +152,7 @@ public class SI implements SystemOfMeasurements {
         c(-2),
         d(-1),
         da(1),
+        none(0, ""),
         h(2),
         k(3),
         M(6),
@@ -145,10 +170,20 @@ public class SI implements SystemOfMeasurements {
         @Getter
         final int pow;
 
-        Prefixes(int pow) {
+        final String string;
+
+        DecimalPrefix(int pow, String string) {
             this.pow = pow;
             doubleValue = Utils.pow10(pow);
+            this.string = string;
         }
+
+        DecimalPrefix(int pow) {
+            this.pow = pow;
+            doubleValue = Utils.pow10(pow);
+            this.string = name();
+        }
+
 
         @Override
         public double getAsDouble() {
@@ -156,28 +191,43 @@ public class SI implements SystemOfMeasurements {
         }
 
         @Override
-        public Optional<Prefixes> times(Prefix prefix) {
-            if (prefix instanceof Prefixes) {
-                return forPow(pow + ((Prefixes) prefix).pow);
+        public Optional<DecimalPrefix> times(Prefix prefix) {
+            if (prefix instanceof DecimalPrefix) {
+                return forPow(pow + ((DecimalPrefix) prefix).pow);
             }
             return Optional.empty();
         }
 
         @Override
-        public Optional<Prefixes> dividedBy(Prefix prefix) {
-            if (prefix instanceof Prefixes) {
-                return forPow(pow - ((Prefixes) prefix).pow);
+        public Optional<DecimalPrefix> dividedBy(Prefix prefix) {
+            if (prefix instanceof DecimalPrefix) {
+                return forPow(pow - ((DecimalPrefix) prefix).pow);
             }
             return Optional.empty();
         }
 
         @Override
-        public Optional<Prefixes> reciprocal() {
+        public Optional<DecimalPrefix> reciprocal() {
             return forPow(-1 * pow);
         }
 
-        public static Optional<Prefixes> forPow(int pow) {
-              for (Prefixes p : values()) {
+        @Override
+        public Optional<? extends Prefix> inc() {
+            return forPow(pow + 3);
+        }
+
+        @Override
+        public Optional<? extends Prefix> dec() {
+            return forPow(pow - 3);
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
+
+        public static Optional<DecimalPrefix> forPow(int pow) {
+              for (DecimalPrefix p : values()) {
                   if (p.pow == pow) {
                       return Optional.of(p);
                   }
@@ -197,7 +247,7 @@ public class SI implements SystemOfMeasurements {
 
     public static final DerivedUnit min =
         new DerivedUnit(exactly(60), "min", "minute", of(s, 1));
-    public static final DerivedUnit hours =
+    public static final DerivedUnit hour =
         new DerivedUnit(exactly(60 * 60), "h", "hour", of(s, 1));
 
 

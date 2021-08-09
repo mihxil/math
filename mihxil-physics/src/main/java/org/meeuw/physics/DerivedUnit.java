@@ -57,7 +57,7 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = siFactor;
-        this.prefix = prefix == null ? Prefix.NONE : prefix;
+        this.prefix = prefix == null ? SI.DecimalPrefix.none : prefix;
     }
 
 
@@ -66,7 +66,7 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = units.getSIFactor();
-        this.prefix = Prefix.NONE;
+        this.prefix = SI.DecimalPrefix.none;
     }
 
 
@@ -82,7 +82,7 @@ public class DerivedUnit implements Unit {
         this.exponents[siUnit.ordinal()] = 1;
         this.name = name;
         this.description = description;
-        this.prefix = Prefix.NONE;
+        this.prefix = SI.DecimalPrefix.none;
         this.SIFactor = siFactor;
     }
 
@@ -170,6 +170,7 @@ public class DerivedUnit implements Unit {
             .build();
     }
 
+    @SuppressWarnings("EqualsDoesntCheckParameterClass")
     @Override
     public boolean equals(Object o) {
         return Units.equals(this, o);

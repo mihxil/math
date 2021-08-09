@@ -56,6 +56,5 @@ public enum Dimension implements DimensionExponent {
 
     public SIUnit getSIUnit() {
         return SIUnit.valueOf(this);
-
     }
 }

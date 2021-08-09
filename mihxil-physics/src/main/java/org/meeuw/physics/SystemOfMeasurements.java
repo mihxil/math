@@ -14,12 +14,11 @@ public interface SystemOfMeasurements {
     Unit forDimension(Dimension dimension);
 
     /**
-     * Returns in this system of measurements the preferred unit of the given dimension
+     * Returns in this system of measurements the preferred units for the given dimensional analysis
      */
     @NonNull
     default Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
         return new UnitsImpl(exactly(1), dimensionalAnalysis);
-
     }
 
     default Units forDimensions(DimensionExponent... dimensions) {
