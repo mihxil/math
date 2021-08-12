@@ -1,5 +1,7 @@
 package org.meeuw.physics;
 
+import lombok.extern.log4j.Log4j2;
+
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
     @Test
@@ -34,8 +37,18 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
         Units km =  new DerivedUnit(SI.DecimalPrefix.k, SIUnit.m);
         assertThat(km.toString()).isEqualTo("km");
 
-        Units kmph = km.dividedBy(SI.hour);
-        assertThat(kmph.toString()).isEqualTo("km");
+        DerivedUnit kmph = ((DerivedUnit) km.dividedBy(SI.hour)).withName("km/h");
+        //assertThat(kmph.toString()).isEqualTo("km/h");
+        assertThat(kmph.getDimensions()).isEqualTo(DimensionalAnalysis.SPEED);
+
+        PhysicalNumber n = new Measurement(10d, 1d, kmph);
+
+        PhysicalNumber mps = n.toUnits(SI.INSTANCE.forDimensions((DimensionalAnalysis.SPEED)));
+
+        log.info("{} -> {}", n, mps);
+        assertThat(mps.toString()).isEqualTo("2.8 ± 0.3 m·s⁻¹");
+
+        //assertThat(mps).isEqualTo(n.toUnits(kmph.toSI()));
     }
 
     @Override

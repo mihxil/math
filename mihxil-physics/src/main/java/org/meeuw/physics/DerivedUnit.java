@@ -1,6 +1,6 @@
 package org.meeuw.physics;
 
-import lombok.Getter;
+import lombok.*;
 
 import java.util.*;
 
@@ -18,34 +18,49 @@ public class DerivedUnit implements Unit {
     @Getter
     final UncertainReal SIFactor;
 
-    final int[] exponents = new int[SIUnit.values().length];
+    final int[] exponents;
 
     @Getter
+    @With
     final Prefix prefix;
 
     @Getter
+    @With
     final String name;
 
     @Getter
+    @With
     final String description;
 
     public DerivedUnit(
-        UncertainReal siFactor,
+        UncertainReal SIFactor,
         String name,
         String description,
         UnitExponent... siExponents) {
-        this(siFactor, name, description, Arrays.asList(siExponents), null, null);
+        this(SIFactor, null, null, name, description, Arrays.asList(siExponents));
     }
+
+
+    private DerivedUnit(
+        UncertainReal SIFactor,
+        int[] exponents,
+        Prefix prefix,
+        String name,
+        String description) {
+        this(SIFactor, exponents, prefix, name, description, null);
+    }
+
 
     @lombok.Builder
     private DerivedUnit(
         UncertainReal siFactor,
+        int[] exponents,
+        Prefix prefix,
         String name,
         String description,
-        List<UnitExponent> siExponents,
-        int[] exponents,
-        Prefix prefix
+        List<UnitExponent> siExponents
         ) {
+        this.exponents =  new int[SIUnit.values().length];
         if (exponents != null) {
             System.arraycopy(exponents, 0, this.exponents, 0, this.exponents.length);
         }
@@ -62,6 +77,7 @@ public class DerivedUnit implements Unit {
 
 
     public DerivedUnit(Units units, String name, String description) {
+        this.exponents = new int[SIUnit.values().length];
         System.arraycopy(units.getDimensions().getExponents(), 0, this.exponents, 0, this.exponents.length);
         this.name = name;
         this.description = description;
@@ -71,6 +87,7 @@ public class DerivedUnit implements Unit {
 
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, DerivedUnit derivedUnit) {
+        this.exponents = new int[SIUnit.values().length];
         System.arraycopy(derivedUnit.exponents, 0, this.exponents, 0, this.exponents.length);
         this.name = name;
         this.description = description;
@@ -79,6 +96,7 @@ public class DerivedUnit implements Unit {
     }
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, SIUnit siUnit) {
+        this.exponents = new int[SIUnit.values().length];
         this.exponents[siUnit.ordinal()] = 1;
         this.name = name;
         this.description = description;
@@ -87,6 +105,7 @@ public class DerivedUnit implements Unit {
     }
 
     public DerivedUnit(Prefix prefix, DerivedUnit unit) {
+        this.exponents = new int[SIUnit.values().length];
         System.arraycopy(unit.exponents, 0, this.exponents, 0, unit.exponents.length);
         this.name = unit.name;
         this.description = prefix.toString() + "(" + unit.description + ")";
@@ -162,6 +181,9 @@ public class DerivedUnit implements Unit {
         if (p == null) {
             reciprocalFactor = reciprocalFactor.dividedBy(prefix.getAsDouble());
         }
+        if (Arrays.stream(exponents).allMatch(i -> i == 0) && reciprocalFactor.isOne()) {
+            return DerivedUnit.DIMENSIONLESS;
+        }
         return DerivedUnit.builder()
             .siFactor(reciprocalFactor)
             .prefix(p)
@@ -169,6 +191,7 @@ public class DerivedUnit implements Unit {
             .exponents(exponents)
             .build();
     }
+
 
     @SuppressWarnings("EqualsDoesntCheckParameterClass")
     @Override

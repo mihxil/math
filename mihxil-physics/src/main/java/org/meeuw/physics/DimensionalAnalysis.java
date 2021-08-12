@@ -31,6 +31,7 @@ public class DimensionalAnalysis
     public static final DimensionalAnalysis VOLUME   = of(L, L, L);
     public static final DimensionalAnalysis TIME     = of(T);
     public static final DimensionalAnalysis VELOCITY    = DISTANCE.dividedBy(TIME);
+    public static final DimensionalAnalysis SPEED    = VELOCITY;
     public static final DimensionalAnalysis WEIGHT   = of(M);
     public static final DimensionalAnalysis TEMPERATURE         = of(TH);
     public static final DimensionalAnalysis ELECTRIC_CURRENT    = of(I);
