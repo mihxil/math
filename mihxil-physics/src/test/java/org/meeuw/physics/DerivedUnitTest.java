@@ -48,7 +48,10 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
         log.info("{} -> {}", n, mps);
         assertThat(mps.toString()).isEqualTo("2.8 ± 0.3 m·s⁻¹");
 
-        //assertThat(mps).isEqualTo(n.toUnits(kmph.toSI()));
+        assertThat(mps).isEqualTo(n.toUnits(SI.INSTANCE));
+
+        // TODO
+        //assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("");
     }
 
     @Override

@@ -13,6 +13,14 @@ import static org.meeuw.physics.Dimension.*;
  * @since 0.6
  */
 public class Planck  implements SystemOfMeasurements {
+
+    public static final Planck INSTANCE = new Planck();
+
+    private Planck() {
+
+    }
+
+
     @Override
     @NonNull
     public Unit forDimension(Dimension dimension) {

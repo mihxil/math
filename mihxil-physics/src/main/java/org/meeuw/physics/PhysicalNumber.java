@@ -140,6 +140,10 @@ public abstract class PhysicalNumber extends Number
         return toUnits(Units.of(units));
     }
 
+    public PhysicalNumber toUnits(SystemOfMeasurements systemOfMeasurements) {
+        return toUnits(systemOfMeasurements.forDimensions(units.getDimensions()));
+    }
+
     /**
      * Just adds {@link #plus(PhysicalNumber)}{@link #negation()}.
      * @see #plus(PhysicalNumber)
