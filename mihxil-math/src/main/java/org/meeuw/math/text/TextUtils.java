@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 import org.meeuw.math.Utils;
 
@@ -37,11 +38,11 @@ public final class TextUtils {
     }
 
     public static String subscript(CharSequence i) {
-        return script(i, SUB_MINUS, SUBSCRIPTS);
+        return script(i, SUB, SUBSCRIPTS);
     }
 
     public static String superscript(CharSequence i) {
-        return script(i, SUPER_MINUS, SUPERSCRIPTS);
+        return script(i, SUPER, SUPERSCRIPTS);
     }
 
     private static String script(long i, char minusChar, char[] digits) {
@@ -51,16 +52,19 @@ public final class TextUtils {
         return bul.toString();
     }
 
-    private static String script(CharSequence i, char minus, char[] digits) {
+    private static String script(CharSequence i, Map<Character, Character> chars, char[] digits) {
         StringBuilder bul = new StringBuilder();
 
         i.chars().forEach(c -> {
             if (Character.isDigit(c)) {
                 bul.append(digits[c - '0']);
-            } else if (c == '-') {
-                bul.append(minus);
             } else {
-                bul.append((char) c);
+                Character replaced = chars.get((char) c);
+                if (replaced != null) {
+                    bul.append(replaced);
+                } else {
+                    bul.append((char) c);
+                }
             }
         });
         return bul.toString();
@@ -97,6 +101,11 @@ public final class TextUtils {
     };
     private static final char SUPER_MINUS = '\u207B';
 
+    private static final Map<Character, Character> SUPER = Collections.unmodifiableMap(new HashMap<>() {{
+        put('-', SUPER_MINUS);
+        put('P', 'ᴾ');
+    }});
+
     private static final char[] SUBSCRIPTS = {
              0x2080,
              0x2081,
@@ -110,6 +119,11 @@ public final class TextUtils {
              0x2089
     };
     private static final char SUB_MINUS = '\u208B';
+
+    private static final Map<Character, Character> SUB = Collections.unmodifiableMap(new HashMap<>() {{
+        put('-', SUB_MINUS);
+        put('P', 'ₚ');
+    }});
 
     public static String format(Instant instant, ChronoUnit order) {
          return format(ZoneId.systemDefault(), instant, order);

@@ -6,25 +6,29 @@
 package org.meeuw.math.text;
 
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *
-
  */
 public class TextUtilsTest {
 
     @Test
     public void subscript() {
-        assertThat(TextUtils.subscript("-123")).isEqualTo("₋₁₂₃");
+        assertThat(TextUtils.subscript("-1234567890 P")).isEqualTo("₋₁₂₃₄₅₆₇₈₉₀ ₚ");
         assertThat(TextUtils.subscript(-123)).isEqualTo("₋₁₂₃");
+        assertThat(TextUtils.subscript(0)).isEqualTo("₀");
     }
 
     @Test
     public void superscript() {
-        assertThat(TextUtils.superscript("-123")).isEqualTo("⁻¹²³");
+        assertThat(TextUtils.superscript("-1234567890 P")).isEqualTo("⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ");
         assertThat(TextUtils.superscript(-123)).isEqualTo("⁻¹²³");
     }
 
@@ -48,11 +52,17 @@ public class TextUtilsTest {
         assertThat(TextUtils.overLineDouble("foo bar 123")).isEqualTo("f̿o̿o̿ ̿b̿a̿r̿ ̿1̿2̿3̿");
     }
 
-
     @Test
     public void controlNull() {
         assertThat(TextUtils.controlEach(null, '\u033f')).isNull();
     }
 
+    @Test
+    public void instant() {
+        assertThat(TextUtils.format(Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).startsWith("2021-08");
+
+        assertThat(TextUtils.format(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).isEqualTo("2021-08-22");
+        assertThat(TextUtils.format(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.SECONDS)).isEqualTo("2021-08-22T22:00:14");
+    }
 }
 
