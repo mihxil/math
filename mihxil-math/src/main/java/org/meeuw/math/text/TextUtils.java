@@ -101,7 +101,7 @@ public final class TextUtils {
     };
     private static final char SUPER_MINUS = '\u207B';
 
-    private static final Map<Character, Character> SUPER = Collections.unmodifiableMap(new HashMap<>() {{
+    private static final Map<Character, Character> SUPER = Collections.unmodifiableMap(new HashMap<Character, Character>() {{
         put('-', SUPER_MINUS);
         put('P', 'ᴾ');
     }});
@@ -120,7 +120,7 @@ public final class TextUtils {
     };
     private static final char SUB_MINUS = '\u208B';
 
-    private static final Map<Character, Character> SUB = Collections.unmodifiableMap(new HashMap<>() {{
+    private static final Map<Character, Character> SUB = Collections.unmodifiableMap(new HashMap<Character, Character>() {{
         put('-', SUB_MINUS);
         put('P', 'ₚ');
     }});
