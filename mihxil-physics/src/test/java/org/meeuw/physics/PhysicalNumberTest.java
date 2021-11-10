@@ -30,6 +30,7 @@ class PhysicalNumberTest implements
         log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(SI.ly), lys.plus(psc));
         assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.4 ly");
         assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.13 pc");
+
     }
 
     @Test
@@ -40,6 +41,10 @@ class PhysicalNumberTest implements
         PhysicalNumber inLightYear = two_pc.toUnits(Units.of(SI.ly));
         assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
+
+        assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁶ m");
+        assertThat(inLightYear.toUnits(CGS.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁸ cm");
+        assertThat(inLightYear.toUnits(Planck.INSTANCE).toString()).isEqualTo("(3.82 ± 0.17)·10⁵¹ ℓₚ");
     }
 
     @Test
