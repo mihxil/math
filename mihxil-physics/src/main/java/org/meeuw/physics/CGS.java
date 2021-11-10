@@ -5,25 +5,42 @@ import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.physics.CGS.CGSUnit.cm;
+import static org.meeuw.physics.UnitExponent.of;
+
 /**
  * @author Michiel Meeuwissen
- * @since .0.6
+ * @since 0.6
  */
 public class CGS implements SystemOfMeasurements {
+
+    public static CGS INSTANCE = new CGS();
+
+
+
     @Override
     @NonNull
     public Unit forDimension(Dimension dimension) {
-        throw new UnsupportedOperationException();
+        switch(dimension) {
+            case L: return cm;
+            case M: return CGSUnit.g;
+            case T: return CGSUnit.s;
+            case I: return SIUnit.A;
+            case Θ: return SIUnit.K;
+            case N: return SIUnit.mol;
+            case J: return SIUnit.cd;
+        }
+        throw new IllegalArgumentException();
+
     }
 
-    @Override
-    @NonNull
-    public Units forDimensions(DimensionalAnalysis dimension) {
-        throw new UnsupportedOperationException();
 
-    }
+    enum CGSUnit implements BaseUnit {
+        cm(Dimension.L, exactly(0.01)),
+        g(Dimension.M, exactly(0.001)),
+        s(Dimension.T, exactly(1)),
 
-    enum CGSUnit implements Unit {
         ;
         @Getter
         private final Dimension dimension;
@@ -37,25 +54,18 @@ public class CGS implements SystemOfMeasurements {
         }
 
         @Override
-        public DimensionalAnalysis getDimensions() {
-            return null;
-        }
-
-        @Override
         public String getDescription() {
-            return null;
-        }
-
-
-
-        @Override
-        public Units reciprocal() {
-            return null;
+            return name();
         }
 
         @Override
-        public Units times(Units multiplier) {
-            return null;
+        public SystemOfMeasurements getSystem() {
+            return CGS.INSTANCE;
         }
     }
+
+    // acceleration
+    public static final DerivedUnit gal =  new DerivedUnit("Gal", "gal", of(cm, 1), of(CGSUnit.s, -2));
+
+    // force
 }

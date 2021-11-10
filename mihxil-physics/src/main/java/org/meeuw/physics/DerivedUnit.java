@@ -66,7 +66,10 @@ public class DerivedUnit implements Unit {
         }
         if (siExponents != null) {
             for (UnitExponent f : siExponents) {
-                this.exponents[((SIUnit) f.unit).ordinal()] += f.exponent;
+                int[] dimensions = f.getDimensions().getExponents();
+                for (int d = 0; d < dimensions.length; d++) {
+                    this.exponents[d] += dimensions[d];
+                };
             }
         }
         this.name = name;

@@ -33,7 +33,6 @@ public enum SIUnit implements BaseUnit {
     @Getter
     private final Dimension dimension;
 
-
     @Getter
     private final String description;
 
@@ -41,18 +40,6 @@ public enum SIUnit implements BaseUnit {
         this.dimension = dimension;
         this.description = description;
     }
-
-
-    @Override
-    public Units times(Units multiplier) {
-        return Units.of(this).times(multiplier);
-    }
-
-    @Override
-    public Units reciprocal() {
-        return Units.of(this).reciprocal();
-    }
-
 
     @Override
     public DimensionalAnalysis getDimensions() {

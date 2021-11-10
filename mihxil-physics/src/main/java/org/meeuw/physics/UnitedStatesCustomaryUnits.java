@@ -15,12 +15,14 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
     public static UnitedStatesCustomaryUnits INSTANCE = new UnitedStatesCustomaryUnits();
     @Override
     public @NonNull Unit forDimension(Dimension dimension) {
-        return null;
-    }
-
-    @Override
-    public @NonNull Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
-        return null;
+        switch(dimension) {
+            case L: return US.yd;
+            case M: return US.lb;
+            case T: return SI.min;
+            case N: return SIUnit.mol;
+            case J: return SIUnit.cd;
+        }
+        throw new IllegalArgumentException();
     }
 
 

@@ -2,11 +2,10 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import java.util.Arrays;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.field.*;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Dimension.*;
@@ -39,14 +38,6 @@ public class Planck  implements SystemOfMeasurements {
         throw new IllegalArgumentException();
     }
 
-    @NonNull
-    public  Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
-        UnitExponent[] unitExponents = dimensionalAnalysis.stream().map(dimensionExponent -> dimensionExponent.toUnitExponent(this)).toArray(UnitExponent[]::new);
-        final UncertainReal siFactor = Arrays.stream(unitExponents)
-            .map(UnitExponent::getSIFactor)
-            .reduce(UncertainRealField.INSTANCE.one(), UncertainReal::times);
-        return new UnitsImpl(siFactor, unitExponents);
-    }
 
     public static final String sub = TextUtils.subscript("P");
 
@@ -74,23 +65,8 @@ public class Planck  implements SystemOfMeasurements {
         }
 
         @Override
-        public DimensionalAnalysis getDimensions() {
-            return DimensionalAnalysis.of(dimension);
-        }
-
-        @Override
         public String getDescription() {
             return name();
-        }
-
-        @Override
-        public Units times(Units multiplier) {
-            return Units.of(this).times(multiplier);
-        }
-
-        @Override
-        public Units reciprocal() {
-            return Units.of(this).reciprocal();
         }
 
         @Override
