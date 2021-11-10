@@ -23,6 +23,9 @@ public interface Unit extends Units {
 
     String name();
 
+    default String getSymbol() {
+        return name();
+    }
 
     @Override
     @NonNull

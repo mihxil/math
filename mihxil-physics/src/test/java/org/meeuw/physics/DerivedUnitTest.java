@@ -43,15 +43,14 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
         PhysicalNumber n = new Measurement(10d, 1d, kmph);
 
-        PhysicalNumber mps = n.toUnits(SI.INSTANCE.forDimensions((DimensionalAnalysis.SPEED)));
+        PhysicalNumber mps = n.toUnits(SI.INSTANCE);
 
         log.info("{} -> {}", n, mps);
         assertThat(mps.toString()).isEqualTo("2.8 ± 0.3 m·s⁻¹");
 
         assertThat(mps).isEqualTo(n.toUnits(SI.INSTANCE));
 
-        // TODO
-        //assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("");
+        assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("(9.3 ± 0.8)·10⁻⁹ ℓₚ·tₚ⁻¹");
     }
 
     @Override

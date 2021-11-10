@@ -11,7 +11,7 @@ import static org.meeuw.physics.Dimension.*;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public enum SIUnit implements Unit {
+public enum SIUnit implements BaseUnit {
 
     m(L, "meter"),
     kg(M, "kilogram"),
@@ -59,14 +59,15 @@ public enum SIUnit implements Unit {
         return getDimensions(ordinal());
     }
 
+    @Override
+    public SystemOfMeasurements getSystem() {
+        return SI.INSTANCE;
+    }
+
     private static DimensionalAnalysis getDimensions(int ord) {
         int[] exponents = new int[7];
         exponents[ord] = 1;
         return new DimensionalAnalysis(exponents);
-    }
-
-    public Prefix prefix() {
-        return SI.DecimalPrefix.none;
     }
 
     public static Units toUnits(int[] exponents) {

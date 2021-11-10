@@ -45,4 +45,9 @@ class PhysicalConstantTest {
         );
     }
 
+    @Test
+    public void kB() {
+        assertThat(kB.toString()).isEqualTo("(1.3806485 ± 0.0000008)·10⁻²³ J·K⁻¹");
+    }
+
 }

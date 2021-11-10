@@ -17,7 +17,9 @@ public class PhysicalNumberFormat extends Format {
 
         StringBuffer buf = new StringBuffer();
         PhysicalNumber physicalNumber = (PhysicalNumber) number;
-        buf.append(physicalNumber.getWrapped()).append(" ").append(physicalNumber.getUnits());
+        buf.append(physicalNumber.getWrapped())
+            .append(" ")
+            .append(physicalNumber.getUnits());
 
         return buf;
     }

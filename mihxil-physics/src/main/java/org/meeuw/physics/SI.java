@@ -60,7 +60,7 @@ public class SI implements SystemOfMeasurements {
         if (PRESSURE.equals(dimensions)) {
             return Pa;
         }
-        return SystemOfMeasurements.super.forDimensions(dimensions);
+        return UnitsImpl.si(exactly(1), dimensions);
     }
 
 

@@ -11,13 +11,20 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  * In US, you may
  */
 public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
+
+    public static UnitedStatesCustomaryUnits INSTANCE = new UnitedStatesCustomaryUnits();
     @Override
     public @NonNull Unit forDimension(Dimension dimension) {
         return null;
     }
 
+    @Override
+    public @NonNull Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
+        return null;
+    }
 
-    enum US implements Unit {
+
+    enum US implements BaseUnit {
         yd(Dimension.L, "yard", exactly(0.9144)),
         lb(Dimension.M, "pound", exactly(0.45359237))
         ;
@@ -48,6 +55,11 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
         @Override
         public Units times(Units multiplier) {
             return null;
+        }
+
+        @Override
+        public SystemOfMeasurements getSystem() {
+            return UnitedStatesCustomaryUnits.INSTANCE;
         }
     }
 

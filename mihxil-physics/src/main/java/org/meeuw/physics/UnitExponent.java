@@ -3,8 +3,10 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
+ * Packs a certain {@link Unit} with an exponent.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -64,7 +66,10 @@ public class UnitExponent implements Comparable<UnitExponent> {
 
     @Override
     public String toString() {
-        return unit.name() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
+        return unit.getSymbol() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
     }
 
+    UncertainReal getSIFactor() {
+        return unit.getSIFactor().pow(exponent);
+    }
 }

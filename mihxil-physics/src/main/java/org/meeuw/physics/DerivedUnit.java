@@ -112,6 +112,7 @@ public class DerivedUnit implements Unit {
         this.SIFactor = unit.SIFactor.times(prefix.getAsDouble());
         this.prefix = prefix;
     }
+
     public DerivedUnit(Prefix prefix, SIUnit unit) {
         this(prefix, new DerivedUnit(INSTANCE.one(), unit.name(), unit.getDescription(), new UnitExponent(unit, 1)));
     }
@@ -151,12 +152,8 @@ public class DerivedUnit implements Unit {
             return this;
         }
         int[] exponents = getDimensions().times(multiplier.getDimensions()).getExponents();
-        Prefix p = prefix.times(multiplier.getPrefix()).orElse(null);
 
         UncertainReal factor = SIFactor.times(multiplier.getSIFactor());
-        if (p == null) {
-            factor = factor.times(prefix.getAsDouble() * multiplier.getPrefix().getAsDouble());
-        }
 
         if (Arrays.stream(exponents).allMatch(i -> i == 0) && factor.isOne()) {
             return DerivedUnit.DIMENSIONLESS;
@@ -164,9 +161,8 @@ public class DerivedUnit implements Unit {
 
         return DerivedUnit.builder()
             .siFactor(factor)
-            .name("(" + name + ") " + TextUtils.TIMES + "(" + multiplier + ")")
+            .name(name + TextUtils.TIMES + multiplier)
             .exponents(exponents)
-            .prefix(p)
             .build();
     }
 
@@ -205,8 +201,6 @@ public class DerivedUnit implements Unit {
     }
 
     public static class Builder {
-
-
 
     }
 }

@@ -33,6 +33,10 @@ public class PhysicalConstant extends PhysicalNumber {
         Units.of(SIUnit.m, SIUnit.m, SIUnit.m)
             .dividedBy(Units.of(SIUnit.kg, SIUnit.s, SIUnit.s)), "Gravitational Constant");
 
+    public static final PhysicalConstant kB = new PhysicalConstant("kB",
+        new UncertainDoubleElement(1.380_648_52e-23d, 0.000_000_79e-23d),
+        SI.J.dividedBy(Units.of(SIUnit.K)), "Boltzmann constant");
+
 
     @Getter
     private final String name;

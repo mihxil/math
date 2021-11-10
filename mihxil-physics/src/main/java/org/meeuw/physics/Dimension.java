@@ -29,6 +29,7 @@ public enum Dimension implements DimensionExponent {
     @Getter
     final String name;
 
+
     Dimension(char i, String name) {
         toString = String.valueOf(i);
         this.name = name;

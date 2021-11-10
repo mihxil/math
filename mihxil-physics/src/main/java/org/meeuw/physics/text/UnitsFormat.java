@@ -15,16 +15,15 @@ import org.meeuw.physics.UnitsImpl;
 public class UnitsFormat extends Format {
 
     @Override
-    public StringBuffer format(Object number, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
-
+    public StringBuffer format(Object object, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
         StringBuffer builder = new StringBuffer();
-        UnitsImpl units = (UnitsImpl) number;
+        UnitsImpl units = (UnitsImpl) object;
         for (UnitExponent e : units.getExponents()) {
             if (e.getExponent() != 0) {
                 if (builder.length() > 0) {
                     builder.append(TextUtils.TIMES);
                 }
-                builder.append(e.toString());
+                builder.append(e);
             }
         }
         return builder;

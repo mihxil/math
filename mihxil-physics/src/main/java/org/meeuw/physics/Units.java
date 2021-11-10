@@ -20,10 +20,6 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         return UnitsGroup.INSTANCE;
     }
 
-    default Prefix getPrefix() {
-        return SI.DecimalPrefix.none;
-    }
-
     static UnitsImpl of(UncertainReal siFactor, Unit... units) {
         return new UnitsImpl(siFactor, units);
     }

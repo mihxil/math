@@ -22,7 +22,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     private ModuloField(int divisor) throws InvalidElementCreationException {
         super(ModuloFieldElement.class, divisor);
         if (! Utils.isPrime(divisor)) {
-            throw new InvalidElementCreationException("" + divisor + " is not prime");
+            throw new InvalidElementCreationException("" + divisor + " is not a prime");
         }
     }
 

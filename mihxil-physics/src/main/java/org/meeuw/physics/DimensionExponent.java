@@ -22,12 +22,13 @@ public interface DimensionExponent {
     default DimensionExponent with(int i) {
         return of(getDimension(), i);
     }
+
     default DimensionExponent reciprocal() {
         return of(getDimension(), getExponent() * - 1);
     }
 
-    default UnitExponent toUnitExponent() {
-        return UnitExponent.of(getDimension().getSIUnit(), getExponent());
+    default UnitExponent toUnitExponent(SystemOfMeasurements systemOfMeasurements) {
+        return UnitExponent.of(systemOfMeasurements.forDimension(getDimension()), getExponent());
     }
 
     @Data

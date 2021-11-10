@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
@@ -139,5 +140,28 @@ class UtilsTest {
     @ValueSource(ints = {-1, 0, 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81,82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100})
     public void isNotPrime(int composite) {
         assertThat(Utils.isPrime(composite)).isFalse();
+    }
+
+
+    @Test
+    public void checkPower() {
+        assertThat(Utils.checkPower(128, 2)).isEqualTo(7);
+        assertThat(Utils.checkPower(127, 2)).isEqualTo(-1);
+        assertThat(Utils.checkPower(128)).containsExactly(2, 7);
+        assertThat(Utils.checkPower(Utils.positivePow(7, 3))).containsExactly(7, 3);
+
+    }
+    @Test
+    public void checkPower2() {
+        assertThat(Utils.checkPower(4)).containsExactly(2, 2);
+
+    }
+
+    public Duration time(Runnable run) {
+        long nanoStart = System.nanoTime();
+        for (int i = 0; i < 10000; i++) {
+            run.run();
+        }
+        return Duration.ofNanos(System.nanoTime() - nanoStart);
     }
 }

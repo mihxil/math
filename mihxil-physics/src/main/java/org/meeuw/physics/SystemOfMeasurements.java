@@ -2,8 +2,6 @@ package org.meeuw.physics;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
-
 /**
  * @author Michiel Meeuwissen
  * @since 0.6
@@ -17,9 +15,8 @@ public interface SystemOfMeasurements {
      * Returns in this system of measurements the preferred units for the given dimensional analysis
      */
     @NonNull
-    default Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
-        return new UnitsImpl(exactly(1), dimensionalAnalysis);
-    }
+    Units forDimensions(DimensionalAnalysis dimensionalAnalysis);
+
 
     default Units forDimensions(DimensionExponent... dimensions) {
         return forDimensions(DimensionalAnalysis.of(dimensions));

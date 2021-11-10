@@ -77,7 +77,7 @@ public final class Utils {
         }
         // branching will make this slow
 
-        // Math.pow(base, i); will problably perform better?
+        // Math.pow(base, i); will probably perform better?
         while (e > 0) {
             result *= base;
             e--;
@@ -243,8 +243,8 @@ public final class Utils {
 
     /**
      * Simple prime test. 6k ± 1 optimization only. Not suitable for (very) large numbers.
-     * @param n an inter to test for primeness
-     * @return wether the argument is prime or not
+     * @param n an integer to test for primeness
+     * @return whether the argument is prime or not
      */
     public static boolean isPrime(int n) {
         if (n <= 3) {
@@ -260,6 +260,48 @@ public final class Utils {
             i += 6;
         }
         return true;
+    }
+
+    /**
+     * Checks whether n is a power of p.
+     * Returns the exponent, or -1.
+     */
+    static long checkPower(long n, final long p) {
+        int k = 0;
+        while (n > 1 && n % p == 0) {
+            n /= p;
+            k++;
+        }
+        if (n == 1) {
+            return k;
+        } else {
+            return -1;
+        }
+    }
+
+    public static int[] checkPower(final long n) {
+        long p = 2;
+        while(p * p <= n) {
+            long found = checkPower(n, p);
+            if (found > 0) {
+                return new int[]{(int) p, (int)found};
+            }
+            p++;
+        }
+        return new int[] {0, 0};
+    }
+
+
+
+    static long gcdByEuclidsAlgorithm(long n1, long n2) {
+        if (n2 == 0) {
+            return n1;
+        }
+        return gcdByEuclidsAlgorithm(n2, n1 % n2);
+    }
+
+    static long gcd(long n1, long n2) {
+        return gcdByEuclidsAlgorithm(n1, n2);
     }
 
 
