@@ -76,7 +76,7 @@ c = a.times(b);
 
 These methods always take the value of the element itself plus zero parameters (for the unary operators) or one parameter (for the binary operators), and create a new value from the same algebra.
 
-Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented statically (`void add(e1, e2)`) or are modifying the element itself.
+Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented statically (`E add(e1, e2)`) or are modifying the element itself.
 
 Most implementations are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
 
