@@ -1,31 +1,35 @@
+---
 name: build
-
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+    paths-ignore:
+      - 'README.adoc'
+      - '.github/workflows/publish-documentation.yml'
   pull_request:
-    branches: [ main ]
+    branches: [main]
+    paths-ignore:
+      - 'README.adoc'
+      - '.github/workflows/publish-documentation.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up JDK
-      uses: actions/setup-java@v2
-      with:
-        java-version: 17
-        distribution: 'temurin'
-    - name: Build with Maven
-      run: mvn -B -fae
-    - uses: codecov/codecov-action@v2
-    - name: Publish Test Report
-      uses: scacap/action-surefire-report@v1
-      if: always() && ${{ github.event_name == 'push' }}
-    - name: Deploy with Maven
-      run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
-      if: ${{ github.event_name == 'push' }}
-
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: mvn -B -fae
+      - uses: codecov/codecov-action@v2
+      - name: Publish Test Report
+        uses: scacap/action-surefire-report@v1
+        if: always() && ${{ github.event_name == 'push' }}
+      - name: Deploy with Maven
+        run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
+        if: ${{ github.event_name == 'push' }}

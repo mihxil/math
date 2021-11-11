@@ -22,4 +22,3 @@ jobs:
           push-branch: main
           commit-message: 'Upped index.html'
           rebase: 'true'
-
