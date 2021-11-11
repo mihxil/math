@@ -13,7 +13,6 @@ class CGSTest {
 
         PhysicalNumber inSI = slow.toUnits(SI.INSTANCE);
         assertThat(inSI.toString()).isEqualTo("0.0200 ± 0.0010 m·s⁻¹");
-
     }
 
 }

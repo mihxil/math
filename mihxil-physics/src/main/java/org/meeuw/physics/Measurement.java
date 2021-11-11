@@ -6,7 +6,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
- * A number with a uncertainty where the uncertainty is simply explicitely stated.
+ * A number with an uncertainty where the uncertainty is simply explicitly stated.
  *
  * This is e.g. the single result of a measurement.
  *
@@ -31,8 +31,4 @@ public class Measurement extends PhysicalNumber {
         return new Measurement(wrapped, units);
     }
 
-    @Override
-    public PhysicalNumber reciprocal() {
-        return pow(-1);
-    }
 }

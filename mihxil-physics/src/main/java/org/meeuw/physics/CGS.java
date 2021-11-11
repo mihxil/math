@@ -29,10 +29,10 @@ public class CGS implements SystemOfMeasurements {
             case I: return SIUnit.A;
             case Θ: return SIUnit.K;
             case N: return SIUnit.mol;
-            case J: return SIUnit.cd;
+            default:
+                assert dimension == Dimension.J;
+                return SIUnit.cd;
         }
-        throw new IllegalArgumentException();
-
     }
 
 
