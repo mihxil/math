@@ -14,7 +14,7 @@ jobs:
       - name: Release branch with Maven
         run: |
           git config --global user.name 'github actions'
-          git config --global user.email 'github@meeuw.org
+          git config --global user.email 'github@meeuw.org'
           VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
           RELEASE_VERSION=`echo $VERSION | sed -r 's/-SNAPSHOT/.0-SNAPSHOT/'`
           DEVELOPMENT_VERSION=`echo $VERSION | gawk 'match($1, /([0-9]+)\.([0-9]+)([\.-])(.*)/, a) {print a[1]"."(a[2]+1)a[3]a[4]}'`
