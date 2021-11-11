@@ -17,7 +17,6 @@ jobs:
               echo "::set-env name=valid_branch::false"
               echo "halting release process since this is not a release branch. ${{ github.ref }} must be refs/heads/[0-9]+\.[0-9]+-SNAPSHOT"
             fi
-          fi
       - uses: actions/checkout@v2
         if: ${{ env.valid_branch }} == 'true'
       - uses: actions/setup-java@v2
