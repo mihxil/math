@@ -17,9 +17,9 @@ jobs:
           cd docs
           make clean all
         name: Create html from adoc
-      - name: push
-        uses: github-actions-x/commit@v2.8
-        with:
-          push-branch: main
-          commit-message: 'Upped index.html'
-          rebase: 'true'
+      - name: push changes
+        run: |
+          git config --global user.name 'github actions'
+          git config --global user.email 'github@meeuw.org'
+          git commit -am "Automated update of documenttation"
+          git push
