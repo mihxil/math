@@ -8,7 +8,7 @@ Michiel Meeuwissen
 :source-highlighter: coderay
 :multipage-level: 1
 :gh: https://github.com/mihxil/math/
-:ghblob: {gh}blob/master/
+:ghblob: {gh}blob/main/
 :ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
 :ght: {ghblob}mihxil-math-theories/src/main/java/org/meeuw/math/
 :gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
