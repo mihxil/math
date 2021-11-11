@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: 11
       - name: Create settings.xml
         uses: s4u/maven-settings-action@v2
         with:
@@ -34,7 +34,7 @@ jobs:
       - name: Release
         run: |
           git config --global user.name 'github actions'
-          git config --global user.email 'github@meeuw.org
+          git config --global user.email 'github@meeuw.org'
           mvn --batch-mode  -Darguments=-DskipTests  -DpushChanges=false release:prepare
           git push --atomic -v --follow-tags
-          mvn -Pdeploy,ossrh --batch-mode -Darguments=-DskipTests release:perform
+          mvn -Pdeploy --batch-mode -Darguments=-DskipTests release:perform
