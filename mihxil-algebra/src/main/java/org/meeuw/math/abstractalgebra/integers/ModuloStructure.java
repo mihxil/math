@@ -6,6 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidStructureCreationException;
 
 /**
  * Implementation of ℤ/nℤ
@@ -26,10 +27,13 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
     ModuloStructure(Class<E> eClass, int divisor) {
         super(eClass);
+        if (divisor <= 0) {
+            throw new InvalidStructureCreationException("Divisor of modulo structure must be > 0");
+        }
         this.divisor = divisor;
         this.cardinality = new Cardinality(divisor);
-         one = element(1);
-         zero = element(0);
+        one = element(1);
+        zero = element(0);
     }
 
     @Override
