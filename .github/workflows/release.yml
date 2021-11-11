@@ -16,6 +16,7 @@ jobs:
             else
               echo "valid_branch=false" >>  $GITHUB_ENV
               echo "halting release process since this is not a release branch. ${{ github.ref }} must be refs/heads/[0-9]+\.[0-9]+-SNAPSHOT"
+              exit 1
             fi
       - uses: actions/checkout@v2
         if: ${{ env.valid_branch }} == 'true'
