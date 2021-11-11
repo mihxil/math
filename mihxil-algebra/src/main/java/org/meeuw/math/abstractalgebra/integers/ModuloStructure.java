@@ -51,5 +51,20 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         return IntStream.range(0, divisor).mapToObj(this::element);
     }
 
+    public Stream<String> multiplicationTable(String format) {
+        return stream().flatMap(e1 ->
+            stream().map(e2 -> String.format(format, e1, e2, e1.times(e2)))
+        );
+    }
+
+    /**
+     * Streams the entire multiplication table of the modulo structure
+     */
+    public Stream<String> multiplicationTable() {
+        return multiplicationTable("%s x %s = %s");
+    }
+
+
     abstract E element(int v);
+
 }

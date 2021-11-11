@@ -50,14 +50,10 @@ class ModuloFieldElementTest  {
         }
 
         @Test
-        public void multtable() {
-            structure.stream().forEach(e1 ->
-                structure.stream().forEach(e2 -> {
-                    log.info(e1 + "x" + e2 + "=" + e1.times(e2));
-                    }
-                )
-            );
+        public void multiplicationTable() {
+            structure.multiplicationTable().forEach(log::info);
         }
+
         @Provide
         public Arbitrary<ModuloFieldElement> elements() {
             return Arbitraries.integers()
