@@ -1,5 +1,5 @@
 ---
-name: publish
+name: publish documentation
 on:
   push:
     branches: [main]
