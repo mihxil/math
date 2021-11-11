@@ -12,9 +12,9 @@ jobs:
       - name: check branch name
         run: |
             if [[ ${{ github.ref }} =~ refs/heads/[0-9]+\.[0-9]+-SNAPSHOT ]]; then
-              echo "::set-env name=valid_branch::true"
+              echo "valid_branch=true" >>  $GITHUB_ENV
             else
-              echo "::set-env name=valid_branch::false"
+              echo "valid_branch=false" >>  $GITHUB_ENV
               echo "halting release process since this is not a release branch. ${{ github.ref }} must be refs/heads/[0-9]+\.[0-9]+-SNAPSHOT"
             fi
       - uses: actions/checkout@v2
