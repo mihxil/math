@@ -8,9 +8,17 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
-    if: startsWith(github.ref, 'refs/heads/REL-')
     steps:
+      - name: check branch name
+        run: |
+            if [[ ${{ github.ref }} =~ refs/heads/[0-9]+\.[0-9]+-SNAPSHOT ]]; then
+              echo "valid_branch=true" >>  $GITHUB_ENV
+            else
+              echo "valid_branch=false" >>  $GITHUB_ENV
+              echo "halting release process since this is not a release branch. ${{ github.ref }} must be refs/heads/[0-9]+\.[0-9]+-SNAPSHOT"
+            fi
       - uses: actions/checkout@v2
+        if: ${{ env.valid_branch }} == 'true'
       - uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
