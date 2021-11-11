@@ -1,0 +1,24 @@
+---
+name: publish
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'README.adoc'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container: asciidoctor/docker-asciidoctor:latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          cd docs
+          make
+        name: Create html from adoc
+      - name: push
+        uses: github-actions-x/commit@v2.8
+        with:
+          push-branch: main
+          commit-message: 'Upped index.html'
+          rebase: 'true'
+
