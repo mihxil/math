@@ -4,6 +4,7 @@ import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
+import org.meeuw.math.abstractalgebra.test.OrderedTheory;
 import org.meeuw.util.test.CharSequenceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,6 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class StringMonoidTest implements
     AdditiveMonoidTheory<StringElement>,
+    OrderedTheory<StringElement>,
     CharSequenceTheory<StringElement> {
 
     @Test

@@ -93,14 +93,4 @@ public interface Scalar<SELF extends Scalar<SELF>>
     default boolean isNaN() {
         return false;
     }
-
-    @Override
-    default boolean lt(SELF other) {
-        return compareTo(other) < 0;
-    }
-
-    @Override
-    default boolean gt(SELF other) {
-        return compareTo(other) > 0;
-    }
 }

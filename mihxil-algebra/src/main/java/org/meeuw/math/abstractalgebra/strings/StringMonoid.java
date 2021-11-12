@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.strings;
 
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -26,6 +27,11 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     @Override
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
+    }
+
+    @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
     }
 
     @Override

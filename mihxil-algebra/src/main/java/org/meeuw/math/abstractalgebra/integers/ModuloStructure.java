@@ -2,9 +2,11 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.Getter;
 
+import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 
@@ -15,7 +17,7 @@ import org.meeuw.math.exceptions.InvalidStructureCreationException;
  * @since 0.4
  */
 public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>  extends AbstractAlgebraicStructure<E>
-    implements Ring<E>, Streamable<E> {
+    implements Ring<E>, Streamable<E>, Randomizable<E> {
 
     @Getter
     final int divisor;
@@ -49,6 +51,11 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     @Override
     public Stream<E> stream() {
         return IntStream.range(0, divisor).mapToObj(this::element);
+    }
+
+    @Override
+    public E nextRandom(Random random) {
+        return element(random.nextInt(divisor));
     }
 
     public Stream<String> multiplicationTable(String format) {

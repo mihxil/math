@@ -3,12 +3,13 @@ package org.meeuw.math.abstractalgebra.strings;
 import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
+import org.meeuw.math.abstractalgebra.Ordered;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class StringElement implements AdditiveMonoidElement<StringElement>, CharSequence {
+public class StringElement implements AdditiveMonoidElement<StringElement>, CharSequence, Ordered<StringElement> {
 
     public static final StringElement EMPTY = new StringElement("");
 
@@ -62,5 +63,10 @@ public class StringElement implements AdditiveMonoidElement<StringElement>, Char
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    @Override
+    public int compareTo(StringElement o) {
+        return value.toString().compareTo(o.value.toString());
     }
 }

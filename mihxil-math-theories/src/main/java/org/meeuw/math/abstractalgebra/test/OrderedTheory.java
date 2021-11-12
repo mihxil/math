@@ -26,12 +26,12 @@ public interface OrderedTheory<E extends Ordered<E> & AlgebraicElement<E>> exten
     }
 
     @Property
-    default void orederedTransitive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b, @ForAll(ELEMENTS) E c) {
+    default void orderedTransitive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b, @ForAll(ELEMENTS) E c) {
         if (a.lte(b)) {
             // a <= b
             if (b.lte(c)) {
                 // a <= b, b <= c ->  a <= c
-                assertThat(a.lte(c)).withFailMessage("{} <= {} and {} <= {} -> {} <= {}", a, b, b, c, a, c).isTrue();
+                assertThat(a.lte(c)).withFailMessage("%s <= %s and %s <= %s -> %s <= %s", a, b, b, c, a, c).isTrue();
             } else {
                 getLogger().debug("a <= b,  c <=  b");
             }
@@ -39,7 +39,7 @@ public interface OrderedTheory<E extends Ordered<E> & AlgebraicElement<E>> exten
             // b < a
             if (a.lte(c)) {
                 // b < a, a < c
-                assertThat(b.lt(c)).withFailMessage("{} < {} and {} < {} -> {} < {}", b, a, a, c, b, c).isTrue();
+                assertThat(b.lt(c)).withFailMessage("%s < %s and %s < %s -> %s < %s", b, a, a, c, b, c).isTrue();
             } else {
                 // b < a, a > c
                 getLogger().debug("b > a,  a < c");
@@ -56,6 +56,6 @@ public interface OrderedTheory<E extends Ordered<E> & AlgebraicElement<E>> exten
 
     @Property
     default void orderedStronglyConnected(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
-        assertThat(a.lte(b) || b.lte(a)).isTrue();
+        assertThat(a.lte(b) || b.lte(a)).withFailMessage("%s <= %s = %s %s <= %s = %s, on of these must be true", a, b, a.lte(b), b, a,b.lte(a)).isTrue();
     }
 }
