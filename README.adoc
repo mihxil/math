@@ -8,10 +8,12 @@ Michiel Meeuwissen
 :source-highlighter: coderay
 :multipage-level: 1
 :gh: https://github.com/mihxil/math/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
 :ghblob: {gh}blob/main/
 :ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
 :ght: {ghblob}mihxil-math-theories/src/main/java/org/meeuw/math/
 :gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
+:docs: {ghraw}docs
 
 
 image:{gh}actions/workflows/maven.yml/badge.svg?[Build Status,link={gh}actions/workflows/maven.yml]
@@ -88,7 +90,7 @@ NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also imple
 
 The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (`one' and `zero').
 
-image::docs/algebras.svg[]
+image::{docs}/algebras.svg[]
 
 ==== Numbers
 
