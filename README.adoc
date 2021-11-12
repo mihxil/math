@@ -88,9 +88,9 @@ Every algebraic element object has a reference to (the same)  instance of this s
 
 NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:{ghm}abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
 
-The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (`one' and `zero').
+The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (_one_ and _zero_).
 
-image::{docs}/algebras.svg[]
+image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), and special elements."]
 
 ==== Numbers
 
