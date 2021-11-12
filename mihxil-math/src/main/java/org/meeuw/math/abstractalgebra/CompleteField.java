@@ -26,4 +26,11 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Scalar
     default Set<UnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
+
+
+    @Override
+    default Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
+    }
+
 }

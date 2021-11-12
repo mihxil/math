@@ -39,6 +39,12 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
     public Set<Operator> getSupportedOperators() {
         return OPERATORS;
     }
+
+    @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
+    }
+
     @Override
     public Stream<NaturalNumber> stream() {
         return  Stream.iterate(zero(), i -> i.plus(one()));

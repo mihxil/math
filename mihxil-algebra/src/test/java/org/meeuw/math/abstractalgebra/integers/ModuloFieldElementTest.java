@@ -30,7 +30,7 @@ class ModuloFieldElementTest  {
     public void illegalNegative() {
         assertThatThrownBy(() ->
             ModuloField.of(-3) // must be (power of a) prime
-        ).isInstanceOf(InvalidElementCreationException.class).hasMessage("-3 is not a prime");
+        ).isInstanceOf(InvalidStructureCreationException.class).hasMessage("Divisor of modulo structure must be > 0");
     }
 
     @Test

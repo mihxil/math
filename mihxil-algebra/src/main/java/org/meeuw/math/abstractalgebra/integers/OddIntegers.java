@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -24,6 +25,10 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
         return ONE;
     }
 
+    @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
+    }
 
     @Override
     public Stream<OddIntegerElement> stream() {

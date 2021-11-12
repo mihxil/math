@@ -1,10 +1,10 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import java.math.BigInteger;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Randomizable;
 import org.meeuw.math.Streams;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -16,7 +16,7 @@ import static java.math.BigInteger.ONE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements ScalarField<RationalNumber>, Streamable<RationalNumber> {
+public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
@@ -35,6 +35,11 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     }
 
     @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
+    }
+
+    @Override
     public Stream<RationalNumber> stream() {
         return Stream.concat(
             Stream.of(zero()),
@@ -47,6 +52,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
         );
     }
 
+    @Override
     public RationalNumber nextRandom(Random random) {
         long numerator = random.nextLong();
         long denumator = 0L;

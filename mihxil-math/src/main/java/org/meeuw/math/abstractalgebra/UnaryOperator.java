@@ -16,19 +16,19 @@ import static org.meeuw.math.text.TextUtils.superscript;
  */
 public enum UnaryOperator implements AlgebraicUnaryOperator {
 
-    NEGATION(getUnaryOperator(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
+    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
 
-    RECIPROCAL(getUnaryOperator(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),
+    RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),
 
-    SQR(getUnaryOperator(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
+    SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
-    ABS(getUnaryOperator(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
+    ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
-    SQRT(getUnaryOperator(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
+    SQRT(getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
 
-    SIN(getUnaryOperator(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
+    SIN(getUnaryOperatorMethod(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
 
-    COS(getUnaryOperator(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")")
+    COS(getUnaryOperatorMethod(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")")
     ;
 
     @Getter
@@ -50,7 +50,7 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
     }
 
     @SneakyThrows
-    public static Method getUnaryOperator(Class<?> clazz, String name) {
+    public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name);
     }
 }

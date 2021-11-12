@@ -6,6 +6,7 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 import org.assertj.core.data.Offset;
 
+import org.meeuw.math.abstractalgebra.test.OrderedTheory;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.util.test.ElementTheory;
 
@@ -17,7 +18,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S> {
+public interface ScalarTheory<S extends Scalar<S>> extends ElementTheory<S>, OrderedTheory<S> {
 
     @Property
     default void abs(@ForAll(ELEMENTS) S scalar) {

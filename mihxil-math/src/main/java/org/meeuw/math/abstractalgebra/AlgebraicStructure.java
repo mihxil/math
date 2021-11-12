@@ -4,6 +4,9 @@ import java.util.*;
 
 import org.meeuw.math.Equivalence;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+
 /**
  * The base interface of all algebraic structures.
  *
@@ -14,6 +17,9 @@ import org.meeuw.math.Equivalence;
  * @param <E> The type of the elements of this structure
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
+
+    Set<ComparisonOperator> EQUALS_ONLY = unmodifiableSet(new HashSet<>(asList(ComparisonOperator.EQUALS)));
+
 
     /**
      * Returns the {@link Operator}s that elements of this structure support.
@@ -29,6 +35,14 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
      */
     default Set<UnaryOperator> getSupportedUnaryOperators() {
         return Collections.emptySet();
+    }
+
+    /**
+     * Returns the {@link UnaryOperator}s that elements of this structure support.
+     * @return the set of all supported unary operators in this algebraic structure
+     */
+    default Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return EQUALS_ONLY;
     }
 
     /**

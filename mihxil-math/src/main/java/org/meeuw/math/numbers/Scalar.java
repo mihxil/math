@@ -2,6 +2,8 @@ package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.abstractalgebra.Ordered;
+
 /**
  * A scalar is the closest thing to a {@link Number} interface
  *
@@ -10,7 +12,8 @@ import java.math.BigDecimal;
  * @param <SELF> self reference
  */
 public interface Scalar<SELF extends Scalar<SELF>>
-    extends Comparable<SELF>, SignedNumber, Sizeable<SELF> {
+    extends SignedNumber, Sizeable<SELF>, Ordered<SELF>
+{
 
     /**
      * Returns the value of the specified number as an {@code int},
@@ -91,19 +94,13 @@ public interface Scalar<SELF extends Scalar<SELF>>
         return false;
     }
 
+    @Override
     default boolean lt(SELF other) {
         return compareTo(other) < 0;
     }
 
+    @Override
     default boolean gt(SELF other) {
         return compareTo(other) > 0;
-    }
-
-    default boolean lte(SELF other) {
-        return lt(other) || equals(other);
-    }
-
-    default boolean gte(SELF other) {
-        return gt(other) || equals(other);
     }
 }

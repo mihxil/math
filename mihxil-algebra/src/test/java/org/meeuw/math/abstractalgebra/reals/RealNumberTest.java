@@ -1,9 +1,10 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import lombok.extern.log4j.Log4j2;
-import net.jqwik.api.*;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;

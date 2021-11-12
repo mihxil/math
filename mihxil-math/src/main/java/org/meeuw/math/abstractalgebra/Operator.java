@@ -15,11 +15,11 @@ import java.util.function.BinaryOperator;
  */
 public enum Operator implements AlgebraicBinaryOperator {
 
-    ADDITION(getBinaryOperator(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + " + " + b),
-    SUBTRACTION(getBinaryOperator(AdditiveGroupElement.class, "minus"), (a, b) -> a + " - " + b),
-    MULTIPLICATION(getBinaryOperator(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + " ⋅ " + b),
-    DIVISION(getBinaryOperator(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b),
-    POWER(getBinaryOperator(CompleteFieldElement.class, "pow"), (a, b) -> a + " ^ " + b);
+    ADDITION(getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + " + " + b),
+    SUBTRACTION(getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), (a, b) -> a + " - " + b),
+    MULTIPLICATION(getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + " ⋅ " + b),
+    DIVISION(getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b),
+    POWER(getBinaryOperatorMethod(CompleteFieldElement.class, "pow"), (a, b) -> a + " ^ " + b);
 
 
     @Getter
@@ -55,7 +55,7 @@ public enum Operator implements AlgebraicBinaryOperator {
     }
 
     @SneakyThrows
-    private static Method getBinaryOperator(Class<?> clazz, String name) {
+    private static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name, clazz);
     }
 

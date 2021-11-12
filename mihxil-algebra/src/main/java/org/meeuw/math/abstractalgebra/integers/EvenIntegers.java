@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -22,6 +23,11 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
     @Override
     public EvenIntegerElement zero() {
         return ZERO;
+    }
+
+    @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
     }
 
     @Override

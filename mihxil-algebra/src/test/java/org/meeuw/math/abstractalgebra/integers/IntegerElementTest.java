@@ -1,10 +1,10 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import net.jqwik.api.*;
-
 import java.util.stream.Collectors;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.ReciprocalException;
 

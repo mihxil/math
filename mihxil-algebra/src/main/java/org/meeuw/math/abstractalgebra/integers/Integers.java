@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -30,6 +31,11 @@ public class Integers extends AbstractAlgebraicStructure<IntegerElement>
     @Override
     public IntegerElement one() {
         return ONE;
+    }
+
+    @Override
+    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+        return ComparisonOperator.ALL;
     }
 
     @Override
