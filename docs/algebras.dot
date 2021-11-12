@@ -1,0 +1,80 @@
+digraph {
+    node [
+		  shape=record
+    ]
+		edge [
+		  arrowhead = "empty"
+		]
+   AlgebraicStructure[
+    label="{AlgebraicStructure|no operators}"
+	 ]
+
+   AdditiveSemiGroup[
+    label="{AdditiveSemiGroup|+}"
+   ]
+
+	 AdditiveMonoid[
+    label="{AdditiveMonoid|{ + |  0 }}"
+   ]
+
+	 AdditiveGroup[
+	   label="{AdditiveGroup|{ + | - |  0 }}"
+   ]
+
+	 AdditiveAbelianGroup[
+	   label="{AdditiveAbelianGroup|{ + - \n⇆  | 0 }}"
+   ]
+	 Rng[
+	    label="{Rng|{ + - | * | 0 }}"
+	 ]
+
+	 Ring[
+	    label="{Ring|{ + - \n⇆ | * | 0 | 1 }}"
+   ]
+
+	 DivisionRing[
+	    label="{DivisionRing|{ + - \n⇆ | 0 | * / | 0 | 1 }}"
+   ]
+
+	 MultiplicativeSemiGroup[
+   ]
+
+	 MultiplicativeMonoid
+
+	 MultiplicativeGroup
+
+	 MultiplicativeAbelianGroup
+
+	 Field[
+	   label="{Field|{ + - \n⇆ | 0 | * / \n ⇆ | 0 | 1 }}"
+   ]
+
+
+   AdditiveSemiGroup -> AlgebraicStructure
+   AdditiveMonoid -> AdditiveSemiGroup
+   AdditiveGroup -> AdditiveMonoid
+   AdditiveAbelianGroup -> AdditiveGroup
+   Ring -> Rng
+   Rng -> {
+      AdditiveAbelianGroup
+	    MultiplicativeSemiGroup
+   }
+   DivisionRing -> {
+	     MultiplicativeGroup
+	     Ring
+   }
+
+	 AbelianRing -> Ring
+
+   MultiplicativeSemiGroup ->  AlgebraicStructure
+   MultiplicativeMonoid -> MultiplicativeSemiGroup
+   MultiplicativeGroup -> MultiplicativeMonoid
+   MultiplicativeAbelianGroup -> MultiplicativeGroup
+
+   Field -> {
+	    DivisionRing
+	    AbelianRing
+	    MultiplicativeAbelianGroup
+   }
+
+}

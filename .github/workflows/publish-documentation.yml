@@ -6,6 +6,7 @@ on:
     paths:
       - 'README.adoc'
       - 'docs/Makefile'
+      - 'docs/algebras.doc'
       - '.github/workflows/publish-documentation.yml'
 jobs:
   publish:
@@ -15,6 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cd docs
+          apk add graphviz
           make clean all
         name: Create html from adoc
       - name: push changes

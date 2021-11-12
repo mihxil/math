@@ -88,6 +88,8 @@ NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also imple
 
 The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (`one' and `zero').
 
+image::docs/algebras.svg[]
+
 ==== Numbers
 
 Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.
