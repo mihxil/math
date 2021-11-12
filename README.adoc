@@ -374,7 +374,7 @@ Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementat
 
 ==== Vector spaces
 
-
+Also started on  link:{ghm}abstractalgebra/VectorSpaceInterface.java[vector spaces], which manage link:{ghm}abstractalgebra/VectorInterface.java[`vectors`], which are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
 
 
 
