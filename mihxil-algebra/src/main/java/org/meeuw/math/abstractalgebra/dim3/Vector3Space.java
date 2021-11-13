@@ -9,8 +9,8 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(VectorSpaceInterface.class)
-public class Vector3Space implements VectorSpaceInterface<RealNumber, Vector3>, AbelianRing<Vector3> {
+@Example(VectorSpace.class)
+public class Vector3Space implements VectorSpace<RealNumber, Vector3>, AbelianRing<Vector3> {
 
     public static final Vector3Space INSTANCE = new Vector3Space();
 

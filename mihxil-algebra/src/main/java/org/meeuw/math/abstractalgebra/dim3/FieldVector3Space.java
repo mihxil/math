@@ -9,7 +9,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  */
 public class FieldVector3Space<E extends ScalarFieldElement<E>>
-    implements VectorSpaceInterface<E, FieldVector3<E>> {
+    implements VectorSpace<E, FieldVector3<E>> {
 
     private static final Map<ScalarField<?>, FieldVector3Space<?>> INSTANCES = new ConcurrentHashMap<>();
 

@@ -5,6 +5,7 @@ Michiel Meeuwissen
 :toc: left
 :toclevels: 4
 :stem:
+:nofooter:
 :source-highlighter: coderay
 :multipage-level: 1
 :gh: https://github.com/mihxil/math/

@@ -18,4 +18,4 @@ index.html: ../README.adoc Makefile algebras.svg
 	asciidoctor $<
 
 clean:
-	rm -f index.html algebras.svg algebras.dot
+	rm -f algebras.svg algebras.dot

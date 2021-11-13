@@ -12,36 +12,36 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpaceInterface<E, Vector<E>> {
+public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace<E, NVector<E>> {
 
-    private static final Map<Key, VectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
     private final ScalarField<E> field;
-    private final Vector<E> zero;
-    private final Vector<E> one;
+    private final NVector<E> zero;
+    private final NVector<E> one;
     private final int dimension;
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends ScalarFieldElement<E>> VectorSpace<E> of(int dimension, ScalarField<E> field) {
+    public static <E extends ScalarFieldElement<E>> NVectorSpace<E> of(int dimension, ScalarField<E> field) {
         Key key = new Key(field.getElementClass(), dimension);
-        return (VectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new VectorSpace<>(dimension, field));
+        return (NVectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new NVectorSpace<>(dimension, field));
     }
 
     @SuppressWarnings("unchecked")
-    VectorSpace(int dimension, ScalarField<E> field) {
+    NVectorSpace(int dimension, ScalarField<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
         for (int i = 0; i < dimension; i ++) {
             zeroElement[i] = field.zero();
         }
-        this.zero = new Vector<>(zeroElement);
+        this.zero = new NVector<>(zeroElement);
         E[] oneElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
         for (int i = 0; i < dimension; i ++) {
             oneElement[i] = field.one();
         }
-        this.one = new Vector<>(oneElement);
+        this.one = new NVector<>(oneElement);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
     }
 
     @Override
-    public Vector<E> zero() {
+    public NVector<E> zero() {
         return zero;
     }
 
@@ -77,7 +77,7 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
     }
 
     @Override
-    public Vector<E> one() {
+    public NVector<E> one() {
         return one;
     }
 
@@ -87,8 +87,8 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
     }
 
     @Override
-    public Class<Vector<E>> getElementClass() {
-        return null;
+    public Class<NVector<E>> getElementClass() {
+        return (Class<NVector<E>>) one().getClass();
     }
 
     @EqualsAndHashCode

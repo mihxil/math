@@ -4,63 +4,64 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Vector;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Vector<E extends ScalarFieldElement<E>> implements
-    VectorInterface<Vector<E>, E>, Iterable<E> {
+public class NVector<E extends ScalarFieldElement<E>> implements
+    Vector<NVector<E>, E>, Iterable<E> {
 
     private final E[] values;
 
-    Vector(E[] values) {
+    NVector(E[] values) {
         this.values = values;
     }
 
     @SafeVarargs
-    public static <E extends ScalarFieldElement<E>> Vector<E> of(E... values) {
-        return new Vector<>(values);
+    public static <E extends ScalarFieldElement<E>> NVector<E> of(E... values) {
+        return new NVector<>(values);
     }
 
     @Override
-    public Vector<E> times(E multiplier) {
+    public NVector<E> times(E multiplier) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].times(multiplier);
         }
-        return new Vector<>(copy);
+        return new NVector<>(copy);
     }
 
     @Override
-    public Vector<E> dividedBy(E divisor) {
+    public NVector<E> dividedBy(E divisor) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].dividedBy(divisor);
         }
-        return new Vector<>(copy);
+        return new NVector<>(copy);
     }
 
     @Override
-    public Vector<E> plus(Vector<E> summand) {
+    public NVector<E> plus(NVector<E> summand) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].plus(summand.values[i]);
         }
-        return new Vector<>(copy);
+        return new NVector<>(copy);
     }
 
     @Override
-    public Vector<E> negation() {
+    public NVector<E> negation() {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].negation();
         }
-        return new Vector<>(copy);
+        return new NVector<>(copy);
     }
 
     @Override
-    public E dot(Vector<E> e) {
+    public E dot(NVector<E> e) {
         E result = values[0].getStructure().zero();
         for (int i = 0; i < values.length; i++) {
             result = result.plus(values[i].times(e.values[i]));
@@ -74,8 +75,8 @@ public class Vector<E extends ScalarFieldElement<E>> implements
     }
 
     @Override
-    public VectorSpace<E> getSpace() {
-        return VectorSpace.of(values.length, values[0].getStructure());
+    public NVectorSpace<E> getSpace() {
+        return NVectorSpace.of(values.length, values[0].getStructure());
     }
 
     @Override
@@ -105,7 +106,7 @@ public class Vector<E extends ScalarFieldElement<E>> implements
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Vector<?> vector = (Vector<?>) o;
+        NVector<?> vector = (NVector<?>) o;
         return Arrays.equals(values, vector.values);
     }
 
@@ -121,16 +122,16 @@ public class Vector<E extends ScalarFieldElement<E>> implements
 
 
     @Override
-    public AbelianRing<Vector<E>> getStructure() {
+    public AbelianRing<NVector<E>> getStructure() {
         return getSpace();
     }
 
     @Override
-    public Vector<E> times(Vector<E> multiplier) {
+    public NVector<E> times(NVector<E> multiplier) {
         E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].times(multiplier.values[i]);
         }
-        return new Vector<>(copy);
+        return new NVector<>(copy);
     }
 }

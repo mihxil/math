@@ -4,7 +4,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface VectorInterface<V extends VectorInterface<V, S>, S extends ScalarFieldElement<S>>
+public interface Vector<V extends Vector<V, S>, S extends ScalarFieldElement<S>>
     extends Iterable<S>,
     AbelianRingElement<V>,
     WithScalarOperations<V, S> {
@@ -24,6 +24,6 @@ public interface VectorInterface<V extends VectorInterface<V, S>, S extends Scal
 
     S get(int i) throws ArrayIndexOutOfBoundsException;
 
-    VectorSpaceInterface<S, V> getSpace();
+    VectorSpace<S, V> getSpace();
 
 }

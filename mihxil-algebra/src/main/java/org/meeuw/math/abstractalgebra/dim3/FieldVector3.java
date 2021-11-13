@@ -20,7 +20,7 @@ import static java.math.BigDecimal.ZERO;
 public class FieldVector3<E extends ScalarFieldElement<E>>
     implements
     Sizeable<E>,
-    VectorInterface<FieldVector3<E>, E>,
+    Vector<FieldVector3<E>, E>,
     WithScalarOperations<FieldVector3<E>, E> {
 
     final E x;
@@ -100,7 +100,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public VectorSpaceInterface<E, FieldVector3<E>> getSpace() {
+    public VectorSpace<E, FieldVector3<E>> getSpace() {
         return FieldVector3Space.of(x.getStructure());
     }
 

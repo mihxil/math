@@ -18,24 +18,24 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @since 0.4
  */
 class RationalNumberVectorTest implements
-    VectorSpaceTheory<Vector<RationalNumber>, RationalNumber>,
-    WithScalarTheory<Vector<RationalNumber>, RationalNumber>
+    VectorSpaceTheory<NVector<RationalNumber>, RationalNumber>,
+    WithScalarTheory<NVector<RationalNumber>, RationalNumber>
 {
 
 
     @Test
     public void space() {
-        VectorSpace<RationalNumber> space4 = VectorSpace.of(4, INSTANCE);
-        VectorSpace<RationalNumber> space3 = VectorSpace.of(3, INSTANCE);
+        NVectorSpace<RationalNumber> space4 = NVectorSpace.of(4, INSTANCE);
+        NVectorSpace<RationalNumber> space3 = NVectorSpace.of(3, INSTANCE);
         assertThat(space3.equals(space4)).isFalse();
         assertThat(space3.equals(space3)).isTrue();
-        assertThat(space3.hashCode() == new VectorSpace<>(3, INSTANCE).hashCode()).isTrue();
+        assertThat(space3.hashCode() == new NVectorSpace<>(3, INSTANCE).hashCode()).isTrue();
     }
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
     public void stringEqualsHashCode() {
-        Vector<RationalNumber> example = of(1, 2, 3);
+        NVector<RationalNumber> example = of(1, 2, 3);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
         assertThat(example.getSpace().toString()).isEqualTo("VectorSpace of ℚ[3]");
 
@@ -53,14 +53,14 @@ class RationalNumberVectorTest implements
     }
 
 
-    Vector<RationalNumber> of(long... a) {
-        return Vector.of(Arrays.stream(a).mapToObj(RationalNumber::of).toArray(RationalNumber[]::new));
+    NVector<RationalNumber> of(long... a) {
+        return NVector.of(Arrays.stream(a).mapToObj(RationalNumber::of).toArray(RationalNumber[]::new));
     }
 
     @Override
-    public Arbitrary<? extends Vector<RationalNumber>> elements() {
+    public Arbitrary<? extends NVector<RationalNumber>> elements() {
         return Arbitraries.randomValue(INSTANCE::nextRandom)
-            .tuple3().map((t) -> Vector.of(t.get1(), t.get2(), t.get3()));
+            .tuple3().map((t) -> NVector.of(t.get1(), t.get2(), t.get3()));
     }
 
     @Override
