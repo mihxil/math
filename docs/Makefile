@@ -4,7 +4,7 @@ all: index.html
 
 # sudo gem install asciidoctor asciidoctor-multipage
 
-index.html: ../README.adoc Makefile algebras.dot.m4
+index.html: ../README.adoc Makefile algebras.svg
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
@@ -14,10 +14,8 @@ index.html: ../README.adoc Makefile algebras.dot.m4
 %.dot: %.dot.m4
 	m4 $< > $@
 
-
-
 %.html: %.adoc
 	asciidoctor $<
 
 clean:
-	rm index.html algebras.svg
+	rm -f index.html algebras.svg algebras.dot

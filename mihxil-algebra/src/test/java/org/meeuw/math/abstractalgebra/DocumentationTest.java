@@ -72,7 +72,7 @@ public class DocumentationTest {
     }
 
     protected void writeLabel(PrintWriter writer, Class<?> c, Runnable runnable) {
-        writer.print("\t\tlabel=\"{" + c.getSimpleName() + "|");
+        writer.print("\t\tlabel=\"{\\N|");
         runnable.run();
         writer.println("}\"");
 
@@ -137,7 +137,7 @@ public class DocumentationTest {
     protected <C extends AlgebraicStructure<?>> void writeInterface(final PrintWriter writer, Class<C> c) throws Throwable {
         writer.println("\n\n# " + c);
         writer.println(c.getSimpleName() + "[");
-        writer.println("href=\"URL\"");
+        writer.println("href=\"BLOB_URL/" + c.getName().replace(".", "/") + ".java\"");
         writeLabel(writer, c, () -> {
             C target = proxy(c);
             writeOperators(writer, target);
@@ -168,7 +168,7 @@ public class DocumentationTest {
             "\t\tedge [\n" +
             "\t\t  arrowhead = \"empty\"\n" +
             "\t\t]\n\n");
-        writer.println("        define(URL, https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/)");
+        writer.println("        define(BLOB_URL, https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)");
         body.accept(writer);
         writer.write("}\n");
     }
