@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.abstractalgebra.VectorInterface;
+import org.meeuw.math.abstractalgebra.Vector;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -16,7 +16,7 @@ import static org.meeuw.math.abstractalgebra.test.WithScalarTheory.SCALARS;
  * @since 0.4
  */
 public interface VectorSpaceTheory<
-    V extends VectorInterface<V, S>, S extends ScalarFieldElement<S>
+    V extends Vector<V, S>, S extends ScalarFieldElement<S>
     >
     extends AbelianRingTheory<V> {
 
