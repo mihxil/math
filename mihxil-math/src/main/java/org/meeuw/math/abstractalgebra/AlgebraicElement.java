@@ -19,6 +19,10 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> {
      */
     AlgebraicStructure<E> getStructure();
 
+    default E self() {
+        return (E) this;
+    }
+
     default boolean eq(E other) {
         return equals(other);
     }

@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.*;
+import java.util.NavigableSet;
 
-import static java.util.Collections.unmodifiableSet;
+import org.meeuw.math.Utils;
+
 import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
 import static org.meeuw.math.abstractalgebra.Operator.SUBTRACTION;
 
@@ -14,10 +15,10 @@ import static org.meeuw.math.abstractalgebra.Operator.SUBTRACTION;
  */
 public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>  {
 
-    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(Arrays.asList(ADDITION, SUBTRACTION)));
+    NavigableSet<Operator> OPERATORS = Utils.navigableSet(ADDITION, SUBTRACTION);
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

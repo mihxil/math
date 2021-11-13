@@ -3,6 +3,7 @@ package org.meeuw.math;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Stream;
 
 import javax.validation.constraints.Min;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
+
+import static java.util.Collections.unmodifiableNavigableSet;
 
 /**
  * @author Michiel Meeuwissen
@@ -383,6 +386,11 @@ public final class Utils {
             }
         }
         return base;
+    }
+
+    @SafeVarargs
+    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(E...ops) {
+        return unmodifiableNavigableSet(new TreeSet<>(Arrays.asList(ops)));
     }
 
 }

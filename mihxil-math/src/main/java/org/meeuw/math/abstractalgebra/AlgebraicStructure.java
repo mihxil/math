@@ -3,9 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import java.util.*;
 
 import org.meeuw.math.Equivalence;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableSet;
+import org.meeuw.math.Utils;
 
 /**
  * The base interface of all algebraic structures.
@@ -18,30 +16,31 @@ import static java.util.Collections.unmodifiableSet;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
-    Set<ComparisonOperator> EQUALS_ONLY = unmodifiableSet(new HashSet<>(asList(ComparisonOperator.EQUALS)));
-
+    NavigableSet<ComparisonOperator> EQUALS_ONLY = Utils.navigableSet(ComparisonOperator.EQUALS);
 
     /**
      * Returns the {@link Operator}s that elements of this structure support.
      * @return the set of all supported binary operators in this algebraic structure
      */
-    default Set<Operator> getSupportedOperators() {
-        return Collections.emptySet();
+    default NavigableSet<Operator> getSupportedOperators() {
+        return Collections.emptyNavigableSet();
+    }
+
+
+
+    /**
+     * Returns the {@link UnaryOperator}s that elements of this structure support.
+     * @return the set of all supported unary operators in this algebraic structure
+     */
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return Collections.emptyNavigableSet();
     }
 
     /**
      * Returns the {@link UnaryOperator}s that elements of this structure support.
      * @return the set of all supported unary operators in this algebraic structure
      */
-    default Set<UnaryOperator> getSupportedUnaryOperators() {
-        return Collections.emptySet();
-    }
-
-    /**
-     * Returns the {@link UnaryOperator}s that elements of this structure support.
-     * @return the set of all supported unary operators in this algebraic structure
-     */
-    default Set<ComparisonOperator> getSupportedComparisonOperators() {
+    default NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return EQUALS_ONLY;
     }
 

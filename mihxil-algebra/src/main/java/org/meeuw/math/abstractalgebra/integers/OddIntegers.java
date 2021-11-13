@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.Set;
+import java.util.NavigableSet;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.ONE;
@@ -11,6 +12,7 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.ONE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(MultiplicativeMonoid.class)
 public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
     implements MultiplicativeMonoid<OddIntegerElement>, Streamable<OddIntegerElement>  {
 
@@ -21,12 +23,17 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
     }
 
     @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+    @Override
     public OddIntegerElement one() {
         return ONE;
     }
 
     @Override
-    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
     }
 

@@ -6,6 +6,7 @@ import lombok.extern.java.Log;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -14,6 +15,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 @Log
+@Example(DivisionRing.class)
 public class Quaternions<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<Quaternion<E>>
     implements DivisionRing<Quaternion<E>> {

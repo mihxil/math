@@ -22,6 +22,7 @@ public class Permutation  implements
     UnaryOperator<Object[]>,
     Serializable
 {
+
     private static final long serialVersionUID = 0L;
 
     final int[] value;

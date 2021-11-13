@@ -4,8 +4,7 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Randomizable;
-import org.meeuw.math.Streams;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 
 import static java.math.BigInteger.ONE;
@@ -16,7 +15,9 @@ import static java.math.BigInteger.ONE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
+@Example(ScalarField.class)
+public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements
+    ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
@@ -35,7 +36,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     }
 
     @Override
-    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
     }
 

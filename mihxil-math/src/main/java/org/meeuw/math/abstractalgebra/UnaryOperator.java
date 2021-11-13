@@ -16,6 +16,8 @@ import static org.meeuw.math.text.TextUtils.superscript;
  */
 public enum UnaryOperator implements AlgebraicUnaryOperator {
 
+    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> "-" + s),
+
     NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
 
     RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),

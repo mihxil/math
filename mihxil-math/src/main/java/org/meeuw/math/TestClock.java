@@ -6,7 +6,7 @@ import java.time.*;
 import java.time.temporal.TemporalAmount;
 
 /**
- * A {@link Clock}, which must be explicitely 'ticked'. This is of course mainly useful for testing
+ * A {@link Clock}, which must be explicitly 'ticked'. This is of course mainly useful for testing
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -1,9 +1,8 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.*;
+import java.util.NavigableSet;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableSet;
+import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.DIVISION;
 import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 
@@ -15,10 +14,10 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoid<E> {
 
-    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(MULTIPLICATION, DIVISION)));
+    NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, DIVISION);
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

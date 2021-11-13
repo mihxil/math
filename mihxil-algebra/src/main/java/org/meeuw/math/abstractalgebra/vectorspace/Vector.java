@@ -3,8 +3,7 @@ package org.meeuw.math.abstractalgebra.vectorspace;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.abstractalgebra.VectorInterface;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -121,4 +120,17 @@ public class Vector<E extends ScalarFieldElement<E>> implements
     }
 
 
+    @Override
+    public AbelianRing<Vector<E>> getStructure() {
+        return getSpace();
+    }
+
+    @Override
+    public Vector<E> times(Vector<E> multiplier) {
+        E[] copy = Arrays.copyOf(values, values.length);
+        for (int i = 0; i < copy.length; i ++) {
+            copy[i] =  copy[i].times(multiplier.values[i]);
+        }
+        return new Vector<>(copy);
+    }
 }

@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,6 +19,12 @@ public interface MultiplicativeAbelianGroupTheory<E extends MultiplicativeGroupE
         @ForAll(ELEMENTS) E v1,
         @ForAll(ELEMENTS) E v2) {
         assertThat(v1.times(v2)).isEqualTo(v2.times(v1));
+    }
+
+    @Property
+    default void multiplicativeCommutativity (
+        @ForAll(STRUCTURE) MultiplicativeGroup<E> group) {
+        assertThat(group.multiplicationIsCommutative()).isTrue();
     }
 
 }

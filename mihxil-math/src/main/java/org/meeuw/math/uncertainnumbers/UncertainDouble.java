@@ -16,7 +16,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble<D extends UncertainDouble<D>> extends  Scalar<D> {
+public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D> {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;

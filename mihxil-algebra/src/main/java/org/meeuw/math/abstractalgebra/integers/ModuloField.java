@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -11,6 +12,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(Field.class)
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField> implements Field<ModuloFieldElement> {
 
     private static final Map<Integer, ModuloField> INSTANCES = new ConcurrentHashMap<>();

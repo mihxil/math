@@ -8,4 +8,11 @@ package org.meeuw.math.abstractalgebra;
 public interface MultiplicativeAbelianGroup<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeGroup<E> {
 
+
+    @Override
+    default boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+
 }

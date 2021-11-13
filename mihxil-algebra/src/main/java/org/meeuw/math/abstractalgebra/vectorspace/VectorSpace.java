@@ -18,6 +18,7 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
 
     private final ScalarField<E> field;
     private final Vector<E> zero;
+    private final Vector<E> one;
     private final int dimension;
 
 
@@ -36,6 +37,11 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
             zeroElement[i] = field.zero();
         }
         this.zero = new Vector<>(zeroElement);
+        E[] oneElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
+        for (int i = 0; i < dimension; i ++) {
+            oneElement[i] = field.one();
+        }
+        this.one = new Vector<>(oneElement);
     }
 
     @Override
@@ -68,6 +74,21 @@ public class VectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace
     @Override
     public String toString() {
         return "VectorSpace of " + field + "[" + dimension + "]";
+    }
+
+    @Override
+    public Vector<E> one() {
+        return one;
+    }
+
+    @Override
+    public Cardinality getCardinality() {
+        return field.getCardinality();
+    }
+
+    @Override
+    public Class<Vector<E>> getElementClass() {
+        return null;
     }
 
     @EqualsAndHashCode

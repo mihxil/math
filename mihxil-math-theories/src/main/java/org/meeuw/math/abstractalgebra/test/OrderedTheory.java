@@ -3,22 +3,17 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.test.AlgebraicStructureTheory.STRUCTURE;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface OrderedTheory<E extends Ordered<E> & AlgebraicElement<E>> extends ElementTheory<E> {
+public interface OrderedTheory<E extends Ordered<E>> extends ElementTheory<E> {
 
-    @Property
-    default void getComparisonOperators(@ForAll(STRUCTURE) AbstractAlgebraicStructure<E> struct) {
-        assertThat(struct.getSupportedComparisonOperators()).contains(ComparisonOperator.LT, ComparisonOperator.LTE, ComparisonOperator.GT, ComparisonOperator.GTE);
-    }
 
     @Property
     default void orderedReflexive(@ForAll(ELEMENTS) E e) {
@@ -50,7 +45,7 @@ public interface OrderedTheory<E extends Ordered<E> & AlgebraicElement<E>> exten
     @Property
     default void orderedAntisymmetric(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
         if (a.lte(b) && b.lte(a)) {
-            assertThat(a.eq(b)).isTrue();
+            assertThat(a.equals(b)).isTrue();
         }
     }
 

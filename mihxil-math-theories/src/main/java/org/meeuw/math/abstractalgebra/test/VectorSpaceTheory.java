@@ -1,12 +1,11 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.*;
-
 import java.util.concurrent.atomic.AtomicInteger;
+
+import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.VectorInterface;
-import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +18,7 @@ import static org.meeuw.math.abstractalgebra.test.WithScalarTheory.SCALARS;
 public interface VectorSpaceTheory<
     V extends VectorInterface<V, S>, S extends ScalarFieldElement<S>
     >
-    extends ElementTheory<V> {
+    extends AbelianRingTheory<V> {
 
 
     @Property

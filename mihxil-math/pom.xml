@@ -38,7 +38,6 @@
       <artifactId>log4j-jul</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
 </project>

@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.Set;
+import java.util.NavigableSet;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.ZERO;
@@ -11,6 +12,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(Rng.class)
 public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
     implements Rng<EvenIntegerElement>, Streamable<EvenIntegerElement>  {
 
@@ -26,7 +28,7 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
     }
 
     @Override
-    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
     }
 

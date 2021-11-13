@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import lombok.extern.log4j.Log4j2;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -7,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
+@Log4j2
 class AlgebraicStructureTest {
     private static class E implements  AlgebraicElement<E> {
 
@@ -29,6 +32,7 @@ class AlgebraicStructureTest {
     }
 
     private final S s = new S();
+
     @Test
     public void test() {
         assertThat(s.getSupportedOperators()).isEmpty();
@@ -36,6 +40,5 @@ class AlgebraicStructureTest {
         assertThat(s.getDescription()).isEqualTo("S");
         assertThat(s.getEquivalence().test(new E(), new E())).isFalse();
     }
-
 
 }

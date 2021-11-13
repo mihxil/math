@@ -7,7 +7,6 @@ import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class FieldVector3Space<E extends ScalarFieldElement<E>>
     implements VectorSpaceInterface<E, FieldVector3<E>> {
@@ -52,5 +51,20 @@ public class FieldVector3Space<E extends ScalarFieldElement<E>>
     @Override
     public int hashCode() {
         return scalarField.hashCode();
+    }
+
+    @Override
+    public FieldVector3<E> one() {
+        return FieldVector3.of(scalarField.one(), scalarField.one(), scalarField.one());
+    }
+
+    @Override
+    public Cardinality getCardinality() {
+        return scalarField.getCardinality();
+    }
+
+    @Override
+    public Class<FieldVector3<E>> getElementClass() {
+        return (Class<FieldVector3<E>>) zero().getClass();
     }
 }

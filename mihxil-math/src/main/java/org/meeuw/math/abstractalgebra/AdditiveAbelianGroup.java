@@ -5,4 +5,9 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  */
 public interface AdditiveAbelianGroup<E extends AdditiveGroupElement<E>> extends AdditiveGroup<E> {
+
+    @Override
+    default boolean additionIsCommutative() {
+        return true;
+    }
 }

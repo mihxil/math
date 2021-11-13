@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.NavigableSet;
 import java.util.function.BinaryOperator;
+
+import org.meeuw.math.Utils;
 
 /**
  * @author Michiel Meeuwissen
@@ -20,7 +22,7 @@ public enum ComparisonOperator implements AlgebraicComparisonOperator {
     GTE(getBinaryOperatorMethod(Ordered.class, "gte"), (a, b) -> a + ">=" + b),
     ;
 
-    public static Set<ComparisonOperator> ALL = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(EQUALS, LT, LTE, GT, GTE)));
+    public static NavigableSet<ComparisonOperator> ALL = Utils.navigableSet(values());
 
     @Getter
     final Method method;

@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -14,7 +15,9 @@ import org.meeuw.math.text.TextUtils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class PermutationGroup extends AbstractAlgebraicStructure<Permutation> implements MultiplicativeGroup<Permutation>, Streamable<Permutation> {
+@Example(MultiplicativeGroup.class)
+public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
+    implements MultiplicativeGroup<Permutation>, Streamable<Permutation> {
 
     private static final Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
 

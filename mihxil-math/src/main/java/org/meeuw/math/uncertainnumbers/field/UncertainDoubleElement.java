@@ -77,6 +77,11 @@ public class UncertainDoubleElement
     }
 
     @Override
+    public boolean eq(UncertainReal other) {
+        return equals(other);
+    }
+
+    @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
         if (multiplier.isOne()){
             return this;

@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 class MultiplicativeSemiGroupElementTest {
 
-    public static class A implements MultiplicativeSemiGroupElement<A> {
+    static class A implements MultiplicativeSemiGroupElement<A> {
 
         final int value;
 
@@ -31,7 +31,7 @@ class MultiplicativeSemiGroupElementTest {
             return new A(value * multiplier.value);
         }
     }
-    public static class Struct implements MultiplicativeSemiGroup<A> {
+    static class Struct implements MultiplicativeSemiGroup<A> {
 
         @Override
         public Cardinality getCardinality() {

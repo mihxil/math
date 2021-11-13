@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           cd docs
-          apk add graphviz
+          apk add graphviz m4
           make clean all
         name: Create html from adoc
       - name: push changes

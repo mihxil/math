@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import lombok.Getter;
-import lombok.SneakyThrows;
+import lombok.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,12 +14,13 @@ import java.util.function.BinaryOperator;
  */
 public enum Operator implements AlgebraicBinaryOperator {
 
-    ADDITION(getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), (a, b) -> a + " + " + b),
-    SUBTRACTION(getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), (a, b) -> a + " - " + b),
-    MULTIPLICATION(getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), (a, b) -> a + " ⋅ " + b),
-    DIVISION(getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), (a, b) -> a + " / " + b),
-    POWER(getBinaryOperatorMethod(CompleteFieldElement.class, "pow"), (a, b) -> a + " ^ " + b);
+    ADDITION(getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), "+"),
+    SUBTRACTION(getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-"),
 
+    MULTIPLICATION(getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅"),
+    DIVISION(getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), "/"),
+
+    POWER(getBinaryOperatorMethod(CompleteFieldElement.class, "pow"), "^");
 
     @Getter
     final Method method;
@@ -28,14 +28,19 @@ public enum Operator implements AlgebraicBinaryOperator {
     @Getter
     final BinaryOperator<CharSequence> stringify;
 
-    Operator(Method method, BinaryOperator<CharSequence> stringify) {
+    @Getter
+    final String symbol;
+
+    Operator(Method method, String symbol) {
         this.method = method;
-        this.stringify = stringify;
+        this.symbol = symbol;
+        this.stringify = (a, b) -> a + " " + symbol + " " + b;
     }
 
+
+    @Override
     @SuppressWarnings("unchecked")
     @SneakyThrows
-    @Override
     public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
         try {
             E result = (E) method.invoke(element1, element2);
@@ -58,5 +63,7 @@ public enum Operator implements AlgebraicBinaryOperator {
     private static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name, clazz);
     }
+
+
 
 }

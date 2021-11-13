@@ -9,6 +9,6 @@ package org.meeuw.math.abstractalgebra;
 @FunctionalInterface
 public interface AlgebraicComparisonOperator {
 
-    <E extends AlgebraicElement<E>> boolean test(E arg1, E arg2);
+    <E extends AlgebraicElement<E>>  boolean test(E arg1, E arg2);
 
 }

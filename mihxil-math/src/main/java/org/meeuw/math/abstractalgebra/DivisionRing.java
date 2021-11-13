@@ -1,10 +1,8 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.NavigableSet;
 
+import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.*;
 
 /**
@@ -19,10 +17,13 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     MultiplicativeGroup<E>,
     Ring<E> {
 
-    Set<Operator> OPERATORS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION)));
+    NavigableSet<Operator> OPERATORS = navigableSet(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    E one();
+
+    @Override
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
 
     }

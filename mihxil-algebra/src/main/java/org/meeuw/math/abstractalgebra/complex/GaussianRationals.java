@@ -2,9 +2,9 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.Streams;
-import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.Streamable;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
@@ -14,6 +14,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(Field.class)
 public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber>
     implements Field<GaussianRational>, Streamable<GaussianRational> {
 

@@ -1,10 +1,10 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.*;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
+import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.*;
@@ -12,6 +12,7 @@ import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.ComparisonOperator.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -101,6 +102,15 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Provide
     default Arbitrary<AlgebraicStructure<? extends E>> structure() {
         return Arbitraries.of(elements().sample().getStructure());
+    }
+
+    @Property
+    default void getComparisonOperators(@ForAll(STRUCTURE) AbstractAlgebraicStructure<E> struct) {
+        if (Ordered.class.isAssignableFrom(struct.getElementClass())) {
+            assertThat(struct.getSupportedComparisonOperators())
+                .contains(LT, LTE, GT, GTE);
+        }
+        assertThat(struct.getSupportedComparisonOperators()).contains(EQUALS);
     }
 
 }

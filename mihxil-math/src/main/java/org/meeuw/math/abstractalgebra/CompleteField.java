@@ -1,10 +1,8 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.NavigableSet;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableSet;
+import static org.meeuw.math.Utils.navigableSet;
 
 /**
  * @author Michiel Meeuwissen
@@ -12,23 +10,23 @@ import static java.util.Collections.unmodifiableSet;
  */
 public interface CompleteField<E extends CompleteFieldElement<E>> extends ScalarField<E> {
 
-    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(Operator.values())));
+    NavigableSet<Operator> OPERATORS = navigableSet(Operator.values());
 
-    Set<UnaryOperator> UNARY_OPERATORS = unmodifiableSet(new HashSet<>(asList(UnaryOperator.values())));
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.values());
 
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default Set<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 
     @Override
-    default Set<ComparisonOperator> getSupportedComparisonOperators() {
+    default NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
     }
 

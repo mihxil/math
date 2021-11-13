@@ -1,15 +1,16 @@
 package org.meeuw.math.abstractalgebra.strings;
 
-import java.util.Arrays;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(AdditiveMonoid.class)
 public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     implements AdditiveMonoid<StringElement>, Streamable<StringElement> {
 
@@ -30,7 +31,7 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     }
 
     @Override
-    public Set<ComparisonOperator> getSupportedComparisonOperators() {
+    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
     }
 

@@ -8,6 +8,7 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface FieldElement<E extends FieldElement<E>> extends
     DivisionRingElement<E>,
+    AbelianRingElement<E>,
     MultiplicativeGroupElement<E> {
 
     @Override

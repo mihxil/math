@@ -130,4 +130,14 @@ public class Vector3 implements
     public Iterator<RealNumber> iterator() {
         return Stream.of(x, y, z).map(RealNumber::of).iterator();
     }
+
+    @Override
+    public AbelianRing<Vector3> getStructure() {
+        return getSpace();
+    }
+
+    @Override
+    public Vector3 times(Vector3 multiplier) {
+        return of(x * multiplier.x, y * multiplier.y, z * multiplier.z);
+    }
 }

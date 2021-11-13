@@ -43,9 +43,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
             if (o == null || getClass() != o.getClass()) return false;
 
             A a = (A) o;
-
-            return value == ((A) o).value;
-
+            return value == a.value;
         }
 
         @Override

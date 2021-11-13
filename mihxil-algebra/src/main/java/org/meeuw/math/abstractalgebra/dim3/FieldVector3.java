@@ -140,4 +140,13 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         return "(" + x + "," + y + "," + z + ")";
     }
 
+    @Override
+    public AbelianRing<FieldVector3<E>> getStructure() {
+        return getSpace();
+    }
+
+    @Override
+    public FieldVector3<E> times(FieldVector3<E> multiplier) {
+        return new FieldVector3<>(x.times(multiplier.x), y.times(multiplier.y), z.times(multiplier.z));
+    }
 }

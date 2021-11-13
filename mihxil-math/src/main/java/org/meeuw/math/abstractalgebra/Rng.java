@@ -3,7 +3,11 @@ package org.meeuw.math.abstractalgebra;
 import java.util.*;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableSet;
+import static java.util.Collections.unmodifiableNavigableSet;
+import static java.util.Collections.unmodifiableSortedSet;
+
+import org.meeuw.math.Utils;
+
 import static org.meeuw.math.abstractalgebra.Operator.*;
 
 /**
@@ -14,10 +18,10 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
  */
 public interface Rng<E extends RngElement<E>> extends AdditiveAbelianGroup<E>, MultiplicativeSemiGroup<E> {
 
-    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(asList(ADDITION, SUBTRACTION, MULTIPLICATION)));
+    NavigableSet<Operator> OPERATORS = Utils.navigableSet(ADDITION, SUBTRACTION, MULTIPLICATION);
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
     }
 

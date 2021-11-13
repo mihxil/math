@@ -7,7 +7,16 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface Field<E extends FieldElement<E>> extends
     DivisionRing<E>,
+    AbelianRing<E>,
     MultiplicativeAbelianGroup<E> {
+
+    @Override
+    default boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+    @Override
+    E one();
 
 
 }

@@ -12,7 +12,8 @@ import org.meeuw.math.numbers.SignedNumber;
  * @param <E> Self reference
  */
 public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
-    extends ScalarFieldElement<E>,
+    extends
+    ScalarFieldElement<E>,
     SignedNumber {
 
     @Override

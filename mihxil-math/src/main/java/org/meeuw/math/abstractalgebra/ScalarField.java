@@ -8,4 +8,9 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
 
+    @Override
+    default boolean multiplicationIsCommutative() {
+        return true;
+    }
+
 }

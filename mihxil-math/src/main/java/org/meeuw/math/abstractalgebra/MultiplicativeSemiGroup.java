@@ -1,9 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.*;
+import java.util.NavigableSet;
 
-import static java.util.Collections.singletonList;
-import static java.util.Collections.unmodifiableSet;
+import org.meeuw.math.Utils;
+
 import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 
 /**
@@ -15,11 +15,15 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>>
     extends AlgebraicStructure<E> {
 
-    Set<Operator> OPERATORS = unmodifiableSet(new HashSet<>(singletonList(MULTIPLICATION)));
+    NavigableSet<Operator> OPERATORS = Utils.navigableSet(MULTIPLICATION);
 
     @Override
-    default Set<Operator> getSupportedOperators() {
+    default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
+    }
+
+    default boolean multiplicationIsCommutative() {
+        return false;
     }
 
 }
