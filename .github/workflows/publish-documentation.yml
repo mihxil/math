@@ -6,7 +6,7 @@ on:
     paths:
       - 'README.adoc'
       - 'docs/Makefile'
-      - 'docs/algebras.doc'
+      - 'docs/algebras.dot.m4'
       - '.github/workflows/publish-documentation.yml'
 jobs:
   publish:
