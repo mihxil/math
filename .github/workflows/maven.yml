@@ -38,5 +38,5 @@ jobs:
           git config --global user.name 'github actions'
           git config --global user.email 'github@meeuw.org'
           git pull
-          git commit -am "Automated update of dot.m4" docs/algebras.dot.m4
+          git commit -m "Automated update of dot.m4" docs/algebras.dot.m4
           git push
