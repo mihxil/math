@@ -563,6 +563,29 @@ assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec
 <div class="paragraph">
 <p>Physical numbers can freely be multiplied and divided by each other.</p>
 </div>
+<div class="paragraph">
+<p>Objects of the statistic module can be converted to 'physical numbers' like so:</p>
+</div>
+<div class="listingblock">
+<div class="title">event rate to measurement</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">WindowedEventRate rate = ...
+
+PhysicalNumber measurement = <span class="keyword">new</span> Measurement(rate);
+PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">statistical number to measurement</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> StatisticalDouble statisticalDouble = <span class="keyword">new</span> StatisticalDouble();
+ statisticalDouble.enter(<span class="float">10d</span>, <span class="float">11d</span>, <span class="float">9d</span>);
+
+ PhysicalNumber measurement = <span class="keyword">new</span> Measurement(statisticalDouble, Units.of(SI.min));
+
+ assertThat(measurement.toUnits(Units.of(SIUnit.s)).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">600 ± 45 s</span><span class="delimiter">&quot;</span></span>);</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
