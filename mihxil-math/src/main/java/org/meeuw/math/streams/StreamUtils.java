@@ -1,10 +1,13 @@
 package org.meeuw.math.streams;
 
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.*;
 import java.util.stream.*;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 import static java.math.BigInteger.ZERO;
 
@@ -132,7 +135,8 @@ public final class StreamUtils {
         return null;
     }
 
-    public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<E>> stream, int count) {
+    @NonNull
+    public static <E> Stream<E[]> cartesianStream(@NonNull final Supplier<Stream<E>> stream, int count) {
         return null;
     }
 

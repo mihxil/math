@@ -88,11 +88,13 @@ public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpac
         return field.getCardinality();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Class<NVector<E>> getElementClass() {
         return (Class<NVector<E>>) one().getClass();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Stream<NVector<E>> stream() {
         if (getCardinality().compareTo(Cardinality.ALEPH_0) > 0) {
