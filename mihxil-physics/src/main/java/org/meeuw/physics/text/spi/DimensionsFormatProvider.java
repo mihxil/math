@@ -23,8 +23,8 @@ public class DimensionsFormatProvider extends AlgebraicElementFormatProvider {
     }
 
     @Override
-    public int weight(AlgebraicElement<?> element) {
-        if (element instanceof DimensionalAnalysis) {
+    public int weight(Class<? extends AlgebraicElement<?>> element) {
+        if (DimensionalAnalysis.class.isAssignableFrom(element)) {
             return 10;
         }
         return -1;

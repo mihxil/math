@@ -24,10 +24,9 @@ public class StatisticalLongNumberFormatProvider extends AlgebraicElementFormatP
     }
 
     @Override
-    public int weight(AlgebraicElement<?> element) {
-        if (element instanceof StatisticalLong) {
-            StatisticalLong e = (StatisticalLong) element;
-            return e.getMode() != StatisticalLong.Mode.LONG ? 10 : 0;
+    public int weight(Class<? extends AlgebraicElement<?>> element) {
+        if (StatisticalLong.class.isAssignableFrom(element)) {
+            return 10;
         }
         return -1;
     }

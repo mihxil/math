@@ -23,8 +23,8 @@ public class PhysicalNumberFormatProvider extends AlgebraicElementFormatProvider
     }
 
     @Override
-    public int weight(AlgebraicElement<?> element) {
-        if (element instanceof PhysicalNumber) {
+    public int weight(Class<? extends AlgebraicElement<?>> element) {
+        if (PhysicalNumber.class.isAssignableFrom(element)) {
             return 100;
         }
         return -1;

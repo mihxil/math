@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.WithUnits;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
@@ -25,7 +26,8 @@ public abstract class PhysicalNumber extends Number
     UncertainDouble<PhysicalNumber>,
     Scalar<PhysicalNumber>,
     Comparable<PhysicalNumber>,
-    SignedNumber {
+    SignedNumber,
+    WithUnits {
 
     @Getter
     protected final UncertainReal wrapped;
@@ -223,6 +225,11 @@ public abstract class PhysicalNumber extends Number
     @Override
     public String toString() {
         return FormatService.toString(this);
+    }
+
+    @Override
+    public String getUnitsAsString() {
+        return FormatService.toString(units);
     }
 
 }

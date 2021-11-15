@@ -2,13 +2,14 @@ package org.meeuw.physics;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
+import org.meeuw.math.text.spi.FormatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.physics.SI.*;
+import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SIUnit.m;
 import static org.meeuw.physics.SIUnit.s;
 
@@ -63,6 +64,9 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     @Test
     public void parse() {
+        assertThat(FormatService.fromString("/s", Units.class)).isEqualTo(Units.of(SIUnit.s).reciprocal());
+        assertThat(FormatService.fromString("", Units.class)).isEqualTo(Units.DIMENSIONLESS);
+
 
     }
 }

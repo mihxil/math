@@ -23,8 +23,8 @@ public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
     }
 
     @Override
-    public int weight(AlgebraicElement<?> element) {
-        return element instanceof Permutation ? 1 : -1;
+    public int weight(Class<? extends AlgebraicElement<?>> element) {
+        return Permutation.class.isAssignableFrom(element) ? 1 : -1;
     }
 
     @Override

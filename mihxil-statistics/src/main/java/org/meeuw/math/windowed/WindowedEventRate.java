@@ -8,6 +8,7 @@ import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.meeuw.math.WithUnits;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
@@ -28,7 +29,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @since 0.38
  */
 public class WindowedEventRate extends Windowed<AtomicLong> implements
-    IntConsumer, UncertainDouble<UncertainReal> {
+    IntConsumer, UncertainDouble<UncertainReal>, WithUnits {
 
 
     private static final ScheduledExecutorService backgroundExecutor = Executors.newScheduledThreadPool(5);
@@ -89,7 +90,8 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
     }
 
 
-    public String getUncertainRateUnits() {
+    @Override
+    public String getUnitsAsString() {
         return "/s";
     }
 
@@ -190,7 +192,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
 
     @Override
     public String toString() {
-        return "" + getUncertainRate() + " " + getUncertainRateUnits() + (isWarmingUp() ? " (warming up)" : "");
+        return "" + getUncertainRate() + " " + getUnitsAsString() + (isWarmingUp() ? " (warming up)" : "");
     }
 
 

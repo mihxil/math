@@ -4,16 +4,15 @@ import lombok.extern.java.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.text.Format;
+import java.text.ParseException;
 import java.util.*;
 import java.util.function.*;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.configuration.FixedSizeMap;
-import org.meeuw.configuration.Configuration;
-import org.meeuw.configuration.ConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen
@@ -40,10 +39,14 @@ public final class FormatService {
      * @return all available {@link Format} instances that would be available for the given algebraic element
      */
     public static Stream<Format> getFormat(AlgebraicElement<?> object, Configuration configuration) {
+        return getFormat((Class<? extends AlgebraicElement<?>>) object.getClass(), configuration);
+    }
+
+    public static Stream<Format> getFormat(Class<? extends AlgebraicElement<?>> elementClass, Configuration configuration) {
         final List<AlgebraicElementFormatProvider> list = new ArrayList<>();
         getProviders().forEach(list::add);
-        list.removeIf(e -> e.weight(object) < 0);
-        list.sort(Comparator.comparingInt(e -> -1 * e.weight(object)));
+        list.removeIf(e -> e.weight(elementClass) < 0);
+        list.sort(Comparator.comparingInt(e -> -1 * e.weight(elementClass)));
         return list.stream().map(p -> p.getInstance(configuration));
     }
 
@@ -76,6 +79,25 @@ public final class FormatService {
             .filter(Objects::nonNull)
             .findFirst()
             .orElse("<TO STRING FAILED>");
+    }
+
+    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz) {
+        return fromString(source, clazz, getConfiguration());
+    }
+
+
+    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) {
+        return getFormat(clazz, configuration)
+            .map(f -> {
+                try {
+                    return (E) f.parseObject(source);
+                } catch (ParseException e) {
+                    return null;
+                }
+            })
+            .filter(Objects::nonNull)
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException("Could not parse '" + source + "' to " + clazz));
     }
 
     /**

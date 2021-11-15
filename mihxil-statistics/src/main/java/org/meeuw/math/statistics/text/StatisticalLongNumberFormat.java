@@ -43,6 +43,9 @@ public class StatisticalLongNumberFormat extends Format {
                      toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;
                  }
+                 case LONG: {
+                     throw new IllegalArgumentException();
+                 }
                  default:
             }
          }

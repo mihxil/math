@@ -18,7 +18,7 @@ public class TestFormatProvider extends AlgebraicElementFormatProvider {
     }
 
     @Override
-    public int weight(AlgebraicElement<?> weight) {
+    public int weight(Class<? extends AlgebraicElement<?>> weight) {
         return 0;
     }
 

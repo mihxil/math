@@ -15,7 +15,7 @@ public abstract class AlgebraicElementFormatProvider {
 
     public abstract Format getInstance(Configuration configuration);
 
-    public abstract int weight(AlgebraicElement<?> weight);
+    public abstract int weight(Class<? extends AlgebraicElement<?>> weight);
 
     public abstract List<Class<? extends ConfigurationAspect>> getConfigurationAspects();
 

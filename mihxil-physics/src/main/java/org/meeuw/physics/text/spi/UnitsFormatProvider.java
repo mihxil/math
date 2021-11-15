@@ -18,13 +18,12 @@ public class UnitsFormatProvider extends AlgebraicElementFormatProvider {
 
     @Override
     public UnitsFormat getInstance(Configuration configuration) {
-        UnitsFormat format = new UnitsFormat();
-        return format;
+        return UnitsFormat.INSTANCE;
     }
 
     @Override
-    public int weight(AlgebraicElement<?> element) {
-        if (element instanceof Units) {
+    public int weight(Class<? extends AlgebraicElement<?>> element) {
+        if (Units.class.isAssignableFrom(element)) {
             return 10;
         }
         return -1;
