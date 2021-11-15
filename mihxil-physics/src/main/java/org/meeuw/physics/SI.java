@@ -64,7 +64,6 @@ public class SI implements SystemOfMeasurements {
     }
 
 
-
     public enum BinaryPrefix implements Prefix {
 
         none(BigInteger.ONE, ""),
