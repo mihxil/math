@@ -117,12 +117,12 @@ MultiplicativeAbelianGroup
 AbelianRing}
 
 
-# interface org.meeuw.math.abstractalgebra.VectorSpaceInterface
-VectorSpaceInterface[
-href="BLOB_URL/org/meeuw/math/abstractalgebra/VectorSpaceInterface.java"
+# interface org.meeuw.math.abstractalgebra.VectorSpace
+VectorSpace[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/VectorSpace.java"
 		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space}"
 ]
-VectorSpaceInterface -> {AbelianRing}
+VectorSpace -> {AbelianRing}
 
 
 # interface org.meeuw.math.abstractalgebra.ScalarField
