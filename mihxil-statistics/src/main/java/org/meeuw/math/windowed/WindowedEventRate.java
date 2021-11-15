@@ -12,7 +12,6 @@ import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.physics.*;
 
 
 /**
@@ -89,6 +88,11 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
         return _of(getRate(), getUncertainty());
     }
 
+
+    public String getUncertainRateUnits() {
+        return "/s";
+    }
+
     @Override
     public UncertainDoubleElement _of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
@@ -152,9 +156,6 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
         return new AtomicLong(getTotalCount());
     }
 
-    public PhysicalNumber toPhysicalNumber() {
-        return new Measurement(getUncertainRate(), Units.of(SIUnit.s).reciprocal());
-    }
 
     /**
      * The current rate as a number of events per given unit of time.
@@ -189,7 +190,7 @@ public class WindowedEventRate extends Windowed<AtomicLong> implements
 
     @Override
     public String toString() {
-        return "" + getUncertainRate() + " /s" + (isWarmingUp() ? " (warming up)" : "");
+        return "" + getUncertainRate() + " " + getUncertainRateUnits() + (isWarmingUp() ? " (warming up)" : "");
     }
 
 

@@ -7,7 +7,6 @@ import org.meeuw.physics.*;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 public class IntegrationTest {
 
@@ -21,7 +20,8 @@ public class IntegrationTest {
         rate.newEvent();
         clock.tick();
         rate.newEvent();
-        PhysicalNumber measurement = rate.toPhysicalNumber();
+        PhysicalNumber measurement = new Measurement(rate, Units.of(SIUnit.s).reciprocal());
+
         PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
         System.out.println("Rate: " + rateInHours);
     }

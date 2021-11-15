@@ -60,4 +60,9 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
         assertThat(Units.forInversion(DISTANCE).toString()).isEqualTo("m⁻¹");
         assertThat(Units.forInversion(null)).isNull();
     }
+
+    @Test
+    public void parse() {
+
+    }
 }

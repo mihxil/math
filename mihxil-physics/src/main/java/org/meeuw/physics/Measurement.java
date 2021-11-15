@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.NonNull;
 
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -24,6 +25,11 @@ public class Measurement extends PhysicalNumber {
 
     public Measurement(UncertainReal wrapped, Units units) {
         super(wrapped, units);
+    }
+
+
+    public Measurement(UncertainDouble<?> wrapped, Units units) {
+        super(new UncertainDoubleElement(wrapped.getValue(), wrapped.getUncertainty()), units);
     }
 
     @Override
