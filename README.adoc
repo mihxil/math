@@ -266,6 +266,28 @@ Physical numbers themselves are actually only forming a multiplicative group, be
 
 Physical numbers can freely be multiplied and divided by each other.
 
+Objects of the statistic module can be converted to 'physical numbers' like so:
+[source,java]
+.event rate to measurement
+----
+WindowedEventRate rate = ...
+
+PhysicalNumber measurement = new Measurement(rate);
+PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
+
+
+----
+
+[source, java]
+.statistical number to measurement
+----
+ StatisticalDouble statisticalDouble = new StatisticalDouble();
+ statisticalDouble.enter(10d, 11d, 9d);
+
+ PhysicalNumber measurement = new Measurement(statisticalDouble, Units.of(SI.min));
+
+ assertThat(measurement.toUnits(Units.of(SIUnit.s)).toString()).isEqualTo("600 ± 45 s");
+----
 
 == algebra
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
