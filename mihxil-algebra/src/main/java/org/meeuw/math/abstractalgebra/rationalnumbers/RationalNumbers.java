@@ -9,6 +9,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static java.math.BigInteger.ONE;
 
+import org.meeuw.math.streams.StreamUtils;
+
 /**
  * Implementation of the field of Rational Numbers, commonly referred to as ℚ
  *
@@ -44,9 +46,9 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> 
     public Stream<RationalNumber> stream() {
         return Stream.concat(
             Stream.of(zero()),
-            Streams.diagonalStream(
-                (s) -> Streams.reverseBigIntegerStream(BigInteger.valueOf(s), false),
-                () -> Streams.bigIntegerStream(ONE, false),
+            StreamUtils.diagonalStream(
+                (s) -> StreamUtils.reverseBigIntegerStream(BigInteger.valueOf(s), false),
+                () -> StreamUtils.bigIntegerStream(ONE, false),
                 (a, b) -> a.abs().gcd(b).equals(ONE) ? new RationalNumber(a.negate(), b) : null)
                 .filter(Objects::nonNull)
                 .flatMap(s -> Stream.of(s, s.negation()))

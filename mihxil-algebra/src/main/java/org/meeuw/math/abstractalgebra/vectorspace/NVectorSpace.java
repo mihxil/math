@@ -5,14 +5,16 @@ import lombok.EqualsAndHashCode;
 import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.streams.StreamUtils;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace<E, NVector<E>> {
+public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpace<E, NVector<E>>, Streamable<NVector<E>> {
 
     private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
@@ -89,6 +91,16 @@ public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpac
     @Override
     public Class<NVector<E>> getElementClass() {
         return (Class<NVector<E>>) one().getClass();
+    }
+
+    @Override
+    public Stream<NVector<E>> stream() {
+        if (getCardinality().compareTo(Cardinality.ALEPH_0) > 0) {
+            throw new IllegalStateException();
+        } else {
+            Streamable<E> streamable = (Streamable<E>) field;
+            return StreamUtils.cartesianStream(streamable::stream, dimension).map(NVector::new);
+        }
     }
 
     @EqualsAndHashCode

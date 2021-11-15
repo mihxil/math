@@ -120,7 +120,6 @@ public class DocumentationTest {
                 ops.add(multiplication.toString());
             }
         }
-
         try {
             target.getClass().getMethod("zero");
             ops.add("0");

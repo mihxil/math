@@ -3,3 +3,4 @@
 target
 jqwik-database
 /.jqwik-database
+/report-aggregation/.jqwik-database

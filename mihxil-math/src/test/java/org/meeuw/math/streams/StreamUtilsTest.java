@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.streams;
 
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -9,10 +9,10 @@ import java.util.concurrent.*;
 import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.Streams.BigIntegerSpliterator;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 @Log4j2
-class StreamsTest {
+class StreamUtilsTest {
 
     @Data
     static class A  {
@@ -39,14 +39,14 @@ class StreamsTest {
 
     @Test
     public void bigIntegerStream() {
-        Stream<BigInteger> stream = Streams.bigIntegerStream(true);
+        Stream<BigInteger> stream = StreamUtils.bigIntegerStream(true);
         assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
             0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5
         );
     }
     @Test
     public void reverseBigIntegerStream() {
-        Stream<BigInteger> stream = Streams.reverseBigIntegerStream(BigInteger.valueOf(5), true);
+        Stream<BigInteger> stream = StreamUtils.reverseBigIntegerStream(BigInteger.valueOf(5), true);
         assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
             -5, 5, -4, 4, -3, 3, -2, 2, -1, 1, 0
         );
@@ -97,14 +97,14 @@ class StreamsTest {
         // https://michaelbespalov.medium.com/parallel-stream-pitfalls-and-how-to-avoid-them-91f11808a16c
         final Set<BigInteger> needed = Stream.concat(Stream.of(ZERO), Stream.iterate(ONE, i -> i.add(ONE)).flatMap(i -> Stream.of(i, i.negate()))).limit(100).collect(Collectors.toCollection(CopyOnWriteArraySet::new));
 
-        ForkJoinPool customThreadPool = new ForkJoinPool(Streams.MAX_THREADS);
+        ForkJoinPool customThreadPool = new ForkJoinPool(StreamUtils.MAX_THREADS);
         ForkJoinTask<?> submit = customThreadPool.submit(() -> {
-            Stream<BigInteger> stream = Streams.bigIntegerStream(true);
+            Stream<BigInteger> stream = StreamUtils.bigIntegerStream(true);
             stream.parallel().forEach(i -> {
 
                 if (needed.remove(i)) {
-                    synchronized (StreamsTest.this) {
-                        StreamsTest.this.notifyAll();
+                    synchronized (StreamUtilsTest.this) {
+                        StreamUtilsTest.this.notifyAll();
                     }
                 }
             });
@@ -120,7 +120,7 @@ class StreamsTest {
 
     @Test
     public void bigPositiveIntegerStream() {
-        Stream<BigInteger> stream = Streams.bigIntegerStream(false);
+        Stream<BigInteger> stream = StreamUtils.bigIntegerStream(false);
         assertThat(stream.limit(20).mapToInt(BigInteger::intValue)).containsExactly(
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
         );
@@ -128,9 +128,9 @@ class StreamsTest {
 
     @Test
     public void diagonalStream() {
-        Stream<A> aStream = Streams.diagonalStream(
-            () -> Streams.bigIntegerStream(false),
-            () -> Streams.bigIntegerStream(false), A::new);
+        Stream<A> aStream = StreamUtils.diagonalStream(
+            () -> StreamUtils.bigIntegerStream(false),
+            () -> StreamUtils.bigIntegerStream(false), A::new);
 
         assertThat(aStream.limit(20).map(A::toString)).containsExactly(
             "0,0",
@@ -153,5 +153,48 @@ class StreamsTest {
             "3,2",
             "2,3",
             "1,4");
+    }
+
+    @Test
+    public void incForStream() {
+        int[] counters = {0, 0};
+        int max = 0;
+        max = StreamUtils.inc(counters, max);
+        assertThat(max).isEqualTo(2);
+        assertThat(counters).containsExactly(1, 0);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(2, 0);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(0, 1);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(1, 1);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(2, 1);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(0, 2);
+        max = StreamUtils.inc(counters, max);
+        assertThat(counters).containsExactly(1, 2);
+
+
+        log.info(Arrays.stream(counters).mapToObj(String::valueOf).collect(joining(", ")));
+    }
+
+    @Test
+    public void allIntArrayStream() {
+        assertThat(StreamUtils.allIntArrayStream(2).limit(10).map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
+            "0, 0",
+
+            "0, -1",
+            "1, -1",
+            "-1, 0",
+            "1, 0",
+            "-1, 1",
+            "0, 1",
+            "1, 1",
+
+            "1, -2",
+            "2, -2"
+        );
+
     }
 }

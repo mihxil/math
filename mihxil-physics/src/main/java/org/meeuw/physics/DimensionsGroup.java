@@ -2,7 +2,7 @@ package org.meeuw.physics;
 
 import java.util.stream.Stream;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -31,7 +31,7 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnaly
 
     @Override
     public Stream<DimensionalAnalysis> stream() {
-        return Utils.stream(Dimension.values().length).map(
+        return StreamUtils.allIntArrayStream(Dimension.values().length).map(
             DimensionalAnalysis::new
         );
     }

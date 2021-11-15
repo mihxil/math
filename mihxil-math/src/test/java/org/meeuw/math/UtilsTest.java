@@ -4,8 +4,9 @@ import lombok.extern.log4j.Log4j2;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,7 +15,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -58,46 +58,7 @@ class UtilsTest {
     }
 
 
-    @Test
-    public void incForStream() {
-        int[] counters = {0, 0};
-        int max = 0;
-        max = Utils.inc(counters, max);
-        assertThat(max).isEqualTo(2);
-        assertThat(counters).containsExactly(1, 0);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(2, 0);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(0, 1);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(1, 1);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(2, 1);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(0, 2);
-        max = Utils.inc(counters, max);
-        assertThat(counters).containsExactly(1, 2);
 
-
-        log.info(Arrays.stream(counters).mapToObj(String::valueOf).collect(joining(", ")));
-    }
-
-    @Test
-    public void stream() {
-        assertThat(Utils.stream(2).limit(10).map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
-            "0, 0",
-            "0, -1",
-            "1, -1",
-            "-1, 0",
-            "1, 0",
-            "-1, 1",
-            "0, 1",
-            "1, 1",
-            "1, -2",
-            "2, -2"
-        );
-
-    }
 
     @Test
     public void log10() {
@@ -157,6 +118,14 @@ class UtilsTest {
 
     }
 
+    @Test
+    public void spiral() {
+        Supplier<Stream<Integer>> streamSupplier = () -> IntStream.iterate(0, i -> i + 1).boxed();
+
+
+
+    }
+
     public Duration time(Runnable run) {
         long nanoStart = System.nanoTime();
         for (int i = 0; i < 10000; i++) {
@@ -164,4 +133,7 @@ class UtilsTest {
         }
         return Duration.ofNanos(System.nanoTime() - nanoStart);
     }
+
+
+
 }

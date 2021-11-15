@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra.complex;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.Streams;
+import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
@@ -26,7 +26,7 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
 
     @Override
     public Stream<GaussianRational> stream() {
-        return Streams.diagonalStream(
+        return StreamUtils.diagonalStream(
             RationalNumbers.INSTANCE::reverseStream,
             RationalNumbers.INSTANCE::stream,
             this::of

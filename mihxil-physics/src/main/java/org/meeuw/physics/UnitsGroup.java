@@ -2,7 +2,7 @@ package org.meeuw.physics;
 
 import java.util.stream.Stream;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
@@ -33,7 +33,7 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
 
     @Override
     public Stream<Units> stream() {
-        return Utils.stream(SIUnit.values().length).map(
+        return StreamUtils.allIntArrayStream(SIUnit.values().length).map(
             array -> {
                 UnitExponent[] units = new UnitExponent[array.length];
                 for (int i = 0; i < array.length; i++) {

@@ -105,7 +105,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void getComparisonOperators(@ForAll(STRUCTURE) AbstractAlgebraicStructure<E> struct) {
+    default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         if (Ordered.class.isAssignableFrom(struct.getElementClass())) {
             assertThat(struct.getSupportedComparisonOperators())
                 .contains(LT, LTE, GT, GTE);

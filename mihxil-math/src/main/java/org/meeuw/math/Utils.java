@@ -4,12 +4,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Stream;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -194,18 +194,6 @@ public final class Utils {
          return instant.truncatedTo(trunc);
     }
 
-    /**
-     *
-     *
-     * It will start with an array with only zeros. Then it will return array filled with all possible combinations of -1, 0, 1, then with all possibles arrays with only -2, -1, 0, 1, 2 and so on.
-     * @param length the length of all arrays to produce
-     * @return an infinite stream of integer arrays of given length
-     *
-     */
-    public static Stream<int[]> stream(int length) {
-        return Stream.iterate(new State(length), State::next)
-            .map(State::array);
-    }
 
     /**
      * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
@@ -314,78 +302,6 @@ public final class Utils {
             max = Math.max(max, tmp);
         }
         return max;
-    }
-
-    static class State {
-        final int degree;
-        final int[] counters;
-        int max = 0;
-        int[] next;
-
-        State(int degree) {
-            this.degree = degree;
-            counters = new int[degree];
-            makeNext();
-        }
-        int[] array() {
-            return next;
-        }
-
-        void makeNext() {
-            this.next = new int[degree];
-            int offset = max / 2;
-            for (int i = 0; i < degree; i++) {
-                this.next[i] = counters[i] - offset;
-            }
-        }
-
-        public State next() {
-            max = inc(counters, max);
-            makeNext();
-            if (max() < max) {
-                return next();
-            }
-            return this;
-        }
-
-        private int max() {
-            int m = 0;
-            for (int c : next) {
-                int abs = Math.abs(c);
-                if (abs > m) {
-                    m = abs;
-                }
-            }
-            return m * 2;
-        }
-    }
-
-    /**
-     * Fills the array as if it is kind of a number system (with infinite base, but fixed number of digits)
-     * Also we fill from the left.
-     *
-     * The idea is to first produce values with low base, and if we filled those, then increase the base with 2 (we want to produce
-     * negative values, and afterwards shift base /2).
-     *
-     * This will produce duplicates, which are filtered out in {@link State}
-     *
-     */
-    static int inc(int[] counters, int base) {
-        return inc(counters, 0, base);
-    }
-
-    private static int inc(int[] counters, int index, int base) {
-        counters[index]++;
-        if (counters[index] > base) {
-            counters[index] = 0;
-            if (index + 1 < counters.length) {
-                return inc(counters, index + 1, base);
-            } else {
-                counters[0] = base;
-                return inc(counters, 0, base + 2);
-            }
-        }
-        return base;
     }
 
     @SafeVarargs
