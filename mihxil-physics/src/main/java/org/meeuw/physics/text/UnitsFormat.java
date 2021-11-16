@@ -38,12 +38,12 @@ public class UnitsFormat extends Format {
     public Object parseObject(String source, ParsePosition pos) {
         // TODO, this just implements some cases we happen to need.
         // A real solution will be based on javacc or so.
-        if ("/s".equals(source.trim())) {
-            pos.setIndex(2);
+        if ("/s".equals(source.substring(pos.getIndex()).trim())) {
+            pos.setIndex(pos.getIndex() + 2);
             return Units.of(SIUnit.s).reciprocal();
         }
-        if ("".equals(source.trim())) {
-            pos.setIndex(0);
+        if ("".equals(source.substring(pos.getIndex()).trim())) {
+            pos.setIndex(pos.getIndex() + 1);
             return Units.DIMENSIONLESS;
         }
         throw new UnsupportedOperationException();

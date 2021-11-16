@@ -66,7 +66,5 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
     public void parse() {
         assertThat(FormatService.fromString("/s", Units.class)).isEqualTo(Units.of(SIUnit.s).reciprocal());
         assertThat(FormatService.fromString("", Units.class)).isEqualTo(Units.DIMENSIONLESS);
-
-
     }
 }
