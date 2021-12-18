@@ -30,7 +30,7 @@
     <big-math.version>2.3.0</big-math.version>
 
     <!-- test dependencies -->
-    <log4j.version>2.16.0</log4j.version>
+    <log4j.version>2.17.0</log4j.version>
     <jqwik.version>1.6.1</jqwik.version>
     <junit.version>5.8.2</junit.version>
     <jacoco.version>0.8.7</jacoco.version>
