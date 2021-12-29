@@ -9,7 +9,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.exceptions.ReciprocalException;
-import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 
 import static java.util.Collections.unmodifiableNavigableSet;

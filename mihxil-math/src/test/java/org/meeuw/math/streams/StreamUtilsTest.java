@@ -181,7 +181,9 @@ class StreamUtilsTest {
 
     @Test
     public void allIntArrayStream() {
-        assertThat(StreamUtils.allIntArrayStream(2).limit(10).map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
+        assertThat(
+            StreamUtils.allIntArrayStream(2).limit(10)
+                .map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
             "0, 0",
 
             "0, -1",
@@ -197,4 +199,13 @@ class StreamUtilsTest {
         );
 
     }
+    @Test
+    public  void cartesianStream() {
+        Stream<Integer[]> cartesianStream = StreamUtils.cartesianStream(() -> Stream.iterate(0, i -> i + 1), 2);
+
+        cartesianStream.limit(20).forEach(ia -> {
+            log.info(Arrays.asList(ia));
+        });
+    }
+
 }

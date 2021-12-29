@@ -1,9 +1,8 @@
 package org.meeuw.math.streams;
 
+import java.lang.reflect.Array;
 import java.math.BigInteger;
-import java.util.Collections;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
@@ -48,6 +47,7 @@ public final class StreamUtils {
     /**
      * Contains the logic to combine two streams.
      * They are found by tracing diagonals in the plain spanned by the two stream.
+     *
      * @param stream1 A function to create new stream, which returns all values from the nth value down to the first
      * @param stream2 A supplier to create a new stream
      * @param combiner A bifunction to combine the two values supplied by the two stream to one new value
@@ -55,6 +55,8 @@ public final class StreamUtils {
      * @param <E2> type of the elements of the second stream
      * @param <F> type of the elements of the resulting stream
      * @return a new stream created using the two given stream suppliers
+     *
+     * @see #cartesianStream(Class, Supplier[])
      */
     public static <E1, E2, F> Stream<F> diagonalStream(
         Function<Long, Stream<E1>> stream1,
@@ -117,27 +119,25 @@ public final class StreamUtils {
      *
      * The streams may be infinite.
      *
-     * The produces result will be an array of all first elements of the streams. Then it will produce entries with the first and second elements (skipping the ones with only the first), and so on.
+     * The produced result will be an array of all first elements of the streams. Then it will produce entries with the first and second elements (skipping the ones with only the first), and so on.
      *
      * This way every finite combination will eventually occur.
      *
      * @return a stream of arrays
      *
      */
+    @SuppressWarnings("unchecked")
     public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<E>>... streams) {
-        final int count = streams.length;
-        final BiFunction<Integer, Integer, Stream<E>>  generator =
-            (i, limit) -> streams[i].get().limit(limit);
-        final AtomicInteger i = new AtomicInteger(0);
-        final AtomicInteger currentLimit = new AtomicInteger(1);
-        // TODO
-        //return new CartesianSpliterator<E[]>(streams);
-        return null;
+        return StreamSupport.stream(new CartesianSpliterator<E>(Arrays.stream(streams).map(s ->
+                (Supplier<Spliterator<E>>) () -> s.get().spliterator()).toArray(Supplier[]::new)
+        ), false);
     }
 
     @NonNull
     public static <E> Stream<E[]> cartesianStream(@NonNull final Supplier<Stream<E>> stream, int count) {
-        return null;
+        Supplier<Stream<E>>[] args = (Supplier<Stream<E>>[]) Array.newInstance(Supplier.class, count);
+        Arrays.fill(args, stream);
+        return cartesianStream(args);
     }
 
 

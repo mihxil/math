@@ -1,49 +1,195 @@
 package org.meeuw.math.streams;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Log4j2
 class CartesianSpliteratorTest {
 
+    /**
+     * The edge case of no spliterator.
+     *
+     */
     @Test
-    public void basic() {
-        List<Integer> values = Arrays.asList(1, 2, 3);
+    public void zero() {
+         CartesianSpliterator<String> cartesianSpliterator =
+            new CartesianSpliterator<>(String.class);
+
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(0L);
+        testEnd(cartesianSpliterator);
+    }
+
+    /**
+     * The edge case of only one spliterator.
+     *
+     * This should simply be exactly like this iterator itself.
+     */
+    @Test
+    public void one() {
+        final List<String> values = Arrays.asList("a", "b", "c");
+
+        CartesianSpliterator<String> cartesianSpliterator =
+            new CartesianSpliterator<>(values::spliterator, 1);
+
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(3L);
+        testAdvance(cartesianSpliterator, "a");
+        testAdvance(cartesianSpliterator, "b");
+        testAdvance(cartesianSpliterator, "c");
+        testEnd(cartesianSpliterator);
+    }
+
+
+    @Test
+    public void two() {
+        final List<String> values = Arrays.asList("a", "b", "c");
+
+        CartesianSpliterator<String> cartesianSpliterator =
+            new CartesianSpliterator<>(values::spliterator, 2);
+
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(9L);
+
+        testAdvance(cartesianSpliterator, "a", "a");
+        testAdvance(cartesianSpliterator, "b", "a");
+        testAdvance(cartesianSpliterator, "b", "b");
+        testAdvance(cartesianSpliterator, "a", "b");
+        testAdvance(cartesianSpliterator, "c", "a");
+        testAdvance(cartesianSpliterator, "c", "b");
+        testAdvance(cartesianSpliterator, "c", "c");
+        testAdvance(cartesianSpliterator, "a", "c");
+        testAdvance(cartesianSpliterator, "b", "c");
+        testEnd(cartesianSpliterator);
+    }
+
+    @SafeVarargs
+    private <E> E[] testAdvance(CartesianSpliterator<? extends E> cartesianSpliterator, E... values) {
+        return testAdvance(cartesianSpliterator, i -> {
+            log.info("Found {}", cartesianSpliterator.currentAsString());
+        }, values);
+    }
+
+
+    @SafeVarargs
+    private <E> E[] testAdvance(CartesianSpliterator<? extends E> cartesianSpliterator, Consumer<CartesianSpliterator<? extends E>> consumer, E... values) {
+        final List<E[]> container = new ArrayList<>();
+        assertThat(cartesianSpliterator.tryAdvance((a) -> {
+            final E[] e = a;
+            container.add(e);
+            assertThat(e).containsExactly(values);
+        })).isTrue();
+        return container.get(0);
+    }
+
+    private <E> void testEnd(CartesianSpliterator<E> cartesianSpliterator) {
+        assertThat(cartesianSpliterator.tryAdvance((a) -> {})).isFalse();
+    }
+
+
+    @Test
+    public void twoDifferentSizesAndTypes() {
+        final List<String> values1 = Arrays.asList("a", "b", "c");
+        final List<Integer> values2 = Arrays.asList(1, 2);
+
+        final CartesianSpliterator<?> cartesianSpliterator =
+            new CartesianSpliterator<>(values1::spliterator, values2::spliterator);
+
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(6L);
+
+        testAdvance(cartesianSpliterator, "a", 1);
+        testAdvance(cartesianSpliterator, "b", 1);
+        testAdvance(cartesianSpliterator, "b", 2);
+        testAdvance(cartesianSpliterator, "a", 2);
+        testAdvance(cartesianSpliterator, "c", 1);
+        testAdvance(cartesianSpliterator, "c", 2);
+        testEnd(cartesianSpliterator);
+    }
+
+    @Test
+    public void three() {
+        final List<Integer> values = Arrays.asList(1, 2, 3);
 
         CartesianSpliterator<Integer> cartesianSpliterator =
             new CartesianSpliterator<>(values::spliterator, 3);
 
-        List<Integer[]> result = new ArrayList<>();
-        cartesianSpliterator.forEachRemaining(result::add);
-        assertThat(result).containsExactly(
-            of(1, 1, 1),
-            of(2, 1, 1),
-            of(1, 2, 1),
-            of(2, 2, 1),
-            of(1, 1, 2),
-            of(2, 1, 2),
-            of(2, 2, 1),
-            of(2, 2, 2),
+//        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(27L);
 
-            of(3, 1, 1),
-            of(3, 2, 1),
-            of(3, 3, 1),
-            of(3, 1, 2),
-            of(3, 2, 2),
-            of(3, 3, 2),
+        // fix 0 (1)
+        testAdvance(cartesianSpliterator, 1, 1, 1);
 
-            of(3, 3, 3),
+        // fix 0 (4)
+        testAdvance(cartesianSpliterator, 2, 1, 1);
+        testAdvance(cartesianSpliterator, 2, 2, 1);
+        testAdvance(cartesianSpliterator, 2, 1, 2);
+        testAdvance(cartesianSpliterator, 2, 2, 2);
 
-            of(1, 3, 1),
-            of(2, 3, 1)
-        );
+        // fix 1 (2)
+        testAdvance(cartesianSpliterator,1, 2, 1);
+        testAdvance(cartesianSpliterator,1, 2, 2);
+        // fix 3 (1)
+        testAdvance(cartesianSpliterator,1, 1, 2);
 
+         // fix 0 (9)
+        testAdvance(cartesianSpliterator, 3, 1, 1);
+        testAdvance(cartesianSpliterator, 3, 2, 1);
+        testAdvance(cartesianSpliterator, 3, 3, 1);
+        testAdvance(cartesianSpliterator, 3, 1, 2);
+        testAdvance(cartesianSpliterator, 3, 2, 2);
+        testAdvance(cartesianSpliterator, 3, 3, 2);
+        testAdvance(cartesianSpliterator, 3, 1, 3);
+        testAdvance(cartesianSpliterator, 3, 2, 3);
+        testAdvance(cartesianSpliterator, 3, 3, 3);
+
+        // fix 2 (6)
+        testAdvance(cartesianSpliterator, 1, 3, 1);
+        testAdvance(cartesianSpliterator, 2, 3, 1);
+        testAdvance(cartesianSpliterator, 1, 3, 2);
+        testAdvance(cartesianSpliterator, 2, 3, 2);
+        testAdvance(cartesianSpliterator, 1, 3, 3);
+        testAdvance(cartesianSpliterator, 2, 3, 3);
+
+          // fix 3 (4)
+        testAdvance(cartesianSpliterator, 1, 1, 3);
+        testAdvance(cartesianSpliterator, 2, 1, 3);
+        testAdvance(cartesianSpliterator, 1, 2, 3);
+        testAdvance(cartesianSpliterator, 2, 2, 3);
+
+        testEnd(cartesianSpliterator);
     }
 
-    <E> E[] of(E... values) {
-        return values;
+    @Test
+    public void infiniteStreams() {
+        Supplier<Spliterator<? extends Integer>> iterate = () -> Stream.iterate(1, i -> i + 2).spliterator();
+        CartesianSpliterator<Integer> cartesianSpliterator =
+            new CartesianSpliterator<>(iterate, 3);
+        final List<Integer[]> result = new ArrayList<>();
+        StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
+            log.info("{}", Arrays.asList(a));
+            result.add(a);
+            }
+        );
+        assertThat(result).doesNotHaveDuplicates();
+    }
+
+    @Test
+    public void infiniteStreams2() {
+        Supplier<Spliterator<? extends Integer>> positiveAndNegative = () -> Stream.iterate(1, i -> i > 0 ? -1 * i : Math.abs(i) + 1).spliterator();
+        Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i  + 1).spliterator();
+        CartesianSpliterator<Integer> cartesianSpliterator =
+            new CartesianSpliterator<>(positive, positiveAndNegative);
+        final List<Float> result = new ArrayList<>();
+        StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
+            log.info("{}", Arrays.asList(a));
+            result.add(((float) a[0] / a[1]));
+            }
+        );
     }
 
 }
