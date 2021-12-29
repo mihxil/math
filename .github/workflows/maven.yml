@@ -44,3 +44,5 @@ jobs:
           git diff-index --quiet HEAD || git commit -m "Automated update of dot.m4" docs/algebras.dot.m4
           echo pushing
           git push
+        if: ${{ github.event_name == 'push' }}
+
