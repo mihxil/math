@@ -35,7 +35,7 @@ jobs:
         if: ${{ github.event_name == 'push' }}
       - name: push changes
         # after
-        run:
+        run: |
           git config --global user.name 'github actions'
           git config --global user.email 'github@meeuw.org'
           git checkout main
