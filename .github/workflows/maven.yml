@@ -34,9 +34,11 @@ jobs:
         run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
         if: ${{ github.event_name == 'push' }}
       - name: push changes
-        run: |
+        # after
+        run:
           git config --global user.name 'github actions'
           git config --global user.email 'github@meeuw.org'
-          git pull
-          git commit -m "Automated update of dot.m4" docs/algebras.dot.m4
+          git checkout main
+          git diff-index --quiet HEAD || git commit -m "Automated update of dot.m4" docs/algebras.dot.m4
+          echo pushing
           git push
