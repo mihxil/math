@@ -30,4 +30,10 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber> 
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
     }
+
+    @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
 }

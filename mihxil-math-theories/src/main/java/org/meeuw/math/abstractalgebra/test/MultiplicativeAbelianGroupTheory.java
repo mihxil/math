@@ -22,7 +22,7 @@ public interface MultiplicativeAbelianGroupTheory<E extends MultiplicativeGroupE
     }
 
     @Property
-    default void multiplicativeCommutativity (
+    default void multiplicativeCommutativityProperty(
         @ForAll(STRUCTURE) MultiplicativeGroup<E> group) {
         assertThat(group.multiplicationIsCommutative()).isTrue();
     }
