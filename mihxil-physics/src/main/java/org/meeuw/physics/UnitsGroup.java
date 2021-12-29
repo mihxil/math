@@ -26,6 +26,12 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
         return ONE;
     }
 
+
+    @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
     @Override
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_0;
