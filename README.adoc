@@ -216,6 +216,12 @@ Global defaults can be set similarly
 
 Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
 
+=== stream utilities
+
+==== cartesian product
+
+video::{docs}/cartesian.mp4[width=600,opts=autoplay]
+
 
 == statistics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]

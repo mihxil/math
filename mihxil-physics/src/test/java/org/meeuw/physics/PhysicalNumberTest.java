@@ -47,6 +47,7 @@ class PhysicalNumberTest implements
     @Test
     public void setPrefix() {
         Units km = Units.of(SIUnit.m);
+
     }
 
     @Test
@@ -54,7 +55,6 @@ class PhysicalNumberTest implements
         PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
         PhysicalNumber three_km = new Measurement(3, 0.1, SIUnit.m);
         assertThat(three_km.lt(two_lightyear)).isTrue();
-
     }
 
     /**

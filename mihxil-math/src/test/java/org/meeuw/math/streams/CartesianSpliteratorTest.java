@@ -2,11 +2,11 @@ package org.meeuw.math.streams;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -179,17 +179,18 @@ class CartesianSpliteratorTest {
     }
 
     @Test
-    public void infiniteStreams2() {
-        Supplier<Spliterator<? extends Integer>> positiveAndNegative = () -> Stream.iterate(1, i -> i > 0 ? -1 * i : Math.abs(i) + 1).spliterator();
-        Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i  + 1).spliterator();
-        CartesianSpliterator<Integer> cartesianSpliterator =
-            new CartesianSpliterator<>(positive, positiveAndNegative);
-        final List<Float> result = new ArrayList<>();
-        StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
-            log.info("{}", Arrays.asList(a));
-            result.add(((float) a[0] / a[1]));
-            }
-        );
+    public void infiniteStreams2() throws IOException {
+
+        File dest = new File(System.getProperty("user.dir"), "../docs/positive-plane.data");
+        try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {
+            Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i + 1).spliterator();
+            CartesianSpliterator<Integer> cartesianSpliterator =
+                new CartesianSpliterator<>(positive, 2);
+            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a -> {
+                printer.println(cartesianSpliterator.getIndex() + " " + Stream.of(a).map(String::valueOf).collect(Collectors.joining(" ")));
+                }
+            );
+        }
     }
 
 }
