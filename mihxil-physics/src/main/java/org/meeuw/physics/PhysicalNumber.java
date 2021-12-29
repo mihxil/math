@@ -58,7 +58,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public double getValue() {
-        return  wrapped.getValue();
+        return wrapped.getValue();
     }
 
     @Override
@@ -68,7 +68,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public double getUncertainty() {
-        return  wrapped.getUncertainty();
+        return wrapped.getUncertainty();
     }
 
     @Override
@@ -106,7 +106,7 @@ public abstract class PhysicalNumber extends Number
     }
 
     /**
-     * Units will implicitely be converted, and the resulting value will have the units of this.
+     * Units will implicitly be converted, and the resulting value will have the units of this.
      *
      * @throws DimensionsMismatchException If the summand has dimensions incompatible with the dimensions of this. (e.g. you cannot add meters to seconds).
      * @param summand the physical number to add to this one
@@ -215,7 +215,8 @@ public abstract class PhysicalNumber extends Number
         if (equals(f)) {
             return 0;
         }
-        return Double.compare(getValue(), f.getValue());
+
+        return Double.compare(getValue(), f.toUnits(getUnits()).getValue());
     }
 
     /**

@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.exceptions.NotComparableException;
+
 /**
  *
  * @author Michiel Meeuwissen
@@ -22,4 +24,7 @@ public interface Ordered<E extends Ordered<E>>  extends Comparable<E> {
     default boolean gte(E compare) {
         return gt(compare) || equals(compare);
     }
+
+    @Override
+    int compareTo(E o) throws NotComparableException;
 }

@@ -1,16 +1,15 @@
 package org.meeuw.physics;
 
 import lombok.extern.log4j.Log4j2;
+
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
-import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.physics.SI.DISTANCE;
 
 
 /**
@@ -20,7 +19,6 @@ import static org.meeuw.physics.SI.DISTANCE;
 @Log4j2
 class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
-    ScalarTheory<PhysicalNumber>,
     SignedNumberTheory<PhysicalNumber> {
 
     @Test
@@ -30,7 +28,6 @@ class PhysicalNumberTest implements
         log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(SI.ly), lys.plus(psc));
         assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.4 ly");
         assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.13 pc");
-
     }
 
     @Test
@@ -50,23 +47,35 @@ class PhysicalNumberTest implements
     @Test
     public void setPrefix() {
         Units km = Units.of(SIUnit.m);
+    }
+
+    @Test
+    public void lt() {
+        PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
+        PhysicalNumber three_km = new Measurement(3, 0.1, SIUnit.m);
+        assertThat(three_km.lt(two_lightyear)).isTrue();
 
     }
+
+    /**
+     * Returns only velocities for now.
+     *
+     */
     @Override
     public Arbitrary<PhysicalNumber> elements() {
-        final DimensionalAnalysis[] quantities = DimensionalAnalysis.getQuantities();
         return
             Arbitraries
                 .<PhysicalNumber>randomValue(
                     (random) -> new Measurement(
                         random.nextDouble() * 200 - 100,
                         Math.abs(random.nextDouble() * 10),
-                        SI.INSTANCE.forDimensions(quantities[random.nextInt(quantities.length)]))
+                        SI.VELOCITY
+                    )
                 )
                 .injectDuplicates(0.01)
                 .dontShrink()
                 .edgeCases(config -> {
-                    config.add(new Measurement(0, 0.001, DISTANCE));
+                    config.add(new Measurement(0, 0.001, SI.VELOCITY));
                     config.add(PhysicalConstant.c);
                 });
 

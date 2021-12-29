@@ -20,7 +20,6 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         super(RealNumber.class);
     }
 
-
     @Override
     public RealNumber zero() {
         return RealNumber.ZERO;

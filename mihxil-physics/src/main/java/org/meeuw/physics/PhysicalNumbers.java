@@ -1,6 +1,10 @@
 package org.meeuw.physics;
 
+import java.util.NavigableSet;
+
 import org.meeuw.math.abstractalgebra.*;
+
+import static org.meeuw.math.Utils.navigableSet;
 
 /**
  * 'Physical' numbers are numbers of a {@link org.meeuw.math.abstractalgebra.Field} but with {@link Units}.
@@ -24,6 +28,11 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber> 
     @Override
     public PhysicalNumber one() {
         return ONE;
+    }
+
+    @Override
+    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
+        return navigableSet(ComparisonOperator.values());
     }
 
     @Override
