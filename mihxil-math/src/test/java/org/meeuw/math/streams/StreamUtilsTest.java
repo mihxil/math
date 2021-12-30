@@ -3,9 +3,11 @@ package org.meeuw.math.streams;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.*;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
@@ -153,6 +155,22 @@ class StreamUtilsTest {
             "3,2",
             "2,3",
             "1,4");
+    }
+
+    @Test
+    public void diagonalStreamFile() throws FileNotFoundException {
+        File dest = new File(System.getProperty("user.dir"), "../docs/diagonals-positive-plane.data");
+
+        Stream<A> aStream = StreamUtils.diagonalStream(
+            () -> StreamUtils.bigIntegerStream(false),
+            () -> StreamUtils.bigIntegerStream(false),
+            A::new);
+        try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {
+            AtomicInteger i = new AtomicInteger(0);
+            aStream.limit(10000).forEach(a -> {
+                printer.println(i.getAndIncrement() + " " + a.a + " " + a.b);
+            });
+        }
     }
 
     @Test

@@ -56,7 +56,7 @@ public final class StreamUtils {
      * @param <F> type of the elements of the resulting stream
      * @return a new stream created using the two given stream suppliers
      *
-     * @see #cartesianStream(Class, Supplier[])
+     * @see #cartesianStream(Supplier[])
      */
     public static <E1, E2, F> Stream<F> diagonalStream(
         Function<Long, Stream<E1>> stream1,
@@ -128,8 +128,10 @@ public final class StreamUtils {
      */
     @SuppressWarnings("unchecked")
     public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<E>>... streams) {
-        return StreamSupport.stream(new CartesianSpliterator<E>(Arrays.stream(streams).map(s ->
-                (Supplier<Spliterator<E>>) () -> s.get().spliterator()).toArray(Supplier[]::new)
+        return StreamSupport.stream(
+            new CartesianSpliterator<>(
+                Arrays.stream(streams).map(s -> (Supplier<Spliterator<E>>) () -> s.get().spliterator())
+                    .toArray(Supplier[]::new)
         ), false);
     }
 

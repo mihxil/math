@@ -193,4 +193,20 @@ class CartesianSpliteratorTest {
         }
     }
 
+
+    @Test
+    public void infiniteStreams3() throws IOException {
+
+        File dest = new File(System.getProperty("user.dir"), "../docs/positive-3-plane.data");
+        try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {
+            Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i + 1).spliterator();
+            CartesianSpliterator<Integer> cartesianSpliterator =
+                new CartesianSpliterator<>(positive, 3);
+            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a -> {
+                printer.println(cartesianSpliterator.getIndex() + " " + Stream.of(a).map(String::valueOf).collect(Collectors.joining(" ")));
+                }
+            );
+        }
+    }
+
 }

@@ -216,12 +216,32 @@ Global defaults can be set similarly
 
 Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
 
-=== stream utilities
+=== Utilities
 
-==== cartesian product
+To implement several aspects of the groups there are provided some utility class. We describe here a few which might be of particular interest.
 
-video::{docs}/cartesian.mp4[width=600,opts=autoplay]
+==== Cartesian product of streams
 
+All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.
+
+For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
+
+==== Generic
+
+link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
+
+
+.All combinations of 2 streams of positive integers.
+video::{docs}/positive-plane.mp4[width=600,opts=autoplay]
+
+.All combinations of 3 streams of positive integers.
+video::{docs}/positive-3-plane.mp4[width=600,opts=autoplay]
+
+==== Diagonals
+
+
+.All combinations of 2 streams of positive integers (diagonals)
+video::{docs}/diagonals-positive-plane.mp4[width=600,opts=autoplay]
 
 == statistics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]

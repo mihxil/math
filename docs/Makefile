@@ -1,6 +1,6 @@
 
 
-all: index.html
+all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4
 
 # sudo gem install asciidoctor asciidoctor-multipage
 
@@ -17,9 +17,15 @@ index.html: ../README.adoc Makefile algebras.svg
 %.html: %.adoc
 	asciidoctor $<
 
-cartesian.mp4: positive-plane.data frame.gp
+
+%-3-plane.mp4: %-3-plane.data frame.gp Makefile
 	rm -f $@
-	for i in {1..999} ; do head -$$i positive-plane.data | gnuplot frame.gp ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
+	for i in {1..999} ; do head -$$i $< | gnuplot 3-frame.gp ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
+
+
+%-plane.mp4: %-plane.data frame.gp Makefile
+	rm -f $@
+	for i in {1..999} ; do head -$$i $< | gnuplot frame.gp ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
 
 
 clean:
