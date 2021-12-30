@@ -317,7 +317,8 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
             })) {
                 return true;
             } else {
-                throw new IllegalStateException("Empty iterator found");
+                log.fine("Empty iterator found");
+                return false;
             }
         } else {
             log.fine(() -> "Couldn't initialize"); // this can only happen at the first few elements

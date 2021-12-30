@@ -231,6 +231,10 @@ For finite streams this is more or less trivial. For _infinite_ streams this is 
 link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
 
 
+The most generic implementation requires for every axis a supplier for the stream, which will be used every time the first value of the stream is needed again.
+
+This implementation then only advances streams, and needs no state otherwise.
+
 .All combinations of 2 streams of positive integers.
 video::{docs}/positive-plane.mp4[width=600,opts=autoplay]
 
@@ -238,6 +242,8 @@ video::{docs}/positive-plane.mp4[width=600,opts=autoplay]
 video::{docs}/positive-3-plane.mp4[width=600,opts=autoplay]
 
 ==== Diagonals
+
+The 2 dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
 
 
 .All combinations of 2 streams of positive integers (diagonals)

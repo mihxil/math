@@ -26,6 +26,8 @@ class CartesianSpliteratorTest {
 
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(0L);
         testEnd(cartesianSpliterator);
+
+        assertThat(cartesianSpliterator.getElementClass()).isEqualTo(String.class);
     }
 
     /**
@@ -47,6 +49,19 @@ class CartesianSpliteratorTest {
         testEnd(cartesianSpliterator);
     }
 
+
+
+    @Test
+    public void twoWithEmpty() {
+        final List<String> values1 = Arrays.asList("a", "b", "c");
+        final List<String> values2 = Collections.emptyList();
+
+        CartesianSpliterator<String> cartesianSpliterator =
+            new CartesianSpliterator<>(values1::spliterator, values2::spliterator);
+
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(0L);
+        testEnd(cartesianSpliterator);
+    }
 
     @Test
     public void two() {
@@ -102,8 +117,11 @@ class CartesianSpliteratorTest {
             new CartesianSpliterator<>(values1::spliterator, values2::spliterator);
 
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(6L);
+        assertThat(cartesianSpliterator.getElementClass()).isEqualTo(Serializable.class);
+
 
         testAdvance(cartesianSpliterator, "a", 1);
+        assertThat(cartesianSpliterator.currentAsString()).isEqualTo("a̳, 1̲₀ (0)");
         testAdvance(cartesianSpliterator, "b", 1);
         testAdvance(cartesianSpliterator, "b", 2);
         testAdvance(cartesianSpliterator, "a", 2);

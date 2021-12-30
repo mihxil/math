@@ -1,6 +1,5 @@
 package org.meeuw.math.streams;
 
-import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.*;
@@ -127,19 +126,22 @@ public final class StreamUtils {
      *
      */
     @SuppressWarnings("unchecked")
-    public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<E>>... streams) {
+    public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<? extends E>>... streams) {
         return StreamSupport.stream(
             new CartesianSpliterator<>(
-                Arrays.stream(streams).map(s -> (Supplier<Spliterator<E>>) () -> s.get().spliterator())
+                Arrays.stream(streams)
+                    .map(StreamUtils::spliterator)
                     .toArray(Supplier[]::new)
         ), false);
     }
 
     @NonNull
-    public static <E> Stream<E[]> cartesianStream(@NonNull final Supplier<Stream<E>> stream, int count) {
-        Supplier<Stream<E>>[] args = (Supplier<Stream<E>>[]) Array.newInstance(Supplier.class, count);
-        Arrays.fill(args, stream);
-        return cartesianStream(args);
+    public static <E> Stream<E[]> cartesianStream(@NonNull final Supplier<Stream<? extends E>> stream, int count) {
+        return StreamSupport.stream(new CartesianSpliterator<E>(spliterator(stream), count), false);
+    }
+
+    private static <E> Supplier<Spliterator<? extends E>> spliterator(Supplier<Stream<? extends E>> stream) {
+        return () -> stream.get().spliterator();
     }
 
 

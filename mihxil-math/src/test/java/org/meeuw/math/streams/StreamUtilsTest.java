@@ -217,9 +217,14 @@ class StreamUtilsTest {
         );
 
     }
+
+    @SuppressWarnings("unchecked")
     @Test
     public  void cartesianStream() {
-        Stream<Integer[]> cartesianStream = StreamUtils.cartesianStream(() -> Stream.iterate(0, i -> i + 1), 2);
+        Stream<Number[]> cartesianStream = StreamUtils.cartesianStream(
+            () -> Stream.iterate(0, i -> i + 1),
+            () -> Stream.iterate(1d, d -> d * 2)
+        );
 
         cartesianStream.limit(20).forEach(ia -> {
             log.info(Arrays.asList(ia));
