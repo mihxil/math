@@ -15,6 +15,8 @@ Michiel Meeuwissen
 :ght: {ghblob}mihxil-math-theories/src/main/java/org/meeuw/math/
 :gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
 :docs: {ghraw}docs
+:videooptions: width=400,opts=autoplay,loop,nocontrols
+
 
 
 image:{gh}actions/workflows/maven.yml/badge.svg?[Build Status,link={gh}actions/workflows/maven.yml]
@@ -236,10 +238,10 @@ The most generic implementation requires for every axis a supplier for the strea
 This implementation then only advances streams, and needs no state otherwise.
 
 .All combinations of 2 streams of positive integers.
-video::{docs}/positive-plane.mp4[width=600,opts=autoplay]
+video::{docs}/positive-plane.mp4[{videooptions}]
 
 .All combinations of 3 streams of positive integers.
-video::{docs}/positive-3-plane.mp4[width=600,opts=autoplay]
+video::{docs}/positive-3-plane.mp4[{videooptions}]
 
 ==== Diagonals
 
@@ -247,7 +249,7 @@ The 2 dimensional plane of integers traditionally can be filled by tracking _dia
 
 
 .All combinations of 2 streams of positive integers (diagonals)
-video::{docs}/diagonals-positive-plane.mp4[width=600,opts=autoplay]
+video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
 == statistics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
