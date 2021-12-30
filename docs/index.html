@@ -39,9 +39,11 @@
 <li><a href="#_unicode">1.2.1. unicode</a></li>
 </ul>
 </li>
-<li><a href="#_stream_utilities">1.3. stream utilities</a>
+<li><a href="#_utilities">1.3. Utilities</a>
 <ul class="sectlevel3">
-<li><a href="#_cartesian_product">1.3.1. cartesian product</a></li>
+<li><a href="#_cartesian_product_of_streams">1.3.1. Cartesian product of streams</a></li>
+<li><a href="#_generic">1.3.2. Generic</a></li>
+<li><a href="#_diagonals">1.3.3. Diagonals</a></li>
 </ul>
 </li>
 </ul>
@@ -508,12 +510,47 @@ FormatService.resetToDefaults();</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_stream_utilities">1.3. stream utilities</h3>
+<h3 id="_utilities">1.3. Utilities</h3>
+<div class="paragraph">
+<p>To implement several aspects of the groups there are provided some utility class. We describe here a few which might be of particular interest.</p>
+</div>
 <div class="sect3">
-<h4 id="_cartesian_product">1.3.1. cartesian product</h4>
+<h4 id="_cartesian_product_of_streams">1.3.1. Cartesian product of streams</h4>
+<div class="paragraph">
+<p>All countable, <code>Streamable</code> algebras need to implement a stream providing <em>all</em> elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.</p>
+</div>
+<div class="paragraph">
+<p>For finite streams this is more or less trivial. For <em>infinite</em> streams this is a bit more interesting.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_generic">1.3.2. Generic</h4>
+<div class="paragraph">
+<p><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/streams/StreamUtils.java"><code>StreamUtils</code></a> provides several utilities related to streams.</p>
+</div>
 <div class="videoblock">
+<div class="title">All combinations of 2 streams of positive integers.</div>
 <div class="content">
-<video src="./cartesian.mp4" width="600" autoplay controls>
+<video src="./positive-plane.mp4" width="600" autoplay controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+<div class="videoblock">
+<div class="title">All combinations of 3 streams of positive integers.</div>
+<div class="content">
+<video src="./positive-3-plane.mp4" width="600" autoplay controls>
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_diagonals">1.3.3. Diagonals</h4>
+<div class="videoblock">
+<div class="title">All combinations of 2 streams of positive integers (diagonals)</div>
+<div class="content">
+<video src="./diagonals-positive-plane.mp4" width="600" autoplay controls>
 Your browser does not support the video tag.
 </video>
 </div>
