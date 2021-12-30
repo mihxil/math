@@ -45,7 +45,7 @@ public final class StreamUtils {
 
     /**
      * Contains the logic to combine two streams.
-     * They are found by tracing diagonals in the plain spanned by the two stream.
+     * They are found by tracing diagonals in the plane spanned by the two streams.
      *
      * @param stream1 A function to create new stream, which returns all values from the nth value down to the first
      * @param stream2 A supplier to create a new stream
