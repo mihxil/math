@@ -26,7 +26,11 @@ jobs:
           distribution: 'temurin'
       - name: Build with Maven
         run: mvn -B -fae
-      - uses: codecov/codecov-action@v2
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: test-results/**/*.xml
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always() && ${{ github.event_name == 'push' }}
