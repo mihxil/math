@@ -149,9 +149,14 @@ Default methods then test whether all theoretical possibilities and limitations 
 
 When a value has uncertainty, then `equals` also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
 
+This is abstracted using a `ConfidenceInterval` concept.
+
+
 In this case the `hashCode` must be a fixed value, because otherwise we can't guarantee that equal values have equal hashCode.
 
-So it's a bad idea to use uncertain values as hash keys.
+This implies that it's a bad idea to use uncertain values as hash keys.
+
+
 
 === Formatting
 
@@ -241,7 +246,7 @@ This implementation then only advances streams, and needs no state otherwise.
 video::{docs}/positive-plane.mp4[{videooptions}]
 
 .All combinations of 3 streams of positive integers.
-video::{docs}/positive-3-plane.mp4[{videooptions}]
+video::C0uaFTHoMVQ[youtube,{videooptions}]
 
 ==== Diagonals
 
