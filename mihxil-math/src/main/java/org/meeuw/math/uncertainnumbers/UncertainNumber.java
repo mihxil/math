@@ -87,8 +87,6 @@ public interface UncertainNumber<N extends Number> {
         return new ImmutableUncertainNumber<>(value, uncertainty);
     }
 
-
-
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
         N newValue = operations().multiply(getValue(), multiplier.getValue());
         return new ImmutableUncertainNumber<>(

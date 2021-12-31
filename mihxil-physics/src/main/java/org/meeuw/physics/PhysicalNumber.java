@@ -202,7 +202,11 @@ public abstract class PhysicalNumber extends Number
         if (this == o) return true;
         if (!(o instanceof PhysicalNumber)) return false;
         PhysicalNumber of = (PhysicalNumber) o;
-        return wrapped.equals(of.wrapped, 1) && units.equals(of.units);
+        if (! units.getDimensions().equals(of.units.getDimensions())) {
+            return  false;
+        }
+        PhysicalNumber sameUnits = of.toUnits(units);
+        return wrapped.equals(sameUnits.wrapped, 1);
     }
 
     @Override

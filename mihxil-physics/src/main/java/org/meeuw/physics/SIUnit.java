@@ -14,7 +14,16 @@ import static org.meeuw.physics.Dimension.*;
 public enum SIUnit implements BaseUnit {
 
     m(L, "meter"),
-    kg(M, "kilogram"),
+    kg(M, "kilogram") {
+        @Override
+        public Units withPrefix(Prefix prefix) {
+            if (prefix == SI.DecimalPrefix.k) {
+                return this;
+            } else {
+                return SI.g.withPrefix(prefix);
+            }
+        }
+    },
     s(T, "second"),
     A(I, "ampere"),
     K(TH, "kelvin"),

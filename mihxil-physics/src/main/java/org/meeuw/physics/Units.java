@@ -43,6 +43,10 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
 
     UncertainReal getSIFactor();
 
+    default Units withPrefix(Prefix prefix) {
+        return new PrefixedUnits(this, prefix);
+    }
+
     default UncertainReal conversionFactor(Units units) {
         if (! Units.dimensionEquals(this, units)) {
             throw new DimensionsMismatchException("" + this + " cannot be converted to " + units);

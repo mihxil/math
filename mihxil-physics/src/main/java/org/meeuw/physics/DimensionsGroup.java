@@ -31,8 +31,9 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnaly
 
     @Override
     public Stream<DimensionalAnalysis> stream() {
-        return StreamUtils.allIntArrayStream(Dimension.values().length).map(
-            DimensionalAnalysis::new
-        );
+        return StreamUtils.allIntArrayStream(Dimension.values().length)
+            .map(
+                DimensionalAnalysis::new
+            );
     }
 }

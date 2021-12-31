@@ -22,10 +22,6 @@ public class DerivedUnit implements Unit {
 
     @Getter
     @With
-    final Prefix prefix;
-
-    @Getter
-    @With
     final String name;
 
     @Getter
@@ -37,17 +33,19 @@ public class DerivedUnit implements Unit {
         String name,
         String description,
         UnitExponent... siExponents) {
-        this(SIFactor, null, null, name, description, Arrays.asList(siExponents));
+        this(SIFactor, null, name, description, Arrays.asList(siExponents));
     }
 
 
+    /**
+     * Used by {@link With}ers. Not unused as reported by Intellij.
+     */
     private DerivedUnit(
         UncertainReal SIFactor,
         int[] exponents,
-        Prefix prefix,
         String name,
         String description) {
-        this(SIFactor, exponents, prefix, name, description, null);
+        this(SIFactor, exponents, name, description, null);
     }
 
 
@@ -55,7 +53,6 @@ public class DerivedUnit implements Unit {
     private DerivedUnit(
         UncertainReal siFactor,
         int[] exponents,
-        Prefix prefix,
         String name,
         String description,
         List<UnitExponent> siExponents
@@ -75,7 +72,6 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = siFactor;
-        this.prefix = prefix == null ? SI.DecimalPrefix.none : prefix;
     }
 
 
@@ -85,8 +81,8 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = units.getSIFactor();
-        this.prefix = SI.DecimalPrefix.none;
     }
+
 
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, DerivedUnit derivedUnit) {
@@ -95,7 +91,6 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = derivedUnit.SIFactor.times(siFactor);
-        this.prefix = derivedUnit.prefix();
     }
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, SIUnit siUnit) {
@@ -103,7 +98,6 @@ public class DerivedUnit implements Unit {
         this.exponents[siUnit.ordinal()] = 1;
         this.name = name;
         this.description = description;
-        this.prefix = SI.DecimalPrefix.none;
         this.SIFactor = siFactor;
     }
 
@@ -113,7 +107,6 @@ public class DerivedUnit implements Unit {
         this.name = unit.name;
         this.description = prefix.toString() + "(" + unit.description + ")";
         this.SIFactor = unit.SIFactor.times(prefix.getAsDouble());
-        this.prefix = prefix;
     }
 
     public DerivedUnit(Prefix prefix, SIUnit unit) {
@@ -134,11 +127,6 @@ public class DerivedUnit implements Unit {
         return name;
     }
 
-    //@Override
-    public Prefix prefix() {
-        return prefix;
-    }
-
     public PhysicalConstant toSI() {
         return new PhysicalConstant(name, SIFactor,
             SIUnit.toUnits(exponents),description);
@@ -146,7 +134,7 @@ public class DerivedUnit implements Unit {
 
     @Override
     public String toString() {
-        return prefix() + name();
+        return name();
     }
 
     @Override
@@ -175,24 +163,19 @@ public class DerivedUnit implements Unit {
         for (int i = 0; i < this.exponents.length; i++) {
             exponents[i] = -1 * this.exponents[i];
         }
-        Prefix p = prefix.reciprocal().orElse(null);
         UncertainReal reciprocalFactor = SIFactor.reciprocal();
-        if (p == null) {
-            reciprocalFactor = reciprocalFactor.dividedBy(prefix.getAsDouble());
-        }
         if (Arrays.stream(exponents).allMatch(i -> i == 0) && reciprocalFactor.isOne()) {
             return DerivedUnit.DIMENSIONLESS;
         }
         return DerivedUnit.builder()
             .siFactor(reciprocalFactor)
-            .prefix(p)
             .name("(" + name + ")" + TextUtils.superscript(-1))
             .exponents(exponents)
             .build();
     }
 
 
-    @SuppressWarnings("EqualsDoesntCheckParameterClass")
+    @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return Units.equals(this, o);

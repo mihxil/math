@@ -237,6 +237,9 @@ public class SI implements SystemOfMeasurements {
 
     public static final DerivedUnit N =
         new DerivedUnit("N", "Newton", of(kg, 1), of(m, 1), of(s, -2));
+
+    public static final DerivedUnit g =
+        new DerivedUnit(exactly(0.001), "g", "gram", of(kg, 1));
     public static final DerivedUnit Hz =
         new DerivedUnit("Hz", "Hertz", of(s, -1));
     public static final DerivedUnit Pa =

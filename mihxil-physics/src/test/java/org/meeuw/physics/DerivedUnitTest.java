@@ -34,7 +34,7 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
     @Test
     public void kmph() {
-        Units km =  new DerivedUnit(SI.DecimalPrefix.k, SIUnit.m);
+        DerivedUnit km =  new DerivedUnit(SI.DecimalPrefix.k, SIUnit.m);
         assertThat(km.toString()).isEqualTo("km");
 
         DerivedUnit kmph = ((DerivedUnit) km.dividedBy(SI.hour)).withName("km/h");

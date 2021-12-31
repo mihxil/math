@@ -32,7 +32,6 @@ public class UnitsImpl implements Units  {
         this.SIFactor = siFactor;
     }
 
-
     /**
      * SI Units for given analysis
      */
@@ -42,7 +41,6 @@ public class UnitsImpl implements Units  {
             .map(de -> de.toUnitExponent(SI.INSTANCE))
             .toArray(UnitExponent[]::new));
     }
-
 
 
     @Override
@@ -57,7 +55,7 @@ public class UnitsImpl implements Units  {
 
     @Override
     public Units times(Units multiplier) {
-        List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
+        final List<UnitExponent> base = new ArrayList<>(Arrays.asList(exponents));
         OUTER:
         for (UnitExponent u : multiplier) {
             for (int i = 0 ; i < base.size(); i++) {
@@ -116,7 +114,7 @@ public class UnitsImpl implements Units  {
         return copy;
     }
 
-    @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
+    @SuppressWarnings({"com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return Units.equals(this, o);

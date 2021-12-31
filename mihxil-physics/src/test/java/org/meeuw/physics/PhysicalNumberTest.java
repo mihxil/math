@@ -10,6 +10,10 @@ import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
+import static org.meeuw.physics.SI.DecimalPrefix.none;
+import static org.meeuw.physics.SIUnit.kg;
+import static org.meeuw.physics.SIUnit.m;
 
 
 /**
@@ -45,16 +49,49 @@ class PhysicalNumberTest implements
     }
 
     @Test
-    public void setPrefix() {
-        Units km = Units.of(SIUnit.m);
+    public void prefix() {
+        Units km = Units.of(m).withPrefix(k);
+
+        Measurement measurementInKm = new Measurement(1, 0.1, km);
+
+        assertThat(measurementInKm.toString()).isEqualTo("1.00 ± 0.10 km");
+
+        Measurement measurementInM = new Measurement(1010, 100, m);
+
+        log.info("{} =? {}", measurementInM, measurementInKm);
+
+        assertThat(measurementInM.equals(measurementInKm)).isTrue();
+
+    }
+
+    @Test
+    public void kilogramPrefix() {
+
+        Measurement measurementInKg = new Measurement(1, 0.1, kg);
+
+        assertThat(measurementInKg.toString()).isEqualTo("1.00 ± 0.10 kg");
+
+        Units g = kg.withPrefix(none);
+        Measurement measurementInG = new Measurement(1010, 100, g);
+
+        log.info("{} =? {}", measurementInKg, measurementInG);
+
+        assertThat(measurementInKg.equals(measurementInG)).isTrue();
 
     }
 
     @Test
     public void lt() {
         PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
-        PhysicalNumber three_km = new Measurement(3, 0.1, SIUnit.m);
+        PhysicalNumber three_km = new Measurement(3, 0.1, m);
         assertThat(three_km.lt(two_lightyear)).isTrue();
+    }
+
+    @Test
+    public void equals() {
+        PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
+        PhysicalNumber inm = new Measurement(3, 0.1, m);
+
     }
 
     /**
