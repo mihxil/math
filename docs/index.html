@@ -25,11 +25,7 @@
 <ul class="sectlevel3">
 <li><a href="#_algebraic_structure">1.1.1. Algebraic structure</a></li>
 <li><a href="#_numbers">1.1.2. Numbers</a></li>
-<li><a href="#_numbers_and_propagation_of_uncertainties">1.1.3. Numbers and propagation of uncertainties</a>
-<ul class="sectlevel4">
-<li><a href="#_zero">Zero</a></li>
-</ul>
-</li>
+<li><a href="#_numbers_and_propagation_of_uncertainties">1.1.3. Numbers and propagation of uncertainties</a></li>
 <li><a href="#_testing">1.1.4. Testing</a></li>
 <li><a href="#_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</a></li>
 </ul>
@@ -42,8 +38,6 @@
 <li><a href="#_utilities">1.3. Utilities</a>
 <ul class="sectlevel3">
 <li><a href="#_cartesian_product_of_streams">1.3.1. Cartesian product of streams</a></li>
-<li><a href="#_generic">1.3.2. Generic</a></li>
-<li><a href="#_diagonals">1.3.3. Diagonals</a></li>
 </ul>
 </li>
 </ul>
@@ -64,11 +58,7 @@
 <li><a href="#_modulo_groups">4.1.8. Modulo groups</a></li>
 <li><a href="#_complex_numbers">4.1.9. Complex numbers</a></li>
 <li><a href="#_quaternions">4.1.10. Quaternions</a></li>
-<li><a href="#_matrix_and_rotation_groups">4.1.11. Matrix and rotation groups</a>
-<ul class="sectlevel4">
-<li><a href="#_so3">SO(3)</a></li>
-</ul>
-</li>
+<li><a href="#_matrix_and_rotation_groups">4.1.11. Matrix and rotation groups</a></li>
 <li><a href="#_strings">4.1.12. Strings</a></li>
 <li><a href="#_vector_spaces">4.1.13. Vector spaces</a></li>
 </ul>
@@ -525,9 +515,8 @@ FormatService.resetToDefaults();</code></pre>
 <div class="paragraph">
 <p>For finite streams this is more or less trivial. For <em>infinite</em> streams this is a bit more interesting.</p>
 </div>
-</div>
-<div class="sect3">
-<h4 id="_generic">1.3.2. Generic</h4>
+<div class="sect4">
+<h5 id="_generic">Generic</h5>
 <div class="paragraph">
 <p><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/streams/StreamUtils.java"><code>StreamUtils</code></a> provides several utilities related to streams.</p>
 </div>
@@ -552,8 +541,8 @@ Your browser does not support the video tag.
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_diagonals">1.3.3. Diagonals</h4>
+<div class="sect4">
+<h5 id="_diagonals">Diagonals</h5>
 <div class="paragraph">
 <p>The 2 dimensional plane of integers traditionally can be filled by tracking <em>diagonals</em>.  <code>StreamUtils</code> provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.</p>
 </div>
@@ -563,6 +552,7 @@ Your browser does not support the video tag.
 <video src="./diagonals-positive-plane.mp4" width="400" height="loop" autoplay controls>
 Your browser does not support the video tag.
 </video>
+</div>
 </div>
 </div>
 </div>
