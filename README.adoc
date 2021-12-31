@@ -3,7 +3,7 @@ Michiel Meeuwissen
 :book:
 :sectnums:
 :toc: left
-:toclevels: 4
+:toclevels: 3
 :stem:
 :nofooter:
 :source-highlighter: coderay
@@ -233,7 +233,7 @@ All countable, `Streamable` algebras need to implement a stream providing _all_ 
 
 For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
 
-==== Generic
+===== Generic
 
 link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
 
@@ -248,7 +248,7 @@ video::{docs}/positive-plane.mp4[{videooptions}]
 .All combinations of 3 streams of positive integers.
 video::C0uaFTHoMVQ[youtube,{videooptions}]
 
-==== Diagonals
+===== Diagonals
 
 The 2 dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
 
