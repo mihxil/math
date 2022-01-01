@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
 
 /**
  * @author Michiel Meeuwissen
@@ -34,11 +35,11 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
     @Test
     public void kmph() {
-        DerivedUnit km =  new DerivedUnit(SI.DecimalPrefix.k, SIUnit.m);
+        Units km =   SIUnit.m.withPrefix(k);
         assertThat(km.toString()).isEqualTo("km");
 
-        DerivedUnit kmph = ((DerivedUnit) km.dividedBy(SI.hour)).withName("km/h");
-        //assertThat(kmph.toString()).isEqualTo("km/h");
+        Units kmph = km.dividedBy(SI.hour).withName("km/h");
+        assertThat(kmph.toString()).isEqualTo("km/h");
         assertThat(kmph.getDimensions()).isEqualTo(DimensionalAnalysis.SPEED);
 
         PhysicalNumber n = new Measurement(10d, 1d, kmph);

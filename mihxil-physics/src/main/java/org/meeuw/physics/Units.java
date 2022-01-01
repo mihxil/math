@@ -47,6 +47,10 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         return new PrefixedUnits(this, prefix);
     }
 
+    default Units withName(String name) {
+        return new DerivedUnit(this, name, null);
+    }
+
     default UncertainReal conversionFactor(Units units) {
         if (! Units.dimensionEquals(this, units)) {
             throw new DimensionsMismatchException("" + this + " cannot be converted to " + units);

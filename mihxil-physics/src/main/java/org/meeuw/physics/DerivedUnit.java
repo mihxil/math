@@ -101,18 +101,6 @@ public class DerivedUnit implements Unit {
         this.SIFactor = siFactor;
     }
 
-    public DerivedUnit(Prefix prefix, DerivedUnit unit) {
-        this.exponents = new int[SIUnit.values().length];
-        System.arraycopy(unit.exponents, 0, this.exponents, 0, unit.exponents.length);
-        this.name = unit.name;
-        this.description = prefix.toString() + "(" + unit.description + ")";
-        this.SIFactor = unit.SIFactor.times(prefix.getAsDouble());
-    }
-
-    public DerivedUnit(Prefix prefix, SIUnit unit) {
-        this(prefix, new DerivedUnit(INSTANCE.one(), unit.name(), unit.getDescription(), new UnitExponent(unit, 1)));
-    }
-
     public DerivedUnit(String name, String description, UnitExponent... factors) {
         this(INSTANCE.one(), name, description,  factors);
     }
