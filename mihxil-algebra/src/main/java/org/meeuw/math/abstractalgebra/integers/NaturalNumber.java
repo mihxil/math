@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.Min;
 
-import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
@@ -17,7 +16,8 @@ import org.meeuw.math.numbers.Scalar;
 public class NaturalNumber  implements
     MultiplicativeMonoidElement<NaturalNumber>,
     AdditiveMonoidElement<NaturalNumber>,
-    Scalar<NaturalNumber>
+    Scalar<NaturalNumber>,
+    Ordered<NaturalNumber>
 {
     public static final NaturalNumber ZERO = of(0);
     public static final NaturalNumber ONE = of(1);

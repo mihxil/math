@@ -16,13 +16,13 @@ import org.meeuw.math.Utils;
 public enum ComparisonOperator implements AlgebraicComparisonOperator {
 
     EQUALS(getBinaryOperatorMethod(AlgebraicElement.class, "eq"), (a, b) -> a + "=" + b),
-    LT(getBinaryOperatorMethod(Ordered.class, "lt"), (a, b) -> a + "<" + b),
-    LTE(getBinaryOperatorMethod(Ordered.class, "lte"), (a, b) -> a + "<=" + b),
-    GT(getBinaryOperatorMethod(Ordered.class, "gt"), (a, b) -> a + ">" + b),
-    GTE(getBinaryOperatorMethod(Ordered.class, "gte"), (a, b) -> a + ">=" + b),
+    LT(getBinaryOperatorMethod(StrictlyOrdered.class, "lt"), (a, b) -> a + "<" + b),
+    LTE(getBinaryOperatorMethod(StrictlyOrdered.class, "lte"), (a, b) -> a + "<=" + b),
+    GT(getBinaryOperatorMethod(StrictlyOrdered.class, "gt"), (a, b) -> a + ">" + b),
+    GTE(getBinaryOperatorMethod(StrictlyOrdered.class, "gte"), (a, b) -> a + ">=" + b),
     ;
 
-    public static NavigableSet<ComparisonOperator> ALL = Utils.navigableSet(values());
+    public static final NavigableSet<ComparisonOperator> ALL = Utils.navigableSet(values());
 
     @Getter
     final Method method;

@@ -5,7 +5,7 @@ import org.meeuw.math.abstractalgebra.*;
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
- * The field of real numbers.
+ * The field of hyper real numbers.
  * @author Michiel Meeuwissen
  * @since 0.7
  */

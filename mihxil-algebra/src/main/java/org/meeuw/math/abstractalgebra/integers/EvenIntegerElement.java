@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -21,7 +22,8 @@ public class EvenIntegerElement
     implements
     SignedNumber,
     RngElement<EvenIntegerElement>,
-    Scalar<EvenIntegerElement> {
+    Scalar<EvenIntegerElement>,
+    Ordered<EvenIntegerElement> {
 
     public static final EvenIntegerElement ZERO = EvenIntegerElement.of(0);
 

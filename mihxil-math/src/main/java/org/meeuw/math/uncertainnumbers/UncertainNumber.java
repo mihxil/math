@@ -11,7 +11,7 @@ import org.meeuw.math.numbers.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainNumber<N extends Number> {
+public interface UncertainNumber<N extends Number> extends Uncertain {
 
     N getValue();
 

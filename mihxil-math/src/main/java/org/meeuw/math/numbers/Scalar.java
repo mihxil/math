@@ -2,7 +2,7 @@ package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.abstractalgebra.Ordered;
+import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
  * A scalar is the closest thing to a {@link Number} interface
@@ -12,7 +12,10 @@ import org.meeuw.math.abstractalgebra.Ordered;
  * @param <SELF> self reference
  */
 public interface Scalar<SELF extends Scalar<SELF>>
-    extends SignedNumber, Sizeable<SELF>, Ordered<SELF>
+    extends
+    SignedNumber,
+    Sizeable<SELF>,
+    StrictlyOrdered<SELF>
 {
 
     /**

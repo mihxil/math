@@ -4,7 +4,9 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.Ordered;
-import org.meeuw.util.test.ElementTheory;
+import org.meeuw.math.abstractalgebra.StrictlyOrdered;
+import org.meeuw.math.uncertainnumbers.Uncertain;
+import org.opentest4j.AssertionFailedError;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,16 +14,32 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface OrderedTheory<E extends Ordered<E>> extends ElementTheory<E> {
+public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrderedTheory<E> {
 
 
-    @Property
-    default void orderedReflexive(@ForAll(ELEMENTS) E e) {
-        assertThat(e.lte(e)).isTrue();
-    }
+
 
     @Property
     default void orderedTransitive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b, @ForAll(ELEMENTS) E c) {
+
+        if (a instanceof Ordered) {
+            assertThat(a).isNotInstanceOf(Uncertain.class);
+            orderedTransitiveImpl(a, b, c);
+        } else {
+            assertThat(a).isInstanceOf(Uncertain.class);
+            try {
+                orderedTransitiveImpl(a, b, c);
+            } catch (AssertionFailedError afe) {
+                getLogger().info(afe.getMessage());
+            }
+        }
+    }
+
+    default void orderedTransitiveImpl(E a, E b, E c) {
+
+
+
+
         if (a.lte(b)) {
             // a <= b
             if (b.lte(c)) {
@@ -42,15 +60,5 @@ public interface OrderedTheory<E extends Ordered<E>> extends ElementTheory<E> {
         }
     }
 
-    @Property
-    default void orderedAntisymmetric(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
-        if (a.lte(b) && b.lte(a)) {
-            assertThat(a.equals(b)).isTrue();
-        }
-    }
 
-    @Property
-    default void orderedStronglyConnected(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
-        assertThat(a.lte(b) || b.lte(a)).withFailMessage("%s <= %s = %s %s <= %s = %s, on of these must be true", a, b, a.lte(b), b, a,b.lte(a)).isTrue();
-    }
 }

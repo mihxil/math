@@ -7,6 +7,7 @@ import java.math.*;
 
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -18,7 +19,7 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.4
  */
 public class RationalNumber extends Number
-    implements ScalarFieldElement<RationalNumber>, SignedNumber {
+    implements ScalarFieldElement<RationalNumber>, SignedNumber, Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);

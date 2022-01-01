@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
+import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
@@ -20,7 +21,8 @@ public class OddIntegerElement
     implements
     SignedNumber,
     MultiplicativeMonoidElement<OddIntegerElement>,
-    Scalar<OddIntegerElement> {
+    Scalar<OddIntegerElement>,
+    Ordered<OddIntegerElement> {
 
     public static final OddIntegerElement ONE = OddIntegerElement.of(1);
 
