@@ -35,13 +35,9 @@ jobs:
       - name: Deploy with Maven
         run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
         if: ${{ github.event_name == 'push' }}
-      - name: push changes
-        # after
-        run: |
-          git config --global user.name 'github actions'
-          git config --global user.email 'github@meeuw.org'
-          git diff-index --quiet HEAD || git commit -m "Automated update of dot.m4" docs/algebras.dot.m4
-          echo pushing
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated update of dot.m4
+          file_pattern: docs/algebras.dot.m4
         if: ${{ github.event_name == 'push' }}
 
