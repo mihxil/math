@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.math.MathContext;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -11,6 +12,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(CompleteField.class)
 public class BigDecimalField
     extends AbstractAlgebraicStructure<BigDecimalElement>
     implements

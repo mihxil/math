@@ -7,6 +7,11 @@ on:
       - 'README.adoc'
       - '.github/workflows/publish-documentation.yml'
 
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - 'README.adoc'
+      - '.github/workflows/publish-documentation.yml'
 
 jobs:
   build:
@@ -22,6 +27,7 @@ jobs:
           distribution: 'temurin'
       - name: Build with Maven
         run: mvn -B -fae
+      - uses: codecov/codecov-action@v2
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.26
         if: always()
@@ -34,5 +40,4 @@ jobs:
         with:
           commit_message: Automated update of dot.m4
           file_pattern: docs/algebras.dot.m4
-        if: ${{ github.event_name == 'push' }}
 
