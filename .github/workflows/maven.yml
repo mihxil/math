@@ -23,17 +23,10 @@ jobs:
       - name: Build with Maven
         run: mvn -B -fae
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.25
+        uses: EnricoMi/publish-unit-test-result-action@v1.26
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
-          log_level: DEBUG
-          root_log_level: DEBUG
-      - name: Publish Test Report
-        uses: scacap/action-surefire-report@v1
-        if: always()
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy with Maven
         run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
         if: ${{ github.event_name == 'push' }}
