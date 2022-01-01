@@ -45,7 +45,6 @@ public interface VectorSpaceTheory<
     }
 
     @Property
-    @Disabled
     default void toString(@ForAll(ELEMENTS) V v1) {
         String toString = v1.toString();
         v1.forEach(e -> assertThat(toString).contains(e.toString()));

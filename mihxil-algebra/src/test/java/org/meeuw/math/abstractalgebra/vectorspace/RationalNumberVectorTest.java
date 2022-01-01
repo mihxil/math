@@ -48,8 +48,6 @@ class RationalNumberVectorTest implements
         assertThat(example.equals(of(1, 2, 3))).isTrue();
 
         assertThat(example.hashCode()).isEqualTo(of(1, 2, 3).hashCode());
-
-
     }
 
 

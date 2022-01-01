@@ -67,7 +67,7 @@ public class Vector3 implements
 
     @Override
     public String toString() {
-        return "(" + x + ", " + y + ", " + z + ")";
+        return "(" + get(0) + ", " + get(1) + ", " + get(2) + ")";
     }
 
 
