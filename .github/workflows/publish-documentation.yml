@@ -19,9 +19,9 @@ jobs:
           apk add graphviz m4
           make clean index.html
         name: Create html from adoc
-      - name: push changes
-        run: |
-          git config --global user.name 'github actions'
-          git config --global user.email 'github@meeuw.org'
-          git diff-index --quiet HEAD || git commit -am "Automated update of documentation https://mihxil.github.io/math/"
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated update of documentation https://mihxil.github.io/math/"
+          file_pattern: docs/**
+          if: ${{ github.event_name == 'push' }}
+
