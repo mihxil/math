@@ -136,7 +136,7 @@ ScalarField -> {Field}
 # interface org.meeuw.math.abstractalgebra.CompleteField
 CompleteField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/CompleteField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|RealField}"
+		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField\nRealField}"
 ]
 CompleteField -> {ScalarField}
 }
