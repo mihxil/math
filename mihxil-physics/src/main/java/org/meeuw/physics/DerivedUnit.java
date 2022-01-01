@@ -85,12 +85,12 @@ public class DerivedUnit implements Unit {
 
 
 
-    public DerivedUnit(String name, String description, UncertainReal siFactor, DerivedUnit derivedUnit) {
+    public DerivedUnit(String name, String description, UncertainReal siFactor, Units derivedUnit) {
         this.exponents = new int[SIUnit.values().length];
-        System.arraycopy(derivedUnit.exponents, 0, this.exponents, 0, this.exponents.length);
+        System.arraycopy(derivedUnit.getDimensions().exponents, 0, this.exponents, 0, this.exponents.length);
         this.name = name;
         this.description = description;
-        this.SIFactor = derivedUnit.SIFactor.times(siFactor);
+        this.SIFactor = derivedUnit.getSIFactor().times(siFactor);
     }
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, SIUnit siUnit) {

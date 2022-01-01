@@ -8,11 +8,12 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
- * In US, you may
+ * In US
  */
 public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
 
-    public static UnitedStatesCustomaryUnits INSTANCE = new UnitedStatesCustomaryUnits();
+    public static final UnitedStatesCustomaryUnits INSTANCE = new UnitedStatesCustomaryUnits();
+
     @Override
     public @NonNull Unit forDimension(Dimension dimension) {
         switch(dimension) {
@@ -51,12 +52,20 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
 
         @Override
         public Units reciprocal() {
-            return null;
+            return DerivedUnit.builder()
+                .name("/" + this)
+                .exponents(getDimensions().reciprocal().getExponents())
+                .siFactor(SIFactor.reciprocal())
+                .build();
         }
 
         @Override
         public Units times(Units multiplier) {
-            return null;
+            return DerivedUnit.builder()
+                .name(this + multiplier.toString())
+                .exponents(getDimensions().times(multiplier.getDimensions()).getExponents())
+                .siFactor(SIFactor.times(multiplier.getSIFactor()))
+                .build();
         }
 
         @Override
@@ -65,5 +74,13 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
         }
     }
 
+    public static final DerivedUnit in =
+        new DerivedUnit("in", "inch", exactly(1/36d), US.yd);
+
+     public static final DerivedUnit ft =
+        new DerivedUnit("ft", "feet", exactly(1/3d), US.yd);
+
+    public static final DerivedUnit mi =
+        new DerivedUnit("mi", "miles", exactly(1760d), US.yd);
 
 }
