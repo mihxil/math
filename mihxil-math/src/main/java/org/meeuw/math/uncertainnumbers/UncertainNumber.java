@@ -17,6 +17,11 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     N getUncertainty();
 
+    @Override
+    default boolean isExact() {
+        return getUncertainty().doubleValue() == 0;
+    }
+
     default N getFractionalUncertainty() {
         return operations().getFractionalUncertainty(getValue(), getUncertainty());
     }

@@ -8,4 +8,7 @@ package org.meeuw.math.uncertainnumbers;
  * @since 0.7
  */
 public interface Uncertain {
+
+    boolean isExact();
+
 }

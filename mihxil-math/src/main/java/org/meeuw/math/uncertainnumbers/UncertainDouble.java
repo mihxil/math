@@ -29,6 +29,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         return operations().getFractionalUncertainty(getValue(), getUncertainty());
     }
 
+    @Override
     default boolean isExact() {
         return getUncertainty() == EXACT;
     }
