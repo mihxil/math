@@ -23,10 +23,12 @@ jobs:
       - name: Build with Maven
         run: mvn -B -fae
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: EnricoMi/publish-unit-test-result-action@v1.25
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
+          log_level: DEBUG
+          root_log_level: DEBUG
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
         if: always()
