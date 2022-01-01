@@ -17,7 +17,7 @@ jobs:
       - run: |
           cd docs
           apk add graphviz m4
-          make clean all
+          make clean index.html
         name: Create html from adoc
       - name: push changes
         run: |

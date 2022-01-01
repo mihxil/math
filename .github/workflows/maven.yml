@@ -6,11 +6,7 @@ on:
     paths-ignore:
       - 'README.adoc'
       - '.github/workflows/publish-documentation.yml'
-  pull_request:
-    branches: [main]
-    paths-ignore:
-      - 'README.adoc'
-      - '.github/workflows/publish-documentation.yml'
+
 
 jobs:
   build:
@@ -33,7 +29,7 @@ jobs:
           files: "**/target/surefire-reports/*.xml"
       - name: Publish Test Report
         uses: scacap/action-surefire-report@v1
-        if: always() && ${{ github.event_name == 'push' }}
+        if: always()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy with Maven
