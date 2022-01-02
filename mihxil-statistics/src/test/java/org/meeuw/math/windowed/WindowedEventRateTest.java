@@ -9,16 +9,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.Interval;
 import org.meeuw.math.TestClock;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.windowed.Windowed;
-import org.meeuw.math.windowed.WindowedEventRate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
+import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
-import static org.meeuw.math.text.spi.FormatService.with;
 
 /**
  * @author Michiel Meeuwissen

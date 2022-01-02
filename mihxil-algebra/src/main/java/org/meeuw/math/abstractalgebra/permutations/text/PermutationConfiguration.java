@@ -3,6 +3,9 @@ package org.meeuw.math.abstractalgebra.permutations.text;
 import lombok.Getter;
 import lombok.With;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.meeuw.configuration.ConfigurationAspect;
 
 /**
@@ -28,5 +31,10 @@ public class PermutationConfiguration implements ConfigurationAspect {
     private PermutationConfiguration(Notation notation, Offset offset) {
         this.notation = notation;
         this.offset = offset;
+    }
+
+    @Override
+    public List<Class<?>> associatedWith() {
+        return Collections.singletonList(PermutationFormatProvider.class);
     }
 }

@@ -138,6 +138,7 @@ public class DimensionalAnalysis
         return FormatService.toString(this);
     }
 
+    @Override
     @NonNull
     public Stream<DimensionExponent> stream() {
         return IntStream

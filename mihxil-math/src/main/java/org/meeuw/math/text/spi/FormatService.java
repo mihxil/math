@@ -5,11 +5,12 @@ import lombok.extern.java.Log;
 import java.text.Format;
 import java.text.ParseException;
 import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.meeuw.configuration.Configuration;
-import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 import static org.meeuw.configuration.ConfigurationService.getConfiguration;
@@ -94,9 +95,21 @@ public final class FormatService {
     /**
      * @deprecated
      */
+    @Deprecated
     public static void setConfiguration(Configuration build) {
         ConfigurationService.setConfiguration(build);
     }
+    @Deprecated
+    public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
+        ConfigurationService.with(configurationAspect, aspect, r);
+    }
+
+    @Deprecated
+    public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
+        ConfigurationService.with(configuration, r);
+    }
+
+
 }
 
 

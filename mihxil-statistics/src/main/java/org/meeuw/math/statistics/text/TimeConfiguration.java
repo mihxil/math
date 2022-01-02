@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.With;
 
 import java.time.ZoneId;
+import java.util.Collections;
+import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
 
@@ -31,4 +33,8 @@ public class TimeConfiguration implements ConfigurationAspect {
         this(ZoneId.systemDefault());
     }
 
+    @Override
+    public List<Class<?>> associatedWith() {
+        return Collections.singletonList(StatisticalLongNumberFormat.class);
+    }
 }

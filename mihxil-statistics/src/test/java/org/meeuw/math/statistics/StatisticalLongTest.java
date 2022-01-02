@@ -1,21 +1,21 @@
 package org.meeuw.math.statistics;
 
-import net.jqwik.api.*;
-
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.statistics.text.TimeConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.meeuw.math.text.spi.FormatService.with;
+import static org.meeuw.configuration.ConfigurationService.with;
 
 /**
  * @author Michiel Meeuwissen

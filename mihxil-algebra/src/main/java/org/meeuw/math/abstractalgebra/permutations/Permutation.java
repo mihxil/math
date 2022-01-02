@@ -11,7 +11,8 @@ import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.spi.FormatService;
 
-import static org.meeuw.math.text.spi.FormatService.getConfigurationAspect;
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
+
 
 /**
  * @author Michiel Meeuwissen

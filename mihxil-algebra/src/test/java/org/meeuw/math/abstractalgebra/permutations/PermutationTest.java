@@ -1,22 +1,23 @@
 package org.meeuw.math.abstractalgebra.permutations;
 
 import lombok.extern.log4j.Log4j2;
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.abstractalgebra.permutations.text.Notation.LIST;
 import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
-import static org.meeuw.math.text.spi.FormatService.with;
 
 /**
  * @author Michiel Meeuwissen

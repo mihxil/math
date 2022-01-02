@@ -13,11 +13,11 @@ import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
@@ -45,7 +45,7 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
         @ForAll("bigdecimals") final BigDecimal r2,
         @ForAll Operator operator) {
 
-        FormatService.with(
+        with(
             (configurationBuilder) -> configurationBuilder.aspect(UncertaintyConfiguration.class, (nc) -> nc.withConsiderRoundingErrorFactor(0)), () -> {
                 BigDecimal big2 = r2;
                 if (operator == Operator.POWER) {
