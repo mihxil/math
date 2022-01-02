@@ -3,8 +3,11 @@ package org.meeuw.math.text.spi;
 import java.text.Format;
 import java.util.List;
 
-import org.meeuw.configuration.*;
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+
+import static org.meeuw.configuration.ConfigurationService.getConfiguration;
 
 /**
  * @author Michiel Meeuwissen
@@ -21,7 +24,7 @@ public abstract class AlgebraicElementFormatProvider {
         StringBuilder build = new StringBuilder();
         build.append(getClass().getSimpleName());
         List<ConfigurationAspect> configurationAspects =
-            ConfigurationService.getConfiguration().getConfigurationAspectsAssociatedWith(this.getClass());
+            getConfiguration().getConfigurationAspectsAssociatedWith(this.getClass());
         if (! configurationAspects.isEmpty()) {
             build.append(" ").append(configurationAspects);
         }

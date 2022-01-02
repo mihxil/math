@@ -20,11 +20,10 @@ import static org.meeuw.math.text.spi.FormatService.getProviders;
 @Isolated
 class FormatServiceTest {
 
-    @BeforeAll
-    public static void restoreDefaults() {
+    @BeforeEach
+    public void restoreDefaults() {
         ConfigurationService.resetToDefaultDefaults();
         ConfigurationService.resetToDefaults();
-
     }
 
     @Test
@@ -66,8 +65,15 @@ class FormatServiceTest {
         );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
-        defaultConfiguration((con) -> con.aspect(NumberConfiguration.class, c -> c.withMinimalExponent(5)));
+        defaultConfiguration((con) -> con.aspect(NumberConfiguration.class,
+            c -> c.withMinimalExponent(5))
+        );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(5);
+
+        ConfigurationService.resetToDefaultDefaults();
+
+        assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
+
 
         with((con) -> con
                 .aspect(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))

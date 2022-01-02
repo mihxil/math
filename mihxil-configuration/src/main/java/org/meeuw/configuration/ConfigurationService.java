@@ -36,7 +36,7 @@ public class ConfigurationService {
     }
 
     /**
-     * @return the current configuration object
+     * @return the current (thread local) configuration object
      */
     public  static Configuration getConfiguration() {
         return CONFIGURATION.get();
