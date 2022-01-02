@@ -82,21 +82,20 @@ class StreamUtilsTest {
 
     @Test
     public void spliterator3() {
-        ConfigurationService.with(StreamUtils.ConfigurationAspect.class, ca -> ca.withMaxThreads(5), () -> {
-            BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
-            BigIntegerSpliterator negatives = i.trySplit();
-            BigIntegerSpliterator negativeEvens = negatives.trySplit();
-            BigIntegerSpliterator odds = i.trySplit();
+        ConfigurationService.with(StreamUtils.Configuration.class,
+            ca -> ca.withMaxThreads(5), () -> {
+                BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
+                BigIntegerSpliterator negatives = i.trySplit();
+                BigIntegerSpliterator negativeEvens = negatives.trySplit();
+                BigIntegerSpliterator odds = i.trySplit();
 
 
-            Spliterator<BigInteger> four = i.trySplit();
-            assertThat(StreamSupport.stream(four, false).limit(10).map(BigInteger::intValue)).containsExactly(2, 6, 10, 14, 18, 22, 26, 30, 34, 38);
+                Spliterator<BigInteger> four = i.trySplit();
+                assertThat(StreamSupport.stream(four, false).limit(10).map(BigInteger::intValue)).containsExactly(2, 6, 10, 14, 18, 22, 26, 30, 34, 38);
 
-            assertThat(StreamSupport.stream(i, false).limit(10).map(BigInteger::intValue)).containsExactly(0, 4, 8, 12, 16, 20, 24, 28, 32, 36);
-
-
-        });
-
+                assertThat(StreamSupport.stream(i, false).limit(10).map(BigInteger::intValue)).containsExactly(0, 4, 8, 12, 16, 20, 24, 28, 32, 36);
+            }
+        );
     }
 
     @Test
@@ -172,9 +171,9 @@ class StreamUtilsTest {
             A::new);
         try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {
             AtomicInteger i = new AtomicInteger(0);
-            aStream.limit(10000).forEach(a -> {
-                printer.println(i.getAndIncrement() + " " + a.a + " " + a.b);
-            });
+            aStream.limit(10000).forEach(a ->
+                printer.println(i.getAndIncrement() + " " + a.a + " " + a.b)
+            );
         }
     }
 
@@ -231,9 +230,9 @@ class StreamUtilsTest {
             () -> Stream.iterate(1d, d -> d * 2)
         );
 
-        cartesianStream.limit(20).forEach(ia -> {
-            log.info(Arrays.asList(ia));
-        });
+        cartesianStream.limit(20).forEach(ia ->
+            log.info(Arrays.asList(ia))
+        );
     }
 
 }

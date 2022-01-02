@@ -19,6 +19,7 @@ open module org.meeuw.test {
     requires org.reflections;
     requires org.meeuw.math.algebras;
     requires org.meeuw.math.abstractalgebra.test;
+    requires org.meeuw.configuration;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;

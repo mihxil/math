@@ -1,3 +1,3 @@
-org.meeuw.math.streams.StreamUtils$ConfigurationAspect
+org.meeuw.math.streams.StreamUtils$Configuration
 org.meeuw.math.text.configuration.NumberConfiguration
 org.meeuw.math.text.configuration.UncertaintyConfiguration

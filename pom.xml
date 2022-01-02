@@ -10,6 +10,7 @@
   <url>https://github.com/mihxil/math</url>
 
   <modules>
+    <module>mihxil-configuration</module>
     <module>mihxil-math</module>
     <module>mihxil-math-theories</module>
 
@@ -64,6 +65,11 @@
 
   <dependencyManagement>
     <dependencies>
+       <dependency>
+        <groupId>org.meeuw.configuration</groupId>
+        <artifactId>mihxil-configuration</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-math</artifactId>
@@ -150,6 +156,20 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
+
+    <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.21.0</version>
+      <scope>provided</scope>
+    </dependency
+    >
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
@@ -160,17 +180,8 @@
       <artifactId>jqwik</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-      <version>3.21.0</version>
-      <scope>provided</scope>
-    </dependency>
+
+
   <!--  <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct-processor</artifactId>
@@ -321,6 +332,7 @@
           <version>3.0.0-M5</version>
           <configuration>
             <testFailureIgnore>true</testFailureIgnore>
+            <useModulePath>false</useModulePath>
             <systemPropertyVariables>
               <projectArtifactId>${project.artifactId}</projectArtifactId>
 
@@ -332,6 +344,18 @@
               <java.util.logging.manager>org.apache.logging.log4j.jul.LogManager</java.util.logging.manager>
             </systemPropertyVariables>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine>
+            <properties>
+              <configurationParameters>
+                jqwik.database=jqwik-database
+                jqwik.tries.default=200
+                jqwik.maxdiscardratio.default=5
+                jqwik.reporting.usejunitplatform=true
+                jqwik.failures.after.default=PREVIOUS_SEED
+                jqwik.reporting.onlyFailures=true
+                jqwik.edgecases.default=MIXIN
+                jqwik.shrinking.default=OFF
+              </configurationParameters>
+            </properties>
           </configuration>
           <dependencies>
             <dependency>

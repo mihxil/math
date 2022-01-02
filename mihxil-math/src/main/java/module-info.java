@@ -16,9 +16,9 @@ module org.meeuw.math {
 
     requires static ch.obermuhlner.math.big;
     requires java.logging;
+    requires org.meeuw.configuration;
 
     exports org.meeuw.math;
-    exports org.meeuw.configuration;
     exports org.meeuw.math.abstractalgebra;
     exports org.meeuw.math.text;
     exports org.meeuw.math.uncertainnumbers;
@@ -36,7 +36,7 @@ module org.meeuw.math {
     provides AlgebraicElementFormatProvider with
         UncertainDoubleFormatProvider;
     provides ConfigurationAspect with
-        StreamUtils.ConfigurationAspect,
+        StreamUtils.Configuration,
         NumberConfiguration,
         UncertaintyConfiguration
 ;
