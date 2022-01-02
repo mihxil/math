@@ -1,7 +1,6 @@
 package org.meeuw.configuration;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -11,8 +10,6 @@ import java.util.List;
  */
 public interface ConfigurationAspect extends Serializable {
 
-    default List<Class<?>> associatedWith() {
-        return Collections.emptyList();
-    }
+    List<Class<?>> associatedWith();
 
 }

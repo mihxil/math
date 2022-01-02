@@ -2,7 +2,11 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 /**
  * The configuration aspect which specifies how numbers should be formatted.
@@ -37,6 +41,11 @@ public class NumberConfiguration implements ConfigurationAspect {
 
     public NumberConfiguration() {
         this(4, Thousands.NONE);
+    }
+
+    @Override
+    public List<Class<?>> associatedWith() {
+        return Collections.singletonList(UncertainDoubleFormatProvider.class);
     }
 
     enum Thousands {

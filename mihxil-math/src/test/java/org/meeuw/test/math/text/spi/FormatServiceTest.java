@@ -1,6 +1,6 @@
 package org.meeuw.test.math.text.spi;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.parallel.Isolated;
 
 import org.meeuw.configuration.Configuration;
@@ -20,13 +20,21 @@ import static org.meeuw.math.text.spi.FormatService.getProviders;
 @Isolated
 class FormatServiceTest {
 
+    @BeforeAll
+    public static void restoreDefaults() {
+        ConfigurationService.resetToDefaultDefaults();
+        ConfigurationService.resetToDefaults();
+
+    }
 
     @Test
     public void getFormat() {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
-            .contains("TestFormatProvider [class org.meeuw.test.math.text.spi.test.TestConfigurationAspect, class org.meeuw.test.math.text.spi.test.InvalidConfigurationAspect]",
-    "UncertainDoubleFormatProvider [class org.meeuw.math.text.configuration.NumberConfiguration, class org.meeuw.math.text.configuration.UncertaintyConfiguration]");
+            .contains(
+                "TestFormatProvider [InvalidConfigurationAspect(someInt=1), TestConfigurationAspect(someInt=-1)]",
+                "UncertainDoubleFormatProvider [NumberConfiguration(minimalExponent=4, thousands=NONE), UncertaintyConfiguration(notation=PLUS_MINUS, considerRoundingErrorFactor=1000.0)]"
+            );
     }
 
     @Test

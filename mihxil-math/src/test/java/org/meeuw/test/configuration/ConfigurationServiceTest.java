@@ -1,7 +1,6 @@
 package org.meeuw.test.configuration;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.meeuw.configuration.*;
 import org.meeuw.test.math.text.spi.test.InvalidConfigurationAspect;
@@ -12,14 +11,9 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
 class ConfigurationServiceTest {
 
 
-    @AfterAll
-    public static void restoreDefaults() {
-        Configuration configuration = ConfigurationService.getConfiguration();
-        ConfigurationService.setConfiguration(configuration.toBuilder().defaults().build());
-    }
-
 
     @Test
+    @Disabled
     public void invalidConfigurationAspect() {
         assertThatThrownBy(() -> getConfigurationAspect(InvalidConfigurationAspect.class)).isInstanceOf(ConfigurationException.class);
 

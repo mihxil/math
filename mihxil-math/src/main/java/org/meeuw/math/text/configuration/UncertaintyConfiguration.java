@@ -2,7 +2,11 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 /**
  * This configuration aspect defines how uncertainties must be formatted
@@ -33,6 +37,10 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         this(Notation.PLUS_MINUS, 1000d);
     }
 
+    @Override
+    public List<Class<?>> associatedWith() {
+        return Collections.singletonList(UncertainDoubleFormatProvider.class);
+    }
 
     public enum Notation {
         /**

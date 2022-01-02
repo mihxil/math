@@ -42,7 +42,6 @@ public class ConfigurationService {
         return CONFIGURATION.get();
     }
 
-
     /**
      * Sets the given configuration object as a thread local
      * @param configuration the new configuration
@@ -54,13 +53,16 @@ public class ConfigurationService {
     /**
      * Unsets the configuration thread local, effectively resetting it the default settings.
      */
-
     public static void resetToDefaults() {
         CONFIGURATION.remove();
     }
 
+    public static void resetToDefaultDefaults() {
+        defaultConfiguration(Configuration.Builder::defaults);
+    }
+
     /**
-     * @return an aspect of the the current configuration object
+     * @return an aspect of the current configuration object
      * @param <E> The type of the aspect to obtain
      * @param clazz the class of the aspect to obtain
      */
@@ -76,7 +78,10 @@ public class ConfigurationService {
     }
 
     public static <E extends ConfigurationAspect, R> R with(Class<E> configurationAspect, UnaryOperator<E> aspect, Supplier<R> r) {
-        return with(getConfiguration().with(configurationAspect, aspect), r);
+        return with(
+            getConfiguration().with(configurationAspect, aspect),
+            r
+        );
     }
 
     public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
@@ -86,6 +91,7 @@ public class ConfigurationService {
             return null;
         });
     }
+
 
     /**
      * Executes code with a certain configuration
@@ -108,11 +114,13 @@ public class ConfigurationService {
 
 
     public static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {
-        return new FixedSizeMap<>(new HashMap<>(INITIAL_MAP));
+        Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> copy = createEmptyMap();
+        copy.putAll(INITIAL_MAP);
+        return new FixedSizeMap<>(copy);
     }
 
     private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
-        final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = new HashMap<>();
+        final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = createEmptyMap();
         final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
         loader.iterator().forEachRemaining(
             configurationAspect -> {
@@ -120,6 +128,10 @@ public class ConfigurationService {
             }
         );
         return new FixedSizeMap<>(m);
+    }
+
+    private static Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> createEmptyMap() {
+        return new TreeMap<>(Comparator.comparing(Class::getSimpleName));
     }
 
 }

@@ -3,10 +3,10 @@ package org.meeuw.configuration;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 
-import java.util.Collections;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 import static org.meeuw.configuration.ConfigurationService.newConfigurationMap;
 
@@ -60,6 +60,13 @@ public class Configuration {
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {
         return toBuilder().aspect(clazz, config).build();
     }
+
+    public <E extends ConfigurationAspect> List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
+        return map.values().stream()
+            .filter(aspect -> aspect.associatedWith().stream().anyMatch(clazz::isAssignableFrom))
+            .collect(Collectors.toList());
+    }
+
 
     public Builder toBuilder() {
         FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = newConfigurationMap();

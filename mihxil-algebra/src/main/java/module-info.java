@@ -12,7 +12,6 @@ module org.meeuw.math.algebras {
     requires java.logging;
     requires org.meeuw.math;
 
-
     exports org.meeuw.math.abstractalgebra.complex;
     exports org.meeuw.math.abstractalgebra.dim3;
     exports org.meeuw.math.abstractalgebra.integers;

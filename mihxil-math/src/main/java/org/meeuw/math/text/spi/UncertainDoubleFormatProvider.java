@@ -1,10 +1,6 @@
 package org.meeuw.math.text.spi;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.meeuw.configuration.Configuration;
-import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -32,10 +28,4 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
     public int weight(Class<? extends AlgebraicElement<?>> element) {
         return UncertainDouble.class.isAssignableFrom(element) ? 1 : 0;
     }
-
-    @Override
-    public List<Class<? extends ConfigurationAspect>> getConfigurationAspects() {
-        return Arrays.asList(NumberConfiguration.class, UncertaintyConfiguration.class);
-    }
-
 }
