@@ -256,7 +256,7 @@ public final class Utils {
      * Checks whether n is a power of p.
      * Returns the exponent, or -1.
      */
-    static long checkPower(long n, final long p) {
+    public static long checkPower(long n, final long p) {
         int k = 0;
         while (n > 1 && n % p == 0) {
             n /= p;

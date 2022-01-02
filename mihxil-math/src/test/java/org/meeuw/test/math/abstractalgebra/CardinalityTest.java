@@ -1,8 +1,10 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.test.math.abstractalgebra;
 
 import net.jqwik.api.*;
-
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+
+import org.meeuw.math.abstractalgebra.Cardinality;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,7 +16,7 @@ class CardinalityTest {
 
     @Test
     public void alephs() {
-        assertThat(Cardinality.ALEPH_0).isGreaterThan(new Cardinality(Long.MAX_VALUE));
+        Assertions.assertThat(Cardinality.ALEPH_0).isGreaterThan(new Cardinality(Long.MAX_VALUE));
         assertThat(Cardinality.ALEPH_1).isGreaterThan(Cardinality.ALEPH_0);
         assertThat(Cardinality.ALEPH_0.toString()).isEqualTo("א\u200E₀");
         assertThat(Cardinality.ALEPH_1.toString()).isEqualTo("א\u200E₁");

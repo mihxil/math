@@ -7,10 +7,11 @@ import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainDoubleFormat;
-import org.meeuw.math.text.configuration.*;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
-import static org.meeuw.math.text.spi.FormatService.getConfigurationAspect;
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen

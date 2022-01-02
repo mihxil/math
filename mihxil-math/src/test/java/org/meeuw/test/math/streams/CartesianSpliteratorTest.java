@@ -1,4 +1,4 @@
-package org.meeuw.math.streams;
+package org.meeuw.test.math.streams;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,6 +11,8 @@ import java.util.stream.*;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.meeuw.math.streams.CartesianSpliterator;
 
 @Log4j2
 class CartesianSpliteratorTest {

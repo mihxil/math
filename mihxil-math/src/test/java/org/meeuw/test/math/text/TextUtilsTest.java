@@ -3,16 +3,19 @@
  * VPRO The Netherlands
  */
 
-package org.meeuw.math.text;
+package org.meeuw.test.math.text;
 
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.meeuw.math.text.TextUtils;
 
 /**
  *
@@ -21,7 +24,7 @@ public class TextUtilsTest {
 
     @Test
     public void subscript() {
-        assertThat(TextUtils.subscript("-1234567890 P")).isEqualTo("₋₁₂₃₄₅₆₇₈₉₀ ₚ");
+        Assertions.assertThat(TextUtils.subscript("-1234567890 P")).isEqualTo("₋₁₂₃₄₅₆₇₈₉₀ ₚ");
         assertThat(TextUtils.subscript(-123)).isEqualTo("₋₁₂₃");
         assertThat(TextUtils.subscript(0)).isEqualTo("₀");
     }

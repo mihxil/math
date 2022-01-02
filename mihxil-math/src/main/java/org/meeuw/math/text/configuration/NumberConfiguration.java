@@ -16,7 +16,7 @@ public class NumberConfiguration implements ConfigurationAspect {
 
     /**
      * If the absolute value of the exponent would be bigger than this, then
-     * scientific notation will be used. Otherwise no.
+     * scientific notation will be used. Otherwise, no.
      *
      * This defaults to 4.
      */

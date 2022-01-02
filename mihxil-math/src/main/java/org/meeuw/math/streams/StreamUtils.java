@@ -19,7 +19,7 @@ public final class StreamUtils {
     private StreamUtils() {
     }
 
-    public static final int MAX_THREADS = 4;
+    public static final int MAX_THREADS = 5;
 
     public static Stream<BigInteger> bigIntegerStream(boolean includeNegatives) {
         return bigIntegerStream(ZERO, includeNegatives);

@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.test.math;
 
 import java.util.*;
 
@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.meeuw.math.Interval;
 
 /**
  * @author Michiel Meeuwissen

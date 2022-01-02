@@ -1,10 +1,12 @@
-package org.meeuw.math;
+package org.meeuw.test.math;
 
 import java.time.*;
 
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.meeuw.math.TestClock;
 
 /**
  * @author Michiel Meeuwissen

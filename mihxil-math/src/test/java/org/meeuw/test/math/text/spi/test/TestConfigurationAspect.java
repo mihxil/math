@@ -1,4 +1,4 @@
-package org.meeuw.math.text.spi.test;
+package org.meeuw.test.math.text.spi.test;
 
 
 import lombok.Getter;

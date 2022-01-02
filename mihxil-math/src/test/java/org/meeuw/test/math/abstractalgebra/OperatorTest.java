@@ -1,9 +1,11 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.test.math.abstractalgebra;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -44,7 +46,7 @@ class OperatorTest {
 
     @Test
     public void add() {
-        assertThat(Operator.ADDITION.apply(new A(), new A())).isInstanceOf(A.class);
+        Assertions.assertThat(Operator.ADDITION.apply(new A(), new A())).isInstanceOf(A.class);
     }
 
     @Test

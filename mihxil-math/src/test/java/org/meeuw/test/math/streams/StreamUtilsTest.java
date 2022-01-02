@@ -1,4 +1,4 @@
-package org.meeuw.math.streams;
+package org.meeuw.test.math.streams;
 
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +11,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.streams.BigIntegerSpliterator;
+import org.meeuw.math.streams.StreamUtils;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
@@ -79,12 +82,12 @@ class StreamUtilsTest {
     @Test
     public void spliterator3() {
         BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
-        BigIntegerSpliterator negatives = i._trySplit();
-        BigIntegerSpliterator negativeEvens = negatives._trySplit();
-        BigIntegerSpliterator odds = i._trySplit();
+        BigIntegerSpliterator negatives = i.trySplit();
+        BigIntegerSpliterator negativeEvens = negatives.trySplit();
+        BigIntegerSpliterator odds = i.trySplit();
 
 
-        Spliterator<BigInteger> four = i._trySplit();
+        Spliterator<BigInteger> four = i.trySplit();
         assertThat(StreamSupport.stream(four, false).limit(10).map(BigInteger::intValue)).containsExactly(2, 6, 10, 14, 18, 22, 26, 30, 34, 38);
 
         assertThat(StreamSupport.stream(i, false).limit(10).map(BigInteger::intValue)).containsExactly(0, 4, 8, 12, 16, 20, 24, 28, 32, 36);

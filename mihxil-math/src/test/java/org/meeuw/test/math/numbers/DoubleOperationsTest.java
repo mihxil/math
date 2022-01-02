@@ -1,4 +1,4 @@
-package org.meeuw.math.numbers;
+package org.meeuw.test.math.numbers;
 
 import java.math.BigDecimal;
 

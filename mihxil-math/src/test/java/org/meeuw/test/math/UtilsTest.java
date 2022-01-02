@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -11,7 +11,9 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
@@ -28,7 +30,7 @@ class UtilsTest {
 
     @Test
     void orderOfMagnitude() {
-        assertThat(Utils.orderOfMagnitude(Duration.ofMillis(1))).isEqualTo(ChronoUnit.MILLIS);
+        Assertions.assertThat(Utils.orderOfMagnitude(Duration.ofMillis(1))).isEqualTo(ChronoUnit.MILLIS);
         assertThat(Utils.orderOfMagnitude(Duration.ofSeconds(100))).isEqualTo(ChronoUnit.SECONDS);
         assertThat(Utils.orderOfMagnitude(Duration.ofMinutes(100))).isEqualTo(ChronoUnit.MINUTES);
         assertThat(Utils.orderOfMagnitude(Duration.ofHours(20))).isEqualTo(ChronoUnit.HOURS);

@@ -1,6 +1,7 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.test.math.abstractalgebra;
 
 import org.junit.jupiter.api.Test;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 

@@ -1,9 +1,11 @@
-package org.meeuw.math.text;
+package org.meeuw.test.math.text;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;

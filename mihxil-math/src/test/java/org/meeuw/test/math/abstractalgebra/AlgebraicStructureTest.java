@@ -1,8 +1,10 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.test.math.abstractalgebra;
 
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @Log4j2
 class AlgebraicStructureTest {
-    private static class E implements  AlgebraicElement<E> {
+    private static class E implements AlgebraicElement<E> {
 
         @Override
         public AlgebraicStructure<E> getStructure() {

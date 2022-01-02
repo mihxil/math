@@ -73,7 +73,7 @@ public class UncertainDoubleFormat extends Format {
      * Represents the mean value in a scientific notation (using unicode characters).
      * The value of the standard deviation is used to determin how many digits can sensibly be shown.
      */
-    String scientificNotationWithUncertainty(
+    public String scientificNotationWithUncertainty(
         double meanDouble,
         double stdDouble) {
         return formatInfinity(meanDouble).orElseGet(() -> {

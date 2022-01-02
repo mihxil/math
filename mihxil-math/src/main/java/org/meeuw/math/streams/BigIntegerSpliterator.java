@@ -74,11 +74,6 @@ public class BigIntegerSpliterator implements Spliterator<BigInteger> {
         if (thread.get() >= StreamUtils.MAX_THREADS) {
             return null;
         }
-        return _trySplit();
-
-    }
-
-    BigIntegerSpliterator _trySplit() {
         thread.incrementAndGet();
         if (negatives) {
             negatives = false;
