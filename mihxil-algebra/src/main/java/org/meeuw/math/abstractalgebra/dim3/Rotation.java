@@ -83,6 +83,10 @@ public class Rotation implements
         return in.times(rot);
     }
 
+    public FieldMatrix3<RealNumber> asMatrix() {
+        return rot;
+    }
+
     @Override
     public FieldVector3<RealNumber> apply(FieldVector3<RealNumber> in) {
         return rotate(in);

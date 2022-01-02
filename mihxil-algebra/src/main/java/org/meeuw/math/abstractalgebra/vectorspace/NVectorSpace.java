@@ -31,7 +31,7 @@ public class NVectorSpace<E extends ScalarFieldElement<E>> implements VectorSpac
     }
 
     @SuppressWarnings("unchecked")
-    NVectorSpace(int dimension, ScalarField<E> field) {
+    public NVectorSpace(int dimension, ScalarField<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);

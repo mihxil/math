@@ -50,7 +50,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     }
 
-    FieldMatrix3(E[][] values) {
+    public FieldMatrix3(E[][] values) {
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();
@@ -160,7 +160,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         return result;
     }
 
-    E determinant() {
+    public E determinant() {
         E a = values[0][0];
         E b = values[0][1];
         E c = values[0][2];

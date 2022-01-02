@@ -29,7 +29,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     }
 
     @Override
-    ModuloFieldElement element(int v) {
+    public ModuloFieldElement element(int v) {
         return new ModuloFieldElement(v, this);
     }
 

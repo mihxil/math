@@ -40,19 +40,19 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
         return stream(new State());
     }
 
-    Stream<StringElement> stream(State state) {
+    public Stream<StringElement> stream(State state) {
         return Stream.iterate(state,
             State::inc).map(State::get);
     }
     static final int FIRST_CHAR = 32;
-    static final int LAST_CHAR = 195101;
+    public static final int LAST_CHAR = 195101;
 
     protected static boolean validChar(int i) {
         return  Character.isDefined(i) &&
             (Character.isLetterOrDigit(i) || Character.isSpaceChar(i));
     }
 
-    static class State {
+    public static class State {
         private final int[] chars;
 
         public State(int... chars) {

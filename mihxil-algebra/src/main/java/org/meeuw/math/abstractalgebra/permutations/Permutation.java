@@ -164,11 +164,11 @@ public class Permutation  implements
     public class Cycle {
         final int[] value;
 
-        Cycle(int... value) {
+        public Cycle(int... value) {
             this.value = value;
         }
 
-        Permutation getParent() {
+        public Permutation getParent() {
             return Permutation.this;
         }
 

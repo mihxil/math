@@ -81,7 +81,7 @@ public strictfp class Matrix3 implements
         return result;
     }
 
-    double[] timesDouble(double multiplier) {
+    public double[] timesDouble(double multiplier) {
         double[] result = new double[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
