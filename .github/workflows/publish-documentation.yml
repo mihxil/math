@@ -24,4 +24,3 @@ jobs:
           commit_message: Automated update of documentation https://mihxil.github.io/math/"
           file_pattern: docs/**
         if: ${{ github.event_name == 'push' }}
-
