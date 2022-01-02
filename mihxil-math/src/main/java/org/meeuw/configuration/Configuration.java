@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
-import static org.meeuw.math.text.spi.FormatService.newConfigurationMap;
+import static org.meeuw.configuration.ConfigurationService.newConfigurationMap;
 
 /**
  * Immutable object containing all {@link ConfigurationAspect}s.

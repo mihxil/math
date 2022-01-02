@@ -1,18 +1,17 @@
-package org.meeuw.math.text.spi;
+package org.meeuw.test.math.text.spi;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Isolated;
 
 import org.meeuw.configuration.Configuration;
-import org.meeuw.configuration.ConfigurationException;
-import org.meeuw.math.text.configuration.*;
-import org.meeuw.math.text.spi.test.InvalidConfigurationAspect;
-import org.meeuw.math.text.spi.test.TestConfigurationAspect;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.test.math.text.spi.test.TestConfigurationAspect;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.text.spi.FormatService.*;
+import static org.meeuw.configuration.ConfigurationService.*;
+import static org.meeuw.math.text.spi.FormatService.getProviders;
 
 /**
  * @author Michiel Meeuwissen
@@ -21,33 +20,33 @@ import static org.meeuw.math.text.spi.FormatService.*;
 @Isolated
 class FormatServiceTest {
 
-    @AfterAll
-    public static void restoreDefaults() {
-        Configuration configuration = FormatService.getConfiguration();
-        FormatService.setConfiguration(configuration.toBuilder().defaults().build());
-    }
 
     @Test
     public void getFormat() {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
-            .contains("TestFormatProvider [class org.meeuw.math.text.spi.test.TestConfigurationAspect, class org.meeuw.math.text.spi.test.InvalidConfigurationAspect]",
+            .contains("TestFormatProvider [class org.meeuw.test.math.text.spi.test.TestConfigurationAspect, class org.meeuw.test.math.text.spi.test.InvalidConfigurationAspect]",
     "UncertainDoubleFormatProvider [class org.meeuw.math.text.configuration.NumberConfiguration, class org.meeuw.math.text.configuration.UncertaintyConfiguration]");
     }
 
     @Test
     public void getAndSetConfiguration() {
-        Configuration configuration = FormatService.getConfiguration();
+        Configuration configuration = getConfiguration();
         NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         int minimalExponent = aspect.getMinimalExponent();
-        FormatService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
-        assertThat(FormatService.getConfiguration().getAspectValue(NumberConfiguration.class, NumberConfiguration::getMinimalExponent)).isEqualTo(8);
+        ConfigurationService.setConfiguration(configuration.toBuilder()
+            .aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8))
+            .build()
+        );
+        assertThat(getConfiguration()
+            .getAspectValue(NumberConfiguration.class, NumberConfiguration::getMinimalExponent)
+        ).isEqualTo(8);
     }
 
 
     @Test
     public void testConfigurationAspects() {
-        FormatService.defaultConfiguration((con) -> con
+        defaultConfiguration((con) -> con
             .aspect(NumberConfiguration.class, c -> c.withMinimalExponent(4))
             .aspect(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
         );
@@ -76,11 +75,6 @@ class FormatServiceTest {
     }
 
 
-    @Test
-    public void invalidConfigurationAspect() {
-        assertThatThrownBy(() -> getConfigurationAspect(InvalidConfigurationAspect.class)).isInstanceOf(ConfigurationException.class);
-
-    }
 
 
 }
