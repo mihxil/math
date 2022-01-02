@@ -1,3 +1,5 @@
+import org.meeuw.configuration.ConfigurationAspect;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -9,5 +11,6 @@ module org.meeuw.configuration {
 
     exports org.meeuw.configuration;
 
+    uses ConfigurationAspect;
 }
 
