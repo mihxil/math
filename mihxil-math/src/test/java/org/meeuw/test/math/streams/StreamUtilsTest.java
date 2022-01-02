@@ -12,6 +12,7 @@ import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.streams.BigIntegerSpliterator;
 import org.meeuw.math.streams.StreamUtils;
 
@@ -81,19 +82,20 @@ class StreamUtilsTest {
 
     @Test
     public void spliterator3() {
-        BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
-        BigIntegerSpliterator negatives = i.trySplit();
-        BigIntegerSpliterator negativeEvens = negatives.trySplit();
-        BigIntegerSpliterator odds = i.trySplit();
+        ConfigurationService.with(StreamUtils.ConfigurationAspect.class, ca -> ca.withMaxThreads(5), () -> {
+            BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
+            BigIntegerSpliterator negatives = i.trySplit();
+            BigIntegerSpliterator negativeEvens = negatives.trySplit();
+            BigIntegerSpliterator odds = i.trySplit();
 
 
-        Spliterator<BigInteger> four = i.trySplit();
-        assertThat(StreamSupport.stream(four, false).limit(10).map(BigInteger::intValue)).containsExactly(2, 6, 10, 14, 18, 22, 26, 30, 34, 38);
+            Spliterator<BigInteger> four = i.trySplit();
+            assertThat(StreamSupport.stream(four, false).limit(10).map(BigInteger::intValue)).containsExactly(2, 6, 10, 14, 18, 22, 26, 30, 34, 38);
 
-        assertThat(StreamSupport.stream(i, false).limit(10).map(BigInteger::intValue)).containsExactly(0, 4, 8, 12, 16, 20, 24, 28, 32, 36);
+            assertThat(StreamSupport.stream(i, false).limit(10).map(BigInteger::intValue)).containsExactly(0, 4, 8, 12, 16, 20, 24, 28, 32, 36);
 
 
-
+        });
 
     }
 
@@ -102,7 +104,7 @@ class StreamUtilsTest {
         // https://michaelbespalov.medium.com/parallel-stream-pitfalls-and-how-to-avoid-them-91f11808a16c
         final Set<BigInteger> needed = Stream.concat(Stream.of(ZERO), Stream.iterate(ONE, i -> i.add(ONE)).flatMap(i -> Stream.of(i, i.negate()))).limit(100).collect(Collectors.toCollection(CopyOnWriteArraySet::new));
 
-        ForkJoinPool customThreadPool = new ForkJoinPool(StreamUtils.MAX_THREADS);
+        ForkJoinPool customThreadPool = new ForkJoinPool(StreamUtils.getMaxThreads());
         ForkJoinTask<?> submit = customThreadPool.submit(() -> {
             Stream<BigInteger> stream = StreamUtils.bigIntegerStream(true);
             stream.parallel().forEach(i -> {

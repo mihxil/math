@@ -1,3 +1,5 @@
+import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
@@ -27,8 +29,11 @@ module org.meeuw.math {
     exports org.meeuw.math.streams;
 
     uses AlgebraicElementFormatProvider;
+    uses org.meeuw.configuration.ConfigurationAspect;
 
     provides AlgebraicElementFormatProvider with UncertainDoubleFormatProvider;
+    provides ConfigurationAspect with StreamUtils.ConfigurationAspect;
+
 
 }
 

@@ -3,11 +3,12 @@ package org.meeuw.physics;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
-import static org.meeuw.math.text.spi.FormatService.with;
 import static org.meeuw.physics.PhysicalConstant.*;
 
 /**

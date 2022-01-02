@@ -2,12 +2,8 @@ package org.meeuw.configuration;
 
 import lombok.extern.java.Log;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.function.*;
-import java.util.logging.Level;
-
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 
 /**
@@ -116,19 +112,12 @@ public class ConfigurationService {
     }
 
     private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
-        Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = new HashMap<>();
-        final ServiceLoader<AlgebraicElementFormatProvider> loader = ServiceLoader.load(AlgebraicElementFormatProvider.class);
+        final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = new HashMap<>();
+        final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
         loader.iterator().forEachRemaining(
-            algebraicElementFormatProvider ->
-                algebraicElementFormatProvider.getConfigurationAspects().forEach(c -> {
-                    try {
-                        ConfigurationAspect configurationAspect =  c.getDeclaredConstructor().newInstance();
-                        m.put(c, configurationAspect);
-                    } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-                        log.log(Level.WARNING, e.getMessage(), e);
-                    }
-                }
-            )
+            configurationAspect -> {
+                m.put(configurationAspect.getClass(), configurationAspect);
+            }
         );
         return new FixedSizeMap<>(m);
     }

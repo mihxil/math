@@ -1,11 +1,14 @@
 package org.meeuw.math.streams;
 
+import lombok.*;
+
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.configuration.ConfigurationService;
 
 import static java.math.BigInteger.ZERO;
 
@@ -19,7 +22,11 @@ public final class StreamUtils {
     private StreamUtils() {
     }
 
-    public static final int MAX_THREADS = 5;
+    private static final int DEFAULT_MAX_THREADS = 4;
+
+    public static int getMaxThreads() {
+        return ConfigurationService.getConfiguration().getAspect(StreamUtils.ConfigurationAspect.class).getMaxThreads();
+    }
 
     public static Stream<BigInteger> bigIntegerStream(boolean includeNegatives) {
         return bigIntegerStream(ZERO, includeNegatives);
@@ -173,5 +180,29 @@ public final class StreamUtils {
         return base;
     }
 
+    @ToString
+    @EqualsAndHashCode
+    public static class ConfigurationAspect implements org.meeuw.configuration.ConfigurationAspect {
+
+        @With
+        @Getter
+        private final int maxThreads;
+
+        public ConfigurationAspect() {
+            this(DEFAULT_MAX_THREADS);
+        }
+
+
+
+        @lombok.Builder
+        public ConfigurationAspect(int maxThreads) {
+            this.maxThreads = maxThreads == -1 ? DEFAULT_MAX_THREADS : maxThreads;
+        }
+
+        @Override
+        public List<Class<?>> associatedWith() {
+            return Collections.singletonList(StreamUtils.class);
+        }
+    }
 
 }
