@@ -123,9 +123,8 @@ public class ConfigurationService {
         final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = createEmptyMap();
         final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
         loader.iterator().forEachRemaining(
-            configurationAspect -> {
-                m.put(configurationAspect.getClass(), configurationAspect);
-            }
+            configurationAspect ->
+                m.put(configurationAspect.getClass(), configurationAspect)
         );
         return new FixedSizeMap<>(m);
     }

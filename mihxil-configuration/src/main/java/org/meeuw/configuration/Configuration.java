@@ -61,7 +61,7 @@ public class Configuration {
         return toBuilder().aspect(clazz, config).build();
     }
 
-    public <E extends ConfigurationAspect> List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
+    public List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
         return map.values().stream()
             .filter(aspect -> aspect.associatedWith().stream().anyMatch(clazz::isAssignableFrom))
             .collect(Collectors.toList());
@@ -78,6 +78,7 @@ public class Configuration {
         return new Builder();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static class Builder {
         private final FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration;
 
@@ -101,6 +102,7 @@ public class Configuration {
             configuration.put(clazz, clazz.newInstance());
             return this;
         }
+
 
         public Builder defaults() {
             for (Class<? extends ConfigurationAspect> c : configuration.keySet()) {

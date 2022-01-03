@@ -9,6 +9,7 @@ module org.meeuw.math.abstractalgebra.test {
     requires org.assertj.core;
     requires org.apache.logging.log4j;
     requires org.junit.jupiter.api;
+
     exports org.meeuw.math.abstractalgebra.test;
     exports org.meeuw.math.numbers.test;
     exports org.meeuw.util.test;
