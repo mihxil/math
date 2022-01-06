@@ -1,5 +1,7 @@
 package org.meeuw.physics;
 
+import java.util.List;
+
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
@@ -34,11 +36,12 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
 
     DimensionalAnalysis getDimensions();
 
+
     /**
      * Returns a constant representing a 0 with this units.
      */
     default PhysicalConstant zero() {
-        return new PhysicalConstant("0", 0, this, "zero " + toString());
+        return new PhysicalConstant("0", 0, this, "zero " + this);
     }
 
     UncertainReal getSIFactor();
@@ -46,6 +49,13 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
     default Units withPrefix(Prefix prefix) {
         return new PrefixedUnits(this, prefix);
     }
+
+    default Units withQuantity(Quantity... quantity) {
+        return new DerivedUnit(this, null, null).withQuantity(quantity);
+    }
+
+    List<Quantity> getQuantities();
+
 
     default Units withName(String name) {
         return new DerivedUnit(this, name, null);

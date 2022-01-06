@@ -23,11 +23,14 @@ public interface Unit extends Units {
 
     String name();
 
+    @Override
+    default List<Quantity> getQuantities() {
+        return Collections.emptyList();
+    }
+
     default String getSymbol() {
         return name();
     }
-
-
 
     @Override
     @NonNull

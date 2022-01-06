@@ -40,7 +40,7 @@ class DerivedUnitTest implements MultiplicativeGroupTheory<Units> {
 
         Units kmph = km.dividedBy(SI.hour).withName("km/h");
         assertThat(kmph.toString()).isEqualTo("km/h");
-        assertThat(kmph.getDimensions()).isEqualTo(DimensionalAnalysis.SPEED);
+        assertThat(kmph.getDimensions()).isEqualTo(Quantity.SPEED.getDimensionalAnalysis());
 
         PhysicalNumber n = new Measurement(10d, 1d, kmph);
 

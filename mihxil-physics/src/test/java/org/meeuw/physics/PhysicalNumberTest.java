@@ -106,13 +106,13 @@ class PhysicalNumberTest implements
                     (random) -> new Measurement(
                         random.nextDouble() * 200 - 100,
                         Math.abs(random.nextDouble() * 10),
-                        SI.VELOCITY
+                        SI.mPerS
                     )
                 )
                 .injectDuplicates(0.01)
                 .dontShrink()
                 .edgeCases(config -> {
-                    config.add(new Measurement(0, 0.001, SI.VELOCITY));
+                    config.add(new Measurement(0, 0.001, SI.mPerS));
                     config.add(PhysicalConstant.c);
                 });
 

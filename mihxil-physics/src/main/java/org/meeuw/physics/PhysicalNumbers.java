@@ -15,7 +15,8 @@ import static org.meeuw.math.Utils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber> implements MultiplicativeGroup<PhysicalNumber> {
+public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
+    implements MultiplicativeGroup<PhysicalNumber> {
 
     public static final PhysicalConstant ONE = new PhysicalConstant("1", 1, Units.DIMENSIONLESS, "one");
 

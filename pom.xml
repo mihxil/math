@@ -35,7 +35,7 @@
     <jqwik.version>1.6.2</jqwik.version>
     <junit.version>5.8.2</junit.version>
     <jacoco.version>0.8.7</jacoco.version>
-    <assertj.version>3.21.0</assertj.version>
+    <assertj.version>3.22.0</assertj.version>
     <reflections.version>0.10.2</reflections.version>
   </properties>
 

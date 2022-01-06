@@ -4,6 +4,8 @@ import lombok.*;
 
 import java.util.*;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -16,6 +18,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
 public class DerivedUnit implements Unit {
 
     @Getter
+    @NonNull
     final UncertainReal SIFactor;
 
     final int[] exponents;
@@ -28,12 +31,15 @@ public class DerivedUnit implements Unit {
     @With
     final String description;
 
+    @With
+    final List<Quantity> quantities;
+
     public DerivedUnit(
         UncertainReal SIFactor,
         String name,
         String description,
         UnitExponent... siExponents) {
-        this(SIFactor, null, name, description, Arrays.asList(siExponents));
+        this(SIFactor, null, name, description, Arrays.asList(siExponents), null);
     }
 
 
@@ -44,18 +50,20 @@ public class DerivedUnit implements Unit {
         UncertainReal SIFactor,
         int[] exponents,
         String name,
-        String description) {
-        this(SIFactor, exponents, name, description, null);
+        String description,
+        List<Quantity> quantities) {
+        this(SIFactor, exponents, name, description, null, quantities);
     }
 
 
     @lombok.Builder
     private DerivedUnit(
-        UncertainReal siFactor,
+        @NonNull UncertainReal siFactor,
         int[] exponents,
         String name,
         String description,
-        List<UnitExponent> siExponents
+        List<UnitExponent> siExponents,
+        @Singular @Nullable List<Quantity> quantities
         ) {
         this.exponents =  new int[SIUnit.values().length];
         if (exponents != null) {
@@ -66,12 +74,13 @@ public class DerivedUnit implements Unit {
                 int[] dimensions = f.getDimensions().getExponents();
                 for (int d = 0; d < dimensions.length; d++) {
                     this.exponents[d] += dimensions[d];
-                };
+                }
             }
         }
         this.name = name;
         this.description = description;
         this.SIFactor = siFactor;
+        this.quantities = quantities == null ? Collections.emptyList() : quantities;
     }
 
 
@@ -81,8 +90,8 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = units.getSIFactor();
+        this.quantities = Collections.emptyList();
     }
-
 
 
     public DerivedUnit(String name, String description, UncertainReal siFactor, Units derivedUnit) {
@@ -91,18 +100,20 @@ public class DerivedUnit implements Unit {
         this.name = name;
         this.description = description;
         this.SIFactor = derivedUnit.getSIFactor().times(siFactor);
+        this.quantities = Collections.emptyList();
     }
 
-    public DerivedUnit(String name, String description, UncertainReal siFactor, SIUnit siUnit) {
+    public DerivedUnit(String name, String description, @NonNull UncertainReal siFactor, SIUnit siUnit) {
         this.exponents = new int[SIUnit.values().length];
         this.exponents[siUnit.ordinal()] = 1;
         this.name = name;
         this.description = description;
         this.SIFactor = siFactor;
+        this.quantities = Collections.emptyList();
     }
 
-    public DerivedUnit(String name, String description, UnitExponent... factors) {
-        this(INSTANCE.one(), name, description,  factors);
+    public DerivedUnit(String name, String description, UnitExponent... siExponents) {
+        this(INSTANCE.one(), name, description,  siExponents);
     }
 
     @Override
@@ -116,8 +127,17 @@ public class DerivedUnit implements Unit {
     }
 
     public PhysicalConstant toSI() {
-        return new PhysicalConstant(name, SIFactor,
-            SIUnit.toUnits(exponents),description);
+        return new PhysicalConstant(
+            name,
+            SIFactor,
+            SIUnit.toUnits(exponents),
+            description
+        );
+    }
+
+    @Override
+    public List<Quantity> getQuantities() {
+        return Collections.unmodifiableList(quantities);
     }
 
     @Override
@@ -162,8 +182,15 @@ public class DerivedUnit implements Unit {
             .build();
     }
 
+    @Override
+    public DerivedUnit withQuantity(Quantity... quantity) {
+        List<Quantity> result = new ArrayList<>(quantities);
+        result.addAll(Arrays.asList(quantity));
+        return withQuantities(result);
+    }
 
-    @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
+
+    @SuppressWarnings({"EqualsDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return Units.equals(this, o);
@@ -175,6 +202,10 @@ public class DerivedUnit implements Unit {
     }
 
     public static class Builder {
+        public Builder unitExponents(UnitExponent... siExponents) {
+            return siExponents(Arrays.asList(siExponents));
+        }
+
 
     }
 }

@@ -6,7 +6,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
-import static org.meeuw.physics.CGS.CGSUnit.cm;
+import static org.meeuw.physics.CGS.CGSUnit.*;
+import static org.meeuw.physics.Quantity.*;
 import static org.meeuw.physics.UnitExponent.of;
 
 /**
@@ -15,8 +16,7 @@ import static org.meeuw.physics.UnitExponent.of;
  */
 public class CGS implements SystemOfMeasurements {
 
-    public static CGS INSTANCE = new CGS();
-
+    public static final CGS INSTANCE = new CGS();
 
 
     @Override
@@ -24,8 +24,8 @@ public class CGS implements SystemOfMeasurements {
     public Unit forDimension(Dimension dimension) {
         switch(dimension) {
             case L: return cm;
-            case M: return CGSUnit.g;
-            case T: return CGSUnit.s;
+            case M: return g;
+            case T: return s;
             case I: return SIUnit.A;
             case Θ: return SIUnit.K;
             case N: return SIUnit.mol;
@@ -34,6 +34,8 @@ public class CGS implements SystemOfMeasurements {
                 return SIUnit.cd;
         }
     }
+
+
 
 
     enum CGSUnit implements BaseUnit {
@@ -65,7 +67,16 @@ public class CGS implements SystemOfMeasurements {
     }
 
     // acceleration
-    public static final DerivedUnit gal =  new DerivedUnit("Gal", "gal", of(cm, 1), of(CGSUnit.s, -2));
+    public static final DerivedUnit Gal =
+        new DerivedUnit("Gal", "gal", of(cm, 1), of(s, -2))
+            .withQuantity(ACCELERATION);
 
     // force
+    public static final DerivedUnit dyne =  new DerivedUnit("dyn", "dyne", of(g, 1), of(cm, 1), of(s, -2))
+        .withQuantity(FORCE);
+
+    // energy
+    public static final DerivedUnit erg =  new DerivedUnit("erg", "erg", of(g, 1), of(cm, 2), of(s, -2))
+        .withQuantity(ENERGY);
+
 }

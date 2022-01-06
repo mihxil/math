@@ -55,7 +55,7 @@ class SITest {
     @Test
     public void forDimensions() {
         assertThat(INSTANCE.forDimensions(L, T.with(-1)).toString()).isEqualTo("m·s⁻¹");
-        assertThat(INSTANCE.forDimensions(DimensionalAnalysis.FORCE).toString()).isEqualTo("N");
+        assertThat(INSTANCE.forQuantity(Quantity.FORCE).toString()).isEqualTo("N");
 
         for (DimensionalAnalysis q : DimensionalAnalysis.getQuantities()) {
             log.info("{}: {}", q, INSTANCE.forDimensions(q));
@@ -64,8 +64,23 @@ class SITest {
 
     @Test
     public void prefix() {
-        SI instance = INSTANCE;
-        instance.forDimensions(DimensionalAnalysis.FORCE);
+        assertThat(SI.mPerS.withPrefix(SI.DecimalPrefix.k).toString()).isEqualTo("km·s⁻¹");
+    }
+
+    @Test
+    public void getBaseUnits() {
+        assertThat(INSTANCE.getBaseUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd]");
+    }
+
+    @Test
+    public void getUnits() {
+        assertThat(INSTANCE.getUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd, m·s⁻¹, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly]");
+    }
+
+    @Test
+    public  void getForQuantity() {
+        assertThat(INSTANCE.forQuantity(Quantity.LUMINOUS_INTENSITY)).isEqualTo(SIUnit.cd);
+        assertThat(INSTANCE.forQuantity(Quantity.ENERGY)).isEqualTo(SI.J);
     }
 
 

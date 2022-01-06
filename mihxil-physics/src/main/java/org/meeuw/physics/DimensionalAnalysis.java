@@ -1,6 +1,7 @@
 package org.meeuw.physics;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -13,8 +14,6 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.text.spi.FormatService;
 
-import static org.meeuw.physics.Dimension.*;
-
 /**
  * A dimensions object represent a physical dimensional analysis.
  *
@@ -22,32 +21,11 @@ import static org.meeuw.physics.Dimension.*;
  *
  * @author Michiel Meeuwissen
  */
+@Log
 public class DimensionalAnalysis
-    implements MultiplicativeGroupElement<DimensionalAnalysis>, Streamable<DimensionExponent> {
-
-    public static final DimensionalAnalysis DISTANCE = of(L);
-    public static final DimensionalAnalysis LENGTH   = of(L);
-    public static final DimensionalAnalysis AREA     = of(L, L);
-    public static final DimensionalAnalysis VOLUME   = of(L, L, L);
-    public static final DimensionalAnalysis TIME     = of(T);
-    public static final DimensionalAnalysis VELOCITY    = DISTANCE.dividedBy(TIME);
-    public static final DimensionalAnalysis SPEED    = VELOCITY;
-    public static final DimensionalAnalysis WEIGHT   = of(M);
-    public static final DimensionalAnalysis TEMPERATURE         = of(TH);
-    public static final DimensionalAnalysis ELECTRIC_CURRENT    = of(I);
-    public static final DimensionalAnalysis AMOUNT_OF_SUBSTANCE = of(N);
-    public static final DimensionalAnalysis LUMINOUS_INTENSITY  = of(J);
-
-    public static final DimensionalAnalysis DENSITY  = DimensionalAnalysis.of(M).dividedBy(VOLUME);
-
-    public static final DimensionalAnalysis ACCELERATION = VELOCITY.dividedBy(DimensionalAnalysis.of(T));
-    public static final DimensionalAnalysis FORCE   = DimensionalAnalysis.of(M, L, T.with(-2));
-    public static final DimensionalAnalysis ENERGY  = DimensionalAnalysis.of(M, L.with(2), T.with(-2));
-    public static final DimensionalAnalysis POWER   = ENERGY.dividedBy(DimensionalAnalysis.of(T));
-    public static final DimensionalAnalysis SPECIFIC_HEAT   = DimensionalAnalysis.of(L.with(2),TH.with(-1), T.with(-2));
-
-    public static final DimensionalAnalysis FREQUENCY = DimensionalAnalysis.of(T.reciprocal());
-    public static final DimensionalAnalysis PRESSURE = DimensionalAnalysis.of(M, L.reciprocal(), T.with(-2));
+    implements
+    MultiplicativeGroupElement<DimensionalAnalysis>,
+    Streamable<DimensionExponent> {
 
 
     private static final DimensionalAnalysis[] QUANTITIES;
@@ -58,13 +36,14 @@ public class DimensionalAnalysis
                 try {
                     result.add((DimensionalAnalysis) f.get(null));
                 } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+                    log.warning(e.getMessage());
                 }
 
             }
         }
         QUANTITIES = result.toArray(new DimensionalAnalysis[0]);
     }
+
     public static DimensionalAnalysis[] getQuantities() {
         return QUANTITIES;
     }
@@ -146,4 +125,8 @@ public class DimensionalAnalysis
             .mapToObj(i -> DimensionExponent.of(Dimension.values()[i], exponents[i]));
     }
 
+
+    public DimensionalAnalysis dividedBy(Quantity quantity) {
+        return this.dividedBy(quantity.getDimensionalAnalysis());
+    }
 }

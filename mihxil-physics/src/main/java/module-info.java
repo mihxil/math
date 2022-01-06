@@ -11,6 +11,7 @@ module org.meeuw.physics {
     requires java.validation;
     requires org.checkerframework.checker.qual;
     requires org.meeuw.configuration;
+    requires java.logging;
 
     exports org.meeuw.physics;
 

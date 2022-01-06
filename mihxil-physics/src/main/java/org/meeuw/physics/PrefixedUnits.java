@@ -2,6 +2,8 @@ package org.meeuw.physics;
 
 import java.util.Iterator;
 
+import java.util.List;
+
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 public class PrefixedUnits implements Units {
@@ -22,6 +24,16 @@ public class PrefixedUnits implements Units {
     @Override
     public UncertainReal getSIFactor() {
         return wrapped.getSIFactor().times(prefix.getAsDouble());
+    }
+
+    @Override
+    public List<Quantity> getQuantities() {
+        return wrapped.getQuantities();
+    }
+
+    @Override
+    public Units withQuantity(Quantity... quantity) {
+        return new PrefixedUnits(wrapped.withQuantity(quantity), prefix);
     }
 
     @Override

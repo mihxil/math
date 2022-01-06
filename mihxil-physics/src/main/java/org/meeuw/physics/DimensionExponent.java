@@ -5,6 +5,9 @@ import lombok.Data;
 import org.meeuw.math.Utils;
 
 
+/**
+ * Bundles a {@link Dimension} with an exponent.
+ */
 public interface DimensionExponent {
 
     Dimension getDimension();

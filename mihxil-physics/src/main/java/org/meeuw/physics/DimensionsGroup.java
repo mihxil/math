@@ -10,8 +10,10 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  */
 @Example(MultiplicativeAbelianGroup.class)
-public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnalysis> implements
-    MultiplicativeAbelianGroup<DimensionalAnalysis>, Streamable<DimensionalAnalysis> {
+public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnalysis>
+    implements
+    MultiplicativeAbelianGroup<DimensionalAnalysis>,
+    Streamable<DimensionalAnalysis> {
 
     private static final DimensionalAnalysis ONE = new DimensionalAnalysis();
 

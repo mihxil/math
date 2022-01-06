@@ -23,6 +23,7 @@ public class UnitsImpl implements Units  {
     @Getter
     private final UnitExponent[] exponents;
 
+
     public UnitsImpl(UncertainReal siFactor, Unit... units) {
         this(siFactor, Unit.toArray(units));
     }
@@ -101,6 +102,11 @@ public class UnitsImpl implements Units  {
             }
         }
         return new DimensionalAnalysis(dimexponents);
+    }
+
+    @Override
+    public List<Quantity> getQuantities() {
+        return Collections.emptyList();
     }
 
     @Override
