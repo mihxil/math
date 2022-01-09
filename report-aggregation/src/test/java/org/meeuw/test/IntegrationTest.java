@@ -1,5 +1,9 @@
 package org.meeuw.test;
 
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.TestClock;
@@ -15,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IntegrationTest {
 
     @Test
-    public void windowedEventRateToPhysics() {
+    public void windowedEventRateToPhysics() throws UnsupportedEncodingException {
         TestClock clock = new TestClock();
         WindowedEventRate rate = WindowedEventRate.builder()
             .clock(clock)
@@ -28,7 +32,9 @@ public class IntegrationTest {
 
         PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
         assertThat(rateInHours.toString()).isEqualTo("7200 h⁻¹");
-        System.out.println("Rate: " + rateInHours);
+        PrintStream out = new PrintStream(System.out, true, "UTF-8");
+
+        out.println("Rate: " + rateInHours + " h⁻¹ " + Charset.defaultCharset() + " " + System.getProperty("file.encoding"));
     }
 
     @Test

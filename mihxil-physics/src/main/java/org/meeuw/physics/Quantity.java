@@ -2,6 +2,11 @@ package org.meeuw.physics;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.extern.java.Log;
+
+import java.util.*;
+
+import org.meeuw.math.ReflectionUtils;
 
 import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.DimensionalAnalysis.of;
@@ -14,6 +19,7 @@ import static org.meeuw.physics.DimensionalAnalysis.of;
  */
 @Getter
 @EqualsAndHashCode
+@Log
 public class Quantity {
 
     public static final Quantity DISTANCE = new Quantity("distance", "d", of(L));
@@ -48,5 +54,18 @@ public class Quantity {
         this.dimensionalAnalysis = dimensionalAnalysis;
     }
 
+
+    private static final List<Quantity> QUANTITIES = new ArrayList<>();
+    static {
+        ReflectionUtils.forConstants(Quantity.class, Quantity::registerQuantity);
+    }
+
+    public static List<Quantity> getQuantities() {
+        return Collections.unmodifiableList(QUANTITIES);
+    }
+
+    public static void registerQuantity(Quantity quantity) {
+        QUANTITIES.add(quantity);
+    }
 
 }

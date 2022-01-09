@@ -4,6 +4,7 @@ import lombok.Getter;
 
 /**
  * Representation of a basic physical dimension. This follows the SI recommendation.
+ *
  * @author Michiel Meeuwissen
  * @since 0.3
  */
@@ -18,7 +19,7 @@ public enum Dimension implements DimensionExponent {
     J("luminous intensity");
 
     /**
-     * Just an alias if you can't type greek
+     * Just an alias for if you can't type greek
      */
     static final Dimension TH = Θ;
 
@@ -29,7 +30,6 @@ public enum Dimension implements DimensionExponent {
     @Getter
     final String name;
 
-
     Dimension(char i, String name) {
         toString = String.valueOf(i);
         this.name = name;
@@ -37,12 +37,12 @@ public enum Dimension implements DimensionExponent {
 
     Dimension(String name) {
         this.name = name;
-        toString = null;
+        toString = name();
     }
 
     @Override
     public String toString() {
-        return toString == null ? name() : toString;
+        return toString;
     }
 
     @Override

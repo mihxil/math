@@ -8,10 +8,14 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
+import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
 /**
+ * A 'derived' unit is a singular {@link Unit} which is not a {@link BaseUnit}. It has one symbol, and
+ * may itself be wrapped in a {@link DimensionExponent}.
+ *
+ * Its {@link DimensionalAnalysis} may be complex though. E.g. a {@link SI#J} is a derived unit.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -35,7 +39,7 @@ public class DerivedUnit implements Unit {
     final List<Quantity> quantities;
 
     public DerivedUnit(
-        UncertainReal SIFactor,
+        @NonNull UncertainReal SIFactor,
         String name,
         String description,
         UnitExponent... siExponents) {
@@ -59,18 +63,19 @@ public class DerivedUnit implements Unit {
     @lombok.Builder
     private DerivedUnit(
         @NonNull UncertainReal siFactor,
-        int[] exponents,
-        String name,
-        String description,
-        List<UnitExponent> siExponents,
-        @Singular @Nullable List<Quantity> quantities
+        final int[] exponents,
+        final String name,
+        final String description,
+        final List<UnitExponent> unitExponents,
+        final @Singular @Nullable List<Quantity> quantities
         ) {
         this.exponents =  new int[SIUnit.values().length];
         if (exponents != null) {
             System.arraycopy(exponents, 0, this.exponents, 0, this.exponents.length);
         }
-        if (siExponents != null) {
-            for (UnitExponent f : siExponents) {
+        if (unitExponents != null) {
+            for (UnitExponent f : unitExponents) {
+                siFactor = siFactor.times(f.getSIFactor());
                 int[] dimensions = f.getDimensions().getExponents();
                 for (int d = 0; d < dimensions.length; d++) {
                     this.exponents[d] += dimensions[d];
@@ -82,7 +87,6 @@ public class DerivedUnit implements Unit {
         this.SIFactor = siFactor;
         this.quantities = quantities == null ? Collections.emptyList() : quantities;
     }
-
 
     public DerivedUnit(Units units, String name, String description) {
         this.exponents = new int[SIUnit.values().length];
@@ -113,7 +117,7 @@ public class DerivedUnit implements Unit {
     }
 
     public DerivedUnit(String name, String description, UnitExponent... siExponents) {
-        this(INSTANCE.one(), name, description,  siExponents);
+        this(UncertainRealField.INSTANCE.one(), name, description,  siExponents);
     }
 
     @Override
@@ -202,8 +206,8 @@ public class DerivedUnit implements Unit {
     }
 
     public static class Builder {
-        public Builder unitExponents(UnitExponent... siExponents) {
-            return siExponents(Arrays.asList(siExponents));
+        public Builder unitExponent(UnitExponent... siExponents) {
+            return unitExponents(Arrays.asList(siExponents));
         }
 
 

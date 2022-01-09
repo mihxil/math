@@ -1,5 +1,8 @@
 package org.meeuw.physics;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
@@ -10,6 +13,7 @@ import org.meeuw.math.text.spi.FormatService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.physics.SI.INSTANCE;
+import static org.meeuw.physics.SI.km;
 import static org.meeuw.physics.SIUnit.m;
 import static org.meeuw.physics.SIUnit.s;
 
@@ -19,13 +23,31 @@ import static org.meeuw.physics.SIUnit.s;
  */
 class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
-    Units DISTANCE = INSTANCE.forQuantity(Quantity.DISTANCE);
-    Units TIME = INSTANCE.forQuantity(Quantity.TIME);
+    final Units DISTANCE = INSTANCE.forQuantity(Quantity.DISTANCE);
+    final Units TIME = INSTANCE.forQuantity(Quantity.TIME);
+
 
     @Override
     public Arbitrary<Units> elements() {
-        return Arbitraries.of(DimensionalAnalysis.getQuantities())
-            .map(INSTANCE::forDimensions);
+        Collection<Units> units = new ArrayList<>();
+        units.addAll(INSTANCE.getUnits());
+        units.addAll(CGS.INSTANCE.getUnits());
+        units.addAll(Planck.INSTANCE.getUnits());
+        return Arbitraries.of(units);
+    }
+
+    @Test
+    public void distanceAndTime() {
+        assertThat(DISTANCE).isEqualTo(SIUnit.m);
+        assertThat(TIME).isEqualTo(SIUnit.s);
+    }
+
+
+    @Test
+    public void reciprocal() {
+        assertThat(km.pow(-1)).isEqualTo(m.withPrefix(SI.DecimalPrefix.m));
+        assertThat(km.reciprocal()).isEqualTo(m.withPrefix(SI.DecimalPrefix.m));
+
     }
 
     @Test

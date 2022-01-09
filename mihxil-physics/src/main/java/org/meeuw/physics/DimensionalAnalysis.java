@@ -3,9 +3,7 @@ package org.meeuw.physics;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.*;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -26,27 +24,6 @@ public class DimensionalAnalysis
     implements
     MultiplicativeGroupElement<DimensionalAnalysis>,
     Streamable<DimensionExponent> {
-
-
-    private static final DimensionalAnalysis[] QUANTITIES;
-    static {
-        final List<DimensionalAnalysis> result = new ArrayList<>();
-        for (Field f : DimensionalAnalysis.class.getDeclaredFields()) {
-            if (Modifier.isPublic(f.getModifiers()) && Modifier.isStatic(f.getModifiers()) && f.getType().equals(DimensionalAnalysis.class)) {
-                try {
-                    result.add((DimensionalAnalysis) f.get(null));
-                } catch (IllegalAccessException e) {
-                    log.warning(e.getMessage());
-                }
-
-            }
-        }
-        QUANTITIES = result.toArray(new DimensionalAnalysis[0]);
-    }
-
-    public static DimensionalAnalysis[] getQuantities() {
-        return QUANTITIES;
-    }
 
     @Getter
     final int[] exponents = new int[Dimension.values().length];

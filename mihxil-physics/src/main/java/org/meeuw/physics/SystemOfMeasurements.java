@@ -1,10 +1,9 @@
 package org.meeuw.physics;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.ReflectionUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
@@ -32,37 +31,15 @@ public interface SystemOfMeasurements {
     }
 
 
-     default List<BaseUnit> getBaseUnits() {
-        Class<?> thisClass = this.getClass();
-
+    default List<BaseUnit> getBaseUnits() {
         List<BaseUnit> result = new ArrayList<>();
-        for (Class<?> subclass : thisClass.getDeclaredClasses()) {
-            if (BaseUnit.class.isAssignableFrom(subclass)) {
-                if (Enum.class.isAssignableFrom(subclass)) {
-                    for (Object u : subclass.getEnumConstants()) {
-                        result.add((BaseUnit) u);
-                    }
-                }
-            }
-
-        }
+        ReflectionUtils.forConstants(this.getClass(), BaseUnit.class, result::add);
         return Collections.unmodifiableList(result);
     }
 
     default List<Units> getUnits()  {
-        final Class<?> thisClass = this.getClass();
         final List<Units> result = new ArrayList<>(getBaseUnits());
-        for (Field f : thisClass.getDeclaredFields()) {
-            if (Units.class.isAssignableFrom(f.getType())) {
-                if (Modifier.isStatic(f.getModifiers())) {
-                    try {
-                        result.add((Units) f.get(null));
-                    } catch (IllegalAccessException e) {
-                        // ignore
-                    }
-                }
-            }
-        }
+        ReflectionUtils.forConstants(this.getClass(), Units.class, result::add);
         return Collections.unmodifiableList(result);
     }
 

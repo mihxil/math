@@ -210,7 +210,9 @@ public class SI implements SystemOfMeasurements {
         }
     }
 
-    public static final Units mPerS = m.dividedBy(s);
+    public static final Units mPerS = m.per(s);
+
+    public static final Units km = m.withPrefix(DecimalPrefix.k);
 
     public static final DerivedUnit N =
         new DerivedUnit("N", "Newton", of(kg, 1), of(m, 1), of(s, -2))
@@ -225,6 +227,9 @@ public class SI implements SystemOfMeasurements {
         new DerivedUnit("Pa", "Pascal", of(kg, 1), of(m, -1), of(s, -2))
             .withQuantity(PRESSURE);
 
+    /**
+     * The SI unit of energy 'Joule'
+     */
     public static final DerivedUnit J =
         new DerivedUnit("J", "joule", of(kg, 1), of(m, 2), of(s, -2))
             .withQuantity(ENERGY);

@@ -2,8 +2,7 @@ package org.meeuw.physics.text;
 
 import java.text.*;
 
-import javax.validation.constraints.NotNull;
-
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.physics.Dimension;
 import org.meeuw.physics.DimensionalAnalysis;
@@ -15,7 +14,7 @@ import org.meeuw.physics.DimensionalAnalysis;
 public class DimensionalAnalysisFormat extends Format {
 
     @Override
-    public StringBuffer format(Object number, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
+    public StringBuffer format(@NonNull Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
 
         StringBuffer buf = new StringBuffer();
         DimensionalAnalysis dimension = (DimensionalAnalysis) number;

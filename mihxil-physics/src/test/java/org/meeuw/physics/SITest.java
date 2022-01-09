@@ -56,15 +56,14 @@ class SITest {
     public void forDimensions() {
         assertThat(INSTANCE.forDimensions(L, T.with(-1)).toString()).isEqualTo("m·s⁻¹");
         assertThat(INSTANCE.forQuantity(Quantity.FORCE).toString()).isEqualTo("N");
-
-        for (DimensionalAnalysis q : DimensionalAnalysis.getQuantities()) {
-            log.info("{}: {}", q, INSTANCE.forDimensions(q));
-        }
     }
 
     @Test
     public void prefix() {
-        assertThat(SI.mPerS.withPrefix(SI.DecimalPrefix.k).toString()).isEqualTo("km·s⁻¹");
+        Units kmPerS = SI.mPerS.withPrefix(SI.DecimalPrefix.k);
+        assertThat(kmPerS.toString()).isEqualTo("km·s⁻¹");
+        assertThat(kmPerS.getSIFactor().getValue()).isEqualTo(1000d);
+        assertThat(SI.km.getSIFactor().getValue()).isEqualTo(1000d);
     }
 
     @Test

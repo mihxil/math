@@ -46,6 +46,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
     @Override
     @Property
+    @Label("powNegative2 group")
     default void powNegative2(
          @ForAll(ELEMENTS) E v1
     )  {
@@ -59,6 +60,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
     @Override
     @Property
+    @Label("powNegative3 group")
     default void powNegative3(
          @ForAll(ELEMENTS) E v1
     )  {

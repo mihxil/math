@@ -2,8 +2,7 @@ package org.meeuw.physics.text;
 
 import java.text.*;
 
-import javax.validation.constraints.NotNull;
-
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.physics.PhysicalNumber;
 
 /**
@@ -13,7 +12,7 @@ import org.meeuw.physics.PhysicalNumber;
 public class PhysicalNumberFormat extends Format {
 
     @Override
-    public StringBuffer format(Object number, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
+    public StringBuffer format(@NonNull Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
 
         StringBuffer buf = new StringBuffer();
         PhysicalNumber physicalNumber = (PhysicalNumber) number;

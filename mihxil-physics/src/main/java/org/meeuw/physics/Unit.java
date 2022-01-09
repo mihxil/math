@@ -6,7 +6,10 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * The representation of a singular 'unit'.
+ * The representation of a singular 'unit'. This can be {@link BaseUnit} or a {@link DerivedUnit}
+ *
+ * It has one sumbol
+ *
  *
  * @author Michiel Meeuwissen
  * @since 0.4

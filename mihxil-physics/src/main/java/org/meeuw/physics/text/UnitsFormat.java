@@ -2,8 +2,7 @@ package org.meeuw.physics.text;
 
 import java.text.*;
 
-import javax.validation.constraints.NotNull;
-
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.physics.*;
 
@@ -20,7 +19,8 @@ public class UnitsFormat extends Format {
     }
 
     @Override
-    public StringBuffer format(Object object, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
+    public StringBuffer format(
+        @NonNull Object object, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         StringBuffer builder = new StringBuffer();
         UnitsImpl units = (UnitsImpl) object;
         for (UnitExponent e : units.getExponents()) {

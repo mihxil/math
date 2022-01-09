@@ -10,10 +10,13 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
 
 /**
  * The representation of the units of a certain value.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElement<Units> {
+public interface Units extends
+    Iterable<UnitExponent>,
+    MultiplicativeGroupElement<Units> {
 
     Units DIMENSIONLESS = of(exactly(1));
 
@@ -44,6 +47,10 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
         return new PhysicalConstant("0", 0, this, "zero " + this);
     }
 
+    default Units per(Units units) {
+        return dividedBy(units);
+    }
+
     UncertainReal getSIFactor();
 
     default Units withPrefix(Prefix prefix) {
@@ -55,7 +62,6 @@ public interface Units extends Iterable<UnitExponent>, MultiplicativeGroupElemen
     }
 
     List<Quantity> getQuantities();
-
 
     default Units withName(String name) {
         return new DerivedUnit(this, name, null);

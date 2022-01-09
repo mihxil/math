@@ -66,6 +66,8 @@ public class CGS implements SystemOfMeasurements {
         }
     }
 
+    public static final Units cmPerS = cm.per(s);
+
     // acceleration
     public static final DerivedUnit Gal =
         new DerivedUnit("Gal", "gal", of(cm, 1), of(s, -2))

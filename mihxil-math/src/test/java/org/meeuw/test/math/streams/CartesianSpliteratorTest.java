@@ -10,9 +10,9 @@ import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.meeuw.math.streams.CartesianSpliterator;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Log4j2
 class CartesianSpliteratorTest {
@@ -86,11 +86,13 @@ class CartesianSpliteratorTest {
         testEnd(cartesianSpliterator);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     @SafeVarargs
     private <E> E[] testAdvance(CartesianSpliterator<? extends E> cartesianSpliterator, E... values) {
-        return testAdvance(cartesianSpliterator, i -> {
-            log.info("Found {}", cartesianSpliterator.currentAsString());
-        }, values);
+        return testAdvance(cartesianSpliterator, i ->
+            log.info("Found {}", cartesianSpliterator.currentAsString()),
+            values
+        );
     }
 
 
@@ -206,9 +208,11 @@ class CartesianSpliteratorTest {
             Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i + 1).spliterator();
             CartesianSpliterator<Integer> cartesianSpliterator =
                 new CartesianSpliterator<>(positive, 2);
-            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a -> {
-                printer.println(cartesianSpliterator.getIndex() + " " + Stream.of(a).map(String::valueOf).collect(Collectors.joining(" ")));
-                }
+            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a ->
+                printer.println(
+                    cartesianSpliterator.getIndex() + " " +
+                        Stream.of(a).map(String::valueOf).collect(Collectors.joining(" "))
+                )
             );
         }
     }
@@ -222,9 +226,11 @@ class CartesianSpliteratorTest {
             Supplier<Spliterator<? extends Integer>> positive = () -> Stream.iterate(0, i -> i + 1).spliterator();
             CartesianSpliterator<Integer> cartesianSpliterator =
                 new CartesianSpliterator<>(positive, 3);
-            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a -> {
-                printer.println(cartesianSpliterator.getIndex() + " " + Stream.of(a).map(String::valueOf).collect(Collectors.joining(" ")));
-                }
+            StreamSupport.stream(cartesianSpliterator, false).limit(1000).forEach(a ->
+                printer.println(
+                    cartesianSpliterator.getIndex() + " " +
+                        Stream.of(a).map(String::valueOf).collect(Collectors.joining(" "))
+                )
             );
         }
     }

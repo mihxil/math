@@ -187,7 +187,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         }
     }
 
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return equals(o, 1);

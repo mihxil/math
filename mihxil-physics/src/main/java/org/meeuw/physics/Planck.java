@@ -19,9 +19,7 @@ public class Planck  implements SystemOfMeasurements {
     public static final Planck INSTANCE = new Planck();
 
     private Planck() {
-
     }
-
 
     @Override
     @NonNull
@@ -30,7 +28,8 @@ public class Planck  implements SystemOfMeasurements {
             case L: return PlanckUnit.PlanckLength;
             case M: return PlanckUnit.PlanckMass;
             case T: return PlanckUnit.PlanckTime;
-            case I: return new DerivedUnit(PlanckUnit.PlanckCharge.dividedBy(PlanckUnit.PlanckTime), "Plank Current", "Planck Current");
+            case I: return new DerivedUnit(PlanckUnit.PlanckCharge.dividedBy(PlanckUnit.PlanckTime),
+                "Plank Current", "Planck Current");
             case Θ: return PlanckUnit.PlanckTemperature;
             case N: return SIUnit.mol;
             case J: return SIUnit.cd;

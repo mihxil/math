@@ -45,8 +45,8 @@ public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStati
 
     @Override
     public DoubleSummaryStatistics getWindowValue() {
-        DoubleSummaryStatistics result = new DoubleSummaryStatistics();
-        DoubleSummaryStatistics[] b = getBuckets();
+        final DoubleSummaryStatistics result = new DoubleSummaryStatistics();
+        final DoubleSummaryStatistics[] b = getBuckets();
         for (int i = b.length -1 ; i >= 0; i--) {
             result.combine(b[i]);
         }

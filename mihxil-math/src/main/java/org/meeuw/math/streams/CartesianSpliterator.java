@@ -276,9 +276,9 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
             }
             if (limitIterators[elementCurrentlyFixedAtLimit] != null) {
                 // this proposal is not finished, so we can use it.
-                if (limitIterators[elementCurrentlyFixedAtLimit].tryAdvance(a -> {
-                    current[elementCurrentlyFixedAtLimit] = a;
-                })) {
+                if (limitIterators[elementCurrentlyFixedAtLimit].tryAdvance(a ->
+                    current[elementCurrentlyFixedAtLimit] = a)
+                ) {
                     if (initializeForNewFix()) {
                         return true;
                     }
@@ -387,9 +387,9 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
         final List<Class<?>> classes = new ArrayList<>();
         if (generators.length > 0) {
             for (Supplier<Spliterator<? extends E>> generator : generators) {
-                if (generator.get().tryAdvance(e -> {
-                    container[0] = e.getClass();
-                })) {
+                if (generator.get().tryAdvance(e ->
+                    container[0] = e.getClass())
+                ) {
                     classes.add(container[0]);
                 }
             }
