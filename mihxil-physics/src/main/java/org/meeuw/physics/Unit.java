@@ -35,10 +35,23 @@ public interface Unit extends Units {
         return name();
     }
 
+    default Unit withPrefix(Prefix prefix) {
+        return new PrefixedUnit(this, prefix);
+    }
+
+    @Override
+    Unit withQuantity(Quantity... quantity);
+
+
+    @Override
+    default UnitExponent[] getCanonicalExponents() {
+        return new UnitExponent[] {new UnitExponent(this, 1)};
+    }
+
     @Override
     @NonNull
     default Iterator<UnitExponent> iterator() {
-        return Collections.singleton(new UnitExponent(this, 1)).iterator();
+        return Arrays.stream(getCanonicalExponents()).iterator();
     }
 
     static UnitExponent[] toArray(Unit... units) {

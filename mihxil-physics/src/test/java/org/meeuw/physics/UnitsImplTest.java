@@ -12,6 +12,7 @@ import org.meeuw.math.text.spi.FormatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SI.km;
 import static org.meeuw.physics.SIUnit.m;
@@ -45,8 +46,10 @@ class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     @Test
     public void reciprocal() {
-        assertThat(km.pow(-1)).isEqualTo(m.withPrefix(SI.DecimalPrefix.m));
-        assertThat(km.reciprocal()).isEqualTo(m.withPrefix(SI.DecimalPrefix.m));
+        Units perKm = UnitsGroup.INSTANCE.one().dividedBy(m.withPrefix(k));
+        assertThat(perKm.reciprocal()).isEqualTo(km);
+        assertThat(km.pow(-1)).isEqualTo(perKm);
+        assertThat(km.reciprocal()).isEqualTo(perKm);
 
     }
 

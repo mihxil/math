@@ -89,12 +89,15 @@ public class UnitsImpl implements Units  {
                 base.remove(i--);
             }
         }
-        return new UnitsImpl(SIFactor.pow(exponent), base.toArray(new UnitExponent[0]));
+        return new UnitsImpl(
+            SIFactor.pow(exponent),
+            base.toArray(new UnitExponent[0])
+        );
     }
 
     @Override
     public DimensionalAnalysis getDimensions() {
-        int[] dimexponents =  new int[Dimension.NUMBER];
+        final int[] dimexponents =  new int[Dimension.NUMBER];
         for (UnitExponent u : exponents) {
             int[] uexponents = u.getDimensions().getExponents();
             for (int i = 0; i < Dimension.NUMBER; i++) {
@@ -114,6 +117,7 @@ public class UnitsImpl implements Units  {
         return Arrays.stream(exponents).iterator();
     }
 
+    @Override
     public UnitExponent[] getCanonicalExponents() {
         UnitExponent[] copy = Arrays.copyOf(exponents, exponents.length);
         Arrays.sort(copy);

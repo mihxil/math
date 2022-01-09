@@ -16,7 +16,7 @@ public enum SIUnit implements BaseUnit {
     m(L, "meter"),
     kg(M, "kilogram") {
         @Override
-        public Units withPrefix(Prefix prefix) {
+        public Unit withPrefix(Prefix prefix) {
             if (prefix == SI.DecimalPrefix.k) {
                 return this;
             } else {
@@ -59,6 +59,9 @@ public enum SIUnit implements BaseUnit {
     public SystemOfMeasurements getSystem() {
         return SI.INSTANCE;
     }
+
+
+
 
     private static DimensionalAnalysis getDimensions(int ord) {
         int[] exponents = new int[7];

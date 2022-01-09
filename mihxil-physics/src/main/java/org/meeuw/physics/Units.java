@@ -39,7 +39,6 @@ public interface Units extends
 
     DimensionalAnalysis getDimensions();
 
-
     /**
      * Returns a constant representing a 0 with this units.
      */
@@ -53,13 +52,13 @@ public interface Units extends
 
     UncertainReal getSIFactor();
 
-    default Units withPrefix(Prefix prefix) {
-        return new PrefixedUnits(this, prefix);
+    default Units withQuantity(Quantity... quantity) {
+        return new UnitsImpl(
+            this.getSIFactor(),
+            this.getCanonicalExponents()).withQuantity(quantity);
     }
 
-    default Units withQuantity(Quantity... quantity) {
-        return new DerivedUnit(this, null, null).withQuantity(quantity);
-    }
+    UnitExponent[] getCanonicalExponents();
 
     List<Quantity> getQuantities();
 

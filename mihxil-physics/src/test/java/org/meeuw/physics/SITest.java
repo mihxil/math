@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.INSTANCE;
+import static org.meeuw.physics.SIUnit.m;
+import static org.meeuw.physics.SIUnit.s;
 
 /**
  * @author Michiel Meeuwissen
@@ -49,7 +52,7 @@ class SITest {
 
     @Test
     public void forDimension() {
-        assertThat((Object) INSTANCE.forDimension(T)).isEqualTo(SIUnit.s);
+        assertThat((Object) INSTANCE.forDimension(T)).isEqualTo(s);
     }
 
     @Test
@@ -60,7 +63,7 @@ class SITest {
 
     @Test
     public void prefix() {
-        Units kmPerS = SI.mPerS.withPrefix(SI.DecimalPrefix.k);
+        Units kmPerS = m.withPrefix(k).per(s);
         assertThat(kmPerS.toString()).isEqualTo("km·s⁻¹");
         assertThat(kmPerS.getSIFactor().getValue()).isEqualTo(1000d);
         assertThat(SI.km.getSIFactor().getValue()).isEqualTo(1000d);
@@ -73,7 +76,7 @@ class SITest {
 
     @Test
     public void getUnits() {
-        assertThat(INSTANCE.getUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd, m·s⁻¹, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly]");
+        assertThat(INSTANCE.getUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd, m·s⁻¹, km, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly]");
     }
 
     @Test

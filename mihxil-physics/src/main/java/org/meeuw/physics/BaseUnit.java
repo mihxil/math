@@ -37,4 +37,10 @@ public interface BaseUnit extends Unit {
     default Units reciprocal() {
         return Units.of(this).reciprocal();
     }
+
+    @Override
+    default Unit withQuantity(Quantity... quantity) {
+        return
+            new DerivedUnit(this, this.getSymbol(), this.getDescription()).withQuantity(quantity);
+    }
 }

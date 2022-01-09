@@ -29,6 +29,7 @@
 
     <!-- optional -->
     <big-math.version>2.3.0</big-math.version>
+    <checkerframework.version>3.21.1</checkerframework.version>
 
     <!-- test dependencies -->
     <log4j.version>2.17.1</log4j.version>
@@ -160,7 +161,7 @@
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
-      <version>3.21.0</version>
+      <version>${checkerframework.version}</version>
       <scope>provided</scope>
     </dependency
     >

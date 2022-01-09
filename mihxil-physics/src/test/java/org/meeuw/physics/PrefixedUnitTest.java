@@ -10,7 +10,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.SIUnit.m;
 
-class PrefixedUnitsTest {
+class PrefixedUnitTest {
 
     final Units kN = SI.N.withPrefix(SI.DecimalPrefix.k);
 

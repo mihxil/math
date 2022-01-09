@@ -50,7 +50,7 @@ class PhysicalNumberTest implements
 
     @Test
     public void prefix() {
-        Units km = Units.of(m).withPrefix(k);
+        Unit km = m.withPrefix(k);
 
         Measurement measurementInKm = new Measurement(1, 0.1, km);
 

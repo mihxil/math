@@ -79,7 +79,8 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E reciprocal = e.reciprocal();
             assertThat(reciprocal.reciprocal()).isEqualTo(e);
             E reciprocalTimesSelf = reciprocal.times(e);
-            assertThat(reciprocalTimesSelf).usingDefaultComparator().isEqualTo(e.getStructure().one());
+            assertThat(reciprocalTimesSelf).usingDefaultComparator()
+                .isEqualTo(e.getStructure().one());
         } catch (ReciprocalException ae) {
             // The element may be zero
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
