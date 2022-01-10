@@ -33,6 +33,7 @@ public class Quantity {
 
     public static final Quantity SPEED    = new Quantity("speed", "s", VELOCITY.getDimensionalAnalysis());
     public static final Quantity WEIGHT   = new Quantity("weight", "w", of(M));
+    public static final Quantity MASS   = new Quantity("mass", "m", of(M));
     public static final Quantity TEMPERATURE         = new Quantity("temperature", "T", of(TH));
     public static final Quantity ELECTRIC_CURRENT    = new Quantity("current", "I", of(I));
     public static final Quantity AMOUNT_OF_SUBSTANCE = new Quantity("amount of substance", "N", of(N));

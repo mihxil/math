@@ -9,7 +9,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
- * The representation of the units of a certain value.
+ * The representation of the physical units of a value.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -25,16 +25,16 @@ public interface Units extends
         return UnitsGroup.INSTANCE;
     }
 
-    static UnitsImpl of(UncertainReal siFactor, Unit... units) {
-        return new UnitsImpl(siFactor, units);
+    static CompositeUnits of(UncertainReal siFactor, Unit... units) {
+        return new CompositeUnits(siFactor, units);
     }
 
-    static UnitsImpl of(Unit... units) {
+    static CompositeUnits of(Unit... units) {
         UncertainReal factor = UncertainRealField.INSTANCE.one();
         for (Unit u : units) {
             factor = factor.times(u.getSIFactor());
         }
-        return new UnitsImpl(factor, units);
+        return new CompositeUnits(factor, units);
     }
 
     DimensionalAnalysis getDimensions();
@@ -53,7 +53,7 @@ public interface Units extends
     UncertainReal getSIFactor();
 
     default Units withQuantity(Quantity... quantity) {
-        return new UnitsImpl(
+        return new CompositeUnits(
             this.getSIFactor(),
             this.getCanonicalExponents()).withQuantity(quantity);
     }

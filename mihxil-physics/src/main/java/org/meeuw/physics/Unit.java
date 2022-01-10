@@ -8,7 +8,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * The representation of a singular 'unit'. This can be {@link BaseUnit} or a {@link DerivedUnit}
  *
- * It has one sumbol
+ * It has one symbol {@link #getSymbol()} which for enums may simply be the same as {@link Enum#name()}.
+ *
+ *
+ * A singular unit can also be {@link #withPrefix(Prefix)} prefixed.
  *
  *
  * @author Michiel Meeuwissen

@@ -15,7 +15,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  *
  * @author Michiel Meeuwissen
  */
-public class UnitsImpl implements Units  {
+public class CompositeUnits implements Units  {
 
     @Getter
     private final UncertainReal SIFactor;
@@ -23,21 +23,27 @@ public class UnitsImpl implements Units  {
     @Getter
     private final UnitExponent[] exponents;
 
+    private final List<Quantity> quantities;
 
-    public UnitsImpl(UncertainReal siFactor, Unit... units) {
+    public CompositeUnits(UncertainReal siFactor, Unit... units) {
         this(siFactor, Unit.toArray(units));
     }
 
-    public UnitsImpl(UncertainReal siFactor, UnitExponent... units) {
+    public CompositeUnits(UncertainReal siFactor, UnitExponent... units) {
+        this(siFactor, units, null);
+    }
+
+    private CompositeUnits(UncertainReal siFactor, UnitExponent[] units, List<Quantity> quantities) {
         this.exponents = units;
         this.SIFactor = siFactor;
+        this.quantities = quantities == null ? Collections.emptyList() : quantities;
     }
 
     /**
      * SI Units for given analysis
      */
-    public static  UnitsImpl si(UncertainReal siFactor, DimensionalAnalysis units) {
-        return new UnitsImpl(siFactor, units.stream()
+    public static CompositeUnits si(UncertainReal siFactor, DimensionalAnalysis units) {
+        return new CompositeUnits(siFactor, units.stream()
             .filter(e -> e.getExponent() != 0)
             .map(de -> de.toUnitExponent(SI.INSTANCE))
             .toArray(UnitExponent[]::new));
@@ -76,7 +82,7 @@ public class UnitsImpl implements Units  {
         if (base.size() == 0) {
             return Units.DIMENSIONLESS;
         }
-        return new UnitsImpl(SIFactor.times(multiplier.getSIFactor()), base.toArray(new UnitExponent[0]));
+        return new CompositeUnits(SIFactor.times(multiplier.getSIFactor()), base.toArray(new UnitExponent[0]));
     }
 
     @Override
@@ -89,7 +95,7 @@ public class UnitsImpl implements Units  {
                 base.remove(i--);
             }
         }
-        return new UnitsImpl(
+        return new CompositeUnits(
             SIFactor.pow(exponent),
             base.toArray(new UnitExponent[0])
         );
@@ -109,7 +115,17 @@ public class UnitsImpl implements Units  {
 
     @Override
     public List<Quantity> getQuantities() {
-        return Collections.emptyList();
+        return Collections.unmodifiableList(quantities);
+    }
+
+    @Override
+    public Units withQuantity(Quantity... quantity) {
+        List<Quantity> quantities = new ArrayList<>(getQuantities());
+        quantities.addAll(Arrays.asList(quantity));
+        return new CompositeUnits(
+            this.getSIFactor(),
+            this.getCanonicalExponents(),
+            quantities);
     }
 
     @Override

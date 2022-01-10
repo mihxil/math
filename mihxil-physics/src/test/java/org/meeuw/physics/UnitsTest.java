@@ -22,7 +22,7 @@ import static org.meeuw.physics.SIUnit.s;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class UnitsImplTest implements MultiplicativeAbelianGroupTheory<Units> {
+class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     final Units DISTANCE = INSTANCE.forQuantity(Quantity.DISTANCE);
     final Units TIME = INSTANCE.forQuantity(Quantity.TIME);

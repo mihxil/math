@@ -13,7 +13,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  */
 public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements MultiplicativeGroup<Units>, Streamable<Units> {
 
-    private static final Units ONE = UnitsImpl.DIMENSIONLESS;
+    private static final Units ONE = CompositeUnits.DIMENSIONLESS;
 
     public static final UnitsGroup INSTANCE = new UnitsGroup();
 
@@ -44,7 +44,7 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements Mul
                 for (int i = 0; i < array.length; i++) {
                     units[i] = new UnitExponent(SIUnit.values()[i], array[i]);
                 }
-                return new UnitsImpl(exactly(1), units);
+                return new CompositeUnits(exactly(1), units);
             }
         );
     }

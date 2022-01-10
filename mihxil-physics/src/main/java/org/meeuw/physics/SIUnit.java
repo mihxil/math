@@ -74,7 +74,7 @@ public enum SIUnit implements BaseUnit {
         for (int i = 0; i < exponents.length; i++) {
             unitExponents[i] = UnitExponent.of(values()[i], exponents[i]);
         }
-        return new UnitsImpl(UncertainRealField.INSTANCE.one(), unitExponents);
+        return new CompositeUnits(UncertainRealField.INSTANCE.one(), unitExponents);
     }
 
     @Override

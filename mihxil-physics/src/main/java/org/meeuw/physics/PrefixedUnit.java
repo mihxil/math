@@ -56,7 +56,7 @@ public class PrefixedUnit implements Unit {
             canonicalExponents[i] = new UnitExponent
                 (canonicalExponents[i].getUnit(), -1 * canonicalExponents[i].getExponent());
         }
-        return new UnitsImpl(wrapped.getSIFactor().reciprocal(), canonicalExponents);
+        return new CompositeUnits(wrapped.getSIFactor().reciprocal(), canonicalExponents);
     }
 
     @Override

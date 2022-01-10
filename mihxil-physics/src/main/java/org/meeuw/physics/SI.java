@@ -7,6 +7,7 @@ import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Quantity.*;
@@ -210,9 +211,14 @@ public class SI implements SystemOfMeasurements {
         }
     }
 
-    public static final Units mPerS = m.per(s);
+    public static final Units mPerS = m.per(s).withQuantity(VELOCITY);
 
-    public static final Units km = m.withPrefix(DecimalPrefix.k);
+    public static final Units km = m.withPrefix(DecimalPrefix.k).withQuantity(DISTANCE);
+
+
+    public static final DerivedUnit litre = new DerivedUnit(
+        "l", "litre",
+        of(m.withPrefix(SI.DecimalPrefix.d),3)).withQuantity(VOLUME);
 
     public static final DerivedUnit N =
         new DerivedUnit("N", "Newton", of(kg, 1), of(m, 1), of(s, -2))
@@ -220,7 +226,7 @@ public class SI implements SystemOfMeasurements {
 
     public static final DerivedUnit g =
         new DerivedUnit(exactly(0.001), "g", "gram", of(kg, 1))
-            .withQuantity(WEIGHT);
+            .withQuantity(MASS);
     public static final DerivedUnit Hz =
         new DerivedUnit("Hz", "Hertz", of(s, -1)).withQuantity(Quantity.FREQUENCY);
     public static final DerivedUnit Pa =
@@ -252,4 +258,12 @@ public class SI implements SystemOfMeasurements {
         .withQuantity(DISTANCE);
     public static final DerivedUnit ly = new DerivedUnit("ly", "light-year", exactly(9460730472580800d), m)
         .withQuantity(DISTANCE);
+
+    public static final DerivedUnit Da = new DerivedUnit("Da", "dalton",
+        UncertainDoubleElement.of(
+            1.660539040e-27,
+            0.000000020e-27), kg).withQuantity(MASS);
+
+
+
 }

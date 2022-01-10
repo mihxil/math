@@ -28,6 +28,12 @@ class SITest {
     }
 
     @Test
+    public void litre() {
+        assertThat(SI.litre.toString()).isEqualTo("litre");
+        assertThat(SI.litre.toSI().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
+    }
+
+    @Test
     public void prefixes() {
         prefixes(SI.DecimalPrefix.none);
     }

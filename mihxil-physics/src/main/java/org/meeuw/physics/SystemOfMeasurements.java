@@ -27,7 +27,7 @@ public interface SystemOfMeasurements {
         final UncertainReal siFactor = Arrays.stream(unitExponents)
             .map(UnitExponent::getSIFactor)
             .reduce(UncertainRealField.INSTANCE.one(), UncertainReal::times);
-        return new UnitsImpl(siFactor, unitExponents);
+        return new CompositeUnits(siFactor, unitExponents);
     }
 
 

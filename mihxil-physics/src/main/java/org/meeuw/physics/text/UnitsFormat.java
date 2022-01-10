@@ -22,7 +22,7 @@ public class UnitsFormat extends Format {
     public StringBuffer format(
         @NonNull Object object, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         StringBuffer builder = new StringBuffer();
-        UnitsImpl units = (UnitsImpl) object;
+        CompositeUnits units = (CompositeUnits) object;
         for (UnitExponent e : units.getExponents()) {
             if (e.getExponent() != 0) {
                 if (builder.length() > 0) {
