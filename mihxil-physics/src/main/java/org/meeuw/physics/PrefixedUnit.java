@@ -51,7 +51,7 @@ public class PrefixedUnit implements Unit {
 
     @Override
     public Units reciprocal() {
-        return new CompositeUnits(getSIFactor().reciprocal(), new UnitExponent(wrapped, -1));
+        return new CompositeUnits(getSIFactor().reciprocal(), new UnitExponent(this, -1));
     }
 
     @Override

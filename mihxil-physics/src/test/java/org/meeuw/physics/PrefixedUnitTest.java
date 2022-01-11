@@ -23,7 +23,7 @@ class PrefixedUnitTest {
     void iterator() {
         List<UnitExponent> list = new ArrayList<>();
         kN.iterator().forEachRemaining(list::add);
-        assertThat(list.toString()).isEqualTo("[N]");
+        assertThat(list.toString()).isEqualTo("[kN]");
     }
 
     @Test
@@ -35,7 +35,7 @@ class PrefixedUnitTest {
     void reciprocal() {
         Units units = kN.reciprocal();
         assertThat(units.getSIFactor()).isEqualTo(UncertainDoubleElement.exactly(0.001d));
-        assertThat(units.toString()).isEqualTo("m(N)⁻¹");
+        assertThat(units.toString()).isEqualTo("kN⁻¹");
     }
 
     @Test

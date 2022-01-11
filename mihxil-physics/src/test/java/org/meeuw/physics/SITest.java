@@ -29,8 +29,8 @@ class SITest {
 
     @Test
     public void litre() {
-        assertThat(SI.litre.toString()).isEqualTo("litre");
-        assertThat(SI.litre.toSI().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
+        assertThat(SI.litre.toString()).isEqualTo("l");
+        assertThat(SI.litre.toSI().toString()).isEqualTo("0.001 m³");
     }
 
     @Test
@@ -82,7 +82,9 @@ class SITest {
 
     @Test
     public void getUnits() {
-        assertThat(INSTANCE.getUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd, m·s⁻¹, km, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly]");
+        assertThat(INSTANCE.getUnits().toString()).isEqualTo(
+            "[m, kg, s, A, K, mol, cd, m·s⁻¹, km, l, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly, Da]"
+        );
     }
 
     @Test
