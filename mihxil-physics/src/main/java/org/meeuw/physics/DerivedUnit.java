@@ -130,7 +130,7 @@ public class DerivedUnit implements Unit {
         return name;
     }
 
-    public PhysicalConstant toSI() {
+    public PhysicalConstant asSIConstant() {
         return new PhysicalConstant(
             name,
             SIFactor,

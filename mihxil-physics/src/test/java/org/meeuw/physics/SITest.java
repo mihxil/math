@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
+import static org.meeuw.physics.SI.DecimalPrefix.d;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SIUnit.m;
@@ -24,13 +26,19 @@ class SITest {
     @Test
     public void ly() {
         assertThat(SI.ly.toString()).isEqualTo("ly");
-        assertThat(SI.ly.toSI().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
+        assertThat(SI.ly.asSIConstant().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
     }
 
+    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Test
     public void litre() {
         assertThat(SI.litre.toString()).isEqualTo("l");
-        assertThat(SI.litre.toSI().toString()).isEqualTo("0.001 m³");
+        assertThat(SI.litre.asSIConstant().toString()).isEqualTo("0.001 m³");
+
+        Units dm3 = m.withPrefix(d).pow(3);
+        Measurement alsoOneLitre = new Measurement(exactly(1), dm3);
+        assertThat(alsoOneLitre.equals(SI.litre.asSIConstant())).isTrue();
+
     }
 
     @Test
