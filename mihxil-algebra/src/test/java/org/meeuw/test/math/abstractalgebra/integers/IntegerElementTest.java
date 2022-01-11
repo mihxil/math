@@ -19,7 +19,10 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class IntegerElementTest implements RingTheory<IntegerElement>, MultiplicativeMonoidTheory<IntegerElement>, SignedNumberTheory<IntegerElement> {
+class IntegerElementTest implements
+    RingTheory<IntegerElement>,
+    MultiplicativeMonoidTheory<IntegerElement>,
+    SignedNumberTheory<IntegerElement> {
 
     @Override
     @Property
@@ -28,6 +31,7 @@ class IntegerElementTest implements RingTheory<IntegerElement>, MultiplicativeMo
         assertThat(v.times(v.getStructure().one())).isEqualTo(v);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     void test() {
         assertThat(of(0).plus(of(1))).isEqualTo(of(1));
@@ -77,9 +81,9 @@ class IntegerElementTest implements RingTheory<IntegerElement>, MultiplicativeMo
             Tuple.of(1, Arbitraries.of(IntegerElement.ZERO, IntegerElement.ONE, IntegerElement.ONE.negation())),
             Tuple.of(20, Arbitraries.randomValue((random) -> IntegerElement.of(random.nextInt())))
         ).injectDuplicates(0.1)
-            .edgeCases(integerElementConfig -> {
-                integerElementConfig.add(IntegerElement.of(2 * 2 * 2 * 2 * 2));
-            });
+            .edgeCases(integerElementConfig ->
+                integerElementConfig.add(IntegerElement.of(2 * 2 * 2 * 2 * 2))
+            );
 
     }
 

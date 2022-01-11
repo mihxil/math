@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 0.4
  */
 @Log4j2
-class ModuloFieldElementTest  {
+class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
 
     @Test
     public void illegal() {
@@ -41,6 +41,13 @@ class ModuloFieldElementTest  {
         assertThatThrownBy(() ->
             ModuloField.of(0) //
         ).isInstanceOf(InvalidStructureCreationException.class);
+    }
+
+    @Override
+    public Arbitrary<ModuloFieldElement> elements() {
+        return Arbitraries.of(
+            ModuloField.of(23).stream().toArray(ModuloFieldElement[]::new)
+        );
     }
 
 

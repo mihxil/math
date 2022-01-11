@@ -10,7 +10,9 @@ import org.meeuw.math.exceptions.ReciprocalException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ModuloFieldElement extends ModuloElement<ModuloFieldElement, ModuloField> implements FieldElement<ModuloFieldElement> {
+public class ModuloFieldElement
+    extends ModuloElement<ModuloFieldElement, ModuloField>
+    implements FieldElement<ModuloFieldElement> {
 
     ModuloFieldElement(int value, ModuloField structure) {
         super(value, structure);
