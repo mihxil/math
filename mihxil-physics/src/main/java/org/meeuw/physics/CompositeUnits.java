@@ -125,7 +125,8 @@ public class CompositeUnits implements Units  {
         return new CompositeUnits(
             this.getSIFactor(),
             this.getCanonicalExponents(),
-            quantities);
+            quantities
+        );
     }
 
     @Override

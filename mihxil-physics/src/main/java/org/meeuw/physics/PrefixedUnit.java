@@ -51,17 +51,19 @@ public class PrefixedUnit implements Unit {
 
     @Override
     public Units reciprocal() {
-        UnitExponent[] canonicalExponents = wrapped.reciprocal().getCanonicalExponents();
-        for (int i = 0; i < canonicalExponents.length; i++) {
-            canonicalExponents[i] = new UnitExponent
-                (canonicalExponents[i].getUnit(), -1 * canonicalExponents[i].getExponent());
-        }
-        return new CompositeUnits(wrapped.getSIFactor().reciprocal(), canonicalExponents);
+        return new CompositeUnits(getSIFactor().reciprocal(), new UnitExponent(wrapped, -1));
     }
 
     @Override
     public Units times(Units multiplier) {
-        return wrapped.times(multiplier);
+        UnitExponent[] canonicalExponents = multiplier.getCanonicalExponents();
+        UnitExponent[] exponents = new UnitExponent[canonicalExponents.length + 1];
+        exponents[0] = new UnitExponent(this, 1);
+        System.arraycopy(canonicalExponents, 0, exponents, 1, canonicalExponents.length);
+        return new CompositeUnits(
+            getSIFactor().times(multiplier.getSIFactor()),
+            exponents
+        );
     }
 
     @Override

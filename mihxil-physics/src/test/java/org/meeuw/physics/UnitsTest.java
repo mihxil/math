@@ -1,5 +1,7 @@
 package org.meeuw.physics;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -22,11 +24,51 @@ import static org.meeuw.physics.SIUnit.s;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     final Units DISTANCE = INSTANCE.forQuantity(Quantity.DISTANCE);
     final Units TIME = INSTANCE.forQuantity(Quantity.TIME);
 
+
+     @Test
+    public void N() {
+        assertThat(SI.N.toString()).isEqualTo("N");
+        assertThat(SI.N.getDescription()).isEqualTo("Newton");
+        assertThat(SI.N.getDimensions().toString()).isEqualTo("LMT⁻²");
+    }
+
+    @Test
+    public void eV() {
+        assertThat(SI.eV.toString()).isEqualTo("eV");
+        assertThat(SI.eV.getDescription()).isEqualTo("electron-volt");
+        assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
+        assertThat(SI.eV.getSIFactor().getValue()).isEqualTo(1.602176634E-19);
+    }
+
+    @Test
+    public void kmph() {
+        Units km =   SIUnit.m.withPrefix(k);
+        assertThat(km.toString()).isEqualTo("km");
+        assertThat(km.getSIFactor().getValue()).isEqualTo(1000);
+        assertThat(SI.hour.getSIFactor().getValue()).isEqualTo(3600);
+        Units kmph = km.dividedBy(SI.hour).withName("km/h");
+        assertThat(kmph.toString()).isEqualTo("km/h");
+        assertThat(kmph.getDimensions()).isEqualTo(Quantity.SPEED.getDimensionalAnalysis());
+        assertThat(kmph.getSIFactor().getValue()).isEqualTo(0.2777777777777778d);
+
+
+        PhysicalNumber n = new Measurement(10d, 1d, kmph);
+
+        PhysicalNumber mps = n.toUnits(SI.INSTANCE);
+
+        log.info("{} -> {}", n, mps);
+        assertThat(mps.toString()).isEqualTo("2.8 ± 0.3 m·s⁻¹");
+
+        assertThat(mps).isEqualTo(n.toUnits(SI.INSTANCE));
+
+        assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("(9.3 ± 0.8)·10⁻⁹ ℓₚ·tₚ⁻¹");
+    }
 
     @Override
     public Arbitrary<Units> elements() {
