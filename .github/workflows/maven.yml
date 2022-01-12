@@ -35,8 +35,12 @@ jobs:
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
+      - uses: crazy-max/ghaction-import-gpg@v3
+        with:
+           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+           passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Deploy with Maven
-        run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=true
+        run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
         if: ${{ github.event_name == 'push' }}
       - name: Commit generated dot file if it changed
         uses: stefanzweifel/git-auto-commit-action@v4
