@@ -15,6 +15,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  */
 public interface Streamable<T> extends Iterable<T> {
 
+    /**
+     * @throws org.meeuw.math.exceptions.NotStreamable if not streamable after all
+     */
     Stream<T> stream();
 
     /**

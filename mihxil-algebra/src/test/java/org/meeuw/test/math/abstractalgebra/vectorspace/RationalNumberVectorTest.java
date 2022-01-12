@@ -7,12 +7,16 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.abstractalgebra.vectorspace.NVectorSpace;
+import org.meeuw.math.exceptions.NotStreamable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 /**
@@ -33,6 +37,8 @@ class RationalNumberVectorTest implements
         assertThat(space3.equals(space3)).isTrue();
         assertThat(space3.hashCode() == new NVectorSpace<>(3, INSTANCE).hashCode()).isTrue();
     }
+
+
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test

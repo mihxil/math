@@ -15,6 +15,7 @@ import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
@@ -48,7 +49,10 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
 
     @RepeatedTest(20)
     public void nextRandom() {
-        log.info(ModuloField.of(23).nextRandom(new Random()));
+        ModuloField modulo23 = ModuloField.of(23);
+        ModuloFieldElement moduloFieldElement = modulo23.nextRandom(new Random());
+        log.info(moduloFieldElement);
+        assertThat(moduloFieldElement.getStructure()).isEqualTo(modulo23);
     }
 
 
