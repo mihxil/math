@@ -13,8 +13,12 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.ONE;
  * @since 0.4
  */
 @Example(MultiplicativeMonoid.class)
+@Example(MultiplicativeAbelianSemiGroup.class)
 public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
-    implements MultiplicativeMonoid<OddIntegerElement>, Streamable<OddIntegerElement>  {
+    implements
+    MultiplicativeMonoid<OddIntegerElement>,
+    MultiplicativeAbelianSemiGroup<OddIntegerElement>,
+    Streamable<OddIntegerElement>  {
 
     public static final OddIntegers INSTANCE = new OddIntegers();
 

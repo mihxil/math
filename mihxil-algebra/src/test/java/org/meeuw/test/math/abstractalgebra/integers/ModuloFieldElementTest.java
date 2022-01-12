@@ -2,7 +2,10 @@ package org.meeuw.test.math.abstractalgebra.integers;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.util.Random;
+
 import net.jqwik.api.*;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -42,6 +45,12 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
             ModuloField.of(0) //
         ).isInstanceOf(InvalidStructureCreationException.class);
     }
+
+    @RepeatedTest(20)
+    public void nextRandom() {
+        log.info(ModuloField.of(23).nextRandom(new Random()));
+    }
+
 
     @Override
     public Arbitrary<ModuloFieldElement> elements() {
@@ -84,6 +93,7 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
             super(ModuloField.of(13));
         }
     }
+
     public static class Modulo2 extends AbstractTest {
 
         protected Modulo2() {

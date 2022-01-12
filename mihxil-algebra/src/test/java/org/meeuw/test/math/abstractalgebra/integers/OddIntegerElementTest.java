@@ -1,15 +1,14 @@
 package org.meeuw.test.math.abstractalgebra.integers;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
-
 import java.util.stream.Collectors;
 
-import org.assertj.core.api.Assertions;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+
 import org.meeuw.math.abstractalgebra.integers.*;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
@@ -21,7 +20,11 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class OddIntegerElementTest implements MultiplicativeMonoidTheory<OddIntegerElement>, SignedNumberTheory<OddIntegerElement>, ScalarTheory<OddIntegerElement> {
+class OddIntegerElementTest implements
+    MultiplicativeMonoidTheory<OddIntegerElement>,
+    MultiplicativeSemiGroupTheory<OddIntegerElement>,
+    SignedNumberTheory<OddIntegerElement>,
+    ScalarTheory<OddIntegerElement> {
 
     @Test
     public void test() {

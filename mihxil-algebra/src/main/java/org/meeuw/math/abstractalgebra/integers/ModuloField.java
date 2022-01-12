@@ -13,7 +13,8 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  * @since 0.4
  */
 @Example(Field.class)
-public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField> implements Field<ModuloFieldElement> {
+public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
+    implements Field<ModuloFieldElement> {
 
     private static final Map<Integer, ModuloField> INSTANCES = new ConcurrentHashMap<>();
 

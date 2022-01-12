@@ -357,6 +357,10 @@
                 jqwik.shrinking.default=OFF
               </configurationParameters>
             </properties>
+            <includes>
+              <include>**/*Test.java</include>
+              <include>%regex[.*Test\$.*]</include>
+            </includes>
           </configuration>
           <dependencies>
             <dependency>
