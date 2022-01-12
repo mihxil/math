@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 public interface UncertaintyNumberOperations<N extends Number> extends NumberOperations<N> {
 
 
+    @SuppressWarnings("unchecked")
     static <N extends Number> UncertaintyNumberOperations<N> of(N n) {
         if (n instanceof BigDecimal) {
             return (UncertaintyNumberOperations<N>) BigDecimalOperations.INSTANCE;

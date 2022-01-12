@@ -10,6 +10,7 @@ import java.util.Arrays;
  */
 public interface NumberOperations<N extends Number> {
 
+    @SuppressWarnings("unchecked")
     static <N extends Number> NumberOperations<N> of(N n) {
         if (n instanceof BigDecimal) {
             return (NumberOperations<N>) BigDecimalOperations.INSTANCE;

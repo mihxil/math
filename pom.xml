@@ -334,6 +334,13 @@
           <configuration>
             <testFailureIgnore>true</testFailureIgnore>
             <useModulePath>false</useModulePath>
+            <excludes>
+              <exclude/>
+            </excludes>
+            <includes>
+              <include>**/*Test.java</include>
+              <include>%regex[.*Test[\$\.].*]</include>
+            </includes>
             <systemPropertyVariables>
               <projectArtifactId>${project.artifactId}</projectArtifactId>
 
@@ -357,10 +364,7 @@
                 jqwik.shrinking.default=OFF
               </configurationParameters>
             </properties>
-            <includes>
-              <include>**/*Test.java</include>
-              <include>%regex[.*Test\$.*]</include>
-            </includes>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
           </configuration>
           <dependencies>
             <dependency>

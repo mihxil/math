@@ -22,7 +22,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         this.mathContext = mathContext;
     }
 
-        @Override
+    @Override
     public BigDecimal getFractionalUncertainty(BigDecimal value, BigDecimal uncertainty) {
         if (uncertainty.signum() == 0) {
             return BigDecimal.ZERO;
