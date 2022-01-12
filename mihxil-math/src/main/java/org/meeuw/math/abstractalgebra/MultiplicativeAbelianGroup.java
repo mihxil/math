@@ -6,7 +6,9 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  */
 public interface MultiplicativeAbelianGroup<E extends MultiplicativeGroupElement<E>>
-    extends MultiplicativeGroup<E> {
+    extends
+    MultiplicativeGroup<E>,
+    MultiplicativeAbelianSemiGroup<E> {
 
 
     @Override

@@ -11,7 +11,9 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements MultiplicativeGroup<Units>, Streamable<Units> {
+public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
+    MultiplicativeAbelianGroup<Units>,
+    Streamable<Units> {
 
     private static final Units ONE = CompositeUnits.DIMENSIONLESS;
 
