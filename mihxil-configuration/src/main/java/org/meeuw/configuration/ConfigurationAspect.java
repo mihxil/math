@@ -11,6 +11,9 @@ import java.util.List;
  */
 public interface ConfigurationAspect extends Serializable {
 
+    /**
+     * Used for implementing {@link Configuration#getConfigurationAspectsAssociatedWith(Class)}
+     */
     List<Class<?>> associatedWith();
 
 }

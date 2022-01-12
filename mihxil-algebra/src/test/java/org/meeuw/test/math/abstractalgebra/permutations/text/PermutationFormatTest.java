@@ -2,12 +2,18 @@ package org.meeuw.test.math.abstractalgebra.permutations.text;
 
 import java.text.ParseException;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 import org.meeuw.math.abstractalgebra.permutations.text.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
@@ -15,7 +21,20 @@ import static org.assertj.core.api.Assertions.*;
 class PermutationFormatTest {
 
     @Test
+    public void aspect() {
+        List<ConfigurationAspect> check = ConfigurationService.getConfiguration()
+            .getConfigurationAspectsAssociatedWith(PermutationFormatProvider.class);
+
+        assertThat(check).hasSize(1);
+        assertThat(check.get(0)).isInstanceOf(PermutationConfiguration.class);
+        assertThat(((PermutationConfiguration) check.get(0)).getOffset()).isEqualTo(Offset.ONE);
+
+
+    }
+
+    @Test
     public void format() {
+
         final PermutationFormat format = new PermutationFormat(Notation.LIST, Offset.ONE);
         assertThatThrownBy(() -> format.format(new Object())).isInstanceOf(IllegalArgumentException.class);
 

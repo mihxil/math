@@ -22,7 +22,7 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.of;
  */
 class OddIntegerElementTest implements
     MultiplicativeMonoidTheory<OddIntegerElement>,
-    MultiplicativeSemiGroupTheory<OddIntegerElement>,
+    MultiplicativeAbelianSemiGroupTheory<OddIntegerElement>,
     SignedNumberTheory<OddIntegerElement>,
     ScalarTheory<OddIntegerElement> {
 

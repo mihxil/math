@@ -90,5 +90,4 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThat(v.sqr()).isNotNull().isEqualTo(v.times(v));
     }
 
-
 }
