@@ -50,6 +50,14 @@ Rng -> {AdditiveAbelianGroup
 MultiplicativeSemiGroup}
 
 
+# interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup
+MultiplicativeAbelianSemiGroup[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java"
+		label="{\N|{ * \n⇆}|OddIntegers}"
+]
+MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
+
+
 # interface org.meeuw.math.abstractalgebra.AdditiveGroup
 AdditiveGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveGroup.java"
