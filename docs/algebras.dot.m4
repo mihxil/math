@@ -82,20 +82,21 @@ href="BLOB_URL/org/meeuw/math/abstractalgebra/Ring.java"
 Ring -> {Rng}
 
 
+# interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup
+MultiplicativeAbelianGroup[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java"
+		label="{\N|{ *  / \n⇆ | 1}}"
+]
+MultiplicativeAbelianGroup -> {MultiplicativeGroup
+MultiplicativeAbelianSemiGroup}
+
+
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianGroup
 AdditiveAbelianGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java"
 		label="{\N|{ +  - \n⇆ | 0}}"
 ]
 AdditiveAbelianGroup -> {AdditiveGroup}
-
-
-# interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup
-MultiplicativeAbelianGroup[
-href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java"
-		label="{\N|{ *  / \n⇆ | 1}}"
-]
-MultiplicativeAbelianGroup -> {MultiplicativeGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.DivisionRing
