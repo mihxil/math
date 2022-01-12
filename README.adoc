@@ -111,7 +111,13 @@ A `Scalar` that is also a `FieldElement`. So this is the link from number to alg
 | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] |
 Even more similar to the everyday concept of a number are elements of an algebraic field that is 'complete'.  This in some way means that is has 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible within the algebra.
 
-| link:{ghm}numbers/NumberOperations.java[`NumberOperations`] |
+| link:{ghm}numbers/NumberOperations.java[`NumberOperations`]
+link:{ghm}numbers/UncertaintyNumberOperations.java[`UncertaintyNumberOperations`]
+|
+Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
+. E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`'.
+
+The specialization `UncertaintyNumberOperations` adds the logic for propagation of uncertainties.
 |===
 
 
@@ -444,7 +450,7 @@ Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementat
 
 ==== Vector spaces
 
-Also started on  link:{ghm}abstractalgebra/VectorSpaceInterface.java[vector spaces], which manage link:{ghm}abstractalgebra/VectorInterface.java[`vectors`], which are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
+link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
 
 
 

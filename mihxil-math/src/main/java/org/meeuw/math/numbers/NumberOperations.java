@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 /**
+ * This interface generalises numeric operations for  {@link BigDecimal} and {@link Double}.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -33,7 +34,6 @@ public interface NumberOperations<N extends Number> {
 
     @SuppressWarnings("unchecked")
     N multiply(N... n1);
-
 
     N ln(N n);
 
@@ -82,10 +82,12 @@ public interface NumberOperations<N extends Number> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     default N max(N... n) {
         return Arrays.stream(n).max(this::compare).orElse(null);
     }
 
+    @SuppressWarnings("unchecked")
     default N min(N... n) {
         return Arrays.stream(n).min(this::compare).orElse(null);
     }
