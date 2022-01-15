@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.NavigableSet;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -17,7 +16,6 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-@Example(AdditiveAbelianSemiGroup.class)
 public class PositiveNumbers extends AbstractAlgebraicStructure<PositiveNumber>
     implements
     MultiplicativeMonoid<PositiveNumber>,

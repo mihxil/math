@@ -16,7 +16,6 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(AdditiveAbelianSemiGroup.class)
 @Example(AdditiveMonoid.class)
 public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
     implements

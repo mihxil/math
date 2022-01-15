@@ -14,7 +14,8 @@ import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.ZERO;
  */
 @Example(Rng.class)
 public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
-    implements Rng<EvenIntegerElement>, Streamable<EvenIntegerElement>  {
+    implements Rng<EvenIntegerElement>,
+    Streamable<EvenIntegerElement>  {
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
