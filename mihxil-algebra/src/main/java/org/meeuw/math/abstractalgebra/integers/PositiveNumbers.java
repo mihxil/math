@@ -18,7 +18,6 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @since 0.8
  */
 @Example(AdditiveAbelianSemiGroup.class)
-@Example(AdditiveMonoid.class)
 public class PositiveNumbers extends AbstractAlgebraicStructure<PositiveNumber>
     implements
     MultiplicativeMonoid<PositiveNumber>,

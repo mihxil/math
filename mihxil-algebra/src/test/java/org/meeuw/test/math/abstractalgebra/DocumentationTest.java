@@ -29,6 +29,19 @@ public class DocumentationTest {
     }
 
     @SuppressWarnings("rawtypes")
+    @Test
+    public void showAll() {
+        Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
+
+        subTypes.forEach(c -> {
+            if ((c.getModifiers() & Modifier.PUBLIC) != 0 && !c.isInterface() && (c.getModifiers() & Modifier.ABSTRACT) == 0) {
+                log.info(c.getSimpleName() + "->");
+            }
+        });
+
+    }
+
+    @SuppressWarnings("rawtypes")
     public void dot(OutputStream out) throws IOException {
         Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
@@ -79,7 +92,9 @@ public class DocumentationTest {
 
     }
     protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target)  {
-        String example = getExamples(target).map(Class::getSimpleName).collect(Collectors.joining("\\n"));
+        String example = getExamples(target)
+            .map(Class::getSimpleName)
+            .collect(Collectors.joining("\\n"));
         if (! example.isEmpty()) {
             writer.write("|" + example);
         }

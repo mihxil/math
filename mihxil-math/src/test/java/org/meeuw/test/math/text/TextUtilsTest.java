@@ -10,12 +10,12 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.text.TextUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  *
@@ -31,7 +31,7 @@ public class TextUtilsTest {
 
     @Test
     public void superscript() {
-        assertThat(TextUtils.superscript("-1234567890 P")).isEqualTo("⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ");
+        assertThat("+" + TextUtils.superscript("+-1234567890 P")).isEqualTo("+⁺⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ");
         assertThat(TextUtils.superscript(-123)).isEqualTo("⁻¹²³");
     }
 

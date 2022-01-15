@@ -122,4 +122,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    @Property
+    default void toString(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+        getLogger().info(struct.getClass().getSimpleName() + " -> " + struct);
+    }
+
 }

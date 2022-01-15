@@ -397,7 +397,7 @@
       -->
       <id>no-deploy</id>
       <build>
-        <defaultGoal>clean test</defaultGoal>
+        <defaultGoal>clean test install</defaultGoal>
         <plugins>
           <plugin>
             <groupId>org.jacoco</groupId>
