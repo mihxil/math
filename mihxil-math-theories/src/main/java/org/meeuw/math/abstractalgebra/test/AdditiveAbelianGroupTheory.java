@@ -12,7 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 public interface AdditiveAbelianGroupTheory <E extends AdditiveGroupElement<E>>
-    extends AdditiveGroupTheory<E> {
+    extends
+    AdditiveGroupTheory<E>,
+    AdditiveAbelianSemiGroupTheory<E>
+{
 
 
     @Property
@@ -22,10 +25,4 @@ public interface AdditiveAbelianGroupTheory <E extends AdditiveGroupElement<E>>
         assertThat(v1.minus(v2)).isEqualTo(v2.minus(v1).negation());
     }
 
-    @Property
-    default void additiveCommutativity (
-            @ForAll(ELEMENTS) E v1,
-            @ForAll(ELEMENTS) E v2) {
-        assertThat(v1.plus(v2)).isEqualTo(v2.plus(v1));
-    }
 }

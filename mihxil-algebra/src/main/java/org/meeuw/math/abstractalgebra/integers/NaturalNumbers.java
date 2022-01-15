@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.NavigableSet;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.Utils.navigableSet;
@@ -15,10 +16,13 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(AdditiveAbelianSemiGroup.class)
+@Example(AdditiveMonoid.class)
 public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
     implements
     MultiplicativeMonoid<NaturalNumber>,
     AdditiveMonoid<NaturalNumber>,
+    AdditiveAbelianSemiGroup<NaturalNumber>,
     Streamable<NaturalNumber> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);

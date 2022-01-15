@@ -392,6 +392,9 @@
 
   <profiles>
     <profile>
+      <!-- This profile is automatically activated when there is nt 'deploy' property
+      A few extra modules are build during test, but these modules need not be deployed.
+      -->
       <id>no-deploy</id>
       <build>
         <defaultGoal>clean test</defaultGoal>

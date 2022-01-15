@@ -453,5 +453,9 @@ Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementat
 link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
 
 
+== Compatibility
+
+This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
+
 
 
