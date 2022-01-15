@@ -11,7 +11,8 @@ import org.meeuw.math.exceptions.NotComparableException;
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface StrictlyOrdered<E extends StrictlyOrdered<E>>  extends Comparable<E> {
+public interface StrictlyOrdered<E extends StrictlyOrdered<E>>
+    extends Comparable<E> {
 
     default boolean lt(E compare) {
         return compareTo(compare) < 0 && ! this.equals(compare);

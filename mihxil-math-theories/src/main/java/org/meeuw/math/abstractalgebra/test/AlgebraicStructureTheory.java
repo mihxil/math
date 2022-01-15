@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
@@ -111,6 +112,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 .contains(LT, LTE, GT, GTE);
         }
         assertThat(struct.getSupportedComparisonOperators()).contains(EQUALS);
+    }
+
+    @Property
+    default void examples(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+        Example[] annotation = struct.getClass().getAnnotationsByType(Example.class);
+        for (Example example : annotation) {
+            assertThat(example.value()).isAssignableFrom(struct.getClass());
+        }
     }
 
 }

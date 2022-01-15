@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
@@ -14,33 +15,27 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * The 'Monoid' (multiplicative and additive) of natural numbers.
  *
  * @author Michiel Meeuwissen
- * @since 0.4
+ * @since 0.8
  */
 @Example(AdditiveAbelianSemiGroup.class)
 @Example(AdditiveMonoid.class)
-public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
+public class PositiveNumbers extends AbstractAlgebraicStructure<PositiveNumber>
     implements
-    MultiplicativeMonoid<NaturalNumber>,
-    AdditiveMonoid<NaturalNumber>,
-    AdditiveAbelianSemiGroup<NaturalNumber>,
-    Streamable<NaturalNumber> {
+    MultiplicativeMonoid<PositiveNumber>,
+    AdditiveAbelianSemiGroup<PositiveNumber>,
+    Streamable<PositiveNumber> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);
 
-    public static final NaturalNumbers INSTANCE = new NaturalNumbers();
+    public static final PositiveNumbers INSTANCE = new PositiveNumbers();
 
-    protected NaturalNumbers() {
-        super(NaturalNumber.class);
+    protected PositiveNumbers() {
+        super(PositiveNumber.class);
     }
 
     @Override
-    public NaturalNumber zero() {
-        return NaturalNumber.ZERO;
-    }
-
-    @Override
-    public NaturalNumber one() {
-        return NaturalNumber.ONE;
+    public PositiveNumber one() {
+        return PositiveNumber.ONE;
     }
 
     @Override
@@ -54,8 +49,8 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
     }
 
     @Override
-    public Stream<NaturalNumber> stream() {
-        return  Stream.iterate(zero(), i -> i.plus(one()));
+    public Stream<PositiveNumber> stream() {
+        return  Stream.iterate(one(), i -> i.plus(one()));
     }
 
     @Override
@@ -63,9 +58,8 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
         return Cardinality.ALEPH_0;
     }
 
-
     @Override
     public String toString() {
-        return "ℕ";
+        return "ℕ" + TextUtils.superscript("+");
     }
 }
