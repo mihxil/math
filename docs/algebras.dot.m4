@@ -28,7 +28,7 @@ MultiplicativeSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
 AdditiveAbelianSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java"
-		label="{\N|{ + \n⇆}|NegativeNumbers\nPositiveNumbers\nNaturalNumbers}"
+		label="{\N|{ + \n⇆}|NegativeNumbers}"
 ]
 AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
 
