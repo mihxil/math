@@ -25,10 +25,18 @@ href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java"
 MultiplicativeSemiGroup -> {AlgebraicStructure}
 
 
+# interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
+AdditiveAbelianSemiGroup[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java"
+		label="{\N|{ + \n⇆}|NaturalNumbers}"
+]
+AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
+
+
 # interface org.meeuw.math.abstractalgebra.AdditiveMonoid
 AdditiveMonoid[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveMonoid.java"
-		label="{\N|{ +  | 0}|StringMonoid}"
+		label="{\N|{ +  | 0}|StringMonoid\nNaturalNumbers}"
 ]
 AdditiveMonoid -> {AdditiveSemiGroup}
 
@@ -56,6 +64,15 @@ href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.jav
 		label="{\N|{ * \n⇆}|OddIntegers}"
 ]
 MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
+
+
+# interface org.meeuw.math.abstractalgebra.AdditiveAbelianGroup
+AdditiveAbelianGroup[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java"
+		label="{\N|{ +  - \n⇆ | 0}}"
+]
+AdditiveAbelianGroup -> {AdditiveGroup
+AdditiveAbelianSemiGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveGroup
@@ -89,14 +106,6 @@ href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java"
 ]
 MultiplicativeAbelianGroup -> {MultiplicativeGroup
 MultiplicativeAbelianSemiGroup}
-
-
-# interface org.meeuw.math.abstractalgebra.AdditiveAbelianGroup
-AdditiveAbelianGroup[
-href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java"
-		label="{\N|{ +  - \n⇆ | 0}}"
-]
-AdditiveAbelianGroup -> {AdditiveGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.DivisionRing
