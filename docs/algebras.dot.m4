@@ -125,13 +125,21 @@ href="BLOB_URL/org/meeuw/math/abstractalgebra/AbelianRing.java"
 AbelianRing -> {Ring}
 
 
+# interface org.meeuw.math.abstractalgebra.DivisibleGroup
+DivisibleGroup[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/DivisibleGroup.java"
+		label="{\N|{ *  / \n⇆ | 1}}"
+]
+DivisibleGroup -> {MultiplicativeAbelianGroup}
+
+
 # interface org.meeuw.math.abstractalgebra.Field
 Field[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Field.java"
 		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|ModuloField\nGaussianRationals}"
 ]
 Field -> {DivisionRing
-MultiplicativeAbelianGroup
+DivisibleGroup
 AbelianRing}
 
 
