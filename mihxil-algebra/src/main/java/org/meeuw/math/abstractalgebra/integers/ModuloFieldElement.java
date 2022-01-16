@@ -35,4 +35,13 @@ public class ModuloFieldElement
         return new ModuloFieldElement(first, structure);
     }
 
+    @Override
+    public ModuloFieldElement dividedBy(long divisor) {
+        return new ModuloFieldElement((int) ((long) value / (divisor % getStructure().divisor)), structure);
+    }
+
+    @Override
+    public ModuloFieldElement times(long multiplier) {
+        return new ModuloFieldElement((int) ((long) value * multiplier) % getStructure().divisor, structure);
+    }
 }

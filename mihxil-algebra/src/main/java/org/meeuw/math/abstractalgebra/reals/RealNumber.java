@@ -110,6 +110,16 @@ public class RealNumber
     }
 
     @Override
+    public RealNumber dividedBy(long divisor) {
+        return new RealNumber(value / divisor, Math.abs(uncertainty / divisor));
+    }
+
+    @Override
+    public RealNumber times(long multiplier) {
+        return new RealNumber(value * multiplier, Math.abs(uncertainty * multiplier));
+    }
+
+    @Override
     public RealNumber reciprocal() {
         if (isZero()) {
             throw new DivisionByZeroException("Reciprocal of zero");

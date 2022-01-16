@@ -63,6 +63,11 @@ public class RationalNumber extends Number
     }
 
     @Override
+    public RationalNumber dividedBy(long divisor) {
+        return new RationalNumber(denominator, numerator.multiply(BigInteger.valueOf(divisor)));
+    }
+
+    @Override
     public RationalNumber reciprocal() {
         return new RationalNumber(denominator, numerator);
     }
@@ -138,6 +143,7 @@ public class RationalNumber extends Number
         );
     }
 
+    @Override
     public RationalNumber times(long multiplier) {
         return new RationalNumber(
                 numerator.multiply(BigInteger.valueOf(multiplier)),

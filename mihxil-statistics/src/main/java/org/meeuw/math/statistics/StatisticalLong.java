@@ -152,6 +152,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
 
+
     @Override
     public UncertainDoubleElement reciprocal() {
         if (getValue() == 0d) {

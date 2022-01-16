@@ -81,6 +81,17 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         );
     }
 
+    @Override
+    public S dividedBy(long divisor) {
+        return of(real.dividedBy(divisor), imaginary.dividedBy(divisor));
+    }
+
+
+    @Override
+    public S times(long multiplier) {
+        return of(real.times(multiplier), imaginary.times(multiplier));
+    }
+
     @SuppressWarnings("rawtypes")
     @Override
     public boolean equals(Object o) {

@@ -102,7 +102,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public T negation() {
-        return times(-1);
+        return times(-1d);
     }
 
 
@@ -110,6 +110,18 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     public UncertainDoubleElement pow(int exponent) {
         return new UncertainDoubleElement(Math.pow(getValue(), exponent), getUncertainty());
     }
+
+    @Override
+    public UncertainDoubleElement dividedBy(long divisor) {
+        return new UncertainDoubleElement(getValue() / divisor, getUncertainty() / divisor);
+    }
+
+
+    @Override
+    public UncertainDoubleElement times(long multiplier) {
+        return new UncertainDoubleElement(getValue() * multiplier, getUncertainty() * multiplier);
+    }
+
 
     public void reset() {
         count = 0;

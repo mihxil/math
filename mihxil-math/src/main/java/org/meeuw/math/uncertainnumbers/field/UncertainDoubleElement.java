@@ -77,6 +77,16 @@ public class UncertainDoubleElement
     }
 
     @Override
+    public UncertainReal dividedBy(long divisor) {
+        return new UncertainDoubleElement(value / divisor, Math.abs(uncertainty / divisor));
+    }
+
+    @Override
+    public UncertainReal times(long multiplier) {
+        return new UncertainDoubleElement(value * multiplier, Math.abs(uncertainty * multiplier));
+    }
+
+    @Override
     public boolean eq(UncertainReal other) {
         return equals(other);
     }

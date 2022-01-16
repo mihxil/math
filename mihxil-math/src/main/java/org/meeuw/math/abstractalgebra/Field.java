@@ -8,7 +8,7 @@ package org.meeuw.math.abstractalgebra;
 public interface Field<E extends FieldElement<E>> extends
     DivisionRing<E>,
     AbelianRing<E>,
-    MultiplicativeAbelianGroup<E> {
+    DivisibleGroup<E> {
 
     @Override
     default boolean multiplicationIsCommutative() {

@@ -7,7 +7,6 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.BigDecimalOperations;
-import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -130,7 +129,7 @@ public class BigDecimalElement implements
 
 
     @Override
-    public UncertaintyNumberOperations<BigDecimal> operations() {
+    public BigDecimalOperations operations() {
         return BigDecimalOperations.INSTANCE;
     }
 
@@ -157,6 +156,22 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalField getStructure() {
         return BigDecimalField.INSTANCE;
+    }
+
+    @Override
+    public BigDecimalElement dividedBy(long divisor) {
+        return new BigDecimalElement(
+            value.divide(BigDecimal.valueOf(divisor), operations().getMathContext()),
+            uncertainty.divide(BigDecimal.valueOf(divisor), operations().getMathContext())
+        );
+    }
+
+    @Override
+    public BigDecimalElement times(long multiplier) {
+         return new BigDecimalElement(
+            value.multiply(BigDecimal.valueOf(multiplier)),
+            uncertainty.multiply(BigDecimal.valueOf(multiplier))
+        );
     }
 
     public BigDecimalElement times(double multiplier) {

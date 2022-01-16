@@ -1,8 +1,10 @@
 package org.meeuw.math.numbers;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
+import lombok.Getter;
 
-import java.math.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.stream.Stream;
 
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -16,6 +18,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     public static final BigDecimalOperations INSTANCE = new BigDecimalOperations(MathContext.DECIMAL128);
 
+    @Getter
     private final MathContext mathContext;
 
     public BigDecimalOperations(MathContext mathContext) {

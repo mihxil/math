@@ -32,6 +32,7 @@ public class ComplexNumber extends AbstractComplexNumber<ComplexNumber, RealNumb
         return ComplexNumbers.INSTANCE;
     }
 
+
     @Override
     public RealNumber distanceTo(ComplexNumber otherElement) {
         RealNumber norm = (
