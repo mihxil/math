@@ -1,7 +1,5 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.stream.IntStream;
-
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -24,20 +22,33 @@ public class ModuloFieldElement
         if (value == 0) {
             throw new DivisionByZeroException("reciprocal of 0");
         }
-        int first = IntStream
-            .range(1, structure.divisor)
-            .filter(a -> (a * value) % structure.divisor == 1)
-            .findFirst()
-            .orElseThrow(() -> new ReciprocalException("No reciprocal found for " + value));
 
-        // use Extended Euclidean algorithms
+        int t = 0;
+        int newt = 1;
+        int r = getStructure().divisor;
+        int newr = value;
+        while (newr != 0) {
+            int quotient = r / newr;
+            int oldt = newt;
+            newt = t - quotient * newt;
+            t = oldt;
+            int oldr = newr;
+            newr = r - quotient * newr;
+            r = oldr;
+        }
+        if (r > 1) {
+            throw new ReciprocalException(value + " is not invertible");
+        }
+        if (t < 0) {
+            t = t + getStructure().divisor;
+        }
 
-        return new ModuloFieldElement(first, structure);
+        return new ModuloFieldElement(t, structure);
     }
 
     @Override
     public ModuloFieldElement dividedBy(long divisor) {
-        return new ModuloFieldElement((int) ((long) value / (divisor % getStructure().divisor)), structure);
+        return times(new ModuloFieldElement((int) divisor % structure.divisor, structure).reciprocal());
     }
 
     @Override

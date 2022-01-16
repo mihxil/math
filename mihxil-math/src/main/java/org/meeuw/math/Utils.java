@@ -290,7 +290,7 @@ public final class Utils {
         return gcdByEuclidsAlgorithm(n2, n1 % n2);
     }
 
-    static long gcd(long n1, long n2) {
+    public static long gcd(long n1, long n2) {
         return gcdByEuclidsAlgorithm(n1, n2);
     }
 

@@ -63,6 +63,13 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
         );
     }
 
+    @Test
+    public void dividedByLong() {
+        ModuloFieldElement ten = ModuloField.of(23).element(10);
+        assertThat(ten.dividedBy(5).getValue()).isEqualTo(2);
+        assertThat(ten.dividedBy(9).getValue()).isEqualTo(19);
+    }
+
 
     public static abstract class AbstractTest implements FieldTheory<ModuloFieldElement> {
         final ModuloField structure;

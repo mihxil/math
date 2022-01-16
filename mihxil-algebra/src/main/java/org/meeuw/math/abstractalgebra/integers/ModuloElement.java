@@ -1,7 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.meeuw.math.abstractalgebra.RingElement;
@@ -14,8 +16,10 @@ import org.meeuw.math.abstractalgebra.RingElement;
 public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
     implements RingElement<E>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
+    @Getter
     final int value;
     final S structure;
 
