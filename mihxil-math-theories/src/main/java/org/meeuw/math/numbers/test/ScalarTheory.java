@@ -18,5 +18,6 @@ public interface ScalarTheory<S extends Scalar<S>>
     @Property
     default void implementsScalar(@ForAll(ELEMENTS) S e1) {
         assertThat(e1).isInstanceOf(Scalar.class);
+        assertThat(e1.abs()).isInstanceOf(e1.getClass());
     }
 }

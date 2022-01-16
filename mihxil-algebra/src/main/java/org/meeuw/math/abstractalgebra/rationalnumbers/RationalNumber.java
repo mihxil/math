@@ -64,7 +64,9 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber dividedBy(long divisor) {
-        return new RationalNumber(denominator, numerator.multiply(BigInteger.valueOf(divisor)));
+        return new RationalNumber(
+            numerator,
+            denominator.multiply(BigInteger.valueOf(divisor)));
     }
 
     @Override

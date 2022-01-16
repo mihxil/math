@@ -72,7 +72,7 @@ public class NegativeNumber implements
 
     @Override
     public int signum() {
-        return Long.signum(value);
+        return -1;
     }
 
     @Override
