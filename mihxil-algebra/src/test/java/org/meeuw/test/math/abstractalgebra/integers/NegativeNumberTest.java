@@ -12,7 +12,7 @@ import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
+import static org.meeuw.math.abstractalgebra.integers.NegativeNumber.of;
 
 /**
  * @author Michiel Meeuwissen
@@ -24,14 +24,14 @@ class NegativeNumberTest implements
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(InvalidElementCreationException.class);
-        assertThat(of(5).plus(of(7))).isEqualTo(of(12));
+        assertThatThrownBy(() -> of(1)).isInstanceOf(InvalidElementCreationException.class);
+        assertThat(of(-5).plus(of(-7))).isEqualTo(of(-12));
     }
 
     @Override
     public Arbitrary<NegativeNumber> elements() {
         return Arbitraries.randomValue(r ->
-            new NegativeNumber(
-                -1 * Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
+            of(-1 * Math.abs(r.nextInt(100_000) + 1))
+        ).injectDuplicates(10);
     }
 }
