@@ -8,6 +8,8 @@ on:
       - 'docs/Makefile'
       - 'docs/algebras.dot.m4'
       - '.github/workflows/publish-documentation.yml'
+  workflow_dispatch:
+
 jobs:
   publish:
     runs-on: ubuntu-latest
