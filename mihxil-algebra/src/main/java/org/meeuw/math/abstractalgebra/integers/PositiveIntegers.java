@@ -16,23 +16,23 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class PositiveNumbers extends AbstractAlgebraicStructure<PositiveNumber>
+public class PositiveIntegers extends AbstractAlgebraicStructure<PositiveInteger>
     implements
-    MultiplicativeMonoid<PositiveNumber>,
-    AdditiveAbelianSemiGroup<PositiveNumber>,
-    Streamable<PositiveNumber> {
+    MultiplicativeMonoid<PositiveInteger>,
+    AdditiveAbelianSemiGroup<PositiveInteger>,
+    Streamable<PositiveInteger> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);
 
-    public static final PositiveNumbers INSTANCE = new PositiveNumbers();
+    public static final PositiveIntegers INSTANCE = new PositiveIntegers();
 
-    protected PositiveNumbers() {
-        super(PositiveNumber.class);
+    protected PositiveIntegers() {
+        super(PositiveInteger.class);
     }
 
     @Override
-    public PositiveNumber one() {
-        return PositiveNumber.ONE;
+    public PositiveInteger one() {
+        return PositiveInteger.ONE;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PositiveNumbers extends AbstractAlgebraicStructure<PositiveNumber>
     }
 
     @Override
-    public Stream<PositiveNumber> stream() {
+    public Stream<PositiveInteger> stream() {
         return  Stream.iterate(one(), i -> i.plus(one()));
     }
 

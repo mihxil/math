@@ -6,25 +6,25 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
-import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.ZERO;
+import static org.meeuw.math.abstractalgebra.integers.EvenInteger.ZERO;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Example(Rng.class)
-public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
-    implements Rng<EvenIntegerElement>,
-    Streamable<EvenIntegerElement>  {
+public class EvenIntegers extends AbstractAlgebraicStructure<EvenInteger>
+    implements Rng<EvenInteger>,
+    Streamable<EvenInteger>  {
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
     private EvenIntegers() {
-        super(EvenIntegerElement.class);
+        super(EvenInteger.class);
     }
 
     @Override
-    public EvenIntegerElement zero() {
+    public EvenInteger zero() {
         return ZERO;
     }
 
@@ -34,8 +34,8 @@ public class EvenIntegers extends AbstractAlgebraicStructure<EvenIntegerElement>
     }
 
     @Override
-    public Stream<EvenIntegerElement> stream() {
-        return Stream.iterate(zero(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
+    public Stream<EvenInteger> stream() {
+        return Stream.iterate(zero(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenInteger.of(2)));
     }
 
     @Override

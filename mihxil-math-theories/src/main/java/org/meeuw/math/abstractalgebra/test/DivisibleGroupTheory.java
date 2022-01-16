@@ -19,7 +19,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
     default void dividedByLong(@ForAll(ELEMENTS) E v1, @ForAll("positiveLongs") long divisor) {
         try {
             assertThat(v1.dividedBy(divisor).getStructure()).isEqualTo(v1.getStructure());
-            assertThat(v1.dividedBy(divisor).times(divisor)).isEqualTo(v1);
+            assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).isTrue();
         } catch (DivisionByZeroException divisionByZeroException) {
             getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
             Assume.that(false);

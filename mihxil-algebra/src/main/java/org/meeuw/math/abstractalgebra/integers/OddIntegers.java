@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
-import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.ONE;
+import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
 
 /**
  * @author Michiel Meeuwissen
@@ -14,16 +14,16 @@ import static org.meeuw.math.abstractalgebra.integers.OddIntegerElement.ONE;
  */
 @Example(MultiplicativeMonoid.class)
 @Example(MultiplicativeAbelianSemiGroup.class)
-public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
+public class OddIntegers extends AbstractAlgebraicStructure<OddInteger>
     implements
-    MultiplicativeMonoid<OddIntegerElement>,
-    MultiplicativeAbelianSemiGroup<OddIntegerElement>,
-    Streamable<OddIntegerElement>  {
+    MultiplicativeMonoid<OddInteger>,
+    MultiplicativeAbelianSemiGroup<OddInteger>,
+    Streamable<OddInteger>  {
 
     public static final OddIntegers INSTANCE = new OddIntegers();
 
     private OddIntegers() {
-        super(OddIntegerElement.class);
+        super(OddInteger.class);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
     }
 
     @Override
-    public OddIntegerElement one() {
+    public OddInteger one() {
         return ONE;
     }
 
@@ -42,8 +42,8 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddIntegerElement>
     }
 
     @Override
-    public Stream<OddIntegerElement> stream() {
-        return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenIntegerElement.of(2)));
+    public Stream<OddInteger> stream() {
+        return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenInteger.of(2)));
     }
 
     @Override

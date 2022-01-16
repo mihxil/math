@@ -13,15 +13,15 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.integers.EvenIntegerElement.of;
+import static org.meeuw.math.abstractalgebra.integers.EvenInteger.of;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class EvenIntegerElementTest implements
-    RngTheory<EvenIntegerElement>,
-    SignedNumberTheory<EvenIntegerElement> {
+class EvenIntegerTest implements
+    RngTheory<EvenInteger>,
+    SignedNumberTheory<EvenInteger> {
 
     @Test
     public void test() {
@@ -32,7 +32,7 @@ class EvenIntegerElementTest implements
         assertThat(of(2).plus(of(4).negation())).isEqualTo(of(-2));
         assertThat(of(2).plus(of(2).getStructure().zero())).isEqualTo(of(2));
 
-        Assertions.assertThat(of(2).plus(OddIntegerElement.of(5).negation())).isEqualTo(OddIntegerElement.of(-3));
+        Assertions.assertThat(of(2).plus(OddInteger.of(5).negation())).isEqualTo(OddInteger.of(-3));
 
     }
 
@@ -43,13 +43,13 @@ class EvenIntegerElementTest implements
     }
 
     @Override
-    public Arbitrary<EvenIntegerElement> elements() {
-        return Arbitraries.randomValue((random) -> EvenIntegerElement.of(2 * (random.nextLong() / 2)));
+    public Arbitrary<EvenInteger> elements() {
+        return Arbitraries.randomValue((random) -> EvenInteger.of(2 * (random.nextLong() / 2)));
     }
 
     @Test
     void stream() {
-        Assertions.assertThat(EvenIntegers.INSTANCE.stream().limit(11).map(EvenIntegerElement::longValue)
+        Assertions.assertThat(EvenIntegers.INSTANCE.stream().limit(11).map(EvenInteger::longValue)
             .collect(Collectors.toList())).containsExactly(0L, 2L, -2L, 4L, -4L, 6L, -6L, 8L, -8L, 10L, -10L);
     }
 

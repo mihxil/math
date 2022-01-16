@@ -4,8 +4,9 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.integers.NaturalNumber;
-import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
+import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
+import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
@@ -15,13 +16,12 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
 
 /**
  * @author Michiel Meeuwissen
- * @since 0.4
+ * @since 0.8
  */
-class NaturalNumberTest implements
-    MultiplicativeMonoidTheory<NaturalNumber>,
-    AdditiveMonoidTheory<NaturalNumber>,
-    AdditiveAbelianSemiGroupTheory<NaturalNumber>,
-    ScalarTheory<NaturalNumber> {
+class PositiveIntegerTest implements
+    MultiplicativeMonoidTheory<PositiveInteger>,
+    AdditiveAbelianSemiGroupTheory<PositiveInteger>,
+    ScalarTheory<PositiveInteger> {
 
     @Test
     public void test() {
@@ -30,8 +30,8 @@ class NaturalNumberTest implements
     }
 
     @Override
-    public Arbitrary<NaturalNumber> elements() {
+    public Arbitrary<PositiveInteger> elements() {
         return Arbitraries.randomValue(r ->
-            new NaturalNumber(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
+            new PositiveInteger(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
     }
 }

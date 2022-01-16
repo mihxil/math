@@ -4,23 +4,23 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.integers.NegativeNumber;
-import org.meeuw.math.abstractalgebra.integers.PositiveNumber;
+import org.meeuw.math.abstractalgebra.integers.NegativeInteger;
+import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
 import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.integers.NegativeNumber.of;
+import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.of;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
  */
 class NegativeNumberTest implements
-    AdditiveAbelianSemiGroupTheory<NegativeNumber>,
-    SizeableScalarTheory<NegativeNumber, PositiveNumber> {
+    AdditiveAbelianSemiGroupTheory<NegativeInteger>,
+    SizeableScalarTheory<NegativeInteger, PositiveInteger> {
 
     @Test
     public void test() {
@@ -29,7 +29,7 @@ class NegativeNumberTest implements
     }
 
     @Override
-    public Arbitrary<NegativeNumber> elements() {
+    public Arbitrary<NegativeInteger> elements() {
         return Arbitraries.randomValue(r ->
             of(-1 * Math.abs(r.nextInt(100_000) + 1))
         ).injectDuplicates(10);

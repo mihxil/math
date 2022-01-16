@@ -6,22 +6,21 @@ import java.math.BigDecimal;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.Ordered;
-import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.numbers.*;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.9
  */
-public abstract class AbstractIntegerElement<E extends AbstractIntegerElement<E>>
+public abstract class AbstractIntegerElement<E extends AbstractIntegerElement<E, SIZE>, SIZE extends Scalar<SIZE>>
     implements
     SignedNumber,
     AlgebraicElement<E>,
-    Scalar<E>,
+    SizeableScalar<E, SIZE>,
     Ordered<E> {
 
     @Getter
-    private final long value;
+    protected final long value;
 
     protected AbstractIntegerElement(long value) {
         this.value = value;

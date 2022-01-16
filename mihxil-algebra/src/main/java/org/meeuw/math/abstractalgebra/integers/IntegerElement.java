@@ -1,9 +1,5 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import lombok.Getter;
-
-import java.math.BigDecimal;
-
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
@@ -14,7 +10,9 @@ import org.meeuw.math.numbers.Scalar;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class IntegerElement implements
+public class IntegerElement
+    extends AbstractIntegerElement<IntegerElement, IntegerElement>
+    implements
     RingElement<IntegerElement>,
     Scalar<IntegerElement>,
     MultiplicativeMonoidElement<IntegerElement>,
@@ -23,15 +21,13 @@ public class IntegerElement implements
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
 
-    @Getter
-    private final long value;
 
     public static IntegerElement of(long value){
         return new IntegerElement(value);
     }
 
     public IntegerElement(long value) {
-        this.value = value;
+        super(value);
     }
 
     @Override
@@ -52,11 +48,6 @@ public class IntegerElement implements
     @Override
     public Integers getStructure() {
         return Integers.INSTANCE;
-    }
-
-    @Override
-    public boolean isZero() {
-        return value == 0;
     }
 
     @Override
@@ -98,29 +89,8 @@ public class IntegerElement implements
     }
 
     @Override
-    public long longValue() {
-        return value;
-    }
-
-    @Override
-    public double doubleValue() {
-        return value;
-    }
-
-    @Override
-    public BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(value);
-    }
-
-
-    @Override
     public IntegerElement negation() {
         return new IntegerElement(-1 * value);
-    }
-
-    @Override
-    public int signum() {
-        return Long.signum(value);
     }
 
     @Override
@@ -136,16 +106,6 @@ public class IntegerElement implements
         IntegerElement that = (IntegerElement) o;
 
         return value == that.value;
-    }
-
-    @Override
-    public int hashCode() {
-        return (int) value;
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(value);
     }
 
 }

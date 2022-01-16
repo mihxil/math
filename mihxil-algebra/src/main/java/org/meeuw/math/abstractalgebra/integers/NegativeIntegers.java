@@ -9,7 +9,7 @@ import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
-import static org.meeuw.math.abstractalgebra.integers.NegativeNumber.MINUS_ONE;
+import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
 
 /**
  * The 'Semigroup'  of  negative numbers
@@ -18,17 +18,17 @@ import static org.meeuw.math.abstractalgebra.integers.NegativeNumber.MINUS_ONE;
  * @since 0.8
  */
 @Example(AdditiveAbelianSemiGroup.class)
-public class NegativeNumbers extends AbstractAlgebraicStructure<NegativeNumber>
+public class NegativeIntegers extends AbstractAlgebraicStructure<NegativeInteger>
     implements
-    AdditiveAbelianSemiGroup<NegativeNumber>,
-    Streamable<NegativeNumber> {
+    AdditiveAbelianSemiGroup<NegativeInteger>,
+    Streamable<NegativeInteger> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(ADDITION);
 
-    public static final NegativeNumbers INSTANCE = new NegativeNumbers();
+    public static final NegativeIntegers INSTANCE = new NegativeIntegers();
 
-    protected NegativeNumbers() {
-        super(NegativeNumber.class);
+    protected NegativeIntegers() {
+        super(NegativeInteger.class);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class NegativeNumbers extends AbstractAlgebraicStructure<NegativeNumber>
     }
 
     @Override
-    public Stream<NegativeNumber> stream() {
+    public Stream<NegativeInteger> stream() {
         return  Stream.iterate(MINUS_ONE, i -> i.plus(MINUS_ONE));
     }
 
