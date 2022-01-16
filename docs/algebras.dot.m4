@@ -28,7 +28,7 @@ MultiplicativeSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
 AdditiveAbelianSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java"
-		label="{\N|{ + \n⇆}|NegativeNumbers}"
+		label="{\N|{ + \n⇆}|NegativeIntegers}"
 ]
 AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
 
@@ -52,7 +52,7 @@ MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 # interface org.meeuw.math.abstractalgebra.Rng
 Rng[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Rng.java"
-		label="{\N|{ +  - \n⇆ |  *  | 0}|EvenIntegers}"
+		label="{\N|{ +  - \n⇆ |  *  | 0}|EvenIntegers\nNDivisibleIntegers}"
 ]
 Rng -> {AdditiveAbelianGroup
 MultiplicativeSemiGroup}
