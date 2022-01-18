@@ -30,7 +30,9 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     N roundingUncertainty(N n);
 
     default N powerUncertainty(
-        N base, N baseUncertainty, N exponent, N exponentUncertainty, N result) {
+        N base, N baseUncertainty,
+        N exponent, N exponentUncertainty,
+        N result) {
         //https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations
         if (isZero(base) && isZero(baseUncertainty)) {
             return base;

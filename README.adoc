@@ -115,7 +115,7 @@ Even more similar to the everyday concept of a number are elements of an algebra
 link:{ghm}numbers/UncertaintyNumberOperations.java[`UncertaintyNumberOperations`]
 |
 Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
-. E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`'.
+. E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`.
 
 The specialization `UncertaintyNumberOperations` adds the logic for propagation of uncertainties.
 |===
@@ -135,8 +135,17 @@ It is not always absolutely defined how propagations must happen. Some interpret
 | operation | formula | current uncertainty propagation algorithm
 
 | summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
-| multiplication | latexmath:[a ± Δa \cdot b ± Δb] | ..
-| exponentiation | |
+| multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
+ latexmath:[\mid a \cdot b \mid \cdot \sqrt{(\frac{Δa}{a})^2 + (\frac{Δb}{b})^2}]
+| exponentiation |
+ latexmath:[(a ± Δa) ^ {e ± Δe}]
+|
+ latexmath:[\mid a ^ e\mid \cdot
+\sqrt{
+  (\frac{e \cdot Δa}{a})^2 +
+  (\ln(a) \cdot Δe)^2
+}]
+
 | sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]|
 |===
 
