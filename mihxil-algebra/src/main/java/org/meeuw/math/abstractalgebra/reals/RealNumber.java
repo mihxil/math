@@ -6,13 +6,14 @@ import java.math.BigDecimal;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.*;
-import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
  * A real number (backend by a double). It is uncertain, but only because of rounding errors.
@@ -97,7 +98,7 @@ public class RealNumber
     public RealNumber pow(int exponent) {
         double newValue = Math.pow(value, exponent);
         if (value == 0 && exponent < 0) {
-            throw new DivisionByZeroException("0" + TextUtils.superscript(exponent));
+            throw new DivisionByZeroException("0" + superscript(exponent));
         }
         return new RealNumber(newValue,
             uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)

@@ -24,7 +24,7 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     }
 
     default N addUncertainty(N uncertainty1, N uncertainty2) {
-        return sqrt(add(multiply(uncertainty1, uncertainty1), multiply(uncertainty2, uncertainty2)));
+        return sqrt(add(sqr(uncertainty1), sqr(uncertainty2)));
     }
 
     N roundingUncertainty(N n);

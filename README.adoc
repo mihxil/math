@@ -136,7 +136,7 @@ It is not always absolutely defined how propagations must happen. Some interpret
 
 | summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
 | multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
- latexmath:[\mid a \cdot b \mid \cdot \sqrt{(\frac{Δa}{a})^2 + (\frac{Δb}{b})^2}]
+ latexmath:[\mid a \cdot b \mid \cdot \sqrt{(\frac{Δa}{\mid a \mid + Δa })^2 + (\frac{Δb}{\mid b \mid + Δb })^2}]
 | exponentiation |
  latexmath:[(a ± Δa) ^ {e ± Δe}]
 |
