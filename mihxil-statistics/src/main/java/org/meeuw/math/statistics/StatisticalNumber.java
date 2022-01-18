@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.LongSummaryStatistics;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
@@ -113,7 +114,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainDoubleElement dividedBy(long divisor) {
-        return new UncertainDoubleElement(getValue() / divisor, getUncertainty() / divisor);
+        double newValue = getValue() / divisor;
+        return new UncertainDoubleElement(
+            newValue,
+            Math.max(getUncertainty() / divisor, Utils.uncertaintyForDouble(newValue))
+        );
     }
 
 

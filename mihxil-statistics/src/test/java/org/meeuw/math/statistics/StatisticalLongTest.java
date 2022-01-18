@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -113,6 +114,15 @@ class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
 
         StatisticalLong mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
         assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24.494S");
+    }
+
+    @Test
+    public void dividedOne() {
+        StatisticalLong minusOne = new StatisticalLong();
+        minusOne.enter(-1, -1);
+        UncertainDoubleElement divided = minusOne.dividedBy(26904L);
+        UncertainReal multiplied = divided.times(26904L);
+        assertThat(multiplied).isEqualTo(minusOne);
     }
 
     @Override

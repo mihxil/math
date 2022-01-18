@@ -3,18 +3,19 @@ package org.meeuw.test.math.abstractalgebra.reals;
 import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.*;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
 
-import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 
+import static java.lang.Double.NaN;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
+import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
+import static org.meeuw.math.abstractalgebra.reals.RealNumber.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -75,13 +76,13 @@ class RealNumberTest implements
 
     @Test
     public void considerMultiplicationByZero() {
-        RealNumber nan = new RealNumber(Double.NaN, 1d);
+        RealNumber nan = new RealNumber(NaN, 1d);
         RealNumber zero = new RealNumber(0, 1d);
 
-        Assertions.assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(nan, zero).getValue()).isEqualTo(Double.valueOf(Double.NaN));
-        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(zero, nan).getValue()).isEqualTo(Double.valueOf(Double.NaN));
+        Assertions.assertThat(INSTANCE.considerMultiplicationBySpecialValues(nan, zero).getValue()).isEqualTo(Double.valueOf(NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(zero, nan).getValue()).isEqualTo(Double.valueOf(NaN));
 
-        assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
+        assertThat(new RealNumber(5, 1).times(ZERO)).isEqualTo(ZERO);
         assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getValue()).isEqualTo(0);
         assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(1);
         assertThat(new RealNumber(0, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(4.9E-324);
@@ -90,16 +91,22 @@ class RealNumberTest implements
 
     @Test
     public void considerMultiplicationByNaN() {
-        RealNumber a = new RealNumber(Double.NaN, 1d);
+        RealNumber a = new RealNumber(NaN, 1d);
         RealNumber b = new RealNumber(1, 1d);
 
 
-        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(a, b).getValue()).isEqualTo(Double.valueOf(Double.NaN));
-        assertThat(RealField.INSTANCE.considerMultiplicationBySpecialValues(b, a).getValue()).isEqualTo(Double.valueOf(Double.NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(a, b).getValue()).isEqualTo(Double.valueOf(NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(b, a).getValue()).isEqualTo(Double.valueOf(NaN));
 
-        assertThat(new RealNumber(5, 1).times(RealNumber.ZERO)).isEqualTo(RealNumber.ZERO);
+        assertThat(new RealNumber(5, 1).times(ZERO)).isEqualTo(ZERO);
     }
 
+    @Test
+    public void divideOne() {
+        RealNumber divided = ONE.dividedBy(999999L);
+        RealNumber multiplied = divided.times(999999L);
+        assertThat(multiplied).isEqualTo(ONE);
+    }
 
     @Override
 	@Provide
@@ -112,8 +119,8 @@ class RealNumberTest implements
                 .edgeCases(realNumberConfig -> {
                     realNumberConfig.add(RealNumber.of(0));
                     realNumberConfig.add(RealNumber.of(-1));
-                    realNumberConfig.add(RealNumber.ONE);
-                    realNumberConfig.add(RealNumber.ZERO);
+                    realNumberConfig.add(ONE);
+                    realNumberConfig.add(ZERO);
                     realNumberConfig.add(RealNumber.of(1));
                 })
             ;

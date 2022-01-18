@@ -31,7 +31,12 @@ public class RealNumber
     public static final double UNCERTAINTY_FOR_ONE = Utils.uncertaintyForDouble(1);
     public static final double UNCERTAINTY_FOR_ZERO = Utils.uncertaintyForDouble(0);
 
-    public static final RealNumber ONE = new RealNumber(1d, 0);
+    public static final RealNumber ONE = new RealNumber(1d, 0) {
+        @Override
+        public RealNumber reciprocal() {
+            return this;
+        }
+    };
     public static final RealNumber ZERO = new RealNumber(0d, 0);
     public static final RealNumber SMALLEST = new RealNumber(0d, UNCERTAINTY_FOR_ZERO);
 
@@ -111,7 +116,11 @@ public class RealNumber
 
     @Override
     public RealNumber dividedBy(long divisor) {
-        return new RealNumber(value / divisor, Math.abs(uncertainty / divisor));
+        double newValue = value / divisor;
+        return new RealNumber(
+            value / divisor,
+            Math.max(Math.abs(uncertainty / divisor), Utils.uncertaintyForDouble(newValue))
+        );
     }
 
     @Override
@@ -218,7 +227,7 @@ public class RealNumber
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || ! RealNumber.class.isAssignableFrom(o.getClass())) return false;
 
         RealNumber that = (RealNumber) o;
         return confidenceEquals(that);
