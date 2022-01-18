@@ -333,8 +333,8 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/numbers/NumberOperations.java"><code>NumberOperations</code></a>
 <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/numbers/UncertaintyNumberOperations.java"><code>UncertaintyNumberOperations</code></a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number like structures are backed by existing classes  <code>BigDecimal</code> and <code>Double</code>. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
-. E.g. it may use <code>BigDecimalMath</code> for <code>BigDecimal</code> and <code>Math#log</code> for <code>Double&#8217;.</p>
-<p class="tableblock">The specialization `UncertaintyNumberOperations</code> adds the logic for propagation of uncertainties.</p></td>
+. E.g. it may use <code>BigDecimalMath</code> for <code>BigDecimal</code> and <code>Math#log</code> for <code>Double</code>.</p>
+<p class="tableblock">The specialization <code>UncertaintyNumberOperations</code> adds the logic for propagation of uncertainties.</p></td>
 </tr>
 </tbody>
 </table>
@@ -375,12 +375,16 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">multiplication</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">\(a ± Δa \cdot b ± Δb\)</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">..</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\mid a \cdot b \mid \cdot \sqrt{(\frac{Δa}{a})^2 + (\frac{Δb}{b})^2}\)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">exponentiation</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\((a ± Δa) ^ {e ± Δe}\)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">\(\mid a ^ e\mid \cdot
+\sqrt{
+  (\frac{e \cdot Δa}{a})^2 +
+  (\ln(a) \cdot Δe)^2
+}\)</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">sin/cos</p></td>
