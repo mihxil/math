@@ -30,6 +30,10 @@
       <artifactId>mihxil-math-theories</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>ch.obermuhlner</groupId>
+      <artifactId>big-math</artifactId>
+    </dependency>
 
   </dependencies>
   <build>

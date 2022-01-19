@@ -26,7 +26,7 @@ public abstract class PhysicalNumber extends Number
     UncertainDouble<PhysicalNumber>,
     Scalar<PhysicalNumber>,
     Comparable<PhysicalNumber>,
-    SignedNumber,
+    SignedNumber<PhysicalNumber>,
     WithUnits {
 
     @Getter

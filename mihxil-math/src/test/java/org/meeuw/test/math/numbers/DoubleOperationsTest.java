@@ -28,7 +28,7 @@ class DoubleOperationsTest {
 
     @Test
     void sqrt() {
-        assertThat(INSTANCE.sqrt(25.d)).isEqualTo(5d);
+        assertThat(INSTANCE.sqrt(25.d).getValue()).isEqualTo(5d);
     }
 
     @Test
@@ -40,10 +40,9 @@ class DoubleOperationsTest {
 
     @Test
     void reciprocal() {
-        assertThat(INSTANCE.reciprocal(5d)).isEqualTo(0.2);
-        assertThat(INSTANCE.reciprocal(-5d)).isEqualTo(-0.2);
+        assertThat(INSTANCE.reciprocal(5d).getValue()).isEqualTo(0.2);
+        assertThat(INSTANCE.reciprocal(-5d).getValue()).isEqualTo(-0.2);
         assertThatThrownBy(() -> INSTANCE.reciprocal(0d)).isInstanceOf(ArithmeticException.class);
-;
     }
 
     @Test
@@ -60,7 +59,7 @@ class DoubleOperationsTest {
 
     @Test
     void divide() {
-        assertThat(INSTANCE.divide(1d, 2d)).isEqualTo(0.5);
+        assertThat(INSTANCE.divide(1d, 2d).getValue()).isEqualTo(0.5);
     }
 
     @Test
@@ -75,7 +74,7 @@ class DoubleOperationsTest {
 
     @Test
     void pow() {
-        assertThat(INSTANCE.pow(2d, 3d)).isEqualTo(8d);
+        assertThat(INSTANCE.pow(2d, 3d).getValue()).isEqualTo(8d);
     }
 
     @Test
