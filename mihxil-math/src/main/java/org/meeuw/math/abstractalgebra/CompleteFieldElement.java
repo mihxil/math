@@ -14,7 +14,7 @@ import org.meeuw.math.numbers.SignedNumber;
 public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     extends
     ScalarFieldElement<E>,
-    SignedNumber {
+    SignedNumber<E> {
 
     @Override
     CompleteField<E> getStructure();

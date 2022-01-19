@@ -29,7 +29,7 @@ public interface NumberOperations<N extends Number> {
 
     N abs(N v);
 
-    N reciprocal(N v);
+    UncertainNumber<N> reciprocal(N v);
 
     N negate(N v);
 
@@ -38,7 +38,7 @@ public interface NumberOperations<N extends Number> {
     @SuppressWarnings("unchecked")
     N multiply(N... n1);
 
-    N ln(N n);
+    UncertainNumber<N> ln(N n);
 
     default N multiply(int n1, N n2) {
         N result = n2;

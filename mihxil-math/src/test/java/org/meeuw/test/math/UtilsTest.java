@@ -98,10 +98,10 @@ class UtilsTest {
 
     @Test
     public void uncertaintityForBigDecimal() {
-        assertThat(Utils.uncertaintyForBigDecimal(BigDecimal.TEN)).isEqualTo(BigDecimal.ZERO);
-        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123", MathContext.DECIMAL32))).isEqualTo(BigDecimal.ZERO);
+        assertThat(Utils.uncertaintyForBigDecimal(BigDecimal.TEN, MathContext.DECIMAL128)).isEqualTo(BigDecimal.ZERO);
+        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123"), MathContext.DECIMAL32)).isEqualTo(new BigDecimal("1E-7"));
 
-        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123456", new MathContext(2)))).isEqualTo(new BigDecimal("0.000001"));
+        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123456"), new MathContext(2))).isEqualTo(new BigDecimal("0.01"));
 
 
     }

@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
+
+import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -25,8 +29,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double sqrt(Double radicand) {
-        return Math.sqrt(radicand);
+    public UncertainNumber<Double> sqrt(Double radicand) {
+        return uncertain(Math.sqrt(radicand));
     }
 
     @Override
@@ -35,7 +39,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double reciprocal(Double v) {
+    public UncertainNumber<Double> reciprocal(Double v) {
         return divide(1d, v);
     }
 
@@ -55,11 +59,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double divide(Double n1, Double n2) {
+    public UncertainNumber<Double> divide(Double n1, Double n2) {
         if (n2 == 0d) {
             throw new ArithmeticException("division by zero");
         }
-        return n1 / n2;
+        return uncertain(n1 / n2);
     }
 
     @Override
@@ -78,8 +82,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double pow(Double n1, Double exponent) {
-        return Math.pow(n1, exponent);
+    public UncertainNumber<Double> pow(Double n1, Double exponent) {
+        return uncertain(Math.pow(n1, exponent));
     }
 
     @Override
@@ -113,13 +117,13 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double sin(Double aDouble) {
-        return Math.sin(aDouble);
+    public UncertainNumber<Double> sin(Double aDouble) {
+        return uncertain(Math.sin(aDouble));
     }
 
     @Override
-    public Double cos(Double aDouble) {
-        return Math.cos(aDouble);
+    public UncertainNumber<Double> cos(Double aDouble) {
+        return uncertain(Math.cos(aDouble));
     }
 
     @Override
@@ -128,8 +132,12 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double ln(Double v) {
-        return Math.log(v);
+    public UncertainNumber<Double> ln(Double v) {
+        return uncertain(Math.log(v));
+    }
+
+    protected UncertainNumber<Double> uncertain(Double newValue) {
+        return ImmutableUncertainNumber.of(newValue, uncertaintyForDouble(newValue));
     }
 
     @Override

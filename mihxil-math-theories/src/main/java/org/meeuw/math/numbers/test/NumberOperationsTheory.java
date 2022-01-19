@@ -33,7 +33,7 @@ public interface NumberOperationsTheory<N extends Number> {
 
     @Property
     default void sqrt(N radicand) {
-        assertThat(operations().sqrt(radicand).doubleValue()).isEqualTo(Math.sqrt(radicand.doubleValue()));
+        assertThat(operations().sqrt(radicand).getValue().doubleValue()).isEqualTo(Math.sqrt(radicand.doubleValue()));
 
     }
 

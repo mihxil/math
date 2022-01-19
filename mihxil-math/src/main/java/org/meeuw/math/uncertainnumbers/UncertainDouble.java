@@ -2,6 +2,7 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -78,7 +79,12 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     default D times(D multiplier) {
         double newValue = getValue() * multiplier.getValue();
         return _of(newValue,
-            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
+            Math.max(
+                operations().multipliedUncertainty(
+                    newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty()
+                ),
+                Utils.uncertaintyForDouble(newValue)
+            )
         );
     }
 

@@ -8,6 +8,7 @@ import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
@@ -98,7 +99,12 @@ public class UncertainDoubleElement
         }
         double newValue = getValue() * multiplier.getValue();
         return of(newValue,
-            operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()));
+            Math.max(
+                operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()),
+                Utils.uncertaintyForDouble(newValue)
+            )
+        );
+
     }
 
     @Override
@@ -139,12 +145,14 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement sin() {
-        return of(operations().sin(value), uncertainty);
+        UncertainNumber<Double> sin = operations().sin(value);
+        return of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
     }
 
     @Override
     public UncertainDoubleElement cos() {
-        return of(operations().cos(value), uncertainty);
+        UncertainNumber<Double> cos = operations().cos(value);
+        return of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
     }
 
     @Override

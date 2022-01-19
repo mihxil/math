@@ -19,12 +19,15 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     }
 
 
+    /**
+     * The uncertaintity
+     */
     default N multipliedUncertainty(N newValue, N fractionUncertainty1, N fractionalUncertainty2) {
-        return multiply(abs(newValue), sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))));
+        return multiply(abs(newValue), sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))).getValue());
     }
 
     default N addUncertainty(N uncertainty1, N uncertainty2) {
-        return sqrt(add(sqr(uncertainty1), sqr(uncertainty2)));
+        return sqrt(add(sqr(uncertainty1), sqr(uncertainty2))).getValue();
     }
 
     N roundingUncertainty(N n);
@@ -42,10 +45,10 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
             abs(result),
             sqrt(
                 add(
-                    sqr(divide(multiply(exponent, baseUncertainty), base)),
-                    sqr(multiply(ln(base), exponentUncertainty))
+                    sqr(divide(multiply(exponent, baseUncertainty), base).getValue()),
+                    sqr(multiply(ln(base).getValue(), exponentUncertainty))
                 )
-            )
+            ).getValue()
         );
     }
 

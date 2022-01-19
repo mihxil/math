@@ -3,12 +3,10 @@ package org.meeuw.math.abstractalgebra.integers;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * @author Michiel Meeuwissen
@@ -17,10 +15,8 @@ import org.meeuw.math.numbers.SignedNumber;
 public class NDivisibleInteger
     extends AbstractIntegerElement<NDivisibleInteger, NDivisibleInteger>
     implements
-    SignedNumber,
     RngElement<NDivisibleInteger>,
-    Scalar<NDivisibleInteger>,
-    Ordered<NDivisibleInteger> {
+    Scalar<NDivisibleInteger> {
 
     private final NDivisibleIntegers structure;
 

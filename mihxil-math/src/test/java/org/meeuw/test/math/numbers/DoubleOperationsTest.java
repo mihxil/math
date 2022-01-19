@@ -129,12 +129,12 @@ class DoubleOperationsTest {
 
     @Test
     void sin() {
-        assertThat(INSTANCE.sin(Math.PI)).isCloseTo(0, Offset.offset(0.0001));
+        assertThat(INSTANCE.sin(Math.PI).getValue()).isCloseTo(0, Offset.offset(0.0001));
     }
 
     @Test
     void cos() {
-        assertThat(INSTANCE.cos(Math.PI)).isCloseTo(-1, Offset.offset(0.0001));
+        assertThat(INSTANCE.cos(Math.PI).getValue()).isCloseTo(-1, Offset.offset(0.0001));
     }
 
     @Test

@@ -19,7 +19,7 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.4
  */
 public class RationalNumber extends Number
-    implements ScalarFieldElement<RationalNumber>, SignedNumber, Ordered<RationalNumber> {
+    implements ScalarFieldElement<RationalNumber>, SignedNumber<RationalNumber>, Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);

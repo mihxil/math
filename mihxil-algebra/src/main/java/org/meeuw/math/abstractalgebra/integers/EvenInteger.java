@@ -3,12 +3,10 @@ package org.meeuw.math.abstractalgebra.integers;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * @author Michiel Meeuwissen
@@ -17,10 +15,8 @@ import org.meeuw.math.numbers.SignedNumber;
 public class EvenInteger
     extends AbstractIntegerElement<EvenInteger, EvenInteger>
     implements
-    SignedNumber,
     RngElement<EvenInteger>,
-    Scalar<EvenInteger>,
-    Ordered<EvenInteger> {
+    Scalar<EvenInteger> {
 
     public static final EvenInteger ZERO = EvenInteger.of(0);
 

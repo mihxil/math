@@ -14,6 +14,10 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     @Getter
     private final N uncertainty;
 
+    public static <N extends Number> ImmutableUncertainNumber<N> of(N value, N uncertainty) {
+        return new ImmutableUncertainNumber<>(value, uncertainty);
+    }
+
     public ImmutableUncertainNumber(N value, N uncertainty) {
         this.value = value;
         this.uncertainty = uncertainty;

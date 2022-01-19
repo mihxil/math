@@ -2,7 +2,8 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.numbers.NumberOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 
 /**
  * The interface representing an uncertain number. It makes no
@@ -75,28 +76,31 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         NumberOperations<N> o = operations();
         N u = getUncertainty();
         N mu = m.getUncertainty();
-        N weight = o.reciprocal(o.sqr(u));
-        N mweight = o.reciprocal(o.sqr(mu));
-        N value = o.divide(
+        N weight = o.reciprocal(o.sqr(u)).getValue();
+        N mweight = o.reciprocal(o.sqr(mu)).getValue();
+        UncertainNumber<N> value = o.divide(
             o.add(o.multiply(getValue(), weight), o.multiply(m.getValue(), mweight)),
             o.add(weight,  mweight)
+
         );
 
         NumberOperations<N> uo = uncertaintyOperations();
 
         N uncertainty = uo.sqrt(
             o.reciprocal(
-                o.add(o.reciprocal(o.sqr(u)), o.reciprocal(o.sqr(mu)))
-            )
-        );
-        return new ImmutableUncertainNumber<>(value, uncertainty);
+                o.add(o.reciprocal(o.sqr(u)).getValue(), o.reciprocal(o.sqr(mu)).getValue())
+            ).getValue()
+        ).getValue();
+        return new ImmutableUncertainNumber<>(value.getValue(), uncertainty);
     }
 
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
         N newValue = operations().multiply(getValue(), multiplier.getValue());
         return new ImmutableUncertainNumber<>(
             newValue,
-            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty())
+            operations().multipliedUncertainty(
+                newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty()
+            )
         );
     }
 

@@ -9,6 +9,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -117,7 +118,10 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         double newValue = getValue() / divisor;
         return new UncertainDoubleElement(
             newValue,
-            Math.max(getUncertainty() / divisor, Utils.uncertaintyForDouble(newValue))
+            Math.max(
+                getUncertainty() / divisor,
+                Utils.uncertaintyForDouble(newValue)
+            )
         );
     }
 
@@ -143,27 +147,31 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainReal sqrt() {
-        return _of(operations.sqrt(getValue()), getUncertainty());
+        UncertainNumber<Double> sqrt = operations.sqrt(getValue());
+        return _of(sqrt.getValue(), Math.max(getUncertainty(), sqrt.getValue()));
     }
 
     @Override
     public UncertainReal sin() {
-        return _of(operations.sin(getValue()), getUncertainty());
+        UncertainNumber<Double> sin = operations.sin(getValue());
+        return _of(sin.getValue(), Math.max(getUncertainty(), sin.getValue()));
     }
 
     @Override
     public UncertainReal cos() {
-        return _of(operations.cos(getValue()), getUncertainty());
+        UncertainNumber<Double> cos = operations.cos(getValue());
+        return _of(cos.getValue(), Math.max(getUncertainty(), cos.getValue()));
     }
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        Double result = operations.pow(getValue(), exponent.getValue());
+        UncertainNumber<Double> result = operations.pow(getValue(), exponent.getValue());
         return _of(
-            result,
-            operations.powerUncertainty(
+            result.getValue(),
+            Math.max(operations.powerUncertainty(
                 getValue(), getUncertainty(), exponent.getValue(), exponent.getUncertainty(),
-                result
+                result.getValue()),
+                result.getUncertainty()
             )
         );
     }
@@ -172,7 +180,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     public UncertainReal times(UncertainReal multiplier) {
         double v = getValue() * multiplier.getValue();
         return _of(v,
-            operations.multipliedUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()));
+            Math.max(
+                operations.multipliedUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()),
+                Utils.uncertaintyForDouble(v)
+            )
+        );
     }
 
     @Override

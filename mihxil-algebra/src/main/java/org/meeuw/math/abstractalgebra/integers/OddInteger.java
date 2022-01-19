@@ -4,10 +4,8 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * @author Michiel Meeuwissen
@@ -16,10 +14,8 @@ import org.meeuw.math.numbers.SignedNumber;
 public class OddInteger
     extends AbstractIntegerElement<OddInteger, OddInteger>
     implements
-    SignedNumber,
     MultiplicativeMonoidElement<OddInteger>,
-    Scalar<OddInteger>,
-    Ordered<OddInteger> {
+    Scalar<OddInteger>  {
 
     public static final OddInteger ONE = OddInteger.of(1);
 

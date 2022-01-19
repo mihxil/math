@@ -9,8 +9,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.math.text.spi.FormatService;
-import org.meeuw.math.uncertainnumbers.DoubleConfidenceInterval;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 import static org.meeuw.math.text.TextUtils.superscript;
@@ -174,12 +173,15 @@ public class RealNumber
 
     @Override
     public RealNumber sin() {
-        return _of(operations().sin(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        UncertainNumber<Double> sin = operations().sin(value);
+        return _of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
     }
 
     @Override
     public RealNumber cos() {
-        return _of(operations().cos(value), Math.max(uncertainty, UNCERTAINTY_FOR_ONE));
+        UncertainNumber<Double> cos = operations().cos(value);
+
+        return _of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
     }
 
     @Override
