@@ -87,29 +87,42 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement dividedBy(BigDecimalElement n) {
-        BigDecimal newValue = operations().divide(value, n.value);
-        return new BigDecimalElement(newValue,
-            operations().multipliedUncertainty(newValue, getFractionalUncertainty(), n.getFractionalUncertainty()));
+        UncertainNumber<BigDecimal> newValue = operations().divide(value, n.value);
+        return new BigDecimalElement(newValue.getValue(),
+            operations().multipliedUncertainty(
+                newValue.getValue(),
+                getFractionalUncertainty(),
+                n.getFractionalUncertainty()
+            ).max(newValue.getUncertainty())
+        );
+
     }
 
     @Override
     public BigDecimalElement sqrt() {
-        return new BigDecimalElement(operations().sqrt(value), operations().sqrt(uncertainty));
+        UncertainNumber<BigDecimal> sqrt = operations().sqrt(value);
+        return new BigDecimalElement(sqrt.getValue(),
+            operations().sqrt(uncertainty).getValue().max(sqrt.getUncertainty())
+        );
     }
 
     @Override
     public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws ReciprocalException {
-        return new BigDecimalElement(operations().pow(value, bigDecimalElement.value), uncertainty);
+        UncertainNumber<BigDecimal> pow = operations().pow(value, bigDecimalElement.value);
+        return new BigDecimalElement(pow.getValue(), uncertainty.max(sin().getUncertainty()));
     }
 
     @Override
     public BigDecimalElement sin() {
-        return new BigDecimalElement(operations().sin(value), uncertainty);
+        UncertainNumber<BigDecimal> sin = operations().sin(value);
+        return new BigDecimalElement(sin.getValue(), uncertainty.max(sin.getUncertainty()));
     }
+
 
     @Override
     public BigDecimalElement cos() {
-        return new BigDecimalElement(operations().cos(value), uncertainty);
+        UncertainNumber<BigDecimal> cos = operations().cos(value);
+        return new BigDecimalElement(cos.getValue(), uncertainty.max(cos.getUncertainty()));
     }
 
     @Override
@@ -160,6 +173,8 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement dividedBy(long divisor) {
+        BigDecimal newValue = value.divide(BigDecimal.valueOf(divisor), operations().getMathContext());
+        newValue.scale();
         return new BigDecimalElement(
             value.divide(BigDecimal.valueOf(divisor), operations().getMathContext()),
             uncertainty.divide(BigDecimal.valueOf(divisor), operations().getMathContext())

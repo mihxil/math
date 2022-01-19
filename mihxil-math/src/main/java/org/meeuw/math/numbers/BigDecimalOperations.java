@@ -7,8 +7,13 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
+
+import static org.meeuw.math.Utils.uncertaintyForBigDecimal;
 
 /**
  * @author Michiel Meeuwissen
@@ -39,9 +44,9 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal sqrt(BigDecimal radicand) {
-        //return v.sqrt(mathContext);
-        return BigDecimal.valueOf(Math.sqrt(radicand.doubleValue())).round(mathContext);
+    public UncertainNumber<BigDecimal> sqrt(BigDecimal radicand) {
+        //return uncertain(radicand.sqrt(mathContext)); // java 9
+        return uncertain(BigDecimalMath.sqrt(radicand, mathContext));
     }
 
     @Override
@@ -50,8 +55,8 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal reciprocal(BigDecimal v) {
-        return BigDecimal.ONE.divide(v, mathContext);
+    public UncertainNumber<BigDecimal> reciprocal(BigDecimal v) {
+        return uncertain(BigDecimal.ONE.divide(v, mathContext));
     }
 
     @Override
@@ -69,17 +74,21 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal ln(BigDecimal bigDecimal) {
-        return BigDecimalMath.log(bigDecimal, mathContext);
+    public UncertainNumber<BigDecimal> ln(BigDecimal bigDecimal) {
+        return uncertain(BigDecimalMath.log(bigDecimal, mathContext));
     }
 
     @Override
-    public BigDecimal divide(BigDecimal n1, BigDecimal n2) {
+    public UncertainNumber<BigDecimal> divide(BigDecimal n1, BigDecimal n2) {
         try {
-            return n1.divide(n2, mathContext);
+            return uncertain(n1.divide(n2, mathContext));
         } catch (ArithmeticException ae) {
             throw new DivisionByZeroException(n1, n2, ae);
         }
+    }
+
+    protected UncertainNumber<BigDecimal> uncertain(BigDecimal newValue) {
+        return ImmutableUncertainNumber.of(newValue, uncertaintyForBigDecimal(newValue, mathContext));
     }
 
     @Override
@@ -98,9 +107,9 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal pow(BigDecimal n1, BigDecimal exponent) {
+    public UncertainNumber<BigDecimal> pow(BigDecimal n1, BigDecimal exponent) {
         try {
-            return BigDecimalMath.pow(n1, exponent, mathContext);
+            return uncertain(BigDecimalMath.pow(n1, exponent, mathContext));
         } catch (ArithmeticException ae) {
             throw new ReciprocalException(ae);
         }
@@ -137,13 +146,13 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal sin(BigDecimal bigDecimal) {
-        return BigDecimalMath.sin(bigDecimal, mathContext);
+    public UncertainNumber<BigDecimal> sin(BigDecimal bigDecimal) {
+        return new ImmutableUncertainNumber<>(BigDecimalMath.sin(bigDecimal, mathContext), BigDecimal.ZERO);
     }
 
     @Override
-    public BigDecimal cos(BigDecimal bigDecimal) {
-        return BigDecimalMath.cos(bigDecimal, mathContext);
+    public UncertainNumber<BigDecimal> cos(BigDecimal bigDecimal) {
+        return uncertain(BigDecimalMath.cos(bigDecimal, mathContext));
     }
 
     @Override
@@ -153,6 +162,6 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public BigDecimal roundingUncertainty(BigDecimal bigDecimal) {
-        return BigDecimal.ZERO;
+        return Utils.uncertaintyForBigDecimal(bigDecimal, mathContext);
     }
 }
