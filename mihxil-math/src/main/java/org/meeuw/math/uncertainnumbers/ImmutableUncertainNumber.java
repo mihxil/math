@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.function.Supplier;
 
-import org.meeuw.math.Utils;
+import static org.meeuw.math.Utils.memoize;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,12 +22,13 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     }
 
     public ImmutableUncertainNumber(N value, N uncertainty) {
-        this(value, () -> uncertainty);
+        this.value = value;
+        this.uncertainty = () -> uncertainty;
     }
 
     public ImmutableUncertainNumber(N value, Supplier<N> uncertainty) {
         this.value = value;
-        this.uncertainty = Utils.memoize(uncertainty);
+        this.uncertainty = memoize(uncertainty);
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
