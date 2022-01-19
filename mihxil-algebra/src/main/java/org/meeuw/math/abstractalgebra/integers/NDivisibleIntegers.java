@@ -1,12 +1,11 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.util.Map;
-import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Rng;
 
 /**
  * @author Michiel Meeuwissen
@@ -14,9 +13,8 @@ import org.meeuw.math.abstractalgebra.*;
  */
 @Example(Rng.class)
 public class NDivisibleIntegers extends
-    AbstractAlgebraicStructure<NDivisibleInteger>
-    implements Rng<NDivisibleInteger>,
-    Streamable<NDivisibleInteger>  {
+    AbstractIntegers<NDivisibleInteger>
+    implements Rng<NDivisibleInteger> {
 
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
 
@@ -37,17 +35,12 @@ public class NDivisibleIntegers extends
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<NDivisibleInteger> stream() {
         return Stream.iterate(zero(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(new NDivisibleInteger(this, divisor)));
     }
 
-    @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
+     @Override
+    public String toString() {
+        return divisor + "ℤ";
     }
 }

@@ -18,10 +18,10 @@ import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
  * @since 0.8
  */
 @Example(AdditiveAbelianSemiGroup.class)
-public class NegativeIntegers extends AbstractAlgebraicStructure<NegativeInteger>
+public class NegativeIntegers
+    extends AbstractIntegers<NegativeInteger>
     implements
-    AdditiveAbelianSemiGroup<NegativeInteger>,
-    Streamable<NegativeInteger> {
+    AdditiveAbelianSemiGroup<NegativeInteger> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(ADDITION);
 
@@ -37,18 +37,8 @@ public class NegativeIntegers extends AbstractAlgebraicStructure<NegativeInteger
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<NegativeInteger> stream() {
         return  Stream.iterate(MINUS_ONE, i -> i.plus(MINUS_ONE));
-    }
-
-    @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
     }
 
     @Override

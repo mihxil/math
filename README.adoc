@@ -171,6 +171,12 @@ In this case the `hashCode` must be a fixed value, because otherwise we can't gu
 
 This implies that it's a bad idea to use uncertain values as hash keys.
 
+===== Transitivity of `equals`
+
+Because currently `equals` considers also uncertainty for cases where that is relevant (all elements which are not exact or cannot be exactly represented), this means that equals is symmetric and reflexive, but it means that it is not always _transitive_. E.g. `10 ± 5 equals 14 ± 1` and `18 ± 5 equals 14 ± 1`, but `! (10 ± 5 equals  18 ± 5 )`.
+
+This may be incorrect, and I may change it. In that case the current synonym `eq` keeps the current behaviour and `equals` becomes transitive, meaning that uncertain values can only be equals if also their uncertainty equals.
+
 
 
 === Formatting and configuration

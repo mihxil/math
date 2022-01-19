@@ -16,11 +16,10 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class PositiveIntegers extends AbstractAlgebraicStructure<PositiveInteger>
+public class PositiveIntegers extends AbstractIntegers<PositiveInteger>
     implements
     MultiplicativeMonoid<PositiveInteger>,
-    AdditiveAbelianSemiGroup<PositiveInteger>,
-    Streamable<PositiveInteger> {
+    AdditiveAbelianSemiGroup<PositiveInteger> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);
 
@@ -41,18 +40,8 @@ public class PositiveIntegers extends AbstractAlgebraicStructure<PositiveInteger
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<PositiveInteger> stream() {
         return  Stream.iterate(one(), i -> i.plus(one()));
-    }
-
-    @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
     }
 
     @Override

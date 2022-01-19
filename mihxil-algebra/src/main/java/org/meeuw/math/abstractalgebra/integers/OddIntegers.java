@@ -1,10 +1,11 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.NavigableSet;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup;
+import org.meeuw.math.abstractalgebra.MultiplicativeMonoid;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
 
@@ -14,11 +15,10 @@ import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
  */
 @Example(MultiplicativeMonoid.class)
 @Example(MultiplicativeAbelianSemiGroup.class)
-public class OddIntegers extends AbstractAlgebraicStructure<OddInteger>
+public class OddIntegers extends AbstractIntegers<OddInteger>
     implements
     MultiplicativeMonoid<OddInteger>,
-    MultiplicativeAbelianSemiGroup<OddInteger>,
-    Streamable<OddInteger>  {
+    MultiplicativeAbelianSemiGroup<OddInteger>{
 
     public static final OddIntegers INSTANCE = new OddIntegers();
 
@@ -37,17 +37,13 @@ public class OddIntegers extends AbstractAlgebraicStructure<OddInteger>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<OddInteger> stream() {
         return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenInteger.of(2)));
     }
 
     @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
+    public String toString() {
+        return "ℕ" + TextUtils.subscript("o");
     }
+
 }

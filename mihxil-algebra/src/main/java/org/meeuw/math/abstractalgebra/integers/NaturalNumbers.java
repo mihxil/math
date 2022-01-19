@@ -17,12 +17,11 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @since 0.4
  */
 @Example(AdditiveMonoid.class)
-public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
+public class NaturalNumbers extends AbstractIntegers<NaturalNumber>
     implements
     MultiplicativeMonoid<NaturalNumber>,
     AdditiveMonoid<NaturalNumber>,
-    AdditiveAbelianSemiGroup<NaturalNumber>,
-    Streamable<NaturalNumber> {
+    AdditiveAbelianSemiGroup<NaturalNumber> {
 
     private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);
 
@@ -48,20 +47,9 @@ public class NaturalNumbers extends AbstractAlgebraicStructure<NaturalNumber>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<NaturalNumber> stream() {
         return  Stream.iterate(zero(), i -> i.plus(one()));
     }
-
-    @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
-    }
-
 
     @Override
     public String toString() {

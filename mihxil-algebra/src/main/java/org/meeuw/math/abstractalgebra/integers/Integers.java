@@ -1,6 +1,5 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.NavigableSet;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -13,8 +12,8 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Integers extends AbstractAlgebraicStructure<IntegerElement>
-    implements Ring<IntegerElement>, Streamable<IntegerElement>, MultiplicativeMonoid<IntegerElement> {
+public class Integers extends AbstractIntegers<IntegerElement>
+    implements Ring<IntegerElement>,  MultiplicativeMonoid<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
 
@@ -34,18 +33,8 @@ public class Integers extends AbstractAlgebraicStructure<IntegerElement>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
-    }
-
-    @Override
     public Stream<IntegerElement> stream() {
         return Stream.iterate(zero(), i -> i.isPositive() ? i.negation() : i.negation().plus(one()));
-    }
-
-    @Override
-    public Cardinality getCardinality() {
-        return Cardinality.ALEPH_0;
     }
 
     @Override

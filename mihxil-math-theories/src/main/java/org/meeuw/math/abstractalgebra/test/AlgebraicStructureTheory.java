@@ -111,7 +111,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             assertThat(struct.getSupportedComparisonOperators())
                 .contains(LT, LTE, GT, GTE);
         }
-        assertThat(struct.getSupportedComparisonOperators()).contains(EQUALS);
+        assertThat(struct.getSupportedComparisonOperators()).contains(EQ);
     }
 
     @Property

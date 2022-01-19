@@ -16,7 +16,7 @@ import org.meeuw.math.Utils;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
-    NavigableSet<ComparisonOperator> EQUALS_ONLY = Utils.navigableSet(ComparisonOperator.EQUALS);
+    NavigableSet<ComparisonOperator> EQ_ONLY = Utils.navigableSet(ComparisonOperator.EQ);
 
     /**
      * Returns the {@link Operator}s that elements of this structure support.
@@ -41,7 +41,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
      * @return the set of all supported unary operators in this algebraic structure
      */
     default NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return EQUALS_ONLY;
+        return EQ_ONLY;
     }
 
     /**

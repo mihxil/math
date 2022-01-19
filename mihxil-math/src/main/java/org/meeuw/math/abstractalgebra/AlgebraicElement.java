@@ -23,6 +23,9 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> {
         return (E) this;
     }
 
+    /**
+     * The operator
+     */
     default boolean eq(E other) {
         return equals(other);
     }
