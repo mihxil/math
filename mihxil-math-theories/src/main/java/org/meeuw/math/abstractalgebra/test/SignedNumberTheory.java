@@ -4,9 +4,8 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
-import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,13 +13,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface SignedNumberTheory<E extends SignedNumber & Scalar<E>> extends ScalarTheory<E> {
+public interface SignedNumberTheory<E extends SignedNumber> extends ElementTheory<E> {
 
     @Property
     default void signum(@ForAll(ELEMENT) E e) {
         assertThat(e.signum()).isIn(-1, 0, 1);
-        assertThat(e.abs().signum()).isIn(0, 1);
-
         assertThat(e.isZero()).isEqualTo(e.signum() == 0);
         assertThat(e.isPositive()).isEqualTo(e.signum() == 1);
         assertThat(e.isNegative()).isEqualTo(e.signum() == -1);

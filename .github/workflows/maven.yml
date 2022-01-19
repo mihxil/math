@@ -35,6 +35,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B -fae
       - uses: codecov/codecov-action@v2
+        if: always()
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.26
         if: always()

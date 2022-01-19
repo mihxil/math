@@ -3,6 +3,8 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
+
 /**
  * This interface generalises numeric operations for  {@link BigDecimal} and {@link Double}.
  * @author Michiel Meeuwissen
@@ -23,7 +25,7 @@ public interface NumberOperations<N extends Number> {
 
     N sqr(N v);
 
-    N sqrt(N radicand);
+    UncertainNumber<N> sqrt(N radicand);
 
     N abs(N v);
 
@@ -46,7 +48,7 @@ public interface NumberOperations<N extends Number> {
         return result;
     }
 
-    N divide(N n1, N n2);
+    UncertainNumber<N> divide(N n1, N n2);
 
     N add(N n1, N n2);
 
@@ -59,7 +61,7 @@ public interface NumberOperations<N extends Number> {
 
     N pow(N n1, int exponent);
 
-    N pow(N n1, N exponent);
+    UncertainNumber<N> pow(N n1, N exponent);
 
     boolean lt(N n1, N n2);
 
@@ -101,9 +103,9 @@ public interface NumberOperations<N extends Number> {
 
     BigDecimal bigDecimalValue(N n);
 
-    N sin(N n);
+    UncertainNumber<N> sin(N n);
 
-    N cos(N n);
+    UncertainNumber<N> cos(N n);
 
     boolean isZero(N n);
 

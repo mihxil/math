@@ -14,7 +14,7 @@ import org.meeuw.math.numbers.*;
  */
 public abstract class AbstractIntegerElement<E extends AbstractIntegerElement<E, SIZE>, SIZE extends Scalar<SIZE>>
     implements
-    SignedNumber,
+    SignedNumber<E>,
     AlgebraicElement<E>,
     SizeableScalar<E, SIZE>,
     Ordered<E> {

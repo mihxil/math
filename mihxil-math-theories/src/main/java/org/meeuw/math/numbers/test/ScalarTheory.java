@@ -20,4 +20,11 @@ public interface ScalarTheory<S extends Scalar<S>>
         assertThat(e1).isInstanceOf(Scalar.class);
         assertThat(e1.abs()).isInstanceOf(Scalar.class);
     }
+
+    @Property
+    default void absSignum(@ForAll(ELEMENT) S e) {
+        assertThat(e.abs().signum()).isIn(0, 1);
+    }
+
+
 }

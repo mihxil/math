@@ -4,9 +4,9 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.integers.NegativeInteger;
-import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
+import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
+import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
@@ -18,9 +18,10 @@ import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.of;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-class NegativeNumberTest implements
+class NegativeIntegerTest implements
     AdditiveAbelianSemiGroupTheory<NegativeInteger>,
-    SizeableScalarTheory<NegativeInteger, PositiveInteger> {
+    SizeableScalarTheory<NegativeInteger, PositiveInteger>,
+    SignedNumberTheory<NegativeInteger> {
 
     @Test
     public void test() {

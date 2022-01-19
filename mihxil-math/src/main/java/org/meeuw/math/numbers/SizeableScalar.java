@@ -13,7 +13,7 @@ import org.meeuw.math.abstractalgebra.StrictlyOrdered;
  */
 public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE extends Scalar<SIZE>>
     extends
-    SignedNumber,
+    SignedNumber<SELF>,
     Sizeable<SIZE>,
     StrictlyOrdered<SELF>
 {

@@ -17,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class NaturalIntegerTest implements
+class NaturalNumberTest implements
     MultiplicativeMonoidTheory<NaturalNumber>,
     AdditiveMonoidTheory<NaturalNumber>,
     AdditiveAbelianSemiGroupTheory<NaturalNumber>,
