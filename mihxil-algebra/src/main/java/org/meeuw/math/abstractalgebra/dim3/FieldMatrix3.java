@@ -24,13 +24,26 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     final E zero;
 
-    @SuppressWarnings("unchecked")
     public static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
+        E v00, E v01, E v02,
+        E v10, E v11, E v12,
+        E v20, E v21, E v22) {
+        return of(v00.getStructure().getElementClass(),
+            v00, v01, v02,
+            v10, v11, v12,
+            v20, v21, v22);
+
+    }
+
+
+    @SuppressWarnings("unchecked")
+    static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
+        Class<E> clazz,
         E v00, E v01, E v02,
         E v10, E v11, E v12,
         E v20, E v21, E v22
         ) {
-        E[][] fs = (E[][]) Array.newInstance(v11.getClass(), 3, 3);
+        E[][] fs = (E[][]) Array.newInstance(clazz, 3, 3);
         fs[0][0]  = v00;
         fs[0][1]  = v01;
         fs[0][2]  = v02;

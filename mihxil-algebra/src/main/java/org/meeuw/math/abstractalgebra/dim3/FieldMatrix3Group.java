@@ -37,6 +37,7 @@ public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
         E eOne = elementStructure.one();
         E eZero = elementStructure.zero();
         one =  FieldMatrix3.of(
+            elementStructure.getElementClass(),
             eOne, eZero, eZero,
             eZero, eOne, eZero,
             eZero, eZero, eOne);

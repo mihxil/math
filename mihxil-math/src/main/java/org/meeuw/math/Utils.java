@@ -1,5 +1,6 @@
 package org.meeuw.math;
 
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -228,6 +229,19 @@ public final class Utils {
 
     public static double uncertaintyForDouble(double doubleValue) {
         return pow2(leastSignificantBit(doubleValue));
+    }
+
+    public static BigDecimal uncertaintyForBigDecimal(BigDecimal bigDecimal) {
+        int scale = bigDecimal.scale();
+        if (scale <= 0) { // whole number
+            return BigDecimal.ZERO;
+        }
+        if (bigDecimal.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) == 0) {
+            // an integer too
+            return BigDecimal.ZERO;
+        }
+
+        return new BigDecimal(bigDecimal.precision() - bigDecimal.scale()).pow(bigDecimal.scale());
     }
 
 

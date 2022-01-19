@@ -2,6 +2,8 @@ package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.function.Supplier;
@@ -91,6 +93,17 @@ class UtilsTest {
         assertThat(Utils.uncertaintyForDouble(1e-16)).isEqualTo(2.465190328815662E-32);
         assertThat(Utils.uncertaintyForDouble(-1)).isEqualTo(4.440892098500626E-16);
         assertThat(Utils.uncertaintyForDouble(1)).isEqualTo(4.440892098500626E-16);
+    }
+
+
+    @Test
+    public void uncertaintityForBigDecimal() {
+        assertThat(Utils.uncertaintyForBigDecimal(BigDecimal.TEN)).isEqualTo(BigDecimal.ZERO);
+        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123", MathContext.DECIMAL32))).isEqualTo(BigDecimal.ZERO);
+
+        assertThat(Utils.uncertaintyForBigDecimal(new BigDecimal("0.123456", new MathContext(2)))).isEqualTo(new BigDecimal("0.000001"));
+
+
     }
 
 
