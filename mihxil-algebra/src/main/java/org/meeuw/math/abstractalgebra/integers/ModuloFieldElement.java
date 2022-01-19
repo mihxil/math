@@ -2,7 +2,6 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
  * @author Michiel Meeuwissen
@@ -18,11 +17,10 @@ public class ModuloFieldElement
 
     @Override
     public ModuloFieldElement reciprocal() {
-        // this is very crude:
         if (value == 0) {
             throw new DivisionByZeroException("reciprocal of 0");
         }
-
+        // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
         int t = 0;
         int newt = 1;
         int r = getStructure().divisor;
@@ -36,9 +34,9 @@ public class ModuloFieldElement
             newr = r - quotient * newr;
             r = oldr;
         }
-        if (r > 1) {
-            throw new ReciprocalException(value + " is not invertible");
-        }
+
+        assert r <= 1; // the divisor is prime, so this should always have been possible
+
         if (t < 0) {
             t = t + getStructure().divisor;
         }
