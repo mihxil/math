@@ -137,7 +137,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     protected UncertainNumber<Double> uncertain(Double newValue) {
-        return ImmutableUncertainNumber.of(newValue, uncertaintyForDouble(newValue));
+        return ImmutableUncertainNumber.of(newValue, () -> uncertaintyForDouble(newValue));
     }
 
     @Override

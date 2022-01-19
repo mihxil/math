@@ -88,7 +88,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     protected UncertainNumber<BigDecimal> uncertain(BigDecimal newValue) {
-        return ImmutableUncertainNumber.of(newValue, uncertaintyForBigDecimal(newValue, mathContext));
+        return ImmutableUncertainNumber.of(newValue, () -> uncertaintyForBigDecimal(newValue, mathContext));
     }
 
     @Override

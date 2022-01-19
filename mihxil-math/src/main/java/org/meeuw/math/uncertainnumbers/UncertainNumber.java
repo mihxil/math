@@ -48,9 +48,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
         N newvalue = o.multiply(multiplier, getValue());
-        return new ImmutableUncertainNumber<>(
+        return new ImmutableUncertainNumber<N>(
             newvalue,
-            o.multiply(o.abs(multiplier), getUncertainty())
+            () -> o.multiply(o.abs(multiplier), getUncertainty())
         );
     }
 
@@ -59,7 +59,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
     }
 
     default UncertainNumber<N> plus(N summand) {
-        return new ImmutableUncertainNumber<>(operations().add(summand, getValue()), getUncertainty());
+        return new ImmutableUncertainNumber<N>(operations().add(summand, getValue()), this::getUncertainty);
     }
 
     default UncertainNumber<N> minus(N subtrahend) {
@@ -96,9 +96,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     default UncertainNumber<N> times(UncertainNumber<N> multiplier) {
         N newValue = operations().multiply(getValue(), multiplier.getValue());
-        return new ImmutableUncertainNumber<>(
+        return new ImmutableUncertainNumber<N>(
             newValue,
-            operations().multipliedUncertainty(
+            () -> operations().multipliedUncertainty(
                 newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty()
             )
         );
@@ -107,9 +107,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     default UncertainNumber<N> plus(UncertainNumber<N> summand) {
         NumberOperations<N> o = operations();
-        return new ImmutableUncertainNumber<>(
+        return new ImmutableUncertainNumber<N>(
             o.add(getValue(), summand.getValue()),
-            operations().addUncertainty(getUncertainty(), summand.getUncertainty())
+            () -> operations().addUncertainty(getUncertainty(), summand.getUncertainty())
         );
     }
 
@@ -120,9 +120,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         if (!o.isFinite(v)) {
             throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
         }
-        return new ImmutableUncertainNumber<>(
+        return new ImmutableUncertainNumber<N>(
             v,
-            o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
+            () -> o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
     }
 
 

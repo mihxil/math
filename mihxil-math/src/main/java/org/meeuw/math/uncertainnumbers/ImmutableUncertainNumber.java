@@ -2,6 +2,10 @@ package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
 
+import java.util.function.Supplier;
+
+import org.meeuw.math.Utils;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -11,16 +15,19 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     @Getter
     private final N value;
 
-    @Getter
-    private final N uncertainty;
+    private final Supplier<N> uncertainty;
 
-    public static <N extends Number> ImmutableUncertainNumber<N> of(N value, N uncertainty) {
+    public static <N extends Number> ImmutableUncertainNumber<N> of(N value, Supplier<N> uncertainty) {
         return new ImmutableUncertainNumber<>(value, uncertainty);
     }
 
     public ImmutableUncertainNumber(N value, N uncertainty) {
+        this(value, () -> uncertainty);
+    }
+
+    public ImmutableUncertainNumber(N value, Supplier<N> uncertainty) {
         this.value = value;
-        this.uncertainty = uncertainty;
+        this.uncertainty = Utils.memoize(uncertainty);
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
@@ -33,5 +40,10 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     public int hashCode() {
         // must return constant to ensure that this is consistent with equals
         return 0;
+    }
+
+    @Override
+    public N getUncertainty() {
+        return this.uncertainty.get();
     }
 }

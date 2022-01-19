@@ -7,6 +7,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import java.util.function.Supplier;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -321,6 +323,30 @@ public final class Utils {
     @SafeVarargs
     public static <E extends Comparable<E>> NavigableSet<E> navigableSet(E...ops) {
         return unmodifiableNavigableSet(new TreeSet<>(Arrays.asList(ops)));
+    }
+
+    public static <V> Supplier<V> memoize(final Supplier<V> wrapped){
+        return new Supplier<V>() {
+            transient volatile boolean initialized;
+            transient V value;
+
+
+            @Override
+            public V get() {
+                if (!initialized) {
+                    synchronized (this) {
+                        if (!initialized) {
+                            V t = wrapped.get();
+                            value = t;
+                            initialized = true;
+                            return t;
+                        }
+                    }
+                    return null;
+                }
+                return value;
+            }
+        };
     }
 
 }
