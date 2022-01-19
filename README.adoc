@@ -136,14 +136,14 @@ It is not always absolutely defined how propagations must happen. Some interpret
 
 | summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
 | multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
- latexmath:[\mid a \cdot b \mid \cdot \sqrt{(\frac{Δa}{\mid a \mid + Δa })^2 + (\frac{Δb}{\mid b \mid + Δb })^2}]
+ latexmath:[\mid a \cdot b \mid \cdot \sqrt{\left(\frac{Δa}{\mid a \mid + Δa }\right)^2 + \left(\frac{Δb}{\mid b \mid + Δb }\right)^2}]
 | exponentiation |
- latexmath:[(a ± Δa) ^ {e ± Δe}]
+ latexmath:[\left(a ± Δa\right) ^ {e ± Δe}]
 |
  latexmath:[\mid a ^ e\mid \cdot
 \sqrt{
-  (\frac{e \cdot Δa}{a})^2 +
-  (\ln(a) \cdot Δe)^2
+  \left(\frac{e \cdot Δa}{a}\right)^2 +
+  \left(\ln(a) \cdot Δe\right)^2
 }]
 
 | sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]|
