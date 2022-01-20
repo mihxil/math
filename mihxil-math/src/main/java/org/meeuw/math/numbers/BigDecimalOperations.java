@@ -3,8 +3,7 @@ package org.meeuw.math.numbers;
 import ch.obermuhlner.math.big.BigDecimalMath;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.*;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Utils;
@@ -26,6 +25,9 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Getter
     private final MathContext mathContext;
 
+    @Getter
+    private final MathContext uncertaintyMathContext = new MathContext(2, RoundingMode.UP);
+
     public BigDecimalOperations(MathContext mathContext) {
         this.mathContext = mathContext;
     }
@@ -35,7 +37,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         if (uncertainty.signum() == 0) {
             return BigDecimal.ZERO;
         }
-        return uncertainty.divide(value.abs().add(uncertainty), mathContext);
+        return uncertainty.divide(value.abs().add(uncertainty), uncertaintyMathContext).stripTrailingZeros();
     }
 
     @Override

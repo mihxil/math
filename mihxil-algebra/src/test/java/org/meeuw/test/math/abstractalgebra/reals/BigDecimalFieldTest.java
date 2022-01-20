@@ -26,15 +26,23 @@ strictfp class BigDecimalFieldTest implements
 
     @Test
     public void uncertainty() {
+
+        // uncertainty in the double
         assertThat(of(5).getUncertainty()).isEqualTo("1.8E-15");
         assertThat(of(50).getUncertainty()).isEqualTo("1.4E-14");
         assertThat(of(5e-4).getUncertainty()).isEqualTo("2.2E-19");
 
         assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("1.1E-18");
-
-        assertThat(of("5").getUncertainty()).isEqualTo("0");
         assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("2.0");
         assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("2.8");
+
+        // bigdecimal intrinsically know their uncertainty, and can be exact.
+        assertThat(of("5").getUncertainty()).isEqualTo("0");
+
+        // by division, exactness gets lost
+        BigDecimalElement half = of("1").dividedBy(of("2"));
+        assertThat(half.getUncertainty()).isEqualTo("1E-34"); //
+
     }
 
     @Test

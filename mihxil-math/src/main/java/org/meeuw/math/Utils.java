@@ -244,7 +244,7 @@ public final class Utils {
             return BigDecimal.ZERO;
         }
 
-        return BigDecimal.ONE.scaleByPowerOfTen(-1 * context.getPrecision());
+        return BigDecimal.ONE.scaleByPowerOfTen(-1 * context.getPrecision()).stripTrailingZeros();
     }
 
 

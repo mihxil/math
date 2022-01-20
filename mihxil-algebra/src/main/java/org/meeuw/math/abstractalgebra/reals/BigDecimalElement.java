@@ -174,10 +174,10 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement dividedBy(long divisor) {
         BigDecimal newValue = value.divide(BigDecimal.valueOf(divisor), operations().getMathContext());
-        newValue.scale();
         return new BigDecimalElement(
-            value.divide(BigDecimal.valueOf(divisor), operations().getMathContext()),
-            uncertainty.divide(BigDecimal.valueOf(divisor), operations().getMathContext())
+            newValue,
+            uncertainty.divide(BigDecimal.valueOf(divisor), operations().getUncertaintyMathContext()).max(
+                Utils.uncertaintyForBigDecimal(newValue, operations().getMathContext()))
         );
     }
 

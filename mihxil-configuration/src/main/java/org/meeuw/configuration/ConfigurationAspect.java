@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Represents one (immutable) aspect of a {@link Configuration}
+ * Represents one (immutable) aspect of a {@link Configuration}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

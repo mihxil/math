@@ -1,11 +1,10 @@
 package org.meeuw.math.abstractalgebra.reals;
 
-import lombok.Getter;
-
 import java.math.MathContext;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.numbers.BigDecimalOperations;
 
 /**
  * The algebra for {@link java.math.BigDecimal} (wrapped in {@link BigDecimalElement}
@@ -21,8 +20,6 @@ public class BigDecimalField
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 
-    @Getter
-    private final MathContext mathContext = MathContext.DECIMAL128;
 
     protected BigDecimalField() {
         super(BigDecimalElement.class);
@@ -41,5 +38,10 @@ public class BigDecimalField
     @Override
     public Cardinality getCardinality() {
         return Cardinality.C;
+    }
+
+
+    public MathContext getMathContext() {
+        return BigDecimalOperations.INSTANCE.getMathContext();
     }
 }
