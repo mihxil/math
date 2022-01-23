@@ -1,12 +1,14 @@
 package org.meeuw.math.statistics;
 
 import lombok.extern.log4j.Log4j2;
-import net.jqwik.api.*;
 
 import java.util.Random;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  */
 @Log4j2
-public class StatisticalDoubleTest implements CompleteFieldTheory<UncertainReal> {
+public class StatisticalDoubleTest implements
+    UncertainDoubleTheory<UncertainReal>,
+    CompleteFieldTheory<UncertainReal> {
 
 
     @Test

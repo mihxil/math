@@ -3,7 +3,8 @@ package org.meeuw.math.abstractalgebra.rationalnumbers;
 import lombok.Getter;
 import lombok.NonNull;
 
-import java.math.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +12,7 @@ import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
@@ -19,12 +21,12 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.4
  */
 public class RationalNumber extends Number
-    implements ScalarFieldElement<RationalNumber>, SignedNumber<RationalNumber>, Ordered<RationalNumber> {
+    implements
+    ScalarFieldElement<RationalNumber>,
+    SignedNumber<RationalNumber>, Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
-
-    private static final  MathContext MATH_CONTEXT = new MathContext(40);
 
     @Getter
     private final BigInteger numerator;
@@ -175,7 +177,8 @@ public class RationalNumber extends Number
 
     @Override
     public BigDecimal bigDecimalValue() {
-        return new BigDecimal(numerator).divide(new BigDecimal(denominator), MATH_CONTEXT);
+        return new BigDecimal(numerator).divide(new BigDecimal(denominator),
+            MathContextConfiguration.get().getContext());
     }
 
     @Override

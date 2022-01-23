@@ -6,8 +6,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.math.abstractalgebra.test.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
@@ -23,7 +22,8 @@ import static org.meeuw.physics.SIUnit.m;
 @Log4j2
 class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
-    SignedNumberTheory<PhysicalNumber> {
+    SignedNumberTheory<PhysicalNumber>,
+    UncertainDoubleTheory<PhysicalNumber> {
 
     @Test
     public void add() {

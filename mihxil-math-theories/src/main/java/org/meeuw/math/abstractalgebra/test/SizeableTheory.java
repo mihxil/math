@@ -18,9 +18,8 @@ public interface SizeableTheory< E extends Sizeable<SIZE>, SIZE extends Scalar<S
   @Property
     default void abs(@ForAll(ELEMENTS) E scalar) {
         SIZE abs = scalar.abs();
-        assertThat(abs.signum()).isIn(0, 1);
-
         getLogger().debug("abs({}) = {}", scalar, abs);
         assertThat(abs.isNegative()).withFailMessage(() -> "abs(" + scalar  + ") = " + abs + " is negative").isFalse();
+        assertThat(abs.floatValue()).isGreaterThanOrEqualTo(0.0f);
   }
 }

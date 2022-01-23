@@ -2,7 +2,6 @@ package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.MathContext;
 
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
@@ -43,6 +42,6 @@ public class BigDecimalField
 
 
     public MathContext getMathContext() {
-        return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getContext();
+        return MathContextConfiguration.get().getContext();
     }
 }

@@ -8,12 +8,16 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.TestClock;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -24,7 +28,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @since 0.38
  */
 @Log4j2
-public class WindowedEventRateTest {
+public class WindowedEventRateTest { //implements UncertainDoubleTheory<WindowedEventRate> {
 
     @Test
     public void testBuckets() {
@@ -217,6 +221,24 @@ public class WindowedEventRateTest {
             });
     }
 
+    //@Override
+    public Arbitrary<UncertainDouble<UncertainReal>> elements() {
+        final TestClock clock = new TestClock();
+
+        return Arbitraries.randomValue(r -> {
+            int number = r.nextInt(100);
+            WindowedEventRate rate = WindowedEventRate.builder()
+                .window(Duration.ofSeconds(100))
+                .bucketCount(10)
+                .clock(clock)
+                .build();
+            for (int i = 1; i < number; i++) {
+                rate.accept(r.nextInt(10));
+                clock.tick(r.nextInt(2000));
+            }
+            return (UncertainReal) rate;
+        });
+    }
 }
 
 

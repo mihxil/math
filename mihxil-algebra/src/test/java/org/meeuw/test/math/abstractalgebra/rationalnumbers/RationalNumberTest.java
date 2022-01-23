@@ -1,13 +1,15 @@
 package org.meeuw.test.math.abstractalgebra.rationalnumbers;
 
 import lombok.extern.log4j.Log4j2;
-import net.jqwik.api.*;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.test.FieldTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,7 +23,10 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  */
 
 @Log4j2
-class RationalNumberTest implements FieldTheory<RationalNumber>, SignedNumberTheory<RationalNumber> {
+class RationalNumberTest implements
+    FieldTheory<RationalNumber>,
+    ScalarTheory<RationalNumber>,
+    SignedNumberTheory<RationalNumber> {
 
     @Test
     public void test() {

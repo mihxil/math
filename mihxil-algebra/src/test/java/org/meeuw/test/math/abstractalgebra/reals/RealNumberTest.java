@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
-import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 
 import static java.lang.Double.NaN;
@@ -24,7 +23,8 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.*;
 @Log4j2
 class RealNumberTest implements
     CompleteFieldTheory<RealNumber>,
-    MetricSpaceTheory<RealNumber, RealNumber> {
+    MetricSpaceTheory<RealNumber, RealNumber>,
+    UncertainDoubleTheory<RealNumber> {
 
     @Test
     public void test() {
@@ -107,6 +107,8 @@ class RealNumberTest implements
         RealNumber multiplied = divided.times(999999L);
         assertThat(multiplied).isEqualTo(ONE);
     }
+
+
 
     @Override
 	@Provide

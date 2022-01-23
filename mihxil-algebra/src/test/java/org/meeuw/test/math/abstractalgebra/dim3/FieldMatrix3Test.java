@@ -11,6 +11,7 @@ import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3Group;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +25,28 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 @PropertyDefaults(tries = 100)
 @Log4j2
 class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber>> {
+
+
+    @Test
+    public void illegal() {
+        Assertions.assertThatThrownBy(() -> {
+            FieldMatrix3.of(
+                of(3), of(0), of(2),
+                of(2), of(0), of(-2),
+                of(0), of(0), of(0)
+            );
+        }).isInstanceOf(InvalidElementCreationException.class);
+        FieldMatrix3<RationalNumber> iml = new FieldMatrix3<>(
+            new RationalNumber[][]{
+                new RationalNumber[]{of(3), of(0), of(2)},
+                new RationalNumber[]{of(2), of(0), of(-2)},
+                new RationalNumber[]{of(0), of(0), of(0)}
+            }
+        );
+        Assertions.assertThatThrownBy(iml::reciprocal)
+            .isInstanceOf(ReciprocalException.class);
+
+    }
 
     @Test
     public void adjugate() {

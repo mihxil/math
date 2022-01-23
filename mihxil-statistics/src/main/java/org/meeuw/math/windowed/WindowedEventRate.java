@@ -28,8 +28,10 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.38
  */
-public class WindowedEventRate extends Windowed<AtomicLong> implements
-    IntConsumer, UncertainDouble<UncertainReal>, WithUnits {
+public class WindowedEventRate extends Windowed<AtomicLong>
+    implements
+    IntConsumer,
+    UncertainDouble<UncertainReal>, WithUnits {
 
 
     private static final ScheduledExecutorService backgroundExecutor = Executors.newScheduledThreadPool(5);

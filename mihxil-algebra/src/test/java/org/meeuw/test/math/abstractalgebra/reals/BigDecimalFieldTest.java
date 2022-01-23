@@ -3,12 +3,12 @@ package org.meeuw.test.math.abstractalgebra.reals;
 import java.math.MathContext;
 
 import net.jqwik.api.*;
+import net.jqwik.api.arbitraries.DoubleArbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
-import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,6 +76,18 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement reciprocal = e.reciprocal();
         BigDecimalElement timesItself = reciprocal.times(e);
         assertThat(timesItself.equals(e.getStructure().one())).isTrue();
+    }
+
+    @Property
+    public void timesDouble(
+        @ForAll(ELEMENTS) BigDecimalElement e,
+        @ForAll("doubles") Double multiplier) {
+        assertThat(e.times(multiplier).getValue().doubleValue()).isEqualTo(e.getValue().doubleValue() * multiplier);
+    }
+
+    @Provide
+    public DoubleArbitrary doubles() {
+        return Arbitraries.doubles();
     }
 
     @Override
