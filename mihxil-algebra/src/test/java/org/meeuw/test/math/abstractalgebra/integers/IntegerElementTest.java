@@ -4,12 +4,12 @@ import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,6 +22,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
 class IntegerElementTest implements
     RingTheory<IntegerElement>,
     MultiplicativeMonoidTheory<IntegerElement>,
+    SizeableScalarTheory<IntegerElement, IntegerElement>,
     SignedNumberTheory<IntegerElement> {
 
     @Override
@@ -70,7 +71,7 @@ class IntegerElementTest implements
 
     @Test
     void stream() {
-        Assertions.assertThat(Integers.INSTANCE.stream().limit(11).map(IntegerElement::longValue)
+        assertThat(Integers.INSTANCE.stream().limit(11).map(IntegerElement::longValue)
             .collect(Collectors.toList())).containsExactly(0L, 1L, -1L, 2L, -2L, 3L, -3L, 4L, -4L, 5L, -5L);
     }
 

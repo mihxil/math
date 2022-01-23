@@ -12,6 +12,7 @@ import org.meeuw.math.abstractalgebra.integers.NDivisibleIntegers;
 import org.meeuw.math.abstractalgebra.test.RngTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.integers.NDivisibleInteger.of;
@@ -22,17 +23,13 @@ import static org.meeuw.math.abstractalgebra.integers.NDivisibleInteger.of;
  */
 class NDivisibleIntegerTest implements
     RngTheory<NDivisibleInteger>,
+    SizeableScalarTheory<NDivisibleInteger, NDivisibleInteger>,
     SignedNumberTheory<NDivisibleInteger> {
 
     @Test
     public void test() {
         assertThatThrownBy(() -> of(3, 1)).isInstanceOf(InvalidElementCreationException.class);
-
-
-
     }
-
-
 
     @Override
     public Arbitrary<NDivisibleInteger> elements() {

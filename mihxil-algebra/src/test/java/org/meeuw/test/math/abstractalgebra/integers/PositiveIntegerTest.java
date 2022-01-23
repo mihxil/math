@@ -12,7 +12,7 @@ import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.integers.NaturalNumber.of;
+import static org.meeuw.math.abstractalgebra.integers.PositiveInteger.of;
 
 /**
  * @author Michiel Meeuwissen
