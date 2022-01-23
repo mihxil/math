@@ -82,7 +82,7 @@ class StreamUtilsTest {
 
     @Test
     public void spliterator3() {
-        ConfigurationService.with(StreamUtils.Configuration.class,
+        ConfigurationService.withAspect(StreamUtils.Configuration.class,
             ca -> ca.withMaxThreads(5), () -> {
                 BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
                 BigIntegerSpliterator negatives = i.trySplit();

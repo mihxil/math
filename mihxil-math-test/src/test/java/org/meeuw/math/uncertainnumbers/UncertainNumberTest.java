@@ -1,11 +1,14 @@
 package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.util.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
@@ -51,7 +54,7 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
         A a = new A(valueOf(1), valueOf(0.1));
         UncertainNumber<BigDecimal> quotient = a.dividedBy(valueOf(2));
         assertThat(quotient.getValue()).isEqualTo(valueOf(0.5));
-        assertThat(quotient.getUncertainty()).isEqualTo(valueOf(0.05));
+        assertThat(quotient.getUncertainty()).isEqualTo(valueOf(0.0455));
     }
 
 
@@ -82,11 +85,16 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
 
     @Test
     void combined() {
-        A a1 = new A(valueOf(1), valueOf(0.1));
-        A a2 = new A(valueOf(1.1), valueOf(0.05));
-        UncertainNumber<BigDecimal> combined = a1.combined(a2);
-        assertThat(combined.bigDecimalValue()).isEqualTo(valueOf(1.08));
-        assertThat(combined.getUncertainty()).isEqualTo(valueOf(0.044721359549995794));
+        ConfigurationService.withAspect(MathContextConfiguration.class,
+            (o) -> o.withContext(new MathContext(4)),
+            () -> {
+                A a1 = new A(valueOf(1), valueOf(0.1));
+                A a2 = new A(valueOf(1.1), valueOf(0.05));
+                UncertainNumber<BigDecimal> combined = a1.combined(a2);
+                assertThat(combined.bigDecimalValue()).isEqualTo(valueOf(1.08));
+                assertThat(combined.getUncertainty()).isEqualTo(new BigDecimal("0.04472"));
+            }
+        );
     }
 
     @Test

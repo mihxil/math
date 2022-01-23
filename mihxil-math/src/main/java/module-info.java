@@ -1,4 +1,5 @@
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -38,7 +39,8 @@ module org.meeuw.math {
     provides ConfigurationAspect with
         StreamUtils.Configuration,
         NumberConfiguration,
-        UncertaintyConfiguration
+        UncertaintyConfiguration,
+        MathContextConfiguration
 ;
 
 

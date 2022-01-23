@@ -101,12 +101,12 @@ public final class FormatService {
     }
     @Deprecated
     public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
-        ConfigurationService.with(configurationAspect, aspect, r);
+        ConfigurationService.withAspect(configurationAspect, aspect, r);
     }
 
     @Deprecated
     public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
-        ConfigurationService.with(configuration, r);
+        ConfigurationService.withConfiguration(configuration, r);
     }
 
 

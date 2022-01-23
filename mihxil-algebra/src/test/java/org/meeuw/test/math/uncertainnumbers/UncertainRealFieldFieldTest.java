@@ -17,7 +17,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.configuration.ConfigurationService.with;
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
@@ -45,8 +45,8 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
         @ForAll("bigdecimals") final BigDecimal r2,
         @ForAll Operator operator) {
 
-        with(
-            (configurationBuilder) -> configurationBuilder.aspect(UncertaintyConfiguration.class, (nc) -> nc.withConsiderRoundingErrorFactor(0)), () -> {
+        withAspect(UncertaintyConfiguration.class,
+            (nc) -> nc.withConsiderRoundingErrorFactor(0), () -> {
                 BigDecimal big2 = r2;
                 if (operator == Operator.POWER) {
                     big2 = big2.divide(BigDecimal.valueOf(100));

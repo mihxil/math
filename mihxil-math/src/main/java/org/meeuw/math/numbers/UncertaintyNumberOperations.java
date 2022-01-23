@@ -1,6 +1,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
+import java.util.function.Supplier;
 
 /**
  * @author Michiel Meeuwissen
@@ -23,33 +24,47 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
      * The uncertaintity
      */
     default N multipliedUncertainty(N newValue, N fractionUncertainty1, N fractionalUncertainty2) {
-        return multiply(abs(newValue), sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))).getValue());
+        return uncertaintyContext(
+            () -> multiply(abs(newValue),
+                sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))).getValue()
+            )
+        );
     }
 
     default N addUncertainty(N uncertainty1, N uncertainty2) {
-        return sqrt(add(sqr(uncertainty1), sqr(uncertainty2))).getValue();
+        return uncertaintyContext(
+            () -> sqrt(add(sqr(uncertainty1), sqr(uncertainty2))).getValue()
+        );
     }
 
     N roundingUncertainty(N n);
 
     default N powerUncertainty(
-        N base, N baseUncertainty,
-        N exponent, N exponentUncertainty,
-        N result) {
+        final N base,
+        final N baseUncertainty,
+        final N exponent,
+        final N exponentUncertainty,
+        final N result){
         //https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations
         if (isZero(base) && isZero(baseUncertainty)) {
             return base;
         }
-        base = max(base, roundingUncertainty(base));
-        return multiply(
-            abs(result),
-            sqrt(
-                add(
-                    sqr(divide(multiply(exponent, baseUncertainty), base).getValue()),
-                    sqr(multiply(ln(base).getValue(), exponentUncertainty))
-                )
-            ).getValue()
+        final N fbase = max(base, roundingUncertainty(base));
+        return uncertaintyContext(
+            () -> multiply(
+                abs(result),
+                sqrt(
+                    add(
+                        sqr(divide(multiply(exponent, baseUncertainty), fbase).getValue()),
+                        sqr(multiply(ln(fbase).getValue(), exponentUncertainty))
+                    )
+                ).getValue()
+            )
         );
+    }
+
+    default <X> X uncertaintyContext(Supplier<X> supplier) {
+        return supplier.get();
     }
 
 }

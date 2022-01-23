@@ -58,7 +58,13 @@ public class Configuration {
      * @param config The operator that given the exising value for the aspect, produces a new one
      */
     public <E extends ConfigurationAspect> Configuration with(Class<E> clazz, UnaryOperator<E> config) {
-        return toBuilder().aspect(clazz, config).build();
+        return toBuilder()
+            .configure(clazz, config
+        ).build();
+    }
+
+    public <E extends ConfigurationAspect> Configuration with(E aspect) {
+        return toBuilder().aspectValue(aspect).build();
     }
 
     public List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
@@ -90,10 +96,15 @@ public class Configuration {
         }
 
         @SuppressWarnings("unchecked")
-        public <E extends ConfigurationAspect> Builder aspect(Class<E> clazz, UnaryOperator<E> config) {
+        public <E extends ConfigurationAspect> Builder configure(Class<E> clazz, UnaryOperator<E> config) {
             E template = (E) configuration.get(clazz);
             E newConfig = config.apply(template);
             configuration.put(clazz, newConfig);
+            return this;
+        }
+
+        public <E extends ConfigurationAspect> Builder aspectValue(E value) {
+            configuration.put(value.getClass(), value);
             return this;
         }
 

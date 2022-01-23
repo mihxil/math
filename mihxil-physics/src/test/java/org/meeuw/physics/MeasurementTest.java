@@ -2,11 +2,11 @@ package org.meeuw.physics;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 
 /**
@@ -32,7 +32,7 @@ class MeasurementTest  {
         Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 21 m²"); // or should that be 27?
-        with(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
+        ConfigurationService.withAspect(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
             () -> assertThat(area.toString()).isEqualTo("630(21) m²")
         );
     }

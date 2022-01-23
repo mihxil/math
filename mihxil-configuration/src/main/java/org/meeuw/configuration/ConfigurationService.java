@@ -7,6 +7,18 @@ import java.util.function.*;
 
 
 /**
+ * A set of static methods to maintain a thread local {@link Configuration}. Every configuration has a set of {@link ConfigurationAspect} and values.
+ * These values are initially loaded via java service loading. This initial default values can be changed, and also the values per thread.
+ *
+ * So configuration is:
+ * <ol>
+ * <li>Type safe. Every aspect has its own implementation with their own 'withers'</li>
+ * <li>JVM global defaults can be set.</li>
+ * <li>This default configuration object is the initial value of every <em>thread local</em> configuration</li>
+ *</ol>
+ *
+ * Configuration and their aspects are unmodifiable, and can only be entirely replaced by updated values.
+ *
  * @since 0.7
  */
 
@@ -16,19 +28,18 @@ public class ConfigurationService {
     private ConfigurationService() {
     }
 
-
     private static final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> INITIAL_MAP
-        = Collections.unmodifiableMap(createConfigurationMap());
+        = Collections.unmodifiableMap(createInitialConfigurationMap());
 
     private static final Configuration.Builder DEFAULT = Configuration.builder();
 
     public static final ThreadLocal<Configuration> CONFIGURATION =
         ThreadLocal.withInitial(DEFAULT::build);
 
-
     /**
      * Configures the default configuration object.
      * @param  consumer the code to configure the new default configuration. it will receive a {@link Configuration.Builder} with the existing configuration.
+     * @see #resetToDefaultDefaults()
      */
     public static void defaultConfiguration(Consumer<Configuration.Builder> consumer) {
         consumer.accept(DEFAULT);
@@ -57,6 +68,11 @@ public class ConfigurationService {
         CONFIGURATION.remove();
     }
 
+    /**
+     * Resets all settings (via {@link #defaultConfiguration(Consumer)}.
+     * @see #defaultConfiguration(Consumer)
+     */
+
     public static void resetToDefaultDefaults() {
         defaultConfiguration(Configuration.Builder::defaults);
     }
@@ -70,23 +86,27 @@ public class ConfigurationService {
         return CONFIGURATION.get().getAspect(clazz);
     }
 
-    public static void with(Configuration configuration, Runnable r) {
-        with(configuration, () -> {
-            r.run();
-            return null;
-        });
+     /**
+     * Executes code with a certain configuration. Will set given configuration, and restore the existing
+     * one after calling the supplier
+     * @param configuration
+     * @param
+     */
+    public static <R> R withConfiguration(final Configuration configuration, final Supplier<R> supplier) {
+        final Configuration before = getConfiguration();
+        try {
+            setConfiguration(configuration);
+            return supplier.get();
+        } finally {
+            setConfiguration(before);
+        }
     }
 
-    public static <E extends ConfigurationAspect, R> R with(Class<E> configurationAspect, UnaryOperator<E> aspect, Supplier<R> r) {
-        return with(
-            getConfiguration().with(configurationAspect, aspect),
-            r
-        );
-    }
-
-    public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
-
-        with(getConfiguration().with(configurationAspect, aspect), () -> {
+    /**
+     * Runs a piece of code with a certain {@link Configuration}
+     */
+    public static void withConfiguration(Configuration configuration, Runnable r) {
+        withConfiguration(configuration, () -> {
             r.run();
             return null;
         });
@@ -94,32 +114,61 @@ public class ConfigurationService {
 
 
     /**
-     * Executes code with a certain configuration
+     * Runs a piece of code, but before that configure one configuration aspect
+     * @param configurationAspectClass the class of the configuration aspect to configure
+     * @param aspectConfigurer unary operator on a {@link ConfigurationAspect}, returns a new value for that aspect
      */
-    public static <R> R with(Configuration configuration, Supplier<R> r) {
-        Configuration before = CONFIGURATION.get();
-        try {
-            CONFIGURATION.set(configuration);
-            return r.get();
-        } finally {
-            CONFIGURATION.set(before);
-        }
+    public static <E extends ConfigurationAspect, R> R withAspect(
+        Class<E> configurationAspectClass,
+        UnaryOperator<E> aspectConfigurer,
+        Supplier<R> r) {
+        return withConfiguration(
+            getConfiguration().with(configurationAspectClass, aspectConfigurer),
+            r
+        );
     }
 
-    public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
-        Configuration.Builder builder = CONFIGURATION.get().toBuilder();
+    /**
+     * As {@link #withAspect(Class, UnaryOperator, Supplier)}, but with a {@link Runnable} argument
+     */
+    public static <E extends ConfigurationAspect> void withAspect(
+        Class<E> configurationAspectClass,
+        UnaryOperator<E> aspectConfigurer,
+        Runnable r) {
+        withConfiguration(getConfiguration().with(configurationAspectClass, aspectConfigurer), () -> {
+            r.run();
+            return null;
+        });
+    }
+
+
+    public static <E extends ConfigurationAspect> void withAspect(E configurationAspect, Runnable r) {
+        withAspect(configurationAspect, () -> {
+            r.run();
+            return null;
+        });
+    }
+
+    public static <E extends ConfigurationAspect, R> R withAspect(E configurationAspect, Supplier<R> r) {
+        return withConfiguration(getConfiguration().toBuilder().aspectValue(configurationAspect).build(), r);
+    }
+
+
+
+    public static void withConfiguration(final Consumer<Configuration.Builder> configuration, final Runnable runnable) {
+        Configuration.Builder builder = getConfiguration().toBuilder();
         configuration.accept(builder);
-        with(builder.build(), r);
+        withConfiguration(builder.build(), runnable);
     }
 
 
-    public static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {
+    static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {
         Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> copy = createEmptyMap();
         copy.putAll(INITIAL_MAP);
         return new FixedSizeMap<>(copy);
     }
 
-    private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createConfigurationMap() {
+    private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createInitialConfigurationMap() {
         final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = createEmptyMap();
         final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
         loader.iterator().forEachRemaining(

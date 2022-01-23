@@ -9,6 +9,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
@@ -16,7 +17,6 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.configuration.ConfigurationService.with;
 import static org.meeuw.math.abstractalgebra.permutations.text.Notation.LIST;
 import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
 
@@ -36,16 +36,16 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     public void testToString() {
         Permutation permutation = Permutation.of(2, 3, 1, 5, 4);
         assertThat(permutation.toString()).isEqualTo("(123)(45)");
-        with(PermutationConfiguration.class, b -> b.withNotation(LIST), () ->
+        ConfigurationService.withAspect(PermutationConfiguration.class, b -> b.withNotation(LIST), () ->
             assertThat(permutation.toString()).isEqualTo("(23154)")
         );
-        with(PermutationConfiguration.class, b -> b.withOffset(ZERO), () ->
+        ConfigurationService.withAspect(PermutationConfiguration.class, b -> b.withOffset(ZERO), () ->
             assertThat(permutation.toString()).isEqualTo("(012)(34)")
         );
 
         Permutation longPermutation = Permutation.of(10, 1, 3, 7, 5, 6, 4, 9, 8, 2);
         assertThat(longPermutation.toString()).isEqualTo("(1 10 2)(4 7)(8 9)");
-        with(PermutationConfiguration.class, b -> b.withNotation(LIST), () ->
+        ConfigurationService.withAspect(PermutationConfiguration.class, b -> b.withNotation(LIST), () ->
             assertThat(longPermutation.toString()).isEqualTo("(10 1 3 7 5 6 4 9 8 2)")
         );
     }

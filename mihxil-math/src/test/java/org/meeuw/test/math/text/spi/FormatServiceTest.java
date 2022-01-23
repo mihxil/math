@@ -42,7 +42,7 @@ class FormatServiceTest {
         NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         int minimalExponent = aspect.getMinimalExponent();
         ConfigurationService.setConfiguration(configuration.toBuilder()
-            .aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8))
+            .configure(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8))
             .build()
         );
         assertThat(getConfiguration()
@@ -54,18 +54,18 @@ class FormatServiceTest {
     @Test
     public void testConfigurationAspects() {
         defaultConfiguration((con) -> con
-            .aspect(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-            .aspect(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
+            .configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+            .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
         );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
-        with(NumberConfiguration.class, (b) -> b.withMinimalExponent(6), () -> {
+        ConfigurationService.withAspect(NumberConfiguration.class, (b) -> b.withMinimalExponent(6), () -> {
             assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(6);
             }
         );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
-        defaultConfiguration((con) -> con.aspect(NumberConfiguration.class,
+        defaultConfiguration((con) -> con.configure(NumberConfiguration.class,
             c -> c.withMinimalExponent(5))
         );
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(5);
@@ -75,10 +75,10 @@ class FormatServiceTest {
         assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
 
-        with((con) -> con
-                .aspect(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
-                .aspect(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
-            , () -> {
+        withConfiguration((con) -> con
+                .configure(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
+                .configure(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
+        , () -> {
                 assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(5);
                 assertThat(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(3);
 
