@@ -7,7 +7,6 @@ import java.math.MathContext;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -173,15 +172,15 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public  <X> X withUncertaintyContext(Supplier<X> supplier) {
-        return withAspect(MathContextConfiguration.class, (mc) -> mc.withContext(uncertaintyContext()), supplier);
+        return withAspect(MathContextConfiguration.class,
+            (mc) -> mc.withContext(uncertaintyContext()), supplier);
     }
 
-
     private MathContext context() {
-        return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getContext();
+        return MathContextConfiguration.get().getContext();
     }
 
     private MathContext uncertaintyContext() {
-        return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getUncertaintContext();
+        return MathContextConfiguration.get().getUncertaintContext();
     }
 }

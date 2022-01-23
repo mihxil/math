@@ -8,13 +8,13 @@ import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.numbers.Scalar;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.util.test.ElementTheory.ELEMENTS;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends Scalar<S>> {
+public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends Scalar<S>>
+    extends SizeableTheory<E, S> {
 
 
     @Property

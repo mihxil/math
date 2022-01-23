@@ -9,8 +9,13 @@ import java.util.Collections;
 import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.ConfigurationService;
 
 public class MathContextConfiguration implements ConfigurationAspect {
+
+    public static MathContextConfiguration get() {
+        return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class);
+    }
 
     @Getter
     @With

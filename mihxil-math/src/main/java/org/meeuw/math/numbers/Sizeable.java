@@ -13,5 +13,4 @@ package org.meeuw.math.numbers;
 public interface Sizeable<E extends Scalar<E>> {
 
     E abs();
-
 }

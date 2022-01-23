@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface SignedNumberTheory<E extends SignedNumber> extends ElementTheory<E> {
+public interface SignedNumberTheory<E extends SignedNumber<E>> extends ElementTheory<E> {
 
     @Property
     default void signum(@ForAll(ELEMENT) E e) {

@@ -7,6 +7,7 @@ import net.jqwik.api.Property;
 import org.assertj.core.data.Offset;
 
 import org.meeuw.math.abstractalgebra.test.OrderedTheory;
+import org.meeuw.math.abstractalgebra.test.SizeableTheory;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SizeableScalar;
 import org.meeuw.util.test.ElementTheory;
@@ -20,15 +21,9 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * @since 0.4
  */
 public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE extends Scalar<SIZE>>
-    extends ElementTheory<S>, OrderedTheory<S> {
+    extends ElementTheory<S>, OrderedTheory<S>, SizeableTheory<S, SIZE> {
 
-    @Property
-    default void abs(@ForAll(ELEMENTS) S scalar) {
-        SIZE abs = scalar.abs();
-        getLogger().debug("abs({}) = {}", scalar, abs);
-        assertThat(abs.isNegative()).withFailMessage(() -> "abs(" + scalar  + ") = " + abs + " is negative").isFalse();
-        assertThat(abs.doubleValue()).isEqualTo(Math.abs(scalar.doubleValue()));
-    }
+
 
     @Property
     default void compareTo(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {

@@ -1,15 +1,17 @@
 package org.meeuw.test.math.abstractalgebra.integers;
 
-import net.jqwik.api.*;
-
 import java.util.stream.Collectors;
 
-import org.assertj.core.api.Assertions;
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+
 import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.test.RngTheory;
 import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,7 +23,9 @@ import static org.meeuw.math.abstractalgebra.integers.EvenInteger.of;
  */
 class EvenIntegerTest implements
     RngTheory<EvenInteger>,
+    SizeableScalarTheory<EvenInteger, EvenInteger>,
     SignedNumberTheory<EvenInteger> {
+
 
     @Test
     public void test() {

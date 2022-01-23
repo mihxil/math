@@ -63,10 +63,6 @@ public class Configuration {
         ).build();
     }
 
-    public <E extends ConfigurationAspect> Configuration with(E aspect) {
-        return toBuilder().aspectValue(aspect).build();
-    }
-
     public List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
         return map.values().stream()
             .filter(aspect -> aspect.associatedWith().stream().anyMatch(clazz::isAssignableFrom))
