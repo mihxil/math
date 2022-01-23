@@ -98,7 +98,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         N newValue = operations().multiply(getValue(), multiplier.getValue());
         return new ImmutableUncertainNumber<N>(
             newValue,
-            () -> operations().multipliedUncertainty(
+            () -> operations().multiplicationUncertainty(
                 newValue, getFractionalUncertainty(),
                 multiplier.getFractionalUncertainty()
             )
@@ -110,7 +110,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         NumberOperations<N> o = operations();
         return new ImmutableUncertainNumber<N>(
             o.add(getValue(), summand.getValue()),
-            () -> operations().addUncertainty(getUncertainty(), summand.getUncertainty())
+            () -> operations().additionUncertainty(getUncertainty(), summand.getUncertainty())
         );
     }
 

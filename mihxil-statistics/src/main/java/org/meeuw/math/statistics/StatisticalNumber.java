@@ -181,7 +181,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
         double v = getValue() * multiplier.getValue();
         return _of(v,
             Math.max(
-                operations.multipliedUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()),
+                operations.multiplicationUncertainty(v, getFractionalUncertainty(), multiplier.getFractionalUncertainty()),
                 Utils.uncertaintyForDouble(v)
             )
         );
@@ -189,7 +189,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
 
     @Override
     public UncertainReal plus(UncertainReal summand) {
-        return _of(getValue() + summand.getValue(), operations.addUncertainty(getUncertainty(), summand.getUncertainty()));
+        return _of(getValue() + summand.getValue(), operations.additionUncertainty(getUncertainty(), summand.getUncertainty()));
     }
 
     @Override

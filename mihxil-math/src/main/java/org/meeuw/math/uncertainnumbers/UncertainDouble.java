@@ -80,7 +80,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         double newValue = getValue() * multiplier.getValue();
         return _of(newValue,
             Math.max(
-                operations().multipliedUncertainty(
+                operations().multiplicationUncertainty(
                     newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty()
                 ),
                 Utils.uncertaintyForDouble(newValue)
@@ -93,7 +93,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         double mu = summand.getUncertainty();
         return _of(
             getValue() + summand.getValue(),
-            operations().addUncertainty(u, mu));
+            operations().additionUncertainty(u, mu));
 
     }
 

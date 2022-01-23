@@ -100,7 +100,7 @@ public class UncertainDoubleElement
         double newValue = getValue() * multiplier.getValue();
         return of(newValue,
             Math.max(
-                operations.multipliedUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()),
+                operations.multiplicationUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()),
                 Utils.uncertaintyForDouble(newValue)
             )
         );

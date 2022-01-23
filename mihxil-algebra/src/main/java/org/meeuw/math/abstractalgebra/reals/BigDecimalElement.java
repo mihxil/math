@@ -66,7 +66,7 @@ public class BigDecimalElement implements
     public BigDecimalElement minus(BigDecimalElement n1) {
         return new BigDecimalElement(
             value.subtract(n1.value),
-            operations().addUncertainty(uncertainty, n1.uncertainty)
+            operations().additionUncertainty(uncertainty, n1.uncertainty)
         );
     }
 
@@ -89,7 +89,7 @@ public class BigDecimalElement implements
     public BigDecimalElement dividedBy(BigDecimalElement n) {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, n.value);
         return new BigDecimalElement(newValue.getValue(),
-            operations().multipliedUncertainty(
+            operations().multiplicationUncertainty(
                 newValue.getValue(),
                 getFractionalUncertainty(),
                 n.getFractionalUncertainty()
@@ -174,9 +174,12 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement dividedBy(long divisor) {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, BigDecimal.valueOf(divisor));
+        UncertainNumber<BigDecimal> uncertaintyValue =
+            operations().withUncertaintyContext(() -> operations().divide(BigDecimal.valueOf(divisor), uncertainty)
+            );
         return new BigDecimalElement(
             newValue.getValue(),
-            uncertainty.divide(BigDecimal.valueOf(divisor), operations().uncertaintyContext()).max(
+            uncertaintyValue.getValue().max(
                 newValue.getUncertainty()
             )
         );

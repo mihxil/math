@@ -14,6 +14,7 @@ import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.Utils.uncertaintyForBigDecimal;
 
 /**
@@ -171,8 +172,8 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public  <X> X uncertaintyContext(Supplier<X> supplier) {
-        return ConfigurationService.withAspect(MathContextConfiguration.class, (mc) -> mc.withContext(uncertaintyContext()), supplier);
+    public  <X> X withUncertaintyContext(Supplier<X> supplier) {
+        return withAspect(MathContextConfiguration.class, (mc) -> mc.withContext(uncertaintyContext()), supplier);
     }
 
 
@@ -180,7 +181,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getContext();
     }
 
-    public MathContext uncertaintyContext() {
+    private MathContext uncertaintyContext() {
         return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getUncertaintContext();
     }
 }

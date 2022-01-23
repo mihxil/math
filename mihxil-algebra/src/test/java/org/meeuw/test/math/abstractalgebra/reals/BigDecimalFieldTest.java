@@ -1,11 +1,15 @@
 package org.meeuw.test.math.abstractalgebra.reals;
 
+import java.math.MathContext;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
@@ -46,6 +50,16 @@ strictfp class BigDecimalFieldTest implements
         // by division, exactness gets lost
         BigDecimalElement half = of("1").dividedBy(of("2"));
         assertThat(half.getUncertainty()).isEqualTo("1E-34"); //
+
+    }
+
+    @Test
+    public void divisionUncertaintyConfiguredLessPrecise() {
+        ConfigurationService.withAspect(MathContextConfiguration.class, mc ->
+            mc.withContext(new MathContext(2)), () -> {
+            BigDecimalElement half = of("1").dividedBy(of("2"));
+            assertThat(half.getUncertainty()).isEqualTo("0.01"); //
+        });
 
     }
 
