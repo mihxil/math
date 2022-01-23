@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import lombok.With;
+
 import java.util.Iterator;
 import java.util.stream.Stream;
 
@@ -16,8 +18,13 @@ public class Vector3 implements
     Vector<Vector3, RealNumber>,
     WithScalarOperations<Vector3, RealNumber> {
 
+    @With
     final double x;
+
+    @With
     final double y;
+
+    @With
     final double z;
 
     public static Vector3 of(double x, double y, double z) {

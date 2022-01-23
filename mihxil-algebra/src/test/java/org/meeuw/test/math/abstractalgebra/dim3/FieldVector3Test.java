@@ -59,6 +59,21 @@ class FieldVector3Test  implements
         assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
     }
 
+    @Test
+    public void testEquals() {
+        FieldVector3<BigDecimalElement> v1 = FieldVector3.of(of(3), of(-4), of(0));
+        FieldVector3<BigDecimalElement> v2 = FieldVector3.of(of(3), of(-4), of(0));
+        assertThat(v1).isEqualTo(v2);
+        v2 = v2.withY(of(-3));
+        assertThat(v1).isNotEqualTo(v2);
+        v2 = v2.withY(of(-4)).withZ(of(1));
+        assertThat(v1).isNotEqualTo(v2);
+        v2 = v2.withZ(of(0)).withX(of(4));
+        assertThat(v1).isNotEqualTo(v2);
+        v2 = v2.withX(of(3));
+        assertThat(v1).isEqualTo(v2);
+    }
+
     @SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
     public void spaceEquals() {
@@ -85,8 +100,11 @@ class FieldVector3Test  implements
     @Override
     public Arbitrary<? extends FieldVector3<RealNumber>> elements() {
         return Arbitraries.randomValue(r ->
-            FieldVector3.of(r.nextDouble() * 100, r.nextDouble() * 100, r.nextDouble()* 100)
-        )
+            FieldVector3.of(
+                r.nextDouble() * 100,
+                r.nextDouble() * 100,
+                r.nextDouble()* 100)
+            )
             .injectDuplicates(0.1)
 
             ;

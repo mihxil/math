@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
+import lombok.With;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -23,8 +25,11 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     Vector<FieldVector3<E>, E>,
     WithScalarOperations<FieldVector3<E>, E> {
 
+    @With
     final E x;
+    @With
     final E y;
+    @With
     final E z;
 
     public static <E extends ScalarFieldElement<E>> FieldVector3<E> of(E x, E y, E z) {

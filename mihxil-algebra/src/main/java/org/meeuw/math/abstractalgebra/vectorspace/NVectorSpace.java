@@ -12,10 +12,12 @@ import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.streams.StreamUtils;
 
 /**
+ * the space of n-dimensional vector
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NVectorSpace<E extends ScalarFieldElement<E>> implements
+public class NVectorSpace<E extends ScalarFieldElement<E>>
+    implements
     VectorSpace<E, NVector<E>>, Streamable<NVector<E>> {
 
     private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();

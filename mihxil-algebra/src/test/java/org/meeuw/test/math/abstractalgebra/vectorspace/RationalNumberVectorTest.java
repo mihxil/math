@@ -7,16 +7,12 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.reals.RealField;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.abstractalgebra.vectorspace.NVectorSpace;
-import org.meeuw.math.exceptions.NotStreamable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 /**
@@ -65,8 +61,10 @@ class RationalNumberVectorTest implements
 
     @Override
     public Arbitrary<? extends NVector<RationalNumber>> elements() {
-        return Arbitraries.randomValue(INSTANCE::nextRandom)
-            .tuple3().map((t) -> NVector.of(t.get1(), t.get2(), t.get3()));
+        return Arbitraries
+            .randomValue(INSTANCE::nextRandom)
+            .tuple3()
+            .map((t) -> NVector.of(t.get1(), t.get2(), t.get3()));
     }
 
     @Override

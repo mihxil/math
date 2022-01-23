@@ -41,11 +41,10 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             }
             streamAble.stream().limit(20).forEach(e -> log.info(e::toString));
             log.info("Skipping to 1000");
-            streamAble.stream().skip(1000).limit(20).forEach(e -> log.debug(e::toString));
+            streamAble.stream().skip(1000).limit(20).forEach(e -> log.info(e::toString));
             log.info("Skipping to 1000000");
             streamAble.stream().skip(1000000).limit(20).forEach(e ->
-
-                log.debug(e::toString));
+                log.info(e::toString));
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
