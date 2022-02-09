@@ -24,9 +24,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     public static final BigDecimalOperations INSTANCE = new BigDecimalOperations();
 
-
     private BigDecimalOperations() {
-
     }
 
 
