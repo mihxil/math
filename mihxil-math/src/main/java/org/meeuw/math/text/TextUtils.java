@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.meeuw.math.Utils;
 
 /**
@@ -37,11 +38,11 @@ public final class TextUtils {
         return script(i, SUB_MINUS, SUBSCRIPTS);
     }
 
-    public static String subscript(CharSequence i) {
+    public static @PolyNull String subscript(@PolyNull CharSequence i) {
         return script(i, SUB, SUBSCRIPTS);
     }
 
-    public static String superscript(CharSequence i) {
+    public static @PolyNull String superscript(@PolyNull CharSequence i) {
         return script(i, SUPER, SUPERSCRIPTS);
     }
 
@@ -52,7 +53,10 @@ public final class TextUtils {
         return bul.toString();
     }
 
-    private static String script(CharSequence i, Map<Character, Character> chars, char[] digits) {
+    private static @PolyNull String script(@PolyNull CharSequence i, Map<Character, Character> chars, char[] digits) {
+        if (i == null) {
+            return null;
+        }
         StringBuilder bul = new StringBuilder();
 
         i.chars().forEach(c -> {
@@ -146,7 +150,7 @@ public final class TextUtils {
      * @param s a charsequence to underline
      * @return a representation of the string which is completely 'underlined' (using unicode control characters)
      */
-    public static String underLine(CharSequence s) {
+    public static @PolyNull String underLine(@PolyNull CharSequence s) {
         return controlEach(s, '\u0332');
     }
 
@@ -154,7 +158,7 @@ public final class TextUtils {
      * @param s a charsequence to underline double
      * @return a representation of the string which is completely 'double underlined' (using unicode control characters)
      */
-    public static String underLineDouble(CharSequence s) {
+    public static @PolyNull String underLineDouble(@PolyNull CharSequence s) {
         return controlEach(s, '\u0333');
     }
 
@@ -162,7 +166,7 @@ public final class TextUtils {
      * @param s a charsequence to overline
      * @return a representation of the string which is completely 'overlined' (using unicode control characters)
      */
-    public static String overLine(CharSequence s) {
+    public static @PolyNull String overLine(@PolyNull CharSequence s) {
         return controlEach(s, '\u0305');
     }
 
@@ -170,11 +174,11 @@ public final class TextUtils {
      * @param s a charsequence to overline double
      * @return a representation of the string which is completely 'double overlined' (using unicode control characters)
      */
-    public static String overLineDouble(CharSequence s) {
+    public static @PolyNull String overLineDouble(@PolyNull CharSequence s) {
         return controlEach(s, '\u033f');
     }
 
-    public static String controlEach(CharSequence s, Character control) {
+    public static @PolyNull String controlEach(@PolyNull CharSequence s, Character control) {
         if (s == null) {
             return null;
         }

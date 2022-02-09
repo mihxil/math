@@ -18,6 +18,7 @@ open module org.meeuw.test {
     requires org.meeuw.math;
     requires lombok;
     requires org.meeuw.configuration;
+    requires org.checkerframework.checker.qual;
 
     exports org.meeuw.test.math.text.spi.test;
 
