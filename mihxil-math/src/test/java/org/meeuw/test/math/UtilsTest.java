@@ -16,6 +16,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
@@ -136,10 +137,17 @@ class UtilsTest {
     @Test
     public void spiral() {
         Supplier<Stream<Integer>> streamSupplier = () -> IntStream.iterate(0, i -> i + 1).boxed();
+    }
 
-
+    @Test
+    public void sqrt() {
+        assertThat(Utils.sqrt(4)).isEqualTo(2);
+        assertThat(Utils.floorSqrt(5)).isEqualTo(2);
+        assertThatThrownBy(() -> Utils.sqrt(5)).isInstanceOf(MathException.class);
 
     }
+
+
 
     public Duration time(Runnable run) {
         long nanoStart = System.nanoTime();

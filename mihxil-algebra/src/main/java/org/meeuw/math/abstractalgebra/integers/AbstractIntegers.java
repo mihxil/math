@@ -14,6 +14,9 @@ public abstract class AbstractIntegers<E extends AlgebraicElement<E>> extends Ab
     protected AbstractIntegers(Class<E> clazz) {
         super(clazz);
     }
+    protected AbstractIntegers() {
+        super();
+    }
 
     @Override
     public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {

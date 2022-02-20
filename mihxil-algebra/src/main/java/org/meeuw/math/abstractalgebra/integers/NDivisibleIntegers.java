@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -18,6 +20,7 @@ public class NDivisibleIntegers extends
 
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
 
+    @Getter
     private final int divisor;
 
     public static NDivisibleIntegers of(int divisor) {
@@ -25,7 +28,7 @@ public class NDivisibleIntegers extends
     }
 
     private NDivisibleIntegers(int divisor) {
-        super(NDivisibleInteger.class);
+        super();
         this.divisor = divisor;
     }
 

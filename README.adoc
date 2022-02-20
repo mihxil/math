@@ -62,8 +62,8 @@ The terminology which is adopted is this:
 |negation      | `-` | negation | negate | negation|| link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
 |reciprocation | `1/` |  reciprocal | | reciprocal|| link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
 |exponentiation | `^` | pow | pow | power| exponent| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-|square root | `√` | sqrt | radicand
- | square root| | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|square root | `√` | sqrt | sqrt
+ | square root| radicand | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |sine | `sin()`| sin | sin | sine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |cosine | `cos()` | cos | cos | cosine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |metric or distance| `d()` | distanceTo | metric | distance|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]

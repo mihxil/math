@@ -6,12 +6,12 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
-
 import java.util.function.Supplier;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
 
@@ -153,6 +153,31 @@ public final class Utils {
         // this branchless version would just be 'approximately' correct, and it is only just a bit faster.
 
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
+    }
+
+    public static long floorSqrt(final long radicand) {
+        long proposal = 0;
+        long m;
+        long r = radicand + 1;
+
+        while (proposal != r - 1) {
+            m = (proposal + r) / 2;
+
+            if (m * m <= radicand) {
+                proposal = m;
+            } else {
+                r = m;
+            }
+        }
+        return proposal;
+    }
+
+    public static long sqrt(final long radicand) {
+        long proposal = floorSqrt(radicand);
+        if (proposal * proposal < radicand) {
+            throw new NotASquareException(radicand + " is not a square");
+        }
+        return proposal;
     }
 
 
