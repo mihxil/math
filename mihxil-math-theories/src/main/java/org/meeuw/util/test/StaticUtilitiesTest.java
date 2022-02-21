@@ -3,6 +3,7 @@ package org.meeuw.util.test;
 import java.lang.reflect.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ public interface StaticUtilitiesTest {
         List<Method> s = Arrays.stream(clazz.getDeclaredMethods())
             .filter(m -> Modifier.isStatic(m.getModifiers()) && Modifier.isPublic(m.getModifiers()))
             .filter(m -> m.getAnnotatedReturnType().getAnnotation(PolyNull.class) != null)
-            .toList();
+            .collect(Collectors.toList());
         assumeThat(s).isNotEmpty();
         return s.stream();
     }
