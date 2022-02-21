@@ -23,24 +23,30 @@ public class OrthogonalGroup<E extends FieldElement<E>>
 
     private static final Map<Key, OrthogonalGroup<?>> INSTANCES = new ConcurrentHashMap<>();
 
+    @Getter
+    private final boolean orthogonal;
+
 
     private OrthogonalGroup(
         Class<OrthogonalMatrix<E>> clazz,
         Field<E> field,
-        int dimension) {
+        int dimension,
+        boolean orthogonal) {
         super(clazz);
         this.dimension = dimension;
         this.elementField = field;
-        this.one = new OrthogonalMatrix<>(this, one(elementField, dimension));
+        this.one = new OrthogonalMatrix<>(this, one(elementField, dimension), orthogonal);
+        this.orthogonal = orthogonal;
     }
 
-    static <E extends FieldElement<E>> OrthogonalGroup<E> of(OrthogonalMatrix<E> orthogonalMatrix){
+    static <E extends FieldElement<E>> OrthogonalGroup<E> of(OrthogonalMatrix<E> orthogonalMatrix, boolean orthogonal){
         E[] [] matrix = orthogonalMatrix.matrix;
-        final Key key = new Key(matrix.length, matrix[0][0].getStructure());
+        final Key key = new Key(matrix.length, matrix[0][0].getStructure(), orthogonal);
         return (OrthogonalGroup<E>) INSTANCES.computeIfAbsent(key, k -> new OrthogonalGroup<E>(
             (Class<OrthogonalMatrix<E>>) orthogonalMatrix.getClass(),
             (Field<E>) k.field,
-            k.dimension
+            k.dimension,
+            orthogonal
         ));
 
     }
@@ -49,10 +55,12 @@ public class OrthogonalGroup<E extends FieldElement<E>>
     public static class Key {
         final int dimension;
         final Field<?> field;
+        final boolean orthogonal;
 
-        public Key(int dimension, Field<?> field) {
+        public Key(int dimension, Field<?> field, boolean orthogonal) {
             this.dimension = dimension;
             this.field = field;
+            this.orthogonal = orthogonal;
         }
     }
 

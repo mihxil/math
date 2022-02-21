@@ -10,10 +10,12 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 module org.meeuw.math.algebras {
     requires static java.validation;
     requires static lombok;
+    requires static org.checkerframework.checker.qual;
 
     requires java.logging;
     requires org.meeuw.math;
     requires org.meeuw.configuration;
+
 
     exports org.meeuw.math.abstractalgebra.complex;
     exports org.meeuw.math.abstractalgebra.dim3;

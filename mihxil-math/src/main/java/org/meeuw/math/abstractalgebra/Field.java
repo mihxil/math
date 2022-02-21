@@ -1,9 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import org.meeuw.math.MatrixUtils;
-
-import static org.meeuw.math.MatrixUtils.minor;
-import static org.meeuw.math.MatrixUtils.newMatrix;
+import static org.meeuw.math.MatrixUtils.*;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
@@ -30,7 +27,8 @@ public interface Field<E extends FieldElement<E>> extends
      * Using Gaussian elimination.
      */
     default E determinant(E[][] source) {
-        E[][] matrix = MatrixUtils.cloneMatrix(source[0][0].getStructure().getElementClass(), source);
+        // make a copy of the matrix first, since we're going to modify it.
+        E[][] matrix = cloneMatrix(source[0][0].getStructure().getElementClass(), source);
         E z = zero();
         E det = one();
 
@@ -67,7 +65,7 @@ public interface Field<E extends FieldElement<E>> extends
     }
 
     /**
-     * Given a (square) matrix of elements of thi fields, calculate its 'adjugate' matrix.
+     * Given a (square) matrix of elements of this field, calculate its 'adjugate' matrix.
      *
      */
     default E[][] adjugate(E[][] matrix) {
