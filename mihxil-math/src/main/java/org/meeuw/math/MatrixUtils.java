@@ -12,6 +12,9 @@ import org.meeuw.math.exceptions.InvalidElementException;
  */
 public final class MatrixUtils {
 
+    private  MatrixUtils() {
+
+    }
 
     public static <E> E[][] minor(Class<E> element, E[][] matrix, int i, int j) {
         if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[i].length) {

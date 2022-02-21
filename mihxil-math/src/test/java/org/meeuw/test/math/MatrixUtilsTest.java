@@ -54,11 +54,9 @@ public class MatrixUtilsTest {
             new String[] {"d", "e", "f"},
             new String[] {"g", "h", "i"}
         };
-        assertThatThrownBy(() -> {
-            minor(String.class, matrix, 3, 1);
-        }).isInstanceOf(InvalidElementException.class);
-        assertThatThrownBy(() -> {
-            minor(String.class, matrix, -1, 1);
-        }).isInstanceOf(InvalidElementException.class);
+        assertThatThrownBy(() -> minor(String.class, matrix, 3, 1)).isInstanceOf(InvalidElementException.class);
+        assertThatThrownBy(() -> minor(String.class, matrix, -1, 1)).isInstanceOf(InvalidElementException.class);
+        assertThatThrownBy(() -> minor(String.class, matrix, 1, 3)).isInstanceOf(InvalidElementException.class);
+        assertThatThrownBy(() -> minor(String.class, matrix, 1, -1)).isInstanceOf(InvalidElementException.class);
     }
 }

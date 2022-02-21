@@ -9,6 +9,12 @@ public class DivisionByZeroException extends ReciprocalException {
     public DivisionByZeroException(String s) {
         super(s);
     }
+
+    public DivisionByZeroException(Throwable cause) {
+        super(cause.getMessage());
+        initCause(cause);
+    }
+
     public DivisionByZeroException(Object e, Object divisor) {
         super("Division by zero exception: " + e + "/" + divisor);
     }

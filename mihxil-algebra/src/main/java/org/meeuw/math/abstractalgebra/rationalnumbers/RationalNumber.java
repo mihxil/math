@@ -10,8 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
@@ -73,23 +72,30 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber reciprocal() {
+        if (numerator.equals(BigInteger.ZERO)) {
+            throw new DivisionByZeroException("Denominator cannot be zero");
+        }
         return new RationalNumber(denominator, numerator);
     }
 
     @Override
     public RationalNumber pow(int exponent) {
         int e = exponent;
-        if (e < 0) {
-            e = -1 * e;
-            return new RationalNumber(
+        try {
+            if (e < 0) {
+                e = -1 * e;
+                return new RationalNumber(
                     denominator.pow(e),
                     numerator.pow(e));
-        } else if (e == 0) {
-            return ONE;
-        } else {
-            return new RationalNumber(
+            } else if (e == 0) {
+                return ONE;
+            } else {
+                return new RationalNumber(
                     numerator.pow(e),
                     denominator.pow(e));
+            }
+        } catch (InvalidElementCreationException invalidElementCreationException) {
+            throw new DivisionByZeroException(invalidElementCreationException);
         }
     }
 
@@ -116,7 +122,6 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber plus(RationalNumber summand) {
-
         return new RationalNumber(
             numerator.multiply(summand.denominator).add(summand.numerator.multiply(denominator)),
             denominator.multiply(summand.denominator)
