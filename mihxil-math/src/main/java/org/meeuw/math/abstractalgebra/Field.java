@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
-import static org.meeuw.math.MatrixUtils.*;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
+import static org.meeuw.math.MatrixUtils.cloneMatrix;
+import static org.meeuw.math.MatrixUtils.minor;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
@@ -69,7 +72,7 @@ public interface Field<E extends FieldElement<E>> extends
      *
      */
     default E[][] adjugate(E[][] matrix) {
-        final E[][] adjugate = newMatrix(getElementClass(), matrix.length, matrix.length);
+        final E[][] adjugate = newMatrix(matrix.length, matrix.length);
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
                 E[][] minor = minor(getElementClass(), matrix, i, j);
@@ -83,7 +86,30 @@ public interface Field<E extends FieldElement<E>> extends
         return adjugate;
     }
 
+    default E[][] product(E[][] matrix1, E[][] matrix2) {
+        E[][] result = newMatrix(matrix1.length, matrix2.length);
+        E z = zero();
+        for (int i = 0; i < matrix1.length; i++) {
+            for (int j = 0; j < matrix1[i].length; j++) {
+                result[i][j] = z;
+                for (int k = 0; k < matrix1.length; k++) {
+                    result[i][j] = result[i][j].plus(matrix1[i][k].times(matrix2[k][j]));
+                }
+            }
+        }
+        return result;
+    }
 
+    default E[] product(E[]@NonNull[] matrix, E[] vector) {
+        E[] result = newArray(matrix.length);
+        for (int i = 0; i < matrix.length; i++) {
+            result[i] = zero();
+            for (int j = 0; j < matrix[i].length; j++) {
+                result[i] = result[i].plus(matrix[i][j].times(vector[j]));
+            }
+        }
+        return result;
+    }
 
 
 

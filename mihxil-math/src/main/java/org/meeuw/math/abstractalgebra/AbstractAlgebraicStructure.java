@@ -30,4 +30,5 @@ public abstract class AbstractAlgebraicStructure<E extends AlgebraicElement<E>>
     public String toString() {
         return getClass().getSimpleName();
     }
+
 }

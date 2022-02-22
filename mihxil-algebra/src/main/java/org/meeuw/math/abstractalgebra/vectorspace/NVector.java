@@ -19,6 +19,10 @@ public class NVector<E extends FieldElement<E>> implements
         this.values = values;
     }
 
+    public E[] asArray() {
+        return Arrays.copyOf(values, values.length);
+    }
+
     @SafeVarargs
     public static <E extends FieldElement<E>> NVector<E> of(E... values) {
         return new NVector<>(values);

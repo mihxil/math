@@ -1,9 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
-import org.meeuw.math.Equivalence;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 
 /**
  * The base interface of all algebraic structures.
@@ -65,6 +65,16 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
 
     default String getDescription() {
         return getClass().getSimpleName();
+    }
+
+
+    default E[][] newMatrix(int i, int j) {
+        return MatrixUtils.newMatrix(getElementClass(), i, j);
+    }
+
+    @SuppressWarnings("unchecked")
+    default E[] newArray(int i) {
+        return (E[]) Array.newInstance(getElementClass(), i);
     }
 
 }
