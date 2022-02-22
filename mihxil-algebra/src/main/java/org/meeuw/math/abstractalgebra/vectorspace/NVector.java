@@ -10,7 +10,7 @@ import org.meeuw.math.abstractalgebra.Vector;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NVector<E extends ScalarFieldElement<E>> implements
+public class NVector<E extends FieldElement<E>> implements
     Vector<NVector<E>, E>, Iterable<E> {
 
     private final E[] values;
@@ -20,7 +20,7 @@ public class NVector<E extends ScalarFieldElement<E>> implements
     }
 
     @SafeVarargs
-    public static <E extends ScalarFieldElement<E>> NVector<E> of(E... values) {
+    public static <E extends FieldElement<E>> NVector<E> of(E... values) {
         return new NVector<>(values);
     }
 

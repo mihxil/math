@@ -16,26 +16,26 @@ import org.meeuw.math.streams.StreamUtils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class NVectorSpace<E extends ScalarFieldElement<E>>
+public class NVectorSpace<E extends FieldElement<E>>
     implements
     VectorSpace<E, NVector<E>>, Streamable<NVector<E>> {
 
     private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
-    private final ScalarField<E> field;
+    private final Field<E> field;
     private final NVector<E> zero;
     private final NVector<E> one;
     private final int dimension;
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends ScalarFieldElement<E>> NVectorSpace<E> of(int dimension, ScalarField<E> field) {
+    public static <E extends FieldElement<E>> NVectorSpace<E> of(int dimension, Field<E> field) {
         Key key = new Key(field.getElementClass(), dimension);
         return (NVectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new NVectorSpace<>(dimension, field));
     }
 
     @SuppressWarnings("unchecked")
-    public NVectorSpace(int dimension, ScalarField<E> field) {
+    public NVectorSpace(int dimension, Field<E> field) {
         this.field = field;
         this.dimension = dimension;
         E[] zeroElement = (E[]) Array.newInstance(field.getElementClass(), dimension);
@@ -61,7 +61,7 @@ public class NVectorSpace<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public ScalarField<E> getField() {
+    public Field<E> getField() {
         return field;
     }
 
@@ -105,7 +105,8 @@ public class NVectorSpace<E extends ScalarFieldElement<E>>
             throw new NotStreamable();
         } else {
             Streamable<E> streamable = (Streamable<E>) field;
-            return StreamUtils.cartesianStream(streamable::stream, dimension).map(NVector::new);
+            return StreamUtils.cartesianStream(streamable::stream, dimension)
+                .map(NVector::new);
         }
     }
 

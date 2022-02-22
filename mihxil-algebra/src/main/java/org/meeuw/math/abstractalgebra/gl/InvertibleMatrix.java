@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.on;
+package org.meeuw.math.abstractalgebra.gl;
 
 
 import lombok.Getter;
@@ -10,53 +10,54 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.MatrixUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 
-public class OrthogonalMatrix<E extends FieldElement<E>>
-    implements MultiplicativeGroupElement<OrthogonalMatrix<E>>,
-    WithScalarOperations<OrthogonalMatrix<E>, E> {
+public class InvertibleMatrix<E extends FieldElement<E>>
+    implements MultiplicativeGroupElement<InvertibleMatrix<E>>,
+    WithScalarOperations<InvertibleMatrix<E>, E> {
 
     final E[][] matrix;
 
     @Getter
-    final OrthogonalGroup<E> structure;
+    final GeneralLinearGroup<E> structure;
 
     final E determinant;
 
-    OrthogonalMatrix(@Nullable OrthogonalGroup<E> structure, E[][] matrix, boolean orthogonal) {
+    InvertibleMatrix(@Nullable GeneralLinearGroup<E> structure, E[][] matrix) {
         this.matrix = matrix;
-        this.structure = structure == null ? OrthogonalGroup.of(this, orthogonal) : structure;
+        this.structure = structure == null ? GeneralLinearGroup.of(this) : structure;
         this.determinant = this.structure.getElementField().determinant(matrix);
-
-        if (this.structure.isOrthogonal() && (! (determinant.isOne() || determinant.equals(this.structure.getElementField().one().negation())))) {
-            throw new InvalidElementCreationException("Not orthogonal");
+        if (this.determinant.isZero()) {
+            throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(matrix) + " is not invertible");
         }
     }
 
-    OrthogonalMatrix(E[][] matrix, boolean orthogonal) {
-        this(null, matrix, orthogonal);
+    InvertibleMatrix(E[][] matrix) {
+        this(null, matrix);
     }
 
     @SuppressWarnings("unchecked")
     @SafeVarargs
-    public static <E extends ScalarFieldElement<E>> OrthogonalMatrix<E> of(Class<E> clazz, boolean orthogonal, E... matrix) {
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Class<E> clazz, E... matrix) {
         int dim = (int) Utils.sqrt(matrix.length);
         E[][] eMatrix = (E[][]) Array.newInstance(clazz, dim, dim);
         for (int i = 0; i < dim; i++) {
             System.arraycopy(matrix, i * dim, eMatrix[i], 0, dim);
         }
-        return new OrthogonalMatrix<>(eMatrix, orthogonal);
+        return new InvertibleMatrix<>(eMatrix);
     }
 
     @SuppressWarnings("unchecked")
     @SafeVarargs
-    public static <E extends ScalarFieldElement<E>> OrthogonalMatrix<E> of(E... matrix) {
-        return of((Class<E>) matrix[0].getClass(), false, matrix);
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(E... matrix) {
+        return of((Class<E>) matrix[0].getClass(), matrix);
     }
 
+
     @Override
-    public OrthogonalMatrix<E> times(OrthogonalMatrix<E> multiplier) {
+    public InvertibleMatrix<E> times(InvertibleMatrix<E> multiplier) {
         E[][] result = newMatrix();
         E z = structure.getElementField().zero();
         for (int i = 0; i < matrix.length; i++) {
@@ -70,12 +71,24 @@ public class OrthogonalMatrix<E extends FieldElement<E>>
         return of(result);
     }
 
+    @SuppressWarnings("unchecked")
+    public NVector<E> times(NVector<E> multiplier) {
+        E[] e = (E[]) Array.newInstance(getStructure().getElementField().getElementClass(), matrix.length);
+        for (int i = 0; i < matrix.length; i++) {
+            e[i] = getStructure().getElementField().zero();
+            for (int j = 0; j < matrix[i].length; j++) {
+                e[i] = e[i].plus(matrix[i][j].times(multiplier.get(j)));
+            }
+        }
+        return NVector.of(e);
+    }
+
     @Override
-    public OrthogonalMatrix<E> reciprocal() {
+    public InvertibleMatrix<E> reciprocal() {
         return adjugate().dividedBy(determinant);
     }
 
-    public OrthogonalMatrix<E> adjugate() {
+    public InvertibleMatrix<E> adjugate() {
         return of(structure.getElementField().adjugate(matrix));
     }
 
@@ -94,7 +107,7 @@ public class OrthogonalMatrix<E extends FieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        OrthogonalMatrix<?> that = (OrthogonalMatrix<?>) o;
+        InvertibleMatrix<?> that = (InvertibleMatrix<?>) o;
 
         return Arrays.deepEquals(matrix, that.matrix);
     }
@@ -105,7 +118,7 @@ public class OrthogonalMatrix<E extends FieldElement<E>>
     }
 
     @Override
-    public OrthogonalMatrix<E> times(E multiplier) {
+    public InvertibleMatrix<E> times(E multiplier) {
         E[][] result = newMatrix();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -116,7 +129,7 @@ public class OrthogonalMatrix<E extends FieldElement<E>>
     }
 
     @Override
-    public OrthogonalMatrix<E> dividedBy(E divisor) {
+    public InvertibleMatrix<E> dividedBy(E divisor) {
         E[][] result = newMatrix();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {
@@ -126,8 +139,8 @@ public class OrthogonalMatrix<E extends FieldElement<E>>
         return of(result);
     }
 
-    protected OrthogonalMatrix<E> of(E[][] matrix) {
-        return new OrthogonalMatrix<>(matrix, structure.isOrthogonal());
+    protected InvertibleMatrix<E> of(E[][] matrix) {
+        return new InvertibleMatrix<>(matrix);
     }
 
     protected E[][] newMatrix() {

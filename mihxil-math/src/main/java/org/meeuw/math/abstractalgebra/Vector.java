@@ -4,7 +4,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Vector<V extends Vector<V, S>, S extends ScalarFieldElement<S>>
+public interface Vector<V extends Vector<V, S>, S extends FieldElement<S>>
     extends Iterable<S>,
     AbelianRingElement<V>,
     WithScalarOperations<V, S> {

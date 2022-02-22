@@ -45,7 +45,6 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
                 new RationalNumber[]{of(4), of(-6), of(2)}
             }
         );
-
     }
 
 
