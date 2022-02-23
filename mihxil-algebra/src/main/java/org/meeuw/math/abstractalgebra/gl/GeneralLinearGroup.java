@@ -4,12 +4,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
  * A linear group on any {@link org.meeuw.math.abstractalgebra.Field}
  */
-
+@Example(Field.class)
 public class GeneralLinearGroup<E extends FieldElement<E>> extends
     AbstractGeneralLinearGroup<
         InvertibleMatrix<E>,
