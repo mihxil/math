@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import javax.validation.constraints.Min;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -13,7 +14,7 @@ import org.meeuw.math.numbers.Scalar;
  * @since 0.4
  */
 public class EvenInteger
-    extends AbstractIntegerElement<EvenInteger, EvenInteger>
+    extends AbstractIntegerElement<EvenInteger, EvenInteger, EvenIntegers>
     implements
     RngElement<EvenInteger>,
     Scalar<EvenInteger> {
@@ -28,36 +29,32 @@ public class EvenInteger
     }
 
     private EvenInteger(long value) {
-        super(value);
+        super(EvenIntegers.INSTANCE, value);
     }
 
-    @Override
-    public EvenInteger plus(EvenInteger summand) {
-        return new EvenInteger(value + summand.value);
+    EvenInteger(BigInteger value) {
+        super(EvenIntegers.INSTANCE, value);
     }
+
 
     public OddInteger plus(OddInteger summand) {
-        return new OddInteger(value + summand.getValue());
+        return new OddInteger(value.add(summand.getValue()));
     }
 
     @Override
     public EvenInteger negation() {
-        return new EvenInteger(-1 * value);
+        return new EvenInteger( value.negate());
     }
 
     @Override
     public EvenInteger minus(EvenInteger subtrahend) {
-        return new EvenInteger(value - subtrahend.value);
+        return of(value.subtract(subtrahend.value));
     }
 
-    @Override
-    public EvenIntegers getStructure() {
-        return EvenIntegers.INSTANCE;
-    }
 
     @Override
     public EvenInteger times(EvenInteger multiplier) {
-        return new EvenInteger(value * multiplier.value);
+        return of(value.multiply(multiplier.value));
     }
 
     @Override
@@ -65,26 +62,23 @@ public class EvenInteger
         if (n == 0) {
             throw new ReciprocalException("" + this + "^0");
         }
-        return new EvenInteger(Utils.positivePow(value, n));
+        return of(value.pow(n));
     }
 
     @Override
     public EvenInteger sqr() {
-        return new EvenInteger(value * value);
+        return of(value.multiply(value));
     }
 
     @Override
     public EvenInteger abs() {
-        return new EvenInteger(Math.abs(value));
+        return of(value.abs());
     }
 
+
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        EvenInteger that = (EvenInteger) o;
-
-        return value == that.value;
+    public EvenInteger plus(EvenInteger summand) {
+        return of(value.add(summand.value));
     }
 }

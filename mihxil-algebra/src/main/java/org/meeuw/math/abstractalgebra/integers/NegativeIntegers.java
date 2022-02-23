@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.stream.Stream;
 
@@ -19,7 +20,7 @@ import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
  */
 @Example(AdditiveAbelianSemiGroup.class)
 public class NegativeIntegers
-    extends AbstractIntegers<NegativeInteger>
+    extends AbstractIntegers<NegativeInteger, PositiveInteger, NegativeIntegers>
     implements
     AdditiveAbelianSemiGroup<NegativeInteger> {
 
@@ -29,6 +30,11 @@ public class NegativeIntegers
 
     protected NegativeIntegers() {
         super(NegativeInteger.class);
+    }
+
+    @Override
+    NegativeInteger of(BigInteger value) {
+        return new NegativeInteger(value);
     }
 
     @Override

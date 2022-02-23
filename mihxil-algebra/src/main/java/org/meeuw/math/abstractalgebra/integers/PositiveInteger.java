@@ -1,10 +1,14 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
+
+import static org.meeuw.math.abstractalgebra.integers.PositiveIntegers.INSTANCE;
 
 /**
  * The natural numbers ℕ+
@@ -13,7 +17,7 @@ import org.meeuw.math.numbers.Scalar;
  */
 public class PositiveInteger
     extends
-    AbstractIntegerElement<PositiveInteger, PositiveInteger>
+    AbstractIntegerElement<PositiveInteger, PositiveInteger, PositiveIntegers>
     implements
     MultiplicativeMonoidElement<PositiveInteger>,
     AdditiveSemiGroupElement<PositiveInteger>,
@@ -27,46 +31,29 @@ public class PositiveInteger
         return new PositiveInteger(value);
     }
 
-    public PositiveInteger(@Min(1) long value) {
-        super(value);
-        if (value <= 0) {
+    public PositiveInteger(@Min(1) BigInteger value) {
+        super(INSTANCE, value);
+        if (value.compareTo(BigInteger.ZERO) <= 0) {
             throw new InvalidElementCreationException("Positive numbers cannot be 0 or negative");
         }
+    }
+    public PositiveInteger(@Min(1) long value) {
+        this(BigInteger.valueOf(value));
     }
 
     @Override
     public PositiveInteger plus(PositiveInteger summand) {
-        return of(value + summand.value);
-    }
-
-    @Override
-    public PositiveIntegers getStructure() {
-        return PositiveIntegers.INSTANCE;
+        return of(value.add(summand.value));
     }
 
     @Override
     public PositiveInteger times(PositiveInteger summand) {
-        return of(value * summand.value);
-    }
-
-    @Override
-    public int compareTo(PositiveInteger naturalNumber) {
-        return Long.compare(value, naturalNumber.value);
+        return of(value.multiply(summand.value));
     }
 
     @Override
     public PositiveInteger abs() {
         return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        PositiveInteger that = (PositiveInteger) o;
-
-        return value == that.value;
     }
 
 }

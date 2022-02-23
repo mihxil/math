@@ -54,7 +54,7 @@ class IntegerElementTest implements
     @Property
     void eucledianDivision(@ForAll(ELEMENTS) IntegerElement e1, @ForAll(ELEMENTS) IntegerElement e2) {
         Assume.that(!e2.isZero());
-        assertThat(e1.dividedBy(e2).getValue()).isEqualTo(e1.getValue() / e2.getValue());
+        assertThat(e1.dividedBy(e2).getValue()).isEqualTo(e1.getValue().divide(e2.getValue()));
         assertThat(e1.dividedBy(e2).times(e2).plus(e1.mod(e2))).isEqualTo(e1);
     }
 
@@ -73,6 +73,31 @@ class IntegerElementTest implements
     void stream() {
         assertThat(Integers.INSTANCE.stream().limit(11).map(IntegerElement::longValue)
             .collect(Collectors.toList())).containsExactly(0L, 1L, -1L, 2L, -2L, 3L, -3L, 4L, -4L, 5L, -5L);
+    }
+
+    @Test
+    void determinant2() {
+        IntegerElement determinant2 = Integers.INSTANCE
+            .determinant(
+                new IntegerElement[][]{
+                    new IntegerElement[]{of(1), of(2)},
+                    new IntegerElement[]{of(3), of(4)}
+                }
+            );
+        assertThat(determinant2).isEqualTo(of(-2));
+    }
+
+    @Test
+    void determinant3() {
+        IntegerElement determinant2 = Integers.INSTANCE
+            .determinant(
+                new IntegerElement[][]{
+                    new IntegerElement[]{of(1),  of(2), of(6)},
+                    new IntegerElement[]{of(3),  of(4), of(7)},
+                    new IntegerElement[]{of(-1), of(2), of(8)},
+                }
+            );
+        assertThat(determinant2).isEqualTo(of(16));
     }
 
     @Override

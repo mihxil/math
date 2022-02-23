@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.Getter;
 
+import java.math.BigInteger;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -15,7 +16,7 @@ import org.meeuw.math.abstractalgebra.Rng;
  */
 @Example(Rng.class)
 public class NDivisibleIntegers extends
-    AbstractIntegers<NDivisibleInteger>
+    AbstractIntegers<NDivisibleInteger, NDivisibleInteger, NDivisibleIntegers>
     implements Rng<NDivisibleInteger> {
 
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
@@ -45,5 +46,10 @@ public class NDivisibleIntegers extends
      @Override
     public String toString() {
         return divisor + "ℤ";
+    }
+
+    @Override
+    NDivisibleInteger of(BigInteger value) {
+        return new NDivisibleInteger(this, 0);
     }
 }

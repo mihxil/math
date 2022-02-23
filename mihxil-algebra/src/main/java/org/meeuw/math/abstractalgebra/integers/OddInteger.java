@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import javax.validation.constraints.Min;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
@@ -12,7 +13,7 @@ import org.meeuw.math.numbers.Scalar;
  * @since 0.4
  */
 public class OddInteger
-    extends AbstractIntegerElement<OddInteger, OddInteger>
+    extends AbstractIntegerElement<OddInteger, OddInteger, OddIntegers>
     implements
     MultiplicativeMonoidElement<OddInteger>,
     Scalar<OddInteger>  {
@@ -22,13 +23,17 @@ public class OddInteger
 
     public static OddInteger of(long value){
         if (value % 2 == 0) {
-               throw new InvalidElementCreationException("The argument mus be odd (" + value + " isn't)");
+               throw new InvalidElementCreationException("The argument must be odd (" + value + " isn't)");
         }
         return new OddInteger(value);
     }
 
     OddInteger(long value) {
-        super(value);
+        this(BigInteger.valueOf(value));
+    }
+
+    OddInteger(BigInteger value) {
+        super(OddIntegers.INSTANCE, value);
     }
 
 
@@ -39,50 +44,35 @@ public class OddInteger
 
     @Override
     public OddInteger times(OddInteger multiplier) {
-        return new OddInteger(value * multiplier.value);
+        return of(value.multiply(multiplier.value));
     }
 
     @Override
     public OddInteger pow(@Min(1) int n) {
-        return new OddInteger(Utils.positivePow(value, n));
+        return of(value.pow(n));
     }
 
     @Override
     public OddInteger sqr() {
-        return new OddInteger(value * value);
+        return of(value.multiply(value));
     }
 
     public OddInteger negation() {
-        return new OddInteger(-1 * value);
+        return of(value.negate());
     }
 
     public OddInteger plus(EvenInteger summand)  {
-        return new OddInteger(value + summand.getValue());
-    }
-
-    @Override
-    public int compareTo(OddInteger f) {
-        return Long.compare(value, f.value);
+        return of(value.add(summand.value));
     }
 
     @Override
     public OddInteger abs() {
-        return new OddInteger(Math.abs(value));
+        return of(value.abs());
     }
 
     @Override
     public boolean isZero() {
         return false;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OddInteger that = (OddInteger) o;
-
-        return value == that.value;
     }
 
 }

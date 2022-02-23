@@ -2,6 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import org.checkerframework.checker.units.qual.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
@@ -13,8 +14,8 @@ import static org.meeuw.physics.Dimension.*;
  */
 public enum SIUnit implements BaseUnit {
 
-    m(L, "meter"),
-    kg(M, "kilogram") {
+    @m m(L, "meter"),
+    @kg kg(M, "kilogram") {
         @Override
         public Unit withPrefix(Prefix prefix) {
             if (prefix == SI.DecimalPrefix.k) {
@@ -24,11 +25,11 @@ public enum SIUnit implements BaseUnit {
             }
         }
     },
-    s(T, "second"),
-    A(I, "ampere"),
-    K(TH, "kelvin"),
-    mol(N, "mole"),
-    cd(J, "candela");
+    @s s(T, "second"),
+    @A A(I, "ampere"),
+    @K K(TH, "kelvin"),
+    @mol mol(N, "mole"),
+    @cd cd(J, "candela");
 
     static final int NUMBER = values().length;
 

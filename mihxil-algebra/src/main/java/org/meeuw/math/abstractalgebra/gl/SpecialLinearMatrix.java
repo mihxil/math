@@ -4,33 +4,37 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.MatrixUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotASquareException;
 
-public class InvertibleMatrix<E extends FieldElement<E>>
+public class SpecialLinearMatrix<E extends RingElement<E>>
     extends AbstractInvertibleMatrix<
-    InvertibleMatrix<E>,
-    GeneralLinearGroup<E>,
+    SpecialLinearMatrix<E>,
+    SpecialLinearGroup<E>,
     E,
-    Field<E>
-    >
-    implements WithScalarOperations<InvertibleMatrix<E>, E> {
+    Ring<E>
+    >{
 
     /**
      * General constructor, without checking.
      *
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    InvertibleMatrix(@NonNull GeneralLinearGroup<E> structure, E[][] matrix) {
+    SpecialLinearMatrix(@NonNull SpecialLinearGroup<E> structure, E[][] matrix) {
         super(structure, matrix);
     }
 
+
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull E... matrix) {
+    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(E... matrix) {
+        return of(matrix[0].getStructure(), matrix);
+    }
+
+    @SafeVarargs
+    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(Ring<E> elementStructure, @NonNull E... matrix) {
         try {
             final int dim = Utils.sqrt(matrix.length);
-            GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
+            SpecialLinearGroup<E> structure = SpecialLinearGroup.of(dim, elementStructure);
             return of(structure, matrix);
         } catch (NotASquareException notASquareException) {
             throw new InvalidElementCreationException(notASquareException);
@@ -38,24 +42,22 @@ public class InvertibleMatrix<E extends FieldElement<E>>
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(E... matrix) {
-        return of(matrix[0].getStructure(), matrix);
-    }
-
-
-    @SafeVarargs
-    static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull E... matrix) {
+    static <E extends RingElement<E>> SpecialLinearMatrix<E> of(SpecialLinearGroup<E> structure, @NonNull E... matrix) {
         try {
             int dimension = structure.getDimension();
             if (matrix.length != dimension * dimension) {
                 throw new InvalidElementCreationException("Wrong dimensions");
             }
             E[][] invertibleMatrix = MatrixUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
-            InvertibleMatrix<E> result = new InvertibleMatrix<>(structure, invertibleMatrix);
+            SpecialLinearMatrix<E> result = new SpecialLinearMatrix<>(structure, invertibleMatrix);
             result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
             if (result.determinant.isZero()) {
                 throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(invertibleMatrix) + " is not invertible");
             }
+            if (! result.determinant().eq(structure.getElementStructure().one())) {
+                throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(invertibleMatrix) + " is not invertible");
+            }
+
             return result;
         } catch (NotASquareException notASquareException) {
             throw new InvalidElementCreationException(notASquareException);
@@ -63,29 +65,15 @@ public class InvertibleMatrix<E extends FieldElement<E>>
     }
 
 
-    public NVector<E> times(NVector<E> multiplier) {
-        return NVector.of(structure.getElementStructure().product(matrix, multiplier.asArray()));
+    @Override
+    public SpecialLinearMatrix<E> reciprocal() {
+        return adjugate();
     }
 
     @Override
-    public InvertibleMatrix<E> reciprocal() {
-        return adjugate().dividedBy(determinant());
+    SpecialLinearMatrix<E> of(E[][] matrix) {
+        return null;
     }
 
-    @Override
-    InvertibleMatrix<E> of(E[][] matrix) {
-        return new InvertibleMatrix<>(structure, matrix);
-    }
-
-    @Override
-    public InvertibleMatrix<E> dividedBy(E divisor) {
-        E[][] result = newMatrix();
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                result[i][j] = matrix[i][j].dividedBy(divisor);
-            }
-        }
-        return of(result);
-    }
 
 }

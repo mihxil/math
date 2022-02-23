@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -12,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Integers extends AbstractIntegers<IntegerElement>
+public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, Integers>
     implements Ring<IntegerElement>,  MultiplicativeMonoid<IntegerElement> {
 
     public static final Integers INSTANCE = new Integers();
@@ -20,6 +21,11 @@ public class Integers extends AbstractIntegers<IntegerElement>
 
     private Integers() {
         super(IntegerElement.class);
+    }
+
+    @Override
+    IntegerElement of(BigInteger value) {
+        return new IntegerElement(value);
     }
 
     @Override

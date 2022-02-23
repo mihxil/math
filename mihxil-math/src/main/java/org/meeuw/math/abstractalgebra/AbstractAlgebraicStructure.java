@@ -2,7 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import lombok.Getter;
 
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.*;
 
 /**
  * This abstract base class for {@link AlgebraicStructure}s takes care of the 'elementClass' property.
@@ -20,10 +20,20 @@ public abstract class AbstractAlgebraicStructure<E extends AlgebraicElement<E>>
         this.elementClass = elementClass;
     }
 
-    @SuppressWarnings("unchecked")
     protected AbstractAlgebraicStructure() {
-        this.elementClass = (Class<E>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-                .getActualTypeArguments()[0];
+        this.elementClass = toClass(((ParameterizedType) this.getClass().getGenericSuperclass())
+                .getActualTypeArguments()[0]);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Class<E> toClass(Type type) {
+        if (type instanceof Class) {
+            return (Class<E>) type;
+        } else if (type instanceof TypeVariable<?>) {
+            return toClass(((TypeVariable) type).getBounds()[0]);
+        } else {
+            return toClass(((ParameterizedType) type).getRawType());
+        }
     }
 
     @Override

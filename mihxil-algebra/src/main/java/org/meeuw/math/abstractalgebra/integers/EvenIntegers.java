@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -12,13 +13,18 @@ import static org.meeuw.math.abstractalgebra.integers.EvenInteger.ZERO;
  * @since 0.4
  */
 @Example(Rng.class)
-public class EvenIntegers extends AbstractIntegers<EvenInteger>
+public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, EvenIntegers>
     implements Rng<EvenInteger> {
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
     private EvenIntegers() {
         super(EvenInteger.class);
+    }
+
+    @Override
+    EvenInteger of(BigInteger value) {
+        return new EvenInteger(value);
     }
 
     @Override

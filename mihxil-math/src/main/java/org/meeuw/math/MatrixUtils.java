@@ -53,6 +53,67 @@ public final class MatrixUtils {
         return result;
     }
 
+    @SafeVarargs
+    public static <E> E[][] squareMatrix(Class<E> element, E... matrix) {
+        final int dim = Utils.sqrt(matrix.length);
+        final E[][] eMatrix = newMatrix(element, dim, dim);
+        for (int i = 0; i < dim; i++) {
+            System.arraycopy(matrix, i * dim, eMatrix[i], 0, dim);
+        }
+        return eMatrix;
+    }
+
+
+    /**
+     * Knuth's L algorithm. (taken from https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order).
+     *
+     * @return Number of swaps. This may be needed if you need to calculate the _sign_ (e.g. Leibniz formula)
+     *         0 means no swaps at all. No new permutations can be found.
+     */
+    public static int permute(int[] values) {
+        // Nothing to do for empty or single-element arrays:
+        if (values.length <= 1) {
+            return 0;
+        }
+
+        // L2: Find last j such that self[j] < self[j+1]. Terminate if no such j
+        // exists.
+        int j = values.length - 2;
+        while (j >= 0 && values[j] >= values[j+1]) {
+            j -= 1;
+        }
+        if (j == -1) {
+            return 0;
+        }
+
+        int swaps = 0;
+        // L3: Find last l such that self[j] < self[l], then exchange elements j and l:
+        int l = values.length - 1;
+        while (values[j] >= values[l]) {
+            l -= 1;
+        }
+        swap(values, j, l);
+        swaps++;
+
+        // L4: Reverse elements j+1 ... count-1:
+        int lo = j + 1;
+        int hi = values.length - 1;
+        while (lo < hi) {
+            swap(values, lo, hi);
+            swaps++;
+            lo += 1;
+            hi -= 1;
+        }
+        return swaps;
+    }
+
+
+    private static void swap(int[] input, int a, int b) {
+        int tmp = input[a];
+        input[a] = input[b];
+        input[b] = tmp;
+    }
+
     public static <E> String toString(E[][] matrix) {
           return "(" + Arrays.stream(matrix)
             .map(i ->

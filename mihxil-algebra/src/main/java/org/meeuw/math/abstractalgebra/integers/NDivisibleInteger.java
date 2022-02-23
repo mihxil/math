@@ -1,8 +1,9 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import javax.validation.constraints.Min;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -13,12 +14,11 @@ import org.meeuw.math.numbers.Scalar;
  * @since 0.4
  */
 public class NDivisibleInteger
-    extends AbstractIntegerElement<NDivisibleInteger, NDivisibleInteger>
+    extends AbstractIntegerElement<NDivisibleInteger, NDivisibleInteger, NDivisibleIntegers>
     implements
     RngElement<NDivisibleInteger>,
     Scalar<NDivisibleInteger> {
 
-    private final NDivisibleIntegers structure;
 
     public static NDivisibleInteger of(int divisor, long value){
         if (value % divisor != 0) {
@@ -29,34 +29,32 @@ public class NDivisibleInteger
 
 
     NDivisibleInteger(NDivisibleIntegers structure, long value) {
-        super(value);
-        this.structure = structure;
+        super(structure, value);
+    }
+
+    NDivisibleInteger(NDivisibleIntegers structure, BigInteger value) {
+        super(structure, value);
     }
 
     @Override
     public NDivisibleInteger plus(NDivisibleInteger summand) {
-        return new NDivisibleInteger(structure, value + summand.value);
+        return new NDivisibleInteger(structure, value.add(summand.value));
     }
 
 
     @Override
     public NDivisibleInteger negation() {
-        return new NDivisibleInteger(structure,-1 * value);
+        return of(value.negate());
     }
 
     @Override
     public NDivisibleInteger minus(NDivisibleInteger subtrahend) {
-        return new NDivisibleInteger(structure, value - subtrahend.value);
-    }
-
-    @Override
-    public NDivisibleIntegers getStructure() {
-        return structure;
+        return of(value.min(subtrahend.value));
     }
 
     @Override
     public NDivisibleInteger times(NDivisibleInteger multiplier) {
-        return new NDivisibleInteger(structure, value * multiplier.value);
+        return of(value.multiply(multiplier.value));
     }
 
     @Override
@@ -64,26 +62,17 @@ public class NDivisibleInteger
         if (n == 0) {
             throw new ReciprocalException("" + this + "^0");
         }
-        return new NDivisibleInteger(structure, Utils.positivePow(value, n));
+        return of(value.pow(n));
     }
 
     @Override
     public NDivisibleInteger sqr() {
-        return new NDivisibleInteger(structure, value * value);
+        return of(value.multiply(value));
     }
 
     @Override
     public NDivisibleInteger abs() {
-        return new NDivisibleInteger(structure, Math.abs(value));
+        return of(value.abs());
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        NDivisibleInteger that = (NDivisibleInteger) o;
-
-        return value == that.value;
-    }
 }

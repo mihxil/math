@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.stream.Stream;
 
@@ -16,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class PositiveIntegers extends AbstractIntegers<PositiveInteger>
+public class PositiveIntegers extends AbstractIntegers<PositiveInteger, PositiveInteger, PositiveIntegers>
     implements
     MultiplicativeMonoid<PositiveInteger>,
     AdditiveAbelianSemiGroup<PositiveInteger> {
@@ -27,6 +28,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger>
 
     protected PositiveIntegers() {
         super(PositiveInteger.class);
+    }
+
+    @Override
+    PositiveInteger of(BigInteger value) {
+        return new PositiveInteger(value);
     }
 
     @Override

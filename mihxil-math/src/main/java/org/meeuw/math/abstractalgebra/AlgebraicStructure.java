@@ -67,7 +67,6 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
         return getClass().getSimpleName();
     }
 
-
     default E[][] newMatrix(int i, int j) {
         return MatrixUtils.newMatrix(getElementClass(), i, j);
     }

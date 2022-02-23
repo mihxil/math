@@ -32,6 +32,6 @@ class NaturalNumberTest implements
     @Override
     public Arbitrary<NaturalNumber> elements() {
         return Arbitraries.randomValue(r ->
-            new NaturalNumber(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
+            NaturalNumber.of(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
     }
 }

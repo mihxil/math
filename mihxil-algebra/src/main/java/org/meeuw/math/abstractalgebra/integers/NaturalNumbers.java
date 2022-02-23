@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.stream.Stream;
 
@@ -17,7 +18,7 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @since 0.4
  */
 @Example(AdditiveMonoid.class)
-public class NaturalNumbers extends AbstractIntegers<NaturalNumber>
+public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumber, NaturalNumbers>
     implements
     MultiplicativeMonoid<NaturalNumber>,
     AdditiveMonoid<NaturalNumber>,
@@ -29,6 +30,11 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber>
 
     protected NaturalNumbers() {
         super(NaturalNumber.class);
+    }
+
+    @Override
+    NaturalNumber of(BigInteger value) {
+        return new NaturalNumber(value);
     }
 
     @Override
@@ -48,7 +54,7 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber>
 
     @Override
     public Stream<NaturalNumber> stream() {
-        return  Stream.iterate(zero(), i -> i.plus(one()));
+        return Stream.iterate(zero(), i -> i.plus(one()));
     }
 
     @Override

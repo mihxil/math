@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -15,7 +16,7 @@ import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
  */
 @Example(MultiplicativeMonoid.class)
 @Example(MultiplicativeAbelianSemiGroup.class)
-public class OddIntegers extends AbstractIntegers<OddInteger>
+public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddIntegers>
     implements
     MultiplicativeMonoid<OddInteger>,
     MultiplicativeAbelianSemiGroup<OddInteger>{
@@ -24,6 +25,11 @@ public class OddIntegers extends AbstractIntegers<OddInteger>
 
     private OddIntegers() {
         super(OddInteger.class);
+    }
+
+    @Override
+    OddInteger of(BigInteger value) {
+        return null;
     }
 
     @Override

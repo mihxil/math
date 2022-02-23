@@ -1,7 +1,6 @@
 package org.meeuw.math;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -127,6 +126,13 @@ public final class Utils {
         return result;
     }
 
+    public static BigInteger positivePow(@NotNull BigInteger base, @Min(0) int e) {
+        if (e < 0) {
+            throw new ReciprocalException(base +  "^" + e + " is impossible");
+        }
+        return base.pow(e);
+    }
+
 
     /**
      * A crude order of magnitude implemention
@@ -178,6 +184,9 @@ public final class Utils {
             throw new NotASquareException(radicand + " is not a square");
         }
         return proposal;
+    }
+    public static int sqrt(final int radicand) {
+        return (int) sqrt((long) radicand);
     }
 
 

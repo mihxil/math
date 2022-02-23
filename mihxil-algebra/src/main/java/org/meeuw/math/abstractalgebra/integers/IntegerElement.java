@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.Utils;
@@ -11,7 +13,7 @@ import org.meeuw.math.numbers.Scalar;
  * @since 0.4
  */
 public class IntegerElement
-    extends AbstractIntegerElement<IntegerElement, IntegerElement>
+    extends AbstractIntegerElement<IntegerElement, IntegerElement, Integers>
     implements
     RingElement<IntegerElement>,
     Scalar<IntegerElement>,
@@ -27,12 +29,16 @@ public class IntegerElement
     }
 
     public IntegerElement(long value) {
-        super(value);
+        super(Integers.INSTANCE, value);
+    }
+
+    public IntegerElement(BigInteger value) {
+        super(Integers.INSTANCE, value);
     }
 
     @Override
     public IntegerElement plus(IntegerElement summand) {
-        return new IntegerElement(value + summand.value);
+        return of(value.add(summand.value));
     }
 
     @Override
@@ -42,27 +48,22 @@ public class IntegerElement
 
     @Override
     public IntegerElement repeatedPlus(int multiplier) {
-        return new IntegerElement(value * multiplier);
-    }
-
-    @Override
-    public Integers getStructure() {
-        return Integers.INSTANCE;
+        return of(value.multiply(BigInteger.valueOf(multiplier)));
     }
 
     @Override
     public IntegerElement times(IntegerElement multiplier) {
-        return new IntegerElement(value * multiplier.value);
+        return of(value.multiply(multiplier.value));
     }
 
     @Override
     public IntegerElement pow(@Min(1) int n) {
-        return new IntegerElement(Utils.positivePow(value, n));
+        return of(Utils.positivePow(value, n));
     }
 
     @Override
     public IntegerElement sqr() {
-        return new IntegerElement(value * value);
+        return of(value.multiply(value));
     }
 
     /**
@@ -71,7 +72,7 @@ public class IntegerElement
      * @return this / divisor
      */
     public IntegerElement dividedBy(IntegerElement divisor) {
-        return new IntegerElement(value / divisor.value);
+        return of(value.divide(divisor.value));
     }
 
     /**
@@ -79,33 +80,18 @@ public class IntegerElement
      * @param divisor integer divisor
      * @return this % divisor
      */
-     public IntegerElement mod(IntegerElement divisor) {
-        return new IntegerElement(value % divisor.value);
-    }
-
-    @Override
-    public int compareTo(IntegerElement o) {
-        return Long.compare(value, o.value);
+    public IntegerElement mod(IntegerElement divisor) {
+        return of(value.remainder(divisor.value));
     }
 
     @Override
     public IntegerElement negation() {
-        return new IntegerElement(-1 * value);
+        return of(value.negate());
     }
 
     @Override
     public IntegerElement abs() {
-        return new IntegerElement(Math.abs(value));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        IntegerElement that = (IntegerElement) o;
-
-        return value == that.value;
+        return of(value.abs());
     }
 
 }

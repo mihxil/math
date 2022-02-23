@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.MatrixUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -72,7 +73,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
             @Override
             public Permutation next() {
                 Permutation value = p;
-                if (permute(values)) {
+                if (MatrixUtils.permute(values) > 0) {
                     p = new Permutation(false, Arrays.copyOf(values, degree));
                 } else {
                     p = null;
@@ -97,48 +98,5 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
         return "S" + TextUtils.subscript(degree);
     }
 
-    /**
-     * Knuth's L algorithm. (taken from https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order).
-     */
-    private static boolean permute(int[] values) {
-        // Nothing to do for empty or single-element arrays:
-        if (values.length <= 1) {
-            return false;
-        }
-
-        // L2: Find last j such that self[j] < self[j+1]. Terminate if no such j
-        // exists.
-        int j = values.length - 2;
-        while (j >= 0 && values[j] >= values[j+1]) {
-            j -= 1;
-        }
-        if (j == -1) {
-            return false;
-        }
-
-        // L3: Find last l such that self[j] < self[l], then exchange elements j and l:
-        int l = values.length - 1;
-        while (values[j] >= values[l]) {
-            l -= 1;
-        }
-        swap(values, j, l);
-
-        // L4: Reverse elements j+1 ... count-1:
-        int lo = j + 1;
-        int hi = values.length - 1;
-        while (lo < hi) {
-        swap(values, lo, hi);
-            lo += 1;
-            hi -= 1;
-        }
-        return true;
-    }
-
-
-    private static void swap(int[] input, int a, int b) {
-        int tmp = input[a];
-        input[a] = input[b];
-        input[b] = tmp;
-    }
 
 }

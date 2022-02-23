@@ -21,8 +21,7 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
 public class Permutation  implements
     MultiplicativeGroupElement<Permutation>,
     UnaryOperator<Object[]>,
-    Serializable
-{
+    Serializable {
 
     private static final long serialVersionUID = 0L;
 

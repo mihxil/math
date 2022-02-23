@@ -2,10 +2,10 @@ package org.meeuw.test.math.abstractalgebra.gl;
 
 import lombok.extern.log4j.Log4j2;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.gl.GeneralLinearGroup;
 import org.meeuw.math.abstractalgebra.gl.InvertibleMatrix;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -15,24 +15,12 @@ import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 @Log4j2
-class GeneralLinearGroupTest implements
-    MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
-    WithScalarTheory<InvertibleMatrix<RationalNumber>, RationalNumber> {
+class GeneralLinearGroupTest {
 
-
-    @Override
-    public Arbitrary<RationalNumber> scalars() {
-         return Arbitraries.randomValue(INSTANCE::nextRandom)
-             .dontShrink()
-             .filter(f -> ! f.isZero())
-             .edgeCases(config -> {
-                 config.add(INSTANCE.one());
-                 config.add(INSTANCE.one().times(-1));
-             });
-    }
 
     @Test
     void of() {
@@ -51,6 +39,25 @@ class GeneralLinearGroupTest implements
     }
 
     @Test
+    void invalid() {
+        assertThatThrownBy(() -> {
+            // not square
+            InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
+                RealNumber.of(1), RealNumber.of(2),
+                RealNumber.of(3), RealNumber.of(4), RealNumber.of(5)
+            );
+        }).hasMessage("5 is not a square").isInstanceOf(InvalidElementCreationException.class);
+
+        assertThatThrownBy(() -> {
+            // not invertible
+            InvertibleMatrix.of(
+                RealNumber.of(1), RealNumber.of(2),
+                RealNumber.of(2), RealNumber.of(4)
+            );
+        }).hasMessage("The matrix ((1,2), (2,4)) is not invertible").isInstanceOf(InvalidElementCreationException.class);
+    }
+
+    @Test
     void det() {
         InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
             RealNumber.of(1), RealNumber.of(2), RealNumber.of(4),
@@ -62,6 +69,7 @@ class GeneralLinearGroupTest implements
         assertThat(det.getValue()).isEqualTo(-3d);
     }
 
+
     @Test
     void reciprocal() {
         InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
@@ -71,6 +79,8 @@ class GeneralLinearGroupTest implements
         );
 
         InvertibleMatrix<RealNumber> rec = e.reciprocal();
+        assertThat(rec.determinant().isZero()).isFalse();
+
         log.info("{} x {} = {}", e, rec, e.times(rec));
 
     }
@@ -89,20 +99,43 @@ class GeneralLinearGroupTest implements
 
     }
 
-    @Override
-    public Arbitrary<InvertibleMatrix<RationalNumber>> elements() {
+    public static class RationalNumberTest implements
+        MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
+        WithScalarTheory<InvertibleMatrix<RationalNumber>, RationalNumber> {
 
-        return Arbitraries.randomValue(g -> {
-            while(true) {
-                try {
-                    return InvertibleMatrix.of(
-                        INSTANCE.nextRandom(g), INSTANCE.nextRandom(g),
-                        INSTANCE.nextRandom(g), INSTANCE.nextRandom(g)
-                    );
-                } catch (InvalidElementCreationException invalidElementCreationException) {
-                    log.info("Skipping");
+
+        @Property
+        void det(@ForAll(ELEMENTS) InvertibleMatrix<RationalNumber> matrix) {
+            assertThat(matrix.determinant().isZero()).isFalse();
+        }
+
+        @Override
+        public Arbitrary<RationalNumber> scalars() {
+            return Arbitraries.randomValue(INSTANCE::nextRandom)
+                .dontShrink()
+                .filter(f -> !f.isZero())
+                .edgeCases(config -> {
+                    config.add(INSTANCE.one());
+                    config.add(INSTANCE.one().times(-1));
+                });
+        }
+
+        @Override
+        public Arbitrary<InvertibleMatrix<RationalNumber>> elements() {
+            GeneralLinearGroup<RationalNumber> structure = GeneralLinearGroup.of(2, INSTANCE);
+            return Arbitraries.randomValue(g -> {
+                while (true) {
+                    try {
+                        return structure.newMatrix(
+                            INSTANCE.nextRandom(g), INSTANCE.nextRandom(g),
+                            INSTANCE.nextRandom(g), INSTANCE.nextRandom(g)
+                        );
+                    } catch (InvalidElementCreationException invalidElementCreationException) {
+                        log.info("Skipping");
+                    }
                 }
-            }
-        });
+            });
+        }
     }
+
 }

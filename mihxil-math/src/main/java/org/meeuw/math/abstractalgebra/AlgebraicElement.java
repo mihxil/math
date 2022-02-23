@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.io.Serializable;
+
 /**
  * The base interface for elements of algebraic structures.
  *
@@ -12,7 +14,7 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  * @param <E> The self type
  */
-public interface AlgebraicElement<E extends AlgebraicElement<E>> {
+public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Serializable {
 
     /**
      * @return the {@link AlgebraicStructure} associated with the object.
