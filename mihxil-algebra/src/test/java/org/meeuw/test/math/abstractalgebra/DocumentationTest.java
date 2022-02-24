@@ -89,7 +89,7 @@ public class DocumentationTest {
             .flatMap(
                 c -> Arrays.stream(c.getDeclaredFields())
                     .filter(f -> f.getAnnotation(Example.class) != null)
-                    .filter(f -> interfac.isAssignableFrom(f.getType()))
+                    .filter(f -> f.getAnnotation(Example.class).value().equals(interfac))
                     .filter(f -> Modifier.isStatic(f.getModifiers()))
                     .map(f -> {
                         try {
