@@ -3,6 +3,7 @@ package org.meeuw.test.math.abstractalgebra;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
+import java.lang.reflect.Field;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
@@ -112,13 +113,28 @@ public class DocumentationTest {
     }
     protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target)  {
         String example = Stream.concat(
-            getExamplesClasses(target).map(Class::getSimpleName),
+            getExamplesClasses(target).map(this::toString),
             getExamplesConstants(target).map(Object::toString)
             )
             .collect(Collectors.joining("\\n"));
         if (! example.isEmpty()) {
             writer.write("|" + example);
         }
+    }
+
+    protected <C extends AlgebraicStructure<?>> String toString(Class<C> structureClass) {
+        StringBuilder build = new StringBuilder();
+        build.append(structureClass.getSimpleName());
+        try {
+            Field instance = structureClass.getDeclaredField("INSTANCE");
+            C c = (C) instance.get(null);
+            build.append(' ').append(c);
+        } catch (NoSuchFieldException ignored) {
+
+        } catch (IllegalAccessException e) {
+            log.error(e.getMessage());
+        }
+        return build.toString();
     }
 
     protected <C extends AlgebraicStructure<?>>  void writeOperators(final PrintWriter writer, C target)  {
