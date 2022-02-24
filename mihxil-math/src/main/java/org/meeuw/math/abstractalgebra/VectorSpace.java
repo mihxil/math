@@ -13,4 +13,5 @@ public interface VectorSpace<E extends FieldElement<E>, V extends Vector<V, E>> 
 
     Field<E> getField();
 
+
 }

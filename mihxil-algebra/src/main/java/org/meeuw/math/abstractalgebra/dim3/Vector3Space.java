@@ -4,6 +4,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -42,5 +43,10 @@ public class Vector3Space implements VectorSpace<RealNumber, Vector3>, AbelianRi
     @Override
     public Class<Vector3> getElementClass() {
         return Vector3.class;
+    }
+
+    @Override
+    public String toString() {
+        return getField() + TextUtils.superscript(3);
     }
 }

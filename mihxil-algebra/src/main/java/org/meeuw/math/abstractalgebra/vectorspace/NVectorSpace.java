@@ -7,9 +7,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.streams.StreamUtils;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * the space of n-dimensional vector
@@ -19,6 +23,9 @@ import org.meeuw.math.streams.StreamUtils;
 public class NVectorSpace<E extends FieldElement<E>>
     implements
     VectorSpace<E, NVector<E>>, Streamable<NVector<E>> {
+
+    @Example(VectorSpace.class)
+    public NVectorSpace<RationalNumber> Q2 = NVectorSpace.of(2, RationalNumbers.INSTANCE);
 
     private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
 
@@ -79,7 +86,7 @@ public class NVectorSpace<E extends FieldElement<E>>
 
     @Override
     public String toString() {
-        return "VectorSpace of " + field + "[" + dimension + "]";
+        return getField() + TextUtils.superscript(3);
     }
 
     @Override
