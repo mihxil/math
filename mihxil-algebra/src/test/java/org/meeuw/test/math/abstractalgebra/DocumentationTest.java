@@ -75,7 +75,7 @@ public class DocumentationTest {
             });
 
     }
-    protected <C> Stream<Class<? extends C>> getExamples(Class<C> interfac) {
+    protected <C> Stream<Class<? extends C>> getExamplesClasses(Class<C> interfac) {
         return reflections.getSubTypesOf(interfac).stream()
             .filter(
                 c -> Arrays.stream(c.getAnnotationsByType(Example.class))
@@ -84,6 +84,25 @@ public class DocumentationTest {
                     )
             );
     }
+    protected <C> Stream<C> getExamplesConstants(Class<C> interfac) {
+        return reflections.getSubTypesOf(interfac).stream()
+            .flatMap(
+                c -> Arrays.stream(c.getDeclaredFields())
+                    .filter(f -> f.getAnnotation(Example.class) != null)
+                    .filter(f -> interfac.isAssignableFrom(f.getType()))
+                    .filter(f -> Modifier.isStatic(f.getModifiers()))
+                    .map(f -> {
+                        try {
+                            return (C) f.get(null);
+                        } catch (IllegalAccessException e) {
+                            log.error(e.getMessage());
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+            );
+    }
+
 
     protected void writeLabel(PrintWriter writer, Class<?> c, Runnable runnable) {
         writer.print("\t\tlabel=\"{\\N|");
@@ -92,8 +111,10 @@ public class DocumentationTest {
 
     }
     protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target)  {
-        String example = getExamples(target)
-            .map(Class::getSimpleName)
+        String example = Stream.concat(
+            getExamplesClasses(target).map(Class::getSimpleName),
+            getExamplesConstants(target).map(Object::toString)
+            )
             .collect(Collectors.joining("\\n"));
         if (! example.isEmpty()) {
             writer.write("|" + example);

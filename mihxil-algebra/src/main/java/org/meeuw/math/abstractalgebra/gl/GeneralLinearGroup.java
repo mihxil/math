@@ -6,11 +6,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
 /**
  * A linear group on any {@link org.meeuw.math.abstractalgebra.Field}
  */
-@Example(Field.class)
 public class GeneralLinearGroup<E extends FieldElement<E>> extends
     AbstractGeneralLinearGroup<
         InvertibleMatrix<E>,
@@ -21,10 +22,12 @@ public class GeneralLinearGroup<E extends FieldElement<E>> extends
 
     private static final Map<Key, GeneralLinearGroup<?>> INSTANCES = new ConcurrentHashMap<>();
 
+    @Example(Field.class)
+    public static GeneralLinearGroup<RationalNumber> GL2_Q = of(2, RationalNumbers.INSTANCE);
+
     protected GeneralLinearGroup(@NonNull Field<E> elementStructure, int dimension) {
         super(elementStructure, dimension);
     }
-
 
     @SuppressWarnings("unchecked")
     public static <E extends FieldElement<E>> GeneralLinearGroup<E> of(final int length, final Field<E> elementStructure) {

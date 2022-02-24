@@ -6,7 +6,7 @@ import java.lang.annotation.*;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Repeatable(Examples.class)
 public @interface Example {
 
