@@ -128,7 +128,9 @@ public class DocumentationTest {
         try {
             Field instance = structureClass.getDeclaredField("INSTANCE");
             C c = (C) instance.get(null);
-            build.append(' ').append(c);
+            if (! build.toString().equals(c.toString())) {
+                build.append(' ').append(c);
+            }
         } catch (NoSuchFieldException ignored) {
 
         } catch (IllegalAccessException e) {
