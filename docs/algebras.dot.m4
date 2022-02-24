@@ -20,7 +20,7 @@ AdditiveSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup
 MultiplicativeSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java"
-		label="{\N|{ * }}"
+		label="{\N|{ * }|GL₂(ℚ)}"
 ]
 MultiplicativeSemiGroup -> {AlgebraicStructure}
 
@@ -44,7 +44,7 @@ AdditiveMonoid -> {AdditiveSemiGroup}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeMonoid
 MultiplicativeMonoid[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java"
-		label="{\N|{ *  | 1}|OddIntegers}"
+		label="{\N|{ *  | 1}|OddIntegers\nGL₂(ℚ)}"
 ]
 MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 
@@ -86,7 +86,7 @@ AdditiveGroup -> {AdditiveMonoid}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeGroup
 MultiplicativeGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java"
-		label="{\N|{ *  /  | 1}|PermutationGroup}"
+		label="{\N|{ *  /  | 1}|PermutationGroup\nGL₂(ℚ)}"
 ]
 MultiplicativeGroup -> {MultiplicativeMonoid}
 
