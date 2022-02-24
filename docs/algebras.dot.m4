@@ -20,7 +20,7 @@ AdditiveSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup
 MultiplicativeSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java"
-		label="{\N|{ * }|GL₂(ℚ)}"
+		label="{\N|{ * }}"
 ]
 MultiplicativeSemiGroup -> {AlgebraicStructure}
 
@@ -28,7 +28,7 @@ MultiplicativeSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
 AdditiveAbelianSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java"
-		label="{\N|{ + \n⇆}|NegativeIntegers}"
+		label="{\N|{ + \n⇆}|NegativeIntegers ℕ⁻}"
 ]
 AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
 
@@ -36,7 +36,7 @@ AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
 # interface org.meeuw.math.abstractalgebra.AdditiveMonoid
 AdditiveMonoid[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveMonoid.java"
-		label="{\N|{ +  | 0}|StringMonoid\nNaturalNumbers}"
+		label="{\N|{ +  | 0}|StringMonoid StringMonoid\nNaturalNumbers ℕ}"
 ]
 AdditiveMonoid -> {AdditiveSemiGroup}
 
@@ -44,7 +44,7 @@ AdditiveMonoid -> {AdditiveSemiGroup}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeMonoid
 MultiplicativeMonoid[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java"
-		label="{\N|{ *  | 1}|OddIntegers\nGL₂(ℚ)}"
+		label="{\N|{ *  | 1}|OddIntegers ℕo}"
 ]
 MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 
@@ -52,7 +52,7 @@ MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 # interface org.meeuw.math.abstractalgebra.Rng
 Rng[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Rng.java"
-		label="{\N|{ +  - \n⇆ |  *  | 0}|EvenIntegers\nNDivisibleIntegers}"
+		label="{\N|{ +  - \n⇆ |  *  | 0}|EvenIntegers 2ℤ\nNDivisibleIntegers}"
 ]
 Rng -> {AdditiveAbelianGroup
 MultiplicativeSemiGroup}
@@ -61,7 +61,7 @@ MultiplicativeSemiGroup}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup
 MultiplicativeAbelianSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java"
-		label="{\N|{ * \n⇆}|OddIntegers}"
+		label="{\N|{ * \n⇆}|OddIntegers ℕo}"
 ]
 MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
 
@@ -86,7 +86,7 @@ AdditiveGroup -> {AdditiveMonoid}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeGroup
 MultiplicativeGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java"
-		label="{\N|{ *  /  | 1}|PermutationGroup\nGL₂(ℚ)}"
+		label="{\N|{ *  /  | 1}|PermutationGroup}"
 ]
 MultiplicativeGroup -> {MultiplicativeMonoid}
 
@@ -136,7 +136,7 @@ DivisibleGroup -> {MultiplicativeAbelianGroup}
 # interface org.meeuw.math.abstractalgebra.Field
 Field[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Field.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|ModuloField\nGaussianRationals}"
+		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|ModuloField\nGaussianRationals ᵁ0(i)}"
 ]
 Field -> {DivisionRing
 DivisibleGroup
@@ -146,7 +146,7 @@ AbelianRing}
 # interface org.meeuw.math.abstractalgebra.VectorSpace
 VectorSpace[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/VectorSpace.java"
-		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space}"
+		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space org.meeuw.math.abstractalgebra.dim3.Vector3Space@36d582cb}"
 ]
 VectorSpace -> {AbelianRing}
 
@@ -154,7 +154,7 @@ VectorSpace -> {AbelianRing}
 # interface org.meeuw.math.abstractalgebra.ScalarField
 ScalarField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/ScalarField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|RationalNumbers}"
+		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|RationalNumbers ℚ}"
 ]
 ScalarField -> {Field}
 
@@ -162,7 +162,7 @@ ScalarField -> {Field}
 # interface org.meeuw.math.abstractalgebra.CompleteField
 CompleteField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/CompleteField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField\nRealField}"
+		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField BigDecimalField\nRealField ℝ}"
 ]
 CompleteField -> {ScalarField}
 }
