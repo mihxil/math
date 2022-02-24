@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
 /**
  * The division ring of quaternions ℍ.
@@ -15,10 +17,13 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 @Log
-@Example(DivisionRing.class)
 public class Quaternions<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<Quaternion<E>>
     implements DivisionRing<Quaternion<E>> {
+
+    @Example(DivisionRing.class)
+    public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
+
 
     private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
@@ -80,6 +85,6 @@ public class Quaternions<E extends ScalarFieldElement<E>>
 
     @Override
     public String toString() {
-        return "ℍ on " + elementStructure;
+        return "ℍ(" + elementStructure + ")";
     }
 }
