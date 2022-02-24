@@ -111,11 +111,7 @@ MultiplicativeAbelianSemiGroup}
 # interface org.meeuw.math.abstractalgebra.DivisionRing
 DivisionRing[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/DivisionRing.java"
-		label="{\N|{ +  - \n⇆ |  *  /  | 0 | 1}|Quaternions}"
-]
-DivisionRing -> {Ring
-MultiplicativeGroup}
-
+		label="{\N|{ +  - \n⇆ |  *  /  | 0 | 1}
 
 # interface org.meeuw.math.abstractalgebra.AbelianRing
 AbelianRing[
@@ -146,7 +142,7 @@ AbelianRing}
 # interface org.meeuw.math.abstractalgebra.VectorSpace
 VectorSpace[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/VectorSpace.java"
-		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space ℝₚ³}"
+		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space ℝₚᵣᵢₘᵢₜᵢᵥₑ³}"
 ]
 VectorSpace -> {AbelianRing}
 
@@ -162,7 +158,7 @@ ScalarField -> {Field}
 # interface org.meeuw.math.abstractalgebra.CompleteField
 CompleteField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/CompleteField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField ℝ\nRealField ℝₚ}"
+		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField ℝ\nRealField ℝₚᵣᵢₘᵢₜᵢᵥₑ}"
 ]
 CompleteField -> {ScalarField}
 }
