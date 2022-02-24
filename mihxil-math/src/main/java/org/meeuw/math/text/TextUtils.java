@@ -92,16 +92,16 @@ public final class TextUtils {
     }
 
     private static final char[] SUPERSCRIPTS = {
-            0x2070,
-            0x00B9,
-            0x00B2,
-            0x00B3,
-            0x2074,
-            0x2075,
-            0x2076,
-            0x2077,
-            0x2078,
-            0x2079
+        0x2070,
+        0x00B9,
+        0x00B2,
+        0x00B3,
+        0x2074,
+        0x2075,
+        0x2076,
+        0x2077,
+        0x2078,
+        0x2079
     };
     private static final char SUPER_MINUS = '\u207B';
     private static final char SUPER_PLUS = '\u207A';
@@ -113,16 +113,16 @@ public final class TextUtils {
     }});
 
     private static final char[] SUBSCRIPTS = {
-             0x2080,
-             0x2081,
-             0x2082,
-             0x2083,
-             0x2084,
-             0x2085,
-             0x2086,
-             0x2087,
-             0x2088,
-             0x2089
+        0x2080,
+        0x2081,
+        0x2082,
+        0x2083,
+        0x2084,
+        0x2085,
+        0x2086,
+        0x2087,
+        0x2088,
+        0x2089
     };
     private static final char SUB_MINUS = '\u208B';
 
@@ -131,6 +131,15 @@ public final class TextUtils {
     private static final Map<Character, Character> SUB = Collections.unmodifiableMap(new HashMap<Character, Character>() {{
         put('-', SUB_MINUS);
         put('P', 'ₚ');
+        put('p', 'ₚ');
+        put('r', 'ᵣ');
+        put('u', 'ᵤ');
+        put('i', 'ᵢ');
+        put('m', 'ₘ');
+        put('t', 'ₜ');
+        put('e', 'ₑ');
+        put('v', 'ᵥ');
+
     }});
 
     public static String format(Instant instant, ChronoUnit order) {

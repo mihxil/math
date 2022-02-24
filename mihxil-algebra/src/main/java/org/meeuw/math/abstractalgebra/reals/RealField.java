@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.reals;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 
@@ -37,7 +38,7 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
 
     @Override
     public String toString() {
-        return "ℝₚ"; // 'backed by primitive'
+        return "ℝ" + TextUtils.subscript("primitive"); // 'backed by primitive'
     }
 
     public RealNumber considerMultiplicationBySpecialValues(RealNumber r1, RealNumber r2) {
