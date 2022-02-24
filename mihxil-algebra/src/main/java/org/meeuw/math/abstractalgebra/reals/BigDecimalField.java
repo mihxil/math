@@ -40,8 +40,12 @@ public class BigDecimalField
         return Cardinality.C;
     }
 
-
     public MathContext getMathContext() {
         return MathContextConfiguration.get().getContext();
+    }
+
+    @Override
+    public String toString() {
+        return "ℝ";
     }
 }
