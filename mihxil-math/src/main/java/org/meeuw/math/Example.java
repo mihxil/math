@@ -11,4 +11,6 @@ import java.lang.annotation.*;
 public @interface Example {
 
     Class<?> value();
+
+    String string() default "";
 }

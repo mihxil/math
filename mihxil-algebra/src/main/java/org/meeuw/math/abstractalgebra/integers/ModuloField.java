@@ -12,6 +12,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(value = Field.class, string = "ℤ/nℤ")
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
     implements Field<ModuloFieldElement> {
 

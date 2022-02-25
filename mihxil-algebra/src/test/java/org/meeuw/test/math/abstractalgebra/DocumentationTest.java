@@ -126,7 +126,13 @@ public class DocumentationTest {
 
     protected <C extends AlgebraicStructure<?>> String toString(Class<C> structureClass) {
         StringBuilder build = new StringBuilder();
-        build.append(structureClass.getSimpleName());
+        Example a = structureClass.getAnnotation(Example.class);
+        if (a != null && a.string().equals("")) {
+            build.append(a.string());
+        } else {
+            build.append(structureClass.getSimpleName());
+        }
+
         try {
             Field instance = structureClass.getDeclaredField("INSTANCE");
             C c = (C) instance.get(null);
