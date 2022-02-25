@@ -21,10 +21,6 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<Quaternion<E>>
     implements DivisionRing<Quaternion<E>> {
 
-    @Example(DivisionRing.class)
-    public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
-
-
     private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
@@ -37,6 +33,9 @@ public class Quaternions<E extends ScalarFieldElement<E>>
             }
         );
     }
+
+    @Example(DivisionRing.class)
+    public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
 
     @Getter
     private final ScalarField<E> elementStructure;

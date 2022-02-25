@@ -56,6 +56,7 @@ class AdditiveGroupTest {
         public Class<TestElement> getElementClass() {
             return TestElement.class;
         }
+
     }
 
     @Test

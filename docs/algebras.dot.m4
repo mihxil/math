@@ -9,6 +9,14 @@ digraph {
         define(BLOB_URL, https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)
 
 
+# interface org.meeuw.math.abstractalgebra.Group
+Group[
+href="BLOB_URL/org/meeuw/math/abstractalgebra/Group.java"
+		label="{\N|{}|org.meeuw.math.abstractalgebra.klein.KleinGroup@41def031}"
+]
+Group -> {AlgebraicStructure}
+
+
 # interface org.meeuw.math.abstractalgebra.AdditiveSemiGroup
 AdditiveSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.java"
@@ -20,7 +28,7 @@ AdditiveSemiGroup -> {AlgebraicStructure}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup
 MultiplicativeSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java"
-		label="{\N|{ * }}"
+		label="{\N|{ ⋅ }}"
 ]
 MultiplicativeSemiGroup -> {AlgebraicStructure}
 
@@ -44,7 +52,7 @@ AdditiveMonoid -> {AdditiveSemiGroup}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeMonoid
 MultiplicativeMonoid[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java"
-		label="{\N|{ *  | 1}|OddIntegers ℕo}"
+		label="{\N|{ ⋅  | 1}|OddIntegers ℕo}"
 ]
 MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 
@@ -52,7 +60,7 @@ MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 # interface org.meeuw.math.abstractalgebra.Rng
 Rng[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Rng.java"
-		label="{\N|{ +  - \n⇆ |  *  | 0}|EvenIntegers 2ℤ\nNDivisibleIntegers}"
+		label="{\N|{ +  - \n⇆ |  ⋅  | 0}|EvenIntegers 2ℤ\nNDivisibleIntegers}"
 ]
 Rng -> {AdditiveAbelianGroup
 MultiplicativeSemiGroup}
@@ -61,7 +69,7 @@ MultiplicativeSemiGroup}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup
 MultiplicativeAbelianSemiGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java"
-		label="{\N|{ * \n⇆}|OddIntegers ℕo}"
+		label="{\N|{ ⋅ \n⇆}|OddIntegers ℕo}"
 ]
 MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
 
@@ -86,7 +94,7 @@ AdditiveGroup -> {AdditiveMonoid}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeGroup
 MultiplicativeGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java"
-		label="{\N|{ *  /  | 1}|PermutationGroup\nGL₂(ℚ)}"
+		label="{\N|{ ⋅  /  | 1}|PermutationGroup\nGL₂(ℚ)}"
 ]
 MultiplicativeGroup -> {MultiplicativeMonoid}
 
@@ -94,7 +102,7 @@ MultiplicativeGroup -> {MultiplicativeMonoid}
 # interface org.meeuw.math.abstractalgebra.Ring
 Ring[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Ring.java"
-		label="{\N|{ +  - \n⇆ |  *  | 0 | 1}|ModuloStructure}"
+		label="{\N|{ +  - \n⇆ |  ⋅  | 0 | 1}|ModuloStructure\nℤ}"
 ]
 Ring -> {Rng}
 
@@ -102,7 +110,7 @@ Ring -> {Rng}
 # interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup
 MultiplicativeAbelianGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java"
-		label="{\N|{ *  / \n⇆ | 1}}"
+		label="{\N|{ ⋅  / \n⇆ | 1}}"
 ]
 MultiplicativeAbelianGroup -> {MultiplicativeGroup
 MultiplicativeAbelianSemiGroup}
@@ -111,12 +119,16 @@ MultiplicativeAbelianSemiGroup}
 # interface org.meeuw.math.abstractalgebra.DivisionRing
 DivisionRing[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/DivisionRing.java"
-		label="{\N|{ +  - \n⇆ |  *  /  | 0 | 1}
+		label="{\N|{ +  - \n⇆ |  ⋅  /  | 0 | 1}|ℍ(ℚ)}"
+]
+DivisionRing -> {Ring
+MultiplicativeGroup}
+
 
 # interface org.meeuw.math.abstractalgebra.AbelianRing
 AbelianRing[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/AbelianRing.java"
-		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}}"
+		label="{\N|{ +  - \n⇆ |  ⋅ \n⇆ | 0 | 1}}"
 ]
 AbelianRing -> {Ring}
 
@@ -124,7 +136,7 @@ AbelianRing -> {Ring}
 # interface org.meeuw.math.abstractalgebra.DivisibleGroup
 DivisibleGroup[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/DivisibleGroup.java"
-		label="{\N|{ *  / \n⇆ | 1}}"
+		label="{\N|{ ⋅  / \n⇆ | 1}}"
 ]
 DivisibleGroup -> {MultiplicativeAbelianGroup}
 
@@ -132,7 +144,7 @@ DivisibleGroup -> {MultiplicativeAbelianGroup}
 # interface org.meeuw.math.abstractalgebra.Field
 Field[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Field.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|ModuloField\nGaussianRationals ᵁ0(i)}"
+		label="{\N|{ +  - \n⇆ |  ⋅  / \n⇆ | 0 | 1}|ModuloField\nGaussianRationals ᵁ0(i)}"
 ]
 Field -> {DivisionRing
 DivisibleGroup
@@ -142,7 +154,7 @@ AbelianRing}
 # interface org.meeuw.math.abstractalgebra.VectorSpace
 VectorSpace[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/VectorSpace.java"
-		label="{\N|{ +  - \n⇆ |  * \n⇆ | 0 | 1}|Vector3Space ℝₚᵣᵢₘᵢₜᵢᵥₑ³}"
+		label="{\N|{ +  - \n⇆ |  ⋅ \n⇆ | 0 | 1}|Vector3Space ℝₚ³\nℚ³}"
 ]
 VectorSpace -> {AbelianRing}
 
@@ -150,7 +162,7 @@ VectorSpace -> {AbelianRing}
 # interface org.meeuw.math.abstractalgebra.ScalarField
 ScalarField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/ScalarField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|RationalNumbers ℚ}"
+		label="{\N|{ +  - \n⇆ |  ⋅  / \n⇆ | 0 | 1}|RationalNumbers ℚ}"
 ]
 ScalarField -> {Field}
 
@@ -158,7 +170,7 @@ ScalarField -> {Field}
 # interface org.meeuw.math.abstractalgebra.CompleteField
 CompleteField[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/CompleteField.java"
-		label="{\N|{ +  - \n⇆ |  *  / \n⇆ | 0 | 1}|BigDecimalField ℝ\nRealField ℝₚᵣᵢₘᵢₜᵢᵥₑ}"
+		label="{\N|{ +  - \n⇆ |  ⋅  / \n⇆ | 0 | 1}|BigDecimalField ℝ\nRealField ℝₚ}"
 ]
 CompleteField -> {ScalarField}
 }

@@ -1,4 +1,5 @@
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -40,8 +41,9 @@ module org.meeuw.math {
         StreamUtils.Configuration,
         NumberConfiguration,
         UncertaintyConfiguration,
-        MathContextConfiguration
-;
+        MathContextConfiguration,
+        RandomConfiguration
+        ;
 
 
 }

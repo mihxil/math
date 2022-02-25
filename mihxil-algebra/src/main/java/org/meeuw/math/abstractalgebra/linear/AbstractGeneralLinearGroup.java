@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.gl;
+package org.meeuw.math.abstractalgebra.linear;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,12 +7,13 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.MatrixUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
+
+import static org.meeuw.math.ArrayUtils.squareMatrix;
 
 public abstract class AbstractGeneralLinearGroup<
     M extends AbstractInvertibleMatrix<M, MS, E, ES>,
@@ -26,12 +27,12 @@ public abstract class AbstractGeneralLinearGroup<
 {
 
     @Getter
-    private final int dimension;
+    protected final int dimension;
 
     @Getter
-    private final ES elementStructure;
+    protected final ES elementStructure;
 
-    private final M one;
+    protected final M one;
 
 
     protected AbstractGeneralLinearGroup(
@@ -50,7 +51,7 @@ public abstract class AbstractGeneralLinearGroup<
             return StreamUtils.cartesianStream(() -> ((Streamable<E>) elementStructure).stream(), dimension * dimension)
                 .map(es -> {
                     try {
-                        return of(es);
+                        return newElement(es);
                     } catch (InvalidElementCreationException ive) {
                         return null;
                     }
@@ -62,16 +63,19 @@ public abstract class AbstractGeneralLinearGroup<
         }
     }
 
-    M of(E[] elements) {
-        return of(MatrixUtils.squareMatrix(elementStructure.getElementClass(), elements));
+    @SafeVarargs
+    public final M newElement(E... elements) throws InvalidElementCreationException {
+        return newElement(squareMatrix(elementStructure.getElementClass(), elements));
     }
 
     abstract M of(E[][] elements);
 
-
-    @SuppressWarnings("unchecked")
-    public  M newMatrix(E... matrix) {
-        return of(MatrixUtils.squareMatrix(elementStructure.getElementClass(), matrix));
+    public M newElement(E[][] matrix) throws InvalidElementCreationException {
+        M m = of(matrix);
+        if (m.determinant().eq(elementStructure.zero())) {
+            throw new InvalidElementCreationException("The matrix " + m + " is not invertible");
+        }
+        return m;
     }
 
     @Override

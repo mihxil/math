@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import static org.meeuw.math.MatrixUtils.cloneMatrix;
+import static org.meeuw.math.ArrayUtils.cloneMatrix;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>

@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.gl;
+package org.meeuw.math.abstractalgebra.linear;
 
 
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Arrays;
 
 import org.checkerframework.checker.nullness.qual.*;
-import org.meeuw.math.MatrixUtils;
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.abstractalgebra.*;
 
 
@@ -42,8 +42,6 @@ public abstract class AbstractInvertibleMatrix<
         this.structure = structure;
     }
 
-
-
     @Override
     public M times(M multiplier) {
         return of(getStructure().getElementStructure().product(matrix, multiplier.matrix));
@@ -66,7 +64,7 @@ public abstract class AbstractInvertibleMatrix<
 
     @Override
     public String toString() {
-        return MatrixUtils.toString(matrix);
+        return ArrayUtils.toString(matrix);
     }
 
     @Override

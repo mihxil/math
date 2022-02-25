@@ -15,7 +15,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
     extends AlgebraicStructureTheory<E> {
 
     @Property
-    default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+    default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
         assertThat(s.getSupportedOperators()).contains(Operator.ADDITION);
     }
 

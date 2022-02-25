@@ -1,6 +1,9 @@
 package org.meeuw.math.uncertainnumbers.field;
 
 
+import java.util.Random;
+
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -32,5 +35,16 @@ public class UncertainRealField
     @Override
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
+    }
+
+    @Override
+    public UncertainReal nextRandom(Random random) {
+        double value = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize() * (random.nextDouble() - 0.5d);
+        return new UncertainDoubleElement(value, Math.abs(value * random.nextDouble()));
+    }
+
+    @Override
+    public String toString() {
+        return "ℝᵤ"; // ᵤ: uncertain values
     }
 }

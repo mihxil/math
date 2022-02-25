@@ -108,7 +108,6 @@ class RealFieldTest implements
         assertThat(multiplied).isEqualTo(ONE);
     }
 
-
     @Test
     public void adjugate() {
         RealNumber[][] realNumbers = new RealNumber[][] {
@@ -119,15 +118,12 @@ class RealFieldTest implements
 
         assertThat(INSTANCE.adjugate(realNumbers)).isDeepEqualTo(
             new RealNumber[][] {
-                new RealNumber[]{of(-8), of(18), of(-4)},
-                new RealNumber[]{of(-5), of(12), of(-1)},
-                new RealNumber[]{of(4), of(-6), of(-2)}
+                new RealNumber[]{of(-8), of(22), of(-4)},
+                new RealNumber[]{of(-7), of(18), of(-1)},
+                new RealNumber[]{of(4), of(-6), of(2)}
             }
         );
-
     }
-
-
 
     @Override
 	@Provide

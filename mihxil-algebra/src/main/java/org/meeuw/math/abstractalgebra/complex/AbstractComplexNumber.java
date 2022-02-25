@@ -114,7 +114,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         StringBuilder result = new StringBuilder();
         boolean hasReal = ! real.isZero();
         if (hasReal) {
-            result.append(real.toString());
+            result.append(real);
         }
         if (!imaginary.isZero()) {
             if (hasReal) {
@@ -132,7 +132,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
             }
             E abs = imaginary.abs();
             if (! abs.isOne()) {
-                result.append(abs.toString());
+                result.append(abs);
             }
             result.append("i");
         }

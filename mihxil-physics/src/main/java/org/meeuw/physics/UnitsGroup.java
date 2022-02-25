@@ -1,5 +1,6 @@
 package org.meeuw.physics;
 
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.streams.StreamUtils;
@@ -49,5 +50,10 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
                 return new CompositeUnits(exactly(1), units);
             }
         );
+    }
+
+    @Override
+    public Units nextRandom(Random random) {
+        return null;
     }
 }

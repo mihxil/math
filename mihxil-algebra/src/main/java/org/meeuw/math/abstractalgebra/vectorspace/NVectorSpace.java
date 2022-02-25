@@ -24,22 +24,21 @@ public class NVectorSpace<E extends FieldElement<E>>
     implements
     VectorSpace<E, NVector<E>>, Streamable<NVector<E>> {
 
-    @Example(VectorSpace.class)
-    public NVectorSpace<RationalNumber> Q2 = NVectorSpace.of(2, RationalNumbers.INSTANCE);
-
     private static final Map<Key, NVectorSpace<?>> INSTANCES = new ConcurrentHashMap<>();
-
-    private final Field<E> field;
-    private final NVector<E> zero;
-    private final NVector<E> one;
-    private final int dimension;
-
 
     @SuppressWarnings("unchecked")
     public static <E extends FieldElement<E>> NVectorSpace<E> of(int dimension, Field<E> field) {
         Key key = new Key(field.getElementClass(), dimension);
         return (NVectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new NVectorSpace<>(dimension, field));
     }
+
+    @Example(VectorSpace.class)
+    public static NVectorSpace<RationalNumber> Q2 = NVectorSpace.of(2, RationalNumbers.INSTANCE);
+
+    private final Field<E> field;
+    private final NVector<E> zero;
+    private final NVector<E> one;
+    private final int dimension;
 
     @SuppressWarnings("unchecked")
     public NVectorSpace(int dimension, Field<E> field) {

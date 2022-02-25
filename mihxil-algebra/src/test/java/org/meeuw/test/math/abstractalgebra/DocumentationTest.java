@@ -16,6 +16,8 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.reflections.Reflections;
 
+import static org.meeuw.math.abstractalgebra.Operator.*;
+
 @Log4j2
 public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
@@ -160,11 +162,11 @@ public class DocumentationTest {
         }
         {
             StringBuilder multiplication = new StringBuilder();
-            if (target.getSupportedOperators().contains(Operator.MULTIPLICATION)) {
-                multiplication.append(" * ");
+            if (target.getSupportedOperators().contains(MULTIPLICATION)) {
+                multiplication.append(" ").append(MULTIPLICATION.getSymbol()).append(" ");
             }
-            if (target.getSupportedOperators().contains(Operator.DIVISION)) {
-                multiplication.append(" / ");
+            if (target.getSupportedOperators().contains(DIVISION)) {
+                multiplication.append(" ").append(DIVISION.getSymbol()).append(" ");
             }
             if (target instanceof MultiplicativeSemiGroup) {
                 if (((MultiplicativeSemiGroup<?>) target).multiplicationIsCommutative()) {
@@ -175,6 +177,10 @@ public class DocumentationTest {
                 ops.add(multiplication.toString());
             }
         }
+        if (target.getSupportedOperators().contains(OPERATE)) {
+            ops.add(" " + OPERATE.getSymbol());
+        }
+
         try {
             target.getClass().getMethod("zero");
             ops.add("0");

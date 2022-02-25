@@ -1,9 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.MatrixUtils;
+import org.meeuw.math.ArrayUtils;
 
-import static org.meeuw.math.MatrixUtils.minor;
+import static org.meeuw.math.ArrayUtils.minor;
 
 /**
  * A ring is a {@link AdditiveGroup}, but also defines multiplication, though an inverse {@link MultiplicativeGroupElement#reciprocal()} is not defined (That would make it a {@link Field})
@@ -23,19 +23,18 @@ public interface Ring<E extends RingElement<E>> extends Rng<E> {
     default E determinant(E[][] source) {
         E det = zero();
         final int[] permutation = new int[source.length];
-        for (int i = 1; i < permutation.length; i++) {
+        for (int i = 0; i < permutation.length; i++) {
             permutation[i] = i;
         }
         E sign = one();
 
         while(true) {
             E product = sign;
-            System.out.print(product);
             for (int i = 0; i < source.length; i++) {
                 product = product.times(source[permutation[i]][i]);
             }
             det = det.plus(product);
-            int swaps = MatrixUtils.permute(permutation);
+            int swaps = ArrayUtils.permute(permutation);
             if (swaps == 0)   {
                 break;
             }

@@ -38,7 +38,7 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
 
     @Override
     public String toString() {
-        return "ℝ" + TextUtils.subscript("primitive"); // 'backed by primitive'
+        return "ℝ" + TextUtils.subscript("p"); // 'backed by primitive'
     }
 
     public RealNumber considerMultiplicationBySpecialValues(RealNumber r1, RealNumber r2) {

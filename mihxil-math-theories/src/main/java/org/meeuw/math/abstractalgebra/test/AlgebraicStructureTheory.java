@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 import net.jqwik.api.*;
@@ -9,6 +8,7 @@ import net.jqwik.api.*;
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
 
@@ -33,22 +33,38 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         log.info("Testing {} ({})", s.toString(), s.getDescription());
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
-            Streamable<E> streamAble = (Streamable<E>) s;
-            if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
-                assertThat(streamAble.stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
-            } else {
-                assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
+            try {
+                Streamable<E> streamAble = (Streamable<E>) s;
+                if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
+                    assertThat(streamAble.stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
+                } else {
+                    assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
+                }
+                streamAble.stream().limit(20).forEach(e -> log.info(e::toString));
+                log.info("Skipping to 1000");
+                streamAble.stream().skip(1000).limit(20).forEach(e -> log.info(e::toString));
+                log.info("Skipping to 1000000");
+                streamAble.stream().skip(1000000).limit(20).forEach(e ->
+                    log.info(e::toString));
+            } catch (NotStreamable ns) {
+                log.warn(ns.getMessage());
             }
-            streamAble.stream().limit(20).forEach(e -> log.info(e::toString));
-            log.info("Skipping to 1000");
-            streamAble.stream().skip(1000).limit(20).forEach(e -> log.info(e::toString));
-            log.info("Skipping to 1000000");
-            streamAble.stream().skip(1000000).limit(20).forEach(e ->
-                log.info(e::toString));
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
+    }
+
+    @Property
+    default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        Random random = new Random();
+        try {
+            for (int i = 0; i < 10; i++) {
+                getLogger().info("randomvalue {}: {}", i, s.nextRandom(random));
+            }
+        } catch (UnsupportedOperationException use) {
+            getLogger().info(use.getMessage());
+        }
     }
 
     @Property

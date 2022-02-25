@@ -2,3 +2,4 @@ org.meeuw.math.streams.StreamUtils$Configuration
 org.meeuw.math.text.configuration.NumberConfiguration
 org.meeuw.math.text.configuration.UncertaintyConfiguration
 org.meeuw.math.numbers.MathContextConfiguration
+org.meeuw.math.abstractalgebra.RandomConfiguration

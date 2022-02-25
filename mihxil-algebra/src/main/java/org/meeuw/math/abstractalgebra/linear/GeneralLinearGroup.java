@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra.gl;
+package org.meeuw.math.abstractalgebra.linear;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,9 +43,4 @@ public class GeneralLinearGroup<E extends FieldElement<E>> extends
         return new InvertibleMatrix<>(this, elements);
     }
 
-    @SafeVarargs
-    @Override
-    public final InvertibleMatrix<E> newMatrix(E... matrix) {
-        return InvertibleMatrix.of(this, matrix);
-    }
 }

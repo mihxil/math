@@ -194,9 +194,10 @@ public class BigDecimalElement implements
     }
 
     public BigDecimalElement times(double multiplier) {
+        BigDecimal bigMultiplier = BigDecimal.valueOf(multiplier);
         return new BigDecimalElement(
-            new BigDecimal(value.doubleValue() * multiplier),
-            uncertainty.multiply(new BigDecimal(multiplier))
+            value.multiply(bigMultiplier),
+            uncertainty.multiply(bigMultiplier)
         );
 
     }

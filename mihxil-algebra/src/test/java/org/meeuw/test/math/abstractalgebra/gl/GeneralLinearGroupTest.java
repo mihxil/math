@@ -5,9 +5,10 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.gl.GeneralLinearGroup;
-import org.meeuw.math.abstractalgebra.gl.InvertibleMatrix;
+import org.meeuw.math.abstractalgebra.linear.GeneralLinearGroup;
+import org.meeuw.math.abstractalgebra.linear.InvertibleMatrix;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
@@ -34,7 +35,7 @@ class GeneralLinearGroupTest {
         RealNumber det = e.determinant();
         assertThat(det.getValue()).isEqualTo(-2d);
 
-        assertThat(e.getStructure().toString()).isEqualTo("GL₂(ℝ)");
+        assertThat(e.getStructure().toString()).isEqualTo("GL₂(ℝₚ)");
 
     }
 
@@ -82,9 +83,7 @@ class GeneralLinearGroupTest {
         assertThat(rec.determinant().isZero()).isFalse();
 
         log.info("{} x {} = {}", e, rec, e.times(rec));
-
     }
-
 
     @Test
     void matrixVector() {
@@ -96,8 +95,17 @@ class GeneralLinearGroupTest {
         NVector<RationalNumber> result = e.times(multiplier);
         assertThat(result).isEqualTo(NVector.of(RationalNumber.of(12), RationalNumber.of(7)));
         log.info("{} x {} = {}", e, multiplier, result);
+    }
+
+    @Test
+    public void stream() {
+        GeneralLinearGroup<RationalNumber> e = GeneralLinearGroup.of(3, RationalNumbers.INSTANCE);
+        e.stream().limit(100).forEach(m -> {
+            assertThat(m.determinant()).isNotEqualTo(RationalNumber.ZERO);
+        });
 
     }
+
 
     public static class RationalNumberTest implements
         MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
@@ -126,7 +134,7 @@ class GeneralLinearGroupTest {
             return Arbitraries.randomValue(g -> {
                 while (true) {
                     try {
-                        return structure.newMatrix(
+                        return structure.newElement(
                             INSTANCE.nextRandom(g), INSTANCE.nextRandom(g),
                             INSTANCE.nextRandom(g), INSTANCE.nextRandom(g)
                         );

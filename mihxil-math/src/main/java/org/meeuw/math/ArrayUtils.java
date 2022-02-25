@@ -1,21 +1,29 @@
 package org.meeuw.math;
 
 import java.lang.reflect.Array;
-
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.exceptions.InvalidElementException;
 
 /**
- * @author Michiel Meeuwissen
+ * Matrix (2 dimension array) and vector (1 dimension array) utils.
+ * @since 0.8
  */
-public final class MatrixUtils {
+public final class ArrayUtils {
 
-    private  MatrixUtils() {
+    private ArrayUtils() {
 
     }
 
+    /**
+     * For a given matrix, returns a new 'minor' matrix, That is a matrix, where one row, and one column are removed.
+     * @param element The type of the elements of the matrix
+     * @param matrix The original matrix
+     * @param i the row to remove
+     * @param j the column to remove
+     */
     public static <E> E[][] minor(Class<E> element, E[][] matrix, int i, int j) {
         if (i < 0 || i >= matrix.length || j < 0 || j >= matrix[i].length) {
             throw new InvalidElementException(i + "," + j + " not an index of " + matrix.length + "x" + matrix[0].length + " matrix");
@@ -25,8 +33,14 @@ public final class MatrixUtils {
             minor[k] = delete(element, matrix[k < i ? k : k + 1], j);
         }
         return minor;
-
     }
+
+    /**
+     * For a given vector, returns a new vector with one element removed
+     * @param element The type of the elements of the vector
+     * @param vector The original vector
+     * @param i the element to remove
+     */
     @SuppressWarnings("unchecked")
     public static <E> E[] delete(Class<E> element, E[] vector, int i) {
         E[] shorter = (E[]) Array.newInstance(element, vector.length - 1);
@@ -41,6 +55,10 @@ public final class MatrixUtils {
     @SuppressWarnings("unchecked")
     public static <E> E[][] newMatrix(Class<E> element, int i, int j) {
         return (E[][]) Array.newInstance(element, i, j);
+    }
+
+    public static <E> E[][] newSquareMatrix(Class<E> element, int i) {
+        return newMatrix(element, i, i);
     }
 
     public static <E> E[][] cloneMatrix(Class<E> element, E[][] matrix) {
@@ -65,10 +83,17 @@ public final class MatrixUtils {
 
 
     /**
-     * Knuth's L algorithm. (taken from https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order).
-     *
-     * @return Number of swaps. This may be needed if you need to calculate the _sign_ (e.g. Leibniz formula)
-     *         0 means no swaps at all. No new permutations can be found.
+     * <p>
+     * Knuth's L algorithm for permutation (taken from <a href='https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order'>here</a>).
+     * </p>
+     * <p>
+     * Takes an array of integers. It should contain all the values 0 to length, in any order, and swaps elements to find the 'next' permutation according to Knuth.
+     *</p>
+     * <p>
+     * Calling this function starting with the vector {@code 0...n-1} until it returns {@code 0}, precisely returns all permutations (so this can be done {@code n! - 1} times)
+     *</p>
+     * @return Number of swaps. This may be needed if you need to calculate the <em>sign</em> (e.g. in Leibniz formula).<br />
+     *         0 means no swaps at all. No further permutations can be found, and this terminates the algorithm. In other words,  the input was {@code n-1...0}
      */
     public static int permute(int[] values) {
         // Nothing to do for empty or single-element arrays:
@@ -79,7 +104,7 @@ public final class MatrixUtils {
         // L2: Find last j such that self[j] < self[j+1]. Terminate if no such j
         // exists.
         int j = values.length - 2;
-        while (j >= 0 && values[j] >= values[j+1]) {
+        while (j >= 0 && values[j] >= values[j + 1]) {
             j -= 1;
         }
         if (j == -1) {
@@ -108,10 +133,33 @@ public final class MatrixUtils {
     }
 
 
-    private static void swap(int[] input, int a, int b) {
+    public static void swap(int[] input, int a, int b) {
         int tmp = input[a];
         input[a] = input[b];
         input[b] = tmp;
+    }
+
+    public static <E> void swap(E[] input, int a, int b) {
+        E tmp = input[a];
+        input[a] = input[b];
+        input[b] = tmp;
+    }
+
+    /**
+     * Fisher–Yates shuffle Algorithm
+     */
+    public static <E> void shuffle(Random random, E[] arr) {
+        int n = arr.length;
+        // Start from the last element and swap one by one. We don't
+        // need to run for the first element that's why i > 0
+        for (int i = n - 1; i > 0; i--) {
+
+            // Pick a random index from 0 to i
+            int j = random.nextInt(i + 1);
+
+            // Swap arr[i] with the element at random index
+            swap(arr, i, j);
+        }
     }
 
     public static <E> String toString(E[][] matrix) {

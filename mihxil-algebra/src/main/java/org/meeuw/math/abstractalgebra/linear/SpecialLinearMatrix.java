@@ -1,7 +1,7 @@
-package org.meeuw.math.abstractalgebra.gl;
+package org.meeuw.math.abstractalgebra.linear;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.MatrixUtils;
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -48,14 +48,16 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
             if (matrix.length != dimension * dimension) {
                 throw new InvalidElementCreationException("Wrong dimensions");
             }
-            E[][] invertibleMatrix = MatrixUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
+            E[][] invertibleMatrix = ArrayUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
             SpecialLinearMatrix<E> result = new SpecialLinearMatrix<>(structure, invertibleMatrix);
             result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
             if (result.determinant.isZero()) {
-                throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(invertibleMatrix) + " is not invertible");
+                throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
             }
-            if (! result.determinant().eq(structure.getElementStructure().one())) {
-                throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(invertibleMatrix) + " is not invertible");
+            if (! (result.determinant().eq(structure.getElementStructure().one()) ||
+                result.determinant().eq(structure.getElementStructure().one().negation()))
+            ) {
+                throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
             }
 
             return result;
@@ -67,12 +69,12 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
 
     @Override
     public SpecialLinearMatrix<E> reciprocal() {
-        return adjugate();
+        return adjugate().times(determinant());
     }
 
     @Override
     SpecialLinearMatrix<E> of(E[][] matrix) {
-        return null;
+        return structure.of(matrix);
     }
 
 

@@ -1,0 +1,38 @@
+package org.meeuw.math.abstractalgebra.klein;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import org.meeuw.math.Example;
+import org.meeuw.math.abstractalgebra.*;
+
+/**
+ * <a href="https://en.wikipedia.org/wiki/Klein_four-group">The Klein four-group</a>
+ */
+public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
+
+    @Example(Group.class)
+    public static final KleinGroup INSTANCE = new KleinGroup();
+
+    private KleinGroup() {
+    }
+    @Override
+    public Cardinality getCardinality() {
+        return new Cardinality(KleinElement.values().length);
+    }
+
+    @Override
+    public Class<KleinElement> getElementClass() {
+        return KleinElement.class;
+    }
+
+    @Override
+    public KleinElement unity() {
+        return KleinElement.e;
+    }
+
+    @Override
+    public Stream<KleinElement> stream() {
+        return Arrays.stream(KleinElement.values());
+    }
+}

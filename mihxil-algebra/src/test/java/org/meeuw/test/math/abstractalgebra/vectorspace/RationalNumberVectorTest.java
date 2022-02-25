@@ -41,7 +41,7 @@ class RationalNumberVectorTest implements
     public void stringEqualsHashCode() {
         NVector<RationalNumber> example = of(1, 2, 3);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
-        assertThat(example.getSpace().toString()).isEqualTo("VectorSpace of ℚ[3]");
+        assertThat(example.getSpace().toString()).isEqualTo("ℚ³");
 
         assertThat(example.equals(example)).isTrue();
         assertThat(example.equals("bla")).isFalse();

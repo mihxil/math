@@ -5,10 +5,12 @@ import java.math.MathContext;
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -82,7 +84,8 @@ strictfp class BigDecimalFieldTest implements
     public void timesDouble(
         @ForAll(ELEMENTS) BigDecimalElement e,
         @ForAll("doubles") Double multiplier) {
-        assertThat(e.times(multiplier).getValue().doubleValue()).isEqualTo(e.getValue().doubleValue() * multiplier);
+        assertThat(e.times(multiplier).getValue().doubleValue())
+            .isCloseTo(e.getValue().doubleValue() * multiplier, Percentage.withPercentage(0.001));
     }
 
     @Provide

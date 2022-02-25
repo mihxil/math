@@ -1,7 +1,7 @@
-package org.meeuw.math.abstractalgebra.gl;
+package org.meeuw.math.abstractalgebra.linear;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.MatrixUtils;
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
@@ -50,11 +50,11 @@ public class InvertibleMatrix<E extends FieldElement<E>>
             if (matrix.length != dimension * dimension) {
                 throw new InvalidElementCreationException("Wrong dimensions");
             }
-            E[][] invertibleMatrix = MatrixUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
+            E[][] invertibleMatrix = ArrayUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
             InvertibleMatrix<E> result = new InvertibleMatrix<>(structure, invertibleMatrix);
             result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
             if (result.determinant.isZero()) {
-                throw new InvalidElementCreationException("The matrix " + MatrixUtils.toString(invertibleMatrix) + " is not invertible");
+                throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
             }
             return result;
         } catch (NotASquareException notASquareException) {

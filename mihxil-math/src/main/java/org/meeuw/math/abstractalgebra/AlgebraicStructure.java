@@ -14,7 +14,7 @@ import org.meeuw.math.*;
  * @since 0.4
  * @param <E> The type of the elements of this structure
  */
-public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
+public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Randomizable<E> {
 
     NavigableSet<ComparisonOperator> EQ_ONLY = Utils.navigableSet(ComparisonOperator.EQ);
 
@@ -25,8 +25,6 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
     default NavigableSet<Operator> getSupportedOperators() {
         return Collections.emptyNavigableSet();
     }
-
-
 
     /**
      * Returns the {@link UnaryOperator}s that elements of this structure support.
@@ -68,12 +66,23 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> {
     }
 
     default E[][] newMatrix(int i, int j) {
-        return MatrixUtils.newMatrix(getElementClass(), i, j);
+        return ArrayUtils.newMatrix(getElementClass(), i, j);
     }
 
     @SuppressWarnings("unchecked")
     default E[] newArray(int i) {
         return (E[]) Array.newInstance(getElementClass(), i);
     }
+
+
+    /**
+     * Returns a random element from the structure
+     */
+    @Override
+    default  E nextRandom(Random random) {
+        throw new UnsupportedOperationException();
+    }
+
+
 
 }

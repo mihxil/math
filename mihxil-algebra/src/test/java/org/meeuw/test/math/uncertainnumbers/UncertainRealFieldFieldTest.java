@@ -13,8 +13,7 @@ import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.uncertainnumbers.field.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
@@ -72,10 +71,7 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
 
     @Override
     public Arbitrary<UncertainReal> elements() {
-        return Arbitraries.randomValue(r -> {
-            double value = 10000 * (r.nextDouble() - 0.5d);
-            return new UncertainDoubleElement(value, Math.abs(value * r.nextDouble()));
-        });
+        return Arbitraries.randomValue(UncertainRealField.INSTANCE::nextRandom);
     }
 
 

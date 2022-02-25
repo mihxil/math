@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.MatrixUtils;
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -73,7 +73,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
             @Override
             public Permutation next() {
                 Permutation value = p;
-                if (MatrixUtils.permute(values) > 0) {
+                if (ArrayUtils.permute(values) > 0) {
                     p = new Permutation(false, Arrays.copyOf(values, degree));
                 } else {
                     p = null;

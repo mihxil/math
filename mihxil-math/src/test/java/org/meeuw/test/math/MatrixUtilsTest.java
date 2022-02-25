@@ -6,7 +6,7 @@ import org.meeuw.math.exceptions.InvalidElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.MatrixUtils.minor;
+import static org.meeuw.math.ArrayUtils.minor;
 
 public class MatrixUtilsTest {
 

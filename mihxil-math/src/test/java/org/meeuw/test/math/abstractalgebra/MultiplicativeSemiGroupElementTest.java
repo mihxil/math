@@ -1,5 +1,7 @@
 package org.meeuw.test.math.abstractalgebra;
 
+import java.util.Random;
+
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -42,6 +44,11 @@ class MultiplicativeSemiGroupElementTest {
         @Override
         public Class<A> getElementClass() {
             return A.class;
+        }
+
+        @Override
+        public A nextRandom(Random random) {
+            return new A(random.nextInt(100));
         }
     }
 
