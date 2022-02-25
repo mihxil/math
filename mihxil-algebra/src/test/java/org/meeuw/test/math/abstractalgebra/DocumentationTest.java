@@ -18,10 +18,13 @@ import org.reflections.Reflections;
 
 import static org.meeuw.math.abstractalgebra.Operator.*;
 
+@SuppressWarnings({"TextBlockMigration", "unchecked"})
 @Log4j2
 public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
 
+    public static String ALGEBRA_URL = "ALGEBRA_URL";
+    public static String MATH_URL = "MATH_URL";
 
     @Test
     public void dot() throws IOException {
@@ -48,7 +51,7 @@ public class DocumentationTest {
     public void dot(OutputStream out) throws IOException {
         Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
-        digraph(writer, (w) -> {
+        digraph(writer, (w) ->
             subTypes.forEach(c -> {
                 if ((c.getModifiers() & Modifier.PUBLIC) != 0 && c.isInterface()) {
                     try {
@@ -58,8 +61,8 @@ public class DocumentationTest {
                     }
                 }
                 //log.info("{}", c);
-            });
-        });
+            })
+        );
         writer.close();
 
 
@@ -107,21 +110,45 @@ public class DocumentationTest {
     }
 
 
-    protected void writeLabel(PrintWriter writer, Class<?> c, Runnable runnable) {
-        writer.print("\t\tlabel=\"{\\N|");
-        runnable.run();
-        writer.println("}\"");
+    protected <C extends AlgebraicStructure<?>> void writeLabel(PrintWriter writer, Class<C> c, int colspan, Consumer<PrintWriter> body) {
+        writer.println("\t\tlabel=<");
+        writer.println("<table border='0'  cellborder='1' cellspacing='0'>");
+        writeCaption(writer,(w) -> w.write(toString(c)), colspan, href(c));
+        body.accept(writer);
+        writer.println("</table>");
+        writer.println(">");
 
     }
-    protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target)  {
-        String example = Stream.concat(
-            getExamplesClasses(target).map(this::toString),
-            getExamplesConstants(target).map(Object::toString)
-            )
-            .collect(Collectors.joining("\\n"));
-        if (! example.isEmpty()) {
-            writer.write("|" + example);
+    protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target, int cols)  {
+        getExamplesClasses(target)
+            .forEach(t -> {
+                writeCaption(writer, p -> p.write(toString(t)), cols, href(t));
+
+            });
+
+        getExamplesConstants(target).forEach(s -> {
+            writeCaption(writer, p -> p.write(s.toString()), cols, href(s.getClass()));
+
+        });
+
+    }
+
+    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href) {
+        writer.write("<tr><td colspan='" + cols + "'");
+        if (href != null) {
+
+            writer.write(" title='java code' href='" + href + "'");
         }
+        writer.write(">");
+        if (href != null) {
+            writer.write("<font color='#0000a0'>");
+        }
+        body.accept(writer);
+        if (href != null) {
+            writer.write("</font>");
+        }
+        writer.write("</td></tr>");
+
     }
 
     protected <C extends AlgebraicStructure<?>> String toString(Class<C> structureClass) {
@@ -147,7 +174,7 @@ public class DocumentationTest {
         return build.toString();
     }
 
-    protected <C extends AlgebraicStructure<?>>  void writeOperators(final PrintWriter writer, C target)  {
+    protected <C extends AlgebraicStructure<?>>  List<String> getOperators(C target) {
         List<String> ops = new ArrayList<>();
         {
             StringBuilder addition = new StringBuilder();
@@ -159,7 +186,7 @@ public class DocumentationTest {
             }
             if (target instanceof AdditiveSemiGroup) {
                 if (((AdditiveSemiGroup<?>) target).additionIsCommutative()) {
-                    addition.append("\\n⇆");
+                    addition.append("<br />n⇆");
                 }
             }
             if (!addition.isEmpty()) {
@@ -176,7 +203,7 @@ public class DocumentationTest {
             }
             if (target instanceof MultiplicativeSemiGroup) {
                 if (((MultiplicativeSemiGroup<?>) target).multiplicationIsCommutative()) {
-                    multiplication.append("\\n⇆");
+                    multiplication.append("<br />⇆");
                 }
             }
             if (!multiplication.isEmpty()) {
@@ -202,17 +229,41 @@ public class DocumentationTest {
             ops.add("u");
         } catch (NoSuchMethodException ignored) {
         }
-        writer.print("{" + String.join(" | ", ops) + "}");
+        return ops;
     }
 
-    protected <C extends AlgebraicStructure<?>> void writeInterface(final PrintWriter writer, Class<C> c) throws Throwable {
+    protected  int writeOperators(final PrintWriter writer, List<String> ops)  {
+
+        writer.print("<tr>");
+        for (String o : ops) {
+            writer.print("<td>");
+            writer.print(o);
+            writer.print("</td>");
+        }
+        writer.print("</tr>");
+        return ops.size();
+    }
+
+    protected <C extends AlgebraicStructure<?>>  String href(Class<C> c){
+        String baseurl;
+        if (c.getPackageName().equals("org.meeuw.math.abstractalgebra")) {
+            baseurl = MATH_URL;
+        } else {
+            baseurl = ALGEBRA_URL;
+        }
+        return baseurl + "/" + c.getName().replace(".", "/") + ".java";
+    }
+
+    @SuppressWarnings("SimplifyStreamApiCallChains")
+    protected <C extends AlgebraicStructure<?>> void writeInterface(final PrintWriter writer, Class<C> c) {
         writer.println("\n\n# " + c);
         writer.println(c.getSimpleName() + "[");
-        writer.println("href=\"BLOB_URL/" + c.getName().replace(".", "/") + ".java\"");
-        writeLabel(writer, c, () -> {
-            C target = proxy(c);
-            writeOperators(writer, target);
-            writeExamples(writer, c);
+        //writer.println("href=\"" + href(c) + "\"");
+        C target = proxy(c);
+        List<String> operators = getOperators(target);
+        writeLabel(writer, c, operators.size(), (p) -> {
+            int cols = writeOperators(p, operators);
+            writeExamples(p, c, cols);
         });
 
         writer.println("]");
@@ -231,15 +282,17 @@ public class DocumentationTest {
         writer.println(c.getSimpleName() + " -> {" + supers.stream().collect(Collectors.joining("\n")) + "}");
     }
 
-    protected void digraph(PrintWriter writer, Consumer<Writer> body) throws IOException {
+    protected void digraph(PrintWriter writer, Consumer<Writer> body) {
         writer.write("digraph {\n" +
             "    node [\n" +
-            "\t\t  shape=record\n" +
+            "\t\t  shape=plain\n" +
             "    ]\n" +
             "\t\tedge [\n" +
             "\t\t  arrowhead = \"empty\"\n" +
             "\t\t]\n\n");
-        writer.println("        define(BLOB_URL, https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)");
+        writer.println("        define(`" + MATH_URL + "', https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)");
+        writer.println("        define(`" + ALGEBRA_URL + "', https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java)");
+        writer.println("         changecom(`  #')\n"); // don't match css color
         body.accept(writer);
         writer.write("}\n");
     }

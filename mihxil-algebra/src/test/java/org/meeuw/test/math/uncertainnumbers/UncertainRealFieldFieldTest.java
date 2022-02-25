@@ -81,9 +81,6 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
             INSTANCE.nextRandom(random),
             INSTANCE.nextRandom(random)
         )).isInstanceOf(NoSuchOperatorException.class);
-
-
-
     }
 
     @Override
