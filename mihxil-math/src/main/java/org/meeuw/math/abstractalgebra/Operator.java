@@ -1,10 +1,13 @@
 package org.meeuw.math.abstractalgebra;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.SneakyThrows;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.BinaryOperator;
+
+import org.meeuw.math.exceptions.NoSuchOperatorException;
 
 /**
  * The basic operations of arithmetic
@@ -45,6 +48,9 @@ public enum Operator implements AlgebraicBinaryOperator {
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E  apply(E element1, E element2) {
         try {
+            if (!method.getParameterTypes()[0].isInstance(element1)) {
+                throw new NoSuchOperatorException(element1.getClass().getSimpleName() + " " + element1 + " has no operator '" + method.getName() + "'");
+            }
             E result = (E) method.invoke(element1, element2);
             if (result == null) {
                 throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");

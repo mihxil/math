@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Random;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -11,13 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.Operator;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.field.*;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
 
 /**
  * @author Michiel Meeuwissen
@@ -42,7 +47,7 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
     public void errorPropagation(
         @ForAll("bigdecimals") final BigDecimal r1,
         @ForAll("bigdecimals") final BigDecimal r2,
-        @ForAll Operator operator) {
+        @ForAll("operators") final Operator operator) {
 
         withAspect(UncertaintyConfiguration.class,
             (nc) -> nc.withConsiderRoundingErrorFactor(0), () -> {
@@ -69,10 +74,29 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
 
     }
 
+    @Test
+    public void testOperate() {
+        Random random = new Random();
+        assertThatThrownBy(() -> Operator.OPERATION.apply(
+            INSTANCE.nextRandom(random),
+            INSTANCE.nextRandom(random)
+        )).isInstanceOf(NoSuchOperatorException.class);
+
+
+
+    }
+
     @Override
     public Arbitrary<UncertainReal> elements() {
-        return Arbitraries.randomValue(UncertainRealField.INSTANCE::nextRandom);
+        return Arbitraries.randomValue(INSTANCE::nextRandom);
     }
+
+
+    @Provide
+    public Arbitrary<Operator> operators() {
+        return Arbitraries.of(INSTANCE.getSupportedOperators());
+    }
+
 
 
     @Provide
