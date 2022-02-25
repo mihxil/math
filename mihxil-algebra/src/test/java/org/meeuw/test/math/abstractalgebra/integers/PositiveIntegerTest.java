@@ -5,6 +5,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
+import org.meeuw.math.abstractalgebra.integers.PositiveIntegers;
 import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -31,7 +32,8 @@ class PositiveIntegerTest implements
 
     @Override
     public Arbitrary<PositiveInteger> elements() {
-        return Arbitraries.randomValue(r ->
-            new PositiveInteger(Math.abs(r.nextInt(100_000)))).injectDuplicates(10);
+        return Arbitraries.randomValue(
+            PositiveIntegers.INSTANCE::nextRandom
+            ).injectDuplicates(10);
     }
 }
