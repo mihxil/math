@@ -17,21 +17,25 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-@Example(Rng.class)
 public class NDivisibleIntegers extends
     AbstractIntegers<NDivisibleInteger, NDivisibleInteger, NDivisibleIntegers>
     implements Rng<NDivisibleInteger> {
 
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
 
+
+    public static NDivisibleIntegers of(int divisor) {
+        return INSTANCES.computeIfAbsent(divisor, NDivisibleIntegers::new);
+    }
+
+    @Example(Rng.class)
+    public static final NDivisibleIntegers _3Z = NDivisibleIntegers.of(3);
+
     @Getter
     final int divisor;
 
     private final BigInteger bigDivisor;
 
-    public static NDivisibleIntegers of(int divisor) {
-        return INSTANCES.computeIfAbsent(divisor, NDivisibleIntegers::new);
-    }
 
     private NDivisibleIntegers(int divisor) {
         super();

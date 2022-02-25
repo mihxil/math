@@ -77,4 +77,9 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
     abstract E element(int v);
 
+    @Override
+    public String toString() {
+        return "ℤ/" + divisor + "ℤ";
+    }
+
 }

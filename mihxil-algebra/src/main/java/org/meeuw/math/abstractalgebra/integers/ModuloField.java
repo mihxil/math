@@ -12,7 +12,6 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(Field.class)
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
     implements Field<ModuloFieldElement> {
 
@@ -21,6 +20,9 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     public static ModuloField of(int divisor) throws InvalidElementCreationException {
         return INSTANCES.computeIfAbsent(divisor, ModuloField::new);
     }
+
+    @Example(Field.class)
+    public static final ModuloField Z3Z = of(3);
 
     private ModuloField(int divisor) throws InvalidElementCreationException {
         super(ModuloFieldElement.class, divisor);
@@ -32,6 +34,11 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     @Override
     public ModuloFieldElement element(int v) {
         return new ModuloFieldElement(v, this);
+    }
+
+    @Override
+    public String toString() {
+        return "ℤ/" + divisor + "ℤ";
     }
 
 }
