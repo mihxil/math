@@ -18,6 +18,7 @@ public class IntegerElement
     RingElement<IntegerElement>,
     Scalar<IntegerElement>,
     MultiplicativeMonoidElement<IntegerElement>,
+    GroupElement<IntegerElement>,
     Ordered<IntegerElement> {
 
     public static final IntegerElement ZERO = IntegerElement.of(0);
@@ -94,4 +95,13 @@ public class IntegerElement
         return with(value.abs());
     }
 
+    @Override
+    public IntegerElement operate(IntegerElement operand) {
+        return plus(operand);
+    }
+
+    @Override
+    public IntegerElement inverse() {
+        return negation();
+    }
 }

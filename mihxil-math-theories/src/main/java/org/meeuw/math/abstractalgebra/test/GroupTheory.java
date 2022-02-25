@@ -16,7 +16,7 @@ public interface GroupTheory<E extends GroupElement<E>>
 
     @Property
     default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.OPERATE);
+        assertThat(s.getSupportedOperators()).contains(Operator.OPERATION);
     }
 
 

@@ -177,8 +177,8 @@ public class DocumentationTest {
                 ops.add(multiplication.toString());
             }
         }
-        if (target.getSupportedOperators().contains(OPERATE)) {
-            ops.add(" " + OPERATE.getSymbol());
+        if (target.getSupportedOperators().contains(OPERATION)) {
+            ops.add(" " + OPERATION.getSymbol());
         }
 
         try {
@@ -189,6 +189,11 @@ public class DocumentationTest {
         try {
             target.getClass().getMethod("one");
             ops.add("1");
+        } catch (NoSuchMethodException ignored) {
+        }
+        try {
+            target.getClass().getMethod("unity");
+            ops.add("u");
         } catch (NoSuchMethodException ignored) {
         }
         writer.print("{" + String.join(" | ", ops) + "}");

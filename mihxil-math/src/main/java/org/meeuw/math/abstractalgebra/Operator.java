@@ -14,7 +14,7 @@ import java.util.function.BinaryOperator;
  */
 public enum Operator implements AlgebraicBinaryOperator {
 
-    OPERATE(getBinaryOperatorMethod(GroupElement.class, "operate"), "*"),
+    OPERATION(getBinaryOperatorMethod(GroupElement.class, "operate"), "*"),
 
     ADDITION(getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), "+"),
     SUBTRACTION(getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-"),

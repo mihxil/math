@@ -66,10 +66,10 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
         }
     }
 
-
     @Override
     public SpecialLinearMatrix<E> reciprocal() {
-        return adjugate().times(determinant());
+        return adjugate()
+            .times(determinant()); // we're only interested in the sign of the determinant, it is either 1 or -1.
     }
 
     @Override
