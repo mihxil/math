@@ -22,6 +22,8 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),
 
+    INVERSION(getUnaryOperatorMethod(GroupElement.class, "inverse"),(s) -> s + superscript(-1)),
+
     SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
     ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),

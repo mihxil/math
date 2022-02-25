@@ -42,8 +42,5 @@ public enum KleinElement implements GroupElement<KleinElement> {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return "V";
-    }
+
 }

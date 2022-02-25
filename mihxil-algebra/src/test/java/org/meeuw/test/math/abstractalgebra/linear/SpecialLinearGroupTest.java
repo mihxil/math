@@ -1,4 +1,4 @@
-package org.meeuw.test.math.abstractalgebra.gl;
+package org.meeuw.test.math.abstractalgebra.linear;
 
 import lombok.extern.log4j.Log4j2;
 

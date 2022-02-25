@@ -20,4 +20,27 @@ public interface GroupTheory<E extends GroupElement<E>>
     }
 
 
+    @Property
+    default void operateAssociativity (
+            @ForAll(ELEMENTS) E v1,
+            @ForAll(ELEMENTS) E v2,
+            @ForAll(ELEMENTS) E v3
+            ) {
+        assertThat((v1.operate(v2)).operate(v3)).isEqualTo(v1.operate((v2.operate(v3))));
+    }
+
+    @Property
+    default void unity(
+        @ForAll(ELEMENTS) E v) {
+        assertThat(v.operate(v.getStructure().unity()).equals(v)).isTrue();
+    }
+
+
+    @Property
+    default void inverse(
+        @ForAll(ELEMENTS) E v) {
+        assertThat(v.inverse().operate(v).equals(v.getStructure().unity())).isTrue();
+    }
+
+
 }

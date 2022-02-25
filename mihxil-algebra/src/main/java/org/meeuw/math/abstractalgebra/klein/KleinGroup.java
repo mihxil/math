@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.klein;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -34,5 +35,15 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     @Override
     public Stream<KleinElement> stream() {
         return Arrays.stream(KleinElement.values());
+    }
+
+    @Override
+    public KleinElement nextRandom(Random random) {
+        return KleinElement.values()[random.nextInt(KleinElement.values().length)];
+    }
+
+    @Override
+    public String toString() {
+        return "V";
     }
 }
