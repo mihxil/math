@@ -1,13 +1,15 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup;
-import org.meeuw.math.abstractalgebra.MultiplicativeMonoid;
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
 
+import static org.meeuw.math.abstractalgebra.integers.AbstractIntegerElement.BigTWO;
 import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
 
 /**
@@ -28,8 +30,21 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
     }
 
     @Override
+    public OddInteger nextRandom(Random random) {
+        return of(BigInteger.valueOf(RandomConfiguration.nextLong(random) * 2 + 1));
+    }
+
+    @Override
     OddInteger of(BigInteger value) {
-        return null;
+        return new OddInteger(value);
+    }
+
+    @Override
+    public OddInteger newElement(BigInteger value) throws InvalidElementCreationException {
+        if (value.remainder(BigTWO).equals(BigInteger.ZERO)) {
+            throw new InvalidElementCreationException("The argument must be odd (" + value + " isn't)");
+        }
+        return of(value);
     }
 
     @Override
@@ -44,7 +59,12 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
 
     @Override
     public Stream<OddInteger> stream() {
-        return Stream.iterate(one(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(EvenInteger.of(2)));
+        return Stream.iterate(
+            one(),
+            i -> i.signum() > 0 ?
+                i.negation() :
+                i.negation().plus(EvenInteger.TWO)
+        );
     }
 
     @Override

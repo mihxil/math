@@ -2,9 +2,13 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
 import java.util.NavigableSet;
+import java.util.Random;
 import java.util.stream.Stream;
 
+import javax.validation.constraints.Min;
+
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
@@ -30,9 +34,18 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
         super(PositiveInteger.class);
     }
 
+
     @Override
     PositiveInteger of(BigInteger value) {
         return new PositiveInteger(value);
+    }
+
+    @Override
+    public PositiveInteger newElement(@Min(0) BigInteger value) throws InvalidElementCreationException {
+        if (value.compareTo(BigInteger.ZERO) <= 0) {
+            throw new InvalidElementCreationException("Positive numbers cannot be 0 or negative");
+        }
+        return of(value);
     }
 
     @Override
@@ -48,6 +61,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     @Override
     public Stream<PositiveInteger> stream() {
         return  Stream.iterate(one(), i -> i.plus(one()));
+    }
+
+    @Override
+    public PositiveInteger nextRandom(Random random) {
+        return of(BigInteger.valueOf(RandomConfiguration.nextNonNegativeLong(random) + 1));
     }
 
     @Override

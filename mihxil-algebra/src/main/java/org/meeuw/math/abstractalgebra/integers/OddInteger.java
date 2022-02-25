@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -20,54 +19,43 @@ public class OddInteger
 
     public static final OddInteger ONE = OddInteger.of(1);
 
-
-    public static OddInteger of(long value){
-        if (value % 2 == 0) {
-               throw new InvalidElementCreationException("The argument must be odd (" + value + " isn't)");
-        }
-        return new OddInteger(value);
+    public static OddInteger of(BigInteger value){
+        return OddIntegers.INSTANCE.newElement(value);
     }
-
-    OddInteger(long value) {
-        this(BigInteger.valueOf(value));
+    public static OddInteger of(long value){
+        return of(BigInteger.valueOf(value));
     }
 
     OddInteger(BigInteger value) {
         super(OddIntegers.INSTANCE, value);
     }
 
-
-    @Override
-    public OddIntegers getStructure() {
-        return OddIntegers.INSTANCE;
-    }
-
     @Override
     public OddInteger times(OddInteger multiplier) {
-        return of(value.multiply(multiplier.value));
+        return with(value.multiply(multiplier.value));
     }
 
     @Override
     public OddInteger pow(@Min(1) int n) {
-        return of(value.pow(n));
+        return super.pow(n);
     }
 
     @Override
     public OddInteger sqr() {
-        return of(value.multiply(value));
+        return with(value.multiply(value));
     }
 
     public OddInteger negation() {
-        return of(value.negate());
+        return with(value.negate());
     }
 
     public OddInteger plus(EvenInteger summand)  {
-        return of(value.add(summand.value));
+        return with(value.add(summand.value));
     }
 
     @Override
     public OddInteger abs() {
-        return of(value.abs());
+        return with(value.abs());
     }
 
     @Override

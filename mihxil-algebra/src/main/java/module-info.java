@@ -27,7 +27,6 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.strings;
     exports org.meeuw.math.abstractalgebra.vectorspace;
     exports org.meeuw.math.abstractalgebra.permutations.text;
-    exports org.meeuw.math.abstractalgebra.son;
     exports org.meeuw.math.abstractalgebra.gl;
 
     uses AlgebraicElementFormatProvider;

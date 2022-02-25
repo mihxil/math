@@ -4,11 +4,14 @@ import lombok.Getter;
 
 import java.math.BigInteger;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.abstractalgebra.Rng;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,7 +25,9 @@ public class NDivisibleIntegers extends
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
 
     @Getter
-    private final int divisor;
+    final int divisor;
+
+    private final BigInteger bigDivisor;
 
     public static NDivisibleIntegers of(int divisor) {
         return INSTANCES.computeIfAbsent(divisor, NDivisibleIntegers::new);
@@ -31,25 +36,61 @@ public class NDivisibleIntegers extends
     private NDivisibleIntegers(int divisor) {
         super();
         this.divisor = divisor;
+        this.bigDivisor = BigInteger.valueOf(divisor);
     }
 
     @Override
     public NDivisibleInteger zero() {
-        return new NDivisibleInteger(this, 0);
+        return of(BigInteger.ZERO);
     }
 
     @Override
     public Stream<NDivisibleInteger> stream() {
-        return Stream.iterate(zero(), i -> i.signum() > 0 ? i.negation() : i.negation().plus(new NDivisibleInteger(this, divisor)));
+        return Stream.iterate(zero(),
+            i -> i.signum() > 0 ?
+                i.negation() :
+                i.negation().plus(
+                    of(bigDivisor))
+        );
     }
 
-     @Override
+
+    @Override
+    public NDivisibleInteger nextRandom(Random random) {
+        return of(BigInteger.valueOf(RandomConfiguration.nextLong(random) * divisor));
+    }
+
+    @Override
+    NDivisibleInteger of(BigInteger value) {
+        return new NDivisibleInteger(this, value);
+    }
+
+    @Override
+    public NDivisibleInteger newElement(BigInteger value) throws InvalidElementCreationException {
+        if (! value.remainder(bigDivisor).equals(BigInteger.ZERO)) {
+            throw new InvalidElementCreationException("The argument must be dividable by " + divisor + " (" + value + " isn't)");
+        }
+        return of(value);
+    }
+
+
+    @Override
     public String toString() {
         return divisor + "ℤ";
     }
 
     @Override
-    NDivisibleInteger of(BigInteger value) {
-        return new NDivisibleInteger(this, 0);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NDivisibleIntegers that = (NDivisibleIntegers) o;
+
+        return divisor == that.divisor;
+    }
+
+    @Override
+    public int hashCode() {
+        return divisor;
     }
 }

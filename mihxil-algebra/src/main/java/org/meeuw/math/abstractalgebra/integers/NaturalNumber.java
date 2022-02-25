@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -25,24 +24,21 @@ public class NaturalNumber extends
     public static final NaturalNumber ONE = of(1);
 
     public static NaturalNumber of(@Min(0) long value) {
-        return new NaturalNumber(BigInteger.valueOf(value));
+        return NaturalNumbers.INSTANCE.newElement(BigInteger.valueOf(value));
     }
 
-    public NaturalNumber(@Min(0) BigInteger value) {
+    protected NaturalNumber(@Min(0) BigInteger value) {
         super(NaturalNumbers.INSTANCE, value);
-        if (value.compareTo(BigInteger.ZERO) < 0) {
-            throw new InvalidElementCreationException("Natural numbers must be non-negative");
-        }
     }
 
     @Override
     public NaturalNumber plus(NaturalNumber summand) {
-        return of(value.add(summand.value));
+        return with(value.add(summand.value));
     }
 
     @Override
     public NaturalNumber times(NaturalNumber summand) {
-        return of(value.multiply(summand.value));
+        return with(value.multiply(summand.value));
     }
 
     @Override

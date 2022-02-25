@@ -6,11 +6,14 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.*;
 
 /**
+ * The abstract element belonging to {@link AbstractIntegers}
+ *
  * @author Michiel Meeuwissen
- * @since 0.9
+ * @since 0.8
  */
 public abstract class AbstractIntegerElement<
     E extends AbstractIntegerElement<E, SIZE, S>,
@@ -23,22 +26,37 @@ public abstract class AbstractIntegerElement<
     SizeableScalar<E, SIZE>,
     Ordered<E> {
 
+    /**
+     * {@link BigInteger#TWO}, but for java 8.
+     */
+    static final BigInteger BigTWO = BigInteger.valueOf(2);
+
     @Getter
     protected final BigInteger value;
 
-
-
-    protected AbstractIntegerElement(S structure, long value) {
-        this(structure, BigInteger.valueOf(value));
-    }
-
+    /**
+     * The constructor, which initializes the backing {@link BigInteger}.
+     * This performs no checking on this input, and should therefore remain protected.
+     * It is only called when it is sure beforehand that this will result a new value belonging to the given structure.
+     */
     protected AbstractIntegerElement(S structure, BigInteger value) {
         super(structure);
         this.value = value;
     }
 
-    protected E of(BigInteger value) {
+    /**
+     * This is a protected shorthand for creating new elements.
+     */
+    protected final E with(BigInteger value) {
         return structure.of(value);
+    }
+
+    public E pow(int n) {
+        try {
+            return with(value.pow(n));
+        } catch (ArithmeticException ae) {
+            throw new ReciprocalException(ae);
+        }
     }
 
     @Override
@@ -68,7 +86,7 @@ public abstract class AbstractIntegerElement<
 
     @Override
     public boolean isZero() {
-        return value.longValue() == 0;
+        return value.equals(BigInteger.ZERO);
     }
 
     @Override
@@ -85,6 +103,7 @@ public abstract class AbstractIntegerElement<
 
         return value.equals(that.value);
     }
+
     @Override
     public String toString() {
         return String.valueOf(value);

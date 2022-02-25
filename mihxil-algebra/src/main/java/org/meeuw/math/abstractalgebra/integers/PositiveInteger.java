@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
 import static org.meeuw.math.abstractalgebra.integers.PositiveIntegers.INSTANCE;
@@ -28,27 +27,21 @@ public class PositiveInteger
 
 
     public static PositiveInteger of(@Min(1) long value) {
-        return new PositiveInteger(value);
+        return PositiveIntegers.INSTANCE.newElement(BigInteger.valueOf(value));
     }
 
-    public PositiveInteger(@Min(1) BigInteger value) {
+    protected PositiveInteger(@Min(1) BigInteger value) {
         super(INSTANCE, value);
-        if (value.compareTo(BigInteger.ZERO) <= 0) {
-            throw new InvalidElementCreationException("Positive numbers cannot be 0 or negative");
-        }
-    }
-    public PositiveInteger(@Min(1) long value) {
-        this(BigInteger.valueOf(value));
     }
 
     @Override
     public PositiveInteger plus(PositiveInteger summand) {
-        return of(value.add(summand.value));
+        return with(value.add(summand.value));
     }
 
     @Override
     public PositiveInteger times(PositiveInteger summand) {
-        return of(value.multiply(summand.value));
+        return with(value.multiply(summand.value));
     }
 
     @Override

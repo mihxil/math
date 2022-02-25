@@ -19,17 +19,15 @@ public class EvenInteger
     RngElement<EvenInteger>,
     Scalar<EvenInteger> {
 
-    public static final EvenInteger ZERO = EvenInteger.of(0);
+    public static final EvenInteger ZERO = new EvenInteger(BigInteger.ZERO);
+    public static final EvenInteger TWO = new EvenInteger(BigTWO);
 
-    public static EvenInteger of(long value){
-        if (value % 2 == 1) {
-            throw new InvalidElementCreationException("The argument mus be even (" + value + " isn't)");
-        }
-        return new EvenInteger(value);
+
+    public static EvenInteger of(BigInteger value) throws InvalidElementCreationException {
+        return EvenIntegers.INSTANCE.newElement(value);
     }
-
-    private EvenInteger(long value) {
-        super(EvenIntegers.INSTANCE, value);
+    public static EvenInteger of(long value) throws InvalidElementCreationException {
+        return of(BigInteger.valueOf(value));
     }
 
     EvenInteger(BigInteger value) {
@@ -43,7 +41,7 @@ public class EvenInteger
 
     @Override
     public EvenInteger negation() {
-        return new EvenInteger( value.negate());
+        return new EvenInteger(value.negate());
     }
 
     @Override
@@ -62,7 +60,7 @@ public class EvenInteger
         if (n == 0) {
             throw new ReciprocalException("" + this + "^0");
         }
-        return of(value.pow(n));
+        return super.pow(n);
     }
 
     @Override
@@ -74,8 +72,6 @@ public class EvenInteger
     public EvenInteger abs() {
         return of(value.abs());
     }
-
-
 
     @Override
     public EvenInteger plus(EvenInteger summand) {

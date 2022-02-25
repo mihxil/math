@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.RngElement;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
 
@@ -21,15 +20,11 @@ public class NDivisibleInteger
 
 
     public static NDivisibleInteger of(int divisor, long value){
-        if (value % divisor != 0) {
-            throw new InvalidElementCreationException("The argument must be even (" + value + " isn't)");
-        }
-        return new NDivisibleInteger(NDivisibleIntegers.of(divisor), value);
+        return NDivisibleIntegers.of(divisor).newElement(BigInteger.valueOf(value));
     }
 
-
     NDivisibleInteger(NDivisibleIntegers structure, long value) {
-        super(structure, value);
+        this(structure, BigInteger.valueOf(value));
     }
 
     NDivisibleInteger(NDivisibleIntegers structure, BigInteger value) {
@@ -38,41 +33,40 @@ public class NDivisibleInteger
 
     @Override
     public NDivisibleInteger plus(NDivisibleInteger summand) {
-        return new NDivisibleInteger(structure, value.add(summand.value));
+        return with(value.add(summand.value));
     }
-
 
     @Override
     public NDivisibleInteger negation() {
-        return of(value.negate());
+        return with(value.negate());
     }
 
     @Override
     public NDivisibleInteger minus(NDivisibleInteger subtrahend) {
-        return of(value.min(subtrahend.value));
+        return with(value.subtract(subtrahend.value));
     }
 
     @Override
     public NDivisibleInteger times(NDivisibleInteger multiplier) {
-        return of(value.multiply(multiplier.value));
+        return with(value.multiply(multiplier.value));
     }
 
     @Override
     public NDivisibleInteger pow(@Min(1) int n) {
-        if (n == 0) {
+        if (n == 0 && structure.divisor != 1) {
             throw new ReciprocalException("" + this + "^0");
         }
-        return of(value.pow(n));
+        return super.pow(n);
     }
 
     @Override
     public NDivisibleInteger sqr() {
-        return of(value.multiply(value));
+        return with(value.multiply(value));
     }
 
     @Override
     public NDivisibleInteger abs() {
-        return of(value.abs());
+        return with(value.abs());
     }
 
 }

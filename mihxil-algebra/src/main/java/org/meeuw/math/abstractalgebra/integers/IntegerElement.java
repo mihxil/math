@@ -29,7 +29,7 @@ public class IntegerElement
     }
 
     public IntegerElement(long value) {
-        super(Integers.INSTANCE, value);
+        this(BigInteger.valueOf(value));
     }
 
     public IntegerElement(BigInteger value) {
@@ -38,7 +38,7 @@ public class IntegerElement
 
     @Override
     public IntegerElement plus(IntegerElement summand) {
-        return of(value.add(summand.value));
+        return with(value.add(summand.value));
     }
 
     @Override
@@ -48,22 +48,22 @@ public class IntegerElement
 
     @Override
     public IntegerElement repeatedPlus(int multiplier) {
-        return of(value.multiply(BigInteger.valueOf(multiplier)));
+        return with(value.multiply(BigInteger.valueOf(multiplier)));
     }
 
     @Override
     public IntegerElement times(IntegerElement multiplier) {
-        return of(value.multiply(multiplier.value));
+        return with(value.multiply(multiplier.value));
     }
 
     @Override
     public IntegerElement pow(@Min(1) int n) {
-        return of(Utils.positivePow(value, n));
+        return with(Utils.positivePow(value, n));
     }
 
     @Override
     public IntegerElement sqr() {
-        return of(value.multiply(value));
+        return with(value.multiply(value));
     }
 
     /**
@@ -72,7 +72,7 @@ public class IntegerElement
      * @return this / divisor
      */
     public IntegerElement dividedBy(IntegerElement divisor) {
-        return of(value.divide(divisor.value));
+        return with(value.divide(divisor.value));
     }
 
     /**
@@ -81,17 +81,17 @@ public class IntegerElement
      * @return this % divisor
      */
     public IntegerElement mod(IntegerElement divisor) {
-        return of(value.remainder(divisor.value));
+        return with(value.remainder(divisor.value));
     }
 
     @Override
     public IntegerElement negation() {
-        return of(value.negate());
+        return with(value.negate());
     }
 
     @Override
     public IntegerElement abs() {
-        return of(value.abs());
+        return with(value.abs());
     }
 
 }

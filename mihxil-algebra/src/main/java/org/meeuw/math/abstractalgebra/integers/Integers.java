@@ -1,8 +1,10 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
+import java.util.Random;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ONE;
@@ -16,6 +18,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
 public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, Integers>
     implements Ring<IntegerElement>,  MultiplicativeMonoid<IntegerElement> {
 
+    @Example(Ring.class)
     public static final Integers INSTANCE = new Integers();
 
 
@@ -26,6 +29,11 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     @Override
     IntegerElement of(BigInteger value) {
         return new IntegerElement(value);
+    }
+
+    @Override
+    public IntegerElement newElement(BigInteger value) {
+        return of(value);
     }
 
     @Override
@@ -44,7 +52,14 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     }
 
     @Override
+    public IntegerElement nextRandom(Random random) {
+        return of(BigInteger.valueOf(RandomConfiguration.nextLong(random)));
+    }
+
+    @Override
     public String toString() {
         return "ℤ";
     }
+
+
 }
