@@ -12,7 +12,7 @@ digraph {
 # interface org.meeuw.math.abstractalgebra.Group
 Group[
 href="BLOB_URL/org/meeuw/math/abstractalgebra/Group.java"
-		label="{\N|{}|org.meeuw.math.abstractalgebra.klein.KleinGroup@41def031}"
+		label="{\N|{}|org.meeuw.math.abstractalgebra.klein.KleinGroup@48e41b5d}"
 ]
 Group -> {AlgebraicStructure}
 
