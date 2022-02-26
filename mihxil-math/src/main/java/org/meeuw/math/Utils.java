@@ -1,9 +1,6 @@
 package org.meeuw.math;
 
 import java.math.*;
-import java.time.Duration;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -161,6 +158,15 @@ public final class Utils {
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
 
+    /**
+     * <p>A quick square root implementation fpr integers.</p>
+     * <p>
+     * Returns the biggest integer that is smaller or equals then  the square root of an integer.
+     * </p>
+     * <p>
+     * Using in  binary search algorithm.
+     * </p>
+     */
     public static long floorSqrt(final long radicand) {
         long proposal = 0;
         long m;
@@ -178,57 +184,25 @@ public final class Utils {
         return proposal;
     }
 
-    public static long sqrt(final long radicand) {
+    /**
+     * <p>A quick square root implementation for integers.</p>
+     * @see #floorSqrt(long)
+     * @throws NotASquareException If the given argument is not a square.
+     */
+    public static long sqrt(final long radicand) throws NotASquareException {
         long proposal = floorSqrt(radicand);
         if (proposal * proposal < radicand) {
             throw new NotASquareException(radicand + " is not a square");
         }
         return proposal;
     }
-    public static int sqrt(final int radicand) {
+
+    /**
+     *
+     * @see #sqrt(long)
+     */
+    public static int sqrt(final int radicand) throws NotASquareException {
         return (int) sqrt((long) radicand);
-    }
-
-
-    public static ChronoUnit orderOfMagnitude(Duration stddev) {
-        ChronoUnit order = ChronoUnit.DAYS;
-        if (stddev.toDays() < 2) {
-            order = ChronoUnit.HOURS;
-            if (stddev.toHours() < 2) {
-                order = ChronoUnit.MINUTES;
-                if (stddev.toMinutes() < 2) {
-                    order = ChronoUnit.SECONDS;
-                    if (stddev.toMillis() < 2000) {
-                        order = ChronoUnit.MILLIS;
-                    }
-                }
-            }
-        }
-        return order;
-    }
-
-    public static Duration round(Duration duration, ChronoUnit order) {
-        switch(order) {
-            case DAYS:
-                //return Duration.ofDays(Math.round(duration.getSeconds() / 86400f));
-            case HOURS:
-                return Duration.ofHours(Math.round(duration.getSeconds() / 3600f));
-            case MINUTES:
-                return Duration.ofMinutes(Math.round(duration.getSeconds() / 60f));
-            case SECONDS:
-                return Duration.ofSeconds(duration.toMillis() / 1000);
-            case MILLIS:
-                return Duration.ofMillis(duration.toMillis());
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
-    public static Instant round(Instant instant, ChronoUnit order) {
-         ChronoUnit trunc = ChronoUnit.values()[Math.max(ChronoUnit.MILLIS.ordinal(), Math.min(ChronoUnit.DAYS.ordinal(), order.ordinal() - 1))];
-         if (trunc == ChronoUnit.HALF_DAYS) {
-             trunc = ChronoUnit.HOURS;
-         }
-         return instant.truncatedTo(trunc);
     }
 
 

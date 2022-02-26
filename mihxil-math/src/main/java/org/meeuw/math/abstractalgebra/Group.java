@@ -11,7 +11,7 @@ import static org.meeuw.math.Utils.navigableSet;
  * @see MultiplicativeGroup For a group where the operation is explicitely called 'multiplication'
  * @see AdditiveGroup       For a group where the operation is 'addition'.
  */
-public interface Group<E extends AlgebraicElement<E>> extends AlgebraicStructure<E> {
+public interface Group<E extends GroupElement<E>> extends AlgebraicStructure<E> {
 
     @Override
     default NavigableSet<Operator> getSupportedOperators() {

@@ -31,11 +31,13 @@ public class SpecialLinearGroupTest {
         assertThat(e.getStructure().toString()).isEqualTo("SL₂(ℤ)");
     }
 
-    //@Test
+    @Test
     public void stream() {
         SpecialLinearGroup<IntegerElement> e = SpecialLinearGroup.of(3, Integers.INSTANCE);
         e.stream().limit(100).forEach(m -> {
-            assertThat(m.determinant()).isIn(IntegerElement.ONE, IntegerElement.ONE.negation());
+            IntegerElement det = m.determinant();
+            log.info("det({})={}", m, det);
+            assertThat(m.determinant().abs()).isIn(IntegerElement.ONE);
         });
 
     }

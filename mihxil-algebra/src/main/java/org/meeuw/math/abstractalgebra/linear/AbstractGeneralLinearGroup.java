@@ -2,11 +2,13 @@ package org.meeuw.math.abstractalgebra.linear;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.util.Objects;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotStreamable;
@@ -15,6 +17,7 @@ import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.ArrayUtils.squareMatrix;
 
+@Log
 public abstract class AbstractGeneralLinearGroup<
     M extends AbstractInvertibleMatrix<M, MS, E, ES>,
     MS extends AbstractGeneralLinearGroup<M, MS, E, ES>,
@@ -53,6 +56,7 @@ public abstract class AbstractGeneralLinearGroup<
                     try {
                         return newElement(es);
                     } catch (InvalidElementCreationException ive) {
+                        log.info(() -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
                         return null;
                     }
                     }
@@ -73,7 +77,7 @@ public abstract class AbstractGeneralLinearGroup<
     public M newElement(E[][] matrix) throws InvalidElementCreationException {
         M m = of(matrix);
         if (m.determinant().eq(elementStructure.zero())) {
-            throw new InvalidElementCreationException("The matrix " + m + " is not invertible");
+            throw new InvalidElementCreationException("The matrix " + m + " is not invertible. Its determinant is zero");
         }
         return m;
     }

@@ -9,9 +9,20 @@ package org.meeuw.math.abstractalgebra;
 public interface FieldElement<E extends FieldElement<E>> extends
     DivisionRingElement<E>,
     AbelianRingElement<E>,
-    DivisibleGroupElement<E> {
+    DivisibleGroupElement<E>,
+    GroupElement<E> {
 
     @Override
     Field<E> getStructure();
+
+    @Override
+    default E operate(E operand) {
+        return getStructure().groupOperator().apply(self(), operand);
+    }
+
+    @Override
+    default E inverse() {
+        return getStructure().groupOperator().inverse(self());
+    }
 
 }

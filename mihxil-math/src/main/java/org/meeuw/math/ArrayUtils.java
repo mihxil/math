@@ -3,6 +3,7 @@ package org.meeuw.math;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.exceptions.InvalidElementException;
@@ -162,12 +163,20 @@ public final class ArrayUtils {
         }
     }
 
-    public static <E> String toString(E[][] matrix) {
-          return "(" + Arrays.stream(matrix)
-            .map(i ->
-                "(" + Arrays.stream(i).map(Object::toString).collect(Collectors.joining(",")) + ")")
-            .collect(Collectors.joining(", ")) +
+    public static <E> String toString(E[] array) {
+        return toString(array, Object::toString);
+    }
+
+    public static <E> String toString(E[] array, Function<E, String> toString) {
+        return "(" +
+            Arrays.stream(array)
+                .map(toString)
+                .collect(Collectors.joining(",")) +
             ")";
+    }
+
+    public static <E> String toString(E[][] matrix) {
+        return toString(matrix, ArrayUtils::toString);
     }
 
 }

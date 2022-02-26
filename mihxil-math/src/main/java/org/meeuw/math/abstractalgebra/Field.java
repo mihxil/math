@@ -1,6 +1,12 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.util.NavigableSet;
+
 import static org.meeuw.math.ArrayUtils.cloneMatrix;
+import static org.meeuw.math.ArrayUtils.swap;
+import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.abstractalgebra.Operator.DIVISION;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
@@ -10,7 +16,16 @@ import static org.meeuw.math.ArrayUtils.cloneMatrix;
 public interface Field<E extends FieldElement<E>> extends
     DivisionRing<E>,
     AbelianRing<E>,
-    DivisibleGroup<E> {
+    DivisibleGroup<E>,
+    Group<E> {
+
+    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
+
+
+    @Override
+    default NavigableSet<Operator> getSupportedOperators() {
+        return OPERATORS;
+    }
 
     @Override
     default boolean multiplicationIsCommutative() {
@@ -20,6 +35,14 @@ public interface Field<E extends FieldElement<E>> extends
     @Override
     E one();
 
+    default Operator groupOperator() {
+        return Operator.MULTIPLICATION;
+    }
+
+    @Override
+    default E unity() {
+        return groupOperator().unity(this);
+    }
 
     /**
      * Given a (square) matrix of elements of this field, calculate its determinant.
@@ -30,43 +53,47 @@ public interface Field<E extends FieldElement<E>> extends
     default E determinant(E[][] source) {
         // make a copy of the matrix first, since we're going to modify it.
         E[][] matrix = cloneMatrix(source[0][0].getStructure().getElementClass(), source);
-        E z = zero();
-        E det = one();
+        final E z = zero();
 
-        for (int i = 0; i < matrix.length; ++i) {
-            boolean flag = false; // flag := are all entries below a[i][i] including it zero?
-            if (matrix[i][i].equals(z)) { // If a[i][i] is zero then check rows below and  swap
-                flag = true;
-                for (int j = i; j < matrix.length; ++j) {
-                    if (!matrix[j][i].equals(z)) {
-                        det = det.negation();
-                        // swap rows
-                        E[] rowa = matrix[i];
-                        E[] rowb = matrix[j];
-                        matrix[j] = rowa;
-                        matrix[i] = rowb;
-                        flag = false;
+        int n = matrix.length;
+        int swaps = 0;
+        for(int col = 0; col < n; ++col) {
+            boolean found = false;
+            for(int row = col; row < n; ++row) {
+                if (!matrix[row][col].isZero()) {
+                    if ( row != col ) {
+                        swap(matrix, row, col);
+                        swaps++;
+                    }
+                    found = true;
+                    break;
+                }
+            }
+
+            if(!found) {
+                return z;
+            }
+
+            for(int row = col + 1; row < n; ++row) {
+                while(true) {
+                    E del = matrix[row][col].dividedBy(matrix[col][col]);
+                    for (int j = col; j < n; ++j) {
+                        matrix[row][j] = matrix[row][j].minus(del.times(matrix[col][j]));
+                    }
+                    if (matrix[row][col].isZero()) {
+                        break;
+                    } else {
+                        swap(matrix, row, col);
+                        swaps++;
                     }
                 }
             }
-            if (flag) {
-                det = z;
-                break;
-            } else {
-                for (int j = i+1; j < matrix.length; ++j) {
-                    E store = matrix[j][i];
-                    for (int k = i; k < matrix.length; ++k) {
-                        matrix[j][k] = matrix[j][k].minus(matrix[i][k].times(store).dividedBy(matrix[i][i]));
-                    }
-                }
-                det = det.times(matrix[i][i]);
-            }
+        }
+        E det = swaps % 2 == 0 ? one() : one().negation();
+        for(int i = 0; i < n; ++i) {
+            det = det.times(matrix[i][i]);
         }
         return det;
     }
-
-
-
-
 
 }

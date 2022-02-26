@@ -186,7 +186,7 @@ public class DocumentationTest {
             }
             if (target instanceof AdditiveSemiGroup) {
                 if (((AdditiveSemiGroup<?>) target).additionIsCommutative()) {
-                    addition.append("<br />n⇆");
+                    addition.append("<br />⇆");
                 }
             }
             if (!addition.isEmpty()) {

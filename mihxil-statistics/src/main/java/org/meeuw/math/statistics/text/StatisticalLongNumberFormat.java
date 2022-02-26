@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 
 import javax.validation.constraints.NotNull;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.TimeUtils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.statistics.StatisticalLong;
 
@@ -32,8 +32,8 @@ public class StatisticalLongNumberFormat extends Format {
                  case INSTANT: {
                      Instant mean = Instant.ofEpochMilli(statisticalLong.longValue());
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
-                     ChronoUnit order = Utils.orderOfMagnitude(stddev);
-                     stddev = Utils.round(stddev, order);
+                     ChronoUnit order = TimeUtils.orderOfMagnitude(stddev);
+                     stddev = TimeUtils.round(stddev, order);
                      toAppendTo.append(valuePlusMinError(TextUtils.format(zoneId, mean, order), stddev.toString()));
                      return toAppendTo;
                  }

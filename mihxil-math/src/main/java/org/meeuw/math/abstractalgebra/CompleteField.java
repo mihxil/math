@@ -39,4 +39,11 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Scalar
         return ComparisonOperator.ALL;
     }
 
+    @Override
+    default E determinant(E[][] source) {
+        // we have comparison and abs, we could use Gaussion elimination with partial pivoting
+        return ScalarField.super.determinant(source);
+    }
+
+
 }

@@ -50,6 +50,7 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
 
     @Test
     public void determinant() {
+        // https://planetcalc.com/8351/
         RationalNumber[][] realNumbers = new RationalNumber[][] {
             new RationalNumber[]{of(-3), of(2), of(-5)},
             new RationalNumber[]{of(-1), of(0), of(-2)},

@@ -25,6 +25,5 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
-
     }
 }

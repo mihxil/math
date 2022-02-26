@@ -12,7 +12,6 @@ import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.text.TextUtils;
 
 
@@ -60,8 +59,9 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
     @Override
     public SpecialLinearMatrix<E> newElement(E[][] matrix) throws InvalidElementCreationException {
         SpecialLinearMatrix<E> m = super.newElement(matrix);
-        if (! (m.determinant().eq(elementStructure.one()) || m.determinant.eq(elementStructure.one().negation()))) {
-            throw new InvalidElementCreationException("The matrix " + m + " is not invertible");
+        E det = m.determinant();
+        if (! (det.eq(elementStructure.one()) || det.eq(elementStructure.one().negation()))) {
+            throw new InvalidElementCreationException("The matrix " + m + " is not invertible, because det=" + det + " !in (1,-1)");
         }
         return m;
     }
@@ -74,7 +74,8 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
 
     @Override
     public Stream<SpecialLinearMatrix<E>> stream() {
-        throw new NotStreamable("TODO");
+        return super.stream();
+        //throw new NotStreamable("TODO");
     }
 
 
