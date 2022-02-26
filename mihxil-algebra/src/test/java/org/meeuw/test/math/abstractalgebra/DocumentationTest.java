@@ -18,13 +18,18 @@ import org.reflections.Reflections;
 
 import static org.meeuw.math.abstractalgebra.Operator.*;
 
+
+/**
+ * This is not testing much. It uses introspection to create a file 'algebras.dot.m4', which will be (by a github action)
+ * converted to the SVG in the documentation
+ */
 @SuppressWarnings({"TextBlockMigration", "unchecked"})
 @Log4j2
 public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
 
     public static String ALGEBRA_URL = "ALGEBRA_URL";
-    public static String MATH_URL = "MATH_URL";
+    public static String MATH_URL   = "MATH_URL";
 
     @Test
     public void dot() throws IOException {
@@ -50,6 +55,7 @@ public class DocumentationTest {
     @SuppressWarnings("rawtypes")
     public void dot(OutputStream out) {
         Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
+        subTypes.add(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
         digraph(writer, (w) ->
             subTypes.forEach(c -> {
@@ -69,8 +75,7 @@ public class DocumentationTest {
     }
     @SuppressWarnings("unchecked")
     protected <C> C proxy(Class<C> interfac) {
-        log.info("Proxying {}", interfac);
-        return (C) Proxy.newProxyInstance(DocumentationTest.class.getClassLoader(), new Class[]{interfac},
+        C c =  (C) Proxy.newProxyInstance(DocumentationTest.class.getClassLoader(), new Class[]{interfac},
             (proxy, method, args) -> {
                 if (method.isDefault()) {
                     // if it's a default method, invoke it
@@ -79,6 +84,8 @@ public class DocumentationTest {
                     return null;
                 }
             });
+        log.info("Proxying {}: {}", interfac, c);
+        return c;
 
     }
     protected <C> Stream<Class<? extends C>> getExamplesClasses(Class<C> interfac) {
@@ -110,8 +117,11 @@ public class DocumentationTest {
 
 
     protected <C extends AlgebraicStructure<?>> void writeLabel(PrintWriter writer, Class<C> c, int colspan, Consumer<PrintWriter> body) {
-        writer.println("\t\tlabel=<");
-        writer.println("<table border='0'  cellborder='1' cellspacing='0'>");
+        if (colspan == 0) {
+            colspan = 1;
+        }
+        writer.println("\t\tmargin=2\tlabel=<");
+        writer.println("<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>");
         writeCaption(writer,(w) -> w.write(toString(c)), colspan, href(c), c.getSimpleName());
         body.accept(writer);
         writer.println("</table>");
@@ -230,13 +240,15 @@ public class DocumentationTest {
 
     protected  int writeOperators(final PrintWriter writer, List<String> ops)  {
 
-        writer.print("<tr>");
-        for (String o : ops) {
-            writer.print("<td>");
-            writer.print(o);
-            writer.print("</td>");
+        if (ops.size() > 0) {
+            writer.print("<tr>");
+            for (String o : ops) {
+                writer.print("<td>");
+                writer.print(o);
+                writer.print("</td>");
+            }
+            writer.print("</tr>");
         }
-        writer.print("</tr>");
         return ops.size();
     }
 
