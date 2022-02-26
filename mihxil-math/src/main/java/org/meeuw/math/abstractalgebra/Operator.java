@@ -102,16 +102,13 @@ public enum Operator implements AlgebraicBinaryOperator {
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E  inverse(E element) {
         try {
-            if (!method.getParameterTypes()[0].isInstance(element)) {
-                throw new NoSuchOperatorException("");
-            }
-            E result = (E) method.invoke(element);
+            E result = (E) inverse.invoke(element);
             if (result == null) {
-                throw new IllegalStateException("" + method + "(" + element + ") resulted null");
+                throw new IllegalStateException("" + inverse + "(" + element + ") resulted null");
             }
             return result;
         } catch (IllegalArgumentException iae){
-            throw new IllegalArgumentException(method.getDeclaringClass().getName() + "." + method.getName() + "(" + element + "): " + iae.getMessage());
+            throw new IllegalArgumentException(inverse.getDeclaringClass().getName() + "." + inverse.getName() + "(" + element + "): " + iae.getMessage());
         } catch (InvocationTargetException ite) {
             throw ite.getCause();
         }

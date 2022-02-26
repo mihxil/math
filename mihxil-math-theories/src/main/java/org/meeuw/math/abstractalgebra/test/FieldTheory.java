@@ -8,6 +8,7 @@ import org.meeuw.math.abstractalgebra.FieldElement;
  */
 public interface FieldTheory<E extends FieldElement<E>> extends
     DivisibleGroupTheory<E>,
-    DivisionRingTheory<E>  {
+    DivisionRingTheory<E>,
+    GroupTheory<E> {
 
 }
