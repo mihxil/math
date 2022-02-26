@@ -22,6 +22,9 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<? extends E>>
 
     @Provide
     default DoubleArbitrary doubles() {
-        return Arbitraries.doubles();
+        return Arbitraries
+            .doubles()
+            .lessThan(1e10)
+            .greaterThan(-1e10);
     }
 }
