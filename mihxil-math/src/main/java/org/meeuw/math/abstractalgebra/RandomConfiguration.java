@@ -21,7 +21,6 @@ public class RandomConfiguration implements ConfigurationAspect {
         return random.nextInt(setSize);
     }
 
-
     @With
     @Getter
     private final int setSize;

@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.strings;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -33,6 +34,14 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     @Override
     public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
         return ComparisonOperator.ALL;
+    }
+
+    @Override
+    public StringElement nextRandom(Random random) {
+        byte[] array = new byte[(int) RandomConfiguration.nextNonNegativeLong(random)]; // length is bounded by 7
+        new Random().nextBytes(array);
+        String generatedString = new String(array, StandardCharsets.UTF_8);
+        return new StringElement(generatedString);
     }
 
     @Override

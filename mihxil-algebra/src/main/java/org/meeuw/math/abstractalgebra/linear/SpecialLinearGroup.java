@@ -12,6 +12,7 @@ import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.text.TextUtils;
 
 
@@ -74,8 +75,8 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
 
     @Override
     public Stream<SpecialLinearMatrix<E>> stream() {
-        return super.stream();
-        //throw new NotStreamable("TODO");
+        //return super.stream();
+        throw new NotStreamable("TODO");
     }
 
 

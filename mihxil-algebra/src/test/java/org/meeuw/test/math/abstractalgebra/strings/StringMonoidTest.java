@@ -1,16 +1,22 @@
 package org.meeuw.test.math.abstractalgebra.strings;
 
+import java.util.Random;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.Operator;
 import org.meeuw.math.abstractalgebra.strings.StringElement;
 import org.meeuw.math.abstractalgebra.strings.StringMonoid;
 import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
 import org.meeuw.math.abstractalgebra.test.OrderedTheory;
+import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.util.test.CharSequenceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.abstractalgebra.strings.StringMonoid.INSTANCE;
 
 /**
  * @author Michiel Meeuwissen
@@ -23,21 +29,21 @@ class StringMonoidTest implements
 
     @Test
     public void stream1() {
-        Assertions.assertThat(StringMonoid.INSTANCE.stream(new StringMonoid.State('a', 'x')).limit(10)).map(StringElement::toString)
+        Assertions.assertThat(INSTANCE.stream(new StringMonoid.State('a', 'x')).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "ax", "ay", "az", "a ", "aª", "aµ", "aº", "aÀ", "aÁ", "aÂ"
             );
     }
     @Test
     public void stream2() {
-        assertThat(StringMonoid.INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
+        assertThat(INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "a鼻", "a𪘀", "b ", "b0", "b1", "b2", "b3", "b4", "b5", "b6"
             );
     }
     @Test
     public void stream3() {
-        assertThat(StringMonoid.INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR, StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
+        assertThat(INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR, StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "a𪘀鼻",
                 "a𪘀𪘀",
@@ -50,7 +56,15 @@ class StringMonoidTest implements
                 "b𪘀5",
                 "b𪘀6"
             );
+    }
 
+    @Test
+    public void testOperate() {
+        Random random = new Random();
+        assertThatThrownBy(() -> Operator.OPERATION.apply(
+            INSTANCE.nextRandom(random),
+            INSTANCE.nextRandom(random)
+        )).isInstanceOf(NoSuchOperatorException.class);
     }
 
     @Override

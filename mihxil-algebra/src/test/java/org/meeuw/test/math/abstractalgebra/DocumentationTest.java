@@ -48,7 +48,7 @@ public class DocumentationTest {
     }
 
     @SuppressWarnings("rawtypes")
-    public void dot(OutputStream out) throws IOException {
+    public void dot(OutputStream out) {
         Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
         digraph(writer, (w) ->
@@ -112,7 +112,7 @@ public class DocumentationTest {
     protected <C extends AlgebraicStructure<?>> void writeLabel(PrintWriter writer, Class<C> c, int colspan, Consumer<PrintWriter> body) {
         writer.println("\t\tlabel=<");
         writer.println("<table border='0'  cellborder='1' cellspacing='0'>");
-        writeCaption(writer,(w) -> w.write(toString(c)), colspan, href(c));
+        writeCaption(writer,(w) -> w.write(toString(c)), colspan, href(c), c.getSimpleName());
         body.accept(writer);
         writer.println("</table>");
         writer.println(">");
@@ -120,23 +120,20 @@ public class DocumentationTest {
     }
     protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target, int cols)  {
         getExamplesClasses(target)
-            .forEach(t -> {
-                writeCaption(writer, p -> p.write(toString(t)), cols, href(t));
+            .forEach(t ->
+                writeCaption(writer, p -> p.write(toString(t)), cols, href(t), t.getSimpleName())
+            );
 
-            });
-
-        getExamplesConstants(target).forEach(s -> {
-            writeCaption(writer, p -> p.write(s.toString()), cols, href(s.getClass()));
-
-        });
+        getExamplesConstants(target).forEach(s ->
+            writeCaption(writer, p -> p.write(s.toString()), cols, href(s.getClass()), s.getDescription())
+        );
 
     }
 
-    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href) {
+    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href, String title) {
         writer.write("<tr><td colspan='" + cols + "'");
         if (href != null) {
-
-            writer.write(" title='java code' href='" + href + "'");
+            writer.write(" title='" + title + "' href='" + href + "'");
         }
         writer.write(">");
         if (href != null) {
