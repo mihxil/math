@@ -109,6 +109,5 @@ public class StatisticalDoubleTest implements
                 );
                 return Arbitraries.of(sd);
             });
-
     }
 }

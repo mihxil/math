@@ -36,7 +36,6 @@ class GeneralLinearGroupTest {
         assertThat(det.getValue()).isEqualTo(-2d);
 
         assertThat(e.getStructure().toString()).isEqualTo("GL₂(ℝₚ)");
-
     }
 
     @Test
@@ -55,7 +54,7 @@ class GeneralLinearGroupTest {
                 RealNumber.of(1), RealNumber.of(2),
                 RealNumber.of(2), RealNumber.of(4)
             );
-        }).hasMessage("The matrix ((1,2), (2,4)) is not invertible").isInstanceOf(InvalidElementCreationException.class);
+        }).hasMessage("The matrix ((1,2),(2,4)) is not invertible").isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Test
@@ -103,7 +102,6 @@ class GeneralLinearGroupTest {
         e.stream().limit(100).forEach(m -> {
             assertThat(m.determinant()).isNotEqualTo(RationalNumber.ZERO);
         });
-
     }
 
 

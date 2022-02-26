@@ -1,11 +1,13 @@
 package org.meeuw.test.math.abstractalgebra;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.api.Assertions;
+
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NoSuchOperatorException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -73,7 +75,7 @@ class OperatorTest {
     public void wrongArgument() {
         assertThatThrownBy(() -> {
             Operator.MULTIPLICATION.apply(new A(), new A());
-        }).isInstanceOf(IllegalArgumentException.class).hasMessage("org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement.times(<a>,<a>): object is not an instance of declaring class");
+        }).isInstanceOf(NoSuchOperatorException.class).hasMessage("A <a> has no operator 'times'");
     }
 
 }

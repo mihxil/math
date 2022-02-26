@@ -94,8 +94,7 @@ public class DocumentationTest {
         return reflections.getSubTypesOf(interfac).stream()
             .flatMap(
                 c -> Arrays.stream(c.getDeclaredFields())
-                    .filter(f -> f.getAnnotation(Example.class) != null)
-                    .filter(f -> f.getAnnotation(Example.class).value().equals(interfac))
+                    .filter(f -> Arrays.stream(f.getAnnotationsByType(Example.class)).anyMatch(e -> e.value().equals(interfac)))
                     .filter(f -> Modifier.isStatic(f.getModifiers()))
                     .map(f -> {
                         try {
