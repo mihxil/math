@@ -18,7 +18,7 @@ import org.meeuw.math.exceptions.NoSuchOperatorException;
 public enum Operator implements AlgebraicBinaryOperator {
 
     OPERATION(
-        getBinaryOperatorMethod(GroupElement.class, "operate"), "*",
+        getBinaryOperatorMethod(MagmaElement.class, "operate"), "*",
         getUnaryMethod(Group.class, "unity"),
         getUnaryMethod(GroupElement.class, "inverse")
     ),

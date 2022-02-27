@@ -12,6 +12,8 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
 public interface CompleteField<E extends CompleteFieldElement<E>> extends ScalarField<E> {
 
     NavigableSet<Operator> OPERATORS = navigableSet(
+        OPERATION,
+
         ADDITION,
         SUBTRACTION,
 
