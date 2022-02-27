@@ -47,13 +47,13 @@ The idea is that every 'abstract algebra' consists of the implementation of two 
 
 . One of the extensions of  link:{ghm}abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
 
-. One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`],  defines properties of the structure itself.
+. One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`],  defines properties of the structure itself, and it also serves as a container for utility method for its elements. E.g. if the structure is powerful enough to implement determinants of matrices of its elements, it does so (and more advanced structures, may do it more sophisticatedly. E.g. `Ring` implements `determinant` without using division, but in `DivisionRing` the implementation is optimized with use of that operation)
 
 The terminology which is adopted is this:
 
 |===
 |Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
-
+|operation| `*` | operate | operate | opteration | operand |  link:{ghm}abstractalgebra/GroupElement.java[`GroupElement`]
 |addition | `+` | plus | add | sum | summand
 | link:{ghm}abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
 |subtraction | `-` | minus | subtract | difference | subtrahend | link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]

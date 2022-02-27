@@ -9,6 +9,8 @@ import java.util.function.BinaryOperator;
 
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
+import static org.meeuw.math.abstractalgebra.UnaryOperator.getUnaryOperatorMethod;
+
 /**
  * The basic operations of arithmetic
  *
@@ -19,27 +21,26 @@ public enum Operator implements AlgebraicBinaryOperator {
 
     OPERATION(
         getBinaryOperatorMethod(MagmaElement.class, "operate"), "*",
-        getUnaryMethod(Group.class, "unity"),
-        getUnaryMethod(GroupElement.class, "inverse")
+        getUnaryOperatorMethod(Group.class, "unity"),
+        UnaryOperator.INVERSION
     ),
 
     ADDITION(
         getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), "+",
-        getUnaryMethod(AdditiveMonoid.class, "zero"),
-        getUnaryMethod(AdditiveGroupElement.class, "negation")
-
+        getUnaryOperatorMethod(AdditiveMonoid.class, "zero"),
+        UnaryOperator.NEGATION
     ),
+
     SUBTRACTION(
         getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
-        ADDITION.inverse
+        UnaryOperator.INVERSION
     ),
 
     MULTIPLICATION(
         getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
-        getUnaryMethod(MultiplicativeMonoid.class, "one"),
-        getUnaryMethod(MultiplicativeGroupElement.class, "reciprocal")
-
+        getUnaryOperatorMethod(MultiplicativeMonoid.class, "one"),
+        UnaryOperator.RECIPROCAL
     ),
     DIVISION(
         getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
@@ -60,7 +61,7 @@ public enum Operator implements AlgebraicBinaryOperator {
     final Method unity;
 
     @Getter
-    final Method inverse;
+    final UnaryOperator inverse;
 
 
     @Getter
@@ -69,7 +70,7 @@ public enum Operator implements AlgebraicBinaryOperator {
     @Getter
     final String symbol;
 
-    Operator(Method method, String symbol, Method unity, Method inverse) {
+    Operator(Method method, String symbol, Method unity, UnaryOperator inverse) {
         this.method = method;
         this.symbol = symbol;
         this.stringify = (a, b) -> a + " " + symbol + " " + b;
@@ -98,19 +99,16 @@ public enum Operator implements AlgebraicBinaryOperator {
         }
     }
 
-    @SuppressWarnings("unchecked")
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E  inverse(E element) {
         try {
-            E result = (E) inverse.invoke(element);
+            E result = inverse.apply(element);
             if (result == null) {
                 throw new IllegalStateException("" + inverse + "(" + element + ") resulted null");
             }
             return result;
         } catch (IllegalArgumentException iae){
-            throw new IllegalArgumentException(inverse.getDeclaringClass().getName() + "." + inverse.getName() + "(" + element + "): " + iae.getMessage());
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
+            throw new IllegalArgumentException(inverse.getDeclaringClass().getName() + "." + inverse + "(" + element + "): " + iae.getMessage());
         }
     }
 
@@ -135,11 +133,6 @@ public enum Operator implements AlgebraicBinaryOperator {
     @SneakyThrows
     private static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name, clazz);
-    }
-
-    @SneakyThrows
-    private static Method getUnaryMethod(Class<?> clazz, String name) {
-        return clazz.getMethod(name);
     }
 
 

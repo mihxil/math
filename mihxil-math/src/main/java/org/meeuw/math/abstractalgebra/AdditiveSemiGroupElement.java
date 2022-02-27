@@ -7,7 +7,7 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  */
 public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
-    extends AlgebraicElement<E> {
+    extends MagmaElement<E> {
 
     @Override
     AdditiveSemiGroup<E> getStructure();
@@ -17,6 +17,11 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
      * @return this + summand
      */
     E plus(E summand);
+
+    @Override
+    default E operate(E operand) {
+        return plus(operand);
+    }
 
     /**
      * less verbose version of {@link #plus(AdditiveSemiGroupElement)}

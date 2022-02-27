@@ -11,7 +11,8 @@ import org.meeuw.math.exceptions.ReciprocalException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGroupElement<E>> extends AlgebraicElement<E> {
+public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGroupElement<E>>
+    extends MagmaElement<E> {
 
     @Override
     MultiplicativeSemiGroup<E> getStructure();
@@ -30,6 +31,12 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     default E x(E multiplier) {
         return times(multiplier);
     }
+
+    @Override
+    default E operate(E operand) {
+        return times(operand);
+    }
+
     /**
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
      *

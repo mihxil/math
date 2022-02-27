@@ -10,7 +10,7 @@ import static org.meeuw.math.Utils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extends AlgebraicStructure<E> {
+public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extends Magma<E> {
 
     NavigableSet<Operator> OPERATORS = navigableSet(Operator.ADDITION);
 

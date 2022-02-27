@@ -6,10 +6,10 @@ import static org.meeuw.math.Utils.navigableSet;
 
 
 /**
- * A general group , with one operation, and a 'unity' element.
+ * The most simple groupoid. Just defining one generic operation 'operate'.
  *
- * @see MultiplicativeGroup For a group where the operation is explicitely called 'multiplication'
- * @see AdditiveGroup       For a group where the operation is 'addition'.
+ * @see AdditiveSemiGroup        Where the operation is 'addition'
+ * @see MultiplicativeSemiGroup  Where the operation is 'multiplication'
  * @since 0.8
  */
 public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> {

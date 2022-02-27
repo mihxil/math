@@ -4,9 +4,9 @@ import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.SignedNumber;
 
 /**
- * A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
- * {@link #sqrt()} and trigonometric operations like {@link #sin()} are possible.
+ * Elements of a {@link CompleteField}.
  *
+ * @see CompleteField
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> Self reference

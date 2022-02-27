@@ -13,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
  * @since 0.4
  */
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>>
-    extends AlgebraicStructure<E> {
+    extends Magma<E> {
 
     NavigableSet<Operator> OPERATORS = Utils.navigableSet(MULTIPLICATION);
 
