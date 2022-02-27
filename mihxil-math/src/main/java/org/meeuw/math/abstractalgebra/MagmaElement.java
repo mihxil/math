@@ -6,12 +6,13 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public interface GroupElement<E extends GroupElement<E>> extends
-    MagmaElement<E> {
+public interface MagmaElement<E extends MagmaElement<E>> extends
+    AlgebraicElement<E> {
+
     @Override
+    Magma<E> getStructure();
 
-    Group<E> getStructure();
+    E operate(E operand);
 
-    E inverse();
 
 }
