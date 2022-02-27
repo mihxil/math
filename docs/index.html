@@ -116,7 +116,7 @@
 <p>One of the extensions of  <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicElement.java"><code>org.meeuw.math.abstractalgebra.AlgebraicElement</code></a> defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.</p>
 </li>
 <li>
-<p>One of the corresponding extensions of <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java"><code>org.meeuw.math.abstractalgebra.AlgebraicStructure</code></a>, e.g.  <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java"><code>org.meeuw.math.abstractalgebra.Field</code></a>,  defines properties of the structure itself.</p>
+<p>One of the corresponding extensions of <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java"><code>org.meeuw.math.abstractalgebra.AlgebraicStructure</code></a>, e.g.  <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java"><code>org.meeuw.math.abstractalgebra.Field</code></a>,  defines properties of the structure itself, and it also serves as a container for utility method for its elements. E.g. if the structure is powerful enough to implement determinants of matrices of its elements, it does so (and more advanced structures, may do it more sophisticatedly. E.g. <code>Ring</code> implements <code>determinant</code> without using division, but in <code>DivisionRing</code> the implementation is optimized with use of that operation)</p>
 </li>
 </ol>
 </div>
@@ -133,18 +133,25 @@
 <col style="width: 14.2857%;">
 <col style="width: 14.2858%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Algebraic operation</th>
-<th class="tableblock halign-left valign-top">operator</th>
-<th class="tableblock halign-left valign-top">operator name</th>
-<th class="tableblock halign-left valign-top">static operator name</th>
-<th class="tableblock halign-left valign-top">result name</th>
-<th class="tableblock halign-left valign-top">argument name</th>
-<th class="tableblock halign-left valign-top">defined in</th>
-</tr>
-</thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Algebraic operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operator</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operator name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">static operator name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">result name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">argument name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">defined in</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>*</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operate</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">opteration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operand</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/GroupElement.java"><code>GroupElement</code></a></p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">addition</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>+</code></p></td>
