@@ -92,14 +92,15 @@ public enum Operator implements AlgebraicBinaryOperator {
                 throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
             }
             return result;
-        } catch (IllegalArgumentException iae){
+        } catch (IllegalArgumentException iae) {
             throw new IllegalArgumentException(method.getDeclaringClass().getName() + "." + method.getName() + "(" + element1 + ',' + element2 + "): " + iae.getMessage());
         } catch (InvocationTargetException ite) {
             throw ite.getCause();
+        } catch (IllegalAccessException ite) {
+            throw new IllegalStateException(ite);
         }
     }
 
-    @SneakyThrows
     public <E extends AlgebraicElement<E>> E  inverse(E element) {
         try {
             E result = inverse.apply(element);

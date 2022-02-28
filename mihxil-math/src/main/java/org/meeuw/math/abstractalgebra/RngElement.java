@@ -13,4 +13,8 @@ public interface RngElement<E extends RngElement<E>> extends
     @Override
     Rng<E> getStructure();
 
+    @Override
+    default E operate(E operand) {
+        return times(operand);
+    }
 }

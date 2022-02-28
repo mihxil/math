@@ -45,6 +45,11 @@ public class PositiveInteger
     }
 
     @Override
+    public PositiveInteger operate(PositiveInteger operand) {
+        return times(operand);
+    }
+
+    @Override
     public PositiveInteger abs() {
         return this;
     }

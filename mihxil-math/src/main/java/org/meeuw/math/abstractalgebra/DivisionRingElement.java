@@ -12,4 +12,5 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
 
     @Override
     DivisionRing<E> getStructure();
+
 }

@@ -42,6 +42,11 @@ public class NaturalNumber extends
     }
 
     @Override
+    public NaturalNumber operate(NaturalNumber operand) {
+        return MultiplicativeMonoidElement.super.operate(operand);
+    }
+
+    @Override
     public NaturalNumber abs() {
         return this;
     }

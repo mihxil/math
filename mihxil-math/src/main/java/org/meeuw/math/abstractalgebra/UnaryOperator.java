@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.meeuw.math.numbers.Sizeable;
@@ -50,7 +51,13 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
     @Override
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E e) {
-        return (E) getMethod().invoke(e);
+        try {
+            return (E) getMethod().invoke(e);
+        } catch (IllegalAccessException ex) {
+            throw new IllegalStateException(ex);
+        } catch (InvocationTargetException ex) {
+            throw ex.getCause();
+        }
     }
 
     @SneakyThrows

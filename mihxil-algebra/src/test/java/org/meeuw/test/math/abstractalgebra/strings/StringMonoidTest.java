@@ -1,21 +1,16 @@
 package org.meeuw.test.math.abstractalgebra.strings;
 
-import java.util.Random;
-
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import org.meeuw.math.abstractalgebra.Operator;
 import org.meeuw.math.abstractalgebra.strings.StringElement;
 import org.meeuw.math.abstractalgebra.strings.StringMonoid;
 import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
 import org.meeuw.math.abstractalgebra.test.OrderedTheory;
-import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.util.test.CharSequenceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.strings.StringMonoid.INSTANCE;
 
 /**
@@ -56,15 +51,6 @@ class StringMonoidTest implements
                 "b𪘀5",
                 "b𪘀6"
             );
-    }
-
-    @Test
-    public void testOperate() {
-        Random random = new Random();
-        assertThatThrownBy(() -> Operator.OPERATION.apply(
-            INSTANCE.nextRandom(random),
-            INSTANCE.nextRandom(random)
-        )).isInstanceOf(NoSuchOperatorException.class);
     }
 
     @Override
