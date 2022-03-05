@@ -38,7 +38,7 @@ class AlgebraicStructureTest {
     @Test
     public void test() {
         assertThat(s.getSupportedOperators()).isEmpty();
-        assertThat(s.getSupportedUnaryOperators()).isEmpty();
+        assertThat(s.getSupportedUnaryOperators()).containsExactly(UnaryOperator.IDENTIFY);
         assertThat(s.getDescription()).isEqualTo("S");
         assertThat(s.getEquivalence().test(new E(), new E())).isFalse();
     }
