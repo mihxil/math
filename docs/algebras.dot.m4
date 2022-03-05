@@ -36,7 +36,7 @@ Group -> {Magma}
 AdditiveSemiGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='1' title='AdditiveSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.java'><font color='#0000a0'>AdditiveSemiGroup</font></td></tr><tr><td> + </td></tr></table>
+<tr><td colspan='2' title='AdditiveSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.java'><font color='#0000a0'>AdditiveSemiGroup</font></td></tr><tr><td> + </td><td> *</td></tr></table>
 >
 ]
 AdditiveSemiGroup -> {Magma}
@@ -69,7 +69,7 @@ AbelianRing}
 AdditiveAbelianSemiGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='1' title='AdditiveAbelianSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java'><font color='#0000a0'>AdditiveAbelianSemiGroup</font></td></tr><tr><td> + <br />⇆</td></tr><tr><td colspan='1' title='NegativeIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.java'><font color='#0000a0'>NegativeIntegers ℕ⁻</font></td></tr></table>
+<tr><td colspan='2' title='AdditiveAbelianSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java'><font color='#0000a0'>AdditiveAbelianSemiGroup</font></td></tr><tr><td> + <br />⇆</td><td> *</td></tr><tr><td colspan='2' title='NegativeIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.java'><font color='#0000a0'>NegativeIntegers ℕ⁻</font></td></tr></table>
 >
 ]
 AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
@@ -79,7 +79,7 @@ AdditiveAbelianSemiGroup -> {AdditiveSemiGroup}
 AdditiveMonoid[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='AdditiveMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveMonoid.java'><font color='#0000a0'>AdditiveMonoid</font></td></tr><tr><td> + </td><td>0</td></tr><tr><td colspan='2' title='StringMonoid' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/strings/StringMonoid.java'><font color='#0000a0'>StringMonoid</font></td></tr><tr><td colspan='2' title='NaturalNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java'><font color='#0000a0'>NaturalNumbers ℕ</font></td></tr></table>
+<tr><td colspan='3' title='AdditiveMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveMonoid.java'><font color='#0000a0'>AdditiveMonoid</font></td></tr><tr><td> + </td><td> *</td><td>0</td></tr><tr><td colspan='3' title='StringMonoid' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/strings/StringMonoid.java'><font color='#0000a0'>StringMonoid</font></td></tr><tr><td colspan='3' title='NaturalNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java'><font color='#0000a0'>NaturalNumbers ℕ</font></td></tr></table>
 >
 ]
 AdditiveMonoid -> {AdditiveSemiGroup}
@@ -99,7 +99,7 @@ MultiplicativeMonoid -> {MultiplicativeSemiGroup}
 Rng[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='3' title='Rng' href='MATH_URL/org/meeuw/math/abstractalgebra/Rng.java'><font color='#0000a0'>Rng</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ </td><td>0</td></tr><tr><td colspan='3' title='EvenIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/EvenIntegers.java'><font color='#0000a0'>EvenIntegers 2ℤ</font></td></tr><tr><td colspan='3' title='NDivisibleIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NDivisibleIntegers.java'><font color='#0000a0'>3ℤ</font></td></tr></table>
+<tr><td colspan='4' title='Rng' href='MATH_URL/org/meeuw/math/abstractalgebra/Rng.java'><font color='#0000a0'>Rng</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ </td><td> *</td><td>0</td></tr><tr><td colspan='4' title='EvenIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/EvenIntegers.java'><font color='#0000a0'>EvenIntegers 2ℤ</font></td></tr><tr><td colspan='4' title='NDivisibleIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NDivisibleIntegers.java'><font color='#0000a0'>3ℤ</font></td></tr></table>
 >
 ]
 Rng -> {AdditiveAbelianGroup
@@ -130,7 +130,7 @@ ScalarField -> {Field}
 AdditiveAbelianGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='AdditiveAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java'><font color='#0000a0'>AdditiveAbelianGroup</font></td></tr><tr><td> +  - <br />⇆</td><td>0</td></tr></table>
+<tr><td colspan='3' title='AdditiveAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java'><font color='#0000a0'>AdditiveAbelianGroup</font></td></tr><tr><td> +  - <br />⇆</td><td> *</td><td>0</td></tr></table>
 >
 ]
 AdditiveAbelianGroup -> {AdditiveGroup
@@ -141,7 +141,7 @@ AdditiveAbelianSemiGroup}
 AdditiveGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='AdditiveGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveGroup.java'><font color='#0000a0'>AdditiveGroup</font></td></tr><tr><td> +  - </td><td>0</td></tr></table>
+<tr><td colspan='3' title='AdditiveGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveGroup.java'><font color='#0000a0'>AdditiveGroup</font></td></tr><tr><td> +  - </td><td> *</td><td>0</td></tr></table>
 >
 ]
 AdditiveGroup -> {AdditiveMonoid}
@@ -151,7 +151,7 @@ AdditiveGroup -> {AdditiveMonoid}
 MultiplicativeGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='MultiplicativeGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java'><font color='#0000a0'>MultiplicativeGroup</font></td></tr><tr><td> ⋅  / </td><td>1</td></tr><tr><td colspan='2' title='PermutationGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java'><font color='#0000a0'>PermutationGroup</font></td></tr><tr><td colspan='2' title='GeneralLinearGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java'><font color='#0000a0'>GL₂(ℚ)</font></td></tr></table>
+<tr><td colspan='3' title='MultiplicativeGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java'><font color='#0000a0'>MultiplicativeGroup</font></td></tr><tr><td> ⋅  / </td><td> *</td><td>1</td></tr><tr><td colspan='3' title='PermutationGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java'><font color='#0000a0'>PermutationGroup</font></td></tr><tr><td colspan='3' title='GeneralLinearGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java'><font color='#0000a0'>GL₂(ℚ)</font></td></tr></table>
 >
 ]
 MultiplicativeGroup -> {MultiplicativeMonoid}
@@ -161,7 +161,7 @@ MultiplicativeGroup -> {MultiplicativeMonoid}
 Ring[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='4' title='Ring' href='MATH_URL/org/meeuw/math/abstractalgebra/Ring.java'><font color='#0000a0'>Ring</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ </td><td>0</td><td>1</td></tr><tr><td colspan='4' title='ModuloStructure' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloStructure.java'><font color='#0000a0'>ModuloStructure</font></td></tr><tr><td colspan='4' title='Integers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.java'><font color='#0000a0'>ℤ</font></td></tr></table>
+<tr><td colspan='5' title='Ring' href='MATH_URL/org/meeuw/math/abstractalgebra/Ring.java'><font color='#0000a0'>Ring</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ </td><td> *</td><td>0</td><td>1</td></tr><tr><td colspan='5' title='ModuloStructure' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloStructure.java'><font color='#0000a0'>ModuloStructure</font></td></tr><tr><td colspan='5' title='Integers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.java'><font color='#0000a0'>ℤ</font></td></tr></table>
 >
 ]
 Ring -> {Rng}
@@ -171,7 +171,7 @@ Ring -> {Rng}
 MultiplicativeAbelianGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='MultiplicativeAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java'><font color='#0000a0'>MultiplicativeAbelianGroup</font></td></tr><tr><td> ⋅  / <br />⇆</td><td>1</td></tr></table>
+<tr><td colspan='3' title='MultiplicativeAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java'><font color='#0000a0'>MultiplicativeAbelianGroup</font></td></tr><tr><td> ⋅  / <br />⇆</td><td> *</td><td>1</td></tr></table>
 >
 ]
 MultiplicativeAbelianGroup -> {MultiplicativeGroup
@@ -192,7 +192,7 @@ CompleteField -> {ScalarField}
 DivisionRing[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='4' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅  / </td><td>0</td><td>1</td></tr><tr><td colspan='4' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td></tr></table>
+<tr><td colspan='5' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅  / </td><td> *</td><td>0</td><td>1</td></tr><tr><td colspan='5' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td></tr></table>
 >
 ]
 DivisionRing -> {Ring
@@ -203,7 +203,7 @@ MultiplicativeGroup}
 AbelianRing[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='4' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ <br />⇆</td><td>0</td><td>1</td></tr></table>
+<tr><td colspan='5' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ <br />⇆</td><td> *</td><td>0</td><td>1</td></tr></table>
 >
 ]
 AbelianRing -> {Ring}
@@ -213,7 +213,7 @@ AbelianRing -> {Ring}
 DivisibleGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='DivisibleGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisibleGroup.java'><font color='#0000a0'>DivisibleGroup</font></td></tr><tr><td> ⋅  / <br />⇆</td><td>1</td></tr></table>
+<tr><td colspan='3' title='DivisibleGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisibleGroup.java'><font color='#0000a0'>DivisibleGroup</font></td></tr><tr><td> ⋅  / <br />⇆</td><td> *</td><td>1</td></tr></table>
 >
 ]
 DivisibleGroup -> {MultiplicativeAbelianGroup}
@@ -223,7 +223,7 @@ DivisibleGroup -> {MultiplicativeAbelianGroup}
 VectorSpace[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='4' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ <br />⇆</td><td>0</td><td>1</td></tr><tr><td colspan='4' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝₚ³</font></td></tr><tr><td colspan='4' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td></tr></table>
+<tr><td colspan='5' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅ <br />⇆</td><td> *</td><td>0</td><td>1</td></tr><tr><td colspan='5' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝₚ³</font></td></tr><tr><td colspan='5' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td></tr></table>
 >
 ]
 VectorSpace -> {AbelianRing}
