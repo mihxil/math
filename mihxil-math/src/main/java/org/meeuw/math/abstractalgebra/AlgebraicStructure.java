@@ -5,6 +5,8 @@ import java.util.*;
 
 import org.meeuw.math.*;
 
+import static org.meeuw.math.Utils.navigableSet;
+
 /**
  * The base interface of all algebraic structures.
  *
@@ -17,6 +19,8 @@ import org.meeuw.math.*;
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Randomizable<E> {
 
     NavigableSet<ComparisonOperator> EQ_ONLY = Utils.navigableSet(ComparisonOperator.EQ);
+
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.IDENTIFY);
 
     /**
      * Returns the {@link Operator}s that elements of this structure support.
@@ -31,7 +35,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * @return the set of all supported unary operators in this algebraic structure
      */
     default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return Collections.emptyNavigableSet();
+        return UNARY_OPERATORS;
     }
 
     /**

@@ -3,6 +3,8 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
+import static org.meeuw.math.abstractalgebra.Operator.OPERATION;
 
 /**
  * The algebraic structure that only defines addition. There might be no additive identity {@link AdditiveMonoid#zero()}
@@ -12,18 +14,11 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extends Magma<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(Operator.ADDITION);
-
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.NEGATION);
+    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION);
 
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
-    }
-
-    @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return UNARY_OPERATORS;
     }
 
     default boolean additionIsCommutative() {

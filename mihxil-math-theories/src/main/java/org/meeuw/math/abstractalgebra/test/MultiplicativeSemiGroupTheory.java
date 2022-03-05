@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 0.4
  */
 public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroupElement<E>>
-    extends AlgebraicStructureTheory<E> {
+    extends MagmaTheory<E> {
 
     @Property
     default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {

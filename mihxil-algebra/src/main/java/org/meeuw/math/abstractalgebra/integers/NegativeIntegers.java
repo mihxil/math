@@ -14,6 +14,7 @@ import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
+import static org.meeuw.math.abstractalgebra.Operator.OPERATION;
 import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
 
 /**
@@ -28,7 +29,7 @@ public class NegativeIntegers
     implements
     AdditiveAbelianSemiGroup<NegativeInteger> {
 
-    private static final NavigableSet<Operator> OPERATORS = navigableSet(ADDITION);
+    private static final NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION);
 
     public static final NegativeIntegers INSTANCE = new NegativeIntegers();
 

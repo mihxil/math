@@ -4,6 +4,7 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
@@ -18,10 +19,18 @@ public interface Field<E extends FieldElement<E>> extends
 
     NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
 
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, NEGATION, RECIPROCAL);
+
+
 
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
+    }
+
+    @Override
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
     @Override

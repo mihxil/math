@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 public interface GroupTheory<E extends GroupElement<E>>
-    extends AlgebraicStructureTheory<E> {
+    extends MagmaTheory<E> {
 
     @Property
     default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {

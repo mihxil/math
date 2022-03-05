@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
-    extends AlgebraicStructureTheory<E> {
+    extends MagmaTheory<E> {
 
     @Property
     default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {

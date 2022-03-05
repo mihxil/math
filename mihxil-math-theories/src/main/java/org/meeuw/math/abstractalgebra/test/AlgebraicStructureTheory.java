@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra.test;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -7,12 +8,14 @@ import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.meeuw.math.abstractalgebra.ComparisonOperator.*;
 
 /**
@@ -140,6 +143,65 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void toString(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         getLogger().info(struct.getClass().getSimpleName() + " -> " + struct);
+    }
+
+
+    @Property
+    default void staticOperators(
+        @ForAll(STRUCTURE) AlgebraicStructure<E> structure) {
+
+        for (Operator o : Operator.values()) {
+            try {
+                Method method = structure.getElementClass().getMethod(o.getMethod().getName(), o.getMethod().getParameterTypes());
+                if (!structure.getSupportedOperators().contains(o)) {
+                    if (method.getAnnotation(NonAlgebraic.class) == null) {
+                        fail("Not supported operation %s  is on %s", o, structure.getElementClass());
+                    } else {
+                        getLogger().info("Not supported operation {} is on {}, but it is marked non algebraic", o, structure.getElementClass());
+
+                    }
+                } else {
+                    getLogger().info("Ok {} on {}", o, structure.getElementClass());
+                }
+            } catch (NoSuchMethodException e) {
+                if (structure.getSupportedOperators().contains(o)) {
+                    fail("Supported operation %s not on %s", o, structure.getElementClass());
+                } else {
+                    getLogger().info("Ok {}: {}", o, e.getMessage());
+                }
+            }
+        }
+    }
+
+    @Property
+    default void staticUnaryOperators(
+        @ForAll(STRUCTURE) AlgebraicStructure<E> structure) {
+
+        for (UnaryOperator o : UnaryOperator.values()) {
+            try {
+                Method method = structure.getElementClass().getMethod(o.getMethod().getName(), o.getMethod().getParameterTypes());
+                boolean returnTypesMatches =  method.getReturnType().equals(structure.getElementClass());
+                if (!structure.getSupportedUnaryOperators().contains(o)) {
+                    if (returnTypesMatches) {
+                        if (method.getAnnotation(NonAlgebraic.class) == null) {
+                            fail("Not supported operation %s  is on %s", o, structure.getElementClass());
+                        } else {
+                            getLogger().info("Not supported operation {}  is on {}, but it is marked non algebraic", o, structure.getElementClass());
+                        }
+                    } else {
+                        getLogger().info("Ok {} on {}, not in supported operators, correctly, because return type {}", o, structure.getElementClass(), method.getReturnType());
+                    }
+                } else {
+                    getLogger().info("Ok {} on {}", o, structure.getElementClass());
+                }
+            } catch (NoSuchMethodException e) {
+                if (structure.getSupportedUnaryOperators().contains(o)) {
+                    fail("Supported operation %s not on %s", o, structure.getElementClass());
+                } else {
+                    getLogger().info("Ok {}: {}", o, e.getMessage());
+                }
+            }
+        }
     }
 
 }

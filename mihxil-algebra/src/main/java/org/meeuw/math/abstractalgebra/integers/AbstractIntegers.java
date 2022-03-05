@@ -21,7 +21,8 @@ public abstract class AbstractIntegers<
     S extends AbstractIntegers<E, SIZE, S>
     >
     extends AbstractAlgebraicStructure<E>  implements
-    Streamable<E> , Randomizable<E> {
+    Streamable<E> ,
+    Randomizable<E> {
 
     protected AbstractIntegers(Class<E> clazz) {
         super(clazz);

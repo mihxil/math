@@ -6,6 +6,7 @@ import static org.meeuw.math.ArrayUtils.cloneMatrix;
 import static org.meeuw.math.ArrayUtils.swap;
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.
@@ -19,7 +20,9 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     MultiplicativeGroup<E>,
     Ring<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
+    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
+
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, NEGATION, RECIPROCAL);
 
     @Override
     E one();
@@ -27,6 +30,11 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
+    }
+
+    @Override
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
 

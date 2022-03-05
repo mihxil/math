@@ -1,10 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.*;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.unmodifiableNavigableSet;
-import static java.util.Collections.unmodifiableSortedSet;
+import java.util.NavigableSet;
 
 import org.meeuw.math.Utils;
 
@@ -18,7 +14,7 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
  */
 public interface Rng<E extends RngElement<E>> extends AdditiveAbelianGroup<E>, MultiplicativeSemiGroup<E> {
 
-    NavigableSet<Operator> OPERATORS = Utils.navigableSet(ADDITION, SUBTRACTION, MULTIPLICATION);
+    NavigableSet<Operator> OPERATORS = Utils.navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);
 
     @Override
     default NavigableSet<Operator> getSupportedOperators() {

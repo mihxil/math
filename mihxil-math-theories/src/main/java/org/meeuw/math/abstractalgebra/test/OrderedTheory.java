@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrderedTheory<E> {
 
 
-
-
     @Property
     default void orderedTransitive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b, @ForAll(ELEMENTS) E c) {
 

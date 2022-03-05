@@ -18,7 +18,6 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
 
     String SCALARS = "scalars";
 
-
     @Property
     default void times(@ForAll(ELEMENTS) E e, @ForAll(SCALARS) S scalar) {
         assertThat(e.times(scalar)).isNotNull();

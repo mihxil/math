@@ -19,7 +19,7 @@ public class FieldVector3Space<E extends ScalarFieldElement<E>>
         this.scalarField = scalarField;
     }
 
-    public static <F extends ScalarFieldElement<F>> FieldVector3Space<F> of (ScalarField<F> field) {
+    public static <F extends ScalarFieldElement<F>> FieldVector3Space<F> of(ScalarField<F> field) {
         return (FieldVector3Space<F>) INSTANCES.computeIfAbsent(field, k -> new FieldVector3Space<>(field));
     }
 

@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
- * @since ...
  */
 class AdditiveGroupTest {
 
@@ -60,10 +59,15 @@ class AdditiveGroupTest {
     }
 
     @Test
-    public void operators(){
-        assertThat(TestGroup.instance.getSupportedOperators()).containsExactlyInAnyOrder(Operator.ADDITION, Operator.SUBTRACTION);
+    public void additiveGroupOperators() {
+        assertThat(TestGroup.instance.getSupportedOperators())
+            .contains(Operator.ADDITION, Operator.SUBTRACTION);
 
-        assertThat(TestGroup.instance.getSupportedUnaryOperators()).containsExactly(UnaryOperator.NEGATION);
+    }
+    @Test
+    public void additiveGroupUnaryOperators() {
+        assertThat(TestGroup.instance.getSupportedUnaryOperators())
+            .contains(UnaryOperator.NEGATION);
     }
 
 }

@@ -5,6 +5,7 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.numbers.Scalar;
@@ -113,6 +114,7 @@ public abstract class PhysicalNumber extends Number
      * @return  a new physical number which is the sum of this one and another one.
      */
     @Override
+    @NonAlgebraic
     public PhysicalNumber plus(PhysicalNumber summand) {
         summand = summand.toUnits(this.getUnits());
         return copy(wrapped.plus(summand.wrapped), Units.forAddition(units, summand.getUnits()));
@@ -149,7 +151,7 @@ public abstract class PhysicalNumber extends Number
     /**
      * Just adds {@link #plus(PhysicalNumber)}{@link #negation()}.
      * @see #plus(PhysicalNumber)
-     * @param subtrahend to physical number to substract form this one
+     * @param subtrahend to physical number to subtract from this one
      * @return the current number minus the subtrahend
      */
     public PhysicalNumber minus(PhysicalNumber subtrahend) {
@@ -169,6 +171,7 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
+    @NonAlgebraic
     public PhysicalNumber negation() {
         return times(-1);
     }
@@ -179,6 +182,7 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
+    @NonAlgebraic
     public PhysicalNumber abs() {
         if (isPositive()) {
             return this;
