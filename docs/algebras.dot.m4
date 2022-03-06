@@ -46,7 +46,7 @@ AdditiveSemiGroup -> {Magma}
 MultiplicativeSemiGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='1' title='MultiplicativeSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java'><font color='#0000a0'>MultiplicativeSemiGroup</font></td></tr><tr><td> ⋅ </td></tr></table>
+<tr><td colspan='2' title='MultiplicativeSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java'><font color='#0000a0'>MultiplicativeSemiGroup</font></td></tr><tr><td> ⋅ </td><td> *</td></tr></table>
 >
 ]
 MultiplicativeSemiGroup -> {Magma}
@@ -89,7 +89,7 @@ AdditiveMonoid -> {AdditiveSemiGroup}
 MultiplicativeMonoid[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='2' title='MultiplicativeMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java'><font color='#0000a0'>MultiplicativeMonoid</font></td></tr><tr><td> ⋅ </td><td>1</td></tr><tr><td colspan='2' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td></tr></table>
+<tr><td colspan='3' title='MultiplicativeMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java'><font color='#0000a0'>MultiplicativeMonoid</font></td></tr><tr><td> ⋅ </td><td> *</td><td>1</td></tr><tr><td colspan='3' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td></tr></table>
 >
 ]
 MultiplicativeMonoid -> {MultiplicativeSemiGroup}
@@ -110,7 +110,7 @@ MultiplicativeSemiGroup}
 MultiplicativeAbelianSemiGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='1' title='MultiplicativeAbelianSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java'><font color='#0000a0'>MultiplicativeAbelianSemiGroup</font></td></tr><tr><td> ⋅ <br />⇆</td></tr><tr><td colspan='1' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td></tr></table>
+<tr><td colspan='2' title='MultiplicativeAbelianSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java'><font color='#0000a0'>MultiplicativeAbelianSemiGroup</font></td></tr><tr><td> ⋅ <br />⇆</td><td> *</td></tr><tr><td colspan='2' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td></tr></table>
 >
 ]
 MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
