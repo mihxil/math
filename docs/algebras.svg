@@ -90,8 +90,10 @@
 <text text-anchor="start" x="281.5" y="-339.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeSemiGroup</text>
 </a>
 </g>
-<polygon fill="none" stroke="black" points="279.5,-315 279.5,-334 463.5,-334 463.5,-315 279.5,-315"/>
-<text text-anchor="start" x="364.5" y="-320.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
+<polygon fill="none" stroke="black" points="279.5,-315 279.5,-334 372.5,-334 372.5,-315 279.5,-315"/>
+<text text-anchor="start" x="319" y="-320.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
+<polygon fill="none" stroke="black" points="372.5,-315 372.5,-334 463.5,-334 463.5,-315 372.5,-315"/>
+<text text-anchor="start" x="412" y="-320.8" font-family="Times,serif" font-size="14.00"> *</text>
 </g>
 <!-- MultiplicativeSemiGroup&#45;&gt;Magma -->
 <g id="edge4" class="edge">
@@ -382,10 +384,12 @@
 <text text-anchor="start" x="280.5" y="-439.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeMonoid</text>
 </a>
 </g>
-<polygon fill="none" stroke="black" points="278.5,-415 278.5,-434 358.5,-434 358.5,-415 278.5,-415"/>
-<text text-anchor="start" x="311.5" y="-420.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
-<polygon fill="none" stroke="black" points="358.5,-415 358.5,-434 435.5,-434 435.5,-415 358.5,-415"/>
-<text text-anchor="start" x="392" y="-420.8" font-family="Times,serif" font-size="14.00">1</text>
+<polygon fill="none" stroke="black" points="278.5,-415 278.5,-434 350.5,-434 350.5,-415 278.5,-415"/>
+<text text-anchor="start" x="307.5" y="-420.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
+<polygon fill="none" stroke="black" points="350.5,-415 350.5,-434 393.5,-434 393.5,-415 350.5,-415"/>
+<text text-anchor="start" x="366" y="-420.8" font-family="Times,serif" font-size="14.00"> *</text>
+<polygon fill="none" stroke="black" points="393.5,-415 393.5,-434 435.5,-434 435.5,-415 393.5,-415"/>
+<text text-anchor="start" x="409.5" y="-420.8" font-family="Times,serif" font-size="14.00">1</text>
 <g id="a_node12_28"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
 <polygon fill="none" stroke="black" points="278.5,-396 278.5,-415 435.5,-415 435.5,-396 278.5,-396"/>
 <text text-anchor="start" x="299.5" y="-401.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddIntegers ℕo</text>
@@ -489,9 +493,11 @@
 <text text-anchor="start" x="455.5" y="-447.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeAbelianSemiGroup</text>
 </a>
 </g>
-<polygon fill="none" stroke="black" points="453.5,-408 453.5,-442 690.5,-442 690.5,-408 453.5,-408"/>
-<text text-anchor="start" x="565" y="-428.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
-<text text-anchor="start" x="565.5" y="-413.8" font-family="Times,serif" font-size="14.00">⇆</text>
+<polygon fill="none" stroke="black" points="453.5,-408 453.5,-442 572.5,-442 572.5,-408 453.5,-408"/>
+<text text-anchor="start" x="506" y="-428.8" font-family="Times,serif" font-size="14.00"> ⋅ </text>
+<text text-anchor="start" x="506.5" y="-413.8" font-family="Times,serif" font-size="14.00">⇆</text>
+<polygon fill="none" stroke="black" points="572.5,-408 572.5,-442 690.5,-442 690.5,-408 572.5,-408"/>
+<text text-anchor="start" x="625.5" y="-421.3" font-family="Times,serif" font-size="14.00"> *</text>
 <g id="a_node15_35"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
 <polygon fill="none" stroke="black" points="453.5,-389 453.5,-408 690.5,-408 690.5,-389 453.5,-389"/>
 <text text-anchor="start" x="514.5" y="-394.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddIntegers ℕo</text>
