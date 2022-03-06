@@ -14,9 +14,11 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> {
 
+    NavigableSet<Operator> OPERATORS = navigableSet(AlgebraicStructure.OPERATORS, Operator.OPERATION);
+
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
-        return navigableSet(Operator.OPERATION);
+        return OPERATORS;
     }
 
     default boolean operationIsCommutative() {

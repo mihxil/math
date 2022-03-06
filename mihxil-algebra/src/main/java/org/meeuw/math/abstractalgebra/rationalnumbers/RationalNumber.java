@@ -22,7 +22,8 @@ import org.meeuw.math.text.TextUtils;
 public class RationalNumber extends Number
     implements
     ScalarFieldElement<RationalNumber>,
-    SignedNumber<RationalNumber>, Ordered<RationalNumber> {
+    SignedNumber<RationalNumber>,
+    Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);

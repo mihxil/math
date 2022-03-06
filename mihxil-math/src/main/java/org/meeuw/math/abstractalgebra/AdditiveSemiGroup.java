@@ -4,7 +4,6 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
-import static org.meeuw.math.abstractalgebra.Operator.OPERATION;
 
 /**
  * The algebraic structure that only defines addition. There might be no additive identity {@link AdditiveMonoid#zero()}
@@ -14,7 +13,7 @@ import static org.meeuw.math.abstractalgebra.Operator.OPERATION;
  */
 public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extends Magma<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION);
+    NavigableSet<Operator> OPERATORS = navigableSet(Magma.OPERATORS, ADDITION);
 
     @Override
     default NavigableSet<Operator> getSupportedOperators() {

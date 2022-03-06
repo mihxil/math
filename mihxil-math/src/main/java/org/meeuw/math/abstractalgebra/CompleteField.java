@@ -4,6 +4,7 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  *  A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
@@ -13,19 +14,9 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
  */
 public interface CompleteField<E extends CompleteFieldElement<E>> extends ScalarField<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(
-        OPERATION,
+    NavigableSet<Operator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);
 
-        ADDITION,
-        SUBTRACTION,
-
-        MULTIPLICATION,
-        DIVISION,
-
-        POWER
-    );
-
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.values());
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS);
 
 
     @Override

@@ -4,12 +4,12 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.*;
+import org.meeuw.math.Example;
+import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.streams.StreamUtils;
 
 import static java.math.BigInteger.ONE;
-
-import org.meeuw.math.streams.StreamUtils;
 
 /**
  * Implementation of the field of Rational Numbers, commonly referred to as ℚ
@@ -18,8 +18,8 @@ import org.meeuw.math.streams.StreamUtils;
  * @since 0.4
  */
 @Example(ScalarField.class)
-public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber> implements
-    ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
+public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
+    implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 

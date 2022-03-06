@@ -12,8 +12,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
-import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
+import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * The 'Monoid' (multiplicative and additive) of natural numbers.
@@ -28,7 +28,10 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     AdditiveMonoid<NaturalNumber>,
     AdditiveAbelianSemiGroup<NaturalNumber> {
 
-    private static final NavigableSet<Operator> OPERATORS = navigableSet(MULTIPLICATION, ADDITION);
+    private static final NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, ADDITION);
+
+    private static final NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, ABS, SQR);
+
 
     public static final NaturalNumbers INSTANCE = new NaturalNumbers();
 
@@ -63,6 +66,11 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     @Override
     public NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
+    }
+
+    @Override
+    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
     @Override

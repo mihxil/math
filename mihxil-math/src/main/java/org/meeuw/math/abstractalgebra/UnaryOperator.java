@@ -64,4 +64,8 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
     public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name);
     }
+
+    public <E extends AlgebraicElement<E>> String stringify(E element1) {
+        return symbol.apply(element1.toString()).toString();
+    }
 }

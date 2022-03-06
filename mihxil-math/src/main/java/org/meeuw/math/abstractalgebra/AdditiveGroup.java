@@ -2,11 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import org.meeuw.math.Utils;
-
 import static org.meeuw.math.Utils.navigableSet;
 import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.IDENTIFY;
 import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
 
 /**
@@ -17,9 +14,9 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
  */
 public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>  {
 
-    NavigableSet<Operator> OPERATORS = Utils.navigableSet(OPERATION, ADDITION, SUBTRACTION);
+    NavigableSet<Operator> OPERATORS = navigableSet(AdditiveMonoid.OPERATORS, SUBTRACTION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, NEGATION);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveMonoid.UNARY_OPERATORS, NEGATION);
 
 
     @Override

@@ -19,7 +19,7 @@ public interface Field<E extends FieldElement<E>> extends
 
     NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, NEGATION, RECIPROCAL);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, INVERSION, NEGATION, RECIPROCAL, ABS, SQR);
 
 
 

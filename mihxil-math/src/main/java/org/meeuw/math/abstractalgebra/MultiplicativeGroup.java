@@ -13,9 +13,9 @@ import static org.meeuw.math.abstractalgebra.Operator.*;
 public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoid<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, DIVISION);
+    NavigableSet<Operator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, DIVISION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.IDENTIFY, UnaryOperator.RECIPROCAL);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, UnaryOperator.RECIPROCAL);
 
 
     @Override

@@ -333,6 +333,22 @@ public final class Utils {
         return unmodifiableNavigableSet(new TreeSet<>(Arrays.asList(ops)));
     }
 
+    @SafeVarargs
+    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(NavigableSet<E> extend, E...ops) {
+        TreeSet<E> base = new TreeSet<>(extend);
+        base.addAll(Arrays.asList(ops));
+        return unmodifiableNavigableSet(base);
+    }
+
+    @SafeVarargs
+    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(Collection<E>... extend) {
+        TreeSet<E> base = new TreeSet<>();
+        for (Collection<E> col : extend) {
+            base.addAll(col);
+        }
+        return unmodifiableNavigableSet(base);
+    }
+
     public static <V> Supplier<V> memoize(final Supplier<V> wrapped){
         return new Supplier<V>() {
             transient volatile boolean initialized;
