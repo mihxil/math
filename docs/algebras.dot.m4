@@ -74,10 +74,6 @@ AdditiveGroup -> {Group
 AdditiveMonoid}
 
 
-# interface org.meeuw.math.abstractalgebra.Field
-Field[
-
-
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
 AdditiveAbelianSemiGroup[
 		margin=2	label=<
@@ -162,10 +158,6 @@ AdditiveAbelianGroup -> {AdditiveGroup
 AdditiveAbelianSemiGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.ScalarField
-ScalarField[
-
-
 # interface org.meeuw.math.abstractalgebra.Ring
 Ring[
 		margin=2	label=<
@@ -186,8 +178,16 @@ DivisibleGroup[
 DivisibleGroup -> {MultiplicativeAbelianGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.CompleteField
-CompleteField[
+# interface org.meeuw.math.abstractalgebra.Field
+Field[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td colspan='6' title='Field' href='MATH_URL/org/meeuw/math/abstractalgebra/Field.java'><font color='#0000a0'>Field</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅  / <br />⇆</td><td> *</td><td>0</td><td>1</td><td>u</td></tr><tr><td colspan='6' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/nℤ</font></td></tr><tr><td colspan='6' title='GaussianRationals' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java'><font color='#0000a0'>GaussianRationals 𝐐(i)</font></td></tr><tr><td colspan='6' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/3ℤ</font></td></tr></table>
+>
+]
+Field -> {DivisionRing
+DivisibleGroup
+AbelianRing}
 
 
 # interface org.meeuw.math.abstractalgebra.AbelianRing
@@ -200,6 +200,16 @@ AbelianRing[
 AbelianRing -> {Ring}
 
 
+# interface org.meeuw.math.abstractalgebra.ScalarField
+ScalarField[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td colspan='6' title='ScalarField' href='MATH_URL/org/meeuw/math/abstractalgebra/ScalarField.java'><font color='#0000a0'>ScalarField</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅  / <br />⇆</td><td> *</td><td>0</td><td>1</td><td>u</td></tr><tr><td colspan='6' title='RationalNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/rationalnumbers/RationalNumbers.java'><font color='#0000a0'>RationalNumbers ℚ</font></td></tr></table>
+>
+]
+ScalarField -> {Field}
+
+
 # interface org.meeuw.math.abstractalgebra.VectorSpace
 VectorSpace[
 		margin=2	label=<
@@ -208,6 +218,16 @@ VectorSpace[
 >
 ]
 VectorSpace -> {AbelianRing}
+
+
+# interface org.meeuw.math.abstractalgebra.CompleteField
+CompleteField[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td colspan='6' title='CompleteField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteField.java'><font color='#0000a0'>CompleteField</font></td></tr><tr><td> +  - <br />⇆</td><td> ⋅  / <br />⇆</td><td> *</td><td>0</td><td>1</td><td>u</td></tr><tr><td colspan='6' title='BigDecimalField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/reals/BigDecimalField.java'><font color='#0000a0'>BigDecimalField ℝ</font></td></tr><tr><td colspan='6' title='RealField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/reals/RealField.java'><font color='#0000a0'>RealField ℝₚ</font></td></tr></table>
+>
+]
+CompleteField -> {ScalarField}
 
 
 # interface org.meeuw.math.abstractalgebra.AlgebraicStructure
