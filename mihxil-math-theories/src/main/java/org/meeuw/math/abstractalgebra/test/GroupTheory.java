@@ -20,6 +20,11 @@ public interface GroupTheory<E extends GroupElement<E>>
         assertThat(s.getSupportedOperators()).contains(Operator.OPERATION);
     }
 
+    @Property
+    default void groupUnitaryOperators(@ForAll(STRUCTURE) Group<E> s) {
+        assertThat(s.getSupportedUnaryOperators()).contains(UnaryOperator.INVERSION);
+    }
+
 
     @Property
     default void operateAssociativity (

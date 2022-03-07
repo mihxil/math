@@ -12,7 +12,7 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  */
 public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement<E>>
-    extends MultiplicativeMonoidElement<E> {
+    extends MultiplicativeMonoidElement<E>, GroupElement<E> {
 
     @Override
     MultiplicativeGroup<E> getStructure();
@@ -21,6 +21,11 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      * @return the multiplicative inverse
      */
     E reciprocal();
+
+    @Override
+    default E inverse() {
+        return reciprocal();
+    }
 
     /**
      * if multiplication and division is defined, then so is exponentiation to any integer power.

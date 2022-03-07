@@ -2,11 +2,11 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.configuration.ConfigurationService;
+
 import static org.meeuw.math.ArrayUtils.cloneMatrix;
 import static org.meeuw.math.ArrayUtils.swap;
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.
@@ -20,9 +20,9 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     MultiplicativeGroup<E>,
     Ring<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
+    NavigableSet<Operator> OPERATORS = navigableSet(MultiplicativeGroup.OPERATORS, Ring.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, NEGATION, RECIPROCAL);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeGroup.UNARY_OPERATORS, Ring.UNARY_OPERATORS);
 
     @Override
     E one();
@@ -37,6 +37,13 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
         return UNARY_OPERATORS;
     }
 
+    default Operator groupOperator() {
+        return ConfigurationService.getConfigurationAspect(GenericGroupConfiguration.class).getGroupOperator();
+    }
+    @Override
+    default E unity() {
+        return groupOperator().unity(this);
+    }
 
     /**
      * Given a (square) matrix of elements of this field, calculate its determinant.

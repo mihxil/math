@@ -22,7 +22,6 @@ public interface Field<E extends FieldElement<E>> extends
     NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, INVERSION, NEGATION, RECIPROCAL, ABS, SQR);
 
 
-
     @Override
     default NavigableSet<Operator> getSupportedOperators() {
         return OPERATORS;
@@ -36,18 +35,6 @@ public interface Field<E extends FieldElement<E>> extends
     @Override
     default boolean multiplicationIsCommutative() {
         return true;
-    }
-
-    @Override
-    E one();
-
-    default Operator groupOperator() {
-        return Operator.MULTIPLICATION;
-    }
-
-    @Override
-    default E unity() {
-        return groupOperator().unity(this);
     }
 
 }

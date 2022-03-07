@@ -1,5 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
+import java.util.NavigableSet;
+
+import static org.meeuw.math.Utils.navigableSet;
+
 /**
  * A general group , with one operation, and a 'unity' element.
  *
@@ -8,6 +12,13 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.8
  */
 public interface Group<E extends GroupElement<E>> extends Magma<E> {
+
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.INVERSION);
+
+    @Override
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
+    }
 
     E unity();
 

@@ -7,7 +7,7 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  */
 public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
-    extends AdditiveMonoidElement<E> {
+    extends AdditiveMonoidElement<E>, GroupElement<E> {
 
     @Override
     AdditiveGroup<E> getStructure();
@@ -19,6 +19,11 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
 
     default E minus(E subtrahend) {
         return plus(subtrahend.negation());
+    }
+
+    @Override
+    default E inverse() {
+        return negation();
     }
 
     /**

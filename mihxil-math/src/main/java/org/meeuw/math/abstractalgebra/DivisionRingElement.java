@@ -13,4 +13,13 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
     @Override
     DivisionRing<E> getStructure();
 
+    @Override
+    default E operate(E operand) {
+        return getStructure().groupOperator().apply(self(), operand);
+    }
+    @Override
+    default E inverse() {
+        return getStructure().groupOperator().inverse(self());
+    }
+
 }

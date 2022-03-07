@@ -12,7 +12,7 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>  {
+public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>, Group<E>  {
 
     NavigableSet<Operator> OPERATORS = navigableSet(AdditiveMonoid.OPERATORS, SUBTRACTION);
 
@@ -27,6 +27,11 @@ public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends Additi
     @Override
     default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
+    }
+
+    @Override
+    default E unity() {
+        return zero();
     }
 
 }

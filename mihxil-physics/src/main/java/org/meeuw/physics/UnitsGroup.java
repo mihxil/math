@@ -54,6 +54,6 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
 
     @Override
     public Units nextRandom(Random random) {
-        return null;
+        throw new UnsupportedOperationException("TODO");
     }
 }
