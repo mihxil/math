@@ -3,8 +3,6 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
@@ -14,12 +12,11 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
 public interface Field<E extends FieldElement<E>> extends
     DivisionRing<E>,
     AbelianRing<E>,
-    DivisibleGroup<E>,
-    Group<E> {
+    DivisibleGroup<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
+    NavigableSet<Operator> OPERATORS = navigableSet(DivisionRing.OPERATORS, AbelianRing.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, INVERSION, NEGATION, RECIPROCAL, ABS, SQR);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(DivisionRing.UNARY_OPERATORS, AbelianRing.UNARY_OPERATORS);
 
 
     @Override
@@ -31,6 +28,11 @@ public interface Field<E extends FieldElement<E>> extends
     default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
+
+    // explicit to make proxying possible (DocumentationTest)
+    @Override
+    E one();
+
 
     @Override
     default boolean multiplicationIsCommutative() {

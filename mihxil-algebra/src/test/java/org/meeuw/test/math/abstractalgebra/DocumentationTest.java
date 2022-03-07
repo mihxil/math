@@ -75,11 +75,13 @@ public class DocumentationTest {
     }
     @SuppressWarnings("unchecked")
     protected <C> C proxy(Class<C> interfac) {
-        C c =  (C) Proxy.newProxyInstance(DocumentationTest.class.getClassLoader(), new Class[]{interfac},
+        final C c =  (C) Proxy.newProxyInstance(DocumentationTest.class.getClassLoader(), new Class[]{interfac},
             (proxy, method, args) -> {
                 if (method.isDefault()) {
                     // if it's a default method, invoke it
                     return InvocationHandler.invokeDefault(proxy, method, args);
+                } else if ("toString".equals(method.getName())){
+                    return "proxy for " + interfac;
                 } else {
                     return null;
                 }
