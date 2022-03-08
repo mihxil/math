@@ -30,7 +30,10 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public UncertainNumber<Double> sqrt(Double radicand) {
+    public UncertainNumber<Double> sqrt(final Double radicand) {
+        if (Double.isNaN(radicand)) {
+            return uncertain(Double.NaN);
+        }
         double d = Math.sqrt(radicand);
         if (Double.isNaN(d)) {
             throw new IllegalSqrtException("Illegal sqrt " + radicand);
