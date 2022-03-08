@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,6 +16,7 @@ import static org.meeuw.math.text.TextUtils.superscript;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log
 public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> "-" + s),
@@ -52,7 +54,10 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E e) {
         try {
-            return (E) getMethod().invoke(e);
+            return (E) method.invoke(e);
+        } catch (IllegalArgumentException iae) {
+            log.fine(this + " on " + e + " but " + e.getClass() + " not a " + method.getDeclaringClass());
+            return (E) e.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(e);
         } catch (IllegalAccessException ex) {
             throw new IllegalStateException(ex);
         } catch (InvocationTargetException ex) {

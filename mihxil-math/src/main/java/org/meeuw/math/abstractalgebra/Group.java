@@ -13,7 +13,7 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface Group<E extends GroupElement<E>> extends Magma<E> {
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(UnaryOperator.INVERSION);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, UnaryOperator.INVERSION);
 
     @Override
     default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {

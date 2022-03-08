@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -65,6 +66,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
 
 
     @Override
+    @NonAlgebraic
     public E abs() {
         E result  = (x.sqr().plus(y.sqr()).plus(z.sqr()));
         if (result instanceof CompleteFieldElement) {

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.numbers.Sizeable;
@@ -120,6 +121,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
+    @NonAlgebraic
     public E abs() {
         if (getStructure().getElementStructure() instanceof CompleteField) {
             return (E) ((CompleteFieldElement) (a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr()))).sqrt();

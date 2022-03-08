@@ -139,6 +139,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             } catch (ReciprocalException ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
+                getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
                 if (ae.getCause() != null) {
                     throw ae.getCause();
                 } else {
