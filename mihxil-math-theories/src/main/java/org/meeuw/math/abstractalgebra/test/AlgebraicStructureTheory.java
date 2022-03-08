@@ -10,8 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NotStreamable;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -136,7 +135,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     getLogger().debug(o.stringify(e1) + " = " + result);
                 }
-            } catch (ReciprocalException ae) {
+            } catch (ReciprocalException | IllegalSqrtException ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());

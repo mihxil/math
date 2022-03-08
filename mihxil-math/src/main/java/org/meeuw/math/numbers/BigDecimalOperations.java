@@ -8,8 +8,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -45,7 +44,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Override
     public UncertainNumber<BigDecimal> sqrt(BigDecimal radicand) {
         //return uncertain(radicand.sqrt(mathContext)); // java 9
-        return uncertain(BigDecimalMath.sqrt(radicand, context()));
+        try {
+            return uncertain(BigDecimalMath.sqrt(radicand, context()));
+        } catch (ArithmeticException arithmeticException) {
+            throw new IllegalSqrtException(arithmeticException);
+        }
     }
 
     @Override
