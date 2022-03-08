@@ -17,6 +17,11 @@ public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
 
 
     @Override
+    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
+    }
+
+    @Override
     default boolean multiplicationIsCommutative() {
         return true;
     }
