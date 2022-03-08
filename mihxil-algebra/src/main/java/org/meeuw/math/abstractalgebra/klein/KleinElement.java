@@ -34,7 +34,10 @@ public enum KleinElement implements GroupElement<KleinElement> {
         if (multiplier == this) {
             return e;
         }
-        return Stream.of(a, b, c).filter(el -> el != this && el != multiplier).findFirst().orElseThrow(IllegalStateException::new);
+        return Stream.of(a, b, c)
+            .filter(el -> el != this && el != multiplier)
+            .findFirst()
+            .orElseThrow(IllegalStateException::new);
     }
 
     @Override

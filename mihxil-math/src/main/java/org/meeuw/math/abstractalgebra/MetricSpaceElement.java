@@ -1,5 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.Sizeable;
 
@@ -18,6 +19,7 @@ public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extend
     S distanceTo(E otherElement);
 
     @Override
+    @NonAlgebraic
     default S abs() {
         return distanceTo(getStructure().zero());
     }

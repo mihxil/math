@@ -2,13 +2,10 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import lombok.extern.java.Log;
 
-import java.util.NavigableSet;
-
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.MetricSpace;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-
-import static org.meeuw.math.Utils.navigableSet;
 
 /**
  * The {@link Field} of {@link ComplexNumber}s.
@@ -27,11 +24,6 @@ public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNu
 
     private ComplexNumbers() {
         super(ComplexNumber.class, RealField.INSTANCE);
-    }
-
-    @Override
-    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return navigableSet(Field.UNARY_OPERATORS, UnaryOperator.ABS);
     }
 
     @Override

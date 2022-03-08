@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
@@ -16,7 +17,8 @@ public class NDivisibleInteger
     extends AbstractIntegerElement<NDivisibleInteger, NDivisibleInteger, NDivisibleIntegers>
     implements
     RngElement<NDivisibleInteger>,
-    Scalar<NDivisibleInteger> {
+    Scalar<NDivisibleInteger>,
+    GroupElement<NDivisibleInteger> {
 
 
     public static NDivisibleInteger of(int divisor, long value){

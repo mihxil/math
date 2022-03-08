@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import javax.validation.constraints.Max;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement;
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.numbers.SizeableScalar;
@@ -36,6 +37,7 @@ public class NegativeInteger
     }
 
     @Override
+    @NonAlgebraic
     public PositiveInteger abs() {
         return new PositiveInteger(value.abs());
     }

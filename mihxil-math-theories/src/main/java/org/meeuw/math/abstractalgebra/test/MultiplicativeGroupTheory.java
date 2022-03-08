@@ -77,7 +77,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             E reciprocal = e.reciprocal();
-            assertThat(reciprocal.reciprocal()).isEqualTo(e);
+            assertThat(reciprocal.reciprocal().eq(e)).isTrue();
             E reciprocalTimesSelf = reciprocal.times(e);
             assertThat(reciprocalTimesSelf).usingDefaultComparator()
                 .isEqualTo(e.getStructure().one());

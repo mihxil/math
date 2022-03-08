@@ -41,4 +41,5 @@ public class ComplexNumber extends AbstractComplexNumber<ComplexNumber, RealNumb
                     (imaginary.minus(otherElement.imaginary)).sqr()));
         return norm.sqrt();
     }
+
 }

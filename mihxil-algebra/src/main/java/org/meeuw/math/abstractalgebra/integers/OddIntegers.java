@@ -1,10 +1,12 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
+import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
@@ -25,8 +27,16 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
 
     public static final OddIntegers INSTANCE = new OddIntegers();
 
+    static NavigableSet<UnaryOperator> UNARY_OPERATORS = Utils.navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, UnaryOperator.NEGATION, UnaryOperator.ABS);
+
+
     private OddIntegers() {
         super(OddInteger.class);
+    }
+
+    @Override
+    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
     @Override

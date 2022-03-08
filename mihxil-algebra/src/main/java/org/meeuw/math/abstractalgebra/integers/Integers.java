@@ -30,7 +30,7 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
 
     @Override
     public  NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return navigableSet(UnaryOperator.NEGATION, UnaryOperator.INVERSION);
+        return navigableSet(Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS, navigableSet(UnaryOperator.ABS));
     }
 
 

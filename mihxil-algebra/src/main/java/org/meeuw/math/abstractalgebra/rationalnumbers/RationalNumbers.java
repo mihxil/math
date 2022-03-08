@@ -4,8 +4,7 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Randomizable;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.streams.StreamUtils;
 

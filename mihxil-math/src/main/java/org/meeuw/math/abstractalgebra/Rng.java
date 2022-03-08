@@ -14,7 +14,7 @@ public interface Rng<E extends RngElement<E>> extends AdditiveAbelianGroup<E>, M
 
     NavigableSet<Operator> OPERATORS = navigableSet(AdditiveAbelianGroup.OPERATORS, MultiplicativeSemiGroup.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveAbelianGroup.UNARY_OPERATORS, MultiplicativeSemiGroup.UNARY_OPERATORS);
+    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveAbelianGroup.UNARY_OPERATORS, MultiplicativeSemiGroup.UNARY_OPERATORS, Group.UNARY_OPERATORS);
 
 
     @Override

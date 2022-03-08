@@ -54,6 +54,7 @@ public enum Operator implements AlgebraicBinaryOperator {
         null
     );
 
+
     @Getter
     final Method method;
 

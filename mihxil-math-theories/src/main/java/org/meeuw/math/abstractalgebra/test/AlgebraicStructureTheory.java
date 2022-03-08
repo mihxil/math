@@ -130,7 +130,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 E result = o.apply(e1);
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
-                assertThat(result.getStructure()).isSameAs(s);
+                assertThat(result.getStructure()).withFailMessage("Result of operator " + o + " (" + e1 + ") has structure " + result.getClass() + " " + result.getStructure() + " which is not " + s).isSameAs(s);
                 if (count.incrementAndGet() < (size * 3L)) { // show three example of every operator
                     getLogger().info(o.stringify(e1) + " = " + result);
                 } else {

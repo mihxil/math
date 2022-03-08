@@ -1,7 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * An element for the algebraic 'group' (where the operation is multiplication)
+ * An element for the algebraic 'group' (where the operation is addition)
  *
  * @author Michiel Meeuwissen
  * @since 0.4

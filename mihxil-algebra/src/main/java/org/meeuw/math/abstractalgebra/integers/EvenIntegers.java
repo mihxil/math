@@ -1,12 +1,13 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
+import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.RandomConfiguration;
-import org.meeuw.math.abstractalgebra.Rng;
+import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static java.math.BigInteger.ONE;
@@ -24,8 +25,15 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
+    static NavigableSet<UnaryOperator> UNARY_OPERATORS = Utils.navigableSet(Rng.UNARY_OPERATORS, UnaryOperator.ABS);
+
     private EvenIntegers() {
         super(EvenInteger.class);
+    }
+
+    @Override
+    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
     @Override

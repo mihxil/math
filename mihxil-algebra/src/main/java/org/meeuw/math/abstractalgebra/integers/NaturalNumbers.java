@@ -83,7 +83,6 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
         return of(BigInteger.valueOf(RandomConfiguration.nextLong(random)));
     }
 
-
     @Override
     public String toString() {
         return "ℕ";
