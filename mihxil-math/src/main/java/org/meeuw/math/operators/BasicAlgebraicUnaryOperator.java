@@ -20,13 +20,13 @@ import static org.meeuw.math.text.TextUtils.superscript;
 @Log
 public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
-    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> "-" + s),
+    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> "self(" + s + ")"),
 
     NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> "-" + s),
 
-    RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),(s) -> s + superscript(-1)),
+    RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"), (s) -> s + superscript(-1)),
 
-    INVERSION(getUnaryOperatorMethod(GroupElement.class, "inverse"),(s) -> s + superscript(-1)),
+    INVERSION(getUnaryOperatorMethod(GroupElement.class, "inverse"),(s) -> "inverse(" + s  + ")"),
 
     SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
@@ -80,7 +80,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
     }
 
     @Override
-    public String stringify(Object element1) {
-        return stringify.apply(element1.toString()).toString();
+    public String stringify(String element1) {
+        return stringify.apply(element1).toString();
     }
 }

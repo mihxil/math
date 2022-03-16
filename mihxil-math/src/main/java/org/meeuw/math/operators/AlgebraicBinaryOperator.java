@@ -3,6 +3,7 @@ package org.meeuw.math.operators;
 import java.util.Objects;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * Like {@link java.util.function.BinaryOperator}, but the difference is that this is not itself generic, but only its {@link #apply(AlgebraicElement, AlgebraicElement)} method.
@@ -34,7 +35,7 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
             }
 
             @Override
-            public String stringify(Object element1, Object element2) {
+            public String stringify(String element1, String element2) {
                 return after.stringify(AlgebraicBinaryOperator.this.stringify(element1, element2));
             }
 
@@ -46,10 +47,14 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
         };
     }
 
-    String stringify(Object element1, Object element2);
+    String stringify(String element1, String element2);
+
+    default <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {
+        return stringify(element1.toString(), element2.toString());
+    }
 
     default String getSymbol() {
-        return stringify("·", "·");
+        return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
     }
 
 }

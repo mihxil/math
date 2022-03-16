@@ -3,6 +3,8 @@ package org.meeuw.math.operators;
 import java.util.Objects;
 import java.util.function.Function;
 
+import org.meeuw.math.text.TextUtils;
+
 /**
  * Like a {@link java.util.function.Function} but not generic itself.
  *
@@ -20,7 +22,15 @@ public interface GenericFunction extends OperatorInterface {
     <T, R> R apply(T t);
 
 
-    String stringify(Object element);
+    String stringify(String element);
+
+    default <T> String stringify(T element) {
+        return stringify(element.toString());
+    }
+
+    default String getSymbol() {
+        return stringify(TextUtils.PLACEHOLDER);
+    }
 
     /**
      * Returns a composed function that first applies the {@code before}

@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
 
 /**

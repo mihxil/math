@@ -187,11 +187,11 @@ public class DocumentationTest {
         List<String> ops = new ArrayList<>();
         {
             StringBuilder addition = new StringBuilder();
-            if (target.getSupportedOperators().contains(BasicAlgebraicBinaryOperator.ADDITION)) {
-                addition.append("+ ");
+            if (target.getSupportedOperators().contains(ADDITION)) {
+                addition.append(ADDITION.getSymbol());
             }
-            if (target.getSupportedOperators().contains(BasicAlgebraicBinaryOperator.SUBTRACTION)) {
-                addition.append("-");
+            if (target.getSupportedOperators().contains(SUBTRACTION)) {
+                addition.append(SUBTRACTION.getSymbol());
             }
             if (target instanceof AdditiveSemiGroup) {
                 if (((AdditiveSemiGroup<?>) target).additionIsCommutative()) {
@@ -205,10 +205,10 @@ public class DocumentationTest {
         {
             StringBuilder multiplication = new StringBuilder();
             if (target.getSupportedOperators().contains(MULTIPLICATION)) {
-                multiplication.append(MULTIPLICATION.getSymbol()).append(" ");
+                multiplication.append(MULTIPLICATION.getSymbol());
             }
             if (target.getSupportedOperators().contains(DIVISION)) {
-                multiplication.append(DIVISION.getSymbol()).append(" ");
+                multiplication.append(DIVISION.getSymbol());
             }
             if (target instanceof MultiplicativeSemiGroup) {
                 if (((MultiplicativeSemiGroup<?>) target).multiplicationIsCommutative()) {
@@ -223,23 +223,36 @@ public class DocumentationTest {
             StringBuilder rest = new StringBuilder();
             for (AlgebraicBinaryOperator o : target.getSupportedOperators()) {
                 if (o.ordinal() <= OPERATION.ordinal() || o.ordinal() > DIVISION.ordinal()) {
-                    rest.append(o.getSymbol());
+                    rest.append(o.stringify("", ""));
                 }
             }
+            for (AlgebraicComparisonOperator o : target.getSupportedComparisonOperators()) {
+                rest.append(o.stringify("", ""));
+            }
             if (!rest.isEmpty()) {
-                ops.add(rest.toString());
+                ops.add(rest.toString()
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                );
             }
         }
         {
             StringBuilder unary = new StringBuilder();
             for (AlgebraicUnaryOperator o : target.getSupportedUnaryOperators()) {
-                if (unary.isEmpty()) {
+                if (! unary.isEmpty()) {
+                    unary.append(" ");
+                }
+                unary.append(o.getSymbol());
+            }
+
+            for (GenericFunction o : target.getSupportedFunctions()) {
+                if (! unary.isEmpty()) {
                     unary.append(" ");
                 }
                 unary.append(o.getSymbol());
             }
             if (!unary.isEmpty()) {
-                ops.add(unary.toString());
+                ops.add(unary.toString().replaceAll("\\(X\\)", ""));
             }
         }
 

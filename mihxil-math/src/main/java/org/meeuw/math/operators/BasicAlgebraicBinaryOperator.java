@@ -129,8 +129,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     }
 
     @Override
-    public String stringify(Object element1, Object element2) {
-        return stringify.apply(element1.toString(), element2.toString()).toString();
+    public String stringify(String element1, String element2) {
+        return stringify.apply(element1, element2).toString();
     }
 
     @SneakyThrows

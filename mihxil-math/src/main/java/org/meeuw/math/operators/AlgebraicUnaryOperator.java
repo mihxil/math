@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * Like a {@link java.util.function.UnaryOperator} but not generic itself.
@@ -37,7 +38,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
             }
 
             @Override
-            public String stringify(Object element) {
+            public String stringify(String element) {
                 return AlgebraicUnaryOperator.this.stringify(before.stringify(element));
             }
 
@@ -70,7 +71,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
             }
 
             @Override
-            public String stringify(Object element) {
+            public String stringify(String element) {
                 return after.stringify(AlgebraicUnaryOperator.this.stringify(element));
             }
 
@@ -81,10 +82,14 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
         };
     }
 
-    String stringify(Object element);
+    String stringify(String element);
+
+    default <E extends AlgebraicElement<E>> String stringify(E element) {
+        return stringify(element.toString());
+    }
 
     default String getSymbol() {
-        return stringify("·");
+        return stringify(TextUtils.PLACEHOLDER);
     }
     /**
      * Returns a function that always returns its input argument.
@@ -99,8 +104,8 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
             }
 
             @Override
-            public String stringify(Object element) {
-                return "self(" + element.toString() + ")";
+            public String stringify(String element) {
+                return "self(" + element + ")";
             }
 
             @Override

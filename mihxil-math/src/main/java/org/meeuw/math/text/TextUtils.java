@@ -19,6 +19,8 @@ public final class TextUtils {
     public static final String PLUSMIN = "\u00B1";
     public static final String INFINITY = "\u221E";
 
+    public static final String PLACEHOLDER = "X";
+
     private TextUtils() {
     }
 
@@ -198,4 +200,5 @@ public final class TextUtils {
         }
         return result.toString();
     }
+
 }

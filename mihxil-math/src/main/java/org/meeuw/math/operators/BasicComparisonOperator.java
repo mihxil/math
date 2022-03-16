@@ -8,10 +8,8 @@ import java.util.NavigableSet;
 import java.util.function.BinaryOperator;
 
 import org.meeuw.math.Utils;
-
-import static org.meeuw.math.Utils.navigableSet;
-
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,6 +48,11 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
     @SneakyThrows
     public <E extends AlgebraicElement<E>> boolean test(E e1, E e2) {
         return (Boolean) getMethod().invoke(e1, e2);
+    }
+
+    @Override
+    public String stringify(String element1, String element2) {
+        return stringify.apply(element1, element2).toString();
     }
 
     @SneakyThrows

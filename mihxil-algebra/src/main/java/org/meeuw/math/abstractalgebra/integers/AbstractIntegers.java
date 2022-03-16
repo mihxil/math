@@ -5,6 +5,7 @@ import java.util.NavigableSet;
 
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;

@@ -47,7 +47,7 @@ public enum BasicFunction implements GenericFunction {
     }
 
     @Override
-    public String stringify(Object element) {
-        return stringify.apply(element.toString()).toString();
+    public String stringify(String element) {
+        return stringify.apply(element).toString();
     }
 }
