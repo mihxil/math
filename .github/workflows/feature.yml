@@ -1,0 +1,23 @@
+---
+name: build feature branch
+on:
+  push:
+    branches: ['feature/*']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    steps:
+      - name: Cancel previous Action
+        uses: styfle/cancel-workflow-action@0.9.1
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Build with Maven
+        run: |
+          set
+          mvn -B -fae
