@@ -93,7 +93,7 @@ NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also imple
 
 The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (_one_ and _zero_).
 
-image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), and special elements."]
+image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), and special elements.", link="{docs}/algebras.svg"]
 
 ==== Numbers
 
