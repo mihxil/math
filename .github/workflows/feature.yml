@@ -1,5 +1,5 @@
 ---
-name: build feature branch
+name: feature
 on:
   push:
     branches: ['feature/*']
