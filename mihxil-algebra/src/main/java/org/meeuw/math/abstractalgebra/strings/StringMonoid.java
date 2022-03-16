@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicComparisonOperator;
 
 /**
  * @author Michiel Meeuwissen
@@ -32,8 +33,8 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
+    public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return BasicComparisonOperator.ALL;
     }
 
     @Override

@@ -61,6 +61,8 @@ public interface NumberOperations<N extends Number> {
 
     N pow(N n1, int exponent);
 
+    N exp(N e);
+
     UncertainNumber<N> pow(N n1, N exponent);
 
     boolean lt(N n1, N n2);
@@ -106,6 +108,9 @@ public interface NumberOperations<N extends Number> {
     UncertainNumber<N> sin(N n);
 
     UncertainNumber<N> cos(N n);
+
+    UncertainNumber<N> atan2(N y, N x);
+
 
     boolean isZero(N n);
 

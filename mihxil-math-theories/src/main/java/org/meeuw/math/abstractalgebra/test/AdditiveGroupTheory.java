@@ -7,6 +7,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -16,7 +18,7 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
 
     @Property
     default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.ADDITION, Operator.SUBTRACTION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION, BasicAlgebraicBinaryOperator.SUBTRACTION);
     }
 
     @Property

@@ -10,12 +10,14 @@ import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.exceptions.OperationException;
+import org.meeuw.math.operators.*;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.meeuw.math.abstractalgebra.ComparisonOperator.*;
+import static org.meeuw.math.operators.BasicComparisonOperator.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -75,8 +77,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(e1.getStructure().equals(e2.getStructure())).isTrue();
     }
 
-    Map<AlgebraicStructure<?>, AtomicLong> COUNTS = new HashMap<>();
-
     @Property
     default void elementClass(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
@@ -85,15 +85,20 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(e).isInstanceOf(s.getElementClass());
     }
 
+
+    Map<AlgebraicStructure<?>, AtomicLong> COUNTS = new HashMap<>();
+    Map<AlgebraicStructure<?>, AtomicLong> ERROR_COUNTS = new HashMap<>();
+
     @Property
-    default void operators(
+    default void algebraicBinaryOperators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
         @ForAll(ELEMENTS) E e1,
         @ForAll(ELEMENTS) E e2) throws Throwable {
 
         AtomicLong count = COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        AtomicLong error = ERROR_COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         int size = s.getSupportedOperators().size();
-        for (Operator o : s.getSupportedOperators()) {
+        for (AlgebraicBinaryOperator o : s.getSupportedOperators()) {
             try {
                 E result = o.apply(e1, e2);
                 assertThat(result)
@@ -104,8 +109,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
-            } catch (ReciprocalException ae) {
-                getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
+            } catch (OperationException ae) {
+                if (error.incrementAndGet() < 3L) {
+                    getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
+                } else {
+                    getLogger().debug(o.stringify(e1, e2) + " -> " + ae.getMessage());
+
+                }
             } catch (Throwable ae) {
                 if (ae.getCause() != null) {
                     throw ae.getCause();
@@ -117,14 +127,18 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    Map<AlgebraicStructure<?>, AtomicLong> UCOUNTS = new HashMap<>();
+    Map<AlgebraicStructure<?>, AtomicLong> ERROR_UCOUNTS = new HashMap<>();
+
     @Property
-    default void unaryOperators(
+    default void algebraicUnaryOperators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
         @ForAll(ELEMENTS) E e1) throws Throwable {
 
-        AtomicLong count = COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         int size = s.getSupportedOperators().size();
-        for (UnaryOperator o : s.getSupportedUnaryOperators()) {
+        for (AlgebraicUnaryOperator o : s.getSupportedUnaryOperators()) {
             try {
                 E result = o.apply(e1);
                 assertThat(result)
@@ -135,7 +149,38 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     getLogger().debug(o.stringify(e1) + " = " + result);
                 }
-            } catch (ReciprocalException | IllegalSqrtException ae) {
+            } catch (OperationException ae) {
+                if (countError.incrementAndGet() < 3L) {
+                    getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
+                } else {
+                    getLogger().debug(o.stringify(e1) + " -> " + ae.getMessage());
+
+                }
+            } catch (Throwable ae) {
+                getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
+                if (ae.getCause() != null) {
+                    throw ae.getCause();
+                } else {
+                    throw ae;
+                }
+            }
+
+        }
+    }
+
+    @Property
+    default void functions(
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1) throws Throwable {
+
+
+        for (GenericFunction o : s.getSupportedFunctions()) {
+            try {
+                Object result = o.apply(e1);
+                getLogger().info(o.stringify(e1) + " = " + result);
+                assertThat(result)
+                    .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
+            } catch (OperationException ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
@@ -180,7 +225,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void staticOperators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
-        @ForAll Operator o) {
+        @ForAll BasicAlgebraicBinaryOperator o) {
 
         try {
             Method method = structure.getElementClass().getMethod(o.getMethod().getName(), o.getMethod().getParameterTypes());
@@ -206,7 +251,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void staticUnaryOperators(
         @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
-        @ForAll UnaryOperator o) {
+        @ForAll BasicAlgebraicUnaryOperator o) {
 
         try {
             Method method = structure.getElementClass().getMethod(o.getMethod().getName(), o.getMethod().getParameterTypes());

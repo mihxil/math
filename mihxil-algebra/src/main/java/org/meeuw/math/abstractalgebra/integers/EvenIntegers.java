@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static java.math.BigInteger.ONE;
@@ -25,15 +26,15 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
-    static NavigableSet<UnaryOperator> UNARY_OPERATORS = Utils.navigableSet(Rng.UNARY_OPERATORS, UnaryOperator.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = Utils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
 
     private EvenIntegers() {
         super(EvenInteger.class);
     }
 
     @Override
-    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return UNARY_OPERATORS;
+    public NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     @Override

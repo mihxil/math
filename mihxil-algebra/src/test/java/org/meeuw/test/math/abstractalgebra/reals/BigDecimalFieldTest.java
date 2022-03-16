@@ -9,7 +9,7 @@ import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
@@ -22,7 +22,7 @@ import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
  * @since 0.4
  */
 strictfp class BigDecimalFieldTest implements
-    CompleteFieldTheory<BigDecimalElement>,
+    CompleteScalarFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
     @Test

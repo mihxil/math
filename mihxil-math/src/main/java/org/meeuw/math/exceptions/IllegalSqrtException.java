@@ -1,6 +1,10 @@
 package org.meeuw.math.exceptions;
 
-public class IllegalSqrtException extends MathException {
+/**
+ * Gets thrown if trying to take an impossible sqrt.
+ */
+public class IllegalSqrtException extends OperationException {
+
     public IllegalSqrtException(Throwable s) {
         super(s.getMessage());
         initCause(s);

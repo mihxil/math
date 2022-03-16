@@ -7,7 +7,7 @@ import java.util.Random;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log4j2
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<UncertainReal>,
-    CompleteFieldTheory<UncertainReal> {
+    CompleteScalarFieldTheory<UncertainReal> {
 
 
     @Test

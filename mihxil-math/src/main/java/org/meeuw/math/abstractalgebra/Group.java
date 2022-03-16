@@ -4,6 +4,9 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
+
 /**
  * A general group , with one operation, and a 'unity' element.
  *
@@ -13,10 +16,10 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface Group<E extends GroupElement<E>> extends Magma<E> {
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, UnaryOperator.INVERSION);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, BasicAlgebraicUnaryOperator.INVERSION);
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

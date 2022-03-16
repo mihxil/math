@@ -113,6 +113,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
+    public BigDecimal exp(BigDecimal e) {
+        return BigDecimalMath.exp(e, context());
+    }
+
+    @Override
     public UncertainNumber<BigDecimal> pow(BigDecimal n1, BigDecimal exponent) {
         try {
             return uncertain(BigDecimalMath.pow(n1, exponent, context()));
@@ -159,6 +164,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Override
     public UncertainNumber<BigDecimal> cos(BigDecimal bigDecimal) {
         return uncertain(BigDecimalMath.cos(bigDecimal, context()));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> atan2(BigDecimal y, BigDecimal x) {
+        return uncertain(BigDecimalMath.atan2(y, x, context()));
     }
 
     @Override

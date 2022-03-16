@@ -4,6 +4,9 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
  * @author Michiel Meeuwissen
@@ -14,18 +17,18 @@ public interface Field<E extends FieldElement<E>> extends
     AbelianRing<E>,
     DivisibleGroup<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(DivisionRing.OPERATORS, AbelianRing.OPERATORS);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(DivisionRing.OPERATORS, AbelianRing.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(DivisionRing.UNARY_OPERATORS, AbelianRing.UNARY_OPERATORS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(DivisionRing.UNARY_OPERATORS, AbelianRing.UNARY_OPERATORS);
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 /**
@@ -30,7 +31,9 @@ public class NDivisibleIntegers extends
     @Example(Rng.class)
     public static final NDivisibleIntegers _3Z = NDivisibleIntegers.of(3);
 
-    static NavigableSet<UnaryOperator> UNARY_OPERATORS = Utils.navigableSet(Rng.UNARY_OPERATORS, UnaryOperator.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = Utils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
+
+
 
     @Getter
     final int divisor;
@@ -45,8 +48,8 @@ public class NDivisibleIntegers extends
     }
 
     @Override
-    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return UNARY_OPERATORS;
+    public NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     @Override

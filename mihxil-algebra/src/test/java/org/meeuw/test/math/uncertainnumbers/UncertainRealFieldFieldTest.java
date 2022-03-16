@@ -8,10 +8,11 @@ import java.math.BigInteger;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.Operator;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -26,7 +27,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
  * @since 0.4
  */
 @Log4j2
-class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> {
+class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void testToString() {
@@ -44,12 +45,12 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
     public void errorPropagation(
         @ForAll("bigdecimals") final BigDecimal r1,
         @ForAll("bigdecimals") final BigDecimal r2,
-        @ForAll("operators") final Operator operator) {
+        @ForAll("operators") final BasicAlgebraicBinaryOperator operator) {
 
         withAspect(UncertaintyConfiguration.class,
             (nc) -> nc.withConsiderRoundingErrorFactor(0), () -> {
                 BigDecimal big2 = r2;
-                if (operator == Operator.POWER) {
+                if (operator == BasicAlgebraicBinaryOperator.POWER) {
                     big2 = big2.divide(BigDecimal.valueOf(100));
                 }
                 UncertainReal a = exactly(r1.doubleValue());
@@ -79,10 +80,9 @@ class UncertainRealFieldFieldTest implements CompleteFieldTheory<UncertainReal> 
 
 
     @Provide
-    public Arbitrary<Operator> operators() {
+    public Arbitrary<AlgebraicBinaryOperator> operators() {
         return Arbitraries.of(INSTANCE.getSupportedOperators());
     }
-
 
 
     @Provide

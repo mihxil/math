@@ -2,6 +2,8 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.operators.*;
+
 import static org.meeuw.math.Utils.navigableSet;
 
 /**
@@ -12,13 +14,11 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
 
-
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(Field.UNARY_OPERATORS, UnaryOperator.ABS);
-
+    NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Field.FUNCTIONS, BasicFunction.ABS, BasicFunction.DECIMAL, BasicFunction.INTEGER);
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return UNARY_OPERATORS;
+    default NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     @Override

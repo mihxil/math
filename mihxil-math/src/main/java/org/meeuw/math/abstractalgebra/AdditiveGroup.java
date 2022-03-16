@@ -3,8 +3,12 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
+
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.NEGATION;
 
 /**
  *  A <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">Group</a> with the binary operation 'addition'.
@@ -14,18 +18,18 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
  */
 public interface AdditiveGroup<E extends AdditiveGroupElement<E>> extends AdditiveMonoid<E>, Group<E>  {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(AdditiveMonoid.OPERATORS, SUBTRACTION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(AdditiveMonoid.OPERATORS, SUBTRACTION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveMonoid.UNARY_OPERATORS, NEGATION);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveMonoid.UNARY_OPERATORS, NEGATION);
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

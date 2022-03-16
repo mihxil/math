@@ -151,6 +151,15 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return UncertainRealField.INSTANCE;
     }
 
+    @Override
+    public UncertainReal exp() {
+        return new UncertainDoubleElement(Math.exp(getValue()), getUncertainty()/* TODO */);
+    }
+
+    @Override
+    public UncertainReal ln() {
+        return new UncertainDoubleElement(Math.log(getValue()), getUncertainty() /* TODO */);
+    }
 
 
     @Override

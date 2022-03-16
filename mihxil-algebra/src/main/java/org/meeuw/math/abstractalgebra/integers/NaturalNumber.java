@@ -51,4 +51,5 @@ public class NaturalNumber extends
         return this;
     }
 
+
 }

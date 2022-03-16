@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
@@ -18,7 +19,8 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
 
     @Property
     default void multiplicativeGroupOperators(@ForAll(STRUCTURE) MultiplicativeGroup<?> group) {
-        assertThat(group.getSupportedOperators()).contains(Operator.MULTIPLICATION, Operator.DIVISION);
+        assertThat(group.getSupportedOperators())
+            .contains(BasicAlgebraicBinaryOperator.MULTIPLICATION, BasicAlgebraicBinaryOperator.DIVISION);
     }
 
     @Property

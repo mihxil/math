@@ -4,14 +4,17 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import org.meeuw.math.*;
+import org.meeuw.math.operators.*;
 
+import static java.util.Collections.unmodifiableNavigableSet;
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.IDENTIFY;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.IDENTIFY;
+import static org.meeuw.math.operators.OperatorInterface.COMPARATOR;
 
 /**
  * The base interface of all algebraic structures.
  *
- * If defines what arithmetic {@link Operator}s are possible its elements
+ * If defines what arithmetic {@link BasicAlgebraicBinaryOperator}s are possible its elements
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -19,34 +22,44 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.IDENTIFY;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Randomizable<E> {
 
-    NavigableSet<ComparisonOperator> EQ_ONLY = Utils.navigableSet(ComparisonOperator.EQ);
+    NavigableSet<AlgebraicComparisonOperator> EQ_ONLY = navigableSet(BasicComparisonOperator.EQ);
 
-    NavigableSet<Operator> OPERATORS = Collections.emptyNavigableSet();
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = unmodifiableNavigableSet(new TreeSet<>(COMPARATOR));
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY);
+
+    NavigableSet<GenericFunction> FUNCTIONS = unmodifiableNavigableSet(new TreeSet<>(COMPARATOR));
 
     /**
-     * Returns the {@link Operator}s that elements of this structure support.
+     * Returns the {@link AlgebraicBinaryOperator}s that elements of this structure support.
      * @return the set of all supported binary operators in this algebraic structure
      */
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return Collections.emptyNavigableSet();
     }
 
     /**
-     * Returns the {@link UnaryOperator}s that elements of this structure support.
+     * Returns the {@link BasicAlgebraicUnaryOperator}s that elements of this structure support.
      * @return the set of all supported unary operators in this algebraic structure
      */
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 
     /**
-     * Returns the {@link UnaryOperator}s that elements of this structure support.
+     * Returns the {@link AlgebraicComparisonOperator}s that elements of this structure support.
      * @return the set of all supported unary operators in this algebraic structure
      */
-    default NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
+    default NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return EQ_ONLY;
+    }
+
+       /**
+     * Returns the {@link BasicAlgebraicUnaryOperator}s that elements of this structure support.
+     * @return the set of all supported unary operators in this algebraic structure
+     */
+    default NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     /**

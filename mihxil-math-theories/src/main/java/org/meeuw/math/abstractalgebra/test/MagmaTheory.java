@@ -7,6 +7,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
@@ -16,6 +18,6 @@ public interface MagmaTheory<E extends MagmaElement<E>>
 
     @Property
     default void magmaOperators(@ForAll(STRUCTURE) Magma<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.OPERATION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
     }
 }

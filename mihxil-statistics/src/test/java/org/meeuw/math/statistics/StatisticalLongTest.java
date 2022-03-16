@@ -8,7 +8,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.test.CompleteFieldTheory;
+import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @since 0.3
  */
 
-class StatisticalLongTest implements CompleteFieldTheory<UncertainReal> {
+class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void instants() {

@@ -6,9 +6,9 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.NEGATION;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.SQR;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.NEGATION;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 /**
  * @author Michiel Meeuwissen

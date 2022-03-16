@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.meeuw.math.exceptions.ReciprocalException;
-import org.meeuw.math.numbers.SignedNumber;
 
 /**
  * Elements of a {@link CompleteField}.
@@ -13,8 +12,7 @@ import org.meeuw.math.numbers.SignedNumber;
  */
 public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     extends
-    ScalarFieldElement<E>,
-    SignedNumber<E> {
+    FieldElement<E> {
 
     @Override
     CompleteField<E> getStructure();
@@ -26,5 +24,16 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     E cos();
 
     E pow(E exponent) throws ReciprocalException;
+
+    E exp();
+
+    E ln();
+
+    default E sinh() {
+        return exp().minus(negation().exp()).dividedBy(2);
+    }
+    default E cosh() {
+        return exp().plus(negation().exp()).dividedBy(2);
+    }
 
 }

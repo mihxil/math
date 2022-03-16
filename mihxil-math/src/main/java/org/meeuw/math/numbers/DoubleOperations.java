@@ -90,6 +90,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
+    public Double exp(Double e) {
+        return Math.exp(e);
+    }
+
+    @Override
     public UncertainNumber<Double> pow(Double n1, Double exponent) {
         return uncertain(Math.pow(n1, exponent));
     }
@@ -132,6 +137,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> cos(Double aDouble) {
         return uncertain(Math.cos(aDouble));
+    }
+
+    @Override
+    public UncertainNumber<Double> atan2(Double y, Double x) {
+        return uncertain(Math.atan2(y, x));
     }
 
     @Override

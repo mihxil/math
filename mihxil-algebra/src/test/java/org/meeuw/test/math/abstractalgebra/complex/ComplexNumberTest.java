@@ -17,7 +17,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @since 0.4
  */
 class ComplexNumberTest implements
-    FieldTheory<ComplexNumber>,
+    CompleteFieldTheory<ComplexNumber>,
     MetricSpaceTheory<ComplexNumber, RealNumber>,
     WithScalarTheory<ComplexNumber, RealNumber> {
 
@@ -51,5 +51,13 @@ class ComplexNumberTest implements
         return Arbitraries.of(
             RealNumber.of(0), RealNumber.of(1), RealNumber.of(2), RealNumber.of(-1)
         );
+    }
+
+    @Test
+    public void sqrt() {
+        assertThat(ComplexNumber.of(RealNumber.of(-1)).sqrt()).isEqualTo(ComplexNumbers.INSTANCE.i());
+
+        assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt().toString()).isEqualTo("0.70710678118655 - 0.70710678118655i");
+
     }
 }

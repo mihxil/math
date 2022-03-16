@@ -9,6 +9,6 @@ import java.lang.annotation.*;
  * @since 0.8
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.FIELD, ElementType.METHOD})
 public @interface NonAlgebraic {
 }

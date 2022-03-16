@@ -8,6 +8,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
+
 /**
  * @author Michiel Meeuwissen
  */
@@ -38,7 +40,7 @@ class AlgebraicStructureTest {
     @Test
     public void test() {
         assertThat(s.getSupportedOperators()).isEmpty();
-        assertThat(s.getSupportedUnaryOperators()).containsExactly(UnaryOperator.IDENTIFY);
+        assertThat(s.getSupportedUnaryOperators()).containsExactly(BasicAlgebraicUnaryOperator.IDENTIFY);
         assertThat(s.getDescription()).isEqualTo("S");
         assertThat(s.getEquivalence().test(new E(), new E())).isFalse();
     }

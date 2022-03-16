@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.streams.StreamUtils;
 
 import static java.math.BigInteger.ONE;
@@ -37,8 +38,8 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
+    public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return BasicComparisonOperator.ALL;
     }
 
     @Override

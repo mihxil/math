@@ -4,6 +4,9 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
 /**
  * Like a {@link Ring} but without multiplicative identity.
  *
@@ -12,18 +15,18 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface Rng<E extends RngElement<E>> extends AdditiveAbelianGroup<E>, MultiplicativeSemiGroup<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(AdditiveAbelianGroup.OPERATORS, MultiplicativeSemiGroup.OPERATORS);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(AdditiveAbelianGroup.OPERATORS, MultiplicativeSemiGroup.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveAbelianGroup.UNARY_OPERATORS, MultiplicativeSemiGroup.UNARY_OPERATORS, Group.UNARY_OPERATORS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveAbelianGroup.UNARY_OPERATORS, MultiplicativeSemiGroup.UNARY_OPERATORS, Group.UNARY_OPERATORS);
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

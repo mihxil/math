@@ -9,11 +9,13 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
+import static org.meeuw.math.operators.BasicFunction.ABS;
 
 /**
  * The 'Monoid' (multiplicative and additive) of natural numbers.
@@ -28,10 +30,12 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     AdditiveMonoid<NaturalNumber>,
     AdditiveAbelianSemiGroup<NaturalNumber> {
 
-    private static final NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, ADDITION);
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, ADDITION);
 
-    private static final NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, ABS, SQR);
+    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, SQR);
 
+
+    private static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(ABS);
 
     public static final NaturalNumbers INSTANCE = new NaturalNumbers();
 
@@ -64,13 +68,18 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     }
 
     @Override
-    public NavigableSet<Operator> getSupportedOperators() {
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    public NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
+    }
+
+    @Override
+    public NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     @Override

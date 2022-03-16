@@ -98,6 +98,18 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
         return UncertainRealField.INSTANCE;
     }
 
+    @Override
+    public UncertainReal exp() {
+        double value = Math.exp(getValue());
+        return new UncertainDoubleElement(value, getUncertainty()); /// todo);
+    }
+
+    @Override
+    public UncertainReal ln() {
+        double value = Math.log(getValue());
+        return new UncertainDoubleElement(value, getUncertainty()); /// todo);
+    }
+
 
     @Override
     public UncertainDoubleElement reciprocal() {

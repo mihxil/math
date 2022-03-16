@@ -2,9 +2,11 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.operators.*;
+
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 
 /**
  *  A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
@@ -12,33 +14,32 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface CompleteField<E extends CompleteFieldElement<E>> extends ScalarField<E> {
+public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS, EXP, LN, SINH, COSH);
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 
     @Override
-    default NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL;
+    default NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return BasicComparisonOperator.ALL;
     }
 
     @Override
     default E determinant(E[][] source) {
         // we have comparison and abs, we could use Gaussion elimination with partial pivoting
-        return ScalarField.super.determinant(source);
+        return Field.super.determinant(source);
     }
-
 
 }

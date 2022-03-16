@@ -31,23 +31,23 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         this.imaginary = imaginary;
     }
 
-    abstract S of(E real, E imaginary);
+    abstract S _of(E real, E imaginary);
 
     @Override
     public S times(S multiplier) {
-        return of(
+        return _of(
             this.real.times(multiplier.real).minus(this.imaginary.times(multiplier.imaginary)),
             this.real.times(multiplier.imaginary).plus(this.imaginary.times(multiplier.real)));
     }
 
     @Override
     public S times(E multiplier) {
-        return of(this.real.times(multiplier), this.imaginary.times(multiplier));
+        return _of(this.real.times(multiplier), this.imaginary.times(multiplier));
     }
 
     @Override
     public S dividedBy(E divisor) {
-        return of(
+        return _of(
             this.real.dividedBy(divisor),
             this.imaginary.dividedBy(divisor)
         );
@@ -59,7 +59,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
         if (denominator.isZero()) {
             throw new DivisionByZeroException("Denominator was 0");
         }
-        return of(
+        return _of(
             this.real.dividedBy(denominator),
             this.imaginary.negation().dividedBy(denominator)
         );
@@ -67,7 +67,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
 
     @Override
     public S plus(S summand) {
-        return of(
+        return _of(
             this.real.plus(summand.real),
             this.imaginary.plus(summand.imaginary)
         );
@@ -75,7 +75,7 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
 
     @Override
     public S negation() {
-        return of(
+        return _of(
             this.real.negation(),
             this.imaginary.negation()
         );
@@ -83,13 +83,13 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
 
     @Override
     public S dividedBy(long divisor) {
-        return of(real.dividedBy(divisor), imaginary.dividedBy(divisor));
+        return _of(real.dividedBy(divisor), imaginary.dividedBy(divisor));
     }
 
 
     @Override
     public S times(long multiplier) {
-        return of(real.times(multiplier), imaginary.times(multiplier));
+        return _of(real.times(multiplier), imaginary.times(multiplier));
     }
 
     @SuppressWarnings("rawtypes")

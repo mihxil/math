@@ -9,7 +9,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class InverseException extends MathException {
+public class InverseException extends OperationException {
     public InverseException(String s) {
         super(s);
     }

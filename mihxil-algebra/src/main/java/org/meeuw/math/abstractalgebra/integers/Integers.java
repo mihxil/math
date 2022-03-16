@@ -7,11 +7,12 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.*;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ONE;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 /**
  * The Ring of integers, commonly referred to as ℤ.
@@ -23,16 +24,26 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     MultiplicativeMonoid<IntegerElement>,
     Group<IntegerElement> {
 
+    static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);
+
+    static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS);
+
+    static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Ring.FUNCTIONS, MultiplicativeMonoid.FUNCTIONS, Group.FUNCTIONS, navigableSet(BasicFunction.ABS));
+
     @Override
-    public NavigableSet<Operator> getSupportedOperators() {
-        return navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
     }
 
     @Override
-    public  NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
-        return navigableSet(Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS, navigableSet(UnaryOperator.ABS));
+    public  NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
+    @Override
+    public  NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
+    }
 
     @Example(Ring.class)
     @Example(Group.class)

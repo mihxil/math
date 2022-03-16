@@ -4,6 +4,8 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.exceptions.InverseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,12 +19,12 @@ public interface GroupTheory<E extends GroupElement<E>>
 
     @Property
     default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.OPERATION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
     }
 
     @Property
     default void groupUnitaryOperators(@ForAll(STRUCTURE) Group<E> s) {
-        assertThat(s.getSupportedUnaryOperators()).contains(UnaryOperator.INVERSION);
+        assertThat(s.getSupportedUnaryOperators()).contains(BasicAlgebraicUnaryOperator.INVERSION);
     }
 
 

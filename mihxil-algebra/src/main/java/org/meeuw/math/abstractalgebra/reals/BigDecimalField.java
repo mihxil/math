@@ -15,11 +15,10 @@ import org.meeuw.math.numbers.MathContextConfiguration;
 public class BigDecimalField
     extends AbstractAlgebraicStructure<BigDecimalElement>
     implements
-    CompleteField<BigDecimalElement>,
+    CompleteScalarField<BigDecimalElement>,
     MetricSpace<BigDecimalElement, BigDecimalElement> {
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
-
 
     protected BigDecimalField() {
         super(BigDecimalElement.class);

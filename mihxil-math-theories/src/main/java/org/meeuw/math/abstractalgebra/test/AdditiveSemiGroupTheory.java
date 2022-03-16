@@ -7,6 +7,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -16,7 +18,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
 
     @Property
     default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.ADDITION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION);
     }
 
     @Property

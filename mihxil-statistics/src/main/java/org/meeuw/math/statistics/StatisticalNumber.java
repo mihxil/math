@@ -3,6 +3,7 @@ package org.meeuw.math.statistics;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.LongSummaryStatistics;
 
 import org.meeuw.math.Utils;
@@ -195,6 +196,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @Override
     public long longValue() {
         return (long) getValue();
+    }
+
+    @Override
+    public BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(longValue());
     }
 
     @Override

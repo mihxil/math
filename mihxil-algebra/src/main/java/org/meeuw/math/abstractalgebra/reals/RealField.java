@@ -11,9 +11,9 @@ import static org.meeuw.math.Utils.uncertaintyForDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(CompleteField.class)
+@Example(CompleteScalarField.class)
 public class RealField extends AbstractAlgebraicStructure<RealNumber>
-    implements CompleteField<RealNumber>, MetricSpace<RealNumber, RealNumber> {
+    implements CompleteScalarField<RealNumber>, MetricSpace<RealNumber, RealNumber> {
 
     public static final RealField INSTANCE = new RealField();
 
@@ -61,6 +61,11 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
 
             );
         }
+    }
+
+
+    public RealNumber atan2(RealNumber y, RealNumber x) {
+        return new RealNumber(Math.atan2(y.value, x.value), uncertaintyForDouble(1)/* TODO */);
     }
 
 

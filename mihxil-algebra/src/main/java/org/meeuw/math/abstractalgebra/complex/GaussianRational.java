@@ -10,6 +10,15 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
  */
 public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber> {
 
+
+    public static GaussianRational of(RationalNumber real, RationalNumber imaginary) {
+        return new GaussianRational(real, imaginary);
+    }
+
+    public static GaussianRational of(RationalNumber real) {
+        return new GaussianRational(real, GaussianRationals.INSTANCE.getElementStructure().zero());
+    }
+
     public GaussianRational(RationalNumber real, RationalNumber imaginary) {
         super(real, imaginary);
     }
@@ -20,7 +29,7 @@ public class GaussianRational extends AbstractComplexNumber<GaussianRational, Ra
     }
 
     @Override
-    public GaussianRational of(RationalNumber real, RationalNumber imaginary){
+    public GaussianRational _of(RationalNumber real, RationalNumber imaginary){
         return new GaussianRational(real, imaginary);
     }
 }

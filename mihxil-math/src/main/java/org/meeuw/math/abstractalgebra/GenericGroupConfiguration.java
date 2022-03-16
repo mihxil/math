@@ -7,20 +7,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 public class GenericGroupConfiguration implements ConfigurationAspect {
 
 
     @With
     @Getter
-    private final Operator groupOperator;
+    private final BasicAlgebraicBinaryOperator groupOperator;
 
     public GenericGroupConfiguration() {
-        this(Operator.MULTIPLICATION);
+        this(BasicAlgebraicBinaryOperator.MULTIPLICATION);
     }
 
     @lombok.Builder
-    private GenericGroupConfiguration(Operator groupOperator) {
+    private GenericGroupConfiguration(BasicAlgebraicBinaryOperator groupOperator) {
         this.groupOperator = groupOperator;
     }
 

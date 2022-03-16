@@ -5,6 +5,7 @@ import java.util.NavigableSet;
 
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
@@ -32,8 +33,8 @@ public abstract class AbstractIntegers<
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return ComparisonOperator.ALL_AND_EQUALS;
+    public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return BasicComparisonOperator.ALL_AND_EQUALS;
     }
 
     @Override

@@ -75,6 +75,11 @@ public abstract class AbstractIntegerElement<
     }
 
     @Override
+    public BigInteger bigIntegerValue() {
+        return value;
+    }
+
+    @Override
     public int signum() {
         return value.signum();
     }

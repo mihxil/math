@@ -2,6 +2,8 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
+import java.math.BigInteger;
+
 import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -142,7 +144,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
 
     @Override
     default long longValue() {
-        return (long) getValue();
+        return Math.round(getValue());
     }
 
     @Override
@@ -153,6 +155,11 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     @Override
     default BigDecimal bigDecimalValue() {
         return BigDecimal.valueOf(getValue());
+    }
+
+    @Override
+    default BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(longValue());
     }
 
     @Override

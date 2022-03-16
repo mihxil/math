@@ -14,7 +14,7 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class UncertainRealField
     extends AbstractAlgebraicStructure<UncertainReal>
-    implements CompleteField<UncertainReal> {
+    implements CompleteScalarField<UncertainReal> {
 
     public static final UncertainRealField INSTANCE = new UncertainRealField();
 

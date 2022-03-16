@@ -9,6 +9,7 @@ import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
@@ -24,9 +25,12 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     MultiplicativeMonoid<PositiveInteger>,
     AdditiveAbelianSemiGroup<PositiveInteger> {
 
-    private static final NavigableSet<Operator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, AdditiveAbelianSemiGroup.OPERATORS);
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, AdditiveAbelianSemiGroup.OPERATORS);
 
-    private static final NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS, navigableSet(UnaryOperator.ABS));
+    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS);
+
+    private static final NavigableSet<GenericFunction> GENERIC_FUNCTIONS = navigableSet(MultiplicativeMonoid.FUNCTIONS, AdditiveAbelianSemiGroup.FUNCTIONS, navigableSet(BasicFunction.ABS));
+
 
 
     public static final PositiveIntegers INSTANCE = new PositiveIntegers();
@@ -55,13 +59,18 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     }
 
     @Override
-    public NavigableSet<Operator> getSupportedOperators() {
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    public NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    public NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
+    }
+
+      @Override
+    public NavigableSet<GenericFunction> getSupportedFunctions() {
+        return FUNCTIONS;
     }
 
     @Override

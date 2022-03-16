@@ -2,6 +2,8 @@ package org.meeuw.math.uncertainnumbers.field;
 
 import lombok.Getter;
 
+import java.math.BigInteger;
+
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -173,6 +175,22 @@ public class UncertainDoubleElement
     }
 
     @Override
+    public UncertainReal exp() {
+        return of(
+            Math.exp(getValue()),
+            getUncertainty() // TODO
+        );
+    }
+
+    @Override
+    public UncertainReal ln() {
+        return of(
+            Math.log(getValue()),
+            getUncertainty() // TODO
+        );
+    }
+
+    @Override
     public  UncertainDoubleElement pow(int exponent) {
         double v = getValue();
         if (v == 0 && exponent < 0) {
@@ -217,6 +235,7 @@ public class UncertainDoubleElement
     public String toString() {
         return FormatService.toString(this);
     }
+
 
 
 }

@@ -1,7 +1,9 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.operators;
 
 import java.util.Objects;
 import java.util.function.Function;
+
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 /**
  * Like a {@link java.util.function.UnaryOperator} but not generic itself.
@@ -9,8 +11,7 @@ import java.util.function.Function;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@FunctionalInterface
-public interface AlgebraicUnaryOperator {
+public interface AlgebraicUnaryOperator extends OperatorInterface {
 
     <E extends AlgebraicElement<E>> E apply(E e);
 
@@ -33,6 +34,16 @@ public interface AlgebraicUnaryOperator {
             @Override
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return AlgebraicUnaryOperator.this.apply(before.apply(e));
+            }
+
+            @Override
+            public String stringify(Object element) {
+                return AlgebraicUnaryOperator.this.stringify(before.stringify(element));
+            }
+
+            @Override
+            public String name() {
+                return before.name() + " and then " + AlgebraicUnaryOperator.this.name();
             }
         };
     }
@@ -57,9 +68,24 @@ public interface AlgebraicUnaryOperator {
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return after.apply(AlgebraicUnaryOperator.this.apply(e));
             }
+
+            @Override
+            public String stringify(Object element) {
+                return after.stringify(AlgebraicUnaryOperator.this.stringify(element));
+            }
+
+            @Override
+            public String name() {
+                return AlgebraicUnaryOperator.this.name() + " and then " + after.name();
+            }
         };
     }
 
+    String stringify(Object element);
+
+    default String getSymbol() {
+        return stringify("·");
+    }
     /**
      * Returns a function that always returns its input argument.
      *
@@ -70,6 +96,16 @@ public interface AlgebraicUnaryOperator {
             @Override
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return e;
+            }
+
+            @Override
+            public String stringify(Object element) {
+                return "self(" + element.toString() + ")";
+            }
+
+            @Override
+            public String name() {
+                return "identity";
             }
         };
     }

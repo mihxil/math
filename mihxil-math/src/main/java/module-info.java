@@ -32,6 +32,7 @@ module org.meeuw.math {
     exports org.meeuw.math.text.configuration;
     exports org.meeuw.math.numbers;
     exports org.meeuw.math.streams;
+    exports org.meeuw.math.operators;
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

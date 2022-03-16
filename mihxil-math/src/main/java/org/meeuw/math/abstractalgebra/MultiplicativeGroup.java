@@ -2,8 +2,10 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.operators.*;
+
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.DIVISION;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.DIVISION;
 
 /**
  * A <a href="https://en.wikipedia.org/wiki/Group_(mathematics)">Group</a> with the binary operation 'multiplication'.
@@ -13,18 +15,22 @@ import static org.meeuw.math.abstractalgebra.Operator.DIVISION;
 public interface MultiplicativeGroup<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoid<E>, Group<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, DIVISION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, DIVISION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, navigableSet(UnaryOperator.RECIPROCAL), Group.UNARY_OPERATORS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        MultiplicativeMonoid.UNARY_OPERATORS,
+        navigableSet(BasicAlgebraicUnaryOperator.RECIPROCAL),
+        Group.UNARY_OPERATORS
+    );
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

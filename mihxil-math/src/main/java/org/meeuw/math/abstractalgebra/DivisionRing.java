@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.ArrayUtils.cloneMatrix;
 import static org.meeuw.math.ArrayUtils.swap;
@@ -20,24 +21,24 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     MultiplicativeGroup<E>,
     Ring<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(MultiplicativeGroup.OPERATORS, Ring.OPERATORS);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeGroup.OPERATORS, Ring.OPERATORS);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeGroup.UNARY_OPERATORS, Ring.UNARY_OPERATORS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeGroup.UNARY_OPERATORS, Ring.UNARY_OPERATORS);
 
     @Override
     E one();
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 
-    default Operator groupOperator() {
+    default BasicAlgebraicBinaryOperator groupOperator() {
         return ConfigurationService.getConfigurationAspect(GenericGroupConfiguration.class).getGroupOperator();
     }
     @Override

@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +18,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
-        assertThat(s.getSupportedOperators()).contains(Operator.MULTIPLICATION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION);
     }
 
     @Property

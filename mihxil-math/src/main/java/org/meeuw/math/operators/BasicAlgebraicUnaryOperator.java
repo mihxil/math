@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.operators;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -7,17 +7,18 @@ import lombok.extern.java.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.meeuw.math.numbers.Sizeable;
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.text.TextUtils.overLine;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Log
-public enum UnaryOperator implements AlgebraicUnaryOperator {
+public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> "-" + s),
 
@@ -29,24 +30,32 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
 
     SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
-    ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
     SQRT(getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
 
     SIN(getUnaryOperatorMethod(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
 
-    COS(getUnaryOperatorMethod(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")")
+    COS(getUnaryOperatorMethod(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")"),
+
+    EXP(getUnaryOperatorMethod(CompleteFieldElement.class, "exp"), (s) -> "exp(" + s + ")"),
+
+    LN(getUnaryOperatorMethod(CompleteFieldElement.class, "ln"), (s) -> "ln(" + s + ")"),
+
+    SINH(getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"), (s) -> "sinh(" + s + ")"),
+
+    COSH(getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"), (s) -> "cosh(" + s + ")"),
+
+
     ;
 
     @Getter
     final Method method;
 
-    @Getter
-    final java.util.function.UnaryOperator<CharSequence> symbol;
+    final java.util.function.UnaryOperator<CharSequence> stringify;
 
-    UnaryOperator(Method method, java.util.function.UnaryOperator<CharSequence> symbol) {
+    BasicAlgebraicUnaryOperator(Method method, java.util.function.UnaryOperator<CharSequence> stringify) {
         this.method = method;
-        this.symbol = symbol;
+        this.stringify = stringify;
     }
 
     @SuppressWarnings("unchecked")
@@ -70,7 +79,8 @@ public enum UnaryOperator implements AlgebraicUnaryOperator {
         return clazz.getMethod(name);
     }
 
-    public <E extends AlgebraicElement<E>> String stringify(E element1) {
-        return symbol.apply(element1.toString()).toString();
+    @Override
+    public String stringify(Object element1) {
+        return stringify.apply(element1.toString()).toString();
     }
 }

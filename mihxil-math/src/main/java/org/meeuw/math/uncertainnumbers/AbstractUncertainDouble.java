@@ -1,6 +1,7 @@
 package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 /**
  * A number with an uncertainty {@link #getUncertainty()}
@@ -53,6 +54,11 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     @Override
     public BigDecimal bigDecimalValue() {
         return BigDecimal.valueOf(doubleValue());
+    }
+
+    @Override
+    public BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(longValue());
     }
 
     @Override

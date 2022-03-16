@@ -17,4 +17,5 @@ class UtilsTest implements StaticUtilitiesTest {
     public Class<?> testClass() {
         return Utils.class;
     }
+
 }

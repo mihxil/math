@@ -8,14 +8,16 @@ import java.util.stream.Stream;
 import javax.validation.constraints.Max;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup;
+import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.ADDITION;
-import static org.meeuw.math.abstractalgebra.Operator.OPERATION;
 import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;
 
 /**
  * The 'Semigroup'  of  negative numbers
@@ -29,7 +31,7 @@ public class NegativeIntegers
     implements
     AdditiveAbelianSemiGroup<NegativeInteger> {
 
-    private static final NavigableSet<Operator> OPERATORS = navigableSet(OPERATION, ADDITION);
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, ADDITION);
 
     public static final NegativeIntegers INSTANCE = new NegativeIntegers();
 
@@ -52,7 +54,7 @@ public class NegativeIntegers
     }
 
     @Override
-    public NavigableSet<Operator> getSupportedOperators() {
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 

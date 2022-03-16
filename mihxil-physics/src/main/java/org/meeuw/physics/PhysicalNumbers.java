@@ -6,6 +6,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.Utils.navigableSet;
 
+import org.meeuw.math.operators.BasicComparisonOperator;
+
 /**
  * 'Physical' numbers are numbers of a {@link org.meeuw.math.abstractalgebra.Field} but with {@link Units}.
  * This means that such numbers cannot always be added to each other (because their dimensions must match).
@@ -32,8 +34,8 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
     }
 
     @Override
-    public NavigableSet<ComparisonOperator> getSupportedComparisonOperators() {
-        return navigableSet(ComparisonOperator.values());
+    public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return navigableSet(BasicComparisonOperator.values());
     }
 
     @Override

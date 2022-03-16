@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.meeuw.math.operators.OperatorInterface;
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.text.TextUtils;
@@ -328,26 +329,44 @@ public final class Utils {
         return max;
     }
 
-    @SafeVarargs
-    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(E...ops) {
-        return unmodifiableNavigableSet(new TreeSet<>(Arrays.asList(ops)));
+    public static long round(double value) {
+        return Math.round(value);
     }
 
     @SafeVarargs
-    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(NavigableSet<E> extend, E...ops) {
+    public static <E> NavigableSet<E> navigableSet(Comparator<? super E> comparator, E...ops) {
+        TreeSet<E> set = new TreeSet<>(comparator);
+        set.addAll(Arrays.asList(ops));
+        return unmodifiableNavigableSet(set);
+    }
+
+    @SafeVarargs
+    public static <E extends OperatorInterface> NavigableSet<E> navigableSet(E...ops) {
+        return navigableSet(OperatorInterface.COMPARATOR, ops);
+    }
+
+
+    @SafeVarargs
+    public static <E> NavigableSet<E> navigableSet(NavigableSet<E> extend, E...ops) {
         TreeSet<E> base = new TreeSet<>(extend);
         base.addAll(Arrays.asList(ops));
         return unmodifiableNavigableSet(base);
     }
 
     @SafeVarargs
-    public static <E extends Comparable<E>> NavigableSet<E> navigableSet(Collection<E>... extend) {
-        TreeSet<E> base = new TreeSet<>();
+    public static <E> NavigableSet<E> navigableSet(Comparator<? super E> comparator, Collection<E>... extend) {
+        TreeSet<E> base = new TreeSet<>(comparator);
         for (Collection<E> col : extend) {
             base.addAll(col);
         }
         return unmodifiableNavigableSet(base);
     }
+
+    @SafeVarargs
+    public static <E extends OperatorInterface> NavigableSet<E> navigableSet(Collection<E>... extend) {
+        return navigableSet(OperatorInterface.COMPARATOR, extend);
+    }
+
 
     public static <V> Supplier<V> memoize(final Supplier<V> wrapped){
         return new Supplier<V>() {

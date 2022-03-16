@@ -2,8 +2,8 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import lombok.extern.java.Log;
 
-import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.MetricSpace;
+import org.meeuw.math.Example;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
@@ -14,9 +14,10 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  * @since 0.4
  */
 @Log
+@Example(CompleteField.class)
 public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNumber>
     implements
-    Field<ComplexNumber>,
+    CompleteField<ComplexNumber>,
     MetricSpace<ComplexNumber, RealNumber> {
 
     public static final ComplexNumbers INSTANCE = new ComplexNumbers();

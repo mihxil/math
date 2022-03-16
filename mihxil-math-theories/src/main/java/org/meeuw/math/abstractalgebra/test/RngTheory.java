@@ -3,7 +3,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.Operator;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.abstractalgebra.RngElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,6 +16,6 @@ public interface RngTheory<E extends RngElement<E>> extends AdditiveAbelianGroup
 
     @Property
     default void rngOperators(@ForAll(ELEMENT) E v1) {
-        assertThat(v1.getStructure().getSupportedOperators()).contains(Operator.MULTIPLICATION, Operator.ADDITION, Operator.SUBTRACTION);
+        assertThat(v1.getStructure().getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION, BasicAlgebraicBinaryOperator.ADDITION, BasicAlgebraicBinaryOperator.SUBTRACTION);
     }
 }

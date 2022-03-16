@@ -3,9 +3,11 @@ package org.meeuw.math.abstractalgebra.reals;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.math.text.spi.FormatService;
@@ -22,8 +24,7 @@ import static org.meeuw.math.text.TextUtils.superscript;
  */
 public class RealNumber
     implements
-    CompleteFieldElement<RealNumber>,
-    ScalarFieldElement<RealNumber>,
+    CompleteScalarFieldElement<RealNumber>,
     MetricSpaceElement<RealNumber, RealNumber>,
     UncertainDouble<RealNumber>
 {
@@ -142,6 +143,11 @@ public class RealNumber
     }
 
     @Override
+    public BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(longValue());
+    }
+
+    @Override
     public double doubleValue() {
         return value;
     }
@@ -213,9 +219,21 @@ public class RealNumber
         if (value == 0 && exponent.isNegative()) {
             throw new DivisionByZeroException("0 ^ " + exponent);
         }
-        return _of(Math.pow(value, exponent.value),
+        return _of(
+            Math.pow(value, exponent.value),
             uncertainty
         );
+    }
+
+    @Override
+    public RealNumber exp() {
+        return _of(Math.exp(value), uncertainty);
+    }
+
+    @Override
+    public RealNumber ln() {
+        UncertainNumber<Double> ln = operations().ln(value);
+        return _of(ln.getValue(), ln.getValue());
     }
 
     @Override

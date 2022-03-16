@@ -2,6 +2,8 @@ package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 
+import java.math.BigInteger;
+
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
@@ -37,6 +39,10 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      *          to type {@code long}.
      */
     long longValue();
+
+
+    BigInteger bigIntegerValue();
+
 
     /**
      * Returns the value of the specified number as a {@code float},

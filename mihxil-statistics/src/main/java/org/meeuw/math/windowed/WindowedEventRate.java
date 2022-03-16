@@ -1,5 +1,6 @@
 package org.meeuw.math.windowed;
 
+import java.math.BigInteger;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.*;
@@ -100,6 +101,11 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     @Override
     public UncertainDoubleElement _of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
+    }
+
+    @Override
+    public BigInteger bigIntegerValue() {
+        return BigInteger.valueOf(Math.round(getValue()));
     }
 
     @Override

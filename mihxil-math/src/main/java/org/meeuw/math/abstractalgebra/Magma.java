@@ -4,6 +4,9 @@ import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
 
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
 
 /**
  * The most simple groupoid. Just defining one generic operation 'operate'.
@@ -14,10 +17,10 @@ import static org.meeuw.math.Utils.navigableSet;
  */
 public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(AlgebraicStructure.OPERATORS, Operator.OPERATION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(AlgebraicStructure.OPERATORS, BasicAlgebraicBinaryOperator.OPERATION);
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 

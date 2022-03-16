@@ -14,9 +14,10 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
 import org.reflections.Reflections;
 
-import static org.meeuw.math.abstractalgebra.Operator.*;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 
 /**
@@ -186,11 +187,11 @@ public class DocumentationTest {
         List<String> ops = new ArrayList<>();
         {
             StringBuilder addition = new StringBuilder();
-            if (target.getSupportedOperators().contains(Operator.ADDITION)) {
-                addition.append(" + ");
+            if (target.getSupportedOperators().contains(BasicAlgebraicBinaryOperator.ADDITION)) {
+                addition.append("+ ");
             }
-            if (target.getSupportedOperators().contains(Operator.SUBTRACTION)) {
-                addition.append(" - ");
+            if (target.getSupportedOperators().contains(BasicAlgebraicBinaryOperator.SUBTRACTION)) {
+                addition.append("-");
             }
             if (target instanceof AdditiveSemiGroup) {
                 if (((AdditiveSemiGroup<?>) target).additionIsCommutative()) {
@@ -204,10 +205,10 @@ public class DocumentationTest {
         {
             StringBuilder multiplication = new StringBuilder();
             if (target.getSupportedOperators().contains(MULTIPLICATION)) {
-                multiplication.append(" ").append(MULTIPLICATION.getSymbol()).append(" ");
+                multiplication.append(MULTIPLICATION.getSymbol()).append(" ");
             }
             if (target.getSupportedOperators().contains(DIVISION)) {
-                multiplication.append(" ").append(DIVISION.getSymbol()).append(" ");
+                multiplication.append(DIVISION.getSymbol()).append(" ");
             }
             if (target instanceof MultiplicativeSemiGroup) {
                 if (((MultiplicativeSemiGroup<?>) target).multiplicationIsCommutative()) {
@@ -218,10 +219,31 @@ public class DocumentationTest {
                 ops.add(multiplication.toString());
             }
         }
-        if (target.getSupportedOperators().contains(OPERATION)) {
-            ops.add(" " + OPERATION.getSymbol());
+        {
+            StringBuilder rest = new StringBuilder();
+            for (AlgebraicBinaryOperator o : target.getSupportedOperators()) {
+                if (o.ordinal() <= OPERATION.ordinal() || o.ordinal() > DIVISION.ordinal()) {
+                    rest.append(o.getSymbol());
+                }
+            }
+            if (!rest.isEmpty()) {
+                ops.add(rest.toString());
+            }
+        }
+        {
+            StringBuilder unary = new StringBuilder();
+            for (AlgebraicUnaryOperator o : target.getSupportedUnaryOperators()) {
+                if (unary.isEmpty()) {
+                    unary.append(" ");
+                }
+                unary.append(o.getSymbol());
+            }
+            if (!unary.isEmpty()) {
+                ops.add(unary.toString());
+            }
         }
 
+        // special elements
         try {
             target.getClass().getMethod("zero");
             ops.add("0");

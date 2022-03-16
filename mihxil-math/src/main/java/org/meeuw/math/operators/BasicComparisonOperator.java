@@ -1,4 +1,4 @@
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.operators;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -9,11 +9,15 @@ import java.util.function.BinaryOperator;
 
 import org.meeuw.math.Utils;
 
+import static org.meeuw.math.Utils.navigableSet;
+
+import org.meeuw.math.abstractalgebra.*;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public enum ComparisonOperator implements AlgebraicComparisonOperator {
+public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
 
     EQ(getBinaryOperatorMethod(AlgebraicElement.class, "eq"), (a, b) -> a + "≈" + b),
     EQUALS(getBinaryOperatorMethod(Object.class, "equals"), (a, b) -> a + "=" + b),
@@ -23,10 +27,10 @@ public enum ComparisonOperator implements AlgebraicComparisonOperator {
     GTE(getBinaryOperatorMethod(StrictlyOrdered.class, "gte"), (a, b) -> a + ">=" + b),
     ;
 
-    public static final NavigableSet<ComparisonOperator> ALL = Utils.navigableSet(
+    public static final NavigableSet<AlgebraicComparisonOperator> ALL = Utils.navigableSet(
         EQ, LT, LTE, GT, GTE
     );
-    public static final NavigableSet<ComparisonOperator> ALL_AND_EQUALS = Utils.navigableSet(
+    public static final NavigableSet<AlgebraicComparisonOperator> ALL_AND_EQUALS = Utils.navigableSet(
         EQ, LT, LTE, GT, GTE, EQUALS
     );
 
@@ -37,7 +41,7 @@ public enum ComparisonOperator implements AlgebraicComparisonOperator {
     @Getter
     final BinaryOperator<CharSequence> stringify;
 
-    ComparisonOperator(Method method, java.util.function.BinaryOperator<CharSequence> stringify) {
+    BasicComparisonOperator(Method method, java.util.function.BinaryOperator<CharSequence> stringify) {
         this.method = method;
         this.stringify = stringify;
     }

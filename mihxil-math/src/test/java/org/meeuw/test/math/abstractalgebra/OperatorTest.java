@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,33 +49,33 @@ class OperatorTest {
 
     @Test
     public void add() {
-        Assertions.assertThat(Operator.ADDITION.apply(new A(), new A())).isInstanceOf(A.class);
+        Assertions.assertThat(BasicAlgebraicBinaryOperator.ADDITION.apply(new A(), new A())).isInstanceOf(A.class);
     }
 
     @Test
     public void stringify() {
-        assertThat(Operator.ADDITION.stringify(new A(), new A())).isEqualTo("<a> + <a>");
-        assertThat(Operator.ADDITION.getStringify().apply("x", "y")).isEqualTo("x + y");
+        assertThat(BasicAlgebraicBinaryOperator.ADDITION.stringify(new A(), new A())).isEqualTo("<a> + <a>");
+        assertThat(BasicAlgebraicBinaryOperator.ADDITION.getStringify().apply("x", "y")).isEqualTo("x + y");
     }
 
     @Test
     public void illegalState() {
         assertThatThrownBy(() -> {
-            Operator.ADDITION.apply(new ANull(), new A());
+            BasicAlgebraicBinaryOperator.ADDITION.apply(new ANull(), new A());
         }).isInstanceOf(IllegalStateException.class);
     }
 
     @Test
     public void illegalArgument() {
         assertThatThrownBy(() -> {
-            Operator.ADDITION.apply(new AIllegalArgument(), new A());
+            BasicAlgebraicBinaryOperator.ADDITION.apply(new AIllegalArgument(), new A());
         }).isInstanceOf(IllegalArgumentException.class).hasMessage("foo bar");
     }
 
     @Test
     public void wrongArgument() {
         assertThatThrownBy(() -> {
-            Operator.MULTIPLICATION.apply(new A(), new A());
+            BasicAlgebraicBinaryOperator.MULTIPLICATION.apply(new A(), new A());
         }).isInstanceOf(NoSuchOperatorException.class).hasMessage("A <a> has no operator 'times'");
     }
 

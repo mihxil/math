@@ -1,6 +1,6 @@
 package org.meeuw.math.uncertainnumbers.field;
 
-import org.meeuw.math.abstractalgebra.CompleteFieldElement;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 /**
@@ -12,7 +12,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 public interface UncertainReal
     extends
     UncertainDouble<UncertainReal>,
-    CompleteFieldElement<UncertainReal> {
+    CompleteScalarFieldElement<UncertainReal> {
 
     @Override
     UncertainReal negation();
@@ -32,12 +32,12 @@ public interface UncertainReal
 
     @Override
     default boolean isZero() {
-        return isExact() && CompleteFieldElement.super.isZero();
+        return isExact() && CompleteScalarFieldElement.super.isZero();
     }
 
     @Override
     default boolean isOne() {
-        return isExact() && CompleteFieldElement.super.isOne();
+        return isExact() && CompleteScalarFieldElement.super.isOne();
     }
 
 }

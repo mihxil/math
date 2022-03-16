@@ -3,8 +3,12 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import static org.meeuw.math.Utils.navigableSet;
-import static org.meeuw.math.abstractalgebra.Operator.MULTIPLICATION;
-import static org.meeuw.math.abstractalgebra.UnaryOperator.SQR;
+
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 /**
  * The algebraic structure that only defines multiplication. There might be no multiplicatie identity {@link MultiplicativeMonoid#one()}
@@ -15,18 +19,18 @@ import static org.meeuw.math.abstractalgebra.UnaryOperator.SQR;
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>>
     extends Magma<E> {
 
-    NavigableSet<Operator> OPERATORS = navigableSet(Magma.OPERATORS, MULTIPLICATION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(Magma.OPERATORS, MULTIPLICATION);
 
-    NavigableSet<UnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, SQR);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, SQR);
 
 
     @Override
-    default NavigableSet<Operator> getSupportedOperators() {
+    default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
     }
 
     @Override
-    default NavigableSet<UnaryOperator> getSupportedUnaryOperators() {
+    default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 

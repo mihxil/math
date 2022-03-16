@@ -15,8 +15,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @since 0.4
  */
 public class BigDecimalElement implements
-    ScalarFieldElement<BigDecimalElement>,
-    CompleteFieldElement<BigDecimalElement>,
+    CompleteScalarFieldElement<BigDecimalElement>,
     MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
     UncertainNumber<BigDecimal> {
 
@@ -109,7 +108,19 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws ReciprocalException {
         UncertainNumber<BigDecimal> pow = operations().pow(value, bigDecimalElement.value);
-        return new BigDecimalElement(pow.getValue(), uncertainty.max(sin().getUncertainty()));
+        return new BigDecimalElement(pow.getValue(), uncertainty.max(pow.getUncertainty()));
+    }
+
+    @Override
+    public BigDecimalElement exp() {
+        BigDecimal exp = operations().exp(value);
+        return new BigDecimalElement(exp, uncertainty);
+    }
+
+    @Override
+    public BigDecimalElement ln() {
+        UncertainNumber<BigDecimal> ln = operations().ln(value);
+        return new BigDecimalElement(ln.getValue(), uncertainty.max(ln.getUncertainty()));
     }
 
     @Override
@@ -210,6 +221,11 @@ public class BigDecimalElement implements
     @Override
     public long longValue() {
         return value.longValue();
+    }
+
+    @Override
+    public BigInteger bigIntegerValue() {
+        return value.toBigInteger();
     }
 
     @Override
