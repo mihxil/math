@@ -7,6 +7,7 @@ import java.util.function.DoubleConsumer;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
 /**
@@ -106,8 +107,8 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
 
     @Override
     public UncertainReal ln() {
-        double value = Math.log(getValue());
-        return new UncertainDoubleElement(value, getUncertainty()); /// todo);
+        UncertainNumber<Double> value = operations().ln(getValue());
+        return new UncertainDoubleElement(value.getValue(), value.getUncertainty());
     }
 
 

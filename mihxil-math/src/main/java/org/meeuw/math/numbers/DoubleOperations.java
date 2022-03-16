@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.IllegalLogException;
 import org.meeuw.math.exceptions.IllegalSqrtException;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -151,11 +152,15 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public UncertainNumber<Double> ln(Double v) {
+        if (v <= 0) {
+            throw new IllegalLogException("Can't take logarithm of " + v);
+        }
         return uncertain(Math.log(v));
     }
 
     protected UncertainNumber<Double> uncertain(Double newValue) {
-        return ImmutableUncertainNumber.of(newValue, () -> uncertaintyForDouble(newValue));
+        return ImmutableUncertainNumber.of(newValue,
+            () -> uncertaintyForDouble(newValue));
     }
 
     @Override

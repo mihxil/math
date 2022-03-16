@@ -2,8 +2,6 @@ package org.meeuw.math.uncertainnumbers.field;
 
 import lombok.Getter;
 
-import java.math.BigInteger;
-
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -184,9 +182,11 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainReal ln() {
+        UncertainNumber<Double> ln = operations().ln(getValue());
+
         return of(
-            Math.log(getValue()),
-            getUncertainty() // TODO
+            ln.getValue(),
+            ln.getUncertainty()
         );
     }
 

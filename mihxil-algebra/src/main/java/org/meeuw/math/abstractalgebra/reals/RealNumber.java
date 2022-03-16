@@ -233,7 +233,7 @@ public class RealNumber
     @Override
     public RealNumber ln() {
         UncertainNumber<Double> ln = operations().ln(value);
-        return _of(ln.getValue(), ln.getValue());
+        return _of(ln.getValue(), operations().abs(ln.getValue()));
     }
 
     @Override

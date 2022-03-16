@@ -11,4 +11,9 @@ public class OperationException extends MathException {
     public OperationException(String s) {
         super(s);
     }
+
+    public OperationException(ArithmeticException a) {
+        super(a.getMessage());
+        initCause(a);
+    }
 }

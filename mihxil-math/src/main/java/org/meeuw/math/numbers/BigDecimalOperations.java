@@ -77,7 +77,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public UncertainNumber<BigDecimal> ln(BigDecimal bigDecimal) {
-        return uncertain(BigDecimalMath.log(bigDecimal, context()));
+        try {
+            return uncertain(BigDecimalMath.log(bigDecimal, context()));
+        } catch(ArithmeticException a) {
+            throw new IllegalLogException(a);
+        }
     }
 
     @Override
