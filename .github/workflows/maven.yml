@@ -39,7 +39,7 @@ jobs:
       - uses: codecov/codecov-action@v2
         if: always()
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.26
+        uses: EnricoMi/publish-unit-test-result-action@v1.31
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
