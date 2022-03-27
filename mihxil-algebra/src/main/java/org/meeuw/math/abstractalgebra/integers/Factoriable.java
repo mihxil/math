@@ -1,9 +1,12 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import lombok.SneakyThrows;
+import lombok.*;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.List;
 
+import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.exceptions.OperationException;
@@ -44,5 +47,26 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
     };
 
     F factorial();
+
+    class Configuration implements ConfigurationAspect {
+        @Getter
+        @With
+        private final Long maxArgument;
+
+        public Configuration() {
+            this(50000L);
+        }
+
+
+        @lombok.Builder
+        private Configuration(Long maxArgument) {
+            this.maxArgument = maxArgument;
+        }
+
+        @Override
+        public List<Class<?>> associatedWith() {
+            return Collections.singletonList(Factoriable.class);
+        }
+    }
 
 }

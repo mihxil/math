@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.*;
@@ -111,7 +112,8 @@ public abstract class AbstractIntegerElement<
         if (value.signum() == -1) {
             throw new Factoriable.InvalidFactorial("Cannot take factorial of negative integer");
         }
-        if (value.intValue() > 50000) {
+        Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxArgument();
+        if (maxArgument != null && value.intValue() > maxArgument) {
             throw new Factoriable.InvalidFactorial("Factorial too big");
         }
         BigInteger product = BigInteger.ONE;
