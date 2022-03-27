@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,11 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
         @SneakyThrows
         @Override
         public <E extends AlgebraicElement<E>> E apply(E e) {
-            return (E) method.invoke(e);
+            try {
+                return (E) method.invoke(e);
+            } catch (InvocationTargetException ita) {
+                throw ita.getCause();
+            }
         }
 
         @Override
