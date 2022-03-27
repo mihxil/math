@@ -154,7 +154,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
                 } else {
                     getLogger().debug(o.stringify(e1) + " -> " + ae.getMessage());
-
                 }
             } catch (Throwable ae) {
                 getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());

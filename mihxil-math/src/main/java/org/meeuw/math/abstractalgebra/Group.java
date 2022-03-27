@@ -2,13 +2,13 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import static org.meeuw.math.Utils.navigableSet;
-
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
+import static org.meeuw.math.Utils.navigableSet;
+
 /**
- * A general group , with one operation, and a 'unity' element.
+ * A general group , with one operation, and a 'unity' element, for this operation.
  *
  * @see MultiplicativeGroup For a group where the operation is explicitely called 'multiplication'
  * @see AdditiveGroup       For a group where the operation is 'addition'.
@@ -23,6 +23,9 @@ public interface Group<E extends GroupElement<E>> extends Magma<E> {
         return UNARY_OPERATORS;
     }
 
+    /**
+     * The unity element, for which the {@link GroupElement#operate(MagmaElement)} returns just the other value.
+     */
     E unity();
 
 }

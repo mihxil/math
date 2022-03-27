@@ -8,10 +8,13 @@ package org.meeuw.math.abstractalgebra;
  */
 public interface GroupElement<E extends GroupElement<E>>
     extends MagmaElement<E> {
-    @Override
 
+    @Override
     Group<E> getStructure();
 
+    /**
+     * The inverse element for {@link #operate(MagmaElement)}, such that {@code self.operate(self.inverse())} = {@link Group#unity()}
+     */
     E inverse();
 
 }

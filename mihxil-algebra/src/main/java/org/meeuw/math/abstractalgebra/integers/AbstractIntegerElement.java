@@ -108,6 +108,12 @@ public abstract class AbstractIntegerElement<
 
 
     protected BigInteger bigIntegerFactorial()  {
+        if (value.signum() == -1) {
+            throw new Factoriable.InvalidFactorial("Cannot take factorial of negative integer");
+        }
+        if (value.intValue() > 50000) {
+            throw new Factoriable.InvalidFactorial("Factorial too big");
+        }
         BigInteger product = BigInteger.ONE;
         for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
             product = product.multiply(i);

@@ -5,6 +5,8 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
 import org.meeuw.math.abstractalgebra.integers.PositiveIntegers;
@@ -33,9 +35,10 @@ class PositiveIntegerTest implements
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 
-    @Test
-    public void fact() {
-        log.info("2000! = {}", of(2000).factorial());
+    @ParameterizedTest
+    @ValueSource(ints = {1, 10, 2000, 10000, 50000})
+    public void fact(int value) {
+        log.info("{}! = {}", value, of(value).factorial());
     }
     @Override
     public Arbitrary<PositiveInteger> elements() {
