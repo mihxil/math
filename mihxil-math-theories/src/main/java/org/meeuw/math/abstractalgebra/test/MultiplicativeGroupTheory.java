@@ -42,7 +42,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-1).equals(v1.reciprocal())).isTrue();
-        } catch (DivisionByZeroException ae) {
+        } catch (ReciprocalException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }

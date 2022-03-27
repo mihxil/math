@@ -32,6 +32,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
         return MultiplicativeSemiGroupElement.super.pow(n);
     }
 
+
     default boolean isOne() {
         return getStructure().one().equals(this);
     }

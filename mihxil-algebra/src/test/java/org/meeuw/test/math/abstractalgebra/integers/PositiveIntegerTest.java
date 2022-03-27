@@ -1,5 +1,7 @@
 package org.meeuw.test.math.abstractalgebra.integers;
 
+import lombok.extern.log4j.Log4j2;
+
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,7 @@ import static org.meeuw.math.abstractalgebra.integers.PositiveInteger.of;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
+@Log4j2
 class PositiveIntegerTest implements
     MultiplicativeMonoidTheory<PositiveInteger>,
     AdditiveAbelianSemiGroupTheory<PositiveInteger>,
@@ -30,6 +33,10 @@ class PositiveIntegerTest implements
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 
+    @Test
+    public void fact() {
+        log.info("2000! = {}", of(2000).factorial());
+    }
     @Override
     public Arbitrary<PositiveInteger> elements() {
         return Arbitraries.randomValue(

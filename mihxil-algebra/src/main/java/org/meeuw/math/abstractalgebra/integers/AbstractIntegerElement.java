@@ -14,6 +14,10 @@ import org.meeuw.math.numbers.*;
  *
  * @author Michiel Meeuwissen
  * @since 0.8
+ * @param <E> self reference
+ * @param <SIZE> the type of the absolute value
+ * @param <S> the type of the structure
+ *
  */
 public abstract class AbstractIntegerElement<
     E extends AbstractIntegerElement<E, SIZE, S>,
@@ -38,6 +42,8 @@ public abstract class AbstractIntegerElement<
      * The constructor, which initializes the backing {@link BigInteger}.
      * This performs no checking on this input, and should therefore remain protected.
      * It is only called when it is sure beforehand that this will result a new value belonging to the given structure.
+     *
+     * Otherwise calls {@link AbstractIntegers#newElement(BigInteger)}
      */
     protected AbstractIntegerElement(S structure, BigInteger value) {
         super(structure);
@@ -97,6 +103,16 @@ public abstract class AbstractIntegerElement<
     @Override
     public int hashCode() {
         return value.hashCode();
+    }
+
+
+
+    protected BigInteger bigIntegerFactorial()  {
+        BigInteger product = BigInteger.ONE;
+        for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
+            product = product.multiply(i);
+        }
+        return product;
     }
 
     @Override

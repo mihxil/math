@@ -15,7 +15,7 @@ import org.meeuw.math.text.TextUtils;
 import static org.meeuw.math.Utils.navigableSet;
 
 /**
- * The 'Monoid' (multiplicative and additive) of natural numbers.
+ * The 'Monoid' (multiplicative and additive) of positive integers
  *
  * @author Michiel Meeuwissen
  * @since 0.8
@@ -25,9 +25,10 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     MultiplicativeMonoid<PositiveInteger>,
     AdditiveAbelianSemiGroup<PositiveInteger> {
 
+
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, AdditiveAbelianSemiGroup.OPERATORS);
 
-    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS);
+    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS, navigableSet(Factoriable.FACT));
 
     private static final NavigableSet<GenericFunction> GENERIC_FUNCTIONS = navigableSet(MultiplicativeMonoid.FUNCTIONS, AdditiveAbelianSemiGroup.FUNCTIONS, navigableSet(BasicFunction.ABS));
 
@@ -82,6 +83,7 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     public PositiveInteger nextRandom(Random random) {
         return of(BigInteger.valueOf(RandomConfiguration.nextNonNegativeLong(random) + 1));
     }
+
 
     @Override
     public String toString() {

@@ -1,14 +1,15 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import lombok.SneakyThrows;
+
 import java.math.BigInteger;
 import java.util.NavigableSet;
 
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.operators.AlgebraicComparisonOperator;
-import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
+import org.meeuw.math.operators.*;
 
 /**
  * An abstract super structure for various integer types.
@@ -25,6 +26,8 @@ public abstract class AbstractIntegers<
     extends AbstractAlgebraicStructure<E>  implements
     Streamable<E> ,
     Randomizable<E> {
+
+
 
     protected AbstractIntegers(Class<E> clazz) {
         super(clazz);
@@ -53,4 +56,7 @@ public abstract class AbstractIntegers<
      * @throws InvalidElementCreationException if the given backing value does not fit in the structure. E.g. the structure is {@link PositiveIntegers}, and the value is negative.
      */
     public abstract E newElement(BigInteger value) throws InvalidElementCreationException;
+
+
+
 }

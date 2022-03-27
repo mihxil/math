@@ -21,7 +21,8 @@ public class PositiveInteger
     MultiplicativeMonoidElement<PositiveInteger>,
     AdditiveSemiGroupElement<PositiveInteger>,
     Scalar<PositiveInteger>,
-    Ordered<PositiveInteger>
+    Ordered<PositiveInteger>,
+    Factoriable<PositiveInteger>
 {
     public static final PositiveInteger ONE = of(1);
 
@@ -54,4 +55,8 @@ public class PositiveInteger
         return this;
     }
 
+    @Override
+    public PositiveInteger factorial() {
+        return new PositiveInteger(bigIntegerFactorial());
+    }
 }

@@ -18,8 +18,9 @@ public class NaturalNumber extends
     MultiplicativeMonoidElement<NaturalNumber>,
     AdditiveMonoidElement<NaturalNumber>,
     Scalar<NaturalNumber>,
-    Ordered<NaturalNumber>
-{
+    Ordered<NaturalNumber>,
+    Factoriable<NaturalNumber> {
+
     public static final NaturalNumber ZERO = of(0);
     public static final NaturalNumber ONE = of(1);
 
@@ -51,5 +52,8 @@ public class NaturalNumber extends
         return this;
     }
 
-
+    @Override
+    public NaturalNumber factorial() {
+        return new NaturalNumber(bigIntegerFactorial());
+    }
 }

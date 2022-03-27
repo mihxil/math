@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import javax.validation.constraints.Min;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.numbers.Scalar;
 
@@ -15,7 +16,9 @@ public class OddInteger
     extends AbstractIntegerElement<OddInteger, OddInteger, OddIntegers>
     implements
     MultiplicativeMonoidElement<OddInteger>,
-    Scalar<OddInteger>  {
+    Scalar<OddInteger>,
+    Factoriable<IntegerElement> {
+
 
     public static final OddInteger ONE = OddInteger.of(1);
 
@@ -66,5 +69,12 @@ public class OddInteger
     public boolean isZero() {
         return false;
     }
+
+    @Override
+    @NonAlgebraic
+    public IntegerElement factorial() {
+        return new IntegerElement(bigIntegerFactorial());
+    }
+
 
 }

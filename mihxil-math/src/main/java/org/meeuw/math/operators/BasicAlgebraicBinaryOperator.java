@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.BinaryOperator;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
@@ -31,11 +32,10 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         getUnaryOperatorMethod(AdditiveMonoid.class, "zero"),
         BasicAlgebraicUnaryOperator.NEGATION
     ),
-
     SUBTRACTION(
         getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
-        BasicAlgebraicUnaryOperator.INVERSION
+        ADDITION.inverse
     ),
 
     MULTIPLICATION(
@@ -63,6 +63,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     final Method unity;
 
     @Getter
+    @Nullable
     final BasicAlgebraicUnaryOperator inverse;
 
 
@@ -94,27 +95,42 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
                 throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
             }
             return result;
-        } catch (IllegalArgumentException iae) {
-            throw new IllegalArgumentException(method.getDeclaringClass().getName() + "." + method.getName() + "(" + element1 + ',' + element2 + "): " + iae.getMessage());
         } catch (InvocationTargetException ite) {
             throw ite.getCause();
-        } catch (IllegalAccessException ite) {
-            throw new IllegalStateException(ite);
         }
     }
 
+    /**
+     * Obtains the inverse element associated with this operator.
+     *
+     * E.g. if this operator is {@link #ADDITION} or {@link #SUBTRACTION} it will return the associated the negative of the argument.
+     *
+     * @param element The element to obtain an inverse for.
+     */
     public <E extends AlgebraicElement<E>> E  inverse(E element) {
+        if (inverse == null) {
+            throw new NoSuchOperatorException("No inverse function for operation " + this + " defined");
+        }
         try {
             E result = inverse.apply(element);
             if (result == null) {
                 throw new IllegalStateException("" + inverse + "(" + element + ") resulted null");
             }
             return result;
+        } catch (NoSuchMethodError noSuchMethodException) {
+            throw new NoSuchOperatorException("No inverse function for operation " + this + " defined", noSuchMethodException);
         } catch (IllegalArgumentException iae){
-            throw new IllegalArgumentException(inverse.getDeclaringClass().getName() + "." + inverse + "(" + element + "): " + iae.getMessage());
+            throw new NoSuchOperatorException(inverse.getMethod() + "." + inverse + "(" + element + "): " + element + ": " + iae.getMessage());
         }
     }
 
+    /**
+     * Obtains the unity element associated with this operator.
+     *
+     * E.g. if this operator is {@link #ADDITION} or {@link #SUBTRACTION} it will return the associated {@code zero} element
+     *
+     * @param structure The structure to obtain if for.
+     */
     @SuppressWarnings("unchecked")
     @SneakyThrows
     public <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> E  unity(S structure) {
@@ -122,7 +138,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
             return (E) unity.invoke(structure);
         } catch (IllegalAccessException e) {
             throw new IllegalArgumentException(unity.getDeclaringClass().getName() + "." + unity.getName() + "(" + structure + " ): " + e.getMessage());
-
+        } catch (IllegalArgumentException iae) {
+            throw new NoSuchOperatorException(iae);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         }
@@ -137,7 +154,5 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     private static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
         return clazz.getMethod(name, clazz);
     }
-
-
 
 }

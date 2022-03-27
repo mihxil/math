@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
 
+import org.meeuw.math.exceptions.NoSuchOperatorException;
+
 import static org.meeuw.math.text.TextUtils.overLine;
 import static org.meeuw.math.text.TextUtils.superscript;
 
@@ -30,7 +32,6 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
-
     SQRT(getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
 
     SIN(getUnaryOperatorMethod(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
@@ -43,8 +44,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     SINH(getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"), (s) -> "sinh(" + s + ")"),
 
-    COSH(getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"), (s) -> "cosh(" + s + ")"),
-
+    COSH(getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"), (s) -> "cosh(" + s + ")")
 
     ;
 
@@ -64,11 +64,12 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
     public <E extends AlgebraicElement<E>> E apply(E e) {
         try {
             return (E) method.invoke(e);
+        } catch (NoSuchMethodError noSuchMethodException) {
+            throw new NoSuchOperatorException("No operation " + this + " found on " + e, noSuchMethodException);
         } catch (IllegalArgumentException iae) {
-            log.fine(this + " on " + e + " but " + e.getClass() + " not a " + method.getDeclaringClass());
-            return (E) e.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(e);
-        } catch (IllegalAccessException ex) {
-            throw new IllegalStateException(ex);
+            // It is possible that the operation is defined, but the class does not extend the correct class
+            // e.g. an oddinteger implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
+            return (E) e.getClass().getMethod(method.getName()).invoke(e);
         } catch (InvocationTargetException ex) {
             throw ex.getCause();
         }

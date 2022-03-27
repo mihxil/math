@@ -19,7 +19,8 @@ public class IntegerElement
     Scalar<IntegerElement>,
     MultiplicativeMonoidElement<IntegerElement>,
     GroupElement<IntegerElement>,
-    Ordered<IntegerElement> {
+    Ordered<IntegerElement>,
+    Factoriable<IntegerElement> {
 
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
@@ -60,6 +61,11 @@ public class IntegerElement
     @Override
     public IntegerElement pow(@Min(1) int n) {
         return with(Utils.positivePow(value, n));
+    }
+
+    @Override
+    public IntegerElement factorial() {
+        return new IntegerElement(bigIntegerFactorial());
     }
 
     @Override

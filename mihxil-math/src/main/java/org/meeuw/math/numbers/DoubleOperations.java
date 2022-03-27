@@ -4,8 +4,7 @@ import java.math.BigDecimal;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.exceptions.IllegalLogException;
-import org.meeuw.math.exceptions.IllegalSqrtException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -70,7 +69,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> divide(Double n1, Double n2) {
         if (n2 == 0d) {
-            throw new ArithmeticException("division by zero");
+            throw new ReciprocalException("division by zero");
         }
         return uncertain(n1 / n2);
     }
