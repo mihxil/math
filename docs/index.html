@@ -520,8 +520,8 @@ ConfigurationService.resetToDefaults();</code></pre>
 <div class="title">setting global defaults</div>
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.defaultConfiguration((con) -&gt;
-  con.aspect(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
-     .aspect(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
+  con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+     .configure(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
  );</code></pre>
 </div>
 </div>
