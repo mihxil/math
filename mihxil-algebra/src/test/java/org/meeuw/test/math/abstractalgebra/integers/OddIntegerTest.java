@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -26,6 +27,11 @@ class OddIntegerTest implements
     SignedNumberTheory<OddInteger>,
     ScalarTheory<OddInteger> {
 
+    @BeforeAll
+    public static void setup() {
+        PositiveIntegerTest.setup();
+    }
+
     @Test
     public void test() {
         assertThatThrownBy(() -> of(0)).isInstanceOf(InvalidElementCreationException.class);
@@ -37,8 +43,6 @@ class OddIntegerTest implements
         assertThat(of(3).plus(EvenInteger.of(-4))).isEqualTo(of(-1));
 
         assertThat(of(3).times(OddInteger.ONE)).isEqualTo(of(3));
-
-
     }
 
 

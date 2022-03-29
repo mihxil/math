@@ -2,6 +2,7 @@ package org.meeuw.test.math.abstractalgebra.integers;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.integers.NaturalNumber;
@@ -22,6 +23,11 @@ class NaturalNumberTest implements
     AdditiveMonoidTheory<NaturalNumber>,
     AdditiveAbelianSemiGroupTheory<NaturalNumber>,
     ScalarTheory<NaturalNumber> {
+
+    @BeforeAll
+    public static void setup() {
+        PositiveIntegerTest.setup();
+    }
 
     @Test
     public void test() {

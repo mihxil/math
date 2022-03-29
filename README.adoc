@@ -239,8 +239,8 @@ Global defaults can be set similarly
 [source,java]
 ----
  ConfigurationService.defaultConfiguration((con) ->
-  con.aspect(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-     .aspect(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
+  con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+     .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
  );
 ----
 

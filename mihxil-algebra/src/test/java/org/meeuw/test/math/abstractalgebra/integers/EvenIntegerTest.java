@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -26,6 +27,10 @@ class EvenIntegerTest implements
     SizeableScalarTheory<EvenInteger, EvenInteger>,
     SignedNumberTheory<EvenInteger> {
 
+    @BeforeAll
+    public static void setup() {
+        PositiveIntegerTest.setup();
+    }
 
     @Test
     public void test() {

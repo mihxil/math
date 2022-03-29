@@ -1,5 +1,5 @@
 import org.meeuw.configuration.ConfigurationAspect;
-import org.meeuw.math.abstractalgebra.integers.Factoriable;
+import org.meeuw.math.abstractalgebra.integers.Factoriable.Configuration;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationFormatProvider;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
@@ -35,7 +35,7 @@ module org.meeuw.math.algebras {
 
     provides AlgebraicElementFormatProvider with PermutationFormatProvider;
 
-    provides ConfigurationAspect with PermutationConfiguration, Factoriable.Configuration;
+    provides ConfigurationAspect with PermutationConfiguration, Configuration;
 
 }
 

@@ -3,6 +3,7 @@ package org.meeuw.test.math.abstractalgebra.integers;
 import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
@@ -24,6 +25,11 @@ class IntegerElementTest implements
     MultiplicativeMonoidTheory<IntegerElement>,
     SizeableScalarTheory<IntegerElement, IntegerElement>,
     SignedNumberTheory<IntegerElement> {
+
+    @BeforeAll
+    public static void setup() {
+        PositiveIntegerTest.setup();
+    }
 
     @Override
     @Property

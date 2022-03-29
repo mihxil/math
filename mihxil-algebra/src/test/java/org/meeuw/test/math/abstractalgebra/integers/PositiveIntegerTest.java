@@ -4,12 +4,13 @@ import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import org.meeuw.math.abstractalgebra.integers.PositiveInteger;
-import org.meeuw.math.abstractalgebra.integers.PositiveIntegers;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -29,6 +30,14 @@ class PositiveIntegerTest implements
     AdditiveAbelianSemiGroupTheory<PositiveInteger>,
     ScalarTheory<PositiveInteger> {
 
+    @BeforeAll
+    public static void setup() {
+        ConfigurationService.defaultConfiguration((con) ->
+            con.configure(Factoriable.Configuration.class, c -> c.withMaxArgument(1000L))
+        );
+    }
+
+
     @Test
     public void test() {
         assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(InvalidElementCreationException.class);
@@ -38,7 +47,13 @@ class PositiveIntegerTest implements
     @ParameterizedTest
     @ValueSource(ints = {1, 10, 2000, 10000, 50000})
     public void fact(int value) {
-        log.info("{}! = {}", value, of(value).factorial());
+        ConfigurationService.withAspect(Factoriable.Configuration.class, c -> c.withMaxArgument(2001L), () -> {
+            try {
+                log.info("{}! = {}", value, of(value).factorial());
+            } catch (Factoriable.InvalidFactorial invalidFactorial) {
+                log.info("{}! => {}", value, invalidFactorial.getMessage());
+            }
+        });
     }
     @Override
     public Arbitrary<PositiveInteger> elements() {

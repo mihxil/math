@@ -106,15 +106,13 @@ public abstract class AbstractIntegerElement<
         return value.hashCode();
     }
 
-
-
     protected BigInteger bigIntegerFactorial()  {
         if (value.signum() == -1) {
             throw new Factoriable.InvalidFactorial("Cannot take factorial of negative integer");
         }
         Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxArgument();
         if (maxArgument != null && value.intValue() > maxArgument) {
-            throw new Factoriable.InvalidFactorial("Factorial too big");
+            throw new Factoriable.InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")");
         }
         BigInteger product = BigInteger.ONE;
         for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
