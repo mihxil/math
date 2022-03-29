@@ -73,7 +73,7 @@ The terminology which is adopted is this:
 |cosine | `cos()` | cos | cos | cosine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |absolute value, distance to zero|  \|\|  | abs| abs| absolute value|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
 
-|identify|  |  self |  |  |   | link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`] ||
+|identify| + |  self |  |  |   | link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`] ||
 |===
 
 The methods on the elements take the name of the corresponding operator. So e.g.:
