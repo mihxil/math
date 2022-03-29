@@ -53,22 +53,27 @@ The terminology which is adopted is this:
 
 |===
 |Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
+
+7+^|binary operators
 |operation| `*` | operate | operate | opteration | operand |  link:{ghm}abstractalgebra/GroupElement.java[`GroupElement`]
 |addition | `+` | plus | add | sum | summand
 | link:{ghm}abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
 |subtraction | `-` | minus | subtract | difference | subtrahend | link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
 |multiplication |  `⋅`  | times | multiply | product | multiplier | link:{ghm}abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
 |division | `/` | dividedBy | divide | quotient |  divisor | link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|exponentiation | `^` | pow | pow | power| exponent| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|metric or distance| `d()` | distanceTo | metric | distance|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+
+7+^|unary operators
 |negation      | `-` | negation | negate | negation|| link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
 |reciprocation | `1/` |  reciprocal | | reciprocal|| link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
-|exponentiation | `^` | pow | pow | power| exponent| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |square root | `√` | sqrt | sqrt
  | square root| radicand | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |sine | `sin()`| sin | sin | sine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 |cosine | `cos()` | cos | cos | cosine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-|metric or distance| `d()` | distanceTo | metric | distance|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
 |absolute value, distance to zero|  \|\|  | abs| abs| absolute value|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
 
+|identify|  |  self |  |  |   | link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`] ||
 |===
 
 The methods on the elements take the name of the corresponding operator. So e.g.:
@@ -93,7 +98,7 @@ NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also imple
 
 The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (_one_ and _zero_).
 
-image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), and special elements.", link="{docs}/algebras.svg"]
+image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), special elements, and example implementations.", link="{docs}/algebras.svg"]
 
 ==== Numbers
 

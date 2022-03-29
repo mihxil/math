@@ -21,12 +21,29 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      */
     AlgebraicStructure<E> getStructure();
 
+    /**
+     * The unary operator which does nothing. Just returns the current element again.
+     *
+     * This exists for two reasons<ol>
+     *   <li>it is the most simply unary operator possible, which can be available on any structure</li>
+     *   <li>it also makes implementing some default methods nicer, because it does the casting of {@code this} to the current generic.</li>
+     *   </ol>
+     *
+     *  @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#IDENTIFY
+     */
+    @SuppressWarnings("unchecked")
     default E self() {
         return (E) this;
     }
 
     /**
-     * The operator
+     * The equal operator. May be the same as {@link #equals(Object)}, but
+     *
+     * <ol>
+     *    <li>its argument is always inside the algebra (contrary to {@link #equals(Object)}, which accepts _any_ object</li>
+     *    <li>it may not be fully transitive (in case of uncertain values)</li>
+     * </ol>
+     * @see org.meeuw.math.operators.BasicComparisonOperator#EQ
      */
     default boolean eq(E other) {
         return equals(other);
