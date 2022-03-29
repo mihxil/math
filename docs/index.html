@@ -133,15 +133,20 @@
 <col style="width: 14.2857%;">
 <col style="width: 14.2858%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Algebraic operation</th>
+<th class="tableblock halign-left valign-top">operator</th>
+<th class="tableblock halign-left valign-top">operator name</th>
+<th class="tableblock halign-left valign-top">static operator name</th>
+<th class="tableblock halign-left valign-top">result name</th>
+<th class="tableblock halign-left valign-top">argument name</th>
+<th class="tableblock halign-left valign-top">defined in</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Algebraic operation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operator</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">operator name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">static operator name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">result name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">argument name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">defined in</p></td>
+<td class="tableblock halign-center valign-top" colspan="7"><p class="tableblock">binary operators</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">operation</p></td>
@@ -189,6 +194,27 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java"><code>MultiplicativeGroupElement</code></a></p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exponentiation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>^</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pow</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">power</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">exponent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java"><code>CompleteFieldElement</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">metric or distance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>d()</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">distanceTo</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">metric</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">distance</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MetricSpaceElement.java"><code>MetricSpaceElement</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-center valign-top" colspan="7"><p class="tableblock">unary operators</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">negation</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>-</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">negation</p></td>
@@ -205,15 +231,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">reciprocal</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroupElement.java"><code>MultiplicativeGroupElement</code></a></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">exponentiation</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>^</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pow</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">pow</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">power</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">exponent</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java"><code>CompleteFieldElement</code></a></p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">square root</p></td>
@@ -243,15 +260,6 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/CompleteFieldElement.java"><code>CompleteFieldElement</code></a></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">metric or distance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>d()</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">distanceTo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">metric</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">distance</p></td>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MetricSpaceElement.java"><code>MetricSpaceElement</code></a></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">absolute value, distance to zero</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">||</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">abs</p></td>
@@ -259,6 +267,15 @@
 <td class="tableblock halign-left valign-top"><p class="tableblock">absolute value</p></td>
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MetricSpaceElement.java"><code>MetricSpaceElement</code></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">identify</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">self</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicElement.java"><code>AlgebraicElement</code></a></p></td>
 </tr>
 </tbody>
 </table>
@@ -304,7 +321,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="content">
 <a class="image" href="./algebras.svg"><img src="./algebras.svg" alt="algebras"></a>
 </div>
-<div class="title">Figure 1. The defined algebraic structures, with indication of the operators (and whether they are commutative), and special elements.</div>
+<div class="title">Figure 1. The defined algebraic structures, with indication of the operators (and whether they are commutative), special elements, and example implementations.</div>
 </div>
 </div>
 <div class="sect3">
