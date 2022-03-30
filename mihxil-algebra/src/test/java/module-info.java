@@ -24,6 +24,5 @@ open module org.meeuw.test {
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;
 
-
 }
 
