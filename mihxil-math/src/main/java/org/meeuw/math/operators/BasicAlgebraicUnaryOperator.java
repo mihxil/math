@@ -22,9 +22,9 @@ import static org.meeuw.math.text.TextUtils.superscript;
 @Log
 public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
-    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> s.charAt(0) == '+' ? s : "+" + s),
+    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s),
 
-    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
+    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
     RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"), (s) -> s + superscript(-1)),
 
