@@ -7,8 +7,8 @@ import lombok.extern.java.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.numbers.Sizeable;
+import org.meeuw.math.numbers.SizeableScalar;
 
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.getUnaryOperatorMethod;
 
@@ -17,8 +17,8 @@ public enum BasicFunction implements GenericFunction {
 
     ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
-    DECIMAL(getUnaryOperatorMethod(ScalarFieldElement.class, "bigDecimalValue"), (s) -> "decimal(" + s + ")"),
-    INTEGER(getUnaryOperatorMethod(ScalarFieldElement.class, "bigIntegerValue"), (s) -> "integer(" + s + ")");
+    DECIMAL(getUnaryOperatorMethod(SizeableScalar.class, "bigDecimalValue"), (s) -> "decimal(" + s + ")"),
+    INTEGER(getUnaryOperatorMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "integer(" + s + ")");
 
     @Getter
     final Method method;

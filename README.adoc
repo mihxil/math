@@ -55,7 +55,7 @@ The terminology which is adopted is this:
 |Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
 
 7+^|binary operators
-|operation| `*` | operate | operate | opteration | operand |  link:{ghm}abstractalgebra/GroupElement.java[`GroupElement`]
+|operation| `*` | operate | operate | operation | operand |  link:{ghm}abstractalgebra/MagmaElement.java[`MagmaElement`]
 |addition | `+` | plus | add | sum | summand
 | link:{ghm}abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
 |subtraction | `-` | minus | subtract | difference | subtrahend | link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]

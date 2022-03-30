@@ -30,7 +30,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     INVERSION(getUnaryOperatorMethod(GroupElement.class, "inverse"),(s) -> "inverse(" + s  + ")"),
 
-    SQR(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "sqr"), (s) -> s + superscript(2)),
+    SQR(getUnaryOperatorMethod(MultiplicativeSemiGroupElement.class, "sqr"), (s) -> s + superscript(2)),
 
     SQRT(getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
 
