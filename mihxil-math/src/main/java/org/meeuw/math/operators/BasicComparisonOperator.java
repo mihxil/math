@@ -12,6 +12,9 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
+ * The basic operators to compare two elements. Works on two things of the same type, returning a
+ * boolean.
+ *
  * @author Michiel Meeuwissen
  * @since 0.7
  */

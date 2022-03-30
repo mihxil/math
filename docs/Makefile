@@ -30,3 +30,7 @@ index.html: ../README.adoc Makefile algebras.svg
 
 clean:
 	rm -f algebras.svg algebras.dot
+
+
+algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java
+	(cd ../mihxil-algebra ; mvn -DskipTests=false -Dtest=DocumentationTest test)

@@ -28,7 +28,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY);
 
-    NavigableSet<GenericFunction> FUNCTIONS = unmodifiableNavigableSet(new TreeSet<>(COMPARATOR));
+    NavigableSet<GenericFunction> FUNCTIONS = Collections.emptyNavigableSet();
 
     /**
      * Returns the {@link AlgebraicBinaryOperator}s that elements of this structure support.
@@ -48,15 +48,22 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     /**
      * Returns the {@link AlgebraicComparisonOperator}s that elements of this structure support.
-     * @return the set of all supported unary operators in this algebraic structure
+     *
+     * @return the set of all supported comparison operators in this algebraic structure
      */
     default NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return EQ_ONLY;
     }
 
-       /**
-     * Returns the {@link BasicAlgebraicUnaryOperator}s that elements of this structure support.
-     * @return the set of all supported unary operators in this algebraic structure
+    /**
+     * Returns the {@link GenericFunction}s that elements of this structure support.
+     *
+     * This is a unary operation that works on an algebraic element, which does not necessary return an element of the algebra.
+     *
+     * E.g. this may represent something like {@link ScalarFieldElement#bigDecimalValue()}. A function shared by many elements of
+     * different algebra's, but not related to the algebra itself.
+     *
+     * @return the set of all supported functions in this algebraic structure
      */
     default NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;

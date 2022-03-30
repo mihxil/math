@@ -15,7 +15,7 @@ import static org.meeuw.math.text.TextUtils.overLine;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
- *
+ * The predefined  basic 'unary operators' of algebra's.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -24,7 +24,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> s.charAt(0) == '+' ? s : "+" + s),
 
-    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> s.charAt(0) == '-' ? s : "-" + s),
+    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
     RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"), (s) -> s + superscript(-1)),
 
@@ -77,7 +77,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     @SneakyThrows
     public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getMethod(name);
+        return clazz.getDeclaredMethod(name);
     }
 
     @Override

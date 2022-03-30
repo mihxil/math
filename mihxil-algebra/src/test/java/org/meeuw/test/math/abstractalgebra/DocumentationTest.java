@@ -1,5 +1,6 @@
 package org.meeuw.test.math.abstractalgebra;
 
+import lombok.With;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
@@ -31,6 +32,11 @@ public class DocumentationTest {
 
     public static String ALGEBRA_URL = "ALGEBRA_URL";
     public static String MATH_URL   = "MATH_URL";
+
+    public static String BINARY_OPERATOR_COLOR = "teal";
+    public static String COMPARISON_COLOR = "blue";
+    public static String SPECIAL_COLOR = "navy";
+
 
     @Test
     public void dot() throws IOException {
@@ -183,8 +189,8 @@ public class DocumentationTest {
         return build.toString();
     }
 
-    protected <C extends AlgebraicStructure<?>>  List<String> getOperators(C target) {
-        List<String> ops = new ArrayList<>();
+    protected <C extends AlgebraicStructure<?>>  List<OperatorCell> getOperators(C target) {
+        List<OperatorCell> ops = new ArrayList<>();
         {
             StringBuilder addition = new StringBuilder();
             if (target.getSupportedOperators().contains(ADDITION)) {
@@ -195,11 +201,11 @@ public class DocumentationTest {
             }
             if (target instanceof AdditiveSemiGroup) {
                 if (((AdditiveSemiGroup<?>) target).additionIsCommutative()) {
-                    addition.append("<br />⇆");
+                    addition.append("\n⇆");
                 }
             }
             if (!addition.isEmpty()) {
-                ops.add(addition.toString());
+                ops.add(new OperatorCell(addition).withTitle("binary operators of addition"));
             }
         }
         {
@@ -212,17 +218,21 @@ public class DocumentationTest {
             }
             if (target instanceof MultiplicativeSemiGroup) {
                 if (((MultiplicativeSemiGroup<?>) target).multiplicationIsCommutative()) {
-                    multiplication.append("<br />⇆");
+                    multiplication.append("\n⇆");
                 }
             }
             if (!multiplication.isEmpty()) {
-                ops.add(multiplication.toString());
+                ops.add(new OperatorCell(multiplication).withTitle("binary operators of multiplication"));
             }
+        }
+        if (target.getSupportedOperators().contains(OPERATION)) {
+            ops.add(new OperatorCell(OPERATION.stringify("", "")).withTitle("group binary operator"));
+
         }
         {
             StringBuilder rest = new StringBuilder();
             for (AlgebraicBinaryOperator o : target.getSupportedOperators()) {
-                if (o.ordinal() <= OPERATION.ordinal() || o.ordinal() > DIVISION.ordinal()) {
+                if (o.ordinal() > DIVISION.ordinal()) {
                     rest.append(o.stringify("", ""));
                 }
             }
@@ -230,10 +240,7 @@ public class DocumentationTest {
                 rest.append(o.stringify("", ""));
             }
             if (!rest.isEmpty()) {
-                ops.add(rest.toString()
-                    .replaceAll("<", "&lt;")
-                    .replaceAll(">", "&gt;")
-                );
+                ops.add(new OperatorCell(rest).withTitle("other binary operators"));
             }
         }
         {
@@ -252,41 +259,76 @@ public class DocumentationTest {
                 unary.append(o.getSymbol());
             }
             if (!unary.isEmpty()) {
-                ops.add(unary.toString().replaceAll("\\(X\\)", ""));
+                ops.add(new OperatorCell(unary.toString().replaceAll("\\(X\\)", "")).withTitle("Unary operators"));
             }
         }
 
-        // special elements
-        try {
-            target.getClass().getMethod("zero");
-            ops.add("0");
-        } catch (NoSuchMethodException ignored) {
-        }
-        try {
-            target.getClass().getMethod("one");
-            ops.add("1");
-        } catch (NoSuchMethodException ignored) {
-        }
-        try {
-            target.getClass().getMethod("unity");
-            ops.add("u");
-        } catch (NoSuchMethodException ignored) {
+        {
+            StringBuilder special = new StringBuilder();
+            // special elements
+            try {
+                target.getClass().getMethod("zero");
+                special.append("0");
+            } catch (NoSuchMethodException ignored) {
+            }
+            try {
+                target.getClass().getMethod("one");
+                special.append("1");
+            } catch (NoSuchMethodException ignored) {
+            }
+            try {
+                target.getClass().getMethod("unity");
+                special.append("u");
+            } catch (NoSuchMethodException ignored) {
+            }
+            if (special.length() > 0) {
+                ops.add(new OperatorCell(special).withTitle("special elements"));
+            }
+
         }
         return ops;
     }
 
-    protected  int writeOperators(final PrintWriter writer, List<String> ops)  {
+    protected  int writeOperators(final PrintWriter writer, List<OperatorCell> ops)  {
 
         if (ops.size() > 0) {
             writer.print("<tr>");
-            for (String o : ops) {
-                writer.print("<td>");
-                writer.print(o);
+            for (OperatorCell o : ops) {
+                writer.print("<td");
+                if (o.title != null) {
+                    writer.print(" title='" + o.title + "'");
+                    writer.print(" href=''");
+                }
+                if (o.bgColor != null) {
+                    writer.print(" bgColor='" + o.bgColor + "'");
+                }
+                writer.print(">");
+                writer.print(o.text);
                 writer.print("</td>");
             }
             writer.print("</tr>");
         }
         return ops.size();
+    }
+
+    @lombok.AllArgsConstructor
+    @lombok.Builder
+    protected static class OperatorCell {
+        final String text;
+        @With
+        final String bgColor;
+
+        @With
+        final String title;
+
+        public OperatorCell(CharSequence text) {
+            this(text.toString()
+                    .replaceAll("<", "&lt;")
+                    .replaceAll(">", "&gt;")
+                    .replaceAll("\n", "<br />")
+                , null, null);
+        }
+
     }
 
     protected <C extends AlgebraicStructure<?>>  String href(Class<C> c){
@@ -305,7 +347,7 @@ public class DocumentationTest {
         writer.println(c.getSimpleName() + "[");
         //writer.println("href=\"" + href(c) + "\"");
         C target = proxy(c);
-        List<String> operators = getOperators(target);
+        List<OperatorCell> operators = getOperators(target);
         writeLabel(writer, c, operators.size(), (p) -> {
             int cols = writeOperators(p, operators);
             writeExamples(p, c, cols);
