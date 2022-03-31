@@ -1,12 +1,12 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
-import java.util.NavigableSet;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.Utils.navigableSet;
@@ -43,6 +43,12 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     @Override
     public  NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;
+    }
+    @Override
+    public Set<AlgebraicStructure<?>> getSuperGroups() {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            RationalNumbers.INSTANCE
+        )));
     }
 
     @Example(Ring.class)

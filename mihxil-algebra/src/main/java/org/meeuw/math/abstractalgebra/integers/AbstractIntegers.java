@@ -1,15 +1,15 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import lombok.SneakyThrows;
-
 import java.math.BigInteger;
-import java.util.NavigableSet;
+import java.util.*;
 
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.operators.*;
+import org.meeuw.math.operators.AlgebraicComparisonOperator;
+import org.meeuw.math.operators.BasicComparisonOperator;
 
 /**
  * An abstract super structure for various integer types.
@@ -39,6 +39,14 @@ public abstract class AbstractIntegers<
     @Override
     public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return BasicComparisonOperator.ALL_AND_EQUALS;
+    }
+
+    @Override
+    public Set<AlgebraicStructure<?>> getSuperGroups() {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            Integers.INSTANCE,
+            RationalNumbers.INSTANCE
+        )));
     }
 
     @Override

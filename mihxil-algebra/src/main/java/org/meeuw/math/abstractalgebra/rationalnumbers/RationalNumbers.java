@@ -4,8 +4,12 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.*;
+import org.meeuw.math.Example;
+import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.streams.StreamUtils;
@@ -41,6 +45,15 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     @Override
     public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return BasicComparisonOperator.ALL;
+    }
+
+    @Override
+    public Set<AlgebraicStructure<?>> getSuperGroups() {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            BigDecimalField.INSTANCE,
+            RealField.INSTANCE,
+            GaussianRationals.INSTANCE
+        )));
     }
 
     @Override

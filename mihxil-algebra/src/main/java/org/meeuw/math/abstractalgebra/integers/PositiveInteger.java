@@ -59,4 +59,6 @@ public class PositiveInteger
     public PositiveInteger factorial() {
         return new PositiveInteger(bigIntegerFactorial());
     }
+
+
 }

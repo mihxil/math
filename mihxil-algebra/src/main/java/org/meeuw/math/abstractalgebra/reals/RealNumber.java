@@ -4,10 +4,11 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.abstractalgebra.MetricSpaceElement;
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.math.text.spi.FormatService;
@@ -135,6 +136,15 @@ public class RealNumber
             throw new DivisionByZeroException("Reciprocal of zero");
         }
         return pow(-1);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
+        if (clazz.isAssignableFrom(ComplexNumber.class)) {
+            return Optional.of((F) ComplexNumber.of(this));
+        }
+        return Optional.empty();
     }
 
     @Override

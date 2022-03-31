@@ -1,9 +1,11 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.*;
+import java.util.Optional;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.BigDecimalOperations;
@@ -263,6 +265,17 @@ public class BigDecimalElement implements
         return new BigDecimalElement(
             getValue().subtract(otherElement.getValue()).abs(), getUncertainty());
     }
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
+        if (clazz.isAssignableFrom(BigComplexNumber.class)) {
+            return Optional.of((F) new BigComplexNumber(this, getStructure().zero()));
+        }
+        return Optional.empty();
+    }
+
 
     @Override
     public boolean equals(Object o) {

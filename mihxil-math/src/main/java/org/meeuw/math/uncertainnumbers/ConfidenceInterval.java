@@ -19,7 +19,7 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 
 	public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int interval) {
 	    NumberOperations<N> op = NumberOperations.of(value);
-		N halfRange = op.abs(op.multiply(value, uncertainty));
+		N halfRange = op.abs(op.multiply(interval, uncertainty));
 		return new ConfidenceInterval<>(op, op.minus(value, halfRange), op.add(value, halfRange));
 	}
 

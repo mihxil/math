@@ -1,6 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
 import java.io.Serializable;
+import java.util.Optional;
+
+import org.meeuw.math.exceptions.NotASubGroup;
 
 /**
  * The base interface for elements of algebraic structures.
@@ -48,5 +51,39 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     default boolean eq(E other) {
         return equals(other);
     }
+
+    /**
+     * Casts the current element to an alement of a parent group. It should support the ones returned by
+     * {@link AlgebraicStructure#getSuperGroups()}.
+     *
+     * @return A filled optional if successfull
+     */
+    default <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
+        return Optional.empty();
+    }
+
+    /**
+     * Casts this element as element of an ancestor structure.
+     * @throws NotASubGroup if not castable.
+     */
+    default <F extends AlgebraicElement<F>> F cast(Class<F> clazz) {
+        Optional<F> directly = castDirectly(clazz);
+        if (directly.isPresent()) {
+            return directly.get();
+        } else {
+            for (AlgebraicStructure<?> c : getStructure().getSuperGroups()) {
+                for (AlgebraicStructure<?> ic: c.getAncestorGroups()) {
+                    if (ic.equals(getStructure())) {
+                        throw new IllegalStateException("");
+                    }
+                    if (ic.getElementClass().equals(clazz)) {
+                        return cast(c.getElementClass()).cast(clazz);
+                    }
+                }
+            }
+        }
+        throw new NotASubGroup(this, clazz);
+    }
+
 
 }

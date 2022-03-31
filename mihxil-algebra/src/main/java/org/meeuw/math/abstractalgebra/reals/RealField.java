@@ -1,7 +1,10 @@
 package org.meeuw.math.abstractalgebra.reals;
 
+import java.util.*;
+
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
@@ -34,6 +37,13 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
     @Override
     public Cardinality getCardinality() {
         return Cardinality.ALEPH_1;
+    }
+
+    @Override
+    public Set<AlgebraicStructure<?>> getSuperGroups() {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            ComplexNumbers.INSTANCE
+        )));
     }
 
     @Override

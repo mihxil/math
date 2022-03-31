@@ -70,6 +70,39 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
+     * Gets the direct (known) super groups (or other algebraic stucture) which this structure is part of.
+
+     * The associated {@link AlgebraicElement} implements {@link AlgebraicElement#castDirectly(Class)} to support all these classes.
+     *
+     * @see #getAncestorGroups()
+     * @see AlgebraicElement#castDirectly(Class)
+     */
+    default Set<AlgebraicStructure<?>> getSuperGroups() {
+        return Collections.emptySet();
+    }
+
+    /**
+     * Calls {@link #getSuperGroups()} recursively.
+     *
+     * There's normally no need to implement this, as the default should be good.
+     *
+     * @see #getSuperGroups()
+     * @see AlgebraicElement#cast(Class)
+     */
+    default Set<AlgebraicStructure<?>> getAncestorGroups() {
+        return getAncestorGroups(new HashSet<>());
+    }
+
+    default Set<AlgebraicStructure<?>> getAncestorGroups(Set<AlgebraicStructure<?>> set) {
+        getSuperGroups().forEach(c -> {
+            if (set.add(c)) {
+                c.getAncestorGroups(set);
+            }
+        });
+        return set;
+    }
+
+    /**
      * @return the cardinality of the complete set of this structure.
      */
     Cardinality getCardinality();

@@ -10,8 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NotStreamable;
-import org.meeuw.math.exceptions.OperationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
 import org.meeuw.util.test.ElementTheory;
 
@@ -271,6 +270,24 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 getLogger().info("Ok {}: No such method {}", o, e.getMessage());
             }
         }
+    }
+
+    @Property
+    default void castDirectly(@ForAll(ELEMENTS) E v) {
+
+        for (AlgebraicStructure<? extends AlgebraicElement<?>> c : v.getStructure().getSuperGroups()) {
+            Optional<? extends AlgebraicElement<?>> casted = v.castDirectly(c.getElementClass());
+            assertThat(casted).isPresent();
+            getLogger().info("{} -{}-> {}", v, c, casted.get());
+        }
+    }
+    @Property
+    default void cast(@ForAll(ELEMENTS) E v) {
+        for (AlgebraicStructure<? extends AlgebraicElement<?>> c : v.getStructure().getAncestorGroups()) {
+            AlgebraicElement<?> casted = v.cast(c.getElementClass());
+            getLogger().info("{} -{}-> {}", v, c, casted);
+        }
+
     }
 
 }

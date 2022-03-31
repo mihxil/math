@@ -28,4 +28,6 @@ public interface Group<E extends GroupElement<E>> extends Magma<E> {
      */
     E unity();
 
+
+
 }

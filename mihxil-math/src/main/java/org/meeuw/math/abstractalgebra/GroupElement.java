@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.exceptions.NotASubGroup;
+
 /**
  * A group where it is not defined whether the operation is addition or multiplication.
  *
@@ -16,5 +18,6 @@ public interface GroupElement<E extends GroupElement<E>>
      * The inverse element for {@link #operate(MagmaElement)}, such that {@code self.operate(self.inverse())} = {@link Group#unity()}
      */
     E inverse();
+
 
 }

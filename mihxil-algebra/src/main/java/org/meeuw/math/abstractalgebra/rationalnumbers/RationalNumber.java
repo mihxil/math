@@ -5,12 +5,16 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
-import org.meeuw.math.abstractalgebra.Ordered;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.GaussianRational;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
@@ -184,6 +188,20 @@ public class RationalNumber extends Number
     @Override
     public double doubleValue() {
         return bigDecimalValue().doubleValue();
+    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
+        if (clazz.isAssignableFrom(BigDecimalElement.class)) {
+            return Optional.of((F) BigDecimalElement.of(bigDecimalValue()));
+        }
+        if (clazz.isAssignableFrom(RealNumber.class)) {
+            return Optional.of((F) RealNumber.of(doubleValue()));
+        }
+        if (clazz.isAssignableFrom(GaussianRational.class)) {
+            return Optional.of((F) GaussianRational.of(this));
+        }
+        return Optional.empty();
     }
 
     @Override

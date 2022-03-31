@@ -1,6 +1,9 @@
 package org.meeuw.util.test;
 
 import net.jqwik.api.*;
+import net.jqwik.api.lifecycle.BeforeProperty;
+import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +18,13 @@ public interface ElementTheory<E>  {
 
     String ELEMENT = "element";
     String ELEMENTS = "elements";
+
+    @BeforeEach
+    @BeforeProperty
+    default void setupForAll() {
+        Assertions.setMaxStackTraceElementsDisplayed(20);
+    }
+
 
     @Provide
     Arbitrary<? extends E> elements();
@@ -37,6 +47,8 @@ public interface ElementTheory<E>  {
     default void testEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
         assertThat(e1.equals(e2)).isEqualTo(e2.equals(e1));
     }
+
+
 
     @Property
     default void testHashCode(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {

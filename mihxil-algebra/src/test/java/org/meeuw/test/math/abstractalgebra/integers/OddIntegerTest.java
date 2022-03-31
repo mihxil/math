@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import net.jqwik.api.lifecycle.BeforeContainer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
@@ -28,6 +29,7 @@ class OddIntegerTest implements
     ScalarTheory<OddInteger> {
 
     @BeforeAll
+    @BeforeContainer
     public static void setup() {
         PositiveIntegerTest.setup();
     }

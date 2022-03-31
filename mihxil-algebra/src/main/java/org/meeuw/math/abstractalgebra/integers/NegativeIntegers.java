@@ -39,7 +39,6 @@ public class NegativeIntegers
         super(NegativeInteger.class);
     }
 
-
     @Override
     NegativeInteger of(BigInteger value) {
         return new NegativeInteger(value);

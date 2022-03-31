@@ -1,11 +1,11 @@
 package org.meeuw.math.abstractalgebra;
 
-import java.util.NavigableSet;
-
-import static org.meeuw.math.Utils.navigableSet;
+import java.util.*;
 
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
+import static org.meeuw.math.Utils.navigableSet;
 
 
 /**
@@ -27,4 +27,5 @@ public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> 
     default boolean operationIsCommutative() {
         return false;
     }
+
 }

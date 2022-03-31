@@ -4,9 +4,11 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Optional;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.*;
 
@@ -134,6 +136,18 @@ public abstract class AbstractIntegerElement<
     @Override
     public String toString() {
         return String.valueOf(value);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
+        if (clazz.isAssignableFrom(IntegerElement.class)) {
+            return Optional.of((F) new IntegerElement(getValue()));
+        }
+        if (clazz.isAssignableFrom(RationalNumber.class)) {
+            return Optional.of((F) RationalNumber.of(getValue(), BigInteger.ONE));
+        }
+        return Optional.empty();
     }
 
 }

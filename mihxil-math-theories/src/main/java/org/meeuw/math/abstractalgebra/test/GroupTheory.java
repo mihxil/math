@@ -4,11 +4,13 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InverseException;
+import org.meeuw.math.exceptions.NotASubGroup;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
-import org.meeuw.math.exceptions.InverseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * @author Michiel Meeuwissen
@@ -26,7 +28,6 @@ public interface GroupTheory<E extends GroupElement<E>>
     default void groupUnitaryOperators(@ForAll(STRUCTURE) Group<E> s) {
         assertThat(s.getSupportedUnaryOperators()).contains(BasicAlgebraicUnaryOperator.INVERSION);
     }
-
 
     @Property
     default void operateAssociativity (
@@ -48,10 +49,53 @@ public interface GroupTheory<E extends GroupElement<E>>
     default void inverse(
         @ForAll(ELEMENTS) E v) {
         try {
-            assertThat(v.inverse().operate(v).equals(v.getStructure().unity())).isTrue();
+            assertThat(v.inverse().operate(v).eq(v.getStructure().unity())).withFailMessage(() -> "inverse " + v.inverse() + " * " + v + " != " + v.getStructure().unity()).isTrue();
         } catch (InverseException ie) {
             getLogger().info(ie.getMessage());
         }
+    }
+
+    class UnknownGroupElement implements GroupElement<UnknownGroupElement> {
+
+        @Override
+        public UnknownGroup getStructure() {
+            return null;
+        }
+
+        @Override
+        public UnknownGroupElement operate(UnknownGroupElement operand) {
+            return null;
+        }
+
+        @Override
+        public UnknownGroupElement inverse() {
+            return null;
+        }
+    }
+    class UnknownGroup implements Group<UnknownGroupElement> {
+
+        @Override
+        public Cardinality getCardinality() {
+            return null;
+        }
+
+        @Override
+        public Class<UnknownGroupElement> getElementClass() {
+            return UnknownGroupElement.class;
+        }
+
+        @Override
+        public UnknownGroupElement unity() {
+            return null;
+        }
+    }
+
+    @Property
+    default void castingError(@ForAll(ELEMENTS) E v) {
+        assertThatThrownBy(() -> {
+            v.cast(UnknownGroupElement.class);
+        }).isInstanceOf(NotASubGroup.class);
+
     }
 
 

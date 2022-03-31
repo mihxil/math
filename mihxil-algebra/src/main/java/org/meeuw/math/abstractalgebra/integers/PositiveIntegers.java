@@ -30,8 +30,7 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
 
     private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS, navigableSet(Factoriable.FACT));
 
-    private static final NavigableSet<GenericFunction> GENERIC_FUNCTIONS = navigableSet(MultiplicativeMonoid.FUNCTIONS, AdditiveAbelianSemiGroup.FUNCTIONS, navigableSet(BasicFunction.ABS));
-
+    private static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(MultiplicativeMonoid.FUNCTIONS, AdditiveAbelianSemiGroup.FUNCTIONS, navigableSet(BasicFunction.ABS));
 
 
     public static final PositiveIntegers INSTANCE = new PositiveIntegers();
@@ -39,7 +38,6 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     protected PositiveIntegers() {
         super(PositiveInteger.class);
     }
-
 
     @Override
     PositiveInteger of(BigInteger value) {
@@ -69,10 +67,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
         return UNARY_OPERATORS;
     }
 
-      @Override
+    @Override
     public NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;
     }
+
 
     @Override
     public Stream<PositiveInteger> stream() {
