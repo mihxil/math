@@ -6,7 +6,6 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.NotASquareException;
 
 public class InvertibleMatrix<E extends FieldElement<E>>
     extends AbstractInvertibleMatrix<
@@ -28,13 +27,9 @@ public class InvertibleMatrix<E extends FieldElement<E>>
 
     @SafeVarargs
     public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull E... matrix) {
-        try {
-            final int dim = Utils.sqrt(matrix.length);
-            GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
-            return of(structure, matrix);
-        } catch (NotASquareException notASquareException) {
-            throw new InvalidElementCreationException(notASquareException);
-        }
+        final int dim = Utils.sqrt(matrix.length);
+        GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
+        return of(structure, matrix);
     }
 
     @SafeVarargs
@@ -45,21 +40,17 @@ public class InvertibleMatrix<E extends FieldElement<E>>
 
     @SafeVarargs
     static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull E... matrix) {
-        try {
-            int dimension = structure.getDimension();
-            if (matrix.length != dimension * dimension) {
-                throw new InvalidElementCreationException("Wrong dimensions");
-            }
-            E[][] invertibleMatrix = ArrayUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
-            InvertibleMatrix<E> result = new InvertibleMatrix<>(structure, invertibleMatrix);
-            result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
-            if (result.determinant.isZero()) {
-                throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
-            }
-            return result;
-        } catch (NotASquareException notASquareException) {
-            throw new InvalidElementCreationException(notASquareException);
+        int dimension = structure.getDimension();
+        if (matrix.length != dimension * dimension) {
+            throw new InvalidElementCreationException("Wrong dimensions");
         }
+        E[][] invertibleMatrix = ArrayUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
+        InvertibleMatrix<E> result = new InvertibleMatrix<>(structure, invertibleMatrix);
+        result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
+        if (result.determinant.isZero()) {
+            throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
+        }
+        return result;
     }
 
 

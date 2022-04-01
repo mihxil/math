@@ -75,6 +75,9 @@ public abstract class AbstractGeneralLinearGroup<
     abstract M of(E[][] elements);
 
     public M newElement(E[][] matrix) throws InvalidElementCreationException {
+        if (matrix.length != dimension) {
+            throw new InvalidElementCreationException("Dimension of matrix is not " + dimension + " (but " + matrix.length + ")");
+        }
         M m = of(matrix);
         if (m.determinant().eq(elementStructure.zero())) {
             throw new InvalidElementCreationException("The matrix " + m + " is not invertible. Its determinant is zero");

@@ -10,8 +10,11 @@ import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearGroup;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearMatrix;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.NotASquareException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Log4j2
 public class SpecialLinearGroupTest {
@@ -29,9 +32,31 @@ public class SpecialLinearGroupTest {
         assertThat(det.getValue()).isEqualTo(-1);
 
         assertThat(e.getStructure().toString()).isEqualTo("SL₂(ℤ)");
+
+        assertThatThrownBy(() -> {
+            SpecialLinearMatrix.of(
+                IntegerElement.of(1), IntegerElement.of(2),
+                IntegerElement.of(0)
+            );
+        }).isInstanceOf(NotASquareException.class);
+
+        assertThatThrownBy(() -> {
+            SpecialLinearGroup.SL_N.newElement(
+                IntegerElement.of(1), IntegerElement.of(2),
+                IntegerElement.of(0), IntegerElement.of(-1)
+            );
+        }).isInstanceOf(InvalidElementCreationException.class);
+
+        assertThatThrownBy(() -> {
+            SpecialLinearGroup.SL_N.newElement(
+                IntegerElement.of(1), IntegerElement.of(2), IntegerElement.of(3),
+                IntegerElement.of(2), IntegerElement.of(4), IntegerElement.of(6),
+                IntegerElement.of(0), IntegerElement.of(4), IntegerElement.of(6)
+            );
+        }).isInstanceOf(InvalidElementCreationException.class);
     }
 
-    //@Test  TODO
+    //@Test  //TODO
     public void stream() {
         SpecialLinearGroup<IntegerElement> e = SpecialLinearGroup.of(3, Integers.INSTANCE);
         e.stream().limit(100).forEach(m -> {
