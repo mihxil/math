@@ -64,6 +64,10 @@ public class SpecialLinearGroupTest {
             log.info("det({})={}", m, det);
             assertThat(m.determinant().abs()).isIn(IntegerElement.ONE);
         });
+    }
+
+    @Test
+    public void validation() {
 
     }
 

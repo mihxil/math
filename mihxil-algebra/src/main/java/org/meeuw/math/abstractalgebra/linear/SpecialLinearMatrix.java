@@ -6,6 +6,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.validation.Square;
 
 public class SpecialLinearMatrix<E extends RingElement<E>>
     extends AbstractInvertibleMatrix<
@@ -13,7 +14,7 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
     SpecialLinearGroup<E>,
     E,
     Ring<E>
-    >{
+    > {
 
     /**
      * General constructor, without checking.
@@ -26,23 +27,20 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
 
 
     @SafeVarargs
-    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(E... matrix) {
+    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(@Square E... matrix) {
         return of(matrix[0].getStructure(), matrix);
     }
 
     @SafeVarargs
-    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(Ring<E> elementStructure, @NonNull E... matrix) {
+    public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(Ring<E> elementStructure, @NonNull @Square E... matrix) {
         final int dim = Utils.sqrt(matrix.length);
         SpecialLinearGroup<E> structure = SpecialLinearGroup.of(dim, elementStructure);
         return of(structure, matrix);
     }
 
     @SafeVarargs
-    static <E extends RingElement<E>> SpecialLinearMatrix<E> of(SpecialLinearGroup<E> structure, @NonNull E... matrix) {
-        int dimension = structure.getDimension();
-        if (matrix.length != dimension * dimension) {
-            throw new InvalidElementCreationException("Wrong dimensions");
-        }
+    private static <E extends RingElement<E>> SpecialLinearMatrix<E> of(SpecialLinearGroup<E> structure, @NonNull @Square E... matrix) {
+        // no need to check arguments
         E[][] invertibleMatrix = ArrayUtils.squareMatrix(structure.getElementStructure().getElementClass(), matrix);
         SpecialLinearMatrix<E> result = new SpecialLinearMatrix<>(structure, invertibleMatrix);
         result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
