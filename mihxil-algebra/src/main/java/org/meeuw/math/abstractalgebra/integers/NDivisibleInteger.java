@@ -1,8 +1,8 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.math.BigInteger;
+import jakarta.validation.constraints.Min;
 
-import javax.validation.constraints.Min;
+import java.math.BigInteger;
 
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.RngElement;

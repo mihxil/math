@@ -14,12 +14,12 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
  */
 module org.meeuw.math {
     requires static lombok;
-    requires static java.validation;
     requires static org.checkerframework.checker.qual;
 
     requires static ch.obermuhlner.math.big;
     requires java.logging;
     requires org.meeuw.configuration;
+    requires jakarta.validation;
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;
@@ -33,6 +33,7 @@ module org.meeuw.math {
     exports org.meeuw.math.numbers;
     exports org.meeuw.math.streams;
     exports org.meeuw.math.operators;
+    exports org.meeuw.math.validation;
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

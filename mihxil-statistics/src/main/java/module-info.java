@@ -11,7 +11,7 @@ module org.meeuw.math.statistics {
     requires static lombok;
     requires java.logging;
     requires org.meeuw.math;
-    requires java.validation;
+    requires jakarta.validation;
     requires org.meeuw.configuration;
 
     exports org.meeuw.math.statistics;

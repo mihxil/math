@@ -9,7 +9,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @since 0.4
  */
 module org.meeuw.math.algebras {
-    requires static java.validation;
+    requires static jakarta.validation;
     requires static lombok;
     requires static org.checkerframework.checker.qual;
 

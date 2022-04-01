@@ -1,13 +1,12 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
-
-import javax.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;

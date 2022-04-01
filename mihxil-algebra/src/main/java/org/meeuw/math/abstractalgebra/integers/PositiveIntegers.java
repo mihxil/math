@@ -1,11 +1,11 @@
 package org.meeuw.math.abstractalgebra.integers;
 
+import jakarta.validation.constraints.Min;
+
 import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
-
-import javax.validation.constraints.Min;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;

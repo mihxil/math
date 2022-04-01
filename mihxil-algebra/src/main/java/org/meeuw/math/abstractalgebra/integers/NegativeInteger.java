@@ -1,8 +1,8 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.math.BigInteger;
+import jakarta.validation.constraints.Max;
 
-import javax.validation.constraints.Max;
+import java.math.BigInteger;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement;

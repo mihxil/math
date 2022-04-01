@@ -14,6 +14,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.validation.Square;
 
 import static org.meeuw.math.ArrayUtils.squareMatrix;
 
@@ -68,7 +69,7 @@ public abstract class AbstractGeneralLinearGroup<
     }
 
     @SafeVarargs
-    public final M newElement(E... elements) throws InvalidElementCreationException {
+    public final M newElement(@Square E... elements) throws InvalidElementCreationException {
         return newElement(squareMatrix(elementStructure.getElementClass(), elements));
     }
 

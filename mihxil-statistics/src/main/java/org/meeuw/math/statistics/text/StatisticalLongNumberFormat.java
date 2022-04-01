@@ -1,16 +1,16 @@
 package org.meeuw.math.statistics.text;
 
-import lombok.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.text.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
-import javax.validation.constraints.NotNull;
-
 import org.meeuw.math.TimeUtils;
-import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.text.UncertainDoubleFormat.valuePlusMinError;
 

@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.exceptions.InvalidElementException;
+import org.meeuw.math.validation.Square;
 
 /**
  * Matrix (2 dimension array) and vector (1 dimension array) utils.
@@ -73,7 +74,7 @@ public final class ArrayUtils {
     }
 
     @SafeVarargs
-    public static <E> E[][] squareMatrix(Class<E> element, E... matrix) {
+    public static <E> E[][] squareMatrix(Class<E> element, @Square E... matrix) {
         final int dim = Utils.sqrt(matrix.length);
         final E[][] eMatrix = newMatrix(element, dim, dim);
         for (int i = 0; i < dim; i++) {

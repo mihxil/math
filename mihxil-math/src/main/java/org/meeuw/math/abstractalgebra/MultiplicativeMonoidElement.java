@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Min;
 
 import org.meeuw.math.exceptions.ReciprocalException;
 

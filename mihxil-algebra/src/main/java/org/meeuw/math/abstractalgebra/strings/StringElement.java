@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.strings;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 import org.meeuw.math.abstractalgebra.Ordered;

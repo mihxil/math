@@ -1,15 +1,15 @@
 package org.meeuw.math;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+
 import java.math.*;
 import java.util.*;
 import java.util.function.Supplier;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import org.meeuw.math.operators.OperatorInterface;
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.operators.OperatorInterface;
 import org.meeuw.math.text.TextUtils;
 
 import static java.util.Collections.unmodifiableNavigableSet;

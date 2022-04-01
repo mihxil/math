@@ -19,13 +19,13 @@ open module org.meeuw.test {
     requires lombok;
     requires org.meeuw.configuration;
     requires org.checkerframework.checker.qual;
+    requires jakarta.validation;
 
     exports org.meeuw.test.math.text.spi.test;
 
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;
-
 
     provides ConfigurationAspect with
         InvalidConfigurationAspect,

@@ -20,9 +20,13 @@ open module org.meeuw.test {
     requires org.meeuw.math.algebras;
     requires org.meeuw.math.abstractalgebra.test;
     requires org.meeuw.configuration;
+    requires jakarta.validation;
+    requires org.hibernate.validator;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;
+
+    uses jakarta.validation.spi.ValidationProvider;
 
 }
 

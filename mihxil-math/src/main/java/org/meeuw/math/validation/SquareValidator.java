@@ -1,9 +1,9 @@
 package org.meeuw.math.validation;
 
-import java.util.Collection;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import java.util.Collection;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotASquareException;

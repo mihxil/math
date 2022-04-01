@@ -6,8 +6,7 @@ import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 
 /**
@@ -21,13 +20,13 @@ public class PermutationFormat extends Format {
     @With
     private final Offset offset;
 
-    public PermutationFormat(@NotNull Notation notation, @NotNull Offset offset) {
+    public PermutationFormat(@NonNull Notation notation, @NonNull Offset offset) {
         this.notation = notation;
         this.offset = offset;
     }
 
     @Override
-    public StringBuffer format(Object obj, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
+    public StringBuffer format(Object obj, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
 
         if (obj instanceof Permutation) {
             int o = offset.getAsInt();
