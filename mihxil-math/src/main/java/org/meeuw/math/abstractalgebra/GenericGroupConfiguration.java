@@ -9,6 +9,11 @@ import java.util.List;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
+/**
+ * Groups are associated with a binary operator. This operator may have several interpretations.
+ *
+ * Some groups support more than one binary operator (e.g. both addition and multipication), and in that case we can configure which of those should be associated with the generic {@link BasicAlgebraicBinaryOperator#OPERATION}
+ */
 public class GenericGroupConfiguration implements ConfigurationAspect {
 
 

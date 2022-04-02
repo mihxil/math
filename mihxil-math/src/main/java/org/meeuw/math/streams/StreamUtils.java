@@ -194,7 +194,6 @@ public final class StreamUtils {
         }
 
 
-
         @lombok.Builder
         public Configuration(int maxThreads) {
             this.maxThreads = maxThreads == -1 ? DEFAULT_MAX_THREADS : maxThreads;

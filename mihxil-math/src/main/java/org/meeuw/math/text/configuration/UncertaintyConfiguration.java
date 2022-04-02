@@ -10,6 +10,7 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 /**
  * This configuration aspect defines how uncertainties must be formatted
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

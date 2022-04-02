@@ -11,7 +11,7 @@ import org.meeuw.configuration.ConfigurationAspect;
 
 /**
  * Contains time related settings.
- * E.g. to format an instance as a {@link java.time.LocalDateTime} the prefered {@link ZoneId} is relevant.
+ * E.g. to format an instance as a {@link java.time.LocalDateTime} the preferred {@link ZoneId} is relevant.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
