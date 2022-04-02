@@ -18,7 +18,6 @@ class ReflectionUtilsTest {
         private static final A a = new A();
         public static final A b = new A();
         public static final String c = "c";
-
     }
 
     @Test

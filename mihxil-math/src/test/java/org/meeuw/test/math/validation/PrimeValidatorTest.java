@@ -20,7 +20,7 @@ class PrimeValidatorTest {
             this.number = number;
         }
     }
-  ValidatorFactory factory = Validation
+    ValidatorFactory factory = Validation
             .byDefaultProvider()
             .configure()
             .messageInterpolator(new ParameterMessageInterpolator())
