@@ -19,8 +19,8 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
     default void dividedByLong(@ForAll(ELEMENTS) E v1, @ForAll("positiveLongs") long divisor) {
         try {
             assertThat(v1.dividedBy(divisor).getStructure()).isEqualTo(v1.getStructure());
-            assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).isTrue();
-            assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).isTrue();
+            assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).withFailMessage("(%s / %s) * %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+            assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
 
         } catch (DivisionByZeroException divisionByZeroException) {
             getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
