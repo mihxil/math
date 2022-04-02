@@ -29,7 +29,9 @@
 
     <!-- optional -->
     <big-math.version>2.3.0</big-math.version>
-    <checkerframework.version>3.21.3</checkerframework.version>
+    <checkerframework.version>3.21.4</checkerframework.version>
+    <jakarta-validation.version>3.0.0</jakarta-validation.version>
+    <!-- 3.0.1 has errorneous module-info (see https://github.com/eclipse-ee4j/beanvalidation-api/issues/172) will be fixed in 3.0.2 -->
 
     <!-- test dependencies -->
     <log4j.version>2.17.2</log4j.version>
@@ -38,6 +40,7 @@
     <jacoco.version>0.8.7</jacoco.version>
     <assertj.version>3.22.0</assertj.version>
     <reflections.version>0.10.2</reflections.version>
+    <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
   </properties>
 
 
@@ -111,8 +114,14 @@
       <dependency>
         <groupId>jakarta.validation</groupId>
         <artifactId>jakarta.validation-api</artifactId>
-        <version>3.0.0</version><!-- 3.0.1 has errorneous module-info (see https://github.com/eclipse-ee4j/beanvalidation-api/issues/172) will be fixed in 3.0.2 -->
+        <version>${jakarta-validation.version}</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.junit</groupId>
