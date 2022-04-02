@@ -10,6 +10,7 @@ import java.util.Set;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
@@ -18,9 +19,6 @@ import org.meeuw.math.abstractalgebra.linear.SpecialLinearMatrix;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotASquareException;
-
-import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -79,18 +77,21 @@ public class SpecialLinearGroupTest {
     public void validation() throws NoSuchMethodException {
 
         ValidatorFactory factory = Validation
-
-
             .byDefaultProvider()
             .configure()
             .messageInterpolator(new ParameterMessageInterpolator())
             .buildValidatorFactory();
+        System.err.println("" + factory);;
         ExecutableValidator executableValidator = factory.getValidator().forExecutables();
         Method method = SpecialLinearGroup.class
             .getMethod("newElement", RingElement[].class);
         Object[] parameterValues = { new IntegerElement[] {IntegerElement.of(1), IntegerElement.of(2) }};
-        Set<ConstraintViolation<SpecialLinearGroup>> violations
-            = executableValidator.validateParameters(SpecialLinearGroup.SL_N, method, parameterValues);
+        //assertThat(new SquareValidator().isValid(parameterValues[0], null)).isFalse();
+
+
+        Set<ConstraintViolation<SpecialLinearGroup<IntegerElement>>> violations
+            = executableValidator.validateParameters(
+            SpecialLinearGroup.SL_N, method, parameterValues);
         log.info("{}", violations);
         assertThat(violations).hasSize(1);
 

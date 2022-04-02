@@ -20,6 +20,10 @@ class SquareValidatorTest {
 
         assertThat(validator.isValid(new String[]{"a", "b", "c"}, null)).isFalse();
 
+        assertThat(validator.isValid(new String[][]{new String[]{"a", "b"}, new String[]{"c", "d"}}, null)).isTrue();
+
+        assertThat(validator.isValid(new String[][]{new String[]{"a", "b"}, new String[]{"c", "d", "e"}}, null)).isFalse();
+
         assertThat(validator.isValid(3, null)).isFalse();
 
         assertThat(validator.isValid(new Scalar.Number(4), null)).isTrue();
@@ -29,8 +33,6 @@ class SquareValidatorTest {
         assertThatThrownBy(() -> {
             validator.isValid("", null);
         }).isInstanceOf(IllegalArgumentException.class);
-
-
 
     }
 

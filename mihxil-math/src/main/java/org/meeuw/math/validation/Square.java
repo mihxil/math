@@ -9,7 +9,7 @@ import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 
-@Target({METHOD, FIELD, ANNOTATION_TYPE, TYPE_USE})
+@Target({METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)
 @Constraint(validatedBy = SquareValidator.class)
 @Documented
@@ -20,5 +20,7 @@ public @interface Square {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    int dimension() default -1;
 
 }

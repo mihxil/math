@@ -21,7 +21,7 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
      *
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    SpecialLinearMatrix(@NonNull SpecialLinearGroup<E> structure, E[][] matrix) {
+    SpecialLinearMatrix(@NonNull SpecialLinearGroup<E> structure, @Square E[][] matrix) {
         super(structure, matrix);
     }
 
@@ -63,7 +63,7 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
     }
 
     @Override
-    SpecialLinearMatrix<E> of(E[][] matrix) {
+    SpecialLinearMatrix<E> of(@Square E[][] matrix) {
         return structure.of(matrix);
     }
 

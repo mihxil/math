@@ -73,9 +73,9 @@ public abstract class AbstractGeneralLinearGroup<
         return newElement(squareMatrix(elementStructure.getElementClass(), elements));
     }
 
-    abstract M of(E[][] elements);
+    abstract M of(@Square E[][] elements);
 
-    public M newElement(E[][] matrix) throws InvalidElementCreationException {
+    public M newElement(@Square E[][] matrix) throws InvalidElementCreationException {
         if (matrix.length != dimension) {
             throw new InvalidElementCreationException("Dimension of matrix is not " + dimension + " (but " + matrix.length + ")");
         }

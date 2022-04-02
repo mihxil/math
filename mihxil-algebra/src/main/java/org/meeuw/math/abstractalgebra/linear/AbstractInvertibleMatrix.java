@@ -8,6 +8,7 @@ import java.util.Arrays;
 import org.checkerframework.checker.nullness.qual.*;
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.validation.Square;
 
 
 /**
@@ -23,6 +24,7 @@ public abstract class AbstractInvertibleMatrix<
     >
     implements MultiplicativeGroupElement<M> {
 
+    @Square
     final E[][] matrix;
 
     @Getter
@@ -37,7 +39,7 @@ public abstract class AbstractInvertibleMatrix<
      * @param structure
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    AbstractInvertibleMatrix(@NonNull MS structure, E[][] matrix) {
+    AbstractInvertibleMatrix(@NonNull MS structure, @Square E[][] matrix) {
         this.matrix = matrix;
         this.structure = structure;
     }

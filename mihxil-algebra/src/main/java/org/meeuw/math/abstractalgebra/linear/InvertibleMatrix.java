@@ -6,6 +6,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.validation.Square;
 
 public class InvertibleMatrix<E extends FieldElement<E>>
     extends AbstractInvertibleMatrix<
@@ -21,25 +22,25 @@ public class InvertibleMatrix<E extends FieldElement<E>>
      *
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    InvertibleMatrix(@NonNull GeneralLinearGroup<E> structure, E[][] matrix) {
+    InvertibleMatrix(@NonNull GeneralLinearGroup<E> structure, @Square E[][] matrix) {
         super(structure, matrix);
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull E... matrix) {
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull @Square E... matrix) {
         final int dim = Utils.sqrt(matrix.length);
         GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
         return of(structure, matrix);
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(E... matrix) {
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(@Square E... matrix) {
         return of(matrix[0].getStructure(), matrix);
     }
 
 
     @SafeVarargs
-    static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull E... matrix) {
+    static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull @Square E... matrix) {
         int dimension = structure.getDimension();
         if (matrix.length != dimension * dimension) {
             throw new InvalidElementCreationException("Wrong dimensions");
@@ -64,7 +65,7 @@ public class InvertibleMatrix<E extends FieldElement<E>>
     }
 
     @Override
-    InvertibleMatrix<E> of(E[][] matrix) {
+    InvertibleMatrix<E> of(@Square E[][] matrix) {
         return new InvertibleMatrix<>(structure, matrix);
     }
 

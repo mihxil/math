@@ -10,8 +10,14 @@ import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.numbers.SizeableScalar;
 
 public class SquareValidator implements ConstraintValidator<Square, Object> {
+    private int dimension = -1;
 
+    @Override
+    public void initialize(Square constraintAnnotation) {
+        dimension = constraintAnnotation.dimension();
+    }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         long toValidate;
@@ -20,14 +26,29 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
         } else if (value instanceof Number) {
             toValidate = ((Number) value).intValue();
         } else if (value.getClass().isArray()) {
-            toValidate = ((Object[]) value).length;
+            Class<?> aClass = value.getClass().getComponentType();
+            if (aClass.isArray()) {
+                Object[][] v = (Object[][])  value;
+                toValidate = 0;
+                for (Object[] sv : v) {
+                    if (sv.length != v.length) {
+                        return false;
+                    }
+                    toValidate += sv.length;
+                }
+            } else {
+                toValidate = ((Object[]) value).length;
+            }
         } else if (value instanceof Collection<?>) {
             toValidate = ((Collection) value).size();
         } else {
             throw new IllegalArgumentException();
         }
         try {
-            Utils.sqrt(toValidate);
+            long sqrt = Utils.sqrt(toValidate);
+            if (dimension >= 0) {
+                return dimension == sqrt;
+            }
             return true;
         } catch (NotASquareException notASquareException) {
             return false;
