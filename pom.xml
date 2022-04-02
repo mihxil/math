@@ -111,7 +111,7 @@
       <dependency>
         <groupId>jakarta.validation</groupId>
         <artifactId>jakarta.validation-api</artifactId>
-        <version>3.0.0</version><!-- 3.0.1 has errorneous module-info -->
+        <version>3.0.0</version><!-- 3.0.1 has errorneous module-info (see https://github.com/eclipse-ee4j/beanvalidation-api/issues/172) will be fixed in 3.0.2 -->
         <scope>provided</scope>
       </dependency>
       <dependency>
