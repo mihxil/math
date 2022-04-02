@@ -2,13 +2,13 @@ package org.meeuw.math.uncertainnumbers.field;
 
 import lombok.Getter;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
-import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
@@ -214,7 +214,7 @@ public class UncertainDoubleElement
     @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
-        return equals(o, 1);
+        return equals(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override

@@ -6,10 +6,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.LongSummaryStatistics;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -225,7 +227,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
-        return equals(o, 1);
+        return equals(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override

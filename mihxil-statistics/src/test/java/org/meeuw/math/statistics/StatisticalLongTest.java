@@ -5,11 +5,14 @@ import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import net.jqwik.api.*;
+import net.jqwik.api.lifecycle.BeforeProperty;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.statistics.text.TimeConfiguration;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -24,6 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 
 class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
+
+    @BeforeEach
+    @BeforeProperty
+    public void setSds() {
+        ConfigurationService.defaultConfiguration(b -> {
+            b.configure(ConfidenceIntervalConfiguration.class, c -> c.withSds(3f));
+        });
+    }
 
     @Test
     public void instants() {

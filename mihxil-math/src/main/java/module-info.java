@@ -7,6 +7,7 @@ import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 /**
  * @author Michiel Meeuwissen
@@ -46,7 +47,8 @@ module org.meeuw.math {
         UncertaintyConfiguration,
         MathContextConfiguration,
         RandomConfiguration,
-        GenericGroupConfiguration
+        GenericGroupConfiguration,
+        ConfidenceIntervalConfiguration
         ;
 
 

@@ -5,12 +5,14 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -210,7 +212,7 @@ public abstract class PhysicalNumber extends Number
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);
-        return wrapped.equals(sameUnits.wrapped, 1);
+        return wrapped.equals(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override
