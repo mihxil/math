@@ -373,7 +373,6 @@ public final class Utils {
             transient volatile boolean initialized;
             transient V value;
 
-
             @Override
             public V get() {
                 if (!initialized) {

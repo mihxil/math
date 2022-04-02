@@ -20,6 +20,7 @@ open module org.meeuw.test {
     requires org.meeuw.configuration;
     requires org.checkerframework.checker.qual;
     requires jakarta.validation;
+    requires org.hibernate.validator;
 
     exports org.meeuw.test.math.text.spi.test;
 

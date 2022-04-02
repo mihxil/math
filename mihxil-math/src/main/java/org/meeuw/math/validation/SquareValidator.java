@@ -17,14 +17,27 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
         dimension = constraintAnnotation.dimension();
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
+        try {
+            long toValidate = toLong(value);
+            long sqrt = Utils.sqrt(toValidate);
+            if (dimension >= 0) {
+                return dimension == sqrt;
+            }
+            return true;
+        } catch (NotASquareException notASquareException) {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    static long toLong(Object value) {
         long toValidate;
-        if (value instanceof SizeableScalar) {
+         if (value instanceof SizeableScalar) {
             toValidate = ((SizeableScalar) value).longValue();
         } else if (value instanceof Number) {
-            toValidate = ((Number) value).intValue();
+            toValidate = ((Number) value).longValue();
         } else if (value.getClass().isArray()) {
             Class<?> aClass = value.getClass().getComponentType();
             if (aClass.isArray()) {
@@ -32,7 +45,7 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
                 toValidate = 0;
                 for (Object[] sv : v) {
                     if (sv.length != v.length) {
-                        return false;
+                        throw new NotASquareException("not a square");
                     }
                     toValidate += sv.length;
                 }
@@ -44,14 +57,6 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
         } else {
             throw new IllegalArgumentException();
         }
-        try {
-            long sqrt = Utils.sqrt(toValidate);
-            if (dimension >= 0) {
-                return dimension == sqrt;
-            }
-            return true;
-        } catch (NotASquareException notASquareException) {
-            return false;
-        }
+        return toValidate;
     }
 }
