@@ -4,14 +4,13 @@ import java.io.Serializable;
 
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
-import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class BigComplexNumber extends AbstractComplexNumber<BigComplexNumber, BigDecimalElement>
+public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, BigDecimalElement>
     implements
     CompleteFieldElement<BigComplexNumber>,
     MetricSpaceElement<BigComplexNumber, BigDecimalElement>,
@@ -40,81 +39,6 @@ public class BigComplexNumber extends AbstractComplexNumber<BigComplexNumber, Bi
     @Override
     public BigComplexNumbers getStructure() {
         return BigComplexNumbers.INSTANCE;
-    }
-
-    @Override
-    public BigComplexNumber sqrt() {
-        if (imaginary.isZero()) {
-            if (real.isPositive() || real.isZero()) {
-                return _of(real.sqrt(), getStructure().getElementStructure().zero());
-            } else {
-                return _of(getStructure().getElementStructure().zero(), real.abs().sqrt());
-            }
-        }
-        BigDecimalElement abs = abs();
-        return _of(
-            (abs.plus(real).dividedBy(2)).sqrt(),
-            (abs.minus(real).dividedBy(2)).sqrt().times(imaginary.signum())
-        );
-    }
-
-    @Override
-    public BigComplexNumber sin() {
-        return _of(
-            real.sin().times(imaginary.cosh()),
-            real.cos().times(imaginary.sinh())
-        );
-    }
-
-    @Override
-    public BigComplexNumber cos() {
-        return _of(
-            real.cos().times(imaginary.cosh()),
-            real.sin().times(imaginary.sinh())
-        );
-    }
-
-    @Override
-    public BigComplexNumber pow(BigComplexNumber exponent) throws ReciprocalException {
-
-        // (a + bi) ^ (c + di) = (a + bi)^ c (a + bi) ^ di
-        // = (a + bi)^c (
-        return _of(
-            real.cos().times(imaginary.cosh()),
-            real.sin().times(imaginary.sinh())
-        );
-        /// todo
-
-    }
-
-    @Override
-    public BigComplexNumber exp() {
-        BigDecimalElement pref = real.exp();
-        return _of(
-            pref.times(imaginary.cos()),
-            pref.times(imaginary.sin())
-        );
-    }
-
-    /**
-     * principal value logarithm
-     */
-    @Override
-    public BigComplexNumber ln() {
-        return _of(
-            abs().ln(),
-            BigDecimalField.INSTANCE.atan2(imaginary, real)
-        );
-    }
-
-
-    @Override
-    public BigDecimalElement distanceTo(BigComplexNumber otherElement) {
-        BigDecimalElement norm = (
-            (real.minus(otherElement.real)).sqr()
-                .plus(
-                    (imaginary.minus(otherElement.imaginary)).sqr()));
-        return norm.sqrt();
     }
 
 }

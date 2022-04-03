@@ -12,9 +12,13 @@ import org.meeuw.math.abstractalgebra.*;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <S> structure element type
+ * @param <E> type of real and imaginary fields
  */
 @Log
-public abstract class AbstractComplexNumbers<S extends AbstractComplexNumber<S, E>, E extends ScalarFieldElement<E>>
+public abstract class AbstractComplexNumbers<
+    S extends AbstractComplexNumber<S, E>,
+    E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<S>
     implements Field<S> {
 

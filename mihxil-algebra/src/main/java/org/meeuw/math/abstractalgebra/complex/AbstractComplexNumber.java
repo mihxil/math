@@ -10,8 +10,13 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <S> Self reference
+ * @param <E> type of real and imaginary part
  */
-public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E>, E extends ScalarFieldElement<E>>
+public abstract class AbstractComplexNumber<
+    S extends AbstractComplexNumber<S, E>,
+    E extends ScalarFieldElement<E>
+    >
     implements
     FieldElement<S>,
     WithScalarOperations<S, E>,
@@ -91,6 +96,8 @@ public abstract class AbstractComplexNumber<S extends AbstractComplexNumber<S, E
     public S times(long multiplier) {
         return _of(real.times(multiplier), imaginary.times(multiplier));
     }
+
+
 
     @SuppressWarnings("rawtypes")
     @Override

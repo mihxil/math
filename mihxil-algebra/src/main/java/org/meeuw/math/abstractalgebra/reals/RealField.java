@@ -73,9 +73,11 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
         }
     }
 
-
     public RealNumber atan2(RealNumber y, RealNumber x) {
-        return new RealNumber(Math.atan2(y.value, x.value), uncertaintyForDouble(1)/* TODO */);
+        return new RealNumber(
+            Math.atan2(y.value, x.value),
+            uncertaintyForDouble(1)/* TODO */
+        );
     }
 
 

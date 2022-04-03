@@ -15,13 +15,9 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  */
 @Log
 @Example(CompleteField.class)
-public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNumber>
-    implements
-    CompleteField<ComplexNumber>,
-    MetricSpace<ComplexNumber, RealNumber> {
+public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNumber> {
 
     public static final ComplexNumbers INSTANCE = new ComplexNumbers();
-
 
     private ComplexNumbers() {
         super(ComplexNumber.class, RealField.INSTANCE);
@@ -35,5 +31,10 @@ public class ComplexNumbers extends AbstractComplexNumbers<ComplexNumber, RealNu
     @Override
     public String toString() {
         return "ℂ";
+    }
+
+    @Override
+    RealNumber atan2(RealNumber imaginary, RealNumber real) {
+        return RealField.INSTANCE.atan2(imaginary, real);
     }
 }

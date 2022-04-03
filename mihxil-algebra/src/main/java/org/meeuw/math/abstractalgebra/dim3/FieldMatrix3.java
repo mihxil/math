@@ -19,6 +19,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     WithScalarOperations<FieldMatrix3<E>, E>
 {
 
+    @Square(3)
     final E[][] values;
 
     final ScalarField<E> elementStructure;
