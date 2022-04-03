@@ -4,6 +4,7 @@ import java.util.function.UnaryOperator;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.validation.Square;
 
 /**
  * @author Michiel Meeuwissen
@@ -25,7 +26,7 @@ public class Rotation implements
 
     final FieldMatrix3<RealNumber> rot;
 
-    private Rotation(RealNumber[][] values) {
+    private Rotation(@Square(3) RealNumber[][] values) {
         rot = FieldMatrix3.of(
             values[0][0], values[0][1], values[0][2],
             values[1][0], values[1][1], values[1][2],

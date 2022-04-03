@@ -16,7 +16,7 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
 
     @Override
     public void initialize(Square constraintAnnotation) {
-        dimension = constraintAnnotation.dimension();
+        dimension = constraintAnnotation.value();
         invertible = constraintAnnotation.invertible();
     }
 

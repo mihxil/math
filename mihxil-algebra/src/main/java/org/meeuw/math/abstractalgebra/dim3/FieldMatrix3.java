@@ -8,6 +8,7 @@ import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.validation.Square;
 
 /**
  * @author Michiel Meeuwissen
@@ -63,7 +64,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     }
 
-    public FieldMatrix3(E[][] values) {
+    public FieldMatrix3(@Square(3) E[][] values) {
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();
@@ -159,7 +160,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         return FieldMatrix3Group.of(elementStructure);
     }
 
-    E[][] timesMatrix(E[][] matrix3) {
+    E[][] timesMatrix(@Square(3) E[][] matrix3) {
         E[][] result = empty();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

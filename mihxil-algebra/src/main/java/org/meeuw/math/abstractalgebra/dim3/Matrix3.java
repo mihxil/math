@@ -8,6 +8,7 @@ import org.meeuw.math.abstractalgebra.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.validation.Square;
 
 /**
  * A square 3x3 matrix of {@code double}s
@@ -37,7 +38,7 @@ public strictfp class Matrix3 implements
     }
 
 
-    private static Matrix3 of(double[] value) {
+    private static Matrix3 of(@Square(3) double[] value) {
         return of(
                 value[0], value[1], value[2],
                 value[3], value[4], value[5],
@@ -67,7 +68,7 @@ public strictfp class Matrix3 implements
         return Matrix3Group.INSTANCE;
     }
 
-    double[] timesDouble(double[][] matrix3) {
+    double[] timesDouble(@Square(3) double[][] matrix3) {
         double[] result = new double[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SquareValidatorTest {
 
     static class A {
-        @Square(dimension = 4)
+        @Square(value = 4)
         final int number;
 
         A(int number) {

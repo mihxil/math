@@ -24,7 +24,7 @@ public abstract class AbstractInvertibleMatrix<
     >
     implements MultiplicativeGroupElement<M> {
 
-    @Square
+    @Square(invertible = true)
     final E[][] matrix;
 
     @Getter
@@ -39,7 +39,7 @@ public abstract class AbstractInvertibleMatrix<
      * @param structure
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    AbstractInvertibleMatrix(@NonNull MS structure, @Square E[][] matrix) {
+    AbstractInvertibleMatrix(@NonNull MS structure, @Square(invertible = true) E[][] matrix) {
         this.matrix = matrix;
         this.structure = structure;
     }

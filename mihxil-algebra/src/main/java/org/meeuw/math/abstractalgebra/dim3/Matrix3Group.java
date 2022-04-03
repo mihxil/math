@@ -6,6 +6,7 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see org.meeuw.math.abstractalgebra.linear.GeneralLinearGroup
  */
 public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
     implements MultiplicativeGroup<Matrix3> {

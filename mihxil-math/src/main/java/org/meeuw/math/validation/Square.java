@@ -30,7 +30,7 @@ public @interface Square {
 
     Class<? extends Payload>[] payload() default {};
 
-    int dimension() default -1;
+    int value() default -1;
 
     boolean invertible() default false;
 
