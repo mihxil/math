@@ -1,7 +1,7 @@
 
-
 all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4
 
+MVN=mvn
 # sudo gem install asciidoctor asciidoctor-multipage
 
 index.html: ../README.adoc Makefile algebras.svg
@@ -33,4 +33,4 @@ clean:
 
 
 algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java
-	(cd ../mihxil-algebra ; type mvn && mvn -DskipTests=false -Dtest=DocumentationTest test)
+	(cd ../mihxil-algebra ; if `which -s $(MVN)` ; then $(MVN) -DskipTests=false -Dtest=DocumentationTest test ;fi )
