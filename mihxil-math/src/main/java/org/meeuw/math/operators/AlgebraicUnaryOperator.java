@@ -3,6 +3,8 @@ package org.meeuw.math.operators;
 import java.util.Objects;
 import java.util.function.Function;
 
+import java.util.function.UnaryOperator;
+
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
 
@@ -95,6 +97,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
      * Returns a function that always returns its input argument.
      *
      * @return a function that always returns its input argument
+     * @see UnaryOperator#identity()
      */
     static AlgebraicUnaryOperator identity() {
         return new AlgebraicUnaryOperator() {

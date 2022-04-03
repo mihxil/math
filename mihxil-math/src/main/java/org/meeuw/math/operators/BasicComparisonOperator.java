@@ -11,6 +11,8 @@ import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
+import static org.meeuw.math.ReflectionUtils.getBinaryOperatorMethod;
+
 /**
  * The basic operators to compare two elements. Works on two things of the same type, returning a
  * boolean.
@@ -20,12 +22,30 @@ import org.meeuw.math.abstractalgebra.StrictlyOrdered;
  */
 public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
 
-    EQ(getBinaryOperatorMethod(AlgebraicElement.class, "eq"), (a, b) -> a + "≈" + b),
-    EQUALS(getBinaryOperatorMethod(Object.class, "equals"), (a, b) -> a + "=" + b),
-    LT(getBinaryOperatorMethod(StrictlyOrdered.class, "lt"), (a, b) -> a + "<" + b),
-    LTE(getBinaryOperatorMethod(StrictlyOrdered.class, "lte"), (a, b) -> a + "<=" + b),
-    GT(getBinaryOperatorMethod(StrictlyOrdered.class, "gt"), (a, b) -> a + ">" + b),
-    GTE(getBinaryOperatorMethod(StrictlyOrdered.class, "gte"), (a, b) -> a + ">=" + b),
+    EQ(
+        getBinaryOperatorMethod(AlgebraicElement.class, "eq"),
+        (a, b) -> a + "≈" + b
+    ),
+    EQUALS(
+        getBinaryOperatorMethod(Object.class, "equals"),
+        (a, b) -> a + "=" + b
+    ),
+    LT(
+        getBinaryOperatorMethod(StrictlyOrdered.class, "lt"),
+        (a, b) -> a + "<" + b
+    ),
+    LTE(
+        getBinaryOperatorMethod(StrictlyOrdered.class, "lte"),
+        (a, b) -> a + "<=" + b
+    ),
+    GT(
+        getBinaryOperatorMethod(StrictlyOrdered.class, "gt"),
+        (a, b) -> a + ">" + b
+    ),
+    GTE(
+        getBinaryOperatorMethod(StrictlyOrdered.class, "gte"),
+        (a, b) -> a + ">=" + b
+    ),
     ;
 
     public static final NavigableSet<AlgebraicComparisonOperator> ALL = CollectionUtils.navigableSet(
@@ -58,8 +78,4 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
         return stringify.apply(element1, element2).toString();
     }
 
-    @SneakyThrows
-    public static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getMethod(name, clazz);
-    }
 }

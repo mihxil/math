@@ -4,7 +4,9 @@ import java.util.Comparator;
 
 public interface OperatorInterface {
 
-    Comparator<OperatorInterface> COMPARATOR = Comparator.comparing(OperatorInterface::ordinal).thenComparing(OperatorInterface::name);
+    Comparator<OperatorInterface> COMPARATOR = Comparator
+        .comparing(OperatorInterface::ordinal)
+        .thenComparing(OperatorInterface::name);
 
     String name();
 

@@ -9,9 +9,11 @@ import java.util.function.BinaryOperator;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
-import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.getUnaryOperatorMethod;
+import static org.meeuw.math.ReflectionUtils.getBinaryOperatorMethod;
+import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 
 /**
  * The basic operations of arithmetic
@@ -92,7 +94,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
             }
             E result = (E) method.invoke(element1, element2);
             if (result == null) {
-                throw new IllegalStateException("" + method + "(" + element1 + ',' + element2 + ") resulted null");
+                throw new InvalidAlgebraicResult("" + method + "(" + element1 + ',' + element2 + ") resulted null");
             }
             return result;
         } catch (InvocationTargetException ite) {
@@ -111,17 +113,11 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         if (inverse == null) {
             throw new NoSuchOperatorException("No inverse function for operation " + this + " defined");
         }
-        try {
-            E result = inverse.apply(element);
-            if (result == null) {
-                throw new IllegalStateException("" + inverse + "(" + element + ") resulted null");
-            }
-            return result;
-        } catch (NoSuchMethodError noSuchMethodException) {
-            throw new NoSuchOperatorException("No inverse function for operation " + this + " defined", noSuchMethodException);
-        } catch (IllegalArgumentException iae){
-            throw new NoSuchOperatorException(inverse.getMethod() + "." + inverse + "(" + element + "): " + element + ": " + iae.getMessage());
+        E result = inverse.apply(element);
+        if (result == null) {
+            throw new InvalidAlgebraicResult("" + inverse + "(" + element + ") resulted null");
         }
+        return result;
     }
 
     /**
@@ -150,9 +146,6 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         return stringify.apply(element1, element2).toString();
     }
 
-    @SneakyThrows
-    private static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getMethod(name, clazz);
-    }
+
 
 }

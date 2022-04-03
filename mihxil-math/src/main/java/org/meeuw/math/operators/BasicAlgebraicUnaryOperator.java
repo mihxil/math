@@ -8,9 +8,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
-
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
+import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 import static org.meeuw.math.text.TextUtils.overLine;
 import static org.meeuw.math.text.TextUtils.superscript;
 
@@ -22,29 +22,64 @@ import static org.meeuw.math.text.TextUtils.superscript;
 @Log
 public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
-    IDENTIFY(getUnaryOperatorMethod(AlgebraicElement.class, "self"), (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s),
+    IDENTIFY(
+        getUnaryOperatorMethod(AlgebraicElement.class, "self"),
+        (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s
+    ),
 
-    NEGATION(getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"), (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
+    NEGATION(
+        getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"),
+        (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
-    RECIPROCAL(getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"), (s) -> s + superscript(-1)),
+    RECIPROCAL(
+        getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),
+        (s) -> s + superscript(-1)
+    ),
 
-    INVERSION(getUnaryOperatorMethod(GroupElement.class, "inverse"),(s) -> "inverse(" + s  + ")"),
+    INVERSION(
+        getUnaryOperatorMethod(GroupElement.class, "inverse"),
+        (s) -> "inverse(" + s  + ")"
+    ),
 
-    SQR(getUnaryOperatorMethod(MultiplicativeSemiGroupElement.class, "sqr"), (s) -> s + superscript(2)),
+    SQR(
+        getUnaryOperatorMethod(MultiplicativeSemiGroupElement.class, "sqr"),
+        (s) -> s + superscript(2)
+    ),
 
-    SQRT(getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"), (s) -> "√" + overLine(s)),
+    SQRT(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"),
+        (s) -> "√" + overLine(s)
+    ),
 
-    SIN(getUnaryOperatorMethod(CompleteFieldElement.class, "sin"), (s) -> "sin(" + s + ")"),
+    SIN(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "sin"),
+        (s) -> "sin(" + s + ")"
+    ),
 
-    COS(getUnaryOperatorMethod(CompleteFieldElement.class, "cos"), (s) -> "cos(" + s + ")"),
+    COS(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "cos"),
+        (s) -> "cos(" + s + ")"
+    ),
 
-    EXP(getUnaryOperatorMethod(CompleteFieldElement.class, "exp"), (s) -> "exp(" + s + ")"),
+    EXP(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "exp"),
+        (s) -> "exp(" + s + ")"
+    ),
 
-    LN(getUnaryOperatorMethod(CompleteFieldElement.class, "ln"), (s) -> "ln(" + s + ")"),
+    LN(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "ln"),
+        (s) -> "ln(" + s + ")"
+    ),
 
-    SINH(getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"), (s) -> "sinh(" + s + ")"),
+    SINH(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"),
+        (s) -> "sinh(" + s + ")"
+    ),
 
-    COSH(getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"), (s) -> "cosh(" + s + ")")
+    COSH(
+        getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"),
+        (s) -> "cosh(" + s + ")"
+    )
 
     ;
 
@@ -75,11 +110,6 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
         } catch (InvocationTargetException ex) {
             throw ex.getCause();
         }
-    }
-
-    @SneakyThrows
-    public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getDeclaredMethod(name);
     }
 
     @Override

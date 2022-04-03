@@ -1,9 +1,9 @@
 package org.meeuw.math;
 
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.function.Consumer;
 
 @Log
@@ -29,5 +29,15 @@ public class ReflectionUtils {
 
     public static <C> void forConstants(Class<C> clazz, Consumer<C> consumer) {
         forConstants(clazz, clazz, consumer);
+    }
+
+    @SneakyThrows
+    public static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
+        return clazz.getMethod(name, clazz);
+    }
+
+    @SneakyThrows
+    public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
+        return clazz.getDeclaredMethod(name);
     }
 }

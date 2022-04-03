@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.numbers.SizeableScalar;
 
-import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.getUnaryOperatorMethod;
+import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 
 @Log
 public enum BasicFunction implements GenericFunction {

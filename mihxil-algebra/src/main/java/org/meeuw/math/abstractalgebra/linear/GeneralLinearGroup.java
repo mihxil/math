@@ -8,6 +8,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.validation.Square;
 
 /**
  * A linear group on any {@link org.meeuw.math.abstractalgebra.Field}
@@ -39,7 +40,7 @@ public class GeneralLinearGroup<E extends FieldElement<E>> extends
     }
 
     @Override
-    InvertibleMatrix<E> of(E[][] elements) {
+    InvertibleMatrix<E> of(@Square(invertible = true) E[][] elements) {
         return new InvertibleMatrix<>(this, elements);
     }
 

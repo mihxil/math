@@ -14,7 +14,6 @@ import org.meeuw.math.validation.Square;
 /**
  * Representation of a square, invertible matrix.
  *
- *
  */
 public abstract class AbstractInvertibleMatrix<
     M extends AbstractInvertibleMatrix<M, MS, E, ES>,
@@ -96,7 +95,7 @@ public abstract class AbstractInvertibleMatrix<
 
 
 
-    abstract M of(E[][] matrix);
+    abstract M of(@Square E[][] matrix);
 
     protected E[][] newMatrix() {
         return structure.getElementStructure().newMatrix(matrix.length, matrix.length);
