@@ -13,4 +13,6 @@ public @interface Example {
     Class<?> value();
 
     String string() default "";
+
+    String prefix() default "";
 }

@@ -10,6 +10,7 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group
  */
+@Example(Group.class)
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
 
     @Example(Group.class)

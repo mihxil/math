@@ -32,7 +32,7 @@ public class NVectorSpace<E extends FieldElement<E>>
         return (NVectorSpace<E>) INSTANCES.computeIfAbsent(key, (k)  -> new NVectorSpace<>(dimension, field));
     }
 
-    @Example(VectorSpace.class)
+    @Example(value = VectorSpace.class, prefix = "NVectorSpace ")
     public static NVectorSpace<RationalNumber> Q2 = NVectorSpace.of(2, RationalNumbers.INSTANCE);
 
     private final Field<E> field;

@@ -16,7 +16,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(CompleteField.class)
+@Example(CompleteScalarField.class)
 public class BigDecimalField
     extends AbstractAlgebraicStructure<BigDecimalElement>
     implements

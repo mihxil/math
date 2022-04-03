@@ -22,7 +22,7 @@ public class GeneralLinearGroup<E extends FieldElement<E>> extends
 
     private static final Map<Key, GeneralLinearGroup<?>> INSTANCES = new ConcurrentHashMap<>();
 
-    @Example(MultiplicativeGroup.class)
+    @Example(value = MultiplicativeGroup.class, prefix = "GeneralLinearGroup ")
     public static GeneralLinearGroup<RationalNumber> GL2_Q = of(2, RationalNumbers.INSTANCE);
 
     protected GeneralLinearGroup(@NonNull Field<E> elementStructure, int dimension) {

@@ -4,6 +4,7 @@ package org.meeuw.math.uncertainnumbers.field;
 import java.util.Random;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -12,6 +13,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Example(CompleteScalarField.class)
 public class UncertainRealField
     extends AbstractAlgebraicStructure<UncertainReal>
     implements CompleteScalarField<UncertainReal> {

@@ -34,7 +34,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         );
     }
 
-    @Example(DivisionRing.class)
+    @Example(value = DivisionRing.class, prefix = "Quaternions ")
     public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
 
     @Getter
