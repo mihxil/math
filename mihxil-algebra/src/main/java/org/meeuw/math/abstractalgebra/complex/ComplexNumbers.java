@@ -6,6 +6,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * The {@link Field} of {@link ComplexNumber}s.
@@ -30,7 +31,7 @@ public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNu
 
     @Override
     public String toString() {
-        return "ℂ";
+        return "ℂ" + TextUtils.subscript("p");
     }
 
     @Override

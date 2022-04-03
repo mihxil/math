@@ -13,7 +13,6 @@ import org.meeuw.math.abstractalgebra.*;
 @Example(Group.class)
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
 
-    @Example(Group.class)
     public static final KleinGroup INSTANCE = new KleinGroup();
 
     private KleinGroup() {
