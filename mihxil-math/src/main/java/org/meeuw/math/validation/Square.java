@@ -32,4 +32,6 @@ public @interface Square {
 
     int dimension() default -1;
 
+    boolean invertible() default false;
+
 }

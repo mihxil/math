@@ -47,6 +47,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      *    <li>it may not be fully transitive (in case of uncertain values)</li>
      * </ol>
      * @see org.meeuw.math.operators.BasicComparisonOperator#EQ
+     * @return true if the other object is equal to this one
      */
     default boolean eq(E other) {
         return equals(other);
@@ -56,7 +57,9 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      * Casts the current element to an alement of a parent group. It should support the ones returned by
      * {@link AlgebraicStructure#getSuperGroups()}.
      *
-     * @return A filled optional if successfull
+     * @return A filled optional if successful
+     * @param clazz The class of the object to cast to
+     * @param <F> The type of the class of the object to cast to
      */
     default <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
         return Optional.empty();
@@ -64,6 +67,10 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
 
     /**
      * Casts this element as element of an ancestor structure.
+     *
+     * @return A new algebraic element, which same value, but as a member of a super structure
+     * @param clazz The class of the object to cast to
+     * @param <F> The type of the class of the object to cast to
      * @throws NotASubGroup if not castable.
      */
     default <F extends AlgebraicElement<F>> F cast(Class<F> clazz) {

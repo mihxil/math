@@ -8,7 +8,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
- * <a href="https://en.wikipedia.org/wiki/Klein_four-group">The Klein four-group</a>
+ * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group
  */
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
 

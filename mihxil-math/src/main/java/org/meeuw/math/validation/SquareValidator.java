@@ -11,10 +11,13 @@ import org.meeuw.math.numbers.SizeableScalar;
 
 public class SquareValidator implements ConstraintValidator<Square, Object> {
     private int dimension = -1;
+    private boolean invertible = false;
+
 
     @Override
     public void initialize(Square constraintAnnotation) {
         dimension = constraintAnnotation.dimension();
+        invertible = constraintAnnotation.invertible();
     }
 
     @Override
@@ -24,6 +27,12 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
             long sqrt = Utils.sqrt(toValidate);
             if (dimension >= 0) {
                 return dimension == sqrt;
+            }
+            if (invertible) {
+                if (! value.getClass().isArray()) {
+                    throw new IllegalArgumentException("Only arrays can be inverted");
+                }
+                // TODO not really implemented, useful as metadata though
             }
             return true;
         } catch (NotASquareException notASquareException) {

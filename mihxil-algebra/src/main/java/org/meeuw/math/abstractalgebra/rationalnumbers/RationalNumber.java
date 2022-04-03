@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -19,6 +19,7 @@ import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
 /**
+ * A rational number is implemented using two {@link BigInteger}s, one for the numferator, one for denominator
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -32,15 +33,16 @@ public class RationalNumber extends Number
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
     @Getter
-    private final BigInteger numerator;
+    private final @NotNull BigInteger numerator;
     @Getter
-    private @NotNull final BigInteger denominator;
+    private final @NotNull @Positive BigInteger denominator;
 
     public static RationalNumber of(long numerator, long denominator) {
         return new RationalNumber(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
     }
 
-    public static RationalNumber of(@NotNull BigInteger numerator, @NotNull BigInteger denominator) {
+    public static RationalNumber of(@NotNull BigInteger numerator, @NotNull
+        @Positive @Negative BigInteger denominator) {
         return new RationalNumber(numerator, denominator);
     }
 

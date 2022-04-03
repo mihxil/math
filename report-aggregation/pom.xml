@@ -71,6 +71,12 @@
           <append>true</append>
         </configuration>
       </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <doclet>org.meeuw.test.SvgDoclet</doclet>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>

@@ -24,7 +24,7 @@ public interface Group<E extends GroupElement<E>> extends Magma<E> {
     }
 
     /**
-     * The unity element, for which the {@link GroupElement#operate(MagmaElement)} returns just the other value.
+     * @return The unity element, for which the {@link GroupElement#operate(MagmaElement)} returns just the other value.
      */
     E unity();
 

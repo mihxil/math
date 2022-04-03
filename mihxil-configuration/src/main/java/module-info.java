@@ -7,6 +7,7 @@ import org.meeuw.configuration.ConfigurationAspect;
 module org.meeuw.configuration {
     requires static lombok;
     requires static org.checkerframework.checker.qual;
+
     requires java.logging;
 
     exports org.meeuw.configuration;

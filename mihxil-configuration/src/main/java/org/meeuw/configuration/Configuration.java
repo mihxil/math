@@ -43,6 +43,7 @@ public class Configuration {
     /**
      * Gets a value of a certain configuration aspect
      * @param <E> the type of the configuration aspect
+     * @param <V> the type of the configuration aspect value
      * @param clazz the class of the configuration aspect
      * @param getter a function to get the value from the instance of the aspect (probably a method reference)
      * @return the request configuration aspect value
@@ -70,16 +71,25 @@ public class Configuration {
     }
 
 
+    /**
+     * Converts this configuration into a new {@link Builder}, so it can be converted to a new configuration set.
+     */
     public Builder toBuilder() {
         FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newMap = newConfigurationMap();
         newMap.putAll(map);
         return new Builder(newMap);
     }
 
+    /**
+     * @return returns a new {@link Builder} to assemble a new configuration
+     */
     public static Builder builder() {
         return new Builder();
     }
 
+    /**
+     * Builder pattern for {@link Configuration}.
+     */
     @SuppressWarnings("UnusedReturnValue")
     public static class Builder {
         private final FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration;
@@ -87,15 +97,21 @@ public class Configuration {
         public Builder(FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration) {
             this.configuration = configuration;
         }
-        public Builder() {
+
+        Builder() {
             this.configuration = newConfigurationMap();
         }
 
+        /**
+         * Configures one certain aspect of configuration.
+         * @param aspect The aspect to configure
+         * @param configOperator The code to change it
+         */
         @SuppressWarnings("unchecked")
-        public <E extends ConfigurationAspect> Builder configure(Class<E> clazz, UnaryOperator<E> config) {
-            E template = (E) configuration.get(clazz);
-            E newConfig = config.apply(template);
-            configuration.put(clazz, newConfig);
+        public <E extends ConfigurationAspect> Builder configure(Class<E> aspect, UnaryOperator<E> configOperator) {
+            E template = (E) configuration.get(aspect);
+            E newConfig = configOperator.apply(template);
+            configuration.put(aspect, newConfig);
             return this;
         }
 

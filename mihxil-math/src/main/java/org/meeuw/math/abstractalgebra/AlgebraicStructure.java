@@ -70,12 +70,14 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * Gets the direct (known) super groups (or other algebraic stucture) which this structure is part of.
+     * Gets the direct (known) super groups (or other algebraic structure) which this structure is part of.
 
      * The associated {@link AlgebraicElement} implements {@link AlgebraicElement#castDirectly(Class)} to support all these classes.
      *
      * @see #getAncestorGroups()
      * @see AlgebraicElement#castDirectly(Class)
+     *
+     * @return the set of direct super structures of this.
      */
     default Set<AlgebraicStructure<?>> getSuperGroups() {
         return Collections.emptySet();
@@ -88,6 +90,8 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      *
      * @see #getSuperGroups()
      * @see AlgebraicElement#cast(Class)
+     *
+     * @return All super groups and ancestors of these
      */
     default Set<AlgebraicStructure<?>> getAncestorGroups() {
         return getAncestorGroups(new HashSet<>());

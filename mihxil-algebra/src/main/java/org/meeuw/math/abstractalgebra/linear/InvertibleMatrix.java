@@ -22,25 +22,25 @@ public class InvertibleMatrix<E extends FieldElement<E>>
      *
      * @param matrix An invertible, square matrix, with the dimensions specified by the structure
      */
-    InvertibleMatrix(@NonNull GeneralLinearGroup<E> structure, @Square E[][] matrix) {
+    InvertibleMatrix(@NonNull GeneralLinearGroup<E> structure, @Square(invertible = true) E[][] matrix) {
         super(structure, matrix);
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull @Square E... matrix) {
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull @Square(invertible = true) E... matrix) {
         final int dim = Utils.sqrt(matrix.length);
         GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
         return of(structure, matrix);
     }
 
     @SafeVarargs
-    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(@Square E... matrix) {
+    public static <E extends FieldElement<E>> InvertibleMatrix<E> of(@Square(invertible = true) E... matrix) {
         return of(matrix[0].getStructure(), matrix);
     }
 
 
     @SafeVarargs
-    static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull @Square E... matrix) {
+    static <E extends FieldElement<E>> InvertibleMatrix<E> of(GeneralLinearGroup<E> structure, @NonNull @Square(invertible = true) E... matrix) {
         int dimension = structure.getDimension();
         if (matrix.length != dimension * dimension) {
             throw new InvalidElementCreationException("Wrong dimensions");

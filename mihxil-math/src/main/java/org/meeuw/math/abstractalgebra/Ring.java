@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.validation.Square;
 
 import static org.meeuw.math.ArrayUtils.minor;
 
@@ -19,8 +20,10 @@ public interface Ring<E extends RingElement<E>> extends Rng<E> {
      * Given a (square) matrix of elements of this Ring, calculate its determinant.
      *
      * Using Leibniz formula
+      *
+      * @return the determinant of the give matrix
      */
-    default E determinant(E[][] source) {
+    default E determinant(@Square E[][] source) {
         E det = zero();
         final int[] permutation = new int[source.length];
         for (int i = 0; i < permutation.length; i++) {
@@ -60,11 +63,12 @@ public interface Ring<E extends RingElement<E>> extends Rng<E> {
         return result;
     }
 
-     /**
+    /**
      * Given a (square) matrix of elements of this Ring, calculate its 'adjugate' matrix.
      *
+     * @return the (new) adjugate matrix
      */
-     default E[][] adjugate(E[][] matrix) {
+     default @Square E[][] adjugate(@Square E[][] matrix) {
         final E[][] adjugate = newMatrix(matrix.length, matrix.length);
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix.length; j++) {

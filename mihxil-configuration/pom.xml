@@ -12,7 +12,6 @@
   <packaging>jar</packaging>
   <description>
     Provided a simple way to generically configure (for now by code only) certain aspects of your implementation. Every aspect is loaded via a serviceloader, and made accessible via a 'ConfigurationService'.
-
   </description>
 
   <dependencies>
