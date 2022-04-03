@@ -472,6 +472,10 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_configurationservice">1.2.1. ConfigurationService</h4>
 <div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration"><img src="https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="paragraph">
 <p><code>ConfigurationService</code> is responsible for managing the <code>Configuration</code> thread locals.</p>
 </div>
 <div class="paragraph">
@@ -507,7 +511,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="listingblock">
 <div class="title">temporary overrides</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Configuration</span> configuration = ConfiguraationService.getConfiguration();
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
 ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -&gt; nc.withMinimalExponent(<span class="integer">8</span>)).build());
 
 ... code ...
@@ -541,6 +545,9 @@ ConfigurationService.resetToDefaults();</code></pre>
      .configure(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
  );</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
 </div>
 </div>
 <div class="sect3">
