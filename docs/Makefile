@@ -33,4 +33,4 @@ clean:
 
 
 algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java
-	(cd ../mihxil-algebra ; mvn -DskipTests=false -Dtest=DocumentationTest test)
+	(cd ../mihxil-algebra ; type mvn && mvn -DskipTests=false -Dtest=DocumentationTest test)
