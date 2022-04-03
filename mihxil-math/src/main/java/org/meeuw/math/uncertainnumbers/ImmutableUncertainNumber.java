@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.function.Supplier;
 
-import static org.meeuw.math.Utils.memoize;
+import static org.meeuw.math.CollectionUtils.memoize;
 
 /**
  * @author Michiel Meeuwissen

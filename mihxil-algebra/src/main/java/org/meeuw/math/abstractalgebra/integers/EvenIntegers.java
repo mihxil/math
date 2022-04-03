@@ -5,8 +5,7 @@ import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -26,7 +25,7 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
-    static NavigableSet<GenericFunction> FUNCTIONS = Utils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
 
     private EvenIntegers() {
         super(EvenInteger.class);

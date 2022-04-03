@@ -2,7 +2,7 @@ package org.meeuw.physics;
 
 import lombok.Data;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.text.TextUtils;
 
 
 /**
@@ -41,7 +41,7 @@ public interface DimensionExponent {
 
         @Override
         public String toString() {
-            return Utils.toString(new Dimension[] {dimension}, new int[] {exponent});
+            return TextUtils.toString(new Dimension[] {dimension}, new int[] {exponent});
         }
     }
 }

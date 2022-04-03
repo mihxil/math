@@ -9,7 +9,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.operators.*;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ONE;
 import static org.meeuw.math.abstractalgebra.integers.IntegerElement.ZERO;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;

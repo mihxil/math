@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import java.util.NavigableSet;
 import java.util.function.BinaryOperator;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
@@ -28,10 +28,10 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
     GTE(getBinaryOperatorMethod(StrictlyOrdered.class, "gte"), (a, b) -> a + ">=" + b),
     ;
 
-    public static final NavigableSet<AlgebraicComparisonOperator> ALL = Utils.navigableSet(
+    public static final NavigableSet<AlgebraicComparisonOperator> ALL = CollectionUtils.navigableSet(
         EQ, LT, LTE, GT, GTE
     );
-    public static final NavigableSet<AlgebraicComparisonOperator> ALL_AND_EQUALS = Utils.navigableSet(
+    public static final NavigableSet<AlgebraicComparisonOperator> ALL_AND_EQUALS = CollectionUtils.navigableSet(
         EQ, LT, LTE, GT, GTE, EQUALS
     );
 

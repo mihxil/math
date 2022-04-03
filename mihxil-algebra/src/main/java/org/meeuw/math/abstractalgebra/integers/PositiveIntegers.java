@@ -12,7 +12,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * The 'Monoid' (multiplicative and additive) of positive integers

@@ -7,7 +7,7 @@ import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.ArrayUtils.cloneMatrix;
 import static org.meeuw.math.ArrayUtils.swap;
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.

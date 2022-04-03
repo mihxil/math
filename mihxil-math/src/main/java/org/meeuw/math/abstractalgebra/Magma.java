@@ -5,7 +5,7 @@ import java.util.*;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 
 /**

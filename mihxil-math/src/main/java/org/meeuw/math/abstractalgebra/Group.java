@@ -5,7 +5,7 @@ import java.util.NavigableSet;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * A general group , with one operation, and a 'unity' element, for this operation.

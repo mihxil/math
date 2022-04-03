@@ -3,7 +3,7 @@ package org.meeuw.physics.text;
 import java.text.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.Utils;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.physics.Dimension;
 import org.meeuw.physics.DimensionalAnalysis;
 
@@ -21,7 +21,7 @@ public class DimensionalAnalysisFormat extends Format {
         if (dimension.isOne()) {
             buf.append("1");
         } else {
-            buf.append(Utils.toString(Dimension.values(), dimension.getExponents()));
+            buf.append(TextUtils.toString(Dimension.values(), dimension.getExponents()));
         }
         return buf;
     }

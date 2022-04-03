@@ -194,6 +194,10 @@ The service giving access to the format-providers is `FormatService`. This is a 
 
 
 ==== ConfigurationService
+
+image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
+image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
+
 `ConfigurationService` is responsible for managing the `Configuration` thread locals.
 
 Like this it can be consulted
@@ -218,7 +222,7 @@ Actual configuration can be done in two basically distinct ways.
 .temporary overrides
 [source,java]
 ----
-Configuration configuration = ConfiguraationService.getConfiguration();
+Configuration configuration = ConfigurationService.getConfiguration();
 ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
 
 ... code ...
@@ -248,6 +252,8 @@ Global defaults can be set similarly
      .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
  );
 ----
+
+ConfigurationService itself is not actually math related, and is released in a separate artifact.
 
 ==== unicode
 

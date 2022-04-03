@@ -14,7 +14,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.abstractalgebra.integers.NegativeInteger.MINUS_ONE;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;

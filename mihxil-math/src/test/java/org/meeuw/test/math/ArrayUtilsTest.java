@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.ArrayUtils.minor;
 
-public class MatrixUtilsTest {
+public class ArrayUtilsTest {
 
     @Test
     public void minorOfSquare() {

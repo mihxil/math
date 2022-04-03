@@ -48,6 +48,28 @@ public final class TextUtils {
         return script(i, SUPER, SUPERSCRIPTS);
     }
 
+    /**
+     * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
+     * create a string representation of that using superscript notation.
+     * @param <T> the type of the enums
+     * @param values the enum values
+     * @param exponents the associated exponents
+     * @return a string
+     */
+    public static <T extends Enum<T>> String toString(T[] values, int[] exponents) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < exponents.length; i++) {
+            int b = exponents[i];
+            if (b != 0) {
+                builder.append(values[i].toString());
+                if (b != 1) {
+                    builder.append(superscript(b));
+                }
+            }
+        }
+        return builder.toString();
+    }
+
     private static String script(long i, char minusChar, char[] digits) {
         StringBuilder bul = new StringBuilder();
         boolean minus = script(bul, i, digits);

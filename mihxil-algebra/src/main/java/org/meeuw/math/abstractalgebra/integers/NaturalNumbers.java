@@ -12,7 +12,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.abstractalgebra.integers.Factoriable.FACT;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.IDENTIFY;

@@ -7,8 +7,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -31,7 +30,7 @@ public class NDivisibleIntegers extends
     @Example(Rng.class)
     public static final NDivisibleIntegers _3Z = NDivisibleIntegers.of(3);
 
-    static NavigableSet<GenericFunction> FUNCTIONS = Utils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
 
 
 

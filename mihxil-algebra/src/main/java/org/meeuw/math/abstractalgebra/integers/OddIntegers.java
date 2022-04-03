@@ -5,8 +5,7 @@ import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -28,9 +27,9 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
 
     public static final OddIntegers INSTANCE = new OddIntegers();
 
-    static NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = Utils.navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, BasicAlgebraicUnaryOperator.NEGATION);
+    static NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = CollectionUtils.navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, BasicAlgebraicUnaryOperator.NEGATION);
 
-    static NavigableSet<GenericFunction> FUNCTIONS = Utils.navigableSet(MultiplicativeMonoid.FUNCTIONS, BasicFunction.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(MultiplicativeMonoid.FUNCTIONS, BasicFunction.ABS);
 
 
 

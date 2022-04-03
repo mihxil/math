@@ -4,7 +4,7 @@ import java.util.NavigableSet;
 
 import org.meeuw.math.abstractalgebra.*;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;

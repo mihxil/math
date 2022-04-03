@@ -4,15 +4,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.*;
-import java.util.*;
-import java.util.function.Supplier;
 
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.exceptions.ReciprocalException;
-import org.meeuw.math.operators.OperatorInterface;
-import org.meeuw.math.text.TextUtils;
-
-import static java.util.Collections.unmodifiableNavigableSet;
 
 /**
  * @author Michiel Meeuwissen
@@ -208,28 +202,6 @@ public final class Utils {
 
 
     /**
-     * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
-     * create a string representation of that using superscript notation.
-     * @param <T> the type of the enums
-     * @param values the enum values
-     * @param exponents the associated exponents
-     * @return a string
-     */
-    public static <T extends Enum<T>> String toString(T[] values, int[] exponents) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < exponents.length; i++) {
-            int b = exponents[i];
-            if (b != 0) {
-                builder.append(values[i].toString());
-                if (b != 1) {
-                    builder.append(TextUtils.superscript(b));
-                }
-            }
-        }
-        return builder.toString();
-    }
-
-    /**
      * pow(2, &lt;this value&gt;) is an estimate of the 'uncertainty' in this double. More precision it simply cannot represent.
      * @param doubleValue a double value
      * @return the bit the power of 2 exponent that the least significant bit in the IEEE 754 representation of the double represents.
@@ -333,62 +305,5 @@ public final class Utils {
         return Math.round(value);
     }
 
-    @SafeVarargs
-    public static <E> NavigableSet<E> navigableSet(Comparator<? super E> comparator, E...ops) {
-        TreeSet<E> set = new TreeSet<>(comparator);
-        set.addAll(Arrays.asList(ops));
-        return unmodifiableNavigableSet(set);
-    }
-
-    @SafeVarargs
-    public static <E extends OperatorInterface> NavigableSet<E> navigableSet(E...ops) {
-        return navigableSet(OperatorInterface.COMPARATOR, ops);
-    }
-
-
-    @SafeVarargs
-    public static <E> NavigableSet<E> navigableSet(NavigableSet<E> extend, E...ops) {
-        TreeSet<E> base = new TreeSet<>(extend);
-        base.addAll(Arrays.asList(ops));
-        return unmodifiableNavigableSet(base);
-    }
-
-    @SafeVarargs
-    public static <E> NavigableSet<E> navigableSet(Comparator<? super E> comparator, Collection<E>... extend) {
-        TreeSet<E> base = new TreeSet<>(comparator);
-        for (Collection<E> col : extend) {
-            base.addAll(col);
-        }
-        return unmodifiableNavigableSet(base);
-    }
-
-    @SafeVarargs
-    public static <E extends OperatorInterface> NavigableSet<E> navigableSet(Collection<E>... extend) {
-        return navigableSet(OperatorInterface.COMPARATOR, extend);
-    }
-
-
-    public static <V> Supplier<V> memoize(final Supplier<V> wrapped){
-        return new Supplier<V>() {
-            transient volatile boolean initialized;
-            transient V value;
-
-            @Override
-            public V get() {
-                if (!initialized) {
-                    synchronized (this) {
-                        if (!initialized) {
-                            V t = wrapped.get();
-                            value = t;
-                            initialized = true;
-                            return t;
-                        }
-                    }
-                    return null;
-                }
-                return value;
-            }
-        };
-    }
 
 }

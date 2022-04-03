@@ -7,7 +7,7 @@ import org.meeuw.math.*;
 import org.meeuw.math.operators.*;
 
 import static java.util.Collections.unmodifiableNavigableSet;
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.IDENTIFY;
 import static org.meeuw.math.operators.OperatorInterface.COMPARATOR;
 

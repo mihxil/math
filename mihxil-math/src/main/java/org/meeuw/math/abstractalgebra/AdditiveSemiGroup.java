@@ -2,7 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import static org.meeuw.math.Utils.navigableSet;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
