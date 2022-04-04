@@ -74,7 +74,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     public void addInverse() {
         assertThatThrownBy(() -> {
             BasicAlgebraicBinaryOperator.ADDITION.inverse(new El());
-        }).isInstanceOf(IllegalStateException.class);
+        }).isInstanceOf(InvalidAlgebraicResult.class);
 
     }
 
