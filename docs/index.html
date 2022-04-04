@@ -525,13 +525,15 @@ ConfigurationService.resetToDefaults();</code></pre>
 <div class="listingblock">
 <div class="title">temporary overrides utilities</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.with((configurationBuilder) -&gt; configurationBuilder
-   .aspect(TestConfigurationAspect.class, (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
-   .aspect(NumberConfiguration.class, (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
-   , () -&gt; {
- ... code ...
- });
-----</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.withConfiguration((con) -&gt;
+  con.configure(TestConfigurationAspect.class,
+             (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
+     .configure(NumberConfiguration.class,
+             (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
+, () -&gt; {
+<span class="comment">// code</span>
+
+ });</code></pre>
 </div>
 </div>
 <div class="paragraph">
