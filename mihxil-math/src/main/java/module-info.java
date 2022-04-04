@@ -35,6 +35,7 @@ module org.meeuw.math {
     exports org.meeuw.math.streams;
     exports org.meeuw.math.operators;
     exports org.meeuw.math.validation;
+    exports org.meeuw.math.abstractalgebra.product;
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

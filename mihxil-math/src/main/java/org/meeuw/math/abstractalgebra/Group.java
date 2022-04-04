@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
@@ -14,7 +15,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @see AdditiveGroup       For a group where the operation is 'addition'.
  * @since 0.8
  */
-public interface Group<E extends GroupElement<E>> extends Magma<E> {
+public interface Group<E extends GroupElement<E>> extends Magma<E>, Element {
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, BasicAlgebraicUnaryOperator.INVERSION);
 

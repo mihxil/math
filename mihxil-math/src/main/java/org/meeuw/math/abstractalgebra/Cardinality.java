@@ -2,7 +2,11 @@ package org.meeuw.math.abstractalgebra;
 
 import lombok.Getter;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.meeuw.math.text.TextUtils;
+
 
 /**
  * Represents the concept of 'Cardinality' of an {@link AlgebraicStructure}. i.e. the number of elements,
@@ -11,7 +15,7 @@ import org.meeuw.math.text.TextUtils;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class Cardinality implements Comparable<Cardinality> {
+public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiGroupElement<Cardinality> {
 
     @Getter
     private final long value;
@@ -44,6 +48,44 @@ public class Cardinality implements Comparable<Cardinality> {
 
     public Cardinality(long value) {
         this.value = value;
+    }
+    private static final class Structure implements MultiplicativeSemiGroup<Cardinality>, Streamable<Cardinality> {
+        final static Structure INSTANCE = new Structure();
+        @Override
+        public Cardinality getCardinality() {
+            return Cardinality.ALEPH_0;
+        }
+
+        @Override
+        public Class<Cardinality> getElementClass() {
+            return Cardinality.class;
+        }
+        @Override
+        public Stream<Cardinality> stream() {
+            return
+                Stream.concat(
+                Stream.of(Cardinality.ALEPH_0, Cardinality.ALEPH_1, Cardinality.C),
+                    IntStream.iterate(1, i -> i + 1).mapToObj(Cardinality::new)
+                );
+        }
+    };
+
+    @Override
+    public MultiplicativeSemiGroup<Cardinality> getStructure() {
+        return Structure.INSTANCE;
+    }
+
+    @Override
+    public Cardinality times(Cardinality cardinality) {
+        if (value > 0 && cardinality.value > 0) {
+            return new Cardinality(value * cardinality.value);
+        } else {
+            if (value < cardinality.value) {
+                return this;
+            } else {
+                return cardinality;
+            }
+        }
     }
 
     @Override
@@ -81,4 +123,6 @@ public class Cardinality implements Comparable<Cardinality> {
             }
         }
     }
+
+
 }

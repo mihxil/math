@@ -7,6 +7,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.validation.Prime;
 
 /**
  * @author Michiel Meeuwissen
@@ -18,7 +19,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
 
     private static final Map<Integer, ModuloField> INSTANCES = new ConcurrentHashMap<>();
 
-    public static ModuloField of(int divisor) throws InvalidElementCreationException {
+    public static ModuloField of(@Prime int divisor) throws InvalidElementCreationException {
         return INSTANCES.computeIfAbsent(divisor, ModuloField::new);
     }
 
