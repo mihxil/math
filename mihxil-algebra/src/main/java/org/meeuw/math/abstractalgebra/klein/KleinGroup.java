@@ -16,9 +16,9 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
 
     public static final KleinGroup INSTANCE = new KleinGroup();
 
-    @SuppressWarnings("unchecked")
+
     @Example(Group.class)
-    public static final ProductGroup<KleinElement, KleinElement> EXAMPLE = (ProductGroup<KleinElement, KleinElement>) INSTANCE.times(INSTANCE);
+    public static final ProductGroup<KleinElement, KleinElement> EXAMPLE = INSTANCE.cartesian(INSTANCE);
 
     private KleinGroup() {
     }

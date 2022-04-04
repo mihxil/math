@@ -7,13 +7,13 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.8
  */
 
-public class Group extends AbstractAlgebraicStructure<Element>
+public class CategoryOfGroups extends AbstractAlgebraicStructure<Element>
     implements MultiplicativeSemiGroup<Element> {
 
-    static final Group INSTANCE = new Group();
+    static final CategoryOfGroups INSTANCE = new CategoryOfGroups();
 
 
-    private Group() {
+    private CategoryOfGroups() {
     }
 
     @Override
