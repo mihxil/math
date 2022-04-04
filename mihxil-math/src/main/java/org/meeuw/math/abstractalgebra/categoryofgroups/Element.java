@@ -21,7 +21,7 @@ public interface Element extends
 
     @SuppressWarnings("rawtypes")
     @Override
-    default Element times(Element operand) {
+    default ProductGroup<?, ?> times(Element operand) {
         return ProductGroup.ofGeneric((org.meeuw.math.abstractalgebra.Group) this, (org.meeuw.math.abstractalgebra.Group) operand);
     }
 }

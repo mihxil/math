@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group
@@ -14,6 +15,10 @@ import org.meeuw.math.abstractalgebra.*;
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
 
     public static final KleinGroup INSTANCE = new KleinGroup();
+
+    @SuppressWarnings("unchecked")
+    @Example(Group.class)
+    public static final ProductGroup<KleinElement, KleinElement> EXAMPLE = (ProductGroup<KleinElement, KleinElement>) INSTANCE.times(INSTANCE);
 
     private KleinGroup() {
     }
