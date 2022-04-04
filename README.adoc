@@ -234,11 +234,15 @@ There are some utilities in `ConfigurationService` that makes this process a bit
 
 .temporary overrides utilities
 [source, java]
- ConfigurationService.with((configurationBuilder) -> configurationBuilder
-   .aspect(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(5))
-   .aspect(NumberConfiguration.class, (tc) -> tc.withMinimalExponent(3))
-   , () -> {
- ... code ...
+----
+ ConfigurationService.withConfiguration((con) ->
+  con.configure(TestConfigurationAspect.class,
+             (tc) -> tc.withSomeInt(5))
+     .configure(NumberConfiguration.class,
+             (tc) -> tc.withMinimalExponent(3))
+, () -> {
+// code
+
  });
 ----
 

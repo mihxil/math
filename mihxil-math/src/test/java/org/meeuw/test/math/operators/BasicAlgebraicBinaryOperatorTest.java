@@ -8,7 +8,8 @@ import org.assertj.core.api.Assertions;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
-import org.meeuw.test.math.sample.*;
+import org.meeuw.test.math.sample.MyException;
+import org.meeuw.test.math.sample.SampleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -109,6 +110,7 @@ public class BasicAlgebraicBinaryOperatorTest {
             BasicAlgebraicBinaryOperator.DIVISION.apply(new SampleElement(), new SampleElement())
         ).isInstanceOf(NoSuchOperatorException.class).hasMessage("SampleElement sampleelement has no operator 'dividedBy'");
     }
+
 
 
 
