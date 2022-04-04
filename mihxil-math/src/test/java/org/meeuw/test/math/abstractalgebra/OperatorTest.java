@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
@@ -88,7 +89,7 @@ class OperatorTest {
     public void illegalState() {
         assertThatThrownBy(() -> {
             BasicAlgebraicBinaryOperator.ADDITION.apply(new ANull(), new A());
-        }).isInstanceOf(IllegalStateException.class);
+        }).isInstanceOf(InvalidAlgebraicResult.class);
     }
 
     @Test

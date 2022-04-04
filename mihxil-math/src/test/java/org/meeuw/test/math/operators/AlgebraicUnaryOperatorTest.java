@@ -23,7 +23,7 @@ public class AlgebraicUnaryOperatorTest {
 
         assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).stringify("x")).isEqualTo("-self(x)");
 
-        assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("identity and then negation");
+        assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("identity and then NEGATION");
 
     }
 }
