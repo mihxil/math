@@ -14,7 +14,6 @@ import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.validation.Square;
 
 
 /**
@@ -52,14 +51,14 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
     }
 
     @Override
-    SpecialLinearMatrix<E> of( @Square(invertible = true) E[][] elements) {
+    SpecialLinearMatrix<E> of(E[][] elements) {
         SpecialLinearMatrix<E> result = new SpecialLinearMatrix<>(this, elements);
 
         return result;
     }
 
     @Override
-    public SpecialLinearMatrix<E> newElement(@Square(invertible = true) E[][] matrix) throws InvalidElementCreationException {
+    public SpecialLinearMatrix<E> newElement(E[][] matrix) throws InvalidElementCreationException {
         SpecialLinearMatrix<E> m = super.newElement(matrix);
         E det = m.determinant();
         if (! (det.eq(elementStructure.one()) || det.eq(elementStructure.one().negation()))) {
