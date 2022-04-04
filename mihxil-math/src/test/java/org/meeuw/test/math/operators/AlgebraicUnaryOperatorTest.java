@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
-import org.meeuw.test.math.sample.TestElement;
+import org.meeuw.test.math.sample.SampleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,12 +12,12 @@ public class AlgebraicUnaryOperatorTest {
 
     @Test
     public void identity() {
-        TestElement in = new TestElement(null);
-        TestElement out = AlgebraicUnaryOperator.identity().apply(in);
+        SampleElement in = new SampleElement();
+        SampleElement out = AlgebraicUnaryOperator.identity().apply(in);
 
         assertThat(in).isSameAs(out);
 
-        assertThat(AlgebraicUnaryOperator.identity().stringify(in)).isEqualTo("self(testelement)");
+        assertThat(AlgebraicUnaryOperator.identity().stringify(in)).isEqualTo("self(sampleelement)");
 
         assertThat(AlgebraicUnaryOperator.identity().name()).isEqualTo("identity");
 

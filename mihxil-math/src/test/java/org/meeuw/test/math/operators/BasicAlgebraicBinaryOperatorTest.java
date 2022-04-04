@@ -1,107 +1,115 @@
 package org.meeuw.test.math.operators;
 
-import java.util.function.BinaryOperator;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
+import org.assertj.core.api.Assertions;
 
-import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.test.math.sample.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.parallel.ExecutionMode.SAME_THREAD;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 
 @Execution(SAME_THREAD)
 public class BasicAlgebraicBinaryOperatorTest {
 
-    static BinaryOperator<El> p = (a, b) -> a;
-
+   static {
+        Assertions.setMaxStackTraceElementsDisplayed(10);
+    }
     @BeforeEach
     void setup() {
-        p = (a, b) -> a;
-    }
-
-    static class El implements AdditiveGroupElement<El> {
-
-        @Override
-        public Struct getStructure() {
-            return new Struct();
-        }
-
-        @Override
-        public El plus(El summand) {
-            return p.apply(this, summand);
-        }
-
-        @Override
-        public El negation() {
-            return null;
-        }
-
-
-    }
-    static class Struct implements AdditiveGroup<El> {
-
-        @Override
-        public Cardinality getCardinality() {
-            return new Cardinality(1);
-        }
-
-        @Override
-        public Class<El> getElementClass() {
-            return El.class;
-        }
-
-        @Override
-        public El zero() {
-            return new El();
-        }
+        SampleElement.PLUS.remove();
     }
 
     @Test
     public void powInverse() {
-        assertThatThrownBy(() -> {
-            BasicAlgebraicBinaryOperator.POWER.inverse(new El());
-        }).isInstanceOf(NoSuchOperatorException.class);
+        assertThatThrownBy(() ->
+            POWER.inverse(new SampleElement())
+        ).isInstanceOf(NoSuchOperatorException.class);
 
     }
 
     @Test
     public void addInverse() {
-        assertThatThrownBy(() -> {
-            BasicAlgebraicBinaryOperator.ADDITION.inverse(new El());
-        }).isInstanceOf(InvalidAlgebraicResult.class);
+        assertThatThrownBy(() ->
+            ADDITION.inverse(new SampleElement())
+        ).isInstanceOf(InvalidAlgebraicResult.class);
 
     }
 
     @Test
     public void throwsException() {
-        p = (a, b) -> { throw new NullPointerException();};
+        SampleElement.PLUS.set((a, b) -> { throw new NullPointerException();});
         assertThatThrownBy(() -> {
-            BasicAlgebraicBinaryOperator.ADDITION.apply(new El(), new El());
+            ADDITION.apply(new SampleElement(), new SampleElement());
         }).isInstanceOf(NullPointerException.class);
 
     }
 
     @Test
     public void returnsNull() {
-        p = (a, b) -> null;
+        SampleElement.PLUS.set((a, b) -> null);
         assertThatThrownBy(() -> {
-            BasicAlgebraicBinaryOperator.ADDITION.apply(new El(), new El());
+            ADDITION.apply(new SampleElement(), new SampleElement());
         }).isInstanceOf(InvalidAlgebraicResult.class);
 
     }
 
     @Test
     public void callNonExisting() {
-        p = (a, b) -> { throw new NullPointerException();};
         assertThatThrownBy(() -> {
-            BasicAlgebraicBinaryOperator.MULTIPLICATION.apply(new El(), new El());
+            MULTIPLICATION.apply(new SampleElement(), new SampleElement());
         }).isInstanceOf(NoSuchOperatorException.class);
 
     }
+
+
+
+    @Test
+    public void add() {
+        Assertions.assertThat(ADDITION.apply(new SampleElement(), new SampleElement())).isInstanceOf(SampleElement.class);
+    }
+
+    @Test
+    public void stringify() {
+        assertThat(ADDITION.stringify(new SampleElement(), new SampleElement())).isEqualTo("sampleelement + sampleelement");
+        assertThat(ADDITION.getStringify().apply("x", "y")).isEqualTo("x + y");
+    }
+
+    @Test
+    public void invalidResult() {
+        assertThatThrownBy(() ->
+            ADDITION.apply(new SampleElement((a, b) -> null), new SampleElement())
+        ).isInstanceOf(InvalidAlgebraicResult.class);
+    }
+
+    @Test
+    public void myException() {
+        assertThatThrownBy(() ->
+            ADDITION.apply(new SampleElement((a, b) -> {throw new MyException("foo bar");}), new SampleElement())
+        ).isInstanceOf(MyException.class).hasMessage("foo bar");
+    }
+
+    @Test
+    public void wrongArgument() {
+        assertThatThrownBy(() ->
+            MULTIPLICATION.apply(new SampleElement(), new SampleElement())
+        ).isInstanceOf(NoSuchOperatorException.class).hasMessage("SampleElement sampleelement has no operator 'times'");
+    }
+
+    @Test
+    public void illegalArgument() {
+        assertThatThrownBy(() ->
+            BasicAlgebraicBinaryOperator.DIVISION.apply(new SampleElement(), new SampleElement())
+        ).isInstanceOf(NoSuchOperatorException.class).hasMessage("SampleElement sampleelement has no operator 'dividedBy'");
+    }
+
+
+
 }
