@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
 
 import java.math.BigInteger;
 import java.util.stream.IntStream;
@@ -19,7 +18,6 @@ import org.meeuw.math.text.TextUtils;
  */
 public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiGroupElement<Cardinality> {
 
-    @Getter
     private final BigInteger value;
 
     public static final Cardinality ONE = new Cardinality(1);
@@ -128,6 +126,18 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         return value.hashCode();
     }
 
+    public BigInteger getValue() {
+        if (value.signum() >= 0) {
+            return value;
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    public boolean isInfinite() {
+        return value.signum() < 0;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(value);
@@ -135,14 +145,14 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     @Override
     public int compareTo(Cardinality o) {
-        if (o.value.signum() < 0) {
-            if (value.signum() >= 0) {
+        if (o.isInfinite()) {
+            if (! isInfinite()) {
                 return -1;
             } else {
                 return o.value.compareTo(value);
             }
         } else {
-            if (value.signum() < 0) {
+            if (isInfinite()) {
                 return 1;
             } else {
                 return value.compareTo(o.value);
