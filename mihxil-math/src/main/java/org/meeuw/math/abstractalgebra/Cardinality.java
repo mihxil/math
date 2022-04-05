@@ -1,7 +1,9 @@
 package org.meeuw.math.abstractalgebra;
 
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
+import java.math.BigInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -18,8 +20,14 @@ import org.meeuw.math.text.TextUtils;
 public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiGroupElement<Cardinality> {
 
     @Getter
-    private final long value;
+    private final BigInteger value;
 
+    public static final Cardinality ONE = new Cardinality(1);
+
+
+    /**
+     * The cardinality of natural numbers. 'Countably infinite'
+     */
     public static final Cardinality ALEPH_0 = new Cardinality(-1){
         @Override
         public String toString() {
@@ -27,6 +35,10 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
             return "\u05D0\u200E" + TextUtils.subscript(0);
         }
     };
+
+    /**
+     * The cardinality of the set of all countable ordinal numbers. Itself 'uncountably infinite'.
+     */
     public static final Cardinality ALEPH_1 = new Cardinality(-2) {
         @Override
         public String toString() {
@@ -45,9 +57,23 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         }
     };
 
+    public static Cardinality of(@Min(1) BigInteger value) {
+        if (value.compareTo(BigInteger.ZERO) < 0) {
+            throw new IllegalArgumentException();
+        }
+        return new Cardinality(value);
+    }
 
-    public Cardinality(long value) {
+    public static Cardinality of(@Min(1) long value) {
+        return of(BigInteger.valueOf(value));
+    }
+
+
+    private Cardinality(BigInteger value) {
         this.value = value;
+    }
+    private Cardinality(long value) {
+        this.value = BigInteger.valueOf(value);
     }
     private static final class Structure implements MultiplicativeSemiGroup<Cardinality>, Streamable<Cardinality> {
         final static Structure INSTANCE = new Structure();
@@ -68,7 +94,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
                     IntStream.iterate(1, i -> i + 1).mapToObj(Cardinality::new)
                 );
         }
-    };
+    }
 
     @Override
     public MultiplicativeSemiGroup<Cardinality> getStructure() {
@@ -77,10 +103,10 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     @Override
     public Cardinality times(Cardinality cardinality) {
-        if (value > 0 && cardinality.value > 0) {
-            return new Cardinality(value * cardinality.value);
+        if (value.signum() > 0 && cardinality.value.signum() > 0) {
+            return new Cardinality(value.multiply(cardinality.value));
         } else {
-            if (value < cardinality.value) {
+            if (value.compareTo(cardinality.value) < 0) {
                 return this;
             } else {
                 return cardinality;
@@ -94,12 +120,12 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         if (o == null || getClass() != o.getClass()) return false;
 
         Cardinality that = (Cardinality) o;
-        return value == that.value;
+        return value.equals(that.value);
     }
 
     @Override
     public int hashCode() {
-        return (int) (value ^ (value >>> 32));
+        return value.hashCode();
     }
 
     @Override
@@ -109,17 +135,17 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     @Override
     public int compareTo(Cardinality o) {
-        if (o.value < 0) {
-            if (value >= 0) {
+        if (o.value.signum() < 0) {
+            if (value.signum() >= 0) {
                 return -1;
             } else {
-                return Long.compare(o.value, value);
+                return o.value.compareTo(value);
             }
         } else {
-            if (value < 0) {
+            if (value.signum() < 0) {
                 return 1;
             } else {
-                return Long.compare(value, o.value);
+                return value.compareTo(o.value);
             }
         }
     }

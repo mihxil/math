@@ -36,7 +36,7 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
             throw new InvalidStructureCreationException("Divisor of modulo structure must be > 0");
         }
         this.divisor = divisor;
-        this.cardinality = new Cardinality(divisor);
+        this.cardinality = Cardinality.of(divisor);
         one = element(1);
         zero = element(0);
     }

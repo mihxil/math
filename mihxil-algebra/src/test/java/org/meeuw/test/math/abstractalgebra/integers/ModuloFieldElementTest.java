@@ -87,7 +87,7 @@ class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
         @Provide
         public Arbitrary<ModuloFieldElement> elements() {
             return Arbitraries.integers()
-                .between(0, (int) structure.getCardinality().getValue() - 1)
+                .between(0, structure.getCardinality().getValue().intValue() - 1)
                 .map(structure::element)
                 .edgeCases(config -> {
                     config.add(structure.zero());

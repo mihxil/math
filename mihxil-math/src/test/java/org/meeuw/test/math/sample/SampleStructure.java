@@ -7,7 +7,7 @@ public class SampleStructure implements AdditiveGroup<SampleElement> {
 
     @Override
     public Cardinality getCardinality() {
-        return new Cardinality(1);
+        return Cardinality.ONE;
     }
 
     @Override

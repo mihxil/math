@@ -56,7 +56,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
         while(++i <= degree) {
             answer *= i;
         }
-        return new Cardinality(answer);
+        return Cardinality.of(answer);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
         };
         return StreamSupport.stream(Spliterators.spliterator(
                 iterator,
-                getCardinality().getValue(),
+                getCardinality().getValue().intValue(),
                 Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 
     }

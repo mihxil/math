@@ -24,7 +24,7 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     }
     @Override
     public Cardinality getCardinality() {
-        return new Cardinality(KleinElement.values().length);
+        return Cardinality.of(KleinElement.values().length);
     }
 
     @Override

@@ -42,8 +42,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             assertThat(s).isInstanceOf(Streamable.class);
             try {
                 Streamable<E> streamAble = (Streamable<E>) s;
-                if (s.getCardinality().compareTo(new Cardinality(10000)) < 0) {
-                    assertThat(streamAble.stream()).doesNotHaveDuplicates().hasSize((int) s.getCardinality().getValue());
+                if (s.getCardinality().compareTo(Cardinality.of(10000)) < 0) {
+                    assertThat(streamAble.stream()).doesNotHaveDuplicates().hasSize(s.getCardinality().getValue().intValue());
                 } else {
                     assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
                 }
@@ -75,7 +75,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
         if (count.get() <= 1_000 && count.get() > 0) {
-            assertThat(s.getCardinality().getValue()).isEqualTo(count.get());
+            assertThat(s.getCardinality().getValue().intValue()).isEqualTo(count.get());
         }
     }
 

@@ -12,10 +12,10 @@ public class CardinalityTest implements MultiplicativeSemiGroupTheory<Cardinalit
             Cardinality.ALEPH_0,
             Cardinality.ALEPH_1,
             Cardinality.C,
-            new Cardinality(1),
-            new Cardinality(2),
-            new Cardinality(3),
-            new Cardinality(100)
+            Cardinality.ONE,
+            Cardinality.of(2),
+            Cardinality.of(3),
+            Cardinality.of(100)
         );
     }
 }

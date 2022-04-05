@@ -26,7 +26,7 @@ public class TrivialGroup extends AbstractAlgebraicStructure<TrivialElement>
 
     @Override
     public Cardinality getCardinality() {
-        return new Cardinality(1);
+        return Cardinality.ONE;
     }
 
     @Override

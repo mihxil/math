@@ -1,5 +1,7 @@
 package org.meeuw.test.math.abstractalgebra;
 
+import java.math.BigInteger;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
@@ -15,20 +17,20 @@ class CardinalityTest {
 
     @Test
     public void alephs() {
-        assertThat(Cardinality.ALEPH_0).isGreaterThan(new Cardinality(Long.MAX_VALUE));
+        assertThat(Cardinality.ALEPH_0).isGreaterThan(Cardinality.of(Long.MAX_VALUE));
         assertThat(Cardinality.ALEPH_1).isGreaterThan(Cardinality.ALEPH_0);
         assertThat(Cardinality.ALEPH_0.toString()).isEqualTo("א\u200E₀");
         assertThat(Cardinality.ALEPH_1.toString()).isEqualTo("א\u200E₁");
     }
     @Test
     public void test() {
-        assertThat(new Cardinality(10)).isGreaterThan(new Cardinality(9));
-        assertThat(new Cardinality(9)).isLessThan(new Cardinality(10));
-        assertThat(new Cardinality(9)).isLessThan(Cardinality.ALEPH_0);
+        assertThat(Cardinality.of(10)).isGreaterThan(Cardinality.of(9));
+        assertThat(Cardinality.of(9)).isLessThan( Cardinality.of(10));
+        assertThat(Cardinality.of(9)).isLessThan(Cardinality.ALEPH_0);
 
-        assertThat(new Cardinality(10)).isEqualTo(new Cardinality(10));
-        assertThat(new Cardinality(10).toString()).isEqualTo("10");
-        assertThat(new Cardinality(10).getValue()).isEqualTo(10);
+        assertThat(Cardinality.of(10)).isEqualTo(Cardinality.of(10));
+        assertThat(Cardinality.of(10).toString()).isEqualTo("10");
+        assertThat(Cardinality.of(10).getValue()).isEqualTo(10);
 
     }
 
@@ -51,7 +53,8 @@ class CardinalityTest {
 
     @Provide
     public Arbitrary<Cardinality> cardinalities() {
-        return Arbitraries.of(Cardinality.ALEPH_0, Cardinality.ALEPH_1, new Cardinality(0), new Cardinality(9), new Cardinality(10), new Cardinality(Long.MAX_VALUE));
+        return Arbitraries.of(
+            Cardinality.ALEPH_0, Cardinality.ALEPH_1, Cardinality.of(0), Cardinality.of(9), Cardinality.of(10), Cardinality.of(Long.MAX_VALUE), Cardinality.of(BigInteger.valueOf(Long.MAX_VALUE).multiply(BigInteger.TWO)));
     }
 
 }
