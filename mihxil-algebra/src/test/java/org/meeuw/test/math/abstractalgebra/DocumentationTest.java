@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.*;
+import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
 
     public static String ALGEBRA_URL = "ALGEBRA_URL";
-    public static String MATH_URL   = "MATH_URL";
+    public static String MATH_URL    = "MATH_URL";
 
     public static String BINARY_OPERATOR_COLOR = "teal";
     public static String COMPARISON_COLOR = "blue";
@@ -77,9 +78,13 @@ public class DocumentationTest {
             })
         );
         writer.close();
-
-
     }
+
+    String getModule(Class<?> c) {
+        URL location = c.getResource('/' + c.getName().replace('.', '/') + ".class");
+        return Arrays.stream(location.toString().split("/")).filter(s -> s.matches("mihxil-[a-z]*")).findFirst().orElse(null);
+    }
+
     @SuppressWarnings("unchecked")
     protected <C> C proxy(Class<C> interfac) {
         final C c =  (C) Proxy.newProxyInstance(DocumentationTest.class.getClassLoader(), new Class[]{interfac},
@@ -336,10 +341,13 @@ public class DocumentationTest {
 
     protected <C extends AlgebraicStructure<?>>  String href(Class<C> c){
         String baseurl;
-        if (c.getPackageName().equals("org.meeuw.math.abstractalgebra")) {
+        String module = getModule(c);
+        if ("mihxil-math".equals(module)) {
             baseurl = MATH_URL;
-        } else {
+        } else if ("mihxil-algebra".equals(module)){
             baseurl = ALGEBRA_URL;
+        } else {
+            throw new IllegalArgumentException("Unrecognized module " + module + " for " + c);
         }
         return baseurl + "/" + c.getName().replace(".", "/") + ".java";
     }
