@@ -177,11 +177,6 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public BigInteger bigIntegerValue() {
-        return numerator.divide(denominator);
-    }
-
-    @Override
     public float floatValue() {
         return (float) numerator.longValue() / denominator.longValue();
     }

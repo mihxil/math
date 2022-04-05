@@ -97,7 +97,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
 
         statCombined.reguess();
-        assertThat(statCombined.getGuessedMean()).isEqualTo(3);
+        assertThat(statCombined.getGuessedMean()).isEqualTo(4); // 3.5 is rounded up
 
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);

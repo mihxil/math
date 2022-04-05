@@ -143,11 +143,6 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
 
 
     @Override
-    default long longValue() {
-        return Math.round(getValue());
-    }
-
-    @Override
     default double doubleValue() {
         return getValue();
     }

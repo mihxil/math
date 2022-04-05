@@ -47,9 +47,10 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
                 }
-                streamAble.stream().limit(20).forEach(e -> {
-                    count.incrementAndGet();
-                    log.info(e::toString);
+                streamAble.stream().limit(1000).forEach(e -> {
+                    if (count.incrementAndGet() < 20) {
+                        log.info(e::toString);
+                    }
                     }
                 );
                 IntConsumer  skipAndStream = (skip) ->
@@ -63,7 +64,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     }
                     );
                 ;
-                skipAndStream.accept(1000);
+                skipAndStream.accept(5000);
                 skipAndStream.accept(1_000_000);
 
             } catch (NotStreamable ns) {
@@ -73,7 +74,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
-        if (count.get() <= 1_000_000 && count.get() > 0) {
+        if (count.get() <= 1_000 && count.get() > 0) {
             assertThat(s.getCardinality().getValue()).isEqualTo(count.get());
         }
     }

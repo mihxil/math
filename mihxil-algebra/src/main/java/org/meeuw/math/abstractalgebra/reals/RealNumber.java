@@ -148,16 +148,6 @@ public class RealNumber
     }
 
     @Override
-    public long longValue() {
-        return Math.round(value);
-    }
-
-    @Override
-    public BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(longValue());
-    }
-
-    @Override
     public double doubleValue() {
         return value;
     }

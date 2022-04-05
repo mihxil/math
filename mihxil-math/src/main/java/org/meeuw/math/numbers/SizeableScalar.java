@@ -1,8 +1,6 @@
 package org.meeuw.math.numbers;
 
-import java.math.BigDecimal;
-
-import java.math.BigInteger;
+import java.math.*;
 
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
@@ -38,10 +36,14 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      * @return  the numeric value represented by this object after conversion
      *          to type {@code long}.
      */
-    long longValue();
+    default long longValue() {
+        return Math.round(doubleValue());
+    }
 
 
-    BigInteger bigIntegerValue();
+    default BigInteger bigIntegerValue() {
+        return bigDecimalValue().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
+    }
 
 
     /**

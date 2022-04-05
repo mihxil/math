@@ -225,10 +225,6 @@ public class BigDecimalElement implements
         return value.longValue();
     }
 
-    @Override
-    public BigInteger bigIntegerValue() {
-        return value.toBigInteger();
-    }
 
     @Override
     public float floatValue() {

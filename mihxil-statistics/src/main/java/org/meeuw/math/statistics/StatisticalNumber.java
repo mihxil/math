@@ -2,8 +2,6 @@ package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.LongSummaryStatistics;
 
 import org.meeuw.configuration.ConfigurationService;
@@ -193,26 +191,6 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @Override
     public UncertainReal plus(UncertainReal summand) {
         return _of(getValue() + summand.getValue(), operations.additionUncertainty(getUncertainty(), summand.getUncertainty()));
-    }
-
-    @Override
-    public long longValue() {
-        return (long) getValue();
-    }
-
-    @Override
-    public BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(longValue());
-    }
-
-    @Override
-    public double doubleValue() {
-        return getValue();
-    }
-
-    @Override
-    public BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(doubleValue());
     }
 
     @Override

@@ -5,8 +5,7 @@ import lombok.Getter;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.numbers.DoubleOperations;
-import org.meeuw.math.numbers.UncertaintyNumberOperations;
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
@@ -237,5 +236,8 @@ public class UncertainDoubleElement
     }
 
 
-
+    @Override
+    public long longValue() {
+        return Math.round(doubleValue());
+    }
 }
