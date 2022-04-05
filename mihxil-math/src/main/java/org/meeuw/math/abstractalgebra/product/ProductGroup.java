@@ -9,8 +9,10 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.streams.StreamUtils;
 
 /**
+ * The cartesian multiplication of two other groups.
  * @author Michiel Meeuwissen
  * @since 0.8
  */
@@ -66,15 +68,21 @@ public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>> 
         return groupA.getCardinality().times(groupB.getCardinality());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Stream<ProductElement<A, B>> stream() {
-        throw new NotStreamable();
+        if (groupA instanceof Streamable<?> && groupB instanceof Streamable<?>) {
+            return StreamUtils.cartesianStream(
+                () -> ((Streamable<A>) groupA).stream(),
+                () -> ((Streamable<B>) groupB).stream()).map(a -> new ProductElement<>(this, (A) a[0], (B) a[1]));
+
+        } else {
+            throw new NotStreamable();
+        }
     }
 
     @Override
     public String toString() {
-        return groupA + " X " + groupB;
+        return groupA + "⨯" + groupB;
     }
-
-
 }
