@@ -10,7 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.exceptions.OperationException;
 import org.meeuw.math.operators.*;
 import org.meeuw.util.test.ElementTheory;
 
@@ -28,12 +29,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @SuppressWarnings("unchecked")
     @Property()
-    default void cardinality(
+    default void cardinalityAndStreaming(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
 
         Logger log = getLogger();
 
         log.info("Testing {} ({})", s.toString(), s.getDescription());
+        AtomicLong count = new AtomicLong(0);
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
             try {
@@ -43,12 +45,31 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     assertThat(streamAble.stream().limit(10001)).doesNotHaveDuplicates().hasSizeGreaterThanOrEqualTo(10000);
                 }
-                streamAble.stream().limit(20).forEach(e -> log.info(e::toString));
-                log.info("Skipping to 1000");
-                streamAble.stream().skip(1000).limit(20).forEach(e -> log.info(e::toString));
-                log.info("Skipping to 1000000");
-                streamAble.stream().skip(1000000).limit(20).forEach(e ->
-                    log.info(e::toString));
+                streamAble.stream().limit(20).forEach(e -> {
+                    count.incrementAndGet();
+                    log.info(e::toString);
+                    }
+                );
+
+                streamAble.stream().skip(1000).limit(20).forEach(e -> {
+                    if (count.get() < 100) {
+                        count.set(1000);
+                        log.info("Skipping to 1000");
+                    }
+                    count.incrementAndGet();
+                    log.info(e::toString);
+                    }
+                );
+
+                streamAble.stream().skip(1_000_000).limit(20).forEach(e -> {
+                      if (count.get() < 1_000_000) {
+                          count.set(1_000_000);
+                          log.info("Skipping to 1_000_000");
+                      }
+                    count.incrementAndGet();
+                    log.info(e::toString);
+                    }
+                );
             } catch (NotStreamable ns) {
                 log.warn(ns.getMessage());
             }
@@ -56,6 +77,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
         log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
+        if (count.get() <= 1_000_000 && count.get() > 0) {
+            assertThat(s.getCardinality().getValue()).isEqualTo(count.get());
+        }
     }
 
     @Property
