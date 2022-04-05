@@ -102,7 +102,7 @@
 </g>
 <g id="a_node3_15"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/product/ProductGroup.java" xlink:title="ProductGroup">
 <polygon fill="none" stroke="black" points="381,-222 381,-241 515,-241 515,-222 381,-222"/>
-<text text-anchor="start" x="428.5" y="-227.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">V X V</text>
+<text text-anchor="start" x="432" y="-227.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">V⨯V</text>
 </a>
 </g>
 </g>
