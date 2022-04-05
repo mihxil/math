@@ -6,6 +6,7 @@ import java.math.BigInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.meeuw.math.exceptions.CardinalityException;
 import org.meeuw.math.text.TextUtils;
 
 
@@ -130,7 +131,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         if (value.signum() >= 0) {
             return value;
         } else {
-            throw new IllegalStateException();
+            throw new CardinalityException(this + " has no finite integer value");
         }
     }
 
