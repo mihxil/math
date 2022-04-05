@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
+import java.util.function.IntConsumer;
+
 import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
@@ -50,26 +52,20 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     log.info(e::toString);
                     }
                 );
+                IntConsumer  skipAndStream = (skip) ->
+                    streamAble.stream().skip(skip).limit(20).forEach(e -> {
+                        if (count.get() < skip) {
+                            count.set(skip);
+                            log.info("Skipping to {}", skip);
+                        }
+                        count.incrementAndGet();
+                        log.info(e::toString);
+                    }
+                    );
+                ;
+                skipAndStream.accept(1000);
+                skipAndStream.accept(1_000_000);
 
-                streamAble.stream().skip(1000).limit(20).forEach(e -> {
-                    if (count.get() < 100) {
-                        count.set(1000);
-                        log.info("Skipping to 1000");
-                    }
-                    count.incrementAndGet();
-                    log.info(e::toString);
-                    }
-                );
-
-                streamAble.stream().skip(1_000_000).limit(20).forEach(e -> {
-                      if (count.get() < 1_000_000) {
-                          count.set(1_000_000);
-                          log.info("Skipping to 1_000_000");
-                      }
-                    count.incrementAndGet();
-                    log.info(e::toString);
-                    }
-                );
             } catch (NotStreamable ns) {
                 log.warn(ns.getMessage());
             }
