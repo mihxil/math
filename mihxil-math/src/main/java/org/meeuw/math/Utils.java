@@ -5,8 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.*;
 
-import org.meeuw.math.exceptions.NotASquareException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -305,5 +304,16 @@ public final class Utils {
         return Math.round(value);
     }
 
+    public static long factorial(@Min(0) int value) {
+        if (value < 0) {
+            throw new InvalidFactorial("Cannot take factorial of negative");
+        }
+        long i = 1;
+        long answer = 1;
+        while(++i <= value) {
+            answer *= i;
+        }
+        return answer;
+    }
 
 }

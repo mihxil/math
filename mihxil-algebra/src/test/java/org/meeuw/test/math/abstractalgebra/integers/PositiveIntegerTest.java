@@ -14,6 +14,7 @@ import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.InvalidFactorial;
 import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +51,7 @@ class PositiveIntegerTest implements
         ConfigurationService.withAspect(Factoriable.Configuration.class, c -> c.withMaxArgument(2001L), () -> {
             try {
                 log.info("{}! = {}", value, of(value).factorial());
-            } catch (Factoriable.InvalidFactorial invalidFactorial) {
+            } catch (InvalidFactorial invalidFactorial) {
                 log.info("{}! => {}", value, invalidFactorial.getMessage());
             }
         });

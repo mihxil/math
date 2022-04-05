@@ -7,8 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -51,12 +50,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
 
     @Override
     public Cardinality getCardinality() {
-        long i = 1;
-        long answer = 1;
-        while(++i <= degree) {
-            answer *= i;
-        }
-        return Cardinality.of(answer);
+        return Cardinality.of(Utils.factorial(degree));
     }
 
     @Override

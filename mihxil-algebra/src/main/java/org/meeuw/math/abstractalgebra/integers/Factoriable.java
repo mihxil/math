@@ -10,7 +10,6 @@ import java.util.List;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-import org.meeuw.math.exceptions.OperationException;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
@@ -22,12 +21,6 @@ import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
 
 
-    class InvalidFactorial extends OperationException {
-
-        public InvalidFactorial(String s) {
-            super(s);
-        }
-    }
     AlgebraicUnaryOperator FACT = new AlgebraicUnaryOperator() {
 
         final Method method = getUnaryOperatorMethod(Factoriable.class, "factorial");

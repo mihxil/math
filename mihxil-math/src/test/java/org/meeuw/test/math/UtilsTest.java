@@ -14,8 +14,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.exceptions.MathException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -107,6 +106,13 @@ class UtilsTest {
         assertThat(Utils.sqrt(4)).isEqualTo(2);
         assertThat(Utils.floorSqrt(5)).isEqualTo(2);
         assertThatThrownBy(() -> Utils.sqrt(5)).isInstanceOf(MathException.class);
+    }
+
+    @Test
+    public void factorial() {
+        assertThat(Utils.factorial(4)).isEqualTo(24);
+        assertThat(Utils.factorial(0)).isEqualTo(1);
+        assertThatThrownBy(() -> Utils.factorial(-1)).isInstanceOf(InvalidFactorial.class);
     }
 
 
