@@ -85,7 +85,7 @@
 <text text-anchor="start" x="503" y="-303.8" font-family="Times,serif" font-size="14.00">u</text>
 </a>
 </g>
-<g id="a_node3_12"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java" xlink:title="TrivialGroup">
+<g id="a_node3_12"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java" xlink:title="TrivialGroup">
 <polygon fill="none" stroke="black" points="381,-279 381,-298 515,-298 515,-279 381,-279"/>
 <text text-anchor="start" x="392.5" y="-284.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">TrivialGroup C₁</text>
 </a>
@@ -100,7 +100,7 @@
 <text text-anchor="start" x="442.5" y="-246.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ</text>
 </a>
 </g>
-<g id="a_node3_15"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/product/ProductGroup.java" xlink:title="ProductGroup">
+<g id="a_node3_15"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/product/ProductGroup.java" xlink:title="ProductGroup">
 <polygon fill="none" stroke="black" points="381,-222 381,-241 515,-241 515,-222 381,-222"/>
 <text text-anchor="start" x="432" y="-227.8" font-family="Times,serif" font-size="14.00" fill="#0000a0">V⨯V</text>
 </a>
