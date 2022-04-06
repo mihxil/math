@@ -1,12 +1,13 @@
 package org.meeuw.math.abstractalgebra.complex;
 
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber> {
+public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> {
 
     static final long serialVersionUID = 0L;
 

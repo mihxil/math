@@ -14,7 +14,7 @@ import org.meeuw.math.abstractalgebra.reals.*;
  */
 @Log
 @Example(CompleteField.class)
-public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, BigDecimalElement> {
+public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, BigDecimalElement, BigDecimalField> {
 
     public static final BigComplexNumbers INSTANCE = new BigComplexNumbers();
 
@@ -36,4 +36,5 @@ public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, 
     BigDecimalElement atan2(BigDecimalElement imaginary, BigDecimalElement real) {
         return BigDecimalField.INSTANCE.atan2(imaginary, real);
     }
+
 }

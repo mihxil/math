@@ -1,13 +1,15 @@
 package org.meeuw.test.math.abstractalgebra.dim3;
 
 import lombok.extern.log4j.Log4j2;
-import net.jqwik.api.*;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
 import org.meeuw.math.abstractalgebra.dim3.Rotation;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.math.text.TextUtils;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -61,7 +63,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     public void determinantShouldBeOne(@ForAll(ELEMENTS) Rotation r) {
         RealNumber determinant = r.asMatrix().determinant();
         assertThat(determinant.equals(RealNumber.ONE))
-            .withFailMessage("det(" + r.asMatrix() + ") = " + determinant + " != 1").isTrue();
+            .withFailMessage("det(" + r.asMatrix() + ") = " + determinant + " " + TextUtils.NOT_EQUALS + " 1").isTrue();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.complex;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
 /**
  * A Gaussian rational number is a complex number of the form p + qi, where p and q are both {@link RationalNumber}s
@@ -8,7 +9,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber> {
+public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber, RationalNumbers> {
 
 
     public static GaussianRational of(RationalNumber real, RationalNumber imaginary) {

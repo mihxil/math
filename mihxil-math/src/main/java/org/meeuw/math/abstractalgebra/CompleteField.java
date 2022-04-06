@@ -20,6 +20,10 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS, EXP, LN, SINH, COSH);
 
+    E pi();
+
+    E e();
+
 
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {

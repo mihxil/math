@@ -15,7 +15,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @since 0.4
  */
 @Example(Field.class)
-public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber>
+public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber, RationalNumbers>
     implements Field<GaussianRational>, Streamable<GaussianRational> {
 
     public static final GaussianRationals INSTANCE = new GaussianRationals();

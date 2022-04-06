@@ -7,14 +7,15 @@ import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
  * @author Michiel Meeuwissen
- * @since 0.4
+ * @since 0.8
  * @param <S> self reference
  * @param <E> type of real and imaginary parts
  */
 public abstract class CompleteComplexNumber<
-    S extends CompleteComplexNumber<S, E>,
-    E extends CompleteScalarFieldElement<E>>
-    extends AbstractComplexNumber<S, E>
+    S extends CompleteComplexNumber<S, E, ES>,
+    E extends CompleteScalarFieldElement<E>,
+    ES extends CompleteScalarField<E>>
+    extends AbstractComplexNumber<S, E, ES>
     implements
     CompleteFieldElement<S>,
     MetricSpaceElement<S, E>,
@@ -27,7 +28,7 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
-    public abstract CompleteComplexNumbers<S, E> getStructure();
+    public abstract CompleteComplexNumbers<S, E, ES> getStructure();
 
 
     @Override
@@ -64,12 +65,7 @@ public abstract class CompleteComplexNumber<
 
     @Override
     public S pow(S exponent) throws ReciprocalException {
-        // (a + bi) ^ (c + di) = (a + bi)^ c (a + bi) ^ di
-        // = (a + bi)^c (
-        return _of(
-            real.cos().times(imaginary.cosh()),
-            real.sin().times(imaginary.sinh())
-        );
+        return (ln().times(exponent)).exp();
     }
 
     @Override

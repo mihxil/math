@@ -3,7 +3,6 @@ package org.meeuw.math.abstractalgebra.reals;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Optional;
 
 import org.meeuw.math.Utils;
@@ -187,7 +186,8 @@ public class RealNumber
     public RealNumber cos() {
         UncertainNumber<Double> cos = operations().cos(value);
 
-        return _of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
+        return _of(
+            cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
     }
 
     @Override

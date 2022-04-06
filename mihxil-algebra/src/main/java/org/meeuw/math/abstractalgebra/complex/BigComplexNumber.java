@@ -5,12 +5,13 @@ import java.io.Serializable;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, BigDecimalElement>
+public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, BigDecimalElement, BigDecimalField>
     implements
     CompleteFieldElement<BigComplexNumber>,
     MetricSpaceElement<BigComplexNumber, BigDecimalElement>,

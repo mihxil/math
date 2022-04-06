@@ -23,7 +23,9 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E cos();
 
-    E pow(E exponent) throws ReciprocalException;
+    default E pow(E exponent) throws ReciprocalException {
+        return (ln().times(exponent)).exp();
+    }
 
     E exp();
 

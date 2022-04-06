@@ -53,6 +53,10 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
         return equals(other);
     }
 
+    default boolean neq(E other) {
+        return ! eq(other);
+    }
+
     /**
      * Casts the current element to an alement of a parent group. It should support the ones returned by
      * {@link AlgebraicStructure#getSuperGroups()}.

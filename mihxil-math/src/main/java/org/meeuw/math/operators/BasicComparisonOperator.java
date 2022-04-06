@@ -26,6 +26,10 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
         getBinaryOperatorMethod(AlgebraicElement.class, "eq"),
         (a, b) -> a + "≈" + b
     ),
+    NEQ(
+        getBinaryOperatorMethod(AlgebraicElement.class, "neq"),
+        (a, b) -> a + "≉" + b
+    ),
     EQUALS(
         getBinaryOperatorMethod(Object.class, "equals"),
         (a, b) -> a + "=" + b
@@ -45,14 +49,14 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
     GTE(
         getBinaryOperatorMethod(StrictlyOrdered.class, "gte"),
         (a, b) -> a + ">=" + b
-    ),
+    )
     ;
 
     public static final NavigableSet<AlgebraicComparisonOperator> ALL = CollectionUtils.navigableSet(
-        EQ, LT, LTE, GT, GTE
+        EQ, NEQ, LT, LTE, GT, GTE
     );
     public static final NavigableSet<AlgebraicComparisonOperator> ALL_AND_EQUALS = CollectionUtils.navigableSet(
-        EQ, LT, LTE, GT, GTE, EQUALS
+        EQ, NEQ, LT, LTE, GT, GTE, EQUALS
     );
 
 

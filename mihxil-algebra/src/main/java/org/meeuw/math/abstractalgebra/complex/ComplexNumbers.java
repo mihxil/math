@@ -16,7 +16,7 @@ import org.meeuw.math.text.TextUtils;
  */
 @Log
 @Example(CompleteField.class)
-public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNumber> {
+public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNumber, RealField> {
 
     public static final ComplexNumbers INSTANCE = new ComplexNumbers();
 

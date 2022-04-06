@@ -36,7 +36,7 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
 
     @Override
     public Cardinality getCardinality() {
-        return Cardinality.ALEPH_1;
+        return Cardinality.C;
     }
 
     @Override
@@ -74,11 +74,21 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
     }
 
     public RealNumber atan2(RealNumber y, RealNumber x) {
+        double value = Math.atan2(y.value, x.value);
         return new RealNumber(
             Math.atan2(y.value, x.value),
-            uncertaintyForDouble(1)/* TODO */
+            uncertaintyForDouble(value) // TODO
         );
     }
 
 
+    @Override
+    public RealNumber pi() {
+        return RealNumber.of(Math.PI);
+    }
+
+    @Override
+    public RealNumber e() {
+        return RealNumber.of(Math.E);
+    }
 }

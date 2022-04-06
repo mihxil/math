@@ -33,7 +33,6 @@ public class NDivisibleIntegers extends
     static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
 
 
-
     @Getter
     final int divisor;
 

@@ -5,6 +5,7 @@ import java.math.MathContext;
 import java.util.*;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
 import org.meeuw.math.numbers.BigDecimalOperations;
@@ -63,5 +64,15 @@ public class BigDecimalField
     public BigDecimalElement atan2(BigDecimalElement y, BigDecimalElement x) {
         UncertainNumber<BigDecimal> uncertainNumber = BigDecimalOperations.INSTANCE.atan2(y.getValue(), x.getValue());
         return new BigDecimalElement(uncertainNumber.getValue(), uncertainNumber.getUncertainty());
+    }
+
+    @Override
+    public BigDecimalElement pi() {
+        return BigDecimalElement.of(Utils.PI);
+    }
+
+    @Override
+    public BigDecimalElement e() {
+        return BigDecimalElement.of(Utils.e);
     }
 }

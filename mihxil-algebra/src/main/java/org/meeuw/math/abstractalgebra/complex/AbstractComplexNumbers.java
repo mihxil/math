@@ -17,19 +17,21 @@ import org.meeuw.math.abstractalgebra.*;
  */
 @Log
 public abstract class AbstractComplexNumbers<
-    S extends AbstractComplexNumber<S, E>,
-    E extends ScalarFieldElement<E>>
+    S extends AbstractComplexNumber<S, E, ES>,
+    E extends ScalarFieldElement<E>,
+    ES extends ScalarField<E>
+    >
     extends AbstractAlgebraicStructure<S>
     implements Field<S> {
 
     @Getter
-    private final ScalarField<E> elementStructure;
+    private final ES elementStructure;
 
     private final S zero;
     private final S one;
     private final S i;
 
-    AbstractComplexNumbers(Class<S> elem, ScalarField<E> elementStructure) {
+    AbstractComplexNumbers(Class<S> elem, ES elementStructure) {
         super(elem);
         this.elementStructure = elementStructure;
         this.zero = of(this.elementStructure.zero(), this.elementStructure.zero());

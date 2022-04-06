@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
 import org.meeuw.math.operators.*;
 import org.reflections.Reflections;
 
@@ -92,7 +93,7 @@ public class DocumentationTest {
                 if (method.isDefault()) {
                     // if it's a default method, invoke it
                     return InvocationHandler.invokeDefault(proxy, method, args);
-                } else if ("toString".equals(method.getName())){
+                } else if ("toString".equals(method.getName())) {
                     return "proxy for " + interfac;
                 } else {
                     return null;
@@ -196,8 +197,18 @@ public class DocumentationTest {
         }
         return build.toString();
     }
+    Map<String, String> specialSpecials = Map
+        .of("zero", "0",
+            "one", "1",
+            "unity", "u",
+            "pi", "\uD835\uDF0B",
+            "e", "ℯ",
+            "getCardinality", ""
 
-    protected <C extends AlgebraicStructure<?>>  List<OperatorCell> getOperators(C target) {
+        );
+
+
+    protected <C extends AlgebraicStructure<?>>  List<OperatorCell> getOperators(Class<C> clazz, C target) {
         List<OperatorCell> ops = new ArrayList<>();
         {
             StringBuilder addition = new StringBuilder();
@@ -272,29 +283,39 @@ public class DocumentationTest {
         }
 
         {
-            StringBuilder special = new StringBuilder();
-            // special elements
-            try {
-                target.getClass().getMethod("zero");
-                special.append("0");
-            } catch (NoSuchMethodException ignored) {
-            }
-            try {
-                target.getClass().getMethod("one");
-                special.append("1");
-            } catch (NoSuchMethodException ignored) {
-            }
-            try {
-                target.getClass().getMethod("unity");
-                special.append("u");
-            } catch (NoSuchMethodException ignored) {
-            }
-            if (special.length() > 0) {
-                ops.add(new OperatorCell(special).withTitle("special elements"));
+            List<String> special = new ArrayList<>();
+            appendSpecials(special, clazz);
+
+            Collections.reverse(special);
+            if (!special.isEmpty()) {
+                ops.add(new OperatorCell(String.join(" ", special)).withTitle("special elements"));
             }
 
         }
         return ops;
+    }
+
+    protected void appendSpecials(List<String> builder, Class<?> target) {
+         for (Method m : target.getDeclaredMethods()) {
+             if (m.getParameterTypes().length == 0) {
+                 if (AlgebraicElement.class.isAssignableFrom(m.getReturnType()) && ! AlgebraicStructure.class.isAssignableFrom(m.getReturnType())) {
+                     String name = specialSpecials.getOrDefault(m.getName(), m.getName());
+                     if (name.length() > 0) {
+                         if (!builder.contains(name)) {
+                             builder.add(name);
+                         }
+                     }
+                 }
+             }
+         }
+         if (target.getSuperclass() != null) {
+             appendSpecials(builder, target.getSuperclass());
+         }
+         for (Class<?> i : target.getInterfaces()) {
+             if (! Element.class.equals(i)) {
+                 appendSpecials(builder, i);
+             }
+         }
     }
 
     protected  int writeOperators(final PrintWriter writer, List<OperatorCell> ops)  {
@@ -358,7 +379,7 @@ public class DocumentationTest {
         writer.println(c.getSimpleName() + "[");
         //writer.println("href=\"" + href(c) + "\"");
         C target = proxy(c);
-        List<OperatorCell> operators = getOperators(target);
+        List<OperatorCell> operators = getOperators(c, target);
         writeLabel(writer, c, operators.size(), (p) -> {
             int cols = writeOperators(p, operators);
             writeExamples(p, c, cols);
