@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 
 import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.numbers.SizeableScalar;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 
@@ -17,8 +18,8 @@ public enum BasicFunction implements GenericFunction {
 
     ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
-    DECIMAL(getUnaryOperatorMethod(SizeableScalar.class, "bigDecimalValue"), (s) -> "decimal(" + s + ")"),
-    INTEGER(getUnaryOperatorMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "integer(" + s + ")");
+    DECIMAL(getUnaryOperatorMethod(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
+    INTEGER(getUnaryOperatorMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
 
     @Getter
     final Method method;

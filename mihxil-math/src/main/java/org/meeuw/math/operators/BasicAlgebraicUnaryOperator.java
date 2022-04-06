@@ -11,7 +11,6 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
 import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
-import static org.meeuw.math.text.TextUtils.overLine;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
@@ -48,7 +47,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     SQRT(
         getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"),
-        (s) -> "√" + overLine(s)
+        (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s)
     ),
 
     SIN(

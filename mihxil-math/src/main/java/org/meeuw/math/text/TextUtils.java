@@ -20,7 +20,7 @@ public final class TextUtils {
     public static final String INFINITY = "\u221E";
     public static final String NOT_EQUALS = "≠";
 
-    public static final String PLACEHOLDER = "X";
+    public static final String PLACEHOLDER = "x";
 
     private TextUtils() {
     }
@@ -164,6 +164,7 @@ public final class TextUtils {
         put('t', 'ₜ');
         put('e', 'ₑ');
         put('v', 'ᵥ');
+        put('=', '₌');
 
     }});
 
@@ -203,6 +204,7 @@ public final class TextUtils {
     public static @PolyNull String overLine(@PolyNull CharSequence s) {
         return controlEach(s, '\u0305');
     }
+
 
     /**
      * @param s a charsequence to overline double

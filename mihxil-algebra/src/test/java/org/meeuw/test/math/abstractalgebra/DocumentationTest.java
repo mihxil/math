@@ -18,6 +18,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
 import org.meeuw.math.operators.*;
+import org.meeuw.math.text.TextUtils;
 import org.reflections.Reflections;
 
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
@@ -252,10 +253,16 @@ public class DocumentationTest {
             StringBuilder rest = new StringBuilder();
             for (AlgebraicBinaryOperator o : target.getSupportedOperators()) {
                 if (o.ordinal() > DIVISION.ordinal()) {
+                    if (!rest.isEmpty()) {
+                        rest.append(' ');
+                    }
                     rest.append(o.stringify("", ""));
                 }
             }
             for (AlgebraicComparisonOperator o : target.getSupportedComparisonOperators()) {
+                if (!rest.isEmpty()) {
+                    rest.append(' ');
+                }
                 rest.append(o.stringify("", ""));
             }
             if (!rest.isEmpty()) {
@@ -278,7 +285,7 @@ public class DocumentationTest {
                 unary.append(o.getSymbol());
             }
             if (!unary.isEmpty()) {
-                ops.add(new OperatorCell(unary.toString().replaceAll("\\(X\\)", "")).withTitle("Unary operators"));
+                ops.add(new OperatorCell(unary.toString().replaceAll("\\(" + TextUtils.PLACEHOLDER + "\\)", "")).withTitle("Unary operators"));
             }
         }
 
