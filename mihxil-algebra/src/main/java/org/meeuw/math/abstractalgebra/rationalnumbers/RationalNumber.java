@@ -147,7 +147,8 @@ public class RationalNumber extends Number
 
     @Override
     public int compareTo(RationalNumber compare) {
-        return numerator.multiply(compare.denominator).compareTo(compare.numerator.multiply(denominator));
+        return numerator.multiply(compare.denominator)
+            .compareTo(compare.numerator.multiply(denominator));
     }
 
     @Override

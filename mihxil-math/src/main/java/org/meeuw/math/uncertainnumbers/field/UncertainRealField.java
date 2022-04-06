@@ -60,4 +60,5 @@ public class UncertainRealField
     public UncertainReal e() {
         return UncertainDoubleElement.of(Math.E, Utils.uncertaintyForDouble(Math.E));
     }
+
 }

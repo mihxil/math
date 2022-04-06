@@ -30,6 +30,11 @@ public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
     }
 
     @Override
+    default NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
+        return BasicComparisonOperator.ALL;
+    }
+
+    @Override
     default boolean multiplicationIsCommutative() {
         return true;
     }
