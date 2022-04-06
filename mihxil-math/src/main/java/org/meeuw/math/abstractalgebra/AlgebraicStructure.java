@@ -22,7 +22,7 @@ import static org.meeuw.math.operators.OperatorInterface.COMPARATOR;
  */
 public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Randomizable<E> {
 
-    NavigableSet<AlgebraicComparisonOperator> EQ_ONLY = navigableSet(BasicComparisonOperator.EQ);
+    NavigableSet<AlgebraicComparisonOperator> EQ_ONLY = navigableSet(BasicComparisonOperator.EQ, BasicComparisonOperator.NEQ);
 
     NavigableSet<AlgebraicBinaryOperator> OPERATORS = unmodifiableNavigableSet(new TreeSet<>(COMPARATOR));
 

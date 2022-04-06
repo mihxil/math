@@ -22,30 +22,57 @@ import static org.meeuw.math.ReflectionUtils.getBinaryOperatorMethod;
  */
 public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
 
+    /**
+     * @see AlgebraicElement#eq
+     */
     EQ(
         getBinaryOperatorMethod(AlgebraicElement.class, "eq"),
         (a, b) -> a + "≈" + b
     ),
+
+    /**
+     * @see AlgebraicElement#neq
+     */
     NEQ(
         getBinaryOperatorMethod(AlgebraicElement.class, "neq"),
         (a, b) -> a + "≉" + b
     ),
+
+    /**
+     * @see Object#equals(Object)
+     */
     EQUALS(
         getBinaryOperatorMethod(Object.class, "equals"),
         (a, b) -> a + "=" + b
     ),
+
+    /**
+     * @see StrictlyOrdered#lt
+     */
     LT(
         getBinaryOperatorMethod(StrictlyOrdered.class, "lt"),
         (a, b) -> a + "<" + b
     ),
+
+    /**
+     * @see StrictlyOrdered#lte
+     */
     LTE(
         getBinaryOperatorMethod(StrictlyOrdered.class, "lte"),
         (a, b) -> a + "≲" + b
     ),
+
+    /**
+     * @see StrictlyOrdered#gt
+     */
     GT(
         getBinaryOperatorMethod(StrictlyOrdered.class, "gt"),
         (a, b) -> a + ">" + b
     ),
+
+    /**
+     * @see StrictlyOrdered#gte
+     */
     GTE(
         getBinaryOperatorMethod(StrictlyOrdered.class, "gte"),
         (a, b) -> a + "≳" + b

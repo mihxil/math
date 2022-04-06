@@ -41,6 +41,13 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
     }
 
 
+    /**
+     * Returns the value of the specified number as a {@link BigInteger},
+     * which may involve rounding.
+     *
+     * @return  the numeric value represented by this object after conversion
+     *          to type {@link BigInteger}.
+     */
     default BigInteger bigIntegerValue() {
         return bigDecimalValue().setScale(0, RoundingMode.HALF_UP).toBigIntegerExact();
     }
@@ -94,6 +101,13 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
         return (short)intValue();
     }
 
+    /**
+     * Returns the value of the specified number as a {@link BigDecimal},
+     * which may involve rounding.
+     *
+     * @return  the numeric value represented by this object after conversion
+     *          to type {@link BigInteger}.
+     */
     BigDecimal bigDecimalValue();
 
 

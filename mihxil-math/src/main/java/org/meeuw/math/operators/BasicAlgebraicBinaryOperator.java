@@ -23,34 +23,55 @@ import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
  */
 public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
+    /**
+     * @see MagmaElement#operate(MagmaElement)
+     */
     OPERATION(
         getBinaryOperatorMethod(MagmaElement.class, "operate"), "*",
         getUnaryOperatorMethod(Group.class, "unity"),
         BasicAlgebraicUnaryOperator.INVERSION
     ),
 
+    /**
+     * @see AdditiveSemiGroupElement#plus(AdditiveSemiGroupElement)
+     */
     ADDITION(
         getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), "+",
         getUnaryOperatorMethod(AdditiveMonoid.class, "zero"),
         BasicAlgebraicUnaryOperator.NEGATION
     ),
+
+    /**
+     * @see AdditiveGroupElement#minus(AdditiveGroupElement)
+     */
     SUBTRACTION(
         getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
         ADDITION.inverse
     ),
 
+
+    /**
+     * @see MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement)
+     */
     MULTIPLICATION(
         getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
         getUnaryOperatorMethod(MultiplicativeMonoid.class, "one"),
         BasicAlgebraicUnaryOperator.RECIPROCAL
     ),
+
+    /**
+     * @see MultiplicativeGroupElement#dividedBy(MultiplicativeGroupElement)
+     */
     DIVISION(
         getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
         MULTIPLICATION.unity,
         MULTIPLICATION.inverse
     ),
 
+    /**
+     * @see CompleteFieldElement#pow(CompleteFieldElement)
+     */
     POWER(
         getBinaryOperatorMethod(CompleteFieldElement.class, "pow"), "^",
         MULTIPLICATION.unity,

@@ -21,60 +21,97 @@ import static org.meeuw.math.text.TextUtils.superscript;
 @Log
 public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
+    /**
+     * @see AlgebraicElement#self()
+     */
     IDENTIFY(
         getUnaryOperatorMethod(AlgebraicElement.class, "self"),
         (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s
     ),
 
+    /**
+     * @see AdditiveGroupElement#negation()
+     */
     NEGATION(
         getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"),
         (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
+    /**
+     * @see MultiplicativeGroupElement#reciprocal()
+     */
     RECIPROCAL(
         getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),
         (s) -> s + superscript(-1)
     ),
 
+    /**
+     * @see GroupElement#inverse()
+     */
     INVERSION(
         getUnaryOperatorMethod(GroupElement.class, "inverse"),
         (s) -> "inverse(" + s  + ")"
     ),
 
+    /**
+     * @see MultiplicativeSemiGroupElement#sqr()
+     */
     SQR(
         getUnaryOperatorMethod(MultiplicativeSemiGroupElement.class, "sqr"),
         (s) -> s + superscript(2)
     ),
 
+
+    /**
+     * @see CompleteFieldElement#sqrt()
+     */
     SQRT(
         getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"),
         (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s)
     ),
 
+    /**
+     * @see CompleteFieldElement#sin()
+     */
     SIN(
         getUnaryOperatorMethod(CompleteFieldElement.class, "sin"),
         (s) -> "sin(" + s + ")"
     ),
 
+    /**
+     * @see CompleteFieldElement#cos()
+     */
     COS(
         getUnaryOperatorMethod(CompleteFieldElement.class, "cos"),
         (s) -> "cos(" + s + ")"
     ),
 
+    /**
+     * @see CompleteFieldElement#exp()
+     */
     EXP(
         getUnaryOperatorMethod(CompleteFieldElement.class, "exp"),
         (s) -> "exp(" + s + ")"
     ),
 
+    /**
+     * @see CompleteFieldElement#ln()
+     */
     LN(
         getUnaryOperatorMethod(CompleteFieldElement.class, "ln"),
         (s) -> "ln(" + s + ")"
     ),
 
+    /**
+     * @see CompleteFieldElement#sinh()
+     */
     SINH(
         getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"),
         (s) -> "sinh(" + s + ")"
     ),
 
+     /**
+     * @see CompleteFieldElement#cosh()
+     */
     COSH(
         getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"),
         (s) -> "cosh(" + s + ")"

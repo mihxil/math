@@ -16,9 +16,22 @@ import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
 @Log
 public enum BasicFunction implements GenericFunction {
 
+    /**
+     * @see Sizeable#abs()
+     */
     ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
+    /**
+     * Returns the 'decimal' (actually {@link java.math.BigDecimal}) presentation of the given object.
+     * @see SizeableScalar#bigDecimalValue()
+     */
     DECIMAL(getUnaryOperatorMethod(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
+
+    /**
+     * Returns an 'integer' (actually {@link java.math.BigInteger}) version of the given object.
+     * This may involve rounding.
+     * @see SizeableScalar#bigIntegerValue()
+     */
     INTEGER(getUnaryOperatorMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
 
     @Getter
