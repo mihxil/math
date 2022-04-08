@@ -1,7 +1,9 @@
 package org.meeuw.math.operators;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
 
@@ -41,8 +43,10 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
             @Override
             public String name() {
-                return AlgebraicBinaryOperator.this.name() + " and then " + after.name();
+                return AlgebraicBinaryOperator.this.getMethodName() + " and then " + after.name();
             }
+
+
 
         };
     }
@@ -56,5 +60,19 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
     default String getSymbol() {
         return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
     }
+
+    default String getMethodName() {
+        throw new UnsupportedOperationException();
+    }
+
+    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
+        try {
+            Method m = e.getClass().getMethod(getMethodName(), getClass());
+            return m.getAnnotation(NonAlgebraic.class) == null;
+        } catch (NoSuchMethodException ex) {
+            return false;
+        }
+    }
+
 
 }

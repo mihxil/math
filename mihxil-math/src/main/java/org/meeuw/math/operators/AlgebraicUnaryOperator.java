@@ -1,10 +1,12 @@
 package org.meeuw.math.operators;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.function.Function;
 
 import java.util.function.UnaryOperator;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
 
@@ -116,5 +118,17 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
                 return "identity";
             }
         };
+    }
+     default String getMethodName() {
+         throw new UnsupportedOperationException();
+     }
+
+    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
+        try {
+            Method m = e.getClass().getMethod(getMethodName());
+            return m.getAnnotation(NonAlgebraic.class) == null;
+        } catch (NoSuchMethodException ex) {
+            return false;
+        }
     }
 }

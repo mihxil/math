@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.*;
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;

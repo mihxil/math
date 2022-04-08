@@ -4,6 +4,7 @@ import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,7 +25,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
 
         } catch (DivisionByZeroException divisionByZeroException) {
             getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
-            Assume.that(false);
+            Assume.that(! BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1));
         }
     }
 

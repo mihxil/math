@@ -1,7 +1,6 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
+import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
@@ -37,6 +36,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                 .withFailMessage(POWER.stringify(a, b) + " = " + pow + " ≠ " + expectedPow
                 ).isTrue();
         } catch (IllegalLogException illegalLogException){
+            Assume.that(!LN.isAlgebraicFor(a));
             getLogger().warn(illegalLogException.getMessage());
         }
 

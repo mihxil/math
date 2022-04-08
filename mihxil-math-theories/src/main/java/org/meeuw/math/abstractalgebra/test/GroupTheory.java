@@ -1,9 +1,9 @@
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
+import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.exceptions.InverseException;
 import org.meeuw.math.exceptions.NotASubGroup;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
@@ -51,6 +51,8 @@ public interface GroupTheory<E extends GroupElement<E>>
         try {
             assertThat(v.inverse().operate(v).eq(v.getStructure().unity())).withFailMessage(() -> "inverse " + v.inverse() + " * " + v + " != " + v.getStructure().unity()).isTrue();
         } catch (InverseException ie) {
+            Assume.that(! BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
+
             getLogger().info(ie.getMessage());
         }
     }

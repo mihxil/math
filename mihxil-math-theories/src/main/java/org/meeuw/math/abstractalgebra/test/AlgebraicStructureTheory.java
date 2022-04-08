@@ -130,6 +130,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
             } catch (OperationException ae) {
+                Assume.that(! o.isAlgebraicFor(e1));
                 if (error.incrementAndGet() < 3L) {
                     getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {
@@ -170,6 +171,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     getLogger().debug(o.stringify(e1) + " = " + result);
                 }
             } catch (OperationException ae) {
+                //Assume.that(! o.isAlgebraicFor(e1));
                 if (countError.incrementAndGet() < 3L) {
                     getLogger().info(o.stringify(e1) + " -> " + ae.getMessage());
                 } else {
