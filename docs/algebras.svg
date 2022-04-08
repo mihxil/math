@@ -828,15 +828,15 @@
 </g>
 </g>
 <!-- Field&#45;&gt;DivisionRing -->
-<g id="edge23" class="edge">
+<g id="edge24" class="edge">
 <title>Field&#45;&gt;DivisionRing</title>
-<path fill="none" stroke="black" d="M503.07,-915.9C503,-907.36 502.93,-898.61 502.86,-890.3"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M503.07,-915.9C503,-907.36 502.93,-898.61 502.86,-890.3"/>
 <polygon fill="none" stroke="black" points="506.36,-890.04 502.78,-880.06 499.36,-890.09 506.36,-890.04"/>
 </g>
 <!-- Field&#45;&gt;DivisibleGroup -->
-<g id="edge24" class="edge">
+<g id="edge25" class="edge">
 <title>Field&#45;&gt;DivisibleGroup</title>
-<path fill="none" stroke="black" d="M617.33,-915.9C646.88,-901.86 677.64,-887.23 703.5,-874.94"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M617.33,-915.9C646.88,-901.86 677.64,-887.23 703.5,-874.94"/>
 <polygon fill="none" stroke="black" points="705.26,-877.98 712.79,-870.53 702.26,-871.66 705.26,-877.98"/>
 </g>
 <!-- AbelianRing -->
@@ -881,7 +881,7 @@
 </g>
 </g>
 <!-- Field&#45;&gt;AbelianRing -->
-<g id="edge25" class="edge">
+<g id="edge23" class="edge">
 <title>Field&#45;&gt;AbelianRing</title>
 <path fill="none" stroke="black" d="M382.75,-915.9C351.13,-901.73 318.19,-886.98 290.61,-874.62"/>
 <polygon fill="none" stroke="black" points="292.03,-871.42 281.47,-870.53 289.17,-877.81 292.03,-871.42"/>
