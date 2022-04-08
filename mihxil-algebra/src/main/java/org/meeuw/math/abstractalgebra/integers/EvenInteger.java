@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 
@@ -56,7 +56,7 @@ public class EvenInteger
     }
 
     @Override
-    public EvenInteger pow(@Min(1) int n) {
+    public EvenInteger pow(@Positive int n) {
         if (n == 0) {
             throw new ReciprocalException("" + this + "^0");
         }

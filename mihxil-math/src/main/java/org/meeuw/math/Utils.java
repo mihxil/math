@@ -1,7 +1,6 @@
 package org.meeuw.math;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
 import java.math.*;
 
@@ -117,7 +116,7 @@ public final class Utils {
         return result;
     }
 
-    public static BigInteger positivePow(@NotNull BigInteger base, @Min(0) int e) {
+    public static BigInteger positivePow(@NotNull BigInteger base, @PositiveOrZero int e) {
         if (e < 0) {
             throw new ReciprocalException(base +  "^" + e + " is impossible");
         }

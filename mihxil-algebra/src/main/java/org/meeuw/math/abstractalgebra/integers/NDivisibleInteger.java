@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 
@@ -54,7 +54,7 @@ public class NDivisibleInteger
     }
 
     @Override
-    public NDivisibleInteger pow(@Min(1) int n) {
+    public NDivisibleInteger pow(@Positive int n) {
         if (n == 0 && structure.divisor != 1) {
             throw new ReciprocalException("" + this + "^0");
         }

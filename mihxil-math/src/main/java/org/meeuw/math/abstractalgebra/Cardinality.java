@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 import java.util.stream.IntStream;
@@ -56,14 +56,14 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         }
     };
 
-    public static Cardinality of(@Min(1) BigInteger value) {
+    public static Cardinality of(@Positive BigInteger value) {
         if (value.compareTo(BigInteger.ZERO) < 0) {
             throw new IllegalArgumentException();
         }
         return new Cardinality(value);
     }
 
-    public static Cardinality of(@Min(1) long value) {
+    public static Cardinality of(@Positive long value) {
         return of(BigInteger.valueOf(value));
     }
 

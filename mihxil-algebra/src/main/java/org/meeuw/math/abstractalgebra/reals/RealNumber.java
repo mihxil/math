@@ -116,7 +116,7 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber dividedBy(long divisor) {
+    public RealNumber dividedBy(long divisor) throws DivisionByZeroException {
         double newValue = value / divisor;
         return new RealNumber(
             value / divisor,

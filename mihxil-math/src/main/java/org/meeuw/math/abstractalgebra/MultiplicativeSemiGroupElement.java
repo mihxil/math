@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
@@ -45,7 +45,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * @return this <sup>n</sup>
      */
     @SuppressWarnings({"unchecked"})
-    default E pow(@Min(1) int n) {
+    default E pow(@Positive int n) {
         if (n < 0) {
             throw new DivisionByZeroException("Not defined for negative exponents");
         }

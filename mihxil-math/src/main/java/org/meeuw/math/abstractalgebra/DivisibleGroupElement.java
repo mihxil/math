@@ -1,8 +1,10 @@
 package org.meeuw.math.abstractalgebra;
 
+import jakarta.validation.constraints.Positive;
+
 /**
- * An element for the algebraic 'group' (where the operation is multiplication)
  *
+ * @see DivisibleGroup
  * @author Michiel Meeuwissen
  * @since 0.8
  */
@@ -12,9 +14,12 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
     @Override
     DivisibleGroup<E> getStructure();
 
-    E dividedBy(long divisor);
+    /**
+     * Returns the
+     */
+    E dividedBy(@Positive long divisor);
 
-    E times(long multiplier);
+    E times(@Positive long multiplier);
 
 
 }

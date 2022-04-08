@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 
@@ -40,7 +40,7 @@ public class OddInteger
     }
 
     @Override
-    public OddInteger pow(@Min(1) int n) {
+    public OddInteger pow(@Positive int n) {
         return super.pow(n);
     }
 

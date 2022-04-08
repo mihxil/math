@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 
@@ -27,11 +27,11 @@ public class PositiveInteger
     public static final PositiveInteger ONE = of(1);
 
 
-    public static PositiveInteger of(@Min(1) long value) {
+    public static PositiveInteger of(@Positive long value) {
         return PositiveIntegers.INSTANCE.newElement(BigInteger.valueOf(value));
     }
 
-    protected PositiveInteger(@Min(1) BigInteger value) {
+    protected PositiveInteger(@Positive BigInteger value) {
         super(INSTANCE, value);
     }
 

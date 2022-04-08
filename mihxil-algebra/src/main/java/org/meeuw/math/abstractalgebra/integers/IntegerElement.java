@@ -1,6 +1,6 @@
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigInteger;
 
@@ -59,7 +59,7 @@ public class IntegerElement
     }
 
     @Override
-    public IntegerElement pow(@Min(1) int n) {
+    public IntegerElement pow(@PositiveOrZero int n) {
         return with(Utils.positivePow(value, n));
     }
 

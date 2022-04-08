@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
 import org.meeuw.math.operators.*;
@@ -56,7 +57,7 @@ public class DocumentationTest {
 
         subTypes.forEach(c -> {
             if ((c.getModifiers() & Modifier.PUBLIC) != 0 && !c.isInterface() && (c.getModifiers() & Modifier.ABSTRACT) == 0) {
-                log.info(c.getSimpleName() + "->");
+                //log.info(c.getSimpleName() + "->");
             }
         });
 
@@ -64,7 +65,8 @@ public class DocumentationTest {
 
     @SuppressWarnings("rawtypes")
     public void dot(OutputStream out) {
-        Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
+        Set<Class<? extends AlgebraicStructure>> subTypes =
+            reflections.getSubTypesOf(AlgebraicStructure.class);
         subTypes.add(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
         digraph(writer, (w) ->
@@ -100,7 +102,7 @@ public class DocumentationTest {
                     return null;
                 }
             });
-        log.info("Proxying {}: {}", interfac, c);
+        log.debug("Proxying {}: {}", interfac, c);
         return c;
 
     }
@@ -380,7 +382,20 @@ public class DocumentationTest {
         return baseurl + "/" + c.getName().replace(".", "/") + ".java";
     }
 
-    @SuppressWarnings("SimplifyStreamApiCallChains")
+    class Super {
+        final String name;
+        final boolean pseudo;
+
+        Super(String name, boolean style) {
+            this.name = name;
+            this.pseudo = style;
+        }
+        Super(String name){
+            this(name, false);
+        }
+    }
+
+
     protected <C extends AlgebraicStructure<?>> void writeInterface(final PrintWriter writer, Class<C> c) {
         writer.println("\n\n# " + c);
         writer.println(c.getSimpleName() + "[");
@@ -395,17 +410,63 @@ public class DocumentationTest {
         writer.println("]");
 
 
+        final Set<Super> supers = new HashSet<>();
+        Stream.concat(Stream.of(c.getSuperclass()), Stream.of(c.getInterfaces())).forEach(superInterface -> {
+            if (superInterface != null) {
+                if (AlgebraicStructure.class.isAssignableFrom(superInterface)) {
+                    boolean pseudo = false;
+                    Class<? extends AlgebraicElement<?>> elementClass = getElementClass(c);
+                    Class<? extends AlgebraicElement<?>> superElementClass = getElementClass(superInterface);
 
-        Set<String> supers = new HashSet<>();
-        Stream.concat(Stream.of(c.getSuperclass()), Stream.of(c.getInterfaces())).forEach(sup -> {
-            if (sup != null) {
-                if (AlgebraicStructure.class.isAssignableFrom(sup)) {
-                    supers.add(sup.getSimpleName());
+                    for (Method superMethod : superElementClass.getMethods()) {
+                        try {
+                            if (superMethod.getParameterTypes().length > 0) {
+                                if (! AlgebraicElement.class.isAssignableFrom(superMethod.getParameterTypes()[0])) {
+                                    continue;
+                                }
+                            }
+                            Method method = elementClass.getDeclaredMethod(superMethod.getName(), elementClass);
+                            log.debug("super: {}.{} -> sub {}.{}", superElementClass.getSimpleName(), superMethod.getName(), elementClass, method.getName());
+                            if (method.getAnnotation(NonAlgebraic.class) != null) {
+                                pseudo = true;
+                                log.info("**** {}.{} is non algebraic -> {} (from {})", elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName());
+                            } else if (method.getExceptionTypes().length  > 0) {
+                                pseudo = true;
+                                log.info("*** {}.{} has exception, and hence cannot be algebraic -> {} (from {})", elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName());
+                            }
+
+                        } catch (NoSuchMethodException e) {
+                            log.debug(e.getMessage());
+                        }
+                    }
+                    supers.add(new Super(superInterface.getSimpleName(), pseudo));
                 }
             }
             }
         );
-        writer.println(c.getSimpleName() + " -> {" + supers.stream().collect(Collectors.joining("\n")) + "}");
+
+        String regular = supers.stream().filter(s -> !s.pseudo).map(s -> s.name).collect(Collectors.joining("\n"));
+        if (!regular.isEmpty()) {
+            writer.println(c.getSimpleName() + " -> {" + regular+ "}");
+        }
+        String pseudo = supers.stream().filter(s -> s.pseudo).map(s -> s.name).collect(Collectors.joining("\n"));
+        if (! pseudo.isEmpty()) {
+            writer.println(c.getSimpleName() + " -> {" + pseudo + "}[style=\"dashed\"]");
+        }
+    }
+
+    protected Class<? extends AlgebraicElement<?>> getElementClass(Class<?> structureClass) {
+        for (TypeVariable<?> p : structureClass.getTypeParameters()) {
+            for(Type t : p.getBounds()) {
+                Class<?> c = (Class) ((ParameterizedType) t).getRawType();
+                if (AlgebraicElement.class.isAssignableFrom(c)) {
+                    return (Class<? extends AlgebraicElement<?>>) c;
+                }
+
+            }
+
+        }
+        return null;
     }
 
     protected void digraph(PrintWriter writer, Consumer<Writer> body) {

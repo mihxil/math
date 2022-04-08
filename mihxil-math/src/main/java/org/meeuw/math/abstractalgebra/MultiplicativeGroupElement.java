@@ -44,7 +44,6 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
         return MultiplicativeMonoidElement.super.pow(n);
     }
 
-
     default E dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }

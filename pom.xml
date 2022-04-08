@@ -211,7 +211,7 @@
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j18-impl</artifactId> <!-- slf4j used by 'reflections' utility -->
+      <artifactId>log4j-slf4j-impl</artifactId> <!-- slf4j used by 'reflections' utility -->
       <scope>test</scope>
     </dependency>
   </dependencies>
