@@ -59,8 +59,8 @@ MultiplicativeGroup[
 <tr><td colspan='5' title='MultiplicativeGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java'><font color='#0000a0'>MultiplicativeGroup</font></td></tr><tr><td title='binary operators of multiplication' href=''>⋅/</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''>≈ ≉</td><td title='Unary operators' href=''>+x x⁻¹ inverse x²</td><td title='special elements' href=''>1 u</td></tr><tr><td colspan='5' title='PermutationGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java'><font color='#0000a0'>PermutationGroup</font></td></tr><tr><td colspan='5' title='GeneralLinearGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java'><font color='#0000a0'>GL₂(ℚ)</font></td></tr></table>
 >
 ]
-MultiplicativeGroup -> {Group
-MultiplicativeMonoid}
+MultiplicativeGroup -> {MultiplicativeMonoid
+Group}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveGroup
@@ -111,8 +111,8 @@ Rng[
 <tr><td colspan='6' title='Rng' href='MATH_URL/org/meeuw/math/abstractalgebra/Rng.java'><font color='#0000a0'>Rng</font></td></tr><tr><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''>≈ ≉</td><td title='Unary operators' href=''>+x -x inverse x²</td><td title='special elements' href=''>0 u</td></tr><tr><td colspan='6' title='EvenIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/EvenIntegers.java'><font color='#0000a0'>EvenIntegers 2ℤ</font></td></tr><tr><td colspan='6' title='NDivisibleIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/NDivisibleIntegers.java'><font color='#0000a0'>3ℤ</font></td></tr></table>
 >
 ]
-Rng -> {MultiplicativeSemiGroup
-AdditiveAbelianGroup}
+Rng -> {AdditiveAbelianGroup
+MultiplicativeSemiGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup
@@ -132,8 +132,8 @@ MultiplicativeAbelianGroup[
 <tr><td colspan='5' title='MultiplicativeAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java'><font color='#0000a0'>MultiplicativeAbelianGroup</font></td></tr><tr><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''>≈ ≉</td><td title='Unary operators' href=''>+x x⁻¹ inverse x²</td><td title='special elements' href=''>1 u</td></tr></table>
 >
 ]
-MultiplicativeAbelianGroup -> {MultiplicativeGroup
-MultiplicativeAbelianSemiGroup}
+MultiplicativeAbelianGroup -> {MultiplicativeAbelianSemiGroup
+MultiplicativeGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.DivisionRing
@@ -143,8 +143,8 @@ DivisionRing[
 <tr><td colspan='6' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td></tr><tr><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''>≈ ≉</td><td title='Unary operators' href=''>+x -x x⁻¹ inverse x²</td><td title='special elements' href=''>0 u 1</td></tr><tr><td colspan='6' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td></tr></table>
 >
 ]
-DivisionRing -> {Ring
-MultiplicativeGroup}
+DivisionRing -> {MultiplicativeGroup
+Ring}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianGroup
@@ -154,8 +154,8 @@ AdditiveAbelianGroup[
 <tr><td colspan='5' title='AdditiveAbelianGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java'><font color='#0000a0'>AdditiveAbelianGroup</font></td></tr><tr><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''>≈ ≉</td><td title='Unary operators' href=''>+x -x</td><td title='special elements' href=''>0 u</td></tr></table>
 >
 ]
-AdditiveAbelianGroup -> {AdditiveGroup
-AdditiveAbelianSemiGroup}
+AdditiveAbelianGroup -> {AdditiveAbelianSemiGroup
+AdditiveGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.Ring
@@ -237,8 +237,8 @@ CompleteScalarField[
 <tr><td colspan='6' title='CompleteScalarField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteScalarField.java'><font color='#0000a0'>CompleteScalarField</font></td></tr><tr><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''> ^  ≈ ≉ &lt; ≲ &gt; ≳</td><td title='Unary operators' href=''>+x -x x⁻¹ inverse x² √x sin cos exp ln sinh cosh |x| x₌ ⌊x⌉</td><td title='special elements' href=''>0 u 1 𝜋 ℯ</td></tr><tr><td colspan='6' title='BigDecimalField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/reals/BigDecimalField.java'><font color='#0000a0'>BigDecimalField ℝ</font></td></tr><tr><td colspan='6' title='RealField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/reals/RealField.java'><font color='#0000a0'>RealField ℝₚ</font></td></tr></table>
 >
 ]
-CompleteScalarField -> {ScalarField
-CompleteField}
+CompleteScalarField -> {CompleteField
+ScalarField}
 
 
 # interface org.meeuw.math.abstractalgebra.AlgebraicStructure
