@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * @since 0.8
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.METHOD})
+@Target({ElementType.TYPE_USE, ElementType.FIELD, ElementType.METHOD})
 public @interface NonAlgebraic {
 
     String value() default "#default";
