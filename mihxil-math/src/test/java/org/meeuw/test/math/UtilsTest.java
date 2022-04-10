@@ -9,12 +9,14 @@ import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.TextUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -81,6 +83,38 @@ class UtilsTest {
         assertThat(Utils.isPrime(composite)).isFalse();
     }
 
+
+    @Test
+    public void factorization() {
+        assertThat(Utils.primeFactorization(25)).containsExactly(5L, 5L);
+        assertThat(Utils.primeFactorization(13)).containsExactly(13L);
+        assertThat(Utils.primeFactorization(64)).containsExactly(2L, 2L, 2L, 2L, 2L, 2L);
+        assertThat(Utils.primeFactorization(12345L)).containsExactly(2L);
+        assertThat(Utils.primeFactorization(1)).containsExactly();
+        assertThat(Utils.primeFactorization(0)).containsExactly();
+    }
+
+    @Property
+    public void factorization(@ForAll("positiveLongs") long random) {
+        StringBuilder builder = new StringBuilder();
+
+
+
+        assertThat(Utils.primeFactorization(random)
+            .reduce(1L, (l1, l2) -> {
+                if (builder.length() > 0 ) {
+                    builder.append(" " + TextUtils.TIMES + " ");
+                }
+                builder.append(l2);
+                return l1 * l2;
+            })).isEqualTo(random);
+        log.info("{} = {}", random, builder.toString());
+    }
+
+    @Provide
+    Arbitrary<Long> positiveLongs() {
+        return Arbitraries.randomValue(random -> random.nextLong(1_000_000_000));
+    }
 
     @Test
     public void checkPower() {

@@ -3,6 +3,11 @@ package org.meeuw.math;
 import jakarta.validation.constraints.*;
 
 import java.math.*;
+import java.util.Spliterator;
+import java.util.Spliterators;
+import java.util.function.LongConsumer;
+import java.util.stream.LongStream;
+import java.util.stream.StreamSupport;
 
 import org.meeuw.math.exceptions.*;
 
@@ -246,6 +251,46 @@ public final class Utils {
             i += 6;
         }
         return true;
+    }
+
+    public static LongStream primeFactorization(final long argument) {
+        Spliterator.OfLong spliterator = new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE,
+               Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL) {
+            long n = argument;
+            boolean evens = true;
+            long sqrt;
+            long i;
+
+            @Override
+            public boolean tryAdvance(LongConsumer action) {
+                if (evens) {
+                    if (n % 2 == 0) {
+                        action.accept(2);
+                        n /= 2;
+                        return true;
+                    }
+                    evens = false;
+                    sqrt = (long) Math.sqrt(n);
+                    i = 3;
+                }
+                while (i <= sqrt) {
+                    if (n % i == 0) {
+                        action.accept(i);
+                        n /= i;
+                        return true;
+                    }
+                    i += 2;
+                }
+                if (n > 2) {
+                    action.accept(n);
+                    n = 1;
+                    return true;
+                }
+                return false;
+            }
+
+        };
+        return StreamSupport.longStream(spliterator, false);
     }
 
     /**
