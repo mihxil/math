@@ -167,11 +167,5 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         return stringify.apply(element1, element2).toString();
     }
 
-    @Override
-    public String getMethodName() {
-        return method.getName();
-    }
-
-
 
 }
