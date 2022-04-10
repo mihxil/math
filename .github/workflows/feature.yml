@@ -2,7 +2,7 @@
 name: feature
 on:
   push:
-    branches: ['feature/*']
+    branches: ['feature/*', 'bug/*', 'test/*']
 
 jobs:
   build:
@@ -19,5 +19,4 @@ jobs:
           distribution: 'temurin'
       - name: Build with Maven
         run: |
-          set
           mvn -B -fae

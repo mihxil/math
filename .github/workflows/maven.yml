@@ -8,12 +8,6 @@ on:
       - 'docs/**'
       - '.github/workflows/publish-documentation.yml'
 
-  pull_request:
-    branches: [main]
-    paths-ignore:
-      - 'README.adoc'
-      -  'docs/**'
-      - '.github/workflows/publish-documentation.yml'
 
 jobs:
   build:
