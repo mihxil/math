@@ -6,10 +6,10 @@ import java.util.function.Function;
 import org.meeuw.math.text.TextUtils;
 
 /**
- * Like a {@link java.util.function.Function} but not generic itself.
+ * Like a {@link java.util.function.Function} but not generic itself, but the {@link #apply(Object)} method is.
  *
  * @author Michiel Meeuwissen
- * @since 0.9
+ * @since 0.8
  */
 public interface GenericFunction extends OperatorInterface {
 
