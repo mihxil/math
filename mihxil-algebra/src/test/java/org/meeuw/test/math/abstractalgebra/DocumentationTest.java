@@ -212,7 +212,11 @@ public class DocumentationTest {
 
 
     protected <C extends AlgebraicStructure<?>>  List<OperatorCell> getOperators(Class<C> clazz, C target) {
-        List<OperatorCell> ops = new ArrayList<>();
+        final List<OperatorCell> ops = new ArrayList<>();
+        if (target.getSupportedOperators().contains(OPERATION)) {
+            ops.add(new OperatorCell(OPERATION.stringify("", "")).withTitle("group binary operator"));
+
+        }
         {
             StringBuilder addition = new StringBuilder();
             if (target.getSupportedOperators().contains(ADDITION)) {
@@ -247,10 +251,7 @@ public class DocumentationTest {
                 ops.add(new OperatorCell(multiplication).withTitle("binary operators of multiplication"));
             }
         }
-        if (target.getSupportedOperators().contains(OPERATION)) {
-            ops.add(new OperatorCell(OPERATION.stringify("", "")).withTitle("group binary operator"));
 
-        }
         {
             StringBuilder rest = new StringBuilder();
             for (AlgebraicBinaryOperator o : target.getSupportedOperators()) {
@@ -410,7 +411,7 @@ public class DocumentationTest {
         writer.println("]");
 
 
-        final Set<Super> supers = new HashSet<>();
+        final Set<Super> supers = new LinkedHashSet<>();
         Stream.concat(Stream.of(c.getSuperclass()), Stream.of(c.getInterfaces())).forEach(superInterface -> {
             if (superInterface != null) {
                 if (AlgebraicStructure.class.isAssignableFrom(superInterface)) {
@@ -425,6 +426,10 @@ public class DocumentationTest {
                                     continue;
                                 }
                             }
+                            if (superMethod.getAnnotation(NonAlgebraic.class) != null) {
+                                continue;
+                            }
+
                             Method method = elementClass.getDeclaredMethod(superMethod.getName(), elementClass);
                             log.debug("super: {}.{} -> sub {}.{}", superElementClass.getSimpleName(), superMethod.getName(), elementClass, method.getName());
                             if (method.getAnnotation(NonAlgebraic.class) != null) {
