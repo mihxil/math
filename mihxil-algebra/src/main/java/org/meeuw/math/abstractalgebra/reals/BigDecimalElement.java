@@ -3,11 +3,11 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.math.*;
 import java.util.Optional;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -120,7 +120,8 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement ln() {
+    @NonAlgebraic
+    public BigDecimalElement ln() throws IllegalLogException {
         UncertainNumber<BigDecimal> ln = operations().ln(value);
         return new BigDecimalElement(ln.getValue(), uncertainty.max(ln.getUncertainty()));
     }
