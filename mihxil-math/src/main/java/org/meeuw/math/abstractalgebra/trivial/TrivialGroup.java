@@ -11,8 +11,8 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.8
  */
 @Example(Group.class)
-public class TrivialGroup extends AbstractAlgebraicStructure<TrivialElement>
-    implements Group<TrivialElement>, Streamable<TrivialElement> {
+public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement>
+    implements Group<TrivialGroupElement>, Streamable<TrivialGroupElement> {
 
     public  static final TrivialGroup INSTANCE = new TrivialGroup();
 
@@ -20,8 +20,8 @@ public class TrivialGroup extends AbstractAlgebraicStructure<TrivialElement>
     }
 
     @Override
-    public TrivialElement unity() {
-        return TrivialElement.e;
+    public TrivialGroupElement unity() {
+        return TrivialGroupElement.e;
     }
 
     @Override
@@ -30,8 +30,8 @@ public class TrivialGroup extends AbstractAlgebraicStructure<TrivialElement>
     }
 
     @Override
-    public Stream<TrivialElement> stream() {
-        return Stream.of(TrivialElement.e);
+    public Stream<TrivialGroupElement> stream() {
+        return Stream.of(TrivialGroupElement.e);
     }
 
     @Override

@@ -10,8 +10,8 @@ import org.meeuw.math.abstractalgebra.GroupElement;
  * @since 0.8
  */
 
-public enum TrivialElement implements
-    GroupElement<TrivialElement>,
+public enum TrivialGroupElement implements
+    GroupElement<TrivialGroupElement>,
     Serializable {
 
     e;
@@ -22,12 +22,12 @@ public enum TrivialElement implements
     }
 
     @Override
-    public TrivialElement operate(TrivialElement operand) {
+    public TrivialGroupElement operate(TrivialGroupElement operand) {
         return this;
     }
 
     @Override
-    public TrivialElement inverse() {
+    public TrivialGroupElement inverse() {
         return this;
     }
 
