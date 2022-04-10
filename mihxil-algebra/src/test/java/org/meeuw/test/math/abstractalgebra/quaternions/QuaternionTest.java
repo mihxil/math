@@ -76,7 +76,14 @@ class QuaternionTest implements
                 RationalNumbers.INSTANCE.nextRandom(r),
                 RationalNumbers.INSTANCE.nextRandom(r),
                 RationalNumbers.INSTANCE.nextRandom(r)
-            ));
+            )).edgeCases(c -> {
+            c.add(
+                Quaternions.H_Q.i(),
+                Quaternions.H_Q.j(),
+                Quaternions.H_Q.k(),
+                Quaternions.H_Q.one(),
+                Quaternions.H_Q.zero());
+        });
     }
 
     @Override

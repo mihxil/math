@@ -42,7 +42,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
 
     private final Quaternion<E> zero;
     private final Quaternion<E> one;
-    private final Quaternion<E>  i;
+    private final Quaternion<E> i;
     private final Quaternion<E> j;
     private final Quaternion<E> k;
 

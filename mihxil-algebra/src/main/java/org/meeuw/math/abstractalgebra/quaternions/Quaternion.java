@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.FieldInCompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
@@ -69,12 +70,18 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> dividedBy(E multiplier) {
+    @NonAlgebraic
+    public Quaternion<E> dividedBy(Quaternion<E> divisor) throws DivisionByZeroException {
+        return DivisionRingElement.super.dividedBy(divisor);
+    }
+
+    @Override
+    public Quaternion<E> dividedBy(E divisor) {
         return new Quaternion<>(
-            a.dividedBy(multiplier),
-            b.dividedBy(multiplier),
-            c.dividedBy(multiplier),
-            d.dividedBy(multiplier)
+            a.dividedBy(divisor),
+            b.dividedBy(divisor),
+            c.dividedBy(divisor),
+            d.dividedBy(divisor)
         );
     }
 
