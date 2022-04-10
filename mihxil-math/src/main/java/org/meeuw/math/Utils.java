@@ -3,8 +3,7 @@ package org.meeuw.math;
 import jakarta.validation.constraints.*;
 
 import java.math.*;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
@@ -291,6 +290,13 @@ public final class Utils {
 
         };
         return StreamSupport.longStream(spliterator, false);
+    }
+
+    public static boolean isPrimePower(long argument) {
+        return primeFactorization(argument)
+            .distinct()
+            .limit(2)
+            .count() == 1;
     }
 
     /**

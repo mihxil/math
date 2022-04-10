@@ -89,16 +89,24 @@ class UtilsTest {
         assertThat(Utils.primeFactorization(25)).containsExactly(5L, 5L);
         assertThat(Utils.primeFactorization(13)).containsExactly(13L);
         assertThat(Utils.primeFactorization(64)).containsExactly(2L, 2L, 2L, 2L, 2L, 2L);
-        assertThat(Utils.primeFactorization(12345L)).containsExactly(2L);
+        assertThat(Utils.primeFactorization(12345L)).containsExactly(3L, 5L, 823L);
         assertThat(Utils.primeFactorization(1)).containsExactly();
         assertThat(Utils.primeFactorization(0)).containsExactly();
+    }
+
+    @Test
+    public void isNotPrimePower() {
+        assertThat(Utils.isPrimePower(13 * 13 * 2 * 2)).isFalse();
+    }
+    @Test
+    public void isPrimePower() {
+        assertThat(Utils.isPrimePower(13 * 13)).isTrue();
+
     }
 
     @Property
     public void factorization(@ForAll("positiveLongs") long random) {
         StringBuilder builder = new StringBuilder();
-
-
 
         assertThat(Utils.primeFactorization(random)
             .reduce(1L, (l1, l2) -> {
@@ -108,7 +116,7 @@ class UtilsTest {
                 builder.append(l2);
                 return l1 * l2;
             })).isEqualTo(random);
-        log.info("{} = {}", random, builder.toString());
+        log.info("{} = {} ({} {})", random, builder.toString(), Utils.isPrime((int) random), Utils.isPrimePower(random));
     }
 
     @Provide
