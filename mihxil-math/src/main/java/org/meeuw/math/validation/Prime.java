@@ -24,5 +24,11 @@ public @interface Prime {
 
     Class<? extends Payload>[] payload() default {};
 
+    /**
+     * If set to true, will check wether the value is a power of a prime, rather then
+     * prime.
+     */
+    boolean power() default false;
+
 
 }
