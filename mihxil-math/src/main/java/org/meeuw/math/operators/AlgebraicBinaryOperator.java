@@ -1,5 +1,7 @@
 package org.meeuw.math.operators;
 
+import lombok.SneakyThrows;
+
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -43,7 +45,7 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
             @Override
             public String name() {
-                return AlgebraicBinaryOperator.this.getMethodName() + " and then " + after.name();
+                return AlgebraicBinaryOperator.this.name() + " and then " + after.name();
             }
 
 
@@ -61,17 +63,14 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
         return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
     }
 
-    default String getMethodName() {
+    default Method getMethod() {
         throw new UnsupportedOperationException();
     }
 
+    @SneakyThrows
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        try {
-            Method m = e.getClass().getMethod(getMethodName(), getClass());
-            return m.getAnnotation(NonAlgebraic.class) == null;
-        } catch (NoSuchMethodException ex) {
-            return false;
-        }
+        Method m = e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
+        return m.getAnnotation(NonAlgebraic.class) == null;
     }
 
 

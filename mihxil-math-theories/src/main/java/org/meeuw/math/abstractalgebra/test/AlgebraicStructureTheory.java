@@ -130,13 +130,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
             } catch (OperationException ae) {
-                Assume.that(! o.isAlgebraicFor(e1));
                 if (error.incrementAndGet() < 3L) {
                     getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {
                     getLogger().debug(o.stringify(e1, e2) + " -> " + ae.getMessage());
-
                 }
+                assertThat(o.isAlgebraicFor(e1))
+                    .withFailMessage(ae.getMessage() + " but %s is algebraic for %s %s", o, e1.getClass().getSimpleName(), e1).isFalse();
+
             } catch (Throwable ae) {
                 if (ae.getCause() != null) {
                     throw ae.getCause();
