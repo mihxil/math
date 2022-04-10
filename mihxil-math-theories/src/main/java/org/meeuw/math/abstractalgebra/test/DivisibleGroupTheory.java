@@ -25,7 +25,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
 
         } catch (DivisionByZeroException divisionByZeroException) {
             getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
-            Assume.that(! BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1));
+            assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
         }
     }
 

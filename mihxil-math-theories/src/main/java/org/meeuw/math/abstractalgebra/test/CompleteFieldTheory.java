@@ -36,8 +36,9 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                 .withFailMessage(POWER.stringify(a, b) + " = " + pow + " ≠ " + expectedPow
                 ).isTrue();
         } catch (IllegalLogException illegalLogException){
-            Assume.that(!LN.isAlgebraicFor(a));
             getLogger().warn(illegalLogException.getMessage());
+            assertThat(LN.isAlgebraicFor(a))
+                .withFailMessage(illegalLogException.getMessage() + ". %s algebraic for %s %s", LN, a.getClass().getSimpleName(), a).isFalse();
         }
 
     }
