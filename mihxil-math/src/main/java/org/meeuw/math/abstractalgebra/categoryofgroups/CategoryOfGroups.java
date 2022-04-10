@@ -3,6 +3,10 @@ package org.meeuw.math.abstractalgebra.categoryofgroups;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
+ * All groups themselves form the 'category of groups'.
+ *
+ * For we just made it a {@link MultiplicativeSemiGroup}. Groups can be 'multiplied' to form
+ * {@link org.meeuw.math.abstractalgebra.product.ProductGroup}
  * @author Michiel Meeuwissen
  * @since 0.8
  */
