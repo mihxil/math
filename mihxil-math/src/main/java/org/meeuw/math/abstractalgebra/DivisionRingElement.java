@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.NonAlgebraic;
+
 /**
  * An element of an algebraic Field. Next to multiplication, also addition is defined.
  *
@@ -18,8 +20,16 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
         return getStructure().groupOperator().apply(self(), operand);
     }
     @Override
+    @NonAlgebraic
     default E inverse() {
         return getStructure().groupOperator().inverse(self());
     }
+
+    @Override
+    @NonAlgebraic
+    default E dividedBy(E divisor) {
+        return times(divisor.reciprocal());
+    }
+
 
 }
