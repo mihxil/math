@@ -3,6 +3,7 @@ package org.meeuw.math.abstractalgebra;
 import java.util.NavigableSet;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.ArrayUtils.cloneMatrix;
@@ -18,7 +19,8 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @since 0.4
  */
 public interface DivisionRing<E extends DivisionRingElement<E>> extends
-    MultiplicativeGroup<E>,
+    @NonAlgebraic  MultiplicativeGroup<E>,
+    MultiplicativeMonoid<E>,
     Ring<E> {
 
     NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeGroup.OPERATORS, Ring.OPERATORS);
