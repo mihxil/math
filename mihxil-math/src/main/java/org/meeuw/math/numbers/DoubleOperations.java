@@ -150,7 +150,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public UncertainNumber<Double> ln(Double v) {
+    public UncertainNumber<Double> ln(Double v) throws IllegalLogException{
         if (v <= 0) {
             throw new IllegalLogException("Can't take logarithm of " + v);
         }
@@ -158,7 +158,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     protected UncertainNumber<Double> uncertain(Double newValue) {
-        return ImmutableUncertainNumber.of(newValue,
+        return ImmutableUncertainNumber.of(
+            newValue,
             () -> uncertaintyForDouble(newValue));
     }
 
