@@ -125,6 +125,13 @@ class RealFieldTest implements
         );
     }
 
+    @Test
+    public void ln() {
+        RealNumber ln = of(800).ln();
+        log.info("ln(800) = {}", ln);
+        assertThat(ln.toString()).isEqualTo("6.68461172766793");
+    }
+
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {

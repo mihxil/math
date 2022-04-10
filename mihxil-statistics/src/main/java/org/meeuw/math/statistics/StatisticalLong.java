@@ -7,7 +7,9 @@ import java.time.Instant;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.IllegalLogException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
@@ -157,7 +159,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     @Override
-    public UncertainReal ln() {
+    @NonAlgebraic
+    public UncertainReal ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(getValue());
         return new UncertainDoubleElement(ln.getValue(), ln.getUncertainty());
     }

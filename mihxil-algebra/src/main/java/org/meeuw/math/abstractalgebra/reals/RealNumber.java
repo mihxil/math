@@ -5,11 +5,11 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.InvalidUncertaintyException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
@@ -231,9 +231,10 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber ln() {
+    @NonAlgebraic
+    public RealNumber ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(value);
-        return _of(ln.getValue(), operations().abs(ln.getValue()));
+        return _of(ln.getValue(), ln.getUncertainty());
     }
 
     @Override
