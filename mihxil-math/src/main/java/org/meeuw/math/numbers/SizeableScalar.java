@@ -84,7 +84,7 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      *          to type {@code byte}.
      */
     default byte byteValue() {
-        return (byte)intValue();
+        return (byte)longValue();
     }
 
     /**
@@ -98,7 +98,7 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      *          to type {@code short}.
      */
     default short shortValue() {
-        return (short)intValue();
+        return (short)longValue();
     }
 
     /**

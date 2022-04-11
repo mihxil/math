@@ -14,24 +14,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     implements Comparable<D>, UncertainDouble<D> {
 
 
-    @Override
-    public int intValue() {
-        return (int) longValue();
-    }
-
-    @Override
-    public float floatValue() {
-        return (float) doubleValue();
-    }
-
-    @Override
-    public byte byteValue() {
-        return (byte) longValue();
-    }
-    @Override
-    public short shortValue() {
-        return (short) longValue();
-    }
 
     @Override
     public int compareTo(D o) {
@@ -39,6 +21,17 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
             return 0;
         }
         return Double.compare(doubleValue(), o.getValue());
+    }
+
+
+    @Override
+    public int intValue() {
+        return UncertainDouble.super.intValue();
+    }
+
+    @Override
+    public float floatValue() {
+        return UncertainDouble.super.floatValue();
     }
 
     @Override
@@ -50,7 +43,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     public BigDecimal bigDecimalValue() {
         return BigDecimal.valueOf(doubleValue());
     }
-
 
     @Override
     public D plus(D summand) {
