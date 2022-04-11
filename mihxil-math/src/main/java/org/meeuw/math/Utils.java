@@ -253,6 +253,9 @@ public final class Utils {
     }
 
     public static LongStream primeFactorization(final long argument) {
+        if (argument <= 1) {
+            return LongStream.empty();
+        }
         Spliterator.OfLong spliterator = new Spliterators.AbstractLongSpliterator(Long.MAX_VALUE,
                Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL) {
             long n = argument;
