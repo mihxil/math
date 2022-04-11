@@ -1,5 +1,7 @@
 package org.meeuw.test.math.operators;
 
+import java.util.function.Function;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.operators.BasicFunction;
@@ -19,6 +21,11 @@ public class BasicFunctionTest {
         }
         public A abs() {
             return new A(Math.abs(i));
+        }
+
+        @Override
+        public String toString() {
+            return "a:" + i;
         }
     }
 
@@ -51,5 +58,25 @@ public class BasicFunctionTest {
         assertThatThrownBy(() -> {
             BasicFunction.ABS.apply(new C());
         }).isInstanceOf(NoSuchMethodException.class);
+    }
+
+    @Test
+    public void andThen() {
+        assertThat(BasicFunction.ABS.andThen(new Function<A, String>() {
+            @Override
+            public String apply(A a) {
+                return String.valueOf(a.i + 1);
+            }
+        }).apply(new A(-1))).isEqualTo("2");
+    }
+
+    @Test
+    public void compose() {
+        assertThat(BasicFunction.ABS.compose(new Function<String, A>() {
+            @Override
+            public A apply(String a) {
+                return new A(Integer.parseInt(a) - 1);
+            }
+        }).apply("-5")).isEqualTo(new A(6));
     }
 }

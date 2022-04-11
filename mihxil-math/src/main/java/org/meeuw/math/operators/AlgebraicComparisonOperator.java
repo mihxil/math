@@ -1,7 +1,6 @@
 package org.meeuw.math.operators;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.TextUtils;
 
 /**
  * Like {@link java.util.function.BiPredicate}, but the difference is that this is not itself generic, but only its {@link #test(AlgebraicElement, AlgebraicElement)} method.
@@ -21,6 +20,6 @@ public interface AlgebraicComparisonOperator extends OperatorInterface {
     }
 
     default String getSymbol() {
-        return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
+        return stringify("", "").trim();
     }
 }

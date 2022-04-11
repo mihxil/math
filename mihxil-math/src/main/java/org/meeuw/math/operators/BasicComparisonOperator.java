@@ -27,7 +27,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     EQ(
         getBinaryOperatorMethod(AlgebraicElement.class, "eq"),
-        (a, b) -> a + "≈" + b
+        (a, b) -> a + " ≈ " + b
     ),
 
     /**
@@ -35,7 +35,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     NEQ(
         getBinaryOperatorMethod(AlgebraicElement.class, "neq"),
-        (a, b) -> a + "≉" + b
+        (a, b) -> a + " ≉ " + b
     ),
 
     /**
@@ -43,7 +43,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     EQUALS(
         getBinaryOperatorMethod(Object.class, "equals"),
-        (a, b) -> a + "=" + b
+        (a, b) -> a + " = " + b
     ),
 
     /**
@@ -51,7 +51,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     LT(
         getBinaryOperatorMethod(StrictlyOrdered.class, "lt"),
-        (a, b) -> a + "<" + b
+        (a, b) -> a + " < " + b
     ),
 
     /**
@@ -59,7 +59,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     LTE(
         getBinaryOperatorMethod(StrictlyOrdered.class, "lte"),
-        (a, b) -> a + "≲" + b
+        (a, b) -> a + " ≲ " + b
     ),
 
     /**
@@ -67,7 +67,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     GT(
         getBinaryOperatorMethod(StrictlyOrdered.class, "gt"),
-        (a, b) -> a + ">" + b
+        (a, b) -> a + " > " + b
     ),
 
     /**
@@ -75,7 +75,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      */
     GTE(
         getBinaryOperatorMethod(StrictlyOrdered.class, "gte"),
-        (a, b) -> a + "≳" + b
+        (a, b) -> a + " ≳ " + b
     )
     ;
 
