@@ -1,5 +1,6 @@
 package org.meeuw.math.text.spi;
 
+import lombok.Generated;
 import lombok.extern.java.Log;
 
 import java.text.Format;
@@ -96,15 +97,18 @@ public final class FormatService {
      * @deprecated
      */
     @Deprecated
+    @Generated // exclude from coverage
     public static void setConfiguration(Configuration build) {
         ConfigurationService.setConfiguration(build);
     }
     @Deprecated
+    @Generated
     public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
         ConfigurationService.withAspect(configurationAspect, aspect, r);
     }
 
     @Deprecated
+    @Generated
     public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
         ConfigurationService.withConfiguration(configuration, r);
     }

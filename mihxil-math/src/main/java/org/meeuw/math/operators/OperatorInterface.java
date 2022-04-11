@@ -1,6 +1,12 @@
 package org.meeuw.math.operators;
 
+import lombok.SneakyThrows;
+
+import java.lang.reflect.Method;
 import java.util.Comparator;
+
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 public interface OperatorInterface {
 
@@ -12,5 +18,15 @@ public interface OperatorInterface {
 
     default int ordinal() {
         return Integer.MAX_VALUE;
+    }
+
+   default Method getMethod() {
+        throw new UnsupportedOperationException();
+    }
+
+    @SneakyThrows
+    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
+        Method m = e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
+        return m.getAnnotation(NonAlgebraic.class) == null;
     }
 }

@@ -153,8 +153,4 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
         return stringify.apply(element1).toString();
     }
 
-    @Override
-    public String getMethodName() {
-        return method.getName();
-    }
 }

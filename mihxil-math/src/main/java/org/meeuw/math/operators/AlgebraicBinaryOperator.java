@@ -1,11 +1,7 @@
 package org.meeuw.math.operators;
 
-import lombok.SneakyThrows;
-
-import java.lang.reflect.Method;
 import java.util.Objects;
 
-import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
 
@@ -61,16 +57,6 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
     default String getSymbol() {
         return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
-    }
-
-    default Method getMethod() {
-        throw new UnsupportedOperationException();
-    }
-
-    @SneakyThrows
-    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        Method m = e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
-        return m.getAnnotation(NonAlgebraic.class) == null;
     }
 
 

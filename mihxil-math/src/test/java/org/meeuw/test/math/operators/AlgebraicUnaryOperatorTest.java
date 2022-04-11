@@ -20,10 +20,19 @@ public class AlgebraicUnaryOperatorTest {
         assertThat(AlgebraicUnaryOperator.identity().stringify(in)).isEqualTo("self(sampleelement)");
 
         assertThat(AlgebraicUnaryOperator.identity().name()).isEqualTo("identity");
+    }
 
+    @Test
+    public void andThen() {
         assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).stringify("x")).isEqualTo("-self(x)");
 
         assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("identity and then NEGATION");
-
     }
+
+    @Test
+    public void compose() {
+        assertThat(AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("NEGATION and then identity");
+    }
+
+
 }
