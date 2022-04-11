@@ -90,6 +90,7 @@ class UtilsTest {
         assertThat(Utils.primeFactorization(13)).containsExactly(13L);
         assertThat(Utils.primeFactorization(64)).containsExactly(2L, 2L, 2L, 2L, 2L, 2L);
         assertThat(Utils.primeFactorization(12345L)).containsExactly(3L, 5L, 823L);
+        assertThat(Utils.primeFactorization(-12345L)).containsExactly(3L, 5L, 823L);
         assertThat(Utils.primeFactorization(1)).containsExactly();
         assertThat(Utils.primeFactorization(0)).containsExactly();
     }

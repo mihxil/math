@@ -252,7 +252,8 @@ public final class Utils {
         return true;
     }
 
-    public static LongStream primeFactorization(final long argument) {
+    public static LongStream primeFactorization(long number) {
+        final long argument = Math.abs(number);
         if (argument <= 1) {
             return LongStream.empty();
         }
