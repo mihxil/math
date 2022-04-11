@@ -11,6 +11,10 @@ import static java.util.Collections.unmodifiableNavigableSet;
  * @since 0.8
  */
 public class CollectionUtils {
+
+    private CollectionUtils() {
+    }
+
     @SafeVarargs
     public static <E> NavigableSet<E> navigableSet(Comparator<? super E> comparator, E...ops) {
         TreeSet<E> set = new TreeSet<>(comparator);
@@ -54,13 +58,10 @@ public class CollectionUtils {
                 if (!initialized) {
                     synchronized (this) {
                         if (!initialized) {
-                            V t = wrapped.get();
-                            value = t;
+                            value = wrapped.get();
                             initialized = true;
-                            return t;
                         }
                     }
-                    return null;
                 }
                 return value;
             }

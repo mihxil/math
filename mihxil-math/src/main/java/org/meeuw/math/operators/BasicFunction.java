@@ -49,12 +49,12 @@ public enum BasicFunction implements GenericFunction {
     @Override
     public <T, R> R apply(T t) {
         try {
-            return (R) method.invoke(t);
-        } catch (IllegalArgumentException iae) {
-            log.fine(this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
-            return (R) t.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(t);
-        } catch (IllegalAccessException ex) {
-            throw new IllegalStateException(ex);
+            try {
+                return (R) method.invoke(t);
+            } catch (IllegalArgumentException iae) {
+                log.fine(this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
+                return (R) t.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(t);
+            }
         } catch (InvocationTargetException ex) {
             throw ex.getCause();
         }

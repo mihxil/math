@@ -38,6 +38,9 @@ class NDivisibleIntegerTest implements
         assertThat(structure.getDivisor()).isEqualTo(3);
         assertThat(structure.getElementClass()).isEqualTo(NDivisibleInteger.class);
 
+        assertThat(NDivisibleIntegers.of(3)).isEqualTo(NDivisibleIntegers.of(3));
+        assertThat(NDivisibleIntegers.of(3)).isNotEqualTo(NDivisibleIntegers.of(4));
+        assertThat(NDivisibleIntegers.of(3)).isNotEqualTo("something");
     }
 
     @Override
