@@ -46,7 +46,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public int intValue() {
-        return (int) longValue();
+        return UncertainDouble.super.intValue();
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public float floatValue() {
-        return (float) getValue();
+        return UncertainDouble.super.floatValue();
     }
 
     @Override

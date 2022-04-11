@@ -45,14 +45,31 @@ public class SpecialLinearGroupTest {
                 IntegerElement.of(1), IntegerElement.of(2),
                 IntegerElement.of(0)
             );
-        }).isInstanceOf(NotASquareException.class);
+        }).isInstanceOf(NotASquareException.class).hasMessage("3 is not a square");
 
+        assertThatThrownBy(() -> {
+            SpecialLinearMatrix.of(
+                IntegerElement.of(1), IntegerElement.of(2),
+                IntegerElement.of(-1), IntegerElement.of(-2)
+            );
+        }).isInstanceOf(InvalidElementCreationException.class).hasMessage("The matrix ((1,2),(-1,-2)) is not invertible. Determinant: 0");
+
+        assertThatThrownBy(() -> {
+            SpecialLinearMatrix.of(
+                IntegerElement.of(1), IntegerElement.of(2),
+                IntegerElement.of(3), IntegerElement.of(4)
+            );
+        }).isInstanceOf(InvalidElementCreationException.class).hasMessage("The matrix ((1,2),(3,4)) is not invertible. Determinant: -2");
+    }
+
+    @Test
+    void sl_n() {
         assertThatThrownBy(() -> {
             SpecialLinearGroup.SL_N.newElement(
                 IntegerElement.of(1), IntegerElement.of(2),
                 IntegerElement.of(0), IntegerElement.of(-1)
             );
-        }).isInstanceOf(InvalidElementCreationException.class);
+        }).isInstanceOf(InvalidElementCreationException.class).hasMessage("Dimension of matrix is not 3 (but 2)");
 
         assertThatThrownBy(() -> {
             SpecialLinearGroup.SL_N.newElement(
@@ -60,7 +77,7 @@ public class SpecialLinearGroupTest {
                 IntegerElement.of(2), IntegerElement.of(4), IntegerElement.of(6),
                 IntegerElement.of(0), IntegerElement.of(4), IntegerElement.of(6)
             );
-        }).isInstanceOf(InvalidElementCreationException.class);
+        }).isInstanceOf(InvalidElementCreationException.class).hasMessage("The matrix ((1,2,3),(2,4,6),(0,4,6)) is not invertible. Its determinant is zero");
     }
 
     //@Test  //TODO

@@ -31,6 +31,8 @@ public class AlgebraicUnaryOperatorTest {
 
     @Test
     public void compose() {
+        assertThat(AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION).stringify("x")).isEqualTo("self(-x)");
+
         assertThat(AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("NEGATION and then identity");
     }
 

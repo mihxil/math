@@ -45,12 +45,12 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
         SpecialLinearMatrix<E> result = new SpecialLinearMatrix<>(structure, invertibleMatrix);
         result.determinant = result.structure.getElementStructure().determinant(invertibleMatrix);
         if (result.determinant.isZero()) {
-            throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
+            throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible. Determinant: " + result.determinant);
         }
         if (! (result.determinant().eq(structure.getElementStructure().one()) ||
             result.determinant().eq(structure.getElementStructure().one().negation()))
         ) {
-            throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible");
+            throw new InvalidElementCreationException("The matrix " + ArrayUtils.toString(invertibleMatrix) + " is not invertible. Determinant: " + result.determinant);
         }
 
         return result;
