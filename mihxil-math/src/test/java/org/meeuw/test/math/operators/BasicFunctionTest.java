@@ -15,6 +15,8 @@
  */
 package org.meeuw.test.math.operators;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class BasicFunctionTest {
 
+    @EqualsAndHashCode
     public static class A {
 
         final int i;

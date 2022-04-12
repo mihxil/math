@@ -35,7 +35,9 @@ public interface OperatorInterface {
         return Integer.MAX_VALUE;
     }
 
-   Method getMethod();
+   default Method getMethod() {
+        throw new UnsupportedOperationException();
+   }
 
     @SneakyThrows
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {

@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
@@ -85,7 +86,8 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber dividedBy(long divisor) {
+    @NonAlgebraic
+    public RationalNumber dividedBy(long divisor) throws DivisionByZeroException {
         return new RationalNumber(
             numerator,
             denominator.multiply(BigInteger.valueOf(divisor)));

@@ -12,7 +12,8 @@
  *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
- */ org.meeuw.math.abstractalgebra.complex;
+ */
+package org.meeuw.math.abstractalgebra.complex;
 
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;

@@ -58,9 +58,6 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
             public String name() {
                 return AlgebraicBinaryOperator.this.name() + " and then " + after.name();
             }
-
-
-
         };
     }
 

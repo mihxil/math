@@ -46,7 +46,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
         } catch (ReciprocalException ae) {
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
-            assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
+            assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).withFailMessage(ae.getMessage()).isFalse();
         }
     }
 

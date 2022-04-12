@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import java.io.Serializable;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.ReciprocalException;
 
@@ -96,6 +97,7 @@ public abstract class CompleteComplexNumber<
      * principal value logarithm
      */
     @Override
+    @NonAlgebraic("ln not possible for 0")
     public S ln() {
         return _of(
             abs().ln(),

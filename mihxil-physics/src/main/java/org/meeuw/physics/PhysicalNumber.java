@@ -24,6 +24,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.spi.FormatService;
@@ -112,7 +113,8 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public PhysicalNumber dividedBy(PhysicalNumber  divisor) {
+    @NonAlgebraic
+    public PhysicalNumber dividedBy(PhysicalNumber  divisor) throws ReciprocalException {
         return times(divisor.reciprocal());
     }
 

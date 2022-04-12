@@ -102,7 +102,8 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement dividedBy(BigDecimalElement n) {
+    @NonAlgebraic
+    public BigDecimalElement dividedBy(BigDecimalElement n) throws DivisionByZeroException {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, n.value);
         return new BigDecimalElement(newValue.getValue(),
             operations().multiplicationUncertainty(
