@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalLogException;
 
 /**
  * @author Michiel Meeuwissen
@@ -80,7 +80,8 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
-    public S pow(S exponent) throws ReciprocalException {
+    @NonAlgebraic
+    public S pow(S exponent) throws IllegalLogException {
         return (ln().times(exponent)).exp();
     }
 

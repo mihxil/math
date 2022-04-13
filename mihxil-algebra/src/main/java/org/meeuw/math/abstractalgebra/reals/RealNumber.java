@@ -121,7 +121,8 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber dividedBy(RealNumber divisor) {
+    @NonAlgebraic
+    public RealNumber dividedBy(RealNumber divisor) throws DivisionByZeroException {
         return times(divisor.reciprocal());
     }
 

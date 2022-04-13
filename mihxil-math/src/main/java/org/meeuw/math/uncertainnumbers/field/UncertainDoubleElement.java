@@ -18,9 +18,12 @@ package org.meeuw.math.uncertainnumbers.field;
 import lombok.Getter;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.exceptions.IllegalLogException;
+import org.meeuw.math.numbers.DoubleOperations;
+import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
@@ -195,7 +198,8 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public UncertainReal ln() {
+    @NonAlgebraic
+    public UncertainReal ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(getValue());
 
         return of(
@@ -225,7 +229,7 @@ public class UncertainDoubleElement
         return of(value, uncertainty);
     }
 
-    @SuppressWarnings({"EqualsDoesntCheckParameterClass"})
+    @SuppressWarnings({"EqualsDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return equals(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
