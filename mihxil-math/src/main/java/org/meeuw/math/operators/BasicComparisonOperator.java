@@ -26,7 +26,7 @@ import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
-import static org.meeuw.math.ReflectionUtils.getBinaryOperatorMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 
 /**
  * The basic operators to compare two elements. Works on two things of the same type, returning a
@@ -41,7 +41,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see AlgebraicElement#eq
      */
     EQ(
-        getBinaryOperatorMethod(AlgebraicElement.class, "eq"),
+        getDeclaredBinaryMethod(AlgebraicElement.class, "eq"),
         (a, b) -> a + " ≈ " + b
     ),
 
@@ -49,7 +49,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see AlgebraicElement#neq
      */
     NEQ(
-        getBinaryOperatorMethod(AlgebraicElement.class, "neq"),
+        getDeclaredBinaryMethod(AlgebraicElement.class, "neq"),
         (a, b) -> a + " ≉ " + b
     ),
 
@@ -57,7 +57,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see Object#equals(Object)
      */
     EQUALS(
-        getBinaryOperatorMethod(Object.class, "equals"),
+        getDeclaredBinaryMethod(Object.class, "equals"),
         (a, b) -> a + " = " + b
     ),
 
@@ -65,7 +65,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#lt
      */
     LT(
-        getBinaryOperatorMethod(StrictlyOrdered.class, "lt"),
+        getDeclaredBinaryMethod(StrictlyOrdered.class, "lt"),
         (a, b) -> a + " < " + b
     ),
 
@@ -73,7 +73,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#lte
      */
     LTE(
-        getBinaryOperatorMethod(StrictlyOrdered.class, "lte"),
+        getDeclaredBinaryMethod(StrictlyOrdered.class, "lte"),
         (a, b) -> a + " ≲ " + b
     ),
 
@@ -81,7 +81,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#gt
      */
     GT(
-        getBinaryOperatorMethod(StrictlyOrdered.class, "gt"),
+        getDeclaredBinaryMethod(StrictlyOrdered.class, "gt"),
         (a, b) -> a + " > " + b
     ),
 
@@ -89,7 +89,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#gte
      */
     GTE(
-        getBinaryOperatorMethod(StrictlyOrdered.class, "gte"),
+        getDeclaredBinaryMethod(StrictlyOrdered.class, "gte"),
         (a, b) -> a + " ≳ " + b
     )
     ;

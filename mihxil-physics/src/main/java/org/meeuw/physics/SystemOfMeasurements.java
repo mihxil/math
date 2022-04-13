@@ -18,7 +18,7 @@ package org.meeuw.physics;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.ReflectionUtils;
+import org.meeuw.configuration.ReflectionUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 

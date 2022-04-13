@@ -26,7 +26,7 @@ import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.numbers.SizeableScalar;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 @Log
 public enum BasicFunction implements GenericFunction {
@@ -34,20 +34,20 @@ public enum BasicFunction implements GenericFunction {
     /**
      * @see Sizeable#abs()
      */
-    ABS(getUnaryOperatorMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
+    ABS(getDeclaredMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
     /**
      * Returns the 'decimal' (actually {@link java.math.BigDecimal}) presentation of the given object.
      * @see SizeableScalar#bigDecimalValue()
      */
-    DECIMAL(getUnaryOperatorMethod(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
+    DECIMAL(getDeclaredMethod(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
 
     /**
      * Returns an 'integer' (actually {@link java.math.BigInteger}) version of the given object.
      * This may involve rounding.
      * @see SizeableScalar#bigIntegerValue()
      */
-    INTEGER(getUnaryOperatorMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
+    INTEGER(getDeclaredMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
 
     @Getter
     final Method method;

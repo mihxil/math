@@ -211,6 +211,6 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     private MathContext uncertaintyContext() {
-        return MathContextConfiguration.get().getUncertaintContext();
+        return MathContextConfiguration.get().getUncertaintyContext();
     }
 }

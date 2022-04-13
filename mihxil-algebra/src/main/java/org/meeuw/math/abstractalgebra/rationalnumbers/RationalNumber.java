@@ -28,8 +28,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
@@ -86,7 +85,6 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic
     public RationalNumber dividedBy(long divisor) throws DivisionByZeroException {
         return new RationalNumber(
             numerator,
@@ -94,7 +92,8 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber reciprocal() {
+    @NonAlgebraic
+    public RationalNumber reciprocal() throws ReciprocalException {
         if (numerator.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException("Denominator cannot be zero");
         }
@@ -133,7 +132,8 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber dividedBy(RationalNumber divisor) {
+    @NonAlgebraic
+    public RationalNumber dividedBy(RationalNumber divisor) throws DivisionByZeroException {
         if (divisor.isZero()) {
             throw new DivisionByZeroException(this, divisor);
         }

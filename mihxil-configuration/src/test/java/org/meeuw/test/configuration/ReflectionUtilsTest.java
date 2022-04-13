@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math;
+package org.meeuw.test.configuration;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.ReflectionUtils;
+import org.meeuw.configuration.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

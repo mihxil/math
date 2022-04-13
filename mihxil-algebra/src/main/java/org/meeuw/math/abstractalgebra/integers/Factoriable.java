@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
-import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 
 /**
@@ -38,7 +38,7 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
 
     AlgebraicUnaryOperator FACT = new AlgebraicUnaryOperator() {
 
-        final Method method = getUnaryOperatorMethod(Factoriable.class, "factorial");
+        final Method method = getDeclaredMethod(Factoriable.class, "factorial");
         @SneakyThrows
         @Override
         public <E extends AlgebraicElement<E>> E apply(E e) {

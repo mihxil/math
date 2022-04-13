@@ -27,8 +27,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
-import static org.meeuw.math.ReflectionUtils.getBinaryOperatorMethod;
-import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 /**
  * The basic operations of arithmetic
@@ -42,8 +42,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MagmaElement#operate(MagmaElement)
      */
     OPERATION(
-        getBinaryOperatorMethod(MagmaElement.class, "operate"), "*",
-        getUnaryOperatorMethod(Group.class, "unity"),
+        getDeclaredBinaryMethod(MagmaElement.class, "operate"), "*",
+        getDeclaredMethod(Group.class, "unity"),
         BasicAlgebraicUnaryOperator.INVERSION
     ),
 
@@ -51,8 +51,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see AdditiveSemiGroupElement#plus(AdditiveSemiGroupElement)
      */
     ADDITION(
-        getBinaryOperatorMethod(AdditiveSemiGroupElement.class, "plus"), "+",
-        getUnaryOperatorMethod(AdditiveMonoid.class, "zero"),
+        getDeclaredBinaryMethod(AdditiveSemiGroupElement.class, "plus"), "+",
+        getDeclaredMethod(AdditiveMonoid.class, "zero"),
         BasicAlgebraicUnaryOperator.NEGATION
     ),
 
@@ -60,7 +60,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see AdditiveGroupElement#minus(AdditiveGroupElement)
      */
     SUBTRACTION(
-        getBinaryOperatorMethod(AdditiveGroupElement.class, "minus"), "-",
+        getDeclaredBinaryMethod(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
         ADDITION.inverse
     ),
@@ -70,8 +70,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement)
      */
     MULTIPLICATION(
-        getBinaryOperatorMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
-        getUnaryOperatorMethod(MultiplicativeMonoid.class, "one"),
+        getDeclaredBinaryMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
+        getDeclaredMethod(MultiplicativeMonoid.class, "one"),
         BasicAlgebraicUnaryOperator.RECIPROCAL
     ),
 
@@ -79,7 +79,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MultiplicativeGroupElement#dividedBy(MultiplicativeGroupElement)
      */
     DIVISION(
-        getBinaryOperatorMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
+        getDeclaredBinaryMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
         MULTIPLICATION.unity,
         MULTIPLICATION.inverse
     ),
@@ -88,7 +88,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see CompleteFieldElement#pow(CompleteFieldElement)
      */
     POWER(
-        getBinaryOperatorMethod(CompleteFieldElement.class, "pow"), "^",
+        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"), "^",
         MULTIPLICATION.unity,
         null
     );

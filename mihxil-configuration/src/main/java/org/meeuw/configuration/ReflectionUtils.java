@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math;
+package org.meeuw.configuration;
 
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
@@ -47,12 +47,18 @@ public class ReflectionUtils {
     }
 
     @SneakyThrows
-    public static Method getBinaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getMethod(name, clazz);
+    public static Method getDeclaredMethod(Class<?> clazz, String name, Class<?>... params) {
+        return clazz.getDeclaredMethod(name, params);
     }
 
-    @SneakyThrows
-    public static Method getUnaryOperatorMethod(Class<?> clazz, String name) {
-        return clazz.getDeclaredMethod(name);
+    public static Method getDeclaredBinaryMethod(Class<?> clazz, String name, Class<?>... params) {
+        return getDeclaredMethod(clazz, name, clazz);
+    }
+
+    public static Object forParameter(Parameter p, String value) {
+        if (Integer.class.isAssignableFrom(p.getType())) {
+            return Integer.parseInt(value);
+        }
+        return value;
     }
 }

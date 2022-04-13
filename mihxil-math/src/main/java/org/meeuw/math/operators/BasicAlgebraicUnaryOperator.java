@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
-import static org.meeuw.math.ReflectionUtils.getUnaryOperatorMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
@@ -40,7 +40,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see AlgebraicElement#self()
      */
     IDENTIFY(
-        getUnaryOperatorMethod(AlgebraicElement.class, "self"),
+        getDeclaredMethod(AlgebraicElement.class, "self"),
         (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s
     ),
 
@@ -48,14 +48,14 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see AdditiveGroupElement#negation()
      */
     NEGATION(
-        getUnaryOperatorMethod(AdditiveGroupElement.class, "negation"),
+        getDeclaredMethod(AdditiveGroupElement.class, "negation"),
         (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
     /**
      * @see MultiplicativeGroupElement#reciprocal()
      */
     RECIPROCAL(
-        getUnaryOperatorMethod(MultiplicativeGroupElement.class, "reciprocal"),
+        getDeclaredMethod(MultiplicativeGroupElement.class, "reciprocal"),
         (s) -> s + superscript(-1)
     ),
 
@@ -63,7 +63,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see GroupElement#inverse()
      */
     INVERSION(
-        getUnaryOperatorMethod(GroupElement.class, "inverse"),
+        getDeclaredMethod(GroupElement.class, "inverse"),
         (s) -> "inverse(" + s  + ")"
     ),
 
@@ -71,7 +71,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see MultiplicativeSemiGroupElement#sqr()
      */
     SQR(
-        getUnaryOperatorMethod(MultiplicativeSemiGroupElement.class, "sqr"),
+        getDeclaredMethod(MultiplicativeSemiGroupElement.class, "sqr"),
         (s) -> s + superscript(2)
     ),
 
@@ -80,7 +80,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sqrt()
      */
     SQRT(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "sqrt"),
+        getDeclaredMethod(CompleteFieldElement.class, "sqrt"),
         (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s)
     ),
 
@@ -88,7 +88,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sin()
      */
     SIN(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "sin"),
+        getDeclaredMethod(CompleteFieldElement.class, "sin"),
         (s) -> "sin(" + s + ")"
     ),
 
@@ -96,7 +96,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#cos()
      */
     COS(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "cos"),
+        getDeclaredMethod(CompleteFieldElement.class, "cos"),
         (s) -> "cos(" + s + ")"
     ),
 
@@ -104,7 +104,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#exp()
      */
     EXP(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "exp"),
+        getDeclaredMethod(CompleteFieldElement.class, "exp"),
         (s) -> "exp(" + s + ")"
     ),
 
@@ -112,7 +112,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#ln()
      */
     LN(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "ln"),
+        getDeclaredMethod(CompleteFieldElement.class, "ln"),
         (s) -> "ln(" + s + ")"
     ),
 
@@ -120,7 +120,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sinh()
      */
     SINH(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "sinh"),
+        getDeclaredMethod(CompleteFieldElement.class, "sinh"),
         (s) -> "sinh(" + s + ")"
     ),
 
@@ -128,7 +128,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#cosh()
      */
     COSH(
-        getUnaryOperatorMethod(CompleteFieldElement.class, "cosh"),
+        getDeclaredMethod(CompleteFieldElement.class, "cosh"),
         (s) -> "cosh(" + s + ")"
     )
 

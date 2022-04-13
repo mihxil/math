@@ -48,6 +48,12 @@ public class ConfigurationService {
 
     private static final Configuration.Builder DEFAULT = Configuration.builder();
 
+    static {
+        readDefaults();
+        ConfigurationPreferences.addPreferenceChangeListener(DEFAULT);
+        storeDefaults();
+    }
+
     public static final ThreadLocal<Configuration> CONFIGURATION =
         ThreadLocal.withInitial(DEFAULT::build);
 
@@ -58,6 +64,7 @@ public class ConfigurationService {
      */
     public static void defaultConfiguration(Consumer<Configuration.Builder> consumer) {
         consumer.accept(DEFAULT);
+        storeDefaults();
         CONFIGURATION.remove();
     }
 
@@ -82,6 +89,15 @@ public class ConfigurationService {
     public static void resetToDefaults() {
         CONFIGURATION.remove();
     }
+
+    static void storeDefaults() {
+        ConfigurationPreferences.storeDefaults(DEFAULT.build());
+    }
+
+    static  void readDefaults() {
+        ConfigurationPreferences.readDefaults(DEFAULT);
+    }
+
 
     /**
      * Resets all settings (via {@link #defaultConfiguration(Consumer)}.
@@ -175,6 +191,7 @@ public class ConfigurationService {
         configuration.accept(builder);
         withConfiguration(builder.build(), runnable);
     }
+
 
 
     static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {

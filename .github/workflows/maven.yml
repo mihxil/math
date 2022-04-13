@@ -8,7 +8,6 @@ on:
       - 'docs/**'
       - '.github/workflows/publish-documentation.yml'
 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,7 +16,7 @@ jobs:
     steps:
       - name: Cancel previous Action
         uses: styfle/cancel-workflow-action@0.9.1
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
@@ -33,11 +32,11 @@ jobs:
       - uses: codecov/codecov-action@v2
         if: always()
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.31
+        uses: EnricoMi/publish-unit-test-result-action@v1.32
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
-      - uses: crazy-max/ghaction-import-gpg@v3
+      - uses: crazy-max/ghaction-import-gpg@v4.3.0
         with:
            gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
            passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
@@ -45,7 +44,7 @@ jobs:
         run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
         if: ${{ github.event_name == 'push' }}
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v9
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4

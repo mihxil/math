@@ -38,15 +38,15 @@ public class MathContextConfiguration implements ConfigurationAspect {
 
     @Getter
     @With
-    private final MathContext uncertaintContext;
+    private final MathContext uncertaintyContext;
 
     public MathContextConfiguration() {
         this(MathContext.DECIMAL128, null);
     }
 
-    public MathContextConfiguration(MathContext context, MathContext uncertaintContext) {
+    public MathContextConfiguration(MathContext context, MathContext uncertaintyContext) {
         this.context = context;
-        this.uncertaintContext = uncertaintContext == null ? new MathContext(2, RoundingMode.UP) : uncertaintContext;
+        this.uncertaintyContext = uncertaintyContext == null ? new MathContext(2, RoundingMode.UP) : uncertaintyContext;
     }
 
 

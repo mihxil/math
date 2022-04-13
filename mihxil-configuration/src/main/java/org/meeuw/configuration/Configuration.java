@@ -17,6 +17,7 @@ package org.meeuw.configuration;
 
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.function.Function;
@@ -32,9 +33,10 @@ import static org.meeuw.configuration.ConfigurationService.newConfigurationMap;
  * @since 0.4
  */
 @EqualsAndHashCode
-public class Configuration {
+@Log
+public class Configuration implements Iterable<ConfigurationAspect> {
 
-    private final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> map;
+    final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> map;
 
     private Configuration(Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration) {
         this.map = immutableCopy(configuration);
@@ -95,12 +97,19 @@ public class Configuration {
         return new Builder(newMap);
     }
 
+
     /**
      * @return returns a new {@link Builder} to assemble a new configuration
      */
     public static Builder builder() {
         return new Builder();
     }
+
+    @Override
+    public Iterator<ConfigurationAspect> iterator() {
+        return map.values().iterator();
+    }
+
 
     /**
      * Builder pattern for {@link Configuration}.

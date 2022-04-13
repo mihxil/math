@@ -21,7 +21,7 @@ import lombok.extern.java.Log;
 
 import java.util.*;
 
-import org.meeuw.math.ReflectionUtils;
+import org.meeuw.configuration.ReflectionUtils;
 
 import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.DimensionalAnalysis.of;
