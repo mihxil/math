@@ -29,9 +29,9 @@ jobs:
         uses: s4u/maven-settings-action@v2
         with:
           servers: '[{"id": "ossrh", "username": "mihxil", "password": "${{secrets.OSSRH_PASSWORD}}"}]'
-      - uses: crazy-max/ghaction-import-gpg@v3
+      - uses: crazy-max/ghaction-import-gpg@v4.3.0
         with:
-          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+          gpg_private_key: ${{ secrets.GPG_SECRET_KEY }}
           passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Release
         run: |
