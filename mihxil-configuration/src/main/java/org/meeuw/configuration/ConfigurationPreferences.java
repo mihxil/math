@@ -5,10 +5,10 @@ import lombok.extern.java.Log;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Optional;
-import java.util.ServiceLoader;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
+import java.util.stream.Stream;
 
 import org.meeuw.configuration.spi.ToStringProvider;
 
@@ -86,12 +86,12 @@ class ConfigurationPreferences {
         } else if (param instanceof Double) {
             pref.putDouble(key, (Double) param);
         } else {
-            ServiceLoader<ToStringProvider> loader = ServiceLoader.load(ToStringProvider.class);
-            Optional<String> o  =loader.stream()
+            Optional<String> o = stream()
                 .sorted()
                 .map(tp ->
-                    tp.get().toString(param).orElse(null)
-                ).findFirst();
+                    tp.toString(param).get()
+                )
+                .findFirst();
             if (o.isPresent()) {
                 pref.put(key, o.get());
             } else {
@@ -100,6 +100,14 @@ class ConfigurationPreferences {
                 }
             }
         }
+    }
+
+    static Stream<ToStringProvider> stream() {
+        ServiceLoader<ToStringProvider> loader = ServiceLoader.load(ToStringProvider.class);
+        //return loader.stream();  java 9, damn.
+        List<ToStringProvider> list = new ArrayList<>();
+        loader.iterator().forEachRemaining(list::add);
+        return list.stream();
     }
 
     static boolean putSerializable(Preferences pref, String key, Object param) {
