@@ -38,7 +38,7 @@ jobs:
           files: "**/target/surefire-reports/*.xml"
       - uses: crazy-max/ghaction-import-gpg@v4.3.0
         with:
-           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+           gpg_private_key: ${{ secrets.GPG_SECRET_KEY }}
            passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Deploy with Maven
         run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
