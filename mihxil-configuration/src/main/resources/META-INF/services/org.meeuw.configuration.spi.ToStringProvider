@@ -1,0 +1,2 @@
+org.meeuw.configuration.spi.EnumToString
+org.meeuw.configuration.spi.StringToString

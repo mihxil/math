@@ -20,6 +20,12 @@ public class EnumToString implements ToStringProvider {
     public Optional<Object> fromString(Class<?> type, String value) {
         return Optional.of(value)
             .filter(v -> type.isEnum())
-            .map(v -> Enum.valueOf((Class) type, value));
+            .map(v -> {
+                try {
+                    return Enum.valueOf((Class) type, value);
+                } catch(IllegalArgumentException iae) {
+                    return null;
+                }
+        });
     }
 }

@@ -1,7 +1,9 @@
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.spi.ToStringProvider;
 import org.meeuw.math.abstractalgebra.GenericGroupConfiguration;
 import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.numbers.MathContextToString;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -53,6 +55,7 @@ module org.meeuw.math {
         GenericGroupConfiguration,
         ConfidenceIntervalConfiguration
         ;
+    provides ToStringProvider with MathContextToString;
 
 
 }

@@ -86,12 +86,7 @@ class ConfigurationPreferences {
         } else if (param instanceof Double) {
             pref.putDouble(key, (Double) param);
         } else {
-            Optional<String> o = stream()
-                .sorted()
-                .map(tp ->
-                    tp.toString(param).get()
-                )
-                .findFirst();
+            Optional<String> o = toString(param);
             if (o.isPresent()) {
                 pref.put(key, o.get());
             } else {
@@ -102,6 +97,16 @@ class ConfigurationPreferences {
         }
     }
 
+    static <C> Optional<String> toString(C value) {
+        return  stream()
+            .sorted()
+            .map(tp ->
+                tp.toString(value).orElse(null)
+            )
+            .filter(v -> v != null)
+            .findFirst();
+    }
+
     static Stream<ToStringProvider> stream() {
         ServiceLoader<ToStringProvider> loader = ServiceLoader.load(ToStringProvider.class);
         //return loader.stream();  java 9, damn.
@@ -109,6 +114,34 @@ class ConfigurationPreferences {
         loader.iterator().forEachRemaining(list::add);
         return list.stream();
     }
+
+
+     @SuppressWarnings("unchecked")
+     static <C> C get(Preferences pref, String key, Class<? extends C> type, C defaultValue) {
+        if (Integer.class.isAssignableFrom(type) || Integer.TYPE.isAssignableFrom(type)) {
+            return (C) Integer.valueOf(pref.getInt(key, (int) defaultValue));
+        } else if (Long.class.isAssignableFrom(type) || Long.TYPE.isAssignableFrom(type)) {
+            return (C) Long.valueOf(pref.getLong(key, (long) defaultValue));
+        } else if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE.isAssignableFrom(type)) {
+            return (C) Boolean.valueOf(pref.getBoolean(key, (Boolean) defaultValue));
+        } else if (Float.class.isAssignableFrom(type) || Float.TYPE.isAssignableFrom(type)) {
+            return (C) Float.valueOf(pref.getFloat(key, (Float) defaultValue));
+        } else if (Double.class.isAssignableFrom(type) || Double.TYPE.isAssignableFrom(type)) {
+            return (C) Double.valueOf(pref.getDouble(key, (Double) defaultValue));
+        } else {
+            String v = pref.get(key, toString(defaultValue).orElse(null));
+            Optional<C> o = (Optional<C>) stream()
+                .sorted()
+                .map(tp ->
+                    tp.fromString(type, v).orElse(null)
+                )
+                .filter(Objects::nonNull)
+                .findFirst();
+            return
+                o.orElseGet(() -> getSerializable(pref, key, defaultValue));
+        }
+     }
+
 
     static boolean putSerializable(Preferences pref, String key, Object param) {
         try (
@@ -123,40 +156,19 @@ class ConfigurationPreferences {
         }
     }
 
-     @SuppressWarnings("unchecked")
-     static <C> C get(Preferences pref, String key, Class<? extends C> type, C defaultValue) {
-        if (Integer.class.isAssignableFrom(type) || Integer.TYPE.isAssignableFrom(type)) {
-            return (C) Integer.valueOf(pref.getInt(key, (int) defaultValue));
-        } else if (Long.class.isAssignableFrom(type) || Long.TYPE.isAssignableFrom(type)) {
-            return (C) Long.valueOf(pref.getLong(key, (long) defaultValue));
-        } else if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE.isAssignableFrom(type)) {
-            return (C) Boolean.valueOf(pref.getBoolean(key, (Boolean) defaultValue));
-        } else if (Float.class.isAssignableFrom(type) || Float.TYPE.isAssignableFrom(type)) {
-            return (C) Float.valueOf(pref.getFloat(key, (Float) defaultValue));
-        } else if (Double.class.isAssignableFrom(type) || Double.TYPE.isAssignableFrom(type)) {
-            return (C) Double.valueOf(pref.getDouble(key, (Double) defaultValue));
-        } else if (CharSequence.class.isAssignableFrom(type)) {
-            return (C) pref.get(key, defaultValue.toString());
-        } else if (type.isEnum()) {
-            Class<Enum> enumClass = (Class<Enum>) type;
-            String stringValue = pref.get(key, ((Enum) defaultValue).name());
-            return (C) Enum.valueOf(enumClass, stringValue);
-        } else if (Serializable.class.isAssignableFrom(type)) {
-            byte[] bytes = pref.getByteArray(key, new byte[0]);
-            if (bytes.length > 0) {
-                try (
-                    ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
-                    ObjectInputStream si = new ObjectInputStream(bi)) {
-                    return (C) si.readObject();
-                } catch (IOException | ClassNotFoundException e) {
-                    log.log(Level.WARNING, e.getMessage(), e);
-                    return defaultValue;
-                }
-            } else {
+    static <C> C getSerializable(Preferences pref, String key, C defaultValue) {
+        byte[] bytes = pref.getByteArray(key, new byte[0]);
+        if (bytes.length > 0) {
+            try (
+                ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+                ObjectInputStream si = new ObjectInputStream(bi)) {
+                return (C) si.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                log.log(Level.WARNING, e.getMessage(), e);
                 return defaultValue;
             }
+        } else {
+            return defaultValue;
         }
-
-        throw new IllegalStateException("Cannot match " + type);
-     }
+    }
 }

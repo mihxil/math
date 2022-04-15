@@ -1,4 +1,5 @@
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.spi.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -15,6 +16,8 @@ module org.meeuw.configuration {
     exports org.meeuw.configuration.spi;
 
     uses ConfigurationAspect;
-    uses org.meeuw.configuration.spi.ToStringProvider;
+    uses ToStringProvider;
+
+    provides ToStringProvider with EnumToString, StringToString;
 }
 
