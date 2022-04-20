@@ -132,21 +132,29 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement exp() {
-        BigDecimal exp = operations().exp(value);
-        return new BigDecimalElement(exp, uncertainty);
+        UncertainNumber<BigDecimal> exp = operations().exp(value);
+        return new BigDecimalElement(exp.getValue(),
+            operations().expUncertainty(value, uncertainty, exp.getValue())
+        );
     }
 
     @Override
     @NonAlgebraic
     public BigDecimalElement ln() throws IllegalLogException {
         UncertainNumber<BigDecimal> ln = operations().ln(value);
-        return new BigDecimalElement(ln.getValue(), uncertainty.max(ln.getUncertainty()));
+        return new BigDecimalElement(
+            ln.getValue(),
+            operations().lnUncertainty(value, uncertainty).max(ln.getUncertainty())
+        );
     }
 
     @Override
     public BigDecimalElement sin() {
         UncertainNumber<BigDecimal> sin = operations().sin(value);
-        return new BigDecimalElement(sin.getValue(), uncertainty.max(sin.getUncertainty()));
+        return new BigDecimalElement(
+            sin.getValue(),
+            uncertainty.max(sin.getUncertainty())
+        );
     }
 
 

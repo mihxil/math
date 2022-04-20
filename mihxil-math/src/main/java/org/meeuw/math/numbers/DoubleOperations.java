@@ -105,8 +105,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double exp(Double e) {
-        return Math.exp(e);
+    public UncertainNumber<Double> exp(Double e) {
+        return uncertain(Math.exp(e));
     }
 
     @Override

@@ -132,8 +132,8 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
-    public BigDecimal exp(BigDecimal e) {
-        return BigDecimalMath.exp(e, context());
+    public UncertainNumber<BigDecimal> exp(BigDecimal e) {
+        return uncertain(BigDecimalMath.exp(e, context()));
     }
 
     @Override
@@ -177,7 +177,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public UncertainNumber<BigDecimal> sin(BigDecimal bigDecimal) {
-        return new ImmutableUncertainNumber<>(BigDecimalMath.sin(bigDecimal, context()), BigDecimal.ZERO);
+        return uncertain(BigDecimalMath.sin(bigDecimal, context()));
     }
 
     @Override

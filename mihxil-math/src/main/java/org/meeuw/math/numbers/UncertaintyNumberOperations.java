@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.function.Supplier;
 
 /**
+ *  See <a href="https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations">propagation of uncertainty</a>
+
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -42,7 +44,11 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
         return withUncertaintyContext(
             () -> multiply(
                 abs(newValue),
-                sqrt(add(sqr(fractionUncertainty1), sqr(fractionalUncertainty2))).getValue()
+                sqrt(
+                    add(
+                        sqr(fractionUncertainty1), sqr(fractionalUncertainty2)
+                    )
+                ).getValue()
             )
         );
     }
@@ -52,11 +58,14 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
      */
     default N additionUncertainty(N uncertainty1, N uncertainty2) {
         return withUncertaintyContext(
-            () -> sqrt(add(sqr(uncertainty1), sqr(uncertainty2))).getValue()
+            () -> sqrt(
+                add(sqr(uncertainty1), sqr(uncertainty2))
+            ).getValue()
         );
     }
 
     N roundingUncertainty(N n);
+
 
     default N powerUncertainty(
         final N base,
@@ -64,7 +73,7 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
         final N exponent,
         final N exponentUncertainty,
         final N result){
-        //https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations
+        //
         if (isZero(base) && isZero(baseUncertainty)) {
             return base;
         }
@@ -80,6 +89,21 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
                 ).getValue()
             )
         );
+    }
+
+    default N lnUncertainty(
+        final N argument,
+        final N argumentUncertainty
+    ) {
+        return withUncertaintyContext(() -> divide(argumentUncertainty, abs(argument)).getValue());
+    }
+
+    default N expUncertainty(
+        final N argument,
+        final N argumentUncertainty,
+        final N result
+    ) {
+        return withUncertaintyContext(() -> multiply(abs(result),argumentUncertainty));
     }
 
     /**

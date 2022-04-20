@@ -76,7 +76,7 @@ public interface NumberOperations<N extends Number> {
 
     N pow(N n1, int exponent);
 
-    N exp(N e);
+    UncertainNumber<N> exp(N e);
 
     UncertainNumber<N> pow(N n1, N exponent);
 
@@ -102,10 +102,11 @@ public interface NumberOperations<N extends Number> {
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"varargs", "unchecked"})
     default N max(N... n) {
         return Arrays.stream(n).max(this::compare).orElse(null);
     }
+
 
     @SuppressWarnings("unchecked")
     default N min(N... n) {
