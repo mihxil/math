@@ -11,14 +11,14 @@ public class EnumToString implements ToStringProvider {
 
     @Override
     public Optional<String> toString(Object value) {
-        return Optional.of(value)
+        return Optional.ofNullable(value)
             .filter(v -> v instanceof Enum)
             .map(v -> ((Enum) v).name());
     }
 
     @Override
     public Optional<Object> fromString(Class<?> type, String value) {
-        return Optional.of(value)
+        return Optional.ofNullable(value)
             .filter(v -> type.isEnum())
             .map(v -> {
                 try {
