@@ -2,6 +2,8 @@ package org.meeuw.configuration.spi;
 
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 @SuppressWarnings("unchecked")
 public class EnumToString implements ToStringProvider {
     @Override
@@ -10,7 +12,7 @@ public class EnumToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<String> toString(Object value) {
+    public Optional<String> toString(@Nullable Object value) {
         return Optional.ofNullable(value)
             .filter(v -> v instanceof Enum)
             .map(v -> ((Enum) v).name());
