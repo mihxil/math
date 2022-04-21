@@ -143,9 +143,9 @@ DivisionRing[
 <tr><td colspan='6' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/</td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+x -x x⁻¹ inverse x²</td><td title='special elements' href=''>0 u 1</td></tr><tr><td colspan='6' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td></tr></table>
 >
 ]
-DivisionRing -> {MultiplicativeMonoid
+DivisionRing -> {MultiplicativeGroup
+MultiplicativeMonoid
 Ring}
-DivisionRing -> {MultiplicativeGroup}[style="dashed"]
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianGroup
@@ -187,8 +187,8 @@ Field[
 >
 ]
 Field -> {DivisionRing
-AbelianRing}
-Field -> {DivisibleGroup}[style="dashed"]
+AbelianRing
+DivisibleGroup}
 
 
 # interface org.meeuw.math.abstractalgebra.AbelianRing
