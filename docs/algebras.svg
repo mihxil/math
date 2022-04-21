@@ -663,13 +663,13 @@
 </g>
 </g>
 <!-- DivisionRing&#45;&gt;MultiplicativeGroup -->
-<g id="edge19" class="edge">
+<g id="edge17" class="edge">
 <title>DivisionRing&#45;&gt;MultiplicativeGroup</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M547.71,-808C572.25,-765.49 613.72,-693.65 640.86,-646.65"/>
+<path fill="none" stroke="black" d="M547.71,-808C572.25,-765.49 613.72,-693.65 640.86,-646.65"/>
 <polygon fill="none" stroke="black" points="643.95,-648.29 645.92,-637.88 637.89,-644.79 643.95,-648.29"/>
 </g>
 <!-- DivisionRing&#45;&gt;MultiplicativeMonoid -->
-<g id="edge17" class="edge">
+<g id="edge18" class="edge">
 <title>DivisionRing&#45;&gt;MultiplicativeMonoid</title>
 <path fill="none" stroke="black" d="M527.54,-807.73C527.96,-753.17 530.16,-645.07 540.5,-554 541.74,-543.05 543.66,-531.25 545.65,-520.48"/>
 <polygon fill="none" stroke="black" points="549.12,-521 547.56,-510.52 542.24,-519.68 549.12,-521"/>
@@ -725,7 +725,7 @@
 </g>
 </g>
 <!-- DivisionRing&#45;&gt;Ring -->
-<g id="edge18" class="edge">
+<g id="edge19" class="edge">
 <title>DivisionRing&#45;&gt;Ring</title>
 <path fill="none" stroke="black" d="M474.35,-807.72C460.1,-798.26 444.41,-787.85 429.19,-777.75"/>
 <polygon fill="none" stroke="black" points="431.07,-774.79 420.8,-772.17 427.2,-780.62 431.07,-774.79"/>
@@ -840,9 +840,9 @@
 <polygon fill="none" stroke="black" points="531.36,-890.04 527.78,-880.06 524.36,-890.09 531.36,-890.04"/>
 </g>
 <!-- Field&#45;&gt;DivisibleGroup -->
-<g id="edge26" class="edge">
+<g id="edge25" class="edge">
 <title>Field&#45;&gt;DivisibleGroup</title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M650.12,-915.9C681.97,-901.73 715.13,-886.98 742.91,-874.62"/>
+<path fill="none" stroke="black" d="M650.12,-915.9C681.97,-901.73 715.13,-886.98 742.91,-874.62"/>
 <polygon fill="none" stroke="black" points="744.4,-877.79 752.12,-870.53 741.56,-871.39 744.4,-877.79"/>
 </g>
 <!-- AbelianRing -->
@@ -887,7 +887,7 @@
 </g>
 </g>
 <!-- Field&#45;&gt;AbelianRing -->
-<g id="edge25" class="edge">
+<g id="edge26" class="edge">
 <title>Field&#45;&gt;AbelianRing</title>
 <path fill="none" stroke="black" d="M399.96,-915.9C366.15,-901.67 330.93,-886.85 301.5,-874.46"/>
 <polygon fill="none" stroke="black" points="302.72,-871.18 292.15,-870.53 300.01,-877.63 302.72,-871.18"/>
