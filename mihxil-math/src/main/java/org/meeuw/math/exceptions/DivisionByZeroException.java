@@ -35,7 +35,7 @@ public class DivisionByZeroException extends ReciprocalException {
     }
 
     public DivisionByZeroException(Object e, Object divisor, Throwable cause) {
-        super("Division by zero exception: " + e + "/" + divisor);
+        super("Division exception: " + e + "/" + divisor + " "  + cause.getMessage());
         initCause(cause);
     }
 }

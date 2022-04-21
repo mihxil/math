@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalLogException;
 
 /**
  * Elements of a {@link CompleteField}.
@@ -38,7 +38,7 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E cos();
 
-    default E pow(E exponent) throws ReciprocalException {
+    default E pow(E exponent) throws IllegalLogException {
         return (ln().times(exponent)).exp();
     }
 

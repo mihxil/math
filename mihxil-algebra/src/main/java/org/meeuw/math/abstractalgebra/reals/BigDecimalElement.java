@@ -125,7 +125,7 @@ public class BigDecimalElement implements
 
     @Override
     @NonAlgebraic
-    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws IllegalLogException {
+    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws ReciprocalException {
         UncertainNumber<BigDecimal> pow = operations().pow(value, bigDecimalElement.value);
         return new BigDecimalElement(pow.getValue(), uncertainty.max(pow.getUncertainty()));
     }
@@ -144,7 +144,8 @@ public class BigDecimalElement implements
         UncertainNumber<BigDecimal> ln = operations().ln(value);
         return new BigDecimalElement(
             ln.getValue(),
-            operations().lnUncertainty(value, uncertainty).max(ln.getUncertainty())
+            operations().lnUncertainty(value, uncertainty).max(ln.getUncertainty()
+            )
         );
     }
 

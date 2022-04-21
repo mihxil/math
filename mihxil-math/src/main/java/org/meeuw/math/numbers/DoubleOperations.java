@@ -84,7 +84,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> divide(Double n1, Double n2) {
         if (n2 == 0d) {
-            throw new ReciprocalException("division by zero");
+            throw new ReciprocalException("division by zero " + n1 + " / " + n2);
         }
         return uncertain(n1 / n2);
     }

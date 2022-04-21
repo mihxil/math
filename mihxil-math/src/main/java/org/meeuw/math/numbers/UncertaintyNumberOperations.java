@@ -95,7 +95,7 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
         final N argument,
         final N argumentUncertainty
     ) {
-        return withUncertaintyContext(() -> divide(argumentUncertainty, abs(argument)).getValue());
+        return withUncertaintyContext(() -> divide(argumentUncertainty, abs(max(argument, roundingUncertainty(argument)))).getValue());
     }
 
     default N expUncertainty(

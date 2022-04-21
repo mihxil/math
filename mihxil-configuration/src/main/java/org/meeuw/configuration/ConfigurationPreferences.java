@@ -3,8 +3,7 @@ package org.meeuw.configuration;
 import lombok.extern.java.Log;
 
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.prefs.Preferences;
@@ -28,18 +27,18 @@ class ConfigurationPreferences {
         for (ConfigurationAspect aspect : configuration) {
             Preferences node = node(aspect);
             for (Method m : aspect.getClass().getDeclaredMethods()) {
-                if (m.getName().startsWith("get") && m.getParameterTypes().length == 0) {
+                if (m.getName().length() > 3 && m.getName().startsWith("get") && m.getParameterTypes().length == 0 && !Modifier.isStatic(m.getModifiers())) {
+                    String name = m.getName().substring(3);
+                    Class<?> returnType = m.getReturnType();
                     try {
-                        String name = m.getName().substring(3);
-                        Class<?> returnType = m.getReturnType();
                         Object value = m.invoke(aspect);
                         put(node, name, returnType, value);
                     } catch (IllegalAccessException | InvocationTargetException e) {
-                        log.warning(e.getMessage());
+                        log.warning(e.getClass() + " for " + m + "(" + aspect + ")" + e.getMessage());
                     }
                 }
             }
-            log.info(() -> "Stored " + USER_PREFERENCES);
+            log.fine(() -> "Stored " + USER_PREFERENCES);
         }
     }
 
@@ -49,16 +48,17 @@ class ConfigurationPreferences {
              Preferences node = node(as);
              for (Method m : aspect.getClass().getDeclaredMethods()) {
                  if (m.getName().startsWith("with") && m.getParameterTypes().length == 1) {
+                     String name = m.getName().substring(4);
+                     Object newValue = null;
                      try {
-                         String name = m.getName().substring(4);
                          Object currentValue = as.getClass().getDeclaredMethod("get" + name).invoke(as);
-                         Object newValue = get(node, name,
+                         newValue = get(node, name,
                              m.getParameters()[0].getType(),
                              currentValue);
 
                          as = (ConfigurationAspect) m.invoke(as, newValue);
                      } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException | NoSuchMethodException e) {
-                         log.log(Level.WARNING, e.getClass() + " " + e.getMessage(), e);
+                         log.log(Level.WARNING, "For " + as + "#" + m + "(" + (newValue == null ? "NULL" : (newValue.getClass() + " " + newValue)) + ")" + e.getClass() + " " + e.getMessage(), e);
                      }
                  }
              }

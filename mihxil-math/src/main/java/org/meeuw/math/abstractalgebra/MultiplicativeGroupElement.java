@@ -15,6 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.exceptions.ReciprocalException;
+
 /**
  * An element for the algebraic 'group' (where the operation is multiplication)
  *
@@ -59,7 +62,8 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
         return MultiplicativeMonoidElement.super.pow(n);
     }
 
-    default E dividedBy(E divisor) {
+    @NonAlgebraic
+    default E dividedBy(E divisor) throws ReciprocalException {
         return times(divisor.reciprocal());
     }
 

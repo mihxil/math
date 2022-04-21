@@ -7,9 +7,10 @@ import org.meeuw.physics.text.spi.*;
  */
 module org.meeuw.physics {
     requires static lombok;
-    requires org.meeuw.math;
-    requires jakarta.validation;
-    requires org.checkerframework.checker.qual;
+    requires static org.checkerframework.checker.qual;
+    requires static jakarta.validation;
+
+    requires  org.meeuw.math;
     requires org.meeuw.configuration;
     requires java.logging;
 

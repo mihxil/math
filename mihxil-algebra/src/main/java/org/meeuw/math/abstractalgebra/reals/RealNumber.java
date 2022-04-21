@@ -28,6 +28,7 @@ import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.spi.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
+import static java.lang.Math.max;
 import static org.meeuw.math.Utils.uncertaintyForDouble;
 import static org.meeuw.math.text.TextUtils.superscript;
 
@@ -110,11 +111,12 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber pow(int exponent) {
-        double newValue = Math.pow(value, exponent);
+    @NonAlgebraic
+    public RealNumber pow(int exponent) throws DivisionByZeroException {
         if (value == 0 && exponent < 0) {
             throw new DivisionByZeroException("0" + superscript(exponent));
         }
+        double newValue = Math.pow(value, exponent);
         return new RealNumber(newValue,
             uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
         );
@@ -136,7 +138,7 @@ public class RealNumber
         double newValue = value / divisor;
         return new RealNumber(
             value / divisor,
-            Math.max(Math.abs(uncertainty / divisor), Utils.uncertaintyForDouble(newValue))
+            max(Math.abs(uncertainty / divisor), Utils.uncertaintyForDouble(newValue))
         );
     }
 
@@ -195,7 +197,7 @@ public class RealNumber
     @Override
     public RealNumber sin() {
         UncertainNumber<Double> sin = operations().sin(value);
-        return _of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
+        return _of(sin.getValue(), max(uncertainty, sin.getUncertainty()));
     }
 
     @Override
@@ -203,7 +205,7 @@ public class RealNumber
         UncertainNumber<Double> cos = operations().cos(value);
 
         return _of(
-            cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
+            cos.getValue(), max(uncertainty, cos.getUncertainty()));
     }
 
     @Override
@@ -227,11 +229,12 @@ public class RealNumber
 
     @Override
     public RealNumber sqrt() {
-        return _of(Math.sqrt(value), Math.max(uncertainty, Utils.uncertaintyForDouble(value)));
+        return _of(Math.sqrt(value), max(uncertainty, Utils.uncertaintyForDouble(value)));
     }
 
     @Override
-    public RealNumber pow(RealNumber exponent) {
+    @NonAlgebraic
+    public RealNumber pow(RealNumber exponent) throws DivisionByZeroException {
         if (value == 0 && exponent.isNegative()) {
             throw new DivisionByZeroException("0 ^ " + exponent);
         }
@@ -243,14 +246,19 @@ public class RealNumber
 
     @Override
     public RealNumber exp() {
-        return _of(Math.exp(value), uncertainty);
+        UncertainNumber<Double> exp = operations().exp(value);
+        return _of(
+            exp.getValue(),
+            operations().expUncertainty(value, uncertainty, exp.getValue()));
     }
 
     @Override
     @NonAlgebraic
     public RealNumber ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(value);
-        return _of(ln.getValue(), ln.getUncertainty());
+        return _of(ln.getValue(),
+            max(operations().lnUncertainty(value, uncertainty), ln.getUncertainty())
+        );
     }
 
     @Override

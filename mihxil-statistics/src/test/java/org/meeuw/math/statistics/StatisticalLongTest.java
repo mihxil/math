@@ -76,7 +76,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5  + 6 * 6 + 7 *7);
 
         assertThat(mes.getValue()).isEqualTo(3.5);
-        assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes.getStandardDeviation()).isEqualTo(2.29128784747792);
 
         mes.reset();
 
@@ -85,7 +85,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 *3 + 4 * 4 + 5 * 5 + 6 *6 + 7*7);
         assertThat(mes.getValue()).isEqualTo(3.5);
-        assertThat(mes.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(mes.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(mes.toString()).isEqualTo("4 ± 2");
 
         assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
@@ -107,7 +107,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(statCombined.getSumOfSquares()).isEqualTo(statCombined.getUncorrectedSumOfSquares());
 
         assertThat(statCombined.getValue()).isEqualTo(3.5);
-        assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(statCombined.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(statCombined.getGuessedMean()).isEqualTo(0);
 
 
@@ -117,7 +117,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
         assertThat(statCombined.getValue()).isEqualTo(3.5);
-        assertThat(statCombined.getStandardDeviation()).isEqualTo(2.179449471770337);
+        assertThat(statCombined.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
         UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());

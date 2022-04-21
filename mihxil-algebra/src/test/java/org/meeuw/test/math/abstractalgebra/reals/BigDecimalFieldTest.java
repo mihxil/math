@@ -117,7 +117,7 @@ strictfp class BigDecimalFieldTest implements
             .edgeCases(config -> {
                 config.add(BigDecimalElement.ZERO);
                 config.add(BigDecimalElement.ONE);
-                config.add(BigDecimalElement.ONE.reciprocal());
+                config.add(BigDecimalElement.ONE.negation());
             })
             ;
     }

@@ -177,7 +177,10 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @NonAlgebraic
     public UncertainReal ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(getValue());
-        return new UncertainDoubleElement(ln.getValue(), ln.getUncertainty());
+        return new UncertainDoubleElement(
+            ln.getValue(),
+            Math.max(ln.getUncertainty(), operations.lnUncertainty(ln.getValue(), getUncertainty()))
+        );
     }
 
 
@@ -209,7 +212,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
             return Double.NaN;
         }
         double mean = ((double) sum) / count;
-        return Math.sqrt((double) (squareSum / count) - mean * mean);
+        double sq = ((double) squareSum / count) - mean * mean;
+        return Math.sqrt(sq);
     }
 
     public long getSum() {

@@ -15,6 +15,9 @@
  */
 package org.meeuw.math.operators;
 
+import lombok.SneakyThrows;
+
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
@@ -69,6 +72,16 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
     default String getSymbol() {
         return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
+    }
+
+    @Override
+    @SneakyThrows
+    default <E extends AlgebraicElement<E>> Method getMethodFor(E e) {
+        try {
+            return e.getClass().getMethod(getMethod().getName(), e.getStructure().getElementClass());
+        } catch (NoSuchMethodException nsme) {
+            return OperatorInterface.super.getMethodFor(e);
+        }
     }
 
 

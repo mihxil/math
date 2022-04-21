@@ -19,7 +19,7 @@ public class EnumToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<Object> fromString(Class<?> type, String value) {
+    public Optional<Object> fromString(Class<?> type, @Nullable String value) {
         return Optional.ofNullable(value)
             .filter(v -> type.isEnum())
             .map(v -> {

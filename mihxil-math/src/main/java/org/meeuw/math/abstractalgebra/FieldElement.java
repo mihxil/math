@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 /**
@@ -36,7 +35,7 @@ public interface FieldElement<E extends FieldElement<E>> extends
 
     @Override
     @NonAlgebraic("Cannot divide be zero")
-    default E dividedBy(E divisor) throws DivisionByZeroException {
+    default E dividedBy(E divisor) throws ReciprocalException {
         return DivisionRingElement.super.dividedBy(divisor);
     }
 

@@ -19,6 +19,9 @@ public class StringToString implements ToStringProvider {
 
     @Override
     public Optional<Object> fromString(Class<?> type, @Nullable String value) {
-        return Optional.ofNullable(value);
+        return Optional.of(Optional
+            .ofNullable(value)
+            .filter(v -> CharSequence.class.isAssignableFrom(type)));
+
     }
 }

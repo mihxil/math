@@ -1,4 +1,4 @@
-/**
+/*
  *  Copyright 2022 Michiel Meeuwissen
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,7 +41,11 @@ public interface OperatorInterface {
 
     @SneakyThrows
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        Method m = e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
-        return m.getAnnotation(NonAlgebraic.class) == null;
+        return getMethodFor(e).getAnnotation(NonAlgebraic.class) == null;
+    }
+
+    @SneakyThrows
+    default <E extends AlgebraicElement<E>> Method getMethodFor(E e) {
+        return e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
     }
 }
