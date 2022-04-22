@@ -18,6 +18,7 @@ package org.meeuw.test.math.text.spi.test;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,24 +27,73 @@ import org.meeuw.configuration.ConfigurationAspect;
 /**
  * @author Michiel Meeuwissen
  */
-@ToString
 public class TestConfigurationAspect implements ConfigurationAspect {
 
     @With
     @Getter
     final int someInt;
 
+    @With
+    @Getter
+    final long someLong;
+
+    @With
+    @Getter
+    final Boolean someBoolean;
+
+    @With
+    @Getter
+    final SomeSerializable someSerializable;
+
+
+    @With
+    @Getter
+    final NotSerializable notSerializable;
+
+
+
     @lombok.Builder
-    private TestConfigurationAspect(int someInt) {
+    private TestConfigurationAspect(int someInt, long someLong, Boolean someBoolean, SomeSerializable someSerializable, NotSerializable notSerializable) {
         this.someInt = someInt;
+        this.someLong = someLong;
+        this.someBoolean = someBoolean;
+        this.someSerializable = someSerializable;
+        this.notSerializable = notSerializable;
     }
 
     public TestConfigurationAspect() {
-        this(-1);
+        this(-1, 100L, true, new SomeSerializable(1, "a"), new NotSerializable(2, "b"));
     }
 
     @Override
     public List<Class<?>> associatedWith() {
         return Collections.singletonList(TestFormatProvider.class);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
+    @ToString
+    public static class SomeSerializable implements Serializable {
+        final int a;
+        final String b;
+
+        public SomeSerializable(int a, String b) {
+            this.a = a;
+            this.b = b;
+        }
+    }
+
+    @ToString
+    public static class NotSerializable  {
+        final int a;
+        final String b;
+
+        public NotSerializable(int a, String b) {
+            this.a = a;
+            this.b = b;
+        }
     }
 }

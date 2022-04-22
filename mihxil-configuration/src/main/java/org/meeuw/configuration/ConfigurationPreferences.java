@@ -16,6 +16,8 @@ class ConfigurationPreferences {
 
     private static final Preferences USER_PREFERENCES = Preferences.userNodeForPackage(ConfigurationPreferences.class);
 
+    private ConfigurationPreferences() {
+    }
 
 
     static void addPreferenceChangeListener(Configuration.Builder configuration) {
@@ -33,8 +35,8 @@ class ConfigurationPreferences {
                     try {
                         Object value = m.invoke(aspect);
                         put(node, name, returnType, value);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        log.warning(e.getClass() + " for " + m + "(" + aspect + ")" + e.getMessage());
+                    } catch (IllegalAccessException | InvocationTargetException | IOException | IllegalStateException e) {
+                        log.warning(String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
                     }
                 }
             }
@@ -72,27 +74,27 @@ class ConfigurationPreferences {
         return USER_PREFERENCES.node(aspect.getClass().getCanonicalName());
     }
 
-    static void put(Preferences pref, String key, Class<?> type, final Object param) {
-        if (param == null) {
+    static void put(Preferences pref, String key, Class<?> type, final Object paramValue) throws IOException {
+        if (paramValue == null) {
             pref.remove(key);
-        } else if (param instanceof Integer) {
-            pref.putInt(key, (Integer) param);
-        } else if (param instanceof Long) {
-            pref.putLong(key, (Long) param);
-        } else if (param instanceof Boolean) {
-            pref.putBoolean(key, (Boolean) param);
-        } else if (param instanceof Float) {
-            pref.putFloat(key, (Float) param);
-        } else if (param instanceof Double) {
-            pref.putDouble(key, (Double) param);
+        } else if (paramValue instanceof Integer) {
+            pref.putInt(key, (Integer) paramValue);
+        } else if (paramValue instanceof Long) {
+            pref.putLong(key, (Long) paramValue);
+        } else if (paramValue instanceof Boolean) {
+            pref.putBoolean(key, (Boolean) paramValue);
+        } else if (paramValue instanceof Float) {
+            pref.putFloat(key, (Float) paramValue);
+        } else if (paramValue instanceof Double) {
+            pref.putDouble(key, (Double) paramValue);
         } else {
-            Optional<String> o = toString(param);
+            Optional<String> o = toString(paramValue);
             if (o.isPresent()) {
                 pref.put(key, o.get());
+            } else if (paramValue instanceof Serializable) {
+                putSerializable(pref, key, (Serializable) paramValue);
             } else {
-                if (!putSerializable(pref, key, param)) {
-                    throw new IllegalStateException("Don't know how to put " + param);
-                }
+                throw new IllegalStateException("Don't know how to put " + paramValue);
             }
         }
     }
@@ -103,7 +105,7 @@ class ConfigurationPreferences {
             .map(tp ->
                 tp.toString(value).orElse(null)
             )
-            .filter(v -> v != null)
+            .filter(Objects::nonNull)
             .findFirst();
     }
 
@@ -132,32 +134,32 @@ class ConfigurationPreferences {
             String v = pref.get(key, toString(defaultValue).orElse(null));
             Optional<C> o = (Optional<C>) stream()
                 .sorted()
-                .map(tp ->
-                    tp.fromString(type, v).orElse(null)
-                )
+                .map(tp -> {
+                    Object nv =  tp.fromString(type, v).orElse(null);
+                    return nv;
+                })
                 .filter(Objects::nonNull)
                 .findFirst();
             return
-                o.orElseGet(() -> getSerializable(pref, key, defaultValue));
+                o.orElseGet(() ->
+                    getSerializable(pref, key, defaultValue)
+                );
         }
      }
 
 
-    static boolean putSerializable(Preferences pref, String key, Object param) {
+    static void putSerializable(Preferences pref, String key, Serializable paramValue) throws IOException {
         try (
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
             ObjectOutputStream so = new ObjectOutputStream(bo);) {
-            so.writeObject(param);
+            so.writeObject(paramValue);
             pref.putByteArray(key, bo.toByteArray());
-            return true;
-        } catch (IOException e) {
-            log.log(Level.WARNING, e.getMessage(), e);
-            return false;
         }
     }
 
     static <C> C getSerializable(Preferences pref, String key, C defaultValue) {
-        byte[] bytes = pref.getByteArray(key, new byte[0]);
+        final byte[] bytes = pref.getByteArray(key, new byte[0]);
+        //assert defaultValue instanceof Serializable;
         if (bytes.length > 0) {
             try (
                 ByteArrayInputStream bi = new ByteArrayInputStream(bytes);

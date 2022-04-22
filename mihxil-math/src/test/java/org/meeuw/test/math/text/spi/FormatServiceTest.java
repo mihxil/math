@@ -45,7 +45,7 @@ class FormatServiceTest {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
             .contains(
-                "TestFormatProvider [InvalidConfigurationAspect(someInt=1), TestConfigurationAspect(someInt=-1)]",
+                "TestFormatProvider [InvalidConfigurationAspect(someInt=1), TestConfigurationAspect]",
                 "UncertainDoubleFormatProvider [NumberConfiguration(minimalExponent=4, thousands=NONE), UncertaintyConfiguration(notation=PLUS_MINUS, considerRoundingErrorFactor=1000.0)]"
             );
     }
@@ -69,7 +69,12 @@ class FormatServiceTest {
     public void testConfigurationAspects() {
         ConfigurationService.defaultConfiguration((con) -> con
             .configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-            .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
+            .configure(TestConfigurationAspect.class,
+                c -> c
+                    .withSomeInt(-1)
+                    .withSomeSerializable(null)
+                    .withNotSerializable(new TestConfigurationAspect.NotSerializable(3, "x"))
+            )
         );
         assertThat(ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(4);
 
@@ -83,6 +88,7 @@ class FormatServiceTest {
             c -> c.withMinimalExponent(5))
         );
         assertThat(ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getMinimalExponent()).isEqualTo(5);
+
 
         ConfigurationService.resetToDefaultDefaults();
 
