@@ -36,7 +36,7 @@ public class ReflectionUtils {
                 try {
                     consumer.accept((D) f.get(null));
                 } catch (IllegalAccessException e) {
-                    log.warning(e.getMessage());
+                    assert false : e.getMessage();
                 }
             }
         }
@@ -51,14 +51,7 @@ public class ReflectionUtils {
         return clazz.getDeclaredMethod(name, params);
     }
 
-    public static Method getDeclaredBinaryMethod(Class<?> clazz, String name, Class<?>... params) {
+    public static Method getDeclaredBinaryMethod(Class<?> clazz, String name) {
         return getDeclaredMethod(clazz, name, clazz);
-    }
-
-    public static Object forParameter(Parameter p, String value) {
-        if (Integer.class.isAssignableFrom(p.getType())) {
-            return Integer.parseInt(value);
-        }
-        return value;
     }
 }

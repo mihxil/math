@@ -17,6 +17,7 @@ package org.meeuw.test.configuration;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,8 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.configuration.ReflectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 
 @Log4j2
 class ReflectionUtilsTest {
@@ -33,6 +36,13 @@ class ReflectionUtilsTest {
         private static final A a = new A();
         public static final A b = new A();
         public static final String c = "c";
+
+        private static final String noconstant_d = "d";
+        public String noconstant_e = "hoi";
+
+        public A algebraic(A b) {
+            return b;
+        }
     }
 
     @Test
@@ -43,4 +53,14 @@ class ReflectionUtilsTest {
         assertThat(result.get(0)).isSameAs(A.b);
     }
 
+    @Test
+    public void getBinary() {
+        Method algebraic = getDeclaredBinaryMethod(A.class, "algebraic");
+        assertThat(algebraic).isNotNull();
+
+        assertThatThrownBy(() -> {
+            getDeclaredBinaryMethod(A.class, "foobar");
+        }).isInstanceOf(NoSuchMethodException.class);
+
+    }
 }
