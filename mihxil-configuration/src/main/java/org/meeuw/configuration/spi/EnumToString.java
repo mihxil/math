@@ -1,10 +1,13 @@
 package org.meeuw.configuration.spi;
 
+import lombok.extern.java.Log;
+
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @SuppressWarnings("unchecked")
+@Log
 public class EnumToString implements ToStringProvider {
     @Override
     public int weight() {
@@ -26,6 +29,7 @@ public class EnumToString implements ToStringProvider {
                 try {
                     return Enum.valueOf((Class) type, value);
                 } catch(IllegalArgumentException iae) {
+                    log.warning(value + "->" + type + ":" + iae.getMessage());
                     return null;
                 }
         });
