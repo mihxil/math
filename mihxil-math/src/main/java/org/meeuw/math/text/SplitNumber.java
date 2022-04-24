@@ -21,10 +21,10 @@ package org.meeuw.math.text;
  */
 
 class SplitNumber {
-    public double coefficient;
-    public int   exponent;
+    double coefficient;
+    int  exponent;
 
-    public SplitNumber(double coefficient, int exponent) {
+    SplitNumber(double coefficient, int exponent) {
         this.coefficient = coefficient;
         this.exponent = exponent;
     }

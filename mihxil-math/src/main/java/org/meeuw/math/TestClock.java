@@ -20,6 +20,8 @@ import lombok.Getter;
 import java.time.*;
 import java.time.temporal.TemporalAmount;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * A {@link Clock}, which must be explicitly 'ticked'. This is of course mainly useful for testing
  * @author Michiel Meeuwissen
@@ -32,7 +34,7 @@ public class TestClock extends Clock {
 
     private Instant instant;
 
-    public TestClock(ZoneId zone, Instant instant) {
+    public TestClock(@NonNull ZoneId zone, @NonNull Instant instant) {
         this.zone = zone;
         this.instant = instant;
     }

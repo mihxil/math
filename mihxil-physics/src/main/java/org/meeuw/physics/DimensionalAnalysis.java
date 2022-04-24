@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.Streamable;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 
 /**
  * A dimensions object represent a physical dimensional analysis.

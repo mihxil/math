@@ -6,6 +6,7 @@ import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
@@ -19,10 +20,16 @@ class ConfigurationPreferences {
     private ConfigurationPreferences() {
     }
 
+    static void sync() throws BackingStoreException {
+        USER_PREFERENCES.flush();
+        USER_PREFERENCES.sync();
+    }
 
     static void addPreferenceChangeListener(Configuration.Builder configuration) {
         USER_PREFERENCES.addPreferenceChangeListener(evt -> readDefaults(configuration));
     }
+
+
 
 
     static void storeDefaults(Configuration configuration) {

@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;

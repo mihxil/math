@@ -25,7 +25,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static java.lang.Math.max;

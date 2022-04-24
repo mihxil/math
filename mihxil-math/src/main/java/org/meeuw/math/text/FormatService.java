@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.text.spi;
+package org.meeuw.math.text;
 
 import lombok.Generated;
 import lombok.extern.java.Log;
@@ -28,10 +28,12 @@ import java.util.stream.StreamSupport;
 
 import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 import static org.meeuw.configuration.ConfigurationService.getConfiguration;
 
 /**
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

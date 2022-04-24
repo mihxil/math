@@ -25,7 +25,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

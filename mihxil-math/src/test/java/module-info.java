@@ -1,6 +1,5 @@
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.test.math.text.spi.test.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -22,18 +21,7 @@ open module org.meeuw.test {
     requires jakarta.validation;
     requires org.hibernate.validator;
 
-    exports org.meeuw.test.math.text.spi.test;
-
-
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;
-
-    provides ConfigurationAspect with
-        InvalidConfigurationAspect,
-        TestConfigurationAspect;
-
-    provides AlgebraicElementFormatProvider with
-        TestFormatProvider;
-
 }
 

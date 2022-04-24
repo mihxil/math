@@ -13,27 +13,39 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.text.spi.test;
+package org.meeuw.test.configuration.spi;
 
-import java.text.Format;
 
-import org.meeuw.configuration.Configuration;
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import lombok.ToString;
+import lombok.With;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.meeuw.configuration.ConfigurationAspect;
 
 /**
+ * Has no no-args constructor
  * @author Michiel Meeuwissen
  */
-public class TestFormatProvider extends AlgebraicElementFormatProvider {
+@ToString
+public class InvalidConfigurationAspect implements ConfigurationAspect {
 
-    @Override
-    public Format getInstance(Configuration configuration) {
-        return null;
+    @With
+    final int someInt;
+
+    public InvalidConfigurationAspect() {
+        someInt = 1;
+        //throw new IllegalStateException();
+    }
+
+
+    public InvalidConfigurationAspect(int someInt) {
+        this.someInt = someInt;
     }
 
     @Override
-    public int weight(Class<? extends AlgebraicElement<?>> weight) {
-        return 0;
+    public List<Class<?>> associatedWith() {
+        return Collections.singletonList(TestProvider.class);
     }
-
 }

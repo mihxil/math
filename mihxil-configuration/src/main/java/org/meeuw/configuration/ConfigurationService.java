@@ -19,6 +19,7 @@ import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.prefs.BackingStoreException;
 
 
 /**
@@ -106,6 +107,17 @@ public class ConfigurationService {
 
     public static void resetToDefaultDefaults() {
         defaultConfiguration(Configuration.Builder::defaults);
+    }
+
+    public static boolean sync() {
+        try {
+
+            ConfigurationPreferences.sync();
+            return true;
+        } catch (BackingStoreException bs) {
+            log.warning(bs.getMessage());
+            return false;
+        }
     }
 
     /**

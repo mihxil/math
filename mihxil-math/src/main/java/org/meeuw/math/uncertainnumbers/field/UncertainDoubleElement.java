@@ -24,7 +24,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
 /**

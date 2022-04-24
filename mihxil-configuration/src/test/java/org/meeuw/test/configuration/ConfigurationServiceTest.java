@@ -27,6 +27,11 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.configuration.*;
+import org.meeuw.test.configuration.spi.TestConfigurationAspect;
+import org.meeuw.test.configuration.spi.TestConfigurationAspect.NotSerializable;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.*;
 
 @Log
 public class ConfigurationServiceTest {
@@ -83,9 +88,9 @@ public class ConfigurationServiceTest {
 
     @Test
     public void store() {
-        long previous = ConfigurationService.getConfigurationAspect(TestConfiguration.class).getInteger();
+        long previous = getConfigurationAspect(TestConfiguration.class).getInteger();
         log.info("previous " + Instant.ofEpochMilli(previous));
-        ConfigurationService.defaultConfiguration((builder) -> {
+        defaultConfiguration((builder) -> {
             builder.configure(TestConfiguration.class, (c) ->
                 c.withInteger(System.currentTimeMillis())
                     .withString("foobar")
@@ -94,6 +99,73 @@ public class ConfigurationServiceTest {
 
 
 
+    }
+
+
+    @Test
+    public void getAndSetConfiguration() {
+        Configuration configuration = ConfigurationService.getConfiguration();
+        TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
+        int minimalExponent = aspect.getSomeInt();
+        ConfigurationService.setConfiguration(configuration.toBuilder()
+            .configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
+            .build()
+        );
+        assertThat(ConfigurationService.getConfiguration()
+            .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)
+        ).isEqualTo(8);
+
+    }
+
+
+    @Test
+    public void testConfigurationAspects() {
+        defaultConfiguration((con) -> con
+            .configure(TestConfigurationAspect.class,
+                c -> c
+                    .withSomeInt(4)
+                    .withSomeSerializable(null)
+                    .withNotSerializable(new NotSerializable(3, "x"))
+            )
+        );
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class)
+            .getSomeInt()).isEqualTo(4);
+
+        resetToDefaultDefaults();
+
+        assertThat(ConfigurationService.sync()).isTrue();
+
+
+        withAspect(TestConfigurationAspect.class,
+            (b) -> b.withSomeInt(6), () -> {
+                assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt())
+                    .isEqualTo(6);
+            }
+        );
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class)
+            .getSomeInt()).isEqualTo(-1);
+
+        defaultConfiguration((con) -> con.configure(TestConfigurationAspect.class,
+            c -> c.withSomeInt(5))
+        );
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(5);
+
+
+        resetToDefaultDefaults();
+
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class)
+            .getSomeInt()).isEqualTo(-1);
+
+
+        ConfigurationService.withConfiguration((con) -> con
+                .configure(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(3))
+        , () -> {
+                assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(3);
+
+        });
+
+
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
     }
 
 

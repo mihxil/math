@@ -19,7 +19,7 @@ import lombok.Getter;
 
 import java.util.*;
 
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 

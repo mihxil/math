@@ -18,7 +18,7 @@ package org.meeuw.physics;
 import lombok.NonNull;
 
 import org.meeuw.math.WithUnits;
-import org.meeuw.math.text.spi.FormatService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;

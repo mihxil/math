@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.text.spi.test;
+package org.meeuw.test.configuration.spi;
 
 
 import lombok.*;
@@ -67,7 +67,7 @@ public class TestConfigurationAspect implements ConfigurationAspect {
 
     @Override
     public List<Class<?>> associatedWith() {
-        return Collections.singletonList(TestFormatProvider.class);
+        return Collections.singletonList(TestProvider.class);
     }
 
     @Override
