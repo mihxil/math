@@ -28,6 +28,7 @@ import org.meeuw.test.configuration.spi.*;
 import org.meeuw.test.configuration.spi.TestConfigurationAspect.NotSerializable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.configuration.ConfigurationService.*;
 
 @Log
@@ -110,20 +111,30 @@ public class ConfigurationServiceTest {
 
         withConfiguration((con) -> con
                 .configure(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(3))
-        , () -> {
+            , () -> {
                 assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(3);
 
-        });
+            });
 
 
         assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
 
 
+        final Configuration before = getConfiguration();
+        assertThat(before).isEqualTo(getConfiguration());
         withAspect(TestConfigurationAspect.builder()
             .someDouble(1234d)
             .build(), () -> {
             assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeDouble()).isEqualTo(1234d);
+            assertThat(before).isNotEqualTo(getConfiguration());
         });
+    }
+
+    @Test
+    public void invalid() {
+        assertThatThrownBy(() -> {
+            getConfiguration().toBuilder().aspectDefault(InvalidConfigurationAspect.class);
+        }).isInstanceOf(InstantiationException.class);
     }
 
 
