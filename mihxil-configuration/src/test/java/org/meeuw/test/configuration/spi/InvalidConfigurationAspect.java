@@ -34,11 +34,6 @@ public class InvalidConfigurationAspect implements ConfigurationAspect {
     @With
     final int someInt;
 
-    public InvalidConfigurationAspect() {
-        someInt = 1;
-        //throw new IllegalStateException();
-    }
-
 
     public InvalidConfigurationAspect(int someInt) {
         this.someInt = someInt;

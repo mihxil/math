@@ -19,6 +19,7 @@ import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.function.*;
+import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 
 
@@ -91,14 +92,6 @@ public class ConfigurationService {
         CONFIGURATION.remove();
     }
 
-    static void storeDefaults() {
-        ConfigurationPreferences.storeDefaults(DEFAULT.build());
-    }
-
-    static  void readDefaults() {
-        ConfigurationPreferences.readDefaults(DEFAULT);
-    }
-
 
     /**
      * Resets all settings (via {@link #defaultConfiguration(Consumer)}.
@@ -111,7 +104,6 @@ public class ConfigurationService {
 
     public static boolean sync() {
         try {
-
             ConfigurationPreferences.sync();
             return true;
         } catch (BackingStoreException bs) {
@@ -132,8 +124,8 @@ public class ConfigurationService {
      /**
      * Executes code with a certain configuration. Will set given configuration, and restore the existing
      * one after calling the supplier
-     * @param configuration
-     * @param
+     * @param configuration The configuration to run in
+     * @param supplier The code the execute
      */
     public static <R> R withConfiguration(final Configuration configuration, final Supplier<R> supplier) {
         final Configuration before = getConfiguration();
@@ -147,14 +139,14 @@ public class ConfigurationService {
 
     /**
      * Runs a piece of code with a certain {@link Configuration}
+     *
+     * This is just {@link #withConfiguration(Configuration, Supplier)}, but accepting a {@link Runnable}
      */
     public static void withConfiguration(Configuration configuration, Runnable r) {
-        withConfiguration(configuration, () -> {
-            r.run();
-            return null;
-        });
+        withConfiguration(configuration,
+            supplier(r)
+        );
     }
-
 
     /**
      * Runs a piece of code, but before that configure one configuration aspect
@@ -178,30 +170,40 @@ public class ConfigurationService {
         Class<E> configurationAspectClass,
         UnaryOperator<E> aspectConfigurer,
         Runnable r) {
-        withConfiguration(getConfiguration().with(configurationAspectClass, aspectConfigurer), () -> {
-            r.run();
-            return null;
-        });
+        withAspect(configurationAspectClass, aspectConfigurer,
+            supplier(r)
+        );
     }
 
-
     public static <E extends ConfigurationAspect> void withAspect(E configurationAspect, Runnable r) {
-        withAspect(configurationAspect, () -> {
-            r.run();
-            return null;
-        });
+        withAspect(configurationAspect, supplier(r));
     }
 
     public static <E extends ConfigurationAspect, R> R withAspect(E configurationAspect, Supplier<R> r) {
-        return withConfiguration(getConfiguration().toBuilder().aspectValue(configurationAspect).build(), r);
+        return withConfiguration(
+            getConfiguration().toBuilder().aspectValue(configurationAspect).build(),
+            r
+        );
     }
-
-
 
     public static void withConfiguration(final Consumer<Configuration.Builder> configuration, final Runnable runnable) {
         Configuration.Builder builder = getConfiguration().toBuilder();
         configuration.accept(builder);
         withConfiguration(builder.build(), runnable);
+    }
+
+    /**
+     * Explicitly stores the current default configuration into preferences
+     */
+    static void storeDefaults() {
+        ConfigurationPreferences.storeDefaults(DEFAULT.build());
+    }
+
+    /**
+     * Explicitly reads the current default configuration from preferences
+     */
+    static  void readDefaults() {
+        ConfigurationPreferences.readDefaults(DEFAULT);
     }
 
 
@@ -215,12 +217,20 @@ public class ConfigurationService {
     private static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> createInitialConfigurationMap() {
         final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = createEmptyMap();
         final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
-        loader.iterator().forEachRemaining(
-            configurationAspect -> {
-                log.info(() -> "Found " +  configurationAspect.getClass().getCanonicalName());
+
+        Iterator<ConfigurationAspect> iterator = loader.iterator();
+        while(true) {
+            try {
+                if (!iterator.hasNext()) {
+                    break;
+                }
+                ConfigurationAspect configurationAspect = iterator.next();
+                log.info(() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
+            } catch (Throwable e) {
+                log.log(Level.SEVERE, e.getMessage(), e);
             }
-        );
+        }
         return new FixedSizeMap<>(m);
     }
 
@@ -228,4 +238,10 @@ public class ConfigurationService {
         return new TreeMap<>(Comparator.comparing(Class::getCanonicalName));
     }
 
+    private static Supplier<Void> supplier(Runnable r) {
+        return () -> {
+            r.run();
+            return null;
+        };
+    }
 }

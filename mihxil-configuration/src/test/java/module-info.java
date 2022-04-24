@@ -1,7 +1,6 @@
 import org.meeuw.configuration.ConfigurationAspect;
-import org.meeuw.test.configuration.ConfigurationServiceTest;
-import org.meeuw.test.configuration.spi.TestConfigurationAspect;
 import org.meeuw.test.configuration.spi.InvalidConfigurationAspect;
+import org.meeuw.test.configuration.spi.TestConfigurationAspect;
 
 /**
  * @author Michiel Meeuwissen
@@ -27,7 +26,6 @@ module org.meeuw.test.configuration {
 
 
     provides ConfigurationAspect with
-        ConfigurationServiceTest.TestConfiguration,
         InvalidConfigurationAspect,
         TestConfigurationAspect;
 

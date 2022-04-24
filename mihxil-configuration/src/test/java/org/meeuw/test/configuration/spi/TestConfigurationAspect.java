@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.test.configuration.A;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,9 +34,21 @@ public class TestConfigurationAspect implements ConfigurationAspect {
     @Getter
     final int someInt;
 
+    @Getter
+    final Integer someInteger;
+
     @With
     @Getter
     final long someLong;
+
+    @With
+    @Getter
+    final float someFloat;
+
+    @With
+    @Getter
+    final double someDouble;
+
 
     @With
     @Getter
@@ -48,21 +61,49 @@ public class TestConfigurationAspect implements ConfigurationAspect {
 
     @With
     @Getter
+    final String someString;
+
+    @With
+    @Getter
+    final A someEnum;
+
+
+    @With
+    @Getter
     final NotSerializable notSerializable;
 
 
-
     @lombok.Builder
-    private TestConfigurationAspect(int someInt, long someLong, Boolean someBoolean, SomeSerializable someSerializable, NotSerializable notSerializable) {
+    private TestConfigurationAspect(
+        int someInt,
+        Integer someInteger,
+        long someLong,
+        float someFloat,
+        double someDouble,
+        Boolean someBoolean,
+        SomeSerializable someSerializable,
+        String someString,
+        A someEnum,
+        NotSerializable notSerializable) {
         this.someInt = someInt;
+        this.someInteger = someInteger;
         this.someLong = someLong;
+        this.someFloat = someFloat;
+        this.someDouble = someDouble;
         this.someBoolean = someBoolean;
         this.someSerializable = someSerializable;
+        this.someString = someString;
+        this.someEnum = someEnum;
         this.notSerializable = notSerializable;
     }
 
     public TestConfigurationAspect() {
-        this(-1, 100L, true, new SomeSerializable(1, "a"), new NotSerializable(2, "b"));
+        this(-1, null, 100L, 3.14f, 2.71828182845904d, true,
+            new SomeSerializable(1, "a"),
+            "string",
+            A.x,
+            new NotSerializable(2, "b")
+        );
     }
 
     @Override

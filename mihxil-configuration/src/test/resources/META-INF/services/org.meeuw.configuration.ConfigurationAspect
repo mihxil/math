@@ -1,4 +1,3 @@
-org.meeuw.test.configuration.ConfigurationServiceTest$TestConfiguration
 org.meeuw.test.configuration.spi.TestConfigurationAspect
 org.meeuw.test.configuration.spi.InvalidConfigurationAspect
 

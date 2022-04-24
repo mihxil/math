@@ -30,8 +30,6 @@ class ConfigurationPreferences {
     }
 
 
-
-
     static void storeDefaults(Configuration configuration) {
         for (ConfigurationAspect aspect : configuration) {
             Preferences node = node(aspect);

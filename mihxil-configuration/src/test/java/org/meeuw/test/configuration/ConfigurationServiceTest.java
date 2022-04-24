@@ -15,19 +15,16 @@
  */
 package org.meeuw.test.configuration;
 
-import lombok.Getter;
-import lombok.With;
 import lombok.extern.java.Log;
 
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.configuration.*;
-import org.meeuw.test.configuration.spi.TestConfigurationAspect;
+import org.meeuw.test.configuration.spi.*;
 import org.meeuw.test.configuration.spi.TestConfigurationAspect.NotSerializable;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,82 +33,36 @@ import static org.meeuw.configuration.ConfigurationService.*;
 @Log
 public class ConfigurationServiceTest {
 
-    public static class Unregistered implements ConfigurationAspect {
-
-        @Override
-        public List<Class<?>> associatedWith() {
-            return Collections.emptyList();
-        }
-    }
-    public enum A {
-        x,
-        y
-    }
-
-    public static class TestConfiguration implements ConfigurationAspect {
-
-        @Getter
-        @With
-        private final long integer;
-
-        @Getter
-        @With
-        private final String string;
-
-        @Getter
-        @With
-        private final A enumeration;
-
-        public TestConfiguration() {
-            this(100, "foobar", A.x);
-        }
-
-        @lombok.Builder
-        private TestConfiguration(long integer, String string, A enumeration) {
-            this.integer = integer;
-            this.string = string;
-            this.enumeration = enumeration;
-        }
-
-
-        @Override
-        public List<Class<?>> associatedWith() {
-            return Collections.singletonList(ConfigurationServiceTest.class);
-        }
-    }
-
     @Test
     public void invalidConfigurationAspect() {
-        Assertions.assertThatThrownBy(() -> ConfigurationService.getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
+        Assertions.assertThatThrownBy(() -> getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
 
     }
 
     @Test
     public void store() {
-        long previous = getConfigurationAspect(TestConfiguration.class).getInteger();
+        long previous = getConfigurationAspect(TestConfigurationAspect.class).getSomeLong();
         log.info("previous " + Instant.ofEpochMilli(previous));
         defaultConfiguration((builder) -> {
-            builder.configure(TestConfiguration.class, (c) ->
-                c.withInteger(System.currentTimeMillis())
-                    .withString("foobar")
+            builder.configure(TestConfigurationAspect.class, (c) ->
+                c.withSomeLong(System.currentTimeMillis())
+                    .withSomeString("foobar")
             );
         });
 
-
-
     }
-
 
     @Test
     public void getAndSetConfiguration() {
-        Configuration configuration = ConfigurationService.getConfiguration();
+        Configuration configuration = getConfiguration();
         TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
-        int minimalExponent = aspect.getSomeInt();
+        int someInt = aspect.getSomeInt();
+        log.info(() -> String.format("some int: %d", someInt));
         ConfigurationService.setConfiguration(configuration.toBuilder()
             .configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
             .build()
         );
-        assertThat(ConfigurationService.getConfiguration()
+        assertThat(getConfiguration()
             .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)
         ).isEqualTo(8);
 
@@ -157,7 +108,7 @@ public class ConfigurationServiceTest {
             .getSomeInt()).isEqualTo(-1);
 
 
-        ConfigurationService.withConfiguration((con) -> con
+        withConfiguration((con) -> con
                 .configure(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(3))
         , () -> {
                 assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(3);
@@ -166,7 +117,22 @@ public class ConfigurationServiceTest {
 
 
         assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
+
+
+        withAspect(TestConfigurationAspect.builder()
+            .someDouble(1234d)
+            .build(), () -> {
+            assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeDouble()).isEqualTo(1234d);
+        });
     }
 
+
+    @Test
+    public void associatedWith() {
+        List<ConfigurationAspect> configurationAspectsAssociatedWith = getConfiguration().getConfigurationAspectsAssociatedWith(TestProvider.class);
+        assertThat(configurationAspectsAssociatedWith).hasSize(1);
+        assertThat(configurationAspectsAssociatedWith.get(0)).isInstanceOf(TestConfigurationAspect.class);
+
+    }
 
 }
