@@ -34,6 +34,12 @@ public class InvalidConfigurationAspect implements ConfigurationAspect {
     @With
     final int someInt;
 
+    /**
+     * Simulate it, because module-info won't even compile without a public no-args constructor.
+     */
+    public  InvalidConfigurationAspect() throws InstantiationException {
+        throw new InstantiationException();
+    }
 
     public InvalidConfigurationAspect(int someInt) {
         this.someInt = someInt;
