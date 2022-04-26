@@ -45,7 +45,7 @@ jobs:
         with:
           servers: '[{"id": "ossrh", "username": "mihxil", "password": "${{secrets.OSSRH_PASSWORD}}"}]'
       - name: Deploy with Maven
-        run: mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
+        run: mvn -B -Ddeploy  -DskipTests=true
         if: ${{ github.event_name == 'push' }}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
