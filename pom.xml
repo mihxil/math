@@ -459,10 +459,11 @@
         <defaultGoal>deploy</defaultGoal>
         <plugins>
           <plugin>
+           <!-- https://issues.sonatype.org/browse/NEXUS-31301 ? -->
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.8</version>
-            <extensions>true</extensions>
+            <version>1.6.12</version>
+            <extensions>false</extensions>
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
