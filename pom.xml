@@ -465,7 +465,7 @@
             <version>1.6.12</version>
             <extensions>false</extensions>
             <configuration>
-              <serverId>ossrh</serverId>
+              <serverId>ossrh-release</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
               <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>

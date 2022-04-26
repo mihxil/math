@@ -40,8 +40,12 @@ jobs:
         with:
            gpg_private_key: ${{ secrets.GPG_SECRET_KEY }}
            passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
+      - name: Create settings.xml
+        uses: s4u/maven-settings-action@v2.6.0
+        with:
+          servers: '[{"id": "ossrh", "username": "mihxil", "password": "${{secrets.OSSRH_PASSWORD}}"}]'
       - name: Deploy with Maven
-        run: OSSRH_PASSWORD=${{ secrets.OSSRH_PASSWORD }} mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
+        run: mvn -B -Ddeploy  -DskipTests=true -s $GITHUB_WORKSPACE/.github/settings.xml -Dgpg.skip=false
         if: ${{ github.event_name == 'push' }}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
