@@ -21,7 +21,7 @@ jobs:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
       - name: Set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: 'temurin'

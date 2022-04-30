@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     container: asciidoctor/docker-asciidoctor:latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Create html from adoc
         run: |
           cd docs
