@@ -19,4 +19,4 @@ jobs:
           distribution: 'temurin'
       - name: Build with Maven
         run: |
-          mvn -B -fae
+          mvn -pl mihxil-physics -B -fae
