@@ -36,6 +36,9 @@
     <jakarta-validation.version>3.0.0</jakarta-validation.version>
     <!-- 3.0.1 has errorneous module-info (see https://github.com/eclipse-ee4j/beanvalidation-api/issues/172) will be fixed in 3.0.2 -->
 
+    <jakarta-annotation.version>2.1.0</jakarta-annotation.version>
+
+
     <!-- test dependencies -->
     <log4j.version>2.17.2</log4j.version>
     <jqwik.version>1.6.4</jqwik.version>
@@ -118,6 +121,12 @@
         <groupId>jakarta.validation</groupId>
         <artifactId>jakarta.validation-api</artifactId>
         <version>${jakarta-validation.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>jakarta.annotation</groupId>
+        <artifactId>jakarta.annotation-api</artifactId>
+        <version>${jakarta-annotation.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>

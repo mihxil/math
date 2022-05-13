@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.windowed;
 
+import jakarta.annotation.PreDestroy;
+
 import java.math.BigInteger;
 import java.time.Clock;
 import java.time.Duration;
@@ -50,7 +52,19 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     UncertainDouble<UncertainReal>, WithUnits {
 
 
-    private static final ScheduledExecutorService backgroundExecutor = Executors.newScheduledThreadPool(5);
+    private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
+    private static final ScheduledExecutorService backgroundExecutor = Executors
+        .newScheduledThreadPool(5, new ThreadFactory() {
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread t =  new Thread(THREAD_GROUP,  r, "WindowedEventRate");
+                t.setDaemon(true);
+                return t;
+            }
+        })
+        ;
+
+    private final ScheduledFuture<?> scheduledReporter;
 
     /**
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
@@ -69,17 +83,25 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         ) {
         super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         if (reporter != null) {
-            backgroundExecutor.scheduleAtFixedRate(
+            scheduledReporter = backgroundExecutor.scheduleAtFixedRate(
                 () -> {
                     try {
                         reporter.accept(WindowedEventRate.this);
                     } catch (Throwable t) {
                         Logger.getLogger(WindowedEventRate.class.getName()).log(Level.WARNING, t.getMessage(), t);
                     }
-            }, 0, this.bucketDuration, TimeUnit.MILLISECONDS);
+                }, 0, this.bucketDuration, TimeUnit.MILLISECONDS);
+        } else {
+            scheduledReporter = null;
         }
     }
 
+    @PreDestroy
+    public void stop() {
+        if (scheduledReporter != null) {
+            scheduledReporter.cancel(true);
+        }
+    }
 
     /**
      * @return rate in /s (See {@link #getRate()}
@@ -225,6 +247,10 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         public final Builder eventListeners(BiConsumer<Event, Windowed<AtomicLong>>... eventListeners) {
             return eventListenersArray(eventListeners);
         }
+    }
+
+    public static void shutdown() {
+        backgroundExecutor.shutdown();
     }
 
 }
