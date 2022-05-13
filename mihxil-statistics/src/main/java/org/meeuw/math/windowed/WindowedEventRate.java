@@ -48,6 +48,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  */
 public class WindowedEventRate extends Windowed<AtomicLong>
     implements
+    AutoCloseable,
     IntConsumer,
     UncertainDouble<UncertainReal>, WithUnits {
 
@@ -97,12 +98,8 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         }
     }
 
-    @PreDestroy
-    public void stop() {
-        if (scheduledReporter != null) {
-            scheduledReporter.cancel(true);
-        }
-    }
+
+
 
     /**
      * @return rate in /s (See {@link #getRate()}
@@ -144,6 +141,14 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     @Override
     public BigInteger bigIntegerValue() {
         return BigInteger.valueOf(Math.round(getValue()));
+    }
+
+    @Override
+    @PreDestroy
+    public void close() {
+        if (scheduledReporter != null) {
+            scheduledReporter.cancel(true);
+        }
     }
 
     @Override
