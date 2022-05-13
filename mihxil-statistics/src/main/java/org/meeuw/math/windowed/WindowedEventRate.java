@@ -55,9 +55,10 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
     private static final ScheduledExecutorService backgroundExecutor = Executors
         .newScheduledThreadPool(5, new ThreadFactory() {
+            int counter = 0;
             @Override
             public Thread newThread(Runnable r) {
-                Thread t =  new Thread(THREAD_GROUP,  r, "WindowedEventRate");
+                Thread t =  new Thread(THREAD_GROUP,  r, "WindowedEventRate-" + (counter ++));
                 t.setDaemon(true);
                 return t;
             }
