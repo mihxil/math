@@ -32,7 +32,7 @@
 
     <!-- optional -->
     <big-math.version>2.3.0</big-math.version>
-    <checkerframework.version>3.21.4</checkerframework.version>
+    <checkerframework.version>3.22.0</checkerframework.version>
     <jakarta-validation.version>3.0.0</jakarta-validation.version>
     <!-- 3.0.1 has errorneous module-info (see https://github.com/eclipse-ee4j/beanvalidation-api/issues/172) will be fixed in 3.0.2 -->
 
