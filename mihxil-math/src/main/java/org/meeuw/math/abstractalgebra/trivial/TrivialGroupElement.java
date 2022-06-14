@@ -21,6 +21,10 @@ import org.meeuw.math.abstractalgebra.GroupElement;
 
 
 /**
+ * There is precisely one element in the {@link TrivialGroup}, which is described here.
+ * An {@link Enum} with one value.
+ *
+ *
  * @author Michiel Meeuwissen
  * @since 0.8
  */
@@ -29,6 +33,9 @@ public enum TrivialGroupElement implements
     GroupElement<TrivialGroupElement>,
     Serializable {
 
+    /**
+     * The one value.
+     */
     e;
 
     @Override
@@ -36,11 +43,18 @@ public enum TrivialGroupElement implements
         return TrivialGroup.INSTANCE;
     }
 
+    /**
+     * The trivial group defines one operation, which always returns {@link #e}
+     * @return {@code this}
+     */
     @Override
     public TrivialGroupElement operate(TrivialGroupElement operand) {
         return this;
     }
 
+    /**
+     * The inverse of the only element {@link #e} is {@link #e} to. (Since e * e = 1 and (e == 1))
+     */
     @Override
     public TrivialGroupElement inverse() {
         return this;

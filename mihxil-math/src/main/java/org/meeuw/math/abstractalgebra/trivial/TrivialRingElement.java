@@ -21,10 +21,11 @@ import org.meeuw.math.abstractalgebra.RingElement;
 
 
 /**
+ * There is precisely one element in the {@link TrivialRing}, which is described here.
  * @author Michiel Meeuwissen
  * @since 0.8
+ * @see TrivialRing
  */
-
 public enum TrivialRingElement implements
     RingElement<TrivialRingElement>,
     Serializable {

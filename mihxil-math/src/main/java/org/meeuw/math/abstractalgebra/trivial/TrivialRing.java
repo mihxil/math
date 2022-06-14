@@ -19,6 +19,14 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 
+/**
+ * The trivial ring has one element, which is both zero and one.
+ *
+ * <pre>
+ * e + e = e
+ * e · e = e
+ * </pre>
+ */
 public class TrivialRing implements Ring<TrivialRingElement>, Streamable<TrivialRingElement> {
 
     public  static final TrivialRing INSTANCE = new TrivialRing();

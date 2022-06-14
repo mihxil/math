@@ -24,6 +24,7 @@ import org.meeuw.math.text.TextUtils;
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
+ * @see org.meeuw.math.abstractalgebra.trivial
  */
 @Example(Group.class)
 public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement>
