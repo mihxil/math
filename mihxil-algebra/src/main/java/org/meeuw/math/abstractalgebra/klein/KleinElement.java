@@ -25,6 +25,9 @@ import org.meeuw.math.abstractalgebra.GroupElement;
  */
 public enum KleinElement implements GroupElement<KleinElement> {
 
+    /**
+     * The unity element.
+     */
     e() {
         @Override
         public KleinElement operate(KleinElement multiplier) {
