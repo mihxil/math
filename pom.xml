@@ -32,7 +32,7 @@
 
     <!-- optional -->
     <big-math.version>2.3.0</big-math.version>
-    <checkerframework.version>3.22.1</checkerframework.version>
+    <checkerframework.version>3.22.2</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
     <!-- test dependencies -->
     <log4j.version>2.17.2</log4j.version>
