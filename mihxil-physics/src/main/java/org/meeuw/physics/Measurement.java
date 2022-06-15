@@ -23,6 +23,8 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncertain;
+
 /**
  * A number with an uncertainty where the uncertainty is simply explicitly stated.
  *
@@ -33,13 +35,37 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  */
 public class Measurement extends PhysicalNumber {
 
-    public Measurement(double value, double uncertainty, Units units) {
-        this(new UncertainDoubleElement(value, uncertainty), units);
+
+    /**
+     * Just a shortcut to {@link #Measurement(double, double, Units)}, which can be statically imported.
+     * 
+     * So then you can type:
+     * <pre>{@code 
+     *  import static org.meeuw.physics.Measurement.measurement;
+     *  import static org.meeuw.physics.SIUnit.s;
+     *  ..
+     *  PhysicalNumber duration = measurement(2d, 0.1d, s)
+     *  }
+     * </pre>
+     */
+    public static Measurement measurement(double value, double uncertainty, Units units) {
+        return new Measurement(value, uncertainty, units);
+    }
+    
+    /**
+     * Just a shortcut to {@link #Measurement(UncertainReal, Units)}, which can be statically imported.
+     * @see #measurement(double, double, Units) 
+     */
+    public static Measurement measurement(UncertainReal value, Units units) {
+        return new Measurement(value, units);
     }
 
+    public Measurement(double value, double uncertainty, Units units) {
+        this(uncertain(value, uncertainty), units);
+    }
 
     public Measurement(double value, double uncertainty, DerivedUnit derivedUnit) {
-        this(new UncertainDoubleElement(value, uncertainty), Units.of(derivedUnit));
+        this(uncertain(value, uncertainty), Units.of(derivedUnit));
     }
 
     public Measurement(UncertainReal wrapped, Units units) {
@@ -47,7 +73,10 @@ public class Measurement extends PhysicalNumber {
     }
 
     public Measurement(UncertainDouble<?> wrapped, String units) {
-        super(new UncertainDoubleElement(wrapped.getValue(), wrapped.getUncertainty()), FormatService.fromString(units, Units.class));
+        super(
+            uncertain(wrapped.getValue(), wrapped.getUncertainty()),
+            FormatService.fromString(units, Units.class)
+        );
     }
 
 
