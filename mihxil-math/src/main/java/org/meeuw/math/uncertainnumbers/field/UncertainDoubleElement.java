@@ -76,12 +76,47 @@ public class UncertainDoubleElement
     @Getter
     private final double uncertainty;
 
+     /**
+     * Just a shortcut to {@link #UncertainDoubleElement(double, double)}, which can be statically imported.
+     *
+     * So then you can type:
+     * <pre>{@code
+     *  import static org.meeuw.math.uncertainnumbers.UncertainDoubleElement.exactly;
+     *  ..
+     *  UncertainReal value = exactly(2d);
+     *  }
+     * </pre>
+     */
     public static UncertainDoubleElement exactly(double value) {
         return new UncertainDoubleElement(value, EXACT);
     }
 
+    /**
+     * Just like {@link #uncertain(double, double)}, but you could use it like so:
+     * <pre>{@code
+
+     *   UncertainReal value = UncertainDoubleElement.of(2d, d);
+     * }</pre>
+     * Which just more emphasises the type that is created.
+     * @see #uncertain(double, double)
+     */
     public static UncertainDoubleElement of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
+    }
+
+    /**
+     * Just a shortcut to {@link #UncertainDoubleElement(double, double)}, which can be statically imported.
+     *
+     * So then you can type:
+     * <pre>{@code
+     *  import static org.meeuw.math.uncertainnumbers.UncertainDoubleElement.uncertain;
+     *  ..
+     *  UncertainReal value = uncertain(2d, 0.1d);
+     *  }
+     * </pre>
+     */
+    public static UncertainDoubleElement uncertain(double value, double uncertainty) {
+        return of(value, uncertainty);
     }
 
     public UncertainDoubleElement(double value, double uncertainty) {
