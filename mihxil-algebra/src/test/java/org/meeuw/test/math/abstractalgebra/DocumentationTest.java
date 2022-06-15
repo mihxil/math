@@ -101,6 +101,7 @@ public class DocumentationTest {
 
     String getModule(Class<?> c) {
         URL location = c.getResource('/' + c.getName().replace('.', '/') + ".class");
+        assert location != null;
         return Arrays.stream(location.toString().split("/")).filter(s -> s.matches("mihxil-[a-z]*")).findFirst().orElse(null);
     }
 
@@ -215,6 +216,7 @@ public class DocumentationTest {
         }
         return build.toString();
     }
+
     Map<String, String> specialSpecials = Map
         .of("zero", "0",
             "one", "1",
@@ -222,7 +224,6 @@ public class DocumentationTest {
             "pi", "\uD835\uDF0B",
             "e", "ℯ",
             "getCardinality", ""
-
         );
 
 
@@ -398,16 +399,13 @@ public class DocumentationTest {
         return baseurl + "/" + c.getName().replace(".", "/") + ".java";
     }
 
-    class Super {
+    static class Super {
         final String name;
         final boolean pseudo;
 
         Super(String name, boolean style) {
             this.name = name;
             this.pseudo = style;
-        }
-        Super(String name){
-            this(name, false);
         }
     }
 
@@ -478,7 +476,7 @@ public class DocumentationTest {
     protected Class<? extends AlgebraicElement<?>> getElementClass(Class<?> structureClass) {
         for (TypeVariable<?> p : structureClass.getTypeParameters()) {
             for(Type t : p.getBounds()) {
-                Class<?> c = (Class) ((ParameterizedType) t).getRawType();
+                Class<?> c = (Class<?>) ((ParameterizedType) t).getRawType();
                 if (AlgebraicElement.class.isAssignableFrom(c)) {
                     return (Class<? extends AlgebraicElement<?>>) c;
                 }
