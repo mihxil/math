@@ -20,7 +20,6 @@ import lombok.NonNull;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncertain;
@@ -85,7 +84,7 @@ public class Measurement extends PhysicalNumber {
     }
 
     public Measurement(UncertainDouble<?> wrapped, Units units) {
-        super(new UncertainDoubleElement(wrapped.getValue(), wrapped.getUncertainty()), units);
+        super(uncertain(wrapped.getValue(), wrapped.getUncertainty()), units);
     }
 
     @Override

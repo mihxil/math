@@ -65,7 +65,7 @@ public abstract class PhysicalNumber extends Number
     @Getter
     protected final Units units;
 
-    public PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
+    PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }

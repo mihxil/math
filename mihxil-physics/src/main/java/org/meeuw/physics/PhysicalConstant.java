@@ -52,7 +52,6 @@ public class PhysicalConstant extends PhysicalNumber {
         new UncertainDoubleElement(1.380_648_52e-23d, 0.000_000_79e-23d),
         SI.J.dividedBy(Units.of(SIUnit.K)), "Boltzmann constant");
 
-
     @Getter
     private final String name;
 
@@ -68,7 +67,6 @@ public class PhysicalConstant extends PhysicalNumber {
         this.name = name;
         this.symbol = symbol;
     }
-
 
     @Override
     protected PhysicalConstant copy(UncertainReal wrapped, Units units) {

@@ -15,7 +15,15 @@
  */
 package org.meeuw.math.exceptions;
 
+/**
+ * <p>In some structures some elements can be compared, but others can't, in which case the elements can be {@link Comparable}, {@link org.meeuw.math.abstractalgebra.StrictlyOrdered}, but may throw this exception.
+ * </p>
+ * <p>E.g. physical numbers can be compared only if they have the same dimensions. Otherwise it simply does not make sense.
+ * </p>
+ *
+ */
 public class NotComparableException extends IllegalArgumentException {
+
     public NotComparableException(String s) {
         super(s);
     }
