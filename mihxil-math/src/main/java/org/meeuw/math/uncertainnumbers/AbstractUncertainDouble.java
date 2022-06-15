@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 /**
  * A number with an uncertainty {@link #getUncertainty()}
  *
- * http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf
+ * See <a href="http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf">this url</a>
  * @author Michiel Meeuwissen
  * @since 0.3
  */

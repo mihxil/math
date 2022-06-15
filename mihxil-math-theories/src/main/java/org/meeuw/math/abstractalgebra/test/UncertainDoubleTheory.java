@@ -17,7 +17,6 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
-
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.math.uncertainnumbers.UncertainDouble;

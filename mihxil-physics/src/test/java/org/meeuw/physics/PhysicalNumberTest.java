@@ -22,6 +22,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.test.*;
+import org.meeuw.math.numbers.test.NumberTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
@@ -38,7 +39,8 @@ import static org.meeuw.physics.SIUnit.m;
 class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
     SignedNumberTheory<PhysicalNumber>,
-    UncertainDoubleTheory<PhysicalNumber> {
+    UncertainDoubleTheory<PhysicalNumber>,
+    NumberTheory<PhysicalNumber> {
 
     @Test
     public void add() {
@@ -133,4 +135,10 @@ class PhysicalNumberTest implements
                 });
 
     }
+
+    @Override
+    public Arbitrary<PhysicalNumber> numbers() {
+        return elements();
+    }
+
 }
