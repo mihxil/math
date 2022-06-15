@@ -35,7 +35,9 @@ public class UnitsFormat extends Format {
 
     @Override
     public StringBuffer format(
-        @NonNull Object object, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
+        @NonNull Object object,
+        @NonNull StringBuffer toAppendTo,
+        @NonNull FieldPosition pos) {
         StringBuffer builder = new StringBuffer();
         CompositeUnits units = (CompositeUnits) object;
         for (UnitExponent e : units.getExponents()) {
