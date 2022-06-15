@@ -106,7 +106,7 @@ class SITest {
     @Test
     public void getUnits() {
         assertThat(INSTANCE.getUnits().toString()).isEqualTo(
-            "[m, kg, s, A, K, mol, cd, m·s⁻¹, km, l, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly, Da]"
+            "[m, kg, s, A, K, mol, cd, m·s⁻¹, km, l, N, g, Hz, Pa, J, min, h, eV, AU, pc, ly, Da, bit, Byte]"
         );
     }
 

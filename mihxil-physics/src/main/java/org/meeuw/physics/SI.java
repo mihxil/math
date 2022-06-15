@@ -277,7 +277,16 @@ public class SI implements SystemOfMeasurements {
     public static final DerivedUnit Da = new DerivedUnit("Da", "dalton",
         UncertainDoubleElement.of(
             1.660539040e-27,
-            0.000000020e-27), kg).withQuantity(MASS);
+            0.000000020e-27), kg)
+        .withQuantity(MASS);
+
+
+    public static final DerivedUnit bit = new DerivedUnit("bit", "binary digit").withQuantity(INFORMATION);
+
+    /**
+     * 8 bits. Often also simply called 'byte' (but that traditionally was architecture dependent).
+     */
+    public static final DerivedUnit octet = bit.times(8).withName("Byte").withDescription("8 bit octet");
 
 
 

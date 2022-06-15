@@ -38,9 +38,9 @@ public class Measurement extends PhysicalNumber {
 
     /**
      * Just a shortcut to {@link #Measurement(double, double, Units)}, which can be statically imported.
-     * 
+     *
      * So then you can type:
-     * <pre>{@code 
+     * <pre>{@code
      *  import static org.meeuw.physics.Measurement.measurement;
      *  import static org.meeuw.physics.SIUnit.s;
      *  ..
@@ -51,10 +51,10 @@ public class Measurement extends PhysicalNumber {
     public static Measurement measurement(double value, double uncertainty, Units units) {
         return new Measurement(value, uncertainty, units);
     }
-    
+
     /**
      * Just a shortcut to {@link #Measurement(UncertainReal, Units)}, which can be statically imported.
-     * @see #measurement(double, double, Units) 
+     * @see #measurement(double, double, Units)
      */
     public static Measurement measurement(UncertainReal value, Units units) {
         return new Measurement(value, units);

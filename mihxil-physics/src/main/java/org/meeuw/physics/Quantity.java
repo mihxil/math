@@ -60,6 +60,8 @@ public class Quantity {
     public static final Quantity FREQUENCY = new Quantity("frequency", "f", of(T.reciprocal()));
     public static final Quantity PRESSURE = new Quantity("pressure", "p", of(M, L.reciprocal(), T.with(-2)));
 
+    public static final Quantity INFORMATION = new Quantity("information", "I", of());
+
     private final String name;
     private final String symbol;
     private final DimensionalAnalysis dimensionalAnalysis;
