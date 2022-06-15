@@ -17,12 +17,12 @@ package org.meeuw.math.numbers.test;
 
 import java.math.BigDecimal;
 
-import net.jqwik.api.ForAll;
-import net.jqwik.api.Property;
+import net.jqwik.api.*;
 import org.assertj.core.data.Offset;
 
 import org.meeuw.math.abstractalgebra.test.OrderedTheory;
 import org.meeuw.math.abstractalgebra.test.SizeableTheory;
+import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SizeableScalar;
 import org.meeuw.util.test.ElementTheory;
@@ -42,31 +42,45 @@ public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE ex
 
     @Property
     default void compareTo(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
-        if (scalar1.compareTo(scalar2) > 0) {
-            assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isGreaterThan(0);
-        }
-        if (scalar1.compareTo(scalar2) < 0) {
-            assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isLessThan(0);
+        try {
+
+            if (scalar1.compareTo(scalar2) > 0) {
+                assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isGreaterThan(0);
+            }
+            if (scalar1.compareTo(scalar2) < 0) {
+                assertThat(scalar1.doubleValue() - scalar2.doubleValue()).isLessThan(0);
+            }
+        } catch (NotComparableException ncpe) {
+            Assume.that(false);
         }
     }
 
     @Property
     default void ltgt(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
-        if (scalar1.lt(scalar2)) {
-            assertThat(scalar2.lt(scalar1)).isFalse();
-            assertThat(scalar2.gt(scalar1)).isTrue();
-            assertThat(scalar1.gt(scalar2)).isFalse();
-        } else {
-            assertThat(scalar2.lte(scalar1)).isTrue();
-            assertThat(scalar1.gte(scalar2)).isTrue();
+        try {
+            if (scalar1.lt(scalar2)) {
+                assertThat(scalar2.lt(scalar1)).isFalse();
+                assertThat(scalar2.gt(scalar1)).isTrue();
+                assertThat(scalar1.gt(scalar2)).isFalse();
+            } else {
+                assertThat(scalar2.lte(scalar1)).isTrue();
+                assertThat(scalar1.gte(scalar2)).isTrue();
+            }
+        } catch (NotComparableException ncpe) {
+            Assume.that(false);
         }
     }
     @Property
     default void ltegte(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
-        if (scalar1.lte(scalar2)) {
-            assertThat(scalar1.lt(scalar2) || scalar2.equals(scalar1)).isTrue();
-        } else {
-            assertThat(scalar1.gt(scalar2)).isTrue();
+        try {
+
+            if (scalar1.lte(scalar2)) {
+                assertThat(scalar1.lt(scalar2) || scalar2.equals(scalar1)).isTrue();
+            } else {
+                assertThat(scalar1.gt(scalar2)).isTrue();
+            }
+        } catch (NotComparableException ncpe) {
+            Assume.that(false);
         }
     }
 
@@ -105,16 +119,20 @@ public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE ex
 
     @Property
     default void compareToConsistentWithEquals(@ForAll(ELEMENTS) S e1, @ForAll(ELEMENTS) S e2) {
-        int ct = e1.compareTo(e2);
-        if (ct == 0) {
-            assertThat(e1).isEqualTo(e2);
-            assertThat(e2).isEqualTo(e1);
-            assertThat(e1.hashCode()).isEqualTo(e2.hashCode());
-        } else {
-            assertThat(e1).isNotEqualTo(e2);
-            assertThat(e2).isNotEqualTo(e1);
+        try {
+            int ct = e1.compareTo(e2);
+            if (ct == 0) {
+                assertThat(e1).isEqualTo(e2);
+                assertThat(e2).isEqualTo(e1);
+                assertThat(e1.hashCode()).isEqualTo(e2.hashCode());
+            } else {
+                assertThat(e1).isNotEqualTo(e2);
+                assertThat(e2).isNotEqualTo(e1);
+            }
+            assertThat(signum(ct)).isEqualTo(-1 * signum(e2.compareTo(e1)));
+        } catch (NotComparableException ncp) {
+            Assume.that(false);
         }
-        assertThat(signum(ct)).isEqualTo(-1 * signum(e2.compareTo(e1)));
     }
 
     @Property
@@ -141,6 +159,11 @@ public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE ex
         //assertThat(e1.compareTo(minus)).withFailMessage("%s %s", e1, minus).isGreaterThan(0);
     }
 
+
+    @Property
+    default void bigDecimalValue(@ForAll(ELEMENTS) S number) {
+        assertThat(number.bigDecimalValue()).isInstanceOf(BigDecimal.class);
+    }
 
 
 }

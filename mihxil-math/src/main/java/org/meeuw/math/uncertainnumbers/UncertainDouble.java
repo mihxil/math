@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -105,7 +106,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         );
     }
 
-    default D plus(D summand) {
+    default D plus(D summand) throws NotComparableException {
         double u = getUncertainty();
         double mu = summand.getUncertainty();
         return _of(

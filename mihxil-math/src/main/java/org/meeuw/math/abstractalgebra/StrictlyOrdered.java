@@ -29,19 +29,19 @@ import org.meeuw.math.exceptions.NotComparableException;
 public interface StrictlyOrdered<E extends StrictlyOrdered<E>>
     extends Comparable<E> {
 
-    default boolean lt(E compare) {
+    default boolean lt(E compare) throws NotComparableException {
         return compareTo(compare) < 0 && ! this.equals(compare);
     }
 
-    default boolean gt(E compare) {
+    default boolean gt(E compare) throws NotComparableException {
         return compareTo(compare) > 0 && ! this.equals(compare);
     }
 
-    default boolean lte(E compare) {
+    default boolean lte(E compare) throws NotComparableException {
         return lt(compare) || equals(compare);
     }
 
-    default boolean gte(E compare) {
+    default boolean gte(E compare) throws NotComparableException {
         return gt(compare) || equals(compare);
     }
 

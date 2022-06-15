@@ -23,8 +23,11 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.numbers.test.NumberTheory;
+import org.meeuw.math.numbers.test.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.Measurement.measurement;
+import static org.meeuw.physics.SI.*;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.DecimalPrefix.none;
 import static org.meeuw.physics.SIUnit.kg;
@@ -40,13 +43,14 @@ class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
     SignedNumberTheory<PhysicalNumber>,
     UncertainDoubleTheory<PhysicalNumber>,
-    NumberTheory<PhysicalNumber> {
+    NumberTheory<PhysicalNumber>,
+    ScalarTheory<PhysicalNumber> {
 
     @Test
     public void add() {
-        PhysicalNumber lys = new Measurement(2, 0.1, SI.ly);
-        PhysicalNumber psc = new Measurement(1, 0.1, SI.pc);
-        log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(SI.ly), lys.plus(psc));
+        PhysicalNumber lys = measurement(2, 0.1, ly);
+        PhysicalNumber psc = measurement(1, 0.1, pc);
+        log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(ly), lys.plus(psc));
         assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.4 ly");
         assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.13 pc");
     }
@@ -54,9 +58,9 @@ class PhysicalNumberTest implements
     @Test
     public void toUnits() {
         Units pc = Units.of(SI.pc);
-        PhysicalNumber two_pc = new Measurement(2, 0.1, pc);
+        PhysicalNumber two_pc = measurement(2, 0.1, pc);
 
-        PhysicalNumber inLightYear = two_pc.toUnits(Units.of(SI.ly));
+        PhysicalNumber inLightYear = two_pc.toUnits(Units.of(ly));
         assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
 
@@ -69,11 +73,11 @@ class PhysicalNumberTest implements
     public void prefix() {
         Unit km = m.withPrefix(k);
 
-        Measurement measurementInKm = new Measurement(1, 0.1, km);
+        Measurement measurementInKm = measurement(1, 0.1, km);
 
         assertThat(measurementInKm.toString()).isEqualTo("1.00 ± 0.10 km");
 
-        Measurement measurementInM = new Measurement(1010, 100, m);
+        Measurement measurementInM = measurement(1010, 100, m);
 
         log.info("{} =? {}", measurementInM, measurementInKm);
 
@@ -84,12 +88,12 @@ class PhysicalNumberTest implements
     @Test
     public void kilogramPrefix() {
 
-        Measurement measurementInKg = new Measurement(1, 0.1, kg);
+        Measurement measurementInKg = measurement(1, 0.1, kg);
 
         assertThat(measurementInKg.toString()).isEqualTo("1.00 ± 0.10 kg");
 
         Units g = kg.withPrefix(none);
-        Measurement measurementInG = new Measurement(1010, 100, g);
+        Measurement measurementInG = measurement(1010, 100, g);
 
         log.info("{} =? {}", measurementInKg, measurementInG);
 
@@ -99,15 +103,15 @@ class PhysicalNumberTest implements
 
     @Test
     public void lt() {
-        PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
-        PhysicalNumber three_km = new Measurement(3, 0.1, m);
+        PhysicalNumber two_lightyear = measurement(2, 0.1, ly);
+        PhysicalNumber three_km = measurement(3, 0.1, m);
         assertThat(three_km.lt(two_lightyear)).isTrue();
     }
 
     @Test
     public void equals() {
-        PhysicalNumber two_lightyear = new Measurement(2, 0.1, SI.ly);
-        PhysicalNumber inm = new Measurement(3, 0.1, m);
+        PhysicalNumber two_lightyear = measurement(2, 0.1, ly);
+        PhysicalNumber inm = measurement(3, 0.1, m);
 
 
     }
@@ -118,19 +122,20 @@ class PhysicalNumberTest implements
      */
     @Override
     public Arbitrary<PhysicalNumber> elements() {
+        Units[] units = new Units[ ] {mPerS, J};
         return
             Arbitraries
                 .<PhysicalNumber>randomValue(
-                    (random) -> new Measurement(
+                    (random) -> measurement(
                         random.nextDouble() * 200 - 100,
                         Math.abs(random.nextDouble() * 10),
-                        SI.mPerS
+                        units[random.nextInt(units.length)]
                     )
                 )
                 .injectDuplicates(0.01)
                 .dontShrink()
                 .edgeCases(config -> {
-                    config.add(new Measurement(0, 0.001, SI.mPerS));
+                    config.add(measurement(0, 0.001, mPerS));
                     config.add(PhysicalConstant.c);
                 });
 

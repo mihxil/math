@@ -19,12 +19,13 @@ import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
 import org.assertj.core.data.Percentage;
 
+import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public interface UncertainDoubleTheory<E extends UncertainDouble<? extends E>>
+public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
     extends ElementTheory<E> {
 
     @Property
@@ -34,6 +35,18 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<? extends E>>
         assertThat(e.times(multiplier).getValue()).isCloseTo(e.getValue() * multiplier, Percentage.withPercentage(0.001));
     }
 
+    @Property
+    default void plus(
+        @ForAll(ELEMENTS) E e1,
+        @ForAll(ELEMENTS) E e2) {
+        try {
+            assertThat(e1.plus(e2).getValue()).isEqualTo(e1.getValue() + e2.getValue());
+            getLogger().info("{} + {} = {}", e1, e2, e1.plus(e2));
+        } catch (NotComparableException notComparableException) {
+            Assume.that(false);
+        }
+    }
+
     @Provide
     default DoubleArbitrary doubles() {
         return Arbitraries
@@ -41,4 +54,6 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<? extends E>>
             .lessThan(1e10)
             .greaterThan(-1e10);
     }
+
+
 }
