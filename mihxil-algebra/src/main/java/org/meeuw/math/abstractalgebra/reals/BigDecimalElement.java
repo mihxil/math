@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.math.*;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
@@ -92,7 +93,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public int compareTo(BigDecimalElement compare) {
+    public int compareTo(@NonNull BigDecimalElement compare) {
         return value.compareTo(compare.value);
     }
 

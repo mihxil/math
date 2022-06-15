@@ -163,7 +163,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public int compareTo(RationalNumber compare) {
+    public int compareTo(@org.checkerframework.checker.nullness.qual.NonNull RationalNumber compare) {
         return numerator.multiply(compare.denominator)
             .compareTo(compare.numerator.multiply(denominator));
     }

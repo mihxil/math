@@ -15,13 +15,16 @@
  */
 package org.meeuw.math.uncertainnumbers;
 
-import java.math.BigDecimal;
+import jakarta.validation.constraints.NotNull;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotComparableException;
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.numbers.DoubleOperations;
+import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -66,18 +69,36 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     }
 
     /**
-     * @param m  another uncertain real to combine with this one
+     * @deprecated Use {@link #weightedAverage(UncertainDouble)}
+     */
+    @Deprecated
+    default D combined(UncertainReal m) {
+        return weightedAverage(m);
+    }
+    /**
+     * @param combinand  another uncertain real to combine with this one
      * @return a new uncertain number, combining this one with another one, representing a weighted average
      */
-    default D combined(UncertainReal m) {
-        double u = getUncertainty();
-        double mu = m.getUncertainty();
-        double weight = 1d / (u * u);
-        double mweight = 1d / (mu * mu);
-        double value = (getValue() * weight + m.getValue() * mweight) / (weight + mweight);
+    default D weightedAverage(UncertainDouble<?> combinand) {
+        final double u = getUncertainty();
+        final double mu = combinand.getUncertainty();
+        if (u == 0 ) {
+            if (mu == 0) {
+                if (getValue() != combinand.getValue()) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            return _of(getValue(), 0d);
+        } else if (mu == 0d) {
+            return _of(combinand.getValue(), 0d);
+        }
+        final double mu2 = mu * mu;
+        final double weight = 1d / (u * u + mu2); // + mu2 to avoid division by zero's.
+        final double mweight = 1d / mu2;
+        final double value = (getValue() * weight + combinand.getValue() * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
-        double uncertainty = 1d/ Math.sqrt((weight + mweight));
+        final double uncertainty = 1d/ Math.sqrt((weight + mweight));
         return _of(value, uncertainty);
     }
 
@@ -179,7 +200,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     }
 
     @Override
-    default int compareTo(D o) {
+    default int compareTo(@NotNull @NonNull D o) {
         if (this.equals(o)) {
             return 0;
         } else {

@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotComparableException;
 
 /**
@@ -46,5 +47,5 @@ public interface StrictlyOrdered<E extends StrictlyOrdered<E>>
     }
 
     @Override
-    int compareTo(E o) throws NotComparableException;
+    int compareTo(@NonNull E o) throws NotComparableException;
 }

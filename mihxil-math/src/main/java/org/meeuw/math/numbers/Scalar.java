@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Comparator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * A scalar is the closest thing to a {@link java.lang.Number} interface
  *
@@ -37,7 +39,7 @@ public interface Scalar<SELF extends Scalar<SELF>>
         }
 
         @Override
-        public int compareTo(Number o) {
+        public int compareTo(@NonNull Number o) {
             return Comparator.comparingDouble(java.lang.Number::doubleValue).compare(this.number, o.number);
         }
 

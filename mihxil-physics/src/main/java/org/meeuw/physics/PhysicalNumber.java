@@ -102,8 +102,11 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public PhysicalNumber combined(UncertainReal m) {
-        return copy(wrapped.combined(m), units);
+    public PhysicalNumber weightedAverage(UncertainDouble<?> combinand) {
+        if (combinand instanceof PhysicalNumber) {
+            combinand = ((PhysicalNumber) combinand).toUnits(this.getUnits());
+        }
+        return copy(wrapped.weightedAverage(combinand), units);
     }
 
     @Override
@@ -249,7 +252,7 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public int compareTo(PhysicalNumber f) {
+    public int compareTo(@org.checkerframework.checker.nullness.qual.NonNull PhysicalNumber f) {
         if (equals(f)) {
             return 0;
         }

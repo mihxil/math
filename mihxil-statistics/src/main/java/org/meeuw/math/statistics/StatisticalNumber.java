@@ -19,6 +19,7 @@ import lombok.Getter;
 
 import java.util.LongSummaryStatistics;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -209,7 +210,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     }
 
     @Override
-    public int compareTo(UncertainReal o) {
+    public int compareTo(@NonNull UncertainReal o) {
         if (equals(o)) {
             return 0;
         } else {

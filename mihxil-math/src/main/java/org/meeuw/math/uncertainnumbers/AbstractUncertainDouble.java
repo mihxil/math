@@ -17,6 +17,8 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * A number with an uncertainty {@link #getUncertainty()}
  *
@@ -31,7 +33,7 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
 
 
     @Override
-    public int compareTo(D o) {
+    public int compareTo(@NonNull D o) {
         if (equals(o)) {
             return 0;
         }

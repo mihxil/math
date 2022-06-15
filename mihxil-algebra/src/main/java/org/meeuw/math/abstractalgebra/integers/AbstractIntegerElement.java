@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -110,7 +111,7 @@ public abstract class AbstractIntegerElement<
     }
 
     @Override
-    public int compareTo(E f) {
+    public int compareTo(@NonNull E f) {
         return value.compareTo(f.value);
     }
 

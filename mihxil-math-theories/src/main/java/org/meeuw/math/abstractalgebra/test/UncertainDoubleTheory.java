@@ -40,8 +40,26 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         @ForAll(ELEMENTS) E e1,
         @ForAll(ELEMENTS) E e2) {
         try {
-            assertThat(e1.plus(e2).getValue()).isEqualTo(e1.getValue() + e2.getValue());
-            getLogger().info("{} + {} = {}", e1, e2, e1.plus(e2));
+            E sum = e1.plus(e2);
+            getLogger().info("{} + {} = {}", e1, e2, sum);
+            assertThat(sum.getValue()).isEqualTo(e1.getValue() + e2.getValue());
+        } catch (NotComparableException notComparableException) {
+            Assume.that(false);
+        }
+    }
+
+    @Property
+    default void weightedAverage(
+        @ForAll(ELEMENTS) E e1,
+        @ForAll(ELEMENTS) E e2) {
+        try {
+            E combined = e1.weightedAverage(e2);
+            getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.getValue());
+            if (e1.getValue() < e2.getValue()) {
+                assertThat(combined.getValue()).isBetween(e1.getValue(), e2.getValue());
+            } else {
+                assertThat(combined.getValue()).isBetween(e2.getValue(), e1.getValue());
+            }
         } catch (NotComparableException notComparableException) {
             Assume.that(false);
         }

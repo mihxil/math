@@ -120,7 +120,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().combined(stat2.immutableCopy());
+        UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().weightedAverage(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.getValue()).isEqualTo(3.5);
 

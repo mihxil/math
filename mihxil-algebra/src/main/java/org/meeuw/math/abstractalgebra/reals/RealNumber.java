@@ -20,6 +20,7 @@ import lombok.Getter;
 import java.math.BigDecimal;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
@@ -214,7 +215,7 @@ public class RealNumber
     }
 
     @Override
-    public int compareTo(RealNumber o) {
+    public int compareTo(@NonNull RealNumber o) {
         if (confidenceEquals(o)) {
             return 0;
         }

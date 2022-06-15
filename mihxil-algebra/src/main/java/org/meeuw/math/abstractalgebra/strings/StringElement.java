@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.strings;
 
 import jakarta.validation.constraints.NotNull;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 import org.meeuw.math.abstractalgebra.Ordered;
 
@@ -81,7 +82,7 @@ public class StringElement implements AdditiveMonoidElement<StringElement>, Char
     }
 
     @Override
-    public int compareTo(StringElement o) {
+    public int compareTo(@NonNull StringElement o) {
         return value.toString().compareTo(o.value.toString());
     }
 }
