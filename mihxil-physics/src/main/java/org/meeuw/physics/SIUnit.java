@@ -44,7 +44,9 @@ public enum SIUnit implements BaseUnit {
     @A A(I, "ampere"),
     @K K(TH, "kelvin"),
     @mol mol(N, "mole"),
-    @cd cd(J, "candela");
+    @cd cd(J, "candela")
+
+    ;
 
     static final int NUMBER = values().length;
 

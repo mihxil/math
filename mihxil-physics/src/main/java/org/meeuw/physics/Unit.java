@@ -25,9 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * It has one symbol {@link #getSymbol()} which for enums may simply be the same as {@link Enum#name()}.
  *
- *
  * A singular unit can also be {@link #withPrefix(Prefix)} prefixed.
- *
  *
  * @author Michiel Meeuwissen
  * @since 0.4
