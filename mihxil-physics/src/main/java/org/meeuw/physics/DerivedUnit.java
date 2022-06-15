@@ -184,6 +184,21 @@ public class DerivedUnit implements Unit {
             .build();
     }
 
+    public DerivedUnit times(int multiplier) {
+        if (multiplier == 1){
+            return this;
+        }
+        int[] exponents = getDimensions().getExponents();
+
+        UncertainReal factor = SIFactor.times(multiplier);
+
+        return DerivedUnit.builder()
+            .siFactor(factor)
+            .name(name + TextUtils.TIMES + multiplier)
+            .exponents(exponents)
+            .build();
+    }
+
     @Override
     public Units reciprocal() {
         int[] exponents = new int[this.exponents.length];
@@ -196,7 +211,7 @@ public class DerivedUnit implements Unit {
         }
         return DerivedUnit.builder()
             .siFactor(reciprocalFactor)
-            .name("(" + name + ")" + TextUtils.superscript(-1))
+            .name((name.matches("[a-zA-Z]+") ? name : "(" + name + ")") + TextUtils.superscript(-1))
             .exponents(exponents)
             .build();
     }
