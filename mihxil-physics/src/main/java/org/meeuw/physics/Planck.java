@@ -18,12 +18,13 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
+import static org.meeuw.math.text.TextUtils.subscript;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncertain;
 import static org.meeuw.physics.Dimension.*;
+import static org.meeuw.physics.Planck.PlanckUnit.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -40,28 +41,43 @@ public class Planck  implements SystemOfMeasurements {
     @NonNull
     public Unit forDimension(Dimension dimension) {
         switch(dimension) {
-            case L: return PlanckUnit.PlanckLength;
-            case M: return PlanckUnit.PlanckMass;
-            case T: return PlanckUnit.PlanckTime;
-            case I: return new DerivedUnit(PlanckUnit.PlanckCharge.dividedBy(PlanckUnit.PlanckTime),
+            case L: return PlanckLength;
+            case M: return PlanckMass;
+            case T: return PlanckTime;
+            case I: return new DerivedUnit(PlanckCharge.dividedBy(PlanckTime),
                 "Plank Current", "Planck Current");
-            case Θ: return PlanckUnit.PlanckTemperature;
+            case Θ: return PlanckTemperature;
             case N: return SIUnit.mol;
             case J: return SIUnit.cd;
+            default:
+                throw new IllegalArgumentException();
         }
-        throw new IllegalArgumentException();
     }
 
 
-    public static final String sub = TextUtils.subscript("P");
+    public static final String sub = subscript("P");
 
     enum PlanckUnit implements BaseUnit {
 
-        PlanckLength(L, "ℓ" + sub, new UncertainDoubleElement(1.616_255e-35, 0.000_018e-35)),
-        PlanckMass(M, "m" + sub, new UncertainDoubleElement(2.176_434e-8, 0.000_024e-8)),
-        PlanckTime(T, "t" + sub, new UncertainDoubleElement(5.391_247e-44, 0.000_060e-44)),
-        PlanckTemperature(Θ, "T" + sub, new UncertainDoubleElement(1.416_784e32, 0.000_016e32)),
-        PlanckCharge(I, "q" + sub, new UncertainDoubleElement(1.875_545_956e-18, 0.000_000_041e-18));
+        PlanckLength(
+            L, "ℓ" + sub,
+            uncertain(1.616_255e-35, 0.000_018e-35)
+        ),
+        PlanckMass(
+            M, "m" + sub,
+            uncertain(2.176_434e-8, 0.000_024e-8)
+        ),
+        PlanckTime(
+            T, "t" + sub,
+            uncertain(5.391_247e-44, 0.000_060e-44)
+        ),
+        PlanckTemperature(
+            Θ, "T" + sub,
+            uncertain(1.416_784e32, 0.000_016e32)
+        ),
+        PlanckCharge(I, "q" + sub,
+            uncertain(1.875_545_956e-18, 0.000_000_041e-18)
+        );
 
         @Getter
         private final Dimension dimension;
@@ -91,10 +107,35 @@ public class Planck  implements SystemOfMeasurements {
 
     //public static PhysicalConstant PlanckCharge = new PhysicalConstant("q" + sub, new UncertainDoubleElement(1.875_545_956e-18, 0.000_000_041e-18), "Plank Charge");
 
-    public static final PhysicalConstant e = new PhysicalConstant("e", exactly(1), PlanckUnit.PlanckCharge, "e");
 
-    public static final PhysicalConstant c = new PhysicalConstant("c", exactly(1), PlanckUnit.PlanckLength.dividedBy(PlanckUnit.PlanckTime), "c");
+    /**
+     * Electron charge is 1 by definition
+     */
+    public static final PhysicalConstant e = new PhysicalConstant(
+        "e",
+        exactly(1),
+        PlanckCharge,
+        "e"
+    );
 
-    public static final PhysicalConstant kB = new PhysicalConstant("kB", exactly(1), PlanckUnit.PlanckLength.dividedBy(PlanckUnit.PlanckTime), "c");
+    /**
+     * Light speed in Planck units. 1 by definition.
+     */
+    public static final PhysicalConstant c = new PhysicalConstant(
+        "c",
+        exactly(1),
+        PlanckLength.dividedBy(PlanckTime),
+        "c"
+    );
+
+    /**
+     * Boltzmann constant. 1 by definition.
+     */
+    public static final PhysicalConstant kB = new PhysicalConstant(
+        "k" + subscript("B"),
+        exactly(1),
+        PlanckLength.dividedBy(PlanckTime),
+        "Boltzmann constant"
+    );
 
 }
