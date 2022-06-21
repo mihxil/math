@@ -1,6 +1,6 @@
 ---
 name: release
-description: "On release branch run release:prepare release:perform to publish artificats to maven central"
+# description: "On release branch run release:prepare release:perform to publish artificats to maven central"
 on:
   workflow_dispatch:
 

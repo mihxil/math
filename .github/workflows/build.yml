@@ -1,6 +1,6 @@
 ---
 name: build
-description: Builds, tests and publishes artifacts to sonatype snapshots
+# description: Builds, tests and publishes artifacts to sonatype snapshots
 on:
   push:
     branches:

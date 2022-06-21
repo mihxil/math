@@ -1,6 +1,6 @@
 ---
 name: feature
-description: Builds and tests feature, but or test branch.
+# description: Builds and tests feature, but or test branch.
 on:
   push:
     branches: ['feature/*', 'bug/*', 'test/*']
