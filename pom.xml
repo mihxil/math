@@ -4,7 +4,7 @@
   <artifactId>mihxil-math-parent</artifactId>
   <name>Math - parent</name>
   <packaging>pom</packaging>
-  <version>0.8.2-SNAPSHOT</version>
+  <version>0.8.2</version>
 
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math/foo</url>
@@ -232,7 +232,7 @@
     <connection>scm:git:${project.scm.url}</connection>
     <developerConnection>scm:git:${project.scm.url}</developerConnection>
     <url>https://github.com/mihxil/math</url>
-    <tag>0.8-SNAPSHOT</tag>
+    <tag>0.8.2</tag>
   </scm>
 
   <distributionManagement>
