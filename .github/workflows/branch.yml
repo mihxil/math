@@ -1,5 +1,6 @@
 ---
 name: 'create release branch'
+description: Creates a new release branch ([0-9\.]-SNAPSHOT)
 on:
   workflow_dispatch:
 

@@ -1,5 +1,6 @@
 ---
 name: publish documentation
+description: If changes are made (e.g. by build action) in relevat files, generate new documentation
 on:
   push:
     branches: [main]
