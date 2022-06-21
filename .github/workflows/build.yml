@@ -2,7 +2,9 @@
 name: build
 on:
   push:
-    branches: [main]
+    branches:
+      - 'main'
+      - '**-SNAPSHOT'
     paths-ignore:
       - 'README.adoc'
       - 'docs/**'
