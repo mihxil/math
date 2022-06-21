@@ -248,15 +248,14 @@ public abstract class Windowed<T> {
         return buckets[currentBucketIndex];
     }
 
-    protected void shiftBuckets() {
+    protected synchronized void shiftBuckets() {
         initBucketsIfNecessary();
         long currentTime = clock.millis();
         long afterBucketBegin = currentTime - currentBucketTime;
         int i = 0;
         while (afterBucketBegin > bucketDuration && (i++) < buckets.length) {
             eventListeners.accept(Event.SHIFT, this);
-            currentBucketIndex++;
-            currentBucketIndex %= buckets.length;
+            currentBucketIndex = (currentBucketIndex + 1) % buckets.length;
             if (currentBucketIndex == 0) {
                 eventListeners.accept(Event.WINDOW_COMPLETED, this);
             }
