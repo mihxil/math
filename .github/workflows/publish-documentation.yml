@@ -17,11 +17,14 @@ jobs:
     container: asciidoctor/docker-asciidoctor:latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          set-safe-directory: true
       - name: Create html from adoc
         run: |
           cd docs
           apk add graphviz m4
           make clean index.html
+          git config --global --add safe.directory $(pwd)
           git status
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
