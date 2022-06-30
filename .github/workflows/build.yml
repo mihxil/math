@@ -18,7 +18,7 @@ jobs:
       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
       - name: Cancel previous Action
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.10.0
       - uses: actions/checkout@v3
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
@@ -35,11 +35,11 @@ jobs:
       - uses: codecov/codecov-action@v2
         if: always()
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1.32
+        uses: EnricoMi/publish-unit-test-result-action@v1.39
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
-      - uses: crazy-max/ghaction-import-gpg@v4.3.0
+      - uses: crazy-max/ghaction-import-gpg@v5.0.0
         with:
            gpg_private_key: ${{ secrets.GPG_SECRET_KEY }}
            passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
