@@ -25,7 +25,7 @@ import org.meeuw.physics.text.PhysicalNumberFormat;
  * @author Michiel Meeuwissen
  * @since 0.5
  */
-public class PhysicalNumberFormatProvider extends AlgebraicElementFormatProvider {
+public class PhysicalNumberFormatProvider extends AlgebraicElementFormatProvider<PhysicalNumberFormat> {
 
     @Override
     public PhysicalNumberFormat getInstance(Configuration configuration) {

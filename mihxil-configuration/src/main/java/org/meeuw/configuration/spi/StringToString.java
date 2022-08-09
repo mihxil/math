@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public class StringToString implements ToStringProvider {
+public class StringToString implements ToStringProvider<CharSequence> {
     @Override
     public int weight() {
         return 0;
@@ -18,8 +18,8 @@ public class StringToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<Object> fromString(Class<?> type, @Nullable String value) {
-        return Optional.<Object>ofNullable(value)
+    public Optional<CharSequence> fromString(Class<?> type, @Nullable String value) {
+        return Optional.<CharSequence>ofNullable(value)
             .filter(v -> CharSequence.class.isAssignableFrom(type));
 
 

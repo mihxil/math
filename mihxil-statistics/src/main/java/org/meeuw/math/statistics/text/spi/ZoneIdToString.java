@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.configuration.spi.ToStringProvider;
 
-public class ZoneIdToString implements ToStringProvider {
+public class ZoneIdToString implements ToStringProvider<ZoneId> {
     @Override
     public int weight() {
         return 0;
@@ -21,7 +21,7 @@ public class ZoneIdToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<Object> fromString(Class<?> type, @Nullable String value) {
+    public Optional<ZoneId> fromString(Class<?> type, @Nullable String value) {
         try {
             return Optional.ofNullable(value)
                 .filter(v -> ZoneId.class.isAssignableFrom(type))

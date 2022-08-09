@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.abstractalgebra.permutations.text;
 
-import java.text.Format;
-
 import org.meeuw.configuration.Configuration;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
@@ -26,10 +24,10 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class PermutationFormatProvider extends AlgebraicElementFormatProvider {
+public class PermutationFormatProvider extends AlgebraicElementFormatProvider<PermutationFormat> {
 
     @Override
-    public Format getInstance(Configuration configuration) {
+    public PermutationFormat getInstance(Configuration configuration) {
         PermutationConfiguration conf = configuration.getAspect(PermutationConfiguration.class);
         return new PermutationFormat(conf.getNotation(), conf.getOffset());
     }

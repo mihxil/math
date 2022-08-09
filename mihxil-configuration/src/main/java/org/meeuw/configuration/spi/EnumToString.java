@@ -8,7 +8,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 @SuppressWarnings("unchecked")
 @Log
-public class EnumToString implements ToStringProvider {
+public class EnumToString implements ToStringProvider<Enum<?>> {
     @Override
     public int weight() {
         return 0;
@@ -22,7 +22,7 @@ public class EnumToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<Object> fromString(Class<?> type, @Nullable String value) {
+    public Optional<Enum<?>> fromString(Class<?> type, @Nullable String value) {
         return Optional.ofNullable(value)
             .filter(v -> type.isEnum())
             .map(v -> {

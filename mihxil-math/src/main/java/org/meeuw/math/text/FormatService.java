@@ -49,20 +49,27 @@ public final class FormatService {
      * @param configuration an object to configure these instances
      * @return all available {@link Format} instances that would be available for the given algebraic element
      */
+    @SuppressWarnings("unchecked")
     public static Stream<Format> getFormat(AlgebraicElement<?> object, Configuration configuration) {
         return getFormat((Class<? extends AlgebraicElement<?>>) object.getClass(), configuration);
     }
 
     public static Stream<Format> getFormat(Class<? extends AlgebraicElement<?>> elementClass, Configuration configuration) {
-        final List<AlgebraicElementFormatProvider> list = new ArrayList<>();
+        final List<AlgebraicElementFormatProvider<?>> list = new ArrayList<>();
         getProviders().forEach(list::add);
         list.removeIf(e -> e.weight(elementClass) < 0);
         list.sort(Comparator.comparingInt(e -> -1 * e.weight(elementClass)));
         return list.stream().map(p -> p.getInstance(configuration));
     }
 
-    public static Stream<AlgebraicElementFormatProvider> getProviders() {
-        final ServiceLoader<AlgebraicElementFormatProvider> loader =
+    @SuppressWarnings("unchecked")
+    public static <P extends AlgebraicElementFormatProvider<F>, F extends Format> F getFormat(Class<P> clazz) {
+        return (F) getProviders().filter(clazz::isInstance).findFirst().map(p -> p.getInstance(ConfigurationService.getConfiguration())).orElse(null);
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static Stream<AlgebraicElementFormatProvider<?>> getProviders() {
+        final ServiceLoader<AlgebraicElementFormatProvider<?>> loader = (ServiceLoader)
             ServiceLoader.load(AlgebraicElementFormatProvider.class);
 
         return StreamSupport.stream(
@@ -96,6 +103,7 @@ public final class FormatService {
     }
 
 
+    @SuppressWarnings("unchecked")
     public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) {
         return getFormat(clazz, configuration)
             .map(f -> {

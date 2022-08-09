@@ -25,7 +25,7 @@ import org.meeuw.physics.text.DimensionalAnalysisFormat;
  * @author Michiel Meeuwissen
  * @since 0.5
  */
-public class DimensionsFormatProvider extends AlgebraicElementFormatProvider {
+public class DimensionsFormatProvider extends AlgebraicElementFormatProvider<DimensionalAnalysisFormat> {
 
     @Override
     public DimensionalAnalysisFormat getInstance(Configuration configuration) {

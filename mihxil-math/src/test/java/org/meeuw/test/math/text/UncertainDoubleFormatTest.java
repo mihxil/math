@@ -15,13 +15,18 @@
  */
 package org.meeuw.test.math.text;
 
-import java.text.NumberFormat;
+import java.text.*;
 import java.util.Locale;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,6 +35,11 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @since 0.4
  */
 class UncertainDoubleFormatTest {
+
+    @BeforeAll
+    public static void setup() {
+        ConfigurationService.resetToDefaultDefaults();
+    }
 
     @Test
     public void basic() {
@@ -67,5 +77,25 @@ class UncertainDoubleFormatTest {
         assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
         assertThat(formatter.scientificNotationWithUncertainty(1234.234, 0.0456)).isEqualTo("1234.23(5)");
     }
+
+    @Test
+    public void grouping() {
+        ConfigurationService.withAspect(NumberConfiguration.class, nc -> {
+            DecimalFormat nf = (DecimalFormat) nc.getNumberFormat();
+            nf.setGroupingUsed(true);
+            nf.setGroupingSize(4);
+            DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);
+            dfs.setGroupingSeparator('_');
+            nf.setDecimalFormatSymbols(dfs);
+            return nc;
+        }, () -> {
+            UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+
+            assertThat(formatter.scientificNotationWithUncertainty(5_000_000d,
+                2d)).isEqualTo("500_0000 ± 2");
+        });
+    }
+
+
 
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.configuration.spi.ToStringProvider;
 
-public class MathContextToString implements ToStringProvider {
+public class MathContextToString implements ToStringProvider<MathContext> {
     @Override
     public int weight() {
         return 0;
@@ -20,7 +20,7 @@ public class MathContextToString implements ToStringProvider {
     }
 
     @Override
-    public Optional<Object> fromString(Class<?> type, @Nullable String value) {
+    public Optional<MathContext> fromString(Class<?> type, @Nullable String value) {
         try {
             return Optional.ofNullable(value)
                 .filter(v -> MathContext.class.isAssignableFrom(type))

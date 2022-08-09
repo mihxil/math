@@ -22,6 +22,7 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
@@ -53,7 +54,7 @@ public class UncertainDoubleFormat extends Format {
 
     @Getter
     @Setter
-    private NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+    private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
     @Getter
     @Setter
@@ -138,7 +139,7 @@ public class UncertainDoubleFormat extends Format {
             NumberFormat format = (NumberFormat) numberFormat.clone();
             format.setMaximumFractionDigits(fd);
             format.setMinimumFractionDigits(fd);
-            format.setGroupingUsed(false);
+
             final boolean useBrackets = useE && uncertaintyNotation == UncertaintyConfiguration.Notation.PLUS_MINUS;
             return
                 (useBrackets ? "(" : "") + valueAndError(format.format(mean.coefficient), format.format(std.coefficient), uncertaintyNotation)

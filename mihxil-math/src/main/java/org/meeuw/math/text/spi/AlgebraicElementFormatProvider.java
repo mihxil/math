@@ -28,9 +28,10 @@ import static org.meeuw.configuration.ConfigurationService.getConfiguration;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class AlgebraicElementFormatProvider {
+public abstract class AlgebraicElementFormatProvider<F extends Format> {
 
-    public abstract Format getInstance(Configuration configuration);
+
+    public abstract F getInstance(Configuration configuration);
 
     public abstract int weight(Class<? extends AlgebraicElement<?>> weight);
 

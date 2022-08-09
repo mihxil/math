@@ -114,10 +114,11 @@ class ConfigurationPreferences {
             .findFirst();
     }
 
-    static Stream<ToStringProvider> stream() {
-        ServiceLoader<ToStringProvider> loader = ServiceLoader.load(ToStringProvider.class);
+    @SuppressWarnings("unchecked")
+    static Stream<ToStringProvider<?>> stream() {
+        ServiceLoader<ToStringProvider<?>> loader = (ServiceLoader) ServiceLoader.load(ToStringProvider.class);
         //return loader.stream();  java 9, damn.
-        List<ToStringProvider> list = new ArrayList<>();
+        List<ToStringProvider<?>> list = new ArrayList<>();
         loader.iterator().forEachRemaining(list::add);
         return list.stream();
     }

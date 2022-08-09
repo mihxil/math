@@ -24,7 +24,7 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 /**
  * @author Michiel Meeuwissen
  */
-public class TestFormatProvider extends AlgebraicElementFormatProvider {
+public class TestFormatProvider extends AlgebraicElementFormatProvider<Format> {
 
     @Override
     public Format getInstance(Configuration configuration) {

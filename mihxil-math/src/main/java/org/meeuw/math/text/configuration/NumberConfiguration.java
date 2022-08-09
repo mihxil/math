@@ -17,8 +17,8 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
-import java.util.Collections;
-import java.util.List;
+import java.text.NumberFormat;
+import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
@@ -33,6 +33,15 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 @EqualsAndHashCode
 public class NumberConfiguration implements ConfigurationAspect {
 
+    private static final NumberFormat DEFAULT = NumberFormat.getNumberInstance(Locale.US);
+    static {
+        DEFAULT.setGroupingUsed(false);
+    }
+
+    public static NumberFormat getDefaultNumberFormat() {
+        return (NumberFormat) DEFAULT.clone();
+    }
+
     /**
      * If the absolute value of the exponent would be bigger than this, then
      * scientific notation will be used. Otherwise, no.
@@ -43,19 +52,22 @@ public class NumberConfiguration implements ConfigurationAspect {
     @With
     private final int minimalExponent;
 
+    /**
+     * Large numbers
+     */
     @Getter
     @With
-    private final Thousands thousands;
+    private final NumberFormat numberFormat;
 
 
     @lombok.Builder
-    private NumberConfiguration(int minimalExponent, Thousands thousands) {
+    private NumberConfiguration(int minimalExponent, NumberFormat numberFormat) {
         this.minimalExponent = minimalExponent;
-        this.thousands = thousands;
+        this.numberFormat = numberFormat;
     }
 
     public NumberConfiguration() {
-        this(4, Thousands.NONE);
+        this(4, getDefaultNumberFormat());
     }
 
     @Override
@@ -63,12 +75,4 @@ public class NumberConfiguration implements ConfigurationAspect {
         return Collections.singletonList(UncertainDoubleFormatProvider.class);
     }
 
-    enum Thousands {
-        NONE,
-        DOT,
-        COMMA,
-        LOCALE,
-        UNDERSCORE,
-        SPACE
-    }
 }

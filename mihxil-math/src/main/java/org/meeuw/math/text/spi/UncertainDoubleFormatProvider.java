@@ -28,14 +28,17 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvider {
+public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvider<UncertainDoubleFormat> {
 
     @Override
     public UncertainDoubleFormat getInstance(Configuration configuration) {
         UncertainDoubleFormat format = new UncertainDoubleFormat();
-        format.setMinimumExponent(getConfigurationAspect(NumberConfiguration.class).getMinimalExponent());
+        NumberConfiguration numberConfiguration = getConfigurationAspect(NumberConfiguration.class);
+        format.setMinimumExponent(numberConfiguration.getMinimalExponent());
+        format.setNumberFormat(numberConfiguration.getNumberFormat());
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
         format.setConsiderRoundingErrorFactor(getConfigurationAspect(UncertaintyConfiguration.class).getConsiderRoundingErrorFactor());
+
         return format;
     }
 

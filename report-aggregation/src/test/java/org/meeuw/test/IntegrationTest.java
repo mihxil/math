@@ -19,6 +19,8 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.TestClock;
@@ -47,7 +49,7 @@ public class IntegrationTest {
 
         PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
         assertThat(rateInHours.toString()).isEqualTo("7200 h⁻¹");
-        PrintStream out = new PrintStream(System.out, true, "UTF-8");
+        PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
         out.println("Rate: " + rateInHours + " h⁻¹ " + Charset.defaultCharset() + " " + System.getProperty("file.encoding"));
     }

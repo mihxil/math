@@ -25,7 +25,7 @@ import org.meeuw.physics.text.UnitsFormat;
  * @author Michiel Meeuwissen
  * @since 0.5
  */
-public class UnitsFormatProvider extends AlgebraicElementFormatProvider {
+public class UnitsFormatProvider extends AlgebraicElementFormatProvider<UnitsFormat> {
 
     @Override
     public UnitsFormat getInstance(Configuration configuration) {

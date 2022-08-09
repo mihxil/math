@@ -28,6 +28,12 @@ import org.meeuw.configuration.ConfigurationService;
 
 public class MathContextConfiguration implements ConfigurationAspect {
 
+    /**
+     * The default value for {@link #getUncertaintyContext()}. A math context with precision 2, and {@link RoundingMode#UP}.
+     *
+     */
+    public static MathContext DEFAULT_UNCERTAINTY_CONTEXT =  new MathContext(2, RoundingMode.UP);
+
     public static MathContextConfiguration get() {
         return ConfigurationService.getConfigurationAspect(MathContextConfiguration.class);
     }
@@ -36,6 +42,10 @@ public class MathContextConfiguration implements ConfigurationAspect {
     @With
     private final MathContext context;
 
+    /**
+     * The {@link MathContext} to be used for representing uncertainties. Uncertainties themselves are
+     * not, and need not be, very precise. This defaults to {@link #DEFAULT_UNCERTAINTY_CONTEXT}.
+     */
     @Getter
     @With
     private final MathContext uncertaintyContext;
@@ -46,7 +56,7 @@ public class MathContextConfiguration implements ConfigurationAspect {
 
     public MathContextConfiguration(MathContext context, MathContext uncertaintyContext) {
         this.context = context;
-        this.uncertaintyContext = uncertaintyContext == null ? new MathContext(2, RoundingMode.UP) : uncertaintyContext;
+        this.uncertaintyContext = uncertaintyContext == null ? DEFAULT_UNCERTAINTY_CONTEXT : uncertaintyContext;
     }
 
 
