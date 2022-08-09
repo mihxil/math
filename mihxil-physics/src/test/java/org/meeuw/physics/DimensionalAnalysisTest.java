@@ -38,8 +38,6 @@ class DimensionalAnalysisTest implements MultiplicativeAbelianGroupTheory<Dimens
         DimensionalAnalysis of = DimensionalAnalysis.of(I, I);
         assertThat(of.toString()).isEqualTo("I²");
         assertThat(of.dividedBy(of).toString()).isEqualTo("1");
-
-
     }
 
     @Override
