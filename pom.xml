@@ -170,8 +170,8 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <dependencies>
 
+  <dependencies>
     <dependency>
       <groupId>org.checkerframework</groupId>
       <artifactId>checker-qual</artifactId>
@@ -514,7 +514,9 @@
               <links>
                 <link>https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/</link>
                 <link>https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
-                <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/3.0.1/</link>
+                <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
+                <link>https://javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
+
               </links>
               <detectLinks />
               <detectJavaApiLink />
