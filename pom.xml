@@ -32,12 +32,12 @@
 
     <!-- optional -->
     <big-math.version>2.3.0</big-math.version>
-    <checkerframework.version>3.22.2</checkerframework.version>
+    <checkerframework.version>3.24.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
     <!-- test dependencies -->
     <log4j.version>2.18.0</log4j.version>
     <jqwik.version>1.6.4</jqwik.version>
-    <junit.version>5.9.0-RC1</junit.version>
+    <junit.version>5.9.0</junit.version>
     <jacoco.version>0.8.8</jacoco.version>
     <assertj.version>3.23.1</assertj.version>
     <reflections.version>0.10.2</reflections.version>
