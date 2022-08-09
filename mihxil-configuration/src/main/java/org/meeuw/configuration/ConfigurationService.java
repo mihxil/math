@@ -107,7 +107,7 @@ public class ConfigurationService {
             ConfigurationPreferences.sync();
             return true;
         } catch (BackingStoreException bs) {
-            log.warning(bs.getMessage());
+            log.fine(bs.getClass().getName() + ": " + bs.getMessage());
             return false;
         }
     }
