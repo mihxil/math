@@ -4,13 +4,20 @@ import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-public interface ToStringProvider extends Comparable<ToStringProvider> {
+/**
+ * SPI to serialize and deserialize to and from String, without resorting to serialization.
+ *
+ * E.g. a {@link java.math.MathContext} can be serialized, but can also be written to String and parsed by very naturally.
+ *
+ * This can only be used if the type is known beforehand.
+ */
+public interface ToStringProvider<C> extends Comparable<ToStringProvider<?>> {
 
     int weight();
 
     Optional<String> toString(@Nullable Object value);
 
-    Optional<Object> fromString(Class<?> type, @Nullable String value);
+    Optional<C> fromString(Class<?> type, @Nullable String value);
 
     @Override
     default int compareTo(ToStringProvider other) {
