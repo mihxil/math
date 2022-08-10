@@ -39,7 +39,7 @@ class FormatServiceTest {
     }
 
     @Test
-    public void getFormat() {
+    public void getFormat() throws InterruptedException {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
             .contains(

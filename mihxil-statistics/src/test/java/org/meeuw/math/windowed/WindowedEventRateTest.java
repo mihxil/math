@@ -209,9 +209,10 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
 
     @Test
     public void constructor() {
-        WindowedEventRate rate = new WindowedEventRate(TimeUnit.MINUTES);
-        assertThat(rate.getBucketCount()).isEqualTo(100);
-        assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofMinutes(100));
+        try (WindowedEventRate rate = new WindowedEventRate(TimeUnit.MINUTES)) {
+            assertThat(rate.getBucketCount()).isEqualTo(100);
+            assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofMinutes(100));
+        }
     }
 
 
@@ -220,19 +221,20 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
         ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
             () -> {
                 TestClock clock = new TestClock();
-                WindowedEventRate rate = WindowedEventRate.builder()
+                try (WindowedEventRate rate = WindowedEventRate.builder()
                     .window(Duration.ofSeconds(100))
                     .bucketCount(10)
                     .clock(clock)
-                    .build();
-                for (int i = 0; i < 100; i++) {
-                    rate.accept(5 + (i % 3));
-                    clock.tick();
+                    .build()) {
+                    for (int i = 0; i < 100; i++) {
+                        rate.accept(5 + (i % 3));
+                        clock.tick();
+                    }
+                    clock.tick(50);
+                    assertThat(rate.isWarmingUp()).isFalse();
+                    assertThat(rate.getRate()).isEqualTo(5.930038867295947);
+                    assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
                 }
-                clock.tick(50);
-                assertThat(rate.isWarmingUp()).isFalse();
-                assertThat(rate.getRate()).isEqualTo(5.930038867295947);
-                assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
             });
     }
 

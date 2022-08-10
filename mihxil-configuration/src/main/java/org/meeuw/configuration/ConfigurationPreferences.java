@@ -15,18 +15,32 @@ import org.meeuw.configuration.spi.ToStringProvider;
 @Log
 class ConfigurationPreferences {
 
-    private static final Preferences USER_PREFERENCES = Preferences.userNodeForPackage(ConfigurationPreferences.class);
+    private static final Preferences USER_PREFERENCES;
+
+    static {
+        Preferences userPreferences = null;
+        try {
+            userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e, () -> e.getClass().getName() + ":" + e.getMessage());
+        }
+        USER_PREFERENCES = userPreferences;
+    }
 
     private ConfigurationPreferences() {
     }
 
     static void sync() throws BackingStoreException {
-        USER_PREFERENCES.flush();
-        USER_PREFERENCES.sync();
+        if (USER_PREFERENCES != null) {
+            USER_PREFERENCES.flush();
+            USER_PREFERENCES.sync();
+        }
     }
 
     static void addPreferenceChangeListener(Configuration.Builder configuration) {
-        USER_PREFERENCES.addPreferenceChangeListener(evt -> readDefaults(configuration));
+        if (USER_PREFERENCES != null) {
+            USER_PREFERENCES.addPreferenceChangeListener(evt -> readDefaults(configuration));
+        }
     }
 
 
@@ -141,8 +155,7 @@ class ConfigurationPreferences {
             Optional<C> o = (Optional<C>) stream()
                 .sorted()
                 .map(tp -> {
-                    Object nv =  tp.fromString(type, v).orElse(null);
-                    return nv;
+                    return tp.fromString(type, v).orElse(null);
                 })
                 .filter(Objects::nonNull)
                 .findFirst();
