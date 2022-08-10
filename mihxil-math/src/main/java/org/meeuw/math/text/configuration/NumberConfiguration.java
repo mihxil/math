@@ -17,10 +17,11 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
-import java.text.NumberFormat;
+import java.text.*;
 import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.numbers.DecimalFormatToString;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 /**
@@ -29,17 +30,16 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@ToString
 @EqualsAndHashCode
 public class NumberConfiguration implements ConfigurationAspect {
 
-    private static final NumberFormat DEFAULT = NumberFormat.getNumberInstance(Locale.US);
+    private static final DecimalFormat DEFAULT = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
     static {
         DEFAULT.setGroupingUsed(false);
     }
 
-    public static NumberFormat getDefaultNumberFormat() {
-        return (NumberFormat) DEFAULT.clone();
+    public static DecimalFormat getDefaultNumberFormat() {
+        return (DecimalFormat) DEFAULT.clone();
     }
 
     /**
@@ -52,16 +52,15 @@ public class NumberConfiguration implements ConfigurationAspect {
     @With
     private final int minimalExponent;
 
-    /**
-     * Large numbers
-     */
+
     @Getter
-    @With
-    private final NumberFormat numberFormat;
+    private final DecimalFormat numberFormat;
+
+
 
 
     @lombok.Builder
-    private NumberConfiguration(int minimalExponent, NumberFormat numberFormat) {
+    private NumberConfiguration(int minimalExponent, DecimalFormat numberFormat) {
         this.minimalExponent = minimalExponent;
         this.numberFormat = numberFormat;
     }
@@ -75,4 +74,11 @@ public class NumberConfiguration implements ConfigurationAspect {
         return Collections.singletonList(UncertainDoubleFormatProvider.class);
     }
 
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", NumberConfiguration.class.getSimpleName() + "(", ")")
+            .add("minimalExponent=" + minimalExponent)
+            .add("numberFormat=" + new DecimalFormatToString().toString(this.numberFormat).orElse(numberFormat.toString()))
+            .toString();
+    }
 }

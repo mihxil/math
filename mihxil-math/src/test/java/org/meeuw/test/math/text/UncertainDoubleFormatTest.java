@@ -81,7 +81,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void grouping() {
         ConfigurationService.withAspect(NumberConfiguration.class, nc -> {
-            DecimalFormat nf = (DecimalFormat) nc.getNumberFormat();
+            DecimalFormat nf = nc.getNumberFormat();
             nf.setGroupingUsed(true);
             nf.setGroupingSize(4);
             DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);

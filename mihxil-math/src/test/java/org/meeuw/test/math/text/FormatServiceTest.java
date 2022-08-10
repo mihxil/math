@@ -43,7 +43,7 @@ class FormatServiceTest {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
             .contains(
-                "UncertainDoubleFormatProvider [NumberConfiguration(minimalExponent=4, thousands=NONE), UncertaintyConfiguration(notation=PLUS_MINUS, considerRoundingErrorFactor=1000.0)]"
+                "UncertainDoubleFormatProvider [NumberConfiguration(minimalExponent=4, numberFormat=###0.###), UncertaintyConfiguration(notation=PLUS_MINUS, considerRoundingErrorFactor=1000.0)]"
             );
     }
 }
