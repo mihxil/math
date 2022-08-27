@@ -18,6 +18,14 @@ module org.meeuw.configuration {
     uses ConfigurationAspect;
     uses ToStringProvider;
 
-    provides ToStringProvider with EnumToString, StringToString;
+    provides ToStringProvider with
+        EnumToString,
+        StringToString,
+        DoubleToString,
+        FloatToString,
+        LongToString,
+        IntegerToString,
+        BooleanToString
+        ;
 }
 

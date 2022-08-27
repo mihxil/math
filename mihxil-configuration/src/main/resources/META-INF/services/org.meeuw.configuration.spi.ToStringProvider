@@ -1,2 +1,8 @@
 org.meeuw.configuration.spi.EnumToString
 org.meeuw.configuration.spi.StringToString
+org.meeuw.configuration.spi.DoubleToString
+org.meeuw.configuration.spi.FloatToString
+org.meeuw.configuration.spi.LongToString
+org.meeuw.configuration.spi.IntegerToString
+org.meeuw.configuration.spi.BooleanToString
+

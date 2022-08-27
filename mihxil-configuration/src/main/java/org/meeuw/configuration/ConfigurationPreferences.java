@@ -53,7 +53,7 @@ class ConfigurationPreferences {
                     Class<?> returnType = m.getReturnType();
                     try {
                         Object value = m.invoke(aspect);
-                        put(node, name, returnType, value);
+                        put(node, name, value);
                     } catch (IllegalAccessException | InvocationTargetException | IOException | IllegalStateException e) {
                         log.warning(String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
                     }
@@ -93,7 +93,7 @@ class ConfigurationPreferences {
         return USER_PREFERENCES.node(aspect.getClass().getCanonicalName());
     }
 
-    static void put(Preferences pref, String key, Class<?> type, final Object paramValue) throws IOException {
+    static void put(Preferences pref, String key, final Object paramValue) throws IOException {
         if (paramValue == null) {
             pref.remove(key);
         } else if (paramValue instanceof Integer) {
@@ -140,30 +140,19 @@ class ConfigurationPreferences {
 
      @SuppressWarnings("unchecked")
      static <C> C get(Preferences pref, String key, Class<? extends C> type, C defaultValue) {
-        if (Integer.class.isAssignableFrom(type) || Integer.TYPE.isAssignableFrom(type)) {
-            return (C) Integer.valueOf(pref.getInt(key, (int) defaultValue));
-        } else if (Long.class.isAssignableFrom(type) || Long.TYPE.isAssignableFrom(type)) {
-            return (C) Long.valueOf(pref.getLong(key, (long) defaultValue));
-        } else if (Boolean.class.isAssignableFrom(type) || Boolean.TYPE.isAssignableFrom(type)) {
-            return (C) Boolean.valueOf(pref.getBoolean(key, (Boolean) defaultValue));
-        } else if (Float.class.isAssignableFrom(type) || Float.TYPE.isAssignableFrom(type)) {
-            return (C) Float.valueOf(pref.getFloat(key, (Float) defaultValue));
-        } else if (Double.class.isAssignableFrom(type) || Double.TYPE.isAssignableFrom(type)) {
-            return (C) Double.valueOf(pref.getDouble(key, (Double) defaultValue));
-        } else {
-            String v = pref.get(key, toString(defaultValue).orElse(null));
-            Optional<C> o = (Optional<C>) stream()
-                .sorted()
-                .map(tp -> {
-                    return tp.fromString(type, v).orElse(null);
-                })
-                .filter(Objects::nonNull)
-                .findFirst();
-            return
-                o.orElseGet(() ->
-                    getSerializable(pref, key, defaultValue)
-                );
-        }
+
+         String v = pref.get(key, toString(defaultValue).orElse(null));
+         Optional<C> o = (Optional<C>) stream()
+             .sorted()
+             .map(tp -> {
+                 return tp.fromString(type, v).orElse(null);
+             })
+             .filter(Objects::nonNull)
+             .findFirst();
+         return
+             o.orElseGet(() ->
+                 getSerializable(pref, key, defaultValue)
+             );
      }
 
 

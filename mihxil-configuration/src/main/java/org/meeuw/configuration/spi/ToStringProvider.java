@@ -15,7 +15,9 @@ public interface ToStringProvider<C> extends Comparable<ToStringProvider<?>> {
 
     int weight();
 
-    Optional<String> toString(@Nullable Object value);
+    default Optional<String> toString(@Nullable Object value) {
+        return Optional.ofNullable(value).map(v -> String.valueOf(value));
+    }
 
     Optional<C> fromString(Class<?> type, @Nullable String value);
 
