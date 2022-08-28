@@ -24,10 +24,11 @@ jobs:
           cd docs
           apk add graphviz m4
           make clean index.html
+          echo $(pwd)
           git config --global --add safe.directory $(pwd)
           git status
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v9.0.1
+        uses: EndBug/add-and-commit@v9.1.0
         with:
           message: Automated update of documentation https://mihxil.github.io/math/
           add: docs
