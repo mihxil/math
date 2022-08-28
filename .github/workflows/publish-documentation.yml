@@ -27,7 +27,7 @@ jobs:
           git config --global --add safe.directory $(pwd)
           git status
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v9.1.0
         with:
           message: Automated update of documentation https://mihxil.github.io/math/
           add: docs
