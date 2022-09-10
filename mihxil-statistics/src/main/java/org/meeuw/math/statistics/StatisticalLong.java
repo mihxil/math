@@ -22,6 +22,8 @@ import java.time.Instant;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.IllegalLogException;
@@ -39,12 +41,12 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     private long sum = 0;
     private long squareSum = 0;
     @Getter
+    @NonNull
     private final Mode mode;
     @Getter
     private long min = Long.MAX_VALUE;
     @Getter
     private long max = Long.MIN_VALUE;
-
 
     // keep sum around zero, and squareSum not too big.
     boolean autoGuess = true;
@@ -56,17 +58,19 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     @Getter
     private long guessedMean = 0;
 
+    private double doubleOffset = 0d;
+
     public StatisticalLong() {
-        this.mode = Mode.LONG;
+        this(null);
     }
 
-    public StatisticalLong(Mode mode) {
-        this.mode = mode;
-    }
-
-    protected StatisticalLong(Mode mode, long sum, long squareSum, int count, long guessedMean) {
-        super(count);
+    public StatisticalLong(@Nullable Mode mode) {
         this.mode = mode == null ? Mode.LONG : mode;
+    }
+
+    protected StatisticalLong(@NonNull Mode mode, long sum, long squareSum, int count, long guessedMean) {
+        super(count);
+        this.mode = mode;
         this.squareSum = squareSum;
         this.sum = sum;
         this.guessedMean = guessedMean;
@@ -74,14 +78,19 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public StatisticalLong plus(double summand) {
-        return plus(Math.round(summand));
+        long rounded = Math.round(summand);
+        StatisticalLong result = plus(rounded);
+        result.doubleOffset = (summand - (double) rounded);
+        return result;
     }
+
     @Override
     public StatisticalLong copy() {
         StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);
         c.max = max;
         c.min = min;
         c.autoGuess = autoGuess;
+        c.doubleOffset = doubleOffset;
         return c;
     }
 
@@ -136,7 +145,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public double getMean() {
-        return (double) guessedMean + ((double) sum / count);
+        return (double) guessedMean + ((double) sum / count) + doubleOffset;
     }
 
     public long getRoundedMean() {
@@ -230,7 +239,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     /**
      * This implementation keeps track of a 'guessedMean' value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
-     *
+     * <p>
      * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
      * @return the uncorrected sum
 //     * @see #getGuessedMean()

@@ -94,7 +94,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void combine() {
-        StatisticalLong stat1 = new StatisticalLong();
+        StatisticalLong stat1 = new StatisticalLong(StatisticalLong.Mode.LONG);
         stat1.enter(0, 2, 4, 6);
         StatisticalLong stat2  = new StatisticalLong();
         stat2.enter(1, 3, 5, 7);
@@ -122,9 +122,10 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
         UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().weightedAverage(stat2.immutableCopy());
 
-        assertThat(combinedMeasurement.getValue()).isEqualTo(3.5);
+        // the bigger value is relatively more precize
+        assertThat(combinedMeasurement.getValue()).isEqualTo(3.666666666666666);
 
-        assertThat(combinedMeasurement.toString()).isEqualTo("3.5 ± 1.6");
+        assertThat(combinedMeasurement.toString()).isEqualTo("3.7 ± 1.8");
     }
 
     @Test
@@ -149,6 +150,14 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         UncertainDoubleElement divided = minusOne.dividedBy(26904L);
         UncertainReal multiplied = divided.times(26904L);
         assertThat(multiplied).isEqualTo(minusOne);
+    }
+
+    @Test
+    public void plusDouble() {
+        StatisticalLong mes = new StatisticalLong();
+        mes.enter(1, 2);
+        StatisticalLong offsetted = mes.plus(3.1);
+        assertThat(offsetted.getMean()).isEqualTo(4.6);
     }
 
     @Override

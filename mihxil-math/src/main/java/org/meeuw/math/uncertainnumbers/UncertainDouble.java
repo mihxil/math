@@ -80,8 +80,19 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
      * @return a new uncertain number, combining this one with another one, representing a weighted average
      */
     default D weightedAverage(UncertainDouble<?> combinand) {
-        final double u = getUncertainty();
-        final double mu = combinand.getUncertainty();
+        double u = getUncertainty();
+        double mu = combinand.getUncertainty();
+        // if one of them is still undefined, guess that it would be the same as the other one.
+        if (Double.isNaN(mu)) {
+            if (Double.isNaN(u)) {
+                // of both of them are, just make them some equal random number.
+                u = 1d;
+            }
+            mu = u;
+        } else if (Double.isNaN(u)) {
+            u = mu;
+        }
+
         if (u == 0 ) {
             if (mu == 0) {
                 if (getValue() != combinand.getValue()) {
