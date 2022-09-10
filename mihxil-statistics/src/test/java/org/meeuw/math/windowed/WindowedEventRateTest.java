@@ -42,6 +42,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @author Michiel Meeuwissen
  * @since 0.38
  */
+@SuppressWarnings("resource")
 @Log4j2
 public class WindowedEventRateTest { //implements UncertainDoubleTheory<WindowedEventRate> {
 
@@ -236,6 +237,44 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
                     assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
                 }
             });
+    }
+
+    @Test
+    public void reset() {
+        TestClock clock = new TestClock();
+        try (WindowedEventRate rate = WindowedEventRate.builder()
+            .window(Duration.ofSeconds(100))
+            .bucketCount(10)
+            .clock(clock)
+            .build()) {
+            // 0 time passed, so now the rate is still undefined.
+            assertThat(rate.getRate()).isNaN();
+            assertThat(rate.isWarmingUp()).isTrue();
+            clock.tick(1);
+            assertThat(rate.getRelevantDuration()).isEqualTo(Duration.ofMillis(1));
+            assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofSeconds(100));
+
+            assertThat(rate.getRate()).isEqualTo(0d);
+
+            for (int i = 0; i < 101; i++) {
+                rate.accept(5 + (i % 3));
+                clock.tick();
+            }
+
+            assertThat(rate.isWarmingUp()).isFalse();
+            assertThat(rate.getRate()).isEqualTo(5.999934066658608);
+
+            rate.reset();
+            assertThat(rate.getRelevantDuration()).isEqualTo(Duration.ZERO);
+
+            // 0 time passed, so now the rate is still undefined.
+            assertThat(rate.getRate()).isNaN();
+            assertThat(rate.isWarmingUp()).isTrue();
+            clock.tick(1);
+            assertThat(rate.getRelevantDuration()).isEqualTo(Duration.ofMillis(1));
+            assertThat(rate.getRate()).isEqualTo(0d);
+        }
+
     }
 
     //@Override

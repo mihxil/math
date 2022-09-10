@@ -63,7 +63,7 @@ public abstract class Windowed<T> {
 
     protected final long bucketDuration; // ms
     protected final long totalDuration;  // ms
-    protected final Instant start;
+    protected Instant start;
     protected final Clock clock;
 
     private boolean warmingUp = true;
@@ -114,7 +114,7 @@ public abstract class Windowed<T> {
             }
         } else {
             assert bucketDuration != null;
-            // cannot happen. If it would have been null, then window would _never_ have been null
+            // cannot happen. If it had been null, then window would _never_ have been null
             this.bucketDuration = bucketDuration.toMillis();
             this.totalDuration = this.bucketDuration * bucketCount1;
         }
@@ -130,14 +130,27 @@ public abstract class Windowed<T> {
             }
         };
         this.clock = clock == null ? Clock.systemUTC() : clock;
-        this.start = now();
-        this.currentBucketTime = start.toEpochMilli();
+        init();
     }
 
     private void initBuckets() {
         for (int i = 0; i < buckets.length; i++) {
             buckets[i] = initialValue();
         }
+    }
+    private void init() {
+        this.start = now();
+        this.currentBucketTime = start.toEpochMilli();
+        this.bucketsInited = false;
+    }
+
+    /**
+     * Resets the windowed object. It's fresh again, and will
+     */
+    public void reset() {
+        init();
+        warmingUp = true;
+        initBuckets();
     }
 
     /**
