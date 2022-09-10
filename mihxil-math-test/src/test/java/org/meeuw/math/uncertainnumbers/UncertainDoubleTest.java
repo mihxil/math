@@ -20,6 +20,8 @@ import lombok.Getter;
 import net.jqwik.api.*;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.exceptions.WeighingExceptValuesException;
 import org.meeuw.math.numbers.test.ScalarTheory;
 import org.meeuw.math.text.TextUtils;
 
@@ -124,6 +126,17 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
 
         assertThatThrownBy(() -> a.pow(Integer.MAX_VALUE))
             .isInstanceOf(ArithmeticException.class);
+    }
+
+    @Test
+    void weighted() {
+        A a = new A(2, 0);
+        A b = new A(3, 0);
+        assertThatThrownBy(() -> {
+            a.weightedAverage(b);
+        }).isInstanceOf(WeighingExceptValuesException.class);
+
+        assertThat(a.weightedAverage(a)).isEqualTo(a);
     }
 
     @Property
