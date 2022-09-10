@@ -62,12 +62,12 @@ public interface StaticUtilitiesTest {
     }
 
     default Stream<Method> polyNullMethods() {
-        return polyNullMethods(testClass());
+        return polyNullMethodsForClass(testClass());
     }
 
     Class<?> testClass();
 
-    static Stream<Method> polyNullMethods(Class<?> clazz) {
+    static Stream<Method> polyNullMethodsForClass(Class<?> clazz) {
         List<Method> s = Arrays.stream(clazz.getDeclaredMethods())
             .filter(m -> Modifier.isStatic(m.getModifiers()) && Modifier.isPublic(m.getModifiers()))
             .filter(m -> m.getAnnotatedReturnType().getAnnotation(PolyNull.class) != null)
