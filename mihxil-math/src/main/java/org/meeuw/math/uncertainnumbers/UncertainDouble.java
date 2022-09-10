@@ -23,6 +23,7 @@ import java.math.BigInteger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotComparableException;
+import org.meeuw.math.exceptions.WeighingExceptValuesException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -96,16 +97,15 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         if (u == 0 ) {
             if (mu == 0) {
                 if (getValue() != combinand.getValue()) {
-                    throw new IllegalArgumentException();
+                    throw new WeighingExceptValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
                 }
             }
             return _of(getValue(), 0d);
         } else if (mu == 0d) {
             return _of(combinand.getValue(), 0d);
         }
-        final double mu2 = mu * mu;
-        final double weight = 1d / (u * u + mu2); // + mu2 to avoid division by zero's.
-        final double mweight = 1d / mu2;
+        final double weight = 1d / (u * u);
+        final double mweight = 1d / (mu * mu);
         final double value = (getValue() * weight + combinand.getValue() * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
