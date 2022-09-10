@@ -24,7 +24,7 @@ jobs:
           cd docs
           apk add graphviz m4
           make clean index.html
-          echo $(pwd)
+          echo "PWD" $(pwd)
           git config --global --add safe.directory $(pwd)
           git status
       - name: Commit generated dot file if it changed
