@@ -159,8 +159,9 @@ class UtilsTest {
         assertThat(Utils.checkPower(127, 2)).isEqualTo(-1);
         assertThat(Utils.checkPower(128)).containsExactly(2, 7);
         assertThat(Utils.checkPower(Utils.positivePow(7, 3))).containsExactly(7, 3);
-
+        assertThat(Utils.checkPower(13)).containsExactly(0, 0);
     }
+
     @Test
     public void checkPower2() {
         assertThat(Utils.checkPower(4)).containsExactly(2, 2);

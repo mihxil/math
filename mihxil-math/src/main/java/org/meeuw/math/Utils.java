@@ -335,6 +335,10 @@ public final class Utils {
         }
     }
 
+    /**
+     * Finds out which power the argument can be.
+     * @return a set of 2 (i, j), such that i^j. For smallest possible i. If there is no such combination, returns (0,0)
+     */
     public static int[] checkPower(final long n) {
         long p = 2;
         while(p * p <= n) {
