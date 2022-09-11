@@ -33,8 +33,20 @@ public interface SignedNumberTheory<E extends SignedNumber<E>> extends ElementTh
     @Property
     default void signum(@ForAll(ELEMENT) E e) {
         assertThat(e.signum()).isIn(-1, 0, 1);
+    }
+
+    @Property
+    default void isZeroConsistentWithSignum(@ForAll(ELEMENT) E e) {
         assertThat(e.isZero()).isEqualTo(e.signum() == 0);
+    }
+
+    @Property
+    default void isPositiveConsistentWithSignum(@ForAll(ELEMENT) E e) {
         assertThat(e.isPositive()).isEqualTo(e.signum() == 1);
+    }
+
+    @Property
+    default void isNegativeConsistentWithSignum(@ForAll(ELEMENT) E e) {
         assertThat(e.isNegative()).isEqualTo(e.signum() == -1);
     }
 
