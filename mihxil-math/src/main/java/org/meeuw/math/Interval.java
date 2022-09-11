@@ -21,6 +21,8 @@ import java.util.Comparator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+
 /**
  * Simple interval implementation. Used to use guava's Range for this, but this was all we need. Just cutting the dependency. It's not hard to convert this to a guava's Range.
  * @author Michiel Meeuwissen
@@ -40,7 +42,16 @@ public class Interval<T extends Comparable<T>> implements Predicate<T>  {
     private final T upperEndpoint;
     private final boolean includeUpper;
 
-    private Interval(T lowerEndpoint, boolean includeLower, T upperEndpoint, boolean includeUpper) {
+    private Interval(@Nullable T lowerEndpoint, boolean includeLower, @Nullable T upperEndpoint, boolean includeUpper) {
+        if (lowerEndpoint != null && upperEndpoint != null && lowerEndpoint.compareTo(upperEndpoint) > 0) {
+            // just turn them around
+            T tempT = lowerEndpoint;
+            lowerEndpoint = upperEndpoint;
+            upperEndpoint = tempT;
+            boolean tempBoolean = includeLower;
+            includeLower = includeUpper;
+            includeUpper = tempBoolean;
+        }
         this.lowerEndpoint = lowerEndpoint;
         this.includeLower = includeLower;
         this.upperEndpoint = upperEndpoint;

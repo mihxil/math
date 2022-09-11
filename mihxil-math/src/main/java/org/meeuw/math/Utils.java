@@ -374,7 +374,7 @@ public final class Utils {
     }
 
     /**
-     * @see Math#round(double) 
+     * @see Math#round(double)
      */
     public static long round(double value) {
         return Math.round(value);

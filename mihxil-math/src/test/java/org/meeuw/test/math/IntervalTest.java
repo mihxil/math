@@ -19,10 +19,10 @@ import java.util.*;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.Interval;
+
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.meeuw.math.Interval;
 
 /**
  * @author Michiel Meeuwissen
@@ -92,6 +92,18 @@ class IntervalTest {
         SortedSet<Interval<Double>> set = new TreeSet<>(Interval.upperEndPointComparator());
         set.addAll(Arrays.asList(i2, i1, i3, i0));
         assertThat(set).containsExactly(i0, i1, i2, i3);
+    }
+
+    @Test
+    void implicitCorrect() {
+        Interval<Double> i1 = Interval.openClosed(10d, -10d);
+        assertThat(i1.toString()).isEqualTo("[-10.0,10.0)");
+    }
+
+    @Test
+    void infiniteEnd() {
+        Interval<Double> i2 = Interval.openClosed(-10d, null);
+        assertThat(i2.toString()).isEqualTo("(-10.0,+∞]");
     }
 
 }
