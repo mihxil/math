@@ -165,7 +165,13 @@ class UtilsTest {
     @Test
     public void checkPower2() {
         assertThat(Utils.checkPower(4)).containsExactly(2, 2);
+    }
 
+    @Test
+    public void round() {
+        assertThat(Utils.round(1.2)).isEqualTo(1);
+        assertThat(Utils.round(1.5)).isEqualTo(2);
+        assertThat(Utils.round(-1.5)).isEqualTo(-1);
     }
 
     @Test

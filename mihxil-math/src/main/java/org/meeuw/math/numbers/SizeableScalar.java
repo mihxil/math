@@ -17,6 +17,7 @@ package org.meeuw.math.numbers;
 
 import java.math.*;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
@@ -52,7 +53,7 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      *          to type {@code long}.
      */
     default long longValue() {
-        return Math.round(doubleValue());
+        return Utils.round(doubleValue());
     }
 
 

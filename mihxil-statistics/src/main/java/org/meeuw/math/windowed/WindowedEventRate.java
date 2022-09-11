@@ -26,6 +26,7 @@ import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -138,7 +139,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
     @Override
     public BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(Math.round(getValue()));
+        return BigInteger.valueOf(Utils.round(getValue()));
     }
 
     @Override

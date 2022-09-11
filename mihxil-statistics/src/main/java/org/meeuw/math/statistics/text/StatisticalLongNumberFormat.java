@@ -24,6 +24,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.meeuw.math.TimeUtils;
+import org.meeuw.math.Utils;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.text.TextUtils;
 
@@ -53,7 +54,7 @@ public class StatisticalLongNumberFormat extends Format {
                      return toAppendTo;
                  }
                  case DURATION: {
-                     long rounded = Math.round(statisticalLong.getMean());
+                     long rounded = Utils.round(statisticalLong.getMean());
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
                      toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;

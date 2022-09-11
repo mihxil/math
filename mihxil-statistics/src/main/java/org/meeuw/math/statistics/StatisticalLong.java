@@ -78,7 +78,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     @Override
     public StatisticalLong plus(double summand) {
-        long rounded = Math.round(summand);
+        long rounded = Utils.round(summand);
         StatisticalLong result = plus(rounded);
         result.doubleOffset = (summand - (double) rounded);
         return result;
@@ -169,7 +169,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
 
     protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
-        return Math.round(in) / orderOfMagnitude * orderOfMagnitude;
+        return Utils.round(in) / orderOfMagnitude * orderOfMagnitude;
     }
 
     @Override
@@ -258,8 +258,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         sum *= d;
         squareSum *= d * d;
         guessedMean *= d;
-        max = Math.round(max * d);
-        min = Math.round(min * d);
+        max = Utils.round(max * d);
+        min = Utils.round(min * d);
         return this;
     }
 

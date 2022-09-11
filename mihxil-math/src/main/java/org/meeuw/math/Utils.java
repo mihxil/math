@@ -373,6 +373,9 @@ public final class Utils {
         return max;
     }
 
+    /**
+     * @see Math#round(double) 
+     */
     public static long round(double value) {
         return Math.round(value);
     }

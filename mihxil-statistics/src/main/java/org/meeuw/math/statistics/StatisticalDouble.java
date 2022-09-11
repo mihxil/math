@@ -102,8 +102,8 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
     public StatisticalDouble multiply(double d) {
         sum *= d;
         sumOfSquares *= d * d;
-        max = Math.round(max * d);
-        min = Math.round(min * d);
+        max = Utils.round(max * d);
+        min = Utils.round(min * d);
         return this;
     }
 

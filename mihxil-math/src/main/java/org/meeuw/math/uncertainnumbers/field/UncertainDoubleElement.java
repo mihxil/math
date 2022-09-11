@@ -292,6 +292,6 @@ public class UncertainDoubleElement
 
     @Override
     public long longValue() {
-        return Math.round(doubleValue());
+        return Utils.round(doubleValue());
     }
 }

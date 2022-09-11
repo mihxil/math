@@ -21,8 +21,7 @@ import lombok.NonNull;
 import java.math.BigDecimal;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.WithUnits;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
@@ -78,7 +77,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public long longValue() {
-        return Math.round(getValue());
+        return Utils.round(getValue());
     }
 
     @Override
