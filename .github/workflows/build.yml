@@ -32,7 +32,7 @@ jobs:
         run: |
           mvn -B -fae
       - uses: codecov/codecov-action@v3
-        if: always()
+        if: ${{ ! cancelled()}}
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.0.0
         if: always()
@@ -48,7 +48,7 @@ jobs:
           servers: '[{"id": "ossrh", "username": "mihxil", "password": "${{secrets.OSSRH_PASSWORD}}"}]'
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push'  && ! cancelled()}}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9.1.0
         with:
