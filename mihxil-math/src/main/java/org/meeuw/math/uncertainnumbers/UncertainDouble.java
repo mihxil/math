@@ -94,7 +94,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
             u = mu;
         }
 
-        if (u == 0 ) {
+        if (u == 0) {
             if (mu == 0) {
                 if (getValue() != combinand.getValue()) {
                     throw new WeighingExceptValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
@@ -106,6 +106,16 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         }
         final double weight = 1d / (u * u);
         final double mweight = 1d / (mu * mu);
+        if (Double.isInfinite(weight)) {
+            if (Double.isInfinite(mweight)) {
+                if (getValue() != combinand.getValue()) {
+                    throw new WeighingExceptValuesException("Can't combine 2 (different) nearly exact values (" + this + " and " + combinand + ")");
+                }
+            }
+            return _of(getValue(), 0d);
+        } else if (Double.isInfinite(mweight)) {
+            return _of(combinand.getValue(), 0d);
+        }
         final double value = (getValue() * weight + combinand.getValue() * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
