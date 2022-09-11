@@ -35,6 +35,15 @@ class PrimeValidatorTest {
             this.number = number;
         }
     }
+
+    static class A1 {
+        @Prime(power = true)
+        final int number;
+
+        A1(int number) {
+            this.number = number;
+        }
+    }
     ValidatorFactory factory = Validation
             .byDefaultProvider()
             .configure()
@@ -45,6 +54,14 @@ class PrimeValidatorTest {
     public void  test() {
         assertThat(factory.getValidator().validate(new A(3))).isEmpty();
         assertThat(factory.getValidator().validate(new A(4))).hasSize(1);
+    }
+
+    @Test
+    public void  testPower() {
+        assertThat(factory.getValidator().validate(new A1(3))).isEmpty();
+        assertThat(factory.getValidator().validate(new A1(4))).isEmpty();
+        assertThat(factory.getValidator().validate(new A1(13 * 13 * 13))).isEmpty();
+        assertThat(factory.getValidator().validate(new A1(3 * 13))).hasSize(1);
     }
 
 }
