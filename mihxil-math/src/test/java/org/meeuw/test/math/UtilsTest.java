@@ -135,6 +135,19 @@ class UtilsTest {
         log.info("{} = {} ({} {})", random, builder.toString(), Utils.isPrime((int) random), Utils.isPrimePower(random));
     }
 
+    @Test
+    void floorSqrt() {
+    }
+
+    @Test
+    void gcd() {
+        assertThat(Utils.gcd(10, 8)).isEqualTo(2);
+        assertThat(Utils.gcd(8, 12)).isEqualTo(4);
+        assertThat(Utils.gcd(-8, 12)).isEqualTo(4);
+        assertThat(Utils.gcd(-8, -12)).isEqualTo(4);
+        assertThat(Utils.gcd(8, -12)).isEqualTo(4);
+    }
+
     @Provide
     Arbitrary<Long> positiveLongs() {
         return Arbitraries.randomValue(random -> random.nextLong(1_000_000_000));

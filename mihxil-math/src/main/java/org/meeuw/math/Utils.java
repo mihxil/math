@@ -349,11 +349,11 @@ public final class Utils {
 
 
 
-    static long gcdByEuclidsAlgorithm(long n1, long n2) {
+    static long gcdByEuclidsAlgorithm(final long n1, final long n2) {
         if (n2 == 0) {
             return n1;
         }
-        return gcdByEuclidsAlgorithm(n2, n1 % n2);
+        return gcdByEuclidsAlgorithm(n2, Math.abs(n1 % n2));
     }
 
     public static long gcd(long n1, long n2) {
