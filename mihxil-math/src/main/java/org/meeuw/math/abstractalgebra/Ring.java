@@ -33,7 +33,7 @@ public interface Ring<E extends RingElement<E>> extends Rng<E> {
 
      /**
      * Given a (square) matrix of elements of this Ring, calculate its determinant.
-     *
+     * <p>
      * Using Leibniz formula
       *
       * @return the determinant of the give matrix

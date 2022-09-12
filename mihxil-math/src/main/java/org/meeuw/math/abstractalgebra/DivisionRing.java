@@ -27,7 +27,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * A division ring is a ring, where also the multiplicative inverse is defined, but where multiplication is not necessarily commutative.
- *
+ * <p>
  * In other words it is  'skewed field', or  non-commutative field.
  *
  * @author Michiel Meeuwissen
@@ -65,7 +65,7 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
 
     /**
      * Given a (square) matrix of elements of this field, calculate its determinant.
-     *
+     * <p>
      * Using Gaussian elimination.
      */
     @Override
@@ -86,6 +86,8 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
                     }
                     found = true;
                     break;
+                } else {
+                    ;
                 }
             }
 
