@@ -21,6 +21,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Collection;
 
 import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.numbers.SizeableScalar;
 
@@ -45,15 +46,32 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
             }
             if (invertible) {
                 if (! value.getClass().isArray()) {
-                    throw new IllegalArgumentException("Only arrays can be inverted");
+                    throw new IllegalArgumentException("Only square arrays can be inverted");
                 }
-                // TODO not really implemented, useful as metadata though
+                Class<?> aClass = value.getClass().getComponentType();
+                if (aClass.isArray()) {
+                    Class<?> bClass = aClass.getComponentType();
+                    if (RingElement.class.isAssignableFrom(bClass)) {
+                        RingElement<?> z = determinant((Object[][]) value);
+                        return !z.isZero();
+                    } else {
+                        throw new IllegalArgumentException("Elements of " + value + " must be RingElements");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Only square arrays can be inverted");
+                }
+
             }
             return true;
         } catch (NotASquareException notASquareException) {
             return false;
         }
     }
+    static <E extends RingElement<E>> E determinant(Object[][] array) {
+        E[][] casted = (E[][]) array;
+        return casted[0][0].getStructure().determinant(casted);
+    }
+
 
     @SuppressWarnings("rawtypes")
     static long toLong(Object value) {
@@ -64,11 +82,12 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
             toValidate = ((Number) value).longValue();
         } else if (value.getClass().isArray()) {
             Class<?> aClass = value.getClass().getComponentType();
+            final Object[] arrayValue = (Object[]) value;
             if (aClass.isArray()) {
-                Object[][] v = (Object[][])  value;
+                final Object[][] v = (Object[][])  arrayValue;
                 toValidate = 0;
                 for (Object[] sv : v) {
-                    if (sv.length != v.length) {
+                    if (sv.length != arrayValue.length) {
                         throw new NotASquareException("not a square");
                     }
                     toValidate += sv.length;
@@ -83,4 +102,7 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
         }
         return toValidate;
     }
+
+
+
 }

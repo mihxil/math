@@ -79,15 +79,13 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
         for(int col = 0; col < n; ++col) {
             boolean found = false;
             for(int row = col; row < n; ++row) {
-                if (!matrix[row][col].isZero()) {
+                if (! z.eq(matrix[row][col])) {
                     if ( row != col ) {
                         swap(matrix, row, col);
                         swaps++;
                     }
                     found = true;
                     break;
-                } else {
-                    ;
                 }
             }
 
@@ -97,11 +95,11 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
 
             for(int row = col + 1; row < n; ++row) {
                 while(true) {
-                    E del = matrix[row][col].dividedBy(matrix[col][col]);
+                    final E del = matrix[row][col].dividedBy(matrix[col][col]);
                     for (int j = col; j < n; ++j) {
                         matrix[row][j] = matrix[row][j].minus(del.times(matrix[col][j]));
                     }
-                    if (matrix[row][col].isZero()) {
+                    if (z.eq(matrix[row][col])) {
                         break;
                     } else {
                         swap(matrix, row, col);

@@ -23,14 +23,13 @@ import java.math.BigInteger;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.uncertainnumbers.field.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
@@ -54,6 +53,17 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
     public void pow() {
         UncertainDoubleElement w = new UncertainDoubleElement(-1971, 680);
         assertThat(w.pow(-2).getUncertainty()).isPositive();
+    }
+
+    @Test
+    public void determinant2() {
+         UncertainDoubleElement[][] realNumbers = new UncertainDoubleElement[][] {
+            new UncertainDoubleElement[]{UncertainDoubleElement.exactly(1), UncertainDoubleElement.exactly(2)},
+            new UncertainDoubleElement[]{UncertainDoubleElement.exactly(3), UncertainDoubleElement.exactly(4)},
+        };
+
+        assertThat(UncertainRealField.INSTANCE.determinant(realNumbers))
+            .isEqualTo(UncertainDoubleElement.exactly(-2));
     }
 
     @Property

@@ -21,6 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
@@ -153,6 +154,16 @@ class RealFieldTest implements
         RealNumber n2 = RealNumber.of(0);
         RealNumber weighted = n1.weightedAverage(n2);
         assertThat(weighted).isEqualTo(RealNumber.of(0));
+    }
+
+    @Test
+    public void determinant2() {
+           RealNumber[][] realNumbers = new RealNumber[][] {
+            new RealNumber[]{RealNumber.of(1), RealNumber.of(2)},
+            new RealNumber[]{RealNumber.of(3), RealNumber.of(4)},
+        };
+
+        assertThat(RealField.INSTANCE.determinant(realNumbers)).isEqualTo(RealNumber.of(-2));
     }
 
     @Test

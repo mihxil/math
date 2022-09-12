@@ -24,7 +24,9 @@ import org.junit.jupiter.api.Test;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.validation.*;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.validation.Square;
+import org.meeuw.math.validation.SquareValidator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -32,16 +34,28 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class SquareValidatorTest {
 
     static class A {
-        @Square(value = 4)
+        @Square(4)
         final int number;
 
         A(int number) {
             this.number = number;
         }
-  }
-    SquareValidator validator = new SquareValidator();
+    }
 
-    ValidatorFactory factory = Validation
+
+
+    static class A1 {
+        @Square(invertible = true)
+        final UncertainDoubleElement[][] array;
+
+        A1(double[][] array) {
+            this.array = UncertainDoubleElement.exactly(array);
+        }
+
+    }
+
+
+    final ValidatorFactory factory = Validation
             .byDefaultProvider()
             .configure()
             .messageInterpolator(new ParameterMessageInterpolator())
@@ -50,6 +64,7 @@ class SquareValidatorTest {
 
     @Test
     public void  test() {
+        SquareValidator validator = new SquareValidator();
         assertThat(validator.isValid(new String[]{"a", "b", "c", "d"}, null)).isTrue();
 
         assertThat(validator.isValid(new String[]{"a", "b", "c"}, null)).isFalse();
@@ -74,5 +89,14 @@ class SquareValidatorTest {
         assertThat(factory.getValidator().validate(new A(16))).isEmpty();
         assertThat(factory.getValidator().validate(new A(9))).hasSize(1);
     }
+
+
+    @Test
+    public void invertible() {
+        assertThat(factory.getValidator().validate(new A1(
+            new double[][]{{1, 2}, {3, 4}}))).isEmpty();
+
+    }
+
 
 }

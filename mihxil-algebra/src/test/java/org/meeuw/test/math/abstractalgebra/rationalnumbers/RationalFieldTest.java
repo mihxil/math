@@ -74,6 +74,15 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
 
         assertThat(INSTANCE.determinant(realNumbers)).isEqualTo(of(-10));
     }
+    @Test
+    public void determinant2() {
+        RationalNumber[][] realNumbers = new RationalNumber[][] {
+            new RationalNumber[]{of(1), of(2)},
+            new RationalNumber[]{of(3), of(4)},
+        };
+
+        assertThat(INSTANCE.determinant(realNumbers)).isEqualTo(of(-2));
+    }
 
 
 
