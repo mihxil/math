@@ -17,12 +17,13 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
-import org.assertj.core.api.Assumptions;
 import org.assertj.core.data.Percentage;
 
+import org.meeuw.math.exceptions.NotCombinableException;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.util.test.ElementTheory;
+import org.opentest4j.TestAbortedException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,8 +63,8 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
             } else {
                 assertThat(combined.getValue()).isBetween(e2.getValue(), e1.getValue());
             }
-        } catch(NotComparableException notComparableException) {
-            Assumptions.assumeThat(false).withFailMessage(() -> e1 + " and " + e2 + ":" + notComparableException.getMessage()).isTrue();
+        } catch(NotComparableException | NotCombinableException notComparableException) {
+            throw new TestAbortedException(e1 + " and " + e2 + ":" + notComparableException.getMessage());
         }
     }
 

@@ -29,7 +29,7 @@ import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
- *
+ * <p>
  * The structure is {@link UncertainRealField}
  *
  * @author Michiel Meeuwissen
@@ -78,7 +78,7 @@ public class UncertainDoubleElement
 
      /**
      * Just a shortcut to {@link #UncertainDoubleElement(double, double)}, which can be statically imported.
-     *
+     * <p>
      * So then you can type:
      * <pre>{@code
      *  import static org.meeuw.math.uncertainnumbers.UncertainDoubleElement.exactly;
@@ -90,6 +90,23 @@ public class UncertainDoubleElement
     public static UncertainDoubleElement exactly(double value) {
         return new UncertainDoubleElement(value, EXACT);
     }
+
+    public static UncertainDoubleElement[] exactly(double[] value) {
+        UncertainDoubleElement[] result = new UncertainDoubleElement[value.length];
+        for (int i = 0; i < value.length; i++) {
+            result[i] = exactly(value[i]);
+        }
+        return result;
+    }
+    public static UncertainDoubleElement[][] exactly(double[][] value) {
+
+        UncertainDoubleElement[][] result = new UncertainDoubleElement[value.length][];
+        for (int i = 0; i < value.length; i++) {
+            result[i] = exactly(value[i]);
+        }
+        return result;
+    }
+
 
     /**
      * Just like {@link #uncertain(double, double)}, but you could use it like so:
@@ -106,7 +123,7 @@ public class UncertainDoubleElement
 
     /**
      * Just a shortcut to {@link #UncertainDoubleElement(double, double)}, which can be statically imported.
-     *
+     * <p>
      * So then you can type:
      * <pre>{@code
      *  import static org.meeuw.math.uncertainnumbers.UncertainDoubleElement.uncertain;
