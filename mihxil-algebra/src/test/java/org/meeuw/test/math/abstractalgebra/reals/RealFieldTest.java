@@ -155,6 +155,14 @@ class RealFieldTest implements
         assertThat(weighted).isEqualTo(RealNumber.of(0));
     }
 
+    @Test
+    public void weightedAverageOfZero() {
+        RealNumber n1 = RealNumber.of(-906.2970587338823);
+        RealNumber n2 = RealNumber.of(0);
+        RealNumber weighted = n1.weightedAverage(n2);
+        assertThat(weighted).isEqualTo(RealNumber.of(0));
+    }
+
     @Override
 	@Provide
     public Arbitrary<RealNumber> elements() {

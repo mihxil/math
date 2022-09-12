@@ -83,6 +83,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     default D weightedAverage(UncertainDouble<?> combinand) {
         double u = getUncertainty();
         double mu = combinand.getUncertainty();
+        double value = getValue();
+        double mvalue = combinand.getValue();
 
         // if one of them is still undefined, guess that it would be the same as the other one.
         if (Double.isNaN(mu)) {
@@ -94,27 +96,27 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         } else if (Double.isNaN(u)) {
             u = mu;
         }
-        final double u2 = u * u;
-        final double mu2 = mu * mu;
+        final double u2 = Math.max(u * u, Utils.uncertaintyForDouble(value));
+        final double mu2 = Math.max(mu * mu, Utils.uncertaintyForDouble(mvalue));
 
         if (u2 == 0) {
             if (mu2 == 0) {
-                if (getValue() != combinand.getValue()) {
+                if (value != mvalue) {
                     throw new WeighingExceptValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
                 }
             }
-            return _of(getValue(), 0d);
-        } else if (mu == 0d) {
-            return _of(combinand.getValue(), 0d);
+            return _of(value, 0d);
+        } else if (mu2 == 0d) {
+            return _of(mvalue, 0d);
         }
-        final double weight = 1d / u2;
-        final double mweight = 1d / mu2;
+        final double weight = Math.min(1d / u2, Double.MAX_VALUE);
+        final double mweight = Math.min(1d / mu2, Double.MAX_VALUE);
 
-        final double value = (getValue() * weight + combinand.getValue() * mweight) / (weight + mweight);
+        final double returnValue = (value * weight + mvalue * mweight) / (weight + mweight);
 
         // I'm not absolutely sure about this:
-        final double uncertainty = 1d/ Math.sqrt((weight + mweight));
-        return _of(value, uncertainty);
+        final double returnUncertainty = 1d/ Math.sqrt((weight + mweight));
+        return _of(returnValue, returnUncertainty);
     }
 
     /**
