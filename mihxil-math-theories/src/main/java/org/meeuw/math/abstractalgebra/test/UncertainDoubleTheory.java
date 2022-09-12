@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
+import org.assertj.core.api.Assumptions;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.math.exceptions.NotComparableException;
@@ -38,24 +39,31 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
     @Property
     default void plus(
         @ForAll(ELEMENTS) E e1,
-        @ForAll(ELEMENTS) E e2) throws NotComparableException {
-
-        E sum = e1.plus(e2);
-        getLogger().info("{} + {} = {}", e1, e2, sum);
-        assertThat(sum.getValue()).isEqualTo(e1.getValue() + e2.getValue());
+        @ForAll(ELEMENTS) E e2)  {
+        try {
+            E sum = e1.plus(e2);
+            getLogger().info("{} + {} = {}", e1, e2, sum);
+            assertThat(sum.getValue()).isEqualTo(e1.getValue() + e2.getValue());
+        } catch(NotComparableException notComparableException) {
+            Assume.that(false);
+        }
 
     }
 
     @Property
     default void weightedAverage(
         @ForAll(ELEMENTS) E e1,
-        @ForAll(ELEMENTS) E e2) throws NotComparableException {
-        E combined = e1.weightedAverage(e2);
-        getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.getValue());
-        if (e1.getValue() < e2.getValue()) {
-            assertThat(combined.getValue()).isBetween(e1.getValue(), e2.getValue());
-        } else {
-            assertThat(combined.getValue()).isBetween(e2.getValue(), e1.getValue());
+        @ForAll(ELEMENTS) E e2)  {
+        try {
+            E combined = e1.weightedAverage(e2);
+            getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.getValue());
+            if (e1.getValue() < e2.getValue()) {
+                assertThat(combined.getValue()).isBetween(e1.getValue(), e2.getValue());
+            } else {
+                assertThat(combined.getValue()).isBetween(e2.getValue(), e1.getValue());
+            }
+        } catch(NotComparableException notComparableException) {
+            Assumptions.assumeThat(false).withFailMessage(() -> e1 + " and " + e2 + ":" + notComparableException.getMessage()).isTrue();
         }
     }
 
