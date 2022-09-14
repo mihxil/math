@@ -41,7 +41,7 @@ public class UncertainDoubleFormat extends Format {
      * The minimum exponent defined how close a number must be to 1, to not use scientific notation
      * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
      * -10000) are presented without useage of scientific notation
-     *
+     * <p>
      * This is used in {@link #toString()}
      */
     @Getter

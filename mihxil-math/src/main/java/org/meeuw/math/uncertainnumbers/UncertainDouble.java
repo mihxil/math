@@ -32,9 +32,8 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * A number with an uncertainty {@link #getUncertainty()}
  *
  * Also defines scalar operations.
- *
+ * <p>
  * This differs from {@link UncertainNumber}, because it is implemented with primitive doubles.
- *
  *
  * @author Michiel Meeuwissen
  * @since 0.4

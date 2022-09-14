@@ -216,7 +216,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @return the rate as a double
      */
     public double getRate(TimeUnit unit) {
-
         long totalCount = getTotalCount();
         Duration relevantDuration = getRelevantDuration();
         return ((double) totalCount * TimeUnit.NANOSECONDS.convert(1, unit)) / relevantDuration.toNanos();
@@ -227,7 +226,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @return the rate as a double
      * @param perInterval The reciprocal unit of the rate to report e.g. 1 second or 1 minute.
      */
-    public double getRate(Duration perInterval) {
+    public double getRate(final Duration perInterval) {
         long totalCount = getTotalCount();
         Duration relevantDuration = getRelevantDuration();
         return ((double) totalCount * perInterval.toNanos()) / relevantDuration.toNanos();

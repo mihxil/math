@@ -26,7 +26,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncer
 
 /**
  * A number with an uncertainty where the uncertainty is simply explicitly stated.
- *
+ * <p>
  * This is e.g. the single result of a measurement.
  *
  * @author Michiel Meeuwissen
