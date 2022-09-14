@@ -57,6 +57,9 @@
             </goals>
             <configuration>
               <append>true</append>
+              <excludes>
+                <exclude>JAVAC.ASSERT</exclude>
+              </excludes>
             </configuration>
           </execution>
           <execution>
@@ -69,6 +72,9 @@
         </executions>
         <configuration>
           <append>true</append>
+          <excludes>
+            <exclude>JAVAC.ASSERT</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
