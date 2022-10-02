@@ -16,8 +16,14 @@
 package org.meeuw.math.uncertainnumbers;
 
 import lombok.Getter;
+import lombok.With;
 
 import java.util.function.Supplier;
+
+import org.meeuw.math.WithUnits;
+import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.meeuw.math.CollectionUtils.memoize;
 
@@ -25,25 +31,34 @@ import static org.meeuw.math.CollectionUtils.memoize;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ImmutableUncertainNumber<N extends Number> implements UncertainNumber<N> {
+public class ImmutableUncertainNumber<N extends Number> implements UncertainNumber<N> , WithUnits  {
 
     @Getter
     private final N value;
 
     private final Supplier<N> uncertainty;
 
+    @Getter
+    @With
+    private final String unitsAsString;
+
     public static <N extends Number> ImmutableUncertainNumber<N> of(N value, Supplier<N> uncertainty) {
         return new ImmutableUncertainNumber<>(value, uncertainty);
     }
 
-    public ImmutableUncertainNumber(N value, N uncertainty) {
+    @lombok.Builder
+    private ImmutableUncertainNumber(N value, Supplier<N> uncertainty, String unitsAsString) {
         this.value = value;
-        this.uncertainty = () -> uncertainty;
+        this.uncertainty = uncertainty;
+        this.unitsAsString = unitsAsString;
+    }
+
+    public ImmutableUncertainNumber(N value, N uncertainty) {
+        this(value, () -> uncertainty, null);
     }
 
     public ImmutableUncertainNumber(N value, Supplier<N> uncertainty) {
-        this.value = value;
-        this.uncertainty = memoize(uncertainty);
+        this(value, memoize(uncertainty), null);
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
@@ -62,4 +77,11 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     public N getUncertainty() {
         return this.uncertainty.get();
     }
+
+    @Override
+    public String toString() {
+        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+        return formatter.format(this) + unitsAsString;
+    }
+
 }
