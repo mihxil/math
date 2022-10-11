@@ -10,21 +10,26 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.meeuw.configuration.spi.ToStringProvider;
 
 @Log
 class ConfigurationPreferences {
 
-    private static final Preferences USER_PREFERENCES;
+    @MonotonicNonNull
+    private static Preferences USER_PREFERENCES;
 
-    static {
-        Preferences userPreferences = null;
-        try {
-            userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
-        } catch (Exception e) {
-            log.log(Level.WARNING, e, () -> e.getClass().getName() + ":" + e.getMessage());
+    static synchronized Preferences getUserPreferences() {
+        if (USER_PREFERENCES == null) {
+            Preferences userPreferences = null;
+            try {
+                userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
+            } catch (Exception e) {
+                log.log(Level.WARNING, e, () -> e.getClass().getName() + ":" + e.getMessage());
+            }
+            USER_PREFERENCES = userPreferences;
         }
-        USER_PREFERENCES = userPreferences;
+        return USER_PREFERENCES;
     }
 
     private ConfigurationPreferences() {
@@ -165,13 +170,14 @@ class ConfigurationPreferences {
         }
     }
 
+    @SuppressWarnings("unchecked")
     static <C> C getSerializable(Preferences pref, String key, C defaultValue) {
         final byte[] bytes = pref.getByteArray(key, new byte[0]);
         //assert defaultValue instanceof Serializable;
         if (bytes.length > 0) {
             try (
-                ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
-                ObjectInputStream si = new ObjectInputStream(bi)) {
+                final ByteArrayInputStream bi = new ByteArrayInputStream(bytes);
+                final ObjectInputStream si = new ObjectInputStream(bi)) {
                 return (C) si.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 log.log(Level.WARNING, e.getMessage(), e);
