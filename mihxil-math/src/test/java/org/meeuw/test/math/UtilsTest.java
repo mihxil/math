@@ -150,7 +150,7 @@ class UtilsTest {
 
     @Provide
     Arbitrary<Long> positiveLongs() {
-        return Arbitraries.randomValue(random -> random.nextLong(1_000_000_000));
+        return Arbitraries.randomValue(random -> (long) random.nextInt(1_000_000_000));
     }
 
     @Test

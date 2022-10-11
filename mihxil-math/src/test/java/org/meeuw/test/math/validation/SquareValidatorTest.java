@@ -15,8 +15,7 @@
  */
 package org.meeuw.test.math.validation;
 
-import jakarta.validation.Validation;
-import jakarta.validation.ValidatorFactory;
+import jakarta.validation.*;
 
 import java.util.Arrays;
 
@@ -82,8 +81,16 @@ class SquareValidatorTest {
         assertThatThrownBy(() -> {
             validator.isValid("", null);
         }).isInstanceOf(IllegalArgumentException.class);
-
     }
+
+    @Test
+    public void testInvertible() {
+        SquareValidator validator = new SquareValidator();
+        validator.setInvertible(true);
+
+        assertThatThrownBy(() -> validator.isValid(Arrays.asList("a"), null)).isInstanceOf(IllegalArgumentException.class);
+    }
+
     @Test
     public void validate() {
         assertThat(factory.getValidator().validate(new A(16))).isEmpty();
@@ -93,8 +100,12 @@ class SquareValidatorTest {
 
     @Test
     public void invertible() {
-        assertThat(factory.getValidator().validate(new A1(
-            new double[][]{{1, 2}, {3, 4}}))).isEmpty();
+        Validator validator = factory.getValidator();
+        assertThat(factory.getValidator().validate(
+            new A1(new double[][]{{1, 2}, {3, 4}}))).isEmpty();
+
+
+
 
     }
 

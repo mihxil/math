@@ -17,6 +17,7 @@ package org.meeuw.math.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.Setter;
 
 import java.util.Collection;
 
@@ -26,15 +27,19 @@ import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.numbers.SizeableScalar;
 
 public class SquareValidator implements ConstraintValidator<Square, Object> {
+
+    @Setter
     private int dimension = -1;
+    @Setter
     private boolean invertible = false;
 
 
     @Override
     public void initialize(Square constraintAnnotation) {
-        dimension = constraintAnnotation.value();
-        invertible = constraintAnnotation.invertible();
+        setDimension(constraintAnnotation.value());
+        setInvertible(constraintAnnotation.invertible());
     }
+
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
