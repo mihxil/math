@@ -18,37 +18,38 @@ jobs:
       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
       - name: Cancel previous Action
-        uses: styfle/cancel-workflow-action@0.10.0
+        uses: styfle/cancel-workflow-action@0.11.0
       - uses: actions/checkout@v3
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - uses: actions/setup-java@v3.5.1
         with:
-          java-version: 17
           distribution: 'temurin'
+          java-version: 17
+          cache: maven
+          server-id: vpro-ossrh
+          server-username: OSSRH_USERNAME
+          server-password: OSSRH_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+          gpg-passphrase: GPG_SECRET_KEY_PASSPHRASE
       - name: Build with Maven
         run: |
           mvn -B -fae
       - uses: codecov/codecov-action@v3
         if: ${{ ! cancelled()}}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.0.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.1.0
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
-      - uses: crazy-max/ghaction-import-gpg@v5.1.0
-        with:
-           gpg_private_key: ${{ secrets.GPG_SECRET_KEY }}
-           passphrase: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
-      - name: Create settings.xml
-        uses: s4u/maven-settings-action@v2.6.0
-        with:
-          servers: '[{"id": "ossrh", "username": "mihxil", "password": "${{secrets.OSSRH_PASSWORD}}"}]'
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled()}}
+        env:
+          OSSRH_USERNAME: mihxil
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          GPG_SECRET_KEY_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9.1.0
         with:
