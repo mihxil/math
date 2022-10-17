@@ -15,6 +15,11 @@
  */
 package org.meeuw.math.exceptions;
 
+/**
+ * Thrown if some number is unexpectedly not a square.
+ * <p>
+ * E.g. if taking an integer square root, expecting a new integer.
+ */
 public class NotASquareException extends InvalidElementCreationException {
     public NotASquareException(String s) {
         super(s);

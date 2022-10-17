@@ -173,7 +173,7 @@ public final class Utils {
     /**
      * <p>A quick square root implementation fpr integers.</p>
      * <p>
-     * Returns the biggest integer that is smaller or equals then  the square root of an integer.
+     * Returns the biggest integer that is smaller or equals then the square root of an integer.
      * </p>
      * <p>
      * Using in  binary search algorithm.
