@@ -16,6 +16,11 @@
 package org.meeuw.math.windowed;
 
 import java.time.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
@@ -28,9 +33,39 @@ import org.meeuw.math.statistics.StatisticalLong;
  * @author Michiel Meeuwissen
  * @since 1.66
  */
-public class WindowedStatisticalLong extends WindowedStatisticalNumber<StatisticalLong> implements LongConsumer {
+public class WindowedStatisticalLong extends WindowedStatisticalNumber<StatisticalLong> implements LongConsumer, AutoCloseable {
 
     private final StatisticalLong.Mode mode;
+
+    private final AtomicInteger runningDurationIdentifier = new AtomicInteger(0);
+    private final Map<Integer, RunningDuration> runningDurations = new ConcurrentHashMap<>();
+
+
+
+    public class RunningDuration {
+        final Integer id = runningDurationIdentifier.incrementAndGet();
+        final Instant started = clock.instant();
+        final CompletableFuture<Instant> future = new CompletableFuture<>();
+
+        {
+            runningDurations.put(id, this);
+            future.thenAccept(i -> {
+                accept(currentValue(i));
+                runningDurations.remove(id);
+            });
+        }
+
+        public void complete() {
+            future.complete(clock.instant());
+        }
+        protected Duration currentValue(Instant now) {
+            return Duration.between(started, now);
+        }
+        protected Duration currentValue() {
+            return currentValue(clock.instant());
+        }
+
+    }
 
     @lombok.Builder
     protected WindowedStatisticalLong(
@@ -55,6 +90,23 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         currentBucket().accept(value);
     }
 
+    @Override
+    public StatisticalLong getWindowValue() {
+        StatisticalLong result = super.getWindowValue();
+        for (RunningDuration runningDuration : runningDurations.values()) {
+            result.enter(runningDuration.currentValue());
+        }
+        return result;
+    }
+
+    @Override
+    public void close()  {
+        runningDurations.values().forEach(r -> {
+            r.future.cancel(true);
+        });
+        runningDurations.clear();
+    }
+
     public void accept(long... value) {
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(value);
@@ -68,6 +120,26 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
     public void accept(Duration... duration) {
         StatisticalLong currentBucket = currentBucket();
         currentBucket.enter(duration);
+    }
+
+    /**
+     * Add a duration by measuring it. Call this before the interval, and call {@link RunningDuration#complete()} after it.
+     * <p>
+     * During this time the current duration is entered in {@link #getWindowValue()}
+     * This is certainly an underestimate, but entering nothing at all may be even worse.
+     */
+    public RunningDuration measure() {
+        if (mode != StatisticalLong.Mode.DURATION) {
+            throw new IllegalStateException();
+        }
+        return new RunningDuration();
+    }
+
+    public Collection<RunningDuration> getRunningDurations() {
+        if (mode != StatisticalLong.Mode.DURATION) {
+            throw new IllegalStateException();
+        }
+        return runningDurations.values();
     }
 
     public static class Builder {

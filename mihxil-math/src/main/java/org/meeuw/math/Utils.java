@@ -18,7 +18,8 @@ package org.meeuw.math;
 import jakarta.validation.constraints.*;
 
 import java.math.*;
-import java.util.*;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
@@ -375,8 +376,12 @@ public final class Utils {
 
     /**
      * @see Math#round(double)
+     * @throws IllegalArgumentException if {@code value} is {@code NaN}
      */
     public static long round(double value) {
+        if (Double.isNaN(value)) {
+            throw new IllegalArgumentException("Cannot round " + value + " to a long");
+        }
         return Math.round(value);
     }
 

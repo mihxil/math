@@ -172,6 +172,10 @@ class UtilsTest {
         assertThat(Utils.round(1.2)).isEqualTo(1);
         assertThat(Utils.round(1.5)).isEqualTo(2);
         assertThat(Utils.round(-1.5)).isEqualTo(-1);
+        assertThat(Utils.round(Double.POSITIVE_INFINITY)).isEqualTo(Long.MAX_VALUE);
+        assertThat(Utils.round(Double.NEGATIVE_INFINITY)).isEqualTo(Long.MIN_VALUE);
+
+        assertThatThrownBy(() -> Utils.round(Double.NaN)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test

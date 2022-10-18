@@ -26,6 +26,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -144,9 +145,16 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return this;
     }
 
-    public double getMean() {
+    /**
+     * @throws DivisionByZeroException if there are no values entered
+     */
+    public double getMean() throws DivisionByZeroException {
+        if (count == 0) {
+            throw new DivisionByZeroException("No values entered, cannot calculate mean");
+        }
         return (double) guessedMean + ((double) sum / count) + doubleOffset;
     }
+
 
     public long getRoundedMean() {
         return round(getMean());
@@ -165,7 +173,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
             return new UncertainDoubleElement(getValue(), getUncertainty()).abs();
         }
     }
-
 
     protected long round(double in) {
         long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
@@ -311,8 +318,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
             accept(d);
         }
     }
-     public void enter(Duration... duration) {
-         if (mode != Mode.DURATION) {
+    public void enter(Duration... duration) {
+        if (mode != Mode.DURATION) {
             throw new IllegalStateException();
         }
         for (Duration d : duration) {

@@ -274,8 +274,9 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
             assertThat(rate.getRelevantDuration()).isEqualTo(Duration.ofMillis(1));
             assertThat(rate.getRate()).isEqualTo(0d);
         }
-
     }
+
+
 
     //@Override
     public Arbitrary<UncertainDouble<UncertainReal>> elements() {

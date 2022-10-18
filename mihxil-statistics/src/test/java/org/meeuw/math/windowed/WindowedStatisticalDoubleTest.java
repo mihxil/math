@@ -59,7 +59,8 @@ class WindowedStatisticalDoubleTest {
         assertThat(windowValue.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(uncertainNumber.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(windowValue.getCount()).isEqualTo(8);
-
     }
+
+
 
 }
