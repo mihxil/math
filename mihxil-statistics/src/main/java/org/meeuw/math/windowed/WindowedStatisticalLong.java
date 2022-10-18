@@ -18,7 +18,6 @@ package org.meeuw.math.windowed;
 import java.time.*;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
@@ -41,22 +40,20 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
     private final Map<Integer, RunningDuration> runningDurations = new ConcurrentHashMap<>();
 
 
-
+    /**
+     * Representation of a duration that is currently being measured.
+     */
     public class RunningDuration {
         final Integer id = runningDurationIdentifier.incrementAndGet();
         final Instant started = clock.instant();
-        final CompletableFuture<Instant> future = new CompletableFuture<>();
 
         {
             runningDurations.put(id, this);
-            future.thenAccept(i -> {
-                accept(currentValue(i));
-                runningDurations.remove(id);
-            });
-        }
+                }
 
         public void complete() {
-            future.complete(clock.instant());
+            accept(currentValue());
+            runningDurations.remove(id);
         }
         protected Duration currentValue(Instant now) {
             return Duration.between(started, now);
@@ -101,9 +98,6 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
 
     @Override
     public void close()  {
-        runningDurations.values().forEach(r -> {
-            r.future.cancel(true);
-        });
         runningDurations.clear();
     }
 

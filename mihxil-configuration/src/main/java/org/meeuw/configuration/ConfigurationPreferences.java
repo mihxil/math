@@ -91,11 +91,11 @@ class ConfigurationPreferences {
              configuration.aspectValue(as);
          }
 
-         log.info(() -> "Read " + USER_PREFERENCES);
+         log.fine(() -> "Read " + USER_PREFERENCES);
     }
 
     private static Preferences node(ConfigurationAspect aspect) {
-        return USER_PREFERENCES.node(aspect.getClass().getCanonicalName());
+        return getUserPreferences().node(aspect.getClass().getCanonicalName());
     }
 
     static void put(Preferences pref, String key, final Object paramValue) throws IOException {

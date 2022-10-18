@@ -22,6 +22,7 @@ import java.util.LongSummaryStatistics;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
@@ -235,7 +236,11 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
      */
     @Override
     public String toString() {
-        return FormatService.toString(this);
+        try {
+            return FormatService.toString(this);
+        } catch (DivisionByZeroException divisionByZeroException) {
+            return "NaN";
+        }
     }
 }
 

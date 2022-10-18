@@ -218,14 +218,14 @@ public class ConfigurationService {
         final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> m = createEmptyMap();
         final ServiceLoader<ConfigurationAspect> loader = ServiceLoader.load(ConfigurationAspect.class);
 
-        Iterator<ConfigurationAspect> iterator = loader.iterator();
+        final Iterator<ConfigurationAspect> iterator = loader.iterator();
         while(true) {
             try {
                 if (!iterator.hasNext()) {
                     break;
                 }
                 ConfigurationAspect configurationAspect = iterator.next();
-                log.info(() -> "Found " + configurationAspect.getClass().getCanonicalName());
+                log.fine(() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
             } catch (Throwable e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
