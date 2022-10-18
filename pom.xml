@@ -24,8 +24,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <java.target.version>8</java.target.version>
-
-    <java.version>11</java.version>
+    <java.version>17</java.version>
 
     <!-- compile time -->
     <lombok.version>1.18.24</lombok.version>
