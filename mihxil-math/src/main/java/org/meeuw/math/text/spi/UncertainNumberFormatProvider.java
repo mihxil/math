@@ -34,10 +34,7 @@ public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvide
     public UncertainNumberFormat getInstance(Configuration configuration) {
         UncertainNumberFormat format = new UncertainNumberFormat();
         NumberConfiguration numberConfiguration = getConfigurationAspect(NumberConfiguration.class);
-        format.setMinimumExponent(numberConfiguration.getMinimalExponent());
-        format.setNumberFormat(numberConfiguration.getNumberFormat());
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
-        format.setConsiderRoundingErrorFactor(getConfigurationAspect(UncertaintyConfiguration.class).getConsiderRoundingErrorFactor());
 
         return format;
     }
