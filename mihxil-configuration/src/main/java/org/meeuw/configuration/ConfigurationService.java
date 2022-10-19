@@ -227,6 +227,8 @@ public class ConfigurationService {
                 ConfigurationAspect configurationAspect = iterator.next();
                 log.fine(() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
+            } catch (ServiceConfigurationError se) {
+                log.warning(se.getMessage());
             } catch (Throwable e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }

@@ -37,7 +37,6 @@ public class ConfigurationServiceTest {
     @Test
     public void invalidConfigurationAspect() {
         Assertions.assertThatThrownBy(() -> getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
-
     }
 
     @Test
