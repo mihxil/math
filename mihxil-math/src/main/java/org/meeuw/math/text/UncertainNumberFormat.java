@@ -19,11 +19,8 @@ import lombok.*;
 
 import java.text.*;
 
-import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
-
-import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,36 +28,9 @@ import static org.meeuw.math.Utils.uncertaintyForDouble;
  */
 public class UncertainNumberFormat extends Format {
 
-    public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
-
-
-    /**
-     * The minimum exponent defined how close a number must be to 1, to not use scientific notation
-     * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
-     * -10000) are presented without useage of scientific notation
-     * <p>
-     * This is used in {@link #toString()}
-     */
-    @Getter
-    @Setter
-    private int minimumExponent = 4;
-
     @Getter
     @Setter
     private UncertaintyConfiguration.Notation uncertaintyNotation = UncertaintyConfiguration.Notation.PLUS_MINUS;
-
-    @Getter
-    @Setter
-    private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
-
-    @Getter
-    @Setter
-    private double considerRoundingErrorFactor = 1000d;
-
-
-    private boolean roundingErrorsOnly(double value, double uncertainty) {
-        return uncertainty < uncertaintyForDouble(value) * considerRoundingErrorFactor;
-    }
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
