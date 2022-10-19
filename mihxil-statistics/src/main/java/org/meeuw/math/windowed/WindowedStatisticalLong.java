@@ -57,7 +57,7 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         }
 
         @Override
-        public void close() throws Exception {
+        public void close() {
             complete();
         }
 
