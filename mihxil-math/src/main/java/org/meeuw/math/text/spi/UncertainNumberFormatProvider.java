@@ -18,7 +18,6 @@ package org.meeuw.math.text.spi;
 import org.meeuw.configuration.Configuration;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.UncertainNumberFormat;
-import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -33,9 +32,7 @@ public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvide
     @Override
     public UncertainNumberFormat getInstance(Configuration configuration) {
         UncertainNumberFormat format = new UncertainNumberFormat();
-        NumberConfiguration numberConfiguration = getConfigurationAspect(NumberConfiguration.class);
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
-
         return format;
     }
 
