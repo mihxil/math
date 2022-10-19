@@ -53,7 +53,7 @@ public class ConfigurationService {
     static {
         readDefaults();
         ConfigurationPreferences.addPreferenceChangeListener(DEFAULT);
-        storeDefaults();
+        //storeDefaults();
     }
 
     public static final ThreadLocal<Configuration> CONFIGURATION =

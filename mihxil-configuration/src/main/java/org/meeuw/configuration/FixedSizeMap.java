@@ -19,7 +19,7 @@ import java.util.*;
 
 /**
  * A simple {@link Map} implementation which allows for changing mappings, but not adding or deleting them.
- *
+ * <p>
  * This is used when representing configurations.
  *
  * @author Michiel Meeuwissen

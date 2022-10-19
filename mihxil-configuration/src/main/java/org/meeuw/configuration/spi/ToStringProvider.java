@@ -6,9 +6,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * SPI to serialize and deserialize to and from String, without resorting to serialization.
- *
+ * <p>
  * E.g. a {@link java.math.MathContext} can be serialized, but can also be written to String and parsed by very naturally.
- *
+ * <p>
  * This can only be used if the type is known beforehand.
  */
 public interface ToStringProvider<C> extends Comparable<ToStringProvider<?>> {

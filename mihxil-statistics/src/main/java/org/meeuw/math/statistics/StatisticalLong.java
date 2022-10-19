@@ -34,6 +34,8 @@ import org.meeuw.math.uncertainnumbers.field.*;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
+ * <p>
+ * It can work in different {@link Mode}s, which indicates how the long value itself must be interpreted.
  *
  * @author Michiel Meeuwissen
  */
@@ -351,9 +353,21 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return this;
     }
 
+    /**
+     * The long value contained in a {@link StatisticalLong} can be interpreted in different ways.
+     */
     public enum Mode {
+        /**
+         * Just a some number
+         */
         LONG,
+        /**
+         * The long must be interpreted as a point in time. Milliseconds since EPOCH
+         */
         INSTANT,
+        /**
+         * The long must be interpreted as duration. A number of milliseconds.
+         */
         DURATION
     }
 

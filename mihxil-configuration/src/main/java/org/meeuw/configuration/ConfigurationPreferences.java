@@ -55,7 +55,6 @@ class ConfigurationPreferences {
             for (Method m : aspect.getClass().getDeclaredMethods()) {
                 if (m.getName().length() > 3 && m.getName().startsWith("get") && m.getParameterTypes().length == 0 && !Modifier.isStatic(m.getModifiers())) {
                     String name = m.getName().substring(3);
-                    Class<?> returnType = m.getReturnType();
                     try {
                         Object value = m.invoke(aspect);
                         put(node, name, value);
@@ -101,16 +100,6 @@ class ConfigurationPreferences {
     static void put(Preferences pref, String key, final Object paramValue) throws IOException {
         if (paramValue == null) {
             pref.remove(key);
-        } else if (paramValue instanceof Integer) {
-            pref.putInt(key, (Integer) paramValue);
-        } else if (paramValue instanceof Long) {
-            pref.putLong(key, (Long) paramValue);
-        } else if (paramValue instanceof Boolean) {
-            pref.putBoolean(key, (Boolean) paramValue);
-        } else if (paramValue instanceof Float) {
-            pref.putFloat(key, (Float) paramValue);
-        } else if (paramValue instanceof Double) {
-            pref.putDouble(key, (Double) paramValue);
         } else {
             Optional<String> o = toString(paramValue);
             if (o.isPresent()) {

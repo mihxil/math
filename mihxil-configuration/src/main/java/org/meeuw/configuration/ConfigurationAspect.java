@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Represents one (immutable) aspect of a {@link Configuration}.
- *
+ * <p>
  * Every implementation uses (lombok) 'get' for access and 'with' for a new version.
  *
  * @author Michiel Meeuwissen
