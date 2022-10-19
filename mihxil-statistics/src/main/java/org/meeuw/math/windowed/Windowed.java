@@ -29,13 +29,13 @@ import org.meeuw.math.Interval;
 
 /**
  * Some metrics can be aggregated per unit of time. A 'Windowed' instance targets to accommodate that.
- *
+ * <p>
  * This window is divided up in a certain number of 'buckets', of which the oldest bucket expires every time after {@code <window duration>/<number of buckets>} and is discarded.
- *
+ * <p>
  * The idea is that the values in the buckets can be used to calculate averages which are based on sufficiently long times, though sufficiently sensitive for changes. So you actually look at a window in time that slides gradually forward. A 'sliding window'.
- *
+ * <p>
  * The most basic implementation is {@link WindowedEventRate} which simply maintains a value 'events per unit of time':
- *
+ * <p>
  * e.g.:
  *<pre>
  * {@code

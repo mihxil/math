@@ -34,7 +34,8 @@ public class UncertainNumberFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber<?> uncertainNumber) {
+        if (number instanceof UncertainNumber<?>) {
+            UncertainNumber<?> uncertainNumber = (UncertainNumber<?>) number;
             toAppendTo.append(valueAndError(uncertainNumber.getValue().toString(), uncertainNumber.getUncertainty().toString(), getUncertaintyNotation()));
             return toAppendTo;
         } else {
@@ -62,10 +63,14 @@ public class UncertainNumberFormat extends Format {
     }
 
     public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
-        return switch (uncertaintyNotation) {
-            case PARENTHESES -> valueParenthesesError(value, error);
-            case PLUS_MINUS -> valuePlusMinError(value, error);
-        };
+        switch (uncertaintyNotation) {
+            case PARENTHESES:
+                return valueParenthesesError(value, error);
+            case PLUS_MINUS:
+                return valuePlusMinError(value, error);
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 
 

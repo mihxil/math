@@ -28,7 +28,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.text.UncertainDoubleFormat.valuePlusMinError;
+import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
 
 /**
  * @author Michiel Meeuwissen
