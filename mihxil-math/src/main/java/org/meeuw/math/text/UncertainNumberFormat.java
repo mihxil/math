@@ -34,9 +34,7 @@ public class UncertainNumberFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber<?>) {
-            UncertainNumber<?> uncertainNumber = (UncertainNumber<?>) number;
-
+        if (number instanceof UncertainNumber<?> uncertainNumber) {
             toAppendTo.append(valueAndError(uncertainNumber.getValue().toString(), uncertainNumber.getUncertainty().toString(), getUncertaintyNotation()));
             return toAppendTo;
         } else {
