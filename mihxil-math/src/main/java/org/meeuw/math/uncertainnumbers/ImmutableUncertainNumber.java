@@ -22,8 +22,8 @@ import java.util.function.Supplier;
 
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
-import org.meeuw.math.text.UncertainDoubleFormat;
-import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
 
 import static org.meeuw.math.CollectionUtils.memoize;
 
@@ -80,8 +80,8 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
 
     @Override
     public String toString() {
-        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
-        return formatter.format(this) + unitsAsString;
+        UncertainNumberFormat formatter = FormatService.getFormat(UncertainNumberFormatProvider.class);
+        return formatter.format(this) + (unitsAsString == null ? "" : " " + unitsAsString);
     }
 
 }

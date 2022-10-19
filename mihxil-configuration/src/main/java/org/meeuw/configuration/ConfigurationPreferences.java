@@ -180,7 +180,7 @@ class ConfigurationPreferences {
                 final ObjectInputStream si = new ObjectInputStream(bi)) {
                 return (C) si.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                log.log(Level.WARNING, e.getMessage(), e);
+                log.log(Level.WARNING, "For byte array with length " + bytes.length + ":" + e.getClass().getName() + ": " + e.getMessage() + ", defaulting to "+ defaultValue);
                 return defaultValue;
             }
         } else {

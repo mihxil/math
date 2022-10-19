@@ -27,6 +27,7 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
 
 /**
  * @author Michiel Meeuwissen
@@ -76,7 +77,7 @@ public class UncertainDoubleFormat extends Format {
             }
             return toAppendTo;
         } else {
-            throw new IllegalArgumentException("Cannot format given Object as a Number");
+            throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
         }
     }
 
@@ -146,27 +147,6 @@ public class UncertainDoubleFormat extends Format {
                     +
                     (useBrackets ? ")" : "") + (useE ? (TIMES_10 + TextUtils.superscript(mean.exponent)) : "");
         });
-    }
-
-    public static String valuePlusMinError(String value, String error) {
-        return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
-    }
-
-    public static String valueParenthesesError(String value, String error) {
-        int i = 0;
-        while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
-             i++;
-         }
-         return value +  "(" + error.substring(i) + ")";
-    }
-
-    public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
-         switch(uncertaintyNotation) {
-
-             case PARENTHESES: return valueParenthesesError(value, error);
-             default:
-             case PLUS_MINUS: return valuePlusMinError(value, error);
-         }
     }
 
 

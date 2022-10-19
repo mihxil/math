@@ -6,8 +6,7 @@ import org.meeuw.math.numbers.*;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
-import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+import org.meeuw.math.text.spi.*;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 /**
@@ -45,7 +44,9 @@ module org.meeuw.math {
     uses ConfigurationAspect;
 
     provides AlgebraicElementFormatProvider with
-        UncertainDoubleFormatProvider;
+        UncertainDoubleFormatProvider,
+        UncertainNumberFormatProvider
+        ;
     provides ConfigurationAspect with
         StreamUtils.Configuration,
         NumberConfiguration,
