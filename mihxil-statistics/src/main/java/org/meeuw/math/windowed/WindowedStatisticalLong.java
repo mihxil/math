@@ -43,7 +43,7 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
     /**
      * Representation of a duration that is currently being measured.
      */
-    public class RunningDuration {
+    public class RunningDuration implements AutoCloseable {
         final Integer id = runningDurationIdentifier.incrementAndGet();
         final Instant started = clock.instant();
 
@@ -55,6 +55,12 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
             accept(currentValue());
             runningDurations.remove(id);
         }
+
+        @Override
+        public void close() throws Exception {
+            complete();
+        }
+
         protected Duration currentValue(Instant now) {
             return Duration.between(started, now);
         }
