@@ -19,6 +19,8 @@ import lombok.Getter;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
+import java.util.OptionalDouble;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
@@ -151,10 +153,15 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      * @throws DivisionByZeroException if there are no values entered
      */
     public double getMean() throws DivisionByZeroException {
+        return getOptionalMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
+    }
+
+    public OptionalDouble getOptionalMean() {
         if (count == 0) {
-            throw new DivisionByZeroException("No values entered, cannot calculate mean");
+            return OptionalDouble.empty();
+        } else {
+            return OptionalDouble.of((double) guessedMean + ((double) sum / count) + doubleOffset);
         }
-        return (double) guessedMean + ((double) sum / count) + doubleOffset;
     }
 
 
@@ -221,8 +228,19 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public Duration durationValue() {
-        return Duration.ofMillis(longValue());
+        return Duration.ofNanos((long) (getValue() * 1_000_000));
     }
+
+    public Optional<Duration> optionalDurationValue() {
+        OptionalDouble d =  getOptionalMean();
+        if (d.isPresent()) {
+            return Optional.of(Duration.ofNanos((long) (d.getAsDouble() * 1_000_000)));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+
 
     @Override
     public double getStandardDeviation() {
