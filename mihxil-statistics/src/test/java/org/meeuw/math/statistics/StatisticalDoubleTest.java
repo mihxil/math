@@ -24,9 +24,11 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 /**
@@ -95,6 +97,12 @@ public class StatisticalDoubleTest implements
         d1.enter(0.5);
         d2.enter(0.5);
         assertThat(d1).isEqualTo(d2);
+    }
+
+    @Test
+    public void testWhenNoValues() {
+        StatisticalDouble d1 = new StatisticalDouble();
+        assertThatThrownBy(d1::getMean).isInstanceOf(DivisionByZeroException.class);
     }
 
     @Test

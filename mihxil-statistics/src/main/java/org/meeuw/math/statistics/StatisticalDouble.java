@@ -17,6 +17,7 @@ package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
+import java.util.OptionalDouble;
 import java.util.function.DoubleConsumer;
 
 import org.meeuw.math.NonAlgebraic;
@@ -108,7 +109,15 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
     }
 
     public double getMean() {
-        return sum / count;
+        return getOptionalMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
+    }
+
+    public OptionalDouble getOptionalMean() {
+        if (count == 0) {
+            return OptionalDouble.empty();
+        } else {
+            return OptionalDouble.of(sum / count);
+        }
     }
 
     @Override
