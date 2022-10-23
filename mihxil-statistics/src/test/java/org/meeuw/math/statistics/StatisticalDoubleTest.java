@@ -86,7 +86,12 @@ public class StatisticalDoubleTest implements
 
     @Test
     public void test10() {
-        assertThat(new StatisticalDouble().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203).toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
+        StatisticalDouble mes = new StatisticalDouble().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203);
+        assertThat(mes.toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
+        assertThat(mes.plus(1d).toString()).isEqualTo("1.0000002015"); // error disappear due to rounding
+
+        assertThat(mes.dividedBy(2).toString()).isEqualTo("(1.008 ± 0.006)·10⁻⁷"); // error disappear due to rounding
+
     }
 
     @Test
