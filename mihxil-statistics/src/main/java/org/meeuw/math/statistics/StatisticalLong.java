@@ -16,6 +16,7 @@
 package org.meeuw.math.statistics;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.math.*;
 import java.time.Duration;
@@ -29,11 +30,13 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.IllegalLogException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
+
+import static java.lang.Math.addExact;
+import static java.lang.Math.multiplyExact;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -42,6 +45,7 @@ import org.meeuw.math.uncertainnumbers.field.*;
  *
  * @author Michiel Meeuwissen
  */
+@Log
 public class StatisticalLong extends StatisticalNumber<StatisticalLong> implements LongConsumer, IntConsumer {
 
     private long sum = 0;
@@ -104,6 +108,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      * Enters new value(s).
      * @param ds new values
      * @return this
+     * @throws ArithmeticException If the sum goes over {@link Long#MAX_VALUE}
      */
     public StatisticalLong enter(long... ds) {
         for(long d : ds) {
@@ -114,8 +119,15 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
             min = Math.min(min, d);
             max = Math.max(max, d);
             d -= guessedMean;
-            sum += d;
-            squareSum += d * d;
+            sum = addExact(sum, d);
+            if (squareSum >= 0) {
+                try {
+                    squareSum = addExact(squareSum, multiplyExact(d, d));
+                } catch (ArithmeticException ae) {
+                    log.warning(ae.getMessage() + ": no square of sum any more. Standard deviation will not be available");
+                    squareSum = -1;
+                }
+            }
             count++;
 
         }
@@ -270,12 +282,18 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
 
+    /**
+     * @throws OverflowException If sum of square overflowed
+     */
     @Override
     public double getStandardDeviation() {
         if (count == 0) {
             return Double.NaN;
         }
         double mean = ((double) sum) / count;
+        if (squareSum < 0) {
+            throw new OverflowException("square sum overflowed");
+        }
         double sq = ((double) squareSum / count) - mean * mean;
         return Math.sqrt(sq);
     }
@@ -328,7 +346,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     protected StatisticalLong _add(long d) {
         reguess();
         long dcount = d * count;
-        squareSum += d * (dcount + 2 * sum);
+        squareSum = multiplyExact(squareSum, multiplyExact(d, (dcount + 2 * sum)));
         sum += dcount;
         autoGuess = false;
         max = max + d;
@@ -422,13 +440,14 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         INSTANT,
 
         /**
-         * The long must be interpreted as duration. A number of milliseconds.
+         * The long must be interpreted as duration. A number of milliseconds. This is probably precise enough for must cases.
+         * For very short times, or more accuracy use {@link #DURATION_NS}, and durations will be stored as nanoseconds.
          */
         DURATION,
 
 
-         /**
-         * The long must be interpreted as duration. A number of nanos
+        /**
+         * The long must be interpreted as duration. A number of nanos. Don't use this if durations vary more than a few seconds, since the sum of squares may rapidly go over {@link Long#MAX_VALUE} then.
          */
         DURATION_NS;
 

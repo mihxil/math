@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
+import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -159,6 +160,16 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         mes.enter(Duration.ofNanos(10), Duration.ofNanos(20));
         assertThat(mes.durationValue()).isEqualTo(Duration.ofNanos(15));
         assertThat(mes.optionalDurationValue()).contains(Duration.ofNanos(15));
+
+        assertThat(mes.getStandardDeviation()).isEqualTo(5.0d); // 5 ns
+
+        mes.enter(Duration.ofMinutes(5));
+
+        assertThat(mes.optionalDurationValue()).contains(Duration.parse("PT1M40.00000001S"));
+
+        assertThatThrownBy(mes::getStandardDeviation).isInstanceOf(OverflowException.class);
+
+
 
     }
 
