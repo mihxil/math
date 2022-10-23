@@ -49,13 +49,20 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
 
         {
             runningDurations.put(id, this);
-                }
+        }
 
+        /**
+         * Completes the measurement of the duration. The {@link #currentValue()} is accepted in the parent {@link WindowedStatisticalLong}, and this object is
+         * removed from the set of {@link #runningDurations}.
+         */
         public void complete() {
             accept(currentValue());
             runningDurations.remove(id);
         }
 
+        /**
+         * See {@link #complete}.
+         */
         @Override
         public void close() {
             complete();

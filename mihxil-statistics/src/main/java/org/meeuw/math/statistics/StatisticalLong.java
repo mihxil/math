@@ -224,7 +224,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public Instant instantValue() {
-        return Instant.ofEpochMilli(longValue());
+        long nanoTime = Utils.round(1_000_000L * doubleValue());
+        return Instant.ofEpochMilli(nanoTime / 1_000_000).plusNanos(nanoTime % 1_000_000);
     }
 
     public Duration durationValue() {

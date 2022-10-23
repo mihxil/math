@@ -17,7 +17,7 @@ package org.meeuw.math.windowed;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.time.Duration;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -41,7 +41,7 @@ class WindowedStatisticalLongTest {
 
     @Test
     public void test() {
-        TestClock clock = new TestClock();
+        TestClock clock = new TestClock(ZoneId.of("Europe/Amsterdam"), Instant.parse("2022-10-23T09:00:00Z"));
         final List<Event> events = new ArrayList<>();
         BiConsumer<Event, Windowed<StatisticalLong>> listener = (e, l) -> {
             if (e == WINDOW_COMPLETED) {
@@ -76,9 +76,10 @@ class WindowedStatisticalLongTest {
         impl.accept(clock.instant());
         clock.sleep(1);
         impl.accept(clock.instant());
-
-
-        assertThat(impl.getWindowValue().getCount()).isEqualTo(6);
+        clock.tick(Duration.ofNanos(1_000L));
+        impl.accept(clock.instant());
+        assertThat(impl.getWindowValue().instantValue()).isEqualTo("2022-10-23T09:00:00.002428416Z");
+        assertThat(impl.getWindowValue().getCount()).isEqualTo(7);
         log.info(() -> "toString: " + impl.getWindowValue().toString());
         clock.sleep(impl.getStart().plus(impl.getTotalDuration()).toEpochMilli() - clock.millis() + 1);
         impl.shiftBuckets();
@@ -126,15 +127,15 @@ class WindowedStatisticalLongTest {
                 impl.getWindowValue().durationValue()
             ).isInstanceOf(DivisionByZeroException.class);
 
-            WindowedStatisticalLong.RunningDuration measure = impl.measure();
+            try (WindowedStatisticalLong.RunningDuration measure = impl.measure()) {
 
 
-            clock.tick(10);
+                clock.tick(10);
 
-            assertThat(impl.getWindowValue().durationValue()).isEqualTo(Duration.ofMillis(10));
+                assertThat(impl.getWindowValue().durationValue()).isEqualTo(Duration.ofMillis(10));
 
-            clock.tick(10);
-            measure.complete();
+                clock.tick(10);
+            }
             assertThat(impl.getWindowValue().durationValue()).isEqualTo(Duration.ofMillis(20));
             assertThat(impl.getRunningDurations()).hasSize(0);
         }

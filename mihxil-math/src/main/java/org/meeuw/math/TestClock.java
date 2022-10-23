@@ -75,7 +75,7 @@ public class TestClock extends Clock {
 
     /**
      * Progresses the clock with the number of given millis. (Drop in replacement for {@link Thread#sleep(long)})
-     *
+     * <p>
      * It's a kind of virtual sleep, because this will not actually take time.
      *
      * @param millis The amount of milliseconds to progress this clock

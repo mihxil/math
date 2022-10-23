@@ -73,6 +73,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
+     * @param reporter
      */
 
     @lombok.Builder
@@ -142,6 +143,10 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         return BigInteger.valueOf(Utils.round(getValue()));
     }
 
+
+    /**
+     * If using a reporter, cancels the associated {@link ScheduledFuture}.
+     */
     @Override
     @PreDestroy
     public void close() {
