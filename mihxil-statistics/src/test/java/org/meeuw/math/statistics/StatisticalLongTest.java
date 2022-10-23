@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.statistics;
 
+import java.math.BigDecimal;
 import java.time.*;
 import java.util.Random;
 
@@ -61,6 +62,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
             assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
             //assertThat(mes.toString()).startsWith(expected);
             assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
+
+            assertThat(mes.getOptionalBigMean()).contains(new BigDecimal("1593070087106"));
 
             assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
 
@@ -148,6 +151,15 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
         StatisticalLong mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
         assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24.494S");
+    }
+
+    @Test
+    public void nanoDurations() {
+        StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.DURATION_NS);
+        mes.enter(Duration.ofNanos(10), Duration.ofNanos(20));
+        assertThat(mes.durationValue()).isEqualTo(Duration.ofNanos(15));
+        assertThat(mes.optionalDurationValue()).contains(Duration.ofNanos(15));
+
     }
 
     @Test

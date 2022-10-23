@@ -17,6 +17,7 @@ package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
+import java.math.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
@@ -156,11 +157,27 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         return getOptionalMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
     }
 
+
+
     public OptionalDouble getOptionalMean() {
         if (count == 0) {
             return OptionalDouble.empty();
         } else {
             return OptionalDouble.of((double) guessedMean + ((double) sum / count) + doubleOffset);
+        }
+    }
+
+    public Optional<BigDecimal> getOptionalBigMean() {
+        if (count == 0){
+            return Optional.empty();
+        } else {
+            if (doubleOffset != 0) {
+                throw new IllegalStateException();
+            }
+            return Optional.of(
+                BigDecimal.valueOf(guessedMean)
+                    .add(BigDecimal.valueOf(sum).divide(BigDecimal.valueOf(count), NANO_PRECISION))
+            );
         }
     }
 
@@ -222,25 +239,35 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     public double getValue() {
         return getMean();
     }
+    public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
+    public static long NANOS_IN_MILLIS = 1_000_000;
+    public static BigDecimal BIG_NANOS_IN_MILLIS = BigDecimal.valueOf(NANOS_IN_MILLIS);
 
     public Instant instantValue() {
-        long nanoTime = Utils.round(1_000_000L * doubleValue());
-        return Instant.ofEpochMilli(nanoTime / 1_000_000).plusNanos(nanoTime % 1_000_000);
+        BigDecimal milliTime = getOptionalBigMean().orElseThrow(() -> new DivisionByZeroException("no values entered"));
+
+        BigDecimal nanoTime = milliTime.multiply(BigDecimal.valueOf(NANOS_IN_MILLIS));
+        BigDecimal[] bigDecimals = nanoTime.divideAndRemainder(BIG_NANOS_IN_MILLIS);
+        return Instant.ofEpochMilli(bigDecimals[0].longValue()).plusNanos(bigDecimals[1].multiply(BIG_NANOS_IN_MILLIS).longValue());
     }
 
     public Duration durationValue() {
-        return Duration.ofNanos((long) (getValue() * 1_000_000));
+        return optionalDurationValue().orElseThrow(() -> new DivisionByZeroException("no values entered"));
     }
+
 
     public Optional<Duration> optionalDurationValue() {
-        OptionalDouble d =  getOptionalMean();
-        if (d.isPresent()) {
-            return Optional.of(Duration.ofNanos((long) (d.getAsDouble() * 1_000_000)));
-        } else {
-            return Optional.empty();
-        }
+        return getOptionalBigMean()
+            .map(bd -> {
+                switch(mode) {
+                    case DURATION:
+                        return Duration.ofMillis(bd.longValue()).plusNanos(bd.remainder(BigDecimal.ONE).multiply(BIG_NANOS_IN_MILLIS).longValue());
+                    case DURATION_NS:
+                        return Duration.ofNanos(bd.longValue());
+                    default: throw new IllegalStateException();
+                }
+            });
     }
-
 
 
     @Override
@@ -311,10 +338,15 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public StatisticalLong add(Duration d) {
-        if (mode == Mode.LONG) {
-            throw new IllegalStateException();
+        switch(mode) {
+            case DURATION:
+            case INSTANT:
+                return _add(d.toMillis());
+            case DURATION_NS:
+                return _add(d.toNanos());
+            default:
+                throw new IllegalStateException();
         }
-        return _add(d.toMillis());
     }
 
     public StatisticalLong plus(Duration d) {
@@ -340,14 +372,17 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         }
     }
     public void enter(Duration... duration) {
-        if (mode != Mode.DURATION) {
+        if (! durationMode()) {
             throw new IllegalStateException();
         }
         for (Duration d : duration) {
-            accept(d.toMillis());
+            accept(mode == Mode.DURATION ? d.toMillis() : d.toNanos());
         }
     }
 
+    protected boolean durationMode() {
+        return mode == Mode.DURATION || mode == Mode.DURATION_NS;
+    }
 
     @Override
     public void reset() {
@@ -389,7 +424,14 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         /**
          * The long must be interpreted as duration. A number of milliseconds.
          */
-        DURATION
+        DURATION,
+
+
+         /**
+         * The long must be interpreted as duration. A number of nanos
+         */
+        DURATION_NS;
+
     }
 
 }
