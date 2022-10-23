@@ -376,13 +376,15 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      */
     public enum Mode {
         /**
-         * Just a some number
+         * Just a some long number.
          */
         LONG,
+
         /**
          * The long must be interpreted as a point in time. Milliseconds since EPOCH
          */
         INSTANT,
+
         /**
          * The long must be interpreted as duration. A number of milliseconds.
          */

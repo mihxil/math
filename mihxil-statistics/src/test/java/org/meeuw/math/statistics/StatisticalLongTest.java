@@ -16,7 +16,6 @@
 package org.meeuw.math.statistics;
 
 import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import net.jqwik.api.*;
@@ -55,7 +54,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
     public void instants() {
         ConfigurationService.withAspect(TimeConfiguration.class, tz -> tz.withZoneId(ZoneId.of("Europe/Amsterdam")), () -> {
             Instant now = Instant.ofEpochMilli(1593070087406L);
-            String expected = now.truncatedTo(ChronoUnit.MILLIS).toString();
+
             StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
 
             mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
@@ -64,6 +63,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
             assertThat(mes.toString()).isEqualTo("2020-06-25T09:28:07.106 ± PT0.216S");
 
             assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
+
+            assertThatThrownBy(() -> mes.add(100L)).isInstanceOf(IllegalStateException.class);
         });
     }
 
@@ -90,6 +91,9 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
         assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
         assertThatThrownBy(() -> mes.enter(Instant.now())).isInstanceOf(IllegalStateException.class);
+
+        assertThatThrownBy(() -> mes.add(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
+
     }
 
     @Test
@@ -131,11 +135,15 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
     public void timesAndPlus() {
         StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.DURATION);
 
+        assertThat(mes.optionalDurationValue()).isNotPresent();
+        assertThat(mes.getStandardDeviation()).isNaN();
+
         mes.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
 
         StatisticalLong mesTimes3 = mes.times(3.0);
 
         assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofMinutes(5));
+        assertThat(mesTimes3.optionalDurationValue()).contains(Duration.ofMinutes(5));
         assertThat(mesTimes3.toString()).isEqualTo("PT5M ± PT24.494S");
 
         StatisticalLong mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
@@ -145,7 +153,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
     @Test
     public void dividedOne() {
         StatisticalLong minusOne = new StatisticalLong();
-        minusOne.enter(-1, -1);
+        minusOne.accept(-1);
+        minusOne.accept(-1L);
         UncertainDoubleElement divided = minusOne.dividedBy(26904L);
         UncertainReal multiplied = divided.times(26904L);
         assertThat(multiplied).isEqualTo(minusOne);
