@@ -220,7 +220,12 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
-        return equals(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        if (count == 0) {
+            return ((StatisticalNumber) o).count == 0;
+        }
+        return equals(o,
+            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
+        );
     }
 
     @Override
