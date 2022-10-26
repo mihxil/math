@@ -26,7 +26,7 @@ import java.util.prefs.BackingStoreException;
 /**
  * A set of static methods to maintain a thread local {@link Configuration}. Every configuration has a set of {@link ConfigurationAspect} and values.
  * These values are initially loaded via java service loading. This initial default values can be changed, and also the values per thread.
- *
+ * <p>
  * So configuration is:
  * <ol>
  * <li>Type safe. Every aspect has its own implementation with their own 'withers'</li>
@@ -125,7 +125,7 @@ public class ConfigurationService {
      * Executes code with a certain configuration. Will set given configuration, and restore the existing
      * one after calling the supplier
      * @param configuration The configuration to run in
-     * @param supplier The code the execute
+     * @param supplier The code to execute
      */
     public static <R> R withConfiguration(final Configuration configuration, final Supplier<R> supplier) {
         final Configuration before = getConfiguration();
@@ -207,7 +207,6 @@ public class ConfigurationService {
     }
 
 
-
     static FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> newConfigurationMap() {
         Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> copy = createEmptyMap();
         copy.putAll(INITIAL_MAP);
@@ -225,7 +224,7 @@ public class ConfigurationService {
                     break;
                 }
                 ConfigurationAspect configurationAspect = iterator.next();
-                log.fine(() -> "Found " + configurationAspect.getClass().getCanonicalName());
+                log.finer(() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
             } catch (ServiceConfigurationError se) {
                 log.warning(se.getMessage());
