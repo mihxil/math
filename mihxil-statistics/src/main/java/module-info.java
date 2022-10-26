@@ -14,6 +14,7 @@ module org.meeuw.math.statistics {
     requires static org.checkerframework.checker.qual;
     requires static jakarta.validation;
     requires static jakarta.annotation;
+    requires static ch.obermuhlner.math.big;
 
     requires java.logging;
     requires org.meeuw.math;
@@ -23,7 +24,6 @@ module org.meeuw.math.statistics {
     exports org.meeuw.math.statistics;
     exports org.meeuw.math.statistics.text;
     exports org.meeuw.math.windowed;
-
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

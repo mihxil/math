@@ -7,7 +7,7 @@ import org.meeuw.configuration.spi.*;
  */
 module org.meeuw.configuration {
     requires static lombok;
-    requires org.checkerframework.checker.qual;
+    requires static org.checkerframework.checker.qual;
 
     requires java.logging;
     requires java.prefs;

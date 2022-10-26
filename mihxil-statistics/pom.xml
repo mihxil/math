@@ -34,5 +34,10 @@
       <artifactId>jakarta.annotation-api</artifactId>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>ch.obermuhlner</groupId>
+      <artifactId>big-math</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 </project>

@@ -17,11 +17,10 @@ module org.meeuw.math {
     requires static lombok;
     requires static org.checkerframework.checker.qual;
     requires static ch.obermuhlner.math.big;
+    requires static jakarta.validation;
 
     requires java.logging;
-    requires jakarta.validation;
     requires org.meeuw.configuration;
-
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;
