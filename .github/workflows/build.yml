@@ -23,7 +23,7 @@ jobs:
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - uses: actions/setup-java@v3.5.1
+      - uses: actions/setup-java@v3.6.0
         with:
           distribution: 'temurin'
           java-version: 17
@@ -39,7 +39,7 @@ jobs:
       - uses: codecov/codecov-action@v3
         if: ${{ ! cancelled()}}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.1.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.2.0
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
@@ -51,7 +51,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v9.1.0
+        uses: EndBug/add-and-commit@v9.1.1
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
