@@ -10,42 +10,34 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
 import org.meeuw.configuration.spi.ToStringProvider;
 
 @Log
 class ConfigurationPreferences {
 
-    @MonotonicNonNull
-    private static Preferences USER_PREFERENCES;
+    private static final Preferences USER_PREFERENCES = getUserPreferences();
 
-    static synchronized Preferences getUserPreferences() {
-        if (USER_PREFERENCES == null) {
-            Preferences userPreferences = null;
-            try {
-                userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
-            } catch (Exception e) {
-                log.log(Level.WARNING, e, () -> e.getClass().getName() + ":" + e.getMessage());
-            }
-            USER_PREFERENCES = userPreferences;
+    private static synchronized Preferences getUserPreferences() {
+        log.finer("Creating user preferences");
+        Preferences userPreferences = null;
+        try {
+            userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
+        } catch (Exception e) {
+            log.log(Level.WARNING, e, () -> "fooar:" +  e.getClass().getName() + ":" + e.getMessage());
         }
-        return USER_PREFERENCES;
+        return userPreferences;
     }
 
     private ConfigurationPreferences() {
     }
 
     static void sync() throws BackingStoreException {
-        if (USER_PREFERENCES != null) {
-            USER_PREFERENCES.flush();
-            USER_PREFERENCES.sync();
-        }
+        USER_PREFERENCES.flush();
+        USER_PREFERENCES.sync();
     }
 
     static void addPreferenceChangeListener(Configuration.Builder configuration) {
-        if (USER_PREFERENCES != null) {
-            USER_PREFERENCES.addPreferenceChangeListener(evt -> readDefaults(configuration));
-        }
+        USER_PREFERENCES.addPreferenceChangeListener(evt -> readDefaults(configuration));
     }
 
 
@@ -63,7 +55,7 @@ class ConfigurationPreferences {
                     }
                 }
             }
-            log.fine(() -> "Stored " + USER_PREFERENCES);
+            log.finer(() -> "Stored " + USER_PREFERENCES);
         }
     }
 
@@ -94,7 +86,7 @@ class ConfigurationPreferences {
     }
 
     private static Preferences node(ConfigurationAspect aspect) {
-        return getUserPreferences().node(aspect.getClass().getCanonicalName());
+        return USER_PREFERENCES.node(aspect.getClass().getCanonicalName());
     }
 
     static void put(Preferences pref, String key, final Object paramValue) throws IOException {
