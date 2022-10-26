@@ -26,6 +26,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
@@ -84,18 +85,20 @@ public final class FormatService {
         return toString(object, getConfiguration());
     }
 
-    public static String toString(AlgebraicElement<?> object, Configuration configuration) {
+    public static String toString(@NonNull AlgebraicElement<?> object, Configuration configuration) {
         return getFormat(object, configuration)
             .map(f -> {
+                log.fine(() -> "" + f);
                 try {
                     return f.format(object);
                 } catch (IllegalArgumentException iea) {
+                    log.fine(iea.getMessage());
                     return null;
                 }
             })
             .filter(Objects::nonNull)
             .findFirst()
-            .orElse("<TO STRING FAILED>");
+            .orElse("<TO STRING " + object.getClass().getName() + " FAILED>");
     }
 
     public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz) {
