@@ -35,8 +35,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
-import static java.lang.Math.addExact;
-import static java.lang.Math.multiplyExact;
+import static java.lang.Math.*;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -258,9 +257,12 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     public Instant instantValue() {
         BigDecimal milliTime = getOptionalBigMean().orElseThrow(() -> new DivisionByZeroException("no values entered"));
 
-        BigDecimal nanoTime = milliTime.multiply(BigDecimal.valueOf(NANOS_IN_MILLIS));
-        BigDecimal[] bigDecimals = nanoTime.divideAndRemainder(BIG_NANOS_IN_MILLIS);
-        return Instant.ofEpochMilli(bigDecimals[0].longValue()).plusNanos(bigDecimals[1].multiply(BIG_NANOS_IN_MILLIS).longValue());
+        final BigDecimal nanoTime = milliTime.multiply(BigDecimal.valueOf(NANOS_IN_MILLIS));
+        final BigDecimal[] bigDecimals = nanoTime.divideAndRemainder(BIG_NANOS_IN_MILLIS);
+        return Instant.ofEpochMilli(bigDecimals[0].longValue())
+            .plusNanos(
+                bigDecimals[1].longValue()
+            );
     }
 
     public Duration durationValue() {
@@ -307,7 +309,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     protected long getSumOfSquares(long offset) {
-        return squareSum - 2 * offset * sum + count * (offset * offset);
+        return addExact(subtractExact(squareSum, multiplyExact(multiplyExact(2, offset), sum)),  multiplyExact(count, multiplyExact(offset, offset)));
     }
 
     /**
@@ -346,7 +348,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     protected StatisticalLong _add(long d) {
         reguess();
         long dcount = d * count;
-        squareSum = multiplyExact(squareSum, multiplyExact(d, (dcount + 2 * sum)));
+        squareSum = addExact(squareSum, multiplyExact(d, addExact(dcount,  multiplyExact(2, sum))));
         sum += dcount;
         autoGuess = false;
         max = max + d;
@@ -417,8 +419,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
      * @return this
      */
     public StatisticalLong reguess() {
-        long newGuess = longValue();
-        long diff =  newGuess - guessedMean;
+        final long newGuess = longValue();
+        final long diff =  newGuess - guessedMean;
         this.squareSum = getSumOfSquares(diff);
         this.sum = sum - count * diff;
         this.guessedMean = newGuess;

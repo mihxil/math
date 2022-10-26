@@ -20,7 +20,6 @@ module org.meeuw.math.statistics {
     requires org.meeuw.math;
     requires org.meeuw.configuration;
 
-
     exports org.meeuw.math.statistics;
     exports org.meeuw.math.statistics.text;
     exports org.meeuw.math.windowed;

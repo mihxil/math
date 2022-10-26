@@ -13,5 +13,7 @@ public class Application {
         rate.newEvent();
 
         System.out.println(rate);
+        Thread.sleep(Long.MAX_VALUE);
+
     }
 }

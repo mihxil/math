@@ -78,7 +78,7 @@ class WindowedStatisticalLongTest {
         impl.accept(clock.instant());
         clock.tick(Duration.ofNanos(1_000L));
         impl.accept(clock.instant());
-        assertThat(impl.getWindowValue().instantValue()).isEqualTo("2022-10-23T09:00:00.002428416Z");
+        assertThat(impl.getWindowValue().instantValue()).isEqualTo("2022-10-23T09:00:00.002428570Z");
         assertThat(impl.getWindowValue().getCount()).isEqualTo(7);
         log.info(() -> "toString: " + impl.getWindowValue().toString());
         clock.sleep(impl.getStart().plus(impl.getTotalDuration()).toEpochMilli() - clock.millis() + 1);
