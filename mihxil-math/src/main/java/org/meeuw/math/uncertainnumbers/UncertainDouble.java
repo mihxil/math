@@ -47,6 +47,14 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
 
     double getUncertainty();
 
+    default double getUncertaintyOrZero() {
+        double uncertainity = getUncertainty();
+        if (Double.isNaN(uncertainity)) {
+            return 0d;
+        }
+        return uncertainity;
+    }
+
     default double getFractionalUncertainty() {
         return operations().getFractionalUncertainty(getValue(), getUncertainty());
     }
