@@ -3,8 +3,7 @@ package org.meeuw.math.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.statistics.StatisticalLong;
@@ -22,7 +21,7 @@ public class Application {
               getResourceAsStream("logging.properties")) {
               LogManager.getLogManager().readConfiguration(is);
           } catch (IOException e) {
-              log.warning(e.getMessage());
+              log.log(Level.WARNING, e.getMessage(), e);
           }
       }
 
