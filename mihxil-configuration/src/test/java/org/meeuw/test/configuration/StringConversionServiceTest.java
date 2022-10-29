@@ -14,6 +14,9 @@ public class StringConversionServiceTest {
         assertThat(StringConversionService.toString(1)).contains("1");
 
         assertThat(StringConversionService.fromString("1", Integer.TYPE)).contains(1);
+
+        assertThat(StringConversionService.fromString("xx", Integer.TYPE)).isEmpty();
+
     }
     @Test
     public void fromInteger() {
@@ -42,6 +45,17 @@ public class StringConversionServiceTest {
 
         assertThat(StringConversionService.fromString("1.0", Double.TYPE)).contains(1.0d);
         assertThat(StringConversionService.fromString("1.0", Double.class)).contains(1.0d);
+    }
+
+    @Test
+     public void booleanToString() {
+        assertThat(StringConversionService.toString(true)).contains("true");
+
+        assertThat(StringConversionService.fromString("true", Boolean.TYPE)).contains(Boolean.TRUE);
+        assertThat(StringConversionService.fromString("false", Boolean.class)).contains(false);
+
+        assertThat(StringConversionService.fromString("xxx", Boolean.class)).isEmpty();
+
     }
 
 }

@@ -15,15 +15,21 @@ public class BooleanToString implements ToStringProvider<Boolean> {
 
     @Override
     public Optional<Boolean> fromString(Class<?> type, @Nullable String value) {
+        if (Boolean.TYPE.equals(type)) {
+            type = Boolean.class;
+        }
+        final Class<?> finalType = type;
         return Optional.ofNullable(value)
-            .filter(v -> Boolean.class.isAssignableFrom(type))
+            .filter(v -> Boolean.class.isAssignableFrom(finalType))
             .map(v -> {
-                try {
-                    return Boolean.valueOf(value);
-                } catch(IllegalArgumentException iae) {
-                    log.warning(value + "->" + type + ":" + iae.getMessage());
-                    return null;
+                String lowered = value.toLowerCase();
+                if ("true".equals(lowered)) {
+                    return Boolean.TRUE;
                 }
+                if ("false".equals(lowered)) {
+                    return Boolean.FALSE;
+                }
+                return null;
         });
     }
 }
