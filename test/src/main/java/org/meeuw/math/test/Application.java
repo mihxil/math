@@ -1,21 +1,21 @@
 package org.meeuw.math.test;
 
-import lombok.extern.java.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
 import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.math.windowed.WindowedStatisticalLong;
 
-@Log
+
 public class Application {
 
-      static {
+    static final Logger log = Logger.getLogger(Application.class.getName());
+    static {
       // must set before the Logger
       // loads logging.properties from the classpath
           try (InputStream is = Application.class.getClassLoader().
