@@ -35,7 +35,7 @@ public abstract class NumberToString<N extends Number> implements ToStringProvid
     public Optional<N> fromString(Class<?> type, @Nullable String value) {
         Class<?> finalType = toWrapper(type);
         return Optional.ofNullable(value)
-            .filter(v -> Number.class.isAssignableFrom(finalType))
+            .filter(v -> boxedType.isAssignableFrom(finalType))
             .map(v -> {
                 try {
                     return valueOf(value);

@@ -4,13 +4,10 @@ import lombok.extern.java.Log;
 
 import java.io.*;
 import java.lang.reflect.*;
-import java.util.*;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-import java.util.stream.Stream;
-
-import org.meeuw.configuration.spi.ToStringProvider;
 
 
 /**
@@ -101,7 +98,7 @@ class ConfigurationPreferences {
         if (paramValue == null) {
             pref.remove(key);
         } else {
-            Optional<String> o = toString(paramValue);
+            Optional<String> o = StringConversionService.toString(paramValue);
             if (o.isPresent()) {
                 pref.put(key, o.get());
             } else if (paramValue instanceof Serializable) {
@@ -112,37 +109,11 @@ class ConfigurationPreferences {
         }
     }
 
-    static <C> Optional<String> toString(C value) {
-        return  stream()
-            .sorted()
-            .map(tp ->
-                tp.toString(value).orElse(null)
-            )
-            .filter(Objects::nonNull)
-            .findFirst();
-    }
+    static <C> C get(Preferences pref, String key, Class<? extends C> type, C defaultValue) {
 
-    @SuppressWarnings("unchecked")
-    static Stream<ToStringProvider<?>> stream() {
-        ServiceLoader<ToStringProvider<?>> loader = (ServiceLoader) ServiceLoader.load(ToStringProvider.class);
-        //return loader.stream();  java 9, damn.
-        List<ToStringProvider<?>> list = new ArrayList<>();
-        loader.iterator().forEachRemaining(list::add);
-        return list.stream();
-    }
+         String v = pref.get(key, StringConversionService.toString(defaultValue).orElse(null));
+         Optional<C> o = StringConversionService.fromString(v, type);
 
-
-     @SuppressWarnings("unchecked")
-     static <C> C get(Preferences pref, String key, Class<? extends C> type, C defaultValue) {
-
-         String v = pref.get(key, toString(defaultValue).orElse(null));
-         Optional<C> o = (Optional<C>) stream()
-             .sorted()
-             .map(tp -> {
-                 return tp.fromString(type, v).orElse(null);
-             })
-             .filter(Objects::nonNull)
-             .findFirst();
          return
              o.orElseGet(() ->
                  getSerializable(pref, key, defaultValue)
