@@ -59,7 +59,7 @@ public class ConfigurationService {
         readDefaults();
         ConfigurationPreferences.addPreferenceChangeListener(DEFAULT);
         storeDefaults();
-        log.info(() -> "Set up {}" + ConfigurationPreferences.getUserPreferences());
+        log.info(() -> "Set up " + ConfigurationPreferences.getUserPreferences());
     }
 
     public static final ThreadLocal<Configuration> CONFIGURATION =
