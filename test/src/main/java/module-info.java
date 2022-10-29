@@ -1,3 +1,6 @@
 module mihxil.test {
     requires org.meeuw.math.statistics;
+    requires org.meeuw.configuration;
+    requires java.logging;
+
 }
