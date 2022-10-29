@@ -49,11 +49,17 @@ public class ConfigurationService {
         = Collections.unmodifiableMap(createInitialConfigurationMap());
 
     private static final Configuration.Builder DEFAULT = Configuration.builder();
+    private static boolean useUserPreferences = false;
 
-    static {
+    /**
+     * Persistifies settings via {@link ConfigurationPreferences} (a wrapper around {@link java.util.prefs.Preferences}). This may result in a config file in {@code $HOME/.java/.userPrefs} (UNIXes), in {@code $HOME/Library/Preferences/org.meeuw.configuration.plist} (OS X) or registry entries (Windows)
+     */
+    public static void setupUserPreferences() {
+        useUserPreferences = true;
         readDefaults();
         ConfigurationPreferences.addPreferenceChangeListener(DEFAULT);
-        //storeDefaults();
+        storeDefaults();
+        log.info(() -> "Set up {}" + ConfigurationPreferences.getUserPreferences());
     }
 
     public static final ThreadLocal<Configuration> CONFIGURATION =
@@ -91,7 +97,6 @@ public class ConfigurationService {
     public static void resetToDefaults() {
         CONFIGURATION.remove();
     }
-
 
     /**
      * Resets all settings (via {@link #defaultConfiguration(Consumer)}.
@@ -196,14 +201,18 @@ public class ConfigurationService {
      * Explicitly stores the current default configuration into preferences
      */
     static void storeDefaults() {
-        ConfigurationPreferences.storeDefaults(DEFAULT.build());
+        if (useUserPreferences) {
+            ConfigurationPreferences.storeDefaults(DEFAULT.build());
+        }
     }
 
     /**
      * Explicitly reads the current default configuration from preferences
      */
     static  void readDefaults() {
-        ConfigurationPreferences.readDefaults(DEFAULT);
+        if (useUserPreferences) {
+            ConfigurationPreferences.readDefaults(DEFAULT);
+        }
     }
 
 

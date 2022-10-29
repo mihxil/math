@@ -12,12 +12,20 @@ import java.util.stream.Stream;
 
 import org.meeuw.configuration.spi.ToStringProvider;
 
+
+/**
+ * This ia a wrapper around {@link Preferences}
+ */
 @Log
 class ConfigurationPreferences {
 
-    private static final Preferences USER_PREFERENCES = getUserPreferences();
+    private static final Preferences USER_PREFERENCES = createUserPreferences();
 
-    private static synchronized Preferences getUserPreferences() {
+    static Preferences getUserPreferences() {
+        return USER_PREFERENCES;
+    }
+
+    private static synchronized Preferences createUserPreferences() {
         log.finer("Creating user preferences");
         Preferences userPreferences = null;
         try {
