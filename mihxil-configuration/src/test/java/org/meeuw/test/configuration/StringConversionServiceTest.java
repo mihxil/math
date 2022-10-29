@@ -55,6 +55,14 @@ public class StringConversionServiceTest {
         assertThat(StringConversionService.fromString("false", Boolean.class)).contains(false);
 
         assertThat(StringConversionService.fromString("xxx", Boolean.class)).isEmpty();
+    }
+
+      @Test
+     public void enumToString() {
+        assertThat(StringConversionService.toString(A.x)).contains("x");
+
+        assertThat(StringConversionService.fromString("y", A.class)).contains(A.y);
+        assertThat(StringConversionService.fromString("xxx", A.class)).isEmpty();
 
     }
 
