@@ -59,10 +59,10 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
             E combined = e1.weightedAverage(e2);
             getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.getValue());
             if (e1.getValue() < e2.getValue()) {
-                assertThat(combined.getValue()).isBetween(e1.getValue() - e1.getUncertaintyOrZero(), e2.getValue() + e2.getUncertaintyOrZero());
+                assertThat(combined.getValue()).isBetween(e1.getValue() - e1.getOptionalUncertainty().orElse(0d), e2.getValue() + e2.getOptionalUncertainty().orElse(0));
             } else {
                 assertThat(combined.getValue()).isBetween(
-                    e2.getValue() - e2.getUncertaintyOrZero(), e1.getValue() + e1.getUncertaintyOrZero()
+                    e2.getValue() - e2.getOptionalUncertainty().orElse(0), e1.getValue() + e1.getOptionalUncertainty().orElse(0)
                 );
             }
         } catch(NotComparableException | NotCombinableException notComparableException) {

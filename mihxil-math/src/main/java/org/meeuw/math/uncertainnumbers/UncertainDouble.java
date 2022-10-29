@@ -20,6 +20,8 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import java.util.OptionalDouble;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotComparableException;
@@ -45,14 +47,21 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
 
     double getValue();
 
+    /**
+     * The uncertainty in the {@link #getValue()}. May in some cases be {@link Double#NaN} (e.g. when it's a standard deviation of 1 value).
+     */
     double getUncertainty();
 
-    default double getUncertaintyOrZero() {
+    /**
+     * Returns {@link #getUncertainty()} but wrapped in an {@link OptionalDouble}.
+     * This never contains {@link Double#NaN}, which is the point of this method.
+     */
+    default OptionalDouble getOptionalUncertainty() {
         double uncertainity = getUncertainty();
         if (Double.isNaN(uncertainity)) {
-            return 0d;
+            return OptionalDouble.empty();
         }
-        return uncertainity;
+        return OptionalDouble.of(uncertainity);
     }
 
     default double getFractionalUncertainty() {
