@@ -20,6 +20,7 @@ import lombok.extern.java.Log;
 import java.time.Instant;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -33,6 +34,11 @@ import static org.meeuw.configuration.ConfigurationService.*;
 
 @Log
 public class ConfigurationServiceTest {
+
+    @BeforeAll
+    public static void setup() {
+        ConfigurationService.setupUserPreferences();
+    }
 
     @Test
     public void invalidConfigurationAspect() {
