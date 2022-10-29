@@ -7,6 +7,10 @@ import org.meeuw.configuration.spi.ToStringProvider;
 
 public class StringConversionService {
 
+    private StringConversionService() {
+
+    }
+
     public static <C> Optional<String> toString(C value) {
         return  stream()
             .sorted()
