@@ -169,7 +169,7 @@ class ConfigurationPreferences {
                 final ObjectInputStream si = new ObjectInputStream(bi)) {
                 return (C) si.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                log.log(Level.WARNING, "For byte array with length " + bytes.length + ":" + e.getClass().getName() + ": " + e.getMessage() + ", defaulting to "+ defaultValue);
+                log.log(Level.WARNING, "For byte array with length " + bytes.length + ":" + e.getClass().getName() + ": " + e.getMessage() + ", defaulting to "+ defaultValue, e);
                 return defaultValue;
             }
         } else {

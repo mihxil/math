@@ -236,7 +236,7 @@ public class ConfigurationService {
                 log.finer(() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
             } catch (ServiceConfigurationError se) {
-                log.warning(se.getMessage());
+                log.log(Level.WARNING, se.getMessage(), se);
             } catch (Throwable e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
