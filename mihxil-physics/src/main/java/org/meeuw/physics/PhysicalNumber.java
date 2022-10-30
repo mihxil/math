@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -77,7 +77,7 @@ public abstract class PhysicalNumber extends Number
 
     @Override
     public long longValue() {
-        return Utils.round(getValue());
+        return Utils.round(this.doubleValue());
     }
 
     @Override
@@ -86,8 +86,8 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public double getValue() {
-        return wrapped.getValue();
+    public double doubleValue() {
+        return wrapped.doubleValue();
     }
 
     @Override
@@ -96,8 +96,8 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public double getUncertainty() {
-        return wrapped.getUncertainty();
+    public double doubleUncertainty() {
+        return wrapped.doubleUncertainty();
     }
 
     @Override
@@ -224,11 +224,6 @@ public abstract class PhysicalNumber extends Number
     }
 
     @Override
-    public double doubleValue() {
-        return wrapped.doubleValue();
-    }
-
-    @Override
     public PhysicalNumber _of(double value, double uncertainty) {
         return new Measurement(value, uncertainty, units);
     }
@@ -256,7 +251,7 @@ public abstract class PhysicalNumber extends Number
             return 0;
         }
 
-        return Double.compare(getValue(), f.toUnits(getUnits()).getValue());
+        return Double.compare(this.doubleValue(), f.toUnits(getUnits()).doubleValue());
     }
 
     /**

@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A number with an uncertainty {@link #getUncertainty()}
+ * A number with an uncertainty {@link #doubleUncertainty()}
  *
  * See <a href="http://ipl.physics.harvard.edu/wp-uploads/2013/03/PS3_Error_Propagation_sp13.pdf">this url</a>
  * @author Michiel Meeuwissen
@@ -37,7 +37,7 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
         if (equals(o)) {
             return 0;
         }
-        return Double.compare(doubleValue(), o.getValue());
+        return Double.compare(doubleValue(), o.doubleValue());
     }
 
 
@@ -53,7 +53,7 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
 
     @Override
     public double doubleValue() {
-        return getValue();
+        return this.doubleValue();
     }
 
     @Override

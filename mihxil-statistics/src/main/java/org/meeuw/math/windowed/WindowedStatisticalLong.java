@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.statistics.UncertainTemporal;
 
 /**
  * {@link StatisticalLong} can be aggregated, and therefore {@link Windowed}.
@@ -34,7 +35,7 @@ import org.meeuw.math.statistics.StatisticalLong;
  */
 public class WindowedStatisticalLong extends WindowedStatisticalNumber<StatisticalLong> implements LongConsumer, AutoCloseable {
 
-    private final StatisticalLong.Mode mode;
+    private final UncertainTemporal.Mode mode;
 
     private final AtomicInteger runningDurationIdentifier = new AtomicInteger(0);
     private final Map<Integer, RunningDuration> runningDurations = new ConcurrentHashMap<>();
@@ -82,12 +83,12 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        StatisticalLong.Mode mode,
+        UncertainTemporal.Mode mode,
         BiConsumer<Event, Windowed<StatisticalLong>>[] eventListenersArray,
         Clock clock
     ) {
         super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
-        this.mode = mode == null ? StatisticalLong.Mode.LONG : mode;
+        this.mode = mode == null ? UncertainTemporal.Mode.LONG : mode;
     }
 
     @Override
@@ -136,14 +137,14 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
      * This is certainly an underestimate, but entering nothing at all may be even worse.
      */
     public RunningDuration measure() {
-        if (mode != StatisticalLong.Mode.DURATION) {
+        if (mode != UncertainTemporal.Mode.DURATION) {
             throw new IllegalStateException();
         }
         return new RunningDuration();
     }
 
     public Collection<RunningDuration> getRunningDurations() {
-        if (mode != StatisticalLong.Mode.DURATION) {
+        if (mode != UncertainTemporal.Mode.DURATION) {
             throw new IllegalStateException();
         }
         return runningDurations.values();

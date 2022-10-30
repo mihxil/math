@@ -12,7 +12,6 @@ public class ZoneIdToString implements ToStringProvider<ZoneId> {
         return 0;
     }
 
-
     @Override
     public Optional<String> toString(@Nullable Object value) {
         return Optional.ofNullable(value)

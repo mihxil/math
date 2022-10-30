@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -63,7 +63,7 @@ class RealFieldTest implements
     public void string() {
         assertThat(RealNumber.of(1).toString()).isEqualTo("1");
         RealNumber half  = of(1).dividedBy(of(2));
-        assertThat(half.getUncertainty()).isEqualTo(8.881784197001247E-16);
+        assertThat(half.doubleUncertainty()).isEqualTo(8.881784197001247E-16);
         assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
         assertThat(new RealNumber(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
@@ -76,8 +76,8 @@ class RealFieldTest implements
     @Test
     public void fractionalUncertainty() {
         RealNumber ex = new RealNumber(2.36, 0.04);
-        assertThat(ex.getFractionalUncertainty()).isEqualTo(0.016666666666666666);
-        assertThat(ex.sqr().getFractionalUncertainty()).isEqualTo(0.03225806451612903);
+        assertThat(ex.doubleFractionalUncertainty()).isEqualTo(0.016666666666666666);
+        assertThat(ex.sqr().doubleFractionalUncertainty()).isEqualTo(0.03225806451612903);
         assertThat(ex.sqr().toString()).isEqualTo("5.57 ± 0.19");
     }
 
@@ -95,13 +95,13 @@ class RealFieldTest implements
         RealNumber nan = new RealNumber(NaN, 1d);
         RealNumber zero = new RealNumber(0, 1d);
 
-        Assertions.assertThat(INSTANCE.considerMultiplicationBySpecialValues(nan, zero).getValue()).isEqualTo(Double.valueOf(NaN));
-        assertThat(INSTANCE.considerMultiplicationBySpecialValues(zero, nan).getValue()).isEqualTo(Double.valueOf(NaN));
+        Assertions.assertThat(INSTANCE.considerMultiplicationBySpecialValues(nan, zero).doubleValue()).isEqualTo(Double.valueOf(NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(zero, nan).doubleValue()).isEqualTo(Double.valueOf(NaN));
 
         assertThat(new RealNumber(5, 1).times(ZERO)).isEqualTo(ZERO);
-        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getValue()).isEqualTo(0);
-        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(1);
-        assertThat(new RealNumber(0, 1).times(new RealNumber(0, 1)).getUncertainty()).isEqualTo(4.9E-324);
+        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).doubleValue()).isEqualTo(0);
+        assertThat(new RealNumber(5, 1).times(new RealNumber(0, 1)).doubleUncertainty()).isEqualTo(1);
+        assertThat(new RealNumber(0, 1).times(new RealNumber(0, 1)).doubleUncertainty()).isEqualTo(4.9E-324);
 
     }
 
@@ -111,8 +111,8 @@ class RealFieldTest implements
         RealNumber b = new RealNumber(1, 1d);
 
 
-        assertThat(INSTANCE.considerMultiplicationBySpecialValues(a, b).getValue()).isEqualTo(Double.valueOf(NaN));
-        assertThat(INSTANCE.considerMultiplicationBySpecialValues(b, a).getValue()).isEqualTo(Double.valueOf(NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(a, b).doubleValue()).isEqualTo(Double.valueOf(NaN));
+        assertThat(INSTANCE.considerMultiplicationBySpecialValues(b, a).doubleValue()).isEqualTo(Double.valueOf(NaN));
 
         assertThat(new RealNumber(5, 1).times(ZERO)).isEqualTo(ZERO);
     }

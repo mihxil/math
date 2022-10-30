@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -105,7 +105,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @return rate in /s (See {@link #getRate()}
      */
     @Override
-    public double getValue() {
+    public double doubleValue() {
         return getRate();
     }
 
@@ -113,18 +113,18 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @return the uncertainty in the rate in /s (See {@link #getRate()}
      */
     @Override
-    public double getUncertainty() {
+    public double doubleUncertainty() {
         shiftBuckets();
         StatisticalLong statisticalLong = new StatisticalLong();
         for (AtomicLong bucket : getRelevantBuckets()) {
             statisticalLong.enter(bucket.get());
         }
-        return 1000 * statisticalLong.getUncertainty() * getRelevantBuckets().length
+        return 1000 * statisticalLong.doubleUncertainty() * getRelevantBuckets().length
             / getTotalDuration().toMillis();
     }
 
     public UncertainReal getUncertainRate() {
-        return _of(getRate(), getUncertainty());
+        return _of(getRate(), doubleUncertainty());
     }
 
 
@@ -140,7 +140,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
     @Override
     public BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(Utils.round(getValue()));
+        return BigInteger.valueOf(Utils.round(doubleValue()));
     }
 
 

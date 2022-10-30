@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ public class Measurement extends PhysicalNumber {
 
     /**
      * Just a shortcut to {@link #Measurement(double, double, Units)}, which can be statically imported.
-     *
+     * <p>
      * So then you can type:
      * <pre>{@code
      *  import static org.meeuw.physics.Measurement.measurement;
@@ -73,7 +73,7 @@ public class Measurement extends PhysicalNumber {
 
     public Measurement(UncertainDouble<?> wrapped, String units) {
         super(
-            uncertain(wrapped.getValue(), wrapped.getUncertainty()),
+            uncertain(wrapped.doubleValue(), wrapped.doubleUncertainty()),
             FormatService.fromString(units, Units.class)
         );
     }
@@ -84,7 +84,7 @@ public class Measurement extends PhysicalNumber {
     }
 
     public Measurement(UncertainDouble<?> wrapped, Units units) {
-        super(uncertain(wrapped.getValue(), wrapped.getUncertainty()), units);
+        super(uncertain(wrapped.doubleValue(), wrapped.doubleUncertainty()), units);
     }
 
     @Override

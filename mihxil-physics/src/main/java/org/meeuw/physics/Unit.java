@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * The representation of a singular 'unit'. This can be {@link BaseUnit} or a {@link DerivedUnit}
  *
  * It has one symbol {@link #getSymbol()} which for enums may simply be the same as {@link Enum#name()}.
- *
+ * <p>
  * A singular unit can also be {@link #withPrefix(Prefix)} prefixed.
  *
  * @author Michiel Meeuwissen

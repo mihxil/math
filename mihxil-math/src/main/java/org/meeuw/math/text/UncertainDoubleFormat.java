@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,10 +70,10 @@ public class UncertainDoubleFormat extends Format {
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
         if (number instanceof UncertainDouble) {
             UncertainDouble<?> uncertainNumber = (UncertainDouble<?>) number;
-            if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.getValue(), uncertainNumber.getUncertainty())) {
-                toAppendTo.append(scientificNotation(uncertainNumber.getValue(), minimumExponent));
+            if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
+                toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {
-                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.getValue(), uncertainNumber.getUncertainty()));
+                toAppendTo.append(scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty()));
             }
             return toAppendTo;
         } else {

@@ -1,7 +1,7 @@
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.spi.ToStringProvider;
 import org.meeuw.math.statistics.text.TimeConfiguration;
-import org.meeuw.math.statistics.text.spi.StatisticalLongNumberFormatProvider;
+import org.meeuw.math.statistics.text.spi.StatisticalTemporalFormatProvider;
 import org.meeuw.math.statistics.text.spi.ZoneIdToString;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
@@ -14,7 +14,6 @@ module org.meeuw.math.statistics {
     requires static org.checkerframework.checker.qual;
     requires static jakarta.validation;
     requires static jakarta.annotation;
-    requires static ch.obermuhlner.math.big;
 
     requires java.logging;
     requires org.meeuw.math;
@@ -29,7 +28,7 @@ module org.meeuw.math.statistics {
 
 
     provides AlgebraicElementFormatProvider with
-        StatisticalLongNumberFormatProvider;
+        StatisticalTemporalFormatProvider;
 
     provides ConfigurationAspect with
         TimeConfiguration;

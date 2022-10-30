@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
     default void timesDouble(
         @ForAll(ELEMENTS) E e,
         @ForAll("doubles") Double multiplier) {
-        assertThat(e.times(multiplier).getValue()).isCloseTo(e.getValue() * multiplier, Percentage.withPercentage(0.001));
+        assertThat(e.times(multiplier).doubleValue()).isCloseTo(e.doubleValue() * multiplier, Percentage.withPercentage(0.001));
     }
 
     @Property
@@ -44,7 +44,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         try {
             E sum = e1.plus(e2);
             getLogger().info("{} + {} = {}", e1, e2, sum);
-            assertThat(sum.getValue()).isEqualTo(e1.getValue() + e2.getValue());
+            assertThat(sum.doubleValue()).isEqualTo(e1.doubleValue() + e2.doubleValue());
         } catch(NotComparableException notComparableException) {
             Assume.that(false);
         }
@@ -57,12 +57,12 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         @ForAll(ELEMENTS) E e2)  {
         try {
             E combined = e1.weightedAverage(e2);
-            getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.getValue());
-            if (e1.getValue() < e2.getValue()) {
-                assertThat(combined.getValue()).isBetween(e1.getValue() - e1.getOptionalUncertainty().orElse(0d), e2.getValue() + e2.getOptionalUncertainty().orElse(0));
+            getLogger().info("{} combined with {} = {} ({})", e1, e2, combined, combined.doubleValue());
+            if (e1.doubleValue() < e2.doubleValue()) {
+                assertThat(combined.doubleValue()).isBetween(e1.doubleValue() - e1.getOptionalUncertainty().orElse(0d), e2.doubleValue() + e2.getOptionalUncertainty().orElse(0));
             } else {
-                assertThat(combined.getValue()).isBetween(
-                    e2.getValue() - e2.getOptionalUncertainty().orElse(0), e1.getValue() + e1.getOptionalUncertainty().orElse(0)
+                assertThat(combined.doubleValue()).isBetween(
+                    e2.doubleValue() - e2.getOptionalUncertainty().orElse(0), e1.doubleValue() + e1.getOptionalUncertainty().orElse(0)
                 );
             }
         } catch(NotComparableException | NotCombinableException notComparableException) {

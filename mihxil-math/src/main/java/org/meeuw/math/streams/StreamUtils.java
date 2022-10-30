@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -90,7 +90,7 @@ public final class StreamUtils {
 
     /**
      * Defaulting version of {@link #diagonalStream(Function, Supplier, BiFunction)}.
-     *
+     * <p>
      *
      * @param stream1 The first stream, which will be reversed using {@link #reverseStream(Stream, long)}
      * @param stream2 The second stream
@@ -123,8 +123,8 @@ public final class StreamUtils {
 
     /**
      * Returns an infinite stream of all possible integer arrays of given length
-     *
-     * It will start with an array with only zeros. Then it will return array filled with all possible combinations of -1, 0, 1, then with all possibles arrays with only -2, -1, 0, 1, 2 (and it will not produce any entries which already occurred). And so on.
+     * <p>
+     * It will start with an array with only zeros. Then it will return array filled with all possible combinations of {@code -1, 0, 1}, then with all possibles arrays with only {@code -2, -1, 0, 1, 2} (and it will not produce any entries which already occurred). And so on.
      *
      * @param length the length of all arrays to produce
      * @return an infinite stream of integer arrays of given length
@@ -138,11 +138,11 @@ public final class StreamUtils {
 
     /**
      * Returns a stream of all possible combinations of values of multiple streams. (A 'cartesian product').
-     *
+     * <p>
      * The streams may be infinite.
-     *
+     * <p>
      * The produced result will be an array of all first elements of the streams. Then it will produce entries with the first and second elements (skipping the ones with only the first), and so on.
-     *
+     * <p>
      * This way every finite combination will eventually occur.
      *
      * @return a stream of arrays
@@ -171,10 +171,10 @@ public final class StreamUtils {
     /**
      * Fills the array as if it is kind of a number system (with infinite base, but fixed number of digits)
      * Also we fill from the left.
-     *
+     * <p>
      * The idea is to first produce values with low base, and if we filled those, then increase the base with 2 (we want to produce
      * negative values, and afterwards shift base /2).
-     *
+     * <p>
      * This will produce duplicates, which are filtered out in {@link IntArrayState}
      *
      */

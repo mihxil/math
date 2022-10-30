@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ import static org.meeuw.physics.DimensionalAnalysis.of;
 
 /**
  * A quantity combines a {@link DimensionalAnalysis} with an <em>interpretation</em>.
- *
+ * <p>
  * This is similar in that is indicates whether values associated with it can be compared or added, but less absolute.
  * E.g. you may add a 'length' to a 'width' (to obtain e.g. a circumference), or to assert e.g. that 'the width is greater than the length' Where is is absolutely senseless to ever add a 'width' to a 'temperature').
  */

@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@ import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
- * A number with an uncertainty {@link #getUncertainty()}
+ * A number with an uncertainty {@link #doubleUncertainty()}
  *
  * Also defines scalar operations.
  * <p>
@@ -40,37 +40,53 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>, Uncertain {
+public interface UncertainDouble<D extends UncertainDouble<D>>
+    extends Scalar<D>,
+    UncertainNumber<Double> {
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
-    double getValue();
+    @Override
+    double doubleValue();
 
+    @Override
+    default Double getValue() {
+        return doubleValue();
+    }
     /**
-     * The uncertainty in the {@link #getValue()}. May in some cases be {@link Double#NaN} (e.g. when it's a standard deviation of 1 value).
+     * The uncertainty in the {@link #doubleValue()}. May in some cases be {@link Double#NaN} (e.g. when it's a standard deviation of 1 value).
      */
-    double getUncertainty();
+    double doubleUncertainty();
 
+    @Override
+    default Double getUncertainty() {
+        return doubleUncertainty();
+    }
     /**
-     * Returns {@link #getUncertainty()} but wrapped in an {@link OptionalDouble}.
+     * Returns {@link #doubleUncertainty()} but wrapped in an {@link OptionalDouble}.
      * This never contains {@link Double#NaN}, which is the point of this method.
      */
     default OptionalDouble getOptionalUncertainty() {
-        double uncertainity = getUncertainty();
+        double uncertainity = doubleUncertainty();
         if (Double.isNaN(uncertainity)) {
             return OptionalDouble.empty();
         }
         return OptionalDouble.of(uncertainity);
     }
 
-    default double getFractionalUncertainty() {
-        return operations().getFractionalUncertainty(getValue(), getUncertainty());
+    default double doubleFractionalUncertainty() {
+        return operations().getFractionalUncertainty(doubleValue(), doubleUncertainty());
+    }
+
+    @Override
+    default Double getFractionalUncertainty() {
+        return doubleFractionalUncertainty();
     }
 
     @Override
     default boolean isExact() {
-        return getUncertainty() == EXACT;
+        return doubleUncertainty() == EXACT;
     }
 
     default D dividedBy(double divisor) {
@@ -78,7 +94,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     }
 
     default D plus(double summand) {
-        return _of(summand + getValue(), getUncertainty());
+        return _of(summand + doubleValue(), doubleUncertainty());
     }
 
     default D minus(double subtrahend) {
@@ -97,10 +113,10 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
      * @return a new uncertain number, combining this one with another one, representing a weighted average
      */
     default D weightedAverage(UncertainDouble<?> combinand) {
-        double u = getUncertainty();
-        double mu = combinand.getUncertainty();
-        double value = getValue();
-        double mvalue = combinand.getValue();
+        double u = doubleUncertainty();
+        double mu = combinand.doubleUncertainty();
+        double value = doubleValue();
+        double mvalue = combinand.doubleValue();
 
         // if one of them is still undefined, guess that it would be the same as the other one.
         if (Double.isNaN(mu)) {
@@ -142,8 +158,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
      * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
     default D times(double multiplier) {
-        return _of(multiplier * getValue(),
-            Math.abs(multiplier) * getUncertainty());
+        return _of(multiplier * doubleValue(),
+            Math.abs(multiplier) * doubleUncertainty());
     }
 
     default D negation() {
@@ -151,11 +167,11 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     }
 
     default D times(D multiplier) {
-        double newValue = getValue() * multiplier.getValue();
+        double newValue = doubleValue() * multiplier.doubleValue();
         return _of(newValue,
             Math.max(
                 operations().multiplicationUncertainty(
-                    newValue, getFractionalUncertainty(), multiplier.getFractionalUncertainty()
+                    newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()
                 ),
                 Utils.uncertaintyForDouble(newValue)
             )
@@ -163,27 +179,27 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
     }
 
     default D plus(D summand) throws NotComparableException {
-        double u = getUncertainty();
-        double mu = summand.getUncertainty();
+        double u = doubleUncertainty();
+        double mu = summand.doubleUncertainty();
         return _of(
-            getValue() + summand.getValue(),
+            doubleValue() + summand.doubleValue(),
             operations().additionUncertainty(u, mu));
 
     }
 
     default D pow(int exponent) {
-        double v = Math.pow(getValue(), exponent);
+        double v = Math.pow(doubleValue(), exponent);
         if (!Double.isFinite(v)) {
-            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
+            throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
         }
         return _of(
             v,
-            Math.abs(exponent) * Math.pow(getValue(), exponent - 1) * getUncertainty());
+            Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * doubleUncertainty());
     }
 
     @Override
     default int signum() {
-        return (int) Math.signum(getValue());
+        return (int) Math.signum(doubleValue());
     }
 
     default boolean equals(Object value, double sds) {
@@ -192,36 +208,32 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
             return false;
         }
         D other = (D) value;
-        if (Double.isNaN(getValue())) {
-            return Double.isNaN(other.getValue());
+        if (Double.isNaN(doubleValue())) {
+            return Double.isNaN(other.doubleValue());
         }
-        if (Double.isNaN(getUncertainty()) && Double.isNaN(other.getUncertainty())) {
+        if (Double.isNaN(doubleUncertainty()) && Double.isNaN(other.doubleUncertainty())) {
             return toString().equals(other.toString());
 
         }
-        return getConfidenceInterval(sds).contains(other.getValue())
-            ||  other.getConfidenceInterval(sds).contains(getValue());
+        return getConfidenceInterval(sds).contains(other.doubleValue())
+            ||  other.getConfidenceInterval(sds).contains(doubleValue());
     }
 
     D _of(double value, double uncertainty);
 
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
-        return DoubleConfidenceInterval.of(getValue(), getUncertainty(), sds);
+        return DoubleConfidenceInterval.of(doubleValue(), doubleUncertainty(), sds);
     }
 
+    @Override
     default DoubleOperations operations() {
         return DoubleOperations.INSTANCE;
     }
 
 
     @Override
-    default double doubleValue() {
-        return getValue();
-    }
-
-    @Override
     default BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(getValue());
+        return BigDecimal.valueOf(doubleValue());
     }
 
     @Override
@@ -231,7 +243,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
 
     @Override
     default D abs() {
-        return _of(Math.abs(getValue()), getUncertainty());
+        return _of(Math.abs(doubleValue()), doubleUncertainty());
     }
 
     @Override
@@ -239,7 +251,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>> extends Scalar<D>
         if (this.equals(o)) {
             return 0;
         } else {
-            return Double.compare(getValue(), o.getValue());
+            return Double.compare(doubleValue(), o.doubleValue());
         }
     }
 }

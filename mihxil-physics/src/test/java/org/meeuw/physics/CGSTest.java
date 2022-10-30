@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,8 +27,8 @@ class CGSTest {
 
     @Test
     void cm() {
-        assertThat(CGS.CGSUnit.cm.getSIFactor().getValue()).isEqualTo(0.01d);
-        assertThat(CGS.cmPerS.getSIFactor().getValue()).isEqualTo(0.01d);
+        assertThat(CGS.CGSUnit.cm.getSIFactor().doubleValue()).isEqualTo(0.01d);
+        assertThat(CGS.cmPerS.getSIFactor().doubleValue()).isEqualTo(0.01d);
     }
 
     @Test
@@ -44,7 +44,7 @@ class CGSTest {
     void acceleration() {
         Units gal = INSTANCE.forQuantity(ACCELERATION);
         assertThat(gal).isSameAs(CGS.Gal);
-        assertThat(gal.getSIFactor().getValue()).isEqualTo(0.01d);
+        assertThat(gal.getSIFactor().doubleValue()).isEqualTo(0.01d);
 
         PhysicalNumber acc = new Measurement(1, 0.1, gal);
         Units mPerS2 = SI.INSTANCE.forQuantity(ACCELERATION);

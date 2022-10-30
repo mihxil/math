@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +20,6 @@ import java.util.function.DoubleSupplier;
 
 /**
  * Multiplication prefix that can be used on a {@link Unit}, to get a new {@code code} that differs a certain factor only, but has the same {@link DimensionalAnalysis}
- *
  *
  * @author Michiel Meeuwissen
  * @since 0.4

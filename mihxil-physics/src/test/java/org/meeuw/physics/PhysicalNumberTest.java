@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,7 @@ class PhysicalNumberTest implements
         PhysicalNumber two_pc = measurement(2, 0.1, pc);
 
         PhysicalNumber inLightYear = two_pc.toUnits(Units.of(ly));
-        assertThat(inLightYear.getValue()).isEqualTo(6.523127554334867);
+        assertThat(inLightYear.doubleValue()).isEqualTo(6.523127554334867);
         assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
 
         assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁶ m");

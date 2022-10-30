@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -94,8 +94,8 @@ class SITest {
     public void prefix() {
         Units kmPerS = m.withPrefix(k).per(s);
         assertThat(kmPerS.toString()).isEqualTo("km·s⁻¹");
-        assertThat(kmPerS.getSIFactor().getValue()).isEqualTo(1000d);
-        assertThat(SI.km.getSIFactor().getValue()).isEqualTo(1000d);
+        assertThat(kmPerS.getSIFactor().doubleValue()).isEqualTo(1000d);
+        assertThat(SI.km.getSIFactor().doubleValue()).isEqualTo(1000d);
     }
 
     @Test

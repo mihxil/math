@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -83,9 +83,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     /**
      * Creates a new uncertain number, combining this one with another one.
-     * https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Variance_weights
+     * <a href="https://en.wikipedia.org/wiki/Weighted_arithmetic_mean#Variance_weights">wikipedia</a>
      * @param m another uncertain number
-     * @return a new (immuatable) uncertain number representing the (weighted) average of this one and {@code m}
+     * @return a new (immutable) uncertain number representing the (weighted) average of this one and {@code m}
      */
     default UncertainNumber<N> combined(UncertainNumber<N> m) {
         NumberOperations<N> o = operations();

@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -166,10 +166,10 @@ public class UncertainDoubleElement
         if (multiplier.isOne()){
             return this;
         }
-        double newValue = getValue() * multiplier.getValue();
+        double newValue = this.doubleValue() * multiplier.doubleValue();
         return of(newValue,
             Math.max(
-                operations.multiplicationUncertainty(newValue, getFractionalUncertainty(),  multiplier.getFractionalUncertainty()),
+                operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(),  multiplier.doubleFractionalUncertainty()),
                 Utils.uncertaintyForDouble(newValue)
             )
         );
@@ -178,13 +178,13 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement plus(UncertainReal summand) {
-        double v1 = getValue();
-        double v2 = summand.getValue();
+        double v1 = this.doubleValue();
+        double v2 = summand.doubleValue();
         double result  = v1 + v2;
         return of(
             result,
             Utils.max(
-                operations.add(uncertainty, summand.getUncertainty()),
+                operations.add(uncertainty, summand.doubleUncertainty()),
                 Utils.uncertaintyForDouble(result),
                 Utils.uncertaintyForDouble(v1),
                 Utils.uncertaintyForDouble(v2)
@@ -203,7 +203,7 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public double getValue() {
+    public double doubleValue() {
         return value;
     }
 
@@ -226,7 +226,7 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainReal pow(UncertainReal exponent) {
-        double result = Math.pow(value, exponent.getValue());
+        double result = Math.pow(value, exponent.doubleValue());
         return of(
             result,
             Utils.max(
@@ -234,8 +234,8 @@ public class UncertainDoubleElement
                 operations.powerUncertainty(
                     value,
                     Math.max(uncertainty, Utils.uncertaintyForDouble(value)),
-                    exponent.getValue(),
-                    Math.max(exponent.getUncertainty(), Utils.uncertaintyForDouble(exponent.getValue())),
+                    exponent.doubleValue(),
+                    Math.max(exponent.doubleUncertainty(), Utils.uncertaintyForDouble(exponent.doubleValue())),
                     result
                 )
             ));
@@ -244,15 +244,15 @@ public class UncertainDoubleElement
     @Override
     public UncertainReal exp() {
         return of(
-            Math.exp(getValue()),
-            getUncertainty() // TODO
+            Math.exp(this.doubleValue()),
+            doubleUncertainty() // TODO
         );
     }
 
     @Override
     @NonAlgebraic
     public UncertainReal ln() throws IllegalLogException {
-        UncertainNumber<Double> ln = operations().ln(getValue());
+        UncertainNumber<Double> ln = operations().ln(this.doubleValue());
 
         return of(
             ln.getValue(),
@@ -262,18 +262,18 @@ public class UncertainDoubleElement
 
     @Override
     public  UncertainDoubleElement pow(int exponent) {
-        double v = getValue();
+        double v = this.doubleValue();
         if (v == 0 && exponent < 0) {
             throw new DivisionByZeroException(v + "^" + exponent);
         }
         return of(
-            Math.pow(getValue(), exponent),
-            Math.abs(exponent) * Math.pow(Math.abs(getValue()), exponent -1) * getUncertainty());
+            Math.pow(this.doubleValue(), exponent),
+            Math.abs(exponent) * Math.pow(Math.abs(this.doubleValue()), exponent -1) * doubleUncertainty());
     }
 
     @Override
     public UncertainDoubleElement abs() {
-        return of(Math.abs(getValue()), uncertainty);
+        return of(Math.abs(this.doubleValue()), uncertainty);
     }
 
     @Override
@@ -294,7 +294,7 @@ public class UncertainDoubleElement
     }
 
     public int compareTo(Number o) {
-        return Double.compare(getValue(), o.doubleValue());
+        return Double.compare(this.doubleValue(), o.doubleValue());
     }
 
     /**

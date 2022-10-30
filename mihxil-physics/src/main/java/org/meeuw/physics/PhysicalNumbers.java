@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -27,7 +27,7 @@ import org.meeuw.math.operators.BasicComparisonOperator;
 /**
  * 'Physical' numbers are numbers of a {@link org.meeuw.math.abstractalgebra.Field} but with {@link Units}.
  * This means that such numbers cannot always be added to each other (because their dimensions must match).
- *
+ * <p>
  * Physical numbers do, however, form a multiplicative group, because you <em>can</em> always multiply two.
  *
  * @author Michiel Meeuwissen
