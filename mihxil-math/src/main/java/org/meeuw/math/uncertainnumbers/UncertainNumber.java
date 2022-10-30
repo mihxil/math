@@ -25,6 +25,7 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
  * assumptions about the implemented algebra yet.
  *
  * @author Michiel Meeuwissen
+ * @see UncertainDouble
  * @since 0.4
  */
 public interface UncertainNumber<N extends Number> extends Uncertain {

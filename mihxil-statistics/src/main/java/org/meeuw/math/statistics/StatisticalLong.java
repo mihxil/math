@@ -31,13 +31,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.statistics.UncertainTemporal.Mode;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
 import static java.lang.Math.*;
-import static org.meeuw.math.statistics.UncertainTemporal.Mode.LONG;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -47,7 +45,8 @@ import static org.meeuw.math.statistics.UncertainTemporal.Mode.LONG;
  * @author Michiel Meeuwissen
  */
 @Log
-public class StatisticalLong extends StatisticalNumber<StatisticalLong> implements LongConsumer, IntConsumer {
+public class StatisticalLong extends StatisticalNumber<StatisticalLong>
+    implements LongConsumer, IntConsumer, UncertainTemporal<Double> {
 
     private long sum = 0;
     private long squareSum = 0;
@@ -76,7 +75,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public StatisticalLong(@Nullable Mode mode) {
-        this.mode = mode == null ? LONG : mode;
+        this.mode = mode == null ? Mode.LONG : mode;
     }
 
     protected StatisticalLong(@NonNull Mode mode, long sum, long squareSum, int count, long guessedMean) {
