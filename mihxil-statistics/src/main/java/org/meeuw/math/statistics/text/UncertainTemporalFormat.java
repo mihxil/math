@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,7 +15,6 @@
  */
 package org.meeuw.math.statistics.text;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,9 +22,11 @@ import java.text.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.TimeUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.statistics.UncertainTemporal;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
@@ -34,28 +35,29 @@ import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class StatisticalLongNumberFormat extends Format {
+public class UncertainTemporalFormat extends Format {
 
     @Getter
     @Setter
     ZoneId zoneId = ZoneId.systemDefault();
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public StringBuffer format(Object number, @NotNull StringBuffer toAppendTo, @NotNull FieldPosition pos) {
+    public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
          if (number instanceof StatisticalLong) {
-             StatisticalLong statisticalLong = (StatisticalLong) number;
+             UncertainTemporal<?> statisticalLong = (UncertainTemporal) number;
              switch (statisticalLong.getMode()) {
                  case INSTANT: {
-                     Instant mean = Instant.ofEpochMilli(statisticalLong.longValue());
-                     Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
+                     Instant mean = Instant.ofEpochMilli(statisticalLong.getValue().longValue());
+                     Duration stddev = Duration.ofMillis((long) statisticalLong.getUncertainty().longValue());
                      ChronoUnit order = TimeUtils.orderOfMagnitude(stddev);
                      stddev = TimeUtils.round(stddev, order);
                      toAppendTo.append(valuePlusMinError(TextUtils.format(zoneId, mean, order), stddev.toString()));
                      return toAppendTo;
                  }
                  case DURATION: {
-                     long rounded = Utils.round(statisticalLong.getMean());
-                     Duration stddev = Duration.ofMillis((long) statisticalLong.getStandardDeviation());
+                     long rounded = Utils.round(statisticalLong.getValue().longValue());
+                     Duration stddev = Duration.ofMillis((long) statisticalLong.getUncertainty().longValue());
                      toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;
                  }
@@ -70,7 +72,7 @@ public class StatisticalLongNumberFormat extends Format {
     }
 
     @Override
-    public Object parseObject(String source, ParsePosition pos) {
+    public Object parseObject(String source, @NonNull ParsePosition pos) {
         throw new UnsupportedOperationException();
     }
 

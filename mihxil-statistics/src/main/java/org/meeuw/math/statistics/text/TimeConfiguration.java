@@ -50,6 +50,6 @@ public class TimeConfiguration implements ConfigurationAspect {
 
     @Override
     public List<Class<?>> associatedWith() {
-        return Collections.singletonList(StatisticalTemporalFormat.class);
+        return Collections.singletonList(UncertainTemporalFormat.class);
     }
 }
