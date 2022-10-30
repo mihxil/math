@@ -26,8 +26,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.exceptions.WeighingExceptValuesException;
-import org.meeuw.math.numbers.DoubleOperations;
-import org.meeuw.math.numbers.Scalar;
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -50,6 +49,9 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     @Override
     double doubleValue();
 
+    /**
+     * @return Boxed version of {@link #doubleValue()}. Never {@code null}
+     */
     @Override
     default Double getValue() {
         return doubleValue();
@@ -59,6 +61,9 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
      */
     double doubleUncertainty();
 
+    /**
+     * @return Boxed version of {@link #doubleUncertainty()}. Never {@code null}
+     */
     @Override
     default Double getUncertainty() {
         return doubleUncertainty();
@@ -68,11 +73,11 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
      * This never contains {@link Double#NaN}, which is the point of this method.
      */
     default OptionalDouble getOptionalUncertainty() {
-        double uncertainity = doubleUncertainty();
-        if (Double.isNaN(uncertainity)) {
+        double uncertainty = doubleUncertainty();
+        if (Double.isNaN(uncertainty)) {
             return OptionalDouble.empty();
         }
-        return OptionalDouble.of(uncertainity);
+        return OptionalDouble.of(uncertainty);
     }
 
     default double doubleFractionalUncertainty() {
@@ -160,6 +165,11 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     default D times(double multiplier) {
         return _of(multiplier * doubleValue(),
             Math.abs(multiplier) * doubleUncertainty());
+    }
+
+    @Override
+    default D times(Double multiplier) {
+        return times(multiplier.doubleValue());
     }
 
     default D negation() {

@@ -31,7 +31,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     implements Comparable<D>, UncertainDouble<D> {
 
 
-
     @Override
     public int compareTo(@NonNull D o) {
         if (equals(o)) {
@@ -51,10 +50,6 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
         return UncertainDouble.super.floatValue();
     }
 
-    @Override
-    public double doubleValue() {
-        return this.doubleValue();
-    }
 
     @Override
     public BigDecimal bigDecimalValue() {

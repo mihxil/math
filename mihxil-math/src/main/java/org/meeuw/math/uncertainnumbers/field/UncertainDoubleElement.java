@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.uncertainnumbers.field;
 
-import lombok.Getter;
-
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
@@ -73,7 +71,6 @@ public class UncertainDoubleElement
     private static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     private final double value;
-    @Getter
     private final double uncertainty;
 
      /**
@@ -139,6 +136,11 @@ public class UncertainDoubleElement
     public UncertainDoubleElement(double value, double uncertainty) {
         this.value = value;
         this.uncertainty = uncertainty;
+    }
+
+    @Override
+    public double doubleUncertainty() {
+        return uncertainty;
     }
 
     @Override

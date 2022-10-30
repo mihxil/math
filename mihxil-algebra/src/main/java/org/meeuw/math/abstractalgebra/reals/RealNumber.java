@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
-import lombok.Getter;
-
 import java.math.BigDecimal;
 import java.util.Optional;
 
@@ -58,10 +56,8 @@ public class RealNumber
     public static final RealNumber ZERO = new RealNumber(0d, 0);
     public static final RealNumber SMALLEST = new RealNumber(0d, UNCERTAINTY_FOR_ZERO);
 
-    @Getter
     final double value;
 
-    @Getter
     final double uncertainty;
 
     public static RealNumber of(double value) {
@@ -168,6 +164,11 @@ public class RealNumber
     @Override
     public double doubleValue() {
         return value;
+    }
+
+    @Override
+    public double doubleUncertainty() {
+        return uncertainty;
     }
 
     @Override

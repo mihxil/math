@@ -1,7 +1,7 @@
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.spi.ToStringProvider;
 import org.meeuw.math.statistics.text.TimeConfiguration;
-import org.meeuw.math.statistics.text.spi.StatisticalTemporalFormatProvider;
+//import org.meeuw.math.statistics.text.spi.StatisticalTemporalFormatProvider;
 import org.meeuw.math.statistics.text.spi.ZoneIdToString;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
@@ -27,8 +27,9 @@ module org.meeuw.math.statistics {
     uses ConfigurationAspect;
 
 
-    provides AlgebraicElementFormatProvider with
-        StatisticalTemporalFormatProvider;
+    //provides AlgebraicElementFormatProvider with
+        //StatisticalTemporalFormatProvider
+    //;
 
     provides ConfigurationAspect with
         TimeConfiguration;
