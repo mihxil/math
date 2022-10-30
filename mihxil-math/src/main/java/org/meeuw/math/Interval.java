@@ -109,7 +109,6 @@ public class Interval<T extends Comparable<T>> implements Predicate<T>  {
         Comparator<Interval<C>> boundType = Comparator.comparing(Interval::upperBoundType);
         return Comparator.comparing(
             (Function<Interval<C>, C>) interval -> interval.upperEndpoint, comparing).thenComparing(boundType);
-
     }
 
     @Override

@@ -31,7 +31,6 @@ import org.meeuw.math.validation.Square;
 public final class ArrayUtils {
 
     private ArrayUtils() {
-
     }
 
     /**
@@ -98,10 +97,9 @@ public final class ArrayUtils {
         return eMatrix;
     }
 
-
     /**
      * <p>
-     * Knuth's L algorithm for permutation (taken from <a href='https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order'>here</a>).
+     * Knuth's L algorithm for permutation (taken from <a href="https://codereview.stackexchange.com/questions/158798/on-knuths-algorithm-l-to-generate-permutations-in-lexicographic-order">here</a>).
      * </p>
      * <p>
      * Takes an array of integers. It should contain all the values 0 to length, in any order, and swaps elements to find the 'next' permutation according to Knuth.

@@ -49,6 +49,9 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     @Override
     double doubleValue();
 
+
+    D _of(double value, double uncertainty);
+
     /**
      * @return Boxed version of {@link #doubleValue()}. Never {@code null}
      */
@@ -212,6 +215,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
         return (int) Math.signum(doubleValue());
     }
 
+    @SuppressWarnings("unchecked")
     default boolean equals(Object value, double sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainDouble)) {
@@ -229,8 +233,6 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
             ||  other.getConfidenceInterval(sds).contains(doubleValue());
     }
 
-    D _of(double value, double uncertainty);
-
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
         return DoubleConfidenceInterval.of(doubleValue(), doubleUncertainty(), sds);
     }
@@ -239,7 +241,6 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     default DoubleOperations operations() {
         return DoubleOperations.INSTANCE;
     }
-
 
     @Override
     default BigDecimal bigDecimalValue() {

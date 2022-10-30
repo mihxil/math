@@ -25,7 +25,6 @@ import org.meeuw.configuration.ConfigurationAspect;
 
 public class ConfidenceIntervalConfiguration implements ConfigurationAspect {
 
-
     @With
     @Getter
     private final float sds;

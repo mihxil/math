@@ -221,7 +221,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     @Override
     public boolean equals(Object o) {
         if (count == 0) {
-            return ((StatisticalNumber) o).count == 0;
+            return ((StatisticalNumber<?>) o).count == 0;
         }
         return equals(o,
             ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()

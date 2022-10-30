@@ -61,7 +61,7 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
         this(value, memoize(uncertainty), null);
     }
 
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
+    @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
     public boolean equals(Object o) {
         return equals(o, 1);

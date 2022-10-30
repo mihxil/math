@@ -118,7 +118,7 @@ public final class Utils {
 
     /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
-     *
+     * <p>
      * This is more exact than {@link Math#pow(double, double)} (though probably not faster)
      * @param base the base
      * @param e  the exponent
@@ -146,7 +146,7 @@ public final class Utils {
 
     /**
      * A crude order of magnitude implemention
-     *
+     * <p>
      * This is like {@code Math.log10(Mat.abs(d))}
      * @param d a double
      * @return <sup>10</sup>log(d)
@@ -157,7 +157,7 @@ public final class Utils {
 
     /**
      * A crude order of magnitude implemention
-     *
+     * <p>
      * This is like {@code Math.log10(Mat.abs(l))}
      * @param l a long
      * @return round(<sup>10</sup>log(d))

@@ -6,7 +6,6 @@ public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> 
 
     Mode getMode();
 
-
     /**
      * The long value contained in a {@link StatisticalLong} can be interpreted in different ways.
      */

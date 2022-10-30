@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -125,7 +125,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
         assertThat(statCombined.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(statCombined.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 * 3 + 4 * 4 + 5 * 5 + 6 * 6 + 7 * 7);
-        assertThat(statCombined.getValue()).isEqualTo(3.5);
+        assertThat(statCombined.doubleValue()).isEqualTo(3.5);
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
