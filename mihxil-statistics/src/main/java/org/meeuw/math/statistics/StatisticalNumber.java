@@ -60,7 +60,7 @@ public abstract class StatisticalNumber<T extends StatisticalNumber<T> & Uncerta
     abstract double getStandardDeviation();
 
     @Override
-    public double getUncertainty() {
+    public double doubleUncertainty() {
         return getStandardDeviation();
     }
 

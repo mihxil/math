@@ -36,6 +36,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.meeuw.math.statistics.UncertainTemporal.Mode.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -57,7 +58,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         ConfigurationService.withAspect(TimeConfiguration.class, tz -> tz.withZoneId(ZoneId.of("Europe/Amsterdam")), () -> {
             Instant now = Instant.ofEpochMilli(1593070087406L);
 
-            StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.INSTANT);
+            StatisticalLong mes = new StatisticalLong(INSTANT);
 
             mes.enter(now, now.plus(Duration.ofMillis(-400)), now.minus(Duration.ofMillis(500)));
             assertThat(mes.getRoundedMean()).isEqualTo(1593070087100L);
@@ -102,7 +103,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void combine() {
-        StatisticalLong stat1 = new StatisticalLong(StatisticalLong.Mode.LONG);
+        StatisticalLong stat1 = new StatisticalLong(LONG);
         stat1.enter(0, 2, 4, 6);
         StatisticalLong stat2  = new StatisticalLong();
         stat2.enter(1, 3, 5, 7);
@@ -137,7 +138,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void timesAndPlus() {
-        StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.DURATION);
+        StatisticalLong mes = new StatisticalLong(DURATION);
 
         assertThat(mes.optionalDurationValue()).isNotPresent();
         assertThat(mes.getStandardDeviation()).isNaN();
@@ -156,7 +157,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void nanoDurations() {
-        StatisticalLong mes = new StatisticalLong(StatisticalLong.Mode.DURATION_NS);
+        StatisticalLong mes = new StatisticalLong(DURATION_NS);
         mes.enter(Duration.ofNanos(10), Duration.ofNanos(20));
         assertThat(mes.durationValue()).isEqualTo(Duration.ofNanos(15));
         assertThat(mes.optionalDurationValue()).contains(Duration.ofNanos(15));

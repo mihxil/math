@@ -149,7 +149,7 @@ public class StatisticalDouble extends StatisticalNumber<StatisticalDouble>
     }
 
     @Override
-    public double getValue() {
+    public double doubleValue() {
         return getMean();
     }
 

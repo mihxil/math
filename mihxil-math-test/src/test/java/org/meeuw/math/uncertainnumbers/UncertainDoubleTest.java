@@ -15,10 +15,7 @@
  */
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
-
 import net.jqwik.api.*;
-
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.exceptions.WeighingExceptValuesException;
@@ -34,7 +31,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A> {
 
 
-    @Getter
     static class A implements UncertainDouble<A> {
 
         private final double value;
@@ -43,6 +39,17 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         A(double value, double uncertainty) {
             this.value = value;
             this.uncertainty = uncertainty;
+        }
+
+
+        @Override
+        public double doubleValue() {
+            return value;
+        }
+
+        @Override
+        public double doubleUncertainty() {
+            return uncertainty;
         }
 
         @Override

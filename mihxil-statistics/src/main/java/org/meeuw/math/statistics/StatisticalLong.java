@@ -31,11 +31,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.statistics.UncertainTemporal.Mode;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
 import static java.lang.Math.*;
+import static org.meeuw.math.statistics.UncertainTemporal.Mode.LONG;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -74,7 +76,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     public StatisticalLong(@Nullable Mode mode) {
-        this.mode = mode == null ? Mode.LONG : mode;
+        this.mode = mode == null ? LONG : mode;
     }
 
     protected StatisticalLong(@NonNull Mode mode, long sum, long squareSum, int count, long guessedMean) {
@@ -247,7 +249,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
     }
 
     @Override
-    public double getValue() {
+    public double doubleValue() {
         return getMean();
     }
     public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
@@ -425,34 +427,6 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong> implemen
         this.sum = sum - count * diff;
         this.guessedMean = newGuess;
         return this;
-    }
-
-    /**
-     * The long value contained in a {@link StatisticalLong} can be interpreted in different ways.
-     */
-    public enum Mode {
-        /**
-         * Just a some long number.
-         */
-        LONG,
-
-        /**
-         * The long must be interpreted as a point in time. Milliseconds since EPOCH
-         */
-        INSTANT,
-
-        /**
-         * The long must be interpreted as duration. A number of milliseconds. This is probably precise enough for must cases.
-         * For very short times, or more accuracy use {@link #DURATION_NS}, and durations will be stored as nanoseconds.
-         */
-        DURATION,
-
-
-        /**
-         * The long must be interpreted as duration. A number of nanos. Don't use this if durations vary more than a few seconds, since the sum of squares may rapidly go over {@link Long#MAX_VALUE} then.
-         */
-        DURATION_NS;
-
     }
 
 }
