@@ -432,6 +432,9 @@
                 </goals>
                 <configuration>
                   <append>true</append>
+                  <excludes>
+                    <exclude>JAVAC.ASSERT</exclude>
+                  </excludes>
                 </configuration>
               </execution>
               <execution>

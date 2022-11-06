@@ -247,15 +247,17 @@ public class StatisticalLong extends
     public static long NANOS_IN_MILLIS = 1_000_000;
     public static BigDecimal BIG_NANOS_IN_MILLIS = BigDecimal.valueOf(NANOS_IN_MILLIS);
 
-    public Instant instantValue() {
-        BigDecimal milliTime = getOptionalBigMean().orElseThrow(() -> new DivisionByZeroException("no values entered"));
-
-        final BigDecimal nanoTime = milliTime.multiply(BigDecimal.valueOf(NANOS_IN_MILLIS));
-        final BigDecimal[] bigDecimals = nanoTime.divideAndRemainder(BIG_NANOS_IN_MILLIS);
-        return Instant.ofEpochMilli(bigDecimals[0].longValue())
-            .plusNanos(
-                bigDecimals[1].longValue()
-            );
+    @Override
+    public Optional<Instant> optionalInstantValue() {
+        return getOptionalBigMean()
+            .map(bd -> {
+                final BigDecimal nanoTime = bd.multiply(BigDecimal.valueOf(NANOS_IN_MILLIS));
+                final BigDecimal[] bigDecimals = nanoTime.divideAndRemainder(BIG_NANOS_IN_MILLIS);
+                return Instant.ofEpochMilli(bigDecimals[0].longValue())
+                    .plusNanos(
+                        bigDecimals[1].longValue()
+                    );
+            });
     }
 
 
@@ -265,7 +267,11 @@ public class StatisticalLong extends
             .map(bd -> {
                 switch(mode) {
                     case DURATION:
-                        return Duration.ofMillis(bd.longValue()).plusNanos(bd.remainder(BigDecimal.ONE).multiply(BIG_NANOS_IN_MILLIS).longValue());
+                        return Duration
+                            .ofMillis(bd.longValue())
+                            .plusNanos(
+                                bd.remainder(BigDecimal.ONE).multiply(BIG_NANOS_IN_MILLIS).longValue()
+                            );
                     case DURATION_NS:
                         return Duration.ofNanos(bd.longValue());
                     default: throw new IllegalStateException();

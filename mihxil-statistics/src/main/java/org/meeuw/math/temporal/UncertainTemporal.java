@@ -1,6 +1,7 @@
 package org.meeuw.math.temporal;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Optional;
 
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -10,6 +11,8 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
 /**
  * An uncertain number can be used to represent objects from {@code java.time}, like {@link java.time.Instant}
  * or {@link java.time.Duration}. This requires some special treatment when formatting.
+ * <p>
+ * TODO Implement this too using {@link java.math.BigDecimal} to avoid overflows.
  * @since 0.9
  */
 public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> {
@@ -49,5 +52,13 @@ public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> 
     }
 
     Optional<Duration> optionalDurationValue();
+
+    default  Instant instantValue() {
+        return optionalInstantValue()
+            .orElseThrow(() -> new DivisionByZeroException("no values entered"));
+    }
+
+    Optional<Instant> optionalInstantValue();
+
 
 }

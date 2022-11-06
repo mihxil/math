@@ -67,7 +67,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     }
 
 
-    @SuppressWarnings("ConstantConditions")
     @Property
     default void pow0(
          @ForAll(ELEMENTS) E v1
@@ -75,7 +74,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThatThrownBy(() -> v1.pow(0)).isInstanceOf(ReciprocalException.class);
     }
 
-    @SuppressWarnings("ConstantConditions")
     @Property
     @Label("powNegative1 semigroup")
     default void powNegative1(
@@ -83,7 +81,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     )  {
         assertThatThrownBy(() -> v1.pow(-1)).isInstanceOf(ReciprocalException.class);
     }
-    @SuppressWarnings("ConstantConditions")
     @Property
     @Label("powNegative2 semigroup")
     default void powNegative2(
@@ -92,7 +89,6 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
         assertThatThrownBy(() -> v1.pow(-2)).isInstanceOf(ReciprocalException.class);
 
     }
-    @SuppressWarnings("ConstantConditions")
     @Property
     @Label("powNegative3 semigroup")
     default void powNegative3(
