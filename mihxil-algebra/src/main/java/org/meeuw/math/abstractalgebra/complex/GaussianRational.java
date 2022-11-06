@@ -25,7 +25,6 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  */
 public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber, RationalNumbers> {
 
-
     public static GaussianRational of(RationalNumber real, RationalNumber imaginary) {
         return new GaussianRational(real, imaginary);
     }

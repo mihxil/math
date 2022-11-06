@@ -23,7 +23,8 @@ package org.meeuw.math.abstractalgebra;
  * @since 0.4
  * @param <E> Self reference
  */
-public interface CompleteScalarFieldElement<E extends CompleteScalarFieldElement<E>>
+public interface CompleteScalarFieldElement
+    <E extends CompleteScalarFieldElement<E>>
     extends
     CompleteFieldElement<E>,
     ScalarFieldElement<E> {
