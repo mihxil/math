@@ -41,8 +41,10 @@ public class ScalarTest {
         assertThat(d.abs().intValue()).isEqualTo(10);
         assertThat(d.bigDecimalValue()).isEqualTo("10.234");
 
-        assertThat(new Scalar.Number(0L).signum()).isEqualTo(0);
+        assertThat(Scalar.ofNumber(0L).signum()).isEqualTo(0);
+        assertThat(Scalar.ofNumber(-10e10d).signum()).isEqualTo(-1);
+        assertThat(Scalar.ofNumber(-10e10d).abs().doubleValue()).isEqualTo(10e10d);
 
-        assertThat(new Scalar.Number(0L).compareTo(new Scalar.Number(2L))).isEqualTo(-1);
+        assertThat(Scalar.ofNumber(0L).compareTo(new Scalar.Number(2L))).isEqualTo(-1);
     }
 }
