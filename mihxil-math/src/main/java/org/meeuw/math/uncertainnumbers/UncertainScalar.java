@@ -1,5 +1,7 @@
 package org.meeuw.math.uncertainnumbers;
 
+import java.math.BigDecimal;
+
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -12,5 +14,10 @@ public interface UncertainScalar<N extends Number, SELF extends UncertainScalar<
     @Override
     default int signum() {
         return (int) Math.signum(doubleValue());
+    }
+
+    @Override
+    default BigDecimal bigDecimalValue() {
+        return UncertainNumber.super.bigDecimalValue();
     }
 }

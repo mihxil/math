@@ -106,7 +106,7 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
                 A a1 = new A(valueOf(1), valueOf(0.1));
                 A a2 = new A(valueOf(1.1), valueOf(0.05));
                 UncertainNumber<BigDecimal> combined = a1.combined(a2);
-                assertThat(combined.bigDecimalValue()).isEqualTo(valueOf(1.08));
+                assertThat(combined.getValue()).isEqualTo(valueOf(1.08));
                 assertThat(combined.getUncertainty()).isEqualTo(new BigDecimal("0.04472"));
             }
         );

@@ -18,6 +18,7 @@ package org.meeuw.math.uncertainnumbers;
 import java.math.BigDecimal;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * A number with an uncertainty {@link #doubleUncertainty()}
@@ -26,26 +27,30 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
+public abstract class AbstractUncertainDouble
     extends Number
-    implements Comparable<D>, UncertainDouble<D> {
+    implements
+    UncertainScalar<Double, UncertainReal>,
+    Comparable<UncertainReal>,
+    UncertainDouble<UncertainReal> {
 
     @Override
-    public int compareTo(@NonNull D o) {
+    public int compareTo(@NonNull UncertainReal o) {
         if (equals(o)) {
             return 0;
         }
         return Double.compare(doubleValue(), o.doubleValue());
     }
 
+
     @Override
     public int intValue() {
-        return UncertainDouble.super.intValue();
+        return (int) Math.round(doubleValue());
     }
 
     @Override
     public float floatValue() {
-        return UncertainDouble.super.floatValue();
+        return (float) doubleValue();
     }
 
     @Override
@@ -54,7 +59,7 @@ public abstract class AbstractUncertainDouble<D extends UncertainDouble<D>>
     }
 
     @Override
-    public D plus(D summand) {
+    public UncertainReal plus(UncertainReal summand) {
         return UncertainDouble.super.plus(summand);
     }
 

@@ -17,7 +17,7 @@ package org.meeuw.math.statistics.text.spi;
 
 import org.meeuw.configuration.Configuration;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.statistics.UncertainTemporal;
+import org.meeuw.math.temporal.UncertainTemporal;
 import org.meeuw.math.statistics.text.UncertainTemporalFormat;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;

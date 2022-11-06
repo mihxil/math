@@ -5,7 +5,7 @@
  *    you may not use this file except in compliance with the License.
  *    You may obtain a copy of the License at
  *
- *        http://www.apache.org/licenses/LICENSE-2.0
+ *        https://www.apache.org/licenses/LICENSE-2.0
  *
  *    Unless required by applicable law or agreed to in writing, software
  *    distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,11 +31,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.temporal.StatisticalTemporal;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
 import static java.lang.Math.*;
+import static org.meeuw.math.temporal.UncertainTemporal.Mode.LONG;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
@@ -45,8 +46,9 @@ import static java.lang.Math.*;
  * @author Michiel Meeuwissen
  */
 @Log
-public class StatisticalLong extends StatisticalNumber<StatisticalLong>
-    implements LongConsumer, IntConsumer, UncertainTemporal<Double> {
+public class StatisticalLong extends
+    AbstractStatisticalDouble<StatisticalLong>
+    implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double> {
 
     private long sum = 0;
     private long squareSum = 0;
@@ -75,7 +77,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
     }
 
     public StatisticalLong(@Nullable Mode mode) {
-        this.mode = mode == null ? Mode.LONG : mode;
+        this.mode = mode == null ? LONG : mode;
     }
 
     protected StatisticalLong(@NonNull Mode mode, long sum, long squareSum, int count, long guessedMean) {
@@ -137,7 +139,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link StatisticalLong#plus(UncertainDouble)}} which is something entirely different.
+     * See also {@link StatisticalLong#plus(UncertainReal)} which is something entirely different.
      * @param m The other {@link StatisticalLong} which value must be entered into this one
      */
     @Override
@@ -162,16 +164,9 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
         return this;
     }
 
-    /**
-     * @throws DivisionByZeroException if there are no values entered
-     */
-    public double getMean() throws DivisionByZeroException {
-        return getOptionalMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
-    }
 
-
-
-    public OptionalDouble getOptionalMean() {
+    @Override
+    public OptionalDouble optionalDoubleMean() {
         if (count == 0) {
             return OptionalDouble.empty();
         } else {
@@ -247,10 +242,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
             Math.max(reciprocal.getUncertainty(), getFractionalUncertainty() * v + Utils.uncertaintyForDouble(v)));
     }
 
-    @Override
-    public double doubleValue() {
-        return getMean();
-    }
+
     public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
     public static long NANOS_IN_MILLIS = 1_000_000;
     public static BigDecimal BIG_NANOS_IN_MILLIS = BigDecimal.valueOf(NANOS_IN_MILLIS);
@@ -266,11 +258,8 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
             );
     }
 
-    public Duration durationValue() {
-        return optionalDurationValue().orElseThrow(() -> new DivisionByZeroException("no values entered"));
-    }
 
-
+    @Override
     public Optional<Duration> optionalDurationValue() {
         return getOptionalBigMean()
             .map(bd -> {
@@ -289,7 +278,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
      * @throws OverflowException If sum of square overflowed
      */
     @Override
-    public double getStandardDeviation() {
+    public double doubleStandardDeviation() {
         if (count == 0) {
             return Double.NaN;
         }
@@ -316,7 +305,7 @@ public class StatisticalLong extends StatisticalNumber<StatisticalLong>
     /**
      * This implementation keeps track of a 'guessedMean' value. The internal value {@link #getUncorrectedSumOfSquares()} is kept small like this, to avoid long overflows.
      * <p>
-     * Calculating the {@link #getStandardDeviation()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
+     * Calculating the {@link #doubleStandardDeviation()} ()} ()} happens using these 'uncorrected' (but smaller) versions, because the value should be the same. The actual sum of squares of all values is given by {@link #getSumOfSquares()}, which is the calculated but may more easily overflow.
      * @return the uncorrected sum
 //     * @see #getGuessedMean()
      */

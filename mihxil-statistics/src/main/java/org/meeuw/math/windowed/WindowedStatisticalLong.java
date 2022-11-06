@@ -23,17 +23,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.statistics.UncertainTemporal;
+import org.meeuw.math.temporal.UncertainTemporal;
 
 /**
- * {@link StatisticalLong} can be aggregated, and therefore {@link Windowed}.
+ * {@link StatisticalLong}s can be aggregated, and therefore {@link Windowed}.
  *
  * @see WindowedLongSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 1.66
  */
-public class WindowedStatisticalLong extends WindowedStatisticalNumber<StatisticalLong> implements LongConsumer, AutoCloseable {
+public class WindowedStatisticalLong
+    extends WindowedStatisticalNumber<Double, StatisticalLong>
+    implements LongConsumer, AutoCloseable {
 
     private final UncertainTemporal.Mode mode;
 
@@ -75,17 +79,16 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         protected Duration currentValue() {
             return currentValue(clock.instant());
         }
-
     }
 
     @lombok.Builder
     protected WindowedStatisticalLong(
-        Duration window,
-        Duration bucketDuration,
-        Integer bucketCount,
-        UncertainTemporal.Mode mode,
-        BiConsumer<Event, Windowed<StatisticalLong>>[] eventListenersArray,
-        Clock clock
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
+        @Nullable Integer bucketCount,
+        UncertainTemporal.@Nullable Mode mode,
+        @NonNull BiConsumer<Event, Windowed<StatisticalLong>>@Nullable[] eventListenersArray,
+        @Nullable Clock clock
     ) {
         super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         this.mode = mode == null ? UncertainTemporal.Mode.LONG : mode;
@@ -155,6 +158,5 @@ public class WindowedStatisticalLong extends WindowedStatisticalNumber<Statistic
         public final Builder eventListeners(BiConsumer<Event, Windowed<StatisticalLong>>... eventListeners) {
             return eventListenersArray(eventListeners);
         }
-
     }
 }

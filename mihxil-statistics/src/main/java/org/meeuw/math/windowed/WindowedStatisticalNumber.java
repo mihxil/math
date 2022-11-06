@@ -19,7 +19,9 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 
-import org.meeuw.math.statistics.StatisticalNumber;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.meeuw.math.statistics.*;
 
 /**
  * {@link StatisticalNumber}s can be aggregated, and therefore be {@link Windowed}.
@@ -27,17 +29,17 @@ import org.meeuw.math.statistics.StatisticalNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class WindowedStatisticalNumber<T extends StatisticalNumber<T>>
+public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N>>
     extends Windowed<T>  {
 
 
     protected WindowedStatisticalNumber(
-        Class<T> bucketClass,
-        Duration window,
-        Duration bucketDuration,
-        Integer bucketCount,
-        BiConsumer<Event, Windowed<T>>[] eventListeners,
-        Clock clock
+        @NonNull Class<T> bucketClass,
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
+        @Nullable Integer bucketCount,
+        @NonNull BiConsumer<Event, Windowed<T>>@Nullable[] eventListeners,
+        @Nullable Clock clock
     ) {
         super(bucketClass, window, bucketDuration, bucketCount, eventListeners, clock);
     }

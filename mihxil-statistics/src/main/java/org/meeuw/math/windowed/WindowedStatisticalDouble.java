@@ -21,29 +21,32 @@ import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
 import org.meeuw.math.statistics.StatisticalDouble;
+import org.meeuw.math.statistics.StatisticalDoubleImpl;
 
 /**
- * {@link StatisticalDouble} can be aggregated, and therefore {@link Windowed}.
+ * {@link StatisticalDouble}s can be aggregated, and therefore {@link Windowed}.
  * @see WindowedDoubleSummaryStatistics
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-public class WindowedStatisticalDouble extends WindowedStatisticalNumber<StatisticalDouble> implements DoubleConsumer {
+public class WindowedStatisticalDouble extends
+    WindowedStatisticalNumber<Double, StatisticalDoubleImpl> implements
+    DoubleConsumer {
 
     @lombok.Builder
     protected WindowedStatisticalDouble(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
-        BiConsumer<Event, Windowed<StatisticalDouble>>[] eventListeners,
+        BiConsumer<Event, Windowed<StatisticalDoubleImpl>>[] eventListenersArray,
         Clock clock
     ) {
-        super(StatisticalDouble.class, window, bucketDuration, bucketCount, eventListeners, clock);
+        super(StatisticalDoubleImpl.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
     }
 
     @Override
-    protected StatisticalDouble initialValue() {
-        return new StatisticalDouble();
+    protected StatisticalDoubleImpl initialValue() {
+        return new StatisticalDoubleImpl();
     }
 
     @Override
@@ -52,8 +55,17 @@ public class WindowedStatisticalDouble extends WindowedStatisticalNumber<Statist
     }
 
     public void accept(double... value) {
-        StatisticalDouble currentBucket = currentBucket();
-        currentBucket.enter(value);
+        StatisticalDoubleImpl currentBucket = currentBucket();
+        for(double d : value) {
+            currentBucket.accept(d);
+        }
+    }
+
+    public static class Builder {
+        @SafeVarargs
+        public final WindowedStatisticalDouble.Builder eventListeners(BiConsumer<Event, Windowed<StatisticalDoubleImpl>>... eventListeners) {
+            return eventListenersArray(eventListeners);
+        }
     }
 
 }

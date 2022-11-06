@@ -10,7 +10,7 @@ class ImmutableUncertainNumberTest {
 
     @Test
     public void tString() {
-        ImmutableUncertainNumber<Long> t = ImmutableUncertainNumber.of(5L, () -> 3L);
+        ImmutableUncertainNumber<Long> t = ImmutableUncertainNumber.<Long>of(5L, () -> 3L);
         assertThat(t.toString()).isEqualTo("5 ± 3");
         ImmutableUncertainNumber<Long> withUnits = t.withUnitsAsString("m");
         assertThat(withUnits.toString()).isEqualTo("5 ± 3 m");

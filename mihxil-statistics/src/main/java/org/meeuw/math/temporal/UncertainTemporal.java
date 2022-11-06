@@ -1,7 +1,17 @@
-package org.meeuw.math.statistics;
+package org.meeuw.math.temporal;
 
+import java.time.Duration;
+import java.util.Optional;
+
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
+/**
+ * An uncertain number can be used to represent objects from {@code java.time}, like {@link java.time.Instant}
+ * or {@link java.time.Duration}. This requires some special treatment when formatting.
+ * @since 0.9
+ */
 public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> {
 
     Mode getMode();
@@ -30,7 +40,14 @@ public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> 
         /**
          * The long must be interpreted as duration. A number of nanos. Don't use this if durations vary more than a few seconds, since the sum of squares may rapidly go over {@link Long#MAX_VALUE} then.
          */
-        DURATION_NS;
-
+        DURATION_NS
     }
+
+    default  Duration durationValue() {
+        return optionalDurationValue()
+            .orElseThrow(() -> new DivisionByZeroException("no values entered"));
+    }
+
+    Optional<Duration> optionalDurationValue();
+
 }

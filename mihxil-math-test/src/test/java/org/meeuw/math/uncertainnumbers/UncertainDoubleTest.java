@@ -41,7 +41,6 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
             this.uncertainty = uncertainty;
         }
 
-
         @Override
         public double doubleValue() {
             return value;

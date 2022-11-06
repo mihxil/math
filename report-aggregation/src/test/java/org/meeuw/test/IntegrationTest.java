@@ -24,7 +24,7 @@ import java.nio.charset.StandardCharsets;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.TestClock;
-import org.meeuw.math.statistics.StatisticalDouble;
+import org.meeuw.math.statistics.StatisticalDoubleImpl;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.physics.*;
 
@@ -57,7 +57,7 @@ public class IntegrationTest {
     @Test
     public void statisticalDoubleToPhysics() {
 
-        StatisticalDouble statisticalDouble = new StatisticalDouble();
+        StatisticalDoubleImpl statisticalDouble = new StatisticalDoubleImpl();
         statisticalDouble.enter(10d, 11d, 9d);
 
         PhysicalNumber measurement = new Measurement(statisticalDouble, Units.of(SI.min));

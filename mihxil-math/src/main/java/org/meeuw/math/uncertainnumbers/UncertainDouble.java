@@ -15,23 +15,18 @@
  */
 package org.meeuw.math.uncertainnumbers;
 
-import jakarta.validation.constraints.NotNull;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-
 import java.util.OptionalDouble;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.exceptions.WeighingExceptValuesException;
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
- * A number with a {@link #doubleValue()} and an uncertainty {@link #doubleUncertainty()}
- * <p>
+ * A number with an uncertainty {@link #doubleUncertainty()}
+ *<p>
  * Also defines scalar operations.
  * <p>
  * This is an extension of {@link UncertainNumber}, but it is implemented with primitive doubles, and the primitive
@@ -39,18 +34,19 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <SELF> self reference
  */
-public interface UncertainDouble<D extends UncertainDouble<D>>
-    extends Scalar<D>,
-    UncertainNumber<Double> {
+public interface UncertainDouble
+    <SELF extends UncertainDouble<SELF>>
+    extends
+    UncertainScalar<Double,SELF> {
+
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
-    @Override
-    double doubleValue();
 
-    D _of(double value, double uncertainty);
+    SELF _of(double value, double uncertainty);
 
     /**
      * @return Boxed version of {@link #doubleValue()}. Never {@code null}
@@ -97,15 +93,15 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
         return doubleUncertainty() == EXACT;
     }
 
-    default D dividedBy(double divisor) {
+    default SELF dividedBy(double divisor) {
         return times(1d / divisor);
     }
 
-    default D plus(double summand) {
+    default SELF plus(double summand) {
         return _of(summand + doubleValue(), doubleUncertainty());
     }
 
-    default D minus(double subtrahend) {
+    default SELF minus(double subtrahend) {
         return plus(-1d * subtrahend);
     }
 
@@ -113,14 +109,14 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
      * @deprecated Use {@link #weightedAverage(UncertainDouble)}
      */
     @Deprecated
-    default D combined(UncertainReal m) {
+    default SELF combined(UncertainReal m) {
         return weightedAverage(m);
     }
     /**
      * @param combinand  another uncertain real to combine with this one
      * @return a new uncertain number, combining this one with another one, representing a weighted average
      */
-    default D weightedAverage(UncertainDouble<?> combinand) {
+    default SELF weightedAverage(UncertainDouble<?> combinand) {
         double u = doubleUncertainty();
         double mu = combinand.doubleUncertainty();
         double value = doubleValue();
@@ -165,21 +161,21 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
      * @param multiplier a double to multiply this with
      * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
-    default D times(double multiplier) {
+    default SELF times(double multiplier) {
         return _of(multiplier * doubleValue(),
             Math.abs(multiplier) * doubleUncertainty());
     }
 
     @Override
-    default D times(Double multiplier) {
+    default SELF times(Double multiplier) {
         return times(multiplier.doubleValue());
     }
 
-    default D negation() {
+    default SELF negation() {
         return times(-1);
     }
 
-    default D times(D multiplier) {
+    default SELF times(SELF multiplier) {
         double newValue = doubleValue() * multiplier.doubleValue();
         return _of(newValue,
             Math.max(
@@ -191,7 +187,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
         );
     }
 
-    default D plus(D summand) throws NotComparableException {
+    default SELF plus(SELF summand) throws NotComparableException {
         double u = doubleUncertainty();
         double mu = summand.doubleUncertainty();
         return _of(
@@ -200,7 +196,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
 
     }
 
-    default D pow(int exponent) {
+    @Override
+    default SELF pow(int exponent) {
         double v = Math.pow(doubleValue(), exponent);
         if (!Double.isFinite(v)) {
             throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
@@ -210,18 +207,13 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
             Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * doubleUncertainty());
     }
 
-    @Override
-    default int signum() {
-        return (int) Math.signum(doubleValue());
-    }
-
     @SuppressWarnings("unchecked")
     default boolean equals(Object value, double sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainDouble)) {
             return false;
         }
-        D other = (D) value;
+        SELF other = (SELF) value;
         if (Double.isNaN(doubleValue())) {
             return Double.isNaN(other.doubleValue());
         }
@@ -243,26 +235,12 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     }
 
     @Override
-    default BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(doubleValue());
+    default int compareTo(@NonNull SELF compare) {
+        return Double.compare(doubleValue(), compare.doubleValue());
     }
 
     @Override
-    default BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(longValue());
-    }
-
-    @Override
-    default D abs() {
+    default SELF abs() {
         return _of(Math.abs(doubleValue()), doubleUncertainty());
-    }
-
-    @Override
-    default int compareTo(@NotNull @NonNull D o) {
-        if (this.equals(o)) {
-            return 0;
-        } else {
-            return Double.compare(doubleValue(), o.doubleValue());
-        }
     }
 }

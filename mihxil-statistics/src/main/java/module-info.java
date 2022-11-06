@@ -22,6 +22,7 @@ module org.meeuw.math.statistics {
     exports org.meeuw.math.statistics;
     exports org.meeuw.math.statistics.text;
     exports org.meeuw.math.windowed;
+    exports org.meeuw.math.temporal;
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

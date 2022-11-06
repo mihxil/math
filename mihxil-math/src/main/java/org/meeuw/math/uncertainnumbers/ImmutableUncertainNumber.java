@@ -31,7 +31,8 @@ import static org.meeuw.math.CollectionUtils.memoize;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class ImmutableUncertainNumber<N extends Number> implements UncertainNumber<N> , WithUnits  {
+public class ImmutableUncertainNumber<N extends Number>
+    implements UncertainNumber<N> , WithUnits  {
 
     @Getter
     private final N value;
@@ -42,7 +43,8 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
     @With
     private final String unitsAsString;
 
-    public static <N extends Number> ImmutableUncertainNumber<N> of(N value, Supplier<N> uncertainty) {
+    public static <M extends java.lang.Number> ImmutableUncertainNumber<M> of(
+        M value, Supplier<M> uncertainty) {
         return new ImmutableUncertainNumber<>(value, uncertainty);
     }
 
@@ -84,4 +86,10 @@ public class ImmutableUncertainNumber<N extends Number> implements UncertainNumb
         return formatter.format(this) + (unitsAsString == null ? "" : " " + unitsAsString);
     }
 
+    public UncertainNumber<N> abs() {
+        return new ImmutableUncertainNumber<>(
+            operations().abs(value), uncertainty, unitsAsString
+        );
+
+    }
 }

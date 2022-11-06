@@ -17,7 +17,6 @@ package org.meeuw.math.windowed;
 
 import jakarta.annotation.PreDestroy;
 
-import java.math.BigInteger;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.*;
@@ -26,7 +25,8 @@ import java.util.function.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.meeuw.math.Utils;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -73,17 +73,17 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
-     * @param reporter
+     * @param reporter       A consumer that will be called every {@code bucketDuration}
      */
 
     @lombok.Builder
     private WindowedEventRate(
-        Duration window,
-        Duration bucketDuration,
-        Integer bucketCount,
-        Consumer<WindowedEventRate> reporter,
-        BiConsumer<Event, Windowed<AtomicLong>>[] eventListenersArray,
-        Clock clock
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
+        @Nullable Integer bucketCount,
+        @Nullable Consumer<WindowedEventRate> reporter,
+        @NonNull BiConsumer<Event, Windowed<AtomicLong>>@Nullable[] eventListenersArray,
+        @Nullable Clock clock
         ) {
         super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         if (reporter != null) {
@@ -99,7 +99,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
             scheduledReporter = null;
         }
     }
-
 
     /**
      * @return rate in /s (See {@link #getRate()}
@@ -127,7 +126,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         return _of(getRate(), doubleUncertainty());
     }
 
-
     @Override
     public String getUnitsAsString() {
         return "/s";
@@ -137,12 +135,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     public UncertainDoubleElement _of(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
     }
-
-    @Override
-    public BigInteger bigIntegerValue() {
-        return BigInteger.valueOf(Utils.round(doubleValue()));
-    }
-
 
     /**
      * If using a reporter, cancels the associated {@link ScheduledFuture}.
@@ -213,7 +205,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         return new AtomicLong(getTotalCount());
     }
 
-
     /**
      * The current rate as a number of events per given unit of time.
      * See also {@link #getRate(Duration)} and {@link #getRate()}
@@ -250,7 +241,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         return "" + getUncertainRate() + " " + getUnitsAsString() + (isWarmingUp() ? " (warming up)" : "");
     }
 
-
     public static class Builder {
 
         @SafeVarargs
@@ -259,6 +249,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         }
     }
 
+    @PreDestroy
     public static void shutdown() {
         backgroundExecutor.shutdown();
     }

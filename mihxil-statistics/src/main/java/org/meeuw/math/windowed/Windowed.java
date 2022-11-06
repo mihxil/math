@@ -90,7 +90,7 @@ public abstract class Windowed<T> {
         @Nullable Duration window,
         @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
-        @Nullable BiConsumer<Event, Windowed<T>>[] eventListeners,
+        @NonNull BiConsumer<Event, Windowed<T>>@Nullable[] eventListeners,
         @Nullable Clock clock
         ) {
         if (bucketCount == null) {

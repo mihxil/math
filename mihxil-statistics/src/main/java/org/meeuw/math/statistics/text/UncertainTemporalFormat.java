@@ -26,7 +26,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.TimeUtils;
 import org.meeuw.math.Utils;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.statistics.UncertainTemporal;
+import org.meeuw.math.temporal.UncertainTemporal;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;

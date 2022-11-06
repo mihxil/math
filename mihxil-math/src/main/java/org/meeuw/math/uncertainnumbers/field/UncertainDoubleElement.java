@@ -34,7 +34,8 @@ import org.meeuw.math.uncertainnumbers.*;
  * @since 0.4
  */
 public class UncertainDoubleElement
-    extends AbstractUncertainDouble<UncertainReal> implements UncertainReal {
+    extends AbstractUncertainDouble
+    implements UncertainReal {
 
     public static final UncertainDoubleElement ZERO = new UncertainDoubleElement(0, EXACT) {
         @Override
@@ -154,7 +155,7 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public UncertainReal times(long multiplier) {
+    public UncertainDoubleElement times(long multiplier) {
         return new UncertainDoubleElement(value * multiplier, Math.abs(uncertainty * multiplier));
     }
 
@@ -200,7 +201,7 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public UncertainReal negation() {
+    public UncertainDoubleElement negation() {
         return times(-1);
     }
 
