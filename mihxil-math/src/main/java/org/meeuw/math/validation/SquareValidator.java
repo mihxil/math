@@ -33,13 +33,11 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
     @Setter
     private boolean invertible = false;
 
-
     @Override
     public void initialize(Square constraintAnnotation) {
         setDimension(constraintAnnotation.value());
         setInvertible(constraintAnnotation.invertible());
     }
-
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
@@ -72,11 +70,12 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
             return false;
         }
     }
+
+    @SuppressWarnings("unchecked")
     static <E extends RingElement<E>> E determinant(Object[][] array) {
         E[][] casted = (E[][]) array;
         return casted[0][0].getStructure().determinant(casted);
     }
-
 
     @SuppressWarnings("rawtypes")
     static long toLong(Object value) {
@@ -107,7 +106,5 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
         }
         return toValidate;
     }
-
-
 
 }

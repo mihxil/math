@@ -25,6 +25,7 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
  * assumptions about the implemented algebra yet.
  *
  * @author Michiel Meeuwissen
+ * @see UncertainDouble
  * @since 0.4
  */
 public interface UncertainNumber<N extends Number> extends Uncertain {
@@ -120,7 +121,6 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         );
     }
 
-
     default UncertainNumber<N> plus(UncertainNumber<N> summand) {
         NumberOperations<N> o = operations();
         return new ImmutableUncertainNumber<N>(
@@ -140,7 +140,6 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
             v,
             () -> o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
     }
-
 
     default int signum() {
         return  operations().signum(getValue());
@@ -168,7 +167,6 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         return getConfidenceInterval(sds).contains(other.getValue())
             ||  other.getConfidenceInterval(sds).contains(getValue());
     }
-
 
     default BigDecimal bigDecimalValue() {
         return operations().bigDecimalValue(getValue());

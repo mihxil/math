@@ -30,12 +30,13 @@ import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
- * A number with an uncertainty {@link #doubleUncertainty()}
- *
+ * A number with a {@link #doubleValue()} and an uncertainty {@link #doubleUncertainty()}
+ * <p>
  * Also defines scalar operations.
  * <p>
- * This differs from {@link UncertainNumber}, because it is implemented with primitive doubles.
- *
+ * This is an extension of {@link UncertainNumber}, but it is implemented with primitive doubles, and the primitive
+ * values are leading. {@link #getValue()}  and {@link #getUncertainty()} are just their boxed versions.
+ * *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -48,6 +49,8 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
 
     @Override
     double doubleValue();
+
+    D _of(double value, double uncertainty);
 
     /**
      * @return Boxed version of {@link #doubleValue()}. Never {@code null}
@@ -212,6 +215,7 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
         return (int) Math.signum(doubleValue());
     }
 
+    @SuppressWarnings("unchecked")
     default boolean equals(Object value, double sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainDouble)) {
@@ -229,8 +233,6 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
             ||  other.getConfidenceInterval(sds).contains(doubleValue());
     }
 
-    D _of(double value, double uncertainty);
-
     default DoubleConfidenceInterval getConfidenceInterval(double sds) {
         return DoubleConfidenceInterval.of(doubleValue(), doubleUncertainty(), sds);
     }
@@ -239,7 +241,6 @@ public interface UncertainDouble<D extends UncertainDouble<D>>
     default DoubleOperations operations() {
         return DoubleOperations.INSTANCE;
     }
-
 
     @Override
     default BigDecimal bigDecimalValue() {
