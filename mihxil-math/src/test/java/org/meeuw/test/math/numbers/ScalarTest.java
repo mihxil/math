@@ -30,9 +30,13 @@ public class ScalarTest {
         Scalar<?> d = new Scalar.Number(10.234);
         assertThat(d.signum()).isEqualTo(1);
         assertThat(d.doubleValue()).isEqualTo(10.234d);
+        assertThat(d.asNumber().doubleValue()).isEqualTo(10.234d);
         assertThat(d.longValue()).isEqualTo(10);
+        assertThat(d.asNumber().longValue()).isEqualTo(10);
         assertThat(d.floatValue()).isEqualTo(10.234f);
+        assertThat(d.asNumber().floatValue()).isEqualTo(10.234f);
         assertThat(d.intValue()).isEqualTo(10);
+        assertThat(d.asNumber().intValue()).isEqualTo(10);
         assertThat(d.bigIntegerValue()).isEqualTo(BigInteger.valueOf(10));
         assertThat(d.abs().intValue()).isEqualTo(10);
         assertThat(d.bigDecimalValue()).isEqualTo("10.234");
