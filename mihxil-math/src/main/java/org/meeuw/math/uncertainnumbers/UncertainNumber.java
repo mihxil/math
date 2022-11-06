@@ -22,11 +22,12 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
 
 /**
  * The interface representing an uncertain number. It makes no
- * assumptions about the implemented algebra yet.
+ * assumptions about the implemented algebra yet, it just is based on some {@link Number}
  *
  * @author Michiel Meeuwissen
  * @see UncertainDouble
  * @since 0.4
+ * @param <N> The {@link Number} implementation this is based on
  */
 public interface UncertainNumber<N extends Number> extends Uncertain {
 
@@ -36,7 +37,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     @Override
     default boolean isExact() {
-        return getUncertainty().doubleValue() == 0;
+        return getUncertainty().doubleValue() == 0d;
     }
 
     default N getFractionalUncertainty() {
@@ -58,8 +59,9 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     /**
      * Creates a new {@link org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber} representing a multiple of this one.
+     * <p>
      * @param multiplier a number to multiply this white
-     * @return a new (immutable) uncertain number representing a multiple of this one
+     * @return a new (possibly, and default, immutable) uncertain number representing a multiple of this one
      */
     default UncertainNumber<N> times(N multiplier) {
         NumberOperations<N> o = operations();
