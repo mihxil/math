@@ -24,8 +24,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.exceptions.ReciprocalException;
-import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -50,7 +49,8 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class PhysicalNumber extends Number
+public abstract class PhysicalNumber
+    extends Number
     implements MultiplicativeGroupElement<PhysicalNumber>,
     UncertainDouble<PhysicalNumber>,
     Scalar<PhysicalNumber>,
@@ -69,20 +69,18 @@ public abstract class PhysicalNumber extends Number
         this.wrapped = wrapped;
     }
 
-
-    @Override
-    public int intValue() {
-        return UncertainDouble.super.intValue();
-    }
-
     @Override
     public long longValue() {
-        return Utils.round(this.doubleValue());
+        return wrapped.longValue();
+    }
+    @Override
+    public int intValue() {
+        return wrapped.intValue();
     }
 
     @Override
     public float floatValue() {
-        return UncertainDouble.super.floatValue();
+        return wrapped.floatValue();
     }
 
     @Override
