@@ -26,12 +26,14 @@ import java.util.function.Predicate;
  * @since 0.4
  */
 @Getter
-public
-class DoubleConfidenceInterval implements Predicate<Double> {
+public class DoubleConfidenceInterval implements Predicate<Double> {
 
     private final double low;
     private final double high;
 
+    /**
+     * @see ConfidenceInterval#of(Number, Number, int)  
+     */
     public static DoubleConfidenceInterval of(double value, double uncertainty, double interval) {
         double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * UncertainDouble.NaN_EPSILON) : uncertainty * interval;
         return new DoubleConfidenceInterval(value - halfRange, value + halfRange);

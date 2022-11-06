@@ -22,8 +22,13 @@ import java.util.function.Predicate;
 import org.meeuw.math.numbers.NumberOperations;
 
 /**
+ * A confidence interval is just a range around an uncertain {@link Number}, in which the actual value may confidently be.
+ * <p>
+ * The simplest version of this is just a symmetric interval, an equal number of {@link UncertainNumber#getUncertainty()}  lower and higher around the best guess ({@link UncertainNumber#getValue()}.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see UncertainNumber
  */
 @Getter
 public class ConfidenceInterval<N extends Number> implements Predicate<N> {
@@ -32,10 +37,19 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 	private final N high;
 	private final Predicate<N> predicate;
 
-	public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int interval) {
-	    NumberOperations<N> op = NumberOperations.of(value);
-		N halfRange = op.abs(op.multiply(interval, uncertainty));
-		return new ConfidenceInterval<>(op, op.minus(value, halfRange), op.add(value, halfRange));
+    /**
+     * Creates a {@link ConfidenceInterval}
+     * @param value the central value of the interval
+     * @param uncertainty the associated uncertainty
+     * @param intervalSize the  {@code uncertainty} is multiplied by this, to get (half the) width of the entire interval.
+     */
+	public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int intervalSize) {
+	    final NumberOperations<N> operations = NumberOperations.of(value);
+		final N halfRange = operations.abs(operations.multiply(intervalSize, uncertainty));
+		return new ConfidenceInterval<>(operations,
+            operations.minus(value, halfRange),
+            operations.add(value, halfRange)
+        );
 	}
 
 	private ConfidenceInterval(NumberOperations<N> op, N low, N high) {
