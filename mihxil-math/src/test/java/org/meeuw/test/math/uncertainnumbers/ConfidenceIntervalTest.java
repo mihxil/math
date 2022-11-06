@@ -36,6 +36,7 @@ class ConfidenceIntervalTest {
         assertThat(of.test(14d)).isTrue();
         assertThat(of.test(14.0000001d)).isFalse();
         assertThat(of.test(5d)).isFalse();
+        assertThat(of.test(null)).isFalse();
     }
 
 }
