@@ -19,7 +19,6 @@ import java.io.Serializable;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.IllegalLogException;
 
 /**
  * @author Michiel Meeuwissen
@@ -80,8 +79,8 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
-    @NonAlgebraic
-    public S pow(S exponent) throws IllegalLogException {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="")
+    public S pow(S exponent) {
         return (ln().times(exponent)).exp();
     }
 
@@ -95,10 +94,9 @@ public abstract class CompleteComplexNumber<
     }
 
     /**
-     * principal value logarithm
+     * Principal value logarithm
      */
     @Override
-    @NonAlgebraic("ln not possible for 0")
     public S ln() {
         return _of(
             abs().ln(),

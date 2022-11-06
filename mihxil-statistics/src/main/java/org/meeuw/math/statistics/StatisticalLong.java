@@ -225,7 +225,7 @@ public class StatisticalLong extends
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
     public UncertainReal ln() throws IllegalLogException {
         UncertainNumber<Double> ln = operations().ln(getValue());
         return new UncertainDoubleElement(

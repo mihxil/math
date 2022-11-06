@@ -108,7 +108,7 @@ public class RealNumber
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber pow(int exponent) throws DivisionByZeroException {
         if (value == 0 && exponent < 0) {
             throw new DivisionByZeroException("0" + superscript(exponent));
@@ -120,7 +120,7 @@ public class RealNumber
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber dividedBy(RealNumber divisor) throws DivisionByZeroException {
         return times(divisor.reciprocal());
     }
@@ -145,7 +145,8 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber reciprocal() {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    public RealNumber reciprocal() throws DivisionByZeroException {
         if (isZero()) {
             throw new DivisionByZeroException("Reciprocal of zero");
         }

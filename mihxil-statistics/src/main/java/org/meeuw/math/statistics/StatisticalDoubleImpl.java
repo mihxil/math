@@ -130,7 +130,7 @@ public class StatisticalDoubleImpl
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
     public UncertainReal ln()  throws IllegalLogException {
         UncertainNumber<Double> value = operations().ln(getValue());
         return new UncertainDoubleElement(value.getValue(), value.getUncertainty());

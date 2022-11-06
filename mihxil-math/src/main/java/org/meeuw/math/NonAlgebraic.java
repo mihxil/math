@@ -19,7 +19,9 @@ import java.lang.annotation.*;
 
 /**
  * Marker for operator methods, to indicate that they are supported but non algebraically. I.e. they may not always be
- * allowed (e.g. you cannot add any two physical numbers) or they result an object not from the same algebra (e.g. the absolute value from the algebra of 'negative numbers' can be taken, but is not an negative number.
+ * allowed (e.g. you cannot add any two physical numbers) or they result an object not from the same algebra (e.g. the absolute value from the algebra of 'negative numbers' can be taken, but is not a negative number.
+ * <p>
+ * If an operation is only not possible for certain special values (like {@code zero()}), this would not make it {@code NonAlgebraic}
  *
  * @since 0.8
  */
@@ -28,4 +30,24 @@ import java.lang.annotation.*;
 public @interface NonAlgebraic {
 
     String value() default "#default";
+
+    Reason reason() default Reason.TYPE;
+
+    enum Reason {
+        /**
+         * Not algebraic because the (return) type is not in the same algebra.
+         */
+        TYPE,
+        /**
+         * Not algebraic because the operations is not possible for many elements.
+         */
+        ELEMENTS,
+
+        /**
+         * Not completely algebraic because the operation is not possible for all elements.
+         * <p>
+         * A marked exception like {@link org.meeuw.math.exceptions.DivisionByZeroException} is expected
+         */
+        SOME
+    }
 }

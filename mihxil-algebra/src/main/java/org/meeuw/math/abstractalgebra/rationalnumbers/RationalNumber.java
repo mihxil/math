@@ -92,7 +92,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RationalNumber reciprocal() throws ReciprocalException {
         if (numerator.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException("Denominator cannot be zero");
@@ -132,7 +132,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RationalNumber dividedBy(RationalNumber divisor) throws DivisionByZeroException {
         if (divisor.isZero()) {
             throw new DivisionByZeroException(this, divisor);
