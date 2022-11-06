@@ -109,7 +109,7 @@ strictfp class BigDecimalFieldTest implements
     }
 
     @Override
-	@Provide
+    @Provide
     public Arbitrary<BigDecimalElement> elements() {
         return Arbitraries.randomValue((random) -> of(2000 * random.nextDouble() - 1000))
             .injectDuplicates(0.1)

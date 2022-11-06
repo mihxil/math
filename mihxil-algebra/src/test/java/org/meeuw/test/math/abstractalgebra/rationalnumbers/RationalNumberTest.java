@@ -115,7 +115,7 @@ class RationalNumberTest implements
     }
 
     @Override
-	@Provide
+    @Provide
     public Arbitrary<RationalNumber> elements() {
         return Arbitraries.randomValue(INSTANCE::nextRandom);
     }

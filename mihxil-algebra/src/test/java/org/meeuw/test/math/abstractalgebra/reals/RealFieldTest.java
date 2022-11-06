@@ -175,7 +175,7 @@ class RealFieldTest implements
     }
 
     @Override
-	@Provide
+    @Provide
     public Arbitrary<RealNumber> elements() {
         return
             Arbitraries.randomValue(
