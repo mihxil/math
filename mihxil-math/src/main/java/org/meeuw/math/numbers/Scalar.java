@@ -31,9 +31,16 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 public interface Scalar<SELF extends Scalar<SELF>>
     extends SizeableScalar<SELF, SELF> {
 
+    /**
+     * @since 0.9
+     */
     static Scalar.Number ofNumber(java.lang.Number number) {
         return new Number(number);
     }
+
+    /**
+     * @since 0.9
+     */
     default java.lang.Number asNumber() {
         return new java.lang.Number() {
             @Override
