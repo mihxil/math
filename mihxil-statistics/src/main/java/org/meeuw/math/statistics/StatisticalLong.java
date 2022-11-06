@@ -50,6 +50,8 @@ public class StatisticalLong extends
     AbstractStatisticalDouble<StatisticalLong>
     implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double> {
 
+    static final long SQUARE_SUM_FAILED = -1;
+
     private long sum = 0;
     private long squareSum = 0;
     @Getter
@@ -122,12 +124,12 @@ public class StatisticalLong extends
             max = Math.max(max, d);
             d -= guessedMean;
             sum = addExact(sum, d);
-            if (squareSum >= 0) {
+            if (squareSum !=  SQUARE_SUM_FAILED) {
                 try {
                     squareSum = addExact(squareSum, multiplyExact(d, d));
                 } catch (ArithmeticException ae) {
                     log.warning(ae.getMessage() + ": no square of sum any more. Standard deviation will not be available");
-                    squareSum = -1;
+                    squareSum = SQUARE_SUM_FAILED;
                 }
             }
             count++;
@@ -289,7 +291,7 @@ public class StatisticalLong extends
             return Double.NaN;
         }
         double mean = ((double) sum) / count;
-        if (squareSum < 0) {
+        if (squareSum == SQUARE_SUM_FAILED) {
             throw new OverflowException("square sum overflowed");
         }
         double sq = ((double) squareSum / count) - mean * mean;
@@ -305,7 +307,15 @@ public class StatisticalLong extends
     }
 
     protected long getSumOfSquares(long offset) {
-        return addExact(subtractExact(squareSum, multiplyExact(multiplyExact(2, offset), sum)),  multiplyExact(count, multiplyExact(offset, offset)));
+        return addExact(
+            subtractExact(
+                squareSum,
+                multiplyExact(multiplyExact(2, offset), sum)),
+            multiplyExact(
+                count,
+                multiplyExact(offset, offset)
+            )
+        );
     }
 
     /**
@@ -327,7 +337,8 @@ public class StatisticalLong extends
     @Override
     public StatisticalLong multiply(double d) {
         sum *= d;
-        squareSum *= d * d;
+
+        squareSum = Math.multiplyExact(squareSum, (long) (d * d));
         guessedMean *= d;
         max = Utils.round(max * d);
         min = Utils.round(min * d);
