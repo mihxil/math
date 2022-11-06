@@ -21,7 +21,7 @@ import org.meeuw.math.exceptions.NotComparableException;
 /**
  *
  * Provides operator {@link #lt} and {@link #gt} and guarantees that these are transitive.
- *
+ * <p>
  * {@link #lte} and {@link #gte} are provided too, but not necessarily transitively.
  *
  * @author Michiel Meeuwissen
