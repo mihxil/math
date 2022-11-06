@@ -123,10 +123,12 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
      * which may involve rounding.
      *
      * @return  the numeric value represented by this object after conversion
-     *          to type {@link BigInteger}.
+     *          to type {@link BigDecimal}.
      */
-    BigDecimal bigDecimalValue();
 
+    default  BigDecimal bigDecimalValue() {
+        return BigDecimal.valueOf(doubleValue());
+    }
 
     default boolean isFinite() {
         return true;
@@ -134,5 +136,10 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
 
     default boolean isNaN() {
         return false;
+    }
+
+    @Override
+    default int signum() {
+        return (int) Math.signum(doubleValue());
     }
 }

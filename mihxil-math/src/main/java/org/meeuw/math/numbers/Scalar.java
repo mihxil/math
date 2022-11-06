@@ -15,7 +15,6 @@
  */
 package org.meeuw.math.numbers;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Comparator;
 
@@ -108,11 +107,6 @@ public interface Scalar<SELF extends Scalar<SELF>>
         @Override
         public double doubleValue() {
             return number.doubleValue();
-        }
-
-        @Override
-        public BigDecimal bigDecimalValue() {
-            return BigDecimal.valueOf(doubleValue());
         }
 
         @Override
