@@ -33,7 +33,6 @@ public class CGS implements SystemOfMeasurements {
 
     public static final CGS INSTANCE = new CGS();
 
-
     @Override
     @NonNull
     public Unit forDimension(Dimension dimension) {
@@ -49,9 +48,6 @@ public class CGS implements SystemOfMeasurements {
                 return SIUnit.cd;
         }
     }
-
-
-
 
     enum CGSUnit implements BaseUnit {
         cm(Dimension.L, exactly(0.01)),
