@@ -34,7 +34,7 @@ import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
 /**
- * A rational number is implemented using two {@link BigInteger}s, one for the numferator, one for denominator
+ * A rational number is implemented using two {@link BigInteger}s, one for the numerator, one for denominator
  * @author Michiel Meeuwissen
  * @since 0.4
  */
