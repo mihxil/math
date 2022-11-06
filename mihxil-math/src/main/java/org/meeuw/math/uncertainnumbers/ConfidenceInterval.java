@@ -33,9 +33,9 @@ import org.meeuw.math.numbers.NumberOperations;
 @Getter
 public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 
-	private final N low;
-	private final N high;
-	private final Predicate<N> predicate;
+    private final N low;
+    private final N high;
+    private final Predicate<N> predicate;
 
     /**
      * Creates a {@link ConfidenceInterval}
@@ -43,33 +43,33 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
      * @param uncertainty the associated uncertainty
      * @param intervalSize the  {@code uncertainty} is multiplied by this, to get (half the) width of the entire interval.
      */
-	public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int intervalSize) {
-	    final NumberOperations<N> operations = NumberOperations.of(value);
-		final N halfRange = operations.abs(operations.multiply(intervalSize, uncertainty));
-		return new ConfidenceInterval<>(operations,
+    public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int intervalSize) {
+        final NumberOperations<N> operations = NumberOperations.of(value);
+        final N halfRange = operations.abs(operations.multiply(intervalSize, uncertainty));
+        return new ConfidenceInterval<>(operations,
             operations.minus(value, halfRange),
             operations.add(value, halfRange)
         );
-	}
+    }
 
-	private ConfidenceInterval(NumberOperations<N> op, N low, N high) {
-		this.low = low;
-		this.high = high;
-		this.predicate = (v) -> op.gte(v, low) && op.lte(v, high);
-	}
+    private ConfidenceInterval(NumberOperations<N> op, N low, N high) {
+        this.low = low;
+        this.high = high;
+        this.predicate = (v) -> op.gte(v, low) && op.lte(v, high);
+    }
 
-	public boolean contains(N value) {
-		return predicate.test(value);
-	}
+    public boolean contains(N value) {
+        return predicate.test(value);
+    }
 
-	@Override
-	public boolean test(N value) {
-		return value != null && contains(value);
-	}
+    @Override
+    public boolean test(N value) {
+        return value != null && contains(value);
+    }
 
-	@Override
-	public String toString() {
-        return "(" + low + ',' + high + ')';
+    @Override
+    public String toString() {
+        return "[" + low + ',' + high + ']';
     }
 
 }
