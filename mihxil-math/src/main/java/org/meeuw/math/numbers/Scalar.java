@@ -22,7 +22,9 @@ import java.util.Comparator;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A scalar is the closest thing to a {@link java.lang.Number} interface. If you have some {@link Number} and want it as a {@link Scalar}, you could use {@link #ofNumber(java.lang.Number)}. If you have a {@link Scalar} and want it to be a {@link Number}, {@link #asNumber()} can be used.
+ * A scalar is the closest thing to a {@link java.lang.Number} interface.
+ * <p>
+ * If you have some {@link java.lang.Number} and want it as a {@link Scalar}, you could use {@link #ofNumber(java.lang.Number)}. If you have a {@link Scalar} and want it to be a {@link Number}, then  {@link #asNumber()} can be used.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -32,6 +34,8 @@ public interface Scalar<SELF extends Scalar<SELF>>
     extends SizeableScalar<SELF, SELF> {
 
     /**
+     * @param number Some {@link java.lang.Number}
+     * @return a scalar implementation based on the given number
      * @since 0.9
      */
     static Scalar.Number ofNumber(java.lang.Number number) {
@@ -39,6 +43,7 @@ public interface Scalar<SELF extends Scalar<SELF>>
     }
 
     /**
+     * The current scalar can be trivially converted to a {@link java.lang.Number}
      * @since 0.9
      */
     default java.lang.Number asNumber() {
@@ -65,7 +70,7 @@ public interface Scalar<SELF extends Scalar<SELF>>
         };
     }
     /**
-     * A {@link Scalar} is very similar to a {@link Number}, but it _is_ not one. A number is not an interface,
+     * A {@link Scalar} is very similar to a {@link Number}, but it <em>is</em> not one. A number is not an interface,
      * so that would be hard. The other way around it simple though, which is what this class is.
      */
     class Number extends java.lang.Number implements  Scalar<Number> {

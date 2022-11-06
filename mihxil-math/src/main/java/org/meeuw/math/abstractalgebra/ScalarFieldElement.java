@@ -25,8 +25,7 @@ import org.meeuw.math.numbers.Scalar;
  */
 public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
     FieldElement<E>,
-    Scalar<E>,
-    StrictlyOrdered<E> {
+    Scalar<E> {
 
     @Override
     ScalarField<E> getStructure();
