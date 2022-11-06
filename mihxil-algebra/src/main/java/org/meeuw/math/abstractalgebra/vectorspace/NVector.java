@@ -45,7 +45,7 @@ public class NVector<E extends FieldElement<E>> implements
 
     @Override
     public NVector<E> times(E multiplier) {
-        E[] copy = Arrays.copyOf(values, values.length);
+        final E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].times(multiplier);
         }
@@ -54,7 +54,7 @@ public class NVector<E extends FieldElement<E>> implements
 
     @Override
     public NVector<E> dividedBy(E divisor) {
-        E[] copy = Arrays.copyOf(values, values.length);
+        final E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].dividedBy(divisor);
         }
@@ -63,7 +63,7 @@ public class NVector<E extends FieldElement<E>> implements
 
     @Override
     public NVector<E> plus(NVector<E> summand) {
-        E[] copy = Arrays.copyOf(values, values.length);
+        final E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].plus(summand.values[i]);
         }
@@ -72,7 +72,7 @@ public class NVector<E extends FieldElement<E>> implements
 
     @Override
     public NVector<E> negation() {
-        E[] copy = Arrays.copyOf(values, values.length);
+        final E[] copy = Arrays.copyOf(values, values.length);
         for (int i = 0; i < copy.length; i ++) {
             copy[i] =  copy[i].negation();
         }
@@ -138,7 +138,6 @@ public class NVector<E extends FieldElement<E>> implements
     public String toString() {
         return "(" + Arrays.stream(values).map(Object::toString).collect(Collectors.joining(", ")) + ")";
     }
-
 
     @Override
     public AbelianRing<NVector<E>> getStructure() {
