@@ -24,6 +24,8 @@ import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.Interval;
 
 
@@ -77,19 +79,19 @@ public abstract class Windowed<T> {
      * @param bucketClass    The type of the objects in the buckets
      * @param window         The total time window for which events are going to be measured (or <code>null</code> if bucketDuration specified)
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
-     * @param bucketCount    The number of buckets the total window time is to be divided in.
+     * @param bucketCount    The number of buckets the total window time is to be divided in. Default to 20.
      * @param eventListeners These can receive notification about interesting events
-     * @param clock          The clock implementation to use. Useful for test cases.
+     * @param clock          The clock implementation to use. Useful for test cases. Defaults to {@link Clock#systemUTC()}.
      *
      */
     @SuppressWarnings("unchecked")
     protected Windowed(
-        Class<T> bucketClass,
-        Duration window,
-        Duration bucketDuration,
-        Integer bucketCount,
-        BiConsumer<Event, Windowed<T>>[] eventListeners,
-        Clock clock
+        @NonNull Class<T> bucketClass,
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
+        @Nullable Integer bucketCount,
+        @Nullable BiConsumer<Event, Windowed<T>>[] eventListeners,
+        @Nullable Clock clock
         ) {
         if (bucketCount == null) {
             if (window != null && bucketDuration != null) {
@@ -97,16 +99,16 @@ public abstract class Windowed<T> {
 
             }
         }
-        int bucketCount1 = bucketCount == null ? 20 : bucketCount;
-        buckets = (T[]) Array.newInstance(bucketClass, bucketCount1);
+        final int finalBucketCount = bucketCount == null ? 20 : bucketCount;
+        buckets = (T[]) Array.newInstance(bucketClass, finalBucketCount);
         if (window == null && bucketDuration == null) {
             // if both unspecified, take a default window of 5 minutes
             window = Duration.ofMinutes(5);
         }
         if (window != null) {
             long tempTotalDuration = window.toMillis();
-            this.bucketDuration = tempTotalDuration / bucketCount1;
-            this.totalDuration = this.bucketDuration * bucketCount1;
+            this.bucketDuration = tempTotalDuration / finalBucketCount;
+            this.totalDuration = this.bucketDuration * finalBucketCount;
             // if window _and_ bucket Duration are specified, then at this duration must accord with the calculated one
             if (bucketDuration != null && this.bucketDuration != bucketDuration.toMillis()) {
                 throw new IllegalArgumentException("The specified bucked duration " + bucketDuration + " didn't equal the calculated one " + Duration.ofMillis(this.bucketDuration));
@@ -116,7 +118,7 @@ public abstract class Windowed<T> {
             assert bucketDuration != null;
             // cannot happen. If it had been null, then window would _never_ have been null
             this.bucketDuration = bucketDuration.toMillis();
-            this.totalDuration = this.bucketDuration * bucketCount1;
+            this.totalDuration = this.bucketDuration * finalBucketCount;
         }
         this.eventListeners = (e, w) -> {
             if (eventListeners != null) {
