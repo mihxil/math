@@ -52,5 +52,4 @@ public abstract class CompleteComplexNumbers<
         return null;
     }
 
-
 }
