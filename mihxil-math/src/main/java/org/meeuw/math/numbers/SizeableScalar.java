@@ -21,11 +21,12 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
- * A scalar is the closest thing to a {@link Number} interface
+ * A sizable is a {@link Scalar},  but it adds methods related to {@link Sizeable}, {@link SignedNumber} and {@link StrictlyOrdered}
  *
  * @author Michiel Meeuwissen
  * @since 0.8
  * @param <SELF> self reference
+ * @param <SIZE> the type of the 'size' of the scalar. in many cases the same as {@code SELF}, but not always. E.g. the size of {@code NegativeInteger} is {@code PositiveInteger}
  */
 public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE extends Scalar<SIZE>>
     extends

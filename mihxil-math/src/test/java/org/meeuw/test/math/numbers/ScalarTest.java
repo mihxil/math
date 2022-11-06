@@ -27,7 +27,7 @@ public class ScalarTest {
 
     @Test
     public void number() {
-        Scalar<?> d = new Scalar.Number(10.234);
+        Scalar<?> d = Scalar.ofNumber(10.234);
         assertThat(d.signum()).isEqualTo(1);
         assertThat(d.doubleValue()).isEqualTo(10.234d);
         assertThat(d.asNumber().doubleValue()).isEqualTo(10.234d);
