@@ -256,8 +256,8 @@ public class RealNumber
     }
 
     @Override
-    @NonAlgebraic
-    public RealNumber ln() throws IllegalLogException {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Cannot take ln of negative reals")
+    public RealNumber ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(value);
         return _of(ln.getValue(),
             max(operations().lnUncertainty(value, uncertainty), ln.getUncertainty())

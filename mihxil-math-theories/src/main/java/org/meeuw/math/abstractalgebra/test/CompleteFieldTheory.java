@@ -15,11 +15,15 @@
  */
 package org.meeuw.math.abstractalgebra.test;
 
-import net.jqwik.api.*;
+import java.util.Optional;
 
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
-import org.meeuw.math.exceptions.IllegalLogException;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
@@ -50,10 +54,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             assertThat(expectedPow.eq(pow))
                 .withFailMessage(POWER.stringify(a, b) + " = " + pow + " ≠ " + expectedPow
                 ).isTrue();
-        } catch (IllegalLogException illegalLogException){
-            getLogger().warn(illegalLogException.getMessage());
-            assertThat(LN.isAlgebraicFor(a))
-                .withFailMessage(illegalLogException.getMessage() + ". %s algebraic for %s %s", LN, a.getClass().getSimpleName(), a).isFalse();
+        } catch (IllegalLogarithmException illegalLogException){
+            Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
+            getLogger().warn(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
+
+            assertThat(nonalgebraicOptional)
+                .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
 
     }

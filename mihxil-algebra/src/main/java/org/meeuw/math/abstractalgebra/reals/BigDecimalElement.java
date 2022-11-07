@@ -141,7 +141,7 @@ public class BigDecimalElement implements
 
     @Override
     @NonAlgebraic
-    public BigDecimalElement ln() throws IllegalLogException {
+    public BigDecimalElement ln() throws IllegalLogarithmException {
         UncertainNumber<BigDecimal> ln = operations().ln(value);
         return new BigDecimalElement(
             ln.getValue(),

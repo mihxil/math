@@ -56,7 +56,9 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         Assume.that(! e.isNegative());
         if (e.isZero()) {
             if (exponent.isNegative()) {
-                assertThatThrownBy(() -> e.pow(exponent)).isInstanceOf(ReciprocalException.class);
+                assertThatThrownBy(() ->
+                    getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent))
+                ).isInstanceOf(ReciprocalException.class);
                 return;
             }
         }

@@ -19,7 +19,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.IllegalLogException;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
@@ -254,7 +254,7 @@ public class UncertainDoubleElement
 
     @Override
     @NonAlgebraic
-    public UncertainReal ln() throws IllegalLogException {
+    public UncertainReal ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(this.doubleValue());
 
         return of(

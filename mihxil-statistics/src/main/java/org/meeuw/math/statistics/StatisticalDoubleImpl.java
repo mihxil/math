@@ -24,7 +24,7 @@ import java.util.function.DoubleConsumer;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.IllegalLogException;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
 
@@ -131,7 +131,7 @@ public class StatisticalDoubleImpl
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
-    public UncertainReal ln()  throws IllegalLogException {
+    public UncertainReal ln()  throws IllegalLogarithmException {
         UncertainNumber<Double> value = operations().ln(getValue());
         return new UncertainDoubleElement(value.getValue(), value.getUncertainty());
     }

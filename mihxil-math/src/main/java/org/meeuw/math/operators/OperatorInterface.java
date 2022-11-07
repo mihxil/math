@@ -19,6 +19,7 @@ import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
 import java.util.Comparator;
+import java.util.Optional;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
@@ -41,7 +42,10 @@ public interface OperatorInterface {
 
     @SneakyThrows
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        return getMethodFor(e).getAnnotation(NonAlgebraic.class) == null;
+        return ! getNonAlgebraic(e).isPresent();
+    }
+    default <E extends AlgebraicElement<E>> Optional<NonAlgebraic> getNonAlgebraic(E e) {
+        return Optional.ofNullable(getMethodFor(e).getAnnotation(NonAlgebraic.class));
     }
 
     @SneakyThrows

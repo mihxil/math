@@ -17,15 +17,15 @@ package org.meeuw.math.exceptions;
 
 /**
  * Gets thrown if trying to take an impossible logarithm.
- * @since 1.9
+ * @since 0.9
  */
-public class IllegalLogException extends OperationException {
+public class IllegalLogarithmException extends OperationException {
 
-    public IllegalLogException(ArithmeticException s) {
+    public IllegalLogarithmException(ArithmeticException s) {
         super(s);
     }
 
-    public IllegalLogException(String s) {
+    public IllegalLogarithmException(String s) {
         super(s);
     }
 }
