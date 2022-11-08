@@ -24,31 +24,35 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.data.Offset.offset;
+import static org.meeuw.math.Utils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>> extends
+public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>> extends
     CompleteFieldTheory<E> {
 
     @Property
     default void sqrt(@ForAll(ELEMENTS) E e) {
         Assume.that(! e.isNegative());
         E sqrt = e.sqrt();
-        assertThat(sqrt.doubleValue()).isCloseTo(Math.sqrt(e.doubleValue()), Percentage.withPercentage(0.1));
+        assertThat(sqrt.doubleValue())
+            .isCloseTo(
+            Math.sqrt(e.doubleValue()), offset(uncertaintyForDouble(sqrt.doubleValue())));
     }
 
     @Property
     default void sin(@ForAll(ELEMENTS) E e) {
         E sin = e.sin();
-        assertThat(sin.doubleValue()).isCloseTo(Math.sin(e.doubleValue()), Percentage.withPercentage(0.1));
+        assertThat(sin.doubleValue()).isCloseTo(Math.sin(e.doubleValue()), offset(uncertaintyForDouble(sin.doubleValue())));
     }
 
     @Property
     default void cos(@ForAll(ELEMENTS) E e) {
         E cos = e.cos();
-        assertThat(cos.doubleValue()).isCloseTo(Math.cos(e.doubleValue()), Percentage.withPercentage(0.1));
+        assertThat(cos.doubleValue()).isCloseTo(Math.cos(e.doubleValue()), offset(uncertaintyForDouble(cos.doubleValue())));
     }
 
     @Property
