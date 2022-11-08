@@ -101,23 +101,21 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber pow(int exponent) {
-        int e = exponent;
-        try {
-            if (e < 0) {
-                e = -1 * e;
-                return new RationalNumber(
-                    denominator.pow(e),
-                    numerator.pow(e));
-            } else if (e == 0) {
-                return ONE;
-            } else {
-                return new RationalNumber(
-                    numerator.pow(e),
-                    denominator.pow(e));
+    public RationalNumber pow(final int exponent) throws IllegalPowerException {
+        if (exponent < 0) {
+            final int positiveExponent = -1 * exponent;
+            if (numerator.equals(BigInteger.ZERO)) {
+                throw new IllegalPowerException("Cannot take negative exponent (" + exponent + ") of zero");
             }
-        } catch (InvalidElementCreationException invalidElementCreationException) {
-            throw new DivisionByZeroException(invalidElementCreationException);
+            return new RationalNumber(
+                denominator.pow(positiveExponent),
+                numerator.pow(positiveExponent));
+        } else if (exponent == 0) {
+            return ONE;
+        } else {
+            return new RationalNumber(
+                numerator.pow(exponent),
+                denominator.pow(exponent));
         }
     }
 
