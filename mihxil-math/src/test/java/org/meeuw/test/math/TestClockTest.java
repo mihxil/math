@@ -40,7 +40,10 @@ class TestClockTest {
 
     @Test
     void twenty() {
-        TestClock test = TestClock.twenty();
+        TestClock test = TestClock.twentyTwenty();
         assertThat(test.instant()).isEqualTo("2020-02-20T19:20:00Z");
+
+        assertThat(TestClock.twentyTwo().instant()).isEqualTo("2200-02-22T21:20:00Z");
+
     }
 }

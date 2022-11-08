@@ -47,12 +47,22 @@ public class TestClock extends Clock {
     }
 
     /**
-     * A test clock with fixed instant in 2020.
+     * A test clock with fixed instant in 2020 (recent past)
      */
-    public static TestClock twenty() {
+    public static TestClock twentyTwenty() {
         ZoneId id = ZoneId.of("Europe/Amsterdam");
         return new TestClock(id,
             LocalDateTime.of(2020, 2, 20, 20, 20).atZone(id).toInstant()
+        );
+    }
+
+     /**
+      * A test clock with fixed instant in 2200 (far future).
+     */
+    public static TestClock twentyTwo() {
+        ZoneId id = ZoneId.of("Europe/Amsterdam");
+        return new TestClock(id,
+            LocalDateTime.of(2200, 2, 22, 22, 20).atZone(id).toInstant()
         );
     }
 
