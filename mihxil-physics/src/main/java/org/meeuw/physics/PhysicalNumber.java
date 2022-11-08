@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.text.FormatService;
@@ -151,8 +152,12 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public PhysicalNumber reciprocal() {
-        return pow(-1);
+    public PhysicalNumber reciprocal() throws ReciprocalException {
+        try {
+            return pow(-1);
+        } catch (IllegalPowerException illegalPowerException) {
+            throw new ReciprocalException(illegalPowerException);
+        }
     }
 
     /**

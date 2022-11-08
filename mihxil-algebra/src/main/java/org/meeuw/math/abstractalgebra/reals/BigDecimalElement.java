@@ -188,9 +188,13 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement pow(int exponent) {
+    public BigDecimalElement pow(int exponent) throws IllegalPowerException {
         if (exponent < 0) {
-            return ONE.dividedBy(pow(-1 * exponent));
+            try {
+                return ONE.dividedBy(pow(-1 * exponent));
+            } catch (DivisionByZeroException divisionByZeroException) {
+                throw new IllegalPowerException(divisionByZeroException);
+            }
         } else {
             return new BigDecimalElement(value.pow(exponent), uncertainty);
         }

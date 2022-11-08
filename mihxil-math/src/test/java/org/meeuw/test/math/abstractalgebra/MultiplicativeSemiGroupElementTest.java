@@ -19,8 +19,7 @@ import java.util.Random;
 
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -70,8 +69,8 @@ class MultiplicativeSemiGroupElementTest {
     @Test
     void pow() {
         A a = new A(2);
-        assertThatThrownBy(() -> a.pow(-1)).isInstanceOf(DivisionByZeroException.class);
-        assertThatThrownBy(() -> a.pow(0)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> a.pow(-1)).isInstanceOf(IllegalPowerException.class);
+        assertThatThrownBy(() -> a.pow(0)).isInstanceOf(IllegalPowerException.class);
         assertThat(a.pow(1).value).isEqualTo(2);
         assertThat(a.pow(2).value).isEqualTo(4);
         assertThat(a.pow(3).value).isEqualTo(8);

@@ -109,9 +109,9 @@ public class RealNumber
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
-    public RealNumber pow(int exponent) throws DivisionByZeroException {
+    public RealNumber pow(int exponent) throws IllegalPowerException {
         if (value == 0 && exponent < 0) {
-            throw new DivisionByZeroException("0" + superscript(exponent));
+            throw new IllegalPowerException("0" + superscript(exponent));
         }
         double newValue = Math.pow(value, exponent);
         return new RealNumber(newValue,

@@ -138,7 +138,7 @@ public final class Utils {
 
     public static BigInteger positivePow(@NotNull BigInteger base, @PositiveOrZero int e) {
         if (e < 0) {
-            throw new ReciprocalException(base +  "^" + e + " is impossible");
+            throw new IllegalPowerException(base +  "^" + e + " is impossible");
         }
         return base.pow(e);
     }

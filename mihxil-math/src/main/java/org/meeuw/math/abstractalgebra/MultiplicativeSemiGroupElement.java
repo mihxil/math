@@ -59,7 +59,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * @return this <sup>n</sup>
      */
     @SuppressWarnings({"unchecked"})
-    default E pow(@Positive int n) {
+    default E pow(@Positive int n) throws IllegalPowerException{
         if (n < 0) {
             throw new IllegalPowerException("Not defined for negative exponents");
         }
