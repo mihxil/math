@@ -30,7 +30,7 @@
     <lombok.version>1.18.24</lombok.version>
 
     <!-- optional -->
-    <big-math.version>2.3.0</big-math.version>
+    <big-math.version>2.3.1</big-math.version>
     <checkerframework.version>3.27.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
     <!-- test dependencies -->
