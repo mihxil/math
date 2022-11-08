@@ -126,7 +126,7 @@ public class BigDecimalElement implements
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value = "Not possible for negative arguments")
-    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws ReciprocalException {
+    public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws IllegalPowerException {
         UncertainNumber<BigDecimal> pow = operations().pow(value, bigDecimalElement.value);
         return new BigDecimalElement(pow.getValue(), uncertainty.max(pow.getUncertainty()));
     }

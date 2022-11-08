@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
@@ -90,7 +91,7 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
                     log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
 
                     assertThat(applied.equals(exactly(exactApplied.doubleValue()))).isTrue();
-                } catch (ReciprocalException rce) {
+                } catch (ReciprocalException | IllegalPowerException rce) {
                     log.info("{} -> {}", operator.stringify(ba, bb), rce.getMessage());
                 }
             });

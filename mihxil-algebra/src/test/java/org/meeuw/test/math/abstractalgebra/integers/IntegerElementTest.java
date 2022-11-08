@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.test.*;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.test.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,7 +66,7 @@ class IntegerElementTest implements
         assertThat(two.plus(two.getStructure().zero())).isEqualTo(two);
 
         assertThat(two.pow(0)).isEqualTo(of(1));
-        assertThatThrownBy(() -> two.pow(-1)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> two.pow(-1)).isInstanceOf(IllegalPowerException.class);
     }
 
 
