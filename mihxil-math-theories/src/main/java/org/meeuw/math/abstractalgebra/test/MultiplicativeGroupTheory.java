@@ -42,7 +42,11 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         @ForAll(ELEMENTS) E v1,
         @ForAll(ELEMENTS) E v2) {
         try {
-            assertThat(v1.dividedBy(v2)).isEqualTo(v1.times(v2.reciprocal()));
+            E quotient = v1.dividedBy(v2);
+            E withReciprocal = v1.times(v2.reciprocal());
+            assertThat(quotient.eq(withReciprocal)).withFailMessage(() ->
+                String.format("%s / %s = %s != %s . %s ^ -1  = %s", v1, v2, quotient, v1, v2, withReciprocal)
+            ).isTrue();
         } catch (ReciprocalException ae) {
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
             assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).withFailMessage(ae.getClass().getName() + " " + ae.getMessage()).isFalse();
