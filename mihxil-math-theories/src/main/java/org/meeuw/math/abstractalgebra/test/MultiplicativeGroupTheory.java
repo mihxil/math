@@ -28,7 +28,7 @@ import static org.meeuw.math.text.TextUtils.superscript;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
+public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoidTheory<E> {
 
     @Property

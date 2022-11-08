@@ -40,7 +40,10 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     /**
      * The uncertainty propagation for multiplication (and division).
      */
-    default N multiplicationUncertainty(N newValue, N fractionUncertainty1, N fractionalUncertainty2) {
+    default N multiplicationUncertainty(
+        N newValue,
+        N fractionUncertainty1,
+        N fractionalUncertainty2) {
         return withUncertaintyContext(
             () -> multiply(
                 abs(newValue),
@@ -108,7 +111,7 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
 
     /**
      * Runs some code in a context for calculating uncertainties.
-     *
+     * <p>
      * This currently makes only sense when using {@link BigDecimal}. Uncertainties themselves need not be very precise. Naturally the mentioned context is a {@link java.math.MathContext}
      */
     default <X> X withUncertaintyContext(Supplier<X> supplier) {

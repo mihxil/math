@@ -97,7 +97,7 @@ public abstract class CompleteComplexNumber<
      * Principal value logarithm
      */
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logaritm of zero")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logarithm of zero")
     public S ln() {
         return _of(
             abs().ln(),

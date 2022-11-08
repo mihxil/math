@@ -37,7 +37,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.*;
  * @since 0.4
  */
 @Log4j2
-class RealFieldTest implements
+strictfp class RealFieldTest implements
     CompleteScalarFieldTheory<RealNumber>,
     MetricSpaceTheory<RealNumber, RealNumber>,
     UncertainDoubleTheory<RealNumber> {

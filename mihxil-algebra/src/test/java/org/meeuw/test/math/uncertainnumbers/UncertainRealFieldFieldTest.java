@@ -42,7 +42,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
  * @since 0.4
  */
 @Log4j2
-class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
+strictfp class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void testToString() {
