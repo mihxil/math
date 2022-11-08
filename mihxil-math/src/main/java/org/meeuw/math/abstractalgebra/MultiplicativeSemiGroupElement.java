@@ -17,8 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import jakarta.validation.constraints.Positive;
 
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 
 /**
  * Elements of a {@link MultiplicativeSemiGroup} can be multiplied by each other (via {@link #times(MultiplicativeSemiGroupElement)}.
@@ -54,7 +53,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
 
     /**
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
-     *
+     * <p>
      * This default implementation is doing <a href="https://en.wikipedia.org/wiki/Exponentiation_by_squaring">exponentiation by squaring</a>
      * @param n the exponent
      * @return this <sup>n</sup>
@@ -62,10 +61,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @SuppressWarnings({"unchecked"})
     default E pow(@Positive int n) {
         if (n < 0) {
-            throw new DivisionByZeroException("Not defined for negative exponents");
+            throw new IllegalPowerException("Not defined for negative exponents");
         }
         if (n == 0) {
-            throw new ReciprocalException("Not definied for exponent = 0");
+            throw new IllegalPowerException("Not defined for exponent = 0");
         }
         E y = null;
         E x = (E) this;

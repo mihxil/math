@@ -17,10 +17,10 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
-import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -72,7 +72,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     default void pow0(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThatThrownBy(() -> v1.pow(0)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> v1.pow(0)).isInstanceOf(IllegalPowerException.class);
     }
 
     @Property

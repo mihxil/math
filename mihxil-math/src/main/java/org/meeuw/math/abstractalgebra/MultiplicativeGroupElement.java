@@ -16,14 +16,14 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 
 /**
  * An element for the algebraic 'group' (where the operation is multiplication)
- *
+ * <p>
  * The operations {@link #reciprocal()}, {@link #dividedBy(MultiplicativeGroupElement)} and {@link #pow(int)} are on default implemented
  * using one of the others.
- *
+ * <p>
  * You have to override at least one, to break the stack overflow happening otherwise.
  *
  * @author Michiel Meeuwissen
@@ -47,14 +47,18 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
 
     /**
      * if multiplication and division is defined, then so is exponentiation to any integer power.
-     *
+     * <p>
      * This default implementation is based on the default implementation of {@link MultiplicativeMonoidElement#pow(int)
      */
     @Override
     default E pow(int n) {
         if (n < 0) {
             n *= -1;
-            return reciprocal().pow(n);
+            try {
+                return reciprocal().pow(n);
+            } catch (DivisionByZeroException divisionByZeroException) {
+                throw new IllegalPowerException(divisionByZeroException);
+            }
         }
         if (n == 0) {
             return getStructure().one();

@@ -18,8 +18,7 @@ package org.meeuw.math.uncertainnumbers.field;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
@@ -267,7 +266,7 @@ public class UncertainDoubleElement
     public  UncertainDoubleElement pow(int exponent) {
         double v = this.doubleValue();
         if (v == 0 && exponent < 0) {
-            throw new DivisionByZeroException(v + "^" + exponent);
+            throw new IllegalPowerException(v + "^" + exponent);
         }
         return of(
             Math.pow(this.doubleValue(), exponent),

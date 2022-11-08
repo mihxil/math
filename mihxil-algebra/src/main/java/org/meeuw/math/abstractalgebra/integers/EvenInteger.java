@@ -20,8 +20,7 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigInteger;
 
 import org.meeuw.math.abstractalgebra.RngElement;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -73,7 +72,7 @@ public class EvenInteger
     @Override
     public EvenInteger pow(@Positive int n) {
         if (n == 0) {
-            throw new ReciprocalException("" + this + "^0");
+            throw new IllegalPowerException("" + this + "^0");
         }
         return super.pow(n);
     }

@@ -38,6 +38,7 @@ public @interface NonAlgebraic {
          * Not algebraic because the (return) type is not in the same algebra.
          */
         TYPE,
+
         /**
          * Not algebraic because the operations is not possible for many elements.
          */

@@ -21,7 +21,7 @@ import java.math.BigInteger;
 
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.RngElement;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -71,7 +71,7 @@ public class NDivisibleInteger
     @Override
     public NDivisibleInteger pow(@Positive int n) {
         if (n == 0 && structure.divisor != 1) {
-            throw new ReciprocalException("" + this + "^0");
+            throw new IllegalPowerException("" + this + "^0");
         }
         return super.pow(n);
     }

@@ -25,8 +25,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.exceptions.InvalidFactorial;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
 
 /**
@@ -81,7 +80,7 @@ public abstract class AbstractIntegerElement<
         try {
             return with(value.pow(n));
         } catch (ArithmeticException ae) {
-            throw new ReciprocalException(ae);
+            throw new IllegalPowerException(ae);
         }
     }
 
