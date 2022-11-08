@@ -34,11 +34,10 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 
 
 /**
- * A test can implement this interface to and test generic property of a utility class
+ * A test can implement this interface too and test generic property of a utility class
  */
 @TestInstance(PER_CLASS)
 public interface StaticUtilitiesTest {
-
 
     @ParameterizedTest
     @MethodSource("polyNullMethods")

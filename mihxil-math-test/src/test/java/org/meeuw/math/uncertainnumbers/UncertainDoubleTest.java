@@ -146,10 +146,9 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
     }
 
     @Property
-    void multiply(@ForAll("elements") A a1, @ForAll("elements") A a2) {
+    public void multiply(@ForAll("elements") A a1, @ForAll("elements") A a2) {
         assertThat(a1.times(a2).value).isEqualTo(a1.value * a2.value);
     }
-
 
     @Override
     public Arbitrary<? extends A> elements() {

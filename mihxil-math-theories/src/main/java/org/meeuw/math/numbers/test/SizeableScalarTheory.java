@@ -39,7 +39,6 @@ public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE ex
     extends ElementTheory<S>, OrderedTheory<S>, SizeableTheory<S, SIZE> {
 
 
-
     @Property
     default void compareTo(@ForAll(ELEMENTS) S scalar1, @ForAll(ELEMENTS) S scalar2) {
         try {

@@ -45,7 +45,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E quotient = v1.dividedBy(v2);
             E withReciprocal = v1.times(v2.reciprocal());
             assertThat(quotient.eq(withReciprocal)).withFailMessage(() ->
-                String.format("%s / %s = %s != %s . %s ^ -1  = %s", v1, v2, quotient, v1, v2, withReciprocal)
+                String.format("%s / %s = %s != %s · %s ^ -1  = %s", v1, v2, quotient, v1, v2, withReciprocal)
             ).isTrue();
         } catch (ReciprocalException ae) {
             getLogger().info(v1 + " / " + v2 + ": " + ae.getMessage());
@@ -102,7 +102,8 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E reciprocal = e.reciprocal();
             assertThat(reciprocal.reciprocal().eq(e)).isTrue();
             E reciprocalTimesSelf = reciprocal.times(e);
-            assertThat(reciprocalTimesSelf.eq(e.getStructure().one())).withFailMessage(reciprocal + "." + e + " =" + reciprocalTimesSelf + " != " + e.getStructure().one()).isTrue();
+            assertThat(reciprocalTimesSelf.eq(e.getStructure().one()))
+                .withFailMessage(reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one()).isTrue();
         } catch (ReciprocalException ae) {
             // The element may be zero
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);

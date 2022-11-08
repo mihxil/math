@@ -65,7 +65,8 @@ public interface GroupTheory<E extends GroupElement<E>>
         @ForAll(ELEMENTS) E v) {
         try {
             E inverse = v.inverse().operate(v);
-            assertThat(inverse.eq(v.getStructure().unity())).withFailMessage(() -> "inverse " + v.inverse() + " * " + v + " != " + v.getStructure().unity() + " (but " + inverse + ")").isTrue();
+            assertThat(inverse.eq(v.getStructure().unity()))
+                .withFailMessage(() -> "inverse " + v.inverse() + " · " + v + " != " + v.getStructure().unity() + " (but " + inverse + ")").isTrue();
         } catch (InverseException ie) {
             Assume.that(! BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
 

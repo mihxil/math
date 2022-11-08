@@ -92,7 +92,9 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement e = of(-859.3420301563415);
         BigDecimalElement reciprocal = e.reciprocal();
         BigDecimalElement timesItself = reciprocal.times(e);
-        assertThat(timesItself.equals(e.getStructure().one())).isTrue();
+        assertThat(timesItself.equals(e.getStructure().one()))
+            .withFailMessage("%s · %s ^ -1 = %s != 1", e, e, timesItself )
+            .isTrue();
     }
 
     @Property
