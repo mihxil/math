@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 
 /**
@@ -38,6 +39,7 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E cos();
 
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     default E pow(E exponent) throws IllegalLogarithmException {
         return (ln().times(exponent)).exp();
     }

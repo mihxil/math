@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.exceptions.ReciprocalException;
 
@@ -79,14 +80,14 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     default void powNegative1(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThatThrownBy(() -> v1.pow(-1)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> v1.pow(-1)).isInstanceOf(IllegalPowerException.class);
     }
     @Property
     @Label("powNegative2 semigroup")
     default void powNegative2(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThatThrownBy(() -> v1.pow(-2)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> v1.pow(-2)).isInstanceOf(IllegalPowerException.class);
 
     }
     @Property
@@ -94,7 +95,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     default void powNegative3(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThatThrownBy(() -> v1.pow(-3)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> v1.pow(-3)).isInstanceOf(IllegalPowerException.class);
     }
 
     @Property

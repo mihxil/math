@@ -19,7 +19,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 
 /**
  * Represents a problem with taking the inverse of an element. The must well known extension would be {@link DivisionByZeroException}.
- * But it is also thrown by {@link MultiplicativeGroupElement#reciprocal()} if this is exceptionaly not possible.
+ * But it is also thrown by {@link MultiplicativeGroupElement#reciprocal()} if this is exceptionally not possible.
  *
  * @author Michiel Meeuwissen
  * @since 0.8

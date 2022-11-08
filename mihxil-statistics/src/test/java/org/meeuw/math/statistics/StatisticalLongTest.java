@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.statistics;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.Random;
@@ -26,7 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
-import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -42,7 +44,7 @@ import static org.meeuw.math.temporal.UncertainTemporal.Mode.*;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-
+@Log4j2
 class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @BeforeEach
@@ -190,6 +192,19 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         mes.enter(1, 2);
         StatisticalLong offsetted = mes.plus(3.1);
         assertThat(offsetted.getMean()).isEqualTo(4.6);
+    }
+
+    @Test
+    public void negativePowerOfZero() {
+        StatisticalLong mes = new StatisticalLong();
+        mes.enter(-1, 1);
+        assertThatThrownBy(() -> {
+            UncertainReal ln = mes.ln();
+        }).isInstanceOf(IllegalLogarithmException.class);
+        assertThatThrownBy(() -> {
+            UncertainReal pow = mes.pow(-1);
+            log.info("{} ^ {} -> {}", mes, -1, pow);
+        }).isInstanceOf(IllegalPowerException.class);
     }
 
     @Override

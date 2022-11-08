@@ -19,7 +19,8 @@ import net.jqwik.api.*;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -58,7 +59,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
             if (exponent.isNegative()) {
                 assertThatThrownBy(() ->
                     getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent))
-                ).isInstanceOf(ReciprocalException.class);
+                ).isInstanceOfAny(IllegalPowerException.class, DivisionByZeroException.class);
                 return;
             }
         }

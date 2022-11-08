@@ -17,6 +17,8 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 
@@ -131,12 +133,13 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         );
     }
 
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     default UncertainNumber<N> pow(int exponent) {
         NumberOperations<N> o = operations();
 
         N v = o.pow(getValue(), exponent);
         if (!o.isFinite(v)) {
-            throw new ArithmeticException("" + getValue() + "^" + exponent + "=" + v);
+            throw new IllegalPowerException("" + getValue() + "^" + exponent + "=" + v);
         }
         return new ImmutableUncertainNumber<N>(
             v,

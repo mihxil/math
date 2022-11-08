@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -92,7 +93,9 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     public UncertainReal pow(int exponent) {
-        return new UncertainDoubleElement(Math.pow(doubleValue(), exponent), doubleUncertainty());
+        Double pow = operations().pow(doubleValue(), exponent);
+        Double powerUncertainty = operations().powerUncertainty(doubleValue(), getUncertainty(), (double) exponent, 0d, pow);
+        return new UncertainDoubleElement(pow, powerUncertainty);
     }
 
     @Override
@@ -142,6 +145,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     public UncertainReal pow(UncertainReal exponent) {
         UncertainNumber<Double> result = operations.pow(doubleValue(), exponent.doubleValue());
         return _of(

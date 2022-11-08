@@ -128,7 +128,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public BigDecimal pow(BigDecimal n1, int exponent) {
-        return n1.pow(exponent);
+        try {
+            return n1.pow(exponent);
+        } catch (ArithmeticException e) {
+            throw new IllegalPowerException(e);
+        }
     }
 
     @Override

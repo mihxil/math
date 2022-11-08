@@ -100,7 +100,10 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
-    public Double pow(Double n1, int exponent) {
+    public Double pow(Double n1, int exponent) throws IllegalPowerException {
+        if (n1 == 0d && exponent < 0) {
+            throw new IllegalPowerException("Cannot take negative power (" + exponent + ") of zero");
+        }
         return Math.pow(n1, exponent);
     }
 
@@ -111,6 +114,9 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public UncertainNumber<Double> pow(Double n1, Double exponent) {
+        if (n1 == 0d && exponent < 0) {
+            throw new IllegalPowerException("Cannot take negative power (" + exponent + ")of zero");
+        }
         return uncertain(Math.pow(n1, exponent));
     }
 

@@ -18,9 +18,8 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.text.TextUtils.superscript;
@@ -58,7 +57,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-1).equals(v1.reciprocal())).isTrue();
-        } catch (ReciprocalException ae) {
+        } catch (IllegalPowerException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
@@ -72,7 +71,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E powMinus2 = v1.pow(-2);
             E oneDividedBySqr = v1.getStructure().one().dividedBy(v1.times(v1));
             assertThat(powMinus2).usingDefaultComparator().isEqualTo(oneDividedBySqr);
-        } catch (DivisionByZeroException ae) {
+        } catch (IllegalPowerException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
@@ -84,7 +83,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     )  {
         try {
             assertThat(v1.pow(-3)).usingDefaultComparator().isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
-        } catch (DivisionByZeroException ae) {
+        } catch (IllegalPowerException ae) {
             getLogger().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         }
     }

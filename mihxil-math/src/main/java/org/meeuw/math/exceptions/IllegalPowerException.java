@@ -15,21 +15,17 @@
  */
 package org.meeuw.math.exceptions;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-
 /**
- * Represents a problem with taking the reciprocal of an element. The must well known extension would be {@link DivisionByZeroException}.
- * But it is also thrown by {@link MultiplicativeGroupElement#reciprocal()} if this is exceptionally not possible.
- *
- * @author Michiel Meeuwissen
- * @since 0.4
+ * Gets thrown if trying to take an impossible power.
+ * @since 0.9
  */
-public class ReciprocalException extends InverseException {
-    public ReciprocalException(String s) {
+public class IllegalPowerException extends OperationException {
+
+    public IllegalPowerException(ArithmeticException s) {
         super(s);
     }
 
-    public ReciprocalException(Throwable cause) {
-        super(cause);
+    public IllegalPowerException(String s) {
+        super(s);
     }
 }
