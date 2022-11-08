@@ -39,8 +39,21 @@ public class TestClock extends Clock {
         this.instant = instant;
     }
 
+    /**
+     * A clock instantiated with {@link Instant#now()} and {@link ZoneId#systemDefault()}.
+     */
     public TestClock() {
         this(ZoneId.systemDefault(), Instant.now());
+    }
+
+    /**
+     * A test clock with fixed instant in 2020.
+     */
+    public static TestClock twenty() {
+        ZoneId id = ZoneId.of("Europe/Amsterdam");
+        return new TestClock(id,
+            LocalDateTime.of(2020, 2, 20, 20, 20).atZone(id).toInstant()
+        );
     }
 
     @Override
