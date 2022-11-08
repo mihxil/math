@@ -33,7 +33,13 @@ public interface MultiplicativeAbelianSemiGroupTheory<E extends MultiplicativeSe
     default void multiplicativeCommutativity (
         @ForAll(ELEMENTS) E v1,
         @ForAll(ELEMENTS) E v2) {
-        assertThat(v1.times(v2)).isEqualTo(v2.times(v1));
+        E v1Timesv2 = v1.times(v2);
+        E v2Timesv1 = v2.times(v1);
+        assertThat(v1Timesv2.eq(v2Timesv1))
+            .withFailMessage(() -> String.format("%s . %s = %s !=  %s . %s = %s",
+                v1, v2, v1Timesv2, v2, v1, v2Timesv1
+            ))
+            .isTrue();
     }
 
     @Property

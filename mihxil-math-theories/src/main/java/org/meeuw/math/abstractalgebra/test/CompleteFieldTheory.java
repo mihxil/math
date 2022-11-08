@@ -61,7 +61,6 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             assertThat(nonalgebraicOptional)
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
-
     }
 
 }

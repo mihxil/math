@@ -62,7 +62,5 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
             assertThat(v1.times(v2)).isEqualTo(v1);
             assertThat(v2.times(v1)).isEqualTo(v1);
         }
-
-
     }
 }

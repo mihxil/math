@@ -65,7 +65,6 @@ public interface VectorSpaceTheory<
         v1.forEach(e -> assertThat(toString).contains(e.toString()));
     }
 
-
     @Property
     default void space(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2) {
         assertThat(v1.getSpace().getDimension()).isEqualTo(v2.getSpace().getDimension());
@@ -97,18 +96,15 @@ public interface VectorSpaceTheory<
         assertThat((v.times(a)).times(b)).isEqualTo(v.times(a.times(b)));
     }
 
-
     @Property
     default void scalarIdentity(@ForAll(ELEMENTS) V v) {
         assertThat(v.times(v.getSpace().getField().one())).isEqualTo(v);
     }
 
-
     @Property
     default void vectorDistributivity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(SCALARS) S e) {
         assertThat((v1.plus(v2)).times(e)).isEqualTo((v1.times(e)).plus(v2.times(e)));
     }
-
 
     @Property
     default void scalarDistributivity(
@@ -132,7 +128,6 @@ public interface VectorSpaceTheory<
         ) {
         assertThat(a.dot(b.plus(c))).isEqualTo((a.dot(b)).plus(a.dot(c)));
     }
-
 
     @Provide
     Arbitrary<? extends S> scalars();

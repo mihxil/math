@@ -113,8 +113,6 @@ public interface GroupTheory<E extends GroupElement<E>>
         assertThatThrownBy(() -> {
             v.cast(UnknownGroupElement.class);
         }).isInstanceOf(NotASubGroup.class);
-
     }
-
 
 }

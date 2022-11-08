@@ -82,14 +82,15 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     )  {
         assertThatThrownBy(() -> v1.pow(-1)).isInstanceOf(IllegalPowerException.class);
     }
+
     @Property
     @Label("powNegative2 semigroup")
     default void powNegative2(
          @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() -> v1.pow(-2)).isInstanceOf(IllegalPowerException.class);
-
     }
+
     @Property
     @Label("powNegative3 semigroup")
     default void powNegative3(

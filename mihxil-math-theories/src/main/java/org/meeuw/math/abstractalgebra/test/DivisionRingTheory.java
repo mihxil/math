@@ -45,7 +45,6 @@ public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
         assertThat(MULTIPLICATION.andThen(NEGATION).apply(e1, e2)).isEqualTo(e1.times(e2).negation());
         assertThat(ADDITION.andThen(SQR.compose(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).negation()).sqr());
         assertThat(ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2)).isEqualTo((e1.plus(e2).sqr()).negation());
-
     }
 
     @Property

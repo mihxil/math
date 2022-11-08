@@ -48,7 +48,6 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         } catch(NotComparableException notComparableException) {
             Assume.that(false);
         }
-
     }
 
     @Property
@@ -77,6 +76,5 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
             .lessThan(1e10)
             .greaterThan(-1e10);
     }
-
 
 }

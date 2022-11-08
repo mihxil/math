@@ -31,8 +31,6 @@ public interface AdditiveAbelianGroupTheory <E extends AdditiveGroupElement<E>>
     AdditiveGroupTheory<E>,
     AdditiveAbelianSemiGroupTheory<E>
 {
-
-
     @Property
     default void minusIsAnticommutative(
             @ForAll(ELEMENTS) E v1,

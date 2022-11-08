@@ -28,7 +28,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public interface AbelianRingTheory<E extends AbelianRingElement<E>> extends RingTheory<E> {
 
-
     @Property
     default void ringCommutative(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
         assertThat(a.times(b)).isEqualTo(b.times(a));

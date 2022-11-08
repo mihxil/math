@@ -204,7 +204,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     throw ae;
                 }
             }
-
         }
     }
 
@@ -212,7 +211,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void functions(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s,
         @ForAll(ELEMENTS) E e1) throws Throwable {
-
 
         for (GenericFunction o : s.getSupportedFunctions()) {
             try {
@@ -316,7 +314,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void castDirectly(@ForAll(ELEMENTS) E v) {
-
         for (AlgebraicStructure<? extends AlgebraicElement<?>> c : v.getStructure().getSuperGroups()) {
             Optional<? extends AlgebraicElement<?>> casted = v.castDirectly(c.getElementClass());
             assertThat(casted).isPresent();
@@ -329,7 +326,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             AlgebraicElement<?> casted = v.cast(c.getElementClass());
             getLogger().info("{} -{}-> {}", v, c, casted);
         }
-
     }
 
 }

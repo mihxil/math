@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>> extends
     CompleteFieldTheory<E> {
 
-
     @Property
     default void sqrt(@ForAll(ELEMENTS) E e) {
         Assume.that(! e.isNegative());

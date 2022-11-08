@@ -65,6 +65,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             getLogger().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
+
     @Override
     @Property
     @Label("powNegative2 group")
@@ -79,6 +80,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             getLogger().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
+
     @Override
     @Property
     @Label("powNegative3 group")
@@ -106,8 +108,5 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
         }
     }
-
-
-
 
 }
