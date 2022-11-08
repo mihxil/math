@@ -22,6 +22,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Utils;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
@@ -146,7 +147,7 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
-    public UncertainReal pow(UncertainReal exponent) {
+    public UncertainReal pow(UncertainReal exponent) throws IllegalPowerException {
         UncertainNumber<Double> result = operations.pow(doubleValue(), exponent.doubleValue());
         return _of(
             result.getValue(),
