@@ -23,8 +23,7 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.TimeUtils;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.temporal.UncertainTemporal;
 import org.meeuw.math.text.TextUtils;
@@ -56,7 +55,7 @@ public class UncertainTemporalFormat extends Format {
                      return toAppendTo;
                  }
                  case DURATION: {
-                     long rounded = Utils.round(statisticalLong.getValue().longValue());
+                     long rounded = DoubleUtils.round(statisticalLong.getValue().longValue());
                      Duration stddev = Duration.ofMillis((long) statisticalLong.getUncertainty().longValue());
                      toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;

@@ -19,8 +19,7 @@ import java.math.*;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.exceptions.*;
@@ -61,7 +60,7 @@ public class BigDecimalElement implements
     }
 
     public static BigDecimal uncertainty(double doubleValue) {
-        return BigDecimal.valueOf(Utils.uncertaintyForDouble(doubleValue));
+        return BigDecimal.valueOf(DoubleUtils.uncertaintyForDouble(doubleValue));
     }
 
     public BigDecimalElement(BigDecimal value, BigDecimal uncertainty) {

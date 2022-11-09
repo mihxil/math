@@ -16,8 +16,7 @@
 package org.meeuw.math.abstractalgebra.linear;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.ArrayUtils;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -48,7 +47,7 @@ public class SpecialLinearMatrix<E extends RingElement<E>>
 
     @SafeVarargs
     public static <E extends RingElement<E>> SpecialLinearMatrix<E> of(Ring<E> elementStructure, @NonNull @Square E... matrix) {
-        final int dim = Utils.sqrt(matrix.length);
+        final int dim = IntegerUtils.sqrt(matrix.length);
         SpecialLinearGroup<E> structure = SpecialLinearGroup.of(dim, elementStructure);
         return of(structure, matrix);
     }

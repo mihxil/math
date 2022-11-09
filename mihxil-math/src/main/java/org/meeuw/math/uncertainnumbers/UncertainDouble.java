@@ -18,7 +18,7 @@ package org.meeuw.math.uncertainnumbers;
 import java.util.OptionalDouble;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.Utils;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.exceptions.WeighingExceptValuesException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -144,8 +144,8 @@ public interface UncertainDouble
             return _of(mvalue, 0d);
         }
 
-        final double u2 = Math.max(u * u, Utils.uncertaintyForDouble(value));
-        final double mu2 = Math.max(mu * mu, Utils.uncertaintyForDouble(mvalue));
+        final double u2 = Math.max(u * u, DoubleUtils.uncertaintyForDouble(value));
+        final double mu2 = Math.max(mu * mu, DoubleUtils.uncertaintyForDouble(mvalue));
 
         final double weight = Math.min(1d / u2, Double.MAX_VALUE);
         final double mweight = Math.min(1d / mu2, Double.MAX_VALUE);
@@ -182,7 +182,7 @@ public interface UncertainDouble
                 operations().multiplicationUncertainty(
                     newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()
                 ),
-                Utils.uncertaintyForDouble(newValue)
+                DoubleUtils.uncertaintyForDouble(newValue)
             )
         );
     }

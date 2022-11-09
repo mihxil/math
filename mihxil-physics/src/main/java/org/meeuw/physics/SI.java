@@ -21,7 +21,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.Utils;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
@@ -164,13 +164,13 @@ public class SI implements SystemOfMeasurements {
 
         DecimalPrefix(int pow, String string) {
             this.pow = pow;
-            doubleValue = Utils.pow10(pow);
+            doubleValue = DoubleUtils.pow10(pow);
             this.string = string;
         }
 
         DecimalPrefix(int pow) {
             this.pow = pow;
-            doubleValue = Utils.pow10(pow);
+            doubleValue = DoubleUtils.pow10(pow);
             this.string = name();
         }
 

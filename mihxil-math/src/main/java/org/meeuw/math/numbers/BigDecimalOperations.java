@@ -22,13 +22,14 @@ import java.math.MathContext;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static org.meeuw.configuration.ConfigurationService.withAspect;
-import static org.meeuw.math.Utils.uncertaintyForBigDecimal;
+import static org.meeuw.math.BigDecimalUtils.uncertaintyForBigDecimal;
 
 /**
  * @author Michiel Meeuwissen
@@ -144,10 +145,10 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public UncertainNumber<BigDecimal> pow(BigDecimal n1, BigDecimal exponent) throws IllegalPowerException {
         try {
             return uncertain(
-                BigDecimalMath.pow(n1, exponent, context())
+                BigDecimalUtils.pow(n1, exponent, context())
             );
         } catch (ArithmeticException ae) {
-            throw new IllegalPowerException(ae);
+            throw new IllegalPowerException(BasicAlgebraicBinaryOperator.POWER.stringify(n1.toString(), exponent.toString()),  ae);
         }
     }
 
@@ -203,7 +204,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
 
     @Override
     public BigDecimal roundingUncertainty(BigDecimal bigDecimal) {
-        return Utils.uncertaintyForBigDecimal(bigDecimal, context());
+        return BigDecimalUtils.uncertaintyForBigDecimal(bigDecimal, context());
     }
 
     @Override

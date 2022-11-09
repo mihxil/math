@@ -24,7 +24,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.data.Offset.offset;
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -45,13 +45,17 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
     @Property
     default void sin(@ForAll(ELEMENTS) E e) {
         E sin = e.sin();
-        assertThat(sin.doubleValue()).isCloseTo(Math.sin(e.doubleValue()), offset(uncertaintyForDouble(sin.doubleValue())));
+        assertThat(sin.doubleValue()).isCloseTo(
+            Math.sin(e.doubleValue()), offset(0.01)
+        );
     }
 
     @Property
     default void cos(@ForAll(ELEMENTS) E e) {
         E cos = e.cos();
-        assertThat(cos.doubleValue()).isCloseTo(Math.cos(e.doubleValue()), offset(uncertaintyForDouble(cos.doubleValue())));
+        assertThat(cos.doubleValue()).isCloseTo(
+            Math.cos(e.doubleValue()), offset(0.01)
+        );
     }
 
     @Property
@@ -70,6 +74,10 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
         double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
         assertThat(pow.doubleValue())
             //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
-            .isCloseTo(expected, offset(100 * Math.max(uncertaintyForDouble(pow.doubleValue()), uncertaintyForDouble(expected))));
+            .isCloseTo(expected, offset(
+                Math.max(
+                    uncertaintyForDouble(pow.doubleValue()),
+                    uncertaintyForDouble(expected)))
+            );
     }
 }

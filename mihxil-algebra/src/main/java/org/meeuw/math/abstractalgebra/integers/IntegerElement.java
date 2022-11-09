@@ -19,7 +19,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigInteger;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.Scalar;
@@ -76,7 +76,7 @@ public class IntegerElement
 
     @Override
     public IntegerElement pow(@PositiveOrZero int n) throws IllegalPowerException  {
-        return with(Utils.positivePow(value, n));
+        return with(IntegerUtils.positivePow(value, n));
     }
 
     @Override

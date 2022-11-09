@@ -28,4 +28,8 @@ public class IllegalPowerException extends OperationException {
     public IllegalPowerException(String s) {
         super(s);
     }
+
+    public IllegalPowerException(String s, Exception e) {
+        super(s, e);
+    }
 }

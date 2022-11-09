@@ -21,7 +21,7 @@ import lombok.Setter;
 
 import java.util.Collection;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.numbers.SizeableScalar;
@@ -43,7 +43,7 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         try {
             long toValidate = toLong(value);
-            long sqrt = Utils.sqrt(toValidate);
+            long sqrt = IntegerUtils.sqrt(toValidate);
             if (dimension >= 0) {
                 return dimension == sqrt;
             }

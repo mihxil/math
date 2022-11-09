@@ -65,7 +65,7 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
 
     @Override
     public Cardinality getCardinality() {
-        return Cardinality.of(Utils.factorial(degree));
+        return Cardinality.of(IntegerUtils.factorial(degree));
     }
 
     @Override

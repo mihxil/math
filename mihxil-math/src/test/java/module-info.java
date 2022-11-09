@@ -20,6 +20,7 @@ open module org.meeuw.test {
     requires org.checkerframework.checker.qual;
     requires jakarta.validation;
     requires org.hibernate.validator;
+    requires ch.obermuhlner.math.big;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;

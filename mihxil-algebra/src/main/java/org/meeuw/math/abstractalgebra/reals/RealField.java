@@ -22,7 +22,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
  * The field of real numbers.

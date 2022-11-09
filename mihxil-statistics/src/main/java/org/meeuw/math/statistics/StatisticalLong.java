@@ -28,8 +28,7 @@ import java.util.function.LongConsumer;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.temporal.StatisticalTemporal;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -92,7 +91,7 @@ public class StatisticalLong extends
 
     @Override
     public StatisticalLong plus(double summand) {
-        long rounded = Utils.round(summand);
+        long rounded = DoubleUtils.round(summand);
         StatisticalLong result = plus(rounded);
         result.doubleOffset = (summand - (double) rounded);
         return result;
@@ -210,8 +209,8 @@ public class StatisticalLong extends
     }
 
     protected long round(double in) {
-        long orderOfMagnitude = Utils.positivePow10(Utils.log10(getStandardDeviation()));
-        return Utils.round(in) / orderOfMagnitude * orderOfMagnitude;
+        long orderOfMagnitude = IntegerUtils.positivePow10(DoubleUtils.log10(getStandardDeviation()));
+        return DoubleUtils.round(in) / orderOfMagnitude * orderOfMagnitude;
     }
 
     @Override
@@ -244,7 +243,7 @@ public class StatisticalLong extends
         double v = 1d / getValue();
         return new UncertainDoubleElement(
             reciprocal.getValue(),
-            Math.max(reciprocal.getUncertainty(), getFractionalUncertainty() * v + Utils.uncertaintyForDouble(v)));
+            Math.max(reciprocal.getUncertainty(), getFractionalUncertainty() * v + DoubleUtils.uncertaintyForDouble(v)));
     }
 
 
@@ -343,8 +342,8 @@ public class StatisticalLong extends
 
         squareSum = Math.multiplyExact(squareSum, (long) (d * d));
         guessedMean *= d;
-        max = Utils.round(max * d);
-        min = Utils.round(min * d);
+        max = DoubleUtils.round(max * d);
+        min = DoubleUtils.round(min * d);
         return this;
     }
 

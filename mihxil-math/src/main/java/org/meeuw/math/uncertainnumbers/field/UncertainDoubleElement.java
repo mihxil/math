@@ -16,8 +16,7 @@
 package org.meeuw.math.uncertainnumbers.field;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
@@ -172,7 +171,7 @@ public class UncertainDoubleElement
         return of(newValue,
             Math.max(
                 operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(),  multiplier.doubleFractionalUncertainty()),
-                Utils.uncertaintyForDouble(newValue)
+                DoubleUtils.uncertaintyForDouble(newValue)
             )
         );
 
@@ -185,11 +184,11 @@ public class UncertainDoubleElement
         double result  = v1 + v2;
         return of(
             result,
-            Utils.max(
+            DoubleUtils.max(
                 operations.add(uncertainty, summand.doubleUncertainty()),
-                Utils.uncertaintyForDouble(result),
-                Utils.uncertaintyForDouble(v1),
-                Utils.uncertaintyForDouble(v2)
+                DoubleUtils.uncertaintyForDouble(result),
+                DoubleUtils.uncertaintyForDouble(v1),
+                DoubleUtils.uncertaintyForDouble(v2)
             )
         );
     }
@@ -231,13 +230,13 @@ public class UncertainDoubleElement
         double result = Math.pow(value, exponent.doubleValue());
         return of(
             result,
-            Utils.max(
-                Utils.uncertaintyForDouble(result),
+            DoubleUtils.max(
+                DoubleUtils.uncertaintyForDouble(result),
                 operations.powerUncertainty(
                     value,
-                    Math.max(uncertainty, Utils.uncertaintyForDouble(value)),
+                    Math.max(uncertainty, DoubleUtils.uncertaintyForDouble(value)),
                     exponent.doubleValue(),
-                    Math.max(exponent.doubleUncertainty(), Utils.uncertaintyForDouble(exponent.doubleValue())),
+                    Math.max(exponent.doubleUncertainty(), DoubleUtils.uncertaintyForDouble(exponent.doubleValue())),
                     result
                 )
             ));
@@ -311,6 +310,6 @@ public class UncertainDoubleElement
 
     @Override
     public long longValue() {
-        return Utils.round(doubleValue());
+        return DoubleUtils.round(doubleValue());
     }
 }

@@ -21,12 +21,12 @@ import java.text.*;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
 
 /**
@@ -117,7 +117,7 @@ public class UncertainDoubleFormat extends Format {
 
             // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
             // match the exponent of mean.
-            std.coefficient /= Utils.pow10(magnitudeDifference);
+            std.coefficient /= DoubleUtils.pow10(magnitudeDifference);
 
 
             // For numbers close to 1, we don't use scientific notation.
@@ -126,7 +126,7 @@ public class UncertainDoubleFormat extends Format {
                 // number anyway
                 (mean.exponent > 0 && meanDigits > mean.exponent)) {
 
-                double pow = Utils.pow10(mean.exponent);
+                double pow = DoubleUtils.pow10(mean.exponent);
                 mean.exponent = 0;
                 mean.coefficient *= pow;
                 std.coefficient *= pow;
@@ -135,7 +135,7 @@ public class UncertainDoubleFormat extends Format {
 
             boolean useE = mean.exponent != 0;
 
-            int fd = meanDigits - Utils.log10(largeError ? std.coefficient : mean.coefficient) - 1;
+            int fd = meanDigits - DoubleUtils.log10(largeError ? std.coefficient : mean.coefficient) - 1;
             //System.out.println(meanDigits + " -> " + mean + " -> " + fd);
             NumberFormat format = (NumberFormat) numberFormat.clone();
             format.setMaximumFractionDigits(fd);
@@ -157,7 +157,7 @@ public class UncertainDoubleFormat extends Format {
 
             // For numbers close to 1, we don't use scientific notation.
             if (Math.abs(mean.exponent) < minimumExponent) {
-                double pow = Utils.pow10(mean.exponent);
+                double pow = DoubleUtils.pow10(mean.exponent);
                 mean.exponent = 0;
                 mean.coefficient *= pow;
             }

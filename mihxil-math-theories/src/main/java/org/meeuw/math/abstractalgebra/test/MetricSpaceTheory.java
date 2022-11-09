@@ -18,7 +18,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.numbers.Scalar;
 
@@ -50,6 +50,6 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
         ) {
         double distance = a.distanceTo(c).doubleValue();
         assertThat(distance)
-            .isLessThanOrEqualTo(a.distanceTo(b).doubleValue() + b.distanceTo(c).doubleValue() + Utils.uncertaintyForDouble(distance));
+            .isLessThanOrEqualTo(a.distanceTo(b).doubleValue() + b.distanceTo(c).doubleValue() + DoubleUtils.uncertaintyForDouble(distance));
     }
 }

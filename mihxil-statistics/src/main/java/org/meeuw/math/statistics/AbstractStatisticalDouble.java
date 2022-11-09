@@ -19,8 +19,7 @@ import java.math.BigDecimal;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -106,7 +105,7 @@ public abstract class AbstractStatisticalDouble
             newValue,
             Math.max(
                 doubleUncertainty() / divisor,
-                Utils.uncertaintyForDouble(newValue)
+                DoubleUtils.uncertaintyForDouble(newValue)
             )
         );
     }
@@ -165,7 +164,7 @@ public abstract class AbstractStatisticalDouble
         return _of(v,
             Math.max(
                 operations.multiplicationUncertainty(v, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()),
-                Utils.uncertaintyForDouble(v)
+                DoubleUtils.uncertaintyForDouble(v)
             )
         );
     }

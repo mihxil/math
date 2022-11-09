@@ -18,7 +18,7 @@ package org.meeuw.math.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.IntegerUtils;
 
 public class PrimeValidator implements ConstraintValidator<Prime, Object> {
 
@@ -33,9 +33,9 @@ public class PrimeValidator implements ConstraintValidator<Prime, Object> {
     public boolean isValid(Object value, ConstraintValidatorContext context) {
         long toValidate = SquareValidator.toLong(value);
         if (power) {
-            return Utils.isPrimePower(toValidate);
+            return IntegerUtils.isPrimePower(toValidate);
         } else {
-            return Utils.isPrime((int) toValidate);
+            return IntegerUtils.isPrime((int) toValidate);
         }
     }
 }

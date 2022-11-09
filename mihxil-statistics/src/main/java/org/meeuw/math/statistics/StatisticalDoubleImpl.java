@@ -21,8 +21,7 @@ import java.math.BigDecimal;
 import java.util.OptionalDouble;
 import java.util.function.DoubleConsumer;
 
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -104,8 +103,8 @@ public class StatisticalDoubleImpl
     public StatisticalDoubleImpl multiply(double d) {
         sum *= d;
         sumOfSquares *= d * d;
-        max = Utils.round(max * d);
-        min = Utils.round(min * d);
+        max = DoubleUtils.round(max * d);
+        min = DoubleUtils.round(min * d);
         return this;
     }
 
@@ -143,7 +142,7 @@ public class StatisticalDoubleImpl
             throw new DivisionByZeroException("Division by zero");
         }
         double value = 1d / getValue();
-        return new UncertainDoubleElement(value, value * getFractionalUncertainty() + Utils.uncertaintyForDouble(value));
+        return new UncertainDoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
 
     @Override

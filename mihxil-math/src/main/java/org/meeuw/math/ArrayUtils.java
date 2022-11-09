@@ -89,7 +89,7 @@ public final class ArrayUtils {
 
     @SafeVarargs
     public static <E> E[][] squareMatrix(Class<E> element, @Square E... matrix) {
-        final int dim = Utils.sqrt(matrix.length);
+        final int dim = IntegerUtils.sqrt(matrix.length);
         final E[][] eMatrix = newMatrix(element, dim, dim);
         for (int i = 0; i < dim; i++) {
             System.arraycopy(matrix, i * dim, eMatrix[i], 0, dim);

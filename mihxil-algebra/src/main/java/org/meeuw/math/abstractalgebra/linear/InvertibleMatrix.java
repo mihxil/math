@@ -16,8 +16,7 @@
 package org.meeuw.math.abstractalgebra.linear;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.ArrayUtils;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -43,7 +42,7 @@ public class InvertibleMatrix<E extends FieldElement<E>>
 
     @SafeVarargs
     public static <E extends FieldElement<E>> InvertibleMatrix<E> of(Field<E> elementStructure, @NonNull @Square(invertible = true) E... matrix) {
-        final int dim = Utils.sqrt(matrix.length);
+        final int dim = IntegerUtils.sqrt(matrix.length);
         GeneralLinearGroup<E> structure = GeneralLinearGroup.of(dim, elementStructure);
         return of(structure, matrix);
     }

@@ -19,8 +19,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
@@ -28,7 +27,7 @@ import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static java.lang.Math.max;
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
@@ -44,8 +43,8 @@ public class RealNumber
     UncertainDouble<RealNumber>
 {
     public static final int EPSILON_FACTOR = 2;
-    public static final double UNCERTAINTY_FOR_ONE = Utils.uncertaintyForDouble(1);
-    public static final double UNCERTAINTY_FOR_ZERO = Utils.uncertaintyForDouble(0);
+    public static final double UNCERTAINTY_FOR_ONE = DoubleUtils.uncertaintyForDouble(1);
+    public static final double UNCERTAINTY_FOR_ZERO = DoubleUtils.uncertaintyForDouble(0);
 
     public static final RealNumber ONE = new RealNumber(1d, 0) {
         @Override
@@ -115,7 +114,7 @@ public class RealNumber
         }
         double newValue = Math.pow(value, exponent);
         return new RealNumber(newValue,
-            uncertainty * (Math.abs(exponent) *  Math.abs(Utils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
+            uncertainty * (Math.abs(exponent) *  Math.abs(DoubleUtils.pow(value, exponent - 1))) +  uncertaintyForDouble(newValue)
         );
     }
 
@@ -135,7 +134,7 @@ public class RealNumber
         double newValue = value / divisor;
         return new RealNumber(
             value / divisor,
-            max(Math.abs(uncertainty / divisor), Utils.uncertaintyForDouble(newValue))
+            max(Math.abs(uncertainty / divisor), DoubleUtils.uncertaintyForDouble(newValue))
         );
     }
 
@@ -232,7 +231,7 @@ public class RealNumber
 
     @Override
     public RealNumber sqrt() {
-        return _of(Math.sqrt(value), max(uncertainty, Utils.uncertaintyForDouble(value)));
+        return _of(Math.sqrt(value), max(uncertainty, DoubleUtils.uncertaintyForDouble(value)));
     }
 
     @Override

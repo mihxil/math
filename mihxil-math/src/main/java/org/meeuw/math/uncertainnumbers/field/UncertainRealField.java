@@ -19,8 +19,7 @@ package org.meeuw.math.uncertainnumbers.field;
 import java.util.Random;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -68,12 +67,12 @@ public class UncertainRealField
 
     @Override
     public UncertainReal pi() {
-        return UncertainDoubleElement.of(Math.PI, Utils.uncertaintyForDouble(Math.PI));
+        return UncertainDoubleElement.of(Math.PI, DoubleUtils.uncertaintyForDouble(Math.PI));
     }
 
     @Override
     public UncertainReal e() {
-        return UncertainDoubleElement.of(Math.E, Utils.uncertaintyForDouble(Math.E));
+        return UncertainDoubleElement.of(Math.E, DoubleUtils.uncertaintyForDouble(Math.E));
     }
 
 }

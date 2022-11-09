@@ -18,8 +18,7 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.validation.Prime;
@@ -43,7 +42,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
 
     private ModuloField(int divisor) throws InvalidElementCreationException {
         super(ModuloFieldElement.class, divisor);
-        if (! Utils.isPrime(divisor)) {
+        if (! IntegerUtils.isPrime(divisor)) {
             throw new InvalidElementCreationException("" + divisor + " is not a prime");
         }
     }

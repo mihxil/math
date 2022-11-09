@@ -24,7 +24,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen

@@ -43,8 +43,6 @@ strictfp class BigDecimalFieldTest implements
     CompleteScalarFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
-
-
     @Test
     public void test() {
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
@@ -75,8 +73,6 @@ strictfp class BigDecimalFieldTest implements
                     of(4_503_599_627_370_496d
                     )).getUncertainty())
             .isCloseTo(new BigDecimal("2.8"), Offset.offset(new BigDecimal("0.1")));
-
-
     }
 
     @Test

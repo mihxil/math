@@ -18,12 +18,12 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Utils;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
-import static org.meeuw.math.Utils.uncertaintyForDouble;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
  * @author Michiel Meeuwissen
@@ -35,7 +35,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public Double getFractionalUncertainty(Double value, Double uncertainty) {
-        double u = Math.max(uncertainty, Utils.uncertaintyForDouble(value));
+        double u = Math.max(uncertainty, DoubleUtils.uncertaintyForDouble(value));
         return u  / (abs(value) + u); // add uncertainty to avoid division by zero.
     }
 
@@ -186,6 +186,6 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
 
     @Override
     public Double roundingUncertainty(Double aDouble) {
-        return Utils.uncertaintyForDouble(aDouble);
+        return DoubleUtils.uncertaintyForDouble(aDouble);
     }
 }
