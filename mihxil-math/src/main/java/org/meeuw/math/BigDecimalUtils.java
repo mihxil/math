@@ -12,6 +12,8 @@ import static ch.obermuhlner.math.big.BigDecimalMath.exp;
  */
 public final class BigDecimalUtils {
 
+    public static final BigDecimal HALF = new BigDecimal("0.5");
+
     private BigDecimalUtils() {}
 
     public static BigDecimal uncertaintyForBigDecimal(BigDecimal bigDecimal, MathContext context) {
@@ -97,5 +99,11 @@ public final class BigDecimalUtils {
         }
         assert e == 0;
         return result;
+    }
+
+    public static BigDecimal sqrt(BigDecimal value, MathContext context) {
+
+        ///return BigDecimalMath.sqrt(value, context); Rounds small values to 0!
+        return pow(value, HALF, context);
     }
 }
