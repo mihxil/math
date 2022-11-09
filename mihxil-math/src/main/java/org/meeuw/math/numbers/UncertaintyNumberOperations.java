@@ -49,7 +49,8 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
                 abs(newValue),
                 sqrt(
                     add(
-                        sqr(fractionUncertainty1), sqr(fractionalUncertainty2)
+                        sqr(fractionUncertainty1),
+                        sqr(fractionalUncertainty2)
                     )
                 ).getValue()
             )

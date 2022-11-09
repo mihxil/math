@@ -5,6 +5,9 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 import java.math.*;
 
 import static ch.obermuhlner.math.big.BigDecimalMath.exp;
+import static ch.obermuhlner.math.big.BigDecimalMath.log10;
+import static java.math.BigDecimal.*;
+import static java.math.RoundingMode.FLOOR;
 
 /**
  *
@@ -19,14 +22,14 @@ public final class BigDecimalUtils {
     public static BigDecimal uncertaintyForBigDecimal(BigDecimal bigDecimal, MathContext context) {
         int scale = bigDecimal.scale();
         if (scale <= 0) { // whole number
-            return BigDecimal.ZERO;
+            return ZERO;
         }
-        if (bigDecimal.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) == 0) {
+        if (bigDecimal.remainder(ONE).compareTo(ZERO) == 0) {
             // an integer too
-            return BigDecimal.ZERO;
+            return ZERO;
         }
 
-        return BigDecimal.ONE.scaleByPowerOfTen(-1 * context.getPrecision()).stripTrailingZeros();
+        return ONE.scaleByPowerOfTen(-1 * context.getPrecision()).stripTrailingZeros();
     }
 
     /**
@@ -46,14 +49,14 @@ public final class BigDecimalUtils {
      *
      *
      */
-    public static final BigDecimal LOG_OF_10 = BigDecimalMath.log(BigDecimal.TEN, MathContext.DECIMAL128);
+    public static final BigDecimal LOG_OF_10 = BigDecimalMath.log(TEN, MathContext.DECIMAL128);
     public static BigDecimal pow(BigDecimal value, BigDecimal exponent, MathContext context) {
         // Handle some special values.
-        if (exponent.equals(BigDecimal.ZERO)) {
-            return BigDecimal.ONE;
+        if (exponent.equals(ZERO)) {
+            return ONE;
         }
-        if (value.equals(BigDecimal.ZERO) && exponent.signum() == 1) {
-            return BigDecimal.ZERO;
+        if (value.equals(ZERO) && exponent.signum() == 1) {
+            return ZERO;
         }
         MathContext mathContext = new MathContext(context.getPrecision() + 6);
         try {
@@ -61,7 +64,7 @@ public final class BigDecimalUtils {
 
             BigDecimal pow =  pow(value, Math.abs(longValue), mathContext);
             if (longValue < 0) {
-                return BigDecimal.ONE.divide(pow, mathContext).round(context);
+                return ONE.divide(pow, mathContext).round(context);
             } else {
                 return pow.round(context);
             }
@@ -69,10 +72,10 @@ public final class BigDecimalUtils {
 		} catch (ArithmeticException ex) {
 			// ignored
 		}
-        BigDecimal y = exponent.multiply(BigDecimalMath.log10(value, mathContext));
+        BigDecimal y = exponent.multiply(log10(value, mathContext));
 
 
-        BigInteger floor = y.setScale(0, RoundingMode.FLOOR).unscaledValue();
+        BigInteger floor = y.setScale(0, FLOOR).unscaledValue();
         BigDecimal rest = y.subtract(new BigDecimal(floor));
 
         BigDecimal powOfRest = pow10(rest, mathContext);
@@ -84,8 +87,8 @@ public final class BigDecimalUtils {
         return exp(exponent.multiply(LOG_OF_10, mathContext), mathContext);
     }
     public static BigDecimal pow(BigDecimal base, long e, MathContext context) {
-        BigDecimal result = BigDecimal.ONE;
-        if (base.equals(BigDecimal.ZERO)) {
+        BigDecimal result = ONE;
+        if (base.equals(ZERO)) {
             return result;
         }
         // branching will make this slow
@@ -103,7 +106,7 @@ public final class BigDecimalUtils {
 
     public static BigDecimal sqrt(BigDecimal value, MathContext context) {
 
-        ///return BigDecimalMath.sqrt(value, context); Rounds small values to 0!
+        //return BigDecimalMath.sqrt(value, context); //Rounds small values to 0!
         return pow(value, HALF, context);
     }
 }

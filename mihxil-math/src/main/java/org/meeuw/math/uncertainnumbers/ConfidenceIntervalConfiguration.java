@@ -30,7 +30,7 @@ public class ConfidenceIntervalConfiguration implements ConfigurationAspect {
     private final float sds;
 
     public ConfidenceIntervalConfiguration() {
-        this(1f);
+        this(2f);
     }
 
     @lombok.Builder

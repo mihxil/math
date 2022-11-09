@@ -119,7 +119,8 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         return new ImmutableUncertainNumber<N>(
             newValue,
             () -> operations().multiplicationUncertainty(
-                newValue, getFractionalUncertainty(),
+                newValue,
+                getFractionalUncertainty(),
                 multiplier.getFractionalUncertainty()
             )
         );

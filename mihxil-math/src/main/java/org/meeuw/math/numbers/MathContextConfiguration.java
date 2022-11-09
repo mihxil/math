@@ -51,7 +51,7 @@ public class MathContextConfiguration implements ConfigurationAspect {
     private final MathContext uncertaintyContext;
 
     public MathContextConfiguration() {
-        this(MathContext.DECIMAL128, null);
+        this(  new MathContext(100), null);
     }
 
     public MathContextConfiguration(MathContext context, MathContext uncertaintyContext) {

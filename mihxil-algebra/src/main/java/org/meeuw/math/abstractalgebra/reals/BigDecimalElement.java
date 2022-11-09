@@ -19,11 +19,14 @@ import java.math.*;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
+import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -169,7 +172,9 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement times(BigDecimalElement multiplier) {
-        return new BigDecimalElement(UncertainNumber.super.times(multiplier));
+        return new BigDecimalElement(
+            UncertainNumber.super.times(multiplier)
+        );
     }
 
     @Override
@@ -206,7 +211,9 @@ public class BigDecimalElement implements
         //return new BigDecimalElement(UncertainNumber.super.reciprocal());
         try {
             BigDecimal newValue = BigDecimal.ONE.divide(value, getStructure().getMathContext());
-            return new BigDecimalElement(newValue, getFractionalUncertainty().multiply(newValue));
+            return new BigDecimalElement(
+                newValue,
+                getFractionalUncertainty().multiply(newValue.abs(), MathContextConfiguration.get().getUncertaintyContext()));
         } catch (ArithmeticException ae) {
             throw new DivisionByZeroException(BigDecimal.ONE, value, ae);
         }
@@ -312,7 +319,7 @@ public class BigDecimalElement implements
         if (o == null || getClass() != o.getClass()) return false;
 
         BigDecimalElement that = (BigDecimalElement) o;
-        return equals(that, 1);
+        return equals(that, Math.round( ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
     }
 
     @Override
