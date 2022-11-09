@@ -34,8 +34,8 @@ class BigDecimalOperationsTest {
 
     @Test
     public void pow() {
-        BigDecimal value = new BigDecimal(2);
-        BigDecimal exponent = new BigDecimal("0.5");
+        BigDecimal value = new BigDecimal(200);
+        BigDecimal exponent = new BigDecimal("-100.1");
         MathContext context = new MathContext(6);
         long count = 10000;
         {
@@ -44,7 +44,7 @@ class BigDecimalOperationsTest {
             for (int i = 0; i < count; i++) {
                 result = powBDM(value, exponent, context);
             }
-            log.info("{}^{}={} ({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
+            log.info("{}^{}={}\n({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }
         {
             BigDecimal result = null;
@@ -52,7 +52,7 @@ class BigDecimalOperationsTest {
             for (int i = 0; i < count; i++) {
                 result = BigDecimalUtils.pow(value, exponent, context);
             }
-            log.info("{}^{}={} ({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
+            log.info("{}^{}={}\n({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }
 
 

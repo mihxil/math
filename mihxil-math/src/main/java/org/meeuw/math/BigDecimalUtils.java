@@ -50,15 +50,41 @@ public final class BigDecimalUtils {
         if (value.equals(BigDecimal.ZERO) && exponent.signum() == 1) {
             return BigDecimal.ZERO;
         }
-
-        BigDecimal y = exponent.multiply(BigDecimalMath.log10(value, context));
+        MathContext mathContext = new MathContext(context.getPrecision() + 2);
+        try {
+			long longValue = exponent.longValueExact();
+			return pow(value, longValue, mathContext);
+		} catch (ArithmeticException ex) {
+			// ignored
+		}
+        BigDecimal y = exponent.multiply(BigDecimalMath.log10(value, mathContext));
 
 
         BigInteger floor = y.setScale(0, RoundingMode.FLOOR).unscaledValue();
         BigDecimal rest = y.subtract(new BigDecimal(floor));
 
-        BigDecimal powOfRest = BigDecimalMath.pow(BigDecimal.TEN, rest, context);
-        BigDecimal pow = powOfRest.movePointRight(floor.intValue());
-        return pow;
+        BigDecimal powOfRest = BigDecimalMath.pow(BigDecimal.TEN, rest, mathContext);
+        BigDecimal pow = powOfRest.scaleByPowerOfTen(floor.intValue());
+        return pow.round(context);
+    }
+
+    public static BigDecimal pow(BigDecimal base, long e, MathContext context) {
+        BigDecimal result = BigDecimal.ONE;
+        if (base.equals(BigDecimal.ZERO)) {
+            return result;
+        }
+        // branching will make this slow
+
+        // Math.pow(base, i); will probably perform better?
+        while (e > 0) {
+            result = result.multiply(base);
+            e--;
+        }
+        while (e < 0) {
+            result = result.divide(base, context);
+            e++;
+        }
+        assert e == 0;
+        return result;
     }
 }
