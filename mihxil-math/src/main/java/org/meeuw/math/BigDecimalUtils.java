@@ -4,8 +4,6 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.*;
 
-import org.meeuw.math.exceptions.IllegalPowerException;
-
 /**
  *
  * @since 0.9
@@ -53,12 +51,8 @@ public final class BigDecimalUtils {
             return BigDecimal.ZERO;
         }
 
-        BigDecimal y;
-        try {
-            y = exponent.multiply(BigDecimalMath.log10(value, context));
-        } catch (ArithmeticException e) {
-            throw new IllegalPowerException(e);
-        }
+        BigDecimal y = exponent.multiply(BigDecimalMath.log10(value, context));
+
 
         BigInteger floor = y.setScale(0, RoundingMode.FLOOR).unscaledValue();
         BigDecimal rest = y.subtract(new BigDecimal(floor));
