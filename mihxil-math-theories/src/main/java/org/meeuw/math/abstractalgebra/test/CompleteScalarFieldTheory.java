@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
-import org.assertj.core.data.Percentage;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -68,6 +67,9 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
         }
 
         E pow = e.pow(exponent);
-        assertThat(pow.doubleValue()).isCloseTo(Math.pow(e.doubleValue(), exponent.doubleValue()), Percentage.withPercentage(0.1));
+        double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
+        assertThat(pow.doubleValue())
+            //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
+            .isCloseTo(expected, offset(100 * Math.max(uncertaintyForDouble(pow.doubleValue()), uncertaintyForDouble(expected))));
     }
 }

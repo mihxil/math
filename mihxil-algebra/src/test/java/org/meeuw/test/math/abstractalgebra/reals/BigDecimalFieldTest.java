@@ -15,17 +15,20 @@
  */
 package org.meeuw.test.math.abstractalgebra.reals;
 
+import java.math.BigDecimal;
 import java.math.MathContext;
 
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.DoubleArbitrary;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,13 +43,15 @@ strictfp class BigDecimalFieldTest implements
     CompleteScalarFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
+
+
     @Test
     public void test() {
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
     }
 
     @Test
-    public void uncertainty() {
+    public void uncertaintyOfDoubles() {
 
         // uncertainty in the double
         assertThat(of(5).getUncertainty()).isEqualTo("1.8E-15");
@@ -55,10 +60,22 @@ strictfp class BigDecimalFieldTest implements
 
         assertThat(of(5e-4).times(5).getUncertainty()).isEqualTo("1.1E-18");
         assertThat(of(4_503_599_627_370_497d).getUncertainty()).isEqualTo("2.0");
-        assertThat(of(4_503_599_627_370_497d).minus(of(4_503_599_627_370_496d)).getUncertainty()).isEqualTo("2.9");
+    }
 
-        // bigdecimals intrinsically know their uncertainty, and can be exact.
+    @Test
+    public void uncertaintyOfBigDecimal() {
+        // BigDecimals intrinsically know their uncertainty, and can be exact.
         assertThat(of("5").getUncertainty()).isEqualTo("0");
+    }
+    @Test
+    public void uncertaintyPropagation() {
+        assertThat(
+            of(4_503_599_627_370_497d)
+                .minus(
+                    of(4_503_599_627_370_496d
+                    )).getUncertainty())
+            .isCloseTo(new BigDecimal("2.8"), Offset.offset(new BigDecimal("0.1")));
+
 
     }
 
@@ -66,7 +83,7 @@ strictfp class BigDecimalFieldTest implements
     public void divisionUncertainty() {
         // by division, exactness gets lost
         BigDecimalElement half = of("1").dividedBy(of("2"));
-        assertThat(half.getUncertainty()).isEqualTo("1E-34"); //
+        assertThat(half.getUncertainty()).isEqualTo("1e-" + BigDecimalOperations.INSTANCE.context().getPrecision()); //
 
     }
 
@@ -95,6 +112,13 @@ strictfp class BigDecimalFieldTest implements
         assertThat(timesItself.equals(e.getStructure().one()))
             .withFailMessage("%s · %s ^ -1 = %s != 1", e, e, timesItself )
             .isTrue();
+    }
+
+    @Test
+    public void pow() {
+        BigDecimalElement base = of(300);
+        BigDecimalElement exponent = of(-30.1);
+        assertThat(base.pow(exponent).doubleValue()).isNotEqualTo(0d);
     }
 
     @Property

@@ -163,7 +163,9 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement cos() {
         UncertainNumber<BigDecimal> cos = operations().cos(value);
-        return new BigDecimalElement(cos.getValue(), uncertainty.max(cos.getUncertainty()));
+        return new BigDecimalElement(cos.getValue(),
+            uncertainty.max(cos.getUncertainty())
+        );
     }
 
     @Override

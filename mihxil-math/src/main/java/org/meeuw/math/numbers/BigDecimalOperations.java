@@ -143,7 +143,9 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     @Override
     public UncertainNumber<BigDecimal> pow(BigDecimal n1, BigDecimal exponent) throws IllegalPowerException {
         try {
-            return uncertain(BigDecimalMath.pow(n1, exponent, context()));
+            return uncertain(
+                BigDecimalMath.pow(n1, exponent, context())
+            );
         } catch (ArithmeticException ae) {
             throw new IllegalPowerException(ae);
         }
@@ -210,11 +212,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
             (mc) -> mc.withContext(uncertaintyContext()), supplier);
     }
 
-    private MathContext context() {
+    public MathContext context() {
         return MathContextConfiguration.get().getContext();
     }
 
-    private MathContext uncertaintyContext() {
+    public MathContext uncertaintyContext() {
         return MathContextConfiguration.get().getUncertaintyContext();
     }
 }

@@ -21,6 +21,7 @@ import java.math.MathContext;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.numbers.MathContextConfiguration;
@@ -69,7 +70,7 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
         A a = new A(valueOf(1), valueOf(0.1));
         UncertainNumber<BigDecimal> quotient = a.dividedBy(valueOf(2));
         assertThat(quotient.getValue()).isEqualTo(valueOf(0.5));
-        assertThat(quotient.getUncertainty()).isEqualTo(valueOf(0.0455));
+        assertThat(quotient.getUncertainty()).isCloseTo(valueOf(0.0455), Offset.offset(valueOf(0.001)));
     }
 
 
