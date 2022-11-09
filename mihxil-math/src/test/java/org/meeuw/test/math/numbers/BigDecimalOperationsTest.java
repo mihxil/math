@@ -8,6 +8,10 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.ParameterizedTest;
+
+import org.junit.jupiter.params.provider.ValueSource;
+
 import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
@@ -32,19 +36,20 @@ class BigDecimalOperationsTest {
         });
     }
 
-    @Test
-    public void pow() {
+    @ParameterizedTest
+    @ValueSource(strings = {"-200", "-150.5", "-2", "-0.5", "0", "0.5", "2", "150.5", "200"})
+    public void pow(String exp) {
         BigDecimal value = new BigDecimal(200);
-        BigDecimal exponent = new BigDecimal("-100.1");
+        BigDecimal exponent = new BigDecimal(exp);
         MathContext context = new MathContext(6);
         long count = 10000;
         {
             BigDecimal result = null;
             long nano = System.nanoTime();
             for (int i = 0; i < count; i++) {
-                result = powBDM(value, exponent, context);
+                result = BigDecimalMath.pow(value, exponent, context);
             }
-            log.info("{}^{}={}\n({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
+            log.info("BigDecimalMath: {}^{}={}\n({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }
         {
             BigDecimal result = null;
@@ -52,20 +57,9 @@ class BigDecimalOperationsTest {
             for (int i = 0; i < count; i++) {
                 result = BigDecimalUtils.pow(value, exponent, context);
             }
-            log.info("{}^{}={}\n({} /calc)", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
+            log.info("BigDecimalUtils: {}^{}={}\n({} /calc)\n", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }
-
-
     }
-
-    /**
-     *
-     */
-    public BigDecimal powBDM(BigDecimal value, BigDecimal exponent, MathContext context) {
-        return BigDecimalMath.pow(value, exponent, context);
-    }
-
-
 
 
 }

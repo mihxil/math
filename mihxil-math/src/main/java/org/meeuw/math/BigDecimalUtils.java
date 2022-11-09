@@ -4,6 +4,8 @@ import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.*;
 
+import static ch.obermuhlner.math.big.BigDecimalMath.exp;
+
 /**
  *
  * @since 0.9
@@ -42,6 +44,7 @@ public final class BigDecimalUtils {
      *
      *
      */
+    public static final BigDecimal LOG_OF_10 = BigDecimalMath.log(BigDecimal.TEN, MathContext.DECIMAL128);
     public static BigDecimal pow(BigDecimal value, BigDecimal exponent, MathContext context) {
         // Handle some special values.
         if (exponent.equals(BigDecimal.ZERO)) {
@@ -50,10 +53,17 @@ public final class BigDecimalUtils {
         if (value.equals(BigDecimal.ZERO) && exponent.signum() == 1) {
             return BigDecimal.ZERO;
         }
-        MathContext mathContext = new MathContext(context.getPrecision() + 2);
+        MathContext mathContext = new MathContext(context.getPrecision() + 6);
         try {
 			long longValue = exponent.longValueExact();
-			return pow(value, longValue, mathContext);
+
+            BigDecimal pow =  pow(value, Math.abs(longValue), mathContext);
+            if (longValue < 0) {
+                return BigDecimal.ONE.divide(pow, mathContext).round(context);
+            } else {
+                return pow.round(context);
+            }
+
 		} catch (ArithmeticException ex) {
 			// ignored
 		}
@@ -63,21 +73,22 @@ public final class BigDecimalUtils {
         BigInteger floor = y.setScale(0, RoundingMode.FLOOR).unscaledValue();
         BigDecimal rest = y.subtract(new BigDecimal(floor));
 
-        BigDecimal powOfRest = BigDecimalMath.pow(BigDecimal.TEN, rest, mathContext);
+        BigDecimal powOfRest = pow10(rest, mathContext);
         BigDecimal pow = powOfRest.scaleByPowerOfTen(floor.intValue());
         return pow.round(context);
     }
 
+    public static BigDecimal pow10(BigDecimal exponent, MathContext mathContext) {
+        return exp(exponent.multiply(LOG_OF_10, mathContext), mathContext);
+    }
     public static BigDecimal pow(BigDecimal base, long e, MathContext context) {
         BigDecimal result = BigDecimal.ONE;
         if (base.equals(BigDecimal.ZERO)) {
             return result;
         }
         // branching will make this slow
-
-        // Math.pow(base, i); will probably perform better?
         while (e > 0) {
-            result = result.multiply(base);
+            result = result.multiply(base, context);
             e--;
         }
         while (e < 0) {
