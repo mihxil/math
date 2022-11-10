@@ -63,8 +63,9 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
         Assume.that(! e.isNegative());
         if (e.isZero()) {
             if (exponent.isNegative()) {
-                assertThatThrownBy(() ->
-                    getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent))
+                assertThatThrownBy(() -> {
+                        getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent));
+                    }
                 ).isInstanceOfAny(IllegalPowerException.class, DivisionByZeroException.class);
                 return;
             }
@@ -75,7 +76,7 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
         assertThat(pow.doubleValue())
             //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
             .isCloseTo(expected, offset(
-                Math.max(
+                1000 * Math.max(
                     uncertaintyForDouble(pow.doubleValue()),
                     uncertaintyForDouble(expected)))
             );

@@ -51,6 +51,10 @@ public final class BigDecimalUtils {
      */
     public static final BigDecimal LOG_OF_10 = BigDecimalMath.log(TEN, MathContext.DECIMAL128);
     public static BigDecimal pow(BigDecimal value, BigDecimal exponent, MathContext context) {
+        return BigDecimalMath.pow(value, exponent, context);
+    }
+
+    public static BigDecimal _pow(BigDecimal value, BigDecimal exponent, MathContext context) {
         // Handle some special values.
         if (exponent.equals(ZERO)) {
             return ONE;
