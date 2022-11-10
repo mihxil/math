@@ -15,7 +15,7 @@ import static java.math.RoundingMode.FLOOR;
  */
 public final class BigDecimalUtils {
 
-    public static final BigDecimal HALF = new BigDecimal("0.5");
+    public static final BigDecimal ONE_HALF = new BigDecimal("0.5");
 
     private BigDecimalUtils() {}
 
@@ -47,7 +47,7 @@ public final class BigDecimalUtils {
      * Then {@code x^ b = 10 ^ rest}, with point shifted {@code floor} places to the right.
      * </p>
      *
-     *
+     * TODO. The whole issue seems to have been caused by https://github.com/eobermuhlner/big-math/issues/61, I think all this can be dropped again.
      */
     public static final BigDecimal LOG_OF_10 = BigDecimalMath.log(TEN, MathContext.DECIMAL128);
     public static BigDecimal pow(BigDecimal value, BigDecimal exponent, MathContext context) {
@@ -112,6 +112,6 @@ public final class BigDecimalUtils {
     public static BigDecimal sqrt(BigDecimal value, MathContext context) {
 
         //return BigDecimalMath.sqrt(value, context); //Rounds small values to 0!
-        return pow(value, HALF, context);
+        return pow(value, ONE_HALF, context);
     }
 }

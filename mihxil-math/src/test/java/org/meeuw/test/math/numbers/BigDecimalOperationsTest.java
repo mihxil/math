@@ -66,7 +66,18 @@ class BigDecimalOperationsTest {
 	@Test
 	public void testPowLargeNegative() {
 		BigDecimal pow = BigDecimalMath.pow(new BigDecimal("200"), new BigDecimal("-200"), new MathContext(6));
-		System.out.println("" + pow);
+
+        assertThat(pow).isEqualTo("6.22302E-461");
+
+
+    }
+
+    @Test
+	public void testSqrt() {
+		BigDecimal sqrt = BigDecimalMath.sqrt(new BigDecimal("1.23e-160"), new MathContext(6));
+
+        assertThat(sqrt).isEqualTo("1.10905E-80");
+
 
     }
 
