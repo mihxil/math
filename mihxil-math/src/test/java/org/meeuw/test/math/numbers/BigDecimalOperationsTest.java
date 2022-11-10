@@ -39,9 +39,9 @@ class BigDecimalOperationsTest {
     @ParameterizedTest
     @ValueSource(strings = {"-200", "-150.5", "-2", "-0.5", "0", "0.5", "2", "150.5", "200"})
     public void pow(String exp) {
-        BigDecimal value = new BigDecimal(200);
-        BigDecimal exponent = new BigDecimal(exp);
-        MathContext context = new MathContext(6);
+        final BigDecimal value = new BigDecimal("200");
+        final BigDecimal exponent = new BigDecimal(exp);
+        final MathContext context = new MathContext(6);
         long count = 10000;
         {
             BigDecimal result = null;
@@ -59,6 +59,15 @@ class BigDecimalOperationsTest {
             }
             log.info("BigDecimalUtils: {}^{}={}\n({} /calc)\n", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }
+    }
+
+
+
+	@Test
+	public void testPowLargeNegative() {
+		BigDecimal pow = BigDecimalMath.pow(new BigDecimal("200"), new BigDecimal("-200"), new MathContext(6));
+		System.out.println("" + pow);
+
     }
 
 

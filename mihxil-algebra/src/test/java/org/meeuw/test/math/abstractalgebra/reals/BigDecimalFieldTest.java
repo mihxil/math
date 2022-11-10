@@ -117,6 +117,8 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement base = of(300);
         BigDecimalElement exponent = of(-30.1);
         assertThat(base.pow(exponent).doubleValue()).isNotEqualTo(0d);
+
+
     }
 
     @Property
