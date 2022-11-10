@@ -34,7 +34,7 @@ public final class BigDecimalUtils {
 
     /**
      * An alternative implementation of {@link BigDecimalMath#pow(BigDecimal, BigDecimal, MathContext)}
-     * I think this preserver the precision better.
+     * I think this preserves the precision better, and will also work for large negative powers.
      * <p>
      * It will correctly calculate things like {@code 200^-50} whereas {@link BigDecimalMath#pow} will make that {@code 0}
      * <pre>
@@ -104,6 +104,11 @@ public final class BigDecimalUtils {
         return result;
     }
 
+    /**
+     * Similarly {@link BigDecimalMath#sqrt(BigDecimal, MathContext)} has a problem with the square root of very small numbers. They will result zero.
+     * <p>
+     * This doesn't.
+     */
     public static BigDecimal sqrt(BigDecimal value, MathContext context) {
 
         //return BigDecimalMath.sqrt(value, context); //Rounds small values to 0!
