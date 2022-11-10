@@ -111,7 +111,8 @@ public final class BigDecimalUtils {
      */
     public static BigDecimal sqrt(BigDecimal value, MathContext context) {
 
-        //return BigDecimalMath.sqrt(value, context); //Rounds small values to 0!
-        return pow(value, ONE_HALF, context);
+        return BigDecimalMath.sqrt(value, context);
+        ////Rounds small values to 0!
+        //return pow(value, ONE_HALF, context);
     }
 }
