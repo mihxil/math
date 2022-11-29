@@ -69,12 +69,12 @@ class SITest {
     public void prefixes(Prefix startPoint) {
         Optional<? extends Prefix> prefix = startPoint.inc();
         while (prefix.isPresent()) {
-            log.info("{}: {} ", prefix.get(), prefix.get().getAsDouble());
+            log.info("{}: {} ({})", prefix.get(), prefix.get().getAsDouble(), prefix.get().getPrefixName());
             prefix = prefix.get().inc();
         }
         prefix = startPoint.dec();
         while (prefix.isPresent()) {
-            log.info("{}: {} ", prefix.get(), prefix.get().getAsDouble());
+            log.info("{}: {} ({})", prefix.get(), prefix.get().getAsDouble(), prefix.get().getPrefixName());
             prefix = prefix.get().dec();
         }
     }

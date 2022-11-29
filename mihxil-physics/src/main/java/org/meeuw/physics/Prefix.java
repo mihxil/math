@@ -15,8 +15,10 @@
  */
 package org.meeuw.physics;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
 
 /**
  * Multiplication prefix that can be used on a {@link Unit}, to get a new {@code code} that differs a certain factor only, but has the same {@link DimensionalAnalysis}
@@ -24,7 +26,7 @@ import java.util.function.DoubleSupplier;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Prefix extends DoubleSupplier {
+public interface Prefix extends DoubleSupplier, Supplier<BigDecimal> {
 
     Optional<? extends Prefix> times(Prefix prefix);
 
@@ -38,5 +40,12 @@ public interface Prefix extends DoubleSupplier {
 
     @Override
     String toString();
+
+    String getPrefixName();
+
+    @Override
+    default double getAsDouble() {
+        return get().doubleValue();
+    }
 
 }

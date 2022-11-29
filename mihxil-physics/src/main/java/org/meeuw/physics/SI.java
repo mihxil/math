@@ -17,11 +17,12 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
@@ -57,32 +58,37 @@ public class SI implements SystemOfMeasurements {
 
     public enum BinaryPrefix implements Prefix {
 
-        none(BigInteger.ONE, ""),
-        Ki(BigInteger.valueOf(1024)),
-        Mi(Ki.factor.multiply(Ki.factor)),
-        Gi(Ki.factor.multiply(Mi.factor)),
-        Ti(Ki.factor.multiply(Gi.factor)),
-        Pi(Ki.factor.multiply(Ti.factor)),
-        Ei(Ki.factor.multiply(Pi.factor)),
-        Zi(Ki.factor.multiply(Ei.factor)),
-        Yi(Ki.factor.multiply(Zi.factor))
+        none(BigInteger.ONE, "", "none"),
+        Ki(BigInteger.valueOf(1024), "kibi"),
+        Mi(Ki.factor.multiply(Ki.factor), "mebi"),
+        Gi(Ki.factor.multiply(Mi.factor), "gibi"),
+        Ti(Ki.factor.multiply(Gi.factor), "tebi"),
+        Pi(Ki.factor.multiply(Ti.factor), "pebi"),
+        Ei(Ki.factor.multiply(Pi.factor), "exbi"),
+        Zi(Ki.factor.multiply(Ei.factor), "zebi"),
+        Yi(Ki.factor.multiply(Zi.factor), "yobi")
         ;
 
         private final BigInteger factor;
         private final String string;
 
-        BinaryPrefix(BigInteger factor) {
+        @Getter
+        private final String prefixName;
+
+        BinaryPrefix(BigInteger factor, String prefixName) {
             this.factor = factor;
             this.string = name();
+            this.prefixName = prefixName;
         }
-        BinaryPrefix(BigInteger factor, String string) {
+        BinaryPrefix(BigInteger factor, String string, String prefixName) {
             this.factor = factor;
             this.string = string;
+            this.prefixName = prefixName;
         }
 
         @Override
-        public double getAsDouble() {
-            return factor.doubleValue();
+        public BigDecimal get() {
+            return new BigDecimal(factor);
         }
 
         @Override
@@ -131,54 +137,65 @@ public class SI implements SystemOfMeasurements {
     }
 
     public enum DecimalPrefix implements Prefix {
-        y(-24),
-        z(-21),
-        a(-18),
-        f(-15),
-        p(-12),
-        n(-9),
-        μ(-6),
-        m(-3),
-        c(-2),
-        d(-1),
-        da(1),
-        none(0, ""),
-        h(2),
-        k(3),
-        M(6),
-        G(9),
-        T(12),
-        P(15),
-        E(18),
-        Z(21),
-        Y(24);
+        q(-30, "quecto"),
+        r(-27, "ronto"),
+        y(-24, "yocto"),
+        z(-21, "zepto"),
+        a(-18, "atto"),
+        f(-15, "femto"),
+        p(-12, "pico"),
+        n(-9, "nano"),
+        μ(-6, "micro"),
+        m(-3, "milli"),
+        c(-2, "centi"),
+        d(-1, "deci"),
+        none(0, "", "none"),
+        da(1, "deca"),
+        h(2, "hecto"),
+        k(3, "kilo"),
+        M(6, "mega"),
+        G(9, "giga"),
+        T(12, "tera"),
+        P(15, "peta"),
+        E(18, "exa"),
+        Z(21, "zetta"),
+        Y(24, "yotta"),
+        R(27, "ronna"),
+        Q(30, "quetta")
+        ;
         //        public static final BigInteger Z = BigInteger.valueOf(E).multiply(BigInteger.valueOf(1000));
         //public static final BigInteger Y = Z.multiply(BigInteger.valueOf(1000));
 
-        final double doubleValue;
+        final BigDecimal decimalValue;
 
         @Getter
         final int pow;
 
         final String string;
 
-        DecimalPrefix(int pow, String string) {
+        @Getter
+        final String prefixName;
+
+        DecimalPrefix(int pow, String string, String prefixName) {
             this.pow = pow;
-            doubleValue = DoubleUtils.pow10(pow);
+            decimalValue = BigDecimalUtils.pow10(pow);
             this.string = string;
+            this.prefixName = prefixName;
         }
 
-        DecimalPrefix(int pow) {
+        DecimalPrefix(int pow, String prefixName) {
             this.pow = pow;
-            doubleValue = DoubleUtils.pow10(pow);
+            decimalValue = BigDecimalUtils.pow10(pow);
             this.string = name();
+            this.prefixName = prefixName;
         }
 
 
         @Override
-        public double getAsDouble() {
-            return doubleValue;
+        public BigDecimal get() {
+            return decimalValue;
         }
+
 
         @Override
         public Optional<DecimalPrefix> times(Prefix prefix) {

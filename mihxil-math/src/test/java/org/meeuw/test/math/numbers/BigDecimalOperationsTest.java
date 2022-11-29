@@ -3,16 +3,14 @@ package org.meeuw.test.math.numbers;
 import ch.obermuhlner.math.big.BigDecimalMath;
 import lombok.extern.log4j.Log4j2;
 
-import java.math.*;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.Duration;
 
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.params.ParameterizedTest;
-
 import org.junit.jupiter.params.provider.ValueSource;
 
-import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
@@ -55,7 +53,7 @@ class BigDecimalOperationsTest {
             BigDecimal result = null;
             long nano = System.nanoTime();
             for (int i = 0; i < count; i++) {
-                result = BigDecimalUtils.pow(value, exponent, context);
+                result = BigDecimalMath.pow(value, exponent, context);
             }
             log.info("BigDecimalUtils: {}^{}={}\n({} /calc)\n", value, exponent, result, Duration.ofNanos(System.nanoTime() - nano).dividedBy(count));
         }

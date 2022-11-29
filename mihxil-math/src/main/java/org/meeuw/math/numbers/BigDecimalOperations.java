@@ -145,7 +145,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public UncertainNumber<BigDecimal> pow(BigDecimal n1, BigDecimal exponent) throws IllegalPowerException {
         try {
             return uncertain(
-                BigDecimalUtils.pow(n1, exponent, context())
+                BigDecimalMath.pow(n1, exponent, context())
             );
         } catch (ArithmeticException ae) {
             throw new IllegalPowerException(BasicAlgebraicBinaryOperator.POWER.stringify(n1.toString(), exponent.toString()),  ae);
