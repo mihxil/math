@@ -22,9 +22,9 @@ import java.math.BigInteger;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
+import static org.meeuw.math.BigDecimalUtils.pow10;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Quantity.*;
 import static org.meeuw.physics.SIUnit.*;
@@ -178,24 +178,22 @@ public class SI implements SystemOfMeasurements {
 
         DecimalPrefix(int pow, String string, String prefixName) {
             this.pow = pow;
-            decimalValue = BigDecimalUtils.pow10(pow);
+            this.decimalValue = pow10(pow);
             this.string = string;
             this.prefixName = prefixName;
         }
 
         DecimalPrefix(int pow, String prefixName) {
             this.pow = pow;
-            decimalValue = BigDecimalUtils.pow10(pow);
+            this.decimalValue = pow10(pow);
             this.string = name();
             this.prefixName = prefixName;
         }
-
 
         @Override
         public BigDecimal get() {
             return decimalValue;
         }
-
 
         @Override
         public Optional<DecimalPrefix> times(Prefix prefix) {
@@ -304,7 +302,6 @@ public class SI implements SystemOfMeasurements {
      * 8 bits. Often also simply called 'byte' (but that traditionally was architecture dependent).
      */
     public static final DerivedUnit octet = bit.times(8).withName("Byte").withDescription("8 bit octet");
-
 
 
 }

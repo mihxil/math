@@ -61,7 +61,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public UncertainNumber<BigDecimal> sqrt(BigDecimal radicand) {
         //return uncertain(radicand.sqrt(mathContext)); // java 9
         try {
-            return uncertain(BigDecimalUtils.sqrt(radicand, context()));
+            return uncertain(BigDecimalMath.sqrt(radicand, context()));
         } catch (ArithmeticException arithmeticException) {
             throw new IllegalSqrtException(arithmeticException);
         }

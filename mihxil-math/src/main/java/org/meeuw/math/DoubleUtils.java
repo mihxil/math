@@ -7,7 +7,7 @@ public final class DoubleUtils {
     private DoubleUtils() {}
 
     /**
-     * Returns 10 to the power e, a utility in java.lang.Math for that lacks.
+     * Returns 10 to the power of some integer {@code e}, a utility in java.lang.Math for that lacks.
      * @param e the exponent
      * @return 10<sup>e</sup>
      */
@@ -16,7 +16,7 @@ public final class DoubleUtils {
     }
 
     /**
-     * Returns 2 to the power e, a utility in java.lang.Math for that lacks.
+     * Returns 2 to the power of some integer {@code e}, a utility in java.lang.Math for that lacks.
      * @param e the exponent
      * @return 2<sup>e</sup>
      */
@@ -25,7 +25,7 @@ public final class DoubleUtils {
     }
 
     /**
-     * Returns base to the power e, using integer operations only.
+     * Returns {@code base} to the power {@code e}, using integer operations only.
      *
      * @param base the base
      * @param e the exponent
