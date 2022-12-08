@@ -3,9 +3,9 @@ package org.meeuw.math;
 import java.time.*;
 
 /**
- * A clock that ticks uniquely. Every call to {@link #instant()} will be a time later than the previous call to it.
+ * A clock that ticks uniquely. Every call to {@link #instant()} will be a time after the previous call to it.
  * <p>
- * If no nanosecond has passed since the previous call, an extra nanosecond will be implicititely added.
+ * If no nanosecond has passed since the previous call, an extra nanosecond will be implicitly added.
  *
  * @author Michiel Meeuwissen
  */
