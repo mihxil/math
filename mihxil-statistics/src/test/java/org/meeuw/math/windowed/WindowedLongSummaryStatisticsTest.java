@@ -22,8 +22,7 @@ import java.util.LongSummaryStatistics;
 
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.TestClock;
-import org.meeuw.math.windowed.WindowedLongSummaryStatistics;
+import org.meeuw.math.time.TestClock;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 

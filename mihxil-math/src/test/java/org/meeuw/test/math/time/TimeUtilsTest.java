@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math;
+package org.meeuw.test.math.time;
 
 import java.time.Duration;
 import java.time.ZoneId;
@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import org.meeuw.math.TimeUtils;
+import org.meeuw.math.time.TimeUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

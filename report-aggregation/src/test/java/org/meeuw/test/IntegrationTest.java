@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.TestClock;
+import org.meeuw.math.time.TestClock;
 import org.meeuw.math.statistics.StatisticalDoubleImpl;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.physics.*;

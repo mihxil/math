@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.PolyNull;
-import org.meeuw.math.TimeUtils;
+import org.meeuw.math.time.TimeUtils;
 
 /**
  * @author Michiel Meeuwissen

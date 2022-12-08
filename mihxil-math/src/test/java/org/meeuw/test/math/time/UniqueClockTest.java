@@ -1,11 +1,11 @@
-package org.meeuw.test.math;
+package org.meeuw.test.math.time;
 
 import java.time.*;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.TestClock;
-import org.meeuw.math.UniqueClock;
+import org.meeuw.math.time.TestClock;
+import org.meeuw.math.time.UniqueClock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

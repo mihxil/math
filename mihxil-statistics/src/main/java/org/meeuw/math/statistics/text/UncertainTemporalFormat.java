@@ -29,6 +29,7 @@ import org.meeuw.math.temporal.UncertainTemporal;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
+import org.meeuw.math.time.TimeUtils;
 
 /**
  * @author Michiel Meeuwissen

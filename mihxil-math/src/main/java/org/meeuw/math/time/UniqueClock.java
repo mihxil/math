@@ -1,4 +1,4 @@
-package org.meeuw.math;
+package org.meeuw.math.time;
 
 import java.time.*;
 
@@ -8,6 +8,7 @@ import java.time.*;
  * If no nanosecond has passed since the previous call, an extra nanosecond will be implicitly added.
  *
  * @author Michiel Meeuwissen
+ * @since 0.10
  */
 public class UniqueClock extends Clock {
 

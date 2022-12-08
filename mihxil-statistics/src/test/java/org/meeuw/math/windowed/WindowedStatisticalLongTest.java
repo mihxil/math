@@ -24,7 +24,7 @@ import java.util.function.BiConsumer;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.TestClock;
+import org.meeuw.math.time.TestClock;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.temporal.UncertainTemporal;

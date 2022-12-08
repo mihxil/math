@@ -20,10 +20,10 @@ import lombok.extern.log4j.Log4j2;
 import java.time.Duration;
 import java.util.DoubleSummaryStatistics;
 
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
-import org.meeuw.math.TestClock;
-import org.meeuw.math.windowed.WindowedDoubleSummaryStatistics;
+import org.assertj.core.data.Offset;
+
+import org.meeuw.math.time.TestClock;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
