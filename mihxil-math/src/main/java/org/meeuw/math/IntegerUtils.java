@@ -228,6 +228,11 @@ public class IntegerUtils {
         return gcdByEuclidsAlgorithm(n1, n2);
     }
 
+    public static int gcd(int n1, int n2) {
+        return (int) gcdByEuclidsAlgorithm(n1, n2);
+    }
+
+
     public static long factorial(@Min(0) int value) {
         if (value < 0) {
             throw new InvalidFactorial("Cannot take factorial of negative");
