@@ -108,8 +108,8 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
 
     /**
      * The current maximal index in a spliterator. If all combinations with this value are exhausted it will be increased
-     *
-     * We start at minus one, which is exhausted, and it well be increased to 0, which should result in exactly one
+     * <p>
+     * We start at minus one, which is exhausted, and it will be increased to 0, which should result in exactly one
      * combination (consisting of all first elements of the provided spliterators)
      */
     int currentLimit = -1; // not yet started
@@ -124,7 +124,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
     final long initiallyRemaining;
 
     /**
-     * The number of remaining elements to return
+     * The number of remaining elements to return (may be {@link Long#MAX_VALUE} for infinite streams)
      */
     long remaining;
 
@@ -140,7 +140,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
 
     /**
      * If for a certain position it is its turn to contain the limit value, its value will be gotton from the 'limit iterators'.
-     *
+     * <p>
      * These are only advanced, nevery reassigned.
      */
     final Spliterator<? extends E>[] limitIterators;
@@ -148,7 +148,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
 
     /**
      * The array used to calculate new items. This is updated in every {@link #tryAdvance(Consumer)}.
-     *
+     * <p>
      * A copy is created by {@link #copyOfCurrent()}
      */
     final Object[] current;
@@ -191,7 +191,15 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
         remaining = size > 0 ? 1 : 0; // unless no iterators, then the combine one results zero
         for (int i = 0; i < size; i++) {
             limitIterators[i] = this.generators[i].get();
-            remaining *= limitIterators[i].estimateSize();
+            long subSize = limitIterators[i].estimateSize();
+            if (subSize == 0) {
+                return 0;
+            }
+            try {
+                remaining = Math.multiplyExact(subSize, remaining);
+            } catch (ArithmeticException oe) {
+                remaining = Long.MAX_VALUE;
+            }
         }
         return remaining;
     }
@@ -221,11 +229,11 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
 
     /**
      * Tries to advance the value of the element at given index
-     *
+     * <p>
      * If this is impossible, either because the underlying spliterator is at its end,
      * or if it limited by the current value of {@link #currentLimit}, the value of this
      * will be reset and the incrementation will be 'carried'.
-     *
+     * <p>
      * This can be called recursively. In case a certain iterator is 'exhausted', advancing will be 'carried' to
      * the next one.
      *
@@ -377,6 +385,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
     @Override
     public Spliterator<E[]> trySplit() {
         // TODO, may be it _can_ be split
+
         return null; // cannot be split
     }
 
@@ -423,7 +432,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
 
 
     /**
-     * Borrowed from https://stackoverflow.com/questions/9797212/finding-the-nearest-common-superclass-or-superinterface-of-a-collection-of-classes
+     * Borrowed from <a href="https://stackoverflow.com/questions/9797212/finding-the-nearest-common-superclass-or-superinterface-of-a-collection-of-classes">stackoverflow</a>
      */
     private static Deque<Class<?>> commonSuperClass(List<Class<?>> classes) {
         // start off with set from first hierarchy

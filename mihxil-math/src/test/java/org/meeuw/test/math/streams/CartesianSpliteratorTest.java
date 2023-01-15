@@ -25,6 +25,10 @@ import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.ParameterizedTest;
+
+import org.junit.jupiter.params.provider.ValueSource;
+
 import org.meeuw.math.streams.CartesianSpliterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,7 +53,7 @@ class CartesianSpliteratorTest {
 
     /**
      * The edge case of only one spliterator.
-     *
+     * <p>
      * This should simply be exactly like this iterator itself.
      */
     @Test
@@ -201,12 +205,14 @@ class CartesianSpliteratorTest {
         testEnd(cartesianSpliterator);
     }
 
-    @Test
-    public void infiniteStreams() {
+    @ParameterizedTest()
+    @ValueSource(ints = {2, 3, 4})
+    public void infiniteStreams(int dim) {
         Supplier<Spliterator<? extends Integer>> iterate = () -> Stream.iterate(1, i -> i + 2).spliterator();
         CartesianSpliterator<Integer> cartesianSpliterator =
-            new CartesianSpliterator<>(iterate, 3);
+            new CartesianSpliterator<>(iterate, dim);
         final List<Integer[]> result = new ArrayList<>();
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
         StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
             log.info("{}", Arrays.asList(a));
             result.add(a);
