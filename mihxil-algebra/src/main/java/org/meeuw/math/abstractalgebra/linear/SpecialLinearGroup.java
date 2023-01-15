@@ -27,15 +27,14 @@ import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.Randomizable;
 
 
 /**
  * As long as division is not required for inversion, a general linear group can also be defined on a {@link Ring}.
- *
- * This requirement boils down to the fact that the {@link AbstractInvertibleMatrix#determinant()} is plus or minus one.
+ * <p>
+ * This requirement boils down to the {@link AbstractInvertibleMatrix#determinant()} to be plus or minus one.
+ * @param <E>  The type of elements of the {@link SpecialLinearMatrix} that are elements of this group.
  */
 public class SpecialLinearGroup<E extends RingElement<E>> extends
     AbstractGeneralLinearGroup<
@@ -89,8 +88,8 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
 
     @Override
     public Stream<SpecialLinearMatrix<E>> stream() {
-        //return super.stream();
-        throw new NotStreamable("TODO");
+        return super.stream();
+        //throw new NotStreamable("TODO");
     }
 
 

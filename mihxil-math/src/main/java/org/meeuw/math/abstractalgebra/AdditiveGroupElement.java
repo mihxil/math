@@ -16,13 +16,16 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * An element for the algebraic 'group' (where the operation is addition)
+ * An element for the algebraic {@link AdditiveGroup group}  (where the operation is addition)
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E> Self type
  */
 public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
-    extends AdditiveMonoidElement<E>, GroupElement<E> {
+    extends
+    AdditiveMonoidElement<E>,
+    GroupElement<E> {
 
     @Override
     AdditiveGroup<E> getStructure();

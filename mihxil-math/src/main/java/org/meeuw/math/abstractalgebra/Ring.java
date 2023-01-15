@@ -26,6 +26,7 @@ import static org.meeuw.math.ArrayUtils.minor;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E>
  */
 public interface Ring<E extends RingElement<E>> extends Rng<E> {
 

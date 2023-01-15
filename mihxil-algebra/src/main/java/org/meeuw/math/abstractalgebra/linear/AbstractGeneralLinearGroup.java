@@ -32,6 +32,7 @@ import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.Square;
 
 import static org.meeuw.math.ArrayUtils.squareMatrix;
+import static org.meeuw.math.abstractalgebra.Cardinality.ALEPH_0;
 
 @Log
 public abstract class AbstractGeneralLinearGroup<
@@ -66,20 +67,20 @@ public abstract class AbstractGeneralLinearGroup<
     @SuppressWarnings("unchecked")
     @Override
     public Stream<M> stream() {
-        if (elementStructure.getCardinality().compareTo(Cardinality.ALEPH_0) <=0) {
+        if (elementStructure.getCardinality().compareTo(ALEPH_0) <=0) {
             return StreamUtils.cartesianStream(() -> ((Streamable<E>) elementStructure).stream(), dimension * dimension)
                 .map(es -> {
                     try {
                         return newElement(es);
                     } catch (InvalidElementCreationException ive) {
-                        log.info(() -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
+                        log.fine(() -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
                         return null;
                     }
                     }
                 )
                 .filter(Objects::nonNull);
         } else {
-            throw new NotStreamable();
+            throw new NotStreamable("No streamable because cardinality of " + elementStructure + " > " + ALEPH_0);
         }
     }
 

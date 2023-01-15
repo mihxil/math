@@ -29,6 +29,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @see MultiplicativeGroup For a group where the operation is explicitely called 'multiplication'
  * @see AdditiveGroup       For a group where the operation is 'addition'.
  * @since 0.8
+ * @param <E> type of the elements. (Extensions of) {@link GroupElement}
  */
 public interface Group<E extends GroupElement<E>> extends Magma<E>, Element {
 

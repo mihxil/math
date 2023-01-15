@@ -20,6 +20,7 @@ package org.meeuw.math.abstractalgebra;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E> Self type
  */
 public interface RngElement<E extends RngElement<E>> extends
     AdditiveGroupElement<E>,

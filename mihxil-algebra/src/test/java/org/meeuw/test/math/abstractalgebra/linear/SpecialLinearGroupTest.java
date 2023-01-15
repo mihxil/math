@@ -20,7 +20,7 @@ import jakarta.validation.executable.ExecutableValidator;
 import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
-import java.util.Set;
+import java.util.*;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -95,14 +95,23 @@ public class SpecialLinearGroupTest {
         }).isInstanceOf(InvalidElementCreationException.class).hasMessage("The matrix ((1,2,3),(2,4,6),(0,4,6)) is not invertible. Its determinant is zero");
     }
 
-    //@Test  //TODO
+    @Test
     public void stream() {
         SpecialLinearGroup<IntegerElement> e = SpecialLinearGroup.of(3, Integers.INSTANCE);
-        e.stream().limit(100).forEach(m -> {
+        Set<SpecialLinearMatrix<IntegerElement>> collect = new HashSet<>();
+        int limit = 100_000;
+        e.stream().limit(limit).forEach(m -> {
             IntegerElement det = m.determinant();
-            log.info("det({})={}", m, det);
+            if (collect.size() % 1000 == 0) {
+                log.info("det({})={}", m, det);
+            } else {
+                log.debug("det({})={}", m, det);
+            }
+
             assertThat(m.determinant().abs()).isIn(IntegerElement.ONE);
+            assertThat(collect.add(m)).isTrue();
         });
+        assertThat(collect).hasSize(limit);
     }
 
     @Test
