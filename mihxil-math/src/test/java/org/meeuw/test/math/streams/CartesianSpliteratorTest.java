@@ -19,14 +19,13 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.*;
 
 import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.params.ParameterizedTest;
-
 import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.math.streams.CartesianSpliterator;
@@ -205,16 +204,51 @@ class CartesianSpliteratorTest {
         testEnd(cartesianSpliterator);
     }
 
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void threeSplit(boolean parallel) {
+        final List<Integer> values = Arrays.asList(1, 2, 3);
+        AtomicLong size = new AtomicLong(0);
+        CartesianSpliterator<Integer> cartesianSpliterator =
+            new CartesianSpliterator<>(Integer.class, values::spliterator,  values::spliterator, values::spliterator);
+        StreamSupport.stream(cartesianSpliterator, parallel).forEach(e -> {
+            log.info("{} ({})", e, Thread.currentThread().getName());
+            size.incrementAndGet();
+            }
+        );
+        assertThat(size).hasValue(27);
+    }
+
     @ParameterizedTest()
     @ValueSource(ints = {2, 3, 4})
     public void infiniteStreams(int dim) {
-        Supplier<Spliterator<? extends Integer>> iterate = () -> Stream.iterate(1, i -> i + 2).spliterator();
+        // just streams of odd integers.
+        Supplier<Spliterator<? extends Integer>> iterate =
+            () -> Stream.iterate(1, i -> i + 2).spliterator();
         CartesianSpliterator<Integer> cartesianSpliterator =
             new CartesianSpliterator<>(iterate, dim);
         final List<Integer[]> result = new ArrayList<>();
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
         StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
             log.info("{}", Arrays.asList(a));
+            result.add(a);
+            }
+        );
+        assertThat(result).doesNotHaveDuplicates();
+    }
+
+    @ParameterizedTest()
+    @ValueSource(ints = {2, 3, 4})
+    public void infiniteStreamSplit(int dim) {
+        // just streams of odd integers.
+        Supplier<Spliterator<? extends Integer>> iterate =
+            () -> Stream.iterate(1, i -> i + 2).spliterator();
+        CartesianSpliterator<Integer> cartesianSpliterator =
+            new CartesianSpliterator<>(iterate, dim);
+        final List<Integer[]> result = new ArrayList<>();
+        assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
+        StreamSupport.stream(cartesianSpliterator, true).limit(100).forEach(a -> {
+            log.info("{} ({})", Arrays.asList(a), Thread.currentThread().getName());
             result.add(a);
             }
         );
