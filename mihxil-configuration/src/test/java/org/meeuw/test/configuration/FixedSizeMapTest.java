@@ -45,6 +45,43 @@ class FixedSizeMapTest {
 
         assertThat(fixed.toString()).isEqualTo("{a=2, b=1}");
 
+        assertThatThrownBy(() -> fixed.remove("a")).isInstanceOf(UnsupportedOperationException.class);
     }
 
+    @Test
+    public void testWithKeys() {
+
+        FixedSizeMap<String, Integer> fixed = new FixedSizeMap<>("a", "b");
+        fixed.put("a", 1);
+        fixed.put("b", 1);
+
+        assertThatThrownBy(() -> fixed.put("c", 3)).isInstanceOf(UnsupportedOperationException.class);
+
+        fixed.put("a", 2);
+        assertThat(fixed.size()).isEqualTo(2);
+        assertThat(fixed.get("a")).isEqualTo(2);
+
+        assertThat(fixed.toString()).isEqualTo("{a=2, b=1}");
+    }
+
+
+
+    @Test
+    public void testOf() {
+
+        FixedSizeMap<String, Integer> fixed = FixedSizeMap.of("a", 1,  "b", 1);
+        fixed.put("a", 3);
+
+        assertThatThrownBy(() -> fixed.put("c", 3)).isInstanceOf(UnsupportedOperationException.class);
+
+        fixed.put("a", 2);
+        assertThat(fixed.size()).isEqualTo(2);
+        assertThat(fixed.get("a")).isEqualTo(2);
+
+        assertThat(fixed.toString()).isEqualTo("{a=2, b=1}");
+
+        assertThatThrownBy(() -> FixedSizeMap.of("a", 1, "b", 2, "c")).isInstanceOf(IndexOutOfBoundsException.class);
+        assertThatThrownBy(() -> FixedSizeMap.of("a", 1, 2, "b")).isInstanceOf(ClassCastException.class);
+        assertThatThrownBy(() -> FixedSizeMap.of("a", 1, "b", "b")).isInstanceOf(ClassCastException.class);
+    }
 }

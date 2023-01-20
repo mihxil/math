@@ -21,6 +21,7 @@ import java.util.*;
  * A simple {@link Map} implementation which allows for changing mappings, but not adding or deleting them.
  * <p>
  * This is used when representing configurations.
+ * <p>
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -29,8 +30,63 @@ public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
 
     private final Map<K, V> wrapped;
 
+    /**
+     * Instantiate this map with a given map of keys and values.
+     * This will be wrapped, and {@code FixedSizeMap} will disallow putting keys which are not already in it (or removing keys from it)
+     */
     public FixedSizeMap(Map<K, V> wrapped) {
         this.wrapped = wrapped;
+    }
+
+    /**
+     * Instantiate this map with the needed keys. All values will initially be {@code null}
+     */
+    @SafeVarargs
+    public FixedSizeMap(K... keys) {
+        this.wrapped = new LinkedHashMap<>();
+        for (K key : keys) {
+            wrapped.put(key, null);
+        }
+    }
+
+    /**
+     * Creates a {@link FixedSizeMap} and intializes all values.
+     *
+     * @param keysAndValues And even list of objects. Even entries are keys, odd entries are values.
+     * @throws ClassCastException If one of the objects it not of the correct type
+     * @throws IndexOutOfBoundsException If the number of parameters is not even.
+     */
+    @SuppressWarnings("unchecked")
+    public static <K, V> FixedSizeMap<K, V> of(Object ... keysAndValues) {
+        Map<K, V> wrapped = new LinkedHashMap<>();
+        Class<K> keyType = null;
+        Class<V> valueType = null;
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            K key = (K) keysAndValues[i];
+            if (key == null) {
+                throw new IllegalArgumentException("keys cannot be null");
+            }
+            if (keyType == null) {
+                keyType = (Class<K>) key.getClass();
+            } else {
+                if (! keyType.isAssignableFrom(key.getClass())) {
+                    throw new ClassCastException("Key " + key + " has unexpected type (not assignable to " + keyType + ")");
+                }
+            }
+            V value = (V) keysAndValues[i + 1];
+            if (value != null) {
+                if (valueType == null) {
+                    valueType = (Class<V>) value.getClass();
+                } else {
+                    if (! valueType.isAssignableFrom(value.getClass())) {
+                        throw new ClassCastException("Value " + value + " has unexpected type (not assignable to " + valueType + ")");
+                    }
+                }
+            }
+            wrapped.put(key, value);
+        }
+
+        return new FixedSizeMap<K, V>(wrapped);
     }
 
     @Override
@@ -52,7 +108,21 @@ public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
         return new AbstractSet<Entry<K, V>>() {
             @Override
             public Iterator<Entry<K, V>> iterator() {
-                return wrapped.entrySet().iterator();
+                Iterator<Entry<K, V>> wrappedIterator = wrapped.entrySet().iterator();
+                // makes unmodifiable.
+                return new Iterator<>() {
+
+                    @Override
+                    public boolean hasNext() {
+                        return wrappedIterator.hasNext();
+                    }
+
+                    @Override
+                    public Entry<K, V> next() {
+                        return wrappedIterator.next();
+                    }
+                };
+
             }
 
             @Override
