@@ -27,10 +27,14 @@ import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.DimensionalAnalysis.of;
 
 /**
- * A quantity combines a {@link DimensionalAnalysis} with an <em>interpretation</em>.
+ * A quantity combines a {@link DimensionalAnalysis} with an <em>interpretation</em> (with a {@link #getName() name} and a {@link #getSymbol() symbol}
  * <p>
- * This is similar in that is indicates whether values associated with it can be compared or added, but less absolute.
- * E.g. you may add a 'length' to a 'width' (to obtain e.g. a circumference), or to assert e.g. that 'the width is greater than the length' Where is is absolutely senseless to ever add a 'width' to a 'temperature').
+ * This is still similar to {@code DimensionalAnalysis} in that it indicates whether values associated with it can be compared or added, but less absolute.
+ * <p>
+ * E.g. you might add a 'length' to a 'width' (to obtain a circumference), or to assert e.g. that 'the width is greater than the length' Where it is absolutely senseless to ever add a 'width' to a 'temperature'.
+ * <p>
+ * All constants (of the type {@code Quantity}) in this class are returned by {@link #getQuantities()}, but more can be registered
+ * via {@link #registerQuantity(Quantity)};
  */
 @Getter
 @EqualsAndHashCode
@@ -62,7 +66,14 @@ public class Quantity {
 
     public static final Quantity INFORMATION = new Quantity("information", "I", of());
 
+    /**
+     * A name (in english for this quantity)
+     */
     private final String name;
+
+    /**
+     * The symbol normally used for this quantity (in physics). Like 'F' for 'force'.
+     */
     private final String symbol;
     private final DimensionalAnalysis dimensionalAnalysis;
 
@@ -78,6 +89,9 @@ public class Quantity {
         ReflectionUtils.forConstants(Quantity.class, Quantity::registerQuantity);
     }
 
+    /**
+     * Returns a list of currently known quantities. New quantities can be registered with {@link #registerQuantity(Quantity)}
+     */
     public static List<Quantity> getQuantities() {
         return Collections.unmodifiableList(QUANTITIES);
     }
