@@ -124,11 +124,10 @@ public final class StreamUtils {
     /**
      * Returns an infinite stream of all possible integer arrays of given length
      * <p>
-     * It will start with an array with only zeros. Then it will return array filled with all possible combinations of {@code -1, 0, 1}, then with all possibles arrays with only {@code -2, -1, 0, 1, 2} (and it will not produce any entries which already occurred). And so on.
+     * It will start with an array with only zeros. Then it will return an array filled with all possible combinations of {@code -1, 0, 1}, then with all possibles arrays with only {@code -2, -1, 0, 1, 2} (and it will not produce any entries which already occurred). And so on.
      *
      * @param length the length of all arrays to produce
      * @return an infinite stream of integer arrays of given length
-     *
      */
     public static Stream<int[]> allIntArrayStream(int length) {
         return Stream
