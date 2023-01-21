@@ -188,76 +188,11 @@ This may be incorrect, and I may change it. In that case the current synonym `eq
 
 A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
 
-The formatters have access to a (thread local) configuration object. Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
+The formatters have access to a (thread local) configuration object (see <<configuration_service>>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
 
 The service giving access to the format-providers is `FormatService`. This is a collection of static functions.
 
 
-==== ConfigurationService
-
-image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
-image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
-
-`ConfigurationService` is responsible for managing the `Configuration` thread locals.
-
-Like this it can be consulted
-
-.Accessing configuration
-[source,java]
-----
-import static org.meeuw.configuration.*;
-import static org.meeuw.math.text.spi.FormatService.*;
-
- Configuration configuration = ConfigurationService.getConfiguration();
- NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
- int minimalExponent = aspect.getMinimalExponent();
-----
-This would however probably mainly be used in _implementations_.
-
-Actual configuration can be done in two basically distinct ways.
-
-- a new configuration object can be set as a thread local
-- global default configuration object can be set
-
-.temporary overrides
-[source,java]
-----
-Configuration configuration = ConfigurationService.getConfiguration();
-ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
-
-... code ...
-
-ConfigurationService.resetToDefaults();
-----
-
-There are some utilities in `ConfigurationService` that makes this process a bit easier.
-
-.temporary overrides utilities
-[source, java]
-----
- ConfigurationService.withConfiguration((con) ->
-  con.configure(TestConfigurationAspect.class,
-             (tc) -> tc.withSomeInt(5))
-     .configure(NumberConfiguration.class,
-             (tc) -> tc.withMinimalExponent(3))
-, () -> {
-// code
-
- });
-----
-
-Global defaults can be set similarly
-
-.setting global defaults
-[source,java]
-----
- ConfigurationService.defaultConfiguration((con) ->
-  con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-     .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
- );
-----
-
-ConfigurationService itself is not actually math related, and is released in a separate artifact.
 
 ==== unicode
 
@@ -487,5 +422,71 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 
 This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
 
+
+== ConfigurationService [[configuration_service]]
+
+image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
+image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
+
+`ConfigurationService` is responsible for managing the `Configuration` thread locals.
+
+Like this it can be consulted
+
+.Accessing configuration
+[source,java]
+----
+import static org.meeuw.configuration.*;
+import static org.meeuw.math.text.spi.FormatService.*;
+
+ Configuration configuration = ConfigurationService.getConfiguration();
+ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+ int minimalExponent = aspect.getMinimalExponent();
+----
+This would however probably mainly be used in _implementations_.
+
+Actual configuration can be done in two basically distinct ways.
+
+- a new configuration object can be set as a thread local
+- global default configuration object can be set
+
+.temporary overrides
+[source,java]
+----
+Configuration configuration = ConfigurationService.getConfiguration();
+ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -> nc.withMinimalExponent(8)).build());
+
+... code ...
+
+ConfigurationService.resetToDefaults();
+----
+
+There are some utilities in `ConfigurationService` that makes this process a bit easier.
+
+.temporary overrides utilities
+[source, java]
+----
+ ConfigurationService.withConfiguration((con) ->
+  con.configure(TestConfigurationAspect.class,
+             (tc) -> tc.withSomeInt(5))
+     .configure(NumberConfiguration.class,
+             (tc) -> tc.withMinimalExponent(3))
+, () -> {
+// code
+
+ });
+----
+
+Global defaults can be set similarly
+
+.setting global defaults
+[source,java]
+----
+ ConfigurationService.defaultConfiguration((con) ->
+  con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+     .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
+ );
+----
+
+ConfigurationService itself is not actually math related, and is released in a separate artifact.
 
 
