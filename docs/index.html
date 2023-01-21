@@ -32,8 +32,7 @@
 </li>
 <li><a href="#_formatting_and_configuration">1.2. Formatting and configuration</a>
 <ul class="sectlevel3">
-<li><a href="#_configurationservice">1.2.1. ConfigurationService</a></li>
-<li><a href="#_unicode">1.2.2. unicode</a></li>
+<li><a href="#_unicode">1.2.1. unicode</a></li>
 </ul>
 </li>
 <li><a href="#_utilities">1.3. Utilities</a>
@@ -67,6 +66,7 @@
 </ul>
 </li>
 <li><a href="#_compatibility">5. Compatibility</a></li>
+<li><a href="#configuration_service">6. ConfigurationService</a></li>
 </ul>
 </div>
 </div>
@@ -464,96 +464,13 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>A service loader is provided for implementations of <code>AlgebraicElementFormatProvider</code> which can create instances of <code>java.text.Format</code> which in turn can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
 </div>
 <div class="paragraph">
-<p>The formatters have access to a (thread local) configuration object. Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
+<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">ConfigurationService</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
 <p>The service giving access to the format-providers is <code>FormatService</code>. This is a collection of static functions.</p>
 </div>
 <div class="sect3">
-<h4 id="_configurationservice">1.2.1. ConfigurationService</h4>
-<div class="paragraph">
-<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
-<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration"><img src="https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue" alt="javadoc"></a></span></p>
-</div>
-<div class="paragraph">
-<p><code>ConfigurationService</code> is responsible for managing the <code>Configuration</code> thread locals.</p>
-</div>
-<div class="paragraph">
-<p>Like this it can be consulted</p>
-</div>
-<div class="listingblock">
-<div class="title">Accessing configuration</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration</span>.*;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
-
- <span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
- NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
- <span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This would however probably mainly be used in <em>implementations</em>.</p>
-</div>
-<div class="paragraph">
-<p>Actual configuration can be done in two basically distinct ways.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a new configuration object can be set as a thread local</p>
-</li>
-<li>
-<p>global default configuration object can be set</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="title">temporary overrides</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
-ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -&gt; nc.withMinimalExponent(<span class="integer">8</span>)).build());
-
-... code ...
-
-ConfigurationService.resetToDefaults();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>There are some utilities in <code>ConfigurationService</code> that makes this process a bit easier.</p>
-</div>
-<div class="listingblock">
-<div class="title">temporary overrides utilities</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.withConfiguration((con) -&gt;
-  con.configure(TestConfigurationAspect.class,
-             (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
-     .configure(NumberConfiguration.class,
-             (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
-, () -&gt; {
-<span class="comment">// code</span>
-
- });</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Global defaults can be set similarly</p>
-</div>
-<div class="listingblock">
-<div class="title">setting global defaults</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.defaultConfiguration((con) -&gt;
-  con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
-     .configure(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
- );</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
-</div>
-</div>
-<div class="sect3">
-<h4 id="_unicode">1.2.2. unicode</h4>
+<h4 id="_unicode">1.2.1. unicode</h4>
 <div class="paragraph">
 <p>Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.</p>
 </div>
@@ -950,6 +867,91 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="sectionbody">
 <div class="paragraph">
 <p>This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuration_service">6. ConfigurationService</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration"><img src="https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="paragraph">
+<p><code>ConfigurationService</code> is responsible for managing the <code>Configuration</code> thread locals.</p>
+</div>
+<div class="paragraph">
+<p>Like this it can be consulted</p>
+</div>
+<div class="listingblock">
+<div class="title">Accessing configuration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
+
+ <span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
+ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+ <span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would however probably mainly be used in <em>implementations</em>.</p>
+</div>
+<div class="paragraph">
+<p>Actual configuration can be done in two basically distinct ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a new configuration object can be set as a thread local</p>
+</li>
+<li>
+<p>global default configuration object can be set</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">temporary overrides</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
+ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -&gt; nc.withMinimalExponent(<span class="integer">8</span>)).build());
+
+... code ...
+
+ConfigurationService.resetToDefaults();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are some utilities in <code>ConfigurationService</code> that makes this process a bit easier.</p>
+</div>
+<div class="listingblock">
+<div class="title">temporary overrides utilities</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.withConfiguration((con) -&gt;
+  con.configure(TestConfigurationAspect.class,
+             (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
+     .configure(NumberConfiguration.class,
+             (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
+, () -&gt; {
+<span class="comment">// code</span>
+
+ });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Global defaults can be set similarly</p>
+</div>
+<div class="listingblock">
+<div class="title">setting global defaults</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.defaultConfiguration((con) -&gt;
+  con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+     .configure(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
+ );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
 </div>
 </div>
 </div>
