@@ -3,6 +3,9 @@ on:
   push:
     paths:
     - README-source.adoc
+    - '*/README-source.adoc'
+    - '.github/workflows/reduce-readme.yml'
+    - '**/examples/**'
     branches: ['**']
 jobs:
   build:

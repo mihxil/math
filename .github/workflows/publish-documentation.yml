@@ -5,7 +5,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'README.adoc'
+      - 'README-source.adoc'
+      - '*/README-source.adoc'
       - 'docs/Makefile'
       - 'docs/algebras.dot.m4'
       - '.github/workflows/publish-documentation.yml'
