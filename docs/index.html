@@ -886,12 +886,14 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="title">Accessing configuration</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration</span>.*;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.text.spi.FormatService</span>.*;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.Configuration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
+...
 
- <span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
- NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
- <span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
+Configuration configuration = ConfigurationService.getConfiguration();
+NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+<span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -913,11 +915,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="title">temporary overrides</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="predefined-type">Configuration</span> configuration = ConfigurationService.getConfiguration();
-ConfiguraationService.setConfiguration(configuration.toBuilder().aspect(NumberConfiguration.class, (nc) -&gt; nc.withMinimalExponent(<span class="integer">8</span>)).build());
+<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.setConfiguration(builder -&gt;
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
+    )
+);
 
-... code ...
-
+<span class="comment">//...code...</span>
 ConfigurationService.resetToDefaults();</code></pre>
 </div>
 </div>
