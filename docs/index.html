@@ -889,6 +889,8 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.Configuration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
+
 ...
 
 Configuration configuration = ConfigurationService.getConfiguration();
@@ -915,7 +917,14 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="title">temporary overrides</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in mihxil-configuration/README-source.adoc - include::mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=configurationService,indent=-]</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.setConfiguration(builder -&gt;
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
+    )
+);
+
+<span class="comment">//...code...</span>
+ConfigurationService.resetToDefaults();</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -924,15 +933,15 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="title">temporary overrides utilities</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.withConfiguration((con) -&gt;
-  con.configure(TestConfigurationAspect.class,
-             (tc) -&gt; tc.withSomeInt(<span class="integer">5</span>))
-     .configure(NumberConfiguration.class,
-             (tc) -&gt; tc.withMinimalExponent(<span class="integer">3</span>))
-, () -&gt; {
-<span class="comment">// code</span>
+<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.withConfiguration((con) -&gt;
+        con.configure(UncertaintyConfiguration.class,
+                (uncertaintyConfiguration) -&gt; uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
+            .configure(NumberConfiguration.class,
+                (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">3</span>))
+    , () -&gt; {
+        <span class="comment">// code</span>
 
- });</code></pre>
+    });</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -941,10 +950,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="title">setting global defaults</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"> ConfigurationService.defaultConfiguration((con) -&gt;
-  con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
-     .configure(TestConfigurationAspect.class, c -&gt; c.withSomeInt(-<span class="integer">1</span>))
- );</code></pre>
+<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.defaultConfiguration((con) -&gt;
+    con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+        .configure(UncertaintyConfiguration.class, c -&gt; c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+);</code></pre>
 </div>
 </div>
 <div class="paragraph">
