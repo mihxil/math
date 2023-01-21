@@ -420,7 +420,9 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
 
 
-== ConfigurationService [[configuration_service]]
+:leveloffset: 1
+
+= ConfigurationService [[configuration_service]]
 
 image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
 image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
@@ -452,14 +454,7 @@ Actual configuration can be done in two basically distinct ways.
 .temporary overrides
 [source,java]
 ----
-ConfigurationService.setConfiguration(builder ->
-    builder.configure(NumberConfiguration.class,
-        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
-    )
-);
-
-//...code...
-ConfigurationService.resetToDefaults();
+Unresolved directive in mihxil-configuration/README-source.adoc - include::mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=configurationService,indent=-]
 ----
 
 There are some utilities in `ConfigurationService` that makes this process a bit easier.
@@ -490,3 +485,6 @@ Global defaults can be set similarly
 ----
 
 ConfigurationService itself is not actually math related, and is released in a separate artifact.
+
+
+:leveloffset!:
