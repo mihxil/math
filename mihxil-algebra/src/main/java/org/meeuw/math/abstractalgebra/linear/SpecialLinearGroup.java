@@ -89,7 +89,6 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
     @Override
     public Stream<SpecialLinearMatrix<E>> stream() {
         return super.stream();
-        //throw new NotStreamable("TODO");
     }
 
 

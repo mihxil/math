@@ -15,11 +15,12 @@
  */
 package org.meeuw.math.numbers;
 
+import org.meeuw.math.abstractalgebra.MetricSpaceElement;
+
 /**
  * Sizeable objects have {@link #abs()}
- *
- * TODO is the difference between {@link org.meeuw.math.abstractalgebra.MetricSpaceElement} and Sizeable Meaningful?
- * are there objects which are one, but not the other?
+ * <p>
+ * The extension {@link org.meeuw.math.abstractalgebra.MetricSpaceElement} adds more structure and als {@link org.meeuw.math.abstractalgebra.MetricSpaceElement#distanceTo(MetricSpaceElement)}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
