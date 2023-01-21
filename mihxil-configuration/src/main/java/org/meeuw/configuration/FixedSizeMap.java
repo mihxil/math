@@ -110,7 +110,7 @@ public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
             public Iterator<Entry<K, V>> iterator() {
                 Iterator<Entry<K, V>> wrappedIterator = wrapped.entrySet().iterator();
                 // makes unmodifiable.
-                return new Iterator<>() {
+                return new Iterator<Entry<K, V>>() {
 
                     @Override
                     public boolean hasNext() {
