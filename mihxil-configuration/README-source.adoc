@@ -24,7 +24,7 @@ Actual configuration can be done in two basically distinct ways.
 .temporary overrides
 [source,java]
 ----
-include::mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=configurationService,indent=-]
+include::../mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=configurationService,indent=0]
 ----
 
 There are some utilities in `ConfigurationService` that makes this process a bit easier.
@@ -32,15 +32,8 @@ There are some utilities in `ConfigurationService` that makes this process a bit
 .temporary overrides utilities
 [source, java]
 ----
- ConfigurationService.withConfiguration((con) ->
-  con.configure(TestConfigurationAspect.class,
-             (tc) -> tc.withSomeInt(5))
-     .configure(NumberConfiguration.class,
-             (tc) -> tc.withMinimalExponent(3))
-, () -> {
-// code
+include::../mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=closable,indent=0]
 
- });
 ----
 
 Global defaults can be set similarly
@@ -48,10 +41,7 @@ Global defaults can be set similarly
 .setting global defaults
 [source,java]
 ----
- ConfigurationService.defaultConfiguration((con) ->
-  con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-     .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
- );
+include::../mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=global,indent=0]
 ----
 
 ConfigurationService itself is not actually math related, and is released in a separate artifact.

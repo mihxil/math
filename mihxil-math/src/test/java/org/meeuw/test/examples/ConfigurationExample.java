@@ -4,7 +4,16 @@ package org.meeuw.test.examples;
 import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+
 // end::import[]
+
+/**
+ * Code blocks used to include in assciidoc.
+ *
+ *
+ *
+ */
 public class ConfigurationExample {
 
     public static void access() {
@@ -16,7 +25,7 @@ public class ConfigurationExample {
         // end::access[]
     }
 
-    public static void setConfiguration(String[] argv) {
+    public static void setConfiguration() {
         // tag::configurationService[]
         ConfigurationService.setConfiguration(builder ->
             builder.configure(NumberConfiguration.class,
@@ -27,5 +36,30 @@ public class ConfigurationExample {
         //...code...
         ConfigurationService.resetToDefaults();
         // end::configurationService[]
+    }
+
+    public static void usingCloseable() {
+        // tag::closable[]
+        ConfigurationService.withConfiguration((con) ->
+                con.configure(UncertaintyConfiguration.class,
+                        (uncertaintyConfiguration) -> uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
+                    .configure(NumberConfiguration.class,
+                        (numberConfiguration) -> numberConfiguration.withMinimalExponent(3))
+            , () -> {
+                // code
+
+            });
+        // end::closable[]
+
+    }
+
+    public static void global() {
+        // tag::global[]
+        ConfigurationService.defaultConfiguration((con) ->
+            con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+                .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+        );
+        // end::global[]
+
     }
 }
