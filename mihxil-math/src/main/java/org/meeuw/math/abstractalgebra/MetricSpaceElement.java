@@ -21,6 +21,10 @@ import org.meeuw.math.numbers.Sizeable;
 
 /**
  * Elements of a metric space define a {@link #distanceTo(MetricSpaceElement)} other elements in the same {@link MetricSpace}
+ * <p>
+ * This is like {@link Sizeable}, but it can also determin {@link #distanceTo(MetricSpaceElement)}, and more importantly
+ * it has a link to its {@link MetricSpace structure}.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> self reference
@@ -31,6 +35,9 @@ public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extend
 
     MetricSpace<E, S> getStructure();
 
+    /**
+     * A {@link MetricSpace} has a notion of a 'distance' between to elements.
+     */
     S distanceTo(E otherElement);
 
     @Override
