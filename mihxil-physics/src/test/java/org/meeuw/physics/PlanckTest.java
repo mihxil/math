@@ -31,13 +31,11 @@ class PlanckTest {
         assertThat(cSI.toString()).isEqualTo("(2.99792 ± 0.00005)·10⁸ m·s⁻¹");
 
         assertThat(cSI.toUnits(Planck.INSTANCE).toString()).isEqualTo("1.00000 ± 0.00002 ℓₚ·tₚ⁻¹");
-
     }
 
     @Test
-    public void kB() {
+    public void BoltzmannConstant() {
         assertThat(Planck.kB.toString()).isEqualTo("1 ℓₚ·tₚ⁻¹");
-
     }
 
 }

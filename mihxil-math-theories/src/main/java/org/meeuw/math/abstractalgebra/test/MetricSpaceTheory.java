@@ -48,7 +48,7 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
     }
 
     @Property
-    default void identifyOfIndiscernibles(@ForAll(ELEMENTS) E a) {
+    default void identityOfIndiscernibles(@ForAll(ELEMENTS) E a) {
         assertThat(a.distanceTo(a).isZero()).isTrue();
     }
 

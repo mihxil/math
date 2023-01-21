@@ -64,9 +64,8 @@ public class ConfigurationServiceTest {
         TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
         int someInt = aspect.getSomeInt();
         log.info(() -> String.format("some int: %d", someInt));
-        ConfigurationService.setConfiguration(configuration.toBuilder()
-            .configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
-            .build()
+        ConfigurationService.setConfiguration(builder ->
+            builder.configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
         );
         assertThat(getConfiguration()
             .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)

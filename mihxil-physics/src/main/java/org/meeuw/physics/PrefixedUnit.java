@@ -22,6 +22,9 @@ import java.util.Objects;
 
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
+/**
+ * A unit wrapping another {@link Unit} with a {@link Prefix}, and it just a multiple of that unit.
+ */
 public class PrefixedUnit implements Unit {
 
     private final Unit wrapped;

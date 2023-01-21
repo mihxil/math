@@ -35,6 +35,9 @@ public interface Units extends
 
     Units DIMENSIONLESS = of(exactly(1));
 
+    /**
+     * The physical units form a {@link org.meeuw.math.abstractalgebra.MultiplicativeGroup}, implemented by {@link UnitsGroup}.
+     */
     @Override
     default UnitsGroup getStructure() {
         return UnitsGroup.INSTANCE;

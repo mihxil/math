@@ -23,6 +23,9 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
 /**
+ * There are different 'systems of measurements' in use. E.g. {@link SI}  and {@link Planck}.
+ * <p>
+ *
  * @author Michiel Meeuwissen
  * @since 0.6
  */
@@ -32,7 +35,8 @@ public interface SystemOfMeasurements {
     Unit forDimension(Dimension dimension);
 
     /**
-     * Returns in this system of measurements the preferred units for the given dimensional analysis
+     * Returns in this system of measurements the preferred units for the given dimensional analysis. This may not
+     * always be unique.
      */
     @NonNull
     default Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
@@ -43,6 +47,14 @@ public interface SystemOfMeasurements {
             .map(UnitExponent::getSIFactor)
             .reduce(UncertainRealField.INSTANCE.one(), UncertainReal::times);
         return new CompositeUnits(siFactor, unitExponents);
+    }
+    default Units forQuantity(Quantity quantity) {
+        for (Units unit : getUnits()) {
+            if (unit.getQuantities().contains(quantity)) {
+                return unit;
+            }
+        }
+        return forDimensions(quantity.getDimensionalAnalysis());
     }
 
 
@@ -58,14 +70,7 @@ public interface SystemOfMeasurements {
         return Collections.unmodifiableList(result);
     }
 
-    default Units forQuantity(Quantity quantity) {
-        for (Units unit : getUnits()) {
-            if (unit.getQuantities().contains(quantity)) {
-                return unit;
-            }
-        }
-        return forDimensions(quantity.getDimensionalAnalysis());
-    }
+
 
     default Units forDimensions(DimensionExponent... dimensions) {
         return forDimensions(DimensionalAnalysis.of(dimensions));

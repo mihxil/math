@@ -92,6 +92,29 @@ public class ConfigurationService {
     }
 
     /**
+     * @since 0.10
+     */
+    public  static void  setConfiguration(Configuration configuration, Consumer<Configuration.Builder> consumer) {
+        Configuration.Builder builder = configuration.toBuilder();
+        consumer.accept(builder);
+        setConfiguration(builder);
+    }
+    /**
+     * @since 0.10
+     */
+    public  static void  setConfiguration(Consumer<Configuration.Builder> consumer) {
+        setConfiguration(getConfiguration(), consumer);
+    }
+
+    /**
+     *
+     * @since 0.10
+     */
+    public  static void  setConfiguration(Configuration.Builder configuration) {
+        setConfiguration(configuration.build());
+    }
+
+    /**
      * Unsets the configuration thread local, effectively resetting it the default settings.
      */
     public static void resetToDefaults() {

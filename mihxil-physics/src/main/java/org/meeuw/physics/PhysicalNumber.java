@@ -179,6 +179,9 @@ public abstract class PhysicalNumber
         return toUnits(Units.of(units));
     }
 
+    /**
+     * Converts the current physical number to a different {@link SystemOfMeasurements}.
+     */
     public PhysicalNumber toUnits(SystemOfMeasurements systemOfMeasurements) {
         return toUnits(systemOfMeasurements.forDimensions(units.getDimensions()));
     }

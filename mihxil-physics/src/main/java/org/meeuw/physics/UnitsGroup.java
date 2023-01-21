@@ -24,6 +24,9 @@ import org.meeuw.math.streams.StreamUtils;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
 /**
+ * The {@link MultiplicativeAbelianGroup} of {@link Units}.
+ * <p>
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -70,8 +73,9 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
     @Override
     public Units nextRandom(Random random) {
         UnitExponent[] units = new UnitExponent[SIUnit.values().length];
+
         for (int i = 0; i < units.length; i++) {
-            units[i] = new UnitExponent(SIUnit.values()[i], random.nextInt(20));
+            units[i] = new UnitExponent(SIUnit.values()[i],  (int) (random.nextGaussian() * 3));
         }
         return new CompositeUnits(exactly(1), units);
 
