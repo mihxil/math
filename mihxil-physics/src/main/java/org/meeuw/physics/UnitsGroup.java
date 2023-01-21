@@ -18,8 +18,8 @@ package org.meeuw.physics;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.streams.StreamUtils;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 
@@ -69,6 +69,11 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
 
     @Override
     public Units nextRandom(Random random) {
-        throw new UnsupportedOperationException("TODO");
+        UnitExponent[] units = new UnitExponent[SIUnit.values().length];
+        for (int i = 0; i < units.length; i++) {
+            units[i] = new UnitExponent(SIUnit.values()[i], random.nextInt(20));
+        }
+        return new CompositeUnits(exactly(1), units);
+
     }
 }
