@@ -4,7 +4,7 @@ all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane
 MVN=mvn
 # sudo gem install asciidoctor asciidoctor-multipage
 
-index.html: ../README.adoc Makefile algebras.svg
+index.html: ../README-source.adoc Makefile algebras.svg
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 

@@ -1,6 +1,6 @@
 ---
 name: publish documentation
-# description: If changes are made (e.g. by build action) in relevat files, generate new documentation
+# description: If changes are made (e.g. by build action) in relevant files, generate new documentation
 on:
   push:
     branches: [main]
@@ -28,7 +28,7 @@ jobs:
           make clean index.html
           git status
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v9.1.1
+        uses: EndBug/add-and-commit@v9
         with:
           message: Automated update of documentation https://mihxil.github.io/math/
           add: docs
