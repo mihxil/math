@@ -24,6 +24,8 @@ import org.meeuw.math.numbers.Sizeable;
  * <p>
  * This is like {@link Sizeable}, but it can also determin {@link #distanceTo(MetricSpaceElement)}, and more importantly
  * it has a link to its {@link MetricSpace structure}.
+ * <p>
+ * A metric space element can be called a 'point'.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
