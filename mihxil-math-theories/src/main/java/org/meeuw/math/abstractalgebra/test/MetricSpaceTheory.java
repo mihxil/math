@@ -37,6 +37,16 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
         assertThat(a.distanceTo(b)).isEqualTo(b.distanceTo(a));
     }
 
+
+    @Property
+    default void distancePositive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
+        if (a.equals(b))  {
+            assertThat(a.distanceTo(b).isZero()).isTrue();
+        } else {
+            assertThat(a.distanceTo(b).isPositive()).isTrue();
+        }
+    }
+
     @Property
     default void identifyOfIndiscernibles(@ForAll(ELEMENTS) E a) {
         assertThat(a.distanceTo(a).isZero()).isTrue();
