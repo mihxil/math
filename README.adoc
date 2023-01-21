@@ -1,0 +1,492 @@
+= Algebraic interfaces for Java
+Michiel Meeuwissen
+:book:
+:sectnums:
+:toc: left
+:toclevels: 3
+:stem:
+:nofooter:
+:source-highlighter: coderay
+:multipage-level: 1
+:gh: https://github.com/mihxil/math/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
+:ghblob: {gh}blob/main/
+:ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
+:ght: {ghblob}mihxil-math-theories/src/main/java/org/meeuw/math/
+:gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
+:docs: {ghraw}docs
+:videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
+
+
+
+image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
+image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
+image:https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
+
+
+
+
+== math
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
+
+The core dependency of the modules in the project. It provides the scaffolding for:
+
+- Abstract algebras to ensure a common interface for basic operations. Java does not provide operator overloading. This provides an alternative. Implementations of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.
+- An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers.
+- A Service Provider Interface for formatting the elements of abstract algebras.  This core module only provides an implementation to format  uncertain numbers, using proper rounding and scientific notation.
+
+=== Abstract Algebras
+
+The idea is that every 'abstract algebra' consists of the implementation of two interfaces
+
+. One of the extensions of  link:{ghm}abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
+
+. One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`],  defines properties of the structure itself, and it also serves as a container for utility method for its elements. E.g. if the structure is powerful enough to implement determinants of matrices of its elements, it does so (and more advanced structures, may do it more sophisticatedly. E.g. `Ring` implements `determinant` without using division, but in `DivisionRing` the implementation is optimized with use of that operation)
+
+The terminology which is adopted is this:
+
+|===
+|Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
+
+7+^|binary operators
+|operation| `*` | operate | operate | operation | operand |  link:{ghm}abstractalgebra/MagmaElement.java[`MagmaElement`]
+|addition | `+` | plus | add | sum | summand
+| link:{ghm}abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
+|subtraction | `-` | minus | subtract | difference | subtrahend | link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|multiplication |  `⋅`  | times | multiply | product | multiplier | link:{ghm}abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
+|division | `/` | dividedBy | divide | quotient |  divisor | link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|exponentiation | `^` | pow | pow | power| exponent| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|metric or distance| `d()` | distanceTo | metric | distance|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+
+7+^|unary operators
+|negation      | `-` | negation | negate | negation|| link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|reciprocation | `1/` |  reciprocal | | reciprocal|| link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|square root | `√` | sqrt | sqrt
+ | square root| radicand | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|sine | `sin()`| sin | sin | sine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|cosine | `cos()` | cos | cos | cosine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|absolute value, distance to zero|  \|\|  | abs| abs| absolute value|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+
+|identify| + |  self |  |  |   | link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`] ||
+|===
+
+The methods on the elements take the name of the corresponding operator. So e.g.:
+
+[source,java]
+----
+RationalNumber a, b, c;
+c = a.times(b);
+----
+
+These methods always take the value of the element itself plus zero parameters (for the unary operators) or one parameter (for the binary operators), and create a new value from the same algebra.
+
+Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented statically (`E add(e1, e2)`) or are modifying the element itself.
+
+Most implementations are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
+
+==== Algebraic structure
+
+Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'.
+
+NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:{ghm}abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
+
+The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (_one_ and _zero_).
+
+image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), special elements, and example implementations.", link="{docs}/algebras.svg"]
+
+==== Numbers
+
+Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.
+
+|===
+| class/interface  | description
+
+| link:{ghm}numbers/Scalar.java[`Scalar`] |
+A generic interface that defines the methods to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
+
+| link:{ghm}abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] |
+A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra. Well-behaved field elements that also behave as a 'Number' may implement `ScalarFieldElement`
+
+| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] |
+Even more similar to the everyday concept of a number are elements of an algebraic field that is 'complete'.  This in some way means that is has 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible within the algebra.
+
+| link:{ghm}numbers/NumberOperations.java[`NumberOperations`]
+link:{ghm}numbers/UncertaintyNumberOperations.java[`UncertaintyNumberOperations`]
+|
+Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
+. E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`.
+
+The specialization `UncertaintyNumberOperations` adds the logic for propagation of uncertainties.
+|===
+
+
+==== Numbers and propagation of uncertainties
+
+Most real numbers cannot be represented exactly. It may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on them.
+
+The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+
+The 'statistics' module introduces uncertain numbers where the uncertainty is defined as the standard deviation in a collected set of values. These numbers are examples of elements that are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.
+
+It is not always absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.
+
+|===
+| operation | formula | current uncertainty propagation algorithm
+
+| summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
+| multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
+ latexmath:[\mid a \cdot b \mid \cdot \sqrt{\left(\frac{Δa}{\mid a \mid + Δa }\right)^2 + \left(\frac{Δb}{\mid b \mid + Δb }\right)^2}]
+| exponentiation |
+ latexmath:[\left(a ± Δa\right) ^ {e ± Δe}]
+|
+ latexmath:[\mid a ^ e\mid \cdot
+\sqrt{
+  \left(\frac{e \cdot Δa}{a}\right)^2 +
+  \left(\ln(a) \cdot Δe\right)^2
+}]
+
+| sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]|
+|===
+
+===== Zero
+
+Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefore, for now fractional uncertainty is implemented like latexmath:[ \frac{Δa}{|a| +  Δa}] (rather then latexmath:[ \frac{Δa}{|a|}]), where the denominator can never become zero because the uncertainty is strictly bigger than zero.
+
+
+==== Testing
+
+In link:{gmt}abstractalgebra/test/[mihxil-math-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{gmt}abstractalgebra/test/ElementTheory.java#L20[`elements`].
+
+Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
+
+==== Implementation of equals/hashcode
+
+When a value has uncertainty, then `equals` also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
+
+This is abstracted using a `ConfidenceInterval` concept.
+
+
+In this case the `hashCode` must be a fixed value, because otherwise we can't guarantee that equal values have equal hashCode.
+
+This implies that it's a bad idea to use uncertain values as hash keys.
+
+===== Transitivity of `equals`
+
+Because currently `equals` considers also uncertainty for cases where that is relevant (all elements which are not exact or cannot be exactly represented), this means that equals is symmetric and reflexive, but it means that it is not always _transitive_. E.g. `10 ± 5 equals 14 ± 1` and `18 ± 5 equals 14 ± 1`, but `! (10 ± 5 equals  18 ± 5 )`.
+
+This may be incorrect, and I may change it. In that case the current synonym `eq` keeps the current behaviour and `equals` becomes transitive, meaning that uncertain values can only be equals if also their uncertainty equals.
+
+
+
+=== Formatting and configuration
+
+A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
+
+The formatters have access to a (thread local) configuration object (see <<configuration_service>>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
+
+The service giving access to the format-providers is `FormatService`. This is a collection of static functions.
+
+
+
+==== unicode
+
+Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
+
+=== Utilities
+
+To implement several aspects of the groups there are provided some utility class. We describe here a few which might be of particular interest.
+
+==== Cartesian product of streams
+
+All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.
+
+For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
+
+===== Generic
+
+link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
+
+
+The most generic implementation requires for every axis a supplier for the stream, which will be used every time the first value of the stream is needed again.
+
+This implementation then only advances streams, and needs no state otherwise.
+
+.All combinations of 2 streams of positive integers.
+video::{docs}/positive-plane.mp4[{videooptions}]
+
+.All combinations of 3 streams of positive integers.
+video::C0uaFTHoMVQ[youtube,{videooptions}]
+
+===== Diagonals
+
+The 2 dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
+
+
+.All combinations of 2 streams of positive integers (diagonals)
+video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
+
+== statistics
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
+
+
+Implementations of `UncertainDouble`, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.
+
+Also, it includes some classes to keep track of 'sliding window' values of averages.
+
+.example of WindowedEventRate
+[source,java]
+----
+WindowedEventRate rate = WindowedEventRate.builder()
+            .bucketCount(50)
+            .window(Duration.ofMinutes(50))
+            .build();
+rate.newEvent();
+...
+..
+log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
+
+log.info("Measured rate: {}", rate); // toString
+----
+
+
+== physics
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-physics]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
+
+
+This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `UncertainDouble`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
+
+Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
+
+[source,java]
+----
+PhysicalNumber twoLightyears = new Measurement(2, 0.1, SI.ly);
+PhysicalNumber oneParsec = new Measurement(1, 0.1, SI.pc);
+log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
+assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.3 ly");
+assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.10 pc");
+assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); //different toString does not mean that they represent a different value.
+
+----
+
+Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).
+
+Physical numbers can freely be multiplied and divided by each other.
+
+Objects of the statistic module can be converted to 'physical numbers' like so:
+[source,java]
+.event rate to measurement
+----
+WindowedEventRate rate = ...
+
+PhysicalNumber measurement = new Measurement(rate);
+PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal());
+
+
+----
+
+[source, java]
+.statistical number to measurement
+----
+ StatisticalDouble statisticalDouble = new StatisticalDouble();
+ statisticalDouble.enter(10d, 11d, 9d);
+
+ PhysicalNumber measurement = new Measurement(statisticalDouble, Units.of(SI.min));
+
+ assertThat(measurement.toUnits(Units.of(SIUnit.s)).toString()).isEqualTo("600 ± 45 s");
+----
+
+== algebra
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
+
+This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
+
+=== Features
+==== Real numbers
+
+The field of real numbers. Backed by java primitive `double`. A `RealNumber` is also 'uncertain', which is used to keep track of rounding errors.
+
+- element  link:{gha}abstractalgebra/reals/RealNumber.java[`RealNumber`]
+- structure link:{gha}abstractalgebra/reals/RealField.java[`RealField`]
+
+
+
+==== Arbitrary precision real numbers
+
+The field of reals numbers, but backed by java's `BigDecimal`. This means that it supports arbitrary precision, but, since this still
+is not _exact_ this still is uncertain, and rounding errors are propagated.
+
+- element link:{gha}abstractalgebra/reals/BigDecimalElement.java[`BigDecimalElement`]
+- structure link:{gha}abstractalgebra/reals/BigDecimalField.java[`BigDecimalField`]
+
+
+==== Rational numbers
+
+The field of rational numbers. Implemented using two arbitrary sized `BigIntegers`.
+
+- element link:{gha}abstractalgebra/rationalnumbers/RationalNumber.java[`RationalNumber`]
+- structure link:{gha}abstractalgebra/rationalnumbers/RationalNumbers.java[`RationalNumbers`]
+
+Also, since division is exact in this field, this does _not_ implement `UncertainNumber`.
+
+The cardinality is countable (ℵ~0~) so this _does_ implement `Streamable`.
+
+==== Permutations
+
+The permutation group. An example of a non-abelian finite group.
+
+- element link:{gha}abstractalgebra/permutations/Permutation.java[`Permutation`]
+- structure link:{gha}abstractalgebra/permutations/PermutationGroup.java[`PermutationGroup`]
+
+This is group is finite, so streamable. This means that the group also contains an implementation of 'all permutations' (this is non-trivial, it's using Knuth's algorithm).
+
+The permutation elements themselves are implemented as a `java.util.function.UnaryOperator` on `Object[]` which then performs the actual permutation.
+
+
+==== Integers
+The most basic algebraic structure which can be created from integers are the integers (ℤ) themselves. They form a ring:
+
+- element link:{gha}abstractalgebra/integers/IntegerElement.java[`IntegerElement`]
+- structure link:{gha}abstractalgebra/integers/Integers.java[`Integers`]
+
+
+==== Even integers
+As an example of a 'rng' (a ring without the existence of the multiplicative identity 1), the even integers can serve
+
+- element link:{gha}abstractalgebra/integers/EvenIntegerElement.java[`EvenIntegerElement`]
+- structure link:{gha}abstractalgebra/integers/EvenIntegers.java[`EvenIntegers`]
+
+==== Natural numbers
+In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a 'monoid' (both additive and multiplicative).
+
+- element link:{gha}abstractalgebra/integers/NaturalNumber.java[`NaturalNumber`]
+- structure link:{gha}abstractalgebra/integers/NaturalNumbers.java[`NaturalNumbers`]
+
+==== Modulo groups
+Integers can be simply restricted via modulo arithmetic to form a finite ring:
+
+- element link:{gha}abstractalgebra/integers/ModuloRingElement.java[`ModuloRingElement`]
+- structure link:{gha}abstractalgebra/integers/ModuloRing.java[`ModuloRing`]
+
+If the 'divisor' is a prime, then they even form a field, because the reciprocal can be defined:
+
+- element link:{gha}abstractalgebra/integers/ModuloFieldElement.java[`ModuleFieldElement`]
+- structure link:{gha}abstractalgebra/integers/ModuloField.java[`ModuloField`]
+
+==== Complex numbers
+
+Another well-known field is the field of complex numbers.
+
+- element link:{gha}abstractalgebra/complex/ComplexNumber.java[`ComplexNumber`]
+- structure link:{gha}abstractalgebra/complex/ComplexNumbers.java[`ComplexNumbers`]
+
+==== Quaternions
+
+Quaternions are forming a 'non-commutative' field, a link:{ghm}abstractalgebra/DivisionRing.java[DivisionRing]
+
+- element link:{gha}abstractalgebra/quaternions/Quaternion.java[`Quaternion`]
+- structure link:{gha}abstractalgebra/quaternions/Quaternions.java[`Quaternions`]
+
+==== Matrix and rotation groups
+
+===== SO(3)
+
+Another non-abelian (not-commutative) multiplicative group.
+
+- element link:{gha}abstractalgebra/dim3/Rotation.java[`Rotation`]
+- structure link:{gha}abstractalgebra/dim3/RotationGroup.java[`RotationGroup`]
+
+==== Strings
+
+Actually one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).
+
+- element link:{gha}abstractalgebra/strings/StringElement.java[`StringElement`]
+- structure link:{gha}abstractalgebra/strings/StringMonoid.java[`StringMonoid`]
+
+Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementation to stream all possible strings.
+
+==== Vector spaces
+
+link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
+
+
+== Compatibility
+
+This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
+
+
+== ConfigurationService [[configuration_service]]
+
+image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
+image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
+
+`ConfigurationService` is responsible for managing the `Configuration` thread locals.
+
+Like this it can be consulted
+
+.Accessing configuration
+[source,java]
+----
+
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+...
+
+Configuration configuration = ConfigurationService.getConfiguration();
+NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+int minimalExponent = aspect.getMinimalExponent();
+----
+This would however probably mainly be used in _implementations_.
+
+Actual configuration can be done in two basically distinct ways.
+
+- a new configuration object can be set as a thread local
+- global default configuration object can be set
+
+.temporary overrides
+[source,java]
+----
+ConfigurationService.setConfiguration(builder ->
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+    )
+);
+
+//...code...
+ConfigurationService.resetToDefaults();
+----
+
+There are some utilities in `ConfigurationService` that makes this process a bit easier.
+
+.temporary overrides utilities
+[source, java]
+----
+ ConfigurationService.withConfiguration((con) ->
+  con.configure(TestConfigurationAspect.class,
+             (tc) -> tc.withSomeInt(5))
+     .configure(NumberConfiguration.class,
+             (tc) -> tc.withMinimalExponent(3))
+, () -> {
+// code
+
+ });
+----
+
+Global defaults can be set similarly
+
+.setting global defaults
+[source,java]
+----
+ ConfigurationService.defaultConfiguration((con) ->
+  con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+     .configure(TestConfigurationAspect.class, c -> c.withSomeInt(-1))
+ );
+----
+
+ConfigurationService itself is not actually math related, and is released in a separate artifact.
