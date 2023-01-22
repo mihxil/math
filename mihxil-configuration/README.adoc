@@ -40,6 +40,16 @@ ConfigurationService.setConfiguration(builder ->
 
 //...code...
 ConfigurationService.resetToDefaults();
+
+// or using Autocloseable
+try (ConfigurationService.Reset reset = ConfigurationService.setConfiguration(builder ->
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+    )
+)) {
+    ;
+    //...code...
+}
 ----
 
 There are some utilities in `ConfigurationService` that makes this process a bit easier.
