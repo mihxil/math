@@ -6,11 +6,13 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
+import static org.meeuw.configuration.ConfigurationService.*;
+
+
 // end::import[]
 
 /**
  * Code blocks used to include in assciidoc.
- *
  *
  *
  */
@@ -19,25 +21,30 @@ public class ConfigurationExample {
     public static void access() {
         // tag::access[]
 
-        Configuration configuration = ConfigurationService.getConfiguration();
+        Configuration configuration = getConfiguration();
         NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         int minimalExponent = aspect.getMinimalExponent();
         // end::access[]
     }
 
-    public static void setConfiguration() {
-        // tag::configurationService[]
-        ConfigurationService.setConfiguration(builder ->
-            builder.configure(NumberConfiguration.class,
-                (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
-            )
-        );
 
-        //...code...
-        ConfigurationService.resetToDefaults();
+    public static void exampleConfiguration() {
+        // tag::configurationService[]
+
+        {
+            //noinspection resource
+            setConfiguration(builder ->
+                builder.configure(NumberConfiguration.class,
+                    (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+                )
+            );
+
+            //...code...
+            ConfigurationService.resetToDefaults();
+        }
 
         // or using Autocloseable
-        try (ConfigurationService.Reset reset = ConfigurationService.setConfiguration(builder ->
+        try (Reset reset = setConfiguration(builder ->
             builder.configure(NumberConfiguration.class,
                 (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
             )
@@ -50,7 +57,7 @@ public class ConfigurationExample {
 
     public static void usingCloseable() {
         // tag::closable[]
-        ConfigurationService.withConfiguration((con) ->
+        withConfiguration((con) ->
                 con.configure(UncertaintyConfiguration.class,
                         (uncertaintyConfiguration) -> uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
                     .configure(NumberConfiguration.class,
@@ -65,8 +72,8 @@ public class ConfigurationExample {
 
     public static void global() {
         // tag::global[]
-        ConfigurationService.defaultConfiguration((con) ->
-            con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+        defaultConfiguration((configurationBuilder) ->
+            configurationBuilder.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
                 .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
         );
         // end::global[]
