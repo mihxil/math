@@ -51,6 +51,8 @@ public class ConfigurationService {
     private static final Configuration.Builder DEFAULT = Configuration.builder();
     private static boolean useUserPreferences = false;
 
+    public static  Reset RESET_TO_DEFAULTS = new Reset();
+
     /**
      * Persistifies settings via {@link ConfigurationPreferences} (a wrapper around {@link java.util.prefs.Preferences}). This may result in a config file in {@code $HOME/.java/.userPrefs} (UNIXes), in {@code $HOME/Library/Preferences/org.meeuw.configuration.plist} (OS X) or registry entries (Windows)
      */
@@ -87,30 +89,33 @@ public class ConfigurationService {
      * Sets the given configuration object as a thread local
      * @param configuration the new configuration
      */
-    public  static void  setConfiguration(Configuration configuration) {
+    public  static void setConfiguration(Configuration configuration) {
         CONFIGURATION.set(configuration);
+
     }
 
     /**
      * @since 0.10
      */
-    public  static void  setConfiguration(Configuration configuration, Consumer<Configuration.Builder> consumer) {
+    public  static Reset setConfiguration(Configuration configuration, Consumer<Configuration.Builder> consumer) {
         Configuration.Builder builder = configuration.toBuilder();
         consumer.accept(builder);
         setConfiguration(builder);
+        return RESET_TO_DEFAULTS;
     }
     /**
      * @since 0.10
      */
-    public  static void  setConfiguration(Consumer<Configuration.Builder> consumer) {
-        setConfiguration(getConfiguration(), consumer);
+    @SuppressWarnings("UnusedReturnValue")
+    public  static Reset setConfiguration(Consumer<Configuration.Builder> consumer) {
+        return setConfiguration(getConfiguration(), consumer);
     }
 
     /**
      *
      * @since 0.10
      */
-    public  static void  setConfiguration(Configuration.Builder configuration) {
+    public  static void setConfiguration(Configuration.Builder configuration) {
         setConfiguration(configuration.build());
     }
 
@@ -276,5 +281,15 @@ public class ConfigurationService {
             r.run();
             return null;
         };
+    }
+
+    public static class Reset implements AutoCloseable {
+        private Reset() {
+
+        }
+        @Override
+        public void close() {
+            ConfigurationService.resetToDefaults();
+        }
     }
 }

@@ -64,12 +64,13 @@ public class ConfigurationServiceTest {
         TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
         int someInt = aspect.getSomeInt();
         log.info(() -> String.format("some int: %d", someInt));
-        ConfigurationService.setConfiguration(builder ->
+        try (Reset reset = ConfigurationService.setConfiguration(builder ->
             builder.configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
-        );
-        assertThat(getConfiguration()
-            .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)
-        ).isEqualTo(8);
+        )) {
+            assertThat(getConfiguration()
+                .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)
+            ).isEqualTo(8);
+        }
 
     }
 

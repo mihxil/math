@@ -35,6 +35,16 @@ public class ConfigurationExample {
 
         //...code...
         ConfigurationService.resetToDefaults();
+
+        // or using Autocloseable
+        try (ConfigurationService.Reset reset = ConfigurationService.setConfiguration(builder ->
+            builder.configure(NumberConfiguration.class,
+                (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+            )
+        )) {
+            ;
+            //...code...
+        }
         // end::configurationService[]
     }
 
