@@ -92,7 +92,8 @@ public class SpecialLinearGroupTest {
                 IntegerElement.of(2), IntegerElement.of(4), IntegerElement.of(6),
                 IntegerElement.of(0), IntegerElement.of(4), IntegerElement.of(6)
             );
-        }).isInstanceOf(InvalidElementCreationException.class).hasMessage("The matrix ((1,2,3),(2,4,6),(0,4,6)) is not invertible. Its determinant is zero");
+        }).isInstanceOf(InvalidElementCreationException.class)
+            .hasMessage("The matrix ((1,2,3),(2,4,6),(0,4,6)) is not invertible. Its determinant is zero");
     }
 
     @Test
@@ -117,30 +118,30 @@ public class SpecialLinearGroupTest {
     @Test
     public void validation() throws NoSuchMethodException {
 
-        ValidatorFactory factory = Validation
+        try (ValidatorFactory factory = Validation
             .byDefaultProvider()
             .configure()
             .messageInterpolator(new ParameterMessageInterpolator())
-            .buildValidatorFactory();
-        System.err.println("" + factory);;
-        ExecutableValidator executableValidator = factory.getValidator().forExecutables();
-        Method method = SpecialLinearGroup.class
-            .getMethod("newElement", RingElement[].class);
-        Object[] parameterValues = { new IntegerElement[] {IntegerElement.of(1), IntegerElement.of(2) }};
-        //assertThat(new SquareValidator().isValid(parameterValues[0], null)).isFalse();
+            .buildValidatorFactory()) {
+            System.err.println("" + factory);
+            ;
+            ExecutableValidator executableValidator = factory.getValidator().forExecutables();
+            Method method = SpecialLinearGroup.class
+                .getMethod("newElement", RingElement[].class);
+            Object[] parameterValues = {new IntegerElement[]{IntegerElement.of(1), IntegerElement.of(2)}};
+            //assertThat(new SquareValidator().isValid(parameterValues[0], null)).isFalse();
 
 
-        Set<ConstraintViolation<SpecialLinearGroup<IntegerElement>>> violations
-            = executableValidator.validateParameters(
-            SpecialLinearGroup.SL_N, method, parameterValues);
-        log.info("{}", violations);
-        assertThat(violations).hasSize(1);
-
+            Set<ConstraintViolation<SpecialLinearGroup<IntegerElement>>> violations
+                = executableValidator.validateParameters(
+                SpecialLinearGroup.SL_N, method, parameterValues);
+            log.info("{}", violations);
+            assertThat(violations).hasSize(1);
+        }
     }
 
     public static class IntegersTest implements
         MultiplicativeGroupTheory<SpecialLinearMatrix<IntegerElement>> {
-
 
         @Property
         public void determinant(@ForAll(ELEMENTS) SpecialLinearMatrix<IntegerElement> matrix) {

@@ -31,7 +31,7 @@ public class TextUtilsTest  {
 
     @Test
     public void superscript() {
-        assertThat("+" + TextUtils.superscript("+-1234567890 P")).isEqualTo("+⁺⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ");
+        assertThat("+" + TextUtils.superscript("+-1234567890 P=(n)")).isEqualTo("+⁺⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ⁼⁽ⁿ⁾");
         assertThat(TextUtils.superscript(-123)).isEqualTo("⁻¹²³");
     }
 

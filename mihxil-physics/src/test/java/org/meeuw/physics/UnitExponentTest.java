@@ -15,14 +15,40 @@
  */
 package org.meeuw.physics;
 
-import static org.junit.jupiter.api.Assertions.*;
+import lombok.extern.log4j.Log4j2;
 
+import net.jqwik.api.*;
+import net.jqwik.api.arbitraries.IntegerArbitrary;
 import org.junit.jupiter.api.Test;
 
-class UnitExponentTest {
+import org.meeuw.util.test.ComparableTheory;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+@Log4j2
+class UnitExponentTest implements ComparableTheory<UnitExponent> {
+
+    @Override
+    public Arbitrary<? extends UnitExponent> datapoints() {
+        IntegerArbitrary unit = Arbitraries.integers()
+            .between(0, SIUnit.values().length - 1);
+        IntegerArbitrary exponent = Arbitraries.integers()
+            .between(-5, 5);
+        return Combinators.combine(
+            unit, exponent
+            ).as((u, e) -> new UnitExponent(SIUnit.values()[u], e))
+            .injectDuplicates(0.2);
+    }
 
     @Test
     void times() {
+        UnitExponent g = UnitExponent.of(SI.g, 1);
+        assertThat(g.times(g).getExponent()).isEqualTo(2);
+
+        assertThatThrownBy(() -> g.times(UnitExponent.of(SI.pc, 2))).isInstanceOf(IllegalArgumentException.class);
+
+
     }
 
     @Test

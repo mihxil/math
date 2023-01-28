@@ -24,8 +24,10 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.numbers.test.NumberTheory;
 import org.meeuw.math.numbers.test.ScalarTheory;
-
 import static org.assertj.core.api.Assertions.assertThat;
+
+// tag::imports[]
+
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.*;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
@@ -33,7 +35,7 @@ import static org.meeuw.physics.SI.DecimalPrefix.none;
 import static org.meeuw.physics.SIUnit.kg;
 import static org.meeuw.physics.SIUnit.m;
 
-
+// end::imports[]
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -48,25 +50,30 @@ class PhysicalNumberTest implements
 
     @Test
     public void add() {
-        PhysicalNumber lys = measurement(2, 0.1, ly);
-        PhysicalNumber psc = measurement(1, 0.1, pc);
-        log.info("{} + {} ({})= {}", lys, psc, psc.toUnits(ly), lys.plus(psc));
-        assertThat(lys.plus(psc).toString()).isEqualTo("5.3 ± 0.4 ly");
-        assertThat(psc.plus(lys).toString()).isEqualTo("1.61 ± 0.13 pc");
+        // tag::add[]
+        PhysicalNumber twoLightyears = new Measurement(2, 0.1, ly);        //
+        PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
+
+        assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.3 ly");
+        assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.10 pc");
+        assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); //different toString does not mean that they represent a different value
+        log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
+        // end::add[]
+
     }
 
     @Test
     public void toUnits() {
-        Units pc = Units.of(SI.pc);
-        PhysicalNumber two_pc = measurement(2, 0.1, pc);
+        Units kpc = SI.pc.withPrefix(k);
+        PhysicalNumber two_kpc = measurement(2, 0.1, kpc);
 
-        PhysicalNumber inLightYear = two_pc.toUnits(Units.of(ly));
-        assertThat(inLightYear.doubleValue()).isEqualTo(6.523127554334867);
-        assertThat(inLightYear.toString()).isEqualTo("6.5 ± 0.3 ly");
+        PhysicalNumber inLightYear = two_kpc.toUnits(Units.of(ly));
+        assertThat(inLightYear.doubleValue()).isEqualTo(6523.1275543348665);
+        assertThat(inLightYear.toString()).isEqualTo("6523 ± 311 ly");
 
-        assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁶ m");
-        assertThat(inLightYear.toUnits(CGS.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁸ cm");
-        assertThat(inLightYear.toUnits(Planck.INSTANCE).toString()).isEqualTo("(3.82 ± 0.17)·10⁵¹ ℓₚ");
+        assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁹ m");
+        assertThat(inLightYear.toUnits(CGS.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10²¹ cm");
+        assertThat(inLightYear.toUnits(Planck.INSTANCE).toString()).isEqualTo("(3.82 ± 0.17)·10⁵⁴ ℓₚ");
     }
 
     @Test
@@ -112,8 +119,6 @@ class PhysicalNumberTest implements
     public void equals() {
         PhysicalNumber two_lightyear = measurement(2, 0.1, ly);
         PhysicalNumber inm = measurement(3, 0.1, m);
-
-
     }
 
     /**

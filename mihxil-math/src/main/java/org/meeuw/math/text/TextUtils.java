@@ -30,9 +30,9 @@ import org.meeuw.math.time.TimeUtils;
  */
 public final class TextUtils {
 
-    public static final String TIMES = "\u00B7";  /* "·10' */
-    public static final String PLUSMIN = "\u00B1";
-    public static final String INFINITY = "\u221E";
+    public static final String TIMES      = "·";  /* "·10' */
+    public static final String PLUSMIN    = "±";
+    public static final String INFINITY   = "∞";
     public static final String NOT_EQUALS = "≠";
 
     public static final String PLACEHOLDER = "x";
@@ -132,7 +132,7 @@ public final class TextUtils {
     }
 
     private static final char[] SUPERSCRIPTS = {
-        0x2070,
+        0x2070, // 0
         0x00B9,
         0x00B2,
         0x00B3,
@@ -141,14 +141,19 @@ public final class TextUtils {
         0x2076,
         0x2077,
         0x2078,
-        0x2079
+        0x2079 // 9
     };
-    private static final char SUPER_MINUS = '\u207B';
-    private static final char SUPER_PLUS = '\u207A';
+    private static final char SUPER_MINUS = '⁻';
+    private static final char SUPER_PLUS = '⁺';
 
     private static final Map<Character, Character> SUPER = Collections.unmodifiableMap(new HashMap<Character, Character>() {{
         put('-', SUPER_MINUS);
         put('+', SUPER_PLUS);
+        put('i', 'ⁱ');
+        put('n', 'ⁿ');
+        put('(', '⁽');
+        put(')', '⁾');
+        put('=', '⁼');
         put('P', 'ᴾ');
     }});
 
@@ -164,7 +169,7 @@ public final class TextUtils {
         0x2088,
         0x2089
     };
-    private static final char SUB_MINUS = '\u208B';
+    private static final char SUB_MINUS = '₋';
 
 
 

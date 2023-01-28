@@ -267,13 +267,9 @@ Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper di
 
 [source,java]
 ----
-PhysicalNumber twoLightyears = new Measurement(2, 0.1, SI.ly);
-PhysicalNumber oneParsec = new Measurement(1, 0.1, SI.pc);
-log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
-assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.3 ly");
-assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.10 pc");
-assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); //different toString does not mean that they represent a different value.
-
+include::mihxil-physics/src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=imports, indent=0]
+...
+include::mihxil-physics/src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=add, indent=0]
 ----
 
 Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).

@@ -23,11 +23,12 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SIUnit.m;
 
 class PrefixedUnitTest {
 
-    final Units kN = SI.N.withPrefix(SI.DecimalPrefix.k);
+    final Units kN = SI.N.withPrefix(k);
 
     @Test
     void getDimensions() {

@@ -1,21 +1,21 @@
 package org.meeuw.test.examples;
-// tag::import[]
 
+// tag::import[]
 import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.configuration.ConfigurationService.*;
-
-
 // end::import[]
 
 /**
- * Code blocks used to include in assciidoc.
- *
+ * Code blocks used to include in asciidoc, see README-source.adoc. Asciidoc detects the tag:: comments.
+ * <p>
+ * Like this it is ensured that the code compiles, and is easier editable.
  *
  */
+@SuppressWarnings("unused")
 public class ConfigurationExample {
 
     public static void access() {
@@ -44,7 +44,7 @@ public class ConfigurationExample {
         }
 
         // or using Autocloseable
-        try (Reset reset = setConfiguration(builder ->
+        try (Reset ignored = setConfiguration(builder ->
             builder.configure(NumberConfiguration.class,
                 (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
             )
@@ -77,6 +77,5 @@ public class ConfigurationExample {
                 .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
         );
         // end::global[]
-
     }
 }

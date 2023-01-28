@@ -49,6 +49,7 @@ public class UnitExponent implements Comparable<UnitExponent> {
     public UnitExponent pow(int d) {
         return of(unit, d * exponent);
     }
+
     public UnitExponent times(UnitExponent u) {
         if (!unit.equals(u.unit)) {
             throw new IllegalArgumentException();

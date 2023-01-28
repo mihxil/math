@@ -25,7 +25,6 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
 
 /**
  * The representation of the physical units of a value.
- *
  * @author Michiel Meeuwissen
  * @since 0.4
  */

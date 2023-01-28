@@ -22,7 +22,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface Ordered<E extends Ordered<E>>  extends StrictlyOrdered<E> {
+public interface Ordered<E extends Ordered<E>> extends StrictlyOrdered<E> {
 
 
 }
