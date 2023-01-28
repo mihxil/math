@@ -441,9 +441,12 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
+import static org.meeuw.configuration.ConfigurationService.*;
+
+
 ...
 
-Configuration configuration = ConfigurationService.getConfiguration();
+Configuration configuration = getConfiguration();
 NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 int minimalExponent = aspect.getMinimalExponent();
 ----
@@ -457,17 +460,21 @@ Actual configuration can be done in two basically distinct ways.
 .temporary overrides
 [source,java]
 ----
-ConfigurationService.setConfiguration(builder ->
-    builder.configure(NumberConfiguration.class,
-        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
-    )
-);
 
-//...code...
-ConfigurationService.resetToDefaults();
+{
+    //noinspection resource
+    setConfiguration(builder ->
+        builder.configure(NumberConfiguration.class,
+            (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+        )
+    );
+
+    //...code...
+    ConfigurationService.resetToDefaults();
+}
 
 // or using Autocloseable
-try (ConfigurationService.Reset reset = ConfigurationService.setConfiguration(builder ->
+try (Reset reset = setConfiguration(builder ->
     builder.configure(NumberConfiguration.class,
         (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
     )
@@ -482,7 +489,7 @@ There are some utilities in `ConfigurationService` that makes this process a bit
 .temporary overrides utilities
 [source, java]
 ----
-ConfigurationService.withConfiguration((con) ->
+withConfiguration((con) ->
         con.configure(UncertaintyConfiguration.class,
                 (uncertaintyConfiguration) -> uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
             .configure(NumberConfiguration.class,
@@ -499,8 +506,8 @@ Global defaults can be set similarly
 .setting global defaults
 [source,java]
 ----
-ConfigurationService.defaultConfiguration((con) ->
-    con.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+defaultConfiguration((configurationBuilder) ->
+    configurationBuilder.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
         .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
 );
 ----
