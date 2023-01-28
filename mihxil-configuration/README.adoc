@@ -10,15 +10,12 @@ Like this it can be consulted
 .Accessing configuration
 [source,java]
 ----
-
 import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.configuration.ConfigurationService.*;
-
-
 ...
 
 Configuration configuration = getConfiguration();
@@ -49,7 +46,7 @@ Actual configuration can be done in two basically distinct ways.
 }
 
 // or using Autocloseable
-try (Reset reset = setConfiguration(builder ->
+try (Reset ignored = setConfiguration(builder ->
     builder.configure(NumberConfiguration.class,
         (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
     )
