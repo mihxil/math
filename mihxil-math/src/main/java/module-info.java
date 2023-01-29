@@ -73,8 +73,8 @@ module org.meeuw.math {
         ;
     provides ToStringProvider with
         DecimalFormatToString,
-        MathContextToString;
-
+        MathContextToString
+        ;
 
 }
 

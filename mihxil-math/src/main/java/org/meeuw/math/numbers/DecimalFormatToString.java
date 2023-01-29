@@ -4,13 +4,13 @@ import java.text.DecimalFormat;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.meeuw.configuration.spi.ToStringProvider;
+import org.meeuw.configuration.spi.AbstractToString;
 
-public class DecimalFormatToString implements ToStringProvider<DecimalFormat> {
+public class DecimalFormatToString extends AbstractToString<DecimalFormat> {
 
-    @Override
-    public int weight() {
-        return 0;
+
+    public DecimalFormatToString() {
+        super(DecimalFormat.class);
     }
 
     @Override
@@ -21,13 +21,9 @@ public class DecimalFormatToString implements ToStringProvider<DecimalFormat> {
     }
 
     @Override
-    public Optional<DecimalFormat> fromString(Class<?> type, @Nullable String value) {
-        try {
-            return Optional.ofNullable(value)
-                .filter(v -> DecimalFormat.class.isAssignableFrom(type))
-                .map(s -> new DecimalFormat());
-        } catch (Exception e){
-            return Optional.empty();
-        }
+    protected DecimalFormat valueOf(String value) {
+        return new DecimalFormat(value);
     }
+
+
 }

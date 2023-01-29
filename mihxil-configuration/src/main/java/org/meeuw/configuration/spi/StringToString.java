@@ -21,7 +21,5 @@ public class StringToString implements ToStringProvider<CharSequence> {
     public Optional<CharSequence> fromString(Class<?> type, @Nullable String value) {
         return Optional.<CharSequence>ofNullable(value)
             .filter(v -> CharSequence.class.isAssignableFrom(type));
-
-
     }
 }

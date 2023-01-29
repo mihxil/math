@@ -7,7 +7,12 @@ import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @Log
-public class BooleanToString implements ToStringProvider<Boolean> {
+public class BooleanToString extends AbstractToString<Boolean> {
+
+    public BooleanToString() {
+        super(Boolean.class);
+    }
+
     @Override
     public int weight() {
         return 0;
@@ -21,22 +26,22 @@ public class BooleanToString implements ToStringProvider<Boolean> {
     }
 
     @Override
-    public Optional<Boolean> fromString(Class<?> type, @Nullable String value) {
-        if (Boolean.TYPE.equals(type)) {
-            type = Boolean.class;
+    protected Boolean valueOf(String value) {
+        String lowered = value.toLowerCase();
+        if ("true".equals(lowered)) {
+            return Boolean.TRUE;
         }
-        final Class<?> finalType = type;
-        return Optional.ofNullable(value)
-            .filter(v -> Boolean.class.isAssignableFrom(finalType))
-            .map(v -> {
-                String lowered = value.toLowerCase();
-                if ("true".equals(lowered)) {
-                    return Boolean.TRUE;
-                }
-                if ("false".equals(lowered)) {
-                    return Boolean.FALSE;
-                }
-                return null;
-        });
+        if ("false".equals(lowered)) {
+            return Boolean.FALSE;
+        }
+        return null;
+    }
+
+    @Override
+    protected Class<?> toWrapper(Class<?> clazz) {
+        if (Boolean.TYPE.equals(clazz)) {
+            return type;
+        }
+        return clazz;
     }
 }

@@ -16,32 +16,18 @@
 package org.meeuw.math.statistics.text.spi;
 
 import java.time.ZoneId;
-import java.util.Optional;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.meeuw.configuration.spi.ToStringProvider;
+import org.meeuw.configuration.spi.AbstractToString;
 
-public class ZoneIdToString implements ToStringProvider<ZoneId> {
-    @Override
-    public int weight() {
-        return 0;
+public class ZoneIdToString extends AbstractToString<ZoneId> {
+
+    public ZoneIdToString() {
+        super(ZoneId.class);
     }
 
     @Override
-    public Optional<String> toString(@Nullable Object value) {
-        return Optional.ofNullable(value)
-            .filter(v -> v instanceof ZoneId)
-            .map(Object::toString);
+    protected ZoneId valueOf(String value) {
+        return ZoneId.of(value);
     }
 
-    @Override
-    public Optional<ZoneId> fromString(Class<?> type, @Nullable String value) {
-        try {
-            return Optional.ofNullable(value)
-                .filter(v -> ZoneId.class.isAssignableFrom(type))
-                .map(ZoneId::of);
-        } catch (Exception e) {
-            return Optional.empty();
-        }
-    }
 }

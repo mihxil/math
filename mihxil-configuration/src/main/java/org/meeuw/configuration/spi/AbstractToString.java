@@ -8,10 +8,15 @@ import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 @Log
-public abstract class AbstractToString<N extends Number> implements ToStringProvider<N> {
+public abstract class AbstractToString<N> implements ToStringProvider<N> {
 
     @Getter
     protected final Class<?> type;
+
+    @Override
+    public int weight() {
+        return 0;
+    }
 
     protected AbstractToString(Class<N> type) {
         this.type = type;
@@ -34,14 +39,14 @@ public abstract class AbstractToString<N extends Number> implements ToStringProv
             .map(v -> {
                 try {
                     return valueOf(value);
-                } catch(IllegalArgumentException iae) {
-                    log.warning(value + "->" + t + ":" + iae.getMessage());
+                } catch(RuntimeException iae) {
+                    log.warning(value + "->" + t + ":" + iae.getClass().getName() + ":" + iae.getMessage());
                     return null;
                 }
             });
     }
 
-    protected Class<?> toWrapper(Class<?> clazz) {
+    protected  Class<?> toWrapper(Class<?> clazz) {
         return clazz;
     }
 }
