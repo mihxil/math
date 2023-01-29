@@ -15,23 +15,21 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
+import static java.lang.Math.max;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
-
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.*;
+import org.meeuw.math.DoubleUtils;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.FormatService;
-import org.meeuw.math.uncertainnumbers.*;
-
-import static java.lang.Math.max;
-import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.TextUtils.superscript;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * A real number (backend by a double). It is uncertain, but only because of rounding errors.
@@ -221,7 +219,7 @@ public class RealNumber
 
     @Override
     public int compareTo(@NonNull RealNumber o) {
-        if (confidenceEquals(o)) {
+        if (eq(o)) {
             return 0;
         }
         return Double.compare(value, o.value);
