@@ -285,7 +285,7 @@ public abstract class Windowed<T> {
     /**
      * @return the current duration of the complete window
      * If we are warming up, then this will be the time since we started.
-     * Otherwise only the current bucket is 'warming up', and the
+     * Otherwise, only the current bucket is 'warming up', and the
      * relevant duration will be less than the configured 'window', but more than
      * the given window minus the duration of one bucket.
      */

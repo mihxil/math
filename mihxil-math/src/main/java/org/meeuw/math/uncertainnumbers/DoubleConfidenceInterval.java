@@ -18,6 +18,7 @@ package org.meeuw.math.uncertainnumbers;
 import lombok.Getter;
 
 import java.util.function.Predicate;
+import org.meeuw.math.numbers.DoubleOperations;
 
 /**
  * Like {@link ConfidenceInterval}, but backed by primitive doubles.
@@ -32,7 +33,7 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
     private final double high;
 
     /**
-     * @see ConfidenceInterval#of(Number, Number, int)  
+     * @see ConfidenceInterval#of(Number, Number, int)
      */
     public static DoubleConfidenceInterval of(double value, double uncertainty, double interval) {
         double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * UncertainDouble.NaN_EPSILON) : uncertainty * interval;
@@ -44,6 +45,9 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
         this.high = high;
     }
 
+    public ConfidenceInterval<Double> asConfidenceInterval() {
+        return new ConfidenceInterval<>(DoubleOperations.INSTANCE, low, high);
+    }
     public boolean contains(double value) {
         return this.low <= value && value <= this.high;
     }

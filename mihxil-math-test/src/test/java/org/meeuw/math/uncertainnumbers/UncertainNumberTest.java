@@ -117,16 +117,16 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
     void equals() {
         A a = new A(valueOf(1), valueOf(0.1));
         A b = new A(valueOf(1.05), valueOf(0.0001));
-        assertThat(a.equals(b, 1)).isTrue();
-        assertThat(b.equals(a, 1)).isTrue();
-        assertThat(a.equals(a, 1)).isTrue();
+        assertThat(a.eq(b, 1)).isTrue();
+        assertThat(b.eq(a, 1)).isTrue();
+        assertThat(a.eq(a, 1)).isTrue();
 
         UND d1 = new UND(1d, 0.1);
         UND d2 = new UND(Double.NaN, 0.1);
-        assertThat(d1.equals(d2, 1)).isFalse();
-        assertThat(d2.equals(d1, 1)).isFalse();
+        assertThat(d1.eq(d2, 1)).isFalse();
+        assertThat(d2.eq(d1, 1)).isFalse();
 
-        assertThat(d2.equals(new UND(Double.NaN, 2d), 1)).isTrue();
+        assertThat(d2.eq(new UND(Double.NaN, 2d), 1)).isTrue();
     }
 
 }

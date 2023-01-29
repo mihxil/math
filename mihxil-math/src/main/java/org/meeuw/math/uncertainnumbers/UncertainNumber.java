@@ -17,6 +17,7 @@ package org.meeuw.math.uncertainnumbers;
 
 import java.math.BigDecimal;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.NumberOperations;
@@ -180,6 +181,11 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
 
     default ConfidenceInterval<N> getConfidenceInterval(float sds) {
         return ConfidenceInterval.of(getValue(), getUncertainty(), sds);
+    }
+
+
+    default ConfidenceInterval<N> getConfidenceInterval() {
+        return ConfidenceInterval.of(getValue(), getUncertainty(), ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
 }

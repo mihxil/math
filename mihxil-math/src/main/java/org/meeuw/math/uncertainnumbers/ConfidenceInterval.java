@@ -52,7 +52,7 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
         );
     }
 
-    private ConfidenceInterval(NumberOperations<N> op, N low, N high) {
+    ConfidenceInterval(NumberOperations<N> op, N low, N high) {
         this.low = low;
         this.high = high;
         this.predicate = (v) -> op.gte(v, low) && op.lte(v, high);

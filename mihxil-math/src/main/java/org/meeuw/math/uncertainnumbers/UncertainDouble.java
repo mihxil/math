@@ -243,4 +243,5 @@ public interface UncertainDouble
     default SELF abs() {
         return _of(Math.abs(doubleValue()), doubleUncertainty());
     }
+
 }

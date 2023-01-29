@@ -19,6 +19,7 @@ import jakarta.annotation.PreDestroy;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.*;
@@ -27,8 +28,10 @@ import java.util.logging.Logger;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -147,6 +150,8 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         }
     }
 
+
+
     @Override
     protected AtomicLong initialValue() {
         return new AtomicLong(0L);
@@ -234,6 +239,29 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      */
     public double getRate() {
         return getRate(TimeUnit.SECONDS);
+    }
+
+    @Override
+    public boolean defaultEquals(Object o) {
+        if (!(o instanceof WindowedEventRate)) {
+            return false;
+        }
+        WindowedEventRate other = (WindowedEventRate) o;
+        return getRate() == other.getRate() && Objects.equals(getUncertainty(), other.getUncertainty());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
+            return defaultEquals(o);
+        } else {
+            return eq((WindowedEventRate) o);
+        }
+    }
+
+
+    public boolean eq(WindowedEventRate o) {
+        return eq(o, 1);
     }
 
     @Override
