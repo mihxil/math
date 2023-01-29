@@ -26,8 +26,7 @@ import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
-import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  *  A real number (backend by a big decimal)
@@ -314,12 +313,23 @@ public class BigDecimalElement implements
 
 
     @Override
-    public boolean equals(Object o) {
+    public boolean eq(BigDecimalElement that) {
+        return eq(that, Math.round( ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
+    }
+
+    @Override
+    public boolean defaultEquals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        BigDecimalElement that = (BigDecimalElement) o;
-        return equals(that, Math.round( ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
+        return getValue().equals(((BigDecimalElement) o).getValue()) && getUncertainty().equals(((BigDecimalElement) o).getUncertainty());
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
+            return defaultEquals(o);
+        } else {
+            return eq((BigDecimalElement) o);
+        }
     }
 
     @Override
@@ -331,6 +341,7 @@ public class BigDecimalElement implements
     public String toString() {
         return value.toString();
     }
+
 
 
 }

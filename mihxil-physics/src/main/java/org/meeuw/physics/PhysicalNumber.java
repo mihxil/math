@@ -15,6 +15,7 @@
  */
 package org.meeuw.physics;
 
+import java.util.Objects;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -27,8 +28,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.text.FormatService;
-import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -236,15 +236,32 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean eq(PhysicalNumber of) {
+        if (! units.getDimensions().equals(of.units.getDimensions())) {
+            return  false;
+        }
+        PhysicalNumber sameUnits = of.toUnits(units);
+        return wrapped.eq(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+    }
+
+    @Override
+    public boolean defaultEquals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PhysicalNumber)) return false;
         PhysicalNumber of = (PhysicalNumber) o;
         if (! units.getDimensions().equals(of.units.getDimensions())) {
             return  false;
         }
-        PhysicalNumber sameUnits = of.toUnits(units);
-        return wrapped.eq(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        return Objects.equals(getValue(), of.getValue()) && Objects.equals(getUncertainty(), of.getUncertainty());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
+            return defaultEquals(o);
+        } else {
+            return eq((PhysicalNumber) o);
+        }
     }
 
     @Override

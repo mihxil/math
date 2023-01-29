@@ -87,6 +87,8 @@ public class Measurement extends PhysicalNumber {
         super(uncertain(wrapped.doubleValue(), wrapped.doubleUncertainty()), units);
     }
 
+
+
     @Override
     protected Measurement copy(@NonNull UncertainReal wrapped, @NonNull Units units) {
         return new Measurement(wrapped, units);
