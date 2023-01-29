@@ -15,8 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
@@ -45,21 +44,23 @@ class BigComplexNumberTest implements
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
 
-
     @Override
     public Arbitrary<BigComplexNumber> elements() {
-        return Arbitraries.randomValue(
-            (random) ->
+        Arbitrary<Double> real = Arbitraries.doubles().between(-100, 100);
+        Arbitrary<Double> imaginary = Arbitraries.doubles().between(-100, 100);
+
+        return Combinators.combine(real, imaginary).as((r, i)
+            ->
                 new BigComplexNumber(
-                    of(200 * random.nextDouble() - 100),
-                    of(200 * random.nextDouble() - 100)))
-            .injectDuplicates(0.1)
-            .dontShrink()
+                    of(r),
+                    of(i))
+            )
             .edgeCases(config -> {
                 config.add(structure.i());
                 config.add(structure.one());
                 config.add(structure.zero());
-            });
+            })
+            ;
     }
 
     @Override

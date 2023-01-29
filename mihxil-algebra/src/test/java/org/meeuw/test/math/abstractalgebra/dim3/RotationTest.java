@@ -15,21 +15,18 @@
  */
 package org.meeuw.test.math.abstractalgebra.dim3;
 
+import static java.lang.Math.PI;
 import lombok.extern.log4j.Log4j2;
-
 import net.jqwik.api.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
-
 import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
+import static org.meeuw.math.abstractalgebra.dim3.FieldVector3.of;
 import org.meeuw.math.abstractalgebra.dim3.Rotation;
+import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.text.TextUtils;
-
-import static java.lang.Math.PI;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.dim3.FieldVector3.of;
-import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -83,8 +80,9 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     @Override
     public Arbitrary<Rotation> elements() {
-        return Arbitraries.randoms()
-            .map(r -> r.nextDouble() * 2 * PI).tuple3()
-            .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())));
+        return Arbitraries.doubles().ofScale(20).between(0, 2d * PI)
+            .tuple3()
+            .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())))
+            ;
     }
 }

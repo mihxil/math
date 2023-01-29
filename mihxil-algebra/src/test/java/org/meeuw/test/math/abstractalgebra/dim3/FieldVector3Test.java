@@ -114,14 +114,13 @@ class FieldVector3Test  implements
 
     @Override
     public Arbitrary<? extends FieldVector3<RealNumber>> elements() {
-        return Arbitraries.randomValue(r ->
-            FieldVector3.of(
-                r.nextDouble() * 100,
-                r.nextDouble() * 100,
-                r.nextDouble()* 100)
-            )
-            .injectDuplicates(0.1)
-
+        return Arbitraries.doubles()
+            .between(-100, 100)
+            .tuple3()
+            .map((t) -> {
+                return FieldVector3.of(t.get1(), t.get2(), t.get3());
+            })
+            .injectDuplicates(0.5)
             ;
     }
 }

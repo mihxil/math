@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface ElementTheory<E>  {
+public interface ElementTheory<E>  extends BasicObjectTheory<E> {
 
     String ELEMENT = "element";
     String ELEMENTS = "elements";
@@ -75,5 +75,10 @@ public interface ElementTheory<E>  {
 
     default Logger getLogger() {
         return LogManager.getLogger(this.getClass());
+    }
+
+    @Override
+    default Arbitrary<? extends E> datapoints() {
+        return elements();
     }
 }

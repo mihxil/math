@@ -117,17 +117,11 @@ public interface BasicObjectTheory<E> {
     Arbitrary<? extends E> datapoints();
 
     @Provide
-    default Arbitrary<? extends Tuple2<E, E>> equalDatapoints() {
-        List<Tuple2<E, E>> pairs = new ArrayList<>();
-        datapoints().forEachValue(x ->
-            datapoints().forEachValue(y -> {
-                if (x != null) {
-                    if (x.equals(y)) {
-                        pairs.add(Tuple.of(x, y));
-                    }
-                }
-        }));
-        return Arbitraries.of(pairs);
+    default Arbitrary<? extends Tuple2<? extends E, ? extends E>> equalDatapoints() {
+        return datapoints()
+            .injectDuplicates(1)
+            .tuple2()
+            .filter(10_000, (t) -> t.get1().equals(t.get2()));
     }
 
     @Provide

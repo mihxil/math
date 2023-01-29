@@ -60,7 +60,7 @@ public interface VectorSpaceTheory<
     }
 
     @Property
-    default void toString(@ForAll(ELEMENTS) V v1) {
+    default void vectorToString(@ForAll(ELEMENTS) V v1) {
         String toString = v1.toString();
         v1.forEach(e -> assertThat(toString).contains(e.toString()));
     }
