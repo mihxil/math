@@ -20,7 +20,7 @@ public class StringConversionService {
             .map(tp -> {
                     String result = tp.toString(value).orElse(null);
                     if (result != null) {
-                        log.fine(() -> "%s -> %s".formatted(tp, result));
+                        log.fine(() -> String.format("%s -> %s", tp, result));
                     }
                     return result;
                 }
