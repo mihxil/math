@@ -21,10 +21,6 @@ package org.meeuw.math.exceptions;
  */
 public class NotStreamable extends IllegalStateException {
 
-    public NotStreamable() {
-
-    }
-
     public NotStreamable(String message) {
         super(message);
     }

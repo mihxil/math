@@ -153,7 +153,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
         } catch (IllegalArgumentException iae) {
             try {
                 // It is possible that the operation is defined, but the class does not extend the correct class
-                // e.g. an oddinteger implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
+                // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
                 return (E) e.getClass().getMethod(method.getName()).invoke(e);
             } catch (java.lang.NoSuchMethodException noSuchMethodError) {
                 throw new NoSuchOperatorException("No operation " + this + " found on " + e, noSuchMethodError);

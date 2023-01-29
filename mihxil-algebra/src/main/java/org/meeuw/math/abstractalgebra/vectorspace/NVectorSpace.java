@@ -123,7 +123,7 @@ public class NVectorSpace<E extends FieldElement<E>>
     @Override
     public Stream<NVector<E>> stream() {
         if (getCardinality().compareTo(Cardinality.ALEPH_0) > 0) {
-            throw new NotStreamable();
+            throw new NotStreamable(String.format("Not streamable because %s > %s", getCardinality(), Cardinality.ALEPH_0));
         } else {
             Streamable<E> streamable = (Streamable<E>) field;
             return StreamUtils.cartesianStream(streamable::stream, dimension)

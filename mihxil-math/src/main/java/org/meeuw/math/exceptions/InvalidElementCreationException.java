@@ -25,8 +25,4 @@ public class InvalidElementCreationException extends InvalidOperationException {
         super(s);
     }
 
-    public InvalidElementCreationException(NotASquareException notASquareException) {
-        super(notASquareException.getMessage());
-        initCause(notASquareException);
-    }
 }

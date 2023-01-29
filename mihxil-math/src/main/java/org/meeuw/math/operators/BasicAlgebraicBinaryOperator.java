@@ -140,7 +140,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
     /**
      * Obtains the inverse element associated with this operator.
-     *
+     * <p>
      * E.g. if this operator is {@link #ADDITION} or {@link #SUBTRACTION} it will return the associated the negative of the argument.
      *
      * @param element The element to obtain an inverse for.
@@ -158,7 +158,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
     /**
      * Obtains the unity element associated with this operator.
-     *
+     * <p>
      * E.g. if this operator is {@link #ADDITION} or {@link #SUBTRACTION} it will return the associated {@code zero} element
      *
      * @param structure The structure to obtain if for.

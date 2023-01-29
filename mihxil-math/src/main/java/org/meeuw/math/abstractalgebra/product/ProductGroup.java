@@ -92,7 +92,7 @@ public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>> 
                 () -> ((Streamable<B>) groupB).stream()).map(a -> new ProductElement<>(this, (A) a[0], (B) a[1]));
 
         } else {
-            throw new NotStreamable();
+            throw new NotStreamable(String.format("No streaming because %s and/or %s are not Streamable", groupA, groupB));
         }
     }
 
