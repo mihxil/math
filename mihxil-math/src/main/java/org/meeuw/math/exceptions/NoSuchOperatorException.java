@@ -25,9 +25,4 @@ public class NoSuchOperatorException extends InvalidOperationException {
         super(s);
         initCause(noSuchMethodException);
     }
-
-    public NoSuchOperatorException(IllegalArgumentException iae) {
-        super(iae.getMessage());
-        initCause(iae);
-    }
 }

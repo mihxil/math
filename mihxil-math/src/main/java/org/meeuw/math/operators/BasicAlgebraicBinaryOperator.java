@@ -171,7 +171,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         } catch (IllegalAccessException e) {
             throw new IllegalArgumentException(unity.getDeclaringClass().getName() + "." + unity.getName() + "(" + structure + " ): " + e.getMessage());
         } catch (IllegalArgumentException iae) {
-            throw new NoSuchOperatorException(iae);
+            throw new NoSuchOperatorException("for unity of " + structure + ":" + iae.getMessage(), iae);
         } catch (InvocationTargetException e) {
             throw e.getCause();
         }

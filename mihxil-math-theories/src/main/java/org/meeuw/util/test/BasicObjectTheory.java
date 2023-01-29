@@ -102,7 +102,6 @@ public interface BasicObjectTheory<E> {
         assertThat(pair.get1().hashCode()).isEqualTo(pair.get2().hashCode());
     }
 
-
     /**
      * toString of an object may be anything, but it may not throw exceptions.
      */
@@ -126,7 +125,8 @@ public interface BasicObjectTheory<E> {
 
     @Provide
     default Arbitrary<? extends  E> nonNullDatapoints() {
-        return datapoints().filter(Objects::nonNull);
+        return datapoints()
+            .filter(Objects::nonNull);
     }
 
 }
