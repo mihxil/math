@@ -219,7 +219,7 @@ public class RealNumber
 
     @Override
     public int compareTo(@NonNull RealNumber o) {
-        if (eq(o)) {
+        if (equals(o)) {
             return 0;
         }
         return Double.compare(value, o.value);
