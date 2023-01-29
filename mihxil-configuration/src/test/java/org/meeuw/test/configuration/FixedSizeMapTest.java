@@ -81,8 +81,10 @@ class FixedSizeMapTest {
         assertThat(fixed.toString()).isEqualTo("{a=2, b=1}");
 
         assertThatThrownBy(() -> FixedSizeMap.of("a", 1, "b", 2, "c")).isInstanceOf(IndexOutOfBoundsException.class);
+
         assertThatThrownBy(() -> FixedSizeMap.of("a", 1, 2, "b")).isInstanceOf(ClassCastException.class);
         assertThatThrownBy(() -> FixedSizeMap.of("a", 1, "b", "b")).isInstanceOf(ClassCastException.class);
+        assertThatThrownBy(() -> FixedSizeMap.of("a", null, "b", 2, "c", "c")).isInstanceOf(ClassCastException.class);
 
         assertThatThrownBy(() -> FixedSizeMap.of("a", 1, null, 2)).isInstanceOf(IllegalArgumentException.class);
     }
