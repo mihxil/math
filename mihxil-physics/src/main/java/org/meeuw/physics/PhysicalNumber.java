@@ -244,7 +244,7 @@ public abstract class PhysicalNumber
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);
-        return wrapped.equals(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        return wrapped.eq(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override
