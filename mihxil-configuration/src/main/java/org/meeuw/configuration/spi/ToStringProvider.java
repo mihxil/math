@@ -15,10 +15,16 @@ public interface ToStringProvider<C> extends Comparable<ToStringProvider<?>> {
 
     int weight();
 
-    default Optional<String> toString(@Nullable Object value) {
-        return Optional.ofNullable(value).map(v -> String.valueOf(value));
-    }
+    /**
+     * For given value, check if the type is supported, and then convert it to a String.
+     *
+     */
+    Optional<String> toString(@Nullable Object value);
 
+    /**
+     * Given a desired type, and a string value, convert it to the supported type.
+     * Normally, the given type must be some superclass of <code>C</code>, but it also might be a primitive type.
+     */
     Optional<C> fromString(Class<?> type, @Nullable String value);
 
     @Override

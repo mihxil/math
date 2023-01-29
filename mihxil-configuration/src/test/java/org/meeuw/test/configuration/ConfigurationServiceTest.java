@@ -148,7 +148,6 @@ public class ConfigurationServiceTest {
         List<ConfigurationAspect> configurationAspectsAssociatedWith = getConfiguration().getConfigurationAspectsAssociatedWith(TestProvider.class);
         assertThat(configurationAspectsAssociatedWith).hasSize(1);
         assertThat(configurationAspectsAssociatedWith.get(0)).isInstanceOf(TestConfigurationAspect.class);
-
     }
 
 }

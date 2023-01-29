@@ -54,7 +54,7 @@ public class ConfigurationService {
     public static  Reset RESET_TO_DEFAULTS = new Reset();
 
     /**
-     * Persistifies settings via {@link ConfigurationPreferences} (a wrapper around {@link java.util.prefs.Preferences}). This may result in a config file in {@code $HOME/.java/.userPrefs} (UNIXes), in {@code $HOME/Library/Preferences/org.meeuw.configuration.plist} (OS X) or registry entries (Windows)
+     * Persists settings via {@link ConfigurationPreferences} (a wrapper around {@link java.util.prefs.Preferences}). This may result in a config file in {@code $HOME/.java/.userPrefs} (UNIXes), in {@code $HOME/Library/Preferences/org.meeuw.configuration.plist} (OS X) or registry entries (Windows)
      */
     public static void setupUserPreferences() {
         useUserPreferences = true;

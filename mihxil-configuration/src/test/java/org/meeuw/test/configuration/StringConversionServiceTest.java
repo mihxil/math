@@ -3,6 +3,7 @@ package org.meeuw.test.configuration;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.StringConversionService;
+import org.meeuw.test.configuration.spi.TestConfigurationAspect;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,13 +58,17 @@ public class StringConversionServiceTest {
         assertThat(StringConversionService.fromString("xxx", Boolean.class)).isEmpty();
     }
 
-      @Test
-     public void enumToString() {
+    @Test
+    public void enumToString() {
         assertThat(StringConversionService.toString(A.x)).contains("x");
 
         assertThat(StringConversionService.fromString("y", A.class)).contains(A.y);
         assertThat(StringConversionService.fromString("xxx", A.class)).isEmpty();
+    }
 
+    @Test
+    public void someSerializable() {
+        assertThat(StringConversionService.toString(new TestConfigurationAspect.SomeSerializable(1, "b"))).isEmpty();
     }
 
 }

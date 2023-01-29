@@ -1,10 +1,13 @@
 package org.meeuw.configuration;
 
+import lombok.extern.java.Log;
+
 import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.configuration.spi.ToStringProvider;
 
+@Log
 public class StringConversionService {
 
     private StringConversionService() {
@@ -14,12 +17,18 @@ public class StringConversionService {
     public static <C> Optional<String> toString(C value) {
         return  stream()
             .sorted()
-            .map(tp ->
-                tp.toString(value).orElse(null)
+            .map(tp -> {
+                    String result = tp.toString(value).orElse(null);
+                    if (result != null) {
+                        log.fine(() -> "%s -> %s".formatted(tp, result));
+                    }
+                    return result;
+                }
             )
             .filter(Objects::nonNull)
             .findFirst();
     }
+    @SuppressWarnings("unchecked")
     public static <C> Optional<C> fromString(String value, Class<? extends C> type) {
         return  (Optional<C>) StringConversionService.stream()
             .sorted()
@@ -38,6 +47,5 @@ public class StringConversionService {
         loader.iterator().forEachRemaining(list::add);
         return list.stream();
     }
-
 
 }

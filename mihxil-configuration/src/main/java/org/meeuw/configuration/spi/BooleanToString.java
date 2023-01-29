@@ -14,6 +14,13 @@ public class BooleanToString implements ToStringProvider<Boolean> {
     }
 
     @Override
+    public Optional<String> toString(@Nullable Object value) {
+        return Optional.ofNullable(value)
+            .filter(v -> v instanceof Boolean)
+            .map(Object::toString);
+    }
+
+    @Override
     public Optional<Boolean> fromString(Class<?> type, @Nullable String value) {
         if (Boolean.TYPE.equals(type)) {
             type = Boolean.class;
