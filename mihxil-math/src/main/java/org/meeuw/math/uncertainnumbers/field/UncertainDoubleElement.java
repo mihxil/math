@@ -157,10 +157,6 @@ public class UncertainDoubleElement
         return new UncertainDoubleElement(value * multiplier, Math.abs(uncertainty * multiplier));
     }
 
-    @Override
-    public boolean eq(UncertainReal other) {
-        return equals(other);
-    }
 
     @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
@@ -282,10 +278,28 @@ public class UncertainDoubleElement
         return of(value, uncertainty);
     }
 
-    @SuppressWarnings({"EqualsDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
+    @Override
+    public boolean eq(UncertainReal other) {
+        return eq(other,
+            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+    }
+
+    @Override
+    public boolean defaultEquals(Object o) {
+        if (!(o instanceof UncertainDoubleElement)) {
+            return false;
+        }
+        UncertainDoubleElement uncertainDoubleElement = (UncertainDoubleElement) o;
+        return value == uncertainDoubleElement.value && uncertainty == uncertainDoubleElement.uncertainty;
+    }
+
     @Override
     public boolean equals(Object o) {
-        return equals(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
+            return defaultEquals(o);
+        } else {
+            return eq((UncertainDoubleElement) o);
+        }
     }
 
     @Override

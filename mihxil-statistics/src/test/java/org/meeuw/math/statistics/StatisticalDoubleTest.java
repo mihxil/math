@@ -15,20 +15,18 @@
  */
 package org.meeuw.math.statistics;
 
-import lombok.extern.log4j.Log4j2;
-
 import java.util.Random;
-
+import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
-
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 /**
@@ -122,6 +120,33 @@ public class StatisticalDoubleTest implements
     @Property
     public void testString(@ForAll(ELEMENTS) StatisticalDoubleImpl e) {
         log.info("{} {}", e.getCount(), e);
+    }
+
+    @Test
+    public void intransitiveEq() {
+
+        StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
+        d1.enter(0, 5, 10);
+        StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
+        d2.enter(5, 10, 15);
+        StatisticalDoubleImpl d3 = new StatisticalDoubleImpl();
+        d3.enter(10, 15, 20);
+        assertThat(d1.eq(d2)).isTrue();
+        assertThat(d2.eq(d3)).isTrue();
+        assertThat(d1.eq(d3)).isFalse();
+
+        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withRequiresEqualsTransitive(false), () -> {
+
+            assertThat(d1.equals(d2)).isTrue();
+            assertThat(d2.equals(d3)).isTrue();
+            assertThat(d1.equals(d3)).isFalse();
+        });
+        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withRequiresEqualsTransitive(true), () -> {
+
+            assertThat(d1.equals(d2)).isFalse();
+            assertThat(d2.equals(d3)).isFalse();
+            assertThat(d1.equals(d3)).isFalse();
+        });
     }
 
     @Override

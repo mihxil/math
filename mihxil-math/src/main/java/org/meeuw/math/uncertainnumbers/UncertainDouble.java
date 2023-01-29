@@ -208,7 +208,7 @@ public interface UncertainDouble
     }
 
     @SuppressWarnings("unchecked")
-    default boolean equals(Object value, double sds) {
+    default boolean eq(Object value, double sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainDouble)) {
             return false;

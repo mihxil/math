@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 
@@ -34,7 +35,7 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
     @Property
     default void one(
         @ForAll(ELEMENTS) E v) {
-        assertThat(v.times(v.getStructure().one()).equals(v)).isTrue();
+        assertThat(v.times(v.getStructure().one()).eq(v)).isTrue();
     }
 
     @Override
@@ -43,7 +44,9 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
          @ForAll(ELEMENTS) E v1
     )  {
         try {
-            assertThat(v1.pow(0)).isEqualTo(v1.getStructure().one());
+            assertThat(v1.pow(0))
+                .usingComparator(AlgebraicElement.eqComparator())
+                .isEqualTo(v1.getStructure().one());
         } catch (DivisionByZeroException ae){
             getLogger().warn("" + v1 + superscript(0) + ": " + ae.getMessage());
         }

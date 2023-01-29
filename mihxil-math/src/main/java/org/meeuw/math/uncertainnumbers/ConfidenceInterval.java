@@ -43,9 +43,9 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
      * @param uncertainty the associated uncertainty
      * @param intervalSize the  {@code uncertainty} is multiplied by this, to get (half the) width of the entire interval.
      */
-    public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, int intervalSize) {
+    public static <N extends Number> ConfidenceInterval<N> of(N value, N uncertainty, double intervalSize) {
         final NumberOperations<N> operations = NumberOperations.of(value);
-        final N halfRange = operations.abs(operations.multiply(intervalSize, uncertainty));
+        final N halfRange = operations.abs(operations.multiplyPrimitiveDouble(uncertainty, intervalSize).getValue());
         return new ConfidenceInterval<>(operations,
             operations.minus(value, halfRange),
             operations.add(value, halfRange)

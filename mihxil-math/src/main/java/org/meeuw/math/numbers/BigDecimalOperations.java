@@ -92,6 +92,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
+    public UncertainNumber<BigDecimal> multiplyPrimitiveDouble(BigDecimal n1, double de) {
+        return uncertain(n1.multiply(BigDecimal.valueOf(de)));
+    }
+
+    @Override
     public UncertainNumber<BigDecimal> ln(BigDecimal bigDecimal) throws IllegalLogarithmException {
         try {
             return uncertain(BigDecimalMath.log(bigDecimal, context()));
@@ -104,6 +109,15 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     public UncertainNumber<BigDecimal> divide(BigDecimal n1, BigDecimal n2) {
         try {
             return uncertain(n1.divide(n2, context()));
+        } catch (ArithmeticException ae) {
+            throw new DivisionByZeroException(n1, n2, ae);
+        }
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> divide(BigDecimal n1, int n2) {
+        try {
+            return uncertain(n1.divide(BigDecimal.valueOf(n2), context()));
         } catch (ArithmeticException ae) {
             throw new DivisionByZeroException(n1, n2, ae);
         }

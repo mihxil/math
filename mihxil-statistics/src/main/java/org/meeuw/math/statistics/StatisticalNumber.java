@@ -16,7 +16,6 @@
 package org.meeuw.math.statistics;
 
 import java.util.Optional;
-
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -49,6 +48,10 @@ public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N ex
     int getCount();
 
     void combine(SELF  t);
+
+
+    boolean eq(SELF o);
+
 }
 
 

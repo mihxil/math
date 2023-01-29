@@ -55,15 +55,22 @@ public interface NumberOperations<N extends Number> {
 
     UncertainNumber<N> ln(N n);
 
-    default N multiply(int n1, N n2) {
-        N result = n2;
-        for (int i = n1; i > 1; i--) {
-            result = add(result, n2);
+    default N multiply(N n1, int n2) {
+        N result = n1;
+        for (int i = n2; i > 1; i--) {
+            result = add(result, n1);
         }
         return result;
     }
+    default UncertainNumber<N> multiply(N n2, int n, int d) {
+        return divide(multiply(n2, n), d);
+    }
+
+    UncertainNumber<N> multiplyPrimitiveDouble(N n2, double d);
 
     UncertainNumber<N> divide(N n1, N n2);
+
+    UncertainNumber<N> divide(N n1, int n2);
 
     N add(N n1, N n2);
 

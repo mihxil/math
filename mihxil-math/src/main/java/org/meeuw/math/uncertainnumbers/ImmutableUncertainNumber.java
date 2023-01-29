@@ -20,9 +20,12 @@ import lombok.With;
 
 import java.util.function.Supplier;
 
+import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
 
 import static org.meeuw.math.CollectionUtils.memoize;
@@ -63,10 +66,13 @@ public class ImmutableUncertainNumber<N extends Number>
         this(value, memoize(uncertainty), null);
     }
 
-    @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
+    public boolean eq(N o) {
+        return eq(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+    }
+
     @Override
-    public boolean equals(Object o) {
-        return equals(o, 1);
+    public boolean defaultEquals(Object o) {
+        return false;
     }
 
     @Override
@@ -92,4 +98,5 @@ public class ImmutableUncertainNumber<N extends Number>
         );
 
     }
+
 }

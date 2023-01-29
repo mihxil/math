@@ -31,11 +31,6 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
     ScalarField<E> getStructure();
 
     @Override
-    default boolean eq(E other) {
-        return equals(other);
-    }
-
-    @Override
     default boolean isZero() {
         return FieldElement.super.isZero();
     }

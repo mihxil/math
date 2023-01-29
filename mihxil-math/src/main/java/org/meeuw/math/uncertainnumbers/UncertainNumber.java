@@ -144,7 +144,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         }
         return new ImmutableUncertainNumber<N>(
             v,
-            () -> o.multiply(o.multiply(Math.abs(exponent), o.pow(getValue(), exponent - 1)), getUncertainty()));
+            () -> o.multiply(o.multiply(o.pow(getValue(), exponent - 1), Math.abs(exponent)), getUncertainty()));
     }
 
     default int signum() {
@@ -152,7 +152,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
     }
 
     @SuppressWarnings("unchecked")
-    default boolean equals(Object value, int sds) {
+    default boolean eq(Object value, float sds) {
         if (this == value) return true;
         if (! (value instanceof UncertainNumber)) {
             return false;
@@ -178,7 +178,7 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         return operations().bigDecimalValue(getValue());
     }
 
-    default ConfidenceInterval<N> getConfidenceInterval(int sds) {
+    default ConfidenceInterval<N> getConfidenceInterval(float sds) {
         return ConfidenceInterval.of(getValue(), getUncertainty(), sds);
     }
 

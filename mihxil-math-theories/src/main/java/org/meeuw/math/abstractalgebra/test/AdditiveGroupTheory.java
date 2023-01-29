@@ -22,6 +22,7 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 /**
@@ -40,7 +41,9 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
     default void minus(
             @ForAll(ELEMENTS) E v1,
             @ForAll(ELEMENTS) E v2) {
-        assertThat(v1.minus(v2)).isEqualTo(v1.plus(v2.negation()));
+        assertThat(v1.minus(v2))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.plus(v2.negation()));
     }
 
 
@@ -48,7 +51,9 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
     default void repeatedPlusZeroTimes(
             @ForAll(ELEMENTS) E v1
             ) {
-        assertThat((v1.repeatedPlus(0))).isEqualTo(v1.getStructure().zero());
+        assertThat((v1.repeatedPlus(0)))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.getStructure().zero());
     }
 
     @Property
@@ -62,14 +67,18 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
     default void repeatedPlusPositiveTimes(
             @ForAll(ELEMENTS) E v1
             ) {
-        assertThat((v1.repeatedPlus(5))).isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
+        assertThat((v1.repeatedPlus(5)))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.repeatedPlus(3).plus(v1.repeatedPlus(2)));
     }
 
     @Property
     default void repeatedPlusNegativeTimes(
             @ForAll(ELEMENTS) E v1
             ) {
-        assertThat((v1.repeatedPlus(-5))).isEqualTo(v1.repeatedPlus(5).negation());
+        assertThat((v1.repeatedPlus(-5)))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.repeatedPlus(5).negation());
     }
 
 }

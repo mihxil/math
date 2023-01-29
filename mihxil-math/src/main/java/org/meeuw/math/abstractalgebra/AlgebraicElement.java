@@ -16,8 +16,7 @@
 package org.meeuw.math.abstractalgebra;
 
 import java.io.Serializable;
-import java.util.Optional;
-
+import java.util.*;
 import org.meeuw.math.exceptions.NotASubGroup;
 
 /**
@@ -55,7 +54,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     }
 
     /**
-     * The equal operator. May be the same as {@link Object#equals(Object)}, but
+     * The equal operator. Maybe the same as {@link Object#equals(Object)}, but
      *
      * <ol>
      *    <li>its argument is always inside the algebra (contrary to {@link Object#equals(Object)}, which accepts _any_ object</li>
@@ -66,6 +65,19 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      */
     default boolean eq(E other) {
         return equals(other);
+    }
+
+    static <E extends AlgebraicElement<E>> Comparator<E> eqComparator() {
+        return (o1, o2) -> {
+            if (o1 != null && o2 != null && o1.eq(o2)) {
+                return 0;
+            }
+            if (o1 instanceof Comparable<?> && o2 instanceof Comparable<?>) {
+                return Objects.compare((Comparable) o1, (Comparable) o2, Comparator.naturalOrder());
+            }
+            return Objects.compare(o1 == null ? null : o1.hashCode(), o2 == null ? null : o2.hashCode(), Comparator.naturalOrder());
+        };
+
     }
 
     default boolean neq(E other) {

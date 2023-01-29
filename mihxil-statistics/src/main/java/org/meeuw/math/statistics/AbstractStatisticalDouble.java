@@ -17,6 +17,7 @@ package org.meeuw.math.statistics;
 
 import java.math.BigDecimal;
 
+import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
@@ -40,7 +41,6 @@ public abstract class AbstractStatisticalDouble
     <SELF extends AbstractStatisticalDouble<SELF>>
     extends AbstractStatisticalNumber<SELF, Double>
     implements UncertainNumber<Double>, StatisticalDouble<SELF> {
-
     static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     public AbstractStatisticalDouble() {
@@ -188,15 +188,32 @@ public abstract class AbstractStatisticalDouble
         }
     }
 
-    @SuppressWarnings({"rawtypes", "com.haulmont.jpb.EqualsDoesntCheckParameterClass"})
     @Override
-    public boolean equals(Object o) {
+    public boolean eq(SELF o) {
         if (count == 0) {
-            return ((AbstractStatisticalDouble) o).count == 0;
+            return o.count == 0;
         }
-        return equals(o,
+        return eq(o,
             ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
         );
+    }
+
+    @Override
+    public boolean defaultEquals(Object o) {
+        if (! (o instanceof AbstractStatisticalDouble<?>)) {
+            return false;
+        }
+        AbstractStatisticalDouble<?> number = (AbstractStatisticalDouble<?>) o;
+        return Objects.equals(getValue(), number.getValue()) && Objects.equals(getUncertainty(), number.getUncertainty());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
+            return defaultEquals(o);
+        } else {
+            return eq((UncertainDoubleElement) o);
+        }
     }
 
     /**

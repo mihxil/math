@@ -22,6 +22,7 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 /**
@@ -42,7 +43,9 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
             @ForAll(ELEMENTS) E v2,
             @ForAll(ELEMENTS) E v3
             ) {
-        assertThat((v1.plus(v2)).plus(v3)).isEqualTo(v1.plus((v2.plus(v3))));
+        assertThat((v1.plus(v2)).plus(v3))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.plus((v2.plus(v3))));
     }
 
 }

@@ -67,9 +67,9 @@ class DoubleOperationsTest {
 
     @Test
     void multiply() {
-        assertThat(INSTANCE.multiply(5d, 3d)).isEqualTo(15d);
+        assertThat(INSTANCE.multiply((Double) 5d, (Double) 3d)).isEqualTo(15d);
         assertThat(INSTANCE.multiply(5d, 3d, -4d)).isEqualTo(-60);
-        assertThat(INSTANCE.multiply(5, 3d)).isEqualTo(15);
+        assertThat(INSTANCE.multiply(3d, 5)).isEqualTo(15);
     }
 
     @Test

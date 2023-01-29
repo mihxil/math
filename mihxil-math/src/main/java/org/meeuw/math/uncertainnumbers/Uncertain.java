@@ -29,4 +29,6 @@ public interface Uncertain {
 
     boolean isExact();
 
+    boolean defaultEquals(Object o);
+
 }

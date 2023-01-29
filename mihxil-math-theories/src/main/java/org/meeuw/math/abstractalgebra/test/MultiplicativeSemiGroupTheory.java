@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -43,28 +44,36 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
             @ForAll(ELEMENTS) E v2,
             @ForAll(ELEMENTS) E v3
             ) {
-        assertThat((v1.times(v2)).times(v3)).isEqualTo(v1.times((v2.times(v3))));
+        assertThat((v1.times(v2)).times(v3))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.times((v2.times(v3))));
     }
 
     @Property
     default void pow1(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThat(v1.pow(1)).isEqualTo(v1);
+        assertThat(v1.pow(1))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1);
     }
 
     @Property
     default void pow2(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThat(v1.pow(2)).isEqualTo(v1.times(v1));
+        assertThat(v1.pow(2))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.times(v1));
     }
 
     @Property
     default void pow3(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThat(v1.pow(3)).isEqualTo(v1.times(v1).times(v1));
+        assertThat(v1.pow(3))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.times(v1).times(v1));
     }
 
 
@@ -101,7 +110,9 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void sqr(@ForAll(ELEMENTS) E v) {
-        assertThat(v.sqr()).isNotNull().isEqualTo(v.times(v));
+        assertThat(v.sqr()).isNotNull()
+            .usingComparator(eqComparator())
+            .isEqualTo(v.times(v));
     }
 
 }

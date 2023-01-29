@@ -22,6 +22,7 @@ import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.*;
+import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 /**
@@ -69,7 +70,8 @@ module org.meeuw.math {
         MathContextConfiguration,
         RandomConfiguration,
         GenericGroupConfiguration,
-        ConfidenceIntervalConfiguration
+        ConfidenceIntervalConfiguration,
+        CompareConfiguration
         ;
     provides ToStringProvider with
         DecimalFormatToString,

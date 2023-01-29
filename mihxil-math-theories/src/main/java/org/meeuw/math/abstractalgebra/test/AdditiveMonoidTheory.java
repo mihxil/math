@@ -21,6 +21,7 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,7 +32,9 @@ public interface AdditiveMonoidTheory<E extends AdditiveMonoidElement<E>>
 
     @Property
     default void zero(@ForAll(ELEMENTS) E e) {
-        assertThat(e.plus(e.getStructure().zero())).isEqualTo(e);
+        assertThat(e.plus(e.getStructure().zero()))
+            .usingComparator(eqComparator())
+            .isEqualTo(e);
 
         assertThat(e.getStructure().zero().isZero()).isTrue();
         if (! e.equals(e.getStructure().zero())) {

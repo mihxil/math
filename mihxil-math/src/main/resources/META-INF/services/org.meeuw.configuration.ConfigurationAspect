@@ -5,3 +5,5 @@ org.meeuw.math.numbers.MathContextConfiguration
 org.meeuw.math.abstractalgebra.RandomConfiguration
 org.meeuw.math.abstractalgebra.GenericGroupConfiguration
 org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration
+org.meeuw.math.uncertainnumbers.CompareConfiguration
+

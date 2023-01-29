@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.exceptions.InverseException;
 import org.meeuw.math.exceptions.NotASubGroup;
@@ -50,13 +51,15 @@ public interface GroupTheory<E extends GroupElement<E>>
             @ForAll(ELEMENTS) E v2,
             @ForAll(ELEMENTS) E v3
             ) {
-        assertThat((v1.operate(v2)).operate(v3)).isEqualTo(v1.operate((v2.operate(v3))));
+        assertThat((v1.operate(v2)).operate(v3))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.operate((v2.operate(v3))));
     }
 
     @Property
     default void unity(
         @ForAll(ELEMENTS) E v) {
-        assertThat(v.operate(v.getStructure().unity()).equals(v)).isTrue();
+        assertThat(v.operate(v.getStructure().unity()).eq(v)).isTrue();
     }
 
 

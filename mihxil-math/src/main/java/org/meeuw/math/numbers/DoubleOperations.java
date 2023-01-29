@@ -82,8 +82,21 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
+    public UncertainNumber<Double> multiplyPrimitiveDouble(Double n2, double d) {
+        return uncertain(n2 * d);
+    }
+
+    @Override
     public UncertainNumber<Double> divide(Double n1, Double n2) {
         if (n2 == 0d) {
+            throw new ReciprocalException("division by zero " + n1 + " / " + n2);
+        }
+        return uncertain(n1 / n2);
+    }
+
+    @Override
+    public UncertainNumber<Double> divide(Double n1, int n2) {
+        if (n2 == 0) {
             throw new ReciprocalException("division by zero " + n1 + " / " + n2);
         }
         return uncertain(n1 / n2);
@@ -177,6 +190,8 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         }
         return uncertain(Math.log(v));
     }
+
+
 
     protected UncertainNumber<Double> uncertain(Double newValue) {
         return ImmutableUncertainNumber.of(
