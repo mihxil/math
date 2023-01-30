@@ -38,7 +38,7 @@
     <jqwik.version>1.7.2</jqwik.version>
     <junit.version>5.9.2</junit.version>
     <jacoco.version>0.8.8</jacoco.version>
-    <assertj.version>3.24.1</assertj.version>
+    <assertj.version>3.24.2</assertj.version>
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
 
