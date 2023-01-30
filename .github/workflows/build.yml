@@ -39,7 +39,7 @@ jobs:
       - uses: codecov/codecov-action@v3
         if: ${{ ! cancelled()}}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.2.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.3.0
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
