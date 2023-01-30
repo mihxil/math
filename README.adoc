@@ -429,7 +429,6 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 
 This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
 
-
 :leveloffset: 1
 
 = ConfigurationService [[configuration_service]]
@@ -519,6 +518,46 @@ defaultConfiguration((configurationBuilder) ->
 ----
 
 ConfigurationService itself is not actually math related, and is released in a separate artifact.
+
+
+:leveloffset!:
+
+:leveloffset: 1
+
+= Theory testing [[theories]]
+
+For testing the structures and object of link:../[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
+
+This is provided as a set of interfaces named `...Theory`. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.
+
+== Non math related theories
+
+See link:src/main/java/org/meeuw/util/test[`org.meeuw.util.test`] for theories not directly related to mathematical structures, but merely to java contracting like e.g.
+
+
+|===
+|class | goal | (example) methods
+
+|link:src/main/java/org/meeuw/util/test/BasicObjectTheory.java[BasicObjectTheory]
+|Tests basic properties of any java object, mainly consistency of `equals` and `hashCode`
+| `equalsIsReflexive`
+  `equalsIsSymmetric`
+  `equalsIsTransitive`
+  `equalsIsConsistent`
+  `equalsReturnFalseOnNull`
+  `hashCodeIsSelfConsistent`
+  `hashCodeIsConsistentWithEquals`
+  `toString`
+
+|link:src/main/java/org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
+|If an object is also `Comparable` then consistency of `compareTo` can be tested
+| `equalsConsistentWithComparable`
+
+|link:src/main/java/org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
+|The `CharSequence` interface also has a few methods that can be tested generically
+| `charAtIsConsistentWithToStringCharAt`
+  `subSequenceIsConsistent`
+|===
 
 
 :leveloffset!:
