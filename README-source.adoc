@@ -26,7 +26,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Mave
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
 
 
-ifndef::+backend-html5+[]
+ifndef::+htmled+[]
 See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations, and MP4-movies.
 endif::[]
 

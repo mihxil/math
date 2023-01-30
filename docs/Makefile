@@ -5,7 +5,7 @@ MVN=mvn
 # sudo gem install asciidoctor asciidoctor-multipage
 
 index.html: ../README-source.adoc Makefile algebras.svg
-	asciidoctor $< -a linkcss -a stylesheet=index.css -a docs=. -o $@
+	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
 %.svg: %.dot
