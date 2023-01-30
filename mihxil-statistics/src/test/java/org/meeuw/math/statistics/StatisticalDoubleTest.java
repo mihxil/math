@@ -15,18 +15,22 @@
  */
 package org.meeuw.math.statistics;
 
-import java.util.Random;
 import lombok.extern.log4j.Log4j2;
+
+import java.util.Random;
+
 import net.jqwik.api.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
-import static org.meeuw.configuration.ConfigurationService.withAspect;
+
 import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 
 
 /**
@@ -135,13 +139,13 @@ public class StatisticalDoubleTest implements
         assertThat(d2.eq(d3)).isTrue();
         assertThat(d1.eq(d3)).isFalse();
 
-        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withRequiresEqualsTransitive(false), () -> {
+        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withEqualsIsStrict(false), () -> {
 
             assertThat(d1.equals(d2)).isTrue();
             assertThat(d2.equals(d3)).isTrue();
             assertThat(d1.equals(d3)).isFalse();
         });
-        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withRequiresEqualsTransitive(true), () -> {
+        withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withEqualsIsStrict(true), () -> {
 
             assertThat(d1.equals(d2)).isFalse();
             assertThat(d2.equals(d3)).isFalse();

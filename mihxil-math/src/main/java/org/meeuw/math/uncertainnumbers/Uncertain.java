@@ -29,6 +29,9 @@ public interface Uncertain {
 
     boolean isExact();
 
-    boolean defaultEquals(Object o);
+    /**
+     * Explicitly strict equals. The values must be equal exactly, without consideration of the uncertainty.
+     */
+    boolean strictlyEquals(Object o);
 
 }

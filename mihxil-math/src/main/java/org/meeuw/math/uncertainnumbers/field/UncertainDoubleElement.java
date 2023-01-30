@@ -285,18 +285,18 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (!(o instanceof UncertainDoubleElement)) {
             return false;
         }
         UncertainDoubleElement uncertainDoubleElement = (UncertainDoubleElement) o;
-        return value == uncertainDoubleElement.value && uncertainty == uncertainDoubleElement.uncertainty;
+        return value == uncertainDoubleElement.value;
     }
 
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((UncertainDoubleElement) o);
         }

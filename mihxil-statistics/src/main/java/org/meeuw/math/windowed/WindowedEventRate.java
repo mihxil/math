@@ -19,7 +19,6 @@ import jakarta.annotation.PreDestroy;
 
 import java.time.Clock;
 import java.time.Duration;
-import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.*;
@@ -242,18 +241,18 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (!(o instanceof WindowedEventRate)) {
             return false;
         }
         WindowedEventRate other = (WindowedEventRate) o;
-        return getRate() == other.getRate() && Objects.equals(getUncertainty(), other.getUncertainty());
+        return getRate() == other.getRate();
     }
 
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((WindowedEventRate) o);
         }

@@ -318,15 +318,15 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        return getValue().equals(((BigDecimalElement) o).getValue()) && getUncertainty().equals(((BigDecimalElement) o).getUncertainty());
+        return getValue().equals(((BigDecimalElement) o).getValue());
     }
     @Override
     public boolean equals(Object o) {
-        if (ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if (ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((BigDecimalElement) o);
         }

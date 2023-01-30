@@ -75,6 +75,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      *
      * @since 0.10
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     static <E extends AlgebraicElement<E>> Comparator<E> eqComparator() {
         return (o1, o2) -> {
             if (o1 != null && o2 != null && o1.eq(o2)) {
@@ -97,7 +98,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     }
 
     /**
-     * Casts the current element to an alement of a parent group. It should support the ones returned by
+     * Casts the current element to an element of a parent group. It should support the ones returned by
      * {@link AlgebraicStructure#getSuperGroups()}.
      *
      * @return A filled optional if successful

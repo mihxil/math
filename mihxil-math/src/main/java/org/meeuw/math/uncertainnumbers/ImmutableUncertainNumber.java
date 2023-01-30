@@ -20,12 +20,10 @@ import lombok.With;
 
 import java.util.function.Supplier;
 
-import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainNumberFormat;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
 
 import static org.meeuw.math.CollectionUtils.memoize;
@@ -71,8 +69,12 @@ public class ImmutableUncertainNumber<N extends Number>
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
-        return false;
+    public boolean strictlyEquals(Object o) {
+        if (! (o instanceof UncertainNumber<?>)) {
+            return false;
+        }
+        UncertainNumber<?> uc = (UncertainNumber<?>) o;
+        return getValue().equals(uc.getValue());
     }
 
     @Override

@@ -15,21 +15,23 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
-import static java.lang.Math.max;
 import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.Optional;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
-import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.FormatService;
-import static org.meeuw.math.text.TextUtils.superscript;
 import org.meeuw.math.uncertainnumbers.*;
+
+import static java.lang.Math.max;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
  * A real number (backend by a double). It is uncertain, but only because of rounding errors.
@@ -276,20 +278,20 @@ public class RealNumber
 
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((RealNumber) o);
         }
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (this == o) return true;
         if (o == null || ! RealNumber.class.isAssignableFrom(o.getClass())) return false;
 
         RealNumber that = (RealNumber) o;
-        return Objects.equals(getValue(), that.getValue()) && Objects.equals(getUncertainty(), that.getUncertainty());
+        return Objects.equals(getValue(), that.getValue());
     }
 
     @Override

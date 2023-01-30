@@ -199,18 +199,18 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (! (o instanceof AbstractStatisticalDouble<?>)) {
             return false;
         }
         AbstractStatisticalDouble<?> number = (AbstractStatisticalDouble<?>) o;
-        return Objects.equals(getValue(), number.getValue()) && Objects.equals(getUncertainty(), number.getUncertainty());
+        return Objects.equals(getValue(), number.getValue());
     }
 
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((UncertainDoubleElement) o);
         }

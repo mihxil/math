@@ -15,18 +15,20 @@
  */
 package org.meeuw.physics;
 
-import java.util.Objects;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.*;
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.WithUnits;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.numbers.Scalar;
+import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -245,20 +247,20 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public boolean defaultEquals(Object o) {
+    public boolean strictlyEquals(Object o) {
         if (this == o) return true;
         if (!(o instanceof PhysicalNumber)) return false;
         PhysicalNumber of = (PhysicalNumber) o;
         if (! units.getDimensions().equals(of.units.getDimensions())) {
             return  false;
         }
-        return Objects.equals(getValue(), of.getValue()) && Objects.equals(getUncertainty(), of.getUncertainty());
+        return Objects.equals(getValue(), of.getValue());
     }
 
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isRequiresEqualsTransitive()) {
-            return defaultEquals(o);
+        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+            return strictlyEquals(o);
         } else {
             return eq((PhysicalNumber) o);
         }
