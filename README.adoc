@@ -163,9 +163,9 @@ In link:{gmt}abstractalgebra/test/[mihxil-math-theories] for every algebraic str
 
 Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
 
-==== Implementation of equals/hashcode
+==== Implementation of `equals`/`hashCode` and `eq`
 
-When a value has uncertainty, then `equals` also considers it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
+When a value has uncertainty, then `equals` could consider it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
 
 This is abstracted using a `ConfidenceInterval` concept.
 
@@ -174,12 +174,39 @@ In this case the `hashCode` must be a fixed value, because otherwise we can't gu
 
 This implies that it's a bad idea to use uncertain values as hash keys.
 
-===== Transitivity of `equals`
+===== Transitivity of equality
 
-Because currently `equals` considers also uncertainty for cases where that is relevant (all elements which are not exact or cannot be exactly represented), this means that equals is symmetric and reflexive, but it means that it is not always _transitive_. E.g. `10 ± 5 equals 14 ± 1` and `18 ± 5 equals 14 ± 1`, but `! (10 ± 5 equals  18 ± 5 )`.
+Java - and also mathematics - normally requires that the equality operator ('`=`') is transitive.
 
-This may be incorrect, and I may change it. In that case the current synonym `eq` keeps the current behaviour and `equals` becomes transitive, meaning that uncertain values can only be equals if also their uncertainty equals.
+For several of the objects (the `Uncertain` ones) this represents a problem, because on one hand it is expected that things like `(x^-1^)^-1^ = x`, and on the other hand transitivity of equals is desired (`x = y ∧ y = z → x = z`).
 
+Therefore, the elements of algebra's have several methods for equality
+
+===== eq
+
+This is the most used equality in algebras. For uncertain valued algebras this _may not be transitive_,  because the uncertainty is considered.
+
+ E.g. `10 ± 5 eq 14 ± 1` and `18 ± 5 eq 14 ± 1`, but `! (10 ± 5 eq  18 ± 5 )`.
+
+For non-uncertain values, `eq` would behave the same as `equals`, the only difference being that its argument is not `Object`.
+
+===== strictlyEquals
+
+If the value is `Uncertain` then it also implements a method `strictlyEquals` which just compares the value without considering uncertainty. This guarantees transitivity, but e.g. reciprocity of inverse operator may not be, since e.g. because of rounding errors  ``(x^-1^)^-1^ !strictlyEquals  x`,
+
+
+===== equals
+
+Java `equals` method is implemented with `strictlyEquals` of with `eq` if the value is not uncertain.
+
+Via the `CompareConfiguration` configuration aspect, it can be configured though, that `equals` is like `eq`.
+
+[source, java]
+----
+ withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withEqualsIsStrict(false), () -> {
+     /// here equals behave like eq
+ }
+----
 
 
 === Formatting and configuration
