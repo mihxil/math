@@ -26,6 +26,8 @@ import org.apache.logging.log4j.Logger;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * Does this add anything?
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -58,6 +60,7 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
         assertThat(e.equals(null)).isFalse();
         assertThat(e.equals(new Object())).isFalse();
     }
+
     @Property
     default void testEquals(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
         assertThat(e1.equals(e2)).isEqualTo(e2.equals(e1));

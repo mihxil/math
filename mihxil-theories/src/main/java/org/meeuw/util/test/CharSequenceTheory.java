@@ -29,7 +29,7 @@ public interface CharSequenceTheory<C extends CharSequence> {
     String OBJECTS = "elements";
 
     @Property
-    default void charAt (
+    default void charAtIsConsistentWithToStringCharAt(
         @ForAll(OBJECTS) C charSequence) {
         for (int i = 0 ; i < charSequence.length(); i++) {
             assertThat(charSequence.charAt(i)).isEqualTo(charSequence.toString().charAt(i));
@@ -37,7 +37,7 @@ public interface CharSequenceTheory<C extends CharSequence> {
     }
 
     @Property
-    default void subSequence(@ForAll(OBJECTS) C charSequence) {
+    default void subSequenceIsConsistent(@ForAll(OBJECTS) C charSequence) {
         for (int i = 0; i < charSequence.length(); i++) {
             for (int j = i ; j < charSequence.length(); j++) {
                 CharSequence subSequence = charSequence.subSequence(i, i);
