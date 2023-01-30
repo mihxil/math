@@ -418,5 +418,7 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 
 This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
 
-
 include::mihxil-configuration/README-source.adoc[leveloffset=1]
+
+include::mihxil-theories/README-source.adoc[leveloffset=1]
+
