@@ -6,8 +6,8 @@
     <artifactId>mihxil-math-parent</artifactId>
     <version>0.10-SNAPSHOT</version>
   </parent>
-  <artifactId>mihxil-math-theories</artifactId>
-  <name>Math - theories</name>
+  <artifactId>mihxil-theories</artifactId>
+  <name>Testing - theories</name>
   <description>
     Contains the jqwik interfaces to check the theoretical properties of algebraic structures.
     This normally is a test dependency only.
@@ -17,6 +17,7 @@
     <dependency>
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-math</artifactId>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

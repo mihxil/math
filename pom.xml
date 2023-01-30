@@ -12,7 +12,7 @@
   <modules>
     <module>mihxil-configuration</module>
     <module>mihxil-math</module>
-    <module>mihxil-math-theories</module>
+    <module>mihxil-theories</module>
 
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
@@ -82,7 +82,7 @@
       </dependency>
       <dependency>
         <groupId>org.meeuw.math</groupId>
-        <artifactId>mihxil-math-theories</artifactId>
+        <artifactId>mihxil-theories</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>

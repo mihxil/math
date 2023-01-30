@@ -54,8 +54,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     }
 
     /**
-     * The equal operator. Maybe the same as {@link Object#equals(Object)}, but
-     *
+     * The equal operator. This may be the same as {@link Object#equals(Object)}, but
      * <ol>
      *    <li>its argument is always inside the algebra (contrary to {@link Object#equals(Object)}, which accepts _any_ object</li>
      *    <li>it may not be fully transitive (in case of uncertain values)</li>
@@ -67,6 +66,15 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
         return equals(other);
     }
 
+    /**
+     * Returns a comparator consistent with {@link #eq(AlgebraicElement)} (rather than {@link Object#equals(Object)}).
+     * i.e. Two objects compare to {@code 0} if they are {@link #eq}.
+     * <p>
+     * If they are not equal in this way, the given comparator will be {@link Comparator#naturalOrder()} (if the objects are {@link Comparable}),
+     * otherwise {@link Object#hashCode()} will determine comparison.
+     *
+     * @since 0.10
+     */
     static <E extends AlgebraicElement<E>> Comparator<E> eqComparator() {
         return (o1, o2) -> {
             if (o1 != null && o2 != null && o1.eq(o2)) {
@@ -80,6 +88,10 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
 
     }
 
+    /**
+     * Not equals. Just a shortcut for {@code ! eq}
+     * @see #eq(AlgebraicElement)
+     */
     default boolean neq(E other) {
         return ! eq(other);
     }

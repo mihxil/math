@@ -23,7 +23,7 @@
     </dependency>
     <dependency>
       <groupId>org.meeuw.math</groupId>
-      <artifactId>mihxil-math-theories</artifactId>
+      <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
