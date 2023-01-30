@@ -27,7 +27,7 @@
 <li><a href="#_numbers">1.1.2. Numbers</a></li>
 <li><a href="#_numbers_and_propagation_of_uncertainties">1.1.3. Numbers and propagation of uncertainties</a></li>
 <li><a href="#_testing">1.1.4. Testing</a></li>
-<li><a href="#_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</a></li>
+<li><a href="#_implementation_of_equalshashcode_and_eq">1.1.5. Implementation of <code>equals</code>/<code>hashCode</code> and <code>eq</code></a></li>
 </ul>
 </li>
 <li><a href="#_formatting_and_configuration">1.2. Formatting and configuration</a>
@@ -67,6 +67,11 @@
 </li>
 <li><a href="#_compatibility">5. Compatibility</a></li>
 <li><a href="#configuration_service">6. ConfigurationService</a></li>
+<li><a href="#theories">7. Theory testing</a>
+<ul class="sectlevel2">
+<li><a href="#_non_math_related_theories">7.1. Non math related theories</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -430,16 +435,16 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_testing">1.1.4. Testing</h4>
 <div class="paragraph">
-<p>In <a href="{gmt}abstractalgebra/test/">mihxil-math-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example <a href="{gmt}abstractalgebra/test/ElementTheory.java#L20"><code>elements</code></a>.</p>
+<p>In <a href="{gmt}abstractalgebra/test/">mihxil-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example <a href="{gmt}abstractalgebra/test/ElementTheory.java#L20"><code>elements</code></a>.</p>
 </div>
 <div class="paragraph">
 <p>Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_implementation_of_equalshashcode">1.1.5. Implementation of equals/hashcode</h4>
+<h4 id="_implementation_of_equalshashcode_and_eq">1.1.5. Implementation of <code>equals</code>/<code>hashCode</code> and <code>eq</code></h4>
 <div class="paragraph">
-<p>When a value has uncertainty, then <code>equals</code> also considers it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.</p>
+<p>When a value has uncertainty, then <code>equals</code> could consider it. So objects may e.g. have different <code>toString</code> representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.</p>
 </div>
 <div class="paragraph">
 <p>This is abstracted using a <code>ConfidenceInterval</code> concept.</p>
@@ -451,12 +456,51 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>This implies that it&#8217;s a bad idea to use uncertain values as hash keys.</p>
 </div>
 <div class="sect4">
-<h5 id="_transitivity_of_equals">Transitivity of <code>equals</code></h5>
+<h5 id="_transitivity_of_equality">Transitivity of equality</h5>
 <div class="paragraph">
-<p>Because currently <code>equals</code> considers also uncertainty for cases where that is relevant (all elements which are not exact or cannot be exactly represented), this means that equals is symmetric and reflexive, but it means that it is not always <em>transitive</em>. E.g. <code>10 ± 5 equals 14 ± 1</code> and <code>18 ± 5 equals 14 ± 1</code>, but <code>! (10 ± 5 equals  18 ± 5 )</code>.</p>
+<p>Java - and also mathematics - normally requires that the equality operator (&#8216;=&#8217;) is transitive.</p>
 </div>
 <div class="paragraph">
-<p>This may be incorrect, and I may change it. In that case the current synonym <code>eq</code> keeps the current behaviour and <code>equals</code> becomes transitive, meaning that uncertain values can only be equals if also their uncertainty equals.</p>
+<p>For several of the objects (the <code>Uncertain</code> ones) this represents a problem, because on one hand it is expected that things like <code>(x<sup>-1</sup>)<sup>-1</sup> = x</code>, and on the other hand transitivity of equals is desired (<code>x = y ∧ y = z → x = z</code>).</p>
+</div>
+<div class="paragraph">
+<p>Therefore, the elements of algebra&#8217;s have several methods for equality</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_eq">eq</h5>
+<div class="paragraph">
+<p>This is the most used equality in algebras. For uncertain valued algebras this <em>may not be transitive</em>,  because the uncertainty is considered.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>E.g. `10 ± 5 eq 14 ± 1` and `18 ± 5 eq 14 ± 1`, but `! (10 ± 5 eq  18 ± 5 )`.</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For non-uncertain values, <code>eq</code> would behave the same as <code>equals</code>, the only difference being that its argument is not <code>Object</code>.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_strictlyequals">strictlyEquals</h5>
+<div class="paragraph">
+<p>If the value is <code>Uncertain</code> then it also implements a method <code>strictlyEquals</code> which just compares the value without considering uncertainty. This guarantees transitivity, but e.g. reciprocity of inverse operator may not be, since e.g. because of rounding errors  <code>`(x<sup>-1</sup>)<sup>-1</sup> !strictlyEquals  x</code>,</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_equals">equals</h5>
+<div class="paragraph">
+<p>Java <code>equals</code> method is implemented with <code>strictlyEquals</code> of with <code>eq</code> if the value is not uncertain.</p>
+</div>
+<div class="paragraph">
+<p>Via the <code>CompareConfiguration</code> configuration aspect, it can be configured though, that <code>equals</code> is like <code>eq</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"> withAspect(CompareConfiguration.class, compareConfiguration -&gt; compareConfiguration.withEqualsIsStrict(<span class="predefined-constant">false</span>), () -&gt; {
+     <span class="comment">/// here equals behave like eq</span>
+ }</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -984,6 +1028,62 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="paragraph">
 <p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="theories">7. Theory testing</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For testing the structures and object of <a href="../">mihxil-math</a>, this provides 'property-based' testing, based on <a href="https://jqwik.net/">jqwik</a>.</p>
+</div>
+<div class="paragraph">
+<p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.</p>
+</div>
+<div class="sect2">
+<h3 id="_non_math_related_theories">7.1. Non math related theories</h3>
+<div class="paragraph">
+<p>See <a href="src/main/java/org/meeuw/util/test"><code>org.meeuw.util.test</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">class</th>
+<th class="tableblock halign-left valign-top">goal</th>
+<th class="tableblock halign-left valign-top">(example) methods</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="src/main/java/org/meeuw/util/test/BasicObjectTheory.java">BasicObjectTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tests basic properties of any java object, mainly consistency of <code>equals</code> and <code>hashCode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>equalsIsReflexive</code>
+  <code>equalsIsSymmetric</code>
+  <code>equalsIsTransitive</code>
+  <code>equalsIsConsistent</code>
+  <code>equalsReturnFalseOnNull</code>
+  <code>hashCodeIsSelfConsistent</code>
+  <code>hashCodeIsConsistentWithEquals</code>
+  <code>toString</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="src/main/java/org/meeuw/util/test/ComparableTheory.java">ComparableTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If an object is also <code>Comparable</code> then consistency of <code>compareTo</code> can be tested</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>equalsConsistentWithComparable</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="src/main/java/org/meeuw/util/test/CharSequenceTheory.java">CharSequenceTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CharSequence</code> interface also has a few methods that can be tested generically</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>charAtIsConsistentWithToStringCharAt</code>
+  <code>subSequenceIsConsistent</code></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
