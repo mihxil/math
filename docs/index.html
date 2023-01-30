@@ -80,6 +80,9 @@
 <span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg" alt="Maven Central"></a></span>
 <span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
+<div class="paragraph">
+<p>See <a href="https://mihxil.github.io/math/">this file in html</a> for proper display of the (few) mathematical equations, and MP4-movies.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -578,12 +581,21 @@ log.info(<span class="string"><span class="delimiter">&quot;</span><span class="
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">PhysicalNumber twoLightyears = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, SI.ly);
-PhysicalNumber oneParsec = <span class="keyword">new</span> Measurement(<span class="integer">1</span>, <span class="float">0.1</span>, SI.pc);
-log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.Measurement.measurement</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI.DecimalPrefix.k</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI.DecimalPrefix.none</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.kg</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.m</span>;
+
+...
+PhysicalNumber twoLightyears = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
+PhysicalNumber oneParsec = measurement(<span class="integer">1</span>, <span class="float">0.1</span>, pc); <span class="comment">// using the static import as a shortcut</span>
+
 assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.3 ly</span><span class="delimiter">&quot;</span></span>);
 assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.10 pc</span><span class="delimiter">&quot;</span></span>);
-assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); <span class="comment">//different toString does not mean that they represent a different value.</span></code></pre>
+assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); <span class="comment">//different toString does not mean that they represent a different value</span>
+log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightyears, oneParsec, twoLightyears.plus(oneParsec));</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -891,9 +903,10 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
 
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>.*;
 ...
 
-Configuration configuration = ConfigurationService.getConfiguration();
+Configuration configuration = getConfiguration();
 NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
 </div>
@@ -917,14 +930,27 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="title">temporary overrides</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.setConfiguration(builder -&gt;
+<pre class="CodeRay highlight"><code data-lang="java">{
+    <span class="comment">//noinspection resource</span>
+    setConfiguration(builder -&gt;
+        builder.configure(NumberConfiguration.class,
+            (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
+        )
+    );
+
+    <span class="comment">//...code...</span>
+    ConfigurationService.resetToDefaults();
+}
+
+<span class="comment">// or using Autocloseable</span>
+<span class="keyword">try</span> (Reset ignored = setConfiguration(builder -&gt;
     builder.configure(NumberConfiguration.class,
         (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
     )
-);
-
-<span class="comment">//...code...</span>
-ConfigurationService.resetToDefaults();</code></pre>
+)) {
+    ;
+    <span class="comment">//...code...</span>
+}</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -933,7 +959,7 @@ ConfigurationService.resetToDefaults();</code></pre>
 <div class="listingblock">
 <div class="title">temporary overrides utilities</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.withConfiguration((con) -&gt;
+<pre class="CodeRay highlight"><code data-lang="java">withConfiguration((con) -&gt;
         con.configure(UncertaintyConfiguration.class,
                 (uncertaintyConfiguration) -&gt; uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
             .configure(NumberConfiguration.class,
@@ -950,8 +976,8 @@ ConfigurationService.resetToDefaults();</code></pre>
 <div class="listingblock">
 <div class="title">setting global defaults</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">ConfigurationService.defaultConfiguration((con) -&gt;
-    con.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+<pre class="CodeRay highlight"><code data-lang="java">defaultConfiguration((configurationBuilder) -&gt;
+    configurationBuilder.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
         .configure(UncertaintyConfiguration.class, c -&gt; c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
 );</code></pre>
 </div>
