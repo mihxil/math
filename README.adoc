@@ -562,13 +562,13 @@ This is provided as a set of interfaces named `...Theory`. Tests can implement t
 
 == Non math related theories
 
-See link:src/main/java/org/meeuw/util/test[`org.meeuw.util.test`] for theories not directly related to mathematical structures, but merely to java contracting like e.g.
+See link:{ght}org/meeuw/util/test[`org.meeuw.util.test`] for theories not directly related to mathematical structures, but merely to java contracting like e.g.
 
 
 |===
 |class | goal | (example) methods
 
-|link:src/main/java/org/meeuw/util/test/BasicObjectTheory.java[BasicObjectTheory]
+|link:{ght}org/meeuw/util/test/BasicObjectTheory.java[BasicObjectTheory]
 |Tests basic properties of any java object, mainly consistency of `equals` and `hashCode`
 | `equalsIsReflexive`
   `equalsIsSymmetric`
@@ -579,11 +579,11 @@ See link:src/main/java/org/meeuw/util/test[`org.meeuw.util.test`] for theories n
   `hashCodeIsConsistentWithEquals`
   `toString`
 
-|link:${ght}org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
+|link:{ght}org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
 |If an object is also `Comparable` then consistency of `compareTo` can be tested
 | `equalsConsistentWithComparable`
 
-|link:${ght}org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
+|link:{ght}org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
 |The `CharSequence` interface also has a few methods that can be tested generically
 | `charAtIsConsistentWithToStringCharAt`
   `subSequenceIsConsistent`
