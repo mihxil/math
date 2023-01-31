@@ -4,7 +4,7 @@
 :ght: {ghblob}mihxil-theories/src/main/java/
 
 
-For testing the structures and object of link:../[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
+For testing the structures and object of link:{gh}[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
 
 This is provided as a set of interfaces named `...Theory`. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.
 
