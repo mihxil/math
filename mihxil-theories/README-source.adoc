@@ -1,4 +1,8 @@
 = Theory testing [[theories]]
+:gh: https://github.com/mihxil/math/
+:ghblob: {gh}blob/main/
+:ght: {ghblob}mihxil-theories/src/main/java/
+
 
 For testing the structures and object of link:../[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
 
@@ -23,11 +27,11 @@ See link:src/main/java/org/meeuw/util/test[`org.meeuw.util.test`] for theories n
   `hashCodeIsConsistentWithEquals`
   `toString`
 
-|link:src/main/java/org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
+|link:${ght}org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
 |If an object is also `Comparable` then consistency of `compareTo` can be tested
 | `equalsConsistentWithComparable`
 
-|link:src/main/java/org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
+|link:${ght}org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
 |The `CharSequence` interface also has a few methods that can be tested generically
 | `charAtIsConsistentWithToStringCharAt`
   `subSequenceIsConsistent`

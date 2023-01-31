@@ -12,7 +12,6 @@ Michiel Meeuwissen
 :ghraw: https://raw.githubusercontent.com/mihxil/math/main/
 :ghblob: {gh}blob/main/
 :ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
-:ght: {ghblob}mihxil-theories/src/main/java/org/meeuw/math/
 :gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
 :docs: {ghraw}docs
 :videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
