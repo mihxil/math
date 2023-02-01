@@ -28,6 +28,7 @@ jobs:
           apk add graphviz m4
           make clean index.html
           git status
+          git pull
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
         with:

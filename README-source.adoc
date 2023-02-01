@@ -161,7 +161,7 @@ Sometimes the value with uncertainty is exactly _zero_, so fractional uncertaint
 
 ==== Testing
 
-In link:{gh}/mihxil-theories[mihxil-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{ght}org/meeuw.utils/test/ElementTheory.java#L20[`elements`].
+In link:{gh}/mihxil-theories[mihxil-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{ght}org/meeuw.utils/,,test/ElementTheory.java#L20[`elements`].
 
 Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
 
