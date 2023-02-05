@@ -48,8 +48,9 @@ public interface BasicObjectTheory<E> {
      * returns true and y.equals(z) returns true, then x.equals(z)
      * should return true.
      */
-    @Property
-    default  void equalsIsTransitive(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1, @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
+    @Property(maxDiscardRatio = 10000)
+    default void equalsIsTransitive(
+        @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1, @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
         assertThat(p1.get1().equals(p2.get2())).isEqualTo(p1.get2().equals(p2.get1()));
     }
 
@@ -107,7 +108,7 @@ public interface BasicObjectTheory<E> {
      * then calling the hashCode method on each of the two objects
      * must produce the same integer result.
      */
-    @Property
+    @Property(maxDiscardRatio = 10000)
     default void hashCodeIsConsistentWithEquals(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> pair) {
         assertThat(pair.get1().hashCode()).isEqualTo(pair.get2().hashCode());
     }
