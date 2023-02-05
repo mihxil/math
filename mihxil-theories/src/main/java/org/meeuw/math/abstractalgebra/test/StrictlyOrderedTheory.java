@@ -19,7 +19,6 @@ import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 import org.meeuw.math.exceptions.NotComparableException;
-import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

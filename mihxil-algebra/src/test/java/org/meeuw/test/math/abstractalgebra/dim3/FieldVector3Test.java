@@ -28,7 +28,7 @@ import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
 import org.meeuw.math.exceptions.FieldInCompleteException;
-import org.meeuw.util.test.ElementTheory;
+import org.meeuw.math.abstractalgebra.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;

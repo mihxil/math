@@ -20,7 +20,6 @@ import net.jqwik.api.Property;
 
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.Sizeable;
-import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

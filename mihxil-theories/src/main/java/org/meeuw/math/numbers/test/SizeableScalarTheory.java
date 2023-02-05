@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.test.SizeableTheory;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SizeableScalar;
-import org.meeuw.util.test.ElementTheory;
+import org.meeuw.math.abstractalgebra.test.ElementTheory;
 
 import static java.lang.Math.signum;
 import static org.assertj.core.api.Assertions.assertThat;

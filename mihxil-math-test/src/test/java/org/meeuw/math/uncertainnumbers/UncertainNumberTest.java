@@ -25,7 +25,7 @@ import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.numbers.MathContextConfiguration;
-import org.meeuw.util.test.ElementTheory;
+import org.meeuw.math.abstractalgebra.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;

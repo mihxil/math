@@ -20,7 +20,6 @@ import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
 import org.meeuw.math.numbers.SignedNumber;
-import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -22,7 +22,6 @@ import org.assertj.core.data.Percentage;
 import org.meeuw.math.exceptions.NotCombinableException;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.util.test.ElementTheory;
 import org.opentest4j.TestAbortedException;
 
 import static org.assertj.core.api.Assertions.assertThat;

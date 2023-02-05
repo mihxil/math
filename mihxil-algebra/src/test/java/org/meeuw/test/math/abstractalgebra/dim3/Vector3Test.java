@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.dim3.Vector3;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
-import org.meeuw.util.test.ElementTheory;
+import org.meeuw.math.abstractalgebra.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;

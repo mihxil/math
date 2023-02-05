@@ -30,7 +30,6 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.exceptions.OperationException;
 import org.meeuw.math.operators.*;
-import org.meeuw.util.test.ElementTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;

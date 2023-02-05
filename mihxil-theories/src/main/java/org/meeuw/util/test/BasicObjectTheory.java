@@ -79,6 +79,16 @@ public interface BasicObjectTheory<E> {
     }
 
     /**
+     * For any non-null reference value x, x.equals(new Object); should
+     * return false.
+     */
+    @SuppressWarnings("ConstantConditions")
+    @Property
+    default void equalsReturnFalseOnOtherObject(@ForAll(NONNULL_DATAPOINTS) E x) {
+        assertThat(x.equals(new Object())).isFalse();
+    }
+
+    /**
      * Whenever it is invoked on the same object more than once
      * the hashCode() method must consistently return the same
      * integer.
