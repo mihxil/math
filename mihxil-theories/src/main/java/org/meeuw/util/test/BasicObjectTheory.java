@@ -130,7 +130,7 @@ public interface BasicObjectTheory<E> {
         return datapoints()
             .injectDuplicates(1)
             .tuple2()
-            .filter(10_000, (t) -> t.get1() != null && t.get1().equals(t.get2()));
+            .filter(50_000, (t) -> t != null && t.get1() != null && t.get1().equals(t.get2()));
     }
 
     @Provide
