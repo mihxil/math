@@ -17,9 +17,8 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.*;
-import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.abstractalgebra.Group;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InverseException;
 import org.meeuw.math.exceptions.NotASubGroup;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
@@ -27,6 +26,8 @@ import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -62,19 +63,20 @@ public interface GroupTheory<E extends GroupElement<E>>
         assertThat(v.operate(v.getStructure().unity()).eq(v)).isTrue();
     }
 
-
     @Property
     default void inverse(
         @ForAll(ELEMENTS) E v) {
-        try {
-            E inverse = v.inverse().operate(v);
-            assertThat(inverse.eq(v.getStructure().unity()))
-                .withFailMessage(() -> "inverse " + v.inverse() + " · " + v + " != " + v.getStructure().unity() + " (but " + inverse + ")").isTrue();
-        } catch (InverseException ie) {
-            Assume.that(! BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
+        withLooseEquals(() -> {
+            try {
+                E inverse = v.inverse().operate(v);
+                assertThat(inverse.eq(v.getStructure().unity()))
+                    .withFailMessage(() -> "inverse " + v.inverse() + " · " + v + " != " + v.getStructure().unity() + " (but " + inverse + ")").isTrue();
+            } catch (InverseException ie) {
+                Assume.that(!BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
 
-            getLogger().info(ie.getMessage());
-        }
+                getLogger().info(ie.getMessage());
+            }
+        });
     }
 
     class UnknownGroupElement implements GroupElement<UnknownGroupElement> {

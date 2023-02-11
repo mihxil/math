@@ -22,6 +22,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,15 +34,18 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
 
     @Property
     default void dividedByLong(@ForAll(ELEMENTS) E v1, @ForAll("positiveLongs") long divisor) {
-        try {
-            assertThat(v1.dividedBy(divisor).getStructure()).isEqualTo(v1.getStructure());
-            assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).withFailMessage("(%s / %s) * %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
-            assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+        withLooseEquals(() -> {
 
-        } catch (DivisionByZeroException divisionByZeroException) {
-            getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
-            assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
-        }
+            try {
+                assertThat(v1.dividedBy(divisor).getStructure()).isEqualTo(v1.getStructure());
+                assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).withFailMessage("(%s / %s) * %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+                assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+
+            } catch (DivisionByZeroException divisionByZeroException) {
+                getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
+                assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
+            }
+        });
     }
 
     @Provide
