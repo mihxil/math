@@ -17,7 +17,6 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -25,6 +24,7 @@ import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 
 /**
  * @author Michiel Meeuwissen
@@ -97,7 +97,9 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     default void powNegative2(
          @ForAll(ELEMENTS) E v1
     )  {
-        assertThatThrownBy(() -> v1.pow(-2)).isInstanceOf(IllegalPowerException.class);
+        assertThatThrownBy(() ->
+            v1.pow(-2))
+            .isInstanceOf(IllegalPowerException.class);
     }
 
     @Property
