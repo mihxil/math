@@ -1,6 +1,5 @@
 = Algebraic interfaces for Java
 Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
-
 :book:
 :sectnums:
 :toc: left
