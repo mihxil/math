@@ -34,6 +34,7 @@ import org.meeuw.math.numbers.MathContextConfiguration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -45,9 +46,11 @@ strictfp class BigDecimalFieldTest implements
 
     @Test
     public void test() {
-        assertThat(
-            of(5d).times(2).times(of(6d))
-        ).isEqualTo(of(60d));
+        withLooseEquals(() -> {
+            assertThat(
+                of(5d).times(2).times(of(6d))
+            ).isEqualTo(of(60d));
+        });
     }
 
     @Test
@@ -107,7 +110,7 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement e = of(-859.3420301563415);
         BigDecimalElement reciprocal = e.reciprocal();
         BigDecimalElement timesItself = reciprocal.times(e);
-        assertThat(timesItself.equals(e.getStructure().one()))
+        assertThat(timesItself.eq(e.getStructure().one()))
             .withFailMessage("%s · %s ^ -1 = %s != 1", e, e, timesItself )
             .isTrue();
     }
