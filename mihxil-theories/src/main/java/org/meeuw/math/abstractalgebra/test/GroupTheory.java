@@ -60,7 +60,9 @@ public interface GroupTheory<E extends GroupElement<E>>
     @Property
     default void unity(
         @ForAll(ELEMENTS) E v) {
-        assertThat(v.operate(v.getStructure().unity()).eq(v)).isTrue();
+        assertThat(v.operate(v.getStructure().unity()).eq(v))
+            .withFailMessage(String.format("Unity(%s) = %s", v, v.self()))
+            .isTrue();
     }
 
     @Property

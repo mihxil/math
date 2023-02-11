@@ -23,6 +23,7 @@ import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.numbers.Scalar;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -40,11 +41,17 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
 
     @Property
     default void distancePositive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
-        if (a.equals(b))  {
-            assertThat(a.distanceTo(b).isZero()).isTrue();
-        } else {
-            assertThat(a.distanceTo(b).isPositive()).isTrue();
-        }
+        withLooseEquals(() -> {
+            if (a.equals(b)) {
+                assertThat(a.distanceTo(b).isZero())
+                    .withFailMessage(() -> String.format("%s equals %s -> hence distance must be zero (but is %s", a, b, a.distanceTo(b)))
+                    .isTrue();
+            } else {
+                assertThat(a.distanceTo(b).isPositive())
+                    .withFailMessage(() -> String.format("%s !equals %s -> hence distance must be positive (but is %s)", a, b, a.distanceTo(b)))
+                    .isTrue();
+            }
+        });
     }
 
     @Property

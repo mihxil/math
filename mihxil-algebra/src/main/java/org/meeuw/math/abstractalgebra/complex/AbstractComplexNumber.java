@@ -126,6 +126,11 @@ public abstract class AbstractComplexNumber<
     }
 
     @Override
+    public boolean eq(S o) {
+        return real.eq(o.real) && imaginary.eq(o.imaginary);
+    }
+
+    @Override
     public int hashCode() {
         int result = real.hashCode();
         result = 31 * result + imaginary.hashCode();
