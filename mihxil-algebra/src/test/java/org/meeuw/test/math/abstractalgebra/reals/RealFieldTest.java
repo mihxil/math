@@ -31,6 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.*;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -53,10 +54,10 @@ strictfp class RealFieldTest implements
 
     @Test
     public void confidenceInterval() {
-        assertThat(new RealNumber(5, 0.5).equals(new RealNumber(6, 2))).isTrue();
-        assertThat(new RealNumber(6, 2).equals(new RealNumber(5, 0.5))).isTrue();
-        assertThat(new RealNumber(6, 2).equals(new RealNumber(5, 1.5))).isTrue();
-        assertThat(new RealNumber(6, 0.1).equals(new RealNumber(5, 0.1))).isFalse();
+        assertThat(new RealNumber(5, 0.5).eq(new RealNumber(6, 2))).isTrue();
+        assertThat(new RealNumber(6, 2).eq(new RealNumber(5, 0.5))).isTrue();
+        assertThat(new RealNumber(6, 2).eq(new RealNumber(5, 1.5))).isTrue();
+        assertThat(new RealNumber(6, 0.1).eq(new RealNumber(5, 0.1))).isFalse();
     }
 
     @Test
@@ -119,26 +120,31 @@ strictfp class RealFieldTest implements
 
     @Test
     public void divideOne() {
-        RealNumber divided = ONE.dividedBy(999999L);
-        RealNumber multiplied = divided.times(999999L);
-        assertThat(multiplied).isEqualTo(ONE);
+        withLooseEquals(() -> {
+            RealNumber divided = ONE.dividedBy(999999L);
+            RealNumber multiplied = divided.times(999999L);
+            assertThat(multiplied).isEqualTo(ONE);
+        });
     }
 
     @Test
     public void adjugate() {
-        RealNumber[][] realNumbers = new RealNumber[][] {
-            new RealNumber[]{of(-3), of(2), of(-5)},
-            new RealNumber[]{of(-1), of(0), of(-2)},
-            new RealNumber[]{of(3), of(-4), of(-1)}
-        };
+        withLooseEquals(() -> {
 
-        assertThat(INSTANCE.adjugate(realNumbers)).isDeepEqualTo(
-            new RealNumber[][] {
-                new RealNumber[]{of(-8), of(22), of(-4)},
-                new RealNumber[]{of(-7), of(18), of(-1)},
-                new RealNumber[]{of(4), of(-6), of(2)}
-            }
-        );
+            RealNumber[][] realNumbers = new RealNumber[][]{
+                new RealNumber[]{of(-3), of(2), of(-5)},
+                new RealNumber[]{of(-1), of(0), of(-2)},
+                new RealNumber[]{of(3), of(-4), of(-1)}
+            };
+
+            assertThat(INSTANCE.adjugate(realNumbers)).isDeepEqualTo(
+                new RealNumber[][]{
+                    new RealNumber[]{of(-8), of(22), of(-4)},
+                    new RealNumber[]{of(-7), of(18), of(-1)},
+                    new RealNumber[]{of(4), of(-6), of(2)}
+                }
+            );
+        });
     }
 
     @Test
@@ -168,10 +174,13 @@ strictfp class RealFieldTest implements
 
     @Test
     public void weightedAverageOfZero() {
-        RealNumber n1 = RealNumber.of(-906.2970587338823);
-        RealNumber n2 = RealNumber.of(0);
-        RealNumber weighted = n1.weightedAverage(n2);
-        assertThat(weighted).isEqualTo(RealNumber.of(0));
+        withLooseEquals(() -> {
+
+            RealNumber n1 = RealNumber.of(-906.2970587338823);
+            RealNumber n2 = RealNumber.of(0);
+            RealNumber weighted = n1.weightedAverage(n2);
+            assertThat(weighted).isEqualTo(RealNumber.of(0));
+        });
     }
 
     @Override
