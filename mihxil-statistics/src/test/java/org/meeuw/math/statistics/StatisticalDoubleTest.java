@@ -28,6 +28,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
+import static net.jqwik.api.RandomDistribution.uniform;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
@@ -97,10 +98,16 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void testEqualsWhenOnlyOne() {
+    public void testEqualsWhenNoValues() {
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
         assertThat(d1).isEqualTo(d2);
+    }
+
+    @Test
+    public void testEqualsWhenOnlyOne() {
+        StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
+        StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
         d1.enter(0.5);
         d2.enter(0.5);
         assertThat(d1).isEqualTo(d2);
@@ -155,10 +162,15 @@ public class StatisticalDoubleTest implements
 
     @Override
     public Arbitrary<UncertainReal> elements() {
-        Arbitrary<Integer> amounts = Arbitraries.integers().between(1, 100).shrinkTowards(2).withDistribution(RandomDistribution.uniform());
-        Arbitrary<Double> averages = Arbitraries.doubles().between(-1000d, 1000d);
-        Arbitrary<Random> random = Arbitraries.randoms();
-        return Combinators.combine(amounts, averages, random)
+        Arbitrary<Integer> amounts = Arbitraries.integers()
+            .between(1, 100)
+            .shrinkTowards(2)
+            .withDistribution(uniform());
+        Arbitrary<Double> averages = Arbitraries
+            .doubles()
+            .between(-1000d, 1000d);
+        Arbitrary<Random> randoms = Arbitraries.randoms();
+        return Combinators.combine(amounts, averages, randoms)
             .flatAs((am, av, r) -> {
                 StatisticalDoubleImpl sd = new StatisticalDoubleImpl();
                 r.doubles(am).forEach(d ->
