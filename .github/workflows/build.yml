@@ -23,7 +23,7 @@ jobs:
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - uses: actions/setup-java@v3.6.0
+      - uses: actions/setup-java@v3.10.0
         with:
           distribution: 'temurin'
           java-version: 17
@@ -36,13 +36,13 @@ jobs:
       - name: Build with Maven
         run: |
           mvn -B -fae
-      - uses: codecov/codecov-action@v3
-        if: ${{ ! cancelled()}}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.3.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.4.1
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
+      - uses: codecov/codecov-action@v3
+        if: ${{ ! cancelled()}}
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled()}}
