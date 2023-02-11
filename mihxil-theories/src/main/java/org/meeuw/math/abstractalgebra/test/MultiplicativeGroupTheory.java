@@ -17,13 +17,16 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.*;
-import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import static org.meeuw.math.text.TextUtils.superscript;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -99,16 +102,20 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
     default void reciprocal(
          @ForAll(ELEMENTS) E e
     )  {
-        try {
-            E reciprocal = e.reciprocal();
-            assertThat(reciprocal.reciprocal().eq(e)).isTrue();
-            E reciprocalTimesSelf = reciprocal.times(e);
-            assertThat(reciprocalTimesSelf.eq(e.getStructure().one()))
-                .withFailMessage(reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one()).isTrue();
-        } catch (ReciprocalException ae) {
-            // The element may be zero
-            getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
-        }
+        withLooseEquals(() -> {
+            try {
+                E reciprocal = e.reciprocal();
+                assertThat(reciprocal.reciprocal().eq(e)).isTrue();
+                E reciprocalTimesSelf = reciprocal.times(e);
+                assertThat(reciprocalTimesSelf.eq(e.getStructure().one()))
+                    .withFailMessage(
+                        reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one())
+                    .isTrue();
+            } catch (ReciprocalException ae) {
+                // The element may be zero
+                getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
+            }
+        });
     }
 
 }
