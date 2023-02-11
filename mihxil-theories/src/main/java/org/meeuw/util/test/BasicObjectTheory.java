@@ -3,8 +3,9 @@ package org.meeuw.util.test;
 
 import java.util.*;
 
-import net.jqwik.api.*;
+import java.util.stream.Collectors;
 
+import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 
 /**
- * Basic tests on {@link Object#equals(Object)}, {@link Object#hashCode()} and {@link Object#toString()}, which must probably be valid for _any_ override of those.
+ * Basic tests on {@link Object#equals(Object)}, {@link Object#hashCode()} and {@link Object#toString()}, which must probably be valid for <em>any</em> override of those.
  *
  * @author Michiel Meeuwissen
  * @since 0.10
@@ -21,7 +22,7 @@ public interface BasicObjectTheory<E> {
 
     String DATAPOINTS = "datapoints";
 
-    String NONNULL_DATAPOINTS = "nonNullDatapoints";
+    String DATAPOINTS_OR_NULL = "datapointsOrNull";
 
     String EQUAL_DATAPOINTS = "equalDatapoints";
 
@@ -30,7 +31,8 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("EqualsWithItself")
     @Property
-    default void equalsIsReflexive(@ForAll(NONNULL_DATAPOINTS) E x) {
+    default void equalsIsReflexive(@ForAll(DATAPOINTS) E x) {
+        System.out.println("reflexive " + x);
         assertThat(x.equals(x)).isTrue();
     }
 
@@ -39,7 +41,9 @@ public interface BasicObjectTheory<E> {
      * should return true if and only if y.equals(x) returns true.
      */
     @Property
-    default void equalsIsSymmetric(@ForAll(NONNULL_DATAPOINTS) E x, @ForAll(NONNULL_DATAPOINTS) E y) {
+    default void equalsIsSymmetric(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
+        System.out.println("symetric = " + x + " " + y);
+
         assertThat(x.equals(y)).isEqualTo(y.equals(x));
     }
 
@@ -49,7 +53,10 @@ public interface BasicObjectTheory<E> {
      * should return true.
      */
     @Property
-    default  void equalsIsTransitive(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1, @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
+    default  void equalsIsTransitive(
+        @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1,
+        @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
+        System.out.println("transitive = " + p1 + " " + p2);
         assertThat(p1.get1().equals(p2.get2())).isEqualTo(p1.get2().equals(p2.get1()));
     }
 
@@ -60,7 +67,7 @@ public interface BasicObjectTheory<E> {
      * the objects is modified.
      */
     @Property
-    default void equalsIsConsistent(@ForAll(NONNULL_DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
+    default void equalsIsConsistent(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS_OR_NULL) E y) {
         boolean alwaysTheSame = x.equals(y);
 
         for (int i = 0; i < 30; i++) {
@@ -74,7 +81,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ConstantConditions")
     @Property
-    default void equalsReturnFalseOnNull(@ForAll(NONNULL_DATAPOINTS) E x) {
+    default void equalsReturnFalseOnNull(@ForAll(DATAPOINTS) E x) {
         assertThat(x.equals(null)).isFalse();
     }
 
@@ -84,7 +91,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ConstantConditions")
     @Property
-    default void equalsReturnFalseOnOtherObject(@ForAll(NONNULL_DATAPOINTS) E x) {
+    default void equalsReturnFalseOnOtherObject(@ForAll(DATAPOINTS) E x) {
         assertThat(x.equals(new Object())).isFalse();
     }
 
@@ -94,7 +101,7 @@ public interface BasicObjectTheory<E> {
      * integer.
      */
     @Property
-    default void hashCodeIsSelfConsistent(@ForAll(NONNULL_DATAPOINTS) E x) {
+    default void hashCodeIsSelfConsistent(@ForAll(DATAPOINTS) E x) {
         int alwaysTheSame = x.hashCode();
 
         for (int i = 0; i < 30; i++) {
@@ -109,6 +116,8 @@ public interface BasicObjectTheory<E> {
      */
     @Property
     default void hashCodeIsConsistentWithEquals(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> pair) {
+        System.out.println("hashCode consistent = " + pair + " " + pair.get1().hashCode());
+
         assertThat(pair.get1().hashCode()).isEqualTo(pair.get2().hashCode());
     }
 
@@ -117,26 +126,43 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Property
-    default void toString(@ForAll(NONNULL_DATAPOINTS) E object) {
+    default void toString(@ForAll(DATAPOINTS) E object) {
         assertThatNoException().isThrownBy(object::toString);
     }
 
 
+    /**
+     * Provide non-{@code null} datapoints
+     */
     @Provide
     Arbitrary<? extends E> datapoints();
 
+
     @Provide
     default Arbitrary<? extends Tuple2<? extends E, ? extends E>> equalDatapoints() {
-        return datapoints()
-            .injectDuplicates(1)
-            .tuple2()
-            .filter(50_000, (t) -> t != null && t.get1() != null && t.get1().equals(t.get2()));
+
+        List<? extends E> samples = datapoints()
+            .injectDuplicates(0.5)
+            .sampleStream()
+            .limit(1000)
+            .collect(Collectors.toList());
+        final java.util.Set<Tuple2<? extends E, ? extends E>> setToReturn = new HashSet<>();
+        final List<E> check = new ArrayList<>();
+        for (E e : samples) {
+            int i = check.indexOf(e);
+            if (i == -1 ) {
+                check.add(e);
+            } else {
+                setToReturn.add(Tuple.of(e, check.remove(i)));
+            }
+        }
+        return Arbitraries.of(setToReturn);
     }
 
     @Provide
-    default Arbitrary<? extends  E> nonNullDatapoints() {
+    default Arbitrary<? extends  E> datapointsOrNull() {
         return datapoints()
-            .filter(Objects::nonNull);
+            .injectNull(0.1);
     }
 
 }

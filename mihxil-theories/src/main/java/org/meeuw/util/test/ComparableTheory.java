@@ -25,7 +25,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
     @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
     @Property
-    default void compareToNull(@ForAll(NONNULL_DATAPOINTS) E x) {
+    default void compareToNull(@ForAll(DATAPOINTS) E x) {
         assertThatThrownBy(() -> x.compareTo(null)).isInstanceOf(NullPointerException.class);
     }
 
@@ -33,7 +33,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      * The implementor must ensure sgn(x.compareTo(y)) == -sgn(y.compareTo(x)) for all x and y.
      */
     @Property
-    default void compareToIsAntiCommutative(@ForAll(NONNULL_DATAPOINTS) E x, @ForAll(NONNULL_DATAPOINTS) E y) {
+    default void compareToIsAntiCommutative(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
         assertThat(signum(x.compareTo(y))).isEqualTo(-1 * signum(y.compareTo(x)));
 
     }
@@ -42,9 +42,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveBigger(
-        @ForAll(NONNULL_DATAPOINTS) E x,
-        @ForAll(NONNULL_DATAPOINTS) E y,
-        @ForAll(NONNULL_DATAPOINTS) E z) {
+        @ForAll(DATAPOINTS) E x,
+        @ForAll(DATAPOINTS) E y,
+        @ForAll(DATAPOINTS) E z) {
 
         Assume.that(x.compareTo(y) > 0);
         Assume.that(y.compareTo(z) > 0);
@@ -53,9 +53,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
     }
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveSmaller(
-        @ForAll(NONNULL_DATAPOINTS) E x,
-        @ForAll(NONNULL_DATAPOINTS) E y,
-        @ForAll(NONNULL_DATAPOINTS) E z) {
+        @ForAll(DATAPOINTS) E x,
+        @ForAll(DATAPOINTS) E y,
+        @ForAll(DATAPOINTS) E z) {
 
           Assume.that(x.compareTo(y) < 0);
           Assume.that(y.compareTo(z) < 0);
@@ -65,9 +65,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveEquals(
-        @ForAll(NONNULL_DATAPOINTS) E x,
-        @ForAll(NONNULL_DATAPOINTS) E y,
-        @ForAll(NONNULL_DATAPOINTS) E z) {
+        @ForAll(DATAPOINTS) E x,
+        @ForAll(DATAPOINTS) E y,
+        @ForAll(DATAPOINTS) E z) {
 
         Assume.that(x.compareTo(y) == 0);
         Assume.that(y.compareTo(z) == 0);
