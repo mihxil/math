@@ -42,7 +42,7 @@ jobs:
         with:
           junit_files: "**/target/surefire-reports/*.xml"
       - uses: codecov/codecov-action@v3
-        if: ${{ ! cancelled()}}
+        if: ${{ success() }}
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled()}}
