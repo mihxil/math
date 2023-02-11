@@ -90,7 +90,7 @@ strictfp class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<
                     BigDecimalElement exactApplied = operator.apply(ba, bb);
                     log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
 
-                    assertThat(applied.equals(exactly(exactApplied.doubleValue()))).isTrue();
+                    assertThat(applied.eq(exactly(exactApplied.doubleValue()))).isTrue();
                 } catch (ReciprocalException | IllegalPowerException rce) {
                     log.info("{} -> {}", operator.stringify(ba, bb), rce.getMessage());
                 }
