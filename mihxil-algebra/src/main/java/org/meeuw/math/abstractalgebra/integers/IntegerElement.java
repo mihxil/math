@@ -41,7 +41,6 @@ public class IntegerElement
     public static final IntegerElement ZERO = IntegerElement.of(0);
     public static final IntegerElement ONE = IntegerElement.of(1);
 
-
     public static IntegerElement of(long value){
         return new IntegerElement(value);
     }
