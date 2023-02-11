@@ -25,6 +25,7 @@ import org.meeuw.math.abstractalgebra.Vector;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.test.WithScalarTheory.SCALARS;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -126,7 +127,10 @@ public interface VectorSpaceTheory<
         @ForAll(ELEMENTS) V b,
         @ForAll(ELEMENTS) V c
         ) {
-        assertThat(a.dot(b.plus(c))).isEqualTo((a.dot(b)).plus(a.dot(c)));
+        withLooseEquals(() -> {
+            assertThat(a.dot(b.plus(c)))
+                .isEqualTo((a.dot(b)).plus(a.dot(c)));
+        });
     }
 
     @Provide
