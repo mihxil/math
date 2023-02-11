@@ -77,13 +77,6 @@
           </excludes>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <version>3.3.2</version>
-        <configuration>
-          <doclet>org.meeuw.test.SvgDoclet</doclet>
-        </configuration>
-      </plugin>
     </plugins>
   </build>
 </project>
