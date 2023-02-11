@@ -52,8 +52,7 @@ class SITest {
 
         Units dm3 = m.withPrefix(d).pow(3);
         Measurement alsoOneLitre = new Measurement(exactly(1), dm3);
-        assertThat(alsoOneLitre.equals(SI.litre.asSIConstant())).isTrue();
-
+        assertThat(alsoOneLitre.eq(SI.litre.asSIConstant())).isTrue();
     }
 
     @Test
