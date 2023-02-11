@@ -1,5 +1,6 @@
 = Algebraic interfaces for Java
-Michiel Meeuwissen
+Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
+
 :book:
 :sectnums:
 :toc: left
@@ -199,7 +200,7 @@ If the value is `Uncertain` then it also implements a method `strictlyEquals` wh
 
 ===== equals
 
-Java `equals` method is implemented with `strictlyEquals` of with `eq` if the value is not uncertain.
+Java's `equals` method is implemented with `strictlyEquals` or with `eq` if the value is not uncertain (`strictlyEquals` is not available, and it would make no difference).
 
 Via the `CompareConfiguration` configuration aspect, it can be configured though, that `equals` is like `eq`.
 
@@ -209,6 +210,12 @@ Via the `CompareConfiguration` configuration aspect, it can be configured though
      /// here equals behave like eq
  }
 ----
+This common case can also be accessed more concisely:
+[source, java]
+----
+CompareConfiguration.withLooseEquals(() -> {
+    // code here
+});
 
 
 === Formatting and configuration
