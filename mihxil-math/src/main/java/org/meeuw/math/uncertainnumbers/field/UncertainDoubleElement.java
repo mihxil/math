@@ -298,7 +298,7 @@ public class UncertainDoubleElement
         if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
-            return eq((UncertainDoubleElement) o);
+            return eq((UncertainReal) o);
         }
     }
 

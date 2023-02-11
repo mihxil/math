@@ -39,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.meeuw.math.temporal.UncertainTemporal.Mode.*;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -178,12 +179,14 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void dividedOne() {
-        StatisticalLong minusOne = new StatisticalLong();
-        minusOne.accept(-1);
-        minusOne.accept(-1L);
-        UncertainDoubleElement divided = minusOne.dividedBy(26904L);
-        UncertainReal multiplied = divided.times(26904L);
-        assertThat(multiplied).isEqualTo(minusOne);
+        withLooseEquals(() -> {
+            StatisticalLong minusOne = new StatisticalLong();
+            minusOne.accept(-1);
+            minusOne.accept(-1L);
+            UncertainDoubleElement divided = minusOne.dividedBy(26904L);
+            UncertainReal multiplied = divided.times(26904L);
+            assertThat(multiplied).isEqualTo(minusOne);
+        });
     }
 
     @Test

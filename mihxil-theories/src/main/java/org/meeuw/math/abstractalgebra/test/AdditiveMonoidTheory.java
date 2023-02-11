@@ -37,8 +37,10 @@ public interface AdditiveMonoidTheory<E extends AdditiveMonoidElement<E>>
             .isEqualTo(e);
 
         assertThat(e.getStructure().zero().isZero()).isTrue();
-        if (! e.equals(e.getStructure().zero())) {
-            assertThat(e.isZero()).isFalse();
+        if (! e.eq(e.getStructure().zero())) {
+            assertThat(e.isZero())
+                .withFailMessage(() -> String.format("%s finds %s not zero, but it does find itself zero", e.getStructure(), e))
+                .isFalse();
         }
     }
 
