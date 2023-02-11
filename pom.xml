@@ -27,11 +27,11 @@
     <java.version>17</java.version>
 
     <!-- compile time -->
-    <lombok.version>1.18.24</lombok.version>
+    <lombok.version>1.18.26</lombok.version>
 
     <!-- optional -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.29.0</checkerframework.version>
+    <checkerframework.version>3.30.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
     <!-- test dependencies -->
     <log4j.version>2.19.0</log4j.version>
