@@ -24,6 +24,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.text.TextUtils.superscript;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -57,13 +58,15 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
          @ForAll(ELEMENTS) E v1,
          @ForAll(ELEMENTS) E v2
     )  {
-        if (v1.isOne()) {
-            assertThat(v2.times(v1)).isEqualTo(v2);
-            assertThat(v1.times(v2)).isEqualTo(v2);
-        }
-        if (v2.isOne()) {
-            assertThat(v1.times(v2)).isEqualTo(v1);
-            assertThat(v2.times(v1)).isEqualTo(v1);
-        }
+        withLooseEquals(() -> {
+            if (v1.isOne()) {
+                assertThat(v2.times(v1)).isEqualTo(v2);
+                assertThat(v1.times(v2)).isEqualTo(v2);
+            }
+            if (v2.isOne()) {
+                assertThat(v1.times(v2)).isEqualTo(v1);
+                assertThat(v2.times(v1)).isEqualTo(v1);
+            }
+        });
     }
 }
