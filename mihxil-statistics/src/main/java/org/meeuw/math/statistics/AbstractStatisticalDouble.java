@@ -16,11 +16,12 @@
 package org.meeuw.math.statistics;
 
 import java.math.BigDecimal;
-
 import java.util.Objects;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.*;
+import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
@@ -51,8 +52,9 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public double doubleValue() throws DivisionByZeroException {
-        return optionalDoubleMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
+    public double doubleValue() throws NoValues {
+        return optionalDoubleMean().orElseThrow(() ->
+            new NoValues("No values entered, cannot calculate mean"));
     }
 
 
@@ -204,7 +206,8 @@ public abstract class AbstractStatisticalDouble
             return false;
         }
         AbstractStatisticalDouble<?> number = (AbstractStatisticalDouble<?>) o;
-        return Objects.equals(getValue(), number.getValue());
+
+        return getCount() == 0 ? number.getCount() == 0 : Objects.equals(getValue(), number.getValue());
     }
 
     @Override
