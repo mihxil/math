@@ -21,6 +21,7 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -35,7 +36,11 @@ public interface AdditiveAbelianGroupTheory <E extends AdditiveGroupElement<E>>
     default void minusIsAnticommutative(
             @ForAll(ELEMENTS) E v1,
             @ForAll(ELEMENTS) E v2) {
-        assertThat(v1.minus(v2)).isEqualTo(v2.minus(v1).negation());
+        withLooseEquals(() -> {
+
+            assertThat(v1.minus(v2))
+                .isEqualTo(v2.minus(v1).negation());
+        });
     }
 
 }

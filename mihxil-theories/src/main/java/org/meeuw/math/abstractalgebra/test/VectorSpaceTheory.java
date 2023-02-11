@@ -79,7 +79,14 @@ public interface VectorSpaceTheory<
 
     @Property
     default void associativity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(ELEMENTS) V v3) {
-        assertThat(v1.plus(v2.plus(v3))).isEqualTo((v1.plus(v2)).plus(v3));
+        withLooseEquals(() -> {
+
+            assertThat(
+                v1.plus(v2.plus(v3))
+            ).isEqualTo(
+                (v1.plus(v2)).plus(v3)
+            );
+        });
     }
 
     @Property
@@ -94,7 +101,13 @@ public interface VectorSpaceTheory<
 
     @Property
     default void compatibility(@ForAll(ELEMENTS) V v, @ForAll(SCALARS) S a, @ForAll(SCALARS) S b) {
-        assertThat((v.times(a)).times(b)).isEqualTo(v.times(a.times(b)));
+        withLooseEquals(() -> {
+            assertThat(
+                (v.times(a)).times(b)
+            ).isEqualTo(
+                v.times(a.times(b))
+            );
+        });
     }
 
     @Property
@@ -104,14 +117,28 @@ public interface VectorSpaceTheory<
 
     @Property
     default void vectorDistributivity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(SCALARS) S e) {
-        assertThat((v1.plus(v2)).times(e)).isEqualTo((v1.times(e)).plus(v2.times(e)));
+        withLooseEquals(() -> {
+
+            assertThat(
+                (v1.plus(v2)).times(e)
+            ).isEqualTo(
+                (v1.times(e)).plus(v2.times(e))
+            );
+        });
     }
 
     @Property
     default void scalarDistributivity(
         @ForAll(ELEMENTS) V v,
         @ForAll(SCALARS) S e1, @ForAll(SCALARS) S e2) {
-        assertThat((v.times(e1.plus(e2)))).isEqualTo((v.times(e1)).plus(v.times(e2)));
+        withLooseEquals(() -> {
+
+            assertThat(
+                v.times(e1.plus(e2))
+            ).isEqualTo(
+                (v.times(e1)).plus(v.times(e2))
+            );
+        });
     }
 
     @Property

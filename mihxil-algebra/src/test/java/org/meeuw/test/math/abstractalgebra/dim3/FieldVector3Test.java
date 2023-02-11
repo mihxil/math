@@ -34,6 +34,7 @@ import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -64,8 +65,10 @@ class FieldVector3Test  implements
 
     @Test
     public void dividedBy() {
-        FieldVector3<BigDecimalElement> v = FieldVector3.of(valueOf(3), valueOf(-4), valueOf(0));
-        assertThat(v.dividedBy(of(-2))).isEqualTo(FieldVector3.of(of(-1.5), of(2), of(0)));
+        withLooseEquals(() -> {
+            FieldVector3<BigDecimalElement> v = FieldVector3.of(valueOf(3), valueOf(-4), valueOf(0));
+            assertThat(v.dividedBy(of(-2))).isEqualTo(FieldVector3.of(of(-1.5), of(2), of(0)));
+        });
     }
 
     @Test

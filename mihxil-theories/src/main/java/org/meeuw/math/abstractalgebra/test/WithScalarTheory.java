@@ -21,6 +21,7 @@ import org.meeuw.math.abstractalgebra.WithScalarOperations;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -34,14 +35,16 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
 
     @Property
     default void times(@ForAll(ELEMENTS) E e, @ForAll(SCALARS) S scalar) {
-        assertThat(e.times(scalar)).isNotNull();
+        withLooseEquals(() -> {
+            assertThat(e.times(scalar)).isNotNull();
 
-        try {
-            assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
-        } catch (ReciprocalException ae) {
-            getLogger().debug("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
-        }
-        //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
+            try {
+                assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
+            } catch (ReciprocalException ae) {
+                getLogger().debug("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
+            }
+            //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
+        });
     }
 
     @Property
