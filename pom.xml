@@ -493,6 +493,32 @@
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <version>1.18.20.0</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+              <outputDirectory>${delombok.output}</outputDirectory>
+              <addOutputDirectory>false</addOutputDirectory>
+              <encoding>UTF-8</encoding>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>delombok</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
             <executions>
@@ -530,6 +556,10 @@
               <detectOfflineLinks>true</detectOfflineLinks>
               <additionalJOption>-Xdoclint:all</additionalJOption>
               <additionalJOption>-Xdoclint:-missing</additionalJOption>
+              <sourcepath>
+                ${delombok.output};
+                ${project.build.directory}/generated-sources/apt
+              </sourcepath>
             </configuration>
           </plugin>
         </plugins>
