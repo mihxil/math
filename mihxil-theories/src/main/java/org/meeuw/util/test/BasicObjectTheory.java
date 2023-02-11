@@ -32,7 +32,7 @@ public interface BasicObjectTheory<E> {
     @SuppressWarnings("EqualsWithItself")
     @Property
     default void equalsIsReflexive(@ForAll(DATAPOINTS) E x) {
-        System.out.println("reflexive " + x);
+        //System.out.println("reflexive " + x);
         assertThat(x.equals(x)).isTrue();
     }
 
@@ -42,8 +42,7 @@ public interface BasicObjectTheory<E> {
      */
     @Property
     default void equalsIsSymmetric(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
-        System.out.println("symetric = " + x + " " + y);
-
+        //System.out.println("symetric = " + x + " " + y);
         assertThat(x.equals(y)).isEqualTo(y.equals(x));
     }
 
@@ -56,7 +55,7 @@ public interface BasicObjectTheory<E> {
     default  void equalsIsTransitive(
         @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1,
         @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
-        System.out.println("transitive = " + p1 + " " + p2);
+        //System.out.println("transitive = " + p1 + " " + p2);
         assertThat(p1.get1().equals(p2.get2())).isEqualTo(p1.get2().equals(p2.get1()));
     }
 
@@ -116,8 +115,7 @@ public interface BasicObjectTheory<E> {
      */
     @Property
     default void hashCodeIsConsistentWithEquals(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> pair) {
-        System.out.println("hashCode consistent = " + pair + " " + pair.get1().hashCode());
-
+        //System.out.println("hashCode consistent = " + pair + " " + pair.get1().hashCode());
         assertThat(pair.get1().hashCode()).isEqualTo(pair.get2().hashCode());
     }
 

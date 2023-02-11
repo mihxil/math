@@ -18,7 +18,7 @@ public class BasicObjectTheoryTest implements ComparableTheory<BasicObjectTheory
 
         public A(int v) {
             this.value = v;
-            System.out.println("Created " + this);
+            // System.out.println("Created " + this);
         }
         @Override
         public String toString() {

@@ -40,10 +40,10 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void multiplicativeAssociativity (
-            @ForAll(ELEMENTS) E v1,
-            @ForAll(ELEMENTS) E v2,
-            @ForAll(ELEMENTS) E v3
-            ) {
+        @ForAll(ELEMENTS) E v1,
+        @ForAll(ELEMENTS) E v2,
+        @ForAll(ELEMENTS) E v3
+    ) {
         assertThat((v1.times(v2)).times(v3))
             .usingComparator(eqComparator())
             .isEqualTo(v1.times((v2.times(v3))));
@@ -51,7 +51,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void pow1(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThat(v1.pow(1))
             .usingComparator(eqComparator())
@@ -60,7 +60,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void pow2(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThat(v1.pow(2))
             .usingComparator(eqComparator())
@@ -69,7 +69,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void pow3(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThat(v1.pow(3))
             .usingComparator(eqComparator())
@@ -79,7 +79,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
     @Property
     default void pow0(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() -> v1.pow(0)).isInstanceOf(IllegalPowerException.class);
     }
@@ -87,7 +87,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     @Property
     @Label("powNegative1 semigroup")
     default void powNegative1(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() -> v1.pow(-1)).isInstanceOf(IllegalPowerException.class);
     }
@@ -95,7 +95,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     @Property
     @Label("powNegative2 semigroup")
     default void powNegative2(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() ->
             v1.pow(-2))
@@ -105,7 +105,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     @Property
     @Label("powNegative3 semigroup")
     default void powNegative3(
-         @ForAll(ELEMENTS) E v1
+        @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() -> v1.pow(-3)).isInstanceOf(IllegalPowerException.class);
     }
