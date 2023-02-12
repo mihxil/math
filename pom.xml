@@ -382,7 +382,7 @@
                 jqwik.shrinking.default=OFF
               </configurationParameters>
             </properties>
-            <redirectTestOutputToFile>false</redirectTestOutputToFile>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
           </configuration>
           <dependencies>
             <dependency>
