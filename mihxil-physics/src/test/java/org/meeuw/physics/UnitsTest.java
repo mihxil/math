@@ -46,7 +46,7 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
     final Units TIME = INSTANCE.forQuantity(Quantity.TIME);
 
 
-     @Test
+    @Test
     public void N() {
         assertThat(SI.N.toString()).isEqualTo("N");
         assertThat(SI.N.getDescription()).isEqualTo("Newton");

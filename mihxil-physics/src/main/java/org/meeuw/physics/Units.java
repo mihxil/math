@@ -98,7 +98,8 @@ public interface Units extends
     }
 
     static boolean equals(Units u1, Units u2) {
-        return dimensionEquals(u1, u2) && u1.getSIFactor().equals(u2.getSIFactor());
+        return dimensionEquals(u1, u2) &&
+            u1.getSIFactor().eq(u2.getSIFactor());
     }
 
     static boolean equals(Units u1, Object o) {
