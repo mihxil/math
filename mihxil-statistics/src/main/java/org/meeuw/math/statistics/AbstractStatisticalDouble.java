@@ -215,7 +215,7 @@ public abstract class AbstractStatisticalDouble
         if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
-            return eq((UncertainDoubleElement) o);
+            return eq((AbstractStatisticalDouble) o);
         }
     }
 

@@ -172,9 +172,6 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(mes.optionalDurationValue()).contains(Duration.parse("PT1M40.00000001S"));
 
         assertThatThrownBy(mes::getStandardDeviation).isInstanceOf(OverflowException.class);
-
-
-
     }
 
     @Test

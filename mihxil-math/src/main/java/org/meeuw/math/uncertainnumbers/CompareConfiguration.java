@@ -30,8 +30,8 @@ public class CompareConfiguration implements ConfigurationAspect {
     }
 
     /**
-     * Run a piece of code with {@link #isEqualsIsStrict()} {@code false}
-     *
+     * Run a piece of code with {@link #isEqualsIsStrict()} {@code false}.
+     * <p>
      * E.g. used much used in tests.
      */
     public static void withLooseEquals(Runnable r) {
