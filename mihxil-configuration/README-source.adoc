@@ -33,7 +33,6 @@ There are some utilities in `ConfigurationService` that makes this process a bit
 [source, java]
 ----
 include::../mihxil-math/src/test/java/org/meeuw/test/examples/ConfigurationExample.java[tag=closable,indent=0]
-
 ----
 
 Global defaults can be set similarly

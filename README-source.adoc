@@ -215,7 +215,7 @@ This common case can also be accessed more concisely:
 CompareConfiguration.withLooseEquals(() -> {
     // code here
 });
-
+----
 
 === Formatting and configuration
 
