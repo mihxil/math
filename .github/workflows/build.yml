@@ -37,9 +37,9 @@ jobs:
         run: |
           mvn -ntp -Dmaven.test.failure.ignore=true
           # fail the build if failures
-          find . -regex '.*/surefire-reports/.*txt' |  xargs sed   -n 's/^Tests run: \([0-9]*\), Failures: \([0-9]*\), Errors: \([0-9]*\).*in \(.*\)/\1 \2 \3 \4/p' | awk '$2 + $3 > 0 {print "failures: " $2 "\terrors: "  $3  "\t"  $4}' | tee report.txt | sed 's/^/::error /'
+          find . -regex '.*/surefire-reports/.*txt' |  xargs sed   -n 's/^Tests run: \([0-9]*\), Failures: \([0-9]*\), Errors: \([0-9]*\).*in \(.*\)/\1 \2 \3 \4/p' | awk '$2 + $3 > 0 {print "::error file="$4 "::failures: " $2 "\terrors: "  $3  "\t"  $4}' | tee report.txt
           # number of lines is exit code
-          exit $(wc -l report.txt)
+          exit  $(cat report.txt | wc -l)
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.4.1
         if: always()
