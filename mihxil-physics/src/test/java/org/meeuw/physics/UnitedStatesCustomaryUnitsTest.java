@@ -34,11 +34,11 @@ class UnitedStatesCustomaryUnitsTest {
         PhysicalNumber inCm = oneInch.toUnits(m.withPrefix(SI.DecimalPrefix.c));
         assertThat(inCm.toString()).isEqualTo("2.54 ± 0.03 cm");
 
-        assertThat(oneInch.equals(inCm)).isTrue();
+        assertThat(oneInch.eq(inCm)).isTrue();
 
         PhysicalNumber inYd = inCm.toUnits(UnitedStatesCustomaryUnits.INSTANCE.forDimension(Dimension.L));
 
-        assertThat(inYd.equals(inCm)).isTrue();
+        assertThat(inYd.eq(inCm)).isTrue();
         assertThat(inYd.toString()).isEqualTo("0.0278 ± 0.0003 yd");
 
         assertThat(UnitedStatesCustomaryUnits.US.yd.reciprocal().toString()).isEqualTo("/yd");

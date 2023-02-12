@@ -239,7 +239,7 @@ public abstract class PhysicalNumber
 
     @Override
     public boolean eq(PhysicalNumber of) {
-        if (! units.getDimensions().equals(of.units.getDimensions())) {
+        if (! units.getDimensions().eq(of.units.getDimensions())) {
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);

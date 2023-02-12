@@ -350,7 +350,6 @@
           <version>3.0.0-M8</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
-            <testFailureIgnore>false</testFailureIgnore>
             <useModulePath>false</useModulePath>
             <excludes>
               <exclude />
