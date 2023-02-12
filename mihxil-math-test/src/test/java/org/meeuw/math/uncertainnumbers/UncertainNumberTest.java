@@ -24,8 +24,8 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.abstractalgebra.test.ElementTheory;
+import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,11 +36,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
 
+
+    @Override
+    public boolean equals(UncertainNumberTest.A e1, UncertainNumberTest.A e2) {
+        return e1.eq(e2, 1);
+    }
+
     @Override
     public Arbitrary<? extends A> elements() {
-        return Arbitraries.randomValue((random) -> new A(BigDecimal.valueOf(random.nextDouble() * 1000 - 500),
-            BigDecimal.valueOf(random.nextDouble() * 10)))
-            .injectDuplicates(0.1);
+        return Arbitraries
+            .randomValue(
+                (random) -> new A(BigDecimal.valueOf(random.nextDouble() * 1000 - 500),
+                    BigDecimal.valueOf(random.nextDouble() * 10)));
     }
 
     public static class A extends ImmutableUncertainNumber<BigDecimal> {

@@ -136,9 +136,16 @@ public interface BasicObjectTheory<E> {
     Arbitrary<? extends E> datapoints();
 
 
+    /**
+     * The implementation for equals datapoints (see {@link #equalDatapoints()}.
+     * Defaults to {@link Objects#equals(Object, Object)}.
+     */
+    default boolean equals(E e1, E e2) {
+        return Objects.equals(e1, e2);
+    }
+
     @Provide
     default Arbitrary<? extends Tuple2<? extends E, ? extends E>> equalDatapoints() {
-
         List<? extends E> samples = datapoints()
             .injectDuplicates(0.5)
             .sampleStream()
@@ -147,7 +154,13 @@ public interface BasicObjectTheory<E> {
         final java.util.Set<Tuple2<? extends E, ? extends E>> setToReturn = new HashSet<>();
         final List<E> check = new ArrayList<>();
         for (E e : samples) {
-            int i = check.indexOf(e);
+            int i = -1;
+            for (int j = 0; j < check.size(); j++) {
+                if (equals(check.get(j), e)) {
+                    i = j;
+                    break;
+                }
+            }
             if (i == -1 ) {
                 check.add(e);
             } else {
