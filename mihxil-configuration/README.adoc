@@ -70,7 +70,6 @@ withConfiguration((con) ->
         // code
 
     });
-
 ----
 
 Global defaults can be set similarly
