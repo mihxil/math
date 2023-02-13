@@ -47,7 +47,7 @@ public class StatisticalDoubleImpl
     @Getter
     private double min = Double.MAX_VALUE;
     @Getter
-    private double max = Double.MIN_VALUE;
+    private double max = -1 * Double.MAX_VALUE;
 
     public StatisticalDoubleImpl() {
 
@@ -57,6 +57,11 @@ public class StatisticalDoubleImpl
         super(count);
         this.sum = sum;
         this.sumOfSquares = sumOfSquares;
+    }
+
+    @Override
+    public boolean isExact() {
+        return min == max &&  doubleUncertainty() == EXACT;
     }
 
     @Override
@@ -78,7 +83,7 @@ public class StatisticalDoubleImpl
             sumOfSquares += d * d;
             count++;
             max = Math.max(max, d);
-            min = Math.max(min, d);
+            min = Math.min(min, d);
         }
         return this;
     }
