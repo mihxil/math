@@ -125,7 +125,7 @@ Even more similar to the everyday concept of a number are elements of an algebra
 | link:{ghm}numbers/NumberOperations.java[`NumberOperations`]
 link:{ghm}numbers/UncertaintyNumberOperations.java[`UncertaintyNumberOperations`]
 |
-Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
+Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with a common interface to all needed operations.
 . E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`.
 
 The specialization `UncertaintyNumberOperations` adds the logic for propagation of uncertainties.

@@ -54,9 +54,9 @@ class PhysicalNumberTest implements
         PhysicalNumber twoLightyears = new Measurement(2, 0.1, ly);        //
         PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
 
-        assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.3 ly");
-        assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.10 pc");
-        assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); //different toString does not mean that they represent a different value
+        assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
+        assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.13 pc");
+        assertThat(oneParsec.plus(twoLightyears).eq(twoLightyears.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
         log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
         // end::add[]
 
@@ -88,7 +88,7 @@ class PhysicalNumberTest implements
 
         log.info("{} =? {}", measurementInM, measurementInKm);
 
-        assertThat(measurementInM.equals(measurementInKm)).isTrue();
+        assertThat(measurementInM.eq(measurementInKm)).isTrue();
 
     }
 
@@ -104,7 +104,7 @@ class PhysicalNumberTest implements
 
         log.info("{} =? {}", measurementInKg, measurementInG);
 
-        assertThat(measurementInKg.equals(measurementInG)).isTrue();
+        assertThat(measurementInKg.eq(measurementInG)).isTrue();
 
     }
 

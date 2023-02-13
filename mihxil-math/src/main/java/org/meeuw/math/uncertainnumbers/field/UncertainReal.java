@@ -50,11 +50,21 @@ public interface UncertainReal
         return UncertainDouble.super.plus(summand);
     }
 
+
+    /**
+     * For uncertain elements, an element is only zero if its value is {@link #isExact()}
+     * and of course {@code 0}.
+     */
     @Override
     default boolean isZero() {
         return isExact() && CompleteScalarFieldElement.super.isZero();
     }
 
+
+    /**
+     * For uncertain elements, an element is only one if its value is {@link #isExact()}
+     * and of course {@code 1}.
+     */
     @Override
     default boolean isOne() {
         return isExact() && CompleteScalarFieldElement.super.isOne();

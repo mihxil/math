@@ -41,7 +41,10 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public abstract class AbstractStatisticalDouble
     <SELF extends AbstractStatisticalDouble<SELF>>
     extends AbstractStatisticalNumber<SELF, Double>
-    implements UncertainNumber<Double>, StatisticalDouble<SELF> {
+    implements
+    UncertainNumber<Double>,
+    StatisticalDouble<SELF> {
+
     static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
     public AbstractStatisticalDouble() {

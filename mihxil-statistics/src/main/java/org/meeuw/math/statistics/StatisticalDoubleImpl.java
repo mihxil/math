@@ -30,7 +30,7 @@ import org.meeuw.math.uncertainnumbers.field.*;
 /**
  * Represents a set of measured values. The value represents the average value.
  * {@link #toString} present the current value, but only the relevant digits. The standard
- * deviation {@link #getStandardDeviation} is used to determin what digits are relevant.
+ * deviation {@link #getStandardDeviation} is used to determine what digits are relevant.
  *
  * @author Michiel Meeuwissen
  */

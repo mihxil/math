@@ -49,7 +49,6 @@ public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N ex
 
     void combine(SELF  t);
 
-
     boolean eq(SELF o);
 
 }
