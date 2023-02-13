@@ -126,6 +126,9 @@ public class StatisticalDoubleTest implements
         d.reset();
         d.enter(3, 4, 5);
         assertThat(d.doubleValue()).isEqualTo(4);
+        assertThat(d.doubleValue()).isEqualTo(4);
+        assertThat(d.getMin()).isEqualTo(3);
+        assertThat(d.getMax()).isEqualTo(5);
     }
 
     @Property
@@ -158,6 +161,20 @@ public class StatisticalDoubleTest implements
             assertThat(d2.equals(d3)).isFalse();
             assertThat(d1.equals(d3)).isFalse();
         });
+    }
+
+    @Test
+    public void anotherZero () {
+        StatisticalDoubleImpl zero = new StatisticalDoubleImpl();
+        zero.enter(0d, 0d, 0d, 0d, 0d, 0d, 0d);
+        assertThat(zero.getStructure().zero().eq(zero)).isTrue();
+        assertThat(zero.isZero()).isTrue();
+
+        zero.enter(5e-324);
+
+        assertThat(zero.isZero()).isFalse(); // it _is_ not zero
+        assertThat(zero.getStructure().zero().eq(zero)).isTrue(); // but it is close enough
+
     }
 
     @Override

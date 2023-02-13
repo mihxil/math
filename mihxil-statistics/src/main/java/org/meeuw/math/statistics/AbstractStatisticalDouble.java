@@ -57,8 +57,6 @@ public abstract class AbstractStatisticalDouble
             new NoValues("No values entered, cannot calculate mean"));
     }
 
-
-
     /**
      * Divides the current instant by a value, and returns {@code this}
      * @param divisor divisor
@@ -210,18 +208,19 @@ public abstract class AbstractStatisticalDouble
         return getCount() == 0 ? number.getCount() == 0 : Objects.equals(getValue(), number.getValue());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
-            return eq((AbstractStatisticalDouble) o);
+            return eq((SELF) o);
         }
     }
 
     /**
      * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     * The value of the standard deviation is used to determine how many digits can sensibly be shown.
      */
     @Override
     public String toString() {

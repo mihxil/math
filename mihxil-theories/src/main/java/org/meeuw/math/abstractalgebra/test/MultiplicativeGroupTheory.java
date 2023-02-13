@@ -109,7 +109,7 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
                 E reciprocalTimesSelf = reciprocal.times(e);
                 assertThat(reciprocalTimesSelf.eq(e.getStructure().one()))
                     .withFailMessage(
-                        reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one())
+                        () -> reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one())
                     .isTrue();
             } catch (ReciprocalException ae) {
                 // The element may be zero
