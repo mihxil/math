@@ -40,10 +40,12 @@ public class UncertainDoubleElement
         public UncertainDoubleElement sqrt() {
             return this;
         }
+
         @Override
         public UncertainDoubleElement sqr() {
             return this;
         }
+
         @Override
         public UncertainDoubleElement pow(int exponent) {
             if (exponent == 0) {
