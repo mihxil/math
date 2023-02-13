@@ -53,7 +53,6 @@ public abstract class AbstractStatisticalNumber<
     public abstract SELF enter(SELF m);
 
 
-
     /**
      * Synonymous to {@link #enter(AbstractStatisticalNumber)} (except the return value). Does the same though as e.g. {@link LongSummaryStatistics#combine(LongSummaryStatistics)}.
      * @param m another statistical number
@@ -69,6 +68,9 @@ public abstract class AbstractStatisticalNumber<
         return copy.enter(m);
     }
 
+    /**
+     * Resets all counters and statistics. {@link #getCount()} will return {@code 0}
+     */
     public void reset() {
         count = 0;
     }
