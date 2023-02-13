@@ -383,7 +383,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/numbers/NumberOperations.java"><code>NumberOperations</code></a>
 <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/numbers/UncertaintyNumberOperations.java"><code>UncertaintyNumberOperations</code></a></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Number like structures are backed by existing classes  <code>BigDecimal</code> and <code>Double</code>. These lack a common interface. Implementations of this class wrap these things with acommon interface to all needed operations.
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number like structures are backed by existing classes  <code>BigDecimal</code> and <code>Double</code>. These lack a common interface. Implementations of this class wrap these things with a common interface to all needed operations.
 . E.g. it may use <code>BigDecimalMath</code> for <code>BigDecimal</code> and <code>Math#log</code> for <code>Double</code>.</p>
 <p class="tableblock">The specialization <code>UncertaintyNumberOperations</code> adds the logic for propagation of uncertainties.</p></td>
 </tr>
@@ -665,9 +665,9 @@ log.info(<span class="string"><span class="delimiter">&quot;</span><span class="
 PhysicalNumber twoLightyears = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
 PhysicalNumber oneParsec = measurement(<span class="integer">1</span>, <span class="float">0.1</span>, pc); <span class="comment">// using the static import as a shortcut</span>
 
-assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.3 ly</span><span class="delimiter">&quot;</span></span>);
-assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.10 pc</span><span class="delimiter">&quot;</span></span>);
-assertThat(oneParsec.plus(twoLightyears)).isEqualTo(twoLightyears.plus(oneParsec)); <span class="comment">//different toString does not mean that they represent a different value</span>
+assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.4 ly</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.13 pc</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightyears).eq(twoLightyears.plus(oneParsec))).isTrue(); <span class="comment">//different toString does not mean that they represent a different value</span>
 log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightyears, oneParsec, twoLightyears.plus(oneParsec));</code></pre>
 </div>
 </div>
