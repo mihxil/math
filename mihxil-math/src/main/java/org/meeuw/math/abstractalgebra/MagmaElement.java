@@ -16,7 +16,8 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * A group where it is not defined whether the operation is addition or multiplication.
+ * An element of a  {@link Magma}, a group where it is not defined whether the operation is addition, multiplication or even some
+ * other one (like e.g. division)
  *
  * @author Michiel Meeuwissen
  * @since 0.8
@@ -27,6 +28,11 @@ public interface MagmaElement<E extends MagmaElement<E>> extends
     @Override
     Magma<E> getStructure();
 
+    /**
+     * A generic algebraic operator {@link org.meeuw.math.operators.BasicAlgebraicBinaryOperator#OPERATION}, associating a third element with 2 others.
+     * May in many cases be viewed as either {@link org.meeuw.math.operators.BasicAlgebraicBinaryOperator#MULTIPLICATION}
+     * or {@link org.meeuw.math.operators.BasicAlgebraicBinaryOperator#ADDITION}
+     */
     E operate(E operand);
 
 }
