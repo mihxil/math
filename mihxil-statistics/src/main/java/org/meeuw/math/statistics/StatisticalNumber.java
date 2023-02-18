@@ -26,7 +26,8 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @param <N> the type of the number
  */
-public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N extends Number> extends UncertainNumber<N> {
+public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N extends Number>
+    extends UncertainNumber<N> {
 
     N getStandardDeviation();
 
