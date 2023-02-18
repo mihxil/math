@@ -16,9 +16,9 @@
 package org.meeuw.math.abstractalgebra.test;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-
 import java.util.function.IntConsumer;
 
 import net.jqwik.api.*;
@@ -325,6 +325,18 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             AlgebraicElement<?> casted = v.cast(c.getElementClass());
             getLogger().info("{} -{}-> {}", v, c, casted);
         }
+    }
+
+    @Property
+    default void eqMethod(@ForAll(ELEMENTS) E element) {
+        Set<Method> eqMethods = new HashSet<>();
+        for (Method m : element.getClass().getMethods()) {
+            int modifiers = m.getModifiers();
+            if (m.getName().equals("eq") && Modifier.isPublic(modifiers) && !Modifier.isStatic(modifiers) && m.getParameterCount() == 1) {
+                eqMethods.add(m);
+            }
+        }
+        assertThat(eqMethods).hasSize(1);
     }
 
 }
