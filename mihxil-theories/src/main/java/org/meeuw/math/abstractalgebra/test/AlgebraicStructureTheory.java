@@ -336,7 +336,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 eqMethods.add(m);
             }
         }
-        assertThat(eqMethods).hasSize(1);
+        assertThat(eqMethods).hasSizeGreaterThanOrEqualTo(1);
+        if (eqMethods.size() > 1) {
+            getLogger().info("Eq methods for " + element);
+            for (Method m : eqMethods) {
+                getLogger().info(() -> m);
+            }
+        }
     }
 
 }

@@ -20,6 +20,7 @@ import java.util.OptionalDouble;
 
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
@@ -28,7 +29,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     extends
     UncertainDouble<UncertainReal>,
-    StatisticalNumber<SELF, Double>, UncertainReal {
+    StatisticalNumber<SELF, Double, UncertainDoubleElement>, UncertainReal {
 
     double doubleStandardDeviation();
 
@@ -63,15 +64,23 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
         return doubleMean();
     }
 
+    /**
+     * The uncertaintiy of a {@link StatisticalNumber} is its {@link #getStandardDeviation()}, unless {@link Double#isNaN(double)}, in that case it's {@link #getValue()}
+     */
     @Override
     default double doubleUncertainty() {
-        return doubleStandardDeviation();
+        double uc = doubleStandardDeviation();
+        if (Double.isNaN(uc)) {
+            //
+            return Math.abs(getValue());
+        } else {
+            return uc;
+        }
     }
 
     @Override
     default Double getUncertainty(){
         return doubleUncertainty();
     }
-
 
 }

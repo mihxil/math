@@ -64,8 +64,9 @@ public class ImmutableUncertainNumber<N extends Number>
         this(value, memoize(uncertainty), null);
     }
 
-    public boolean eq(N o) {
-        return eq(o, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+    public boolean eq(ImmutableUncertainNumber<N> o) {
+        return eq(o,
+            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override

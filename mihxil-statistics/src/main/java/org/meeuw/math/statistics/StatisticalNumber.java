@@ -16,6 +16,9 @@
 package org.meeuw.math.statistics;
 
 import java.util.Optional;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -25,8 +28,10 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  *
  * @author Michiel Meeuwissen
  * @param <N> the type of the number
+ * @param <SELF> type of self
+ * @param <E> the type of immutable copies of this. If this implements {@link org.meeuw.math.abstractalgebra.AlgebraicStructure}, then this is the same algebra
  */
-public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N extends Number>
+public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N, E>, N extends Number, E>
     extends UncertainNumber<N> {
 
     N getStandardDeviation();
@@ -50,7 +55,29 @@ public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N>, N ex
 
     void combine(SELF  t);
 
-    boolean eq(SELF o);
+    /**
+     * Loosely equals for statistical numbers.
+     */
+    default boolean eq(SELF o) {
+        if (getCount() == 0) {
+            return o.getCount() == 0;
+        }
+        return eq(o.immutableCopy());
+    }
+
+    /**
+     * Loosely equals, coincides with {@link org.meeuw.math.abstractalgebra.AlgebraicElement#eq(AlgebraicElement)}
+     */
+    boolean eq(E o);
+    /**
+     * Return copy of this object as {@link E}
+     */
+    default E immutableCopy() {
+        return immutableInstance(getValue(), getUncertainty());
+    }
+
+    E immutableInstance(@NonNull N value, @NonNull N uncertainty);
+
 
 }
 

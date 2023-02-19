@@ -26,9 +26,11 @@ import java.util.LongSummaryStatistics;
  * @param <N> the type of the numbers to aggregate
  */
 public abstract class AbstractStatisticalNumber<
-    SELF extends AbstractStatisticalNumber<SELF, N>, N extends Number>
-    implements
-    StatisticalNumber<SELF, N> {
+    SELF extends AbstractStatisticalNumber<SELF, N, E>,
+    N extends Number,
+    E
+    >
+    implements StatisticalNumber<SELF, N, E> {
 
     /**
      * The total number of values which were {@link StatisticalDoubleImpl#enter(double...)}ed.
@@ -43,7 +45,6 @@ public abstract class AbstractStatisticalNumber<
     }
 
     public abstract SELF copy();
-
 
     /**
      * Enters all values of another instance of this {@link AbstractStatisticalNumber}, effectively combining the given one into this one.

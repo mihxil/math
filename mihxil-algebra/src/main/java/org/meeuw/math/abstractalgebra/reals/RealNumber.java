@@ -77,7 +77,7 @@ public class RealNumber
     @Override
     public RealNumber plus(RealNumber summand) {
         double newValue = value + summand.value;
-        return _of(
+        return immutableInstanceOfPrimitives(
             newValue,
             uncertainty + summand.uncertainty + uncertaintyForDouble(newValue)
         );
@@ -85,7 +85,7 @@ public class RealNumber
 
     @Override
     public RealNumber negation() {
-        return _of(-1 * value, uncertainty);
+        return immutableInstanceOfPrimitives(-1 * value, uncertainty);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class RealNumber
     @Override
     public RealNumber dividedBy(long divisor) throws DivisionByZeroException {
         double newValue = value / divisor;
-        return new RealNumber(
+        return immutableInstanceOfPrimitives(
             value / divisor,
             max(Math.abs(uncertainty / divisor), DoubleUtils.uncertaintyForDouble(newValue))
         );
@@ -144,7 +144,7 @@ public class RealNumber
 
     @Override
     public RealNumber times(long multiplier) {
-        return new RealNumber(value * multiplier, Math.abs(uncertainty * multiplier));
+        return immutableInstanceOfPrimitives(value * multiplier, Math.abs(uncertainty * multiplier));
     }
 
     @Override
@@ -191,26 +191,26 @@ public class RealNumber
     }
 
     @Override
-    public RealNumber _of(double value, double uncertainty) {
+    public RealNumber immutableInstanceOfPrimitives(double value, double uncertainty) {
         return new RealNumber(value, uncertainty);
     }
 
     @Override
     public RealNumber times(double multiplier) {
-        return _of(value * multiplier, uncertainty * Math.abs(multiplier));
+        return immutableInstanceOfPrimitives(value * multiplier, uncertainty * Math.abs(multiplier));
     }
 
     @Override
     public RealNumber sin() {
         UncertainNumber<Double> sin = operations().sin(value);
-        return _of(sin.getValue(), max(uncertainty, sin.getUncertainty()));
+        return immutableInstanceOfPrimitives(sin.getValue(), max(uncertainty, sin.getUncertainty()));
     }
 
     @Override
     public RealNumber cos() {
         UncertainNumber<Double> cos = operations().cos(value);
 
-        return _of(
+        return immutableInstanceOfPrimitives(
             cos.getValue(), max(uncertainty, cos.getUncertainty()));
     }
 
@@ -230,12 +230,12 @@ public class RealNumber
     @Override
     public RealNumber sqr() {
         double sq = value * value;
-        return _of(sq, sq * getFractionalUncertainty() * 2);
+        return immutableInstanceOfPrimitives(sq, sq * getFractionalUncertainty() * 2);
     }
 
     @Override
     public RealNumber sqrt() {
-        return _of(Math.sqrt(value), max(uncertainty, DoubleUtils.uncertaintyForDouble(value)));
+        return immutableInstanceOfPrimitives(Math.sqrt(value), max(uncertainty, DoubleUtils.uncertaintyForDouble(value)));
     }
 
     @Override
@@ -244,7 +244,7 @@ public class RealNumber
         if (value == 0 && exponent.isNegative()) {
             throw new DivisionByZeroException("0 ^ " + exponent);
         }
-        return _of(
+        return immutableInstanceOfPrimitives(
             Math.pow(value, exponent.value),
             uncertainty
         );
@@ -253,7 +253,7 @@ public class RealNumber
     @Override
     public RealNumber exp() {
         UncertainNumber<Double> exp = operations().exp(value);
-        return _of(
+        return immutableInstanceOfPrimitives(
             exp.getValue(),
             operations().expUncertainty(value, uncertainty, exp.getValue()));
     }
@@ -262,14 +262,14 @@ public class RealNumber
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Cannot take ln of negative reals")
     public RealNumber ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(value);
-        return _of(ln.getValue(),
+        return immutableInstanceOfPrimitives(ln.getValue(),
             max(operations().lnUncertainty(value, uncertainty), ln.getUncertainty())
         );
     }
 
     @Override
     public RealNumber abs() {
-        return _of(Math.abs(value), uncertainty);
+        return immutableInstanceOfPrimitives(Math.abs(value), uncertainty);
     }
 
     public DoubleConfidenceInterval getDoubleConfidenceInterval() {

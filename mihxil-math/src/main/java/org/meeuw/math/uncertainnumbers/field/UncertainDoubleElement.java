@@ -276,7 +276,7 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public UncertainDoubleElement _of(double value, double uncertainty) {
+    public UncertainDoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
         return of(value, uncertainty);
     }
 

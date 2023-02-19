@@ -125,7 +125,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     }
 
     public UncertainReal getUncertainRate() {
-        return _of(getRate(), doubleUncertainty());
+        return immutableInstanceOfPrimitives(getRate(), doubleUncertainty());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     }
 
     @Override
-    public UncertainDoubleElement _of(double value, double uncertainty) {
+    public UncertainDoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
         return new UncertainDoubleElement(value, uncertainty);
     }
 

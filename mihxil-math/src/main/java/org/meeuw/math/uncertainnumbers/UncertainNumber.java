@@ -152,25 +152,19 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         return  operations().signum(getValue());
     }
 
-    @SuppressWarnings("unchecked")
-    default boolean eq(Object value, float sds) {
-        if (this == value) return true;
-        if (! (value instanceof UncertainNumber)) {
-            return false;
-        }
+    /**
+     * Compares this uncertain number with on other one. Considering {@link #getConfidenceInterval}{@code (sds)}
+     */
+    default boolean eq(UncertainNumber<N> other, float sds) {
+        if (this == other) return true;
         NumberOperations<N> o = operations();
-
-        UncertainNumber<N> other = (UncertainNumber<N>) value;
         if (o.isNaN(getValue())) {
             return o.isNaN(other.getValue());
         }
         if (o.isNaN(other.getValue())) {
             return o.isNaN(getValue());
         }
-        if (o.isNaN(getUncertainty()) && o.isNaN(other.getUncertainty())) {
-            return toString().equals(other.toString());
 
-        }
         return getConfidenceInterval(sds).contains(other.getValue())
             ||  other.getConfidenceInterval(sds).contains(getValue());
     }
@@ -183,9 +177,12 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
         return ConfidenceInterval.of(getValue(), getUncertainty(), sds);
     }
 
-
     default ConfidenceInterval<N> getConfidenceInterval() {
-        return ConfidenceInterval.of(getValue(), getUncertainty(), ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        return ConfidenceInterval.of(
+            getValue(),
+            getUncertainty(),
+            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
+        );
     }
 
 }

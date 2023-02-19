@@ -52,7 +52,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         }
 
         @Override
-        public A _of(double value, double uncertainty) {
+        public A immutableInstanceOfPrimitives(double value, double uncertainty) {
             return new A(value, uncertainty);
         }
         @Override

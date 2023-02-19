@@ -29,7 +29,8 @@ import java.util.function.LongConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.*;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.math.temporal.StatisticalTemporal;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 import org.meeuw.math.uncertainnumbers.field.*;
@@ -47,7 +48,7 @@ import static org.meeuw.math.temporal.UncertainTemporal.Mode.LONG;
 @Log
 public class StatisticalLong extends
     AbstractStatisticalDouble<StatisticalLong>
-    implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double> {
+    implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double, UncertainDoubleElement> {
 
     static final long SQUARE_SUM_FAILED = -1;
 
@@ -220,14 +221,14 @@ public class StatisticalLong extends
 
     @Override
     public UncertainReal exp() {
-        return new UncertainDoubleElement(Math.exp(getValue()), getUncertainty()/* TODO */);
+        return immutableInstance(Math.exp(getValue()), getUncertainty()/* TODO */);
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
     public UncertainReal ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(getValue());
-        return new UncertainDoubleElement(
+        return immutableInstance(
             ln.getValue(),
             Math.max(
                 ln.getUncertainty(),
@@ -241,7 +242,7 @@ public class StatisticalLong extends
     public UncertainDoubleElement reciprocal() {
         UncertainNumber<Double> reciprocal = operations().reciprocal(getValue());
         double v = 1d / getValue();
-        return new UncertainDoubleElement(
+        return immutableInstance(
             reciprocal.getValue(),
             Math.max(reciprocal.getUncertainty(), getFractionalUncertainty() * v + DoubleUtils.uncertaintyForDouble(v)));
     }

@@ -233,7 +233,7 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public PhysicalNumber _of(double value, double uncertainty) {
+    public PhysicalNumber immutableInstanceOfPrimitives(double value, double uncertainty) {
         return new Measurement(value, uncertainty, units);
     }
 

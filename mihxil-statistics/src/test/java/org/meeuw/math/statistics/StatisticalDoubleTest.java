@@ -26,6 +26,7 @@ import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static net.jqwik.api.RandomDistribution.uniform;
@@ -174,6 +175,17 @@ public class StatisticalDoubleTest implements
 
         assertThat(zero.isZero()).isFalse(); // it _is_ not zero
         assertThat(zero.getStructure().zero().eq(zero)).isTrue(); // but it is close enough
+    }
+
+    @Test
+    public void multipleEq() {
+        StatisticalDoubleImpl instance = new StatisticalDoubleImpl();
+        instance.enter(1d, 2d, 1d, 2d, 1d, 1d, 1d);
+        instance.eq(instance);
+        UncertainDoubleElement uncertainDoubleElement = instance.immutableCopy();
+        instance.eq(uncertainDoubleElement);
+
+
 
     }
 

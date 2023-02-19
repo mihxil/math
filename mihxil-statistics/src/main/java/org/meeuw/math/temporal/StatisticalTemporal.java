@@ -22,8 +22,8 @@ import org.meeuw.math.statistics.StatisticalNumber;
 /**
  *
  */
-public interface StatisticalTemporal<SELF extends StatisticalTemporal<SELF, N>, N extends Number>
+public interface StatisticalTemporal<SELF extends StatisticalTemporal<SELF, N, E>, N extends Number, E>
     extends
-    UncertainTemporal<N>, StatisticalNumber<SELF, N>, LongConsumer, IntConsumer {
+    UncertainTemporal<N>, StatisticalNumber<SELF, N, E>, LongConsumer, IntConsumer {
 
 }

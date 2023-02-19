@@ -40,7 +40,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  */
 public abstract class AbstractStatisticalDouble
     <SELF extends AbstractStatisticalDouble<SELF>>
-    extends AbstractStatisticalNumber<SELF, Double>
+    extends AbstractStatisticalNumber<SELF, Double, UncertainDoubleElement>
     implements
     UncertainNumber<Double>,
     StatisticalDouble<SELF> {
@@ -93,12 +93,11 @@ public abstract class AbstractStatisticalDouble
         return times(-1d);
     }
 
-
     @Override
     public UncertainReal pow(int exponent) {
         Double pow = operations().pow(doubleValue(), exponent);
         Double powerUncertainty = operations().powerUncertainty(doubleValue(), getUncertainty(), (double) exponent, 0d, pow);
-        return new UncertainDoubleElement(pow, powerUncertainty);
+        return immutableInstance(pow, powerUncertainty);
     }
 
     @Override
@@ -113,45 +112,45 @@ public abstract class AbstractStatisticalDouble
         );
     }
 
-
     @Override
     public UncertainDoubleElement times(long multiplier) {
-        return new UncertainDoubleElement(getValue() * multiplier, getUncertainty() * multiplier);
+        return immutableInstance(getValue() * multiplier, getUncertainty() * multiplier);
     }
 
 
-    public UncertainDoubleElement immutableCopy() {
-        return _of(doubleValue(), doubleUncertainty());
+    @Override
+    public UncertainDoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
+        return new UncertainDoubleElement(value, uncertainty);
     }
 
     @Override
-    public UncertainDoubleElement _of(double value, double uncertainty) {
-        return new UncertainDoubleElement(value, uncertainty);
+    public UncertainDoubleElement immutableInstance(@NonNull Double value, @NonNull Double uncertainty) {
+        return immutableInstanceOfPrimitives(value, uncertainty);
     }
 
     @Override
     public UncertainReal sqrt() {
         UncertainNumber<Double> sqrt = operations.sqrt(doubleValue());
-        return _of(sqrt.getValue(), Math.max(doubleUncertainty(), sqrt.getValue()));
+        return immutableInstance(sqrt.getValue(), Math.max(doubleUncertainty(), sqrt.getValue()));
     }
 
     @Override
     public UncertainReal sin() {
         UncertainNumber<Double> sin = operations.sin(doubleValue());
-        return _of(sin.getValue(), Math.max(doubleUncertainty(), sin.getValue()));
+        return immutableInstance(sin.getValue(), Math.max(doubleUncertainty(), sin.getValue()));
     }
 
     @Override
     public UncertainReal cos() {
         UncertainNumber<Double> cos = operations.cos(doubleValue());
-        return _of(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
+        return immutableInstance(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     public UncertainReal pow(UncertainReal exponent) throws IllegalPowerException {
         UncertainNumber<Double> result = operations.pow(doubleValue(), exponent.doubleValue());
-        return _of(
+        return immutableInstance(
             result.getValue(),
             Math.max(operations.powerUncertainty(
                 doubleValue(), doubleUncertainty(), exponent.doubleValue(), exponent.doubleUncertainty(),
@@ -164,7 +163,7 @@ public abstract class AbstractStatisticalDouble
     @Override
     public UncertainReal times(UncertainReal multiplier) {
         double v = doubleValue() * multiplier.doubleValue();
-        return _of(v,
+        return immutableInstanceOfPrimitives(v,
             Math.max(
                 operations.multiplicationUncertainty(v, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()),
                 DoubleUtils.uncertaintyForDouble(v)
@@ -174,7 +173,7 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     public UncertainReal plus(UncertainReal summand) {
-        return _of(doubleValue() + summand.doubleValue(), operations.additionUncertainty(doubleUncertainty(), summand.doubleUncertainty()));
+        return immutableInstance(doubleValue() + summand.doubleValue(), operations.additionUncertainty(doubleUncertainty(), summand.doubleUncertainty()));
     }
 
     @Override
@@ -192,9 +191,9 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public boolean eq(SELF o) {
-        if (count == 0) {
-            return o.count == 0;
+    public boolean eq(UncertainDoubleElement o) {
+        if (getCount() == 0 && o instanceof StatisticalNumber<?,?,?>) {
+            return ((StatisticalNumber<?, ?, ?>) o).getCount() == 0;
         }
         return eq(o,
             ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()

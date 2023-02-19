@@ -45,7 +45,7 @@ strictfp class RealFieldTest implements
 
     @Test
     public void test() {
-        assertThatThrownBy(() -> new RealNumber(1, 0)._of(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
+        assertThatThrownBy(() -> new RealNumber(1, 0).immutableInstanceOfPrimitives(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
         assertThat(of(5d).times(2).times(of(6d))).isEqualTo(of(60d));
         assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(RealNumber.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(RealNumber.EPSILON_FACTOR * 4.9E-324);

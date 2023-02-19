@@ -39,14 +39,14 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public interface UncertainDouble
     <SELF extends UncertainDouble<SELF>>
     extends
-    UncertainScalar<Double,SELF> {
+    UncertainScalar<Double, SELF> {
 
 
     double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
 
-    SELF _of(double value, double uncertainty);
+    SELF immutableInstanceOfPrimitives(double value, double uncertainty);
 
     /**
      * @return Boxed version of {@link #doubleValue()}. Never {@code null}
@@ -56,7 +56,7 @@ public interface UncertainDouble
         return doubleValue();
     }
     /**
-     * The uncertainty in the {@link #doubleValue()}. May in some cases be {@link Double#NaN} (e.g. when it's a standard deviation of 1 value).
+     * The uncertainty in the {@link #doubleValue()}.
      */
     double doubleUncertainty();
 
@@ -98,7 +98,7 @@ public interface UncertainDouble
     }
 
     default SELF plus(double summand) {
-        return _of(summand + doubleValue(), doubleUncertainty());
+        return immutableInstanceOfPrimitives(summand + doubleValue(), doubleUncertainty());
     }
 
     default SELF minus(double subtrahend) {
@@ -139,9 +139,9 @@ public interface UncertainDouble
                     throw new WeighingExceptValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
                 }
             }
-            return _of(value, 0d);
+            return immutableInstanceOfPrimitives(value, 0d);
         } else if (mu == 0d) {
-            return _of(mvalue, 0d);
+            return immutableInstanceOfPrimitives(mvalue, 0d);
         }
 
         final double u2 = Math.max(u * u, DoubleUtils.uncertaintyForDouble(value));
@@ -154,7 +154,7 @@ public interface UncertainDouble
 
         // I'm not absolutely sure about this:
         final double returnUncertainty = 1d/ Math.sqrt((weight + mweight));
-        return _of(returnValue, returnUncertainty);
+        return immutableInstanceOfPrimitives(returnValue, returnUncertainty);
     }
 
     /**
@@ -162,7 +162,7 @@ public interface UncertainDouble
      * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
     default SELF times(double multiplier) {
-        return _of(multiplier * doubleValue(),
+        return immutableInstanceOfPrimitives(multiplier * doubleValue(),
             Math.abs(multiplier) * doubleUncertainty());
     }
 
@@ -177,7 +177,7 @@ public interface UncertainDouble
 
     default SELF times(SELF multiplier) {
         double newValue = doubleValue() * multiplier.doubleValue();
-        return _of(newValue,
+        return immutableInstanceOfPrimitives(newValue,
             Math.max(
                 operations().multiplicationUncertainty(
                     newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()
@@ -190,7 +190,7 @@ public interface UncertainDouble
     default SELF plus(SELF summand) throws NotComparableException {
         double u = doubleUncertainty();
         double mu = summand.doubleUncertainty();
-        return _of(
+        return immutableInstanceOfPrimitives(
             doubleValue() + summand.doubleValue(),
             operations().additionUncertainty(u, mu));
 
@@ -202,9 +202,14 @@ public interface UncertainDouble
         if (!Double.isFinite(v)) {
             throw new ArithmeticException("" + doubleValue() + "^" + exponent + "=" + v);
         }
-        return _of(
+        return immutableInstanceOfPrimitives(
             v,
             Math.abs(exponent) * Math.pow(doubleValue(), exponent - 1) * doubleUncertainty());
+    }
+
+    @Override
+    default SELF abs() {
+        return immutableInstanceOfPrimitives(Math.abs(doubleValue()), doubleUncertainty());
     }
 
     @SuppressWarnings("unchecked")
@@ -239,9 +244,6 @@ public interface UncertainDouble
         return Double.compare(doubleValue(), compare.doubleValue());
     }
 
-    @Override
-    default SELF abs() {
-        return _of(Math.abs(doubleValue()), doubleUncertainty());
-    }
+
 
 }
