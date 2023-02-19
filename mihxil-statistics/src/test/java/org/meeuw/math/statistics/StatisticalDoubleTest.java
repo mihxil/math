@@ -27,7 +27,6 @@ import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static net.jqwik.api.RandomDistribution.uniform;
@@ -185,7 +184,7 @@ public class StatisticalDoubleTest implements
         StatisticalDoubleImpl instance = new StatisticalDoubleImpl();
         instance.enter(1d, 2d, 1d, 2d, 1d, 1d, 1d);
         instance.eq(instance);
-        UncertainDoubleElement uncertainDoubleElement = instance.immutableCopy();
+        UncertainReal uncertainDoubleElement = instance.immutableCopy();
         instance.eq(uncertainDoubleElement);
 
 

@@ -48,7 +48,7 @@ import static org.meeuw.math.temporal.UncertainTemporal.Mode.LONG;
 @Log
 public class StatisticalLong extends
     AbstractStatisticalDouble<StatisticalLong>
-    implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double, UncertainDoubleElement> {
+    implements LongConsumer, IntConsumer, StatisticalTemporal<StatisticalLong, Double, UncertainReal> {
 
     static final long SQUARE_SUM_FAILED = -1;
 
