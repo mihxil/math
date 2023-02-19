@@ -55,13 +55,9 @@ public class ProductGroupTest implements GroupTheory<ProductElement<KleinElement
     @Override
     @Provide
     public Arbitrary<? extends ProductElement<KleinElement, ModuloFieldElement>> elements() {
-
         Arbitrary<KleinElement> klein = Arbitraries.of(KleinElement.values());
         Arbitrary<ModuloFieldElement> modulo = Arbitraries.of(Z3Z.stream().collect(Collectors.toList()));
         return Combinators.combine(klein, modulo).as(ProductElement::new);
-
-
     }
-
 
 }

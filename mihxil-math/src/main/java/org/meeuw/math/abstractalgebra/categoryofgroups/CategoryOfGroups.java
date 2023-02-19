@@ -15,22 +15,24 @@
  */
 package org.meeuw.math.abstractalgebra.categoryofgroups;
 
+import java.util.stream.Stream;
+
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotStreamable;
 
 /**
- * All groups themselves form the 'category of groups'.
- *
- * For we just made it a {@link MultiplicativeSemiGroup}. Groups can be 'multiplied' to form
+ * All groups themselves form the 'category of groups'. I.e, structures are elements of this thing.
+ * <p>
+ * For now, we just made it a {@link MultiplicativeSemiGroup}. Groups can be 'multiplied' to form
  * {@link org.meeuw.math.abstractalgebra.product.ProductGroup}
  * @author Michiel Meeuwissen
  * @since 0.8
  */
 
 public class CategoryOfGroups extends AbstractAlgebraicStructure<Element>
-    implements MultiplicativeSemiGroup<Element> {
+    implements MultiplicativeSemiGroup<Element>, Streamable<Element> {
 
     static final CategoryOfGroups INSTANCE = new CategoryOfGroups();
-
 
     private CategoryOfGroups() {
     }
@@ -42,8 +44,12 @@ public class CategoryOfGroups extends AbstractAlgebraicStructure<Element>
 
     @Override
     public String toString() {
-        return "group";
+        return "GRP";
     }
 
 
+    @Override
+    public Stream<Element> stream() {
+        throw new NotStreamable("I suppose the number of possible groups is countable, but I wouldn't know now...");
+    }
 }

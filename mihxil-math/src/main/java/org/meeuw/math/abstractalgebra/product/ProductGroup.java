@@ -28,11 +28,14 @@ import org.meeuw.math.streams.StreamUtils;
 
 /**
  * The cartesian multiplication of two other groups.
+ * <p>
+ * Note that this is tested in mihxil-algebra, because it's handy to have some other groups.
  * @author Michiel Meeuwissen
  * @since 0.8
  */
 
-public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>> extends AbstractAlgebraicStructure<ProductElement<A, B>>
+public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>>
+    extends AbstractAlgebraicStructure<ProductElement<A, B>>
     implements Group<ProductElement<A, B>>, Streamable<ProductElement<A, B>> {
 
     private static final Map<Key, ProductGroup<?, ?>>  INSTANCES = new ConcurrentHashMap<>();
@@ -99,5 +102,23 @@ public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>> 
     @Override
     public String toString() {
         return groupA + "⨯" + groupB;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ProductGroup<?, ?> that = (ProductGroup<?, ?>) o;
+
+        if (!groupA.equals(that.groupA)) return false;
+        return groupB.equals(that.groupB);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = groupA.hashCode();
+        result = 31 * result + groupB.hashCode();
+        return result;
     }
 }

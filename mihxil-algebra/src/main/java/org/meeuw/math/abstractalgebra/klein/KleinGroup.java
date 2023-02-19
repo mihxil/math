@@ -31,12 +31,12 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
 
     public static final KleinGroup INSTANCE = new KleinGroup();
 
-
     @Example(Group.class)
     public static final ProductGroup<KleinElement, KleinElement> EXAMPLE = INSTANCE.cartesian(INSTANCE);
 
     private KleinGroup() {
     }
+
     @Override
     public Cardinality getCardinality() {
         return Cardinality.of(KleinElement.values().length);
@@ -66,4 +66,6 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     public String toString() {
         return "V";
     }
+
+
 }

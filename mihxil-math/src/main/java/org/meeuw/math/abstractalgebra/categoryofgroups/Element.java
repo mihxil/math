@@ -43,6 +43,5 @@ public interface Element extends
     @SuppressWarnings("unchecked")
     default <A extends GroupElement<A>, B extends GroupElement<B>> ProductGroup<A, B> cartesian(Group<B> operand) {
         return (ProductGroup<A, B>) times(operand);
-
     }
 }
