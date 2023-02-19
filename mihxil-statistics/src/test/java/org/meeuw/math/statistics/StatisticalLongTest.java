@@ -196,6 +196,15 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         }).isInstanceOf(IllegalPowerException.class);
     }
 
+    @Test
+    public void zero() {
+        StatisticalLong statisticalLong = new StatisticalLong();
+        statisticalLong.enter(0L, 0L, 0L, 0L);
+        assertThat(statisticalLong.isZero()).isTrue();
+        UncertainReal zero = statisticalLong.getStructure().zero();
+        assertThat(statisticalLong.eq(zero)).isTrue();
+    }
+
     @Override
     public Arbitrary<UncertainReal> elements() {
 

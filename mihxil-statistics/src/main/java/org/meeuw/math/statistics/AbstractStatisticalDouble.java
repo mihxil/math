@@ -41,7 +41,7 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
  */
 public abstract class AbstractStatisticalDouble
     <SELF extends AbstractStatisticalDouble<SELF>>
-    extends AbstractStatisticalNumber<SELF, Double, UncertainDoubleElement>
+    extends AbstractStatisticalNumber<SELF, Double, UncertainReal>
     implements
     UncertainNumber<Double>,
     StatisticalDouble<SELF> {
@@ -194,7 +194,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public boolean eq(UncertainDoubleElement o) {
+    public boolean eq(UncertainReal o) {
         if (getCount() == 0 && o instanceof StatisticalNumber<?,?,?>) {
             return ((StatisticalNumber<?, ?, ?>) o).getCount() == 0;
         }

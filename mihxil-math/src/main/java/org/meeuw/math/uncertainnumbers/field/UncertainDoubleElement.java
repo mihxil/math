@@ -96,15 +96,14 @@ public class UncertainDoubleElement
         }
         return result;
     }
-    public static UncertainDoubleElement[][] exactly(double[][] value) {
 
+    public static UncertainDoubleElement[][] exactly(double[][] value) {
         UncertainDoubleElement[][] result = new UncertainDoubleElement[value.length][];
         for (int i = 0; i < value.length; i++) {
             result[i] = exactly(value[i]);
         }
         return result;
     }
-
 
     /**
      * Just like {@link #uncertain(double, double)}, but you could use it like so:
@@ -159,7 +158,6 @@ public class UncertainDoubleElement
         return new UncertainDoubleElement(value * multiplier, Math.abs(uncertainty * multiplier));
     }
 
-
     @Override
     public UncertainDoubleElement times(UncertainReal multiplier) {
         if (multiplier.isOne()){
@@ -172,7 +170,6 @@ public class UncertainDoubleElement
                 DoubleUtils.uncertaintyForDouble(newValue)
             )
         );
-
     }
 
     @Override
@@ -322,7 +319,6 @@ public class UncertainDoubleElement
     public String toString() {
         return FormatService.toString(this);
     }
-
 
     @Override
     public long longValue() {
