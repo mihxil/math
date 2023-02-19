@@ -26,12 +26,14 @@ import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
 import org.meeuw.math.abstractalgebra.test.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static net.jqwik.api.RandomDistribution.uniform;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
 
 
@@ -140,6 +142,7 @@ public class StatisticalDoubleTest implements
     @Test
     public void intransitiveEq() {
 
+        log.info("SDS: {}", getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         d1.enter(0, 5, 10);
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();

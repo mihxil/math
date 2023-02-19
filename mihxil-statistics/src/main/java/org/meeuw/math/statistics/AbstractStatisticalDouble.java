@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -30,6 +29,8 @@ import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
 /**
  * A 'statistical' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation) and standard deviation of those values.
@@ -56,8 +57,10 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     public double doubleValue() throws NoValues {
-        return optionalDoubleMean().orElseThrow(() ->
-            new NoValues("No values entered, cannot calculate mean"));
+        return optionalDoubleMean()
+            .orElseThrow(() ->
+                new NoValues("No values entered, cannot calculate mean")
+            );
     }
 
     /**
@@ -196,7 +199,7 @@ public abstract class AbstractStatisticalDouble
             return ((StatisticalNumber<?, ?, ?>) o).getCount() == 0;
         }
         return eq(o,
-            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
+            getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
         );
     }
 
@@ -213,7 +216,7 @@ public abstract class AbstractStatisticalDouble
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
-        if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+        if ( getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
             return eq((SELF) o);

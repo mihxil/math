@@ -34,7 +34,10 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     double doubleStandardDeviation();
 
     default double doubleMean() {
-        return optionalDoubleMean().orElseThrow(() ->  new DivisionByZeroException("No values entered, cannot calculate mean"));
+        return optionalDoubleMean()
+            .orElseThrow(() ->
+                new DivisionByZeroException("No values entered, cannot calculate mean")
+            );
     }
 
     OptionalDouble optionalDoubleMean();
@@ -65,13 +68,13 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     }
 
     /**
-     * The uncertaintiy of a {@link StatisticalNumber} is its {@link #getStandardDeviation()}, unless {@link Double#isNaN(double)}, in that case it's {@link #getValue()}
+     * The uncertainty of a {@link StatisticalNumber} is its {@link #getStandardDeviation()}, unless {@link Double#isNaN(double)}, in that case it's {@code abs(}{@link #getValue()}{@code )}
      */
     @Override
     default double doubleUncertainty() {
         double uc = doubleStandardDeviation();
         if (Double.isNaN(uc)) {
-            //
+            // Probably just one value entered. A conservative estimation of the uncertainty is the value itself.
             return Math.abs(getValue());
         } else {
             return uc;
