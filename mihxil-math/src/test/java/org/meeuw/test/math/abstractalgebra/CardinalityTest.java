@@ -41,6 +41,8 @@ class CardinalityTest {
 
         assertThat(Cardinality.ALEPH_1).isGreaterThan(Cardinality.ALEPH_0);
         assertThat(Cardinality.ALEPH_0.toString()).isEqualTo("א\u200E₀");
+        assertThat(Cardinality.ALEPH_0.pow(3).toString()).isEqualTo("א\u200E₀");
+        assertThat(Cardinality.ALEPH_0.times(Cardinality.of(2)).toString()).isEqualTo("א\u200E₀");
         assertThat(Cardinality.ALEPH_1.toString()).isEqualTo("א\u200E₁");
 
         assertThatThrownBy(Cardinality.C::getValue).isInstanceOf(CardinalityNotFiniteException.class);
