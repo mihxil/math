@@ -22,14 +22,17 @@ import java.util.stream.Collectors;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.klein.KleinElement;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.product.ProductElement;
 import org.meeuw.math.abstractalgebra.test.GroupTheory;
+import org.meeuw.math.exceptions.AlgebraicStructureException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.integers.ModuloField.Z3Z;
 
 @Log4j2
@@ -50,6 +53,14 @@ public class ProductGroupTest implements GroupTheory<ProductElement> {
         assertThat(e1.operate(e2)).isEqualTo(ProductElement.of(KleinElement.c, Z3Z.element(2)));
 
         log.info(BasicAlgebraicBinaryOperator.OPERATION.stringify(e1, e2) + " = " + e1.operate(e2));
+    }
+
+    @Test
+    public void incompatible() {
+        ProductElement e1 = ProductElement.of(KleinElement.a, Z3Z.element(2));
+        ProductElement e2 = ProductElement.of(KleinElement.b, ModuloField.of(13).element(2));
+
+        assertThatThrownBy(() -> e1.operate(e2)).isInstanceOf(AlgebraicStructureException.class);
     }
 
     @Override
