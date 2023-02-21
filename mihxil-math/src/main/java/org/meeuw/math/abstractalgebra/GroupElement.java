@@ -16,7 +16,7 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * A {@link Group} where it is not defined whether the operation is addition or multiplication.
+ * An element of {@link Group}, where it is not defined whether the operation is addition or multiplication (or some other operation).
  *
  * @author Michiel Meeuwissen
  * @since 0.8

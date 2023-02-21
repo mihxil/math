@@ -17,16 +17,18 @@ package org.meeuw.math.abstractalgebra.categoryofgroups;
 
 import java.io.Serializable;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Group;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 
 /**
+ * A group, but as an element of {@link CategoryOfGroups}.
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-public interface Element extends
-    MultiplicativeSemiGroupElement<Element>,
+public interface GroupAsElement extends
+    MultiplicativeSemiGroupElement<Group<?>>,
     Serializable {
 
     @Override
@@ -34,14 +36,12 @@ public interface Element extends
         return CategoryOfGroups.INSTANCE;
     }
 
-    @SuppressWarnings("rawtypes")
     @Override
-    default ProductGroup<?, ?> times(Element operand) {
-        return ProductGroup.ofGeneric((org.meeuw.math.abstractalgebra.Group) this, (org.meeuw.math.abstractalgebra.Group) operand);
+    default ProductGroup times(Group<?> operand) {
+        return cartesian(operand);
     }
 
-    @SuppressWarnings("unchecked")
-    default <A extends GroupElement<A>, B extends GroupElement<B>> ProductGroup<A, B> cartesian(Group<B> operand) {
-        return (ProductGroup<A, B>) times(operand);
+    default ProductGroup cartesian(Group<?> operand) {
+        return ProductGroup.of((Group<?>) this,  operand);
     }
 }

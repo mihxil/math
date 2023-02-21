@@ -35,7 +35,6 @@ public interface AdditiveAbelianGroup<E extends AdditiveGroupElement<E>>
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(AdditiveMonoid.UNARY_OPERATORS, NEGATION);
 
-
     @Override
     default boolean additionIsCommutative() {
         return true;

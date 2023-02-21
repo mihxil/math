@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
+import org.meeuw.math.abstractalgebra.categoryofgroups.GroupAsElement;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.text.TextUtils;
 import org.reflections.Reflections;
@@ -338,7 +338,7 @@ public class DocumentationTest {
              appendSpecials(builder, target.getSuperclass());
          }
          for (Class<?> i : target.getInterfaces()) {
-             if (! Element.class.equals(i)) {
+             if (! GroupAsElement.class.equals(i)) {
                  appendSpecials(builder, i);
              }
          }

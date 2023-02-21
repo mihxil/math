@@ -21,7 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.Cardinality;
-import org.meeuw.math.exceptions.CardinalityException;
+import org.meeuw.math.exceptions.CardinalityNotFiniteException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -39,7 +39,7 @@ class CardinalityTest {
         assertThat(Cardinality.ALEPH_0.toString()).isEqualTo("א\u200E₀");
         assertThat(Cardinality.ALEPH_1.toString()).isEqualTo("א\u200E₁");
 
-        assertThatThrownBy(Cardinality.C::getValue).isInstanceOf(CardinalityException.class);
+        assertThatThrownBy(Cardinality.C::getValue).isInstanceOf(CardinalityNotFiniteException.class);
     }
     @Test
     public void test() {

@@ -68,7 +68,7 @@ public abstract class AbstractGeneralLinearGroup<
     @Override
     public Stream<M> stream() {
         if (elementStructure.getCardinality().compareTo(ALEPH_0) <=0) {
-            return StreamUtils.cartesianStream(() -> ((Streamable<E>) elementStructure).stream(), dimension * dimension)
+            return StreamUtils.nCartesianStream(dimension * dimension, () -> ((Streamable<E>) elementStructure).stream())
                 .map(es -> {
                     try {
                         return newElement(es);

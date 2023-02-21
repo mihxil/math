@@ -25,7 +25,7 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.FieldInCompleteException;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
 import static java.math.BigDecimal.ZERO;
@@ -87,7 +87,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         if (result instanceof CompleteFieldElement) {
             return (E) ((CompleteFieldElement<?>) result).sqrt();
         } else {
-            throw new FieldInCompleteException("Field of " + this + " is not complete");
+            throw new FieldIncompleteException("Field of " + this + " is not complete");
         }
     }
 

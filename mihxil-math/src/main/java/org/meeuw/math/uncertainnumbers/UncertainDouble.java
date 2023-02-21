@@ -20,7 +20,7 @@ import java.util.OptionalDouble;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.NotComparableException;
-import org.meeuw.math.exceptions.WeighingExceptValuesException;
+import org.meeuw.math.exceptions.WeighingExactValuesException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -136,7 +136,7 @@ public interface UncertainDouble
         if (u == 0d) {
             if (mu == 0d) {
                 if (value != mvalue) {
-                    throw new WeighingExceptValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
+                    throw new WeighingExactValuesException("Can't combine 2 (different) exact values (" + this + " and " + combinand + ")");
                 }
             }
             return immutableInstanceOfPrimitives(value, 0d);

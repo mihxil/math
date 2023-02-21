@@ -15,6 +15,9 @@
  */
 package org.meeuw.math.exceptions;
 
+/**
+ * Thrown when a requested factorial could not be calculated, because an invalid argument, or because the result would be too big.
+ */
 public class InvalidFactorial extends OperationException {
 
     public InvalidFactorial(String s) {

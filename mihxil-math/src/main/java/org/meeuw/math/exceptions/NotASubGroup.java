@@ -17,6 +17,9 @@ package org.meeuw.math.exceptions;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
+/**
+ * Thrown by {@link AlgebraicElement#cast(Class)}
+ */
 public class NotASubGroup extends MathException {
     public NotASubGroup(AlgebraicElement<?> e, Class<? extends AlgebraicElement<?>> clazz) {
         super("Cannot cast " + e.getClass() + " " + e + " to " + clazz);

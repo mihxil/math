@@ -149,16 +149,20 @@ public final class StreamUtils {
      */
     @SuppressWarnings("unchecked")
     public static <E> Stream<E[]> cartesianStream(final Supplier<Stream<? extends E>>... streams) {
+        return cartesianStream(Arrays.asList(streams));
+    }
+    public static <E> Stream<E[]> cartesianStream(final List<Supplier<Stream<? extends E>>> streams) {
+
         return StreamSupport.stream(
             new CartesianSpliterator<>(
-                Arrays.stream(streams)
+                streams.stream()
                     .map(StreamUtils::spliterator)
                     .toArray(Supplier[]::new)
         ), false);
     }
 
     @NonNull
-    public static <E> Stream<E[]> cartesianStream(@NonNull final Supplier<Stream<? extends E>> stream, int count) {
+    public static <E> Stream<E[]> nCartesianStream(int count, @NonNull final Supplier<Stream<? extends E>> stream) {
         return StreamSupport.stream(new CartesianSpliterator<E>(spliterator(stream), count), false);
     }
 

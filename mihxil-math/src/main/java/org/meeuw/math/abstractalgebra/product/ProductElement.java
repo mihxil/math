@@ -19,8 +19,12 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;
+import org.meeuw.math.exceptions.AlgebraicStructureException;
 
 
 /**
@@ -28,49 +32,78 @@ import org.meeuw.math.abstractalgebra.GroupElement;
  * @since 0.8
  */
 @EqualsAndHashCode
-public class ProductElement<A extends GroupElement<A>, B extends GroupElement<B>> implements
-    GroupElement<ProductElement<A, B>>,
-    Serializable {
+public class ProductElement implements GroupElement<ProductElement>, Serializable {
 
     private static final long serialVersionUID = 0L;
 
     @Getter
-    private final A a;
+    private final List<GroupElement<?>> multiplicands;
 
-    @Getter
-    private final B b;
+    private final ProductGroup structure;
 
-    private final ProductGroup<A, B> structure;
-
-
-    public ProductElement(A a, B b) {
-        this(ProductGroup.of(a.getStructure(), b.getStructure()), a, b);
+    public static ProductElement of(GroupElement<?>... groupElement) {
+        List<GroupElement<?>> list = asList(groupElement);
+        return withGroup(productGroupFor(list), list);
     }
 
-    protected ProductElement(ProductGroup<A, B> structure, A a, B b) {
-        this.a = a;
-        this.b = b;
+    static ProductElement withGroup(ProductGroup group, List<GroupElement<?>> groupElements) {
+        return new ProductElement(group, groupElements);
+    }
+
+    private static List<GroupElement<?>> asList(GroupElement<?>... elements) {
+        List<GroupElement<?>> result = new ArrayList<>();
+        for (GroupElement<?> e : elements) {
+            if (e instanceof ProductElement) {
+                result.addAll(((ProductElement) e).multiplicands);
+            } else {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    private ProductElement(ProductGroup structure, List<GroupElement<?>> multiplicands) {
+        this.multiplicands = multiplicands;
         this.structure = structure;
     }
 
+    protected static ProductGroup productGroupFor(List<GroupElement<?>> multiplicands) {
+        return ProductGroup.of(multiplicands.stream().map(GroupElement::getStructure).toArray(Group[]::new));
+    }
+
 
     @Override
-    public ProductGroup<A, B> getStructure() {
+    public ProductGroup getStructure() {
         return structure;
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public ProductElement<A, B> operate(ProductElement<A, B> operand) {
-        return new ProductElement<>(a.operate(operand.a),b.operate(operand.b));
+    public ProductElement operate(ProductElement operand) {
+        if (! operand.getStructure().equals(getStructure())) {
+            throw new AlgebraicStructureException(this, operand);
+        }
+
+        List<GroupElement<?>>  result =  new ArrayList<>();
+        for (int i = 0; i < multiplicands.size(); i++) {
+            GroupElement groupElement = multiplicands.get(i);
+            GroupElement otherElement = operand.multiplicands.get(i);
+            GroupElement operate = (GroupElement) groupElement.operate(otherElement);
+            result.add(operate);
+        }
+        return ProductElement.withGroup(structure, result);
     }
 
     @Override
-    public ProductElement<A, B> inverse() {
-        return new ProductElement<>(a.inverse(), b.inverse());
+    public ProductElement inverse() {
+        return ProductElement.withGroup(getStructure(),
+            multiplicands.stream().map(GroupElement::inverse)
+                .collect(Collectors.toList())
+        );
     }
 
     @Override
     public String toString() {
-        return "(" + a + ","+ b + ")";
+        return "(" + multiplicands.stream().map(Object::toString).collect(Collectors.joining(","))  + ")";
     }
 }

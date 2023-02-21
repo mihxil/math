@@ -17,7 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import org.meeuw.math.abstractalgebra.categoryofgroups.Element;
+import org.meeuw.math.abstractalgebra.categoryofgroups.GroupAsElement;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
@@ -31,7 +31,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @since 0.8
  * @param <E> type of the elements. (Extensions of) {@link GroupElement}
  */
-public interface Group<E extends GroupElement<E>> extends Magma<E>, Element {
+public interface Group<E extends GroupElement<E>> extends Magma<E>, GroupAsElement {
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, BasicAlgebraicUnaryOperator.INVERSION);
 

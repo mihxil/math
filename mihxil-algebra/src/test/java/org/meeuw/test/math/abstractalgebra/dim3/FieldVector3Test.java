@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
-import org.meeuw.math.exceptions.FieldInCompleteException;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.abstractalgebra.test.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
@@ -54,7 +54,7 @@ class FieldVector3Test  implements
     @Test
     public void absOfRational() {
         FieldVector3<RationalNumber> v = FieldVector3.of(RationalNumber.of(3), RationalNumber.of(-4), RationalNumber.of(0));
-        assertThatThrownBy(v::abs).isInstanceOf(FieldInCompleteException.class);
+        assertThatThrownBy(v::abs).isInstanceOf(FieldIncompleteException.class);
     }
 
     @Test

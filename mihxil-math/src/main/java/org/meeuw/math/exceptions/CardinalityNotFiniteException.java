@@ -16,12 +16,11 @@
 package org.meeuw.math.exceptions;
 
 /**
- * Gets thrown if trying to weigh to {@code exact} values, which is impossible if the values are not the same to start with.
- */
-public class WeighingExceptValuesException extends NotCombinableException {
-
-
-    public WeighingExceptValuesException(String mes) {
-        super(mes);
+ *
+ * Thrown when a finite cardinality is needed, but not available.
+ *  */
+public class CardinalityNotFiniteException extends MathException {
+    public CardinalityNotFiniteException(String s) {
+        super(s);
     }
 }

@@ -26,7 +26,8 @@ import org.meeuw.math.abstractalgebra.RingElement;
  * @since 0.8
  * @see TrivialRing
  */
-public enum TrivialRingElement implements
+public enum TrivialRingElement
+    implements
     RingElement<TrivialRingElement>,
     Serializable {
 

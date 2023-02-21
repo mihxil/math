@@ -29,8 +29,8 @@ import org.meeuw.math.exceptions.NotStreamable;
  * @since 0.8
  */
 
-public class CategoryOfGroups extends AbstractAlgebraicStructure<Element>
-    implements MultiplicativeSemiGroup<Element>, Streamable<Element> {
+public class CategoryOfGroups extends AbstractAlgebraicStructure<Group<?>>
+    implements MultiplicativeSemiGroup<Group<?>>, Streamable<Group<?>> {
 
     static final CategoryOfGroups INSTANCE = new CategoryOfGroups();
 
@@ -49,7 +49,7 @@ public class CategoryOfGroups extends AbstractAlgebraicStructure<Element>
 
 
     @Override
-    public Stream<Element> stream() {
-        throw new NotStreamable("I suppose the number of possible groups is countable, but I wouldn't know now...");
+    public Stream<Group<?>> stream() {
+        throw new NotStreamable("I suppose the number of possible groups is countable, but I wouldn't know how...");
     }
 }

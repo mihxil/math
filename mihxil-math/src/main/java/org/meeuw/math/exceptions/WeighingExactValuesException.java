@@ -15,8 +15,15 @@
  */
 package org.meeuw.math.exceptions;
 
-public class CardinalityException extends MathException {
-    public CardinalityException(String s) {
-        super(s);
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
+
+/**
+ * Gets thrown if trying to weigh two {@code exact} values ({@link org.meeuw.math.uncertainnumbers.UncertainDouble#weightedAverage(UncertainDouble)}), which is impossible if the values are not the same to start with.
+ */
+public class WeighingExactValuesException extends NotCombinableException {
+
+
+    public WeighingExactValuesException(String mes) {
+        super(mes);
     }
 }

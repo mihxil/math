@@ -116,7 +116,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      * @return A new algebraic element, which same value, but as a member of a super structure
      * @param clazz The class of the object to cast to
      * @param <F> The type of the class of the object to cast to
-     * @throws NotASubGroup if not castable.
+     * @throws NotASubGroup if the argument cannot cast, because is not a sub-group of the current group
      */
     default <F extends AlgebraicElement<F>> F cast(Class<F> clazz) {
         Optional<F> directly = castDirectly(clazz);

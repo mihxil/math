@@ -126,7 +126,7 @@ public class NVectorSpace<E extends FieldElement<E>>
             throw new NotStreamable(String.format("Not streamable because %s > %s", getCardinality(), Cardinality.ALEPH_0));
         } else {
             Streamable<E> streamable = (Streamable<E>) field;
-            return StreamUtils.cartesianStream(streamable::stream, dimension)
+            return StreamUtils.nCartesianStream(dimension, streamable::stream)
                 .map(NVector::new);
         }
     }

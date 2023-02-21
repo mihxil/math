@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.DivisionRingTheory;
 import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
-import org.meeuw.math.exceptions.FieldInCompleteException;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -60,7 +60,7 @@ class QuaternionTest implements
 
     @Test
     public void abs() {
-        assertThatThrownBy(() -> new Quaternion<>(RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1)).abs()).isInstanceOf(FieldInCompleteException.class);
+        assertThatThrownBy(() -> new Quaternion<>(RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1)).abs()).isInstanceOf(FieldIncompleteException.class);
         assertThat(new Quaternion<>(RealNumber.of(1), RealNumber.of(1), RealNumber.of(1), RealNumber.of(1)).abs()).isEqualTo(RealNumber.of(2));
     }
 

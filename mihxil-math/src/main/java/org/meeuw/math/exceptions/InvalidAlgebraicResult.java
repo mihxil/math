@@ -16,9 +16,9 @@
 package org.meeuw.math.exceptions;
 
 /**
- * Indicates that no valid algebraic result was returned from an some operations.
- *
- * E.g. the result of an operation should never by {@code null}. If it is, this exception may get thrown.
+ * Indicates that no valid algebraic result was returned from some operations.
+ * <p>
+ * E.g. the result of an operation should never be {@code null}. If it is, this exception may get thrown.
  *
  * @since 0.8
  */

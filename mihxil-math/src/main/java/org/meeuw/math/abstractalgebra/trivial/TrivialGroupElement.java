@@ -24,7 +24,6 @@ import org.meeuw.math.abstractalgebra.GroupElement;
  * There is precisely one element in the {@link TrivialGroup}, which is described here.
  * An {@link Enum} with one value.
  *
- *
  * @author Michiel Meeuwissen
  * @since 0.8
  */

@@ -16,6 +16,7 @@
 package org.meeuw.math.exceptions;
 
 /**
+ * Abstract base class for all math related exceptions
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -24,7 +24,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 /**
- * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group
+ * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group, denoted by {@code V}.
  */
 @Example(Group.class)
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
@@ -32,7 +32,7 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     public static final KleinGroup INSTANCE = new KleinGroup();
 
     @Example(Group.class)
-    public static final ProductGroup<KleinElement, KleinElement> EXAMPLE = INSTANCE.cartesian(INSTANCE);
+    public static final ProductGroup EXAMPLE = INSTANCE.cartesian(INSTANCE);
 
     private KleinGroup() {
     }
@@ -66,6 +66,5 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     public String toString() {
         return "V";
     }
-
 
 }

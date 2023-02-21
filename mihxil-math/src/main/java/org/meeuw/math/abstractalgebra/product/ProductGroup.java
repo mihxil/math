@@ -15,11 +15,10 @@
  */
 package org.meeuw.math.abstractalgebra.product;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -34,74 +33,75 @@ import org.meeuw.math.streams.StreamUtils;
  * @since 0.8
  */
 
-public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>>
-    extends AbstractAlgebraicStructure<ProductElement<A, B>>
-    implements Group<ProductElement<A, B>>, Streamable<ProductElement<A, B>> {
+public class ProductGroup
+    extends AbstractAlgebraicStructure<ProductElement>
+    implements Group<ProductElement>, Streamable<ProductElement> {
 
-    private static final Map<Key, ProductGroup<?, ?>>  INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<List<Group<?>>, ProductGroup> INSTANCES = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("unchecked")
-    public static <A extends GroupElement<A>, B extends GroupElement<B>> ProductGroup<A, B> of(Group<A> groupA, Group<B> groupB) {
-        return (ProductGroup<A, B>) ofGeneric(groupA, groupB);
+    public static ProductGroup of(Group<?>... groups) {
+        return INSTANCES.computeIfAbsent(asList(groups), ProductGroup::new);
     }
 
-    public static ProductGroup<?, ?> ofGeneric(Group<?> groupA, Group<?> groupB) {
-        return INSTANCES.computeIfAbsent(new Key(groupA, groupB), (k) -> new ProductGroup<>(groupA, groupB));
-    }
+    private final ProductElement one;
 
-    @EqualsAndHashCode
-    private static class Key {
-        final Group<?> groupA;
-        final Group<?> groupB;
+    private final List<Group<?>> groups;
 
-        private Key(Group<?> groupA, Group<?> groupB) {
-            this.groupA = groupA;
-            this.groupB = groupB;
+    private static List<Group<?>> asList(Group<?>... elements) {
+        List<Group<?>> result = new ArrayList<>();
+        for (Group<?> e : elements) {
+            if (e instanceof ProductGroup) {
+                result.addAll(((ProductGroup) e).groups);
+            } else {
+                result.add(e);
+            }
         }
+        return result;
     }
 
-    @Getter
-    private final Group<A> groupA;
-
-    @Getter
-    private final Group<B> groupB;
-
-
-    private final ProductElement<A, B> one;
-
-
-    private ProductGroup(Group<A> groupA, Group<B> groupB) {
-        this.groupA = groupA;
-        this.groupB = groupB;
-        one = new ProductElement<>(this, groupA.unity(), groupB.unity());
+    private ProductGroup(List<Group<?>> groups) {
+        this.groups = groups;
+        one = ProductElement.withGroup(this,
+            groups.stream()
+                .map(Group::unity)
+                .collect(Collectors.toList()));
     }
 
     @Override
-    public ProductElement<A, B> unity() {
+    public ProductElement unity() {
         return one;
     }
 
     @Override
     public Cardinality getCardinality() {
-        return groupA.getCardinality().times(groupB.getCardinality());
+        return groups.stream()
+            .map(AlgebraicStructure::getCardinality)
+            .reduce(Cardinality.ONE, Cardinality::times);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Stream<ProductElement<A, B>> stream() {
-        if (groupA instanceof Streamable<?> && groupB instanceof Streamable<?>) {
-            return StreamUtils.cartesianStream(
-                () -> ((Streamable<A>) groupA).stream(),
-                () -> ((Streamable<B>) groupB).stream()).map(a -> new ProductElement<>(this, (A) a[0], (B) a[1]));
+    public Stream<ProductElement> stream() {
+        boolean streamable = groups.stream()
+            .allMatch(g -> g instanceof Streamable<?>);
 
+        if (streamable) {
+            List<Supplier<Stream<? extends GroupElement<?>>>> suppliers =
+                groups.stream()
+                    .map(g  -> (Supplier<Stream<? extends GroupElement<?>>>) () -> ((Streamable<GroupElement<?>>) g).stream())
+                    .collect(Collectors.toList());
+            Stream<GroupElement<?>[]> stream = StreamUtils.cartesianStream(suppliers);
+            return stream.map(ProductElement::of);
         } else {
-            throw new NotStreamable(String.format("No streaming because %s and/or %s are not Streamable", groupA, groupB));
+            throw new NotStreamable(String.format("No streaming because not all %s are Streamable", groups));
         }
     }
 
     @Override
     public String toString() {
-        return groupA + "⨯" + groupB;
+        return groups.stream()
+            .map(Object::toString)
+            .collect(Collectors.joining("⨯"));
     }
 
     @Override
@@ -109,16 +109,9 @@ public class ProductGroup<A extends GroupElement<A>, B extends GroupElement<B>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ProductGroup<?, ?> that = (ProductGroup<?, ?>) o;
+        ProductGroup that = (ProductGroup) o;
 
-        if (!groupA.equals(that.groupA)) return false;
-        return groupB.equals(that.groupB);
+        return groups.equals(that.groups);
     }
 
-    @Override
-    public int hashCode() {
-        int result = groupA.hashCode();
-        result = 31 * result + groupB.hashCode();
-        return result;
-    }
 }
