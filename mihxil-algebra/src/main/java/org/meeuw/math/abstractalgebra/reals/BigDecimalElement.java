@@ -29,7 +29,7 @@ import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 
 /**
- *  A real number (backend by a big decimal)
+ * A real number (backend by a big decimal), element of {@link BigDecimalElement}.
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 /**
+ * Elements of {@link ModuloRing ℤ/nℤ}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

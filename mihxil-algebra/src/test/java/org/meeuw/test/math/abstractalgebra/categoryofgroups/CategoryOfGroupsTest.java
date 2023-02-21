@@ -26,23 +26,24 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
         times.stream().forEach(ge -> {
             log.info("{}", ge);
         });
-
     }
 
     @Test
-    public void infinite() {
-        Random random = new Random(1);
+    public void infiniteStream() {
         ProductGroup times = EvenIntegers.INSTANCE.times(Quaternions.of(RationalNumbers.INSTANCE));
         times.stream().limit(10).forEach(ge -> {
             log.info("{}", ge);
         });
+    }
+
+    @Test
+    public void random() {
+        Random random = new Random(1);
+        ProductGroup times = Quaternions.of(RationalNumbers.INSTANCE).times(ModuloField.of(13));
         for (int i = 0; i < 100; i++) {
             log.info(times.nextRandom(random));
         }
-
     }
-
-
 
     @Override
     public Arbitrary<? extends Group<?>> elements() {
@@ -50,7 +51,8 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
         return Arbitraries.of(
             KleinGroup.INSTANCE,
             KleinGroup.INSTANCE.times(KleinGroup.INSTANCE),
-            ModuloRing.of(5),
+            ModuloRing.of(12),
+            ModuloField.of(13),
             Integers.INSTANCE
         );
 

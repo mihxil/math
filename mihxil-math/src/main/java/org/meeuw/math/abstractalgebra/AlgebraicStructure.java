@@ -28,7 +28,7 @@ import static org.meeuw.math.operators.OperatorInterface.COMPARATOR;
 
 /**
  * The base interface of all algebraic structures.
- *
+ * <p>
  * If defines what arithmetic {@link BasicAlgebraicBinaryOperator}s are possible its elements
  *
  * @author Michiel Meeuwissen
@@ -72,9 +72,9 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     /**
      * Returns the {@link GenericFunction}s that elements of this structure support.
-     *
+     * <p>
      * This is a unary operation that works on an algebraic element, which does not necessary return an element of the algebra.
-     *
+     * <p>
      * E.g. this may represent something like {@link ScalarFieldElement#bigDecimalValue()}. A function shared by many elements of
      * different algebra's, but not related to the algebra itself.
      *
@@ -100,7 +100,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     /**
      * Calls {@link #getSuperGroups()} recursively.
-     *
+     * <p>
      * There's normally no need to implement this, as the default should be good.
      *
      * @see #getSuperGroups()
@@ -133,7 +133,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     /**
      * @return a functional interface that can check whether two elements of this structure are equal.
-     *
+     * <p>
      * Default this simply returns {@link Objects#equals(Object, Object)}.
      */
     default Equivalence<E> getEquivalence() {

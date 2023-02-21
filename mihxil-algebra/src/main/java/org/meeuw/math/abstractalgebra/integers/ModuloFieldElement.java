@@ -19,6 +19,7 @@ import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 
 /**
+ * Elements of {@link ModuloField ℤ/nℤ}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

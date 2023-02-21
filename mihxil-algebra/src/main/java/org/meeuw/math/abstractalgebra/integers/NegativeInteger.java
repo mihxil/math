@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.numbers.SizeableScalar;
 
 /**
- * The natural numbers ℕ+
+ * Elements of  {@link NegativeIntegers ℕ-}
  * @author Michiel Meeuwissen
  * @since 0.8
  */

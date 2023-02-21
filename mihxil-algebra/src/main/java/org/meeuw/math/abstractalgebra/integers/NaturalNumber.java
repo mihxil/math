@@ -23,7 +23,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.numbers.Scalar;
 
 /**
- * The natural numbers ℕ
+ * Element of {@link NaturalNumbers natural numbers ℕ}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

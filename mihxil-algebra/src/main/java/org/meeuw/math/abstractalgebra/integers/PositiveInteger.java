@@ -25,7 +25,7 @@ import org.meeuw.math.numbers.Scalar;
 import static org.meeuw.math.abstractalgebra.integers.PositiveIntegers.INSTANCE;
 
 /**
- * The natural numbers ℕ+
+ * Elements of {@link PositiveIntegers ℕ+}
  * @author Michiel Meeuwissen
  * @since 0.8
  */

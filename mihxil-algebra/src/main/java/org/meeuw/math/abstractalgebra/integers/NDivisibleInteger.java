@@ -25,6 +25,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.Scalar;
 
 /**
+ * Element of {@link NDivisibleIntegers nℤ}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

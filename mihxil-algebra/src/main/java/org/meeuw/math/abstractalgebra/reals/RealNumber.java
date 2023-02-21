@@ -34,7 +34,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
- * A real number (backend by a double). It is uncertain, but only because of rounding errors.
+ * A real number (backend by a double). It is uncertain, but only because of rounding errors. Elements of {@link RealField}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

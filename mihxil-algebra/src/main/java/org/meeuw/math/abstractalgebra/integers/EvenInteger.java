@@ -24,6 +24,7 @@ import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.Scalar;
 
 /**
+ * Elements of {@link EvenIntegers 2ℤ}
  * @author Michiel Meeuwissen
  * @since 0.4
  */
