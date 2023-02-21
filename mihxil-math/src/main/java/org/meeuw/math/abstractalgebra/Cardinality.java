@@ -117,9 +117,10 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     @Override
     public Cardinality times(Cardinality cardinality) {
-        if (value.signum() > 0 && cardinality.value.signum() > 0) {
+        if (isFinite() && cardinality.isFinite()) {
             return new Cardinality(value.multiply(cardinality.value));
         } else {
+            // just return the larger
             if (value.compareTo(cardinality.value) < 0) {
                 return this;
             } else {
@@ -152,6 +153,9 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     public boolean isInfinite() {
         return value.signum() < 0;
+    }
+    public boolean isFinite() {
+        return value.signum() >= 0;
     }
 
     @Override

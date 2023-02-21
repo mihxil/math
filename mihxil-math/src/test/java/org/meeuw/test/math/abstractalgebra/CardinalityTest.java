@@ -35,6 +35,8 @@ class CardinalityTest {
     @Test
     public void alephs() {
         assertThat(Cardinality.ALEPH_0).isGreaterThan(Cardinality.of(Long.MAX_VALUE));
+        assertThat(Cardinality.ALEPH_0).isEqualTo(Cardinality.ALEPH_0.times(Cardinality.of(3)));
+
         assertThat(Cardinality.ALEPH_1).isGreaterThan(Cardinality.ALEPH_0);
         assertThat(Cardinality.ALEPH_0.toString()).isEqualTo("א\u200E₀");
         assertThat(Cardinality.ALEPH_1.toString()).isEqualTo("א\u200E₁");
