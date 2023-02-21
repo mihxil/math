@@ -20,10 +20,9 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
 /**
  * @author Michiel Meeuwissen
@@ -31,7 +30,6 @@ import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 @Log4j2
 class AlgebraicStructureTest {
     private static class E implements AlgebraicElement<E> {
-
         @Override
         public AlgebraicStructure<E> getStructure() {
             return new S();
@@ -59,5 +57,6 @@ class AlgebraicStructureTest {
         assertThat(s.getDescription()).isEqualTo("S");
         assertThat(s.getEquivalence().test(new E(), new E())).isFalse();
     }
+
 
 }

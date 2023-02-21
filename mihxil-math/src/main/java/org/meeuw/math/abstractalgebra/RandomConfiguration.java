@@ -28,7 +28,7 @@ public class RandomConfiguration implements ConfigurationAspect {
 
     public static long nextLong(Random random) {
         int setSize = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize();
-        return random.nextInt(setSize - setSize / 2);
+        return random.nextInt(setSize) - setSize / 2;
     }
 
     public static long nextNonNegativeLong(Random random) {

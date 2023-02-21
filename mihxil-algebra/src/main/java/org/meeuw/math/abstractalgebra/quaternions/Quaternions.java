@@ -19,12 +19,16 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.streams.StreamUtils;
 
 /**
  * The division ring of quaternions ℍ.
@@ -34,7 +38,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 @Log
 public class Quaternions<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<Quaternion<E>>
-    implements DivisionRing<Quaternion<E>> {
+    implements DivisionRing<Quaternion<E>>, Streamable<Quaternion<E>> {
 
     private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
@@ -100,5 +104,25 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     @Override
     public String toString() {
         return "ℍ(" + elementStructure + ")";
+    }
+
+    @Override
+    public Stream<Quaternion<E>> stream() {
+        if (! (elementStructure instanceof Streamable<?>)) {
+            throw new NotStreamable("Element structure " + elementStructure + " of " + this + " is not streamable");
+        }
+        return StreamUtils.nCartesianStream(4, () -> ((Streamable<E>) getElementStructure())
+            .stream()
+        ).map(earray -> new Quaternion<>(earray[0], earray[1], earray[2], earray[3]));
+    }
+
+    @Override
+    public Quaternion<E> nextRandom(Random random) {
+        return new Quaternion<>(
+            elementStructure.nextRandom(random),
+            elementStructure.nextRandom(random),
+            elementStructure.nextRandom(random),
+            elementStructure.nextRandom(random)
+        );
     }
 }

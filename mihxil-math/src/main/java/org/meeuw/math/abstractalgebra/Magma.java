@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import java.util.*;
+import java.util.NavigableSet;
 
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;

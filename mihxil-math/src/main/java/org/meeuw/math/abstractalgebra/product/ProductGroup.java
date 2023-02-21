@@ -73,6 +73,14 @@ public class ProductGroup
     }
 
     @Override
+    public ProductElement nextRandom(Random random) {
+        return ProductElement.withGroup(this,
+            groups.stream()
+                .map(g -> g.nextRandom(random))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
     public Cardinality getCardinality() {
         return groups.stream()
             .map(AlgebraicStructure::getCardinality)

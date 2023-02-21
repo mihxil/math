@@ -153,13 +153,12 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         return (E[]) Array.newInstance(getElementClass(), i);
     }
 
-
     /**
      * Returns a random element from the structure
      */
     @Override
     default  E nextRandom(Random random) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("nextRandom not implemented in " + this.getClass() + " " + this);
     }
 
 

@@ -17,8 +17,7 @@ package org.meeuw.math.abstractalgebra.categoryofgroups;
 
 import java.io.Serializable;
 
-import org.meeuw.math.abstractalgebra.Group;
-import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 
