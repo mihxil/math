@@ -79,7 +79,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
 
     @Override
     public Cardinality getCardinality() {
-        return elementStructure.getCardinality().times(Cardinality.of(4));
+        return elementStructure.getCardinality().pow(4);
     }
 
     @Override
