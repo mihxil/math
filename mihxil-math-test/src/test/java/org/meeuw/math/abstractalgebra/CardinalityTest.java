@@ -30,6 +30,7 @@ public class CardinalityTest implements MultiplicativeSemiGroupTheory<Cardinalit
             Cardinality.ONE,
             Cardinality.ALEPH_0.times(Cardinality.of(4)),
             Cardinality.of(2),
+            Cardinality.of(0),
             Cardinality.of(3),
             Cardinality.of(100)
         );

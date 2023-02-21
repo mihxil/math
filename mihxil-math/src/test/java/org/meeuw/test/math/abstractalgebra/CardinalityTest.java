@@ -57,6 +57,9 @@ class CardinalityTest {
         assertThat(Cardinality.of(10).toString()).isEqualTo("10");
         assertThat(Cardinality.of(10).getValue()).isEqualTo(10);
 
+        assertThatThrownBy(() -> Cardinality.of(-1)).isInstanceOf(IllegalArgumentException.class);
+
+
     }
 
     @Property
