@@ -37,7 +37,14 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
      */
     public static DoubleConfidenceInterval of(double value, double uncertainty, double interval) {
         if (Double.isInfinite(value)) {
-            return new DoubleConfidenceInterval(value, value);
+            if (Double.isFinite(uncertainty)) {
+                // infinite value, finite uncertainty. So, we just require the value to be infinee too.
+                return new DoubleConfidenceInterval(value, value);
+            } else {
+                // uncertainty is infinite too?
+                // everything goes then
+                return new DoubleConfidenceInterval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+            }
         }
         double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * UncertainDouble.NaN_EPSILON) : uncertainty * interval;
         return new DoubleConfidenceInterval(value - halfRange, value + halfRange);
