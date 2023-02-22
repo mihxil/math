@@ -61,6 +61,11 @@ strictfp class RealFieldTest implements
     }
 
     @Test
+    public void confidenceIntervalInf() {
+        assertThat(new RealNumber(Double.POSITIVE_INFINITY, 10).eq(new RealNumber(Double.POSITIVE_INFINITY, 20))).isTrue();
+    }
+
+    @Test
     public void string() {
         assertThat(RealNumber.of(1).toString()).isEqualTo("1");
         RealNumber half  = of(1).dividedBy(of(2));

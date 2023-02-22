@@ -36,6 +36,9 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
      * @see ConfidenceInterval#of(Number, Number, int)
      */
     public static DoubleConfidenceInterval of(double value, double uncertainty, double interval) {
+        if (Double.isInfinite(value)) {
+            return new DoubleConfidenceInterval(value, value);
+        }
         double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * UncertainDouble.NaN_EPSILON) : uncertainty * interval;
         return new DoubleConfidenceInterval(value - halfRange, value + halfRange);
     }

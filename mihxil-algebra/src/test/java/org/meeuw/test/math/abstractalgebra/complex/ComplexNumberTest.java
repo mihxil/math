@@ -15,9 +15,12 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
-import net.jqwik.api.*;
+import lombok.extern.log4j.Log4j2;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
+
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
@@ -31,6 +34,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class ComplexNumberTest implements
     CompleteFieldTheory<ComplexNumber>,
     MetricSpaceTheory<ComplexNumber, RealNumber>,
@@ -73,6 +77,23 @@ class ComplexNumberTest implements
         assertThat(ComplexNumber.of(RealNumber.of(-1)).sqrt()).isEqualTo(ComplexNumbers.INSTANCE.i());
 
         assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt().toString()).isEqualTo("0.70710678118655 - 0.70710678118655i");
+    }
+
+    @Test
+    public void veryLarge() {
+        ComplexNumber base1 = ComplexNumber.of(RealNumber.of(-705.6), RealNumber.of(-13));
+        ComplexNumber exponent1 = ComplexNumber.of(RealNumber.of(198.8), RealNumber.of(-100));
+
+        ComplexNumber result1 = base1.pow(exponent1);
+
+        ComplexNumber base2 = ComplexNumber.of(RealNumber.of(-705.6), RealNumber.of(-13));
+        ComplexNumber exponent2 = ComplexNumber.of(RealNumber.of(198.8), RealNumber.of(-100));
+
+        ComplexNumber result2 = base2.pow(exponent2);
+
+        assertThat(result1.eq(result2)).isTrue();
+
+        log.info("{}", result1);
 
     }
 }
