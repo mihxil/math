@@ -62,7 +62,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     };
 
     /**
-     * The cardinality of the continuum. According to the continuum hypothesis this equals {@link #ALEPH_1}
+     * The cardinality of the continuum. According to the <a href="https://en.wikipedia.org/wiki/Continuum_hypothesis">continuum hypothesis</a> this would equal {@link #ALEPH_1}
      */
     public static final Cardinality C = new Cardinality(-3) {
         @Override

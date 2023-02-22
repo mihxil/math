@@ -2,11 +2,13 @@ package org.meeuw.util.test;
 
 
 import java.util.*;
-
 import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
@@ -133,7 +135,7 @@ public interface BasicObjectTheory<E> {
      * Provide non-{@code null} datapoints
      */
     @Provide
-    Arbitrary<? extends E> datapoints();
+    Arbitrary<@NonNull ? extends E> datapoints();
 
 
     /**
@@ -145,7 +147,7 @@ public interface BasicObjectTheory<E> {
     }
 
     @Provide
-    default Arbitrary<? extends Tuple2<? extends E, ? extends E>> equalDatapoints() {
+    default Arbitrary<@NonNull? extends Tuple2<@NonNull? extends E, @NonNull? extends E>> equalDatapoints() {
         List<? extends E> samples = datapoints()
             .injectDuplicates(0.5)
             .sampleStream()
@@ -171,7 +173,7 @@ public interface BasicObjectTheory<E> {
     }
 
     @Provide
-    default Arbitrary<? extends  E> datapointsOrNull() {
+    default Arbitrary<@Nullable ? extends E> datapointsOrNull() {
         return datapoints()
             .injectNull(0.1);
     }
