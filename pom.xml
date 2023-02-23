@@ -547,7 +547,6 @@
                 <link>https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
                 <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
                 <link>https://javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
-
               </links>
               <detectLinks />
               <detectJavaApiLink />
@@ -555,10 +554,7 @@
               <detectOfflineLinks>true</detectOfflineLinks>
               <additionalJOption>-Xdoclint:all</additionalJOption>
               <additionalJOption>-Xdoclint:-missing</additionalJOption>
-              <sourcepath>
-                ${delombok.output};
-                ${project.build.directory}/generated-sources/apt
-              </sourcepath>
+              <sourcepath>${delombok.output}</sourcepath>
             </configuration>
           </plugin>
         </plugins>
