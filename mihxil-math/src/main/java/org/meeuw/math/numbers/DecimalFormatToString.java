@@ -8,7 +8,6 @@ import org.meeuw.configuration.spi.AbstractToString;
 
 public class DecimalFormatToString extends AbstractToString<DecimalFormat> {
 
-
     public DecimalFormatToString() {
         super(DecimalFormat.class);
     }

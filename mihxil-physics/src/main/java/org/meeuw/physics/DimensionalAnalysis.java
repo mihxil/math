@@ -28,9 +28,11 @@ import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.text.FormatService;
 
 /**
- * A dimensions object represent a physical dimensional analysis.
+ * This represents a physical dimensional analysis.
  * <p>
  * It is basically a wrapper for an array of exponents, one for each possible {@link Dimension}
+ * <p>
+ * Numbers with different dimensional analysis cannot be added or subtracted, since that would make no physical sense.
  *
  * @author Michiel Meeuwissen
  */

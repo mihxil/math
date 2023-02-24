@@ -24,13 +24,18 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
 
 /**
- * Like {@link java.util.function.BinaryOperator}, but the difference is that this is not itself generic, but only its {@link #apply(AlgebraicElement, AlgebraicElement)} method.
+ * Like {@link java.util.function.BinaryOperator BinaryOperator}, but the difference is that this is not itself generic, but only its {@link #apply(AlgebraicElement, AlgebraicElement) apply} method.
+ * <p>
+ * Besides that, it also requires that the {@link #stringify(String, String)} is implemented.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
+    /**
+     * Applies this operator to the given arguments
+     */
     <E extends AlgebraicElement<E>> E apply(E arg1, E arg2);
 
       /**
@@ -64,6 +69,10 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
         };
     }
 
+    /**
+     * Creates a string representation for this operator working on two (string versions) elements.
+     * E.g. for the addition operator this would result {@code "element1 + element2"}
+     */
     String stringify(String element1, String element2);
 
     default <E extends AlgebraicElement<E>> String stringify(E element1, E element2) {

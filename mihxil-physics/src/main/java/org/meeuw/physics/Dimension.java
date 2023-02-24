@@ -20,6 +20,7 @@ import lombok.Getter;
 /**
  * Representation of a basic physical dimension. This follows the SI recommendation.
  *
+ * @see DimensionalAnalysis
  * @author Michiel Meeuwissen
  * @since 0.3
  */

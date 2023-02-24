@@ -26,6 +26,9 @@ import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.exceptions.NotASquareException;
 import org.meeuw.math.numbers.SizeableScalar;
 
+/**
+ * Implementation for {@link Square}
+ */
 public class SquareValidator implements ConstraintValidator<Square, Object> {
 
     @Setter

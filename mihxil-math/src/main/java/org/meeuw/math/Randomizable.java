@@ -18,9 +18,17 @@ package org.meeuw.math;
 import java.util.Random;
 
 /**
+ * {@link org.meeuw.math.abstractalgebra.AlgebraicStructure algebraic structures} can be 'randonmizable', and then
+ * also provide {@link #nextRandom(Random)} to generate a random element.
+ *
+ * @see org.meeuw.math.abstractalgebra.AlgebraicStructure
  * @since 0.7
  */
 public interface Randomizable<E> {
 
+    /**
+     * Provides a new random element
+     * @param random the random number generator to use
+     */
     E nextRandom(Random random);
 }

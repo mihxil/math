@@ -27,7 +27,7 @@ import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.DimensionalAnalysis.of;
 
 /**
- * A quantity combines a {@link DimensionalAnalysis} with an <em>interpretation</em> (with a {@link #getName() name} and a {@link #getSymbol() symbol}
+ * A quantity combines a {@link DimensionalAnalysis} with an <em>interpretation</em> (with a {@link #getName() name} and a {@link #getSymbol() symbol})
  * <p>
  * This is still similar to {@code DimensionalAnalysis} in that it indicates whether values associated with it can be compared or added, but less absolute.
  * <p>

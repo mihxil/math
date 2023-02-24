@@ -20,6 +20,9 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import org.meeuw.math.IntegerUtils;
 
+/**
+ * Implementation for {@link Prime}
+ */
 public class PrimeValidator implements ConstraintValidator<Prime, Object> {
 
     boolean power;

@@ -77,6 +77,9 @@ public interface Units extends
 
     UnitExponent[] getCanonicalExponents();
 
+    /**
+     * Returns a list of known {@link Quantity quantities} associated with these {@code Units}.
+     */
     List<Quantity> getQuantities();
 
     default Units withName(String name) {
