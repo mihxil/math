@@ -18,12 +18,11 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
+import org.meeuw.math.abstractalgebra.AdditiveSemiGroup;
+import org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
+import static org.meeuw.assertj.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -44,8 +43,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
             @ForAll(ELEMENTS) E v3
             ) {
         assertThat((v1.plus(v2)).plus(v3))
-            .usingComparator(eqComparator())
-            .isEqualTo(v1.plus((v2.plus(v3))));
+            .isEqTo(v1.plus((v2.plus(v3))));
     }
 
 }

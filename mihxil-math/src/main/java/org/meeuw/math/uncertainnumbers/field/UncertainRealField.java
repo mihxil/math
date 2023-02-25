@@ -57,7 +57,10 @@ public class UncertainRealField
     @Override
     public UncertainReal nextRandom(Random random) {
         double value = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize() * (random.nextDouble() - 0.5d);
-        return new UncertainDoubleElement(value, Math.abs(value * random.nextDouble()));
+        boolean nan = random.nextDouble() < 0.1;
+        return new UncertainDoubleElement(value,
+            nan ? Double.NaN : Math.abs(0.5 * value * random.nextDouble())
+        );
     }
 
     @Override

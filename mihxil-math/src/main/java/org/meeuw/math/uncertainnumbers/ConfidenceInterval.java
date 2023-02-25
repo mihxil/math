@@ -55,7 +55,8 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
     ConfidenceInterval(NumberOperations<N> op, N low, N high) {
         this.low = low;
         this.high = high;
-        this.predicate = (v) -> op.gte(v, low) && op.lte(v, high);
+        this.predicate = (v) -> (op.isNaN(low) || op.gte(v, low))
+            && (op.isNaN(high) || op.lte(v, high));
     }
 
     public boolean contains(N value) {
