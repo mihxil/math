@@ -58,7 +58,7 @@ class MeasurementTest  {
             Measurement door = new Measurement(2.00, 0.03, SIUnit.m);
             Measurement knob = new Measurement(0.88, 0.04, SIUnit.mol);
             PhysicalNumber height = door.minus(knob);
-        }).isInstanceOf(IllegalArgumentException.class);
+        }).isInstanceOf(DimensionsMismatchException.class);
     }
 
     @Test
@@ -78,11 +78,9 @@ class MeasurementTest  {
         assertThat(a.plus(a.getUnits().zero())).isEqualTo(a);
         assertThat(a.times(a.getStructure().one())).isEqualTo(a);
 
-        assertThat(a.times(2d)).isEqualTo(new Measurement(12.0, 0.8, SI.mPerS));
+        assertThat(a.times(2d))
+            .isEqualTo(new Measurement(12.0, 0.8, SI.mPerS));
 
-        // FAILS
-        // And btw, repetiteve addition should handle uncertaintities more like times(double)
-//        assertThat(a.repeatedPlus(2)).isEqualTo(new Measurement(12.0, 0.6, SI.SPEED));
     }
 
 }

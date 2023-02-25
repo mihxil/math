@@ -169,7 +169,7 @@ public abstract class PhysicalNumber
      * @param target the new units
      * @return a new physical number representing the same value as this one, only in different units
      */
-    public PhysicalNumber toUnits(Units target) {
+    public PhysicalNumber toUnits(Units target) throws DimensionsMismatchException {
         if (getUnits().equals(target)) {
             return this;
         }
@@ -177,7 +177,7 @@ public abstract class PhysicalNumber
         return copy(wrapped.times(factor), target);
     }
 
-    public PhysicalNumber toUnits(Unit... units) {
+    public PhysicalNumber toUnits(Unit... units) throws DimensionsMismatchException {
         return toUnits(Units.of(units));
     }
 
