@@ -43,9 +43,7 @@ public interface Unit extends Units {
     String name();
 
     @Override
-    default List<Quantity> getQuantities() {
-        return Collections.emptyList();
-    }
+    List<Quantity> getQuantities();
 
     default String getSymbol() {
         return name();
