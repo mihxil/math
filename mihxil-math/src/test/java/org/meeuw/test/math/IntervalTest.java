@@ -68,9 +68,13 @@ class IntervalTest {
     void lowerEndPointComparator() {
 
         Interval<Double> i0 = Interval.open(null, 10d);
+        assertThat(i0.test(9d)).isTrue();
 
         Interval<Double> i1 = Interval.closed(NEGATIVE_INFINITY, 10d);
         Interval<Double> i2 = Interval.closed(-10d, 10d);
+        assertThat(i2.test(null)).isFalse();
+        assertThat(i2.test(-10d)).isTrue();
+        assertThat(i2.test(-11d)).isFalse();
         Interval<Double> i3 = Interval.open(-10d, 10d);
 
 
@@ -82,8 +86,6 @@ class IntervalTest {
 
     @Test
     void upperEndPointComparator() {
-
-
         Interval<Double> i0 = Interval.open(-10d, 10d);
         Interval<Double> i1 = Interval.closed(-10d, 10d);
         Interval<Double> i2 = Interval.closed(0d, Double.POSITIVE_INFINITY);

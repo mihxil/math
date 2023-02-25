@@ -88,7 +88,10 @@ public class Interval<T extends Comparable<T>> implements Predicate<T>  {
     }
 
     @Override
-    public boolean test(T t) {
+    public boolean test(@Nullable T t) {
+        if (t == null) {
+            return false;
+        }
         return
             (lowerEndpoint == null || (includeLower ? lowerEndpoint.compareTo(t) <= 0 :   lowerEndpoint.compareTo(t) < 0 ))
                 &&
