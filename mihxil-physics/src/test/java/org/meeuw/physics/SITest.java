@@ -21,12 +21,13 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.text.TextUtils;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
-import static org.meeuw.physics.SI.DecimalPrefix.d;
-import static org.meeuw.physics.SI.DecimalPrefix.k;
+import static org.meeuw.physics.SI.DecimalPrefix.*;
 import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SIUnit.m;
 import static org.meeuw.physics.SIUnit.s;
@@ -44,7 +45,6 @@ class SITest {
         assertThat(SI.ly.asSIConstant().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
     }
 
-    @SuppressWarnings("EqualsBetweenInconvertibleTypes")
     @Test
     public void litre() {
         assertThat(SI.litre.toString()).isEqualTo("l");
@@ -68,13 +68,22 @@ class SITest {
     public void prefixes(Prefix startPoint) {
         Optional<? extends Prefix> prefix = startPoint.inc();
         while (prefix.isPresent()) {
-            log.info("{}: {} ({})", prefix.get(), prefix.get().getAsDouble(), prefix.get().getPrefixName());
+            Prefix p = prefix.get();
+            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
+            log.info("{} . k = {}", p, p.times(k));
+            log.info("{} / k = {}", p, p.dividedBy(k));
+            log.info("{} " + TextUtils.superscript(-1) + " = {}", p, p.reciprocal());
             prefix = prefix.get().inc();
         }
         prefix = startPoint.dec();
         while (prefix.isPresent()) {
-            log.info("{}: {} ({})", prefix.get(), prefix.get().getAsDouble(), prefix.get().getPrefixName());
-            prefix = prefix.get().dec();
+            Prefix p = prefix.get();
+            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
+            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
+            log.info("{} . k = {}", p, p.times(k));
+            log.info("{} / k = {}", p, p.dividedBy(k));
+            log.info("{} " + TextUtils.superscript(-1) + " = {}", p, p.reciprocal());
+          prefix = prefix.get().dec();
         }
     }
 
@@ -95,6 +104,16 @@ class SITest {
         assertThat(kmPerS.toString()).isEqualTo("km·s⁻¹");
         assertThat(kmPerS.getSIFactor().doubleValue()).isEqualTo(1000d);
         assertThat(SI.km.getSIFactor().doubleValue()).isEqualTo(1000d);
+
+        Units MPerS = m.withPrefix(k.times(k).get()).per(s);
+        assertThat(MPerS.getSIFactor().doubleValue()).isEqualTo(1_000_000d);
+
+        Units mPerS = m.withPrefix(k.dividedBy(k).get()).per(s);
+        assertThat(mPerS.getSIFactor().doubleValue()).isEqualTo(1d);
+
+
+        assertThat(k.times(Q)).isEmpty();
+        assertThat(k.reciprocal().get()).isEqualTo(SI.DecimalPrefix.m);
     }
 
     @Test
