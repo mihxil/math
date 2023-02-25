@@ -169,6 +169,11 @@ public interface UncertainNumber<N extends Number> extends Uncertain {
             ||  other.getConfidenceInterval(sds).contains(getValue());
     }
 
+    default boolean eq(UncertainNumber<N> o) {
+         return eq(o,
+            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+    }
+
     default BigDecimal bigDecimalValue() {
         return operations().bigDecimalValue(getValue());
     }

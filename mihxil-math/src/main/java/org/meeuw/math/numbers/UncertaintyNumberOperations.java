@@ -31,8 +31,10 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
     static <N extends Number> UncertaintyNumberOperations<N> of(N n) {
         if (n instanceof BigDecimal) {
             return (UncertaintyNumberOperations<N>) BigDecimalOperations.INSTANCE;
-        } else {
+        } else if (n instanceof Double) {
             return (UncertaintyNumberOperations<N>) DoubleOperations.INSTANCE;
+        } else {
+            throw new UnsupportedOperationException();
         }
     }
 

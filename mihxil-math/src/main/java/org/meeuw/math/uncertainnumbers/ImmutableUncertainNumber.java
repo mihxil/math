@@ -20,7 +20,6 @@ import lombok.With;
 
 import java.util.function.Supplier;
 
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainNumberFormat;
@@ -64,10 +63,7 @@ public class ImmutableUncertainNumber<N extends Number>
         this(value, memoize(uncertainty), null);
     }
 
-    public boolean eq(ImmutableUncertainNumber<N> o) {
-        return eq(o,
-            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
-    }
+
 
     @Override
     public boolean strictlyEquals(Object o) {

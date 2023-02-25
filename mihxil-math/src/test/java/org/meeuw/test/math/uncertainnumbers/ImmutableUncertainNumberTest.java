@@ -14,7 +14,14 @@ class ImmutableUncertainNumberTest {
         assertThat(t.toString()).isEqualTo("5 ± 3");
         ImmutableUncertainNumber<Long> withUnits = t.withUnitsAsString("m");
         assertThat(withUnits.toString()).isEqualTo("5 ± 3 m");
+    }
 
+     @Test
+    public void eq() {
+        ImmutableUncertainNumber<Double> t1 = ImmutableUncertainNumber.<Double>of(5d, () -> 3d);
+        ImmutableUncertainNumber<Double> t2 = ImmutableUncertainNumber.<Double>of(4d, () -> 3d);
+
+        assertThat(t1.eq(t2)).isTrue();
     }
 
 }

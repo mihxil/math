@@ -12,15 +12,19 @@ class DoubleConfidenceIntervalTest {
     void ofAndToString() {
         DoubleConfidenceInterval of = DoubleConfidenceInterval.of(10d, 2d, 2);
         assertThat(of.toString()).isEqualTo("[6.0,14.0]");
+        assertThat(of.asConfidenceInterval().toString()).isEqualTo("[6.0,14.0]");
     }
 
     @Test
-    public void test() {
+    void test() {
         DoubleConfidenceInterval of = DoubleConfidenceInterval.of(10d, 2d, 2);
         assertThat(of.test(11d)).isTrue();
         assertThat(of.test(14d)).isTrue();
         assertThat(of.test(14.0000001d)).isFalse();
         assertThat(of.test(5d)).isFalse();
+        assertThat(of.test(null)).isFalse();
+        assertThat(of.asConfidenceInterval().test(5d)).isFalse();
+        assertThat(of.asConfidenceInterval().test(null)).isFalse();
     }
 
 }
