@@ -111,7 +111,7 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
                     .withFailMessage(
                         () -> reciprocal + " · " + e + " = " + reciprocalTimesSelf + " != " + e.getStructure().one())
                     .isTrue();
-            } catch (ReciprocalException ae) {
+            } catch (ReciprocalException | IllegalPowerException ae) {
                 // The element may be zero
                 getLogger().warn("{}: {} = zero?", ae.getMessage(), e);
             }

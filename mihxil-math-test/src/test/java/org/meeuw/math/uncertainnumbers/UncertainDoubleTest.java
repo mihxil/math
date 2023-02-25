@@ -60,6 +60,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
             return value + TextUtils.PLUSMIN + uncertainty;
         }
 
+        @SuppressWarnings("com.haulmont.jpb.EqualsDoesntCheckParameterClass")
         @Override
         public boolean equals(Object o) {
             return strictlyEquals(o);
@@ -140,7 +141,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
     }
 
     @Test
-    void weighted() {
+    void weightedExacts() {
         A a = new A(2, 0);
         A b = new A(3, 0);
         assertThatThrownBy(() -> {
@@ -148,6 +149,22 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         }).isInstanceOf(WeighingExactValuesException.class);
 
         assertThat(a.weightedAverage(a)).isEqualTo(a);
+    }
+
+
+    @Test
+    void weightedNan() {
+        A a = new A(3, 1d);
+        A b = new A(2, Double.NaN);
+
+        assertThat(a.weightedAverage(b))
+            .isEqualTo(new A(2.5, 1d));
+
+        A c = new A(3, Double.NaN);
+
+        assertThat(b.weightedAverage(c))
+            .isEqualTo(new A(2.5,Double.NaN));
+
     }
 
     @Property

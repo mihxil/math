@@ -16,12 +16,16 @@
 package org.meeuw.math.uncertainnumbers.field;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.*;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
+
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
  * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
@@ -51,9 +55,13 @@ public class UncertainDoubleElement
             if (exponent == 0) {
                 return ONE;
             }
+            if (exponent < 0) {
+                throw new IllegalPowerException(this + "^" + exponent);
+            }
             return this;
         }
     };
+
     public static final UncertainDoubleElement ONE  = new UncertainDoubleElement(1, EXACT) {
         @Override
         public UncertainDoubleElement sqrt() {
@@ -150,12 +158,16 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainReal dividedBy(long divisor) {
-        return new UncertainDoubleElement(value / divisor, Math.abs(uncertainty / divisor));
+        double result = value / divisor;
+        return new UncertainDoubleElement(result,
+            Math.max(Math.abs(uncertainty / divisor), uncertaintyForDouble(result)));
     }
 
     @Override
     public UncertainDoubleElement times(long multiplier) {
-        return new UncertainDoubleElement(value * multiplier, Math.abs(uncertainty * multiplier));
+        double result = value * multiplier;
+        return new UncertainDoubleElement(result,
+            Math.max(Math.abs(uncertainty * multiplier), uncertaintyForDouble(result)));
     }
 
     @Override
@@ -167,7 +179,7 @@ public class UncertainDoubleElement
         return of(newValue,
             Math.max(
                 operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(),  multiplier.doubleFractionalUncertainty()),
-                DoubleUtils.uncertaintyForDouble(newValue)
+                uncertaintyForDouble(newValue)
             )
         );
     }
@@ -181,9 +193,9 @@ public class UncertainDoubleElement
             result,
             DoubleUtils.max(
                 operations.add(uncertainty, summand.doubleUncertainty()),
-                DoubleUtils.uncertaintyForDouble(result),
-                DoubleUtils.uncertaintyForDouble(v1),
-                DoubleUtils.uncertaintyForDouble(v2)
+                uncertaintyForDouble(result),
+                uncertaintyForDouble(v1),
+                uncertaintyForDouble(v2)
             )
         );
     }
@@ -226,12 +238,12 @@ public class UncertainDoubleElement
         return of(
             result,
             DoubleUtils.max(
-                DoubleUtils.uncertaintyForDouble(result),
+                uncertaintyForDouble(result),
                 operations.powerUncertainty(
                     value,
-                    Math.max(uncertainty, DoubleUtils.uncertaintyForDouble(value)),
+                    Math.max(uncertainty, uncertaintyForDouble(value)),
                     exponent.doubleValue(),
-                    Math.max(exponent.doubleUncertainty(), DoubleUtils.uncertaintyForDouble(exponent.doubleValue())),
+                    Math.max(exponent.doubleUncertainty(), uncertaintyForDouble(exponent.doubleValue())),
                     result
                 )
             ));

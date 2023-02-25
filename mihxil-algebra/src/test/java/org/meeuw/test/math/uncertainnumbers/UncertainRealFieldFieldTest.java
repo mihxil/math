@@ -101,7 +101,13 @@ strictfp class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<
 
     @Override
     public Arbitrary<UncertainReal> elements() {
-        return Arbitraries.randomValue(INSTANCE::nextRandom);
+        return Arbitraries
+            .randomValue(INSTANCE::nextRandom)
+            .dontShrink()
+            .edgeCases(c -> {
+                c.add(UncertainDoubleElement.ONE);
+                c.add(UncertainDoubleElement.ZERO);
+            });
     }
 
 

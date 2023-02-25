@@ -58,9 +58,5 @@ public abstract class AbstractUncertainDouble
         return BigDecimal.valueOf(doubleValue());
     }
 
-    @Override
-    public UncertainReal plus(UncertainReal summand) {
-        return UncertainDouble.super.plus(summand);
-    }
 
 }

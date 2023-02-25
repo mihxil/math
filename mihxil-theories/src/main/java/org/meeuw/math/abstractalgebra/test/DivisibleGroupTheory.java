@@ -21,7 +21,7 @@ import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
@@ -37,7 +37,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
         withLooseEquals(() -> {
 
             try {
-                assertThat(v1.dividedBy(divisor).getStructure()).isEqualTo(v1.getStructure());
+                assertThat(v1.dividedBy(divisor).getStructure()).isEqTo(v1.getStructure());
                 assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).withFailMessage("(%s / %s) * %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
                 assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
 
