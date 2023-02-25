@@ -27,7 +27,7 @@ import org.meeuw.math.validation.Square;
 
 /**
  * A square 3x3 matrix of {@code double}s
- *
+ * <p>
  * Note this does not use {@link UncertainDouble} to back the matrix, but simple 'doubles'
  * This means that rounding errors are not considered, and theory testing may involve some fiddling.
  *

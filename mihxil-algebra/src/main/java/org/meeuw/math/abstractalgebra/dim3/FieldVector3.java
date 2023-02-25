@@ -31,7 +31,7 @@ import org.meeuw.math.numbers.Sizeable;
 import static java.math.BigDecimal.ZERO;
 
 /**
- * A 3 dimension vector on a {@link CompleteField}.
+ * A 3-dimension vector on a {@link CompleteField}.
  *
  * @author Michiel Meeuwissen
  */

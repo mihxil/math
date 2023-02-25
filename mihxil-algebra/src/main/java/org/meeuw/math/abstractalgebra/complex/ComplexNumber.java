@@ -18,6 +18,8 @@ package org.meeuw.math.abstractalgebra.complex;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
+import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -33,10 +35,22 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
     public static ComplexNumber of(RealNumber real, RealNumber imaginary) {
         return new ComplexNumber(real, imaginary);
     }
-
-    public static ComplexNumber of(RealNumber real) {
-        return new ComplexNumber(real, ComplexNumbers.INSTANCE.getElementStructure().zero());
+    public static ComplexNumber of(double real, double imaginary) {
+        return of(RealNumber.of(real), RealNumber.of(imaginary));
     }
+
+    public static ComplexNumber real(RealNumber real) {
+        return new ComplexNumber(real, INSTANCE.getElementStructure().zero());
+    }
+
+    public static ComplexNumber real(double real) {
+        return real(RealNumber.of(real));
+    }
+
+    public static ComplexNumber imaginary(RealNumber imaginary) {
+        return new ComplexNumber(INSTANCE.getElementStructure().zero(), imaginary);
+    }
+
 
     @Override
     protected ComplexNumber _of(RealNumber real, RealNumber imaginary) {
@@ -45,6 +59,6 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
 
     @Override
     public ComplexNumbers getStructure() {
-        return ComplexNumbers.INSTANCE;
+        return INSTANCE;
     }
 }

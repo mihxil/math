@@ -31,7 +31,7 @@ import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 
 /**
- * the space of n-dimensional vector
+ * The space of n-dimensional {@link NVector vectors}
  * @author Michiel Meeuwissen
  * @since 0.4
  */

@@ -23,7 +23,7 @@ import java.util.Map;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
- * A square 3x3 matrix of any {@link ScalarFieldElement}s.
+ * A square 3x3 matrix of any {@link ScalarFieldElement ScalarFieldElements}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

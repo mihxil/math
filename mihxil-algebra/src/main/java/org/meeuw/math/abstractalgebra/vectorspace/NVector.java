@@ -22,6 +22,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.Vector;
 
 /**
+ * An {@code n}-dimensional {@link Vector}.
  * @author Michiel Meeuwissen
  * @since 0.4
  */

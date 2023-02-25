@@ -160,7 +160,7 @@ public class RealNumber
     @Override
     public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
         if (clazz.isAssignableFrom(ComplexNumber.class)) {
-            return Optional.of((F) ComplexNumber.of(this));
+            return Optional.of((F) ComplexNumber.real(this));
         }
         return Optional.empty();
     }

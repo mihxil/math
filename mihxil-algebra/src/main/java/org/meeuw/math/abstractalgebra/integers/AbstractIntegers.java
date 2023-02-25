@@ -42,7 +42,6 @@ public abstract class AbstractIntegers<
     Randomizable<E> {
 
 
-
     protected AbstractIntegers(Class<E> clazz) {
         super(clazz);
     }
@@ -73,12 +72,9 @@ public abstract class AbstractIntegers<
     */
     abstract E of(BigInteger value);
 
-
     /*
      * @throws InvalidElementCreationException if the given backing value does not fit in the structure. E.g. the structure is {@link PositiveIntegers}, and the value is negative.
      */
     public abstract E newElement(BigInteger value) throws InvalidElementCreationException;
-
-
 
 }

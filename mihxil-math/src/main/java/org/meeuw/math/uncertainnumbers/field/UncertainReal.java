@@ -38,18 +38,13 @@ public interface UncertainReal
     UncertainReal negation();
 
     @Override
-    default UncertainReal times(UncertainReal multiplier) {
-        return UncertainDouble.super.times(multiplier);
-    }
+    UncertainReal times(UncertainReal multiplier);
 
     @Override
     UncertainReal pow(int n);
 
     @Override
-    default UncertainReal plus(UncertainReal summand) {
-        return UncertainDouble.super.plus(summand);
-    }
-
+    UncertainReal plus(UncertainReal summand);
 
     /**
      * For uncertain elements, an element is only zero if its value is {@link #isExact()}

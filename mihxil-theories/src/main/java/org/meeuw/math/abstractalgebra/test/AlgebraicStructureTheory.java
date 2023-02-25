@@ -245,6 +245,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         assertThat(struct.getSupportedComparisonOperators()).contains(EQ);
     }
 
+
     @Property
     default void examples(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         Example[] annotation = struct.getClass().getAnnotationsByType(Example.class);

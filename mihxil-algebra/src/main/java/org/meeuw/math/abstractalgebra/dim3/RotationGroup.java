@@ -32,6 +32,7 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     private RotationGroup() {
         super(Rotation.class);
     }
+
     @Override
     public Rotation one() {
         return Rotation.ONE;

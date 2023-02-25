@@ -27,6 +27,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
+ * A three-dimensional {@link Vector}, backed by {@code double}s.
  * @author Michiel Meeuwissen
  */
 public class Vector3 implements

@@ -24,10 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.abstractalgebra.test.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.real;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
 
 /**
@@ -74,26 +76,34 @@ class ComplexNumberTest implements
 
     @Test
     public void sqrt() {
-        assertThat(ComplexNumber.of(RealNumber.of(-1)).sqrt()).isEqualTo(ComplexNumbers.INSTANCE.i());
+        assertThat(real(RealNumber.of(-1)).sqrt()).isEqTo(ComplexNumbers.INSTANCE.i());
 
         assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt().toString()).isEqualTo("0.70710678118655 - 0.70710678118655i");
     }
 
     @Test
     public void veryLarge() {
-        ComplexNumber base1 = ComplexNumber.of(RealNumber.of(-705.6), RealNumber.of(-13));
-        ComplexNumber exponent1 = ComplexNumber.of(RealNumber.of(198.8), RealNumber.of(-100));
+        ComplexNumber base1 = ComplexNumber.of(-705.6, -13);
+        ComplexNumber exponent1 = ComplexNumber.of(198.8,-100);
 
         ComplexNumber result1 = base1.pow(exponent1);
 
-        ComplexNumber base2 = ComplexNumber.of(RealNumber.of(-705.6), RealNumber.of(-13));
-        ComplexNumber exponent2 = ComplexNumber.of(RealNumber.of(198.8), RealNumber.of(-100));
+        ComplexNumber base2 = ComplexNumber.of(-705.6, -13);
+        ComplexNumber exponent2 = ComplexNumber.of(198.8,-100);
 
         ComplexNumber result2 = base2.pow(exponent2);
 
         assertThat(result1.eq(result2)).isTrue();
 
         log.info("{}", result1);
+    }
 
+    @Test
+    public void euler() {
+        assertThat(
+            real(RealField.INSTANCE.e())
+                .pow(
+                    ComplexNumbers.INSTANCE.i().times(RealField.INSTANCE.pi()))
+        ).isEqTo(real(-1));
     }
 }

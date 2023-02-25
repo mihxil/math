@@ -31,6 +31,7 @@ module org.meeuw.math.abstractalgebra.test {
     exports org.meeuw.math.abstractalgebra.test;
     exports org.meeuw.math.numbers.test;
     exports org.meeuw.util.test;
+    exports org.meeuw.assertj;
 
 }
 
