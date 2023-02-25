@@ -18,11 +18,11 @@ package org.meeuw.math.uncertainnumbers.field;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
-import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -56,7 +56,7 @@ public class UncertainDoubleElement
                 return ONE;
             }
             if (exponent < 0) {
-                throw new IllegalPowerException(this + "^" + exponent);
+                throw new IllegalPowerException(this + TextUtils.superscript(  exponent));
             }
             return this;
         }
@@ -202,7 +202,11 @@ public class UncertainDoubleElement
 
     @Override
     public UncertainDoubleElement reciprocal() {
-        return pow(-1);
+        try {
+            return pow(-1);
+        } catch (IllegalPowerException illegalPowerException) {
+            throw new ReciprocalException(illegalPowerException.getMessage());
+        }
     }
 
     @Override
@@ -233,8 +237,11 @@ public class UncertainDoubleElement
     }
 
     @Override
-    public UncertainReal pow(UncertainReal exponent) {
+    public UncertainReal pow(UncertainReal exponent) throws OverflowException {
         double result = Math.pow(value, exponent.doubleValue());
+        if (Double.isInfinite(result)) {
+            throw new OverflowException("Result of " + this + "^" + exponent + " resulted " + result);
+        }
         return of(
             result,
             DoubleUtils.max(

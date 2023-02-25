@@ -27,8 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.meeuw.math.Example;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NotStreamable;
-import org.meeuw.math.exceptions.OperationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -143,15 +142,16 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
-            } catch (OperationException ae) {
+            } catch (OperationException | OverflowException ae) {
                 if (error.incrementAndGet() < 3L) {
                     getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {
                     getLogger().debug(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 }
-                assertThat(o.isAlgebraicFor(e1))
-                    .withFailMessage(ae.getClass().getName() + ":" + ae.getMessage() + " but %s is algebraic for %s %s", o, e1.getClass().getSimpleName(), e1).isFalse();
-
+                if (! (ae instanceof OverflowException)) {
+                    assertThat(o.isAlgebraicFor(e1))
+                        .withFailMessage(ae.getClass().getName() + ":" + ae.getMessage() + " but %s is algebraic for %s %s", o, e1.getClass().getSimpleName(), e1).isFalse();
+                }
                 Method methodFor = o.getMethodFor(e1);
                 assertThat(Arrays.stream(methodFor.getExceptionTypes()).filter(e -> e.isInstance(ae)).findFirst()).withFailMessage(ae + " is not in throws of " + methodFor).isNotEmpty();
 

@@ -18,13 +18,13 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.exceptions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.data.Offset.offset;
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 
 /**
  * @author Michiel Meeuwissen
@@ -66,19 +66,26 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
                 assertThatThrownBy(() -> {
                         getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent));
                     }
-                ).isInstanceOfAny(IllegalPowerException.class, DivisionByZeroException.class);
+                ).isInstanceOfAny(
+                    OverflowException.class,
+                    DivisionByZeroException.class
+                );
                 return;
             }
         }
-
-        E pow = e.pow(exponent);
-        double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
-        assertThat(pow.doubleValue())
-            //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
-            .isCloseTo(expected, offset(
-                1000 * Math.max(
-                    uncertaintyForDouble(pow.doubleValue()),
-                    uncertaintyForDouble(expected)))
-            );
+        try {
+            E pow = e.pow(exponent);
+            getLogger().info("{} = {}", POWER.stringify(e, exponent), pow);
+            double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
+            assertThat(pow.doubleValue())
+                //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
+                .isCloseTo(expected, offset(
+                    1000 * Math.max(
+                        uncertaintyForDouble(pow.doubleValue()),
+                        uncertaintyForDouble(expected)))
+                );
+        } catch (OverflowException illegalPowerException) {
+            getLogger().warn("{} = {}", POWER.stringify(e, exponent), illegalPowerException.getMessage());
+        }
     }
 }
