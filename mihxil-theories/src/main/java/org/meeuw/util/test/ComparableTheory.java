@@ -97,10 +97,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
     /**
      * The implementor must also ensure that the relation is transitive: (x.compareTo(y)==0 && y.compareTo(z)==0) implies x.compareTo(z)==0.
      */
-    @Property(maxDiscardRatio = 10_000)
+    @Property
     default void compareToIsTransitiveEquals(
         @ForAll("compareToEqualsDatapoints3") Tuple3<E, E, E> tuple) {
-        System.out.println("" + tuple);
         assertThat(tuple.get1().compareTo(tuple.get2())).isEqualTo(0);
         assertThat(tuple.get2().compareTo(tuple.get3())).isEqualTo(0);
         assertThat(tuple.get1().compareTo(tuple.get3())).isEqualTo(0);
