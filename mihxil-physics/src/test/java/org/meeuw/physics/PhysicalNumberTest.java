@@ -51,13 +51,13 @@ class PhysicalNumberTest implements
     @Test
     public void add() {
         // tag::add[]
-        PhysicalNumber twoLightyears = new Measurement(2, 0.1, ly);        //
+        PhysicalNumber twoLightYear = new Measurement(2, 0.1, ly);        //
         PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
 
-        assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
-        assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.13 pc");
-        assertThat(oneParsec.plus(twoLightyears).eq(twoLightyears.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
-        log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
+        assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
+        assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo("1.61 ± 0.13 pc");
+        assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
+        log.info("{} + {} = {}", twoLightYear, oneParsec, twoLightYear.plus(oneParsec));
         // end::add[]
 
     }
