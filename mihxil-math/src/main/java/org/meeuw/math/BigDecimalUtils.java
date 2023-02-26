@@ -3,6 +3,8 @@ package org.meeuw.math;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import org.meeuw.math.exceptions.IllegalPowerException;
+
 import static java.math.BigDecimal.*;
 
 /**
@@ -44,6 +46,9 @@ public final class BigDecimalUtils {
     public static BigDecimal pow(BigDecimal base, long e, MathContext context) {
         BigDecimal result = ONE;
         if (base.equals(ZERO)) {
+            if (e <= 0) {
+                throw new IllegalPowerException(String.format("Cannot %s to negative power %s", base, e));
+            }
             return result;
         }
         // branching will make this slow
