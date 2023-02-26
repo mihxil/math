@@ -26,6 +26,7 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
@@ -240,12 +241,16 @@ public class RealNumber
 
     @Override
     @NonAlgebraic
-    public RealNumber pow(RealNumber exponent) throws DivisionByZeroException {
+    public RealNumber pow(RealNumber exponent) throws IllegalPowerException, OverflowException {
         if (value == 0 && exponent.isNegative()) {
-            throw new DivisionByZeroException("0 ^ " + exponent);
+            throw new IllegalPowerException("0 ^ " + exponent);
+        }
+        double result = Math.pow(value, exponent.value);
+        if (Double.isInfinite(result)){
+            throw new OverflowException(POWER.stringify(this, exponent) + " -> " + result);
         }
         return immutableInstanceOfPrimitives(
-            Math.pow(value, exponent.value),
+            result,
             uncertainty
         );
     }
