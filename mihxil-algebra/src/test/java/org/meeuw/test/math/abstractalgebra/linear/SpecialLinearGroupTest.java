@@ -152,7 +152,8 @@ public class SpecialLinearGroupTest {
         @Override
         public Arbitrary<SpecialLinearMatrix<IntegerElement>> elements() {
             SpecialLinearGroup<IntegerElement> e = SpecialLinearGroup.of(3, Integers.INSTANCE);
-            return Arbitraries.randomValue(e::nextRandom);
+            return Arbitraries
+                .randomValue(e::nextRandom);
         }
     }
 

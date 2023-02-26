@@ -43,7 +43,7 @@ jobs:
           # number of lines is exit code
           exit  $(cat report.txt | wc -l)
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.4.1
+        uses: EnricoMi/publish-unit-test-result-action@v2.4.2
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
