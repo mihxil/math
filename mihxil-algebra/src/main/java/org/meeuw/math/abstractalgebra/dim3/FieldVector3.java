@@ -98,7 +98,11 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
 
     @Override
     public FieldVector3<E> plus(FieldVector3<E> summand) {
-        return of(x.plus(summand.x), y.plus(summand.y), z.plus(summand.z));
+        return of(
+            x.plus(summand.x),
+            y.plus(summand.y),
+            z.plus(summand.z)
+        );
     }
 
     @Override
@@ -148,6 +152,15 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
         return x.equals(vector3.x) &&
             y.equals(vector3.y) &&
             z.equals(vector3.z);
+    }
+
+    @Override
+    public boolean eq(FieldVector3<E> o) {
+        if (this == o) return true;
+
+        return x.eq(o.x) &&
+            y.eq(o.y) &&
+            z.eq(o.z);
     }
 
     @Override

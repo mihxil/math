@@ -18,6 +18,7 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -53,7 +54,7 @@ public interface NumberOperations<N extends Number> {
     @SuppressWarnings("unchecked")
     N multiply(N... n1);
 
-    UncertainNumber<N> ln(N n);
+    UncertainNumber<N> ln(N n) throws IllegalLogarithmException;
 
     default N multiply(N n1, int n2) {
         N result = n1;

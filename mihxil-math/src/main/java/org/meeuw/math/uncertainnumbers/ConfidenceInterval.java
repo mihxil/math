@@ -60,7 +60,8 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
     }
 
     public boolean contains(N value) {
-        return predicate.test(value);
+        boolean r = predicate.test(value);
+        return r;
     }
 
     @Override

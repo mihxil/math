@@ -19,6 +19,7 @@ import java.io.Serializable;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
 
 /**
  * @author Michiel Meeuwissen
@@ -98,7 +99,7 @@ public abstract class CompleteComplexNumber<
      */
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logarithm of zero")
-    public S ln() {
+    public S ln() throws IllegalLogarithmException {
         return _of(
             abs().ln(),
             getStructure().atan2(imaginary, real)

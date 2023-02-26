@@ -68,7 +68,7 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
                     }
                 ).isInstanceOfAny(
                     OverflowException.class,
-                    DivisionByZeroException.class
+                    IllegalPowerException.class
                 );
                 return;
             }

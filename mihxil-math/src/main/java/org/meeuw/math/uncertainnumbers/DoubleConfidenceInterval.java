@@ -59,7 +59,8 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
         return new ConfidenceInterval<>(DoubleOperations.INSTANCE, low, high);
     }
     public boolean contains(double value) {
-        return this.low <= value && value <= this.high;
+        boolean r = this.low <= value && value <= this.high;
+        return r;
     }
 
     @Override

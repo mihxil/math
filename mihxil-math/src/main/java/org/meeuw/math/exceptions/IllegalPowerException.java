@@ -16,7 +16,7 @@
 package org.meeuw.math.exceptions;
 
 /**
- * Gets thrown if trying to take an impossible power.
+ * Gets thrown if trying to take an impossible power. E.g. a negative power of exactly zero.
  * @since 0.9
  */
 public class IllegalPowerException extends OperationException {

@@ -10,6 +10,7 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
         super(o, AlgebraicElementAssert.class);
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E other) {
         if (!actual.eq(other)) {
             throw new AssertionError(actual + " ≉ " + other);
