@@ -15,25 +15,45 @@
  */
 package org.meeuw.test.math;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
-
-import org.junit.jupiter.api.Test;
-
-import org.meeuw.math.CollectionUtils;
-
+import lombok.SneakyThrows;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.Test;
+import org.meeuw.math.CollectionUtils;
 
 public class CollectionUtilsTest {
 
     @Test
-    public void memoize() {
-        AtomicInteger value = new AtomicInteger(0);
+    public void memoize() throws ExecutionException, InterruptedException {
+        Supplier<Integer> sup = new Supplier<Integer>() {
+            AtomicInteger i = new AtomicInteger(0);
+            @SneakyThrows
+            @Override
+            public Integer get() {
+                Thread.sleep(100);
+                return i.incrementAndGet();
+            }
+        };
 
-        Supplier<Integer> i = CollectionUtils.memoize(value::get);
-        assertThat(i.get()).isEqualTo(0);
-        assertThat(i.get()).isEqualTo(0);
-        value.set(5);
-        assertThat(i.get()).isEqualTo(0);
+        Supplier<Integer> memoize = CollectionUtils.memoize(sup);
+        ExecutorService executor = Executors.newFixedThreadPool(10);
+
+        List<Future<Integer>> f = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            f.add(executor.submit(new Callable<Integer>() {
+                @Override
+                public Integer call() {
+                    return memoize.get();
+                }
+            }));
+        }
+        for (Future<Integer> fut : f) {
+            assertThat(fut.get()).isEqualTo(1);
+        }
+        executor.shutdown();
     }
 }
