@@ -8,6 +8,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
+ * Tests basic properties for {@link Comparable} objects.
+ * <ul>
+ * <li>Normally, {@link #equalsConsistentWithComparable(Tuple2) equals must be consistent with comparable}</li>
+ * <li>{@link #compareToNull(Comparable) comparing to null should raise NullPointerException}</li>
+ * <li>{@link #compareToIsAntiCommutative(Comparable, Comparable) compare to is anti-commutative}</li>
+ * <li>{@code compareTo} is also transitive ({@link #compareToIsTransitiveBigger}, {@link #compareToIsTransitiveSmaller}, {@link #compareToIsTransitiveEquals})</li>
  * @author Michiel Meeuwissen
  * @since 0.10
  */
@@ -51,6 +57,10 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
         assertThat(x.compareTo(z)).isGreaterThan(0);
     }
+
+    /**
+     * The implementor must also ensure that the relation is transitive: (x.compareTo(y)<0 && y.compareTo(z)<0) implies x.compareTo(z)<0.
+     */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveSmaller(
         @ForAll(DATAPOINTS) E x,
@@ -63,6 +73,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
           assertThat(x.compareTo(z)).isLessThan(0);
     }
 
+    /**
+     * The implementor must also ensure that the relation is transitive: (x.compareTo(y)==0 && y.compareTo(z)==0) implies x.compareTo(z)==0.
+     */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveEquals(
         @ForAll(DATAPOINTS) E x,
