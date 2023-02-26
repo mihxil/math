@@ -114,31 +114,44 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
             .sampleStream()
             .limit(5000)
             .collect(Collectors.toList());
-        final java.util.Map<Integer, List<E>> map = new HashMap<>();
         final List<E> check = new ArrayList<>();
         final List<Tuple2<E, E>> set2ToReturn = new ArrayList<>();
         final List<Tuple3<E, E, E>> setToReturn = new ArrayList<>();
         SAMPLES:
-        for (E e : samples) {
+        for (E sample : samples) {
             Iterator<E> i = check.iterator();
-            while(i.hasNext()) {
+            while (i.hasNext()) {
                 E toCheck = i.next();
-                if (toCheck.compareTo(e) == 0) {
-                    set2ToReturn.add(Tuple.of(toCheck, e));
-                    i.remove();
-                    continue SAMPLES;
+                try {
+
+                    if (toCheck.compareTo(sample) == 0) {
+                        set2ToReturn.add(Tuple.of(toCheck, sample));
+                        i.remove();
+                        continue SAMPLES;
+                    }
+                } catch (ClassCastException | NotComparableException exception) {
+                    // ignore
                 }
             }
             Iterator<Tuple2<E, E>> j = set2ToReturn.iterator();
-            while(j.hasNext()) {
+            while (j.hasNext()) {
                 Tuple2<E, E> toCheck = j.next();
-                if (toCheck.get2().compareTo(e) == 0) {
-                    setToReturn.add(Tuple.of(toCheck.get1(), toCheck.get2(), e));
-                    j.remove();
-                    continue SAMPLES;
+                try {
+                    if (toCheck.get2().compareTo(sample) == 0) {
+                        setToReturn.add(Tuple.of(toCheck.get1(), toCheck.get2(), sample));
+                        if (setToReturn.size() >= 10) {
+                            break SAMPLES;
+                        }
+                        j.remove();
+                        break;
+                    }
+                } catch (ClassCastException | NotComparableException exception) {
+                    // ignore
                 }
             }
-            check.add(e);
+
+
+            check.add(sample);
         }
         return Arbitraries.of(setToReturn);
     }
