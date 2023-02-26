@@ -21,12 +21,13 @@ import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 import org.meeuw.math.exceptions.NotComparableException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import org.meeuw.util.test.ComparableTheory;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface StrictlyOrderedTheory<E extends StrictlyOrdered<E>> extends ElementTheory<E> {
+public interface StrictlyOrderedTheory<E extends StrictlyOrdered<E>> extends ElementTheory<E>, ComparableTheory<E> {
 
     @Property
     default void orderedReflexive(@ForAll(ELEMENTS) E e) {

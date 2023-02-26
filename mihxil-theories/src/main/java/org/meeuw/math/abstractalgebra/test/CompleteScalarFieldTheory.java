@@ -16,22 +16,22 @@
 package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
-
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.exceptions.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.data.Offset.offset;
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.numbers.test.ScalarTheory;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>> extends
-    CompleteFieldTheory<E> {
+public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>>
+    extends CompleteFieldTheory<E>, ScalarTheory<E> {
 
     @Property
     default void sqrt(@ForAll(ELEMENTS) E e) {

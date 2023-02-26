@@ -39,9 +39,8 @@ public abstract class AbstractUncertainDouble
         if (equals(o)) {
             return 0;
         }
-        return Double.compare(doubleValue(), o.doubleValue());
+        return UncertainDouble.super.compareTo(o);
     }
-
 
     @Override
     public int intValue() {
