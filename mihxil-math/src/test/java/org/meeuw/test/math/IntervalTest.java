@@ -76,11 +76,15 @@ class IntervalTest {
         assertThat(i2.test(-10d)).isTrue();
         assertThat(i2.test(-11d)).isFalse();
         Interval<Double> i3 = Interval.open(-10d, 10d);
+        assertThat(i3.test(-9.99999d)).isTrue();
+        assertThat(i3.test(-10d)).isFalse();
 
 
         SortedSet<Interval<Double>> set = new TreeSet<>(Interval.lowerEndPointComparator());
         set.addAll(Arrays.asList(i2, i1, i3, i0));
         assertThat(set).containsExactly(i0, i1, i2, i3);
+
+
     }
 
 
