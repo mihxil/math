@@ -12,6 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class UniqueClockTest {
 
     @Test
+    void systemUtc() {
+        Instant i = UniqueClock.systemUTC().instant();
+
+        assertThat(i).isBeforeOrEqualTo(Instant.now());
+    }
+
+    @Test
     void instantsAlwaysAfter() {
         TestClock clock = new TestClock();
         UniqueClock uniqueClock = new UniqueClock(clock);

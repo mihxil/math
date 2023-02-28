@@ -5,15 +5,28 @@ import java.time.*;
 /**
  * A clock that ticks uniquely. Every call to {@link #instant()} will result an {@link Instant} at least 1 nanosecond after the previous call to it.
  * <p>
- * If no nanosecond has passed since the previous call, an extra nanosecond will be implicitly added, so {@link #instant()} may actually be bit in the future.
+ * If no nanosecond has passed since the previous call, an extra nanosecond will be implicitly added, so {@link #instant()} may actually be a bit in the future.
  *
  * @author Michiel Meeuwissen
  * @since 0.10
  */
 public class UniqueClock extends Clock {
 
+    /**
+     * A {@link UniqueClock} based on {@link Clock#systemUTC()}
+     */
+    public static UniqueClock systemUTC() {
+        return new UniqueClock(Clock.systemUTC());
+    }
+
     private final Clock baseClock;
     private Instant previousAnswer = Instant.EPOCH;
+
+    /**
+     * Creates a new {@link UniqueClock} based on another {@link Clock}
+     *
+     * @param baseClock The clock to base this clock on.
+     */
 
     public UniqueClock(Clock baseClock) {
         this.baseClock = baseClock;
