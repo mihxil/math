@@ -1,12 +1,14 @@
 package org.meeuw.math.time;
 
 import java.time.*;
+import lombok.Getter;
 
 /**
  * A clock that ticks uniquely. Every call to {@link #instant()} will result an {@link Instant} at least 1 nanosecond after the previous call to it.
  * <p>
- * If no nanosecond has passed since the previous call, an extra nanosecond will be implicitly added, so {@link #instant()} may actually be a bit in the future.
- *
+ * If the actual current time (according to the {@link #getBaseClock() base clock}) is not at least one nanosecond after the result of the previous call, one nanosecond will be added to this previous call result, and <em>that</em> will be returned. So this final result may actually be a bit in the future.
+ * <p>
+ * This also means that this clock is not fit to be called more often than a billion (10<sup>9</sup>) times per second or so. because then it would get substantially late. That would be <em>very</em> often though, and for more realistic call rates, it will just now and then be a nanosecond or two late.
  * @author Michiel Meeuwissen
  * @since 0.10
  */
@@ -19,6 +21,7 @@ public class UniqueClock extends Clock {
         return new UniqueClock(Clock.systemUTC());
     }
 
+    @Getter
     private final Clock baseClock;
     private Instant previousAnswer = Instant.EPOCH;
 
