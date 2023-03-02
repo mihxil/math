@@ -32,7 +32,8 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
  * @since 0.4
  * @param <N> The {@link Number} implementation this is based on
  */
-public interface UncertainNumber<N extends Number> extends Uncertain {
+public interface UncertainNumber<N extends Number>
+    extends Uncertain {
 
     N getValue();
 

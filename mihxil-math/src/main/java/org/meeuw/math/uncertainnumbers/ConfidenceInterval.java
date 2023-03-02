@@ -19,6 +19,7 @@ import lombok.Getter;
 
 import java.util.function.Predicate;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.numbers.NumberOperations;
 
 /**
@@ -33,8 +34,11 @@ import org.meeuw.math.numbers.NumberOperations;
 @Getter
 public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 
+    @NonNull
     private final N low;
+    @NonNull
     private final N high;
+    @NonNull
     private final Predicate<N> predicate;
 
     /**
@@ -60,8 +64,7 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
     }
 
     public boolean contains(N value) {
-        boolean r = predicate.test(value);
-        return r;
+        return predicate.test(value);
     }
 
     @Override

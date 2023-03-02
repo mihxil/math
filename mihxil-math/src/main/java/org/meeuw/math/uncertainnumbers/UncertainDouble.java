@@ -19,10 +19,10 @@ import java.util.OptionalDouble;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.abstractalgebra.WithDoubleOperations;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.exceptions.WeighingExactValuesException;
 import org.meeuw.math.numbers.DoubleOperations;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * A number with an uncertainty {@link #doubleUncertainty()}
@@ -39,10 +39,10 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public interface UncertainDouble
     <SELF extends UncertainDouble<SELF>>
     extends
-    UncertainScalar<Double, SELF> {
+    UncertainScalar<Double, SELF>,
+    WithDoubleOperations<SELF> {
 
 
-    double NaN_EPSILON = 0.001;
     double EXACT = 0d;
 
 
@@ -93,9 +93,6 @@ public interface UncertainDouble
         return doubleUncertainty() == EXACT;
     }
 
-    default SELF dividedBy(double divisor) {
-        return times(1d / divisor);
-    }
 
     default SELF plus(double summand) {
         return immutableInstanceOfPrimitives(summand + doubleValue(), doubleUncertainty());
@@ -105,13 +102,6 @@ public interface UncertainDouble
         return plus(-1d * subtrahend);
     }
 
-    /**
-     * @deprecated Use {@link #weightedAverage(UncertainDouble)}
-     */
-    @Deprecated
-    default SELF combined(UncertainReal m) {
-        return weightedAverage(m);
-    }
     /**
      * @param combinand  another uncertain real to combine with this one
      * @return a new uncertain number, combining this one with another one, representing a weighted average
@@ -161,6 +151,7 @@ public interface UncertainDouble
      * @param multiplier a double to multiply this with
      * @return a new {@link UncertainDouble} representing a multiple of this one.
      */
+    @Override
     default SELF times(double multiplier) {
         return immutableInstanceOfPrimitives(multiplier * doubleValue(),
             Math.abs(multiplier) * doubleUncertainty());
@@ -210,28 +201,6 @@ public interface UncertainDouble
     @Override
     default SELF abs() {
         return immutableInstanceOfPrimitives(Math.abs(doubleValue()), doubleUncertainty());
-    }
-
-    @SuppressWarnings("unchecked")
-    default boolean eq(Object value, double sds) {
-        if (this == value) return true;
-        if (! (value instanceof UncertainDouble)) {
-            return false;
-        }
-        SELF other = (SELF) value;
-        if (Double.isNaN(doubleValue())) {
-            return Double.isNaN(other.doubleValue());
-        }
-        if (Double.isNaN(doubleUncertainty()) && Double.isNaN(other.doubleUncertainty())) {
-            return toString().equals(other.toString());
-
-        }
-        return getConfidenceInterval(sds).contains(other.doubleValue())
-            ||  other.getConfidenceInterval(sds).contains(doubleValue());
-    }
-
-    default DoubleConfidenceInterval getConfidenceInterval(double sds) {
-        return DoubleConfidenceInterval.of(doubleValue(), doubleUncertainty(), sds);
     }
 
     @Override

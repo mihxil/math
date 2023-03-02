@@ -43,7 +43,7 @@ public class ImmutableUncertainNumber<N extends Number>
     @With
     private final String unitsAsString;
 
-    public static <M extends java.lang.Number> ImmutableUncertainNumber<M> of(
+    public static <M extends Number> ImmutableUncertainNumber<M> of(
         M value, Supplier<M> uncertainty) {
         return new ImmutableUncertainNumber<>(value, uncertainty);
     }
@@ -64,13 +64,11 @@ public class ImmutableUncertainNumber<N extends Number>
     }
 
 
-
     @Override
     public boolean strictlyEquals(Object o) {
         if (! (o instanceof UncertainNumber<?>)) {
             return false;
-        }
-        UncertainNumber<?> uc = (UncertainNumber<?>) o;
+        }        UncertainNumber<?> uc = (UncertainNumber<?>) o;
         return getValue().equals(uc.getValue());
     }
 
@@ -95,7 +93,6 @@ public class ImmutableUncertainNumber<N extends Number>
         return new ImmutableUncertainNumber<>(
             operations().abs(value), uncertainty, unitsAsString
         );
-
     }
 
 }

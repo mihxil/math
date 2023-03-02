@@ -16,6 +16,7 @@ public class UniqueClock extends Clock {
 
     /**
      * A {@link UniqueClock} based on {@link Clock#systemUTC()}
+     * @since 0.11
      */
     public static UniqueClock systemUTC() {
         return new UniqueClock(Clock.systemUTC());

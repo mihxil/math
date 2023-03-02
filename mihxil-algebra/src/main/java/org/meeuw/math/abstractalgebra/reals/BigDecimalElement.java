@@ -36,7 +36,8 @@ import org.meeuw.math.uncertainnumbers.*;
 public class BigDecimalElement implements
     CompleteScalarFieldElement<BigDecimalElement>,
     MetricSpaceElement<BigDecimalElement, BigDecimalElement>,
-    UncertainNumber<BigDecimal> {
+    UncertainNumber<BigDecimal>,
+    WithDoubleOperations<BigDecimalElement> {
 
     private static final MathContext UNCERTAINTY_MATH_CONTEXT= new MathContext(2, RoundingMode.HALF_UP);
 
@@ -245,6 +246,7 @@ public class BigDecimalElement implements
         );
     }
 
+    @Override
     public BigDecimalElement times(double multiplier) {
         BigDecimal bigMultiplier = BigDecimal.valueOf(multiplier);
         return new BigDecimalElement(

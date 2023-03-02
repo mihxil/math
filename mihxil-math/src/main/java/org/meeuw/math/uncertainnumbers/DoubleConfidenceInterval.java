@@ -33,12 +33,12 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
     private final double high;
 
     /**
-     * @see ConfidenceInterval#of(Number, Number, int)
+     * @see ConfidenceInterval#of(Number, Number, double)
      */
     public static DoubleConfidenceInterval of(double value, double uncertainty, double interval) {
         if (Double.isInfinite(value)) {
             if (Double.isFinite(uncertainty)) {
-                // infinite value, finite uncertainty. So, we just require the value to be infinee too.
+                // infinite value, finite uncertainty. So, we just require the value to be infinite too.
                 return new DoubleConfidenceInterval(value, value);
             } else {
                 // uncertainty is infinite too?
@@ -46,7 +46,8 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
                 return new DoubleConfidenceInterval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
             }
         }
-        double halfRange = Double.isNaN(uncertainty) ? Math.abs(value * UncertainDouble.NaN_EPSILON) : uncertainty * interval;
+        double halfRange = Double.isNaN(uncertainty) ?
+            Math.abs(value) : uncertainty * interval;
         return new DoubleConfidenceInterval(value - halfRange, value + halfRange);
     }
 

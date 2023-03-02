@@ -34,6 +34,9 @@ public class TestClock extends Clock {
 
     private Instant instant;
 
+    /**
+     * A test clock with given {@link ZoneId}, and initial {@link Instant value}
+     */
     public TestClock(@NonNull ZoneId zone, @NonNull Instant instant) {
         this.zone = zone;
         this.instant = instant;
@@ -76,6 +79,10 @@ public class TestClock extends Clock {
         return instant;
     }
 
+    /**
+     * The current {@link LocalDateTime} for the current test clock.
+     * @see LocalDateTime#now(Clock), which would actually be the same.
+     */
     public LocalDateTime localDateTime() {
         return LocalDateTime.ofInstant(instant(), zone);
     }

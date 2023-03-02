@@ -35,6 +35,7 @@ class TestClockTest {
         clock.tick();
         clock.sleep(2000);
         assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.of(2021, 1, 15, 21, 39, 29));
+        assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.now(clock));
         assertThat(clock.getZone().toString()).isEqualTo("UTC");
     }
 
@@ -44,6 +45,7 @@ class TestClockTest {
         assertThat(test.instant()).isEqualTo("2020-02-20T19:20:00Z");
 
         assertThat(TestClock.twentyTwo().instant()).isEqualTo("2200-02-22T21:20:00Z");
-
     }
+
+
 }

@@ -32,7 +32,8 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  */
 public class Vector3 implements
     Vector<Vector3, RealNumber>,
-    WithScalarOperations<Vector3, RealNumber> {
+    WithScalarOperations<Vector3, RealNumber>,
+    WithDoubleOperations<Vector3> {
 
     @With
     final double x;
@@ -94,10 +95,12 @@ public class Vector3 implements
     }
 
 
+    @Override
     public Vector3 times(double multiplier) {
         return of(x * multiplier, y * multiplier, z * multiplier);
     }
 
+    @Override
     public Vector3 dividedBy(double divisor) {
         if (divisor == 0) {
             throw new DivisionByZeroException(this, divisor);

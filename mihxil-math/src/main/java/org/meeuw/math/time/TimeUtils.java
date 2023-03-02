@@ -19,10 +19,25 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+/**
+ * Utilities related to time. Currently, mainly related to <em>rounding</em> times.
+ */
 public final class TimeUtils {
 
     private TimeUtils() {}
 
+    /**
+     * Given a {@code Duration}, returns an 'order of magnitude' that it.
+     * <p>
+     * The first match of
+     * <ul>
+     *     <li>{@link ChronoUnit#DAYS} if the given duration is longer than 2 days</li>
+     *     <li>{@link ChronoUnit#HOURS} if the given duration is longer than 2 hours</li>
+     *     <li>{@link ChronoUnit#MINUTES} if the given duration is longer than 2 minutes</li>
+     *     <li>{@link ChronoUnit#SECONDS} if the given duration is longer than 2 seconds</li>
+     *     <li>{@link ChronoUnit#MILLIS} if the given duration is less than 2 seconds</li>
+     * </ul>
+     */
     public static ChronoUnit orderOfMagnitude(Duration stddev) {
         ChronoUnit order = ChronoUnit.DAYS;
         if (stddev.toDays() < 2) {
@@ -40,6 +55,11 @@ public final class TimeUtils {
         return order;
     }
 
+    /**
+     * Round a duration.
+     * @param duration The duration to round
+     * @param order    The {@link ChronoUnit} to round to
+     */
     public static Duration round(Duration duration, ChronoUnit order) {
         switch(order) {
             case DAYS:
@@ -57,8 +77,15 @@ public final class TimeUtils {
         }
     }
 
+    /**
+     * Round an instant.
+     * @param instant The instant to round
+     * @param order    The {@link ChronoUnit} to round to
+     */
     public static Instant round(Instant instant, ChronoUnit order) {
-         ChronoUnit trunc = ChronoUnit.values()[Math.max(ChronoUnit.MILLIS.ordinal(), Math.min(ChronoUnit.DAYS.ordinal(), order.ordinal() - 1))];
+        ChronoUnit trunc = ChronoUnit.values()[
+             Math.max(ChronoUnit.MILLIS.ordinal(), Math.min(ChronoUnit.DAYS.ordinal(), order.ordinal() - 1))
+             ];
          if (trunc == ChronoUnit.HALF_DAYS) {
              trunc = ChronoUnit.HOURS;
          }

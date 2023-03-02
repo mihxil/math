@@ -18,8 +18,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.abstractalgebra.WithScalarOperations;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -35,7 +34,7 @@ import org.meeuw.math.validation.Square;
  * @since 0.4
  */
 public strictfp class Matrix3 implements
-    MultiplicativeGroupElement<Matrix3>, WithScalarOperations<Matrix3, RealNumber> {
+    MultiplicativeGroupElement<Matrix3>, WithScalarOperations<Matrix3, RealNumber>, WithDoubleOperations<Matrix3> {
 
 
     final double[][] values;
@@ -107,11 +106,13 @@ public strictfp class Matrix3 implements
         return result;
     }
 
+    @Override
     public Matrix3 times(double multiplier) {
         return Matrix3.of(timesDouble(multiplier));
     }
+    @Override
     public Matrix3 dividedBy(double multiplier) {
-        return Matrix3.of(timesDouble(1 / multiplier));
+        return Matrix3.of(timesDouble(1d / multiplier));
     }
 
     @Override
