@@ -31,8 +31,8 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
     MultiplicativeMonoid<E> getStructure();
 
     /**
-     * if multiplication is defined, then so is exponentiation, as long as the exponent is non-negative
-     *
+     * if multiplication is defined, then so is integer exponentiation, as long as the exponent is non-negative
+     * <p>
      * This default implementation is based on {@link MultiplicativeSemiGroupElement#pow(int)}
      * If the argument is {@code 0}, then return {@link #getStructure()}{@link MultiplicativeMonoid#one()}
      */

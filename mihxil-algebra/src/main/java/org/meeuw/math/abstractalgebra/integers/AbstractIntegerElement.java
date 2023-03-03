@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -76,7 +77,7 @@ public abstract class AbstractIntegerElement<
         return structure.of(value);
     }
 
-    public E pow(int n) {
+    public E pow(@Positive int n) {
         try {
             return with(value.pow(n));
         } catch (ArithmeticException ae) {

@@ -13,15 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math;
 
 /**
- * Some structures can naturally be multiplied by a scalar.
+ * Some structures can naturally be {@link #times(Object) multiplied} (and {@link #dividedBy(Object) divided by}) by a scalar.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> Self reference
  * @param <S> The type of the scalars
+ * @see WithDoubleOperations
  */
 public interface WithScalarOperations<E, S> {
 

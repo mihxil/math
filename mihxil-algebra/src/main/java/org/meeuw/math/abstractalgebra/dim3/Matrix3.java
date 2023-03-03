@@ -18,6 +18,8 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;

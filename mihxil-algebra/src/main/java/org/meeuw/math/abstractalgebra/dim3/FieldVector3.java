@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;

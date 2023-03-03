@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.Equivalence;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;

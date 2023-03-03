@@ -17,7 +17,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.WithScalarOperations;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -19,7 +19,7 @@ import java.util.OptionalDouble;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
-import org.meeuw.math.abstractalgebra.WithDoubleOperations;
+import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.exceptions.WeighingExactValuesException;
 import org.meeuw.math.numbers.DoubleOperations;

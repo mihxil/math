@@ -20,6 +20,8 @@ import lombok.With;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;

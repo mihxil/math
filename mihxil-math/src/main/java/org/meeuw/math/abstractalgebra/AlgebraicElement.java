@@ -58,7 +58,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      * <ol>
      *    <li>its argument is always inside the algebra (contrary to {@link Object#equals(Object)}, which accepts <em>any</em> object</li>
      *    <li>it may not be fully transitive (in case of uncertain values)</li>
-     *    <li>for uncertain values it is more consistent, because e.g. the inverse of the inverse will return an object that is 'loosely' equal to the original object</li>
+     *    <li>for uncertain values it is more consistent than {@code Object#equals|}, because e.g. the inverse of the inverse will return an object that is 'loosely' equal to the original object</li>
      * </ol>
      * @see org.meeuw.math.operators.BasicComparisonOperator#EQ
      * @return true if the other object is equal to this one

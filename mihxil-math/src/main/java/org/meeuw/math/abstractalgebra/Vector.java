@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.WithScalarOperations;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4

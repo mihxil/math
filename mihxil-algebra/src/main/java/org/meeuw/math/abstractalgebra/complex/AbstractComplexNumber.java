@@ -19,6 +19,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 

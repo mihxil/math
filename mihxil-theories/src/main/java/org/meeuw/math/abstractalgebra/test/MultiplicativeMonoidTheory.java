@@ -44,6 +44,7 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
     default void pow0(
          @ForAll(ELEMENTS) E v1
     )  {
+
         try {
             assertThat(v1.pow(0))
                 .usingComparator(AlgebraicElement.eqComparator())
