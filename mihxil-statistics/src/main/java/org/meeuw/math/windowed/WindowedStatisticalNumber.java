@@ -18,6 +18,7 @@ package org.meeuw.math.windowed;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -31,7 +32,9 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @since 0.4
  */
 public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N, UncertainReal>>
-    extends Windowed<T>  {
+
+    extends Windowed<T>
+    implements Supplier<UncertainReal> {
 
 
     protected WindowedStatisticalNumber(
@@ -53,6 +56,11 @@ public abstract class WindowedStatisticalNumber<N extends Number, T extends Stat
             result.combine(b[i]);
         }
         return result;
+    }
+
+    @Override
+    public UncertainReal get() {
+        return getWindowValue().immutableCopy();
     }
 
 

@@ -143,7 +143,6 @@ class PhysicalNumberTest implements
                     config.add(measurement(0, 0.001, mPerS));
                     config.add(PhysicalConstant.c);
                 });
-
     }
 
     @Override

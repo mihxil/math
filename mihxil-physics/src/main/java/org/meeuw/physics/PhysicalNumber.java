@@ -20,6 +20,7 @@ import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
@@ -59,46 +60,51 @@ public abstract class PhysicalNumber
     Scalar<PhysicalNumber>,
     Comparable<PhysicalNumber>,
     SignedNumber<PhysicalNumber>,
-    WithUnits {
+    WithUnits,
+    Supplier<UncertainReal> {
 
-    @Getter
-    protected final UncertainReal wrapped;
+    protected final Supplier<UncertainReal> wrapped;
 
     @Getter
     protected final Units units;
 
     PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
+        this(() -> wrapped, units);
+    }
+
+    PhysicalNumber(@NonNull Supplier<UncertainReal> wrapped, @NonNull Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }
 
+
     @Override
     public long longValue() {
-        return wrapped.longValue();
+        return get().longValue();
     }
     @Override
     public int intValue() {
-        return wrapped.intValue();
+        return get().intValue();
     }
 
     @Override
     public float floatValue() {
-        return wrapped.floatValue();
+        return get().floatValue();
     }
 
     @Override
     public double doubleValue() {
-        return wrapped.doubleValue();
+        return get().doubleValue();
     }
 
     @Override
     public BigDecimal bigDecimalValue() {
-        return wrapped.bigDecimalValue();
+        return get().bigDecimalValue();
     }
 
     @Override
     public double doubleUncertainty() {
-        return wrapped.doubleUncertainty();
+        return get().doubleUncertainty();
     }
 
     @Override
@@ -106,24 +112,24 @@ public abstract class PhysicalNumber
         if (combinand instanceof PhysicalNumber) {
             combinand = ((PhysicalNumber) combinand).toUnits(this.getUnits());
         }
-        return copy(wrapped.weightedAverage(combinand), units);
+        return copy(get().weightedAverage(combinand), units);
     }
 
     @Override
     public PhysicalNumber times(double multiplier) {
-        return copy(wrapped.times(multiplier), units);
+        return copy(get().times(multiplier), units);
     }
 
     @Override
     public PhysicalNumber times(PhysicalNumber multiplier) {
         return copy(
-            wrapped.times(multiplier.wrapped),
+            get().times(multiplier.get()),
             Units.forMultiplication(units, multiplier.getUnits())
         );
     }
 
     public PhysicalNumber times(UncertainReal multiplier) {
-        return copy(wrapped.times(multiplier), units);
+        return copy(get().times(multiplier), units);
     }
 
     @Override
@@ -135,7 +141,7 @@ public abstract class PhysicalNumber
     @Override
     public PhysicalNumber pow(int exponent) {
         return copy(
-            wrapped.pow(exponent),
+            get().pow(exponent),
             Units.forExponentiation(units, exponent));
     }
 
@@ -150,7 +156,7 @@ public abstract class PhysicalNumber
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="dimensions must match")
     public PhysicalNumber plus(PhysicalNumber summand) throws DimensionsMismatchException {
         summand = summand.toUnits(this.getUnits());
-        return copy(wrapped.plus(summand.wrapped), Units.forAddition(units, summand.getUnits()));
+        return copy(get().plus(summand.get()), Units.forAddition(units, summand.getUnits()));
     }
 
     @Override
@@ -174,7 +180,7 @@ public abstract class PhysicalNumber
             return this;
         }
         UncertainReal factor = getUnits().conversionFactor(target);
-        return copy(wrapped.times(factor), target);
+        return copy(get().times(factor), target);
     }
 
     public PhysicalNumber toUnits(Unit... units) throws DimensionsMismatchException {
@@ -201,7 +207,7 @@ public abstract class PhysicalNumber
 
     @Override
     public PhysicalNumber plus(double summand) {
-        return copy(wrapped.plus(summand), units);
+        return copy(get().plus(summand), units);
     }
 
     protected abstract PhysicalNumber copy(UncertainReal wrapped, Units units);
@@ -219,7 +225,7 @@ public abstract class PhysicalNumber
 
     @Override
     public int signum() {
-        return wrapped.signum();
+        return get().signum();
     }
 
     @Override
@@ -228,7 +234,7 @@ public abstract class PhysicalNumber
         if (isPositive()) {
             return this;
         } else {
-            return new Measurement(wrapped.abs(), getUnits());
+            return new Measurement(get().abs(), getUnits());
         }
     }
 
@@ -243,7 +249,7 @@ public abstract class PhysicalNumber
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);
-        return wrapped.eq(sameUnits.wrapped, ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        return get().eq(sameUnits.get(), ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override
@@ -264,6 +270,11 @@ public abstract class PhysicalNumber
         } else {
             return eq((PhysicalNumber) o);
         }
+    }
+
+    @Override
+    public UncertainReal get() {
+        return wrapped.get();
     }
 
     @Override

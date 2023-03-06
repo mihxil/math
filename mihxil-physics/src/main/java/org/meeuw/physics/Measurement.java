@@ -17,6 +17,8 @@ package org.meeuw.physics;
 
 import lombok.NonNull;
 
+import java.util.function.Supplier;
+
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -59,6 +61,15 @@ public class Measurement extends PhysicalNumber {
         return new Measurement(value, units);
     }
 
+    /**
+     * Just a shortcut to {@link #Measurement(UncertainReal, Units)}, which can be statically imported.
+     * @see #measurement(double, double, Units)
+     */
+    public static Measurement measurement(Supplier<UncertainReal> value, Units units) {
+        return new Measurement(value, units);
+    }
+
+
     public Measurement(double value, double uncertainty, Units units) {
         this(uncertain(value, uncertainty), units);
     }
@@ -68,6 +79,10 @@ public class Measurement extends PhysicalNumber {
     }
 
     public Measurement(UncertainReal wrapped, Units units) {
+        super(wrapped, units);
+    }
+
+    public Measurement(Supplier<UncertainReal> wrapped, Units units) {
         super(wrapped, units);
     }
 
@@ -86,8 +101,6 @@ public class Measurement extends PhysicalNumber {
     public Measurement(UncertainDouble<?> wrapped, Units units) {
         super(uncertain(wrapped.doubleValue(), wrapped.doubleUncertainty()), units);
     }
-
-
 
     @Override
     protected Measurement copy(@NonNull UncertainReal wrapped, @NonNull Units units) {

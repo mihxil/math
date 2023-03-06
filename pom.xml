@@ -17,6 +17,7 @@
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
+    <module>test</module>
   </modules>
 
   <properties>
@@ -397,9 +398,6 @@
           <version>${jacoco.version}</version>
           <configuration>
             <append>true</append>
-            <excludes>
-              <exclude>JAVAC.ASSERT</exclude>
-            </excludes>
           </configuration>
         </plugin>
         <plugin>
@@ -431,9 +429,6 @@
                 </goals>
                 <configuration>
                   <append>true</append>
-                  <excludes>
-                    <exclude>JAVAC.ASSERT</exclude>
-                  </excludes>
                 </configuration>
               </execution>
               <execution>

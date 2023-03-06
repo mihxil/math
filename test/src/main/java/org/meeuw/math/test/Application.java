@@ -9,6 +9,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.math.windowed.WindowedStatisticalLong;
+import org.meeuw.physics.*;
 
 
 public class Application {
@@ -36,6 +37,7 @@ public class Application {
         WindowedStatisticalLong windowedStatisticalLong = WindowedStatisticalLong
             .builder().build();
         Random random = new Random();
+        Measurement m = Measurement.measurement(windowedStatisticalLong, SIUnit.s);
 
         while(true) {
             long randomLong = (long) random.nextGaussian(1000, 500);
@@ -43,8 +45,9 @@ public class Application {
             rate.newEvent();
             statisticalLong.enter(randomLong);
             windowedStatisticalLong.accept(randomLong);
-            log.info("rate: %s".formatted(rate));
-            log.info("long: %s".formatted(statisticalLong));
+            log.info("rate: %s".formatted(  rate));
+
+            log.info("long: %s".formatted(m.toUnits(SI.a)));
             log.info("windowed long: %s".formatted(windowedStatisticalLong.getWindowValue()));
         }
 

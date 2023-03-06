@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.meeuw.math.BigDecimalUtils.pow10;
@@ -277,6 +278,9 @@ public class SI implements SystemOfMeasurements {
         new DerivedUnit(exactly(60 * 60), "h", "hour", of(s, 1))
             .withQuantity(TIME);
 
+    public static final DerivedUnit a =
+        new DerivedUnit(exactly(31_5576_000_000L), "year", "(julian) year", of(s, 1)).withQuantity(TIME);
+
 
     public static final DerivedUnit eV =
         new DerivedUnit("eV", "electron-volt", exactly(1.602176634E-19), J)
@@ -293,6 +297,12 @@ public class SI implements SystemOfMeasurements {
         UncertainDoubleElement.of(
             1.660539040e-27,
             0.000000020e-27), kg)
+        .withQuantity(MASS);
+
+    public static final DerivedUnit M0 = new DerivedUnit("M" + TextUtils.subscript("☉"), "Solar mass",
+        UncertainDoubleElement.of(
+            1.98847e30,
+            0.00007e30), kg)
         .withQuantity(MASS);
 
 
