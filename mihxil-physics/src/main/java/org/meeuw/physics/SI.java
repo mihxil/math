@@ -279,7 +279,7 @@ public class SI implements SystemOfMeasurements {
             .withQuantity(TIME);
 
     public static final DerivedUnit a =
-        new DerivedUnit(exactly(31_5576_000_000L), "year", "(julian) year", of(s, 1)).withQuantity(TIME);
+        new DerivedUnit(exactly(31_5576_000_000L), "a", "(julian) year", of(s, 1)).withQuantity(TIME);
 
 
     public static final DerivedUnit eV =
