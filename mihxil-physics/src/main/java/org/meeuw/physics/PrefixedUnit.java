@@ -17,6 +17,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +45,10 @@ public class PrefixedUnit implements Unit {
 
     @Override
     public String getDescription() {
-        return wrapped.getDescription();
+        if (wrapped.getDescription() == null) {
+            return null;
+        }
+        return (prefix.get().equals(BigDecimal.ONE) ? "" : prefix.getPrefixName()) +  wrapped.getDescription();
     }
 
     @Override

@@ -19,6 +19,8 @@ import lombok.Getter;
 
 /**
  * Representation of a basic physical dimension. This follows the SI recommendation.
+ * <p>
+ *
  *
  * @see DimensionalAnalysis
  * @author Michiel Meeuwissen
@@ -36,15 +38,19 @@ public enum Dimension implements DimensionExponent {
 
     /**
      * Just an alias for if you can't type greek
+     * @see Dimension#Θ
      */
-    static final Dimension TH = Θ;
+    public static final Dimension TH = Θ;
 
-    static final int NUMBER = values().length;
+    /**
+     * The number of dimensions
+     */
+    public static final int NUMBER = values().length;
 
-    final String toString;
+    private final String toString;
 
     @Getter
-    final String name;
+    private final String name;
 
     Dimension(char i, String name) {
         toString = String.valueOf(i);

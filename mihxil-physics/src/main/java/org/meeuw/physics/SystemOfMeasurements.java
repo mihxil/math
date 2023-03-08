@@ -48,6 +48,7 @@ public interface SystemOfMeasurements {
             .reduce(UncertainRealField.INSTANCE.one(), UncertainReal::times);
         return new CompositeUnits(siFactor, unitExponents);
     }
+
     default Units forQuantity(Quantity quantity) {
         for (Units unit : getUnits()) {
             if (unit.getQuantities().contains(quantity)) {

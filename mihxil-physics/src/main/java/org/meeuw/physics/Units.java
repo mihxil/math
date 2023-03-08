@@ -17,6 +17,7 @@ package org.meeuw.physics;
 
 import java.util.List;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
@@ -56,6 +57,15 @@ public interface Units extends
 
     DimensionalAnalysis getDimensions();
 
+
+    /**
+     * A description for this {@link Units}
+     *
+     * @return A description or {@code null} (which would be common for composite units)
+     */
+    default @Nullable String getDescription() {
+        return null;
+    }
     /**
      * Returns a constant representing a 0 with this units.
      */

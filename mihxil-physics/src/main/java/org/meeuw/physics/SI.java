@@ -255,9 +255,6 @@ public class SI implements SystemOfMeasurements {
         new DerivedUnit("N", "Newton", of(kg, 1), of(m, 1), of(s, -2))
             .withQuantity(FORCE);
 
-    public static final DerivedUnit g =
-        new DerivedUnit(exactly(0.001), "g", "gram", of(kg, 1))
-            .withQuantity(MASS);
     public static final DerivedUnit Hz =
         new DerivedUnit("Hz", "Hertz", of(s, -1)).withQuantity(Quantity.FREQUENCY);
     public static final DerivedUnit Pa =
@@ -270,6 +267,11 @@ public class SI implements SystemOfMeasurements {
     public static final DerivedUnit J =
         new DerivedUnit("J", "joule", of(kg, 1), of(m, 2), of(s, -2))
             .withQuantity(ENERGY);
+    public static final DerivedUnit eV =
+        new DerivedUnit("eV", "electron-volt", exactly(1.602176634E-19), J)
+            .withQuantity(ENERGY);
+
+
 
     public static final DerivedUnit min =
         new DerivedUnit(exactly(60), "min", "minute", of(s, 1))
@@ -277,14 +279,10 @@ public class SI implements SystemOfMeasurements {
     public static final DerivedUnit hour =
         new DerivedUnit(exactly(60 * 60), "h", "hour", of(s, 1))
             .withQuantity(TIME);
-
     public static final DerivedUnit a =
-        new DerivedUnit(exactly(31_5576_000_000L), "a", "(julian) year", of(s, 1)).withQuantity(TIME);
-
-
-    public static final DerivedUnit eV =
-        new DerivedUnit("eV", "electron-volt", exactly(1.602176634E-19), J)
-            .withQuantity(ENERGY);
+        new DerivedUnit(exactly(31_5576_000_000L), "a", "(julian) year",
+            of(s, 1))
+            .withQuantity(TIME);
 
     public static final DerivedUnit AU = new DerivedUnit("AU", "Astronomical Unit", exactly(149597870700d), m)
         .withQuantity(DISTANCE);
@@ -293,12 +291,16 @@ public class SI implements SystemOfMeasurements {
     public static final DerivedUnit ly = new DerivedUnit("ly", "light-year", exactly(9460730472580800d), m)
         .withQuantity(DISTANCE);
 
+
+
+    public static final DerivedUnit g =
+        new DerivedUnit(exactly(0.001), "g", "gram", of(kg, 1))
+            .withQuantity(MASS);
     public static final DerivedUnit Da = new DerivedUnit("Da", "dalton",
         UncertainDoubleElement.of(
             1.660539040e-27,
             0.000000020e-27), kg)
         .withQuantity(MASS);
-
     public static final DerivedUnit M0 = new DerivedUnit("M" + TextUtils.subscript("☉"), "Solar mass",
         UncertainDoubleElement.of(
             1.98847e30,

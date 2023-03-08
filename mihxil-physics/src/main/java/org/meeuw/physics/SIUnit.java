@@ -17,6 +17,8 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
+import java.util.function.BiFunction;
+
 import org.checkerframework.checker.units.qual.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
@@ -30,16 +32,13 @@ import static org.meeuw.physics.Dimension.*;
 public enum SIUnit implements BaseUnit {
 
     @m m(L, "meter"),
-    @kg kg(M, "kilogram") {
-        @Override
-        public Unit withPrefix(Prefix prefix) {
-            if (prefix == SI.DecimalPrefix.k) {
-                return this;
-            } else {
-                return SI.g.withPrefix(prefix);
-            }
+    @kg kg(M, "kilogram", (prefix, siunit) -> {
+        if (prefix == SI.DecimalPrefix.k) {
+            return siunit;
+        } else {
+            return SI.g.withPrefix(prefix);
         }
-    },
+    }),
     @s s(T, "second"),
     @A A(I, "ampere"),
     @K K(TH, "kelvin"),
@@ -63,9 +62,22 @@ public enum SIUnit implements BaseUnit {
     @Getter
     private final String description;
 
+    private final BiFunction<Prefix, SIUnit, Unit> withPrefixImpl;
+
     SIUnit(Dimension dimension, String description) {
+        this(dimension, description, null);
+    }
+
+    SIUnit(Dimension dimension, String description, BiFunction<Prefix, SIUnit, Unit> withPrefixImpl) {
         this.dimension = dimension;
         this.description = description;
+        this.withPrefixImpl = withPrefixImpl;
+    }
+
+    @Override
+    public Unit withPrefix(Prefix prefix) {
+        return withPrefixImpl == null ? BaseUnit.super.withPrefix(prefix) :
+            withPrefixImpl.apply(prefix, this);
     }
 
     @Override

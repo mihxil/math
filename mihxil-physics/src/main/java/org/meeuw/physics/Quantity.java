@@ -75,6 +75,10 @@ public class Quantity {
      * The symbol normally used for this quantity (in physics). Like 'F' for 'force'.
      */
     private final String symbol;
+
+    /**
+     * @see DimensionalAnalysis
+     */
     private final DimensionalAnalysis dimensionalAnalysis;
 
     public Quantity(String name, String symbol, DimensionalAnalysis dimensionalAnalysis) {

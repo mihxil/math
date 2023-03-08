@@ -38,6 +38,7 @@ public interface Unit extends Units {
     @Override
     DimensionalAnalysis getDimensions();
 
+    @Override
     String getDescription();
 
     String name();

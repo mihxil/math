@@ -22,15 +22,19 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.physics.SI.DecimalPrefix;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
+import static org.meeuw.physics.Quantity.ENERGY;
+import static org.meeuw.physics.Quantity.LUMINOUS_INTENSITY;
 import static org.meeuw.physics.SI.DecimalPrefix.*;
 import static org.meeuw.physics.SI.INSTANCE;
+import static org.meeuw.physics.SI.J;
 import static org.meeuw.physics.SIUnit.m;
-import static org.meeuw.physics.SIUnit.s;
+import static org.meeuw.physics.SIUnit.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -57,7 +61,7 @@ class SITest {
 
     @Test
     public void prefixes() {
-        prefixes(SI.DecimalPrefix.none);
+        prefixes(DecimalPrefix.none);
     }
 
     @Test
@@ -98,6 +102,7 @@ class SITest {
         assertThat(INSTANCE.forQuantity(Quantity.FORCE).toString()).isEqualTo("N");
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
     public void prefix() {
         Units kmPerS = m.withPrefix(k).per(s);
@@ -113,7 +118,7 @@ class SITest {
 
 
         assertThat(k.times(Q)).isEmpty();
-        assertThat(k.reciprocal().get()).isEqualTo(SI.DecimalPrefix.m);
+        assertThat(k.reciprocal().get()).isEqualTo(DecimalPrefix.m);
     }
 
     @Test
@@ -123,15 +128,40 @@ class SITest {
 
     @Test
     public void getUnits() {
-        assertThat(INSTANCE.getUnits().toString()).isEqualTo(
-            "[m, kg, s, A, K, mol, cd, m·s⁻¹, km, l, N, g, Hz, Pa, J, min, h, a, eV, AU, pc, ly, Da, M☉, bit, Byte]"
+        assertThat(INSTANCE.getUnits().stream().map(u -> u.toString() + "\t" + u.getDescription() + "\t" + u.getClass().getSimpleName() )).containsExactly(
+            "m	meter	SIUnit",
+            "kg	kilogram	SIUnit",
+            "s	second	SIUnit",
+            "A	ampere	SIUnit",
+            "K	kelvin	SIUnit",
+            "mol	mole	SIUnit",
+            "cd	candela	SIUnit",
+            "m·s⁻¹	null	CompositeUnits",
+            "km	kilometer	PrefixedUnit",
+            "l	litre	DerivedUnit",
+            "N	Newton	DerivedUnit",
+            "Hz	Hertz	DerivedUnit",
+            "Pa	Pascal	DerivedUnit",
+            "J	joule	DerivedUnit",
+            "eV	electron-volt	DerivedUnit",
+            "min	minute	DerivedUnit",
+            "h	hour	DerivedUnit",
+            "a	(julian) year	DerivedUnit",
+            "AU	Astronomical Unit	DerivedUnit",
+            "pc	parsec	DerivedUnit",
+            "ly	light-year	DerivedUnit",
+            "g	gram	DerivedUnit",
+            "Da	dalton	DerivedUnit",
+            "M☉	Solar mass	DerivedUnit",
+            "bit	binary digit	DerivedUnit",
+            "Byte	8 bit octet	DerivedUnit"
         );
     }
 
     @Test
     public  void getForQuantity() {
-        assertThat(INSTANCE.forQuantity(Quantity.LUMINOUS_INTENSITY)).isEqualTo(SIUnit.cd);
-        assertThat(INSTANCE.forQuantity(Quantity.ENERGY)).isEqualTo(SI.J);
+        assertThat(INSTANCE.forQuantity(LUMINOUS_INTENSITY)).isEqualTo(cd);
+        assertThat(INSTANCE.forQuantity(ENERGY)).isEqualTo(J);
     }
 
 
