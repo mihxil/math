@@ -5,13 +5,14 @@
     <artifactId>mihxil-math-parent</artifactId>
     <version>0.12-SNAPSHOT</version>
   </parent>
-  <artifactId>mihxil-test</artifactId>
+  <description>A simple (spring boot) application that is using things of this project.</description>
+  <artifactId>math-test</artifactId>
   <packaging>jar</packaging>
 
   <properties>
-    <java.target.version>17</java.target.version>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
   </properties>
-
 
   <dependencies>
     <dependency>
@@ -24,14 +25,12 @@
     </dependency>
   </dependencies>
 
-
-
   <build>
     <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
+        <version>3.11.0</version>
       </plugin>
       <plugin>
          <artifactId>maven-shade-plugin</artifactId>

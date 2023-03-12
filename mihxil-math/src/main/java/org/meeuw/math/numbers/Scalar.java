@@ -21,7 +21,7 @@ import java.util.Comparator;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A scalar is the closest thing to a {@link java.lang.Number} interface.
+ * A scalar is the closest thing to an interface for  {@link java.lang.Number numbers}. There is no link with {@link org.meeuw.math.abstractalgebra.AbstractAlgebraicElement abstract algebra's} yet.
  * <p>
  * If you have some {@link java.lang.Number} and want it as a {@link Scalar}, you could use {@link #ofNumber(java.lang.Number)}. If you have a {@link Scalar} and want it to be a {@link Number}, then  {@link #asNumber()} can be used.
  *
@@ -70,7 +70,7 @@ public interface Scalar<SELF extends Scalar<SELF>>
     }
     /**
      * A {@link Scalar} is very similar to a {@link Number}, but it <em>is</em> not one. A number is not an interface,
-     * so that would be hard. The other way around it simple though, which is what this class is.
+     * so that would be hard. The other way around it simple though, which is what this class is, a wrapper around (and extension of a) {@link java.lang.Number}, that does implement {@link Scalar}.
      */
     class Number extends java.lang.Number implements  Scalar<Number> {
         private final java.lang.Number number;

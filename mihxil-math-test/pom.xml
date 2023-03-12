@@ -3,8 +3,9 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.meeuw.math</groupId>
-    <artifactId>mihxil-math-parent</artifactId>
+    <artifactId>mihxil-math-lib-parent</artifactId>
     <version>0.12-SNAPSHOT</version>
+    <relativePath>../mihxil-math-lib-parent</relativePath>
   </parent>
   <artifactId>mihxil-math-test</artifactId>
   <name>Math - core test</name>

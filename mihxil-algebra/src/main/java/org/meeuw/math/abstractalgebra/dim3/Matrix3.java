@@ -20,11 +20,13 @@ import java.util.stream.Collectors;
 
 import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.WithScalarOperations;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.validation.Square;
+
+import static org.meeuw.math.ArrayUtils.determinant2x2;
 
 /**
  * A square 3x3 matrix of {@code double}s
@@ -98,7 +100,7 @@ public strictfp class Matrix3 implements
         return result;
     }
 
-    public double[] timesDouble(double multiplier) {
+    double[] timesDouble(double multiplier) {
         double[] result = new double[9];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -112,6 +114,7 @@ public strictfp class Matrix3 implements
     public Matrix3 times(double multiplier) {
         return Matrix3.of(timesDouble(multiplier));
     }
+
     @Override
     public Matrix3 dividedBy(double multiplier) {
         return Matrix3.of(timesDouble(1d / multiplier));
@@ -130,8 +133,7 @@ public strictfp class Matrix3 implements
         return dividedBy(divisor.doubleValue());
     }
 
-
-    double determinant() {
+    public double determinant() {
         double a = values[0][0];
         double b = values[0][1];
         double c = values[0][2];
@@ -146,10 +148,6 @@ public strictfp class Matrix3 implements
                 -  b * (d * i - f * g)
                 + c * (d * h - e * g);
     }
-    double determinant2x2(double a, double b, double c, double d) {
-        return a * d - b * c;
-    }
-
 
      @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
@@ -176,6 +174,7 @@ public strictfp class Matrix3 implements
         }
         return adjugate;
     }
+
     private int skip(int i, int skip) {
         return i < skip ? i : i + 1;
     }
@@ -197,5 +196,10 @@ public strictfp class Matrix3 implements
     @Override
     public String toString() {
         return "(" + Arrays.stream(asVectors()).map(Vector3::toString).collect(Collectors.joining(", ")) + ")";
+    }
+
+    @Square(3)
+    public double[][] getValues() {
+        return Arrays.stream(values).map(double[]::clone).toArray(double[][]::new);
     }
 }

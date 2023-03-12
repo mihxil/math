@@ -29,6 +29,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  * @param <S> structure element type
  * @param <E> type of real and imaginary fields
+ * @see AbstractComplexNumber
  */
 @Log
 public abstract class AbstractComplexNumbers<

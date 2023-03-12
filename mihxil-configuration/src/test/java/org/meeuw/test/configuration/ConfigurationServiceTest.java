@@ -53,6 +53,7 @@ public class ConfigurationServiceTest {
             builder.configure(TestConfigurationAspect.class, (c) ->
                 c.withSomeLong(System.currentTimeMillis())
                     .withSomeString("foobar")
+                    .withSomePrimitiveBoolean(true)
             );
         });
 
@@ -63,13 +64,20 @@ public class ConfigurationServiceTest {
         Configuration configuration = getConfiguration();
         TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
         int someInt = aspect.getSomeInt();
-        log.info(() -> String.format("some int: %d", someInt));
+        boolean someBoolean = aspect.isSomePrimitiveBoolean();
+        log.info(() -> String.format("some int: %d, some boolean: %s", someInt, someBoolean));
         try (Reset reset = ConfigurationService.setConfiguration(builder ->
-            builder.configure(TestConfigurationAspect.class, (nc) -> nc.withSomeInt(8))
+            builder.configure(TestConfigurationAspect.class, (nc) ->
+                nc.withSomeInt(8)
+                    .withSomePrimitiveBoolean(true))
         )) {
             assertThat(getConfiguration()
                 .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::getSomeInt)
             ).isEqualTo(8);
+
+            assertThat(getConfiguration()
+                .getAspectValue(TestConfigurationAspect.class, TestConfigurationAspect::isSomePrimitiveBoolean)
+            ).isTrue();
         }
 
     }

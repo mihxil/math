@@ -9,6 +9,10 @@
   <artifactId>report-aggregation</artifactId>
   <name>Math - report aggregation</name>
   <packaging>jar</packaging>
+  <properties>
+    <maven.compiler.target>17</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+  </properties>
 
   <dependencies>
     <dependency>

@@ -72,6 +72,10 @@ public class TestConfigurationAspect implements ConfigurationAspect {
     @Getter
     final NotSerializable notSerializable;
 
+    @With
+    @Getter
+    final boolean somePrimitiveBoolean;
+
 
     @lombok.Builder
     private TestConfigurationAspect(
@@ -84,7 +88,8 @@ public class TestConfigurationAspect implements ConfigurationAspect {
         SomeSerializable someSerializable,
         String someString,
         A someEnum,
-        NotSerializable notSerializable) {
+        NotSerializable notSerializable,
+        boolean somePrimitiveBoolean) {
         this.someInt = someInt;
         this.someInteger = someInteger;
         this.someLong = someLong;
@@ -95,6 +100,7 @@ public class TestConfigurationAspect implements ConfigurationAspect {
         this.someString = someString;
         this.someEnum = someEnum;
         this.notSerializable = notSerializable;
+        this.somePrimitiveBoolean = somePrimitiveBoolean;
     }
 
     public TestConfigurationAspect() {
@@ -102,7 +108,8 @@ public class TestConfigurationAspect implements ConfigurationAspect {
             new SomeSerializable(1, "a"),
             "string",
             A.x,
-            new NotSerializable(2, "b")
+            new NotSerializable(2, "b"),
+            false
         );
     }
 

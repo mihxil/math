@@ -50,13 +50,23 @@ class ConfigurationPreferences {
         for (ConfigurationAspect aspect : configuration) {
             Preferences node = node(aspect);
             for (Method m : aspect.getClass().getDeclaredMethods()) {
-                if (m.getName().length() > 3 && m.getName().startsWith("get") && m.getParameterTypes().length == 0 && !Modifier.isStatic(m.getModifiers())) {
-                    String name = m.getName().substring(3);
-                    try {
-                        Object value = m.invoke(aspect);
-                        put(node, name, value);
-                    } catch (IllegalAccessException | InvocationTargetException | IOException | IllegalStateException e) {
-                        log.warning(String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
+                if (m.getParameterTypes().length == 0 && !Modifier.isStatic(m.getModifiers())) {
+                    String name;
+                    if (m.getName().length() > 3 && m.getName().startsWith("get")) {
+                        name = m.getName().substring(3);
+                    } else if (m.getName().startsWith("is") && m.getReturnType().equals(Boolean.TYPE)) {
+                        name = m.getName().substring(2);
+                    } else {
+                        name = null;
+                    }
+                    if (name != null) {
+                        try {
+                            Object value = m.invoke(aspect);
+                            put(node, name, value);
+                        } catch (IllegalAccessException | InvocationTargetException | IOException |
+                                 IllegalStateException e) {
+                            log.warning(String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
+                        }
                     }
                 }
             }
@@ -70,16 +80,24 @@ class ConfigurationPreferences {
              Preferences node = node(as);
              for (Method m : aspect.getClass().getDeclaredMethods()) {
                  if (m.getName().startsWith("with") && m.getParameterTypes().length == 1) {
-                     String name = m.getName().substring(4);
+                     final String name =  m.getName().substring(4);
+                     final String methodName;
+                     if (m.getParameterTypes()[0] == Boolean.TYPE) {
+                         methodName = "is" + name;
+                     } else {
+                         methodName = "get" + name;
+                     }
                      Object newValue = null;
                      try {
-                         Object currentValue = as.getClass().getDeclaredMethod("get" + name).invoke(as);
+                         Object currentValue = as.getClass().getDeclaredMethod(methodName).invoke(as);
                          newValue = get(node, name,
                              m.getParameters()[0].getType(),
                              currentValue);
 
                          as = (ConfigurationAspect) m.invoke(as, newValue);
-                     } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException | NoSuchMethodException e) {
+                     } catch (NoSuchMethodException e) {
+                         log.log(Level.CONFIG, "No method " + methodName + " + for wither " + m + ". Ignored.");
+                     } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
                          log.log(Level.WARNING, "For " + as + "#" + m + "(" + (newValue == null ? "NULL" : (newValue.getClass() + " " + newValue)) + ")" + e.getClass() + " " + e.getMessage(), e);
                      }
                  }
@@ -94,7 +112,7 @@ class ConfigurationPreferences {
         return USER_PREFERENCES.node(aspect.getClass().getCanonicalName());
     }
 
-    static void put(Preferences pref, String key, final Object paramValue) throws IOException {
+    static void put(final Preferences pref, final String key, final Object paramValue) throws IOException {
         if (paramValue == null) {
             pref.remove(key);
         } else {

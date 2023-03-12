@@ -46,7 +46,6 @@ public class Application {
             statisticalLong.enter(randomLong);
             windowedStatisticalLong.accept(randomLong);
             log.info("rate: %s".formatted(  rate));
-
             log.info("long: %s".formatted(m.toUnits(SI.a)));
             log.info("windowed long: %s".formatted(windowedStatisticalLong.getWindowValue()));
         }

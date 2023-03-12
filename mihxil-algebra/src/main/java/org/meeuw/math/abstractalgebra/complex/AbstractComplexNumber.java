@@ -24,10 +24,13 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 
 /**
+ * An abstract implementation of a complex number. I.e. a pair of 2 {@link ScalarFieldElement numbers}, a {@link #getReal() real} and an {@link #getImaginary() imaginary} part
+
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <S> Self reference
  * @param <E> type of real and imaginary part
+ * @see AbstractComplexNumbers
  */
 public abstract class AbstractComplexNumber<
     S extends AbstractComplexNumber<S, E, ES>,

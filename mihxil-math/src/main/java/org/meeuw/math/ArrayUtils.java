@@ -193,4 +193,10 @@ public final class ArrayUtils {
         return toString(matrix, ArrayUtils::toString);
     }
 
+    public
+    static double determinant2x2(double a, double b, double c, double d) {
+        return a * d - b * c;
+    }
+
+
 }

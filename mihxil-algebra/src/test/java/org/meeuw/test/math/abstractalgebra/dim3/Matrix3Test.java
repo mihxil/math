@@ -73,11 +73,11 @@ class Matrix3Test implements MultiplicativeGroupTheory<Matrix3>, WithScalarTheor
             4, 5, 6,
             7, 8, 9
         );
-        assertThat(example.timesDouble(2)).isEqualTo(
-            new double[] {
-                2, 4, 8,
-                8, 10, 12,
-                14, 16, 18
+        assertThat(example.times(2).getValues()).isEqualTo(
+            new double[][] {
+                new double[] {2, 4, 8},
+                new double[] {8, 10, 12},
+                new double[] {14, 16, 18}
             }
         );
         assertThat(example.times(example.getStructure().one()))

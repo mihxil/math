@@ -1,13 +1,14 @@
 
 URL:=mihxil/math-test:latest
+VERSION:=$(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
-target/test-0.1-SNAPSHOT.jar:
+target/math-test-$(VERSION).jar:
 	(cd ../mihxil-configuration/ ; mvn  install ) ; (cd ../mihxil-math/ ; mvn install ) ; mvn
 
 docker: Dockerfile
-	docker build -t $(URL) .
+	docker build -t $(URL) --build-arg VERSION=$(VERSION) .
 
-localrun: target/test-0.1-SNAPSHOT.jar
+localrun: target/math-test-$(VERSION).jar
 	java -jar $< prefs
 
 
