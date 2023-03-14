@@ -48,6 +48,11 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
         return UNARY_OPERATORS;
     }
 
+    /**
+     * Whether {@link MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement) multiplication} is commutative.
+     *
+     * @see MultiplicativeAbelianGroup
+     */
     default boolean multiplicationIsCommutative() {
         return false;
     }

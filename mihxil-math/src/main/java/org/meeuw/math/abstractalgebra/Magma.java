@@ -40,6 +40,9 @@ public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> 
         return OPERATORS;
     }
 
+    /**
+     * Whether the with this Magma associated {@link MagmaElement#operate(MagmaElement) operator} is always <em>commutative</em>
+     */
     default boolean operationIsCommutative() {
         return false;
     }

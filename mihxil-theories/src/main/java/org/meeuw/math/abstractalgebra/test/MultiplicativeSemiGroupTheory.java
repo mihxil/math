@@ -17,8 +17,7 @@ package org.meeuw.math.abstractalgebra.test;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup;
-import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
@@ -36,6 +35,13 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     @Property
     default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION);
+    }
+
+    @Property
+    default void abelian(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
+        if (s.multiplicationIsCommutative()) {
+            assertThat(s).isInstanceOf(MultiplicativeAbelianSemiGroup.class);
+        }
     }
 
     @Property

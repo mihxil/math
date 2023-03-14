@@ -37,8 +37,11 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
         return OPERATORS;
     }
 
+    /**
+     * Whether {@link AdditiveSemiGroupElement#plus addition} is <em>commutative</em>.
+     */
     default boolean additionIsCommutative() {
-        return true;
+        return false;
     }
 
     @Override

@@ -48,4 +48,6 @@ public interface MultiplicativeAbelianSemiGroupTheory<E extends MultiplicativeSe
         assertThat(group.multiplicationIsCommutative()).isTrue();
     }
 
+
+
 }
