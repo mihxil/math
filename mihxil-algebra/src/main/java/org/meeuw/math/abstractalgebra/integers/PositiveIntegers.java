@@ -83,6 +83,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     }
 
     @Override
+    public boolean operationIsCommutative() {
+        return multiplicationIsCommutative();
+    }
+
+    @Override
     public NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;
     }

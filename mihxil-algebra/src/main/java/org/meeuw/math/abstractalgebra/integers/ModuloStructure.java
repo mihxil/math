@@ -66,6 +66,12 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         return zero;
     }
 
+
+    @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
     @Override
     public Stream<E> stream() {
         return IntStream.range(0, divisor).mapToObj(this::element);

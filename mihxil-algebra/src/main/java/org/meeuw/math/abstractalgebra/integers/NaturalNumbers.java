@@ -97,6 +97,11 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     }
 
     @Override
+    public boolean operationIsCommutative() {
+        return MultiplicativeMonoid.super.operationIsCommutative();
+    }
+
+    @Override
     public NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;
     }

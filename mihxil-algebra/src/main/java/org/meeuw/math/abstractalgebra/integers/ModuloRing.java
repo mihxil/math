@@ -41,4 +41,6 @@ public class ModuloRing extends ModuloStructure<ModuloRingElement, ModuloRing> {
         return new ModuloRingElement(v, this);
     }
 
+
+
 }

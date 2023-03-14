@@ -51,6 +51,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
         return times(operand);
     }
 
+
     /**
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
      * <p>

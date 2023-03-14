@@ -51,6 +51,11 @@ public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement
     }
 
     @Override
+    public boolean operationIsCommutative() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "C" + TextUtils.subscript(1);
     }

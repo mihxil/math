@@ -20,7 +20,6 @@ import java.io.Serializable;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
-import org.meeuw.math.exceptions.IllegalPowerException;
 
 /**
  * @author Michiel Meeuwissen
@@ -78,16 +77,6 @@ public abstract class CompleteComplexNumber<
             real.cos().times(imaginary.cosh()),
             real.sin().times(imaginary.sinh())
         );
-    }
-
-    @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="")
-    public S pow(S exponent) throws IllegalPowerException {
-        try {
-            return (ln().times(exponent)).exp();
-        } catch (IllegalLogarithmException illegalLogarithmException) {
-            throw new IllegalPowerException(illegalLogarithmException);
-        }
     }
 
     @Override

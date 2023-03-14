@@ -71,6 +71,11 @@ public class NDivisibleIntegers extends
     }
 
     @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+    @Override
     public Stream<NDivisibleInteger> stream() {
         return Stream.iterate(zero(),
             i -> i.signum() > 0 ?

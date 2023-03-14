@@ -49,16 +49,16 @@ public class ConfigurationServiceTest {
     public void store() {
         long previous = getConfigurationAspect(TestConfigurationAspect.class).getSomeLong();
         log.info("previous " + Instant.ofEpochMilli(previous));
-        defaultConfiguration((builder) -> {
-            builder.configure(TestConfigurationAspect.class, (c) ->
-                c.withSomeLong(System.currentTimeMillis())
-                    .withSomeString("foobar")
-                    .withSomePrimitiveBoolean(true)
-            );
-        });
-
+        defaultConfiguration((builder) ->
+            builder.configure(TestConfigurationAspect.class, (c) -> c
+                .withSomeLong(System.currentTimeMillis())
+                .withSomeString("foobar")
+                .withSomePrimitiveBoolean(true)
+            )
+        );
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void getAndSetConfiguration() {
         Configuration configuration = getConfiguration();
@@ -124,10 +124,9 @@ public class ConfigurationServiceTest {
 
         withConfiguration((con) -> con
                 .configure(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(3))
-            , () -> {
-                assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(3);
-
-            });
+            , () ->
+                assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(3)
+        );
 
 
         assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
@@ -145,9 +144,9 @@ public class ConfigurationServiceTest {
 
     @Test
     public void invalid() {
-        assertThatThrownBy(() -> {
-            getConfiguration().toBuilder().aspectDefault(InvalidConfigurationAspect.class);
-        }).isInstanceOf(InstantiationException.class);
+        assertThatThrownBy(() ->
+            getConfiguration().toBuilder().aspectDefault(InvalidConfigurationAspect.class)
+        ).isInstanceOf(InstantiationException.class);
     }
 
 

@@ -61,4 +61,10 @@ public class TrivialRing implements Ring<TrivialRingElement>, Streamable<Trivial
     public Stream<TrivialRingElement> stream() {
         return Stream.of(TrivialRingElement.e);
     }
+
+    @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
 }

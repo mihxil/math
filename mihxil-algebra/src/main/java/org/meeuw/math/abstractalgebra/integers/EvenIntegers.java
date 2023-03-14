@@ -85,6 +85,11 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
     }
 
     @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "2ℤ";
     }

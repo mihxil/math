@@ -48,4 +48,9 @@ public interface Rng<E extends RngElement<E>> extends
         return UNARY_OPERATORS;
     }
 
+    @Override
+    default boolean operationIsCommutative() {
+        return multiplicationIsCommutative();
+    }
+
 }

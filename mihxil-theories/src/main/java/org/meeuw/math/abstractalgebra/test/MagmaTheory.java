@@ -18,11 +18,13 @@ package org.meeuw.math.abstractalgebra.test;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Magma;
+import org.meeuw.math.abstractalgebra.MagmaElement;
+import org.opentest4j.TestAbortedException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;
 
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,6 +35,27 @@ public interface MagmaTheory<E extends MagmaElement<E>>
 
     @Property
     default void magmaOperators(@ForAll(STRUCTURE) Magma<E> s) {
-        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
+        assertThat(s.getSupportedOperators()).contains(OPERATION);
     }
-}
+
+    @Property
+    default void operatorAndCommutativity(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
+        boolean isCommutative = e1.getStructure().operationIsCommutative();
+        if (isCommutative) {
+            assertThat(e1.operate(e2)).withFailMessage(
+                OPERATION.stringify(e1, e2)  + " should be " +
+                    OPERATION.stringify(e2, e1)
+
+            ).isEqTo(e2.operate(e1));
+        } else {
+            try {
+                assertThat(e1.operate(e2)).withFailMessage(
+                    OPERATION.stringify(e1, e2) + " should not be " +
+                        OPERATION.stringify(e2, e1)
+
+                ).isNotEqTo(e2.operate(e1));
+            } catch (AssertionError ae) {
+                throw new TestAbortedException(ae.getMessage());
+            }
+        }
+    }}

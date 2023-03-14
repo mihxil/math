@@ -39,6 +39,7 @@ public class Application {
         Random random = new Random();
         Measurement m = Measurement.measurement(windowedStatisticalLong, SIUnit.s);
 
+
         while(true) {
             long randomLong = (long) random.nextGaussian(1000, 500);
             Thread.sleep(Math.abs(randomLong));

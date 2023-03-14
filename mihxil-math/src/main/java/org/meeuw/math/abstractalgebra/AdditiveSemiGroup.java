@@ -17,10 +17,9 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import static org.meeuw.math.CollectionUtils.navigableSet;
-
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 
 /**
@@ -39,7 +38,12 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
     }
 
     default boolean additionIsCommutative() {
-        return false;
+        return true;
+    }
+
+    @Override
+    default boolean operationIsCommutative() {
+        return additionIsCommutative();
     }
 
 }

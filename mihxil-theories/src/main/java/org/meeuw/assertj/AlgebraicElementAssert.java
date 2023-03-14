@@ -13,9 +13,26 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E other) {
         if (!actual.eq(other)) {
-            throw new AssertionError(actual + " ≉ " + other);
+            assertionError(actual + " ≉ " + other);
         }
         return myself;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public AlgebraicElementAssert<E> isNotEqTo(E other) {
+        if (actual.eq(other)) {
+            assertionError(actual + " ≈ " + other);
+        }
+        return myself;
+    }
+
+    void assertionError(String fallback) {
+        String error = info.overridingErrorMessage();
+        if (error == null) {
+            throw new AssertionError(fallback);
+        } else {
+            throw new AssertionError(error);
+        }
     }
 
 }

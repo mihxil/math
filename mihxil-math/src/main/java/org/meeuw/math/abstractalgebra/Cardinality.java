@@ -89,6 +89,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     private Cardinality(long value) {
         this.value = BigInteger.valueOf(value);
     }
+
     private static final class Structure implements MultiplicativeSemiGroup<Cardinality>, Streamable<Cardinality> {
         final static Structure INSTANCE = new Structure();
         @Override
@@ -108,6 +109,12 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
                     IntStream.iterate(1, i -> i + 1).mapToObj(Cardinality::new)
                 );
         }
+
+        @Override
+        public  boolean multiplicationIsCommutative() {
+            return true ;
+        }
+
     }
 
     @Override

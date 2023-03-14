@@ -62,9 +62,16 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     }
 
     @Override
+    public boolean additionIsCommutative() {
+        return false;
+    }
+
+
+    @Override
     public Stream<StringElement> stream() {
         return stream(new State());
     }
+
 
     public Stream<StringElement> stream(State state) {
         return Stream.iterate(state,

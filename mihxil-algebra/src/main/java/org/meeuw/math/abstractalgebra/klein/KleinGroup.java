@@ -25,6 +25,8 @@ import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group, denoted by {@code V}.
+ * <p>
+ * See also <a href="https://en.wikipedia.org/wiki/Klein_four-group">wikipedia</a>
  */
 @Example(Group.class)
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
@@ -60,6 +62,11 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     @Override
     public KleinElement nextRandom(Random random) {
         return KleinElement.values()[random.nextInt(KleinElement.values().length)];
+    }
+
+    @Override
+    public boolean operationIsCommutative() {
+        return true;
     }
 
     @Override

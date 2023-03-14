@@ -73,6 +73,11 @@ public class ProductGroup
     }
 
     @Override
+    public boolean operationIsCommutative() {
+        return groups.stream().allMatch(Magma::operationIsCommutative);
+    }
+
+    @Override
     public ProductElement nextRandom(Random random) {
         return ProductElement.withGroup(this,
             groups.stream()

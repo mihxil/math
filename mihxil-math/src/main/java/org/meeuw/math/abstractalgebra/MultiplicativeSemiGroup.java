@@ -17,11 +17,10 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import static org.meeuw.math.CollectionUtils.navigableSet;
-
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
@@ -51,6 +50,11 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
 
     default boolean multiplicationIsCommutative() {
         return false;
+    }
+
+    @Override
+    default boolean operationIsCommutative() {
+        return multiplicationIsCommutative();
     }
 
 }
