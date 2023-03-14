@@ -35,7 +35,7 @@ import org.meeuw.math.exceptions.InvalidStructureCreationException;
 @Example(Ring.class)
 public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
     extends AbstractAlgebraicStructure<E>
-    implements Ring<E>, Streamable<E>, Randomizable<E> {
+    implements AbelianRing<E>, Streamable<E>, Randomizable<E> {
 
     @Getter
     final int divisor;

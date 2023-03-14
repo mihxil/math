@@ -38,6 +38,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 public class PositiveIntegers extends AbstractIntegers<PositiveInteger, PositiveInteger, PositiveIntegers>
     implements
     MultiplicativeMonoid<PositiveInteger>,
+    MultiplicativeAbelianSemiGroup<PositiveInteger>,
     AdditiveAbelianSemiGroup<PositiveInteger> {
 
 

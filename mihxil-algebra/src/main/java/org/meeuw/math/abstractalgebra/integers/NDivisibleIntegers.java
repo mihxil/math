@@ -33,7 +33,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
  */
 public class NDivisibleIntegers extends
     AbstractIntegers<NDivisibleInteger, NDivisibleInteger, NDivisibleIntegers>
-    implements Rng<NDivisibleInteger> {
+    implements Rng<NDivisibleInteger>, MultiplicativeAbelianSemiGroup<NDivisibleInteger> {
 
     private static final Map<Integer, NDivisibleIntegers> INSTANCES = new ConcurrentHashMap<>();
 
