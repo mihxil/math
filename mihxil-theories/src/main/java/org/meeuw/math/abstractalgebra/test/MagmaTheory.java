@@ -42,19 +42,22 @@ public interface MagmaTheory<E extends MagmaElement<E>>
     default void operatorAndCommutativity(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
         boolean isCommutative = e1.getStructure().operationIsCommutative();
         if (isCommutative) {
+            String s = OPERATION.stringify(e1, e2)  + " %s" +
+                    OPERATION.stringify(e2, e1);
             assertThat(e1.operate(e2)).withFailMessage(
-                OPERATION.stringify(e1, e2)  + " should be " +
-                    OPERATION.stringify(e2, e1)
-
+                String.format(s, "should be")
             ).isEqTo(e2.operate(e1));
+            getLogger().debug(String.format(s, "is"));
         } else {
+            String s = OPERATION.stringify(e1, e2) + " %s " +
+                OPERATION.stringify(e2, e1);
             try {
                 assertThat(e1.operate(e2)).withFailMessage(
-                    OPERATION.stringify(e1, e2) + " should not be " +
-                        OPERATION.stringify(e2, e1)
-
+                    String.format(s, "should not be")
                 ).isNotEqTo(e2.operate(e1));
+                getLogger().debug(String.format(s, "is not "));
             } catch (AssertionError ae) {
+                getLogger().info(String.format(s, "is (!) "));
                 throw new TestAbortedException(ae.getMessage());
             }
         }
