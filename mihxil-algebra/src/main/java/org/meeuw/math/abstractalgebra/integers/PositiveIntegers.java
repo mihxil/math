@@ -83,6 +83,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     }
 
     @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
+
+    @Override
     public boolean operationIsCommutative() {
         return multiplicationIsCommutative();
     }

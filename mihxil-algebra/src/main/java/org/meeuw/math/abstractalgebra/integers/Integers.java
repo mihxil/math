@@ -80,6 +80,10 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
         return zero();
     }
 
+    @Override
+    public boolean multiplicationIsCommutative() {
+        return true;
+    }
 
 
     @Override
