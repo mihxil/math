@@ -17,7 +17,7 @@ package org.meeuw.math.abstractalgebra.trivial;
 
 import java.io.Serializable;
 
-import org.meeuw.math.abstractalgebra.RingElement;
+import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 
 /**
@@ -28,7 +28,7 @@ import org.meeuw.math.abstractalgebra.RingElement;
  */
 public enum TrivialRingElement
     implements
-    RingElement<TrivialRingElement>,
+    AbelianRingElement<TrivialRingElement>,
     Serializable {
 
     e;

@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.*;
  * e · e = e
  * </pre>
  */
-public class TrivialRing implements Ring<TrivialRingElement>, Streamable<TrivialRingElement> {
+public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<TrivialRingElement> {
 
     public  static final TrivialRing INSTANCE = new TrivialRing();
 
