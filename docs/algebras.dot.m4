@@ -169,6 +169,17 @@ Ring[
 Ring -> {Rng}
 
 
+# interface org.meeuw.math.abstractalgebra.AbelianRing
+AbelianRing[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td colspan='6' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+x -x inverse x²</td><td title='special elements' href=''>0 u 1</td></tr></table>
+>
+]
+AbelianRing -> {Ring
+MultiplicativeAbelianSemiGroup}
+
+
 # interface org.meeuw.math.abstractalgebra.DivisibleGroup
 DivisibleGroup[
 		margin=2	label=<
@@ -191,14 +202,14 @@ AbelianRing
 DivisibleGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.AbelianRing
-AbelianRing[
+# interface org.meeuw.math.abstractalgebra.VectorSpace
+VectorSpace[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='6' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+x -x inverse x²</td><td title='special elements' href=''>0 u 1</td></tr></table>
+<tr><td colspan='6' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+x -x inverse x²</td><td title='special elements' href=''>u 1 0</td></tr><tr><td colspan='6' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝₚ³</font></td></tr><tr><td colspan='6' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td></tr></table>
 >
 ]
-AbelianRing -> {Ring}
+VectorSpace -> {AbelianRing}
 
 
 # interface org.meeuw.math.abstractalgebra.CompleteField
@@ -219,16 +230,6 @@ ScalarField[
 >
 ]
 ScalarField -> {Field}
-
-
-# interface org.meeuw.math.abstractalgebra.VectorSpace
-VectorSpace[
-		margin=2	label=<
-<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td colspan='6' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+x -x inverse x²</td><td title='special elements' href=''>u 1 0</td></tr><tr><td colspan='6' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝₚ³</font></td></tr><tr><td colspan='6' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td></tr></table>
->
-]
-VectorSpace -> {AbelianRing}
 
 
 # interface org.meeuw.math.abstractalgebra.CompleteScalarField
