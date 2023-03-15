@@ -71,9 +71,16 @@ public interface SystemOfMeasurements {
         return Collections.unmodifiableList(result);
     }
 
-
-
     default Units forDimensions(DimensionExponent... dimensions) {
         return forDimensions(DimensionalAnalysis.of(dimensions));
+    }
+
+    default Units unitsOf(String s) {
+        for (Units u : getUnits()) {
+            if (s.equals(u.toString())) {
+                return u;
+            }
+        }
+        throw new IllegalArgumentException(String.format("No units %s found in %s", s, getClass()));
     }
 }

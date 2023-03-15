@@ -15,13 +15,25 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import java.util.NavigableSet;
+
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
 /**
- * A commutative ring
+ * A commutative ring, next to {@link AdditiveSemiGroupElement#plus(AdditiveSemiGroupElement) addition}, also {@link MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement) multiplication} is commutative.
  *
  * @author Michiel Meeuwissen
  * @since 0.7
  */
-public interface AbelianRing<E extends AbelianRingElement<E>> extends Ring<E> {
+public interface AbelianRing<E extends AbelianRingElement<E>>
+    extends Ring<E>,
+    MultiplicativeAbelianSemiGroup<E> {
+
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = Ring.OPERATORS;
+
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = Ring.UNARY_OPERATORS;
+
 
     @Override
     E one();

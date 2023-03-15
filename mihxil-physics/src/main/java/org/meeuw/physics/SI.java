@@ -55,8 +55,6 @@ public class SI implements SystemOfMeasurements {
         return Arrays.asList(SIUnit.values());
     }
 
-
-
     public enum BinaryPrefix implements Prefix {
 
         none(BigInteger.ONE, "", "none"),

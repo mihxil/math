@@ -25,7 +25,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
  * <p>
- * For simplicity it is both a {@link AdditiveGroup} and a {@link MultiplicativeGroup}, which is not absolutely correct, because it contains one element {@link #zero()} that has no multiplicative {@link MultiplicativeGroupElement#reciprocal()}.
+ * For simplicity it is both an {@link AdditiveGroup} and a {@link MultiplicativeGroup}, which is not absolutely correct, because it contains one element {@link #zero()} that has no multiplicative {@link MultiplicativeGroupElement#reciprocal()}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -43,12 +43,12 @@ public interface Field<E extends FieldElement<E>> extends
 
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
-        return OPERATORS;
+        return Field.OPERATORS;
     }
 
     @Override
     default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
-        return UNARY_OPERATORS;
+        return Field.UNARY_OPERATORS;
     }
 
     // explicit to make proxying possible (DocumentationTest)

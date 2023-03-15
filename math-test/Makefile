@@ -19,7 +19,7 @@ run:
 	docker run -v $(HOME):/root -it  $(URL)
 
 runprefs:
-	docker run -v $(HOME):/root -it  $(URL) prefs
+	docker run -v $(HOME):/root -it  $(URL) prefs mm
 
 explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)

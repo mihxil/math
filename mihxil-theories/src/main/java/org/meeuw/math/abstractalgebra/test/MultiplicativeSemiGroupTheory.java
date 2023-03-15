@@ -38,7 +38,7 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     }
 
     @Property
-    default void abelian(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
+    default void multiplicationCommutativity(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
         if (s.multiplicationIsCommutative()) {
             assertThat(s).isInstanceOf(MultiplicativeAbelianSemiGroup.class);
         }

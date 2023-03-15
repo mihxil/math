@@ -35,6 +35,11 @@ public interface Units extends
 
     Units DIMENSIONLESS = of(exactly(1));
 
+
+    default String name() {
+        return null;
+    }
+
     /**
      * The physical units form a {@link org.meeuw.math.abstractalgebra.MultiplicativeGroup}, implemented by {@link UnitsGroup}.
      */

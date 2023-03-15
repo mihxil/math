@@ -36,7 +36,7 @@ import static org.meeuw.math.abstractalgebra.integers.EvenInteger.ZERO;
  */
 @Example(Rng.class)
 public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, EvenIntegers>
-    implements Rng<EvenInteger> {
+    implements Rng<EvenInteger>, MultiplicativeAbelianSemiGroup<EvenInteger> {
 
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 

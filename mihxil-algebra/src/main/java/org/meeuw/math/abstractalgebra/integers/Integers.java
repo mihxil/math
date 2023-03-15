@@ -37,6 +37,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, Integers>
     implements Ring<IntegerElement>,
     MultiplicativeMonoid<IntegerElement>,
+    MultiplicativeAbelianSemiGroup<IntegerElement>,
     Group<IntegerElement> {
 
     static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);

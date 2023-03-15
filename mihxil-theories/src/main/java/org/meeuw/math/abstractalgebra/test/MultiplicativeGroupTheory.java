@@ -23,7 +23,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import static org.meeuw.math.text.TextUtils.superscript;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
@@ -105,7 +105,7 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
         withLooseEquals(() -> {
             try {
                 E reciprocal = e.reciprocal();
-                assertThat(reciprocal.reciprocal().eq(e)).isTrue();
+                assertThat(reciprocal.reciprocal()).isEqTo(e);
                 E reciprocalTimesSelf = reciprocal.times(e);
                 assertThat(reciprocalTimesSelf.eq(e.getStructure().one()))
                     .withFailMessage(

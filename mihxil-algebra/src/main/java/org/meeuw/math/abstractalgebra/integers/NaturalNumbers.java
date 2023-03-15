@@ -45,7 +45,8 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     implements
     MultiplicativeMonoid<NaturalNumber>,
     AdditiveMonoid<NaturalNumber>,
-    AdditiveAbelianSemiGroup<NaturalNumber> {
+    AdditiveAbelianSemiGroup<NaturalNumber>,
+    MultiplicativeAbelianSemiGroup<NaturalNumber> {
 
 
 

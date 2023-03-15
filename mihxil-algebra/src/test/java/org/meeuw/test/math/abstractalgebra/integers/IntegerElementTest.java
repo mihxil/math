@@ -38,6 +38,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
 class IntegerElementTest implements
     RingTheory<IntegerElement>,
     MultiplicativeMonoidTheory<IntegerElement>,
+    MultiplicativeAbelianSemiGroupTheory<IntegerElement>,
     SizeableScalarTheory<IntegerElement, IntegerElement>,
     SignedNumberTheory<IntegerElement> {
 

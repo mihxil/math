@@ -41,7 +41,6 @@ public interface Unit extends Units {
     @Override
     String getDescription();
 
-    String name();
 
     @Override
     List<Quantity> getQuantities();

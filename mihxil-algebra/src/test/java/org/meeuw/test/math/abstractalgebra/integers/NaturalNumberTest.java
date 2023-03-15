@@ -37,6 +37,7 @@ class NaturalNumberTest implements
     MultiplicativeMonoidTheory<NaturalNumber>,
     AdditiveMonoidTheory<NaturalNumber>,
     AdditiveAbelianSemiGroupTheory<NaturalNumber>,
+    MultiplicativeAbelianSemiGroupTheory<NaturalNumber>,
     ScalarTheory<NaturalNumber> {
 
     @BeforeAll

@@ -16,7 +16,7 @@
 package org.meeuw.math.abstractalgebra;
 
 /**
- * An element of a {@link Ring}, so something that can be added, subtracted and multiplied by each other.
+ * An element of a {@link AbelianRing}, so like {@link Ring}, but the operations are 'abelian' too.
  * @author Michiel Meeuwissen
  * @since 0.7
  */

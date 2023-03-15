@@ -164,5 +164,14 @@ class SITest {
         assertThat(INSTANCE.forQuantity(ENERGY)).isEqualTo(J);
     }
 
+    @Test
+    public void unitsOf() {
+        INSTANCE.getUnits().forEach(i -> {
+            String s = i.toString();
+            log.info(INSTANCE.unitsOf(s));
+        });
+
+    }
+
 
 }

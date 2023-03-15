@@ -37,7 +37,12 @@ public class Application {
         WindowedStatisticalLong windowedStatisticalLong = WindowedStatisticalLong
             .builder().build();
         Random random = new Random();
-        Measurement m = Measurement.measurement(windowedStatisticalLong, SIUnit.s);
+
+        Units units = SIUnit.s;
+        if (arg.length > 1) {
+            units = SI.INSTANCE.unitsOf(arg[1]);
+        }
+        Measurement m = Measurement.measurement(windowedStatisticalLong, units);
 
 
         while(true) {

@@ -45,7 +45,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
             .isEqTo(v1.plus((v2.plus(v3))));
     }
     @Property
-    default void abelian(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
+    default void additionCommutativity(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
         if (s.additionIsCommutative()) {
             assertThat(s).isInstanceOf(AdditiveAbelianSemiGroup.class);
         }
