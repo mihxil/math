@@ -51,13 +51,14 @@ public interface MagmaTheory<E extends MagmaElement<E>>
         } else {
             String s = OPERATION.stringify(e1, e2) + " %s " +
                 OPERATION.stringify(e2, e1);
+            E e3 = e1.operate(e2);
             try {
-                assertThat(e1.operate(e2)).withFailMessage(
+                assertThat(e3).withFailMessage(
                     String.format(s, "should not be")
                 ).isNotEqTo(e2.operate(e1));
                 getLogger().debug(String.format(s, "is not "));
             } catch (AssertionError ae) {
-                getLogger().info(String.format(s, "is (!) "));
+                getLogger().info(String.format(s, "is (!) ") + " (" + e3 + ")");
                 throw new TestAbortedException(ae.getMessage());
             }
         }

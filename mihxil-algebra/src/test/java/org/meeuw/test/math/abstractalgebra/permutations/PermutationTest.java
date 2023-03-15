@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
+import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -172,9 +173,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     @Override
     public Arbitrary<Permutation> elements() {
         return Arbitraries.of(
-            Permutation.of(2, 4, 1, 3, 5),
-            Permutation.of(1, 2, 3, 4, 5),
-            Permutation.of(1, 2, 3, 5, 4)
+            PermutationGroup.ofDegree(5).stream().collect(Collectors.toList())
         );
     }
 }
