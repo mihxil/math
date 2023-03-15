@@ -46,7 +46,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         @Override
         public String toString() {
             // aleph left to right
-            return "\u05D0\u200E" + TextUtils.subscript(0);
+            return "א\u200E" + TextUtils.subscript(0);
         }
     };
 
@@ -57,7 +57,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         @Override
         public String toString() {
             //  aleph left to right
-            return "\u05D0\u200E" + TextUtils.subscript(1);
+            return "א\u200E" + TextUtils.subscript(1);
         }
     };
 
@@ -90,7 +90,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         this.value = BigInteger.valueOf(value);
     }
 
-    private static final class Structure implements MultiplicativeSemiGroup<Cardinality>, Streamable<Cardinality> {
+    private static final class Structure implements MultiplicativeAbelianSemiGroup<Cardinality>, Streamable<Cardinality> {
         final static Structure INSTANCE = new Structure();
         @Override
         public Cardinality getCardinality() {
@@ -113,6 +113,11 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         @Override
         public  boolean multiplicationIsCommutative() {
             return true ;
+        }
+
+        @Override
+        public String toString() {
+            return "Cardinality Structure";
         }
 
     }
