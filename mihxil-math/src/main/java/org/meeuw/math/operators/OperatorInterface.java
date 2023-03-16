@@ -40,7 +40,6 @@ public interface OperatorInterface {
         throw new UnsupportedOperationException();
    }
 
-    @SneakyThrows
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
         return ! getNonAlgebraic(e).isPresent();
     }
