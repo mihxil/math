@@ -36,9 +36,13 @@ public interface OperatorInterface {
         return Integer.MAX_VALUE;
     }
 
-   default Method getMethod() {
+    /**
+     * Returns a {@link Method method} associated with this operator.
+     * @throws UnsupportedOperationException if no such method is defined, e.g. because the operator is composite.
+     */
+    default Method getMethod() {
         throw new UnsupportedOperationException();
-   }
+    }
 
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
         return ! getNonAlgebraic(e).isPresent();

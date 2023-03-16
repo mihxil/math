@@ -22,6 +22,7 @@ import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.test.math.sample.SampleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AlgebraicUnaryOperatorTest {
 
@@ -46,9 +47,12 @@ public class AlgebraicUnaryOperatorTest {
 
     @Test
     public void compose() {
-        assertThat(AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION).stringify("x")).isEqualTo("self(-x)");
+        AlgebraicUnaryOperator compose = AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION);
+        assertThat(compose.stringify("x")).isEqualTo("self(-x)");
 
-        assertThat(AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("NEGATION and then identity");
+        assertThat(compose.name()).isEqualTo("NEGATION and then identity");
+
+        assertThatThrownBy(compose::getMethod).isInstanceOf(UnsupportedOperationException.class);
     }
 
 
