@@ -22,7 +22,7 @@ import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.math.operators.*;
 import org.meeuw.test.math.sample.MyException;
 import org.meeuw.test.math.sample.SampleElement;
 
@@ -96,6 +96,19 @@ public class BasicAlgebraicBinaryOperatorTest {
     public void stringify() {
         assertThat(ADDITION.stringify(new SampleElement(), new SampleElement())).isEqualTo("sampleelement + sampleelement");
         assertThat(ADDITION.getStringify().apply("x", "y")).isEqualTo("x + y");
+    }
+
+    @Test
+    public void symbol() {
+        assertThat(ADDITION.getSymbol()).isEqualTo("+");
+        assertThat(SampleBinaryOperator.INSTANCE.getSymbol()).isEqualTo("FIRST x, x");
+    }
+
+    @Test
+    public void andThen() {
+        AlgebraicBinaryOperator andThen = ADDITION.andThen(AlgebraicUnaryOperator.identity());
+        assertThat(andThen.stringify("a", "b")).isEqualTo("self(a + b)");
+        assertThat(andThen.name()).isEqualTo("ADDITION and then identity");
     }
 
     @Test

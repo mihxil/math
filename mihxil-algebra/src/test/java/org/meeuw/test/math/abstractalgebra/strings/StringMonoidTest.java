@@ -71,7 +71,8 @@ class StringMonoidTest implements
     @Override
     @Provide
     public Arbitrary<StringElement> elements() {
-        return Arbitraries.of("a", "foo", "bar", "")
+        return Arbitraries
+            .of("a", "foo", "bar", "", "x", "y", "z", "1234567890")
             .map(StringElement::new);
     }
 

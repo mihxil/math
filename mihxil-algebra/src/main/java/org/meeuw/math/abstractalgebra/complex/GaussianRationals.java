@@ -24,10 +24,11 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
 /**
- * The {@link Field} of {@link GaussianRational}s.
+ * The {@link Field} of {@link GaussianRational Gaussian Rationals}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see GaussianRational
  */
 @Example(Field.class)
 public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber, RationalNumbers>

@@ -33,6 +33,9 @@ public class BasicAlgebraicComparisonOperatorTest {
 
         assertThat(BasicComparisonOperator.EQ.stringify("a", "b")).isEqualTo("a ≈ b");
 
+        assertThat(BasicComparisonOperator.EQ.stringify(e1, e2)).isEqualTo("sampleelement ≈ sampleelement");
+
+
         assertThat(BasicComparisonOperator.EQ.getSymbol()).isEqualTo("≈");
     }
 
