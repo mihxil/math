@@ -662,13 +662,13 @@ log.info(<span class="string"><span class="delimiter">&quot;</span><span class="
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.m</span>;
 
 ...
-PhysicalNumber twoLightyears = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
+PhysicalNumber twoLightYear = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
 PhysicalNumber oneParsec = measurement(<span class="integer">1</span>, <span class="float">0.1</span>, pc); <span class="comment">// using the static import as a shortcut</span>
 
-assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.4 ly</span><span class="delimiter">&quot;</span></span>);
-assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.13 pc</span><span class="delimiter">&quot;</span></span>);
-assertThat(oneParsec.plus(twoLightyears).eq(twoLightyears.plus(oneParsec))).isTrue(); <span class="comment">//different toString does not mean that they represent a different value</span>
-log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightyears, oneParsec, twoLightyears.plus(oneParsec));</code></pre>
+assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.4 ly</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.13 pc</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); <span class="comment">//different toString does not mean that they represent a different value</span>
+log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightYear, oneParsec, twoLightYear.plus(oneParsec));</code></pre>
 </div>
 </div>
 <div class="paragraph">
