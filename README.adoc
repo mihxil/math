@@ -313,13 +313,13 @@ import static org.meeuw.physics.SIUnit.kg;
 import static org.meeuw.physics.SIUnit.m;
 
 ...
-PhysicalNumber twoLightyears = new Measurement(2, 0.1, ly);        //
+PhysicalNumber twoLightYear = new Measurement(2, 0.1, ly);        //
 PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
 
-assertThat(twoLightyears.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
-assertThat(oneParsec.plus(twoLightyears).toString()).isEqualTo("1.61 ± 0.13 pc");
-assertThat(oneParsec.plus(twoLightyears).eq(twoLightyears.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
-log.info("{} + {} = {}", twoLightyears, oneParsec, twoLightyears.plus(oneParsec));
+assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
+assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo("1.61 ± 0.13 pc");
+assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
+log.info("{} + {} = {}", twoLightYear, oneParsec, twoLightYear.plus(oneParsec));
 ----
 
 Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).
@@ -567,6 +567,12 @@ ConfigurationService itself is not actually math related, and is released in a s
 :ghblob: {gh}blob/main/
 :ght: {ghblob}mihxil-theories/src/main/java/
 
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-theories.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-theories]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-theories.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-theories]
+
+NOTE::
+
+Package structure was changed in `0.12.0`.
 
 For testing the structures and object of link:{gh}[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
 
@@ -574,13 +580,13 @@ This is provided as a set of interfaces named `...Theory`. Tests can implement t
 
 == Non math related theories
 
-See link:{ght}org/meeuw/util/test[`org.meeuw.util.test`] for theories not directly related to mathematical structures, but merely to java contracting like e.g.
+See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly related to mathematical structures, but merely to java contracting like e.g.
 
 
 |===
 |class | goal | (example) methods
 
-|link:{ght}org/meeuw/util/test/BasicObjectTheory.java[BasicObjectTheory]
+|link:{ght}org/meeuw/theories/BasicObjectTheory.java[BasicObjectTheory]
 |Tests basic properties of any java object, mainly consistency of `equals` and `hashCode`
 | `equalsIsReflexive`
   `equalsIsSymmetric`
@@ -591,11 +597,11 @@ See link:{ght}org/meeuw/util/test[`org.meeuw.util.test`] for theories not direct
   `hashCodeIsConsistentWithEquals`
   `toString`
 
-|link:{ght}org/meeuw/util/test/ComparableTheory.java[ComparableTheory]
+|link:{ght}org/meeuw/theories/ComparableTheory.java[ComparableTheory]
 |If an object is also `Comparable` then consistency of `compareTo` can be tested
 | `equalsConsistentWithComparable`
 
-|link:{ght}org/meeuw/util/test/CharSequenceTheory.java[CharSequenceTheory]
+|link:{ght}org/meeuw/theories/CharSequenceTheory.java[CharSequenceTheory]
 |The `CharSequence` interface also has a few methods that can be tested generically
 | `charAtIsConsistentWithToStringCharAt`
   `subSequenceIsConsistent`
