@@ -1,4 +1,4 @@
-package org.meeuw.test.assertj;
+package org.meeuw.assertj;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 

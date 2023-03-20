@@ -21,7 +21,7 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.meeuw.test.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen

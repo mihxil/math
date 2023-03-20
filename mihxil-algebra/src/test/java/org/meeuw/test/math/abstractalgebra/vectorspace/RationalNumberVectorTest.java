@@ -27,7 +27,7 @@ import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.abstractalgebra.vectorspace.NVectorSpace;
 
-import static org.meeuw.test.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 /**

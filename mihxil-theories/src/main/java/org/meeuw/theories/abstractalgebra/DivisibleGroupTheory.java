@@ -21,7 +21,7 @@ import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.meeuw.test.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**

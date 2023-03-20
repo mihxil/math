@@ -22,7 +22,7 @@ import org.meeuw.math.abstractalgebra.Magma;
 import org.meeuw.math.abstractalgebra.MagmaElement;
 import org.opentest4j.TestAbortedException;
 
-import static org.meeuw.test.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;
 
 

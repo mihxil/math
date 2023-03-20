@@ -32,7 +32,7 @@ module org.meeuw.math.abstractalgebra.test {
     exports org.meeuw.theories.abstractalgebra;
     exports org.meeuw.theories.numbers;
 
-    exports org.meeuw.test.assertj;
+    exports org.meeuw.assertj;
 
 
 }

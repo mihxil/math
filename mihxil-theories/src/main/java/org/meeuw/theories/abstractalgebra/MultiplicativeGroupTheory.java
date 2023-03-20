@@ -23,7 +23,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
-import static org.meeuw.test.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import static org.meeuw.math.text.TextUtils.superscript;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
