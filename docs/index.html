@@ -1064,6 +1064,18 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <h2 id="theories">7. Theory testing</h2>
 <div class="sectionbody">
 <div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-theories"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-theories.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math/mihxil-theories"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-theories.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">NOTE</dt>
+<dd>
+<p>Package structure was changed in <code>0.12.0</code>.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
 <p>For testing the structures and object of <a href="https://github.com/mihxil/math/">mihxil-math</a>, this provides 'property-based' testing, based on <a href="https://jqwik.net/">jqwik</a>.</p>
 </div>
 <div class="paragraph">
@@ -1072,7 +1084,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="_non_math_related_theories">7.1. Non math related theories</h3>
 <div class="paragraph">
-<p>See <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/util/test"><code>org.meeuw.util.test</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
+<p>See <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories"><code>org.meeuw.theories</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1089,7 +1101,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/util/test/BasicObjectTheory.java">BasicObjectTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories/BasicObjectTheory.java">BasicObjectTheory</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tests basic properties of any java object, mainly consistency of <code>equals</code> and <code>hashCode</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>equalsIsReflexive</code>
   <code>equalsIsSymmetric</code>
@@ -1101,12 +1113,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
   <code>toString</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/util/test/ComparableTheory.java">ComparableTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories/ComparableTheory.java">ComparableTheory</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">If an object is also <code>Comparable</code> then consistency of <code>compareTo</code> can be tested</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>equalsConsistentWithComparable</code></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/util/test/CharSequenceTheory.java">CharSequenceTheory</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories/CharSequenceTheory.java">CharSequenceTheory</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <code>CharSequence</code> interface also has a few methods that can be tested generically</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>charAtIsConsistentWithToStringCharAt</code>
   <code>subSequenceIsConsistent</code></p></td>
