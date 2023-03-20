@@ -25,7 +25,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;

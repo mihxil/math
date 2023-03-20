@@ -23,8 +23,8 @@ import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.DivisionRingTheory;
-import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
+import org.meeuw.theories.abstractalgebra.DivisionRingTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 
 import static org.assertj.core.api.Assertions.assertThat;

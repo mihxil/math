@@ -24,10 +24,10 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.*;
-import org.meeuw.math.abstractalgebra.test.RngTheory;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.theories.abstractalgebra.RngTheory;
+import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.numbers.test.SizeableScalarTheory;
+import org.meeuw.theories.numbers.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

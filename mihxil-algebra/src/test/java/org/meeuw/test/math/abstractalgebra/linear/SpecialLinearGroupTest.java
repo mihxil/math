@@ -31,7 +31,7 @@ import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearGroup;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearMatrix;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotASquareException;
 

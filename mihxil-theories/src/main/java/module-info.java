@@ -28,10 +28,12 @@ module org.meeuw.math.abstractalgebra.test {
     requires org.junit.jupiter.params;
     requires org.meeuw.configuration;
 
-    exports org.meeuw.math.abstractalgebra.test;
-    exports org.meeuw.math.numbers.test;
-    exports org.meeuw.util.test;
-    exports org.meeuw.assertj;
+    exports org.meeuw.theories;
+    exports org.meeuw.theories.abstractalgebra;
+    exports org.meeuw.theories.numbers;
+
+    exports org.meeuw.test.assertj;
+
 
 }
 

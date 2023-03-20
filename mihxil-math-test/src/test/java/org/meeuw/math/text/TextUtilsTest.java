@@ -8,7 +8,7 @@ package org.meeuw.math.text;
 
 import org.junit.jupiter.api.TestInstance;
 
-import org.meeuw.util.test.StaticUtilitiesTest;
+import org.meeuw.theories.StaticUtilitiesTest;
 
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 

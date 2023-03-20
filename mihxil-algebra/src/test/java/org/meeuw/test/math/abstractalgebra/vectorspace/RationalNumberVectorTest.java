@@ -22,12 +22,12 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
-import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
+import org.meeuw.theories.abstractalgebra.VectorSpaceTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.abstractalgebra.vectorspace.NVectorSpace;
 
-import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.test.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 /**

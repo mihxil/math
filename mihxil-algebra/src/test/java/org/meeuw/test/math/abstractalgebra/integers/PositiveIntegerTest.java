@@ -26,11 +26,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.integers.*;
-import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeMonoidTheory;
+import org.meeuw.theories.abstractalgebra.AdditiveAbelianSemiGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeMonoidTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidFactorial;
-import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.theories.numbers.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

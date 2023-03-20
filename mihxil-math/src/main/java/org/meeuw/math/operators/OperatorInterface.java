@@ -38,7 +38,7 @@ public interface OperatorInterface {
 
     /**
      * Returns a {@link Method method} associated with this operator.
-     * @throws UnsupportedOperationException if no such method is defined, e.g. because the operator is composite.
+     * @throws UnsupportedOperationException if no such method is defined, e.g. because the operator is {@link AlgebraicUnaryOperator#compose  composite}.
      */
     default Method getMethod() {
         throw new UnsupportedOperationException();

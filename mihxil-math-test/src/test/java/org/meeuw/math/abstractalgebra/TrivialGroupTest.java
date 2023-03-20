@@ -18,7 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.test.GroupTheory;
+import org.meeuw.theories.abstractalgebra.GroupTheory;
 import org.meeuw.math.abstractalgebra.trivial.TrivialGroupElement;
 
 public class TrivialGroupTest implements GroupTheory<TrivialGroupElement> {

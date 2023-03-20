@@ -6,7 +6,7 @@ import lombok.Data;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.util.test.ComparableTheory;
+import org.meeuw.theories.ComparableTheory;
 
 public class BasicObjectTheoryTest implements ComparableTheory<BasicObjectTheoryTest.A> {
 

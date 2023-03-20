@@ -26,8 +26,8 @@ import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
-import org.meeuw.math.abstractalgebra.test.MetricSpaceTheory;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
+import org.meeuw.theories.abstractalgebra.MetricSpaceTheory;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 

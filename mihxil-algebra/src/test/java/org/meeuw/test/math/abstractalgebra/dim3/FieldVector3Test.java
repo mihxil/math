@@ -25,10 +25,10 @@ import org.meeuw.math.abstractalgebra.dim3.FieldVector3Space;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.abstractalgebra.test.VectorSpaceTheory;
-import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
+import org.meeuw.theories.abstractalgebra.VectorSpaceTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 import org.meeuw.math.exceptions.FieldIncompleteException;
-import org.meeuw.math.abstractalgebra.test.ElementTheory;
+import org.meeuw.theories.abstractalgebra.ElementTheory;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;

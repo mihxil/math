@@ -21,9 +21,9 @@ import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.strings.StringElement;
 import org.meeuw.math.abstractalgebra.strings.StringMonoid;
-import org.meeuw.math.abstractalgebra.test.AdditiveMonoidTheory;
-import org.meeuw.math.abstractalgebra.test.OrderedTheory;
-import org.meeuw.util.test.CharSequenceTheory;
+import org.meeuw.theories.abstractalgebra.AdditiveMonoidTheory;
+import org.meeuw.theories.abstractalgebra.OrderedTheory;
+import org.meeuw.theories.CharSequenceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.strings.StringMonoid.INSTANCE;

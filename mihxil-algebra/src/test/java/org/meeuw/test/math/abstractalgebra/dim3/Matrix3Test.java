@@ -27,8 +27,8 @@ import org.meeuw.math.abstractalgebra.dim3.Matrix3;
 import org.meeuw.math.abstractalgebra.dim3.Matrix3Group;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
-import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.dim3.Matrix3.of;

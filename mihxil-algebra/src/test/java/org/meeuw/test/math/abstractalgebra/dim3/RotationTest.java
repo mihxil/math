@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
 import org.meeuw.math.abstractalgebra.dim3.Rotation;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.text.TextUtils;
 
 import static java.lang.Math.PI;

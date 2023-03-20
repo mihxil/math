@@ -26,11 +26,13 @@ import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.*;
 
-import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.test.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.real;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
+
+import org.meeuw.test.theories.math.abstractalgebra.*;
+import org.meeuw.theories.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen

@@ -25,9 +25,10 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.*;
-import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.test.theories.math.abstractalgebra.*;
+import org.meeuw.theories.abstractalgebra.*;
+import org.meeuw.theories.numbers.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

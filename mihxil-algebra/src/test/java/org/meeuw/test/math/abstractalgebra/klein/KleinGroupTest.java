@@ -19,7 +19,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
 import org.meeuw.math.abstractalgebra.klein.KleinElement;
-import org.meeuw.math.abstractalgebra.test.GroupTheory;
+import org.meeuw.theories.abstractalgebra.GroupTheory;
 
 public class KleinGroupTest implements GroupTheory<KleinElement> {
     @Override

@@ -18,7 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
-import org.meeuw.math.abstractalgebra.test.MultiplicativeSemiGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeSemiGroupTheory;
 
 public class CardinalityTest implements MultiplicativeSemiGroupTheory<Cardinality> {
     @Override

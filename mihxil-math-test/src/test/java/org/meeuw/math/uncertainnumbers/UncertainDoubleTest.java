@@ -19,7 +19,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.exceptions.WeighingExactValuesException;
-import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.theories.numbers.ScalarTheory;
 import org.meeuw.math.text.TextUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;

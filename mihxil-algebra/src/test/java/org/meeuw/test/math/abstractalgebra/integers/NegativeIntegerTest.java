@@ -20,10 +20,10 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.integers.*;
-import org.meeuw.math.abstractalgebra.test.AdditiveAbelianSemiGroupTheory;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.theories.abstractalgebra.AdditiveAbelianSemiGroupTheory;
+import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.numbers.test.SizeableScalarTheory;
+import org.meeuw.theories.numbers.SizeableScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

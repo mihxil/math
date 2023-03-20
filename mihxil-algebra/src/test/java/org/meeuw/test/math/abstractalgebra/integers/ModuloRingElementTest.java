@@ -19,7 +19,7 @@ import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.integers.ModuloRingElement;
-import org.meeuw.math.abstractalgebra.test.RingTheory;
+import org.meeuw.theories.abstractalgebra.RingTheory;
 
 /**
  * @author Michiel Meeuwissen

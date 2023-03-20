@@ -22,8 +22,8 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.WithScalarTheory;
+import org.meeuw.theories.abstractalgebra.FieldTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

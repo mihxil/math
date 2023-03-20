@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.test.ElementTheory;
+import org.meeuw.theories.abstractalgebra.ElementTheory;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static java.math.BigDecimal.valueOf;

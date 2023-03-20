@@ -23,7 +23,6 @@ import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.test.*;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 
 import static java.lang.Double.NaN;
@@ -32,6 +31,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.*;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
+
+import org.meeuw.test.theories.math.abstractalgebra.*;
+import org.meeuw.theories.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen

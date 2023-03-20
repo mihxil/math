@@ -28,7 +28,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.permutations.Permutation;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.klein.KleinElement;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.product.ProductElement;
-import org.meeuw.math.abstractalgebra.test.GroupTheory;
+import org.meeuw.theories.abstractalgebra.GroupTheory;
 import org.meeuw.math.exceptions.AlgebraicStructureException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 

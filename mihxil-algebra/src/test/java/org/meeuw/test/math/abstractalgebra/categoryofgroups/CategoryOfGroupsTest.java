@@ -14,7 +14,7 @@ import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeSemiGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeSemiGroupTheory;
 
 @Log4j2
 public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group<?>> {

@@ -21,10 +21,10 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
-import org.meeuw.math.abstractalgebra.test.SignedNumberTheory;
+import org.meeuw.theories.abstractalgebra.FieldTheory;
+import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.numbers.test.ScalarTheory;
+import org.meeuw.theories.numbers.ScalarTheory;
 
 import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;

@@ -24,7 +24,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.abstractalgebra.test.CompleteScalarFieldTheory;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;

@@ -26,7 +26,7 @@ import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
-import org.meeuw.math.abstractalgebra.test.FieldTheory;
+import org.meeuw.theories.abstractalgebra.FieldTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 

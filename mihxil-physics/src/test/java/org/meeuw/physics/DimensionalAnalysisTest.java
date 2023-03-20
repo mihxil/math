@@ -21,7 +21,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.test.MultiplicativeAbelianGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeAbelianGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.Dimension.*;

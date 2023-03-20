@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3;
 import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3Group;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.abstractalgebra.test.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
 
