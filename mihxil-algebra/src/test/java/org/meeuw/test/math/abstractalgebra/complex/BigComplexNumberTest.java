@@ -22,12 +22,10 @@ import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.theories.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
-
-import org.meeuw.test.theories.math.abstractalgebra.*;
-import org.meeuw.theories.abstractalgebra.*;
 
 /**
  * @author Michiel Meeuwissen

@@ -21,19 +21,15 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.test.math.abstractalgebra.*;
-import org.meeuw.test.theories.math.abstractalgebra.*;
 import org.meeuw.theories.abstractalgebra.*;
 import org.meeuw.theories.numbers.NumberTheory;
 import org.meeuw.theories.numbers.ScalarTheory;
+
 import static org.assertj.core.api.Assertions.assertThat;
-
-// tag::imports[]
-
 import static org.meeuw.physics.Measurement.measurement;
-import static org.meeuw.physics.SI.*;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.DecimalPrefix.none;
+import static org.meeuw.physics.SI.*;
 import static org.meeuw.physics.SIUnit.kg;
 import static org.meeuw.physics.SIUnit.m;
 

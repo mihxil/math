@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.IllegalPowerException;
-import org.meeuw.test.theories.math.abstractalgebra.*;
+
 import org.meeuw.theories.abstractalgebra.*;
 import org.meeuw.theories.numbers.SizeableScalarTheory;
 
