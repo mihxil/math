@@ -95,6 +95,15 @@ public class Permutation  implements
         return result;
     }
 
+    public  int[] permute(int... values) {
+        int[] result = Arrays.copyOf(values, values.length);
+        for (int i = 0 ; i < value.length; i++) {
+            result[value[i]] = values[i];
+        }
+        return result;
+    }
+
+
     @Override
     public Permutation times(Permutation multiplier) {
         int[] result = new int[value.length];
