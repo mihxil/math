@@ -32,7 +32,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.31.0</checkerframework.version>
+    <checkerframework.version>3.32.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
 
 
@@ -40,7 +40,7 @@
     <junit.version>5.9.2</junit.version>
     <jacoco.version>0.8.8</jacoco.version>
     <assertj.version>3.24.2</assertj.version>
-    <jqwik.version>1.7.2</jqwik.version>
+    <jqwik.version>1.7.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
     <log4j.version>2.20.0</log4j.version>
@@ -257,7 +257,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M9</version>
+          <version>3.0.0</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
             <useModulePath>false</useModulePath>
