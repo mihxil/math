@@ -209,8 +209,10 @@ public class IntegerUtils {
     }
 
     /**
-     * Finds out which power the argument can be.
-     * @return a set of 2 (i, j), such that i^j. For smallest possible i. If there is no such combination, returns (0,0)
+     * Finds out which integer power the argument can be.
+     * @return an array of 2 ints {@code (i, j)}, such that {@code i^j == n},  for smallest possible {@code i}. If there is no such combination, then {@code (0,0)}
+     * @param n The number to check
+     *
      */
     public static int[] checkPower(final long n) {
         long p = 2;
@@ -250,5 +252,21 @@ public class IntegerUtils {
             return n1;
         }
         return gcdByEuclidsAlgorithm(n2, Math.abs(n1 % n2));
+    }
+
+    public static long fromDigitsInBase(final int base, @Min(0) int... digits) {
+        long result = 0;
+        for (long d : digits) {
+            if (d >= base) {
+                throw new IllegalArgumentException();
+            }
+            result = base * result + d ;
+        }
+        return result;
+
+    }
+
+    public static long fromDigits(@Min(0) @Max(9) int... digits) {
+        return fromDigitsInBase(10, digits);
     }
 }

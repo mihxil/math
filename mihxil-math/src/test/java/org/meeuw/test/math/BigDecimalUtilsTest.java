@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -21,4 +22,16 @@ public class BigDecimalUtilsTest {
             BigDecimalUtils.pow(BigDecimal.ZERO, -1, MathContext.DECIMAL128);
         }).isInstanceOf(IllegalPowerException.class);
     }
+
+
+    @Test
+    public void uncertaintyForBigDecimal() {
+        assertThat(BigDecimalUtils.uncertaintyForBigDecimal(BigDecimal.TEN, MathContext.DECIMAL128)).isEqualTo(BigDecimal.ZERO);
+        assertThat(BigDecimalUtils.uncertaintyForBigDecimal(new BigDecimal("0.123"), MathContext.DECIMAL32)).isEqualTo(new BigDecimal("1E-7"));
+
+        assertThat(BigDecimalUtils.uncertaintyForBigDecimal(new BigDecimal("0.123456"), new MathContext(2))).isEqualTo(new BigDecimal("0.01"));
+
+
+    }
+
 }
