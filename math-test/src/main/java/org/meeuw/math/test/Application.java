@@ -6,10 +6,13 @@ import java.util.Random;
 import java.util.logging.*;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.math.windowed.WindowedStatisticalLong;
 import org.meeuw.physics.*;
+
+import static org.meeuw.math.IntegerUtils.fromDigits;
 
 
 public class Application {
@@ -26,7 +29,24 @@ public class Application {
           }
       }
 
-    public static void main(String[] arg) throws InterruptedException {
+
+    public static void main(String[] arg) {
+        permutation(arg);
+    }
+
+    public static void permutation(String [] arg) {
+
+        final int[] digits = new int[] {1, 2, 3, 4, 5};
+        PermutationGroup permutationGroup = PermutationGroup.ofDegree(5);
+        log.info(() -> "sum %s".formatted(
+            permutationGroup.stream()
+                .map(p -> fromDigits(p.permute(digits)))
+                .reduce(0L, Long::sum))
+        );
+    }
+
+    public static void measure(String[] arg) throws InterruptedException {
+
         if (arg.length > 0 && "prefs".equals(arg[0])) {
             ConfigurationService.setupUserPreferences();
         } else {

@@ -23,6 +23,10 @@
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-physics</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-algebra</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
