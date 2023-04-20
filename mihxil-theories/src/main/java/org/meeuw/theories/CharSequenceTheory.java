@@ -40,9 +40,9 @@ public interface CharSequenceTheory<C extends CharSequence> {
     default void subSequenceIsConsistent(@ForAll(OBJECTS) C charSequence) {
         for (int i = 0; i < charSequence.length(); i++) {
             for (int j = i ; j < charSequence.length(); j++) {
-                CharSequence subSequence = charSequence.subSequence(i, i);
+                CharSequence subSequence = charSequence.subSequence(i, j);
                 assertThat(subSequence).hasSameClassAs(charSequence);
-                assertThat(subSequence.toString()).isEqualTo(charSequence.toString().substring(i, i));
+                assertThat(subSequence.toString()).isEqualTo(charSequence.toString().substring(i, j));
             }
         }
     }
