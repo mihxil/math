@@ -22,7 +22,7 @@ public class BasicObjectTheoryTest implements ComparableTheory<BasicObjectTheory
         }
         @Override
         public String toString() {
-            return "" + value + " " + super.hashCode();
+            return value + " " + super.hashCode();
         }
 
         @Override

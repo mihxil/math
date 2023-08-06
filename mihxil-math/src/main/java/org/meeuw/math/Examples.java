@@ -18,7 +18,7 @@ package org.meeuw.math;
 import java.lang.annotation.*;
 
 /**
- *
+ * {@link Repeatable} wrapper for {@link Example}
  */
 
 @Retention(RetentionPolicy.RUNTIME)

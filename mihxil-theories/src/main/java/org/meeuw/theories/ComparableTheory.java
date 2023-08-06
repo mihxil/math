@@ -1,16 +1,19 @@
 package org.meeuw.theories;
 
-import static java.lang.Integer.signum;
 import java.util.*;
 import java.util.stream.Collectors;
+
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 import net.jqwik.api.Tuple.Tuple3;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.opentest4j.TestAbortedException;
+
+import static java.lang.Integer.signum;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests basic properties for {@link Comparable} objects.
@@ -37,7 +40,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
         }
     }
 
-    @SuppressWarnings({"ResultOfMethodCallIgnored", "ConstantConditions"})
+    @SuppressWarnings({"ConstantConditions"})
     @Property
     default void compareToNull(@ForAll(DATAPOINTS) E x) {
         assertThatThrownBy(() -> x.compareTo(null)).isInstanceOf(NullPointerException.class);
@@ -53,7 +56,6 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
         } catch (ClassCastException | NotComparableException exception) {
             throw new TestAbortedException(exception.getClass().getName() + ":" + exception.getMessage() + " from " + x + "compareTo(" + y + "). This probably is acceptable");
         }
-
     }
 
     /**

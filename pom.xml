@@ -221,7 +221,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.2.1</version>
+        <version>3.3.0</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -240,7 +240,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.0.1</version>
         <configuration>
           <branchName>${project.version}</branchName>
           <tagNameFormat>@{project.version}</tagNameFormat>
@@ -251,11 +251,11 @@
       <plugins>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.1.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>3.1.2</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
             <useModulePath>false</useModulePath>
@@ -382,7 +382,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>3.1.0</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -421,7 +421,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-source-plugin</artifactId>
-            <version>3.2.1</version>
+            <version>3.3.0</version>
             <executions>
               <execution>
                 <id>attach-sources</id>
