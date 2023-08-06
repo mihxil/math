@@ -4,44 +4,48 @@
   <artifactId>mihxil-math-parent</artifactId>
   <name>Math - parent</name>
   <packaging>pom</packaging>
-  <version>0.9-SNAPSHOT</version>
+  <version>0.12-SNAPSHOT</version>
 
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math/foo</url>
 
   <modules>
+    <module>mihxil-math-lib-parent</module>
+
     <module>mihxil-configuration</module>
     <module>mihxil-math</module>
-    <module>mihxil-math-theories</module>
+
+    <module>mihxil-theories</module>
 
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
+    <module>math-test</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-    <java.target.version>8</java.target.version>
-
-    <java.version>17</java.version>
-
     <!-- compile time -->
-    <lombok.version>1.18.24</lombok.version>
+    <lombok.version>1.18.26</lombok.version>
 
-    <!-- optional -->
-    <big-math.version>2.3.0</big-math.version>
-    <checkerframework.version>3.22.2</checkerframework.version>
+    <!-- optional dependencies -->
+    <big-math.version>2.3.2</big-math.version>
+    <checkerframework.version>3.32.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
+
+
     <!-- test dependencies -->
-    <log4j.version>2.17.2</log4j.version>
-    <jqwik.version>1.6.4</jqwik.version>
-    <junit.version>5.9.0-M1</junit.version>
+    <junit.version>5.9.2</junit.version>
     <jacoco.version>0.8.8</jacoco.version>
-    <assertj.version>3.23.1</assertj.version>
+    <assertj.version>3.24.2</assertj.version>
+    <jqwik.version>1.7.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
-    <hibernate-validator.version>7.0.4.Final</hibernate-validator.version>
+    <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
+    <log4j.version>2.20.0</log4j.version>
+
+
   </properties>
 
 
@@ -82,7 +86,7 @@
       </dependency>
       <dependency>
         <groupId>org.meeuw.math</groupId>
-        <artifactId>mihxil-math-theories</artifactId>
+        <artifactId>mihxil-theories</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
@@ -106,18 +110,7 @@
         <artifactId>mihxil-statistics</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <dependency>
-        <groupId>ch.obermuhlner</groupId>
-        <artifactId>big-math</artifactId>
-        <version>${big-math.version}</version>
-        <optional>true</optional>
-      </dependency>
-      <dependency>
-        <groupId>jakarta.validation</groupId>
-        <artifactId>jakarta.validation-api</artifactId>
-        <version>${jakarta-validation.version}</version>
-        <scope>provided</scope>
-      </dependency>
+
       <dependency>
         <groupId>org.hibernate.validator</groupId>
         <artifactId>hibernate-validator</artifactId>
@@ -170,14 +163,8 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <dependencies>
 
-    <dependency>
-      <groupId>org.checkerframework</groupId>
-      <artifactId>checker-qual</artifactId>
-      <version>${checkerframework.version}</version>
-      <scope>provided</scope>
-    </dependency>
+  <dependencies>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -189,18 +176,7 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>net.jqwik</groupId>
-      <artifactId>jqwik</artifactId>
-      <scope>test</scope>
-    </dependency>
 
-
-  <!--  <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct-processor</artifactId>
-      <version>1.3.0.Final</version>
-    </dependency>-->
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
@@ -246,74 +222,8 @@
     <defaultGoal>install</defaultGoal>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.10.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-          <compilerArgs>
-            <arg>-AprintErrorStack</arg>
-            <arg>-Awarns</arg>
-          </compilerArgs>
-          <annotationProcessorPaths>
-            <path>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </path>
-          </annotationProcessorPaths>
-        </configuration>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <configuration>
-              <!-- compile everything to ensure module-info contains right entries -->
-              <source>${java.version}</source>
-              <release>${java.version}</release>
-            </configuration>
-          </execution>
-          <execution>
-            <id>base-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <!-- recompile everything for target VM except the module-info.java -->
-            <configuration>
-              <excludes>
-                <exclude>module-info.java</exclude>
-              </excludes>
-              <source>${java.target.version}</source>
-              <release>${java.target.version}</release>
-            </configuration>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <phase>process-test-sources</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <source>${java.version}</source>
-              <release>${java.version}</release>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.2.2</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.1</version>
         <executions>
           <execution>
             <id>enforce-maven</id>
@@ -332,7 +242,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <version>3.0.0</version>
         <configuration>
           <branchName>${project.version}</branchName>
           <tagNameFormat>@{project.version}</tagNameFormat>
@@ -343,14 +253,13 @@
       <plugins>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.0.0-M2</version>
+          <version>3.1.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.0.0-M7</version>
+          <version>3.0.0</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
-            <testFailureIgnore>true</testFailureIgnore>
             <useModulePath>false</useModulePath>
             <excludes>
               <exclude />
@@ -402,7 +311,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.11.0</version>
+          <version>3.12.1</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -465,7 +374,7 @@
           <plugin>
             <groupId>org.sonatype.plugins</groupId>
             <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.6.12</version>
+            <version>1.6.13</version>
             <extensions>true</extensions>
             <configuration>
               <serverId>ossrh-release</serverId>
@@ -487,6 +396,32 @@
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-maven-plugin</artifactId>
+            <version>1.18.20.0</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+              <outputDirectory>${delombok.output}</outputDirectory>
+              <addOutputDirectory>false</addOutputDirectory>
+              <encoding>UTF-8</encoding>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>generate-sources</phase>
+                <goals>
+                  <goal>delombok</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
             <artifactId>maven-source-plugin</artifactId>
             <version>3.2.1</version>
             <executions>
@@ -500,7 +435,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.3.2</version>
+            <version>3.5.0</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>
@@ -514,7 +449,8 @@
               <links>
                 <link>https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/</link>
                 <link>https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
-                <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/3.0.1/</link>
+                <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
+                <link>https://javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
               </links>
               <detectLinks />
               <detectJavaApiLink />
@@ -522,6 +458,7 @@
               <detectOfflineLinks>true</detectOfflineLinks>
               <additionalJOption>-Xdoclint:all</additionalJOption>
               <additionalJOption>-Xdoclint:-missing</additionalJOption>
+              <sourcepath>${delombok.output}</sourcepath>
             </configuration>
           </plugin>
         </plugins>
