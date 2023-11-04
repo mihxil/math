@@ -57,17 +57,25 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
 
     private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
-    private static final ScheduledExecutorService backgroundExecutor = Executors
-        .newScheduledThreadPool(1, new ThreadFactory() {
-            int counter = 0;
-            @Override
-            public Thread newThread(Runnable r) {
-                Thread t =  new Thread(THREAD_GROUP,  r, "WindowedEventRate-" + (counter ++));
-                t.setDaemon(true);
-                return t;
-            }
-        })
-        ;
+    private static ScheduledExecutorService backgroundExecutor;
+
+    private static synchronized ScheduledExecutorService getBackgroundExecutor() {
+        if (backgroundExecutor == null) {
+            backgroundExecutor = Executors
+                .newScheduledThreadPool(0, new ThreadFactory() {
+                    int counter = 0;
+
+                    @Override
+                    public Thread newThread(Runnable r) {
+                        Thread t = new Thread(THREAD_GROUP, r, "WindowedEventRate-" + (counter++));
+                        t.setDaemon(true);
+                        return t;
+                    }
+                })
+            ;
+        }
+        return backgroundExecutor;
+    }
 
     private final ScheduledFuture<?> scheduledReporter;
 
@@ -76,6 +84,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
      * @param bucketDuration The duration of one bucket (or <code>null</code> if window specified).
      * @param bucketCount    The number of buckets the total window time is to be divided in.
      * @param reporter       A consumer that will be called every {@code bucketDuration}
+     * @param executor       The executor to use for the reporter (or <code>null</code> if the default one should be used)
      */
 
     @lombok.Builder
@@ -84,12 +93,13 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
         @Nullable Consumer<WindowedEventRate> reporter,
+        @Nullable ScheduledExecutorService executor,
         @NonNull BiConsumer<Event, Windowed<AtomicLong>>@Nullable[] eventListenersArray,
         @Nullable Clock clock
         ) {
         super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
         if (reporter != null) {
-            scheduledReporter = backgroundExecutor.scheduleAtFixedRate(
+            scheduledReporter = (executor == null ? getBackgroundExecutor() : executor).scheduleAtFixedRate(
                 () -> {
                     try {
                         reporter.accept(WindowedEventRate.this);
@@ -165,7 +175,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     public WindowedEventRate(int unit, TimeUnit timeUnit, int bucketCount) {
         this(Duration.ofMillis(
             TimeUnit.MILLISECONDS.convert(unit, timeUnit) * bucketCount),
-            null, bucketCount, null, null, null);
+            null, bucketCount, null, null,  null, null);
     }
     public WindowedEventRate(int unit, TimeUnit timeUnit) {
         this(unit, timeUnit, 100);
