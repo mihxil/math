@@ -26,7 +26,7 @@ import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
  */
 public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> {
 
-    static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
     public ComplexNumber(RealNumber real, RealNumber imaginary) {
         super(real, imaginary);

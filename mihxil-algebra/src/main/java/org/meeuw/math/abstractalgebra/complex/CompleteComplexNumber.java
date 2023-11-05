@@ -37,7 +37,7 @@ public abstract class CompleteComplexNumber<
     MetricSpaceElement<S, E>,
     Serializable {
 
-    static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
     public CompleteComplexNumber(E real, E imaginary) {
         super(real, imaginary);

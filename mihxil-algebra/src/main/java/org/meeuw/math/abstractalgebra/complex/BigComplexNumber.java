@@ -32,7 +32,7 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
     MetricSpaceElement<BigComplexNumber, BigDecimalElement>,
     Serializable {
 
-    static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
     public BigComplexNumber(BigDecimalElement real, BigDecimalElement imaginary) {
         super(real, imaginary);
