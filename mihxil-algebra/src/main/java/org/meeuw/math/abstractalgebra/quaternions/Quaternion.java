@@ -39,7 +39,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     Serializable,
     WithScalarOperations<Quaternion<E>, E> {
 
-    static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
     @Getter
     final E a;
