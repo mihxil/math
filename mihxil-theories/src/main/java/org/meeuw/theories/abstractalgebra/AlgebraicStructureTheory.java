@@ -42,6 +42,11 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     String STRUCTURE = "structure";
 
+    @Provide
+    default Arbitrary<? extends AlgebraicStructure<E>> structure() {
+        return element().map(AlgebraicElement::getStructure);
+    }
+
     @SuppressWarnings("unchecked")
     @Property()
     default void cardinalityAndStreaming(
@@ -227,14 +232,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     throw ae;
                 }
             }
-
         }
     }
 
-    @Provide
-    default Arbitrary<AlgebraicStructure<? extends E>> structure() {
-        return Arbitraries.of(elements().sample().getStructure());
-    }
 
     @Property
     default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
