@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.meeuw.math</groupId>
     <artifactId>mihxil-math-parent</artifactId>
-    <version>0.12.0</version>
+    <version>0.12.1-SNAPSHOT</version>
   </parent>
   <artifactId>mihxil-math-lib-parent</artifactId>
   <packaging>pom</packaging>
