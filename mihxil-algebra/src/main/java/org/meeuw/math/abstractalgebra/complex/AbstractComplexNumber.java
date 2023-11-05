@@ -42,7 +42,7 @@ public abstract class AbstractComplexNumber<
     WithScalarOperations<S, E>,
     Serializable {
 
-    static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
 
     @Getter
     final E real;
