@@ -32,12 +32,12 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.38.0</checkerframework.version>
+    <checkerframework.version>3.40.0</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>5.10.0</junit.version>
-    <jacoco.version>0.8.10</jacoco.version>
+    <junit.version>5.10.1</junit.version>
+    <jacoco.version>0.8.11</jacoco.version>
     <assertj.version>3.24.2</assertj.version>
     <jqwik.version>1.7.4</jqwik.version> <!-- 1.8 is out, but fails a lot of things related to generics? -->
     <reflections.version>0.10.2</reflections.version>
