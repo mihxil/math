@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.meeuw.math</groupId>
     <artifactId>mihxil-math-parent</artifactId>
-    <version>0.12-SNAPSHOT</version>
+    <version>0.13-SNAPSHOT</version>
   </parent>
   <description>A simple (spring boot) application that is using things of this project.</description>
   <artifactId>math-test</artifactId>
@@ -52,7 +52,7 @@
              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                <mainClass>org.meeuw.math.test.Application</mainClass>
              </transformer>
-             <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+             <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
            </transformers>
         </configuration>
       </plugin>
