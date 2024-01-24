@@ -44,21 +44,22 @@ public class CollectionUtilsTest {
         };
 
         Supplier<Integer> memoize = CollectionUtils.memoize(sup);
-        try (ExecutorService executor = Executors.newFixedThreadPool(10)) {
+        ExecutorService executor = Executors.newFixedThreadPool(10);
 
-            List<Future<Integer>> f = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                f.add(executor.submit(new Callable<Integer>() {
-                    @Override
-                    public Integer call() {
-                        return memoize.get();
-                    }
-                }));
-            }
-            for (Future<Integer> fut : f) {
-                assertThat(fut.get()).isEqualTo(1);
-            }
+
+        List<Future<Integer>> f = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            f.add(executor.submit(new Callable<Integer>() {
+                @Override
+                public Integer call() {
+                    return memoize.get();
+                }
+            }));
         }
+        for (Future<Integer> fut : f) {
+            assertThat(fut.get()).isEqualTo(1);
+        }
+        executor.shutdown();
     }
 
 
