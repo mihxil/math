@@ -38,11 +38,11 @@
     <!-- test dependencies -->
     <junit.version>5.10.1</junit.version>
     <jacoco.version>0.8.11</jacoco.version>
-    <assertj.version>3.24.2</assertj.version>
+    <assertj.version>3.25.2</assertj.version>
     <jqwik.version>1.7.4</jqwik.version> <!-- 1.8 is out, but fails a lot of things related to generics? -->
     <reflections.version>0.10.2</reflections.version>
-    <hibernate-validator.version>7.0.5.Final</hibernate-validator.version>
-    <log4j.version>2.21.1</log4j.version>
+    <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+    <log4j.version>2.22.1</log4j.version>
 
   </properties>
 
