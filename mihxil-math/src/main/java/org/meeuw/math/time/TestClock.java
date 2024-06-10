@@ -91,16 +91,18 @@ public class TestClock extends Clock {
      * Progresses the clock the given amount of time.
      * @param duration The amount of time to progress this clock
      */
-    public void tick(TemporalAmount duration){
+    public Instant tick(TemporalAmount duration){
         instant = instant.plus(duration);
+        return instant;
     }
 
     /**
      * Progresses the clock with the number of given millis.
      * @param millis The amount of milliseconds to progress this clock
      */
-    public void tick(long millis) {
+    public Instant tick(long millis) {
         instant = instant.plusMillis(millis);
+        return instant;
     }
 
     /**
@@ -117,7 +119,7 @@ public class TestClock extends Clock {
     /**
      * Progresses the clock with exactly one second
      */
-    public void tick() {
-        tick(Duration.ofSeconds(1));
+    public Instant tick() {
+        return tick(Duration.ofSeconds(1));
     }
 }
