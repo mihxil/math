@@ -18,6 +18,8 @@ package org.meeuw.math;
 import java.util.*;
 import java.util.function.Supplier;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.operators.OperatorInterface;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -82,4 +84,36 @@ public class CollectionUtils {
             }
         };
     }
+
+
+    /**
+     * Wraps the given set in a new set, with the same elements.
+     * <p>
+     * The only difference will be that its {@link Set#contains(Object)} will simply return {@code false} if the argument is {@code null}.
+     * @since 0.12
+     */
+    public static <P> Set<@NonNull P> nullSafeSet(@NonNull final Set<@NonNull P> set) {
+        return new AbstractSet<P>() {
+            @Override
+            public @NonNull Iterator<P> iterator() {
+                return set.iterator();
+            }
+
+            @Override
+            public int size() {
+                return set.size();
+            }
+
+            @Override
+            public boolean add(@NonNull P o) {
+                return set.add(o);
+            }
+
+            @Override
+            public boolean contains(@Nullable Object o) {
+                return o != null && set.contains(o);
+            }
+        };
+    }
+
 }
