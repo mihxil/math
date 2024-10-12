@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
+import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.lang.reflect.Array;
@@ -65,6 +66,10 @@ public abstract class Windowed<T> {
 
     protected final long bucketDuration; // ms
     protected final long totalDuration;  // ms
+    /**
+     * @return at which instant the measurements started
+     */
+    @Getter
     protected Instant start;
     protected final Clock clock;
 
@@ -174,13 +179,6 @@ public abstract class Windowed<T> {
      */
     public int getBucketCount() {
         return buckets.length;
-    }
-
-    /**
-     * @return at which instant the measurements started
-     */
-    public Instant getStart() {
-        return start;
     }
 
     /**

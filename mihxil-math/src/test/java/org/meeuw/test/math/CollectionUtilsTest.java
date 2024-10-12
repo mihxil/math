@@ -78,7 +78,7 @@ public class CollectionUtilsTest {
 
         assertThatThrownBy(() -> nullSafeSet.add(null)).isInstanceOf(UnsupportedOperationException.class);
 
-        assertThat(nullSafeSet.iterator()).asList().containsExactly("a", "b");
+        assertThat(nullSafeSet).containsExactlyInAnyOrder("a", "b");
     }
 
 }

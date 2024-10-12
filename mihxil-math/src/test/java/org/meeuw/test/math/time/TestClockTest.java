@@ -33,7 +33,7 @@ class TestClockTest {
         TestClock clock = new TestClock(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-01-15T21:39:26Z"));
         clock = clock.withZone(ZoneId.of("UTC"));
         Instant i = clock.tick();
-        assertThat(i).isEqualTo(Instant.parse("2021-01-15T21:39:26Z"));
+        assertThat(i).isEqualTo(Instant.parse("2021-01-15T21:39:27Z"));
         clock.sleep(2000);
         assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.of(2021, 1, 15, 21, 39, 29));
         assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.now(clock));

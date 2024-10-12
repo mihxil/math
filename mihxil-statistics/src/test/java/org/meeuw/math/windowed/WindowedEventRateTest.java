@@ -276,6 +276,29 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
         }
     }
 
+    @Test
+    public void testLong() {
+        TestClock clock = new TestClock();
+        WindowedEventRate rate = WindowedEventRate.builder()
+            .window(Duration.ofSeconds(100))
+            .bucketDuration(Duration.ofSeconds(10))
+            .clock(clock)
+            .build();
+        rate.newEvent();
+        clock.tick(1000);
+        log.info(rate.toString());
+        clock.tick(1000);
+        clock.tick(1000);
+        rate.newEvent();
+        rate.newEvent();
+        rate.newEvent();
+        log.info(rate.getTotalCount());
+
+
+
+
+
+    }
 
 
     //@Override
@@ -293,7 +316,7 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
                 rate.accept(r.nextInt(10));
                 clock.tick(r.nextInt(2000));
             }
-            return (UncertainReal) rate;
+            return rate;
         });
     }
 }
