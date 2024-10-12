@@ -19,6 +19,7 @@ import lombok.Getter;
 
 import java.time.*;
 import java.time.temporal.TemporalAmount;
+import java.util.function.Consumer;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 
@@ -27,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class TestClock extends Clock {
+public class TestClock extends Clock implements Consumer<Duration> {
 
     @Getter
     private final ZoneId zone;
@@ -121,5 +122,10 @@ public class TestClock extends Clock {
      */
     public Instant tick() {
         return tick(Duration.ofSeconds(1));
+    }
+
+    @Override
+    public void accept(Duration duration) {
+        tick(duration);
     }
 }
