@@ -32,11 +32,11 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      * TODO: This is not an absolute requirement, in some cases you may want to compareTo to zero even if two objects are not exactly equal.
      */
     @Property(maxDiscardRatio = 10000)
-    default void equalsConsistentWithComparable(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> pair) {
+    default void equalsConsistentWithComparable(@ForAll(EQUAL_DATAPOINTS) Tuple2<? extends E, ? extends E> pair) {
         try {
             assertThat(pair.get1().compareTo(pair.get2())).isEqualTo(0);
         } catch (ClassCastException | NotComparableException exception) {
-            Assume.that(false);
+            throw new TestAbortedException();
         }
     }
 
