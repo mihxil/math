@@ -76,7 +76,7 @@ class QuaternionTest implements
     }
 
     @Property
-    public void elementClass(@ForAll(ELEMENT) Quaternion<RationalNumber> e) {
+    public void elementClass(@ForAll(ELEMENTS) Quaternion<RationalNumber> e) {
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getA().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getB().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getC().getStructure());

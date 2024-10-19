@@ -17,6 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.IntConsumer;
@@ -43,14 +44,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     String STRUCTURE = "structure";
 
     @Provide
-    default Arbitrary<? extends AlgebraicStructure<E>> structure() {
-        return element().map(AlgebraicElement::getStructure);
+    default Arbitrary<? extends AlgebraicStructure<?>> structure() {
+        return Arbitraries.of(elements().filter(Objects::nonNull).sample().getStructure());
     }
 
     @SuppressWarnings("unchecked")
     @Property()
     default void cardinalityAndStreaming(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s) {
 
         Logger log = getLogger();
 
@@ -71,19 +72,24 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     }
                     }
                 );
-                IntConsumer  skipAndStream = (skip) ->
+                IntConsumer  skipAndStream = (skip) -> {
+                    Instant last = Instant.now();
                     streamAble.stream().skip(skip).limit(20).forEach(e -> {
-                        if (count.get() < skip) {
-                            count.set(skip);
-                            log.info("Skipping to {}", skip);
+                            if (count.get() < skip) {
+                                count.set(skip);
+                                log.info("Skipping to {}", skip);
+                            }
+                            count.incrementAndGet();
+                            log.info(e::toString);
                         }
-                        count.incrementAndGet();
-                        log.info(e::toString);
-                    }
                     );
-                ;
+                };
+                log.info("Skip  to 5000");
                 skipAndStream.accept(5000);
-                skipAndStream.accept(1_000_000);
+                log.info("Skip to 100 000");
+                skipAndStream.accept(100_000);
+                log.info("Skip to 500 000");
+                skipAndStream.accept(500_000);
 
             } catch (NotStreamable ns) {
                 log.warn(ns.getMessage());
@@ -98,7 +104,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+    default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
         Random random = new Random();
         try {
             for (int i = 0; i < 10; i++) {
@@ -110,15 +116,15 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void structureSameInstance(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
+    default void structureSameInstance(@ForAll(ELEMENTS) AlgebraicElement<?> e1, @ForAll(ELEMENTS) AlgebraicElement<?> e2) {
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();
         assertThat(e1.getStructure().equals(e2.getStructure())).isTrue();
     }
 
     @Property
     default void elementClass(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
-        @ForAll(ELEMENTS) E e
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
+        @ForAll(ELEMENTS) AlgebraicElement<?> e
         ) {
         assertThat(e).isInstanceOf(s.getElementClass());
     }
@@ -129,10 +135,12 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void algebraicBinaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
-        @ForAll(ELEMENTS) E e1,
-        @ForAll(ELEMENTS) E e2) throws Throwable {
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
+        @ForAll(ELEMENTS) AlgebraicElement<?> o1,
+        @ForAll(ELEMENTS) AlgebraicElement<?> o2) throws Throwable {
 
+        E e1 = (E) o1;
+        E e2 = (E) o2;
         AtomicLong count = COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong error = ERROR_COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         int size = s.getSupportedOperators().size();
@@ -176,8 +184,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void algebraicUnaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
-        @ForAll(ELEMENTS) E e1) throws Throwable {
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
+        @ForAll(ELEMENTS) AlgebraicElement<?> o1) throws Throwable {
+        E e1 = (E) o1;
 
         AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
@@ -213,8 +222,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void functions(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
-        @ForAll(ELEMENTS) E e1) throws Throwable {
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
+        @ForAll(ELEMENTS) AlgebraicElement<?> e1) throws Throwable {
 
         for (GenericFunction o : s.getSupportedFunctions()) {
             try {
@@ -237,7 +246,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
 
     @Property
-    default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+    default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         if (Ordered.class.isAssignableFrom(struct.getElementClass())) {
             assertThat(struct.getSupportedComparisonOperators())
                 .contains(LT, LTE, GT, GTE);
@@ -247,7 +256,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
 
     @Property
-    default void examples(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+    default void examples(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         Example[] annotation = struct.getClass().getAnnotationsByType(Example.class);
         for (Example example : annotation) {
             assertThat(example.value()).isAssignableFrom(struct.getClass());
@@ -255,14 +264,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void toString(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+    default void toString(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         getLogger().info(struct.getClass().getSimpleName() + " -> " + struct);
     }
 
 
     @Property
     default void staticOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
+        @ForAll(STRUCTURE) AlgebraicStructure<?> structure,
         @ForAll BasicAlgebraicBinaryOperator o) {
 
         try {
@@ -288,7 +297,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void staticUnaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
+        @ForAll(STRUCTURE) AlgebraicStructure<?> structure,
         @ForAll BasicAlgebraicUnaryOperator o) {
 
         try {

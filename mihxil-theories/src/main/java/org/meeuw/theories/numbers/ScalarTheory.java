@@ -37,7 +37,7 @@ public interface ScalarTheory<S extends Scalar<S>>
     }
 
     @Property
-    default void absSignum(@ForAll(ELEMENT) S e) {
+    default void absSignum(@ForAll(ELEMENTS) S e) {
         assertThat(e.abs().signum()).isIn(0, 1);
     }
 

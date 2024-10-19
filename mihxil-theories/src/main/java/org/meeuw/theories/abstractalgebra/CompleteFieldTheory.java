@@ -21,8 +21,7 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.abstractalgebra.CompleteField;
-import org.meeuw.math.abstractalgebra.CompleteFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.OverflowException;
 
@@ -38,12 +37,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     FieldTheory<E> {
 
     @Property
-    default void getUnary(@ForAll(STRUCTURE) CompleteField<E> struct) {
+    default void getUnary(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         assertThat(struct.getSupportedUnaryOperators()).contains(SQRT, SIN, COS);
     }
 
     @Property
-    default void getOperators(@ForAll(STRUCTURE) CompleteField<E> struct) {
+    default void getOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         assertThat(struct.getSupportedOperators()).contains(POWER);
     }
 
