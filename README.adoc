@@ -304,14 +304,6 @@ Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper di
 
 [source,java]
 ----
-
-import static org.meeuw.physics.Measurement.measurement;
-import static org.meeuw.physics.SI.*;
-import static org.meeuw.physics.SI.DecimalPrefix.k;
-import static org.meeuw.physics.SI.DecimalPrefix.none;
-import static org.meeuw.physics.SIUnit.kg;
-import static org.meeuw.physics.SIUnit.m;
-
 ...
 PhysicalNumber twoLightYear = new Measurement(2, 0.1, ly);        //
 PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
