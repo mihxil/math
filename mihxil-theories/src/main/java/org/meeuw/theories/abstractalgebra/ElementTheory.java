@@ -55,7 +55,7 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
     }
 
     @Override
-    default Arbitrary<? extends E> datapoints() {
-        return elements();
+    default Arbitrary<Object> datapoints() {
+        return elements().asGeneric();
     }
 }

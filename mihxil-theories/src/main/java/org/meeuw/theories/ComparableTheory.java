@@ -109,20 +109,21 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
 
     @Provide
-    default Arbitrary<@NonNull ? extends Tuple3<@NonNull ? extends E, @NonNull ? extends E, @NonNull ? extends E>> compareToEqualsDatapoints3() {
-        List<? extends E> samples = datapoints()
+    default Arbitrary<@NonNull Tuple3<@NonNull Comparator<?>, @NonNull Comparator<?>, @NonNull Comparator<?>>> compareToEqualsDatapoints3() {
+        List<Object> samples = datapoints()
             .injectDuplicates(0.5)
             .sampleStream()
             .limit(5000)
             .collect(Collectors.toList());
-        final List<E> check = new ArrayList<>();
-        final List<Tuple2<E, E>> set2ToReturn = new ArrayList<>();
-        final List<Tuple3<E, E, E>> setToReturn = new ArrayList<>();
+        final List<Object> check = new ArrayList<>();
+        final List<Tuple2<Comparable<?>, Comparable<?>>> set2ToReturn = new ArrayList<>();
+        final List<Tuple3<Comparable<?>, Comparable<?>, Comparable<?>>> setToReturn = new ArrayList<>();
         SAMPLES:
-        for (E sample : samples) {
-            Iterator<E> i = check.iterator();
+        for (Object sampleObject : samples) {
+            Comparable<?> sample = (Comparable<?>) sampleObject;
+            Iterator<Object> i = check.iterator();
             while (i.hasNext()) {
-                E toCheck = i.next();
+                Comparable<?> toCheck = (Comparable<?>) i.next();
                 try {
 
                     if (toCheck.compareTo(sample) == 0) {
@@ -134,9 +135,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
                     // ignore
                 }
             }
-            Iterator<Tuple2<E, E>> j = set2ToReturn.iterator();
+            Iterator<Tuple2<Comparable<?>, Comparable<?>>> j = set2ToReturn.iterator();
             while (j.hasNext()) {
-                Tuple2<E, E> toCheck = j.next();
+                Tuple2<Comparable<?>, Comparable<?>> toCheck = j.next();
                 try {
                     if (toCheck.get2().compareTo(sample) == 0) {
                         setToReturn.add(Tuple.of(toCheck.get1(), toCheck.get2(), sample));
@@ -156,5 +157,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
         }
         return Arbitraries.of(setToReturn);
     }
+
+
 }
 
