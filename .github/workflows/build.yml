@@ -10,6 +10,7 @@ on:
       - 'README.adoc'
       - 'docs/**'
       - '.github/workflows/publish-documentation.yml'
+  workflow_dispatch:
 
 jobs:
   build:
