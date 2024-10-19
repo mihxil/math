@@ -4,7 +4,7 @@
   <artifactId>mihxil-math-parent</artifactId>
   <name>Math - parent</name>
   <packaging>pom</packaging>
-  <version>0.13-SNAPSHOT</version>
+  <version>0.14-SNAPSHOT</version>
 
   <description>Math related utilities. Measurements (with error indication)</description>
   <url>https://github.com/mihxil/math/foo</url>
