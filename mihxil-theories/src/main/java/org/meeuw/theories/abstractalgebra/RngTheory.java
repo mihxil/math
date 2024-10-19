@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface RngTheory<E extends RngElement<E>> extends AdditiveAbelianGroupTheory<E>, MultiplicativeSemiGroupTheory<E> {
 
     @Property
-    default void rngOperators(@ForAll(ELEMENT) E v1) {
+    default void rngOperators(@ForAll(ELEMENTS) E v1) {
         assertThat(v1.getStructure().getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION, BasicAlgebraicBinaryOperator.ADDITION, BasicAlgebraicBinaryOperator.SUBTRACTION);
     }
 }

@@ -1,5 +1,7 @@
 package org.meeuw.theories;
 
+import lombok.NonNull;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -7,7 +9,6 @@ import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 import net.jqwik.api.Tuple.Tuple3;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotComparableException;
 import org.opentest4j.TestAbortedException;
 
@@ -19,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * Tests basic properties for {@link Comparable} objects.
  * <ul>
  * <li>Normally, {@link #equalsConsistentWithComparable(Tuple2) equals must be consistent with comparable}</li>
- * <li>{@link #compareToNull(Comparable) comparing to null should raise NullPointerException}</li>
+ * <li>{@link #compareToNull(Object) comparing to null should raise NullPointerException}</li>
  * <li>{@link #compareToIsAntiCommutative(Comparable, Comparable) compare to is anti-commutative}</li>
  * <li>{@code compareTo} is also transitive ({@link #compareToIsTransitiveBigger}, {@link #compareToIsTransitiveSmaller}, {@link #compareToIsTransitiveEquals})</li>
  * @author Michiel Meeuwissen
@@ -32,9 +33,11 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      * TODO: This is not an absolute requirement, in some cases you may want to compareTo to zero even if two objects are not exactly equal.
      */
     @Property(maxDiscardRatio = 10000)
-    default void equalsConsistentWithComparable(@ForAll(EQUAL_DATAPOINTS) Tuple2<? extends E, ? extends E> pair) {
+    default void equalsConsistentWithComparable(@ForAll(EQUAL_DATAPOINTS) Tuple2<Object, Object> pair) {
         try {
-            assertThat(pair.get1().compareTo(pair.get2())).isEqualTo(0);
+            E e1 = (E) pair.get1();
+            E e2 = (E) pair.get2();
+            assertThat(e1.compareTo(e2)).isEqualTo(0);
         } catch (ClassCastException | NotComparableException exception) {
             throw new TestAbortedException();
         }
@@ -42,7 +45,8 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
     @SuppressWarnings({"ConstantConditions"})
     @Property
-    default void compareToNull(@ForAll(DATAPOINTS) E x) {
+    default void compareToNull(@ForAll(DATAPOINTS) Object o) {
+        Comparable<?> x = (Comparable<?>) o;
         assertThatThrownBy(() -> x.compareTo(null)).isInstanceOf(NullPointerException.class);
     }
 
@@ -50,7 +54,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      * The implementor must ensure sgn(x.compareTo(y)) == -sgn(y.compareTo(x)) for all x and y.
      */
     @Property
-    default void compareToIsAntiCommutative(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
+    default void compareToIsAntiCommutative(@ForAll(DATAPOINTS) Object ox, @ForAll(DATAPOINTS) Object oy) {
+        E x = (E) ox;
+        E y = (E) oy;
         try {
             assertThat(signum(x.compareTo(y))).isEqualTo(-1 * signum(y.compareTo(x)));
         } catch (ClassCastException | NotComparableException exception) {
@@ -63,9 +69,12 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveBigger(
-        @ForAll(DATAPOINTS) E x,
-        @ForAll(DATAPOINTS) E y,
-        @ForAll(DATAPOINTS) E z) {
+        @ForAll(DATAPOINTS) Object ox,
+        @ForAll(DATAPOINTS) Object oy,
+        @ForAll(DATAPOINTS) Object oz) {
+        E x = (E) ox;
+        E y = (E) oy;
+        E z = (E) oz;
         try {
 
             Assume.that(x.compareTo(y) > 0);
@@ -83,10 +92,15 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveSmaller(
-        @ForAll(DATAPOINTS) E x,
-        @ForAll(DATAPOINTS) E y,
-        @ForAll(DATAPOINTS) E z) {
+        @ForAll(DATAPOINTS) Object ox,
+        @ForAll(DATAPOINTS) Object oy,
+        @ForAll(DATAPOINTS) Object oz) {
+        E x = (E) ox;
+        E y = (E) oy;
+        E z = (E) oz;
         try {
+
+
             Assume.that(x.compareTo(y) < 0);
             Assume.that(y.compareTo(z) < 0);
 
@@ -101,28 +115,32 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
      */
     @Property
     default void compareToIsTransitiveEquals(
-        @ForAll("compareToEqualsDatapoints3") Tuple3<E, E, E> tuple) {
-        assertThat(tuple.get1().compareTo(tuple.get2())).isEqualTo(0);
-        assertThat(tuple.get2().compareTo(tuple.get3())).isEqualTo(0);
-        assertThat(tuple.get1().compareTo(tuple.get3())).isEqualTo(0);
+        @ForAll("compareToEqualsDatapoints3") Tuple3<Object, Object, Object> tuple) {
+        E t1 = (E) tuple.get1();
+        E t2 = (E) tuple.get2();
+        E t3 = (E) tuple.get3();
+        assertThat(t1.compareTo(t2)).isEqualTo(0);
+        assertThat(t2.compareTo(t3)).isEqualTo(0);
+        assertThat(t1.compareTo(t3)).isEqualTo(0);
     }
 
 
     @Provide
-    default Arbitrary<@NonNull ? extends Tuple3<@NonNull ? extends E, @NonNull ? extends E, @NonNull ? extends E>> compareToEqualsDatapoints3() {
-        List<? extends E> samples = datapoints()
+    default Arbitrary<@NonNull Tuple3<@NonNull Object, @NonNull Object, @NonNull Object>> compareToEqualsDatapoints3() {
+        List<Object> samples = datapoints()
             .injectDuplicates(0.5)
             .sampleStream()
             .limit(5000)
             .collect(Collectors.toList());
-        final List<E> check = new ArrayList<>();
+        final List<Object> check = new ArrayList<>();
         final List<Tuple2<E, E>> set2ToReturn = new ArrayList<>();
-        final List<Tuple3<E, E, E>> setToReturn = new ArrayList<>();
+        final List<Tuple3<Object, Object, Object>> setToReturn = new ArrayList<>();
         SAMPLES:
-        for (E sample : samples) {
-            Iterator<E> i = check.iterator();
+        for (Object sampleObject : samples) {
+            E sample = (E) sampleObject;
+            Iterator<Object> i = check.iterator();
             while (i.hasNext()) {
-                E toCheck = i.next();
+                E toCheck = (E) i.next();
                 try {
 
                     if (toCheck.compareTo(sample) == 0) {
@@ -154,7 +172,9 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
 
             check.add(sample);
         }
-        return Arbitraries.of(setToReturn);
+        return Arbitraries.of( setToReturn);
     }
+
+
 }
 

@@ -18,12 +18,12 @@ package org.meeuw.theories.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
+import org.meeuw.math.abstractalgebra.AlgebraicStructure;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 /**
  * @author Michiel Meeuwissen
@@ -33,7 +33,7 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
     extends AdditiveMonoidTheory<E> {
 
     @Property
-    default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
+    default void additiveGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION, BasicAlgebraicBinaryOperator.SUBTRACTION);
     }
 

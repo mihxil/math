@@ -31,7 +31,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
     extends MagmaTheory<E> {
 
     @Property
-    default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
+    default void additiveSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION);
     }
 
@@ -45,8 +45,9 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
             .isEqTo(v1.plus((v2.plus(v3))));
     }
     @Property
-    default void additionCommutativity(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
-        if (s.additionIsCommutative()) {
+    default void additionCommutativity(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+        AdditiveSemiGroup<E> casted = (AdditiveSemiGroup<E>) s;
+        if (casted.additionIsCommutative()) {
             assertThat(s).isInstanceOf(AdditiveAbelianSemiGroup.class);
         }
     }

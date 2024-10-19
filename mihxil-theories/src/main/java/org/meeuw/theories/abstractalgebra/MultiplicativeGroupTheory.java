@@ -17,8 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
-import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
@@ -36,7 +35,7 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
     extends MultiplicativeMonoidTheory<E> {
 
     @Property
-    default void multiplicativeGroupOperators(@ForAll(STRUCTURE) MultiplicativeGroup<?> group) {
+    default void multiplicativeGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> group) {
         assertThat(group.getSupportedOperators())
             .contains(BasicAlgebraicBinaryOperator.MULTIPLICATION, BasicAlgebraicBinaryOperator.DIVISION);
     }

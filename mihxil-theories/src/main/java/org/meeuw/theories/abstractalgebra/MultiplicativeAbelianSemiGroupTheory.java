@@ -44,8 +44,9 @@ public interface MultiplicativeAbelianSemiGroupTheory<E extends MultiplicativeSe
 
     @Property
     default void multiplicativeCommutativityProperty(
-        @ForAll(STRUCTURE) MultiplicativeAbelianSemiGroup<E> group) {
-        assertThat(group.multiplicationIsCommutative()).isTrue();
+        @ForAll(STRUCTURE) AlgebraicStructure<?> group) {
+        MultiplicativeSemiGroup<E> casted = (MultiplicativeSemiGroup<E>) group;
+        assertThat(casted.multiplicationIsCommutative()).isTrue();
     }
 
 }

@@ -22,6 +22,7 @@ import java.util.Random;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -134,8 +135,9 @@ public class StatisticalDoubleTest implements
     }
 
     @Property
-    public void testString(@ForAll(ELEMENTS) StatisticalDoubleImpl e) {
-        log.info("{} {}", e.getCount(), e);
+    public void testString(@ForAll(ELEMENTS) AlgebraicElement<?> e) {
+        StatisticalDoubleImpl casted = (StatisticalDoubleImpl) e;
+        log.info("{} {}", casted.getCount(), e);
     }
 
     @Test

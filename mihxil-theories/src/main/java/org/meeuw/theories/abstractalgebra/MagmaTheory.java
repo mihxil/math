@@ -18,8 +18,7 @@ package org.meeuw.theories.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.Magma;
-import org.meeuw.math.abstractalgebra.MagmaElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.opentest4j.TestAbortedException;
 
 import static org.meeuw.assertj.Assertions.assertThat;
@@ -34,28 +33,30 @@ public interface MagmaTheory<E extends MagmaElement<E>>
     extends AlgebraicStructureTheory<E> {
 
     @Property
-    default void magmaOperators(@ForAll(STRUCTURE) Magma<E> s) {
+    default void magmaOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
         assertThat(s.getSupportedOperators()).contains(OPERATION);
     }
 
     @Property
-    default void operatorAndCommutativity(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENT) E e2) {
-        boolean isCommutative = e1.getStructure().operationIsCommutative();
+    default void operatorAndCommutativity(@ForAll(ELEMENTS) AlgebraicElement<?> e1, @ForAll(ELEMENTS) AlgebraicElement<?> e2) {
+        E m1 = (E) e1;
+        E m2 = (E) e2;
+        boolean isCommutative = m1.getStructure().operationIsCommutative();
         if (isCommutative) {
-            String s = OPERATION.stringify(e1, e2)  + " %s" +
-                    OPERATION.stringify(e2, e1);
-            assertThat(e1.operate(e2)).withFailMessage(
+            String s = OPERATION.stringify(m1, m2)  + " %s" +
+                    OPERATION.stringify(m2, m1);
+            assertThat(m1.operate(m2)).withFailMessage(
                 String.format(s, "should be")
-            ).isEqTo(e2.operate(e1));
+            ).isEqTo(m2.operate(m1));
             getLogger().debug(String.format(s, "is"));
         } else {
-            String s = OPERATION.stringify(e1, e2) + " %s " +
-                OPERATION.stringify(e2, e1);
-            E e3 = e1.operate(e2);
+            String s = OPERATION.stringify(m1, m2) + " %s " +
+                OPERATION.stringify(m2, m1);
+            E e3 = m1.operate(m2);
             try {
                 assertThat(e3).withFailMessage(
                     String.format(s, "should not be")
-                ).isNotEqTo(e2.operate(e1));
+                ).isNotEqTo(m2.operate(m1));
                 getLogger().debug(String.format(s, "is not "));
             } catch (AssertionError ae) {
                 getLogger().info(String.format(s, "is (!) ") + " (" + e3 + ")");

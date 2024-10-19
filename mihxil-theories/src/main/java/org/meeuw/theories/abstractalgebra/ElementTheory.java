@@ -26,14 +26,13 @@ import org.meeuw.theories.BasicObjectTheory;
 
 /**
  * The connection between {@link BasicObjectTheory} and algebra testing.
- * {@link BasicObjectTheory#datapoints()} is identified with {@link #element()}
+ * {@link BasicObjectTheory#datapoints()} is identified with {@link #elements()}
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 public interface ElementTheory<E>  extends BasicObjectTheory<E> {
 
-    String ELEMENT = "element";
     String ELEMENTS = "elements";
 
     @BeforeEach
@@ -45,17 +44,13 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
     @Provide
     Arbitrary<? extends E> elements();
 
-    @Provide
-    default Arbitrary<? extends E> element() {
-        return Arbitraries.of(elements().sample());
-    }
 
     default Logger getLogger() {
         return LogManager.getLogger(this.getClass());
     }
 
     @Override
-    default Arbitrary<? extends E> datapoints() {
-        return elements();
+    default Arbitrary<Object> datapoints() {
+        return elements().asGeneric();
     }
 }

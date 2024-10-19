@@ -22,7 +22,7 @@ import org.meeuw.math.abstractalgebra.trivial.TrivialRingElement;
 
 public class TrivialRingTest implements RingTheory<TrivialRingElement> {
     @Override
-    public Arbitrary<? extends TrivialRingElement> elements() {
+    public Arbitrary<TrivialRingElement> elements() {
         return Arbitraries.of(TrivialRingElement.e);
     }
 }

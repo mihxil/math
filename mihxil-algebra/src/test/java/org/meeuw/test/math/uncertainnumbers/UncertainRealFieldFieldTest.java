@@ -71,7 +71,7 @@ strictfp class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<
     public void errorPropagation(
         @ForAll("bigdecimals") final BigDecimal r1,
         @ForAll("bigdecimals") final BigDecimal r2,
-        @ForAll("operators") final BasicAlgebraicBinaryOperator operator) {
+        @ForAll("operators") final AlgebraicBinaryOperator operator) {
 
         withAspect(UncertaintyConfiguration.class,
             (nc) -> nc.withConsiderRoundingErrorFactor(0), () -> {

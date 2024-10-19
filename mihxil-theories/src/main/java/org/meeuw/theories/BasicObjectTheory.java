@@ -33,7 +33,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("EqualsWithItself")
     @Property
-    default void equalsIsReflexive(@ForAll(DATAPOINTS) E x) {
+    default void equalsIsReflexive(@ForAll(DATAPOINTS) Object x) {
         //System.out.println("reflexive " + x);
         assertThat(x.equals(x)).isTrue();
     }
@@ -43,7 +43,7 @@ public interface BasicObjectTheory<E> {
      * should return true if and only if y.equals(x) returns true.
      */
     @Property
-    default void equalsIsSymmetric(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS) E y) {
+    default void equalsIsSymmetric(@ForAll(DATAPOINTS) Object x, @ForAll(DATAPOINTS) Object y) {
         //System.out.println("symetric = " + x + " " + y);
         assertThat(x.equals(y)).isEqualTo(y.equals(x));
     }
@@ -55,8 +55,8 @@ public interface BasicObjectTheory<E> {
      */
     @Property
     default  void equalsIsTransitive(
-        @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p1,
-        @ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> p2) {
+        @ForAll(EQUAL_DATAPOINTS) Tuple2<Object, Object> p1,
+        @ForAll(EQUAL_DATAPOINTS) Tuple2<Object, Object> p2) {
         //System.out.println("transitive = " + p1 + " " + p2);
         assertThat(p1.get1().equals(p2.get2())).isEqualTo(p1.get2().equals(p2.get1()));
     }
@@ -68,7 +68,7 @@ public interface BasicObjectTheory<E> {
      * the objects is modified.
      */
     @Property
-    default void equalsIsConsistent(@ForAll(DATAPOINTS) E x, @ForAll(DATAPOINTS_OR_NULL) E y) {
+    default void equalsIsConsistent(@ForAll(DATAPOINTS) Object x, @ForAll(DATAPOINTS_OR_NULL) Object y) {
         boolean alwaysTheSame = x.equals(y);
 
         for (int i = 0; i < 30; i++) {
@@ -82,7 +82,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ConstantConditions")
     @Property
-    default void equalsReturnFalseOnNull(@ForAll(DATAPOINTS) E x) {
+    default void equalsReturnFalseOnNull(@ForAll(DATAPOINTS) Object x) {
         assertThat(x.equals(null)).isFalse();
     }
 
@@ -92,7 +92,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ConstantConditions")
     @Property
-    default void equalsReturnFalseOnOtherObject(@ForAll(DATAPOINTS) E x) {
+    default void equalsReturnFalseOnOtherObject(@ForAll(DATAPOINTS) Object x) {
         assertThat(x.equals(new Object())).isFalse();
     }
 
@@ -102,7 +102,7 @@ public interface BasicObjectTheory<E> {
      * integer.
      */
     @Property
-    default void hashCodeIsSelfConsistent(@ForAll(DATAPOINTS) E x) {
+    default void hashCodeIsSelfConsistent(@ForAll(DATAPOINTS) Object x) {
         int alwaysTheSame = x.hashCode();
 
         for (int i = 0; i < 30; i++) {
@@ -116,7 +116,7 @@ public interface BasicObjectTheory<E> {
      * must produce the same integer result.
      */
     @Property
-    default void hashCodeIsConsistentWithEquals(@ForAll(EQUAL_DATAPOINTS) Tuple2<E, E> pair) {
+    default void hashCodeIsConsistentWithEquals(@ForAll(EQUAL_DATAPOINTS) Tuple2<Object, Object> pair) {
         //System.out.println("hashCode consistent = " + pair + " " + pair.get1().hashCode());
         assertThat(pair.get1().hashCode()).isEqualTo(pair.get2().hashCode());
     }
@@ -126,7 +126,7 @@ public interface BasicObjectTheory<E> {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Property
-    default void toString(@ForAll(DATAPOINTS) E object) {
+    default void toString(@ForAll(DATAPOINTS) Object object) {
         assertThatNoException().isThrownBy(object::toString);
     }
 
@@ -135,27 +135,27 @@ public interface BasicObjectTheory<E> {
      * Provide non-{@code null} datapoints
      */
     @Provide
-    Arbitrary<@NonNull ? extends E> datapoints();
+    Arbitrary<@NonNull Object> datapoints();
 
 
     /**
      * The implementation for equals datapoints (see {@link #equalDatapoints()}.
      * Defaults to {@link Objects#equals(Object, Object)}.
      */
-    default boolean equals(E e1, E e2) {
+    default boolean equals(Object e1, Object e2) {
         return Objects.equals(e1, e2);
     }
 
     @Provide
-    default Arbitrary<@NonNull? extends Tuple2<@NonNull? extends E, @NonNull? extends E>> equalDatapoints() {
-        List<? extends E> samples = datapoints()
+    default Arbitrary<@NonNull? extends Tuple2<@NonNull Object, @NonNull Object>> equalDatapoints() {
+        List<Object> samples = datapoints()
             .injectDuplicates(0.5)
             .sampleStream()
             .limit(1000)
             .collect(Collectors.toList());
-        final java.util.Set<Tuple2<? extends E, ? extends E>> setToReturn = new HashSet<>();
-        final List<E> check = new ArrayList<>();
-        for (E e : samples) {
+        final java.util.Set<Tuple2<Object, Object>> setToReturn = new HashSet<>();
+        final List<Object> check = new ArrayList<>();
+        for (Object e : samples) {
             int i = -1;
             for (int j = 0; j < check.size(); j++) {
                 if (equals(check.get(j), e)) {
@@ -173,7 +173,7 @@ public interface BasicObjectTheory<E> {
     }
 
     @Provide
-    default Arbitrary<@Nullable ? extends E> datapointsOrNull() {
+    default Arbitrary<@Nullable Object> datapointsOrNull() {
         return datapoints()
             .injectNull(0.1);
     }

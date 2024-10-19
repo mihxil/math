@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class UnitExponentTest implements ComparableTheory<UnitExponent> {
 
     @Override
-    public Arbitrary<? extends UnitExponent> datapoints() {
+    public Arbitrary<Object> datapoints() {
         IntegerArbitrary unit = Arbitraries.integers()
             .between(0, SIUnit.values().length - 1);
         IntegerArbitrary exponent = Arbitraries.integers()
@@ -38,7 +38,7 @@ class UnitExponentTest implements ComparableTheory<UnitExponent> {
         return Combinators.combine(
             unit, exponent
             ).as((u, e) -> new UnitExponent(SIUnit.values()[u], e))
-            .injectDuplicates(0.2);
+            .injectDuplicates(0.2).asGeneric();
     }
 
     @Test
