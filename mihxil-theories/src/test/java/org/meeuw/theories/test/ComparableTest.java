@@ -21,7 +21,8 @@ interface ComparableTest<X extends Comparable<?>> extends ObjectTest<X> {
 
     }
     @Property
-    default void hashCode(@ForAll("datapoints") Object o) {
+    default void hashCodeC(@ForAll("comparables") X o) {
+        o.compareTo(o)
         // overriden
     }
 
