@@ -16,14 +16,16 @@
 package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.data.Offset.offset;
-import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.theories.numbers.ScalarTheory;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.data.Offset.offset;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 
 /**
