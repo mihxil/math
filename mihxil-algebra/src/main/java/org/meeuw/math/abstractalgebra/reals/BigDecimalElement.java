@@ -44,7 +44,16 @@ public class BigDecimalElement implements
     public static final BigDecimalElement ONE = new BigDecimalElement(BigDecimal.ONE, BigDecimal.ZERO);
 
     public static final BigDecimalElement ZERO = new BigDecimalElement(BigDecimal.ZERO,  BigDecimal.ZERO);
+
+    /**
+     * π as a {@link BigDecimalElement}
+     * @see Utils#PI
+     */
     public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-" + (Utils.PI.length() - 1)));
+     /**
+     * e as a {@link BigDecimalElement}
+     * @see Utils#e
+     */
     public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e), new BigDecimal("1e-" +  (Utils.e.length() - 1)));
 
     private final BigDecimal value;
