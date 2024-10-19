@@ -12,12 +12,6 @@ jobs:
       MAVEN_OPTS: '-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
     steps:
       - uses: actions/checkout@v4
-      - uses: oleksiyrudenko/gha-git-credentials@v2.1.2
-        with:
-          global: true
-          name: 'github $GITHUB_ACTOR'
-          email: 'git@meeuw.org'
-          token: '${{ secrets.GITHUB_TOKEN  }}'
       - name: Release branch with Maven
         run: |
           git config --global user.name 'github actions'
