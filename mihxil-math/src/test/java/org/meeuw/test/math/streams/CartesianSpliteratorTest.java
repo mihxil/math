@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -245,7 +246,7 @@ class CartesianSpliteratorTest {
             () -> Stream.iterate(1, i -> i + 2).spliterator();
         CartesianSpliterator<Integer> cartesianSpliterator =
             new CartesianSpliterator<>(iterate, dim);
-        final List<Integer[]> result = new ArrayList<>();
+        final List<Integer[]> result = new CopyOnWriteArrayList<>();
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
         StreamSupport.stream(cartesianSpliterator, true).limit(100).forEach(a -> {
             log.info("{} ({})", Arrays.asList(a), Thread.currentThread().getName());
