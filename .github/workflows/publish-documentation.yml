@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     container: asciidoctor/docker-asciidoctor:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           set-safe-directory: true
       - name: Create html from adoc

@@ -12,8 +12,8 @@ jobs:
       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
       - name: Cancel previous Action
-        uses: styfle/cancel-workflow-action@0.11.0
-      - uses: actions/checkout@v3
+        uses: styfle/cancel-workflow-action@0.12.1
+      - uses: actions/checkout@v4
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

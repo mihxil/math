@@ -19,12 +19,12 @@ jobs:
       MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     steps:
       - name: Cancel previous Action
-        uses: styfle/cancel-workflow-action@0.11.0
-      - uses: actions/checkout@v3
+        uses: styfle/cancel-workflow-action@0.12.1
+      - uses: actions/checkout@v4
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - uses: actions/setup-java@v3.10.0
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 17
@@ -44,21 +44,21 @@ jobs:
           # number of lines is exit code
           exit  $(cat report.txt | wc -l)
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.4.2
+        uses: EnricoMi/publish-unit-test-result-action@v2.17.1
         if: always()
         with:
           junit_files: "**/target/surefire-reports/*.xml"
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         if: ${{ ! cancelled()}}
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled()}}
         env:
-          OSSRH_USERNAME: mihxil
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Commit generated dot file if it changed
-        uses: EndBug/add-and-commit@v9.1.1
+        uses: EndBug/add-and-commit@v9
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
