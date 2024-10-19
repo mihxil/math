@@ -12,6 +12,12 @@ jobs:
       MAVEN_OPTS: '-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
     steps:
       - uses: actions/checkout@v4
+      - uses: oleksiyrudenko/gha-git-credentials@v2.1.2
+        with:
+          global: true
+          name: 'github $GITHUB_ACTOR'
+          email: 'git@meeuw.org'
+          token: '${{ secrets.GITHUB_TOKEN  }}'
       - name: Release branch with Maven
         run: |
           git config --global user.name 'github actions'
@@ -20,3 +26,4 @@ jobs:
           RELEASE_VERSION=`echo $VERSION | sed -r 's/-SNAPSHOT/.0-SNAPSHOT/'`
           DEVELOPMENT_VERSION=`echo $VERSION | gawk 'match($1, /([0-9]+)\.([0-9]+)([\.-])(.*)/, a) {print a[1]"."(a[2]+1)a[3]a[4]}'`
           mvn  -DupdateBranchVersions=true -DreleaseVersion=${RELEASE_VERSION} -DdevelopmentVersion=${DEVELOPMENT_VERSION} release:branch
+

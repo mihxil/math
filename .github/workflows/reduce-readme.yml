@@ -1,3 +1,4 @@
+---
 name: Reduce README
 on:
   push:
