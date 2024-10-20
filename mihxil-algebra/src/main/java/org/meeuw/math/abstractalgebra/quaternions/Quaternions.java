@@ -34,6 +34,8 @@ import org.meeuw.math.streams.StreamUtils;
  * The division ring of quaternions ℍ.
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see org.meeuw.math.abstractalgebra.quaternions
+ * @see Quaternion
  */
 @Log
 public class Quaternions<E extends ScalarFieldElement<E>>

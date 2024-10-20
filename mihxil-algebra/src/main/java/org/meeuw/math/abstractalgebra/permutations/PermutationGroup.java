@@ -36,6 +36,9 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
 
     private static final Map<Integer, PermutationGroup>  INSTANCES = new ConcurrentHashMap<>();
 
+    /**
+     * The <em>degree</em> of a permutation group is the number of elements it is working on.
+     */
     @Getter
     private final int degree;
 

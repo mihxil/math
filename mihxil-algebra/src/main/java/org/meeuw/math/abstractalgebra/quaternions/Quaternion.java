@@ -30,7 +30,10 @@ import org.meeuw.math.numbers.Sizeable;
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see org.meeuw.math.abstractalgebra.quaternions
+ * @param <E> The type of the 4 {@link ScalarFieldElement}'s {@link #a}, {@link #b}, {@link #c} and {@link #d}.
  */
+@Getter
 @EqualsAndHashCode
 public class Quaternion<E extends ScalarFieldElement<E>>
     implements
@@ -41,13 +44,9 @@ public class Quaternion<E extends ScalarFieldElement<E>>
 
     private static final long serialVersionUID = 0L;
 
-    @Getter
     final E a;
-    @Getter
     final E b;
-    @Getter
     final E c;
-    @Getter
     final E d;
 
     public Quaternion(E a, E b, E c, E d) {
@@ -160,7 +159,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         StringBuilder result = new StringBuilder();
 
         if (! a.isZero()) {
-            result.append(a.toString());
+            result.append(a);
         }
         append(b, result, 'i');
         append(c, result, 'j');

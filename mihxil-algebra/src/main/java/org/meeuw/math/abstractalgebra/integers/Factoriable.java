@@ -63,15 +63,14 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
 
     F factorial();
 
+    @Getter
     class Configuration implements ConfigurationAspect {
-        @Getter
         @With
         private final Long maxArgument;
 
         public Configuration() {
             this(50000L);
         }
-
 
         @lombok.Builder
         private Configuration(Long maxArgument) {

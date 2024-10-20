@@ -21,7 +21,10 @@ import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;
 
 /**
+ * Element of the Klein-group.
  * @since 0.8
+ * @see org.meeuw.math.abstractalgebra.klein
+ * @see KleinGroup
  */
 public enum KleinElement implements GroupElement<KleinElement> {
 

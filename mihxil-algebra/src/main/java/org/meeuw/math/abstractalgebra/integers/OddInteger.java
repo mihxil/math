@@ -44,7 +44,6 @@ public class OddInteger
         return of(BigInteger.valueOf(value));
     }
 
-
     OddInteger(BigInteger value) {
         super(OddIntegers.INSTANCE, value);
     }

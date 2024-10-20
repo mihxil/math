@@ -36,6 +36,7 @@ import static java.math.BigInteger.ONE;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see org.meeuw.math.abstractalgebra.rationalnumbers
  */
 @Example(ScalarField.class)
 public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>

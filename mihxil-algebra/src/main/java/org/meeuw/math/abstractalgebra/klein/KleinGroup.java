@@ -24,7 +24,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
 /**
- * The structure of the {@link org.meeuw.math.abstractalgebra.klein} 4 group, denoted by {@code V}.
+ * The structure of the {@link org.meeuw.math.abstractalgebra.klein Klein 4 group}, denoted by {@code V}.
  * <p>
  * See also <a href="https://en.wikipedia.org/wiki/Klein_four-group">wikipedia</a>
  */

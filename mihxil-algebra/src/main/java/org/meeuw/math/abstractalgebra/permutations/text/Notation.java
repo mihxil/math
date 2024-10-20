@@ -15,10 +15,19 @@
  */
 package org.meeuw.math.abstractalgebra.permutations.text;
 
+import org.meeuw.math.abstractalgebra.permutations.Permutation;
+
 /**
+ * The notation to use for {@link Permutation permutations}.
  * @author Michiel Meeuwissen
  */
 public enum Notation {
+    /**
+     * Use '<a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">cycle notation</a>'.
+     */
     CYCLES,
+    /**
+     * Use  list notation.
+     */
     LIST
 }

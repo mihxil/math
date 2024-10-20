@@ -30,6 +30,7 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
 
 
 /**
+ * A permutation represents a certain reordering of {@link PermutationGroup#getDegree() a certain number of elements}.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -43,6 +44,11 @@ public class Permutation  implements
     final int[] value;
     private transient List<Cycle> cycles;
 
+    /**
+     * Creates a new permutation object
+     * @param value Precisely the numbers {@code 1..<degree>}, in a certain unique order. E.g. {@code 5,3,2,1,4}, for that permutation of degree {@code 5}
+     * @see #permute(Object[])
+     */
     public static Permutation of(int... value) throws InvalidElementCreationException {
         for (int i = 0; i < value.length; i++) {
             value[i]--;
@@ -80,7 +86,10 @@ public class Permutation  implements
     }
 
     /**
-     * Executes this permutation on the given array of values.
+     * Executes this permutation on the given array of values. E.g.
+     * if the permutation is {@code (2, 3, 1)} and it works on {@code ["A", "B", "C"]}
+     * the result is {@code ["C", "A", "B"]}.
+     *
      * @throws IndexOutOfBoundsException if the given array is too short.
      * @param <P> the type of the values
      * @param values the values
@@ -113,6 +122,10 @@ public class Permutation  implements
         return new Permutation(false, result);
     }
 
+    /**
+     * Returns the 'cycles' of the permutation.
+     * See <a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">wikipedia</a>
+     */
     public List<Cycle> getCycles() {
         if (cycles == null) {
             List<Cycle> result = new ArrayList<>();
@@ -142,6 +155,9 @@ public class Permutation  implements
         return cycles;
     }
 
+    /**
+     * See <a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">wikipedia</a>
+     */
     public String cycleNotation(int offset) {
         String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString(offset)).collect(Collectors.joining());
         if (s.length() == 0) {
@@ -208,6 +224,9 @@ public class Permutation  implements
             return "(" + IntStream.of(value).mapToObj(i -> String.valueOf(i + offset)).collect(Collectors.joining(join)) + ")";
         }
 
+        /**
+         * @see PermutationConfiguration
+         */
         @Override
         public String toString() {
             return toString(getConfigurationAspect(PermutationConfiguration.class).getOffset().getAsInt());

@@ -34,10 +34,12 @@ import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.TextUtils;
 
 /**
- * A rational number is implemented using two {@link BigInteger}s, one for the numerator, one for denominator
+ * A rational number is implemented using two {@link BigInteger big integers}, one for the numerator, one for denominator
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see org.meeuw.math.abstractalgebra.rationalnumbers
  */
+@Getter
 public class RationalNumber extends Number
     implements
     ScalarFieldElement<RationalNumber>,
@@ -47,9 +49,7 @@ public class RationalNumber extends Number
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
-    @Getter
     private final @NotNull BigInteger numerator;
-    @Getter
     private final @NotNull @Positive BigInteger denominator;
 
     public static RationalNumber of(long numerator, long denominator) {

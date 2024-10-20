@@ -32,6 +32,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
  * @param <E> type of real and imaginary part
  * @see AbstractComplexNumbers
  */
+@Getter
 public abstract class AbstractComplexNumber<
     S extends AbstractComplexNumber<S, E, ES>,
     E extends ScalarFieldElement<E>,
@@ -44,10 +45,8 @@ public abstract class AbstractComplexNumber<
 
     private static final long serialVersionUID = 0L;
 
-    @Getter
     final E real;
 
-    @Getter
     final E imaginary;
 
 

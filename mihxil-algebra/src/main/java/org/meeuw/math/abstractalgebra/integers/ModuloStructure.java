@@ -27,7 +27,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 
 /**
- * Implementation of ℤ/nℤ
+ * Implementation of {@code ℤ/nℤ}
  *
  * @author Michiel Meeuwissen
  * @since 0.4

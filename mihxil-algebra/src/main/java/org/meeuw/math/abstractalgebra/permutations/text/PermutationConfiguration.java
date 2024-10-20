@@ -22,19 +22,30 @@ import java.util.Collections;
 import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.math.abstractalgebra.permutations.Permutation;
 
 /**
+ * Aspects of configuration how a {@link Permutation} can be represented as a string
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @see #notation
+ * @see #offset
  */
+@Getter
 public class PermutationConfiguration implements ConfigurationAspect {
 
+
+    /**
+     * The {@link Notation notation} to use when presenting a {@link Permutation}
+     */
     @With
-    @Getter
     private final Notation notation;
 
+    /**
+     * The number of the smallest element in the permutation. Traditionally {@link Offset#ONE}, and this is the default.
+     * Java programmers may prefer {@link Offset#ONE}
+     */
     @With
-    @Getter
     private final Offset offset;
 
 
