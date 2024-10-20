@@ -6,10 +6,11 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.r;
-import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.s;
-
+/**
+ * @since 0.14
+ */
 public class DiHedralGroup implements Group<DiHedralSymmetry>, Streamable<DiHedralSymmetry> {
 
     public static Map<Integer, DiHedralGroup> CACHE = new ConcurrentHashMap<>();
@@ -22,9 +23,24 @@ public class DiHedralGroup implements Group<DiHedralSymmetry>, Streamable<DiHedr
         return CACHE.computeIfAbsent(n, DiHedralGroup::new);
     }
 
+
+    public DiHedralSymmetry r(int k) {
+        if (k >= n) {
+            throw new IllegalArgumentException();
+        }
+        return DiHedralSymmetry.r(k, this);
+    }
+
+    public DiHedralSymmetry s(int k) {
+        if (k >= n) {
+            throw new IllegalArgumentException();
+        }
+        return DiHedralSymmetry.s(k, this);
+    }
+
     @Override
     public DiHedralSymmetry unity() {
-        return new DiHedralSymmetry(r, 0, this);
+        return DiHedralSymmetry.r(0, this);
     }
 
     @Override
@@ -41,9 +57,19 @@ public class DiHedralGroup implements Group<DiHedralSymmetry>, Streamable<DiHedr
     public Stream<DiHedralSymmetry> stream() {
         return Stream.concat(
             IntStream.range(0, n)
-                .mapToObj(i -> new DiHedralSymmetry(r, i, this)),
+                .mapToObj(i -> DiHedralSymmetry.r(i, this)),
             IntStream.range(0, n)
-                .mapToObj(i -> new DiHedralSymmetry(s, i, this))
+                .mapToObj(i -> DiHedralSymmetry.s(i, this))
         );
+    }
+
+    @Override
+    public boolean operationIsCommutative() {
+        return n <= 2;
+    }
+
+    @Override
+    public String toString() {
+        return "D" + TextUtils.subscript(n);
     }
 }

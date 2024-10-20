@@ -45,6 +45,7 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.linear;
     exports org.meeuw.math.abstractalgebra.klein;
     exports org.meeuw.math.abstractalgebra.dihedral;
+    exports org.meeuw.math.abstractalgebra.dim2;
 
     uses AlgebraicElementFormatProvider;
 
