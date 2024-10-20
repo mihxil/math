@@ -21,6 +21,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.IntConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 
@@ -353,6 +355,24 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 getLogger().info(() -> m);
             }
         }
+    }
+
+    @Property
+    default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) {
+        Logger logger = getLogger();
+        if (structure.isFinite()) {
+
+            for (AlgebraicBinaryOperator op : structure.getSupportedOperators()) {
+                logger.info("CayleyTable for {} and operation {} ({})", structure, op, op.getSymbol());
+
+                structure.cayleyTable(op, (line) -> {
+                    logger.info(Stream.of(line).collect(Collectors.joining("\t")));
+                });
+            }
+        } else {
+            logger.debug("{} is not finite", structure);
+        }
+
     }
 
 }

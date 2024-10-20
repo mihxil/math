@@ -166,6 +166,10 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     public boolean isInfinite() {
         return value.signum() < 0;
     }
+    /**
+     * Whether the cardinality is finite.
+     */
+
     public boolean isFinite() {
         return value.signum() >= 0;
     }

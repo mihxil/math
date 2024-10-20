@@ -18,7 +18,10 @@ package org.meeuw.math.abstractalgebra;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import java.util.function.Consumer;
+
 import org.meeuw.math.*;
+import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.operators.*;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -125,6 +128,37 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * @return the cardinality of the complete set of this structure.
      */
     Cardinality getCardinality();
+
+    /**
+     * Whether this structure is <em>finite</em>. This is a shortcut to {@link #getCardinality()}.{@link Cardinality#isFinite() isFinite}
+     */
+    default boolean isFinite() {
+        return getCardinality().isFinite();
+    }
+    default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> lineConsumer) {
+        if (!isFinite()) {
+            throw new NotStreamable("Not finite");
+        }
+        List<String> line = new ArrayList<>();
+
+        line.add(op.getSymbol());
+        Streamable<E> streamable = (Streamable<E>) this;
+        streamable.stream().forEach(e ->
+            line.add(e.toString()));
+        lineConsumer.accept(line.toArray(String[]::new));
+        line.clear();
+        streamable.stream().forEach(e1 -> {
+                line.add(e1.toString());
+                streamable.stream().forEach(e2 -> {
+                    line.add(op.apply(e1, e2).toString());
+                });
+                lineConsumer.accept(line.toArray(String[]::new));
+                line.clear();
+            }
+            );
+
+    }
+
 
      /**
      * @return the java class of the elements of this algebraic structure
