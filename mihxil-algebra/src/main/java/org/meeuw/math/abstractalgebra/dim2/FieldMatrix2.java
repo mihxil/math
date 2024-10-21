@@ -22,8 +22,7 @@ import java.util.stream.Collectors;
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.validation.Square;
 
 /**
@@ -66,7 +65,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         fs[1][1]  = v11;
         FieldMatrix2<E> fm =  new FieldMatrix2<>(fs);
         if (fm.determinant().isZero()) {
-            throw new InvalidElementCreationException("Determinant is zero, so this is not invertible " + fm);
+            throw new NotInvertibleException("Determinant is zero, so this is not invertible " + fm);
         }
         return fm;
 
