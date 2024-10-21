@@ -17,7 +17,6 @@ package org.meeuw.math.abstractalgebra;
 
 import java.lang.reflect.Array;
 import java.util.*;
-
 import java.util.function.Consumer;
 
 import org.meeuw.math.*;
@@ -135,7 +134,17 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     default boolean isFinite() {
         return getCardinality().isFinite();
     }
-    default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> lineConsumer) {
+
+    /**
+     * Produces the 'Cayley' table for a certain operator (if possible).
+     * This will produce (where {@code n = getCardinality().getValue()}) {@code n +1} rows of {@code n + 1} Strings. The first row
+     * will be the header, consisting of the operator's symbol followed by every element of the set.
+     * The {@code n} subsequence rows will have for every element of the set, this element ({@code eₙ}and then the value for {@code eₙ * e₁₋ₙ}
+     *
+     * @param op The operator to produce the table for
+     * @param rowConsumer A consumer for every {@code n + 1} produced tuple of {@code n + 1} strings.
+     */
+    default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> rowConsumer) {
         if (!isFinite()) {
             throw new NotStreamable("Not finite");
         }
@@ -145,14 +154,14 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         Streamable<E> streamable = (Streamable<E>) this;
         streamable.stream().forEach(e ->
             line.add(e.toString()));
-        lineConsumer.accept(line.toArray(new String[line.size()]));
+        rowConsumer.accept(line.toArray(new String[line.size()]));
         line.clear();
         streamable.stream().forEach(e1 -> {
                 line.add(e1.toString());
                 streamable.stream().forEach(e2 -> {
                     line.add(op.apply(e1, e2).toString());
                 });
-                lineConsumer.accept(line.toArray(new String[line.size()]));
+                rowConsumer.accept(line.toArray(new String[line.size()]));
                 line.clear();
             }
             );

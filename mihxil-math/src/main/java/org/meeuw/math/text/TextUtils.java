@@ -42,7 +42,7 @@ public final class TextUtils {
 
     /**
      * @param i an integer
-     * @return an integer in 'superscript' notation, using unicode.
+     * @return an integer in 'superscript' notation, using Unicode.
      */
     public static String superscript(long i) {
         return script(i, SUPER_MINUS, SUPERSCRIPTS);
@@ -50,7 +50,7 @@ public final class TextUtils {
 
     /**
      * @param i an integer
-     * @return an integer in 'superscript' notation, using unicode.
+     * @return an integer in 'superscript' notation, using Unicode.
      */
     public static String subscript(long i) {
         return script(i, SUB_MINUS, SUBSCRIPTS);
