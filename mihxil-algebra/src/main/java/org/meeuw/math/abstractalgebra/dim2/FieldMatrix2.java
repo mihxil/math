@@ -66,7 +66,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         fs[1][1]  = v11;
         FieldMatrix2<E> fm =  new FieldMatrix2<>(fs);
         if (fm.determinant().isZero()) {
-            throw new InvalidElementCreationException("Determinant is zero, so this is not invertiable " + fm);
+            throw new InvalidElementCreationException("Determinant is zero, so this is not invertible " + fm);
         }
         return fm;
 
