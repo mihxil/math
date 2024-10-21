@@ -47,7 +47,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2.17.1
         if: always()
         with:
-          junit_files: "**/target/surefire-reports/*.xml"
+          files: "**/target/surefire-reports/*.xml"
       - uses: codecov/codecov-action@v4
         if: ${{ ! cancelled()}}
         with:
