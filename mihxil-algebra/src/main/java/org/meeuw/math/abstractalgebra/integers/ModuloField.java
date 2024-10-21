@@ -52,9 +52,5 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         return new ModuloFieldElement(v, this);
     }
 
-    @Override
-    public String toString() {
-        return "ℤ/" + divisor + "ℤ";
-    }
 
 }

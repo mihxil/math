@@ -21,6 +21,7 @@ import java.util.function.Consumer;
 
 import org.meeuw.math.*;
 import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.exceptions.OperationException;
 import org.meeuw.math.operators.*;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -159,7 +160,11 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         streamable.stream().forEach(e1 -> {
                 line.add(e1.toString());
                 streamable.stream().forEach(e2 -> {
-                    line.add(op.apply(e1, e2).toString());
+                    try {
+                        line.add(op.apply(e1, e2).toString());
+                    } catch (OperationException oe) {
+                        line.add(oe.getClass().getSimpleName() + ":" + oe.getMessage());
+                    }
                 });
                 rowConsumer.accept(line.toArray(new String[line.size()]));
                 line.clear();
