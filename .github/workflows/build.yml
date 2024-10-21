@@ -48,6 +48,7 @@ jobs:
         if: always()
         with:
           files: "**/target/surefire-reports/*.xml"
+          check_name: Tests results
       - uses: codecov/codecov-action@v4
         if: ${{ ! cancelled()}}
         with:
