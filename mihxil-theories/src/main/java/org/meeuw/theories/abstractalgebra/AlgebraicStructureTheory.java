@@ -370,7 +370,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 });
             }
         } else {
-            logger.debug("{} is not finite", structure);
+            logger.info("{} is not finite. Cayley tables cannot be produced", structure);
         }
 
     }

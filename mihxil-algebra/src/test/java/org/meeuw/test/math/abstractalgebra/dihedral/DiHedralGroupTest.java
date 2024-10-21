@@ -24,14 +24,30 @@ public class DiHedralGroupTest {
         log.info("{}", v2);
     }
 
-    public static class TriangleSymmetryTests implements GroupTheory<DiHedralSymmetry> {
+
+    public static class D1Test implements GroupTheory<DiHedralSymmetry> {
+        @Override
+        public Arbitrary<? extends DiHedralSymmetry> elements() {
+            return Arbitraries.of(DiHedralGroup.of(1).stream().toList());
+        }
+    }
+
+    public static class D2Test implements GroupTheory<DiHedralSymmetry> {
+        @Override
+        public Arbitrary<? extends DiHedralSymmetry> elements() {
+            return Arbitraries.of(DiHedralGroup.of(2).stream().toList());
+        }
+    }
+
+
+    public static class TriangleSymmetryTest implements GroupTheory<DiHedralSymmetry> {
         @Override
         public Arbitrary<? extends DiHedralSymmetry> elements() {
             return Arbitraries.of(DiHedralGroup.of(3).stream().toList());
         }
     }
 
-    public static class SquareSymmetryTests implements GroupTheory<DiHedralSymmetry> {
+    public static class SquareSymmetryTest implements GroupTheory<DiHedralSymmetry> {
         @Override
         public Arbitrary<? extends DiHedralSymmetry> elements() {
             return Arbitraries.of(DiHedralGroup.of(4).stream().toList());
