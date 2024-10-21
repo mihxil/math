@@ -152,7 +152,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
                 streamable.stream().forEach(e2 -> {
                     line.add(op.apply(e1, e2).toString());
                 });
-                lineConsumer.accept(line.toArray(String[]::new));
+                lineConsumer.accept(line.toArray(new String[line.size()]));
                 line.clear();
             }
             );
