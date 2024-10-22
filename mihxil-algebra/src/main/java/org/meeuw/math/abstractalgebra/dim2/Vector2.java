@@ -70,18 +70,14 @@ public class Vector2 implements
         Vector2 vector3 = (Vector2) o;
 
         if (Math.abs(vector3.x - x) > 2 * uncertaintyForDouble(x)) return false;
-        if (Math.abs(vector3.y -  y) > 2 * uncertaintyForDouble(y)) return false;
-        return true;
+        return !(Math.abs(vector3.y - y) > 2 * uncertaintyForDouble(y));
     }
 
     @Override
     public int hashCode() {
         int result;
-        long temp;
-        temp = Double.doubleToLongBits(x);
-        result = (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(y);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = Double.hashCode(x);
+        result = 31 * result + Double.hashCode(y);
         return result;
     }
 

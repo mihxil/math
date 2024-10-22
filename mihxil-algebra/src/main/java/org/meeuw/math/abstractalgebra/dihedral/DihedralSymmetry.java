@@ -15,32 +15,33 @@ import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.s;
 
 /**
  * @since 0.14
+ * see org.meeuw.math.abstractalgebra.dihedral
  */
 @EqualsAndHashCode
-public class DiHedralSymmetry implements GroupElement<DiHedralSymmetry>, UnaryOperator<Vector2> {
+public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOperator<Vector2> {
 
     private final Symmetry symmetry;
     private final int k;
 
-    private final DiHedralGroup group;
+    private final DihedralGroup group;
 
-    static DiHedralSymmetry r(int k,DiHedralGroup diHedralGroup) {
-        return new DiHedralSymmetry(r, k, diHedralGroup);
+    static DihedralSymmetry r(int k, DihedralGroup diHedralGroup) {
+        return new DihedralSymmetry(r, k, diHedralGroup);
     }
-    static DiHedralSymmetry s(int k,DiHedralGroup diHedralGroup) {
-        return new DiHedralSymmetry(s, k, diHedralGroup);
-    }
-
-    public static DiHedralSymmetry r(int k, int n) {
-        return DiHedralGroup.of(n).r(k);
+    static DihedralSymmetry s(int k, DihedralGroup diHedralGroup) {
+        return new DihedralSymmetry(s, k, diHedralGroup);
     }
 
-    public static DiHedralSymmetry s(int k, int n) {
-        return DiHedralGroup.of(n).s(k);
+    public static DihedralSymmetry r(int k, int n) {
+        return DihedralGroup.of(n).r(k);
+    }
+
+    public static DihedralSymmetry s(int k, int n) {
+        return DihedralGroup.of(n).s(k);
     }
 
 
-    private DiHedralSymmetry(Symmetry symmetry, int k, DiHedralGroup diHedralGroup) {
+    private DihedralSymmetry(Symmetry symmetry, int k, DihedralGroup diHedralGroup) {
         this.symmetry = symmetry;
         if (k < 0) {
             throw new InvalidElementCreationException(symmetry.name() + k + " is impossible");
@@ -53,38 +54,38 @@ public class DiHedralSymmetry implements GroupElement<DiHedralSymmetry>, UnaryOp
         this.group = diHedralGroup;
     }
 
-    private DiHedralSymmetry(Symmetry symmetry, int k, int n) {
-        this(symmetry, k, DiHedralGroup.of(n));
+    private DihedralSymmetry(Symmetry symmetry, int k, int n) {
+        this(symmetry, k, DihedralGroup.of(n));
      }
 
     @Override
-    public DiHedralGroup getStructure() {
+    public DihedralGroup getStructure() {
         return group;
     }
 
     @Override
-    public DiHedralSymmetry operate(DiHedralSymmetry operand) {
+    public DihedralSymmetry operate(DihedralSymmetry operand) {
         if (symmetry == r) {
             if (operand.symmetry == r) {
-                return new DiHedralSymmetry(r, (k + operand.k) % group.n, group);
+                return new DihedralSymmetry(r, (k + operand.k) % group.n, group);
             } else {
-                return new DiHedralSymmetry(s, (k + operand.k) % group.n, group);
+                return new DihedralSymmetry(s, (k + operand.k) % group.n, group);
             }
         } else {
             if (operand.symmetry == r) {
-                return new DiHedralSymmetry(s, (group.n + k - operand.k) % group.n, group);
+                return new DihedralSymmetry(s, (group.n + k - operand.k) % group.n, group);
             } else {
-                return new DiHedralSymmetry(r, (group.n + k - operand.k) % group.n, group);
+                return new DihedralSymmetry(r, (group.n + k - operand.k) % group.n, group);
             }
         }
     }
 
     @Override
-    public DiHedralSymmetry inverse() {
+    public DihedralSymmetry inverse() {
         if (symmetry == r) {
-            return new DiHedralSymmetry(r, (group.n - k) % group.n, group);
+            return new DihedralSymmetry(r, (group.n - k) % group.n, group);
         } else {
-            return new DiHedralSymmetry(s, k % group.n, group);
+            return new DihedralSymmetry(s, k % group.n, group);
 
         }
     }
