@@ -17,7 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import jakarta.validation.constraints.Min;
 
-import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.math.exceptions.IllegalPowerException;
 
 /**
  * An element of the {@link MultiplicativeMonoid} structure.
@@ -39,7 +39,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
     @Override
     default E pow(@Min(0) int n) {
         if (n < 0) {
-            throw new ReciprocalException("");
+            throw new IllegalPowerException("");
         }
         if (n == 0) {
             return getStructure().one();

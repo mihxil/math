@@ -15,8 +15,12 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import java.util.NavigableSet;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.validation.Square;
 
 import static org.meeuw.math.ArrayUtils.minor;
@@ -28,9 +32,12 @@ import static org.meeuw.math.ArrayUtils.minor;
  * @since 0.4
  * @param <E>
  */
-public interface Ring<E extends RingElement<E>> extends Rng<E> {
+public interface Ring<E extends RingElement<E>> extends Rng<E>, MultiplicativeMonoid<E> {
 
-    E one();
+
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = Rng.OPERATORS;
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = Rng.UNARY_OPERATORS;
+
 
      /**
      * Given a (square) matrix of elements of this Ring, calculate its determinant.

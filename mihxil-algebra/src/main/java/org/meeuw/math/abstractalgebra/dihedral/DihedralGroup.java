@@ -20,10 +20,10 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     private DihedralGroup(int n) {
         this.n = n;
     }
+
     public static DihedralGroup of(int n) {
         return CACHE.computeIfAbsent(n, DihedralGroup::new);
     }
-
 
     public DihedralSymmetry r(int k) {
         return DihedralSymmetry.r(k, this);

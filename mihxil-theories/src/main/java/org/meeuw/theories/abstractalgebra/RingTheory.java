@@ -21,16 +21,28 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.RingElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface RingTheory<E extends RingElement<E>> extends AdditiveGroupTheory<E>, RngTheory<E> {
+public interface RingTheory<E extends RingElement<E>> extends AdditiveGroupTheory<E>, RngTheory<E> , MultiplicativeMonoidTheory<E> {
 
     @Property
     default void one(
         @ForAll(ELEMENTS) E v) {
         assertThat(v.times(v.getStructure().one())).isEqualTo(v);
+    }
+
+    @Property
+    default void distributivity (
+        @ForAll(ELEMENTS) E v1,
+        @ForAll(ELEMENTS) E v2,
+        @ForAll(ELEMENTS) E v3
+    ) {
+        assertThat(v1.times(v2.plus(v3)))
+            .usingComparator(eqComparator())
+            .isEqualTo(v1.times(v2).plus(v1.times(v3)));
     }
 }

@@ -25,11 +25,12 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
 
     private final DihedralGroup group;
 
-    static DihedralSymmetry r(int k, DihedralGroup diHedralGroup) {
-        return new DihedralSymmetry(r, k, diHedralGroup);
+    static DihedralSymmetry r(int k, DihedralGroup dihedralGroup) {
+        return new DihedralSymmetry(r, k, dihedralGroup);
     }
-    static DihedralSymmetry s(int k, DihedralGroup diHedralGroup) {
-        return new DihedralSymmetry(s, k, diHedralGroup);
+
+    static DihedralSymmetry s(int k, DihedralGroup dihedralGroup) {
+        return new DihedralSymmetry(s, k, dihedralGroup);
     }
 
     public static DihedralSymmetry r(int k, int n) {
@@ -41,17 +42,17 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
     }
 
 
-    private DihedralSymmetry(Symmetry symmetry, int k, DihedralGroup diHedralGroup) {
+    private DihedralSymmetry(Symmetry symmetry, int k, DihedralGroup dihedralGroup) {
         this.symmetry = symmetry;
         if (k < 0) {
             throw new InvalidElementCreationException(symmetry.name() + k + " is impossible");
         }
         this.k = k;
-        if (k >= diHedralGroup.n) {
-            throw new InvalidElementCreationException(symmetry.name() + k + " is impossible for " + diHedralGroup);
+        if (k >= dihedralGroup.n) {
+            throw new InvalidElementCreationException(symmetry.name() + k + " is impossible for " + dihedralGroup);
 
         }
-        this.group = diHedralGroup;
+        this.group = dihedralGroup;
     }
 
     private DihedralSymmetry(Symmetry symmetry, int k, int n) {

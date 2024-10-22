@@ -20,7 +20,7 @@ package org.meeuw.math.abstractalgebra;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface RingElement<E extends RingElement<E>> extends RngElement<E> {
+public interface RingElement<E extends RingElement<E>> extends RngElement<E>, MultiplicativeMonoidElement<E> {
 
     @Override
     Ring<E> getStructure();

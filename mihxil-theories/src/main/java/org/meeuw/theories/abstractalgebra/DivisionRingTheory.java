@@ -31,6 +31,7 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
  * @since 0.4
  */
 public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
+    RingTheory<E>,
     MultiplicativeGroupTheory<E>,
     AdditiveGroupTheory<E>  {
 
@@ -52,17 +53,6 @@ public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
         assertThat(ADDITION.andThen(SQR.andThen(NEGATION)).apply(e1, e2))
             .usingComparator(eqComparator())
             .isEqualTo((e1.plus(e2).sqr()).negation());
-    }
-
-    @Property
-    default void distributivity (
-        @ForAll(ELEMENTS) E v1,
-        @ForAll(ELEMENTS) E v2,
-        @ForAll(ELEMENTS) E v3
-    ) {
-        assertThat(v1.times(v2.plus(v3)))
-            .usingComparator(eqComparator())
-            .isEqualTo(v1.times(v2).plus(v1.times(v3)));
     }
 
 }
