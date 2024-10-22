@@ -17,11 +17,11 @@ package org.meeuw.math.statistics;
 
 import lombok.Getter;
 
-import java.math.BigDecimal;
 import java.util.OptionalDouble;
 import java.util.function.DoubleConsumer;
 
-import org.meeuw.math.*;
+import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -150,10 +150,6 @@ public class StatisticalDoubleImpl
         return new UncertainDoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
 
-    @Override
-    public BigDecimal bigDecimalValue() {
-        return BigDecimal.valueOf(getMean());
-    }
 
     @Override
     public double doubleStandardDeviation() {

@@ -36,20 +36,23 @@ public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N, E>, N
 
     N getStandardDeviation();
 
-    @Override
-    default N getUncertainty() {
+    /*
+            @Overridedefault N getUncertainty() {
         return getStandardDeviation();
-    }
+    }*/
     Optional<N> getOptionalMean();
 
-    default N getMean() {
+    N getMean();
+   /*
         return getOptionalMean().orElseThrow(() -> new IllegalStateException("no values entered"));
     }
-
-    @Override
+*/
+/*
+  @Override
     default N getValue() {
         return getMean();
     }
+*/
 
     int getCount();
 

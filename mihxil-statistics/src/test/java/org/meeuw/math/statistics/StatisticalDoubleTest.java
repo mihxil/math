@@ -105,6 +105,9 @@ public class StatisticalDoubleTest implements
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
         assertThat(d1).isEqualTo(d2);
+
+        assertThat(d1.eq(d2)).isTrue();
+
     }
 
     @Test
@@ -114,6 +117,7 @@ public class StatisticalDoubleTest implements
         d1.enter(0.5);
         d2.enter(0.5);
         assertThat(d1).isEqualTo(d2);
+        assertThat(d1.eq(d2)).isTrue();
     }
 
     @Test
