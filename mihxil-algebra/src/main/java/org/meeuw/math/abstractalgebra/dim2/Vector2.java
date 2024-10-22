@@ -20,8 +20,7 @@ import lombok.With;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.meeuw.math.WithDoubleOperations;
-import org.meeuw.math.WithScalarOperations;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -60,6 +59,11 @@ public class Vector2 implements
             matrix2.values[0][0] * x +  matrix2.values[0][1] * y,
             matrix2.values[1][0] * x +  matrix2.values[1][1] * y
         );
+    }
+
+    @Override
+    public boolean eq(Vector2 other) {
+        return  x == other.x && y == other.y;
     }
 
 

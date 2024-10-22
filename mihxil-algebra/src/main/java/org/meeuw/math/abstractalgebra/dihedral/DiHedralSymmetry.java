@@ -7,6 +7,7 @@ import java.util.function.UnaryOperator;
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.dim2.Matrix2;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.r;
@@ -41,7 +42,14 @@ public class DiHedralSymmetry implements GroupElement<DiHedralSymmetry>, UnaryOp
 
     private DiHedralSymmetry(Symmetry symmetry, int k, DiHedralGroup diHedralGroup) {
         this.symmetry = symmetry;
+        if (k < 0) {
+            throw new InvalidElementCreationException(symmetry.name() + k + " is impossible");
+        }
         this.k = k;
+        if (k >= diHedralGroup.n) {
+            throw new InvalidElementCreationException(symmetry.name() + k + " is impossible for " + diHedralGroup);
+
+        }
         this.group = diHedralGroup;
     }
 

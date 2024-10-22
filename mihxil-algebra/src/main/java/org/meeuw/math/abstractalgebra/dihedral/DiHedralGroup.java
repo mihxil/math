@@ -25,16 +25,10 @@ public class DiHedralGroup implements Group<DiHedralSymmetry>, Streamable<DiHedr
 
 
     public DiHedralSymmetry r(int k) {
-        if (k >= n) {
-            throw new IllegalArgumentException();
-        }
         return DiHedralSymmetry.r(k, this);
     }
 
     public DiHedralSymmetry s(int k) {
-        if (k >= n) {
-            throw new IllegalArgumentException();
-        }
         return DiHedralSymmetry.s(k, this);
     }
 
