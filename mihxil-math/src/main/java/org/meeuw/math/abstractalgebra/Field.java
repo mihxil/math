@@ -58,7 +58,7 @@ public interface Field<E extends FieldElement<E>> extends
 
     @Override
     default boolean multiplicationIsCommutative() {
-        return true;
+        return AbelianRing.super.multiplicationIsCommutative(); // true
     }
 
 

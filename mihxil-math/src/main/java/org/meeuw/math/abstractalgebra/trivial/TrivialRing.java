@@ -54,17 +54,11 @@ public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<
     @Override
     public String toString() {
         return "{0}";
-
     }
 
     @Override
     public Stream<TrivialRingElement> stream() {
         return Stream.of(TrivialRingElement.e);
-    }
-
-    @Override
-    public boolean multiplicationIsCommutative() {
-        return true;
     }
 
 }

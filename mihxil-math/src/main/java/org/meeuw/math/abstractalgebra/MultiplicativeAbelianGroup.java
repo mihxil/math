@@ -28,7 +28,7 @@ public interface MultiplicativeAbelianGroup<E extends MultiplicativeGroupElement
 
     @Override
     default boolean multiplicationIsCommutative() {
-        return true;
+        return MultiplicativeAbelianSemiGroup.super.multiplicationIsCommutative();
     }
 
 

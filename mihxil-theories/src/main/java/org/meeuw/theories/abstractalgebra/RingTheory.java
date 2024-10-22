@@ -30,12 +30,6 @@ import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 public interface RingTheory<E extends RingElement<E>> extends AdditiveGroupTheory<E>, RngTheory<E> , MultiplicativeMonoidTheory<E> {
 
     @Property
-    default void one(
-        @ForAll(ELEMENTS) E v) {
-        assertThat(v.times(v.getStructure().one())).isEqualTo(v);
-    }
-
-    @Property
     default void distributivity (
         @ForAll(ELEMENTS) E v1,
         @ForAll(ELEMENTS) E v2,
