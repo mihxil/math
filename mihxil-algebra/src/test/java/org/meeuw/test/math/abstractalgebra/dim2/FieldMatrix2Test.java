@@ -23,7 +23,6 @@ import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.dim2.FieldMatrix2;
 import org.meeuw.math.abstractalgebra.dim2.FieldMatrix2Group;
-import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -92,11 +91,10 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     @Test
     public void illegalReciprocal() {
 
-        FieldMatrix3<RationalNumber> fm = new FieldMatrix3<>(
+        FieldMatrix2<RationalNumber> fm = new FieldMatrix2<>(
             new RationalNumber[][]{
-                new RationalNumber[]{of(2), of(0), of(-1)},
-                new RationalNumber[]{of(2), of(0), of(-1)},
-                new RationalNumber[]{of(1), of(4), of(5)}
+                new RationalNumber[]{of(2), of(0)},
+                new RationalNumber[]{of(1), of(0)}
             }
         );
 

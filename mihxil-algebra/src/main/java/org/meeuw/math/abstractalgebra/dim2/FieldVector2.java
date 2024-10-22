@@ -72,12 +72,6 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
         );
     }
 
- /*   public FieldVector3<E> times(double multiplier) {
-
-        return of(x.times(multiplier), y.times(multiplier), z.times(multiplier));
-    }*/
-
-
     @Override
     @NonAlgebraic
     public E abs() {

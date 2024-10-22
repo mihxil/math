@@ -18,16 +18,14 @@ package org.meeuw.test.math.abstractalgebra.dim2;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.dim2.Matrix2Group;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
-import org.meeuw.math.abstractalgebra.dim3.Matrix3Group;
-import org.meeuw.math.abstractalgebra.dim3.Vector3;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
+import static org.meeuw.math.abstractalgebra.dim2.Vector2.of;
 
 /**
  * @author Michiel Meeuwissen
@@ -64,36 +62,36 @@ class Vector2Test implements
 
     @Test
     void timesMatrix() {
-        Vector3 example = of(1, 2, 3);
-        Assertions.assertThat(example.times(Matrix3Group.INSTANCE.one())).isEqualTo(example);
-        assertThat(example.times(Matrix3Group.INSTANCE.one().times(2))).isEqualTo(example.times(2));
+        Vector2 example = of(1, 2);
+        assertThat(example.times(Matrix2Group.INSTANCE.one())).isEqualTo(example);
+        assertThat(example.times(Matrix2Group.INSTANCE.one().times(2))).isEqualTo(example.times(2));
     }
 
     @Test
     void timesDouble() {
-        Vector3 example = of(1, 2, 3);
-        assertThat(example.times(2)).isEqualTo(of(2, 4, 6));
+        Vector2 example = of(1, 2);
+        assertThat(example.times(2)).isEqualTo(of(2, 4));
     }
 
     @Test
     void dividedByDouble() {
-        Vector3 example = of(1, 2, 3);
-        assertThat(example.dividedBy(2)).isEqualTo(of(0.5, 1, 1.5));
+        Vector2 example = of(1, 2);
+        assertThat(example.dividedBy(2)).isEqualTo(of(0.5, 1));
     }
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
     public void stringEqualsHashCode() {
-        Vector3 example = of(1, 2, 3);
+        Vector2 example = of(1, 2);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
 
         assertThat(example.equals(example)).isTrue();
         assertThat(example.equals("bla")).isFalse();
-        assertThat(example.equals(of(3, 2, 1))).isFalse();
-        assertThat(example.equals(of(1, 2, 4))).isFalse();
-        assertThat(example.equals(of(2, 2, 3))).isFalse();
-        assertThat(example.equals(of(1, 2, 3))).isTrue();
+        assertThat(example.equals(of(3, 2))).isFalse();
+        assertThat(example.equals(of(1, 2))).isFalse();
+        assertThat(example.equals(of(2, 2))).isFalse();
+        assertThat(example.equals(of(1, 2))).isTrue();
 
-        assertThat(example.hashCode()).isEqualTo(of(1, 2, 3).hashCode());
+        assertThat(example.hashCode()).isEqualTo(of(1, 2).hashCode());
     }
 }
