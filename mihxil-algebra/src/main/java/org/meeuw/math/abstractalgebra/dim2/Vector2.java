@@ -61,11 +61,6 @@ public class Vector2 implements
         );
     }
 
-    @Override
-    public boolean eq(Vector2 other) {
-        return  x == other.x && y == other.y;
-    }
-
 
     @Override
     public boolean equals(Object o) {
