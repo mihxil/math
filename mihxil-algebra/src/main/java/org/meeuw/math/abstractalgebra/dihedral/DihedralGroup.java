@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -14,15 +15,20 @@ import org.meeuw.math.text.TextUtils;
  */
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
 
+
     public static Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
     final int n;
 
-    private DihedralGroup(int n) {
-        this.n = n;
-    }
-
     public static DihedralGroup of(int n) {
         return CACHE.computeIfAbsent(n, DihedralGroup::new);
+    }
+
+    @Example(Group.class)
+    public static DihedralGroup D3 = of(3);
+
+
+    private DihedralGroup(int n) {
+        this.n = n;
     }
 
     public DihedralSymmetry r(int k) {

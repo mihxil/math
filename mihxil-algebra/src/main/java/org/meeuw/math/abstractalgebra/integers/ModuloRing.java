@@ -18,6 +18,9 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.meeuw.math.Example;
+import org.meeuw.math.abstractalgebra.AbelianRing;
+
 /**
  * Implementation of ℤ/nℤ
  *
@@ -31,6 +34,9 @@ public class ModuloRing extends ModuloStructure<ModuloRingElement, ModuloRing> {
     public static ModuloRing of(int divisor) {
         return instances.computeIfAbsent(divisor, ModuloRing::new);
     }
+
+    @Example(AbelianRing.class)
+    public static ModuloRing Z8 = of(8);
 
     private ModuloRing(int divisor) {
         super(ModuloRingElement.class, divisor);
