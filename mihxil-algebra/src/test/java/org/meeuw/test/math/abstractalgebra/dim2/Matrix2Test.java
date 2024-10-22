@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.abstractalgebra.dim2.dim3;
+package org.meeuw.test.math.abstractalgebra.dim2;
 
 import java.math.*;
 

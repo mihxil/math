@@ -127,17 +127,10 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
 
     E[][] adjugateMatrix() {
         final E[][] adjugate =  empty();
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                adjugate[j][i] = determinant2x2(
-                    values[skip(0, i)][skip(0, j)], values[skip(0, i)][skip(1, j)],
-                    values[skip(1, i)][skip(0, j)], values[skip(1, i)][skip(1, j)]
-                );
-                if ((i + j) % 2 == 1) {
-                    adjugate[j][i] = adjugate[j][i].negation();
-                }
-            }
-        }
+        adjugate[0][0] = values[1][1];
+        adjugate[1][1] = values[0][0];
+        adjugate[1][0] = values[1][0].negation();
+        adjugate[0][1] = values[0][1].negation();
         return adjugate;
     }
     private int skip(int i, int skip) {
@@ -185,13 +178,10 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         E b = values[0][1];
         E c = values[1][0];
         E d = values[1][1];
-        return a.times(d)
-                .minus(
-                    b.times(c));
-
+        return determinant2x2(a, b, c, d);
     }
 
-    E determinant2x2(E a, E b, E c, E d) {
+    public static <E extends ScalarFieldElement<E>> E determinant2x2(E a, E b, E c, E d) {
         return a.times(d).minus(b.times(c));
     }
 

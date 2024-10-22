@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.abstractalgebra.dim2.dim3;
+package org.meeuw.test.math.abstractalgebra.dim2;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -82,7 +82,7 @@ class FieldVector2Test implements
         assertThat(v1).isEqualTo(v2);
         v2 = v2.withY(of(-3));
         assertThat(v1).isNotEqualTo(v2);
-        v2 = v2.withX(of(3));
+        v2 = v2.withY(of(-4));
         assertThat(v1).isEqualTo(v2);
     }
 

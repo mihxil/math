@@ -41,7 +41,7 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
 
     @Override
     public int getDimension() {
-        return 3;
+        return 2;
     }
 
     @Override

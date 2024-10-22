@@ -25,6 +25,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.validation.Square;
 
+import static org.meeuw.math.abstractalgebra.dim2.FieldMatrix2.determinant2x2;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -208,9 +210,6 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
             );
     }
 
-    E determinant2x2(E a, E b, E c, E d) {
-        return a.times(d).minus(b.times(c));
-    }
 
 
 

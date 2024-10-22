@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.abstractalgebra.dim2.dim3;
+package org.meeuw.test.math.abstractalgebra.dim2;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -52,7 +52,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
             );
         }).isInstanceOf(InvalidElementCreationException.class);
 
-        FieldMatrix3<RationalNumber> iml = new FieldMatrix3<>(
+        FieldMatrix2<RationalNumber> iml = new FieldMatrix2<>(
             new RationalNumber[][]{
                 new RationalNumber[]{of(3), of(0)},
                 new RationalNumber[]{of(2), of(0)}
@@ -67,14 +67,13 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     public void adjugate() {
         FieldMatrix2<RationalNumber> fm = FieldMatrix2.of(
             of(3), of(0),
-            of(2), of(0)
+            of(2), of(1)
 
         );
         assertThat(fm.adjugate()).isEqualTo(
-            FieldMatrix3.of(
-                of(2), of(2), of(0),
-                of(-2), of(3), of(10),
-                of(2), of(-3), of(0)
+            FieldMatrix2.of(
+                of(1), of(0),
+                of(-2), of(3)
             )
         );
     }
@@ -86,7 +85,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
             of(2), of(0)
         );
         RationalNumber determinant = fm.determinant();
-        assertThat(determinant).isEqualTo(of(49));
+        assertThat(determinant).isEqualTo(of(6));
         log.info("Determinant {}", determinant);
     }
 

@@ -133,7 +133,7 @@ public strictfp class Matrix2 implements
         double b = values[0][1];
         double c = values[1][0];
         double d = values[1][1];
-        return determinant2x2(a, b, c, 2);
+        return determinant2x2(a, b, c, d);
     }
 
      @Override
