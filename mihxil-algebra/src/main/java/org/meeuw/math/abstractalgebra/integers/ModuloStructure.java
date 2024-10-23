@@ -21,7 +21,6 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
@@ -32,7 +31,6 @@ import org.meeuw.math.exceptions.InvalidStructureCreationException;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(Ring.class)
 public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
     extends AbstractAlgebraicStructure<E>
     implements AbelianRing<E>, Streamable<E>, Randomizable<E> {

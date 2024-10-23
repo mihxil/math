@@ -7,6 +7,7 @@
   </parent>
   <description>A simple (spring boot) application that is using things of this project.</description>
   <artifactId>math-test</artifactId>
+  <name>Math - Testing</name>
   <packaging>jar</packaging>
 
   <properties>

@@ -8,6 +8,8 @@
   </parent>
   <artifactId>mihxil-math-lib-parent</artifactId>
   <packaging>pom</packaging>
+  <name>Math - lib-parent</name>
+
 
 
   <description>Serves as a parent for the modules that are distributed as a library. And are e.g. still java 8 compatible.</description>
