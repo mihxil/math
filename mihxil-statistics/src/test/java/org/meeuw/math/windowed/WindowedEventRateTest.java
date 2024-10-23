@@ -25,14 +25,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
-import org.meeuw.math.time.TestClock;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.time.TestClock;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -44,7 +45,12 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  */
 @SuppressWarnings("resource")
 @Log4j2
-public class WindowedEventRateTest { //implements UncertainDoubleTheory<WindowedEventRate> {
+public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainReal> {
+
+    @AfterAll
+    public static void shutdown() {
+        WindowedEventRate.shutdown();
+    }
 
     @Test
     public void testBuckets() {
@@ -301,12 +307,12 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
     }
 
 
-    //@Override
-    public Arbitrary<UncertainDouble<UncertainReal>> elements() {
+    @Override
+    public Arbitrary<UncertainReal> elements() {
         final TestClock clock = new TestClock();
 
         return Arbitraries.randomValue(r -> {
-            int number = r.nextInt(100);
+            int number = 2 + r.nextInt(98);
             WindowedEventRate rate = WindowedEventRate.builder()
                 .window(Duration.ofSeconds(100))
                 .bucketCount(10)
@@ -316,7 +322,7 @@ public class WindowedEventRateTest { //implements UncertainDoubleTheory<Windowed
                 rate.accept(r.nextInt(10));
                 clock.tick(r.nextInt(2000));
             }
-            return rate;
+            return rate.getUncertainRate();
         });
     }
 }
