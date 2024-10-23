@@ -43,7 +43,7 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
     }
 
     public static BigComplexNumber of(BigDecimalElement real) {
-        return new BigComplexNumber(real, BigComplexNumbers.INSTANCE.getElementStructure().zero());
+        return new BigComplexNumber(real, BigDecimalElement.ZERO);
     }
 
 

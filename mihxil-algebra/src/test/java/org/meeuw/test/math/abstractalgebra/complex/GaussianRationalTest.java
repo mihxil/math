@@ -58,7 +58,7 @@ class GaussianRationalTest implements
 
     @Test
     public void pow3Example() {
-        GaussianRational gaussian = new GaussianRational(RationalNumber.of(-77, 100),
+        GaussianRational gaussian = GaussianRational.of(RationalNumber.of(-77, 100),
             RationalNumber.of(-75, 64));
         assertThat(gaussian.pow(-3).toString()).isEqualTo("⁴⁵⁵⁶³⁰⁴⁷²⁴⁷⁸⁷²⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉ + ⁷⁹⁷⁰⁶⁶⁴⁹⁶⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉i");
     }
@@ -94,7 +94,7 @@ class GaussianRationalTest implements
     public Arbitrary<GaussianRational> elements() {
         return Arbitraries.randomValue(
             (random) ->
-                new GaussianRational(
+                GaussianRational.of(
                     RationalNumber.of(random.nextInt(200) - 100, random.nextInt(100) + 1),
                     RationalNumber.of(random.nextInt(200) - 100, random.nextInt(100) + 1))
         )

@@ -28,9 +28,10 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.*;
 
+import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.imaginary;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.real;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
-import static org.meeuw.assertj.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -46,7 +47,7 @@ class ComplexNumberTest implements
 
     @Test
     public void isMultiplicativeSemiGroupElement() {
-        ComplexNumber cn = new ComplexNumber(of(1), of(1));
+        ComplexNumber cn = ComplexNumber.of(of(1), of(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
 
@@ -55,7 +56,7 @@ class ComplexNumberTest implements
     public Arbitrary<ComplexNumber> elements() {
         return Arbitraries.randomValue(
             (random) ->
-                new ComplexNumber(
+                ComplexNumber.of(
                     of(200 * random.nextDouble() - 100),
                     of(200 * random.nextDouble() - 100)))
             .injectDuplicates(0.1)
@@ -76,7 +77,9 @@ class ComplexNumberTest implements
 
     @Test
     public void sqrt() {
-        assertThat(real(RealNumber.of(-1)).sqrt()).isEqTo(ComplexNumbers.INSTANCE.i());
+        assertThat(real(RealNumber.of(-1)).sqrt()).isEqTo(imaginary(of(1)));
+
+
 
         assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt().toString()).isEqualTo("0.70710678118655 - 0.70710678118655i");
     }

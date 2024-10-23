@@ -45,7 +45,7 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
     }
 
     public static ComplexNumber real(RealNumber real) {
-        return new ComplexNumber(real, INSTANCE.getElementStructure().zero());
+        return of(real);
     }
 
     public static ComplexNumber real(double real) {
