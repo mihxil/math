@@ -25,7 +25,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.OverflowException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 
@@ -64,6 +64,24 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             assertThat(nonalgebraicOptional)
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
+    }
+
+    @Property
+    default void ePowZero(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+        CompleteField<E> casted = (CompleteField<E>) struct;
+        assertThat(casted.e().pow(casted.zero())).isEqTo(casted.one());
+    }
+
+    @Property
+    default void sinPi(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+        CompleteField<E> casted = (CompleteField<E>) struct;
+        assertThat(casted.pi().sin()).isEqTo(casted.zero());
+    }
+
+    @Property
+    default void cosPi(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+        CompleteField<E> casted = (CompleteField<E>) struct;
+        assertThat(casted.pi().cos()).isEqTo(casted.one().negation());
     }
 
 }

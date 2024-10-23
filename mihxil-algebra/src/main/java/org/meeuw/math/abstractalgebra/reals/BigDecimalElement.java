@@ -236,8 +236,10 @@ public class BigDecimalElement implements
     @Override
     public BigDecimalElement dividedBy(long divisor) {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, BigDecimal.valueOf(divisor));
-        UncertainNumber<BigDecimal> uncertaintyValue =
-            operations().withUncertaintyContext(() -> operations().divide(BigDecimal.valueOf(divisor), uncertainty)
+        UncertainNumber<BigDecimal> uncertaintyValue = uncertainty.equals(BigDecimal.ZERO) ?
+            BigDecimalField.INSTANCE.zero() :
+            operations().withUncertaintyContext(() ->
+                operations().divide(BigDecimal.valueOf(divisor), uncertainty)
             );
         return new BigDecimalElement(
             newValue.getValue(),

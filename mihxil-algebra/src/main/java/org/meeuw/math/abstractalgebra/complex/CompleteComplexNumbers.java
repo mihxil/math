@@ -44,12 +44,12 @@ public abstract class CompleteComplexNumbers<
 
     @Override
     public S pi() {
-        return of(getElementStructure().pi(), getElementStructure().zero());
+        return of(getElementStructure().pi());
     }
 
     @Override
     public S e() {
-        return null;
+        return of(getElementStructure().e());
     }
 
 }

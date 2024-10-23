@@ -35,6 +35,11 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
     public static ComplexNumber of(RealNumber real, RealNumber imaginary) {
         return new ComplexNumber(real, imaginary);
     }
+
+    public static ComplexNumber of(RealNumber real) {
+        return of(real, RealNumber.ZERO);
+    }
+
     public static ComplexNumber of(double real, double imaginary) {
         return of(RealNumber.of(real), RealNumber.of(imaginary));
     }

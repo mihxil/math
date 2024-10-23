@@ -40,7 +40,7 @@ class BigComplexNumberTest implements
 
     @Test
     public void isMultiplicativeSemiGroupElement() {
-        BigComplexNumber cn = new BigComplexNumber(of(1), of(1));
+        BigComplexNumber cn = BigComplexNumber.of(of(1), of(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
 

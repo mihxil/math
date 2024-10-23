@@ -57,6 +57,10 @@ public abstract class AbstractComplexNumbers<
 
     abstract S of(E real, E imaginary);
 
+    public S of(E real) {
+        return of(real, getElementStructure().zero());
+    }
+
     @Override
     public S zero() {
         return zero;
