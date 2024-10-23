@@ -104,7 +104,7 @@ public class Permutation  implements
         return result;
     }
 
-    public  int[] permute(int... values) {
+    public  int[] permuteInts(int... values) {
         int[] result = Arrays.copyOf(values, values.length);
         for (int i = 0 ; i < value.length; i++) {
             result[value[i]] = values[i];

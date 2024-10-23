@@ -40,7 +40,7 @@ public class Application {
         PermutationGroup permutationGroup = PermutationGroup.ofDegree(5);
         log.info(() -> "sum %s".formatted(
             permutationGroup.stream()
-                .map(p -> fromDigits(p.permute(digits)))
+                .map(p -> fromDigits(p.permuteInts(digits)))
                 .reduce(0L, Long::sum))
         );
     }

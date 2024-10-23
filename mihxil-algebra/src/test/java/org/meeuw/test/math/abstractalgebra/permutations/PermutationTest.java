@@ -72,7 +72,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     public void permute() {
         String[] values = { "a", "b", "c"};
 
-        Permutation permutation = Permutation.of(2, 3, 1);
+        final Permutation permutation = Permutation.of(2, 3, 1);
         String[] permuted = permutation.permute(values);
         assertThat(permuted).containsExactly("c", "a", "b");
         assertThat(permutation.getStructure().one().permute(values)).containsExactly("a", "b", "c");
@@ -94,6 +94,13 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
             "c, b, a"
         );
 
+    }
+
+    @Test
+    public void permuteInts() {
+        final Permutation permutation = Permutation.of(2, 3, 1);
+        int[] permute = permutation.permuteInts( 10, 12, 14);
+        assertThat(permute).containsExactly(14, 10, 12);
     }
 
     @Test
