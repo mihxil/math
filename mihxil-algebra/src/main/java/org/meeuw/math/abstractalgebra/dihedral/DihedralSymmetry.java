@@ -55,9 +55,6 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
         this.group = dihedralGroup;
     }
 
-    private DihedralSymmetry(Symmetry symmetry, int k, int n) {
-        this(symmetry, k, DihedralGroup.of(n));
-     }
 
     @Override
     public DihedralGroup getStructure() {

@@ -86,10 +86,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
             assertThat(ranges.get(i).getKey().upperEndpoint())
                 .isEqualTo(ranges.get(i + 1).getKey().lowerEndpoint());
         }
-
-
     }
-
 
     @Test
     public void test() throws InterruptedException {
@@ -150,7 +147,6 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
             }
         }
     }
-
 
     @Test
     public void testAccuracyDuringWarmup() {
@@ -221,7 +217,6 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
             assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofMinutes(100));
         }
     }
-
 
     @Test
     public void string() {
@@ -299,11 +294,6 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
         rate.newEvent();
         rate.newEvent();
         log.info(rate.getTotalCount());
-
-
-
-
-
     }
 
 

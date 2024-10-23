@@ -24,7 +24,8 @@ import org.meeuw.math.exceptions.NotComparableException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.opentest4j.TestAbortedException;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
+
 
 public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
     extends ElementTheory<E> {
@@ -44,6 +45,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
             E sum = e1.plus(e2);
             getLogger().info("{} + {} = {}", e1, e2, sum);
             assertThat(sum.doubleValue()).isEqualTo(e1.doubleValue() + e2.doubleValue());
+
         } catch(NotComparableException notComparableException) {
             Assume.that(false);
         }
