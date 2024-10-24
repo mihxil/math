@@ -36,6 +36,8 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
 
     E sqrt();
 
+    E root(int i);
+
     E sin();
 
     E cos();
@@ -49,19 +51,15 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         }
     }
 
-    default E tetrate(int n) {
-        if (n < 0) {
-            throw new IllegalPowerException("Cannot tetrate with negative", BasicAlgebraicIntOperator.TETRATION.stringify(toString(), Integer.toString(n)));
+    default E tetration(int height) {
+        if (height < 0) {
+            throw new IllegalPowerException("Cannot tetrate with negative", BasicAlgebraicIntOperator.TETRATION.stringify(toString(), Integer.toString(height)));
         }
-        if (n == 0) {
+        if (height == 0) {
             return getStructure().one();
         }
         final E t = (E) this;
-        E e = t;
-        while (--n > 0)  {
-            e = t.pow(e);
-        }
-        return e;
+        return t.pow(t.tetration(height -1 ));
     }
 
     E exp();

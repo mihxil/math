@@ -52,7 +52,19 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         }
         double d = Math.sqrt(radicand);
         if (Double.isNaN(d)) {
-            throw new IllegalSqrtException("Illegal sqrt result " + d, Double.toString(radicand));
+            throw new IllegalSqrtException("Illegal sqrt result " + d, Double.toString( radicand));
+        }
+        return uncertain(d);
+    }
+
+     @Override
+    public UncertainNumber<Double> root(final Double radicand, int i) {
+        if (Double.isNaN(radicand)) {
+            return uncertain(Double.NaN);
+        }
+        double d = Math.pow(radicand, 1d/i);
+        if (Double.isNaN(d)) {
+            throw new IllegalSqrtException("Illegal root result " + d, Double.toString(radicand));
         }
         return uncertain(d);
     }

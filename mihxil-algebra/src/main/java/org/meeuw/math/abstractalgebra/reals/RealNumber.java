@@ -241,6 +241,11 @@ public class RealNumber
     }
 
     @Override
+    public RealNumber root(int root) {
+        return immutableInstanceOfPrimitives(Math.pow(value, 1d/root), max(uncertainty, DoubleUtils.uncertaintyForDouble(value)));
+    }
+
+    @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber pow(RealNumber exponent) throws IllegalPowerException, OverflowException {
         if (value == 0 && exponent.isNegative()) {

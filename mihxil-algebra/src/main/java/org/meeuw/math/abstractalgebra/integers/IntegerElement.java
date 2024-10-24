@@ -99,7 +99,7 @@ public class IntegerElement
     }
 
     /**
-     * The remainder of euclidean division of integers.
+     * The remainder of Euclidean division of integers.
      * @param divisor integer divisor
      * @return this % divisor
      */

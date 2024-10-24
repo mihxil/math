@@ -59,7 +59,7 @@ public abstract class AbstractStatisticalDouble
     public double doubleValue() throws NoValues {
         return optionalDoubleMean()
             .orElseThrow(() ->
-                new NoValues("No values entered, cannot calculate mean", this + ".mean")
+                new NoValues("No values entered, cannot calculate mean",   ".mean")
             );
     }
 

@@ -21,6 +21,7 @@ import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
+import static org.meeuw.math.operators.BasicAlgebraicIntOperator.ROOT;
 import static org.meeuw.math.operators.BasicAlgebraicIntOperator.TETRATION;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 
@@ -36,7 +37,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS, EXP, LN, SINH, COSH);
 
-    NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(MultiplicativeSemiGroup.INT_OPERATORS, TETRATION);
+    NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(MultiplicativeSemiGroup.INT_OPERATORS, ROOT, TETRATION);
 
 
     E pi();

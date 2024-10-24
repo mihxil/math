@@ -50,13 +50,21 @@ public class MathContextConfiguration implements ConfigurationAspect {
     @With
     private final MathContext uncertaintyContext;
 
+
+    /**
+     */
+    @Getter
+    @With
+    private final long maxBits;
+
     public MathContextConfiguration() {
-        this(  new MathContext(100), null);
+        this(  new MathContext(100), null, 100_000);
     }
 
-    public MathContextConfiguration(MathContext context, MathContext uncertaintyContext) {
+    public MathContextConfiguration(MathContext context, MathContext uncertaintyContext, long maxBits) {
         this.context = context;
         this.uncertaintyContext = uncertaintyContext == null ? DEFAULT_UNCERTAINTY_CONTEXT : uncertaintyContext;
+        this.maxBits = maxBits;
     }
 
 

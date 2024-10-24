@@ -129,10 +129,10 @@ strictfp class BigDecimalFieldTest implements
 
         withLooseEquals(() -> {
 
-            assertThat(two.tetrate(2)).isEqualTo(of(4));
-            assertThat(two.tetrate(3)).isEqualTo(of(16));
-            assertThat(two.tetrate(4)).isEqualTo(of(65_536));
-            assertThat(two.tetrate(5)).isEqualTo(of("2.003529930406846464979072351560255750447825475569751419265016973710894059556311453089506130880933348E+19728"));
+            assertThat(two.tetration(2)).isEqualTo(of(4));
+            assertThat(two.tetration(3)).isEqualTo(of(16));
+            assertThat(two.tetration(4)).isEqualTo(of(65_536));
+            assertThat(two.tetration(5)).isEqualTo(of("2.003529930406846464979072351560255750447825475569751419265016973710894059556311453089506130880933348E+19728"));
 
         });
 
@@ -140,8 +140,8 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement three = of(3);
 
         withLooseEquals(() -> {
-            assertThat(three.tetrate(2)).isEqualTo(of(27));
-            assertThat(three.tetrate(3)).isEqualTo(of("7625597484987"));
+            assertThat(three.tetration(2)).isEqualTo(of(27));
+            assertThat(three.tetration(3)).isEqualTo(of("7625597484987"));
         });
 
     }

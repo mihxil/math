@@ -40,8 +40,12 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
         getDeclaredMethod(MultiplicativeSemiGroupElement.class, "pow", int.class),
         (s, i) ->  withBracketsIfNeeded(s) + TextUtils.superscript(i)
     ),
+    ROOT(
+        getDeclaredMethod(CompleteFieldElement.class, "root", int.class),
+        (s, i) ->  TextUtils.superscript(i) + "√" + withBracketsIfNeeded(s)
+    ),
     TETRATION(
-        getDeclaredMethod(CompleteFieldElement.class, "tetrate", int.class),
+        getDeclaredMethod(CompleteFieldElement.class, "tetration", int.class),
         (s, i) -> TextUtils.superscript(i) + withBracketsIfNeeded(s)
     )
 
@@ -79,9 +83,11 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
             try {
                 // It is possible that the operation is defined, but the class does not extend the correct class
                 // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
-                return (E) e.getClass().getMethod(method.getName()).invoke(e);
+                return (E) e.getClass().getMethod(method.getName(), int.class).invoke(e, i);
             } catch (NoSuchMethodException noSuchMethodError) {
                 throw new NoSuchOperatorException("No operation " + this + " found on " + e, noSuchMethodError);
+            } catch (InvocationTargetException ex) {
+                throw ex.getCause();
             }
         } catch (InvocationTargetException ex) {
             throw ex.getCause();

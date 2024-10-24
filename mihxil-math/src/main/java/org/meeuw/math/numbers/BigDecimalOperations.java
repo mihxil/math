@@ -68,6 +68,17 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         }
     }
 
+
+    @Override
+    public UncertainNumber<BigDecimal> root(BigDecimal radicand, int i) {
+        //return uncertain(radicand.sqrt(mathContext)); // java 9
+        try {
+            return uncertain(BigDecimalMath.root(radicand, BigDecimal.valueOf(i), context()));
+        } catch (ArithmeticException arithmeticException) {
+            throw new IllegalSqrtException(arithmeticException, radicand.toString());
+        }
+    }
+
     @Override
     public BigDecimal abs(BigDecimal v) {
         return v.abs();

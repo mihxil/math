@@ -24,6 +24,7 @@ import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.*;
@@ -85,6 +86,24 @@ public abstract class AbstractIntegerElement<
             throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(n)));
         }
     }
+
+
+    public E tetration(int height) {
+        return with(_tetration(value, height));
+    }
+
+    static protected BigInteger _tetration(BigInteger v, int height) {
+        if (height < 0) {
+            throw new IllegalPowerException("Cannot tetrate with negative", BasicAlgebraicIntOperator.TETRATION.stringify(v.toString(), Integer.toString(height)));
+        }
+        if (height == 0) {
+            return BigInteger.ONE;
+        }
+        return BigDecimalUtils.pow(v,_tetration(v, height -1 ));
+    }
+
+
+
 
     @Override
     public long longValue() {

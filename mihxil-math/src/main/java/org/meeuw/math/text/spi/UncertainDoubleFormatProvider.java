@@ -30,6 +30,10 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
  */
 public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvider<UncertainDoubleFormat> {
 
+    public UncertainDoubleFormatProvider() {
+
+    }
+
     @Override
     public UncertainDoubleFormat getInstance(Configuration configuration) {
         UncertainDoubleFormat format = new UncertainDoubleFormat();

@@ -226,6 +226,12 @@ public class UncertainDoubleElement
         return of(Math.sqrt(value), uncertainty);
     }
 
+
+    @Override
+    public UncertainDoubleElement root(int i) {
+        return of(Math.pow(value, 1d/i), uncertainty);
+    }
+
     @Override
     public UncertainDoubleElement sin() {
         UncertainNumber<Double> sin = operations().sin(value);

@@ -135,6 +135,13 @@ public class BigDecimalElement implements
             operations().sqrt(uncertainty).getValue().max(sqrt.getUncertainty())
         );
     }
+    @Override
+    public BigDecimalElement root(int i) {
+        UncertainNumber<BigDecimal> sqrt = operations().root(value,  i);
+        return new BigDecimalElement(sqrt.getValue(),
+            operations().sqrt(uncertainty).getValue().max(sqrt.getUncertainty())
+        );
+    }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value = "Not possible for negative arguments")

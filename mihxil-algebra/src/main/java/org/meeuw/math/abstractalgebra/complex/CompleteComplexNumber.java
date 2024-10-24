@@ -64,6 +64,11 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
+    public S root(int i) {
+        return pow(getStructure().one().dividedBy(i));
+    }
+
+    @Override
     public S sin() {
         return _of(
             real.sin().times(imaginary.cosh()),

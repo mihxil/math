@@ -46,6 +46,9 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
 
     static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Ring.FUNCTIONS, MultiplicativeMonoid.FUNCTIONS, Group.FUNCTIONS, navigableSet(BasicFunction.ABS));
 
+    static final NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(BasicAlgebraicIntOperator.POWER, BasicAlgebraicIntOperator.TETRATION);
+
+
     @Override
     public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
@@ -54,6 +57,11 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     @Override
     public  NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
+    }
+
+    @Override
+    public  NavigableSet<AlgebraicIntOperator> getSupportedIntOperators() {
+        return INT_OPERATORS;
     }
 
     @Override

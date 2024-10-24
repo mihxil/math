@@ -43,6 +43,9 @@ public interface NumberOperations<N extends Number> {
 
     UncertainNumber<N> sqrt(N radicand);
 
+    UncertainNumber<N> root(N radicand, int i);
+
+
     N abs(N v);
 
     UncertainNumber<N> reciprocal(N v);
