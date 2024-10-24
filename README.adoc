@@ -78,9 +78,9 @@ The terminology which is adopted is this:
 |loosely equals | `≈` | eq | equals | equality| other element| link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`]
 
 7+^| integer operators
-| root | '`√`' | root | root | root | root | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-| power | '^' | root | root | root | root |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-| tetration | '^' | root | root | root | root | | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| root | `^n^√x` | root | root | n-th root | base | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| power | `x^n^` |  |  | n-th power  | exponent |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| tetration | `x↑↑n` `^n^x` |   |   |  | height | | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 
 
 
