@@ -77,6 +77,12 @@ The terminology which is adopted is this:
 |equals      | `=` | equals | equals | equality| object| `java.lang.Object`
 |loosely equals | `≈` | eq | equals | equality| other element| link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`]
 
+7+^| integer operators
+| root | '`√`' | root | root | root | root | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| power | '^' | root | root | root | root |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| tetration | '^' | root | root | root | root | | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+
+
 
 |===
 
