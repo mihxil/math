@@ -91,7 +91,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public Quaternion<E> dividedBy(E divisor) {
         return new Quaternion<>(
             a.dividedBy(divisor),

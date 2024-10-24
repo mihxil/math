@@ -48,6 +48,21 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         }
     }
 
+    default E tetrate(int n) {
+        if (n < 0) {
+            throw new IllegalPowerException("");
+        }
+        if (n == 0) {
+            return getStructure().one();
+        }
+        final E t = (E) this;
+        E e = t;
+        while (--n > 0)  {
+            e = t.pow(e);
+        }
+        return e;
+    }
+
     E exp();
 
     E ln() throws IllegalLogarithmException;

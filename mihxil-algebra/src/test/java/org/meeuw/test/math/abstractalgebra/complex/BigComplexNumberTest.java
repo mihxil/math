@@ -26,6 +26,7 @@ import org.meeuw.theories.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
  * @author Michiel Meeuwissen
@@ -46,6 +47,21 @@ class BigComplexNumberTest implements
     @Test
     public void testOf() {
         assertThat(BigComplexNumber.of(BigDecimalElement.ONE)).isEqualTo(BigComplexNumber.of(BigDecimalElement.ONE, BigDecimalElement.ZERO));
+    }
+
+
+    @Test
+    public void tetration() {
+        BigComplexNumber i = BigComplexNumber.of(of(0), of(1));
+
+        withLooseEquals(() -> {
+            assertThat(i.tetrate(1)).isEqualTo(i);
+            assertThat(i.tetrate(2)).isEqualTo(
+                BigComplexNumber.of(
+                    of(".2078795763507619085469556198349787700338778416317696080751358830554198772854821397886002778654260353")
+                )
+            );
+        });
     }
 
     @Override

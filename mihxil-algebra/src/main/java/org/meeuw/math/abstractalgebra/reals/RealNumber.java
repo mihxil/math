@@ -26,12 +26,12 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static java.lang.Math.max;
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
@@ -240,7 +240,7 @@ public class RealNumber
     }
 
     @Override
-    @NonAlgebraic
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber pow(RealNumber exponent) throws IllegalPowerException, OverflowException {
         if (value == 0 && exponent.isNegative()) {
             throw new IllegalPowerException("0 ^ " + exponent);

@@ -120,9 +120,32 @@ strictfp class BigDecimalFieldTest implements
         BigDecimalElement base = of(300);
         BigDecimalElement exponent = of(-30.1);
         assertThat(base.pow(exponent).doubleValue()).isNotEqualTo(0d);
+    }
 
+    @Test
+    public void tetration() {
+
+        BigDecimalElement two = of(2);
+
+        withLooseEquals(() -> {
+
+            assertThat(two.tetrate(2)).isEqualTo(of(4));
+            assertThat(two.tetrate(3)).isEqualTo(of(16));
+            assertThat(two.tetrate(4)).isEqualTo(of(65_536));
+            assertThat(two.tetrate(5)).isEqualTo(of("2.003529930406846464979072351560255750447825475569751419265016973710894059556311453089506130880933348E+19728"));
+
+        });
+
+
+        BigDecimalElement three = of(3);
+
+        withLooseEquals(() -> {
+            assertThat(three.tetrate(2)).isEqualTo(of(27));
+            assertThat(three.tetrate(3)).isEqualTo(of("7625597484987"));
+        });
 
     }
+
 
     @Property
     public void timesDouble(

@@ -66,6 +66,8 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
         return MultiplicativeMonoidElement.super.pow(n);
     }
 
+
+
     @NonAlgebraic
     default E dividedBy(E divisor) throws ReciprocalException {
         return times(divisor.reciprocal());
