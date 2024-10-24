@@ -138,6 +138,12 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
+    public UncertainReal root(int base) {
+        UncertainNumber<Double> sqrt = operations.root(doubleValue(), base);
+        return immutableInstance(sqrt.getValue(), Math.max(doubleUncertainty(), sqrt.getValue()));
+    }
+
+    @Override
     public UncertainReal sin() {
         UncertainNumber<Double> sin = operations.sin(doubleValue());
         return immutableInstance(sin.getValue(), Math.max(doubleUncertainty(), sin.getValue()));
