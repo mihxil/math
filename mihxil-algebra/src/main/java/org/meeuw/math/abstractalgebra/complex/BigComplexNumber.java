@@ -48,18 +48,31 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
 
 
     public static BigComplexNumber of(String string) {
-        String split[] = string.split("\\s+\\+\\s+", 2);
-        if (split.length == 2) {
+        String[] split = string.split("\\s+", 3);
+        if (split.length == 3) {
             String rstring = split[0];
-            String istring = split[1].substring(0, split[1].length() - 1);
-            return of(BigDecimalElement.of(rstring), BigDecimalElement.of(istring));
+            String istring = split[2].substring(0, split[2].length() - 1);
+            if (istring.equals("-")) {
+                istring = "-1";
+            }
+            BigDecimalElement impart = BigDecimalElement.of(istring);
+            if (split[1].equals("-")) {
+                impart = impart.negation();
+            }
+            return of(BigDecimalElement.of(rstring), impart);
         }
         if (split[0].endsWith("i")) {
+            String truncated = split[0].substring(0, split[0].length() - 1);
+            if (truncated.isEmpty()) {
+                return of(BigDecimalElement.ZERO, BigDecimalElement.ONE);
+            }
+            if (truncated.equals("-")) {
+                return of(BigDecimalElement.ZERO, BigDecimalElement.ONE.negation());
+            }
             return of(BigDecimalElement.ZERO, BigDecimalElement.of(split[0].substring(0, split[0].length() - 1)));
         } else {
             return of(BigDecimalElement.of(split[0]));
         }
-
     }
 
 
