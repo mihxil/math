@@ -57,7 +57,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
             try {
                 return reciprocal().pow(n);
             } catch (DivisionByZeroException divisionByZeroException) {
-                throw new IllegalPowerException(divisionByZeroException);
+                throw new IllegalPowerException(divisionByZeroException, "reciprocal().pow(%s)".formatted(n));
             }
         }
         if (n == 0) {

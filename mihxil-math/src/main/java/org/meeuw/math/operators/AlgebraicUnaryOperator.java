@@ -16,8 +16,7 @@
 package org.meeuw.math.operators;
 
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.text.TextUtils;
@@ -94,6 +93,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
             @Override
             public String name() {
                 return AlgebraicUnaryOperator.this.name() + " and then " + after.name();
+
             }
         };
     }

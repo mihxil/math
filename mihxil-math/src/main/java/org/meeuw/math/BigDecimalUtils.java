@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.text.TextUtils;
 
 import static java.math.BigDecimal.*;
 
@@ -47,7 +48,7 @@ public final class BigDecimalUtils {
         BigDecimal result = ONE;
         if (base.equals(ZERO)) {
             if (e <= 0) {
-                throw new IllegalPowerException(String.format("Cannot %s to negative power %s", base, e));
+                throw new IllegalPowerException("Cannot raise to negative power", base + TextUtils.superscript(e));
             }
             return result;
         }

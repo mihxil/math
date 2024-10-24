@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -51,7 +52,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
         }
         double d = Math.sqrt(radicand);
         if (Double.isNaN(d)) {
-            throw new IllegalSqrtException("Illegal sqrt " + radicand);
+            throw new IllegalSqrtException("Illegal sqrt result " + d, Double.toString(radicand));
         }
         return uncertain(d);
     }
@@ -89,7 +90,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> divide(Double n1, Double n2) {
         if (n2 == 0d) {
-            throw new ReciprocalException("division by zero " + n1 + " / " + n2);
+            throw new ReciprocalException("division by zero",   n1 + " / " + n2);
         }
         return uncertain(n1 / n2);
     }
@@ -97,7 +98,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> divide(Double n1, int n2) {
         if (n2 == 0) {
-            throw new ReciprocalException("division by zero " + n1 + " / " + n2);
+            throw new ReciprocalException("division by zero",  n1 + " / " + n2);
         }
         return uncertain(n1 / n2);
     }
@@ -115,7 +116,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public Double pow(Double n1, int exponent) throws IllegalPowerException {
         if (n1 == 0d && exponent < 0) {
-            throw new IllegalPowerException("Cannot take negative power (" + exponent + ") of zero");
+            throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify("0", Integer.toString(exponent)));
         }
         return Math.pow(n1, exponent);
     }
@@ -128,7 +129,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> pow(Double n1, Double exponent) {
         if (n1 == 0d && exponent < 0) {
-            throw new IllegalPowerException("Cannot take negative power (" + exponent + ")of zero");
+            throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify("0", Double.toString(exponent)));
         }
         return uncertain(Math.pow(n1, exponent));
     }
@@ -186,7 +187,7 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     @Override
     public UncertainNumber<Double> ln(Double v) throws IllegalLogarithmException {
         if (v <= 0) {
-            throw new IllegalLogarithmException("Can't take logarithm of " + v);
+            throw new IllegalLogarithmException("Can't take logarithm of negative", "ln(" + v + ")");
         }
         return uncertain(Math.log(v));
     }

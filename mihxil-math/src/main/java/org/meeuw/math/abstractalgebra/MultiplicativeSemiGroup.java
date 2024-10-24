@@ -17,8 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import org.meeuw.math.operators.AlgebraicBinaryOperator;
-import org.meeuw.math.operators.AlgebraicUnaryOperator;
+import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
@@ -37,6 +36,8 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, SQR);
 
+    NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(BasicAlgebraicIntOperator.POWER);
+
 
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
@@ -47,6 +48,12 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
     default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
+
+    @Override
+    default NavigableSet<AlgebraicIntOperator> getSupportedIntOperators() {
+        return INT_OPERATORS;
+    }
+
 
     /**
      * Whether {@link MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement) multiplication} is commutative.

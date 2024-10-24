@@ -28,6 +28,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
 /**
  * The abstract element belonging to {@link AbstractIntegers}
@@ -81,7 +82,7 @@ public abstract class AbstractIntegerElement<
         try {
             return with(value.pow(n));
         } catch (ArithmeticException ae) {
-            throw new IllegalPowerException(ae);
+            throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(n)));
         }
     }
 
@@ -127,11 +128,11 @@ public abstract class AbstractIntegerElement<
 
     protected BigInteger bigIntegerFactorial()  {
         if (value.signum() == -1) {
-            throw new InvalidFactorial("Cannot take factorial of negative integer");
+            throw new InvalidFactorial("Cannot take factorial of negative integer", value.toString());
         }
         Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxArgument();
         if (maxArgument != null && value.intValue() > maxArgument) {
-            throw new InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")");
+            throw new InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")", value.toString());
         }
         BigInteger product = BigInteger.ONE;
         for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {

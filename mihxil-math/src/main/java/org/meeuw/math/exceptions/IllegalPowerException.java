@@ -21,15 +21,15 @@ package org.meeuw.math.exceptions;
  */
 public class IllegalPowerException extends OperationException {
 
-    public IllegalPowerException(ArithmeticException s) {
-        super(s);
+    public IllegalPowerException(ArithmeticException s, String operationaString) {
+        super(s, operationaString);
     }
 
-    public IllegalPowerException(String s) {
-        super(s);
+    public IllegalPowerException(String s, String operationaString) {
+        super(s, operationaString);
     }
 
-    public IllegalPowerException(String s, Exception e) {
-        super(s, e);
+    public IllegalPowerException(String s, String operationaString, Exception e) {
+        super(s, operationaString, e);
     }
 }

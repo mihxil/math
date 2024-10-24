@@ -31,6 +31,7 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -95,7 +96,7 @@ public class RationalNumber extends Number
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RationalNumber reciprocal() throws ReciprocalException {
         if (numerator.equals(BigInteger.ZERO)) {
-            throw new DivisionByZeroException("Denominator cannot be zero");
+            throw new DivisionByZeroException("Denominator cannot be zero", "reciprocal(" + this + ")");
         }
         return new RationalNumber(denominator, numerator);
     }
@@ -105,7 +106,7 @@ public class RationalNumber extends Number
         if (exponent < 0) {
             final int positiveExponent = -1 * exponent;
             if (numerator.equals(BigInteger.ZERO)) {
-                throw new IllegalPowerException("Cannot take negative exponent (" + exponent + ") of zero");
+                throw new IllegalPowerException("Cannot take negative exponent (" + exponent + ") of zero", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(exponent)));
             }
             return new RationalNumber(
                 denominator.pow(positiveExponent),

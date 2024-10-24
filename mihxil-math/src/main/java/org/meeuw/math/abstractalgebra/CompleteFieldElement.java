@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
 /**
  * Elements of a {@link CompleteField}.
@@ -44,13 +45,13 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         try {
             return (ln().times(exponent)).exp();
         } catch (IllegalLogarithmException illegalLogarithmException) {
-            throw new IllegalPowerException(illegalLogarithmException);
+            throw new IllegalPowerException(illegalLogarithmException, "(ln().times(%s)).exp()".formatted(exponent));
         }
     }
 
     default E tetrate(int n) {
         if (n < 0) {
-            throw new IllegalPowerException("");
+            throw new IllegalPowerException("Cannot tetrate with negative", BasicAlgebraicIntOperator.TETRATION.stringify(toString(), Integer.toString(n)));
         }
         if (n == 0) {
             return getStructure().one();

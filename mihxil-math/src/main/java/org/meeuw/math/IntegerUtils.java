@@ -10,6 +10,7 @@ import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @since 0.9
@@ -39,7 +40,7 @@ public class IntegerUtils {
      */
     public static long positivePow(@NotNull long base, @Min(0) int e) {
         if (e < 0) {
-            throw new ReciprocalException(base +  "^" + e + " is impossible");
+            throw new IllegalPowerException("Cannot raise to negative", base + TextUtils.superscript( e));
         }
         long result = 1;
         while (e > 0) {
@@ -51,7 +52,7 @@ public class IntegerUtils {
 
     public static BigInteger positivePow(@NotNull BigInteger base, @PositiveOrZero int e) {
         if (e < 0) {
-            throw new IllegalPowerException(base +  "^" + e + " is impossible");
+            throw new IllegalPowerException("Cannot rais to negative",  base +  TextUtils.superscript(e));
         }
         return base.pow(e);
     }
@@ -237,7 +238,7 @@ public class IntegerUtils {
 
     public static long factorial(@Min(0) int value) {
         if (value < 0) {
-            throw new InvalidFactorial("Cannot take factorial of negative");
+            throw new InvalidFactorial("Cannot take factorial of negative", Integer.toString(value));
         }
         long i = 1;
         long answer = 1;

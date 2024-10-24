@@ -26,6 +26,7 @@ import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.uncertainnumbers.*;
 
 /**
@@ -208,7 +209,7 @@ public class BigDecimalElement implements
             try {
                 return ONE.dividedBy(pow(-1 * exponent));
             } catch (DivisionByZeroException divisionByZeroException) {
-                throw new IllegalPowerException(divisionByZeroException);
+                throw new IllegalPowerException(divisionByZeroException, BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(exponent)));
             }
         } else {
             return new BigDecimalElement(value.pow(exponent), uncertainty);

@@ -25,6 +25,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.uncertainnumbers.ImmutableUncertainNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -63,7 +64,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         try {
             return uncertain(BigDecimalMath.sqrt(radicand, context()));
         } catch (ArithmeticException arithmeticException) {
-            throw new IllegalSqrtException(arithmeticException);
+            throw new IllegalSqrtException(arithmeticException, radicand.toString());
         }
     }
 
@@ -101,7 +102,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         try {
             return uncertain(BigDecimalMath.log(bigDecimal, context()));
         } catch(ArithmeticException a) {
-            throw new IllegalLogarithmException(a);
+            throw new IllegalLogarithmException(a, "ln(" + bigDecimal + ")");
         }
     }
 
@@ -146,13 +147,17 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
         try {
             return n1.pow(exponent);
         } catch (ArithmeticException e) {
-            throw new IllegalPowerException(e);
+            throw new IllegalPowerException(e, BasicAlgebraicIntOperator.POWER.stringify(n1.toString(), "" + exponent));
         }
     }
 
     @Override
     public UncertainNumber<BigDecimal> exp(BigDecimal e) {
-        return uncertain(BigDecimalMath.exp(e, context()));
+        try {
+            return uncertain(BigDecimalMath.exp(e, context()));
+        } catch (ArithmeticException ae){
+            throw new OperationException(ae, "exp(" +e + ")");
+        }
     }
 
     @Override
@@ -162,7 +167,7 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
                 BigDecimalMath.pow(n1, exponent, context())
             );
         } catch (ArithmeticException ae) {
-            throw new IllegalPowerException(BasicAlgebraicBinaryOperator.POWER.stringify(n1.toString(), exponent.toString()),  ae);
+            throw new IllegalPowerException(ae.getMessage(), BasicAlgebraicBinaryOperator.POWER.stringify(n1.toString(), exponent.toString()),  ae);
         }
     }
 

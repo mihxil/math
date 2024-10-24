@@ -72,7 +72,7 @@ public class NDivisibleInteger
     @Override
     public NDivisibleInteger pow(@Positive int n) {
         if (n == 0 && structure.divisor != 1) {
-            throw new IllegalPowerException("" + this + "^0");
+            throw new IllegalPowerException("Cannot raise to 0", this + "^0");
         }
         return super.pow(n);
     }

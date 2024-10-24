@@ -25,11 +25,11 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  * @since 0.4
  */
 public class ReciprocalException extends InverseException {
-    public ReciprocalException(String s) {
-        super(s);
+    public ReciprocalException(String s, String operationString) {
+        super(s, operationString);
     }
 
-    public ReciprocalException(Throwable cause) {
-        super(cause);
+    public ReciprocalException(String operationString, Throwable cause) {
+        super(operationString, cause);
     }
 }

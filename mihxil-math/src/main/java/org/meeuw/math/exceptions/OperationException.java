@@ -15,25 +15,33 @@
  */
 package org.meeuw.math.exceptions;
 
+import lombok.Getter;
+
 /**
  * Indicating that some operation failed. E.g. negatives of sqrt's, inverses of zero. Those kind of things.
  * <p>
  * The operation failed because it received some exceptional argument for which it is not possible.
  * @since 0.9
  */
+@Getter
 public class OperationException extends MathException {
 
-    public OperationException(String s) {
-        super(s);
+    final String operationAsString;
+
+    public OperationException(String message, String operationAsString) {
+        super(message);
+        this.operationAsString = operationAsString;
     }
 
-    public OperationException(ArithmeticException a) {
+    public OperationException(ArithmeticException a, String operationAsString) {
         super(a.getMessage());
         initCause(a);
+        this.operationAsString = operationAsString;
     }
 
-     public OperationException(String s, Exception e) {
-        super(s);
+     public OperationException(String message, String operationAsString, Exception e) {
+        super(message);
         initCause(e);
+        this.operationAsString = operationAsString;
     }
 }

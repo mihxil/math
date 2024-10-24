@@ -13,14 +13,28 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.exceptions;
+package org.meeuw.math.operators;
+
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.TextUtils;
 
 /**
- * Thrown when a requested factorial could not be calculated, because an invalid argument, or because the result would be too big.
+ *
+ * @author Michiel Meeuwissen
+ * @since 0.14
  */
-public class InvalidFactorial extends OperationException {
+public interface AlgebraicIntOperator extends OperatorInterface {
 
-    public InvalidFactorial(String s, String value) {
-        super(s, value + "!");
+    <E extends AlgebraicElement<E>> E apply(E e, int i);
+
+    String stringify(String element, String i);
+
+    default <E extends AlgebraicElement<E>> String stringify(E element1, int i) {
+        return stringify(element1.toString(), "" + i);
     }
+
+    default String getSymbol() {
+        return stringify(TextUtils.PLACEHOLDER, "n");
+    }
+
 }

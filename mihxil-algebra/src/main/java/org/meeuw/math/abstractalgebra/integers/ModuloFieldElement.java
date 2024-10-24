@@ -34,7 +34,7 @@ public class ModuloFieldElement
     @Override
     public ModuloFieldElement reciprocal() {
         if (value == 0) {
-            throw new DivisionByZeroException("reciprocal of 0");
+            throw new DivisionByZeroException("reciprocal of 0", "reciprocal(0)");
         }
         // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
         int t = 0;

@@ -81,7 +81,7 @@ public abstract class AbstractComplexNumber<
     public S reciprocal() {
         E denominator = this.real.sqr().plus(this.imaginary.sqr());
         if (denominator.isZero()) {
-            throw new DivisionByZeroException("Denominator was 0");
+            throw new DivisionByZeroException("Denominator was 0", "reciprocal(" + this + ")");
         }
         return _of(
             this.real.dividedBy(denominator),

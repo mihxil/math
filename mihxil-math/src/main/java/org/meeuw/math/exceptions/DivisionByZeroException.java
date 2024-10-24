@@ -21,21 +21,21 @@ package org.meeuw.math.exceptions;
  */
 public class DivisionByZeroException extends ReciprocalException {
 
-    public DivisionByZeroException(String s) {
-        super(s);
+    public DivisionByZeroException(String s, String value) {
+        super(s, value + "/0");
     }
 
-    public DivisionByZeroException(Throwable cause) {
-        super(cause.getMessage());
+    public DivisionByZeroException(Throwable cause, String value) {
+        super(cause.getMessage(), value + "/0");
         initCause(cause);
     }
 
     public DivisionByZeroException(Object e, Object divisor) {
-        super("Division by zero exception: " + e + "/" + divisor);
+        super("Division by zero exception",   e + "/" + divisor);
     }
 
     public DivisionByZeroException(Object e, Object divisor, Throwable cause) {
-        super("Division exception: " + e + "/" + divisor + " "  + cause.getMessage());
+        super("Division exception: " + cause.getMessage(), e + "/" + divisor);
         initCause(cause);
     }
 }

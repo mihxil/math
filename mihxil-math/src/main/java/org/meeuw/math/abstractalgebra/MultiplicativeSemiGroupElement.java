@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import jakarta.validation.constraints.Positive;
 
 import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
 /**
  * Elements of a {@link MultiplicativeSemiGroup} can be multiplied by each other (via {@link #times(MultiplicativeSemiGroupElement)}.
@@ -62,10 +63,10 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     @SuppressWarnings({"unchecked"})
     default E pow(@Positive int n) throws IllegalPowerException{
         if (n < 0) {
-            throw new IllegalPowerException("Not defined for negative exponents");
+            throw new IllegalPowerException("Not defined for negative exponents", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
         }
         if (n == 0) {
-            throw new IllegalPowerException("Not defined for exponent = 0");
+            throw new IllegalPowerException("Not defined for exponent = 0", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
         }
         E y = null;
         E x = (E) this;

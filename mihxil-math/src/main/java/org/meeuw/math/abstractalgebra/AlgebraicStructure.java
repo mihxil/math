@@ -64,6 +64,15 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         return UNARY_OPERATORS;
     }
 
+      /**
+     * Returns the {@link BasicAlgebraicUnaryOperator}s that elements of this structure support.
+     * @return the set of all supported unary operators in this algebraic structure
+     */
+    default NavigableSet<AlgebraicIntOperator> getSupportedIntOperators() {
+        return Collections.emptyNavigableSet();
+    }
+
+
     /**
      * Returns the {@link AlgebraicComparisonOperator}s that elements of this structure support.
      *

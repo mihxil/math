@@ -112,12 +112,12 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         try {
             E det = determinant();
             if (det.isZero()) {
-                throw new ReciprocalException("Determinant of " + this + " is zero");
+                throw new ReciprocalException("Determinant is zero", "det(" + this + ")");
             }
 
             return adjugate().dividedBy(det);
         } catch (InvalidElementCreationException invalidElementCreationException) {
-            throw new ReciprocalException(invalidElementCreationException);
+            throw new ReciprocalException("reciprocal(" + this + ")", invalidElementCreationException);
         }
     }
 

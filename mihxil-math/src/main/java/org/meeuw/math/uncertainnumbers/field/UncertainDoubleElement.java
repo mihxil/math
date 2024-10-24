@@ -21,6 +21,8 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
@@ -56,7 +58,7 @@ public class UncertainDoubleElement
                 return ONE;
             }
             if (exponent < 0) {
-                throw new IllegalPowerException(this + TextUtils.superscript(  exponent));
+                throw new IllegalPowerException("Cannot take negative power", this + TextUtils.superscript(  exponent));
             }
             return this;
         }
@@ -205,7 +207,7 @@ public class UncertainDoubleElement
         try {
             return pow(-1);
         } catch (IllegalPowerException illegalPowerException) {
-            throw new ReciprocalException(illegalPowerException.getMessage());
+            throw new ReciprocalException(illegalPowerException.getMessage(), BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(this));
         }
     }
 
@@ -279,7 +281,7 @@ public class UncertainDoubleElement
     public  UncertainDoubleElement pow(int exponent) {
         double v = this.doubleValue();
         if (v == 0 && exponent < 0) {
-            throw new IllegalPowerException(v + "^" + exponent);
+            throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify(Double.toString(v),  Integer.toString(exponent)));
         }
         return of(
             Math.pow(this.doubleValue(), exponent),

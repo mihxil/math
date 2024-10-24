@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import jakarta.validation.constraints.Min;
 
 import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
 /**
  * An element of the {@link MultiplicativeMonoid} structure.
@@ -39,7 +40,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
     @Override
     default E pow(@Min(0) int n) {
         if (n < 0) {
-            throw new IllegalPowerException("");
+            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
         }
         if (n == 0) {
             return getStructure().one();

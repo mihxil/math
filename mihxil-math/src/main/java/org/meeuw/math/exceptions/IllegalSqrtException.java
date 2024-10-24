@@ -15,16 +15,18 @@
  */
 package org.meeuw.math.exceptions;
 
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
+
 /**
  * Gets thrown if trying to take an impossible sqrt.
  */
 public class IllegalSqrtException extends OperationException {
 
-    public IllegalSqrtException(Throwable s) {
-        super(s.getMessage());
+    public IllegalSqrtException(Throwable s, String value) {
+        super(s.getMessage(), BasicAlgebraicUnaryOperator.SQRT.stringify(value));
         initCause(s);
     }
-    public IllegalSqrtException(String mes) {
-        super(mes);
+    public IllegalSqrtException(String mes, String value) {
+        super(mes,  BasicAlgebraicUnaryOperator.SQRT.stringify(value));
     }
 }

@@ -192,7 +192,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
         AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
-        int size = s.getSupportedOperators().size();
+        int size = s.getSupportedUnaryOperators().size();
         for (AlgebraicUnaryOperator o : s.getSupportedUnaryOperators()) {
             try {
                 E result = o.apply(e1);
@@ -217,6 +217,48 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     throw ae.getCause();
                 } else {
                     throw ae;
+                }
+            }
+        }
+    }
+
+    @Property
+    default void algebraicIntOperations(
+        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
+        @ForAll(ELEMENTS) AlgebraicElement<?> o1) throws Throwable {
+        E e1 = (E) o1;
+
+        AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
+        int size = s.getSupportedIntOperators().size();
+        long currentCount = count.incrementAndGet();
+        for (AlgebraicIntOperator o : s.getSupportedIntOperators()) {
+            for (int i = 0; i <= 3; i++) {
+                try {
+                    E result = o.apply(e1, i);
+                    assertThat(result)
+                        .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
+                    assertThat(result.getStructure()).withFailMessage("Result of operator " + o + " (" + e1 + ") has structure " + result.getClass() + " " + result.getStructure() + " which is not " + s).isSameAs(s);
+                    if (currentCount < (size * 3L)) { // show three example of every operator
+                        getLogger().info(o.stringify(e1, i) + " = " + result);
+                    } else {
+                        getLogger().debug(o.stringify(e1, i) + " = " + result);
+                    }
+                } catch (OperationException  ae) {
+                    //Assume.that(! o.isAlgebraicFor(e1));
+                    if (countError.incrementAndGet() < 3L) {
+                        getLogger().info(o.stringify(e1, i) + " -> " + ae.getMessage());
+                    } else {
+                        getLogger().debug(o.stringify(e1, i) + " -> " + ae.getMessage());
+                    }
+
+                } catch (Throwable ae) {
+                    getLogger().info(o.stringify(e1, i) + " -> " + ae.getMessage());
+                    if (ae.getCause() != null) {
+                        throw ae.getCause();
+                    } else {
+                        throw ae;
+                    }
                 }
             }
         }

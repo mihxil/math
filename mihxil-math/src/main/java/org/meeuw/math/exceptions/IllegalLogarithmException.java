@@ -21,11 +21,11 @@ package org.meeuw.math.exceptions;
  */
 public class IllegalLogarithmException extends OperationException {
 
-    public IllegalLogarithmException(ArithmeticException s) {
-        super(s);
+    public IllegalLogarithmException(ArithmeticException s, String operationAsString) {
+        super(s, operationAsString);
     }
 
-    public IllegalLogarithmException(String s) {
-        super(s);
+    public IllegalLogarithmException(String message, String operationAsString) {
+        super(message, operationAsString);
     }
 }

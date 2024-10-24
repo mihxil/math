@@ -25,12 +25,12 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
  * @since 0.8
  */
 public class InverseException extends OperationException {
-    public InverseException(String s) {
-        super(s);
+    public InverseException(String s, String operationString) {
+        super(s, operationString);
     }
 
-    public InverseException(Throwable cause) {
-        super(cause.getMessage());
+    public InverseException(String operationString, Throwable cause) {
+        super(cause.getMessage(), operationString);
         initCause(cause);
     }
 }

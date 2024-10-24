@@ -142,7 +142,7 @@ public interface UncertainNumber<N extends Number>
 
         N v = o.pow(getValue(), exponent);
         if (!o.isFinite(v)) {
-            throw new IllegalPowerException("" + getValue() + "^" + exponent + "=" + v);
+            throw new IllegalPowerException("Result " + v + " is not finite",   getValue() + "^" + exponent);
         }
         return new ImmutableUncertainNumber<N>(
             v,

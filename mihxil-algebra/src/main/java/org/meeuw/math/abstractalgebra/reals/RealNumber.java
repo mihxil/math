@@ -26,6 +26,7 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
 
@@ -115,7 +116,7 @@ public class RealNumber
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber pow(int exponent) throws IllegalPowerException {
         if (value == 0 && exponent < 0) {
-            throw new IllegalPowerException("0" + superscript(exponent));
+            throw new IllegalPowerException("Cannot take negative power of 0", "0" + superscript(exponent));
         }
         double newValue = Math.pow(value, exponent);
         return new RealNumber(newValue,
@@ -152,7 +153,7 @@ public class RealNumber
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber reciprocal() throws DivisionByZeroException {
         if (isZero()) {
-            throw new DivisionByZeroException("Reciprocal of zero");
+            throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
         }
         return pow(-1);
     }
@@ -243,7 +244,7 @@ public class RealNumber
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public RealNumber pow(RealNumber exponent) throws IllegalPowerException, OverflowException {
         if (value == 0 && exponent.isNegative()) {
-            throw new IllegalPowerException("0 ^ " + exponent);
+            throw new IllegalPowerException("Cannot take negative power of zero", "0 ^ " + exponent);
         }
         double result = Math.pow(value, exponent.value);
         if (Double.isInfinite(result)){
