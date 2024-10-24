@@ -157,7 +157,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     getLogger().debug(o.stringify(e1, e2) + " = " + result);
                 }
-            } catch (OperationException | OverflowException ae) {
+            } catch (OperationException ae) {
                 if (error.incrementAndGet() < 3L) {
                     getLogger().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
                 } else {

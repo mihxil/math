@@ -45,7 +45,7 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         try {
             return (ln().times(exponent)).exp();
         } catch (IllegalLogarithmException illegalLogarithmException) {
-            throw new IllegalPowerException(illegalLogarithmException, "(ln().times(%s)).exp()".formatted(exponent));
+            throw new IllegalPowerException(illegalLogarithmException, String.format("(ln().times(%s)).exp()", exponent));
         }
     }
 

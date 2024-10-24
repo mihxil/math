@@ -1,7 +1,7 @@
 package org.meeuw.math.exceptions;
 
-public class OverflowException extends MathException {
-    public OverflowException(String s) {
-        super(s);
+public class OverflowException extends OperationException {
+    public OverflowException(String s, String operationString) {
+        super(s, operationString);
     }
 }

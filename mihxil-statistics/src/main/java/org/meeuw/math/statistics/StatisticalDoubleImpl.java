@@ -144,7 +144,7 @@ public class StatisticalDoubleImpl
     @Override
     public UncertainDoubleElement reciprocal() {
         if (getValue() == 0d) {
-            throw new DivisionByZeroException("Division by zero");
+            throw new DivisionByZeroException("Division by zero", "1/" + getValue());
         }
         double value = 1d / getValue();
         return new UncertainDoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));

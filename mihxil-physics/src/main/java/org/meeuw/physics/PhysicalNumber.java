@@ -31,6 +31,7 @@ import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -164,7 +165,7 @@ public abstract class PhysicalNumber
         try {
             return pow(-1);
         } catch (IllegalPowerException illegalPowerException) {
-            throw new ReciprocalException(illegalPowerException);
+            throw new ReciprocalException(this + TextUtils.superscript(-1), illegalPowerException);
         }
     }
 

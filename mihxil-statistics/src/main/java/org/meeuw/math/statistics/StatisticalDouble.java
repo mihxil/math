@@ -35,7 +35,7 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     default double doubleMean() {
         return optionalDoubleMean()
             .orElseThrow(() ->
-                new DivisionByZeroException("No values entered, cannot calculate mean")
+                new DivisionByZeroException("No values entered, cannot calculate mean", toString())
             );
     }
 

@@ -248,7 +248,7 @@ public class RealNumber
         }
         double result = Math.pow(value, exponent.value);
         if (Double.isInfinite(result)){
-            throw new OverflowException(POWER.stringify(this, exponent) + " -> " + result);
+            throw new OverflowException("Result " + result + " is infinite", POWER.stringify(this, exponent));
         }
         return immutableInstanceOfPrimitives(
             result,

@@ -295,7 +295,7 @@ public class StatisticalLong extends
         }
         double mean = ((double) sum) / count;
         if (squareSum == SQUARE_SUM_FAILED) {
-            throw new OverflowException("square sum overflowed");
+            throw new OverflowException("square sum overflowed", this + ".sd");
         }
         double sq = ((double) squareSum / count) - mean * mean;
         return Math.sqrt(sq);

@@ -63,14 +63,14 @@ public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> 
 
     default  Duration durationValue() {
         return optionalDurationValue()
-            .orElseThrow(() -> new DivisionByZeroException("no values entered"));
+            .orElseThrow(() -> new DivisionByZeroException("no values entered", this + ".duration"));
     }
 
     Optional<Duration> optionalDurationValue();
 
     default  Instant instantValue() {
         return optionalInstantValue()
-            .orElseThrow(() -> new DivisionByZeroException("no values entered"));
+            .orElseThrow(() -> new DivisionByZeroException("no values entered", this + ".instant"));
     }
 
     Optional<Instant> optionalInstantValue();

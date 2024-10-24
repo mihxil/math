@@ -242,7 +242,7 @@ public class UncertainDoubleElement
     public UncertainReal pow(UncertainReal exponent) throws OverflowException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {
-            throw new OverflowException("Result of " + this + "^" + exponent + " resulted " + result);
+            throw new OverflowException("Result is infinite  " + result,   this + "^" + exponent );
         }
         return of(
             result,

@@ -1,15 +1,18 @@
 package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
+
 import net.jqwik.api.*;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.TextUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @Log4j2
 class IntegerUtilsTest {
@@ -88,7 +91,7 @@ class IntegerUtilsTest {
 
     @Test
     public void positivePower() {
-        assertThatThrownBy(() -> IntegerUtils.positivePow10(-1)).isInstanceOf(ReciprocalException.class);
+        assertThatThrownBy(() -> IntegerUtils.positivePow10(-1)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow10(2)).isEqualTo(100);
     }
 
