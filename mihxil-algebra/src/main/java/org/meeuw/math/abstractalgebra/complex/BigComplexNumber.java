@@ -47,6 +47,22 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
     }
 
 
+    public static BigComplexNumber of(String string) {
+        String split[] = string.split("\\s+\\+\\s+", 2);
+        if (split.length == 2) {
+            String rstring = split[0];
+            String istring = split[1].substring(0, split[1].length() - 1);
+            return of(BigDecimalElement.of(rstring), BigDecimalElement.of(istring));
+        }
+        if (split[0].endsWith("i")) {
+            return of(BigDecimalElement.ZERO, BigDecimalElement.of(split[0].substring(0, split[0].length() - 1)));
+        } else {
+            return of(BigDecimalElement.of(split[0]));
+        }
+
+    }
+
+
     @Override
     protected BigComplexNumber _of(BigDecimalElement real, BigDecimalElement imaginary) {
         return new BigComplexNumber(real, imaginary);
