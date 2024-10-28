@@ -7,10 +7,9 @@ import net.jqwik.api.*;
 public class BImplTest implements BTheory<B> {
 
     @Override
+    @Provide("datapoints")
     public  Arbitrary<B> datapoints() {
-        return Combinators.combine(
-            Arbitraries.integers().between(1, 100),
-                Arbitraries.integers().between(1, 100))
-            .as(BImpl::new);
+        return
+            Arbitraries.integers().between(1, 100).map(BImpl::new);
     }
 }

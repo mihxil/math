@@ -6,6 +6,6 @@ public class AImplTest implements ATheory<AImpl> {
     @Override
     public Arbitrary<AImpl> datapoints() {
         return
-            Arbitraries.integers().between(1, 100).map(AImpl::new);
+            Arbitraries.integers().between(1, 100).map((i) -> new AImpl());
     }
 }

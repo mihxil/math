@@ -1,11 +1,14 @@
 package org.meeuw.theories.test;
 
+import lombok.ToString;
+
+@ToString
 public class BImpl extends AImpl implements B {
 
     private final int j;
 
-    public BImpl(int i, int j) {
-        super(i);
+    public BImpl(int j) {
+
         this.j = j;
     }
 
