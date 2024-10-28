@@ -1,12 +1,6 @@
 package org.meeuw.theories.test;
 
-public class B extends A implements Comparable<B> {
-    public B(int i, String s) {
-        super(i, s);
-    }
+public interface B extends A {
 
-    @Override
-    public int compareTo(B o) {
-        return 0;
-    }
+    int getJ();
 }
