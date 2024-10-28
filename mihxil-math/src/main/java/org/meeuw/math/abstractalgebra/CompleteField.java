@@ -44,6 +44,14 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
 
     E e();
 
+    default E π() {
+        return pi();
+    }
+
+    /**
+     * Golden ratio 1/1 + srt(5)
+     */
+    E φ();
 
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {

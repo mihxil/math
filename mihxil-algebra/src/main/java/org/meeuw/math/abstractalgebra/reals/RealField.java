@@ -106,4 +106,8 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
     public RealNumber e() {
         return RealNumber.of(Math.E);
     }
+    @Override
+    public RealNumber φ() {
+        return RealNumber.of((1 + Math.sqrt(5)) / 2);
+    }
 }

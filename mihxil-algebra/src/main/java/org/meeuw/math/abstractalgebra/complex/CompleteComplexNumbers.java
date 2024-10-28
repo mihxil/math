@@ -52,4 +52,9 @@ public abstract class CompleteComplexNumbers<
         return of(getElementStructure().e());
     }
 
+    @Override
+    public S φ() {
+        return of(getElementStructure().φ());
+    }
+
 }

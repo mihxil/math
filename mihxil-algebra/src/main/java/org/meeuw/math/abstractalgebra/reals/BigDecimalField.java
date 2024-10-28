@@ -20,7 +20,6 @@ import java.math.MathContext;
 import java.util.*;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
 import org.meeuw.math.numbers.BigDecimalOperations;
@@ -83,11 +82,16 @@ public class BigDecimalField
 
     @Override
     public BigDecimalElement pi() {
-        return BigDecimalElement.of(Utils.PI);
+        return BigDecimalElement.PI;
     }
 
     @Override
     public BigDecimalElement e() {
-        return BigDecimalElement.of(Utils.e);
+        return BigDecimalElement.e;
+    }
+
+    @Override
+    public BigDecimalElement φ() {
+        return (BigDecimalElement.ONE.plus(BigDecimalElement.of(5).sqrt())).dividedBy(2);
     }
 }

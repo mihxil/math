@@ -19,7 +19,6 @@ import java.math.*;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
@@ -28,6 +27,8 @@ import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.uncertainnumbers.*;
+
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
 /**
  * A real number (backend by a big decimal), element of {@link BigDecimalElement}.
@@ -55,7 +56,10 @@ public class BigDecimalElement implements
      * e as a {@link BigDecimalElement}
      * @see Utils#e
      */
-    public static final BigDecimalElement e = new BigDecimalElement(new BigDecimal(Utils.e), new BigDecimal("1e-" +  (Utils.e.length() - 1)));
+    public static final BigDecimalElement e = new BigDecimalElement(
+        new BigDecimal(Utils.e), new BigDecimal("1e-" +  (Utils.e.length() - 1)));
+
+
 
     private final BigDecimal value;
     private final BigDecimal uncertainty;
@@ -111,7 +115,10 @@ public class BigDecimalElement implements
 
     @Override
     public BigDecimalElement sqr() {
-        return new BigDecimalElement(value.multiply(value), uncertainty.multiply(uncertainty));
+        return new BigDecimalElement(
+            value.multiply(value),
+            uncertainty.multiply(uncertainty)
+        );
     }
 
     @Override
@@ -335,7 +342,7 @@ public class BigDecimalElement implements
 
     @Override
     public boolean eq(BigDecimalElement that) {
-        return eq(that, Math.round( ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
+        return eq(that, Math.round( getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
     }
 
     @Override
@@ -346,7 +353,7 @@ public class BigDecimalElement implements
     }
     @Override
     public boolean equals(Object o) {
-        if (ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
+        if (getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
             return eq((BigDecimalElement) o);

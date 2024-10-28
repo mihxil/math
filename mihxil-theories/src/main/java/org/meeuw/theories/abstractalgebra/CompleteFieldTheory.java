@@ -15,17 +15,21 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.math.MathContext;
 import java.util.Optional;
 
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 
@@ -82,6 +86,20 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     default void cosPi(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
         CompleteField<E> casted = (CompleteField<E>) struct;
         assertThat(casted.pi().cos()).isEqTo(casted.one().negation());
+    }
+
+    @Property
+    default void goldenRatio(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+         CompleteField<E> casted = (CompleteField<E>) struct;
+         try {
+             setConfiguration(builder ->
+                 builder.configure(MathContextConfiguration.class,
+                     (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))));
+             assertThat(casted.φ().sqr()).isEqTo(casted.φ().plus(casted.one()));
+         } finally {
+             ConfigurationService.resetToDefaults();
+
+         }
     }
 
 }

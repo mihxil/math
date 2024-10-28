@@ -278,12 +278,21 @@ public class DocumentationTest {
                     rest.append(o.stringify("", ""));
                 }
             }
+
             for (AlgebraicComparisonOperator o : target.getSupportedComparisonOperators()) {
                 if (!rest.isEmpty()) {
                     rest.append(' ');
                 }
                 rest.append(o.stringify("", ""));
             }
+
+            for (AlgebraicIntOperator o : target.getSupportedIntOperators()) {
+                if (!rest.isEmpty()) {
+                    rest.append(' ');
+                }
+                rest.append(o.stringify("x", "n"));
+            }
+
             if (!rest.isEmpty()) {
                 ops.add(new OperatorCell(rest).withTitle("other binary operators"));
             }
@@ -307,6 +316,7 @@ public class DocumentationTest {
                 ops.add(new OperatorCell(unary.toString().replaceAll("\\(" + TextUtils.PLACEHOLDER + "\\)", "")).withTitle("Unary operators"));
             }
         }
+
 
         {
             List<String> special = new ArrayList<>();
