@@ -67,6 +67,16 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
     }
 
     @Override
+    public Permutation nextRandom(Random random) {
+        List<Integer> list = new ArrayList<>(degree);
+        for (int i = 0; i < degree; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list, random);
+        return Permutation.zeroOffset(list.stream().mapToInt(i -> i).toArray());
+    }
+
+    @Override
     public Cardinality getCardinality() {
         return Cardinality.of(IntegerUtils.factorial(degree));
     }

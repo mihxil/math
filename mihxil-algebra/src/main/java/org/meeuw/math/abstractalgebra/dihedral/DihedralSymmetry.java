@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.function.UnaryOperator;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.dim2.Matrix2;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
@@ -94,7 +95,7 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
     }
 
     public Matrix2 asMatrix2() {
-        double phi = 2 * Math.PI * k / group.n;
+        double phi = Utils.Math_2PI * k / group.n;
         double cos = Math.cos(phi);
         double sin = Math.sin(phi);
         if (symmetry == r) {
