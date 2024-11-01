@@ -226,13 +226,15 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
         FieldMatrix3<E> that = (FieldMatrix3<E>) o;
         Equivalence<E> equivalence = elementStructure.getEquivalence();
-        boolean result = true;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                result &= equivalence.test(values[i][j], that.values[i][j]);
+                boolean result =  equivalence.test(values[i][j], that.values[i][j]);
+                if (! result) {
+                    return  false;
+                }
             }
         }
-        return result;
+        return true;
     }
 
     @Override
