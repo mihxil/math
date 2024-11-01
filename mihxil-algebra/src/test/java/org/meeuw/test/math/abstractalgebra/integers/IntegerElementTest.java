@@ -147,7 +147,7 @@ class IntegerElementTest implements
 
     @Override
     @Provide
-    public Arbitrary<IntegerElement> datapoints() {
+    public Arbitrary<IntegerElement> elements() {
         return Arbitraries.frequencyOf(
             Tuple.of(1, Arbitraries.of(IntegerElement.ZERO, IntegerElement.ONE, IntegerElement.ONE.negation())),
             Tuple.of(20, Arbitraries.randomValue((random) -> IntegerElement.of(random.nextInt())))

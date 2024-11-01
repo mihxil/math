@@ -135,7 +135,7 @@ public interface BasicObjectTheory<E> {
      * Provide non-{@code null} datapoints
      */
     @Provide
-    Arbitrary<@NonNull Object> datapoints();
+    Arbitrary<@NonNull E> datapoints();
 
 
     /**
@@ -173,7 +173,7 @@ public interface BasicObjectTheory<E> {
     }
 
     @Provide
-    default Arbitrary<@Nullable Object> datapointsOrNull() {
+    default Arbitrary<@Nullable E> datapointsOrNull() {
         return datapoints()
             .injectNull(0.1);
     }

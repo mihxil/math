@@ -23,7 +23,7 @@ import org.meeuw.math.abstractalgebra.trivial.TrivialGroupElement;
 
 public class TrivialGroupTest implements GroupTheory<TrivialGroupElement> {
     @Override
-    public Arbitrary<? extends TrivialGroupElement> elements() {
+    public Arbitrary<TrivialGroupElement> elements() {
         return Arbitraries.of(TrivialGroupElement.e);
     }
 }

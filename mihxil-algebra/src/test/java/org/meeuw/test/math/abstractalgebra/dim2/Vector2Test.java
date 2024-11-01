@@ -37,7 +37,7 @@ class Vector2Test implements
     WithScalarTheory<Vector2, RealNumber> {
 
     @Override
-    public Arbitrary<? extends Vector2> elements() {
+    public Arbitrary<Vector2> elements() {
         return Arbitraries.randomValue(r ->
             Vector2.of(r.nextDouble(), r.nextDouble())
         )

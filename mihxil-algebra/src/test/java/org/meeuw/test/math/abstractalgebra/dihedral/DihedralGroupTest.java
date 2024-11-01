@@ -52,14 +52,14 @@ public class DihedralGroupTest {
 
     public static class D1Test implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(1).stream().toList());
         }
     }
 
     public static class D2Test implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(2).stream().toList());
         }
     }
@@ -67,14 +67,14 @@ public class DihedralGroupTest {
 
     public static class TriangleSymmetryTest implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(3).stream().toList());
         }
     }
 
     public static class SquareSymmetryTest implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(4).stream().toList());
         }
     }
@@ -82,14 +82,14 @@ public class DihedralGroupTest {
 
     public static class HeptagonSymmetryTests implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(5).stream().toList());
         }
     }
 
     public static class HexagonSymmetryTests implements GroupTheory<DihedralSymmetry> {
         @Override
-        public Arbitrary<? extends DihedralSymmetry> elements() {
+        public Arbitrary<DihedralSymmetry> elements() {
             return Arbitraries.of(DihedralGroup.of(6).stream().toList());
         }
     }

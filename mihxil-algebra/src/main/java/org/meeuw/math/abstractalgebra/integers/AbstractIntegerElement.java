@@ -190,7 +190,7 @@ public abstract class AbstractIntegerElement<
             nMinusOneSub =  bigIntegerSubfactorial(nMinusOne, answers);
             answers.put(nMinusOne, nMinusOneSub);
         }
-        BigInteger nMinusTwo = n.add(BigInteger.TWO.negate());
+        BigInteger nMinusTwo = n.add(BigTWO.negate());
         BigInteger nMinusTwoSub = answers.get(nMinusTwo);
         if (nMinusTwoSub == null) {
              nMinusTwoSub = bigIntegerSubfactorial(nMinusTwo, answers);

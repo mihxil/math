@@ -75,7 +75,7 @@ class RationalNumberVectorTest implements
     }
 
     @Override
-    public Arbitrary<? extends NVector<RationalNumber>> elements() {
+    public Arbitrary<NVector<RationalNumber>> elements() {
         return Arbitraries
             .randomValue(INSTANCE::nextRandom)
             .tuple3()

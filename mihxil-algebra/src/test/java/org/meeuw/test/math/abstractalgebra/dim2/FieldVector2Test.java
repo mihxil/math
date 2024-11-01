@@ -110,7 +110,7 @@ class FieldVector2Test implements
     }
 
     @Override
-    public Arbitrary<? extends FieldVector2<RealNumber>> elements() {
+    public Arbitrary<FieldVector2<RealNumber>> elements() {
         return Arbitraries.doubles()
             .between(-100, 100)
             .tuple2()

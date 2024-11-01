@@ -32,7 +32,7 @@ public class BasicObjectTheoryTest implements ComparableTheory<BasicObjectTheory
     }
 
     @Override
-    public Arbitrary<Object> datapoints() {
+    public Arbitrary<A> datapoints() {
         return Arbitraries.integers().map(A::new);
     }
 

@@ -23,7 +23,7 @@ import org.meeuw.theories.abstractalgebra.GroupTheory;
 
 public class KleinGroupTest implements GroupTheory<KleinElement> {
     @Override
-    public Arbitrary<? extends KleinElement> elements() {
+    public Arbitrary<KleinElement> elements() {
         return Arbitraries.of(KleinElement.values());
     }
 
