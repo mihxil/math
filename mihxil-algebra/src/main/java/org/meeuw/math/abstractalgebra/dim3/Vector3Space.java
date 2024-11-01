@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.util.Random;
+
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -49,6 +51,13 @@ public class Vector3Space implements VectorSpace<RealNumber, Vector3>, AbelianRi
     public Vector3 one() {
         return Vector3.of(1, 1, 1);
     }
+
+    @Override
+    public Vector3 nextRandom(Random random) {
+        return Vector3.of(random.nextDouble(), random.nextDouble(), random.nextDouble());
+    }
+
+
 
     @Override
     public Cardinality getCardinality() {

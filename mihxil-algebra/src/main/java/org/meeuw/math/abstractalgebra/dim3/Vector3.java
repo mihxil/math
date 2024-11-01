@@ -20,6 +20,7 @@ import lombok.With;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
@@ -151,7 +152,7 @@ public class Vector3 implements
     }
 
     @Override
-    public Iterator<RealNumber> iterator() {
+    public @NonNull Iterator<RealNumber> iterator() {
         return Stream.of(x, y, z).map(RealNumber::of).iterator();
     }
 
@@ -164,4 +165,5 @@ public class Vector3 implements
     public Vector3 times(Vector3 multiplier) {
         return of(x * multiplier.x, y * multiplier.y, z * multiplier.z);
     }
+
 }

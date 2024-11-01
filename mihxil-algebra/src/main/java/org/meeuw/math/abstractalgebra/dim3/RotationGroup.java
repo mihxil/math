@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.util.Random;
+
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -36,6 +38,14 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     @Override
     public Rotation one() {
         return Rotation.ONE;
+    }
+
+    @Override
+     public Rotation nextRandom(Random r) {
+        Rotation rx = Rotation.Rx(r.nextDouble(0, 2 * Math.PI));
+        Rotation ry = Rotation.Ry(r.nextDouble(0, 2 * Math.PI));
+        Rotation rz = Rotation.Rz(r.nextDouble(0, 2 * Math.PI));
+        return rx.times(ry).times(rz);
     }
 
     @Override

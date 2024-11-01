@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.util.Random;
+
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -67,6 +69,16 @@ public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
             }
             return true;
         };
+    }
+
+
+    @Override
+    public Matrix3 nextRandom(Random r) {
+        return new Matrix3(new double[][]{
+            {r.nextDouble(), r.nextDouble(), r.nextDouble()},
+            {r.nextDouble(), r.nextDouble(), r.nextDouble()},
+            {r.nextDouble(), r.nextDouble(), r.nextDouble()}
+        });
     }
 
     public void setDoubleEquivalence(DoubleEquivalence doubleEquivalence) {

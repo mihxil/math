@@ -18,6 +18,8 @@ package org.meeuw.math.abstractalgebra.complex;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
+import java.util.Random;
+
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -69,6 +71,11 @@ public abstract class AbstractComplexNumbers<
     @Override
     public S one() {
         return one;
+    }
+
+    @Override
+    public S nextRandom(Random random) {
+        return of(getElementStructure().nextRandom(random), getElementStructure().nextRandom(random));
     }
 
     public S i() {
