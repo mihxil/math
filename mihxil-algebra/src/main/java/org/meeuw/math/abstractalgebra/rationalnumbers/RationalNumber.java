@@ -62,6 +62,10 @@ public class RationalNumber extends Number
         return new RationalNumber(numerator, denominator);
     }
 
+    public static RationalNumber of(@NotNull BigInteger numerator) {
+        return new RationalNumber(numerator, BigInteger.ONE);
+    }
+
     public static RationalNumber of(long longValue) {
         return of(longValue, 1);
     }
@@ -159,6 +163,10 @@ public class RationalNumber extends Number
     @Override
     public RationalNumber minus(RationalNumber subtrahend) {
         return plus(subtrahend.times(-1));
+    }
+
+    public BigDecimalElement toBigDecimalElement() {
+        return BigDecimalElement.of(bigDecimalValue());
     }
 
     @Override

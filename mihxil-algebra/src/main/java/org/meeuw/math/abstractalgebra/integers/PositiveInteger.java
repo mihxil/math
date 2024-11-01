@@ -75,5 +75,10 @@ public class PositiveInteger
         return new PositiveInteger(bigIntegerFactorial());
     }
 
+    @Override
+    public PositiveInteger subfactorial() {
+        return new PositiveInteger(bigIntegerSubfactorial());
+    }
+
 
 }
