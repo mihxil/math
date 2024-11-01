@@ -106,11 +106,13 @@ public abstract class AbstractGeneralLinearGroup<
     public M nextRandom(Random random) {
         while(true) {
             try {
-                List<E> list = new ArrayList<>();
+                E[][] values = elementStructure.newMatrix(dimension, dimension);
                 for (int i = 0; i < dimension; i++) {
-                    list.add(elementStructure.nextRandom(random));
+                    for (int j = 0; j < dimension; j++) {
+                        values[i][j] = elementStructure.nextRandom(random);
+                    }
                 }
-                return newElement((E[]) list.toArray());
+                return newElement(values);
             } catch (InvalidElementCreationException ie) {
                 //ignored
             }
