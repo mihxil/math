@@ -85,6 +85,11 @@ public class IntegerElement
     }
 
     @Override
+    public IntegerElement subfactorial() {
+        return new IntegerElement(bigIntegerSubfactorial());
+    }
+
+    @Override
     public IntegerElement sqr() {
         return with(value.multiply(value));
     }
