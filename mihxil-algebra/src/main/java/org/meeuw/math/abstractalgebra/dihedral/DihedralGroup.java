@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.dihedral;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -42,6 +43,14 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     @Override
     public DihedralSymmetry unity() {
         return DihedralSymmetry.r(0, this);
+    }
+
+    @Override
+    public DihedralSymmetry nextRandom(Random random) {
+        return random.nextBoolean() ?
+            DihedralSymmetry.r(random.nextInt(n), this) :
+            DihedralSymmetry.s(random.nextInt(n), this);
+
     }
 
     @Override

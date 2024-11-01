@@ -59,4 +59,6 @@ public class GeneralLinearGroup<E extends FieldElement<E>> extends
         return new InvertibleMatrix<>(this, elements);
     }
 
+
+
 }
