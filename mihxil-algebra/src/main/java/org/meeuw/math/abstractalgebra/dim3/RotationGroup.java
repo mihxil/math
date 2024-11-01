@@ -44,9 +44,9 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
 
     @Override
      public Rotation nextRandom(Random r) {
-        Rotation rx = Rotation.Rx(r.nextDouble(0d, Math_2PI));
-        Rotation ry = Rotation.Ry(r.nextDouble(0d, Math_2PI));
-        Rotation rz = Rotation.Rz(r.nextDouble(0d, Math_2PI));
+        Rotation rx = Rotation.Rx(r.nextDouble() * Math_2PI);
+        Rotation ry = Rotation.Ry(r.nextDouble() * Math_2PI);
+        Rotation rz = Rotation.Rz(r.nextDouble() * Math_2PI);
         return rx.times(ry).times(rz);
     }
 
