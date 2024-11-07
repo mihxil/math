@@ -17,6 +17,15 @@ import org.meeuw.math.text.TextUtils;
  */
 public class IntegerUtils {
 
+    /**
+     * {@link BigInteger#TWO}, but for java 8.
+     */
+    public static final BigInteger TWO = BigInteger.valueOf(2);
+
+    public static final BigInteger MINUS_TWO = BigInteger.valueOf(-2);
+
+    public static BigInteger MINUS_ONE = BigInteger.valueOf(-1);
+
     private IntegerUtils() {}
 
     /**
