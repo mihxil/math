@@ -17,7 +17,7 @@ import org.meeuw.math.text.TextUtils;
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
 
 
-    public static Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
+    private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
     final int n;
 
     public static DihedralGroup of(int n) {
@@ -26,7 +26,6 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
 
     @Example(Group.class)
     public static DihedralGroup D3 = of(3);
-
 
     private DihedralGroup(int n) {
         this.n = n;
@@ -50,7 +49,6 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
         return random.nextBoolean() ?
             DihedralSymmetry.r(random.nextInt(n), this) :
             DihedralSymmetry.s(random.nextInt(n), this);
-
     }
 
     @Override
