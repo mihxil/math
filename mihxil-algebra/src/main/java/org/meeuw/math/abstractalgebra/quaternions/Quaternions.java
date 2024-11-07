@@ -74,9 +74,9 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         E u = this.elementStructure.one();
         this.zero = new Quaternion<>(z, z, z, z);
         this.one  = new Quaternion<>(u, z, z, z);
-        this.i    =  new Quaternion<>(z, u, z, z);
-        this.j    =  new Quaternion<>(z, z, u, z);
-        this.k    =  new Quaternion<>(z, z, z, u);
+        this.i    = new Quaternion<>(z, u, z, z);
+        this.j    = new Quaternion<>(z, z, u, z);
+        this.k    = new Quaternion<>(z, z, z, u);
     }
 
     @Override
@@ -97,9 +97,11 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     public Quaternion<E> i() {
         return i;
     }
+
     public Quaternion<E> j() {
         return j;
     }
+
     public Quaternion<E> k() {
         return k;
     }

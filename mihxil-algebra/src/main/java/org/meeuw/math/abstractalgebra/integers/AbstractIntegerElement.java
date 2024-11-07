@@ -25,6 +25,7 @@ import java.util.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.BigDecimalUtils;
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -53,10 +54,6 @@ public abstract class AbstractIntegerElement<
     SizeableScalar<E, SIZE>,
     Ordered<E> {
 
-    /**
-     * {@link BigInteger#TWO}, but for java 8.
-     */
-    static final BigInteger BigTWO = BigInteger.valueOf(2);
 
     @Getter
     protected final BigInteger value;
@@ -190,7 +187,7 @@ public abstract class AbstractIntegerElement<
             nMinusOneSub =  bigIntegerSubfactorial(nMinusOne, answers);
             answers.put(nMinusOne, nMinusOneSub);
         }
-        BigInteger nMinusTwo = n.add(BigTWO.negate());
+        BigInteger nMinusTwo = n.add(IntegerUtils.MINUS_TWO);
         BigInteger nMinusTwoSub = answers.get(nMinusTwo);
         if (nMinusTwoSub == null) {
              nMinusTwoSub = bigIntegerSubfactorial(nMinusTwo, answers);

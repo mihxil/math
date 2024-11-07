@@ -22,12 +22,12 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.operators.BasicFunction;
+import org.meeuw.math.operators.GenericFunction;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
-import static org.meeuw.math.abstractalgebra.integers.AbstractIntegerElement.BigTWO;
 import static org.meeuw.math.abstractalgebra.integers.EvenInteger.ZERO;
 
 /**
@@ -58,7 +58,7 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     @Override
     public EvenInteger newElement(BigInteger value) throws InvalidElementCreationException {
-        if (value.remainder(BigTWO).equals(ONE)) {
+        if (value.remainder(IntegerUtils.TWO).equals(ONE)) {
             throw new InvalidElementCreationException("The argument must be even (" + value + " isn't)");
         }
         return new EvenInteger(value);
