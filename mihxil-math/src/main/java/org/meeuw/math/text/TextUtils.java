@@ -225,6 +225,10 @@ public final class TextUtils {
         return controlEach(s, '\u0305');
     }
 
+    public static void overLine(StringBuilder builder,  CharSequence s) {
+        controlEach(builder, s, '\u0305');
+    }
+
 
     /**
      * @param s a charsequence to overline double
@@ -239,11 +243,17 @@ public final class TextUtils {
             return null;
         }
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i <  s.length(); i++) {
-            result.append(s.charAt(i));
-            result.append(control);
-        }
+        controlEach(result, s, control);
         return result.toString();
     }
+     public static void controlEach(StringBuilder builder, CharSequence s, Character control) {
+        if (s == null) {
+            return;
+        }
+        for (int i = 0; i <  s.length(); i++) {
+            builder.append(s.charAt(i));
+            builder.append(control);
+        }
+     }
 
 }
