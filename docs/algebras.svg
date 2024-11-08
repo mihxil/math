@@ -888,7 +888,7 @@
 </g>
 <g id="a_node19_127"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java" xlink:title="ModuloField">
 <polygon fill="none" stroke="black" points="440.5,-1218 440.5,-1239 742.5,-1239 742.5,-1218 440.5,-1218"/>
-<text text-anchor="start" x="574.25" y="-1223.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/nℤ</text>
+<text text-anchor="start" x="574.25" y="-1223.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/pℤ</text>
 </a>
 </g>
 <g id="a_node19_128"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java" xlink:title="GaussianRationals">
