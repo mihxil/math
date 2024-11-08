@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import org.meeuw.math.DigitUtils;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.TextUtils;
@@ -47,9 +48,9 @@ class IntegerUtilsTest {
 
     @Test
     public void digits() {
-        assertThat(IntegerUtils.fromDigits(1, 2, 3)).isEqualTo(123);
+        assertThat(DigitUtils.fromDigits(1, 2, 3)).isEqualTo(123);
 
-        assertThatThrownBy(() -> IntegerUtils.fromDigitsInBase(4, 1, 2, 4)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> DigitUtils.fromDigitsInBase(4, 1, 2, 4)).isInstanceOf(IllegalArgumentException.class);
 
     }
 
@@ -138,37 +139,6 @@ class IntegerUtilsTest {
         assertThat(IntegerUtils.log10(10)).isEqualTo(1);
         assertThat(IntegerUtils.log10(100)).isEqualTo(2);
         assertThat(IntegerUtils.log10(20)).isEqualTo(1);
-    }
-
-    @Test
-    public void sumInverseDigits() {
-        byte[] a = new byte[] {6, 7, 8}; // 876
-        byte[] b = new byte[] {5, 4, 7, 3}; // 3745
-
-        byte[] sum = IntegerUtils.sumInverseDigits((byte) 10, a, b);
-        assertThat(IntegerUtils.fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(3745 + 876);
-    }
-
-    @Test
-    public void sumInverseDigits2() {
-        byte[] a1 = new byte[] {9, 9, 9, 9};
-        byte[] sum = IntegerUtils.sumInverseDigits((byte) 10, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1);
-        assertThat(IntegerUtils.fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(16 * 9999L);
-    }
-
-    @Test
-    public void multiplyInverseDigitsWithDigit() {
-        byte[] a1 = new byte[] {9, 9, 9, 9};
-        byte[] sum = IntegerUtils.multiplyInverseDigits((byte) 10, (byte) 9, a1);
-        assertThat(IntegerUtils.fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9 * 9999L);
-    }
-
-
-    @Test
-    public void multiplyInverseDigits() {
-        byte[] a1 = new byte[] {9, 9, 9, 9};
-        byte[] sum = IntegerUtils.multiplyInverseDigits((byte) 10, a1, a1);
-        assertThat(IntegerUtils.fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9999L * 9999L);
     }
 
 

@@ -12,7 +12,7 @@ import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.math.windowed.WindowedStatisticalLong;
 import org.meeuw.physics.*;
 
-import static org.meeuw.math.IntegerUtils.fromDigits;
+import static org.meeuw.math.DigitUtils.fromDigits;
 
 
 public class Application {
