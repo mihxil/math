@@ -4,6 +4,10 @@ import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.ParameterizedTest;
+
+import org.junit.jupiter.params.provider.CsvSource;
+
 import org.meeuw.math.DigitUtils;
 import org.meeuw.math.DigitUtils.AdicDigits;
 
@@ -110,8 +114,9 @@ public class DigitUtilsTest {
         AdicDigits a2 = AdicDigits.of("2", "");
         AdicDigits result  = DigitUtils.multiplyPAdicDigits((byte) 10, a1, a2);
         log.info("{} x {} = {}", a1, a2, result);
-
     }
+
+
 
     @Test
     public void basic() {
@@ -122,7 +127,17 @@ public class DigitUtilsTest {
         assertThat(c).isEqualTo(200 * 201);
     }
 
-
+    @ParameterizedTest
+    @CsvSource({
+        "1,1",
+        "10,a",
+        "15,f",
+        "20,k",
+        "200,ğ"
+    })
+    public void digitToString(int digit, String s) {
+        assertThat(DigitUtils.digitToString((byte) digit)).isEqualTo(s);
+    }
 
 
 

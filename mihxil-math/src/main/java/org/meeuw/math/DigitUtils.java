@@ -402,7 +402,6 @@ public class DigitUtils {
             result = 31 * result + Arrays.hashCode(indices);
             return result;
         }
-
     }
 
     public static String adicToString(int base, AdicDigits digits) {
@@ -416,14 +415,14 @@ public class DigitUtils {
         return builder.toString();
     }
 
-    private static String digitToString(int i) {
+    public static String digitToString(byte b) {
+        int i = toUnsignedInt(b);
         if (i < 10) {
-            return Integer.toString(i);
+            return Byte.toString(b);
         }
-        if (i < 36) {
-            return Character.toString('a' + (i - 10));
-        }
-        throw new UnsupportedOperationException();
+        char codePoint = (char) ('a' + i - 10);
+        return String.valueOf(codePoint);
+
     }
 
     private static byte[] stringToDigits(String s) {
