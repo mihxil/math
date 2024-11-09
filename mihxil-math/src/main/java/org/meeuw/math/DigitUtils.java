@@ -28,10 +28,9 @@ public class DigitUtils {
     private DigitUtils() {}
 
 
-    public static byte[] toBase(byte base, long value) {
+    public static byte[] toBase(int basei, long value) {
         byte[] result = new byte[100];
         int i = 0;
-        int basei = toUnsignedInt(base);
         while(value > 0) {
             result = ensureCapacity(i, result);
             result[i] = (byte) (value % basei);
@@ -81,9 +80,8 @@ public class DigitUtils {
     }
 
 
-    public static byte[] multiplyInverseDigits(byte base, byte digit, byte[] multiplicand) {
+    public static byte[] multiplyInverseDigits(int basei, byte digit, byte[] multiplicand) {
         byte[] result = new byte[multiplicand.length + 1];
-        int basei = toUnsignedInt(base);
         int carry = 0;
         for (int i = 0 ; i < multiplicand.length;i ++) {
             int ri = carry ;
@@ -95,9 +93,8 @@ public class DigitUtils {
         return result;
     }
 
-    public static AdicDigits multiplyAdicDigits(byte base, byte digit, AdicDigits multiplicand) {
+    public static AdicDigits multiplyAdicDigits(int base, byte digit, AdicDigits multiplicand) {
         byte[] resultdigits = multiplyInverseDigits(base, digit, multiplicand.digits);
-        int basei = toUnsignedInt(base);
         int carry = toUnsignedInt(resultdigits[resultdigits.length - 1]);
         int digiti = toUnsignedInt(digit);
         List<CarryAndIndex> carries = new ArrayList<>();
@@ -110,8 +107,8 @@ public class DigitUtils {
             if (indexOf == -1) {
                 carries.add(carryAndIndex);
                 int ri = carry +  digiti * toUnsignedInt(multiplicand.repetitive[index]);
-                moreDigits.add((byte) (ri % basei));
-                carry = ri / basei;
+                moreDigits.add((byte) (ri % base));
+                carry = ri / base;
                 i++;
             } else {
                 break;
@@ -131,7 +128,7 @@ public class DigitUtils {
      }
 
 
-    public static AdicDigits multiplyPAdicDigits(@Prime byte base, AdicDigits multiplicator, AdicDigits multiplicand) {
+    public static AdicDigits multiplyPAdicDigits(@Prime int base, AdicDigits multiplicator, AdicDigits multiplicand) {
         //assert IntegerUtils.isPrime(toUnsignedInt(base));
         int i = 0;
         AdicDigits sum = null;
@@ -156,10 +153,10 @@ public class DigitUtils {
     /**
      * Performs 'long multiplication' on two numbers represented by a {@code byte[]}, where the least significant digit is the one at {@code [0]}
      * @param base  The base of this number
-     * @see #multiplyInverseDigits(byte, byte, byte[])
-     * @see #sumInverseDigits(byte, byte[]...)
+     * @see #multiplyInverseDigits(int, byte, byte[])
+     * @see #sumInverseDigits(int, byte[]...)
      */
-    public static byte[] multiplyInverseDigits(byte base, byte[] multiplicand1, byte[] multiplicand2) {
+    public static byte[] multiplyInverseDigits(int base, byte[] multiplicand1, byte[] multiplicand2) {
 
         // swap if necessary.
         if (multiplicand2.length < multiplicand1.length) {
@@ -182,12 +179,11 @@ public class DigitUtils {
 
     /**
      * Performs a sum of number of integers
-     * @param base  The base of this number
+     * @param basei  The base of this number
      */
-    public static byte[] sumInverseDigits(byte base, byte[]... a) {
+    public static byte[] sumInverseDigits(int basei, byte[]... a) {
         int max = maxLength(a);
         int carry = 0;
-        int basei = Byte.toUnsignedInt(base);
         byte[] result = new byte[max];
         for (int i = 0 ; i < max;i ++) {
             int ri = carry ;
@@ -201,8 +197,8 @@ public class DigitUtils {
             byte[] newResult = new byte[result.length + 1];
             arraycopy(result, 0, newResult, 0, result.length);
             result = newResult;
-            result[result.length - 1] = (byte) (carry % base);
-            carry /= base;
+            result[result.length - 1] = (byte) (carry % basei);
+            carry /= basei;
         }
         return result;
     }

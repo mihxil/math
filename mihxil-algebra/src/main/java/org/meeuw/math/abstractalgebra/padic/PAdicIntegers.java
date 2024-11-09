@@ -13,12 +13,15 @@ import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.Prime;
 
 public class PAdicIntegers implements Field<PAdicInteger> {
-    final byte base;
+    final int base;
+    // could be byte, but that give a lot of casting, and stuff with toUnsignedInt
+    // there are only a few instances of this class, memory usage is no issue.
+
     final BigInteger bbase;
 
     private static final Map<Byte, PAdicIntegers> CACHE = new ConcurrentHashMap<>();
 
-    private PAdicIntegers(@Prime byte base) {
+    private PAdicIntegers(@Prime int base) {
         this.base = base;
         this.bbase = BigInteger.valueOf(base);
         if (!IntegerUtils.isPrime(this.base)) {

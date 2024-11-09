@@ -2,11 +2,10 @@ package org.meeuw.math.abstractalgebra.padic;
 
 import java.math.BigInteger;
 
-import java.util.Arrays;
-
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
 import org.meeuw.math.DigitUtils.AdicDigits;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.*;
 
 import static org.meeuw.math.DigitUtils.AdicDigits.NOT_REPETITIVE;
@@ -23,7 +22,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
         this.digits = digits;
         this.structure = structure;
         for (byte i : digits.digits) {
-            if (Byte.compareUnsigned(i, structure.base) > 0)  {
+            if (Byte.toUnsignedInt(i) >  structure.base)  {
                 throw new InvalidElementCreationException("digit must be smaller than " + structure.base);
             }
         }
@@ -34,7 +33,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
 
     public BigInteger bigIntegerValue() {
-        if (Arrays.compare(digits.repetitive , NOT_REPETITIVE) != 0) {
+        if (! ArrayUtils.equals(digits.repetitive , NOT_REPETITIVE)) {
             throw new NotFiniteException(this + " is not finite");
         }
         BigInteger result = BigInteger.ZERO;
@@ -60,7 +59,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
     @Override
     public PAdicInteger times(long multiplier) {
         AdicDigits mult = new AdicDigits(DigitUtils.toBase(structure.base, multiplier), new byte[0]);
-        return new PAdicInteger(structure, DigitUtils.multiplyPAdicDigits(structure.base, this.digits, mult));
+        return new PAdicInteger(structure, DigitUtils.multiplyPAdicDigits((byte) structure.base, this.digits, mult));
     }
 
     @Override
