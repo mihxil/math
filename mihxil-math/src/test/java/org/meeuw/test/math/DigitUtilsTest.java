@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.DigitUtils;
 import org.meeuw.math.DigitUtils.AdicDigits;
 
+import static java.lang.Byte.toUnsignedInt;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.DigitUtils.fromInverseDigitsInBase;
 import static org.meeuw.math.DigitUtils.multiplyAdicDigits;
@@ -38,9 +39,9 @@ public class DigitUtilsTest {
 
     @Test
     public void multiplyAdicDigitsWithDigit() {
-        AdicDigits a1 = new AdicDigits(new byte[] {9}, new byte[] {8, 8});
+        AdicDigits a1 = AdicDigits.of("9", "89");
         AdicDigits sum = multiplyAdicDigits((byte) 10, (byte)  9, a1);
-        assertThat(DigitUtils.adicToString((byte) 10, sum)).isEqualTo("9̅2₁₀");
+        assertThat(DigitUtils.adicToString((byte) 10, sum)).isEqualTo("...9 01₁₀");
     }
 
     @Test
@@ -66,11 +67,29 @@ public class DigitUtilsTest {
     }
 
 
-     @Test
+    @Test
     public void sumAdicDigitsWithOverflowAndDigits() {
         AdicDigits a1 = new AdicDigits(new byte[] {1, 4}, new byte[] {1, 2, 3, 4});
         AdicDigits sum = DigitUtils.sumAdicDigits((byte) 10, a1, a1, a1);
         assertThat(DigitUtils.adicToString((byte) 10, sum)).isEqualTo("...24 2963₁₀");
+    }
+
+    @Test
+    public void sumAdicDigitsWithOverflowAndDigits2() {
+        AdicDigits a1 = AdicDigits.ofRepetitive(      1, 2,               3).digits(1);
+        AdicDigits a2 = AdicDigits.ofRepetitive(7, 1).digits(        3, 4);
+
+        AdicDigits sum = DigitUtils.sumAdicDigits(10, a1, a2);
+        assertThat(DigitUtils.adicToString(10, sum)).isEqualTo("...402948 365₁₀");
+    }
+
+    @Test
+    public void sumAdicDigitsWithOverflowAndDigits3() {
+        AdicDigits a1 = AdicDigits.ofRepetitive(      6, 7).digits(8, 9);
+        AdicDigits a2 = AdicDigits.ofRepetitive(5).digits(        1, 6, 6, 6);
+
+        AdicDigits sum = DigitUtils.sumAdicDigits(10, a1, a2);
+        assertThat(DigitUtils.adicToString(10, sum)).isEqualTo("...32 28455₁₀");
     }
 
 
@@ -80,6 +99,15 @@ public class DigitUtilsTest {
         byte[] sum = DigitUtils.multiplyInverseDigits((byte) 10, a1, a1);
         assertThat(fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9999L * 9999L);
 
+    }
+
+    @Test
+    public void basic() {
+        byte a = (byte) 200;
+        byte b = (byte) 201;
+
+        int c = toUnsignedInt(a) * toUnsignedInt(b);
+        assertThat(c).isEqualTo(200 * 201);
     }
 
 

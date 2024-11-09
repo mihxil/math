@@ -181,6 +181,27 @@ public final class ArrayUtils {
         return toString(array, Object::toString);
     }
 
+    public static  String toString(int[] array) {
+        Integer[] a = new Integer[array.length];
+        for (int i = 0; i < array.length; i++) {
+            a[i] = array[i];
+        }
+        return toString(a, Object::toString);
+    }
+
+
+    /**
+     * Takes an array of integers, and converts it to an array of byte's. In inverse order.
+     *
+     */
+    public static byte[] toInverseByteArray(int[] array)  {
+        byte[] b = new byte[array.length];
+        for (int i = 0 ; i < array.length; i++) {
+            b[i] = (byte) array[array.length - 1 - i];
+        }
+        return b;
+    }
+
     public static <E> String toString(E[] array, Function<E, String> toString) {
         return "(" +
             Arrays.stream(array)

@@ -5,10 +5,13 @@ import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.meeuw.math.text.TextUtils;
+
+import static java.lang.Byte.toUnsignedInt;
+import static java.lang.System.arraycopy;
+import static org.meeuw.math.ArrayUtils.toInverseByteArray;
 
 /**
  * Utilities related to dealing with integer that are represented an array of digits.
@@ -55,8 +58,8 @@ public class DigitUtils {
             if (d >= base) {
                 throw new IllegalArgumentException();
             }
-            result += pow * d ;
-            pow *= base;
+            result += pow * toUnsignedInt(d);
+            pow *= toUnsignedInt(base);
         }
         return result;
 
@@ -65,30 +68,52 @@ public class DigitUtils {
 
     public static byte[] multiplyInverseDigits(byte base, byte digit, byte[] multiplicand) {
         byte[] result = new byte[multiplicand.length + 1];
+        int basei = toUnsignedInt(base);
         int carry = 0;
         for (int i = 0 ; i < multiplicand.length;i ++) {
             int ri = carry ;
-            ri += digit * multiplicand[i];
-            result[i] = (byte) (ri % base);
-            carry = ri / base;
+            ri += toUnsignedInt(digit) * toUnsignedInt(multiplicand[i]);
+            result[i] = (byte) (ri % basei);
+            carry = ri / basei;
         }
         result[result.length - 1] = (byte) (carry);
         return result;
     }
 
-     public static AdicDigits multiplyAdicDigits(byte base, byte digit, AdicDigits multiplicand) {
+    public static AdicDigits multiplyAdicDigits(byte base, byte digit, AdicDigits multiplicand) {
         byte[] resultdigits = multiplyInverseDigits(base, digit, multiplicand.digits);
-
-        int carry = resultdigits[resultdigits.length - 1];
-         for (int i = 0 ; i < multiplicand.repetitive.length;i ++) {
-            int ri = carry ;
-            ri += digit * multiplicand.repetitive[i];
-           // result[i] = (byte) (ri % base);
-            carry = ri / base;
+        int basei = toUnsignedInt(base);
+        int carry = toUnsignedInt(resultdigits[resultdigits.length - 1]);
+        int digiti = toUnsignedInt(digit);
+        List<CarryAndIndex> carries = new ArrayList<>();
+        List<Byte> moreDigits = new ArrayList<>();
+        int i = 0;
+        while(true) {
+            int index = i % multiplicand.repetitive.length;
+            CarryAndIndex carryAndIndex = new CarryAndIndex(carry, index);
+            int indexOf = carries.indexOf(carryAndIndex);
+            if (indexOf == -1) {
+                carries.add(carryAndIndex);
+                int ri = carry +  digiti * toUnsignedInt(multiplicand.repetitive[index]);
+                moreDigits.add((byte) (ri % basei));
+                carry = ri / basei;
+                i++;
+            } else {
+                break;
+            }
         }
-        return new AdicDigits(new byte[]{0}, resultdigits);
-    }
-
+        byte[] repetitive = new byte[carries.size()];
+        for (int j = 0; j < carries.size(); j++) {
+            repetitive[j] = moreDigits.remove(0);
+        }
+        byte[] digits = new byte[moreDigits.size()  + resultdigits.length - 1];
+        int j = 0;
+        while(!moreDigits.isEmpty()) {
+            digits[j++] = moreDigits.remove(0);
+        }
+        arraycopy(resultdigits, 0, digits, j, resultdigits.length - 1);
+        return new AdicDigits(repetitive, digits);
+     }
 
 
     /**
@@ -110,7 +135,7 @@ public class DigitUtils {
             result[i] = multiplyInverseDigits(base, multiplicand1[i], multiplicand2);
             if (i != 0) {
                 byte[] newResult = new byte[result[i].length + i];
-                System.arraycopy(result[i], 0, newResult, i, result[i].length);
+                arraycopy(result[i], 0, newResult, i, result[i].length);
                 result[i] = newResult;
             }
         }
@@ -125,18 +150,19 @@ public class DigitUtils {
     public static byte[] sumInverseDigits(byte base, byte[]... a) {
         int max = maxLength(a);
         int carry = 0;
+        int basei = Byte.toUnsignedInt(base);
         byte[] result = new byte[max];
         for (int i = 0 ; i < max;i ++) {
             int ri = carry ;
             for (byte[] b : a) {
-                ri += digit(i, b);
+                ri += toUnsignedInt(digit(i, b));
             }
-            result[i] = (byte) (ri % base);
-            carry = ri / base;
+            result[i] = (byte) (ri % basei);
+            carry = ri / basei;
         }
         while (carry != 0) {
             byte[] newResult = new byte[result.length + 1];
-            System.arraycopy(result, 0, newResult, 0, result.length);
+            arraycopy(result, 0, newResult, 0, result.length);
             result = newResult;
             result[result.length - 1] = (byte) (carry % base);
             carry /= base;
@@ -144,6 +170,10 @@ public class DigitUtils {
         return result;
     }
 
+
+    public static AdicDigits sumAdicDigits(int base, AdicDigits... ad) {
+        return sumAdicDigits((byte) base, ad);
+    }
 
     /**
      * Performs a sum of number of integers
@@ -153,7 +183,7 @@ public class DigitUtils {
         byte[] result = new byte[100];
         int carry = 0;
         int i = 0;
-        List<CarryAndSum> detecting = new ArrayList<>();
+        List<CarryAndIndices> detecting = new ArrayList<>();
         while(true) {
             int r = carry;
             boolean detectRepetiton = true;
@@ -165,7 +195,10 @@ public class DigitUtils {
             result[i] = (byte) (r % base);
             i++;
             if (detectRepetiton) {
-                CarryAndSum check = new CarryAndSum(carry, r);
+                CarryAndIndices check = new CarryAndIndices(
+                    carry,
+                    AdicDigits.getIndexes(i, ad)
+                );
                 int indexOf = detecting.indexOf(check);
                 if (indexOf == -1) {
                     detecting.add(check);
@@ -181,8 +214,8 @@ public class DigitUtils {
         }
         byte[] digits = new byte[i - detecting.size()];
         byte[] repetitive = new byte[detecting.size()];
-        System.arraycopy(result, 0, digits, 0, digits.length);
-        System.arraycopy(result, i - detecting.size(), repetitive, 0, repetitive.length);
+        arraycopy(result, 0, digits, 0, digits.length);
+        arraycopy(result, i - detecting.size(), repetitive, 0, repetitive.length);
         return new AdicDigits(repetitive, digits);
 
     }
@@ -192,7 +225,7 @@ public class DigitUtils {
             return bytes;
         } else {
             byte[] newBytes = new byte[bytes.length + 100];
-            System.arraycopy(bytes, 0, newBytes, 0, bytes.length);
+            arraycopy(bytes, 0, newBytes, 0, bytes.length);
             return newBytes;
         }
     }
@@ -223,12 +256,32 @@ public class DigitUtils {
      *
      */
     public static class AdicDigits {
-        final byte[] repetitive;
-        final byte[] digits;
+        public static final byte[] NOT_REPETITIVE = new byte[] {0};
+
+        public byte[] repetitive;
+        public byte[] digits;
 
         public AdicDigits(byte[] repetitive, byte[] digits) {
             this.repetitive = repetitive;
             this.digits = digits;
+        }
+        public static AdicDigits of(String repetitive, String digits) {
+            return new AdicDigits(stringToDigits(repetitive), stringToDigits(digits));
+        }
+
+        public static AdicDigits of(int... digits) {
+            return new AdicDigits(new byte[] {0}, toInverseByteArray(digits));
+        }
+
+        public static AdicDigits ofRepetitive(int... digits) {
+            return new AdicDigits(toInverseByteArray(digits) , new byte[0]);
+        }
+
+        public AdicDigits repetitive(int... repetitive) {
+            return new AdicDigits(toInverseByteArray(repetitive), digits);
+        }
+        public AdicDigits digits(int... digits) {
+            return new AdicDigits(repetitive ,toInverseByteArray(digits));
         }
         public boolean repeating(int i) {
             return i >= digits.length;
@@ -240,30 +293,78 @@ public class DigitUtils {
                 return digits[i];
             }
         }
+        public int getIndex(int i) {
+            if (repeating(i)) {
+                return digits.length + (i - digits.length) % repetitive.length;
+            } else {
+                return i;
+            }
+        }
+        public static int[] getIndexes(int j, AdicDigits... ca) {
+            int[] result = new int[ca.length];
+            for (int i = 0; i < ca.length; i++) {
+                result[i] = ca[i].getIndex(j);
+            }
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("...");
+            for (int i = repetitive.length - 1 ; i >= 0; i--) {
+                builder.append(digitToString(repetitive[i]));
+            }
+            builder.append(' ');
+            for (int i = digits.length -1 ; i >= 0; i--) {
+                builder.append(digitToString(digits[i]));
+            }
+            return builder.toString();
+        }
 
     }
 
     @AllArgsConstructor
     @EqualsAndHashCode
-    public static class CarryAndSum {
+    private static class CarryAndIndex {
         final int carry;
-        final int sum;
+        final int index;
+    }
+
+
+    @AllArgsConstructor
+    private static class CarryAndIndices {
+        final int carry;
+        final int[] indices;
         @Override
         public String toString() {
-            return carry + "," + sum;
+            return carry + "," + ArrayUtils.toString(indices);
         }
+
+        @Override
+        public final boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof CarryAndIndices that)) return false;
+
+            return carry == that.carry && Arrays.equals(indices, that.indices);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = carry;
+            result = 31 * result + Arrays.hashCode(indices);
+            return result;
+        }
+
+    }
+
+    public static String adicToString(int base, AdicDigits digits) {
+        return adicToString((byte) base, digits);
     }
 
     public static String adicToString(byte base, AdicDigits digits) {
         StringBuilder builder = new StringBuilder();
-        builder.append("...");
-        for (int i = digits.repetitive.length - 1 ; i >= 0; i--) {
-            builder.append(digitToString(digits.repetitive[i]));
-        }
-        builder.append(' ');
-        for (int i = digits.digits.length -1 ; i >= 0; i--) {
-            builder.append(digitToString(digits.digits[i]));
-        }
+        builder.append(digits.toString());
         builder.append(TextUtils.subscript(base));
         return builder.toString();
     }
@@ -276,6 +377,19 @@ public class DigitUtils {
             return Character.toString('a' + (i - 10));
         }
         throw new UnsupportedOperationException();
+    }
+
+    private static byte[] stringToDigits(String s) {
+        byte[] result = new byte[s.length()];
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(s.length() - 1 - i);
+            if (c >= '0' && c <= '9') {
+                result[i] = (byte) (c - '0');
+            } else {
+                result[i] = (byte) (c - 'a');
+            }
+        }
+        return result;
     }
 
 
