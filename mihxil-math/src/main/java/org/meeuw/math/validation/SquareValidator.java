@@ -84,7 +84,11 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
     static long toLong(Object value) {
         long toValidate;
          if (value instanceof SizeableScalar) {
-            toValidate = ((SizeableScalar) value).longValue();
+             toValidate = ((SizeableScalar) value).longValue();
+         } else if (value instanceof Byte) {
+            toValidate = Byte.toUnsignedLong((Byte) value);
+         } else if (value instanceof Integer) {
+            toValidate = Integer.toUnsignedLong((Integer) value);
         } else if (value instanceof Number) {
             toValidate = ((Number) value).longValue();
         } else if (value.getClass().isArray()) {

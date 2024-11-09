@@ -1,5 +1,7 @@
 package org.meeuw.test.math;
 
+import lombok.extern.log4j.Log4j2;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.DigitUtils;
@@ -10,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.DigitUtils.fromInverseDigitsInBase;
 import static org.meeuw.math.DigitUtils.multiplyAdicDigits;
 
+@Log4j2
 public class DigitUtilsTest {
 
 
@@ -98,6 +101,15 @@ public class DigitUtilsTest {
         byte[] a1 = new byte[] {9, 9, 9, 9};
         byte[] sum = DigitUtils.multiplyInverseDigits((byte) 10, a1, a1);
         assertThat(fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9999L * 9999L);
+
+    }
+
+    @Test
+    public void multiplyRepetitivePadics() {
+        AdicDigits a1 = AdicDigits.of("1", "");
+        AdicDigits a2 = AdicDigits.of("2", "");
+        AdicDigits result  = DigitUtils.multiplyPAdicDigits((byte) 10, a1, a2);
+        log.info("{} x {} = {}", a1, a2, result);
 
     }
 

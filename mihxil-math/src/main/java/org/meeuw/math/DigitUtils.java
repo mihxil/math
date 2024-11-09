@@ -8,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import java.util.*;
 
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.validation.Prime;
 
 import static java.lang.Byte.toUnsignedInt;
 import static java.lang.System.arraycopy;
@@ -114,6 +115,28 @@ public class DigitUtils {
         arraycopy(resultdigits, 0, digits, j, resultdigits.length - 1);
         return new AdicDigits(repetitive, digits);
      }
+
+
+    public static AdicDigits multiplyPAdicDigits(@Prime byte base, AdicDigits multiplicator, AdicDigits multiplicand) {
+        //assert IntegerUtils.isPrime(toUnsignedInt(base));
+        int i = 0;
+        AdicDigits sum = null;
+        while(true) {
+            byte d = multiplicator.get(i);
+            AdicDigits a = multiplyAdicDigits(base, d, multiplicand.timesBasePower(i));
+            if (sum == null) {
+                sum = a;
+            } else {
+                sum = sumAdicDigits(base, sum, a);
+            }
+            i++;
+            if (i > 100) {
+                break;
+            }
+        }
+        return sum;
+     }
+
 
 
     /**
@@ -283,6 +306,16 @@ public class DigitUtils {
         public AdicDigits digits(int... digits) {
             return new AdicDigits(repetitive ,toInverseByteArray(digits));
         }
+
+        public AdicDigits timesBasePower(int j) {
+            if (j == 0) {
+                return this;
+            }
+            byte[] newDigits = new byte[digits.length + j];
+            arraycopy(digits, 0, newDigits, j, digits.length);
+            return new AdicDigits(repetitive, newDigits);
+        }
+
         public boolean repeating(int i) {
             return i >= digits.length;
         }
@@ -341,11 +374,11 @@ public class DigitUtils {
             return carry + "," + ArrayUtils.toString(indices);
         }
 
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         @Override
         public final boolean equals(Object o) {
             if (this == o) return true;
-            if (!(o instanceof CarryAndIndices that)) return false;
-
+            CarryAndIndices that = (CarryAndIndices) o ;
             return carry == that.carry && Arrays.equals(indices, that.indices);
         }
 
