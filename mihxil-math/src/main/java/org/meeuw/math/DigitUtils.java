@@ -27,6 +27,20 @@ public class DigitUtils {
 
     private DigitUtils() {}
 
+
+    public static byte[] toBase(byte base, long value) {
+        byte[] result = new byte[100];
+        int i = 0;
+        int basei = toUnsignedInt(base);
+        while(value > 0) {
+            result = ensureCapacity(i, result);
+            result[i] = (byte) (value % basei);
+            value /= basei;
+        }
+        byte[] truncated = new byte[i];
+        arraycopy(result, 0, truncated, 0, truncated.length);
+        return truncated;
+    }
     /**
      * Given an array of digits of a number, convert it to a long
      *
