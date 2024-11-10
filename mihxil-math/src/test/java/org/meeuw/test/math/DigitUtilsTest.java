@@ -137,6 +137,8 @@ public class DigitUtilsTest {
     })
     public void digitToString(int digit, String s) {
         assertThat(DigitUtils.digitToString((byte) digit)).isEqualTo(s);
+        assertThat(DigitUtils.stringToDigits(s)).containsExactly((byte) digit);
+
     }
 
 

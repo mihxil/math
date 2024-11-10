@@ -421,14 +421,14 @@ public class DigitUtils {
 
     }
 
-    private static byte[] stringToDigits(String s) {
+    public static byte[] stringToDigits(String s) {
         byte[] result = new byte[s.length()];
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(s.length() - 1 - i);
             if (c >= '0' && c <= '9') {
                 result[i] = (byte) (c - '0');
             } else {
-                result[i] = (byte) (c - 'a');
+                result[i] = (byte) (c - 'a' + 10);
             }
         }
         return result;
