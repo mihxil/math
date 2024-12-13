@@ -102,12 +102,12 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
             double cos = Math.cos(phi);
             double sin = Math.sin(phi);
             if (symmetry == r) {
-                return Matrix2.of(
+                asMatrix = Matrix2.of(
                     cos, -1 * sin,
                     sin, cos
                 );
             } else {
-                return Matrix2.of(
+                asMatrix = Matrix2.of(
                     cos, sin,
                     sin, -1 * cos
                 );
