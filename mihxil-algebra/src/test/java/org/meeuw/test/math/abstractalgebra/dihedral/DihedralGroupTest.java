@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @Log4j2
-public class DihedralGroupTest {
+public class DihedralGroupTest { // GroupTest is done in subclasses
 
     @Test
     public void apply() {
@@ -48,6 +48,8 @@ public class DihedralGroupTest {
         }).isInstanceOf(InvalidElementCreationException.class);
 
     }
+
+
 
 
     public static class D1Test implements GroupTheory<DihedralSymmetry> {

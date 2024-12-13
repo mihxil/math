@@ -22,6 +22,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 
 /**
+ * Implementation of the {@link CompleteFieldElement} methods for rational numbers.
  * @author Michiel Meeuwissen
  * @since 0.8
  * @param <S> self reference

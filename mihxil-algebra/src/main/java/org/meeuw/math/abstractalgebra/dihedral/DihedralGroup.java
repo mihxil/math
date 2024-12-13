@@ -7,7 +7,8 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.text.TextUtils;
+
+import static org.meeuw.math.text.TextUtils.subscript;
 
 /**
  * @since 0.14
@@ -15,8 +16,8 @@ import org.meeuw.math.text.TextUtils;
  */
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
 
+    private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
 
-    public static Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
     final int n;
 
     public static DihedralGroup of(int n) {
@@ -71,6 +72,6 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
 
     @Override
     public String toString() {
-        return "D" + TextUtils.subscript(n);
+        return "D" + subscript(n);
     }
 }

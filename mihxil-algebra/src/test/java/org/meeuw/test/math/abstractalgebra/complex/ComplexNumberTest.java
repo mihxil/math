@@ -109,4 +109,12 @@ class ComplexNumberTest implements
                     ComplexNumbers.INSTANCE.i().times(RealField.INSTANCE.pi()))
         ).isEqTo(real(-1));
     }
+
+    @Test
+    public void i8() {
+        var i8 = ComplexNumber.of(0, 8);
+        var minusi8 = i8.negation();
+        log.info("{}", i8.sqrt().plus(minusi8.sqrt()));
+        log.info("{}", ComplexNumbers.INSTANCE.i().sqrt());
+    }
 }
