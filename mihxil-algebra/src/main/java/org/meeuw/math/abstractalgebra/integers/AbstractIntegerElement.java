@@ -20,14 +20,16 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.Optional;
+import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.BigDecimalUtils;
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.exceptions.*;
+import org.meeuw.math.exceptions.IllegalPowerException;
+import org.meeuw.math.exceptions.InvalidFactorial;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
@@ -52,10 +54,6 @@ public abstract class AbstractIntegerElement<
     SizeableScalar<E, SIZE>,
     Ordered<E> {
 
-    /**
-     * {@link BigInteger#TWO}, but for java 8.
-     */
-    static final BigInteger BigTWO = BigInteger.valueOf(2);
 
     @Getter
     protected final BigInteger value;
@@ -145,6 +143,10 @@ public abstract class AbstractIntegerElement<
         return value.hashCode();
     }
 
+    public RationalNumber toRational() {
+        return RationalNumber.of(value);
+    }
+
     protected BigInteger bigIntegerFactorial()  {
         if (value.signum() == -1) {
             throw new InvalidFactorial("Cannot take factorial of negative integer", value.toString());
@@ -159,6 +161,41 @@ public abstract class AbstractIntegerElement<
         }
         return product;
     }
+
+    /**
+     * Using a cache for already calculated sub factorials, will because of the recursive nature of the calculation speed
+     * up things a lot for bigger values.
+     */
+    private static final Map<BigInteger, BigInteger> SUBFACT_CACHE = new HashMap<>();
+
+    protected BigInteger bigIntegerSubfactorial()  {
+        if (value.signum() == -1) {
+            throw new InvalidFactorial("Cannot take subfactorial of negative integer", value.toString());
+        }
+        return bigIntegerSubfactorial(value, SUBFACT_CACHE);
+    }
+    private static synchronized  BigInteger bigIntegerSubfactorial(BigInteger n, Map<BigInteger, BigInteger> answers) {
+        if (n.equals(BigInteger.ZERO)) {
+            return BigInteger.ONE;
+        }
+        if (n.equals(BigInteger.ONE)) {
+            return BigInteger.ZERO;
+        }
+        BigInteger nMinusOne = n.add(BigInteger.ONE.negate());
+        BigInteger nMinusOneSub = answers.get(nMinusOne);
+        if (nMinusOneSub == null) {
+            nMinusOneSub =  bigIntegerSubfactorial(nMinusOne, answers);
+            answers.put(nMinusOne, nMinusOneSub);
+        }
+        BigInteger nMinusTwo = n.add(IntegerUtils.MINUS_TWO);
+        BigInteger nMinusTwoSub = answers.get(nMinusTwo);
+        if (nMinusTwoSub == null) {
+             nMinusTwoSub = bigIntegerSubfactorial(nMinusTwo, answers);
+             answers.put(nMinusTwo, nMinusTwoSub);
+        }
+        return nMinusOne.multiply(nMinusOneSub.add(nMinusTwoSub));
+    }
+
 
     @SuppressWarnings("unchecked")
     @Override

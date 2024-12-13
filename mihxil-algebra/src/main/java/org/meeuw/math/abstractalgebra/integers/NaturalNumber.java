@@ -71,4 +71,9 @@ public class NaturalNumber extends
     public NaturalNumber factorial() {
         return new NaturalNumber(bigIntegerFactorial());
     }
+
+    @Override
+    public NaturalNumber subfactorial() {
+        return new NaturalNumber(bigIntegerSubfactorial());
+    }
 }

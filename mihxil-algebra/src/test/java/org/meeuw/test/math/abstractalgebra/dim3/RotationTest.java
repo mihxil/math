@@ -23,11 +23,12 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
 import org.meeuw.math.abstractalgebra.dim3.Rotation;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.Utils.Math_2PI;
 import static org.meeuw.math.abstractalgebra.dim3.FieldVector3.of;
 import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
@@ -90,7 +91,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     @Override
     public Arbitrary<Rotation> elements() {
-        return Arbitraries.doubles().ofScale(20).between(0, 2d * PI)
+        return Arbitraries.doubles().ofScale(20).between(0, Math_2PI)
             .tuple3()
             .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())))
             ;

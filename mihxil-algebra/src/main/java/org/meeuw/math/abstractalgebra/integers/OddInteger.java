@@ -90,5 +90,11 @@ public class OddInteger
         return new IntegerElement(bigIntegerFactorial());
     }
 
+    @Override
+    @NonAlgebraic(value="Factorials are never odd")
+    public IntegerElement subfactorial() {
+        return new IntegerElement(bigIntegerSubfactorial());
+    }
+
 
 }

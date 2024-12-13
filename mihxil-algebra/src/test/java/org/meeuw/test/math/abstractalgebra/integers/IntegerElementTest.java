@@ -15,16 +15,18 @@
  */
 package org.meeuw.test.math.abstractalgebra.integers;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.exceptions.IllegalPowerException;
-
 import org.meeuw.theories.abstractalgebra.*;
 import org.meeuw.theories.numbers.SizeableScalarTheory;
 
@@ -36,6 +38,7 @@ import static org.meeuw.math.abstractalgebra.integers.IntegerElement.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class IntegerElementTest implements
     RingTheory<IntegerElement>,
     MultiplicativeMonoidTheory<IntegerElement>,
@@ -120,6 +123,26 @@ class IntegerElementTest implements
                 }
             );
         assertThat(determinant2).isEqualTo(of(16));
+    }
+
+    @Test
+    void subfactorial() {
+        for (int i = 0; i <= 100; i++ ) {
+            log.info("!{} = {}", i, IntegerElement.of(i).subfactorial());
+        }
+
+    }
+    @Test
+    void factorial() {
+        for (int i = 0; i <= 100; i++ ) {
+            log.info("{}! = {}", i, IntegerElement.of(i).factorial());
+        }
+    }
+
+    @Test
+    void facDivSubFac() {
+        log.info(Utils.e.substring(0, 150));
+        log.info(IntegerElement.of(100).factorial().toRational().dividedBy(IntegerElement.of(100).subfactorial().toRational()).toBigDecimalElement());
     }
 
     @Override

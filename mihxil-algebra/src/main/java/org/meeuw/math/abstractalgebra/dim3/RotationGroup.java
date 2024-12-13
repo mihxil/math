@@ -15,9 +15,13 @@
  */
 package org.meeuw.math.abstractalgebra.dim3;
 
+import java.util.Random;
+
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
+
+import static org.meeuw.math.Utils.Math_2PI;
 
 /**
  * SO(3) group. A non-abelian multiplicative group.
@@ -36,6 +40,14 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
     @Override
     public Rotation one() {
         return Rotation.ONE;
+    }
+
+    @Override
+     public Rotation nextRandom(Random r) {
+        Rotation rx = Rotation.Rx(r.nextDouble() * Math_2PI);
+        Rotation ry = Rotation.Ry(r.nextDouble() * Math_2PI);
+        Rotation rz = Rotation.Rz(r.nextDouble() * Math_2PI);
+        return rx.times(ry).times(rz);
     }
 
     @Override

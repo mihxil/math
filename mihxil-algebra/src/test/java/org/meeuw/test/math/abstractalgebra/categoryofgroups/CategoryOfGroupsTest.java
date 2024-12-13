@@ -46,7 +46,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
     }
 
     @Override
-    public Arbitrary<? extends Group<?>> elements() {
+    public Arbitrary<Group<?>> elements() {
 
         return Arbitraries.of(
             KleinGroup.INSTANCE,

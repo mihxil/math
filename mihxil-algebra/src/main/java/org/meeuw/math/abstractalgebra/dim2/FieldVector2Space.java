@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.dim2;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -47,6 +48,10 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
     @Override
     public FieldVector2<E> zero() {
         return FieldVector2.of(scalarField.zero(), scalarField.zero());
+    }
+    @Override
+    public FieldVector2<E> nextRandom(Random random) {
+        return FieldVector2.of(scalarField.nextRandom(random), scalarField.nextRandom(random));
     }
 
     @Override

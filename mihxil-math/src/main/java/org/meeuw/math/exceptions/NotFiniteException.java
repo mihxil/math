@@ -13,17 +13,15 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math.exceptions;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+/**
 
-import org.meeuw.theories.abstractalgebra.GroupTheory;
-import org.meeuw.math.abstractalgebra.trivial.TrivialGroupElement;
+ *
+ */
+public class NotFiniteException extends IllegalArgumentException {
 
-public class TrivialGroupTest implements GroupTheory<TrivialGroupElement> {
-    @Override
-    public Arbitrary<TrivialGroupElement> elements() {
-        return Arbitraries.of(TrivialGroupElement.e);
+    public NotFiniteException(String s) {
+        super(s);
     }
 }

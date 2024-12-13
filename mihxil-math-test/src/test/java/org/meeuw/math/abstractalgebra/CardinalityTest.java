@@ -22,7 +22,7 @@ import org.meeuw.theories.abstractalgebra.MultiplicativeSemiGroupTheory;
 
 public class CardinalityTest implements MultiplicativeSemiGroupTheory<Cardinality> {
     @Override
-    public Arbitrary<? extends Cardinality> elements() {
+    public Arbitrary<Cardinality> elements() {
         return Arbitraries.of(
             Cardinality.ALEPH_0,
             Cardinality.ALEPH_1,

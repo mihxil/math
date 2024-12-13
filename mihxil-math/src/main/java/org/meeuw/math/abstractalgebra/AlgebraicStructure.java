@@ -215,7 +215,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      */
     @Override
     default  E nextRandom(Random random) {
-        throw new UnsupportedOperationException("nextRandom not implemented in " + this.getClass() + " " + this);
+         throw new UnsupportedOperationException("nextRandom not implemented in " + this.getClass() + " " + this);
     }
 
 

@@ -61,7 +61,42 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
         }
     };
 
+    AlgebraicUnaryOperator SUB_FACTORIAL = new AlgebraicUnaryOperator() {
+
+        final Method method = getDeclaredMethod(Factoriable.class, "subfactorial");
+        @SuppressWarnings("unchecked")
+        @SneakyThrows
+        @Override
+        public <E extends AlgebraicElement<E>> E apply(E e) {
+            try {
+                return (E) method.invoke(e);
+            } catch (InvocationTargetException ita) {
+                throw ita.getCause();
+            }
+        }
+
+        @Override
+        public String stringify(String element) {
+            return "!" + element;
+        }
+
+        @Override
+        public String name() {
+            return "subfactorial";
+        }
+    }
+    ;
+
+    /**
+     * The number of possible permutation with this many elements.
+     */
     F factorial();
+
+    /**
+     * The number of possible derangements with this many elements.
+     */
+    F subfactorial();
+
 
     @Getter
     class Configuration implements ConfigurationAspect {

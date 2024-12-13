@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigInteger;
 
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.Scalar;
@@ -35,7 +36,7 @@ public class EvenInteger
     Scalar<EvenInteger> {
 
     public static final EvenInteger ZERO = new EvenInteger(BigInteger.ZERO);
-    public static final EvenInteger TWO = new EvenInteger(BigTWO);
+    public static final EvenInteger TWO = new EvenInteger(IntegerUtils.TWO);
 
 
     public static EvenInteger of(BigInteger value) throws InvalidElementCreationException {

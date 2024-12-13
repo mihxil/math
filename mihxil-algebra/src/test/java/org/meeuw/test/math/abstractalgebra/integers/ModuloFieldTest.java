@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 0.4
  */
 @Log4j2
-class ModuloFieldElementTest implements FieldTheory<ModuloFieldElement> {
+class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
 
     @Test
     public void illegal() {

@@ -48,6 +48,11 @@ public class RealField extends AbstractAlgebraicStructure<RealNumber>
     public RealNumber one() {
         return RealNumber.ONE;
     }
+     @Override
+    public RealNumber nextRandom(Random random) {
+        return RealNumber.of(random.nextDouble());
+    }
+
 
     @Override
     public Cardinality getCardinality() {

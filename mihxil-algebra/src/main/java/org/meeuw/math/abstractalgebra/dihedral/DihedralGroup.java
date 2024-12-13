@@ -1,14 +1,14 @@
 package org.meeuw.math.abstractalgebra.dihedral;
 
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
-
-import static org.meeuw.math.text.TextUtils.subscript;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @since 0.14
@@ -16,8 +16,8 @@ import static org.meeuw.math.text.TextUtils.subscript;
  */
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
 
-    private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
 
+    private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
     final int n;
 
     public static DihedralGroup of(int n) {
@@ -43,6 +43,13 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     @Override
     public DihedralSymmetry unity() {
         return DihedralSymmetry.r(0, this);
+    }
+
+    @Override
+    public DihedralSymmetry nextRandom(Random random) {
+        return random.nextBoolean() ?
+            DihedralSymmetry.r(random.nextInt(n), this) :
+            DihedralSymmetry.s(random.nextInt(n), this);
     }
 
     @Override

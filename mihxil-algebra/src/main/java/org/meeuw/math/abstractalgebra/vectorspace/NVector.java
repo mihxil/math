@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.vectorspace;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.Vector;
 
@@ -100,7 +101,7 @@ public class NVector<E extends FieldElement<E>> implements
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public @NonNull Iterator<E> iterator() {
         return new Iterator<E>() {
             int i = 0;
 

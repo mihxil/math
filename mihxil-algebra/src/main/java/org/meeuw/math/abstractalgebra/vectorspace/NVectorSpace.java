@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
@@ -86,9 +87,14 @@ public class NVectorSpace<E extends FieldElement<E>>
         return field;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public boolean equals(Object o) {
-        return this == o;
+    public NVector<E> nextRandom(Random random) {
+         E[] elements = (E[]) Array.newInstance(field.getElementClass(), dimension);
+        for (int i = 0; i < dimension; i ++) {
+            elements[i] = field.nextRandom(random);
+        }
+        return new NVector<>(elements);
     }
 
     @Override

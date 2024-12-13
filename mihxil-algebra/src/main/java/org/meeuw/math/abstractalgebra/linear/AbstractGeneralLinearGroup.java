@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -100,6 +100,23 @@ public abstract class AbstractGeneralLinearGroup<
             throw new InvalidElementCreationException("The matrix " + m + " is not invertible. Its determinant is zero");
         }
         return m;
+    }
+
+    @Override
+    public M nextRandom(Random random) {
+        while(true) {
+            try {
+                E[][] values = elementStructure.newMatrix(dimension, dimension);
+                for (int i = 0; i < dimension; i++) {
+                    for (int j = 0; j < dimension; j++) {
+                        values[i][j] = elementStructure.nextRandom(random);
+                    }
+                }
+                return newElement(values);
+            } catch (InvalidElementCreationException ie) {
+                //ignored
+            }
+        }
     }
 
     @Override

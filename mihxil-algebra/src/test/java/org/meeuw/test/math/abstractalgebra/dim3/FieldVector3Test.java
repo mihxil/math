@@ -116,7 +116,7 @@ class FieldVector3Test  implements
     }
 
     @Override
-    public Arbitrary<? extends FieldVector3<RealNumber>> elements() {
+    public Arbitrary<FieldVector3<RealNumber>> elements() {
         return Arbitraries.doubles()
             .between(-100, 100)
             .tuple3()

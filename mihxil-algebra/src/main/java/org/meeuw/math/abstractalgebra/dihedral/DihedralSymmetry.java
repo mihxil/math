@@ -98,20 +98,20 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
     public Matrix2 asMatrix2() {
         if (asMatrix == null) {
             double phi = 2 * Math.PI * k / group.n;
-            double cos = Math.cos(phi);
-            double sin = Math.sin(phi);
-            if (symmetry == r) {
-                asMatrix = Matrix2.of(
-                    cos, -1 * sin,
-                    sin, cos
-                );
-            } else {
-                asMatrix = Matrix2.of(
-                    cos, sin,
-                    sin, -1 * cos
-                );
-            }
+        double cos = Math.cos(phi);
+        double sin = Math.sin(phi);
+        if (symmetry == r) {
+            return Matrix2.of(
+                cos, -1 * sin,
+                sin, cos
+            );
+        } else {
+            return Matrix2.of(
+                cos, sin,
+                sin, -1 * cos
+            );
         }
+    }
         return asMatrix;
     }
 

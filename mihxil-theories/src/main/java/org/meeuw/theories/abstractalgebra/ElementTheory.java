@@ -42,7 +42,7 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
     }
 
     @Provide
-    Arbitrary<? extends E> elements();
+    Arbitrary<E> elements();
 
 
     default Logger getLogger() {
@@ -50,7 +50,7 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
     }
 
     @Override
-    default Arbitrary<Object> datapoints() {
-        return elements().asGeneric();
+    default Arbitrary<E> datapoints() {
+        return elements();
     }
 }

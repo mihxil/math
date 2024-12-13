@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
@@ -60,6 +61,10 @@ public class RationalNumber extends Number
     public static RationalNumber of(@NotNull BigInteger numerator, @NotNull
         @Positive @Negative BigInteger denominator) {
         return new RationalNumber(numerator, denominator);
+    }
+
+    public static RationalNumber of(@NotNull BigInteger numerator) {
+        return new RationalNumber(numerator, BigInteger.ONE);
     }
 
     public static RationalNumber of(long longValue) {
@@ -153,12 +158,16 @@ public class RationalNumber extends Number
     @Override
     public RationalNumber negation() {
         return new RationalNumber(
-                numerator.multiply(BigInteger.valueOf(-1L)), denominator);
+                numerator.multiply(IntegerUtils.MINUS_ONE), denominator);
     }
 
     @Override
     public RationalNumber minus(RationalNumber subtrahend) {
         return plus(subtrahend.times(-1));
+    }
+
+    public BigDecimalElement toBigDecimalElement() {
+        return BigDecimalElement.of(bigDecimalValue());
     }
 
     @Override
@@ -260,7 +269,7 @@ public class RationalNumber extends Number
         if (denominator.equals(BigInteger.ONE)) {
             return numerator.toString();
         } else {
-            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "\u2044" + TextUtils.subscript(denominator.toString());
+            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "⁄" + TextUtils.subscript(denominator.toString());
         }
     }
 

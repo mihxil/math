@@ -20,6 +20,8 @@ import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
+import org.meeuw.math.IntegerUtils;
+
 import static java.math.BigInteger.ONE;
 
 /**
@@ -100,7 +102,7 @@ public class BigIntegerSpliterator implements Spliterator<BigInteger> {
             return otherStream;
         } else {
             BigInteger prevStep = step;
-            step = step.multiply(BigInteger.valueOf(2));
+            step = step.multiply(IntegerUtils.TWO);
             BigIntegerSpliterator otherStream = copy();
             otherStream.current = otherStream.current.add(prevStep);
             return otherStream;

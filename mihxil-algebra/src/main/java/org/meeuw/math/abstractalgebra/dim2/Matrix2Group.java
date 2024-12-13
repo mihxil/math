@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim2;
 
+import java.util.Random;
+
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -45,6 +47,14 @@ public class Matrix2Group extends AbstractAlgebraicStructure<Matrix2>
         return new Matrix2(new double[][] {
             {1, 0},
             {0, 1}
+        });
+    }
+
+     @Override
+    public Matrix2 nextRandom(Random r) {
+        return new Matrix2(new double[][]{
+            {r.nextDouble(), r.nextDouble()},
+            {r.nextDouble(), r.nextDouble()}
         });
     }
 

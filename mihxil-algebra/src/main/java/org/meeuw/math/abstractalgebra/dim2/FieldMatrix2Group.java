@@ -17,8 +17,7 @@ package org.meeuw.math.abstractalgebra.dim2;
 
 import lombok.Getter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.meeuw.math.abstractalgebra.*;
 
@@ -60,6 +59,15 @@ public class FieldMatrix2Group<E extends ScalarFieldElement<E>>
     @Override
     public FieldMatrix2<E> one() {
         return one;
+    }
+
+     @Override
+    public FieldMatrix2<E> nextRandom(Random r) {
+        return FieldMatrix2.of(
+            elementStructure.getElementClass(),
+            elementStructure.nextRandom(r), elementStructure.nextRandom(r),
+            elementStructure.nextRandom(r), elementStructure.nextRandom(r)
+        );
     }
 
     @Override

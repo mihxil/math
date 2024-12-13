@@ -43,7 +43,7 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
     }
 
     @Override
-    public Arbitrary<? extends A> elements() {
+    public Arbitrary<A> elements() {
         return Arbitraries
             .randomValue(
                 (random) -> new A(BigDecimal.valueOf(random.nextDouble() * 1000 - 500),

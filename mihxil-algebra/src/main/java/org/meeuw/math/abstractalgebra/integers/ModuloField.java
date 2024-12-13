@@ -24,10 +24,11 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.validation.Prime;
 
 /**
+ * The Galois field ℤ/pℤ.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(value = Field.class, string = "ℤ/nℤ")
+@Example(value = Field.class, string = "ℤ/pℤ")
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
     implements Field<ModuloFieldElement> {
 
@@ -51,6 +52,5 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     public ModuloFieldElement element(int v) {
         return new ModuloFieldElement(v, this);
     }
-
 
 }

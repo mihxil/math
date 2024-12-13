@@ -25,6 +25,7 @@ import java.util.stream.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.IntegerUtils;
 
 import static java.math.BigInteger.ZERO;
 
@@ -61,7 +62,7 @@ public final class StreamUtils {
             BigIntegerSpliterator.builder()
                 .start(start)
                 .includeNegatives(includeNegatives)
-                .step(BigInteger.valueOf(-1L))
+                .step(IntegerUtils.MINUS_ONE)
                 .build(),
             false);
     }

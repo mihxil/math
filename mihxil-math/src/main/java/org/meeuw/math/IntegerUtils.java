@@ -3,8 +3,7 @@ package org.meeuw.math;
 import jakarta.validation.constraints.*;
 
 import java.math.BigInteger;
-import java.util.Spliterator;
-import java.util.Spliterators;
+import java.util.*;
 import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
@@ -16,6 +15,15 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.9
  */
 public class IntegerUtils {
+
+    /**
+     * {@link BigInteger#TWO}, but for java 8.
+     */
+    public static final BigInteger TWO = BigInteger.valueOf(2);
+
+    public static final BigInteger MINUS_TWO = BigInteger.valueOf(-2);
+
+    public static BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
     private IntegerUtils() {}
 
@@ -255,19 +263,15 @@ public class IntegerUtils {
         return gcdByEuclidsAlgorithm(n2, Math.abs(n1 % n2));
     }
 
-    public static long fromDigitsInBase(final int base, @Min(0) int... digits) {
-        long result = 0;
-        for (long d : digits) {
-            if (d >= base) {
-                throw new IllegalArgumentException();
+
+    public static int max(int value, int... values) {
+        int result = value;
+        for (int v : values) {
+            if (v > result) {
+                result = v;
             }
-            result = base * result + d ;
         }
         return result;
-
     }
 
-    public static long fromDigits(@Min(0) @Max(9) int... digits) {
-        return fromDigitsInBase(10, digits);
-    }
 }

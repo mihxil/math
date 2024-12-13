@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import org.meeuw.math.DigitUtils;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.TextUtils;
@@ -47,9 +48,9 @@ class IntegerUtilsTest {
 
     @Test
     public void digits() {
-        assertThat(IntegerUtils.fromDigits(1, 2, 3)).isEqualTo(123);
+        assertThat(DigitUtils.fromDigits(1, 2, 3)).isEqualTo(123);
 
-        assertThatThrownBy(() -> IntegerUtils.fromDigitsInBase(4, 1, 2, 4)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> DigitUtils.fromDigitsInBase(4, 1, 2, 4)).isInstanceOf(IllegalArgumentException.class);
 
     }
 
@@ -146,5 +147,7 @@ class IntegerUtilsTest {
     Arbitrary<Long> positiveLongs() {
         return Arbitraries.randomValue(random -> (long) random.nextInt(1_000_000_000));
     }
+
+
 
 }

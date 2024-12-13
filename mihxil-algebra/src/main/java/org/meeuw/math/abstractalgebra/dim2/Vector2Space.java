@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim2;
 
+import java.util.Random;
+
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -48,6 +50,11 @@ public class Vector2Space implements VectorSpace<RealNumber, Vector2>, AbelianRi
     @Override
     public Vector2 one() {
         return Vector2.of(1, 1);
+    }
+
+    @Override
+    public Vector2 nextRandom(Random random) {
+        return Vector2.of(random.nextDouble(), random.nextDouble());
     }
 
     @Override

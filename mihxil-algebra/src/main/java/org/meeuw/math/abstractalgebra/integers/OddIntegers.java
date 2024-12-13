@@ -22,11 +22,10 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.operators.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.math.abstractalgebra.integers.AbstractIntegerElement.BigTWO;
 import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
 
 /**
@@ -74,7 +73,7 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
 
     @Override
     public OddInteger newElement(BigInteger value) throws InvalidElementCreationException {
-        if (value.remainder(BigTWO).equals(BigInteger.ZERO)) {
+        if (value.remainder(IntegerUtils.TWO).equals(BigInteger.ZERO)) {
             throw new InvalidElementCreationException("The argument must be odd (" + value + " isn't)");
         }
         return of(value);
