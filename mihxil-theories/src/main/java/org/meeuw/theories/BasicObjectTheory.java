@@ -143,7 +143,7 @@ public interface BasicObjectTheory<E> {
      * The implementation for equals datapoints (see {@link #equalDatapoints()}.
      * Defaults to {@link Objects#equals(Object, Object)}.
      */
-    default boolean equals(Object e1, Object e2) {
+    default boolean equals(E e1, E e2) {
         return Objects.equals(e1, e2);
     }
 
