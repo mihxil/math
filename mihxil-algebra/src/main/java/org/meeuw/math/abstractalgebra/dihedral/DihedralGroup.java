@@ -10,6 +10,8 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
+import static org.meeuw.math.text.TextUtils.subscript;
+
 /**
  * @since 0.14
  * @see org.meeuw.math.abstractalgebra.dihedral
