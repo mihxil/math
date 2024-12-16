@@ -37,15 +37,15 @@ public class DihedralGroupTest { // GroupTest is done in subclasses
     @Test
     public void illegal() {
         DihedralGroup group = DihedralGroup.of(4);
-        assertThatThrownBy(() -> {
-            group.s(4);
-        }).isInstanceOf(InvalidElementCreationException.class);
-        assertThatThrownBy(() -> {
-            group.r(4);
-        }).isInstanceOf(InvalidElementCreationException.class);
-        assertThatThrownBy(() -> {
-            group.r(-1);
-        }).isInstanceOf(InvalidElementCreationException.class);
+        assertThatThrownBy(() ->
+            group.s(4)
+        ).isInstanceOf(InvalidElementCreationException.class);
+        assertThatThrownBy(() ->
+            group.r(4)
+        ).isInstanceOf(InvalidElementCreationException.class);
+        assertThatThrownBy(() ->
+            group.r(-1)
+        ).isInstanceOf(InvalidElementCreationException.class);
 
     }
 

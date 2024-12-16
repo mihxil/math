@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
+import org.meeuw.math.exceptions.InvalidElementCreationException;
+
 import static org.meeuw.math.text.TextUtils.subscript;
 
 /**
@@ -38,6 +40,9 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     }
 
     public DihedralSymmetry r(int k) {
+        if (k < 0 || k >= n) {
+            throw new InvalidElementCreationException("! 0 <= %d < k".formatted(k));
+        }
         if (rcache[k] == null) {
             rcache[k] = DihedralSymmetry.r(k, this);
         }
@@ -45,6 +50,9 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     }
 
     public DihedralSymmetry s(int k) {
+        if (k < 0 || k >= n) {
+            throw new InvalidElementCreationException("! 0 <= %d < k".formatted(k));
+        }
         if (scache[k] == null) {
             scache[k] = DihedralSymmetry.s(k, this);
         }
