@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.math.text.TextUtils.subscript;
 
@@ -17,7 +16,6 @@ import static org.meeuw.math.text.TextUtils.subscript;
  * @see org.meeuw.math.abstractalgebra.dihedral
  */
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
-
 
     private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
     final int n;
@@ -29,29 +27,40 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     @Example(Group.class)
     public static DihedralGroup D3 = of(3);
 
+    private final DihedralSymmetry[] rcache;
+    private final DihedralSymmetry[] scache;
+
 
     private DihedralGroup(int n) {
         this.n = n;
+        rcache = new DihedralSymmetry[n];
+        scache = new DihedralSymmetry[n];
     }
 
     public DihedralSymmetry r(int k) {
-        return DihedralSymmetry.r(k, this);
+        if (rcache[k] == null) {
+            rcache[k] = DihedralSymmetry.r(k, this);
+        }
+        return rcache[k];
     }
 
     public DihedralSymmetry s(int k) {
-        return DihedralSymmetry.s(k, this);
+        if (scache[k] == null) {
+            scache[k] = DihedralSymmetry.s(k, this);
+        }
+        return scache[k];
     }
 
     @Override
     public DihedralSymmetry unity() {
-        return DihedralSymmetry.r(0, this);
+        return r(0);
     }
 
     @Override
     public DihedralSymmetry nextRandom(Random random) {
         return random.nextBoolean() ?
-            DihedralSymmetry.r(random.nextInt(n), this) :
-            DihedralSymmetry.s(random.nextInt(n), this);
+            r(random.nextInt(n)) :
+            s(random.nextInt(n));
     }
 
     @Override
@@ -68,9 +77,9 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     public Stream<DihedralSymmetry> stream() {
         return Stream.concat(
             IntStream.range(0, n)
-                .mapToObj(i -> DihedralSymmetry.r(i, this)),
+                .mapToObj(this::r),
             IntStream.range(0, n)
-                .mapToObj(i -> DihedralSymmetry.s(i, this))
+                .mapToObj(this::s)
         );
     }
 
