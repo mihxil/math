@@ -41,7 +41,7 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
 
     public DihedralSymmetry r(int k) {
         if (k < 0 || k >= n) {
-            throw new InvalidElementCreationException("! 0 <= %d < k".formatted(k));
+            throw new InvalidElementCreationException("! 0 <= " + k + "  < " + n);
         }
         if (rcache[k] == null) {
             rcache[k] = DihedralSymmetry.r(k, this);
@@ -51,7 +51,7 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
 
     public DihedralSymmetry s(int k) {
         if (k < 0 || k >= n) {
-            throw new InvalidElementCreationException("! 0 <= %d < k".formatted(k));
+            throw new InvalidElementCreationException("! 0 <= " + k + "  < " + n);
         }
         if (scache[k] == null) {
             scache[k] = DihedralSymmetry.s(k, this);
