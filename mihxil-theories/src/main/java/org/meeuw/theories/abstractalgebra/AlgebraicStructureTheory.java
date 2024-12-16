@@ -46,14 +46,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     String STRUCTURE = "structure";
 
     @Provide
-    default Arbitrary<? extends AlgebraicStructure<?>> structure() {
+    default Arbitrary<? extends AlgebraicStructure<E>> structure() {
         return Arbitraries.of(elements().filter(Objects::nonNull).sample().getStructure());
     }
 
     @SuppressWarnings("unchecked")
     @Property()
     default void cardinalityAndStreaming(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
 
         Logger log = getLogger();
 
@@ -106,7 +106,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         Random random = new Random();
         try {
             for (int i = 0; i < 10; i++) {
@@ -118,15 +118,15 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void structureSameInstance(@ForAll(ELEMENTS) AlgebraicElement<?> e1, @ForAll(ELEMENTS) AlgebraicElement<?> e2) {
+    default void structureSameInstance(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
         assertThat(e1.getStructure() == e2.getStructure()).isTrue();
         assertThat(e1.getStructure().equals(e2.getStructure())).isTrue();
     }
 
     @Property
     default void elementClass(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
-        @ForAll(ELEMENTS) AlgebraicElement<?> e
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) AlgebraicElement<E> e
         ) {
         assertThat(e).isInstanceOf(s.getElementClass());
     }
@@ -137,12 +137,10 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void algebraicBinaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
-        @ForAll(ELEMENTS) AlgebraicElement<?> o1,
-        @ForAll(ELEMENTS) AlgebraicElement<?> o2) throws Throwable {
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1,
+        @ForAll(ELEMENTS) E e2) throws Throwable {
 
-        E e1 = (E) o1;
-        E e2 = (E) o2;
         AtomicLong count = COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong error = ERROR_COUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         int size = s.getSupportedOperators().size();

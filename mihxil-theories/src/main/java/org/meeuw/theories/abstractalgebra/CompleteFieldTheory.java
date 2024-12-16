@@ -41,12 +41,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     FieldTheory<E> {
 
     @Property
-    default void getUnary(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+    default void getUnary(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         assertThat(struct.getSupportedUnaryOperators()).contains(SQRT, SIN, COS);
     }
 
     @Property
-    default void getOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+    default void getOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         assertThat(struct.getSupportedOperators()).contains(POWER);
     }
 
@@ -71,31 +71,27 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     }
 
     @Property
-    default void ePowZero(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-        CompleteField<E> casted = (CompleteField<E>) struct;
-        assertThat(casted.e().pow(casted.zero())).isEqTo(casted.one());
+    default void ePowZero(@ForAll(STRUCTURE) CompleteField<E> struct) {
+                assertThat(struct.e().pow(struct.zero())).isEqTo(struct.one());
     }
 
     @Property
-    default void sinPi(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-        CompleteField<E> casted = (CompleteField<E>) struct;
-        assertThat(casted.pi().sin()).isEqTo(casted.zero());
+    default void sinPi(@ForAll(STRUCTURE) CompleteField<E> struct) {
+        assertThat(struct.pi().sin()).isEqTo(struct.zero());
     }
 
     @Property
-    default void cosPi(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-        CompleteField<E> casted = (CompleteField<E>) struct;
-        assertThat(casted.pi().cos()).isEqTo(casted.one().negation());
+    default void cosPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
+        assertThat(struct.pi().cos()).isEqTo(struct.one().negation());
     }
 
     @Property
-    default void goldenRatio(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-         CompleteField<E> casted = (CompleteField<E>) struct;
+    default void goldenRatio(@ForAll(STRUCTURE)  CompleteField<E> struct) {
          try {
              setConfiguration(builder ->
                  builder.configure(MathContextConfiguration.class,
                      (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))));
-             assertThat(casted.φ().sqr()).isEqTo(casted.φ().plus(casted.one()));
+             assertThat(struct.φ().sqr()).isEqTo(struct.φ().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
 

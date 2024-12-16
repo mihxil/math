@@ -33,14 +33,12 @@ public interface MagmaTheory<E extends MagmaElement<E>>
     extends AlgebraicStructureTheory<E> {
 
     @Property
-    default void magmaOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void magmaOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         assertThat(s.getSupportedOperators()).contains(OPERATION);
     }
 
     @Property
-    default void operatorAndCommutativity(@ForAll(ELEMENTS) AlgebraicElement<?> e1, @ForAll(ELEMENTS) AlgebraicElement<?> e2) {
-        E m1 = (E) e1;
-        E m2 = (E) e2;
+    default void operatorAndCommutativity(@ForAll(ELEMENTS) E m1, @ForAll(ELEMENTS) E m2) {
         boolean isCommutative = m1.getStructure().operationIsCommutative();
         if (isCommutative) {
             String s = OPERATION.stringify(m1, m2)  + " %s" +

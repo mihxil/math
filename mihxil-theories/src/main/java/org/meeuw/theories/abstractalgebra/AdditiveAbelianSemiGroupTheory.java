@@ -38,9 +38,8 @@ public interface AdditiveAbelianSemiGroupTheory<E extends AdditiveSemiGroupEleme
 
     @Property
     default void additiveCommutativityProperty(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> group) {
-        AdditiveSemiGroup<E> casted = (AdditiveSemiGroup<E>) group;
-        assertThat(casted.additionIsCommutative()).isTrue();
+        @ForAll(STRUCTURE) AdditiveSemiGroup<E> group) {
+        assertThat(group.additionIsCommutative()).isTrue();
     }
 
 }

@@ -36,7 +36,7 @@ public interface DivisionRingTheory<E extends DivisionRingElement<E>> extends
     AdditiveGroupTheory<E>  {
 
     @Property
-    default void fieldOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void fieldOperators(@ForAll(STRUCTURE) DivisionRing<E> s) {
         assertThat(s.getSupportedOperators()).contains(ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION);
     }
 

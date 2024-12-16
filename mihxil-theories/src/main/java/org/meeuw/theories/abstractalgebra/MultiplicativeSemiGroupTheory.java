@@ -33,14 +33,13 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
     extends MagmaTheory<E> {
 
     @Property
-    default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void multiplicativeSemiGroupOperators(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION);
     }
 
     @Property
-    default void multiplicationCommutativity(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
-        MultiplicativeSemiGroup<E> cast = (MultiplicativeSemiGroup<E>) s;
-        if (cast.multiplicationIsCommutative()) {
+    default void multiplicationCommutativity(@ForAll(STRUCTURE) MultiplicativeSemiGroup<E> s) {
+        if (s.multiplicationIsCommutative()) {
             assertThat(s).isInstanceOf(MultiplicativeAbelianSemiGroup.class);
         }
     }

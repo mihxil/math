@@ -36,12 +36,12 @@ public interface GroupTheory<E extends GroupElement<E>>
     extends MagmaTheory<E> {
 
     @Property
-    default void groupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
     }
 
     @Property
-    default void groupUnitaryOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> s) {
+    default void groupUnitaryOperators(@ForAll(STRUCTURE) Group<E> s) {
         assertThat(s.getSupportedUnaryOperators()).contains(BasicAlgebraicUnaryOperator.INVERSION);
     }
 

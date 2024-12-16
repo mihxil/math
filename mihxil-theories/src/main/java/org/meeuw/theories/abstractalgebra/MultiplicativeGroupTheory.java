@@ -35,7 +35,7 @@ public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGrou
     extends MultiplicativeMonoidTheory<E> {
 
     @Property
-    default void multiplicativeGroupOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> group) {
+    default void multiplicativeGroupOperators(@ForAll(STRUCTURE) MultiplicativeGroup<E> group) {
         assertThat(group.getSupportedOperators())
             .contains(BasicAlgebraicBinaryOperator.MULTIPLICATION, BasicAlgebraicBinaryOperator.DIVISION);
     }
