@@ -86,11 +86,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                         }
                     );
                 };
-                log.info("Skip  to 5000");
                 skipAndStream.accept(5000);
-                log.info("Skip to 100 000");
                 skipAndStream.accept(100_000);
-                log.info("Skip to 500 000");
                 skipAndStream.accept(500_000);
 
             } catch (NotStreamable ns) {
