@@ -84,6 +84,23 @@ class Matrix2Test implements MultiplicativeGroupTheory<Matrix2>, WithScalarTheor
     }
 
 
+    @Test
+    void pow() {
+        // https://www.youtube.com/watch?v=pSXQmxSSvZI&ab_channel=DrBarker
+        Matrix2 example = of(
+            1, 2,
+            -2, 5
+        );
+        assertThat(example.pow(10).getValues()).isEqualTo(
+            new double[][] {
+                new double[] {-334611, 393660},
+                new double[] {-393660, 452709}
+            }
+        );
+
+    }
+
+
 
     @Override
     public Arbitrary<Matrix2> elements() {

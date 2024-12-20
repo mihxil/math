@@ -18,13 +18,15 @@ package org.meeuw.math.abstractalgebra.dim2;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import org.meeuw.math.*;
+import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.validation.Square;
 
+import static org.meeuw.math.ArrayUtils.adjugate2x2;
 import static org.meeuw.math.ArrayUtils.determinant2x2;
 
 /**
@@ -143,20 +145,9 @@ public strictfp class Matrix2 implements
     }
 
     public Matrix2 adjugate() {
-        return new Matrix2(adjugateMatrix());
-    }
-
-    double[][] adjugateMatrix() {
-        double a = values[0][0];
-        double b = values[0][1];
-        double c = values[1][0];
-        double d = values[1][1];
-        final double[][] adjugate =  new double[2][2];
-        adjugate[0][0] = d;
-        adjugate[0][1] = -1 * b;
-        adjugate[1][0] = -1 * c;
-        adjugate[1][1] = a;
-        return adjugate;
+        return new Matrix2(
+            adjugate2x2(values)
+        );
     }
 
     private int skip(int i, int skip) {
