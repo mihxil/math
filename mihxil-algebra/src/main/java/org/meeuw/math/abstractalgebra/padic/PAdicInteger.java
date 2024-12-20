@@ -9,6 +9,8 @@ import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.*;
 
 import static org.meeuw.math.DigitUtils.AdicDigits.NOT_REPETITIVE;
+import static org.meeuw.math.DigitUtils.adicToString;
+import static org.meeuw.math.DigitUtils.multiplyAdicDigits;
 /**
 * WIP
 */
@@ -59,7 +61,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
     @Override
     public PAdicInteger times(long multiplier) {
         AdicDigits mult = new AdicDigits(DigitUtils.toBase(structure.base, multiplier), new byte[0]);
-        return new PAdicInteger(structure, DigitUtils.multiplyPAdicDigits((byte) structure.base, this.digits, mult));
+        return new PAdicInteger(structure, multiplyAdicDigits((byte) structure.base, this.digits, mult));
     }
 
     @Override
@@ -69,7 +71,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger times(PAdicInteger multiplier) {
-         return new PAdicInteger(structure, DigitUtils.multiplyPAdicDigits(structure.base, this.digits, multiplier.digits));
+         return new PAdicInteger(structure, multiplyAdicDigits(structure.base, this.digits, multiplier.digits));
     }
 
     @Override
@@ -90,9 +92,17 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
         return null;
     }
 
+    public PAdicInteger leftShift(int i) {
+        return new PAdicInteger(structure, digits.leftShift(i));
+    }
+
+    public PAdicInteger rightShift(int i) {
+        return new PAdicInteger(structure, digits.leftShift(i));
+    }
+
     @Override
     public String toString() {
-        return DigitUtils.adicToString(structure.base, digits);
+        return adicToString(structure.base, digits);
     }
 
 

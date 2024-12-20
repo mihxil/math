@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.padic;
 
 import java.math.BigInteger;
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.DigitUtils.AdicDigits;
@@ -9,8 +10,13 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
+import org.meeuw.math.operators.AbstractAlgebraicIntOperator;
+import org.meeuw.math.operators.AlgebraicIntOperator;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.Prime;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 public class PAdicIntegers implements Field<PAdicInteger> {
     final int base;
@@ -18,6 +24,11 @@ public class PAdicIntegers implements Field<PAdicInteger> {
     // there are only a few instances of this class, memory usage is no issue.
 
     final BigInteger bbase;
+
+    @Override
+    public NavigableSet<AlgebraicIntOperator> getSupportedIntOperators() {
+        return navigableSet(INT_OPERATORS, LEFT_SHIFT, RIGHT_SHIFT);
+    }
 
     private static final Map<Byte, PAdicIntegers> CACHE = new ConcurrentHashMap<>();
 
@@ -71,4 +82,8 @@ public class PAdicIntegers implements Field<PAdicInteger> {
         return "ℚ" + TextUtils.subscript(base);
     }
 
+
+    public static final AlgebraicIntOperator LEFT_SHIFT = new AbstractAlgebraicIntOperator("left_shift",  getDeclaredMethod(PAdicInteger.class, "leftShift", int.class), (e, i) -> e + "<<" + i);
+
+    public static final AlgebraicIntOperator RIGHT_SHIFT = new AbstractAlgebraicIntOperator("right_shift",  getDeclaredMethod(PAdicInteger.class, "rightShift", int.class), (e, i) -> e + ">>" + i);
 }
