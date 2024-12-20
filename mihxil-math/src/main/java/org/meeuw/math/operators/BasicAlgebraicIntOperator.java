@@ -19,17 +19,15 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NoSuchOperatorException;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 /**
- * The predefined  basic 'unary operators' of algebra's.
+ * The predefined  basic 'operators' of algebra's that just work on an int.
  * @author Michiel Meeuwissen
  * @since 0.14
  */
@@ -48,7 +46,6 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
         getDeclaredMethod(CompleteFieldElement.class, "tetration", int.class),
         (s, i) -> TextUtils.superscript(i) + withBracketsIfNeeded(s)
     )
-
     ;
 
      private static CharSequence withBracketsIfNeeded(CharSequence s) {
@@ -73,25 +70,10 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
         this.stringify = stringify;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E e, int i) {
-        try {
-            return (E) method.invoke(e, i);
-        } catch (IllegalArgumentException iae) {
-            try {
-                // It is possible that the operation is defined, but the class does not extend the correct class
-                // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
-                return (E) e.getClass().getMethod(method.getName(), int.class).invoke(e, i);
-            } catch (NoSuchMethodException noSuchMethodError) {
-                throw new NoSuchOperatorException("No operation " + this + " found on " + e, noSuchMethodError);
-            } catch (InvocationTargetException ex) {
-                throw ex.getCause();
-            }
-        } catch (InvocationTargetException ex) {
-            throw ex.getCause();
-        }
+        return AlgebraicIntOperator.apply(this, method, e, i);
     }
 
     @Override
