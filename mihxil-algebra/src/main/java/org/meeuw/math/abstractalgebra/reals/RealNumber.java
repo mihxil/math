@@ -57,6 +57,8 @@ public class RealNumber
             return this;
         }
     };
+    public static final RealNumber TWO = new RealNumber(2d, 0);
+
     public static final RealNumber ZERO = new RealNumber(0d, 0);
     public static final RealNumber SMALLEST = new RealNumber(0d, UNCERTAINTY_FOR_ZERO);
 
