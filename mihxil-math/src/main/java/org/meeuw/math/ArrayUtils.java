@@ -24,6 +24,8 @@ import java.util.stream.Collectors;
 import org.meeuw.math.exceptions.InvalidElementException;
 import org.meeuw.math.validation.Square;
 
+import static java.lang.System.arraycopy;
+
 /**
  * Matrix (2 dimension array) and vector (1 dimension array) utils.
  * @since 0.8
@@ -214,8 +216,17 @@ public final class ArrayUtils {
         return toString(matrix, ArrayUtils::toString);
     }
 
-    public static double determinant2x2(double a, double b, double c, double d) {
+    public static double determinant2x2(
+        double a, double b,
+        double c, double d) {
         return a * d - b * c;
+    }
+
+    public static double[][] adjugate2x2(double[][] values) {
+        return  new double[][] {
+            new double[] {values[1][1]     , -1 * values[0][1] },
+            new double[] {-1 * values[1][0], values[0][0]      }
+        };
     }
 
     public static boolean equals(byte[] a, byte[] b) {
@@ -231,6 +242,22 @@ public final class ArrayUtils {
             }
         }
         return true;
+    }
+
+    public static byte[] removeTrailingZeros(byte[] in) {
+        int count=0;
+        while(in[in.length -1 - count] == 0) {
+            count++;
+        }
+        if (count > 0) {
+            byte[] out = new byte[in.length - count];
+            byte[] withoutCarry = new byte[in.length - count];
+            arraycopy(in, 0, withoutCarry, 0, in.length - count);
+            return withoutCarry;
+        } else {
+            return in;
+        }
+
     }
 
 
