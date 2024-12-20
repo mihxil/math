@@ -38,8 +38,8 @@ class UncertainNumberTest implements ElementTheory<UncertainNumberTest.A> {
 
 
     @Override
-    public boolean equals(Object e1, Object e2) {
-        return ((UncertainNumberTest.A) e1).eq((UncertainNumberTest.A) e2, 1);
+    public boolean equals(UncertainNumberTest.A e1, UncertainNumberTest.A e2) {
+        return e1.eq(e2, 1);
     }
 
     @Override
