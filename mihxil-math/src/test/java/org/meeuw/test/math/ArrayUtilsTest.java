@@ -22,6 +22,7 @@ import org.meeuw.math.exceptions.InvalidElementException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.ArrayUtils.minor;
+import static org.meeuw.math.ArrayUtils.rotate;
 
 public class ArrayUtilsTest {
 
@@ -73,5 +74,12 @@ public class ArrayUtilsTest {
         assertThatThrownBy(() -> minor(String.class, matrix, -1, 1)).isInstanceOf(InvalidElementException.class);
         assertThatThrownBy(() -> minor(String.class, matrix, 1, 3)).isInstanceOf(InvalidElementException.class);
         assertThatThrownBy(() -> minor(String.class, matrix, 1, -1)).isInstanceOf(InvalidElementException.class);
+    }
+
+    @Test
+    public void rotate1() {
+        byte[] a = new byte[] {(byte) 1, (byte) 2, 3};
+        byte[] b = rotate(a, 1);
+        assertThat(b).containsExactly(3, 1, 2);
     }
 }

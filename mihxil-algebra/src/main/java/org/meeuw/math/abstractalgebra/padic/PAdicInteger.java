@@ -1,19 +1,23 @@
 package org.meeuw.math.abstractalgebra.padic;
 
+import lombok.EqualsAndHashCode;
+
 import java.math.BigInteger;
 
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
-import org.meeuw.math.DigitUtils.AdicDigits;
+import org.meeuw.math.AdicDigits;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.*;
 
-import static org.meeuw.math.DigitUtils.AdicDigits.NOT_REPETITIVE;
+import static org.meeuw.math.AdicDigits.NOT_REPETITIVE;
 import static org.meeuw.math.DigitUtils.adicToString;
 import static org.meeuw.math.DigitUtils.multiplyAdicDigits;
+
 /**
 * WIP
 */
+@EqualsAndHashCode
 public class PAdicInteger implements FieldElement<PAdicInteger> {
 
 
@@ -29,13 +33,13 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
             }
         }
     }
-    PAdicInteger(PAdicIntegers structure, byte... digits) {
-        this(structure, new AdicDigits(NOT_REPETITIVE, digits));
+    PAdicInteger(PAdicIntegers structure, int... digits) {
+        this(structure, AdicDigits.of(digits));
     }
 
 
     public BigInteger bigIntegerValue() {
-        if (! ArrayUtils.equals(digits.repetitive , NOT_REPETITIVE)) {
+        if (! ArrayUtils.equals(digits.repetend , NOT_REPETITIVE)) {
             throw new NotFiniteException(this + " is not finite");
         }
         BigInteger result = BigInteger.ZERO;
@@ -60,7 +64,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger times(long multiplier) {
-        AdicDigits mult = new AdicDigits(DigitUtils.toBase(structure.base, multiplier), new byte[0]);
+        AdicDigits mult = AdicDigits.create(DigitUtils.toBase(structure.base, multiplier), new byte[0]);
         return new PAdicInteger(structure, multiplyAdicDigits((byte) structure.base, this.digits, mult));
     }
 
@@ -88,8 +92,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger negation() {
-
-        return null;
+        return new PAdicInteger(structure, DigitUtils.negate((byte) structure.base, digits));
     }
 
     public PAdicInteger leftShift(int i) {
@@ -100,12 +103,14 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
         return new PAdicInteger(structure, digits.leftShift(i));
     }
 
+    public PAdicInteger withRepetend(int... repetitive) {
+        return new PAdicInteger(structure, digits.withRepetend(repetitive));
+    }
+
     @Override
     public String toString() {
         return adicToString(structure.base, digits);
     }
-
-
 
 
 }

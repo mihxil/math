@@ -186,7 +186,7 @@ public final class ArrayUtils {
     public static  String toString(int[] array) {
         Integer[] a = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
-            a[i] = array[i];
+            a[i] = Integer.valueOf(array[i]);
         }
         return toString(a, Object::toString);
     }
@@ -245,8 +245,8 @@ public final class ArrayUtils {
     }
 
     public static byte[] removeTrailingZeros(byte[] in) {
-        int count=0;
-        while(in[in.length -1 - count] == 0) {
+        int count = 0;
+        while(count < in.length && in[in.length - 1 - count] == 0) {
             count++;
         }
         if (count > 0) {
@@ -257,7 +257,27 @@ public final class ArrayUtils {
         } else {
             return in;
         }
+    }
 
+    public static byte[] rotate(byte[] in, int amount) {
+        amount %= in.length;
+        if (amount == 0) {
+            return in;
+        }
+        byte[] out = new byte[in.length];
+        for (int i = 0; i < in.length; i++) {
+            out[(i + amount) % out.length ] = in[i];
+        }
+        return out;
+    }
+
+    public static boolean allEqualTo(byte[] in, byte value) {
+        for (byte b: in ) {
+            if (b != value) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
