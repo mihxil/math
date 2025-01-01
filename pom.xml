@@ -412,11 +412,11 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
               </dependency>
-              <dependency>
+            <!--  <dependency>
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-compat-qual</artifactId>
                 <version>${checkerframework.version}</version>
-              </dependency>
+              </dependency>-->
             </dependencies>
             <configuration>
               <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>

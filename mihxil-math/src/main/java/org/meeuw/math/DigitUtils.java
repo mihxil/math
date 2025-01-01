@@ -191,7 +191,7 @@ public class DigitUtils {
 
 
             if (multiplierDigit.repeating) {
-                AdicDigits.ByteAndIndex newDigit = sum.get(i).orElseThrow();
+                AdicDigits.ByteAndIndex newDigit = sum.get(i).orElseThrow(() -> new IllegalStateException());
                 if (list == null) {
                      list = new ArrayList<>();
                 }
