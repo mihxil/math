@@ -26,8 +26,12 @@ class PadicIntegersTest {
         PAdicInteger b = p5.of("0", "340");
 
         PAdicInteger c = a.p(b);
-
         System.out.printf("\n %s\n %s\n---------+\n%s%n", a, b, c);
+
+        assertThat(c.bigIntegerValue().intValue()).isEqualTo((4 + 3 * 5  + 2 * 5 * 5 ) + (4 * 5 + 3 * 5 * 5));
+
+
+        assertThat(c.toString()).isEqualTo("...0 1124₅");
 
         log.info("{} + {} = {}", a.bigIntegerValue(), b.bigIntegerValue(), c.bigIntegerValue());
     }

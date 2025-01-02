@@ -102,11 +102,13 @@ public class Utils {
                     r += byteAndIndex.get().value;
                 }
             }
-            if (! anyPresent) {
-                break;
-            }
+            detectRepetition &= anyPresent;
+
             result = DigitUtils.ensureCapacity(i, result);
             result[i] = (byte) (r % base);
+            if (! anyPresent && carry == 0) {
+                break;
+            }
             i++;
             if (detectRepetition) {
                 DigitUtils.CarryAndIndices check = new DigitUtils.CarryAndIndices(
