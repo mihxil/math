@@ -52,8 +52,12 @@ class PadicIntegersTest {
 
       @Test
     public void random() {
-        PAdicInteger random = p5.nextRandom(new Random(1));
-        assertThat(random.toString()).isEqualTo("...1334 32344₅");
+        Random r = new Random(1);
+        PAdicInteger random = p5.nextRandom(r);
+        assertThat(random.toString()).isEqualTo("...33432 2344₅");
+        for (int i = 0; i < 200; i++) {
+            log.info("{}", p5.nextRandom(r));
+        }
     }
 
     @Test

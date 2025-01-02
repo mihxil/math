@@ -1,10 +1,10 @@
 package org.meeuw.math.abstractalgebra.padic;
 
+import lombok.EqualsAndHashCode;
+
 import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-
-import lombok.EqualsAndHashCode;
 
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.Randomizable;
@@ -89,11 +89,11 @@ public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInt
     @Override
     public PAdicInteger nextRandom(Random r) {
 
-        int[] nonRepetitive = new int[r.nextInt(10)];
+        int[] nonRepetitive = new int[(int) Math.abs(r.nextGaussian(0, 10))];
         for (int i = 0 ; i < nonRepetitive.length; i++) {
             nonRepetitive[i] = r.nextInt(base);
         }
-        int[] repetitive = new int[r.nextInt(base)];
+        int[] repetitive = new int[(int) Math.abs(r.nextGaussian(0, 10))];
         for (int i = 0 ; i < repetitive.length; i++) {
             repetitive[i] = r.nextInt(base);
         }
