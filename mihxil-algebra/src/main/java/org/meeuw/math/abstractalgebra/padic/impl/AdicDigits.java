@@ -1,9 +1,12 @@
-package org.meeuw.math;
+package org.meeuw.math.abstractalgebra.padic.impl;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Optional;
+
+import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.DigitUtils;
 
 import static java.lang.System.arraycopy;
 import static org.meeuw.math.ArrayUtils.*;
@@ -181,6 +184,7 @@ public class AdicDigits {
         }
         return builder.toString();
     }
+
 
     @ToString
     @EqualsAndHashCode

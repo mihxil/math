@@ -6,11 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.EqualsAndHashCode;
 
-import org.meeuw.math.AdicDigits;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.AbstractAlgebraicIntOperator;
 import org.meeuw.math.operators.AlgebraicIntOperator;

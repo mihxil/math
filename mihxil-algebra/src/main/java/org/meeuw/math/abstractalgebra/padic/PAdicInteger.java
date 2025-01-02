@@ -6,13 +6,13 @@ import java.math.BigInteger;
 
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
-import org.meeuw.math.AdicDigits;
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
+import org.meeuw.math.abstractalgebra.padic.impl.Utils;
 import org.meeuw.math.exceptions.*;
 
-import static org.meeuw.math.AdicDigits.NOT_REPETITIVE;
-import static org.meeuw.math.DigitUtils.adicToString;
-import static org.meeuw.math.DigitUtils.multiplyAdicDigits;
+import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigits.NOT_REPETITIVE;
+import static org.meeuw.math.abstractalgebra.padic.impl.Utils.*;
 
 /**
 * WIP
@@ -80,7 +80,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger plus(PAdicInteger summand) {
-        return new PAdicInteger(structure, DigitUtils.sumAdicDigits(structure.base,
+        return new PAdicInteger(structure, sumAdicDigits(structure.base,
             this.digits,
             summand.digits
         ));
@@ -92,7 +92,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger negation() {
-        return new PAdicInteger(structure, DigitUtils.negate((byte) structure.base, digits));
+        return new PAdicInteger(structure, Utils.negate((byte) structure.base, digits));
     }
 
     public PAdicInteger leftShift(int i) {
