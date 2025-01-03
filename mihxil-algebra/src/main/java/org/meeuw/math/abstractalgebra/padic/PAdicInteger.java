@@ -8,11 +8,11 @@ import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
-import org.meeuw.math.abstractalgebra.padic.impl.Utils;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 import org.meeuw.math.exceptions.*;
 
 import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigits.NOT_REPETITIVE;
-import static org.meeuw.math.abstractalgebra.padic.impl.Utils.*;
+import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.*;
 
 /**
 * WIP
@@ -92,7 +92,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
     @Override
     public PAdicInteger negation() {
-        return new PAdicInteger(structure, Utils.negate((byte) structure.base, digits));
+        return new PAdicInteger(structure, AdicDigitUtils.negate((byte) structure.base, digits));
     }
 
     public PAdicInteger leftShift(int i) {

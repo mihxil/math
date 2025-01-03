@@ -9,7 +9,7 @@ import static java.lang.Byte.toUnsignedInt;
 import static java.lang.System.arraycopy;
 import static org.meeuw.math.DigitUtils.multiplyInverseDigitsWithCarry;
 
-public class Utils {
+public class AdicDigitUtils {
     /**
      * Long multiplication of adic numbers. With proper propagation of the repetitive part.
      * @param base The base to interpret the digitis for
@@ -31,7 +31,7 @@ public class Utils {
             }
             if (multiplierDigit.value != 0) {
 
-                var shiftedMultiplicand = multiplicand.leftShift(i);
+                AdicDigits shiftedMultiplicand = multiplicand.leftShift(i);
                 final AdicDigits summand = multiplyAdicDigits(base,
                     multiplierDigit.value,
                     shiftedMultiplicand

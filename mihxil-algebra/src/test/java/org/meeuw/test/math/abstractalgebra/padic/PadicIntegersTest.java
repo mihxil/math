@@ -37,13 +37,10 @@ class PadicIntegersTest {
     }
 
     @Test
-    @Disabled
     public void negationOfOne() {
         PAdicInteger minusOne = p5.one().negation();
         assertThat(minusOne.toString()).isEqualTo("...4 ₅");
 
-
-        // FAILS
         assertThat(p5.one().plus(minusOne)).isEqualTo(p5.zero());
         assertThat(minusOne.negation()).isEqualTo(p5.one());
     }
@@ -58,7 +55,7 @@ class PadicIntegersTest {
     public void random() {
         Random r = new Random(1);
         PAdicInteger random = p5.nextRandom(r);
-        assertThat(random.toString()).isEqualTo("...33432 2344₅");
+        assertThat(random.toString()).isEqualTo("...120444 44133432324221₅");
         for (int i = 0; i < 200; i++) {
             log.info("{}", p5.nextRandom(r));
         }

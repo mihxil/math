@@ -5,14 +5,14 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
-import org.meeuw.math.abstractalgebra.padic.impl.Utils;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.padic.impl.Utils.multiplyAdicDigits;
+import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.multiplyAdicDigits;
 
 @Log4j2
 
-public class UtilsTest {
+public class AdicDigitUtilsTest {
 
 
     @Test
@@ -30,29 +30,28 @@ public class UtilsTest {
     }
     @Test
     public void shift2() {
-        assertThat(AdicDigits.of("2", "").leftShift(1)
-            .toString()).isEqualTo("...2 0");
+        assertThat(AdicDigits.of("2", "").leftShift(1).toString()).isEqualTo("...2 0");
     }
 
     @Test
     public void multiplyAdicDigitsWithDigit() {
         AdicDigits a1 = AdicDigits.of("9", "89");
         AdicDigits product = multiplyAdicDigits(10, (byte)  9, a1);
-        assertThat(Utils.adicToString( 10, product)).isEqualTo("...9 01₁₀");
+        assertThat(AdicDigitUtils.adicToString( 10, product)).isEqualTo("...9 01₁₀");
     }
 
     @Test
     public void multiplyAdicDigitsWithDigit2() {
         AdicDigits a1 = AdicDigits.of("5", "4");
         AdicDigits product = multiplyAdicDigits(10, (byte)  6, a1);
-        assertThat(Utils.adicToString( 10, product)).isEqualTo("...3 24₁₀");
+        assertThat(AdicDigitUtils.adicToString( 10, product)).isEqualTo("...3 24₁₀");
     }
 
     @Test
     public void multiplyAdicDigitsWithDigit3() {
         AdicDigits a1 = AdicDigits.of("5", "4");
         AdicDigits product = multiplyAdicDigits(10, (byte)  7, a1);
-        assertThat(Utils.adicToString(10, product)).isEqualTo("...8 78₁₀");
+        assertThat(AdicDigitUtils.adicToString(10, product)).isEqualTo("...8 78₁₀");
     }
 
 
@@ -60,7 +59,7 @@ public class UtilsTest {
     public void multiplyAdicDigitsWithDigit4() {
         AdicDigits a1 = AdicDigits.of("6", "");
         AdicDigits product = multiplyAdicDigits(10, (byte)  4, a1);
-        assertThat(Utils.adicToString(10, product)).isEqualTo("...6 4₁₀");
+        assertThat(AdicDigitUtils.adicToString(10, product)).isEqualTo("...6 4₁₀");
     }
 
     @Test
@@ -74,52 +73,52 @@ public class UtilsTest {
     public void multiplyAdicDigitsWithDigitNonRepetitive() {
         AdicDigits a1 = AdicDigits.of("0", "5678");
         AdicDigits sum = multiplyAdicDigits((byte) 10, (byte)  5, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...0 28390₁₀");
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...0 28390₁₀");
     }
 
     @Test
     public void multiplyAdicDigitsWithDigitNonRepetitive2() {
         AdicDigits a1 = AdicDigits.of("0", "56780000");
         AdicDigits sum = multiplyAdicDigits(10, (byte)  1, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...0 56780000₁₀");
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...0 56780000₁₀");
     }
 
     @Test
     public void sumAdicDigits() {
         AdicDigits a1 = AdicDigits.create(new byte[] {1}, new byte[] {});
-        AdicDigits sum = Utils.sumAdicDigits((byte) 10, a1, a1, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...3 ₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits((byte) 10, a1, a1, a1);
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...3 ₁₀");
     }
 
     @Test
     public void sumAdicDigits2() {
         AdicDigits a1 = AdicDigits.create(new byte[] {1, 3}, new byte[] {});
-        AdicDigits sum = Utils.sumAdicDigits((byte) 10, a1, a1, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...93 ₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits((byte) 10, a1, a1, a1);
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...93 ₁₀");
     }
 
       @Test
     public void sumAdicDigits3() {
         AdicDigits a1 = AdicDigits.of("0", "13314910");
         AdicDigits a2 = AdicDigits.of("0", "56780000");
-        AdicDigits sum = Utils.sumAdicDigits( 10, a1, a1, a1);
-        assertThat(Utils.adicToString(10, sum)).isEqualTo("...0 39944730₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits( 10, a1, a1, a1);
+        assertThat(AdicDigitUtils.adicToString(10, sum)).isEqualTo("...0 39944730₁₀");
     }
 
 
     @Test
     public void sumAdicDigitsWithOverflow() {
         AdicDigits a1 = AdicDigits.create(new byte[] {1, 4}, new byte[] {});
-        AdicDigits sum = Utils.sumAdicDigits((byte) 10, a1, a1, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...42 3₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits((byte) 10, a1, a1, a1);
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...42 3₁₀");
     }
 
 
     @Test
     public void sumAdicDigitsWithOverflowAndDigits() {
         AdicDigits a1 = AdicDigits.create(new byte[] {1, 4}, new byte[] {1, 2, 3, 4});
-        AdicDigits sum = Utils.sumAdicDigits((byte) 10, a1, a1, a1);
-        assertThat(Utils.adicToString((byte) 10, sum)).isEqualTo("...42 963₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits((byte) 10, a1, a1, a1);
+        assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...42 963₁₀");
     }
 
     @Test
@@ -127,8 +126,8 @@ public class UtilsTest {
         AdicDigits a1 = AdicDigits.ofRepetitive(      1, 2,               3).withDigits(1);
         AdicDigits a2 = AdicDigits.ofRepetitive(7, 1).withDigits(        3, 4);
 
-        AdicDigits sum = Utils.sumAdicDigits(10, a1, a2);
-        assertThat(Utils.adicToString(10, sum)).isEqualTo("...402948 365₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits(10, a1, a2);
+        assertThat(AdicDigitUtils.adicToString(10, sum)).isEqualTo("...402948 365₁₀");
     }
 
     @Test
@@ -136,8 +135,8 @@ public class UtilsTest {
         AdicDigits a1 = AdicDigits.ofRepetitive(      6, 7).withDigits(8, 9);
         AdicDigits a2 = AdicDigits.ofRepetitive(5).withDigits(        1, 6, 6, 6);
 
-        AdicDigits sum = Utils.sumAdicDigits(10, a1, a2);
-        assertThat(Utils.adicToString(10, sum)).isEqualTo("...32 28455₁₀");
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits(10, a1, a2);
+        assertThat(AdicDigitUtils.adicToString(10, sum)).isEqualTo("...32 28455₁₀");
     }
 
 

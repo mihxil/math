@@ -89,11 +89,11 @@ public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInt
     @Override
     public PAdicInteger nextRandom(Random r) {
 
-        int[] nonRepetitive = new int[(int) Math.abs(r.nextGaussian(0, 10))];
+        int[] nonRepetitive = new int[(int) Math.abs(r.nextGaussian() * 10d)];
         for (int i = 0 ; i < nonRepetitive.length; i++) {
             nonRepetitive[i] = r.nextInt(base);
         }
-        int[] repetitive = new int[(int) Math.abs(r.nextGaussian(0, 10))];
+        int[] repetitive = new int[(int) Math.abs(r.nextGaussian() * 10d)];
         for (int i = 0 ; i < repetitive.length; i++) {
             repetitive[i] = r.nextInt(base);
         }
