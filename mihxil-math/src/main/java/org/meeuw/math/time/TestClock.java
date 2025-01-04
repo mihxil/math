@@ -91,6 +91,7 @@ public class TestClock extends Clock implements Consumer<Duration> {
     /**
      * Progresses the clock the given amount of time.
      * @param duration The amount of time to progress this clock
+     * @return The new time in the clock
      */
     public Instant tick(TemporalAmount duration){
         instant = instant.plus(duration);
@@ -100,6 +101,7 @@ public class TestClock extends Clock implements Consumer<Duration> {
     /**
      * Progresses the clock with the number of given millis.
      * @param millis The amount of milliseconds to progress this clock
+     * @return The new time in the clock
      */
     public Instant tick(long millis) {
         instant = instant.plusMillis(millis);
