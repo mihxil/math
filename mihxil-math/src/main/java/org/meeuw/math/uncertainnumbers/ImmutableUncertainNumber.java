@@ -20,12 +20,11 @@ import lombok.With;
 
 import java.util.function.Supplier;
 
+import org.meeuw.functional.Suppliers;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainNumberFormat;
 import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
-
-import static org.meeuw.math.CollectionUtils.memoize;
 
 /**
  * @author Michiel Meeuwissen
@@ -60,7 +59,7 @@ public class ImmutableUncertainNumber<N extends Number>
     }
 
     public ImmutableUncertainNumber(N value, Supplier<N> uncertainty) {
-        this(value, memoize(uncertainty), null);
+        this(value, Suppliers.memoize(uncertainty), null);
     }
 
 
@@ -68,7 +67,8 @@ public class ImmutableUncertainNumber<N extends Number>
     public boolean strictlyEquals(Object o) {
         if (! (o instanceof UncertainNumber<?>)) {
             return false;
-        }        UncertainNumber<?> uc = (UncertainNumber<?>) o;
+        }
+        UncertainNumber<?> uc = (UncertainNumber<?>) o;
         return getValue().equals(uc.getValue());
     }
 

@@ -20,6 +20,7 @@ import java.util.function.Supplier;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.meeuw.functional.Suppliers;
 import org.meeuw.math.operators.OperatorInterface;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -27,7 +28,7 @@ import static java.util.Collections.unmodifiableNavigableSet;
 /**
  * @since 0.8
  */
-public class CollectionUtils {
+public final class CollectionUtils {
 
     private CollectionUtils() {
     }
@@ -65,24 +66,12 @@ public class CollectionUtils {
         return navigableSet(OperatorInterface.COMPARATOR, extend);
     }
 
-    public static <V> Supplier<V> memoize(final Supplier<V> wrapped){
-        return new Supplier<V>() {
-            transient volatile boolean initialized;
-            transient V value;
-
-            @Override
-            public V get() {
-                if (!initialized) {
-                    synchronized (this) {
-                        if (!initialized) {
-                            value = wrapped.get();
-                            initialized = true;
-                        }
-                    }
-                }
-                return value;
-            }
-        };
+    /**
+     * @deprecated Use {@link Suppliers#memoize(Supplier)}
+     */
+    @Deprecated
+    public static <V> Supplier<V> memoize(final Supplier<V> wrapped) {
+        return Suppliers.memoize(wrapped);
     }
 
 

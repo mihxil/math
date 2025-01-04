@@ -250,14 +250,29 @@ public final class ArrayUtils {
             count++;
         }
         if (count > 0) {
-            byte[] out = new byte[in.length - count];
-            byte[] withoutCarry = new byte[in.length - count];
-            arraycopy(in, 0, withoutCarry, 0, in.length - count);
-            return withoutCarry;
+            final byte[] out = new byte[in.length - count];
+            final byte[] withoutTrail = new byte[in.length - count];
+            arraycopy(in, 0, withoutTrail, 0, in.length - count);
+            return withoutTrail;
         } else {
             return in;
         }
     }
+
+   /* public static byte[] removeLeadingZeros(byte[] in) {
+        int count = 0;
+        while(count < in.length && in[count] == 0) {
+            count++;
+        }
+        if (count > 0) {
+            byte[] out = new byte[in.length - count];
+            byte[] withoutLead = new byte[in.length - count];
+            arraycopy(in, count, withoutLead, 0, in.length - count);
+            return withoutLead;
+        } else {
+            return in;
+        }
+    }*/
 
     public static byte[] rotate(byte[] in, int amount) {
         amount %= in.length;

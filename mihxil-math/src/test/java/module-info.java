@@ -21,6 +21,7 @@ open module org.meeuw.test {
     requires jakarta.validation;
     requires org.hibernate.validator;
     requires ch.obermuhlner.math.big;
+    requires org.meeuw.functional;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;

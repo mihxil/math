@@ -19,9 +19,11 @@ import static org.meeuw.math.ArrayUtils.*;
  * @see java.math.BigInteger
  * @since 0.14
  */
-public class DigitUtils {
+public final class DigitUtils {
 
-    private DigitUtils() {}
+    private DigitUtils() {
+        // no instances
+    }
 
 
     /**

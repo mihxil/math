@@ -4,7 +4,9 @@ package org.meeuw.math;
  */
 public final class DoubleUtils {
 
-    private DoubleUtils() {}
+    private DoubleUtils() {
+        // no instances
+    }
 
     /**
      * Returns 10 to the power of some integer {@code e}, a utility in java.lang.Math for that lacks.

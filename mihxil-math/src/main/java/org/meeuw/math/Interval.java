@@ -24,7 +24,7 @@ import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
- * Simple interval implementation. Used to use guava's Range for this, but this was all we need. Just cutting the dependency. It's not hard to convert this to a guava's Range.
+ * Simple interval implementation. Used to use guava's Range for this, but this was all we need. Just cutting the dependency. It's not hard to convert this to guava's Range.
  * @author Michiel Meeuwissen
  * @since 0.4
  */

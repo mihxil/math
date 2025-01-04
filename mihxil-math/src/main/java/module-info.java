@@ -13,23 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.spi.ToStringProvider;
-import org.meeuw.math.abstractalgebra.GenericGroupConfiguration;
-import org.meeuw.math.abstractalgebra.RandomConfiguration;
-import org.meeuw.math.numbers.*;
-import org.meeuw.math.streams.StreamUtils;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.text.spi.*;
-import org.meeuw.math.uncertainnumbers.CompareConfiguration;
-import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 module org.meeuw.math {
+
     requires static lombok;
     requires static org.checkerframework.checker.qual;
     requires static ch.obermuhlner.math.big;
@@ -37,6 +30,7 @@ module org.meeuw.math {
 
     requires java.logging;
     requires org.meeuw.configuration;
+    requires org.meeuw.functional;
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;

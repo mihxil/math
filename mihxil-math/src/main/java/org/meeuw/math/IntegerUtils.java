@@ -14,7 +14,7 @@ import org.meeuw.math.text.TextUtils;
 /**
  * @since 0.9
  */
-public class IntegerUtils {
+public final class IntegerUtils {
 
     /**
      * {@link BigInteger#TWO}, but for java 8.
@@ -23,7 +23,7 @@ public class IntegerUtils {
 
     public static final BigInteger MINUS_TWO = BigInteger.valueOf(-2);
 
-    public static BigInteger MINUS_ONE = BigInteger.valueOf(-1);
+    public static final BigInteger MINUS_ONE = BigInteger.valueOf(-1);
 
     private IntegerUtils() {}
 
@@ -60,15 +60,16 @@ public class IntegerUtils {
 
     public static BigInteger positivePow(@NotNull BigInteger base, @PositiveOrZero int e) {
         if (e < 0) {
-            throw new IllegalPowerException("Cannot rais to negative",  base +  TextUtils.superscript(e));
+            throw new IllegalPowerException("Cannot raise to negative",  base +  TextUtils.superscript(e));
         }
         return base.pow(e);
     }
 
     /**
-     * A crude order of magnitude implemention
+     * A crude order of magnitude implementation
      * <p>
      * This is like {@code Math.log10(Mat.abs(l))}
+     *
      * @param l a long
      * @return round(<sup>10</sup>log(d))
      */
@@ -76,7 +77,7 @@ public class IntegerUtils {
         // it's hard to improve performance of Math.log.
         return (int) Math.log10(Math.abs(l));
 
-        // this branchless version would just be 'approximately' correct, and it is only just a bit faster.
+        // this brancheless version would just be 'approximately' correct, and it is only just a bit faster.
 
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
@@ -84,7 +85,7 @@ public class IntegerUtils {
     /**
      * <p>A quick square root implementation fpr integers.</p>
      * <p>
-     * Returns the biggest integer that is smaller or equals then the square root of an integer.
+     * Returns the biggest integer that is smaller than or equal to the square root of an integer.
      * </p>
      * <p>
      * Using in  binary search algorithm.
@@ -201,8 +202,8 @@ public class IntegerUtils {
     }
 
     /**
-     * Checks whether n is a power of p.
-     * Returns the exponent, or -1.
+     * Checks whether {@code n} is a power of {@code p}.
+     * @return the exponent, or {@code -1} if it's not.
      */
     public static long checkPower(long n, final long p) {
         int k = 0;

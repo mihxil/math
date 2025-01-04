@@ -15,19 +15,17 @@
  */
 package org.meeuw.math;
 
-import java.util.function.*;
-
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 /**
- * A {@link BiPredicate} with two params with the same time, with associated semantics of 'equivalence'.
+ * A {@link org.meeuw.functional.Equivalence} with two params with the same type, with associated semantics of 'equivalence'.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> argument type
  */
 @FunctionalInterface
-public interface Equivalence<E> extends BiPredicate<E, E> {
+public interface Equivalence<E> extends org.meeuw.functional.Equivalence<E> {
 
     /**
      * Tests whether two objects are 'equivalent'. This may simply mean that they are {@link Object#equals(Object) equal}, but
@@ -38,6 +36,5 @@ public interface Equivalence<E> extends BiPredicate<E, E> {
      */
     @Override
     boolean test(E e1, E e2);
-
 
 }

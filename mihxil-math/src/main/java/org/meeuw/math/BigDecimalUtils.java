@@ -18,7 +18,9 @@ public final class BigDecimalUtils {
 
     public static final BigDecimal ONE_HALF = new BigDecimal("0.5");
 
-    private BigDecimalUtils() {}
+    private BigDecimalUtils() {
+        // no instances
+    }
 
     public static BigDecimal uncertaintyForBigDecimal(BigDecimal bigDecimal, MathContext context) {
         int scale = bigDecimal.scale();

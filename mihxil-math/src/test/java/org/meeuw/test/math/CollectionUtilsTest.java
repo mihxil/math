@@ -24,6 +24,7 @@ import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.functional.Suppliers;
 import org.meeuw.math.CollectionUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +44,7 @@ public class CollectionUtilsTest {
             }
         };
 
-        Supplier<Integer> memoize = CollectionUtils.memoize(sup);
+        Supplier<Integer> memoize = Suppliers.memoize(sup);
         ExecutorService executor = Executors.newFixedThreadPool(10);
 
 

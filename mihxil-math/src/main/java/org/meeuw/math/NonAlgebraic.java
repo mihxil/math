@@ -40,7 +40,7 @@ public @interface NonAlgebraic {
      * There are several classes of reasons for non-algebraicity.
      * <p>
      * Sometimes an operation is entirely impossible, sometimes
-     * {@link Reason#TYPE it is some way possible but not inside the algebra} (e.g. the absolute value inside the algebra of negative integers).
+     * {@link Reason#TYPE it is in some way possible but not inside the algebra} (e.g. the absolute value inside the algebra of negative integers).
      * <p>
      * Sometimes an operation is {@link Reason#ELEMENTS not possible for many of the elements} (e.g. the square root of real numbers is only possible for positive value)
      * <p>

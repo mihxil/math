@@ -21,6 +21,11 @@
       <groupId>org.meeuw.configuration</groupId>
       <artifactId>mihxil-configuration</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.meeuw.util</groupId>
+      <artifactId>mihxil-functional</artifactId>
+      <version>1.11</version>
+    </dependency>
 
     <dependency>
       <groupId>jakarta.validation</groupId>
