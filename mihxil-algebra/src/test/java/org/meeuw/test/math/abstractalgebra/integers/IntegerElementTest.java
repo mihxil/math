@@ -58,6 +58,7 @@ class IntegerElementTest implements
         assertThat(v.times(v.getStructure().one())).isEqualTo(v);
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Test
     void test() {
         assertThat(of(0).plus(of(1))).isEqualTo(of(1));

@@ -1,9 +1,8 @@
 package org.meeuw.math.abstractalgebra.padic.impl;
 
+import jakarta.validation.constraints.Min;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.Optional;
 
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
@@ -59,12 +58,16 @@ public class AdicDigits {
             repetitive = NOT_REPETITIVE;
             digits = removeTrailingZeros(digits);
         }
-        // normalize, if
+        // normalize
         while (digits.length > 0 && digits[digits.length - 1] == repetitive[repetitive.length - 1]) {
             repetitive = rotate(repetitive, 1);
             byte[] newDigits = new byte[digits.length - 1];
             arraycopy(digits, 0, newDigits, 0, newDigits.length);
             digits = newDigits;
+        }
+
+        if (repetitive == AdicDigits.NOT_REPETITIVE) {
+            digits = ArrayUtils.removeTrailingZeros(digits);
         }
         return new AdicDigits(repetitive, digits);
     }
@@ -88,6 +91,7 @@ public class AdicDigits {
         }
         return create(repetend, toInverseByteArray(digits));
     }
+
 
     /**
      * @param repetend The repetitive digits. The first one is the most significant
@@ -137,24 +141,32 @@ public class AdicDigits {
         }
     }
 
-    public boolean repeating(int i) {
-        return i >= digits.length && (repetend != NOT_REPETITIVE);
+    public boolean repeating(@Min(0) int i) {
+        return i >= digits.length;
     }
 
-    public Optional<ByteAndIndex> get(int i) {
-        if (repeating(i)) {
+    public boolean isRepetitive() {
+        return repetend != NOT_REPETITIVE;
+    }
+
+    public ByteAndIndex get(@Min(0) int i) {
+        if (isRepetitive() && repeating(i)) {
             int index = (i - digits.length) % repetend.length;
-            return Optional.of(new ByteAndIndex(repetend[index], digits.length + index, true));
+            return new ByteAndIndex(repetend[index], digits.length + index, true);
         } else {
             if (i < digits.length) {
-                return Optional.of(new ByteAndIndex(digits[i], i, false));
+                return new ByteAndIndex(digits[i], i, false);
             } else {
-                return Optional.empty();
+                return new ByteAndIndex((byte) 0, digits.length, true);
             }
         }
     }
 
-    public int getIndex(int i) {
+    /**
+     * Returns the effective index for the requested index {@code i}
+     * @return {@code i}, if at this index
+     */
+    public @Min(0) int getIndex(@Min(0) int i) {
         if (repeating(i)) {
             return digits.length + (i - digits.length) % repetend.length;
         } else {
@@ -189,11 +201,11 @@ public class AdicDigits {
     @ToString
     @EqualsAndHashCode
     public static class ByteAndIndex {
-        final byte value;
-        final int index;
+        final @Min(0) byte value;
+        final @Min(0) int index;
         final boolean repeating;
 
-        ByteAndIndex(byte value, int index, boolean repeating) {
+        ByteAndIndex(@Min(0) byte value, @Min(0) int index, boolean repeating) {
             this.value = value;
             this.index = index;
             this.repeating = repeating;

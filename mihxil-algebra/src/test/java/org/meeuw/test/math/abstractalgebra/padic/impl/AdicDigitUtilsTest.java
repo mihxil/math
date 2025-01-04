@@ -4,8 +4,8 @@ import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.multiplyAdicDigits;
@@ -90,6 +90,7 @@ public class AdicDigitUtilsTest {
         assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...3 ₁₀");
     }
 
+
     @Test
     public void sumAdicDigits2() {
         AdicDigits a1 = AdicDigits.create(new byte[] {1, 3}, new byte[] {});
@@ -97,12 +98,30 @@ public class AdicDigitUtilsTest {
         assertThat(AdicDigitUtils.adicToString((byte) 10, sum)).isEqualTo("...93 ₁₀");
     }
 
-      @Test
+    @Test
     public void sumAdicDigits3() {
         AdicDigits a1 = AdicDigits.of("0", "13314910");
         AdicDigits a2 = AdicDigits.of("0", "56780000");
         AdicDigits sum = AdicDigitUtils.sumAdicDigits( 10, a1, a1, a1);
         assertThat(AdicDigitUtils.adicToString(10, sum)).isEqualTo("...0 39944730₁₀");
+    }
+
+
+    @Test
+    public void getIndex() {
+
+        AdicDigits one = AdicDigits.create(new byte[] {}, new byte[] {1});
+        assertThat(one.repeating(4)).isTrue();
+        assertThat(one.getIndex(4)).isEqualTo(1);
+
+    }
+
+    @Test
+    public void sumAdicDigits4() {
+        AdicDigits one = AdicDigits.create(new byte[] {}, new byte[] {1});
+        AdicDigits minusOne = AdicDigits.create(new byte[] {4}, new byte[] {});
+        AdicDigits sum = AdicDigitUtils.sumAdicDigits((byte) 5, one, minusOne);
+        assertThat(AdicDigitUtils.adicToString((byte) 5, sum)).isEqualTo("...0 ₅");
     }
 
 

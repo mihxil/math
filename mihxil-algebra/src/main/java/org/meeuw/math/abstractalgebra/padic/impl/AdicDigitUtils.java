@@ -2,6 +2,7 @@ package org.meeuw.math.abstractalgebra.padic.impl;
 
 import java.util.*;
 
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
 import org.meeuw.math.text.TextUtils;
 
@@ -12,7 +13,7 @@ import static org.meeuw.math.DigitUtils.multiplyInverseDigitsWithCarry;
 public class AdicDigitUtils {
     /**
      * Long multiplication of adic numbers. With proper propagation of the repetitive part.
-     * @param base The base to interpret the digitis for
+     * @param base The base to interpret the digits for
      * @param multiplier
      * @param multiplicand
      */
@@ -25,14 +26,16 @@ public class AdicDigitUtils {
         List<DigitUtils.MultiplierAndNewDigitAndCarry> list = null; // only relevant when repeating digits.
         while(true) {
             i++;
-            AdicDigits.ByteAndIndex multiplierDigit = multiplier.get(i).orElse(null);
-            if (multiplierDigit == null) {
+            AdicDigits.ByteAndIndex multiplierDigit = multiplier.get(i);
+            if (! multiplier.isRepetitive() && multiplier.repeating(i)) {
+                // must be the repeating zero's.
                 return sum;
             }
             if (multiplierDigit.value != 0) {
 
                 AdicDigits shiftedMultiplicand = multiplicand.leftShift(i);
-                final AdicDigits summand = multiplyAdicDigits(base,
+                final AdicDigits summand = multiplyAdicDigits((byte) base,
+                    false,
                     multiplierDigit.value,
                     shiftedMultiplicand
                 );
@@ -41,11 +44,13 @@ public class AdicDigitUtils {
                 } else {
                     sum = sumAdicDigits(base, sum, summand);
                 }
+            } else if (sum == null) {
+                sum = new AdicDigits(AdicDigits.NOT_REPETITIVE,  new byte[] {0});
             }
 
 
             if (multiplierDigit.repeating) {
-                AdicDigits.ByteAndIndex newDigit = sum.get(i).orElseThrow(() -> new IllegalStateException());
+                AdicDigits.ByteAndIndex newDigit = sum.get(i);
                 if (list == null) {
                      list = new ArrayList<>();
                 }
@@ -54,7 +59,7 @@ public class AdicDigitUtils {
                 int indexOf = list.indexOf(l);
                 if (indexOf >= 0) {
                 //if (i > 100) {
-                    System.out.println(sum + "\nAlready saw " + l);
+                    //System.out.println(sum + "\nAlready saw " + l);
 
                     // so we know the length of the repetitive bit.
                     byte[] repetitive = new byte[indexOf + 1];
@@ -80,11 +85,16 @@ public class AdicDigitUtils {
         return sumAdicDigits((byte) base, summands);
     }
 
+
+    public static AdicDigits sumAdicDigits(byte base, AdicDigits... summands) {
+        return sumAdicDigits(base, true, summands);
+    }
+
     /**
      * Performs a sum of number of integers
      * @param base  The base of this number
      */
-    public static AdicDigits sumAdicDigits(byte base, AdicDigits... summands) {
+    public static AdicDigits sumAdicDigits(byte base, boolean normalize, AdicDigits... summands) {
         byte[] result = new byte[100];
         int carry = 0;
         int i = 0;
@@ -95,11 +105,11 @@ public class AdicDigitUtils {
             boolean anyPresent = false;
             for (AdicDigits summand : summands) {
 
-                Optional<AdicDigits.ByteAndIndex> byteAndIndex = summand.get(i);
-                if (byteAndIndex.isPresent()) {
+                AdicDigits.ByteAndIndex byteAndIndex = summand.get(i);
+                if (!byteAndIndex.repeating || summand.isRepetitive()) {
                     anyPresent = true;
-                    detectRepetition &= byteAndIndex.get().repeating;
-                    r += byteAndIndex.get().value;
+                    detectRepetition &= byteAndIndex.repeating;
+                    r += byteAndIndex.value;
                 }
             }
             detectRepetition &= anyPresent;
@@ -132,8 +142,13 @@ public class AdicDigitUtils {
         byte[] repetitive = new byte[detecting.size()];
         arraycopy(result, 0, digits, 0, digits.length);
         arraycopy(result, i - detecting.size(), repetitive, 0, repetitive.length);
-        if (repetitive.length == 0) {
-            repetitive = AdicDigits.NOT_REPETITIVE;
+        if (normalize) {
+            if (repetitive.length == 0 || (repetitive.length == 1 && repetitive[0] == 0)) {
+                repetitive = AdicDigits.NOT_REPETITIVE;
+            }
+            if (repetitive == AdicDigits.NOT_REPETITIVE) {
+                digits = ArrayUtils.removeTrailingZeros(digits);
+            }
         }
         return new AdicDigits(repetitive, digits);
     }
@@ -149,13 +164,25 @@ public class AdicDigitUtils {
         final int base,
         final  byte multiplier,
         final AdicDigits multiplicand) {
+        return multiplyAdicDigits(base, true, multiplier, multiplicand);
+    }
+
+    public static AdicDigits multiplyAdicDigits(
+        final int base,
+        boolean normalize,
+        final  byte multiplier,
+        final AdicDigits multiplicand) {
         final byte[] resultDigits = multiplyInverseDigitsWithCarry(base, multiplier, multiplicand.digits);
         final int originalCarry = toUnsignedInt(resultDigits[resultDigits.length - 1]);
 
         if (multiplicand.repetend.length == 0 || Arrays.equals(multiplicand.repetend, AdicDigits.NOT_REPETITIVE)) {
-            return AdicDigits.create(
-                AdicDigits.NOT_REPETITIVE,
-                resultDigits);
+            if (normalize) {
+                return AdicDigits.create(
+                    AdicDigits.NOT_REPETITIVE,
+                    resultDigits);
+            } else {
+                return new AdicDigits(AdicDigits.NOT_REPETITIVE, resultDigits);
+            }
         }
         int carry = originalCarry;
         int digiti = toUnsignedInt(multiplier);
@@ -202,16 +229,23 @@ public class AdicDigitUtils {
         return digits.toString() + TextUtils.subscript(base);
     }
 
-    public static AdicDigits negate(byte base, AdicDigits negated) {
-        byte[] negatedDigits = new byte[negated.digits.length];
-        byte[] negatedRepetend = new byte[negated.repetend.length];
+    public static AdicDigits negate(byte base, AdicDigits digits) {
+        byte[] negatedDigits = new byte[digits.digits.length];
+        byte[] negatedRepetend = new byte[digits.repetend.length];
         byte carry = 0;
-        for (int i = 0 ; i < negated.digits.length; i++) {
-            negatedDigits[i] = (byte) (base - negated.digits[i] - carry);
+        for (int i = 0 ; i < digits.digits.length; i++) {
+            negatedDigits[i] = (byte) (base - digits.digits[i] - carry);
             carry = 1;
         }
-        for (int i = 0 ; i < negated.repetend.length; i++) {
-            negatedRepetend[i] = (byte) (base - negated.repetend[i] - carry);
+        int offset = 0;
+        for (int i = 0; i < digits.repetend.length; i++) {
+            byte value = (byte) (base - digits.repetend[i] - carry);
+            if (carry == 0) {
+                negatedDigits = new byte[] {value};
+                offset = 1;
+            } else {
+                negatedRepetend[i - offset] = value;
+            }
             carry = 1;
         }
         return AdicDigits.create(negatedRepetend, negatedDigits);

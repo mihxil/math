@@ -3,11 +3,14 @@ package org.meeuw.test.math.abstractalgebra.padic;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import org.meeuw.math.abstractalgebra.padic.PAdicInteger;
 import org.meeuw.math.abstractalgebra.padic.PAdicIntegers;
@@ -16,6 +19,7 @@ import org.meeuw.theories.abstractalgebra.FieldTheory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Log4j2
+@Timeout(unit = TimeUnit.SECONDS, value = 10)
 class PadicIntegersTest {
 
     PAdicIntegers p5 = PAdicIntegers.of(5);
@@ -45,13 +49,31 @@ class PadicIntegersTest {
         assertThat(minusOne.negation()).isEqualTo(p5.one());
     }
 
+
+    @Test
+    public void negationOfMinusOne() {
+        PAdicInteger minusOne = p5.of("4", "");
+        assertThat(minusOne.negation()).isEqualTo(p5.one());
+    }
+    @ParameterizedTest
+    @CsvSource(value = {
+        "040, 4233301",
+        "0430, 123031240"
+    })
+    public void timesOne(String repetend, String digits) {
+        PAdicInteger sample = p5.of(repetend, digits);
+        PAdicInteger timesOne = sample.times(p5.one());
+        log.info("{} x {} = {}", sample, p5.one(), timesOne);
+        assertThat(timesOne).isEqualTo(sample);
+    }
+
     @Test
     public void negation() {
         PAdicInteger minusOne = p5.one().negation();
         assertThat(minusOne.toString()).isEqualTo("...4 ₅");
     }
 
-      @Test
+    @Test
     public void random() {
         Random r = new Random(1);
         PAdicInteger random = p5.nextRandom(r);
