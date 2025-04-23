@@ -18,7 +18,6 @@ package org.meeuw.math.statistics;
 import java.util.Optional;
 import java.util.OptionalDouble;
 
-import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -35,7 +34,7 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     default double doubleMean() {
         return optionalDoubleMean()
             .orElseThrow(() ->
-                new DivisionByZeroException("No values entered, cannot calculate mean", toString())
+                new NoValues("No values entered, cannot calculate mean", toString())
             );
     }
 
