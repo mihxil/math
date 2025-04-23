@@ -15,8 +15,8 @@ import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigits.NOT_REPETITIV
 import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.*;
 
 /**
-* WIP
-*/
+ * WIP
+ */
 @EqualsAndHashCode
 public class PAdicInteger implements FieldElement<PAdicInteger> {
 

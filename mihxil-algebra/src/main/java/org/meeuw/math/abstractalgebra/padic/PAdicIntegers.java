@@ -22,6 +22,13 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 
 @EqualsAndHashCode
 public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInteger> {
+
+
+    public static final AlgebraicIntOperator LEFT_SHIFT = new AbstractAlgebraicIntOperator("left_shift",  getDeclaredMethod(PAdicInteger.class, "leftShift", int.class), (e, i) -> e + "<<" + i);
+
+    public static final AlgebraicIntOperator RIGHT_SHIFT = new AbstractAlgebraicIntOperator("right_shift",  getDeclaredMethod(PAdicInteger.class, "rightShift", int.class), (e, i) -> e + ">>" + i);
+
+
     final int base;
     // could be byte, but that give a lot of casting, and stuff with toUnsignedInt
     // there are only a few instances of this class, memory usage is no issue.
@@ -102,8 +109,4 @@ public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInt
     }
 
 
-
-    public static final AlgebraicIntOperator LEFT_SHIFT = new AbstractAlgebraicIntOperator("left_shift",  getDeclaredMethod(PAdicInteger.class, "leftShift", int.class), (e, i) -> e + "<<" + i);
-
-    public static final AlgebraicIntOperator RIGHT_SHIFT = new AbstractAlgebraicIntOperator("right_shift",  getDeclaredMethod(PAdicInteger.class, "rightShift", int.class), (e, i) -> e + ">>" + i);
 }
