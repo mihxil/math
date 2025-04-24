@@ -64,7 +64,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
-        if: ${{ github.event_name == 'push'  && ! cancelled() runner.os == 'Linux' && matrix.java == '17'}}
+        if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
