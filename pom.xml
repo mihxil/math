@@ -28,7 +28,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- compile time -->
-    <lombok.version>1.18.36</lombok.version>
+    <lombok.version>1.18.38</lombok.version>
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
@@ -37,7 +37,7 @@
 
     <!-- test dependencies -->
     <junit.version>5.11.4</junit.version>
-    <jacoco.version>0.8.12</jacoco.version>
+    <jacoco.version>0.8.13</jacoco.version>
     <assertj.version>3.27.2</assertj.version>
     <jqwik.version>1.9.2</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
@@ -251,12 +251,7 @@
       <plugins>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.13.0</version>
-          <configuration>
-            <showWarnings>false</showWarnings>
-            <compilerArgs>
-            </compilerArgs>
-          </configuration>
+          <version>3.14.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
@@ -264,7 +259,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.5.3</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
             <useModulePath>false</useModulePath>
