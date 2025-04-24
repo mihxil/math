@@ -14,9 +14,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        java: [ 17 ]
+        # also check (once) on latest
+        include:
+          - os: ubuntu-latest
+            java: 24
+    runs-on: ${{ matrix.os }}
     env:
-      MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+      MAVEN_ARGS: '--no-transfer-progress'
     steps:
       - name: Cancel previous Action
         uses: styfle/cancel-workflow-action@0.12.1
@@ -27,7 +36,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: 17
+          java-version: ${{ matrix.java }}
           cache: maven
           server-id: ossrh
           server-username: OSSRH_USERNAME
@@ -55,13 +64,14 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
-        if: ${{ github.event_name == 'push'  && ! cancelled()}}
+        if: ${{ github.event_name == 'push'  && ! cancelled() runner.os == 'Linux' && matrix.java == '17'}}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
           GPG_SECRET_KEY_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
+        if: ${{ runner.os == 'Linux' && matrix.java == '17'}}
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
