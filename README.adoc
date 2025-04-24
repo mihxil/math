@@ -161,7 +161,7 @@ It is not always absolutely defined how propagations must happen. Some interpret
   \left(\ln(a) \cdot Δe\right)^2
 }]
 
-| sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]|
+| sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]| | |
 |===
 
 ===== Zero
@@ -268,7 +268,7 @@ video::C0uaFTHoMVQ[youtube,{videooptions}]
 
 ===== Diagonals
 
-The 2 dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
+The 2-dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
 
 
 .All combinations of 2 streams of positive integers (diagonals)
@@ -607,3 +607,30 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 
 
 :leveloffset!:
+
+
+== History
+
+I'm maintaining this mainly as a hobby project.
+
+|===
+|Version |Date  |Remarks
+
+| 1.0
+| ?
+| Refactory physical units, to be agnostic about axes.
+
+|0.15
+|2025
+|Refactoring related to uncertain duration/ instants
+
+| 0.14
+|2024-12
+|
+
+ 0.14
+|2024-12
+|
+
+
+|===
