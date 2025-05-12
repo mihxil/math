@@ -77,6 +77,9 @@ public final class TimeUtils {
         }
     }
 
+    public static Duration roundStddev(Duration stddev) {
+        return round(stddev, orderOfMagnitude(stddev));
+    }
     /**
      * Round an instant.
      * @param instant The instant to round
