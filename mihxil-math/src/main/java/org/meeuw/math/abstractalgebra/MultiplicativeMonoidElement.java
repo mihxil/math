@@ -36,6 +36,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
      * <p>
      * This default implementation is based on {@link MultiplicativeSemiGroupElement#pow(int)}
      * If the argument is {@code 0}, then return {@link #getStructure()}{@link MultiplicativeMonoid#one()}
+     * @see  BasicAlgebraicIntOperator#POWER
      */
     @Override
     default E pow(@Min(0) int n) {
@@ -47,6 +48,17 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
         }
         return MultiplicativeSemiGroupElement.super.pow(n);
     }
+
+    default E pow(@Min(0) long n) {
+        if (n < 0) {
+            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+        }
+        if (n == 0) {
+            return getStructure().one();
+        }
+        return MultiplicativeSemiGroupElement.super.pow(n);
+    }
+
 
 
     default boolean isOne() {
