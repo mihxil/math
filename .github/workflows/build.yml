@@ -45,7 +45,7 @@ jobs:
           gpg-passphrase: GPG_SECRET_KEY_PASSPHRASE
       - name: Build with Maven
         run: |
-          mvn -ntp -Dmaven.test.failure.ignore=true
+          mvn -Dmaven.test.failure.ignore=true
       - name: Check test results
         run: |
           # fail the build if failures
