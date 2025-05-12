@@ -112,8 +112,9 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
 
     @Override
     public UncertainDuration<Double> until(Temporal endExclusive) {
-        if (endExclusive instanceof UncertainDuration<?> uncertainTemporal) {
-            return plus(uncertainTemporal.durationValue());
+        if (endExclusive instanceof UncertainDuration<?>) {
+            UncertainDuration<?> uncertainDuration = (UncertainDuration<?>) endExclusive;
+            return plus(uncertainDuration.durationValue());
         }
         return null;
     }
