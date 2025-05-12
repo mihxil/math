@@ -53,8 +53,20 @@ jobs:
           # number of lines is exit code
           exit  $(cat report.txt | wc -l)
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.17.1
-        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2.19.0
+        if: ${{ runner.os == 'Linux' }}
+        with:
+          files: "**/target/surefire-reports/*.xml"
+          check_name: Tests results
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2.19.0
+        if: ${{ runner.os == 'Windows' }}
+        with:
+          files: "**/target/surefire-reports/*.xml"
+          check_name: Tests results
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action/macos@v2.19.0
+        if: ${{ runner.os == 'macOS' }}
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results
