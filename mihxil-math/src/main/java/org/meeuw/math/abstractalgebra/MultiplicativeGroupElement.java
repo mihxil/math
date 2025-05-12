@@ -66,6 +66,21 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
         return MultiplicativeMonoidElement.super.pow(n);
     }
 
+    default E pow(long n) {
+        if (n < 0) {
+            n *= -1;
+            try {
+                return reciprocal().pow(n);
+            } catch (DivisionByZeroException divisionByZeroException) {
+                throw new IllegalPowerException(divisionByZeroException, String.format("reciprocal().pow(%s)", n));
+            }
+        }
+        if (n == 0) {
+            return getStructure().one();
+        }
+        return MultiplicativeMonoidElement.super.pow(n);
+    }
+
 
 
     @NonAlgebraic
