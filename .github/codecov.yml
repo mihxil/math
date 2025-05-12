@@ -1,3 +1,4 @@
+---
 codecov:
   branch: main
   require_ci_to_pass: yes
@@ -5,8 +6,11 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "70...100"
-  patch: off
+  range:
+   - 70
+   - 100
+  status:
+    patch: off
 
 parsers:
   gcov:
