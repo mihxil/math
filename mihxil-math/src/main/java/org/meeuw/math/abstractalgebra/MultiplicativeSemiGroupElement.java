@@ -82,6 +82,28 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
         return y == null ? x : x.times(y);
     }
 
+    @SuppressWarnings({"unchecked"})
+    default E pow(@Positive long n) throws IllegalPowerException{
+        if (n < 0) {
+            throw new IllegalPowerException("Not defined for negative exponents", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+        }
+        if (n == 0) {
+            throw new IllegalPowerException("Not defined for exponent = 0", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+        }
+        E y = null;
+        E x = (E) this;
+        while (n > 1) {
+            if (n % 2 == 1) {
+                y = y == null ? x : x.times(y);
+                n = (n - 1) / 2;
+            } else {
+                n /= 2;
+            }
+            x = x.times(x);
+        }
+        return y == null ? x : x.times(y);
+    }
+
     /**
      * @return this element multiplied by itself.
      */
