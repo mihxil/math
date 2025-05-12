@@ -43,7 +43,8 @@ public class UncertainTimeFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-         if (number instanceof UncertainJavaTime<?> statisticalLong) {
+         if (number instanceof UncertainJavaTime<?>) {
+             UncertainJavaTime<?> statisticalLong = (UncertainJavaTime<?>) number;
              switch (statisticalLong.getMode()) {
                  case INSTANT: {
                      Instant mean = Instant.ofEpochMilli(statisticalLong.getValue().longValue());

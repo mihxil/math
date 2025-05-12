@@ -90,7 +90,8 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         if (mode != Mode.DURATION && mode != Mode.DURATION_NS) {
             throw new IllegalStateException();
         }
-        if (temporal instanceof StatisticalLong statisticalLong) {
+        if (temporal instanceof StatisticalLong) {
+            StatisticalLong statisticalLong = (StatisticalLong) temporal;
             return statisticalLong.plus(durationValue());
         }
         return durationValue().addTo(temporal);
@@ -164,7 +165,8 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
 
     private StatisticalLong _add(TemporalAmount d) {
         switch (mode) {
-            case DURATION, INSTANT: return _add(toMillis(d));
+            case DURATION:
+            case INSTANT: return _add(toMillis(d));
             case DURATION_NS: return _add( toNanos(d));
             default: throw new IllegalStateException();
         }
