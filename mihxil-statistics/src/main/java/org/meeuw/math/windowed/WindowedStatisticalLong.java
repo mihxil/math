@@ -26,7 +26,7 @@ import java.util.function.LongConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.temporal.UncertainTemporal;
+import org.meeuw.math.statistics.time.UncertainJavaTime;
 
 /**
  * {@link StatisticalLong}s can be aggregated, and therefore {@link Windowed}.
@@ -39,7 +39,7 @@ public class WindowedStatisticalLong
     extends WindowedStatisticalNumber<Double, StatisticalLong>
     implements LongConsumer, AutoCloseable {
 
-    private final UncertainTemporal.Mode mode;
+    private final UncertainJavaTime.Mode mode;
 
     private final AtomicInteger runningDurationIdentifier = new AtomicInteger(0);
     private final Map<Integer, RunningDuration> runningDurations = new ConcurrentHashMap<>();
@@ -86,12 +86,12 @@ public class WindowedStatisticalLong
         @Nullable Duration window,
         @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
-        UncertainTemporal.@Nullable Mode mode,
+        UncertainJavaTime.@Nullable Mode mode,
         @NonNull BiConsumer<Event, Windowed<StatisticalLong>>@Nullable[] eventListenersArray,
         @Nullable Clock clock
     ) {
         super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
-        this.mode = mode == null ? UncertainTemporal.Mode.LONG : mode;
+        this.mode = mode == null ? UncertainJavaTime.Mode.LONG : mode;
     }
 
     @Override
@@ -140,14 +140,14 @@ public class WindowedStatisticalLong
      * This is certainly an underestimate, but entering nothing at all may be even worse.
      */
     public RunningDuration measure() {
-        if (mode != UncertainTemporal.Mode.DURATION) {
+        if (mode != UncertainJavaTime.Mode.DURATION) {
             throw new IllegalStateException();
         }
         return new RunningDuration();
     }
 
     public Collection<RunningDuration> getRunningDurations() {
-        if (mode != UncertainTemporal.Mode.DURATION) {
+        if (mode != UncertainJavaTime.Mode.DURATION) {
             throw new IllegalStateException();
         }
         return runningDurations.values();

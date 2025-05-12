@@ -25,17 +25,17 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.statistics.text.TimeConfiguration;
+import org.meeuw.math.statistics.time.UncertainJavaTime;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.meeuw.math.temporal.UncertainTemporal.Mode.*;
+import static org.meeuw.math.statistics.time.UncertainJavaTime.Mode.*;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
@@ -79,7 +79,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         mes.reset();
 
         mes.enter(7, 6, 5, 4, 3, 2, 1, 0);
-        assertEquals(mes.getGuessedMean(), 7);
+        assertThat(mes.getGuessedMean()).isEqualTo(7);
         assertThat(mes.getSum()).isEqualTo(1 + 2 + 3 + 4 + 5 + 6 + 7);
         assertThat(mes.getSumOfSquares()).isEqualTo(1 + 2 * 2 + 3 *3 + 4 * 4 + 5 * 5 + 6 *6 + 7*7);
         assertThat(mes.doubleValue()).isEqualTo(3.5);
@@ -130,7 +130,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void timesAndPlus() {
-        StatisticalLong mes = new StatisticalLong(DURATION);
+         StatisticalLong mes = new StatisticalLong(DURATION);
 
         assertThat(mes.optionalDurationValue()).isNotPresent();
         assertThat(mes.getStandardDeviation()).isNaN();
@@ -141,10 +141,30 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
         assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofMinutes(5));
         assertThat(mesTimes3.optionalDurationValue()).contains(Duration.ofMinutes(5));
-        assertThat(mesTimes3.toString()).isEqualTo("PT5M ± PT24.494S");
+        assertThat(mesTimes3.toString()).isEqualTo("PT5M ± PT24S");
 
         StatisticalLong mesPlus1 = mesTimes3.plus(Duration.ofMinutes(1));
-        assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24.494S");
+        assertThat(mesPlus1.toString()).isEqualTo("PT6M ± PT24S");
+    }
+
+
+    @Test
+    public void timesAndPlusMs() {
+        StatisticalLong mes = new StatisticalLong(DURATION_NS);
+
+        assertThat(mes.optionalDurationValue()).isNotPresent();
+        assertThat(mes.getStandardDeviation()).isNaN();
+
+        mes.enter(Duration.ofSeconds(90).plus(Duration.ofMillis(1)), Duration.ofSeconds(90), Duration.ofSeconds(90).minus(Duration.ofMillis(1)));
+
+        StatisticalLong mesTimes3 = mes.times(3.0);
+
+        assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofSeconds(90 * 3));
+        assertThat(mesTimes3.optionalDurationValue()).contains(Duration.ofSeconds(90 * 3));
+        assertThat(mesTimes3.toString()).isEqualTo("PT4M30S ± PT0.002S");
+
+        UncertainJavaTime<Double> mesPlus1 = mesTimes3.plus(Duration.ofSeconds(1));
+        assertThat(mesPlus1.toString()).isEqualTo("PT4M31S ± PT0.002S");
     }
 
     @Test

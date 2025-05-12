@@ -23,41 +23,44 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.*;
-import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.temporal.UncertainTemporal;
+import org.meeuw.math.statistics.time.UncertainJavaTime;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.time.TimeUtils;
 
 import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
-import org.meeuw.math.time.TimeUtils;
+import static org.meeuw.math.time.TimeUtils.round;
+import static org.meeuw.math.time.TimeUtils.roundStddev;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainTemporalFormat extends Format {
+@Setter
+@Getter
+public class UncertainTimeFormat extends Format {
 
-    @Getter
-    @Setter
     ZoneId zoneId = ZoneId.systemDefault();
 
-    @SuppressWarnings("rawtypes")
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-         if (number instanceof StatisticalLong) {
-             UncertainTemporal<?> statisticalLong = (UncertainTemporal) number;
+         if (number instanceof UncertainJavaTime<?> statisticalLong) {
              switch (statisticalLong.getMode()) {
                  case INSTANT: {
                      Instant mean = Instant.ofEpochMilli(statisticalLong.getValue().longValue());
-                     Duration stddev = Duration.ofMillis((long) statisticalLong.getUncertainty().longValue());
+                     Duration stddev = Duration.ofMillis(statisticalLong.getUncertainty().longValue());
                      ChronoUnit order = TimeUtils.orderOfMagnitude(stddev);
-                     stddev = TimeUtils.round(stddev, order);
-                     toAppendTo.append(valuePlusMinError(TextUtils.format(zoneId, mean, order), stddev.toString()));
+                     toAppendTo.append(valuePlusMinError(TextUtils.format(zoneId, mean, order), round(stddev, order).toString()));
+                     return toAppendTo;
+                 }
+                 case DURATION_NS:{
+                     long rounded = statisticalLong.getValue().longValue();
+                     Duration stddev = roundStddev(Duration.ofNanos(statisticalLong.getUncertainty().longValue()));
+                     toAppendTo.append(valuePlusMinError(Duration.ofNanos(rounded).toString(), stddev.toString()));
                      return toAppendTo;
                  }
                  case DURATION: {
-                     long rounded = DoubleUtils.round(statisticalLong.getValue().longValue());
-                     Duration stddev = Duration.ofMillis((long) statisticalLong.getUncertainty().longValue());
+                     long rounded = statisticalLong.getValue().longValue();
+                     Duration stddev = roundStddev(Duration.ofMillis(statisticalLong.getUncertainty().longValue()));
                      toAppendTo.append(valuePlusMinError(Duration.ofMillis(rounded).toString(), stddev.toString()));
                      return toAppendTo;
                  }
@@ -70,6 +73,8 @@ public class UncertainTemporalFormat extends Format {
 
          throw new IllegalArgumentException("Cannot format given " + number.getClass() + " as a StatisticalLong");
     }
+
+
 
     @Override
     public Object parseObject(String source, @NonNull ParsePosition pos) {

@@ -13,29 +13,28 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.temporal;
+package org.meeuw.math.statistics.time;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Optional;
-
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * An uncertain number can be used to represent objects from {@code java.time}, like {@link java.time.Instant}
  * or {@link java.time.Duration}. This requires some special treatment when formatting.
  * <p>
+ * Used to be named {@code UncertainTemporal} until {@code 0.15}, but that didn't make sense, because it could also be
+ * a {@link java.time.temporal.TemporalAmount}.
  * TODO Implement this too using {@link java.math.BigDecimal} to avoid overflows.
  * @since 0.9
+ * @see org.meeuw.math.time.UncertainDuration
+ * @see org.meeuw.math.time.UncertainInstant
  */
-public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> {
+public interface UncertainJavaTime<N extends Number> extends UncertainNumber<N> {
 
     Mode getMode();
 
+
     /**
-     * The long value contained in a {@link StatisticalLong} can be interpreted in different ways.
+     * The value contained in a {@link UncertainNumber} can be interpreted in different ways when it
      */
     enum Mode {
         /**
@@ -61,19 +60,7 @@ public interface UncertainTemporal<N extends Number> extends UncertainNumber<N> 
         DURATION_NS
     }
 
-    default  Duration durationValue() {
-        return optionalDurationValue()
-            .orElseThrow(() -> new DivisionByZeroException("no values entered", this + ".duration"));
-    }
 
-    Optional<Duration> optionalDurationValue();
-
-    default  Instant instantValue() {
-        return optionalInstantValue()
-            .orElseThrow(() -> new DivisionByZeroException("no values entered", this + ".instant"));
-    }
-
-    Optional<Instant> optionalInstantValue();
 
 
 }

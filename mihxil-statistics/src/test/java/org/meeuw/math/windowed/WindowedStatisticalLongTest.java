@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.time.TestClock;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.temporal.UncertainTemporal;
+import org.meeuw.math.statistics.time.UncertainJavaTime;
 import org.meeuw.math.windowed.Windowed.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,7 +59,7 @@ class WindowedStatisticalLongTest {
             .builder()
             .bucketCount(bucketCount)
             .bucketDuration(Duration.ofMillis(bucketDuration))
-            .mode(UncertainTemporal.Mode.INSTANT)
+            .mode(UncertainJavaTime.Mode.INSTANT)
             .eventListeners(listener)
             .clock(clock)
             .build();
@@ -121,7 +121,7 @@ class WindowedStatisticalLongTest {
             .bucketDuration(Duration.ofMillis(4))
             .bucketCount(30)
             .clock(clock)
-            .mode(UncertainTemporal.Mode.DURATION)
+            .mode(UncertainJavaTime.Mode.DURATION)
             .build()) {
 
             assertThatThrownBy(() ->

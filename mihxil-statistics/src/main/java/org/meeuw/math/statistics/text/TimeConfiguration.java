@@ -25,8 +25,8 @@ import java.util.List;
 import org.meeuw.configuration.ConfigurationAspect;
 
 /**
- * Contains time related settings.
- * E.g. to format an instance as a {@link java.time.LocalDateTime} the preferred {@link ZoneId} is relevant.
+ * Contains time-related settings.
+ * E.g., to format an instance as a {@link java.time.LocalDateTime} the preferred {@link ZoneId} is relevant.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -50,6 +50,6 @@ public class TimeConfiguration implements ConfigurationAspect {
 
     @Override
     public List<Class<?>> associatedWith() {
-        return Collections.singletonList(UncertainTemporalFormat.class);
+        return Collections.singletonList(UncertainTimeFormat.class);
     }
 }

@@ -26,7 +26,7 @@ class UncertainTemporalFormatTest {
 
     @Test
     void format() {
-        UncertainTemporalFormat format = new UncertainTemporalFormat();
+        UncertainTimeFormat format = new UncertainTimeFormat();
         assertThatThrownBy(() -> format.format(new Object())).isInstanceOf(IllegalArgumentException.class);
     }
 }

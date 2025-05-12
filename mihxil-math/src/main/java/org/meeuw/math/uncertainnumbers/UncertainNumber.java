@@ -35,8 +35,14 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
 public interface UncertainNumber<N extends Number>
     extends Uncertain {
 
+    /**
+     * The mean or actual value of this uncertain number.
+     */
     N getValue();
 
+    /**
+     * The uncertainty in the mean or actual value of this uncertain number. This should be like a standard deviation.
+     */
     N getUncertainty();
 
     @Override

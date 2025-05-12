@@ -20,15 +20,15 @@ import lombok.extern.log4j.Log4j2;
 import java.util.Random;
 
 import net.jqwik.api.*;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
-import org.meeuw.theories.abstractalgebra.FieldTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
+import org.meeuw.math.operators.BasicAlgebraicIntOperator;
+import org.meeuw.theories.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -86,6 +86,8 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
     }
 
 
+
+
     public static abstract class AbstractTest implements FieldTheory<ModuloFieldElement> {
         final ModuloField structure;
 
@@ -112,17 +114,26 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
         }
     }
 
+    @Nested
+    class Modulo13Test extends AbstractTest {
 
-    public static class Modulo13 extends AbstractTest {
-
-        protected Modulo13() {
+        protected Modulo13Test() {
             super(ModuloField.of(13));
+        }
+
+        @Test
+        public void moduloPower() {
+            var ten = structure.element(11);
+            var big = 100_00_000_001L;
+            var pow100million = ten.pow(big);
+            log.info("{}={}", BasicAlgebraicIntOperator.POWER.stringify(ten.toString(),  Long.toString(big)) , pow100million);
+
         }
     }
 
-    public static class Modulo2 extends AbstractTest {
+    public static class Modulo2Test extends AbstractTest {
 
-        protected Modulo2() {
+        protected Modulo2Test() {
             super(ModuloField.of(2));
         }
 

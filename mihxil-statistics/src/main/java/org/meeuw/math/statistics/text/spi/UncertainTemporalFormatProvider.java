@@ -17,8 +17,8 @@ package org.meeuw.math.statistics.text.spi;
 
 import org.meeuw.configuration.Configuration;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.temporal.UncertainTemporal;
-import org.meeuw.math.statistics.text.UncertainTemporalFormat;
+import org.meeuw.math.statistics.time.UncertainJavaTime;
+import org.meeuw.math.statistics.text.UncertainTimeFormat;
 import org.meeuw.math.statistics.text.TimeConfiguration;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
@@ -26,18 +26,18 @@ import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainTemporalFormatProvider extends AlgebraicElementFormatProvider<UncertainTemporalFormat> {
+public class UncertainTemporalFormatProvider extends AlgebraicElementFormatProvider<UncertainTimeFormat> {
 
     @Override
-    public UncertainTemporalFormat getInstance(Configuration configuration) {
-        UncertainTemporalFormat format = new UncertainTemporalFormat();
+    public UncertainTimeFormat getInstance(Configuration configuration) {
+        UncertainTimeFormat format = new UncertainTimeFormat();
         format.setZoneId(configuration.getAspect(TimeConfiguration.class).getZoneId());
         return format;
     }
 
     @Override
     public int weight(Class<? extends AlgebraicElement<?>> element) {
-        if (UncertainTemporal.class.isAssignableFrom(element)) {
+        if (UncertainJavaTime.class.isAssignableFrom(element)) {
             return 10;
         }
         return -1;

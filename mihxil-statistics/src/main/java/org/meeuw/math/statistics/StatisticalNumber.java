@@ -22,7 +22,7 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
- * A 'statistical' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation) and standard deviation of those values.
+ * A 'statistical' number can receive a number of values, and can calculate the average (the value of this {@link Number} implementation) and standard deviation of those values.
  * <p>
  * The idea is that the '{@link #getUncertainty()}' will simply be determined heuristically, and be given by the {@link #getStandardDeviation()}
  *
