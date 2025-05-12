@@ -2,7 +2,6 @@ package org.meeuw.math.abstractalgebra.padic.impl;
 
 import jakarta.validation.constraints.Min;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.DigitUtils;
@@ -148,6 +147,9 @@ public class AdicDigits {
         return i >= digits.length;
     }
 
+    /**
+     * Whether this digit contains a 'repetitive part' (that is not {@link #NOT_REPETITIVE only zero})
+     */
     public boolean isRepetitive() {
         return repetend != NOT_REPETITIVE;
     }
@@ -201,7 +203,6 @@ public class AdicDigits {
     }
 
 
-    @ToString
     @EqualsAndHashCode
     public static class ByteAndIndex {
         final @Min(0) byte value;
@@ -216,6 +217,15 @@ public class AdicDigits {
         @Override
         public String toString() {
             return index + ":" + value + (repeating ? " (repeating)" : "");
+        }
+        public byte value() {
+            return value;
+        }
+        public int index() {
+            return index;
+        }
+        public boolean repeating() {
+            return repeating;
         }
     }
 }
