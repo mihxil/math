@@ -91,7 +91,7 @@ class PadicIntegersTest {
 
     }
 
-    @Disabled
+    @Disabled("WIP")
     public static class PAdic5Test implements FieldTheory<PAdicInteger> {
 
         PAdicIntegers p5 = PAdicIntegers.of(5);

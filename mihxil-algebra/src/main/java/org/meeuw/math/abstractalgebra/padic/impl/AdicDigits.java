@@ -141,6 +141,9 @@ public class AdicDigits {
         }
     }
 
+    /**
+     * Checks whether the digit at the given position is in the 'repeating' range
+     */
     public boolean repeating(@Min(0) int i) {
         return i >= digits.length;
     }
@@ -209,6 +212,10 @@ public class AdicDigits {
             this.value = value;
             this.index = index;
             this.repeating = repeating;
+        }
+        @Override
+        public String toString() {
+            return index + ":" + value + (repeating ? " (repeating)" : "");
         }
     }
 }

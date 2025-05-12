@@ -12,6 +12,9 @@ class AdicDigitsTest {
     void repeating() {
         AdicDigits a = AdicDigits.of(3);
         assertThat(a.repeating(0)).isFalse();
-        assertThat(a.repeating(1)).isFalse();
+        assertThat(a.repeating(1)).isTrue(); // It's a zero!
+
+        assertThat(a.get(0).toString()).isEqualTo("0:3");
+        assertThat(a.get(1).toString()).isEqualTo("1:0 (repeating)");
     }
 }
