@@ -72,11 +72,11 @@ public class EvenInteger
     }
 
     @Override
-    public EvenInteger pow(@Positive int n) {
-        if (n == 0) {
+    public EvenInteger pow(@Positive int exponent) {
+        if (exponent == 0) {
             throw new IllegalPowerException("Cannot raise to 0",  this + "^0");
         }
-        return super.pow(n);
+        return super.pow(exponent);
     }
 
     @Override

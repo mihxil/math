@@ -54,8 +54,8 @@ public class OddInteger
     }
 
     @Override
-    public OddInteger pow(@Positive int n) {
-        return super.pow(n);
+    public OddInteger pow(@Positive int exponent) {
+        return super.pow(exponent);
     }
 
     @Override

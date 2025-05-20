@@ -40,6 +40,10 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      */
     E reciprocal();
 
+    /**
+     * {@inheritDoc}
+     * The inverse operation for a multiplicative group is the same as {@link #reciprocal() the reciprocal operation}.
+     */
     @Override
     default E inverse() {
         return reciprocal();
@@ -51,34 +55,34 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
      * This default implementation is based on the default implementation of {@link MultiplicativeMonoidElement#pow(int)
      */
     @Override
-    default E pow(int n) {
-        if (n < 0) {
-            n *= -1;
+    default E pow(int exponent) {
+        if (exponent < 0) {
+            exponent *= -1;
             try {
-                return reciprocal().pow(n);
+                return reciprocal().pow(exponent);
             } catch (DivisionByZeroException divisionByZeroException) {
-                throw new IllegalPowerException(divisionByZeroException, String.format("reciprocal().pow(%s)", n));
+                throw new IllegalPowerException(divisionByZeroException, String.format("reciprocal().pow(%s)", exponent));
             }
         }
-        if (n == 0) {
+        if (exponent == 0) {
             return getStructure().one();
         }
-        return MultiplicativeMonoidElement.super.pow(n);
+        return MultiplicativeMonoidElement.super.pow(exponent);
     }
 
-    default E pow(long n) {
-        if (n < 0) {
-            n *= -1;
+    default E pow(long exponent) {
+        if (exponent < 0) {
+            exponent *= -1;
             try {
-                return reciprocal().pow(n);
+                return reciprocal().pow(exponent);
             } catch (DivisionByZeroException divisionByZeroException) {
-                throw new IllegalPowerException(divisionByZeroException, String.format("reciprocal().pow(%s)", n));
+                throw new IllegalPowerException(divisionByZeroException, String.format("reciprocal().pow(%s)", exponent));
             }
         }
-        if (n == 0) {
+        if (exponent == 0) {
             return getStructure().one();
         }
-        return MultiplicativeMonoidElement.super.pow(n);
+        return MultiplicativeMonoidElement.super.pow(exponent);
     }
 
 

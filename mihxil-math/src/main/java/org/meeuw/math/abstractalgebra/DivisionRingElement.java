@@ -30,6 +30,13 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
     @Override
     DivisionRing<E> getStructure();
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The default implementation uses the {@link DivisionRing#groupOperator()}  group operator} of {@link #getStructure() the structure}.
+     * @param operand
+     * @return
+     */
     @Override
     default E operate(E operand) {
         return getStructure().groupOperator().apply(self(), operand);

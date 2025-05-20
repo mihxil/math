@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.numbers;
 
+import org.checkerframework.common.value.qual.IntRange;
+
 /**
  * An object with a clearly defined concept of 'negativity'.
  *
@@ -23,6 +25,12 @@ package org.meeuw.math.numbers;
  */
 public interface SignedNumber<SELF extends SignedNumber<SELF>> extends Comparable<SELF> {
 
+    /**
+     * Returns 1 for positive, -1 for negative and 0 for zero.
+     * See <a href="https://en.wikipedia.org/wiki/Sign_function">Sign function</a>
+     * @return {@code 1, -1} or  {@code 0}
+     */
+    @IntRange(from = -1, to = 1)
     int signum();
 
     default boolean isPositive() {

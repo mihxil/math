@@ -41,7 +41,7 @@ public interface UncertainReal
     UncertainReal times(UncertainReal multiplier);
 
     @Override
-    UncertainReal pow(int n);
+    UncertainReal pow(int exponent);
 
     @Override
     UncertainReal plus(UncertainReal summand);

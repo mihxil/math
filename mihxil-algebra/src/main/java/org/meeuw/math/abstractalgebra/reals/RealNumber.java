@@ -184,11 +184,24 @@ public class RealNumber
         return new BigDecimal(value);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * In the case of a real number this means that the {@link #value}{@code == 1}, and {@link #isExact()} is {@code true}.
+     *
+     * @return
+     */
     @Override
     public boolean isOne() {
         return isExact() && value == 1;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * See {@link Math#signum(double)}.
+     * @return
+     */
     @Override
     public int signum() {
         return (int) Math.signum(value);

@@ -39,28 +39,38 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
      * @see  BasicAlgebraicIntOperator#POWER
      */
     @Override
-    default E pow(@Min(0) int n) {
-        if (n < 0) {
-            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
+    default E pow(@Min(0) int exponent) {
+        if (exponent < 0) {
+            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(exponent)));
         }
-        if (n == 0) {
+        if (exponent == 0) {
             return getStructure().one();
         }
-        return MultiplicativeSemiGroupElement.super.pow(n);
+        return MultiplicativeSemiGroupElement.super.pow(exponent);
     }
 
-    default E pow(@Min(0) long n) {
-        if (n < 0) {
-            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This extends {@link MultiplicativeSemiGroupElement#pow(long)}, but doesn't give an exception if the argument is {@code 0}, but will return {@link MultiplicativeGroup#one()}.
+     * </p>
+     * @param exponent
+     * @return
+     */
+    default E pow(@Min(0) long exponent) {
+        if (exponent < 0) {
+            throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(exponent)));
         }
-        if (n == 0) {
+        if (exponent == 0) {
             return getStructure().one();
         }
-        return MultiplicativeSemiGroupElement.super.pow(n);
+        return MultiplicativeSemiGroupElement.super.pow(exponent);
     }
 
 
-
+    /**
+     * Whether this element is the identity of the monoid.
+     */
     default boolean isOne() {
         return getStructure().one().equals(this);
     }

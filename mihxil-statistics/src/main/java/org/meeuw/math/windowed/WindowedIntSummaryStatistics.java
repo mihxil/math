@@ -31,9 +31,7 @@ import java.util.function.IntConsumer;
 public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics> implements IntConsumer {
 
 
-    /**
-     * @inheritDoc
-     */
+
     @lombok.Builder
     protected WindowedIntSummaryStatistics(
         Duration window,

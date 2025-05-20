@@ -75,8 +75,8 @@ public class IntegerElement
     }
 
     @Override
-    public IntegerElement pow(@PositiveOrZero int n) throws IllegalPowerException  {
-        return with(IntegerUtils.positivePow(value, n));
+    public IntegerElement pow(@PositiveOrZero int exponent) throws IllegalPowerException  {
+        return with(IntegerUtils.positivePow(value, exponent));
     }
 
     @Override

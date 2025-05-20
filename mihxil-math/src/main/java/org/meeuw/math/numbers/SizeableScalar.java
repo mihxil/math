@@ -138,6 +138,10 @@ public interface SizeableScalar<SELF extends SizeableScalar<SELF, SIZE>, SIZE ex
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     * @return
+     */
     @Override
     default int signum() {
         return (int) Math.signum(doubleValue());

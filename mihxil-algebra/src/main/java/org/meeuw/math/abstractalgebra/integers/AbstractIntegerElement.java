@@ -77,11 +77,11 @@ public abstract class AbstractIntegerElement<
         return structure.of(value);
     }
 
-    public E pow(@Positive int n) {
+    public E pow(@Positive int exponent) {
         try {
-            return with(value.pow(n));
+            return with(value.pow(exponent));
         } catch (ArithmeticException ae) {
-            throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(n)));
+            throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(exponent)));
         }
     }
 
@@ -99,9 +99,6 @@ public abstract class AbstractIntegerElement<
         }
         return BigDecimalUtils.pow(v,_tetration(v, height -1 ));
     }
-
-
-
 
     @Override
     public long longValue() {

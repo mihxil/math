@@ -55,6 +55,9 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
         return UNARY_OPERATORS;
     }
 
+    /**
+     * The group operator, which {@link GenericGroupConfiguration#getGroupOperator()} is configurable}
+     */
     default BasicAlgebraicBinaryOperator groupOperator() {
         return ConfigurationService.getConfigurationAspect(GenericGroupConfiguration.class).getGroupOperator();
     }

@@ -20,6 +20,8 @@ import jakarta.validation.constraints.Positive;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
+import static org.meeuw.math.operators.BasicAlgebraicIntOperator.POWER;
+
 /**
  * Elements of a {@link MultiplicativeSemiGroup} can be multiplied by each other (via {@link #times(MultiplicativeSemiGroupElement)}.
  *
@@ -47,6 +49,11 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
         return times(multiplier);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This is a default implementation that calls {@link #times(MultiplicativeSemiGroupElement)}.
+     */
     @Override
     default E operate(E operand) {
         return times(operand);
@@ -57,47 +64,58 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * if multiplication is defined, then so is exponentiation, as long as the exponent is a positive integer.
      * <p>
      * This default implementation is doing <a href="https://en.wikipedia.org/wiki/Exponentiation_by_squaring">exponentiation by squaring</a>
-     * @param n the exponent
-     * @return this <sup>n</sup>
+     * @param exponent the exponent
+     * @return this <sup>exponent</sup>
+     * @see #pow(long)
      */
     @SuppressWarnings({"unchecked"})
-    default E pow(@Positive int n) throws IllegalPowerException{
-        if (n < 0) {
-            throw new IllegalPowerException("Not defined for negative exponents", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
+    default E pow(@Positive int exponent) throws IllegalPowerException{
+        if (exponent < 0) {
+            throw new IllegalPowerException("Not defined for negative exponents", POWER.stringify(toString(), Integer.toString(exponent)));
         }
-        if (n == 0) {
-            throw new IllegalPowerException("Not defined for exponent = 0", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(n)));
+        if (exponent == 0) {
+            throw new IllegalPowerException("Not defined for exponent = 0", POWER.stringify(toString(), Integer.toString(exponent)));
         }
         E y = null;
         E x = (E) this;
-        while (n > 1) {
-            if (n % 2 == 1) {
+        while (exponent > 1) {
+            if (exponent % 2 == 1) {
                 y = y == null ? x : x.times(y);
-                n = (n - 1) / 2;
+                exponent = (exponent - 1) / 2;
             } else {
-                n /= 2;
+                exponent /= 2;
             }
             x = x.times(x);
         }
         return y == null ? x : x.times(y);
     }
 
+
+    /**
+     * Returns this <sup>n</sup> for a long exponent.
+     * <p>
+     * This default implementation is doing <a href="https://en.wikipedia.org/wiki/Exponentiation_by_squaring">exponentiation by squaring</a>.
+     * @param exponent
+     * @return
+     * @throws IllegalPowerException
+     * @see #pow(int)
+     */
     @SuppressWarnings({"unchecked"})
-    default E pow(@Positive long n) throws IllegalPowerException{
-        if (n < 0) {
-            throw new IllegalPowerException("Not defined for negative exponents", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+    default E pow(@Positive long exponent) throws IllegalPowerException{
+        if (exponent < 0) {
+            throw new IllegalPowerException("Not defined for negative exponents", POWER.stringify(toString(), Long.toString(exponent)));
         }
-        if (n == 0) {
-            throw new IllegalPowerException("Not defined for exponent = 0", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(n)));
+        if (exponent == 0) {
+            throw new IllegalPowerException("Not defined for exponent = 0", POWER.stringify(toString(), Long.toString(exponent)));
         }
         E y = null;
         E x = (E) this;
-        while (n > 1) {
-            if (n % 2 == 1) {
+        while (exponent > 1) {
+            if (exponent % 2 == 1) {
                 y = y == null ? x : x.times(y);
-                n = (n - 1) / 2;
+                exponent = (exponent - 1) / 2;
             } else {
-                n /= 2;
+                exponent /= 2;
             }
             x = x.times(x);
         }
