@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.padic.impl;
 
+import jakarta.validation.constraints.Min;
+
 import java.util.*;
 
 import org.meeuw.math.ArrayUtils;
@@ -18,7 +20,7 @@ public class AdicDigitUtils {
      * @param multiplicand
      */
     public static AdicDigits multiplyAdicDigits(
-        final int base,
+        @Min(2) final int base,
         final AdicDigits multiplier,
         final AdicDigits multiplicand) {
         int i = -1;

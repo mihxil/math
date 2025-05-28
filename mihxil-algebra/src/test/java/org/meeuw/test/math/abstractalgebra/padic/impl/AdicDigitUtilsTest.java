@@ -187,6 +187,17 @@ public class AdicDigitUtilsTest {
     }
 
 
+    @Test
+    public void multiplyWithOne() {
+        AdicDigits a = AdicDigits.of("010", "4");
+        AdicDigits one = AdicDigits.of( 1);
+        AdicDigits result = multiplyAdicDigits(10, a, one);
+        log.info("{} x {} = {}", a, one, result);
+
+        assertThat(result.toString()).isEqualTo("...010 4");
+
+    }
+
 
 
 }

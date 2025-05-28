@@ -88,7 +88,7 @@ public final class IntegerUtils {
      * Returns the biggest integer that is smaller than or equal to the square root of an integer.
      * </p>
      * <p>
-     * Using in  binary search algorithm.
+     * Using a binary search algorithm.
      * </p>
      */
     public static long floorSqrt(final long radicand) {
@@ -150,6 +150,18 @@ public final class IntegerUtils {
         return true;
     }
 
+    /**
+     * Returns a stream of the prime factors of the given number.
+     * <p>
+     * The stream is ordered, and contains each prime factor as many times as it occurs in the factorization.
+     * </p>
+     * <p>
+     * For example, {@code primeFactorization(12)} will return {@code 2, 2, 3}.
+     * </p>
+     *
+     * @param number the number to factorize
+     * @return a stream of the prime factors
+     */
     public static LongStream primeFactorization(long number) {
         final long argument = Math.abs(number);
         if (argument <= 1) {
@@ -236,15 +248,38 @@ public final class IntegerUtils {
         return new int[] {0, 0};
     }
 
+    /**
+     * Returns the greatest common divisor of two long integers.
+     * <p>
+     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"></a>Euclid's algorithm</a>.
+
+     * @param n1 the first integer
+     * @param n2 the second integer
+     * @return the greatest common divisor of {@code n1} and {@code n2}
+     */
     public static long gcd(long n1, long n2) {
         return gcdByEuclidsAlgorithm(n1, n2);
     }
 
+     /**
+     * Returns the greatest common divisor of two integers.
+     * <p>
+     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"></a>Euclid's algorithm</a>.
+     *
+     * @param n1 the first integer
+     * @param n2 the second integer
+     * @return the greatest common divisor of {@code n1} and {@code n2}
+     */
     public static int gcd(int n1, int n2) {
         return (int) gcdByEuclidsAlgorithm(n1, n2);
     }
 
 
+    /**
+     * Straightforward implementation of the factorial function.
+     * @param value the value to take the factorial of
+     * @return the factorial: {@code value!}
+    */
     public static long factorial(@Min(0) int value) {
         if (value < 0) {
             throw new InvalidFactorial("Cannot take factorial of negative", Integer.toString(value));
