@@ -1019,7 +1019,7 @@
 </g>
 <g id="a_node21_146"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="530,-1388 530,-1426.5 625.5,-1426.5 625.5,-1388 530,-1388"/>
-<text text-anchor="start" x="532" y="-1402.58" font-family="Times,serif" font-size="14.00">0 u 1 φ π 𝜋 ℯ</text>
+<text text-anchor="start" x="532" y="-1402.58" font-family="Times,serif" font-size="14.00">0 u 1 π φ 𝜋 ℯ</text>
 </a>
 </g>
 <g id="a_node21_147"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.java" xlink:title="BigComplexNumbers">
@@ -1128,7 +1128,7 @@
 </g>
 <g id="a_node23_163"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="890.88,-1526.25 890.88,-1564.75 986.38,-1564.75 986.38,-1526.25 890.88,-1526.25"/>
-<text text-anchor="start" x="892.88" y="-1540.83" font-family="Times,serif" font-size="14.00">0 u 1 φ π 𝜋 ℯ</text>
+<text text-anchor="start" x="892.88" y="-1540.83" font-family="Times,serif" font-size="14.00">0 u 1 π φ 𝜋 ℯ</text>
 </a>
 </g>
 <g id="a_node23_164"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/reals/BigDecimalField.java" xlink:title="BigDecimalField">
