@@ -18,6 +18,10 @@ public class Circle<F extends CompleteScalarFieldElement<F>> {
         this.radius = radius;
     }
 
+    public Circle<F> times(F multiplier) {
+        return new Circle<>(radius.times(multiplier));
+    }
+
     public F radius() {
         return radius;
     }
