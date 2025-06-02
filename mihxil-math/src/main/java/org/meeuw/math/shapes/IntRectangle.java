@@ -61,6 +61,10 @@ public class IntRectangle {
     }
 
 
+    public IntRectangle rotateDegrees(int angle) {
+        return rotateDegrees((double) angle);
+    }
+
 
     /**
      * A convenience method to {@link #rotate(double)} the rectangle by a given angle in degrees (using {@link Math#toRadians(double)}).
@@ -117,5 +121,9 @@ public class IntRectangle {
     public String aspectRatio() {
         int gcd = gcd(width, height);
         return String.format("%d:%d", width / gcd, height / gcd);
+    }
+
+    public String toString() {
+        return "Rectangle{" + width() + "x" +  height() + '}';
     }
 }
