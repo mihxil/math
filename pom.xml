@@ -36,7 +36,7 @@
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>5.13.0-M3</junit.version>
+    <junit.version>5.13.0</junit.version>
     <jacoco.version>0.8.13</jacoco.version>
     <assertj.version>3.27.2</assertj.version>
     <jqwik.version>1.9.2</jqwik.version>

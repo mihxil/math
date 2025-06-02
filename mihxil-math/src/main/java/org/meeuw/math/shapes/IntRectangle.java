@@ -9,13 +9,30 @@ import static org.meeuw.math.IntegerUtils.gcd;
  * This class provides methods to perform various geometric calculations such as rotation, area, perimeter,
  * diagonal length, and aspect ratio.
  *
- * @param width  the width of the rectangle, must be non-negative
- * @param height the height of the rectangle, must be non-negative
+
  * @since 0.15
  */
-public record IntRectangle(
-    @Min(0) int width,
-    @Min(0) int height)  {
+public class IntRectangle {
+
+    private final int width;
+    private final int height;
+
+    /**
+     *  @param width  the width of the rectangle, must be non-negative
+     *  @param height the height of the rectangle, must be non-negative
+     */
+    public IntRectangle(@Min(0) int width, @Min(0) int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    int width() {
+        return width;
+    }
+
+    int height() {
+        return height;
+    }
 
     /**
      * Checks if the rectangle is vertical, meaning its width is smaller than its height.
