@@ -26,11 +26,11 @@ public class IntRectangle {
         this.height = height;
     }
 
-    int width() {
+    public int width() {
         return width;
     }
 
-    int height() {
+    public int height() {
         return height;
     }
 
@@ -39,7 +39,7 @@ public class IntRectangle {
      *
      * @return true if the rectangle is vertical, false otherwise
      */
-    boolean vertical() {
+    public boolean vertical() {
         return width < height;
     }
 
@@ -50,7 +50,7 @@ public class IntRectangle {
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    IntRectangle rotate(double angle) {
+    public IntRectangle rotate(double angle) {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
@@ -65,7 +65,7 @@ public class IntRectangle {
     /**
      * A convenience method to {@link #rotate(double)} the rectangle by a given angle in degrees (using {@link Math#toRadians(double)}).
      */
-    IntRectangle rotateDegrees(Double angle) {
+    public IntRectangle rotateDegrees(Double angle) {
         if (angle == null) {
             return this;
         }
@@ -76,7 +76,7 @@ public class IntRectangle {
      *
      * Calculates the area of the rectangle by multiplying its width and height.
      */
-    long area() {
+    public long area() {
         return (long) width * height;
     }
 
@@ -86,7 +86,7 @@ public class IntRectangle {
      *
      * @return the perimeter of the rectangle
      */
-    long perimeter() {
+    public long perimeter() {
         return (long) 2 * width + (long) 2 * height;
     }
     /**
@@ -95,7 +95,7 @@ public class IntRectangle {
      *
      * @return the length of the diagonal
      */
-    double diagonal() {
+    public double diagonal() {
         return Math.sqrt(width * width + height * height);
     }
 
@@ -104,7 +104,7 @@ public class IntRectangle {
      *
      * @return true if the rectangle is a square, false otherwise
      */
-    boolean isSquare() {
+    public boolean isSquare() {
         return width == height;
     }
 
