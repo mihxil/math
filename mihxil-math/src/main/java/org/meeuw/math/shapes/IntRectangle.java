@@ -44,8 +44,7 @@ public class IntRectangle {
     }
 
     /**
-     * Rotates the rectangle by a given angle in radians.
-     * The new width and height are calculated based on the rotation transformation.
+     * Rotates the enclosing rectangle if the current rectangle is rotated by a given angle in radians.
      *
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
