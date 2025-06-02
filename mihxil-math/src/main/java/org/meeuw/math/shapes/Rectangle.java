@@ -6,11 +6,10 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 
 /**
- * Represents a rectangle defined by its width and height, both of which must be non-negative integers.
+ * Represents a rectangle defined by its width and height, both of which must be non-negative scalara.
  * This class provides methods to perform various geometric calculations such as rotation, area, perimeter,
  * diagonal length, and aspect ratio.
  *
-
  * @since 0.15
  */
 public class Rectangle<F extends CompleteScalarFieldElement<F>> {
