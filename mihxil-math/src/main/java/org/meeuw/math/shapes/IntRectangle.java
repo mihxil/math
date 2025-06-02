@@ -4,6 +4,15 @@ import jakarta.validation.constraints.Min;
 
 import static org.meeuw.math.IntegerUtils.gcd;
 
+/**
+ * Represents a rectangle defined by its width and height, both of which must be non-negative integers.
+ * This class provides methods to perform various geometric calculations such as rotation, area, perimeter,
+ * diagonal length, and aspect ratio.
+ *
+ * @param width  the width of the rectangle, must be non-negative
+ * @param height the height of the rectangle, must be non-negative
+ * @since 0.15
+ */
 public record IntRectangle(
     @Min(0) int width,
     @Min(0) int height)  {
