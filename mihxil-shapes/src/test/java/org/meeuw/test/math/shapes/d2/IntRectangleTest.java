@@ -1,8 +1,8 @@
-package org.meeuw.test.math.shapes;
+package org.meeuw.test.math.shapes.d2;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.shapes.IntRectangle;
+import org.meeuw.math.shapes.d2.IntRectangle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

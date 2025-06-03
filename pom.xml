@@ -20,6 +20,8 @@
     <module>mihxil-physics</module>
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
+    <module>mihxil-shapes</module>
+
     <module>math-test</module>
   </modules>
 
@@ -106,6 +108,11 @@
       <dependency>
         <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-statistics</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw.math</groupId>
+        <artifactId>mihxil-shapes</artifactId>
         <version>${project.version}</version>
       </dependency>
 

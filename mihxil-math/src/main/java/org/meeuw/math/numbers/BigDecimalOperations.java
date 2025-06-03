@@ -223,6 +223,11 @@ public strictfp class BigDecimalOperations implements UncertaintyNumberOperation
     }
 
     @Override
+    public UncertainNumber<BigDecimal> tan(BigDecimal bigDecimal) {
+        return uncertain(BigDecimalMath.tan(bigDecimal, context()));
+    }
+
+    @Override
     public UncertainNumber<BigDecimal> atan2(BigDecimal y, BigDecimal x) {
         return uncertain(BigDecimalMath.atan2(y, x, context()));
     }

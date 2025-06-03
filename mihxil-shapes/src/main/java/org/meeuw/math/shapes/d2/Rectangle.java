@@ -1,36 +1,36 @@
-package org.meeuw.math.shapes;
+package org.meeuw.math.shapes.d2;
 
 import jakarta.validation.constraints.Min;
 
-import static org.meeuw.math.IntegerUtils.gcd;
+import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 
 /**
- * Represents a rectangle defined by its width and height, both of which must be non-negative integers.
+ * Represents a rectangle defined by its width and height, both of which must be non-negative scalar.
  * This class provides methods to perform various geometric calculations such as rotation, area, perimeter,
  * diagonal length, and aspect ratio.
  *
-
  * @since 0.15
  */
-public class IntRectangle {
+public class Rectangle<F extends CompleteScalarFieldElement<F>> {
 
-    private final int width;
-    private final int height;
+    private final F width;
+    private final F height;
 
     /**
      *  @param width  the width of the rectangle, must be non-negative
      *  @param height the height of the rectangle, must be non-negative
      */
-    public IntRectangle(@Min(0) int width, @Min(0) int height) {
+    public Rectangle(@Min(0) F width, @Min(0) F height) {
         this.width = width;
         this.height = height;
     }
 
-    public int width() {
+    public F width() {
         return width;
     }
 
-    public int height() {
+    public F height() {
         return height;
     }
 
@@ -40,7 +40,7 @@ public class IntRectangle {
      * @return true if the rectangle is vertical, false otherwise
      */
     public boolean vertical() {
-        return width < height;
+        return width.lt(height);
     }
 
     /**
@@ -49,38 +49,25 @@ public class IntRectangle {
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    public IntRectangle rotate(double angle) {
+    public Rectangle<F> rotate(F angle) {
 
-        double sin = Math.sin(angle);
-        double cos = Math.cos(angle);
-        return new IntRectangle(
-            (int) Math.round(Math.abs(width * cos) + Math.abs(height * sin)),
-            (int) Math.round(Math.abs(width * sin) + Math.abs(height * cos))
-        );
+        F sin = angle.sin();
+        F cos = angle.cos();
+        return new Rectangle<>(
+            width.times(cos).abs().plus(height.times(sin).abs()),
+
+            width.times(sin).abs().plus(height.times(cos).abs()));
+
     }
 
 
-    public IntRectangle rotateDegrees(int angle) {
-        return rotateDegrees((double) angle);
-    }
-
-
-    /**
-     * A convenience method to {@link #rotate(double)} the rectangle by a given angle in degrees (using {@link Math#toRadians(double)}).
-     */
-    public IntRectangle rotateDegrees(Double angle) {
-        if (angle == null) {
-            return this;
-        }
-        return rotate(Math.toRadians(angle));
-    }
 
     /**
      *
      * Calculates the area of the rectangle by multiplying its width and height.
      */
-    public long area() {
-        return (long) width * height;
+    public F area() {
+        return  width.times(height);
     }
 
     /**
@@ -89,8 +76,8 @@ public class IntRectangle {
      *
      * @return the perimeter of the rectangle
      */
-    public long perimeter() {
-        return (long) 2 * width + (long) 2 * height;
+    public F perimeter() {
+        return width.times(2).plus(height.times(2));
     }
     /**
      * Calculates the diagonal length of the rectangle using the Pythagorean theorem.
@@ -98,8 +85,8 @@ public class IntRectangle {
      *
      * @return the length of the diagonal
      */
-    public double diagonal() {
-        return Math.sqrt(width * width + height * height);
+    public F diagonal() {
+        return (width.sqr().plus(height.sqr())).sqrt();
     }
 
     /**
@@ -108,7 +95,7 @@ public class IntRectangle {
      * @return true if the rectangle is a square, false otherwise
      */
     public boolean isSquare() {
-        return width == height;
+        return width.eq(height);
     }
 
     /**
@@ -118,8 +105,8 @@ public class IntRectangle {
      * @return a string representing the aspect ratio
      */
     public String aspectRatio() {
-        int gcd = gcd(width, height);
-        return String.format("%d:%d", width / gcd, height / gcd);
+        long gcd = IntegerUtils.gcd(width.longValue(), height.longValue());
+        return String.format("%s:%s", width.dividedBy(gcd), height.dividedBy(gcd));
     }
 
     public String toString() {

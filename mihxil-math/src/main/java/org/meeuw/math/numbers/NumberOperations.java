@@ -136,6 +136,8 @@ public interface NumberOperations<N extends Number> {
 
     UncertainNumber<N> cos(N n);
 
+    UncertainNumber<N> tan(N n);
+
     UncertainNumber<N> atan2(N y, N x);
 
 

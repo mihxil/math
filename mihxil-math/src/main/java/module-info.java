@@ -45,7 +45,6 @@ module org.meeuw.math {
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;
-    exports org.meeuw.math.shapes;
 
     exports org.meeuw.math.text;
     exports org.meeuw.math.uncertainnumbers;

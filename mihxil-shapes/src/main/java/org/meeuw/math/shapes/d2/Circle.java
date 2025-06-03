@@ -1,4 +1,4 @@
-package org.meeuw.math.shapes;
+package org.meeuw.math.shapes.d2;
 
 import jakarta.validation.constraints.Min;
 

@@ -187,6 +187,11 @@ public strictfp class DoubleOperations implements UncertaintyNumberOperations<Do
     }
 
     @Override
+    public UncertainNumber<Double> tan(Double aDouble) {
+        return uncertain(Math.tan(aDouble));
+    }
+
+    @Override
     public UncertainNumber<Double> atan2(Double y, Double x) {
         return uncertain(Math.atan2(y, x));
     }

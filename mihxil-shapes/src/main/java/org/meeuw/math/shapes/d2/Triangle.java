@@ -1,4 +1,4 @@
-package org.meeuw.math.shapes;
+package org.meeuw.math.shapes.d2;
 
 import jakarta.validation.constraints.Min;
 
@@ -12,7 +12,7 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  *
  * @since 0.15
  */
-public class Rectangle<F extends CompleteScalarFieldElement<F>> {
+public class Triangle<F extends CompleteScalarFieldElement<F>> {
 
     private final F width;
     private final F height;
@@ -21,7 +21,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
      *  @param width  the width of the rectangle, must be non-negative
      *  @param height the height of the rectangle, must be non-negative
      */
-    public Rectangle(@Min(0) F width, @Min(0) F height) {
+    public Triangle(@Min(0) F width, @Min(0) F height) {
         this.width = width;
         this.height = height;
     }
@@ -44,16 +44,17 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
     }
 
     /**
-     * Rotates the enclosing rectangle if the current rectangle is rotated by a given angle in radians.
+     * Rotates the rectangle by a given angle in radians.
+     * The new width and height are calculated based on the rotation transformation.
      *
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    public Rectangle<F> rotate(F angle) {
+    public Triangle<F> rotate(F angle) {
 
         F sin = angle.sin();
         F cos = angle.cos();
-        return new Rectangle<>(
+        return new Triangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
 
             width.times(sin).abs().plus(height.times(cos).abs()));
@@ -100,7 +101,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
 
     /**
      * Returns the aspect ratio of the rectangle in the format "width:height".
-     * The values are reduced to their simplest form using the greatest common divisor ({@link org.meeuw.math.IntegerUtils#gcd(int, int) GCD}).
+     * The values are reduced to their simplest form using the greatest common divisor ({@link IntegerUtils#gcd(int, int) GCD}).
      *
      * @return a string representing the aspect ratio
      */

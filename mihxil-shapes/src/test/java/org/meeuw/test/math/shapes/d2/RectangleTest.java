@@ -1,8 +1,8 @@
-package org.meeuw.test.math.shapes;
+package org.meeuw.test.math.shapes.d2;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.shapes.Rectangle;
+import org.meeuw.math.shapes.d2.Rectangle;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static java.lang.Math.PI;
