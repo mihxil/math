@@ -50,6 +50,13 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         return tan().inverse();
     }
 
+    default E sec() {
+        return cos().inverse();
+    }
+    default E csc() {
+        return sin().inverse();
+    }
+
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     default E pow(E exponent) throws IllegalPowerException, OverflowException {
         try {
