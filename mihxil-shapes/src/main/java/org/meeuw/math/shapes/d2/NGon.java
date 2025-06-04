@@ -34,11 +34,11 @@ public class NGon<F extends CompleteScalarFieldElement<F>> {
     }
 
     public F inscribedRadius() {
-        return size.getStructure().pi().dividedBy(n).cot().times(size);
+        return size.getStructure().pi().dividedBy(n).cot().times(size).dividedBy(2);
     }
 
     public F circumscribedRadius() {
-        return size.getStructure().pi().dividedBy(n).csc().times(size);
+        return size.getStructure().pi().dividedBy(n).csc().times(size).dividedBy(2);
     }
 
     /**
