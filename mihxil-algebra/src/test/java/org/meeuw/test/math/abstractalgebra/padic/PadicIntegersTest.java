@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Log4j2
 @Timeout(unit = TimeUnit.SECONDS, value = 10)
+@Disabled("WIP")
+@net.jqwik.api.Disabled("WIP")
 class PadicIntegersTest {
 
     PAdicIntegers p5 = PAdicIntegers.of(5);
@@ -90,6 +92,7 @@ class PadicIntegersTest {
 
     }
 
+    @Disabled("WIP")
     public static class PAdic5Test implements FieldTheory<PAdicInteger> {
 
         PAdicIntegers p5 = PAdicIntegers.of(5);

@@ -1,11 +1,11 @@
-package org.meeuw.test.math.shapes.d2;
+package org.meeuw.test.math.shapes.dim2;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.shapes.d2.Rectangle;
+import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
 

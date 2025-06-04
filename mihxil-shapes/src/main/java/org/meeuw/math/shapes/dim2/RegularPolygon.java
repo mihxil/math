@@ -1,15 +1,19 @@
-package org.meeuw.math.shapes.d2;
+package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
 /**
  * Regular polygon with n sides, all of equal length.
  */
-public class NGon<F extends CompleteScalarFieldElement<F>> implements Shape<F, NGon<F>> {
+public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements Polygon<F, RegularPolygon<F>> {
 
     private final int n;
     private final F size;
@@ -18,7 +22,7 @@ public class NGon<F extends CompleteScalarFieldElement<F>> implements Shape<F, N
     private final CompleteScalarField<F> field;
 
 
-    public NGon(@Min(3) int n, F size) {
+    public RegularPolygon(@Min(3) int n, F size) {
         this.n = n;
         this.size = size;
         this.field = size.getStructure();
@@ -95,23 +99,40 @@ public class NGon<F extends CompleteScalarFieldElement<F>> implements Shape<F, N
     }
 
     @Override
-    public boolean eq(NGon<F> other) {
+    public boolean eq(RegularPolygon<F> other) {
         return  this.size.eq(other.size) && this.n == other.n;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof NGon<?>)) return false;
-        NGon<?> ngon = (NGon<?>) o;
+        if (!(o instanceof RegularPolygon<?>)) return false;
+        RegularPolygon<?> ngon = (RegularPolygon<?>) o;
         if (!ngon.field.equals(field)) {
             return false;
         }
-        return eq((NGon<F>) ngon);
+        return eq((RegularPolygon<F>) ngon);
     }
 
     @Override
     public int hashCode() {
         return size.hashCode() + 31 * n + 13 * field.hashCode();
+    }
+
+    @Override
+    public int numberOfEdges() {
+        return n;
+    }
+
+    @Override
+    public Stream<FieldVector2<F>> vertices() {
+        F radius = circumscribedRadius();
+        F step = field.pi().times(2).dividedBy(n);
+        return IntStream.range(0, n)
+            .mapToObj(i -> {
+                F angle = step.times(i);
+                return FieldVector2.of(angle.sin().times(size), angle.cos().times(size)
+                );
+            });
     }
 }

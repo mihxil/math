@@ -20,6 +20,7 @@ open module org.meeuw.test {
     requires org.meeuw.functional;
     requires org.meeuw.math;
     requires org.meeuw.math.abstractalgebra.test;
+    requires org.meeuw.math.algebras;
 
 
 }

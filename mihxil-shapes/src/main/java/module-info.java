@@ -28,9 +28,10 @@ module org.meeuw.math.shapes {
     requires org.meeuw.configuration;
     requires org.meeuw.functional;
     requires org.meeuw.math;
+    requires org.meeuw.math.algebras;
 
 
-    exports org.meeuw.math.shapes.d2;
-    exports org.meeuw.math.shapes.d3;
+    exports org.meeuw.math.shapes.dim2;
+    exports org.meeuw.math.shapes.dim3;
 
 }

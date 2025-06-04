@@ -1,4 +1,6 @@
-package org.meeuw.test.math.shapes.d2;
+package org.meeuw.test.math.shapes.dim2;
+
+import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
@@ -8,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.shapes.d2.Circle;
-import org.meeuw.math.shapes.d2.NGon;
+import org.meeuw.math.shapes.dim2.Circle;
+import org.meeuw.math.shapes.dim2.RegularPolygon;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
 
@@ -18,10 +20,11 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 
-public class NGonTest implements BasicObjectTheory<NGon<UncertainReal>> {
-    static NGon<UncertainReal> triangle = new NGon<>(3, element(1.0));
-    static NGon<UncertainReal> square = new NGon<>(4, element(1.0));
-    static NGon<UncertainReal> pentagon = new NGon<>(5, element(1.0));
+@Log4j2
+public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<UncertainReal>> {
+    static RegularPolygon<UncertainReal> triangle = new RegularPolygon<>(3, element(1.0));
+    static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
+    static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));
 
 
 
@@ -49,22 +52,31 @@ public class NGonTest implements BasicObjectTheory<NGon<UncertainReal>> {
     }
 
 
-    public static List<NGon<UncertainReal>> nGons() {
+    public static List<RegularPolygon<UncertainReal>> nGons() {
         return List.of(triangle, square, pentagon);
     }
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") NGon<UncertainReal> nGon) {
+    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
 
         UncertainReal ratio = nGon.circumscribedRadius().sqr().minus(nGon.inscribedRadius().sqr());
         assertThatAlgebraically(ratio).isEqTo(element(0.25));
     }
 
+    @ParameterizedTest
+    @MethodSource("nGons")
+    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
+        nGon.vertices().forEach(fv -> {
+            log.info("{}", fv);
+        });
+
+    }
+
     @Override
-    public Arbitrary<@NonNull NGon<UncertainReal>> datapoints() {
+    public Arbitrary<@NonNull RegularPolygon<UncertainReal>> datapoints() {
         return Arbitraries.integers().between(3, 20)
             .flatMap(n -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
-                .map(size -> new NGon<>(n, element(size))));
+                .map(size -> new RegularPolygon<>(n, element(size))));
     }
 }

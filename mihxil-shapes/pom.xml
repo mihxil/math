@@ -16,7 +16,7 @@
   <dependencies>
     <dependency>
       <groupId>org.meeuw.math</groupId>
-      <artifactId>mihxil-math</artifactId>
+      <artifactId>mihxil-algebra</artifactId>
     </dependency>
     <dependency>
       <groupId>org.meeuw.math</groupId>

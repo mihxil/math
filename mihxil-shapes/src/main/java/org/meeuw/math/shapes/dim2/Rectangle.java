@@ -1,12 +1,14 @@
-package org.meeuw.math.shapes.d2;
+package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
-
 import lombok.Getter;
+
+import java.util.stream.Stream;
 
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
 /**
  * Represents a rectangle defined by its width and height, both of which must be non-negative scalar.
@@ -15,7 +17,7 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  *
  * @since 0.15
  */
-public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Shape<F, Rectangle<F>> {
+public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polygon<F, Rectangle<F>> {
 
     private final F width;
     private final F height;
@@ -151,4 +153,20 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Shape
         return width.hashCode()  + 31 * height.hashCode() + 13 * field.hashCode();
     }
 
+    @Override
+    public int numberOfEdges() {
+        return 4;
+    }
+
+    @Override
+    public Stream<FieldVector2<F>> vertices() {
+        F halfWidth = width.dividedBy(2);
+        F halfHeight = height.dividedBy(2);
+        return Stream.of(
+            FieldVector2.of(halfWidth.negation(), halfHeight.negation()),
+            FieldVector2.of(halfWidth, halfHeight.negation()),
+            FieldVector2.of(halfWidth, halfHeight),
+            FieldVector2.of(halfWidth.negation(), halfHeight)
+        );
+    }
 }
