@@ -72,7 +72,7 @@ strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A
         }
 
         @Override
-        public boolean strictlyEquals(A o) {
+        public boolean strictlyEquals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
