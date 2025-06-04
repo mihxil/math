@@ -99,6 +99,8 @@ public class UncertainDoubleElement
         return new UncertainDoubleElement(value, EXACT);
     }
 
+
+
     public static UncertainDoubleElement[] exactly(double[] value) {
         UncertainDoubleElement[] result = new UncertainDoubleElement[value.length];
         for (int i = 0; i < value.length; i++) {

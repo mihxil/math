@@ -19,7 +19,7 @@ package org.meeuw.math.uncertainnumbers;
 /**
  * Marker interface that this object is not exact.
  * <p>
- * It should have two methods {@code getValue} and {@code getUncertainty}. The returns types may be primitive, so are not in this interface.
+ * It should have two methods {@code getValue} and {@code getUncertainty}. The return types may be primitive, so are not in this interface.
  *
  * @see UncertainDouble Where these methods return <pre>double</pre>
  * @see UncertainNumber Where these methods return some <pre>Number</pre>
@@ -33,5 +33,6 @@ public interface Uncertain {
      * Explicitly strict equals. The values must be equal exactly, without consideration of the uncertainty.
      */
     boolean strictlyEquals(Object o);
+
 
 }

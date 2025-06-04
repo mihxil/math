@@ -2,7 +2,10 @@ package org.meeuw.math.shapes.d2;
 
 import jakarta.validation.constraints.Min;
 
+import lombok.Getter;
+
 import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 
 /**
@@ -12,10 +15,14 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  *
  * @since 0.15
  */
-public class Rectangle<F extends CompleteScalarFieldElement<F>> {
+public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Shape<F, Rectangle<F>> {
 
     private final F width;
     private final F height;
+
+    @Getter
+    private final CompleteScalarField<F> field;
+
 
     /**
      *  @param width  the width of the rectangle, must be non-negative
@@ -24,6 +31,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
     public Rectangle(@Min(0) F width, @Min(0) F height) {
         this.width = width;
         this.height = height;
+        this.field = width.getStructure();
     }
 
     public F width() {
@@ -49,15 +57,20 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    public Rectangle<F> rotate(F angle) {
+    public Rectangle<F> circumscribedRectangle(F angle) {
 
         F sin = angle.sin();
         F cos = angle.cos();
         return new Rectangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
+            width.times(sin).abs().plus(height.times(cos).abs())
+        );
+    }
 
-            width.times(sin).abs().plus(height.times(cos).abs()));
-
+    @Override
+    public Circle<F> circumscribedCircle() {
+        F radius = diagonal().dividedBy(2);
+        return new Circle<>(radius);
     }
 
 
@@ -66,6 +79,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
      *
      * Calculates the area of the rectangle by multiplying its width and height.
      */
+    @Override
     public F area() {
         return  width.times(height);
     }
@@ -76,6 +90,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
      *
      * @return the perimeter of the rectangle
      */
+    @Override
     public F perimeter() {
         return width.times(2).plus(height.times(2));
     }
@@ -109,7 +124,31 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> {
         return String.format("%s:%s", width.dividedBy(gcd), height.dividedBy(gcd));
     }
 
+    @Override
     public String toString() {
         return "Rectangle{" + width() + "x" +  height() + '}';
     }
+
+
+     @Override
+    public boolean eq(Rectangle<F> other) {
+        return  this.width.eq(other.width) && this.height.eq(other.height);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Rectangle<?>)) return false;
+        Rectangle<?> rectangle = (Rectangle<?>) o;
+        if (!rectangle.field.equals(field)) {
+            return false;
+        }
+        return eq((Rectangle<F>) rectangle);
+    }
+
+    @Override
+    public int hashCode() {
+        return width.hashCode()  + 31 * height.hashCode() + 13 * field.hashCode();
+    }
+
 }

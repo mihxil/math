@@ -48,6 +48,13 @@ public class UncertainRealField
     public UncertainReal one() {
         return UncertainDoubleElement.ONE;
     }
+    /**
+     * Just as {@link UncertainDoubleElement#exactly(double)}, but with a name more emphasizing that this creates an element of the field.
+     * @since 0.15
+     */
+    public static UncertainDoubleElement element(double value) {
+        return UncertainDoubleElement.exactly(value);
+    }
 
     @Override
     public Cardinality getCardinality() {
