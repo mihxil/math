@@ -26,7 +26,6 @@ module org.meeuw.math.shapes {
 
     requires java.logging;
     requires org.meeuw.configuration;
-    requires org.meeuw.functional;
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
 
