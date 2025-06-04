@@ -1,5 +1,6 @@
 package org.meeuw.math.shapes.d2;
 
+import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 
 /**
@@ -10,10 +11,13 @@ public class NGon<F extends CompleteScalarFieldElement<F>> {
     private final int n;
 
     private final F size;
+    private final CompleteScalarField<F> field;
+
 
     public NGon(int n, F size) {
         this.n = n;
         this.size = size;
+        this.field = size.getStructure();
     }
 
     public F size() {
@@ -26,19 +30,19 @@ public class NGon<F extends CompleteScalarFieldElement<F>> {
         return size.times(n);
     }
     public F area() {
-        return size.getStructure().pi().dividedBy(n).cot()
+        return field.pi().dividedBy(n).cot()
             .times(size.sqr()).times(n).dividedBy(4);
     }
     public F interiorAngle() {
-        return size.getStructure().pi().times(n - 2).dividedBy(n);
+        return field.pi().times(n - 2).dividedBy(n);
     }
 
     public F inscribedRadius() {
-        return size.getStructure().pi().dividedBy(n).cot().times(size).dividedBy(2);
+        return field.pi().dividedBy(n).cot().times(size).dividedBy(2);
     }
 
     public F circumscribedRadius() {
-        return size.getStructure().pi().dividedBy(n).csc().times(size).dividedBy(2);
+        return field.pi().dividedBy(n).csc().times(size).dividedBy(2);
     }
 
     /**
