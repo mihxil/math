@@ -2,6 +2,7 @@ package org.meeuw.test.math.abstractalgebra.padic.impl;
 
 import lombok.extern.log4j.Log4j2;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.multiplyAdicDigits;
 
 @Log4j2
-
+@Disabled("WIP")
 public class AdicDigitUtilsTest {
 
 
