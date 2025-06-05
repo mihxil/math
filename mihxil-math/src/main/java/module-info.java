@@ -40,8 +40,9 @@ module org.meeuw.math {
     requires static jakarta.validation;
 
     requires java.logging;
-    requires org.meeuw.configuration;
+
     requires org.meeuw.functional;
+    requires org.meeuw.configuration;
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;

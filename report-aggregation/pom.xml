@@ -8,6 +8,7 @@
   </parent>
   <artifactId>report-aggregation</artifactId>
   <name>Math - report aggregation</name>
+  <description>Aggregates the jacoco reports of the submodules.</description>
   <packaging>jar</packaging>
   <properties>
     <maven.compiler.target>17</maven.compiler.target>

@@ -57,7 +57,7 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
         assertThatAlgebraically(square.perimeter()).isEqTo(element(4.0));
         assertThatAlgebraically(square.interiorAngle()).isEqTo(element(Math.PI / 2));
         assertThatAlgebraically(square.inscribedRadius()).isEqTo(element(0.5));
-        assertThat(square.circumscribedCircle()).isEqualTo(new Circle<>(element(Math.sqrt(2) / 2)));
+        assertThat(square.circumscribedCircle().shape()).isEqualTo(new Circle<>(element(Math.sqrt(2) / 2)));
     }
 
 

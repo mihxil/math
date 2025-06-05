@@ -6,8 +6,8 @@
   <packaging>pom</packaging>
   <version>0.16-SNAPSHOT</version>
 
-  <description>Math related utilities. Measurements (with error indication)</description>
-  <url>https://github.com/mihxil/math/foo</url>
+  <description>Math related utilities. Algebraic interfaces, implementations thereof, physics, statistics, shapes</description>
+  <url>https://github.com/mihxil/math</url>
 
   <modules>
     <module>mihxil-math-lib-parent</module>
@@ -34,7 +34,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.49.3</checkerframework.version>
+    <checkerframework.version>3.49.4</checkerframework.version>
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
 
     <!-- test dependencies -->
@@ -160,6 +160,12 @@
         <version>${reflections.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>org.checkerframework</groupId>
+        <artifactId>checker-qual</artifactId>
+        <version>${checkerframework.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>jakarta.annotation</groupId>
         <artifactId>jakarta.annotation-api</artifactId>
@@ -449,7 +455,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.10.1</version>
+            <version>3.11.2</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>

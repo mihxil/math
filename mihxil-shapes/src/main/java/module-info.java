@@ -25,7 +25,7 @@ module org.meeuw.math.shapes {
     requires static jakarta.validation;
 
     requires java.logging;
-    requires org.meeuw.configuration;
+
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
     requires java.xml;

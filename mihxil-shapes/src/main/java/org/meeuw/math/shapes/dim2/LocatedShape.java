@@ -1,10 +1,13 @@
 package org.meeuw.math.shapes.dim2;
 
-import org.meeuw.math.abstractalgebra.*;
+import lombok.EqualsAndHashCode;
+
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
 import static org.meeuw.math.abstractalgebra.dim2.FieldVector2.origin;
 
+@EqualsAndHashCode
 public class LocatedShape<F extends ScalarFieldElement<F>, S extends Shape<F, S>> {
 
     private final S shape;
@@ -32,5 +35,10 @@ public class LocatedShape<F extends ScalarFieldElement<F>, S extends Shape<F, S>
 
     public FieldVector2<F> location() {
         return location;
+    }
+
+    @Override
+    public String toString() {
+        return shape() + " at " + location();
     }
 }
