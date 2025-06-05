@@ -1,14 +1,16 @@
 package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
 
 import java.util.stream.Stream;
 
 import org.meeuw.math.IntegerUtils;
-import org.meeuw.math.abstractalgebra.CompleteScalarField;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.NonExact;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.exceptions.FieldIncompleteException;
+
+import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 
 /**
  * Represents a rectangle defined by its width and height, both of which must be non-negative scalar.
@@ -17,30 +19,30 @@ import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
  *
  * @since 0.15
  */
-public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polygon<F, Rectangle<F>> {
+public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Rectangle<E>> {
 
-    private final F width;
-    private final F height;
+    private final E width;
+    private final E height;
 
-    @Getter
-    private final CompleteScalarField<F> field;
+
+    private final ScalarField<E> field;
 
 
     /**
      *  @param width  the width of the rectangle, must be non-negative
      *  @param height the height of the rectangle, must be non-negative
      */
-    public Rectangle(@Min(0) F width, @Min(0) F height) {
+    public Rectangle(@Min(0) E width, @Min(0) E height) {
         this.width = width;
         this.height = height;
         this.field = width.getStructure();
     }
 
-    public F width() {
+    public E width() {
         return width;
     }
 
-    public F height() {
+    public E height() {
         return height;
     }
 
@@ -59,22 +61,36 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    public Rectangle<F> circumscribedRectangle(F angle) {
+    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(E angle) {
 
-        F sin = angle.sin();
-        F cos = angle.cos();
-        return new Rectangle<>(
-            width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs())
-        );
+        if (angle instanceof CompleteScalarFieldElement<?>) {
+            CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
+            E sin = (E) completeAngle.sin();
+            E cos = (E) completeAngle.cos();
+            return LocatedShape.atOrigin(new Rectangle<>(
+                width.times(cos).abs().plus(height.times(sin).abs()),
+                width.times(sin).abs().plus(height.times(cos).abs())
+            ));
+        } else {
+            double sin = Math.sin(angle.doubleValue());
+            double cos = Math.cos(angle.doubleValue());
+            return LocatedShape.atOrigin(new Rectangle<>(
+                width.times(cos).abs().plus(height.times(sin).abs()),
+                width.times(sin).abs().plus(height.times(cos).abs())
+            ));
+        }
     }
 
     @Override
-    public Circle<F> circumscribedCircle() {
-        F radius = diagonal().dividedBy(2);
-        return new Circle<>(radius);
+    public LocatedShape<E, Circle<E>> circumscribedCircle() {
+        E radius = diagonal().dividedBy(2);
+        return atOrigin(new Circle<>(radius));
     }
 
+    @Override
+    public ScalarField<E> field() {
+        return field;
+    }
 
 
     /**
@@ -82,7 +98,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
      * Calculates the area of the rectangle by multiplying its width and height.
      */
     @Override
-    public F area() {
+    public E area() {
         return  width.times(height);
     }
 
@@ -93,7 +109,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
      * @return the perimeter of the rectangle
      */
     @Override
-    public F perimeter() {
+    public E perimeter() {
         return width.times(2).plus(height.times(2));
     }
     /**
@@ -102,8 +118,15 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
      *
      * @return the length of the diagonal
      */
-    public F diagonal() {
-        return (width.sqr().plus(height.sqr())).sqrt();
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @NonExact(value = "Diagonal can only be computed well for complete scalar fields", strategy = NonExact.Strategy.EXCEPTION)
+    public E diagonal() {
+        if (field instanceof CompleteScalarField) {
+            return (E) ((CompleteScalarFieldElement) width.sqr().plus(height.sqr())).sqrt();
+        } else {
+            throw new FieldIncompleteException("Field of " + this + " is not complete, so sqrt cannot be computed");
+        }
+
     }
 
     /**
@@ -133,8 +156,24 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
 
 
      @Override
-    public boolean eq(Rectangle<F> other) {
+    public boolean eq(Rectangle<E> other) {
         return  this.width.eq(other.width) && this.height.eq(other.height);
+    }
+
+    @Override
+    public Rectangle<E> times(E multiplier) {
+        return new Rectangle<>(
+            width.times(multiplier),
+            height.times(multiplier)
+        );
+    }
+
+    @Override
+    public Rectangle<E> times(int multiplier) {
+        return new Rectangle<>(
+            width.times(multiplier),
+            height.times(multiplier)
+        );
     }
 
     @Override
@@ -145,7 +184,7 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
         if (!rectangle.field.equals(field)) {
             return false;
         }
-        return eq((Rectangle<F>) rectangle);
+        return eq((Rectangle<E>) rectangle);
     }
 
     @Override
@@ -159,9 +198,9 @@ public class Rectangle<F extends CompleteScalarFieldElement<F>> implements Polyg
     }
 
     @Override
-    public Stream<FieldVector2<F>> vertices() {
-        F halfWidth = width.dividedBy(2);
-        F halfHeight = height.dividedBy(2);
+    public Stream<FieldVector2<E>> vertices() {
+        E halfWidth = width.dividedBy(2);
+        E halfHeight = height.dividedBy(2);
         return Stream.of(
             FieldVector2.of(halfWidth.negation(), halfHeight.negation()),
             FieldVector2.of(halfWidth, halfHeight.negation()),

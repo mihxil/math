@@ -116,6 +116,12 @@ public abstract class AbstractComplexNumber<
         return _of(real.times(multiplier), imaginary.times(multiplier));
     }
 
+    @Override
+    public S times(double multiplier) {
+        return _of(real.times(multiplier), imaginary.times(multiplier));
+    }
+
+
 
 
     @SuppressWarnings("rawtypes")

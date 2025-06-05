@@ -5,12 +5,15 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.integers.ModuloField;
+import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
 
 import static java.lang.Math.PI;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
@@ -18,6 +21,12 @@ public class RectangleTest implements BasicObjectTheory<Rectangle<UncertainReal>
 
     Rectangle<UncertainReal> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));
+
+    ModuloField field = ModuloField.of(2002927);
+
+    Rectangle<ModuloFieldElement> intrectangle = new Rectangle<>(
+        field.element(1024), field.element(576));
+
     @Test
     public void aspectRatio() {
         assertThat(rectangle.aspectRatio()).isEqualTo("16:9");
@@ -27,7 +36,7 @@ public class RectangleTest implements BasicObjectTheory<Rectangle<UncertainReal>
     public void circumscribedRectangle() {
         assertThat(rectangle.circumscribedRectangle(
             exactly(PI / 2d) // 90 degrees
-        ).aspectRatio()).isEqualTo("9:16");
+        ).shape().aspectRatio()).isEqualTo("9:16");
 
     }
 
@@ -35,14 +44,19 @@ public class RectangleTest implements BasicObjectTheory<Rectangle<UncertainReal>
     public void circumscribedRectangleDegrees() {
         assertThat(rectangle.circumscribedRectangle(
             exactly(Math.toRadians(90))
-        ).aspectRatio()).isEqualTo("9:16");
+        ).shape().aspectRatio()).isEqualTo("9:16");
 
     }
 
 
     @Test
     public void area() {
-        assertThat(rectangle.area().eq(element(589824d))).isTrue();
+        assertThatAlgebraically(rectangle.area()).isEqTo(element(589824d));
+    }
+
+    @Test
+    public void intarea() {
+        assertThatAlgebraically(intrectangle.area()).isEqTo(field.element(589824));
     }
 
     @Test

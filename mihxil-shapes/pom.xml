@@ -20,6 +20,10 @@
     </dependency>
     <dependency>
       <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-math</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
     </dependency>
@@ -28,6 +32,7 @@
       <artifactId>jakarta.validation-api</artifactId>
       <scope>provided</scope>
     </dependency>
+
   </dependencies>
 
 </project>

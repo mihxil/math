@@ -13,35 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.theories.abstractalgebra;
 
-import jakarta.validation.constraints.Positive;
-
-import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.theories.numbers.ScalarTheory;
 
 /**
- *
- * @see DivisibleGroup
  * @author Michiel Meeuwissen
- * @since 0.8
+ * @since 0.16
  */
-public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
-    extends MultiplicativeGroupElement<E>,
-    WithDoubleOperations<E> {
-
-    @Override
-    DivisibleGroup<E> getStructure();
-
-    /**
-     * Returns the result of dividing this element by the given divisor.
-     */
-    E dividedBy(@Positive long divisor);
-
-    /**
-     * Returns the result of multiplying this element by the given multiplier.
-     */
-    E times(@Positive long multiplier);
-
-
+public interface ScalarFieldTheory<E extends ScalarFieldElement<E>> extends
+    FieldTheory<E>, ScalarTheory<E> {
 
 }

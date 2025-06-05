@@ -1,17 +1,24 @@
 package org.meeuw.math.shapes.dim2;
 
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarField;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
-public interface Shape<F extends CompleteScalarFieldElement<F>, SELF extends Shape<F, SELF>>  {
+public interface Shape<F extends ScalarFieldElement<F>, SELF extends Shape<F, SELF>>  {
 
     F perimeter();
 
     F area();
 
-    Rectangle<F> circumscribedRectangle(F angle);
+    LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle);
 
-    Circle<F> circumscribedCircle();
+    LocatedShape<F, Circle<F>> circumscribedCircle();
+
+    ScalarField<F> field();
 
     boolean eq(SELF other);
+
+    SELF times(F multiplier);
+
+    SELF times(int multiplier);
 
 }

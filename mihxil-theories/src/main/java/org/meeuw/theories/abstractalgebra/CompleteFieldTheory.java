@@ -41,12 +41,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     FieldTheory<E> {
 
     @Property
-    default void getUnary(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+    default void getUnary(@ForAll(STRUCTURE) CompleteField<E> struct) {
         assertThat(struct.getSupportedUnaryOperators()).contains(SQRT, SIN, COS);
     }
 
     @Property
-    default void getOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
+    default void getOperators(@ForAll(STRUCTURE) CompleteField<E> struct) {
         assertThat(struct.getSupportedOperators()).contains(POWER);
     }
 

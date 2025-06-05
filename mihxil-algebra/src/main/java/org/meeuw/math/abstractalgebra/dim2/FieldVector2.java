@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.dim2;
 
+import lombok.Getter;
 import lombok.With;
 
 import java.math.BigDecimal;
@@ -32,7 +33,7 @@ import org.meeuw.math.numbers.Sizeable;
 import static java.math.BigDecimal.ZERO;
 
 /**
- * A 2-dimensional vector on a {@link CompleteField}.
+ * A 2-dimensional vector on a {@link ScalarField}.
  *
  * @author Michiel Meeuwissen
  */
@@ -43,13 +44,19 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     WithScalarOperations<FieldVector2<E>, E> {
 
     @With
+    @Getter
     final E x;
     @With
+    @Getter
     final E y;
 
 
     public static <E extends ScalarFieldElement<E>> FieldVector2<E> of(E x, E y) {
         return new FieldVector2<>(x, y);
+    }
+
+    public static <E extends ScalarFieldElement<E>> FieldVector2<E> origin(ScalarField<E> field) {
+        return new FieldVector2<>(field.zero(), field.zero());
     }
 
     public static FieldVector2<RealNumber> of(double x, double y) {

@@ -461,6 +461,15 @@ Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementat
 
 link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
 
+== Shapes
+
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-shapes.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-shapes.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-shapes]
+
+The `shapes` modules contains implementations for several 2 and 3-dimensional shapes, like circles, spheres, and polygons.
+
+
+
 
 == Compatibility
 

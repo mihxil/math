@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.dihedral;
 
+import lombok.Getter;
+
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,7 +10,6 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
-
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
 import static org.meeuw.math.text.TextUtils.subscript;
@@ -20,6 +21,8 @@ import static org.meeuw.math.text.TextUtils.subscript;
 public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<DihedralSymmetry> {
 
     private static final Map<Integer, DihedralGroup> CACHE = new ConcurrentHashMap<>();
+
+    @Getter
     final int n;
 
     public static DihedralGroup of(int n) {

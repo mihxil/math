@@ -15,7 +15,7 @@ public class Assertions extends org.assertj.core.api.Assertions {
     }
 
     /**
-     * Many {@link AlgebraicElement} are also {@link Comparable}, so would also match {@link org.assertj.core.api.Assertions#assertThat(Comparable}.
+     * Many {@link AlgebraicElement} are also {@link Comparable}, so would also match {@link org.assertj.core.api.Assertions#assertThat(Comparable)}.
      *
      * @since 0.15
      */

@@ -29,6 +29,7 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
+import org.meeuw.theories.abstractalgebra.ScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -38,7 +39,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 0.4
  */
 @Log4j2
-class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
+class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
 
     @Test
     public void illegal() {

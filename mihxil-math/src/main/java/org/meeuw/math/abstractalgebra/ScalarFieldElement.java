@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -25,7 +26,8 @@ import org.meeuw.math.numbers.Scalar;
  */
 public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
     FieldElement<E>,
-    Scalar<E> {
+    Scalar<E>,
+    WithDoubleOperations<E> {
 
     @Override
     ScalarField<E> getStructure();

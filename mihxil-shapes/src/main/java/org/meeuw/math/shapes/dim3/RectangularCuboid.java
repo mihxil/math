@@ -11,7 +11,7 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  *
  * @since 0.15
  */
-public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> {
+public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> implements Volume<F, RectangularCuboid<F>> {
 
     private final F width;
     private final F height;
@@ -40,8 +40,21 @@ public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> {
     }
 
 
+    @Override
     public F volume() {
         return  width.times(height).times(depth);
+    }
+
+    @Override
+    public F surfaceArea() {
+        return width.times(height).times(2)
+            .plus(width.times(depth).times(2))
+            .plus(height.times(depth).times(2));
+    }
+
+    @Override
+    public boolean eq(RectangularCuboid<F> other) {
+        return false;
     }
 
 

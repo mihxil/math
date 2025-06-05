@@ -2,19 +2,21 @@ package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 
-import org.meeuw.math.abstractalgebra.CompleteScalarField;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.NonExact;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.Uncertain;
+
+import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 
 /**
 
  * @since 0.15
  */
 
-public class Circle<F extends CompleteScalarFieldElement<F>> implements Shape<F, Circle<F>>, Uncertain {
+public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<F>>, Uncertain {
 
     private final F radius;
-    private final CompleteScalarField<F> field;
+    private final ScalarField<F> field;
 
     /**
      */
@@ -23,7 +25,12 @@ public class Circle<F extends CompleteScalarFieldElement<F>> implements Shape<F,
         this.field = radius.getStructure();
     }
 
+    @Override
     public Circle<F> times(F multiplier) {
+        return new Circle<>(radius.times(multiplier));
+    }
+    @Override
+    public Circle<F> times(int multiplier) {
         return new Circle<>(radius.times(multiplier));
     }
 
@@ -31,29 +38,50 @@ public class Circle<F extends CompleteScalarFieldElement<F>> implements Shape<F,
         return radius;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
+    @NonExact("Area can only be computed well for complete scalar fields")
     public F area() {
-        return radius.sqr().times(field.pi());
+        if (field instanceof CompleteScalarField) {
+            CompleteScalarField<?> completeField = (CompleteScalarField) field;
+            return ((F) completeField.pi()).times(radius.sqr());
+        } else {
+            return radius().sqr().times(Math.PI);
+        }
     }
 
     @Override
-    public Rectangle<F> circumscribedRectangle(F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
         F diameter = diameter();
-        return new Rectangle<>(diameter, diameter);
+        return atOrigin(
+            new Rectangle<>(diameter, diameter)
+        );
     }
 
     @Override
-    public Circle<F> circumscribedCircle() {
-        return this;
+    public LocatedShape<F, Circle<F>> circumscribedCircle() {
+        return atOrigin(this);
+    }
+
+    @Override
+    public ScalarField<F> field() {
+        return field;
     }
 
     public F diameter() {
         return radius.times(2);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
+    @NonExact("Perimeter can only be computed well for complete scalar fields")
     public F perimeter() {
-        return radius.times(2).times(field.pi());
+         if (field instanceof CompleteScalarField) {
+             CompleteScalarField<?> completeField = (CompleteScalarField) field;
+             return radius.times(2).times((F) completeField.pi());
+         } else {
+             return radius.times(2).times(Math.PI);
+         }
     }
 
 
@@ -78,6 +106,7 @@ public class Circle<F extends CompleteScalarFieldElement<F>> implements Shape<F,
     public boolean eq(Circle<F> other) {
         return  this.radius.eq(other.radius);
     }
+
 
     @Override
     public boolean equals(Object o) {

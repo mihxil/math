@@ -15,7 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.NonExact;
+import org.meeuw.math.abstractalgebra.Ordered;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 
 /**
@@ -25,7 +27,7 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
  */
 public class ModuloFieldElement
     extends ModuloElement<ModuloFieldElement, ModuloField>
-    implements FieldElement<ModuloFieldElement> {
+    implements ScalarFieldElement<ModuloFieldElement>, Ordered<ModuloFieldElement> {
 
     ModuloFieldElement(int value, ModuloField structure) {
         super(value, structure);
@@ -68,5 +70,25 @@ public class ModuloFieldElement
     @Override
     public ModuloFieldElement times(long multiplier) {
         return new ModuloFieldElement((int) ((long) value * multiplier) % getStructure().divisor, structure);
+    }
+    @Override
+    @NonExact
+    public ModuloFieldElement times(double multiplier) {
+        return times(Math.round(multiplier));
+    }
+
+    @Override
+    public int compareTo(ModuloFieldElement o) {
+        return Integer.compare(value, o.value);
+    }
+
+    @Override
+    public double doubleValue() {
+        return (double) value;
+    }
+
+    @Override
+    public ModuloFieldElement abs() {
+        return this;
     }
 }

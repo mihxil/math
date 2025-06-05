@@ -4,8 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigInteger;
 
-import org.meeuw.math.ArrayUtils;
-import org.meeuw.math.DigitUtils;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
@@ -69,6 +68,12 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
     }
 
     @Override
+    @NonExact
+    public PAdicInteger times(double multiplier) {
+        return times(Math.round(multiplier));
+    }
+
+    @Override
     public PAdicInteger reciprocal() throws ReciprocalException {
         return null;
     }
@@ -77,6 +82,8 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
     public PAdicInteger times(PAdicInteger multiplier) {
          return new PAdicInteger(structure, multiplyAdicDigits(structure.base, this.digits, multiplier.digits));
     }
+
+
 
     @Override
     public PAdicInteger plus(PAdicInteger summand) {

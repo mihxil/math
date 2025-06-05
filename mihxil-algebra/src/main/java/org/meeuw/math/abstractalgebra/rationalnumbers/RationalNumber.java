@@ -23,8 +23,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
-import org.meeuw.math.IntegerUtils;
-import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
@@ -193,6 +192,26 @@ public class RationalNumber extends Number
     }
 
     @Override
+    @NonExact("Small numbers (< 100_000) are multiplied by 100_000, and the result will be divided by 100_000, to achieve better precision")
+    public RationalNumber times(double multiplier) {
+        double signum = Math.signum(multiplier);
+        double abs = Math.abs(multiplier);
+        if (abs >= 100_000d) {
+            return times(Math.round(multiplier));
+        } else {
+            multiplier = 100_000 * abs * signum;
+            return new RationalNumber(
+                numerator.multiply(BigInteger.valueOf(Math.round(multiplier))),
+                denominator.multiply(BigInteger.valueOf(100_000))
+            );
+
+        }
+    }
+
+
+
+
+    @Override
     public int intValue() {
         return numerator.divide(denominator).intValue();
     }
@@ -272,5 +291,6 @@ public class RationalNumber extends Number
             return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "⁄" + TextUtils.subscript(denominator.toString());
         }
     }
+
 
 }

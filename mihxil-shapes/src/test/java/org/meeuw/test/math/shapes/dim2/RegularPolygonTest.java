@@ -2,7 +2,12 @@ package org.meeuw.test.math.shapes.dim2;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.io.*;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamResult;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -10,10 +15,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.RegularPolygon;
+import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
+import org.w3c.dom.Document;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
@@ -25,6 +30,10 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
     static RegularPolygon<UncertainReal> triangle = new RegularPolygon<>(3, element(1.0));
     static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
     static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));
+
+    static RegularPolygon<UncertainReal> hexagon = new RegularPolygon<>(6, element(1.0));
+    static RegularPolygon<UncertainReal> heptagon = new RegularPolygon<>(7, element(1.0));
+
 
 
 
@@ -53,7 +62,14 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
 
 
     public static List<RegularPolygon<UncertainReal>> nGons() {
-        return List.of(triangle, square, pentagon);
+        return List.of(triangle, square, pentagon, hexagon,
+            heptagon,
+            new RegularPolygon<>(8, element(1.0)),
+            new RegularPolygon<>(9, element(1.0)),
+            new RegularPolygon<>(10, element(1.0)),
+            new RegularPolygon<>(11, element(1.0)),
+            new RegularPolygon<>(12, element(1.0))
+        );
     }
 
     @ParameterizedTest
@@ -66,10 +82,19 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
+    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) throws ParserConfigurationException, TransformerException, IOException {
         nGon.vertices().forEach(fv -> {
             log.info("{}", fv);
         });
+        Document svg = SVG.svg();
+        svg.getDocumentElement().appendChild(SVG.svg(svg, nGon.times(20)));
+
+        log.info("xml:" + SVG.toString(svg));
+        try (FileOutputStream fos = new FileOutputStream("/tmp/" + nGon.n() +".svg")) {
+            SVG.marshal(svg, new StreamResult(fos));
+
+        }
+
 
     }
 

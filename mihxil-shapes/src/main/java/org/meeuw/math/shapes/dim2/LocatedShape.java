@@ -1,0 +1,36 @@
+package org.meeuw.math.shapes.dim2;
+
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+
+import static org.meeuw.math.abstractalgebra.dim2.FieldVector2.origin;
+
+public class LocatedShape<F extends ScalarFieldElement<F>, S extends Shape<F, S>> {
+
+    private final S shape;
+    private final FieldVector2<F> location;
+
+    public LocatedShape(S shape, FieldVector2<F> location) {
+        this.shape = shape;
+        this.location = location;
+    }
+
+    /**
+     * A located shape with the origin as location.
+     */
+    private LocatedShape(S shape) {
+        this(shape, origin(shape.field()));
+    }
+
+    public static <F extends ScalarFieldElement<F>, S extends Shape<F, S>> LocatedShape<F, S> atOrigin(S shape) {
+        return new LocatedShape<>(shape);
+    }
+
+    public S shape() {
+        return shape;
+    }
+
+    public FieldVector2<F> location() {
+        return location;
+    }
+}

@@ -1,14 +1,16 @@
 package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
 
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+
+import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 
 /**
  * Regular polygon with n sides, all of equal length.
@@ -18,7 +20,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     private final int n;
     private final F size;
 
-    @Getter
+
     private final CompleteScalarField<F> field;
 
 
@@ -45,25 +47,32 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
             .times(size.sqr()).times(n).dividedBy(4);
     }
 
+    public DihedralGroup dihedralGroup() {
+        return DihedralGroup.of(n);
+    }
+    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> of(DihedralGroup gropu, F size) {
+        return new RegularPolygon<>(gropu.getN(), size);
+    }
+
     @Override
-    public Rectangle<F> circumscribedRectangle(F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
         if (angle.isZero()) {
             F inscribed = inscribedRadius();
             F circumscribed = circumscribedRadius();
             if (n == 3) {
-                return new Rectangle<>(
+                return atOrigin(new Rectangle<>(
                     size,
                     inscribed.plus(circumscribed)
-                );
+                ));
             }
             if (n == 4) {
-                return new Rectangle<>(size, size);
+                return atOrigin(new Rectangle<>(size, size));
             }
             if (n % 2 == 0) {
-                return new Rectangle<>(
+                return atOrigin(new Rectangle<>(
                     circumscribed.times(2),
                     inscribed.times(2)
-                );
+                ));
             } else {
                 throw new UnsupportedOperationException("Circumscribed rectangle is not yet implemented for NGon");
             }
@@ -74,8 +83,13 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
-    public Circle<F> circumscribedCircle() {
-        return new Circle<>(circumscribedRadius());
+    public LocatedShape<F, Circle<F>> circumscribedCircle() {
+        return atOrigin(new Circle<>(circumscribedRadius()));
+    }
+
+    @Override
+    public CompleteScalarField<F> field() {
+        return field;
     }
 
     public F interiorAngle() {
@@ -104,6 +118,16 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
+    public RegularPolygon<F> times(F multiplier) {
+        return new RegularPolygon<>(n, size.times(multiplier));
+    }
+
+    @Override
+    public RegularPolygon<F> times(int multiplier) {
+        return new RegularPolygon<>(n, size.times(multiplier));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RegularPolygon<?>)) return false;
@@ -128,10 +152,19 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     public Stream<FieldVector2<F>> vertices() {
         F radius = circumscribedRadius();
         F step = field.pi().times(2).dividedBy(n);
+        F offset;
+        if (n % 2 == 1) {
+            offset = field.pi().dividedBy(2).negation();
+        } else if (n % 4 == 0) {
+            offset = field.pi().dividedBy(n).negation();
+        } else {
+            offset = field.zero();
+        }
         return IntStream.range(0, n)
             .mapToObj(i -> {
-                F angle = step.times(i);
-                return FieldVector2.of(angle.sin().times(size), angle.cos().times(size)
+                F angle = offset.plus(step.times(i));
+                return FieldVector2.of(
+                    angle.cos().times(size), angle.sin().times(size)
                 );
             });
     }

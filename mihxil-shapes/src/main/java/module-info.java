@@ -28,6 +28,7 @@ module org.meeuw.math.shapes {
     requires org.meeuw.configuration;
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
+    requires java.xml;
 
 
     exports org.meeuw.math.shapes.dim2;

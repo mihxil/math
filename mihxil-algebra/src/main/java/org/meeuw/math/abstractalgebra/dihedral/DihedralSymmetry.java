@@ -5,9 +5,8 @@ import lombok.EqualsAndHashCode;
 import java.util.function.UnaryOperator;
 
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.GroupElement;
-import org.meeuw.math.abstractalgebra.dim2.Matrix2;
-import org.meeuw.math.abstractalgebra.dim2.Vector2;
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
 
@@ -68,15 +67,15 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
     public DihedralSymmetry operate(DihedralSymmetry operand) {
         if (symmetry == r) {
             if (operand.symmetry == r) {
-                return new DihedralSymmetry(r, (k + operand.k) % group.n, group);
+                return DihedralSymmetry.r((k + operand.k) % group.n, group);
             } else {
-                return new DihedralSymmetry(s, (k + operand.k) % group.n, group);
+                return DihedralSymmetry.s((k + operand.k) % group.n, group);
             }
         } else {
             if (operand.symmetry == r) {
-                return new DihedralSymmetry(s, (group.n + k - operand.k) % group.n, group);
+                return DihedralSymmetry.s((group.n + k - operand.k) % group.n, group);
             } else {
-                return new DihedralSymmetry(r, (group.n + k - operand.k) % group.n, group);
+                return DihedralSymmetry.r((group.n + k - operand.k) % group.n, group);
             }
         }
     }
@@ -84,10 +83,9 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
     @Override
     public DihedralSymmetry inverse() {
         if (symmetry == r) {
-            return new DihedralSymmetry(r, (group.n - k) % group.n, group);
+            return DihedralSymmetry.r((group.n - k) % group.n, group);
         } else {
-            return new DihedralSymmetry(s, k % group.n, group);
-
+            return DihedralSymmetry.s(k % group.n, group);
         }
     }
 
@@ -114,6 +112,23 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
             }
         }
         return asMatrix;
+    }
+
+    public <E extends CompleteScalarFieldElement<E>> FieldMatrix2<E> asFieldMatrix2(CompleteScalarField<E> field) {
+        E phi = field.pi().times(2).times(k).dividedBy(group.n);
+        E cos = phi.cos();
+        E sin = phi.sin();
+        if (symmetry == r) {
+            return FieldMatrix2.of(
+                cos, sin.negation(),
+                sin, cos
+            );
+        } else {
+            return FieldMatrix2.of(
+                cos, sin,
+                sin,  cos.negation()
+            );
+        }
     }
 
     @Override
