@@ -41,7 +41,7 @@ public void regularPolygons(int n ) throws Exception {
     }
 }
 ----
-image:{docs}/shapes/3-gon.svg[width={iwidth},titlle="triangle", link="{docs}/shapes/3-gon.svg"]
+image:{docs}/shapes/3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/3-gon.svg"]
 image:{docs}/shapes/4-gon.svg[width={iwidth},title="square"]
 image:{docs}/shapes/5-gon.svg[width={iwidth},title="pentagon"]
 image:{docs}/shapes/6-gon.svg[width={iwidth},title="hexagon"]
