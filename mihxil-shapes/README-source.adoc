@@ -2,7 +2,7 @@
 :gh: https://github.com/mihxil/math/
 :ghblob: {gh}blob/main/
 :ght: {ghblob}mihxil-shapes/src/main/java/
-:ghraw: https://raw.githubusercontent.com/mihxil/math/refs/head/main/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
 :docs: {ghraw}docs
 
 
@@ -13,11 +13,11 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-shapes.svg?color=blue[j
 
 The `shapes` modules contains implementations for several 2 and 3-dimensional shapes, like circles, spheres, and polygons.
 
-image:${docs}/shapes/3.svg[width=100,title="triangle"]
-image:${docs}/shapes/4.svg[width=100,title="square"]
-image:${docs}/shapes/5.svg[width=100,title="pentagon"]
-image:${docs}/shapes/6.svg[width=100,title="hexagon"]
-image:${docs}/shapes/7.svg[width=100,title="heptagon"]
-image:${docs}/shapes/8.svg[width=100,title="octagon"]
-image:${docs}/shapes/9.svg[width=100,title="nonagon"]
-image:${docs}/shapes/10.svg[width=100,title="decagon"]
+image::{docs}/shapes/3.svg[width=100,title="triangle", link="{docs}/shapes/3.svg"]
+image::{docs}/shapes/4.svg[width=100,title="square"]
+image::{docs}/shapes/5.svg[width=100,title="pentagon"]
+image::{docs}/shapes/6.svg[width=100,title="hexagon"]
+image::{docs}/shapes/7.svg[width=100,title="heptagon"]
+image::{docs}/shapes/8.svg[width=100,title="octagon"]
+image::{docs}/shapes/9.svg[width=100,title="nonagon"]
+image::{docs}/shapes/10.svg[width=100,title="decagon"]
