@@ -21,4 +21,6 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
 
     SELF times(int multiplier);
 
+    SELF times(double multiplier);
+
 }

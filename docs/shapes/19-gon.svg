@@ -48,6 +48,11 @@
         <circle cx="100.0" cy="0.0" fill="#ff0000" r="1.1"/>
         <!--Circumscribed circle of {19}, size: 32.91891805614678-->
         <circle cx="100.0" cy="100.0" fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{19}, size: 3.29189180561468</tspan>
+            <tspan dy="4.0" x="0">area: 308.4644957444493</tspan>
+            <tspan dy="4.0" x="0">perimeter: 62.54594430667888</tspan>
+        </text>
         <!--Inscribed circle of {19}, size: 32.91891805614678-->
         <circle cx="100.0" cy="100.0" fill="none" r="98.63613034027223" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
     </g>

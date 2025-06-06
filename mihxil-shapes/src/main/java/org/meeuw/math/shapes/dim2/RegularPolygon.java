@@ -137,6 +137,11 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
+    public RegularPolygon<F> times(double multiplier) {
+        return new RegularPolygon<>(n, size.times(multiplier));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RegularPolygon<?>)) return false;

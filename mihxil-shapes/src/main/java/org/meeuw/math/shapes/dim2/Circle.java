@@ -34,6 +34,11 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
         return new Circle<>(radius.times(multiplier));
     }
 
+    @Override
+    public Circle<F> times(double multiplier) {
+        return new Circle<>(radius.times(multiplier));
+    }
+
     public F radius() {
         return radius;
     }

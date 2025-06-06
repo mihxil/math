@@ -48,5 +48,10 @@
         <circle cx="50.0" cy="10.0" fill="#ff0000" r="1.1"/>
         <!--Circumscribed circle of Rectangle{100x180}-->
         <circle cx="100.0" cy="100.0" fill="none" r="102.95630140987001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">Rectangle{10x18}</tspan>
+            <tspan dy="4.0" x="0">area: 180</tspan>
+            <tspan dy="4.0" x="0">perimeter: 56</tspan>
+        </text>
     </g>
 </svg>

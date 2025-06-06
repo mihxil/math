@@ -61,6 +61,7 @@ public class SVG {
 
     private static final Vector2 origin = new Vector2(gridSize.width().doubleValue()/ 2, gridSize.height().doubleValue() / 2); // the center of the grid
     private static final String stroke = "black";
+    private static final float textSize = 4;
 
 
     private SVG() {
@@ -68,6 +69,9 @@ public class SVG {
     }
 
     public static  Element svg(Document doc, Circle<?> circle) {
+        Element g = doc.createElementNS( SVG_NAMESPACE, "g");
+        doc.getDocumentElement().appendChild(g);
+
         Element circleElement = doc.createElementNS( SVG_NAMESPACE, "circle");
         circleElement.setAttribute("cx", "" + origin.getX());
         circleElement.setAttribute("cy", "" + origin.getY());
@@ -76,8 +80,12 @@ public class SVG {
         circleElement.setAttribute("fill", "none");
 
         circleElement.setAttribute("r", String.valueOf(circle.radius().doubleValue()));
-        doc.getDocumentElement().appendChild(circleElement);
-        return circleElement;
+
+        g.appendChild(circleElement);
+
+        g.appendChild(info(doc, circle.times(0.1)));
+
+        return g;
     }
 
     public static  Element svg(Document doc, Ellipse<?> ellipse) {
@@ -98,6 +106,8 @@ public class SVG {
         {
             g.appendChild(doc.createComment("Circumscribed circle of " + ellipse));
             g.appendChild(circumscribedCircle(doc, ellipse));
+            g.appendChild(info(doc, ellipse.times(0.1)));
+
         }
 
 
@@ -139,6 +149,7 @@ public class SVG {
             g.appendChild(doc.createComment("Circumscribed circle of " + polygon));
             g.appendChild(circumscribedCircle(doc, polygon));
         }
+        g.appendChild(info(doc, polygon.times(0.1)));
         doc.getDocumentElement().appendChild(g);
 
         return g;
@@ -150,6 +161,34 @@ public class SVG {
             g.appendChild(inscribedCircle(doc, polygon));
         }
         return g;
+    }
+
+    public static  Element info(Document doc, Shape<?, ?> shape) {
+        Element info = doc.createElementNS(SVG_NAMESPACE, "text");
+        info.setAttribute("id", "info");
+
+        info.setAttribute("x", String.valueOf(0));
+        info.setAttribute("y", String.valueOf(0));
+        info.setAttribute("font-size", textSize +"");
+        info.setAttribute("fill", "blue");
+        tspan(info, shape.toString());
+        tspan(info, "area: " + shape.area());
+        try {
+            tspan(info, "perimeter: " + shape.perimeter());
+        } catch(Exception e) {
+            tspan(info, "perimeter: " + e.getMessage());
+        }
+        doc.getDocumentElement().appendChild(info);
+        return info;
+    }
+
+    public static Element tspan(Element element, String text) {
+        Element tspan = element.getOwnerDocument().createElementNS(SVG_NAMESPACE, "tspan");
+        tspan.setAttribute("x", "0");
+        tspan.setAttribute("dy", textSize + "");
+        tspan.setTextContent(text);
+        element.appendChild(tspan);
+        return tspan;
     }
 
 
@@ -171,7 +210,6 @@ public class SVG {
         circumscribed.setAttribute("stroke-width", "0.2");
         circumscribed.setAttribute("fill", "none");
 
-        doc.getDocumentElement().appendChild(circumscribed);
         return circumscribed;
     }
 

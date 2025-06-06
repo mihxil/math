@@ -48,6 +48,11 @@
         <circle cx="170.71067811865476" cy="29.28932188134526" fill="#ff0000" r="1.1"/>
         <!--Circumscribed circle of {4}, size: 141.42135623730948-->
         <circle cx="100.0" cy="100.0" fill="none" r="99.99999999999999" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{4}, size: 14.14213562373095</tspan>
+            <tspan dy="4.0" x="0">area: 200.00000000000006</tspan>
+            <tspan dy="4.0" x="0">perimeter: 56.5685424949238</tspan>
+        </text>
         <!--Inscribed circle of {4}, size: 141.42135623730948-->
         <circle cx="100.0" cy="100.0" fill="none" r="70.71067811865476" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
     </g>

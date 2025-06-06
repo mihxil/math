@@ -46,5 +46,10 @@
         <ellipse cx="100.0" cy="100.0" fill="none" rx="100.0" ry="80.0" stroke="black" stroke-width="1"/>
         <!--Circumscribed circle of Ellipse{100,80}-->
         <circle cx="100.0" cy="100.0" fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">Ellipse{10,8}</tspan>
+            <tspan dy="4.0" x="0">area: 251.32741228718345</tspan>
+            <tspan dy="4.0" x="0">perimeter: Perimeter of an ellipse is not implemented yet</tspan>
+        </text>
     </g>
 </svg>

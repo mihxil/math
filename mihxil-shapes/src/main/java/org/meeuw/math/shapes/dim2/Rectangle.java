@@ -190,6 +190,14 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
+    public Rectangle<E> times(double multiplier) {
+         return new Rectangle<>(
+            width.times(multiplier),
+            height.times(multiplier)
+        );
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Rectangle<?>)) return false;
