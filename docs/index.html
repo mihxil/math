@@ -66,14 +66,15 @@
 </li>
 </ul>
 </li>
-<li><a href="#_compatibility">5. Compatibility</a></li>
-<li><a href="#configuration_service">6. ConfigurationService</a></li>
-<li><a href="#theories">7. Theory testing</a>
+<li><a href="#shapes">5. Shapes</a></li>
+<li><a href="#_compatibility">6. Compatibility</a></li>
+<li><a href="#configuration_service">7. ConfigurationService</a></li>
+<li><a href="#theories">8. Theory testing</a>
 <ul class="sectlevel2">
-<li><a href="#_non_math_related_theories">7.1. Non math related theories</a></li>
+<li><a href="#_non_math_related_theories">8.1. Non math related theories</a></li>
 </ul>
 </li>
-<li><a href="#_history">8. History</a></li>
+<li><a href="#_history">9. History</a></li>
 </ul>
 </div>
 </div>
@@ -980,15 +981,34 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="paragraph">
 <p><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/VectorSpace.java">Vector spaces</a>, which manage <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Vector.java"><code>vectors</code></a>, are basically fixed sized sets of  <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/ScalarFieldElement.java"><code>scalars</code></a>, but combine that with several vector operations like cross and inner products.</p>
 </div>
-<div class="paragraph">
-<p>include::mihxil-shapes/README.adoc</p>
-</div>
 </div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_compatibility">5. Compatibility</h2>
+<h2 id="shapes">5. Shapes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-shapes.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math/mihxil-shapes"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-shapes.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="paragraph">
+<p>The <code>shapes</code> modules contains implementations for several 2 and 3-dimensional shapes, like circles, spheres, and polygons.</p>
+</div>
+<div class="paragraph">
+<p><span class="image"><a class="image" href="./shapes/3-gon.svg"><img src="./shapes/3-gon.svg" alt="3 gon" width="200"></a></span>
+<span class="image"><img src="./shapes/4-gon.svg" alt="4 gon" width="200" title="square"></span>
+<span class="image"><img src="./shapes/5-gon.svg" alt="5 gon" width="200" title="pentagon"></span>
+<span class="image"><img src="./shapes/6-gon.svg" alt="6 gon" width="200" title="hexagon"></span>
+<span class="image"><img src="./shapes/7-gon.svg" alt="7 gon" width="200" title="heptagon"></span>
+<span class="image"><img src="./shapes/8-gon.svg" alt="8 gon" width="200" title="octagon"></span>
+<span class="image"><img src="./shapes/9-gon.svg" alt="9 gon" width="200" title="nonagon"></span>
+<span class="image"><img src="./shapes/10-gon.svg" alt="10 gon" width="200" title="decagon"></span></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compatibility">6. Compatibility</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.</p>
@@ -996,7 +1016,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="configuration_service">6. ConfigurationService</h2>
+<h2 id="configuration_service">7. ConfigurationService</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
@@ -1101,7 +1121,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </div>
 <div class="sect1">
-<h2 id="theories">7. Theory testing</h2>
+<h2 id="theories">8. Theory testing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-theories"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-theories.svg" alt="Maven Central"></a></span>
@@ -1122,7 +1142,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.</p>
 </div>
 <div class="sect2">
-<h3 id="_non_math_related_theories">7.1. Non math related theories</h3>
+<h3 id="_non_math_related_theories">8.1. Non math related theories</h3>
 <div class="paragraph">
 <p>See <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories"><code>org.meeuw.theories</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
 </div>
@@ -1169,7 +1189,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_history">8. History</h2>
+<h2 id="_history">9. History</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I&#8217;m maintaining this mainly as a hobby project.</p>
