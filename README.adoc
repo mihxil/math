@@ -546,10 +546,21 @@ public void circle() throws Exception {
         SVG.marshal(svg, new StreamResult(fos));
     }
 }
+
+@Test
+public void ellipse() throws Exception {
+    Ellipse<?> ellipse = new Ellipse<>(element(100.0), element(80.0));
+    Document svg = SVG.svg();
+    SVG.svg(svg, ellipse);
+    try (FileOutputStream fos = new FileOutputStream(new File(dest,  "ellipse.svg"))) {
+        SVG.marshal(svg, new StreamResult(fos));
+    }
+}
 ----
 
+image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle"]
 image:{docs}/shapes/circle.svg[width={iwidth},title="circle"]
-image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectanble"]
+image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse"]
 
 :leveloffset!:
 
