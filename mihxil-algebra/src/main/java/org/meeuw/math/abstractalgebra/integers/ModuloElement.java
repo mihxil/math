@@ -34,10 +34,10 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
     private static final long serialVersionUID = 0L;
 
     @Getter
-    final int value;
+    final long value;
     final S structure;
 
-    ModuloElement(int value, S structure) {
+    ModuloElement(long value, S structure) {
         this.value = value % structure.divisor;
         this.structure = structure;
     }

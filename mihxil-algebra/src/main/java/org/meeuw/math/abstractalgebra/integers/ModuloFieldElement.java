@@ -29,7 +29,7 @@ public class ModuloFieldElement
     extends ModuloElement<ModuloFieldElement, ModuloField>
     implements ScalarFieldElement<ModuloFieldElement>, Ordered<ModuloFieldElement> {
 
-    ModuloFieldElement(int value, ModuloField structure) {
+    ModuloFieldElement(long value, ModuloField structure) {
         super(value, structure);
     }
 
@@ -39,16 +39,16 @@ public class ModuloFieldElement
             throw new DivisionByZeroException("reciprocal of 0", "reciprocal(0)");
         }
         // https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
-        int t = 0;
-        int newt = 1;
-        int r = getStructure().divisor;
-        int newr = value;
+        long t = 0;
+        long newt = 1;
+        long r = getStructure().divisor;
+        long newr = value;
         while (newr != 0) {
-            int quotient = r / newr;
-            int oldt = newt;
+            long quotient = r / newr;
+            long oldt = newt;
             newt = t - quotient * newt;
             t = oldt;
-            int oldr = newr;
+            long oldr = newr;
             newr = r - quotient * newr;
             r = oldr;
         }
@@ -79,7 +79,7 @@ public class ModuloFieldElement
 
     @Override
     public int compareTo(ModuloFieldElement o) {
-        return Integer.compare(value, o.value);
+        return Long.compare(value, o.value);
     }
 
     @Override

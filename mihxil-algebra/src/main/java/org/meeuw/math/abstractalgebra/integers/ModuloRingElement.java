@@ -22,7 +22,7 @@ package org.meeuw.math.abstractalgebra.integers;
  */
 public class ModuloRingElement extends ModuloElement<ModuloRingElement, ModuloRing>  {
 
-    public ModuloRingElement(int value, ModuloRing structure) {
+    public ModuloRingElement(long value, ModuloRing structure) {
         super(value, structure);
     }
 

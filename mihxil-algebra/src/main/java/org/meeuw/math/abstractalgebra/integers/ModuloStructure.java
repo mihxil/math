@@ -18,7 +18,7 @@ package org.meeuw.math.abstractalgebra.integers;
 import lombok.Getter;
 
 import java.util.Random;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Randomizable;
@@ -36,14 +36,14 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     implements AbelianRing<E>, Streamable<E>, Randomizable<E> {
 
     @Getter
-    final int divisor;
+    final long divisor;
     @Getter
     final Cardinality cardinality;
 
     final E one;
     final E zero;
 
-    ModuloStructure(Class<E> eClass, int divisor) {
+    ModuloStructure(Class<E> eClass, long divisor) {
         super(eClass);
         if (divisor <= 0) {
             throw new InvalidStructureCreationException("Divisor of modulo structure must be > 0");
@@ -72,12 +72,12 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
     @Override
     public Stream<E> stream() {
-        return IntStream.range(0, divisor).mapToObj(this::element);
+        return LongStream.range(0, divisor).mapToObj(this::element);
     }
 
     @Override
     public E nextRandom(Random random) {
-        return element(random.nextInt(divisor));
+        return element(random.nextLong(divisor));
     }
 
     public Stream<String> multiplicationTable(String format) {
@@ -94,7 +94,7 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     }
 
 
-    abstract E element(int v);
+    abstract E element(long v);
 
     @Override
     public String toString() {

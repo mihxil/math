@@ -34,16 +34,16 @@ import org.meeuw.math.validation.Prime;
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
     implements ScalarField<ModuloFieldElement> {
 
-    private static final Map<Integer, ModuloField> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<Long, ModuloField> INSTANCES = new ConcurrentHashMap<>();
 
-    public static ModuloField of(@Prime int divisor) throws InvalidElementCreationException {
+    public static ModuloField of(@Prime long divisor) throws InvalidElementCreationException {
         return INSTANCES.computeIfAbsent(divisor, ModuloField::new);
     }
 
     @Example(Field.class)
     public static final ModuloField Z3Z = of(3);
 
-    private ModuloField(int divisor) throws InvalidElementCreationException {
+    private ModuloField(long divisor) throws InvalidElementCreationException {
         super(ModuloFieldElement.class, divisor);
         if (! IntegerUtils.isPrime(divisor)) {
             throw new InvalidElementCreationException("" + divisor + " is not a prime");
@@ -51,7 +51,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     }
 
     @Override
-    public ModuloFieldElement element(int v) {
+    public ModuloFieldElement element(long v) {
         return new ModuloFieldElement(v, this);
     }
 

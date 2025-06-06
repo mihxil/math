@@ -134,13 +134,13 @@ public final class IntegerUtils {
      * @param n an integer to test for primeness
      * @return whether the argument is prime or not
      */
-    public static boolean isPrime(int n) {
+    public static boolean isPrime(long n) {
         if (n <= 3) {
             return n > 1;
         } else if (n % 2 == 0 || n % 3 == 0) {
             return false;
         }
-        int i = 5;
+        long i = 5;
         while (i * i <= n) {
             if (n % i == 0 || n % (i + 2) == 0) {
                 return false;
@@ -150,10 +150,25 @@ public final class IntegerUtils {
         return true;
     }
 
+    public static long nextPrime(long n) {
+        if (n < 2) {
+            return 2;
+        }
+        if (n % 2 == 0) {
+            n++;
+        } else {
+            n += 2;
+        }
+        while (!isPrime(n)) {
+            n += 2;
+        }
+        return n;
+    }
+
     /**
      * Returns a stream of the prime factors of the given number.
      * <p>
-     * The stream is ordered, and contains each prime factor as many times as it occurs in the factorization.
+     * The stream is ordered and contains each prime factor as many times as it occurs in the factorization.
      * </p>
      * <p>
      * For example, {@code primeFactorization(12)} will return {@code 2, 2, 3}.

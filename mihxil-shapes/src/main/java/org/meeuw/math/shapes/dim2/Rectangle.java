@@ -8,6 +8,9 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.abstractalgebra.integers.ModuloField;
+import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
@@ -37,6 +40,16 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         this.height = height;
         this.field = width.getStructure();
     }
+
+    public static Rectangle<RealNumber> of(double width, double height) {
+        return new Rectangle<>(RealNumber.of(width), RealNumber.of(height));
+    }
+
+    public static Rectangle<ModuloFieldElement> of(int width, int height) {
+        ModuloField field = ModuloField.of(IntegerUtils.nextPrime((long) width * height));
+
+        return new Rectangle<>(field.element(width), field.element(height));
+      }
 
     public E width() {
         return width;

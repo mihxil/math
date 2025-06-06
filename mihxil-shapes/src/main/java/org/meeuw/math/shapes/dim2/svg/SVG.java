@@ -11,6 +11,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
+import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -55,7 +56,10 @@ public class SVG {
 
     public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
-    private static final Vector2 origin = Vector2.of(100, 100);
+    private static final Rectangle<ModuloFieldElement> gridSize = Rectangle.of(200, 200);
+    private static final Rectangle<ModuloFieldElement> spacing = Rectangle.of(10, 10);
+
+    private static final Vector2 origin = new Vector2(gridSize.width().doubleValue()/ 2, gridSize.height().doubleValue() / 2); // the center of the grid
     private static final String stroke = "black";
 
 
@@ -164,19 +168,19 @@ public class SVG {
         Document doc = DOCUMENT_BUILDER.newDocument();
         Element rootElement = doc.createElementNS(SVG_NAMESPACE, "svg");
         doc.appendChild(rootElement);
-        rootElement.setAttribute("width",  "200");
-        rootElement.setAttribute("height",  "200");
+        rootElement.setAttribute("width",  String.valueOf(gridSize.width().intValue()));
+        rootElement.setAttribute("height", String.valueOf(gridSize.height().intValue()));
 
         {
             Element g = doc.createElementNS( SVG_NAMESPACE, "g");
             g.setAttribute("id", "grid");
             g.appendChild(doc.createComment("Grid"));
-            for (int i = 0; i < 200; i += 10) {
+            for (int i = 0; i < gridSize.width().intValue(); i += spacing.width().intValue()) {
                 Element line = doc.createElementNS(SVG_NAMESPACE, "line");
                 line.setAttribute("x1", String.valueOf(i));
                 line.setAttribute("y1", "0");
                 line.setAttribute("x2", String.valueOf(i));
-                line.setAttribute("y2", "200");
+                line.setAttribute("y2", gridSize.height().intValue() + "");
                 line.setAttribute("stroke", "#00ff00");
                 line.setAttribute("stroke-width", "0.2");
                 if (i != 100) {
@@ -184,12 +188,12 @@ public class SVG {
                 }
                 g.appendChild(line);
             }
-            for (int i = 0; i < 200; i += 10) {
+            for (int i = 0; i < gridSize.height().intValue(); i += spacing.height().intValue()) {
                 Element line = doc.createElementNS(SVG_NAMESPACE, "line");
                 line.setAttribute("y1", String.valueOf(i));
                 line.setAttribute("x1", "0");
                 line.setAttribute("y2", String.valueOf(i));
-                line.setAttribute("x2", "200");
+                line.setAttribute("x2", gridSize.width().intValue() + "");
                 line.setAttribute("stroke", "#00ff00");
                 line.setAttribute("stroke-width", "0.2");
                 if (i != 100) {

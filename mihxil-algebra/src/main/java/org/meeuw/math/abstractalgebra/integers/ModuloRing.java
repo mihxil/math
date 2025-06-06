@@ -38,12 +38,12 @@ public class ModuloRing extends ModuloStructure<ModuloRingElement, ModuloRing> {
     @Example(AbelianRing.class)
     public static ModuloRing Z8 = of(8);
 
-    private ModuloRing(int divisor) {
+    private ModuloRing(long divisor) {
         super(ModuloRingElement.class, divisor);
     }
 
     @Override
-    ModuloRingElement element(int v) {
+    ModuloRingElement element(long v) {
         return new ModuloRingElement(v, this);
     }
 
