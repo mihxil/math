@@ -15,7 +15,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
     - name: Install Asciidoctor Reducer
-      run: sudo gem install asciidoctor-reducer
+      run: sudo gem install asciidoctor-reducer coderay
     - name: Reduce README
       run: |
         asciidoctor-reducer -o README.adoc README-source.adoc

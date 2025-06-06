@@ -25,6 +25,8 @@ import org.meeuw.theories.abstractalgebra.*;
 import org.meeuw.theories.numbers.NumberTheory;
 import org.meeuw.theories.numbers.ScalarTheory;
 
+// tag::imports[]
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
@@ -34,6 +36,7 @@ import static org.meeuw.physics.SIUnit.kg;
 import static org.meeuw.physics.SIUnit.m;
 
 // end::imports[]
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4

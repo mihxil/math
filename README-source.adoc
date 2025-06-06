@@ -82,9 +82,7 @@ The terminology which is adopted is this:
 7+^| integer operators
 | root | `^n^√x` | root | root | n-th root | base | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 | power | `x^n^` |  |  | n-th power  | exponent |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-| tetration | `x↑↑n` `^n^x` |   |   |  | height | | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-
-
+| tetration | `x↑↑n` `^n^x` |   |   |  | height | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 
 |===
 
@@ -488,16 +486,11 @@ I'm maintaining this mainly as a hobby project.
 | june, 2025
 | Introduction of shapes.
 
-
 |0.15
 |2025
 |Refactoring related to uncertain duration/ instants
 
 | 0.14
-|2024-12
-|
-
- 0.14
 |2024-12
 |
 
