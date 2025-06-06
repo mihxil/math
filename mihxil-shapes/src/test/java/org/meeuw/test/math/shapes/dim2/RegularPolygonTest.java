@@ -16,10 +16,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.shapes.dim2.RegularPolygon;
-import org.meeuw.math.shapes.dim2.svg.SVG;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
-import org.w3c.dom.Document;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
@@ -87,11 +85,6 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
         nGon.vertices().forEach(fv -> {
             log.info("{}", fv);
         });
-        Document svg = SVG.svg();
-        svg.getDocumentElement().appendChild(SVG.svg(svg, nGon.times(20)));
-
-
-
     }
 
     @Override
