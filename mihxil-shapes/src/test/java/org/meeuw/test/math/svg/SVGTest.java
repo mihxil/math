@@ -28,7 +28,7 @@ public class SVGTest {
 
     // tag::regularPolygons[]
     @ParameterizedTest
-    @ValueSource(ints = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19})
+    @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
     public void regularPolygons(int n ) throws Exception {
 
         Document document = SVG.svg();
