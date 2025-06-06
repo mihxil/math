@@ -1051,12 +1051,23 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
         SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
+}
+
+<span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    Ellipse&lt;?&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>));
+    <span class="predefined-type">Document</span> svg = SVG.svg();
+    SVG.svg(svg, ellipse);
+    <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">ellipse.svg</span><span class="delimiter">&quot;</span></span>))) {
+        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+    }
 }</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p><span class="image"><img src="./shapes/circle.svg" alt="circle" width="200" title="circle"></span>
-<span class="image"><img src="./shapes/rectangle.svg" alt="rectangle" width="200" title="rectanble"></span></p>
+<p><span class="image"><img src="./shapes/rectangle.svg" alt="rectangle" width="200" title="rectangle"></span>
+<span class="image"><img src="./shapes/circle.svg" alt="circle" width="200" title="circle"></span>
+<span class="image"><img src="./shapes/ellipse.svg" alt="ellipse" width="200" title="ellipse"></span></p>
 </div>
 </div>
 </div>
