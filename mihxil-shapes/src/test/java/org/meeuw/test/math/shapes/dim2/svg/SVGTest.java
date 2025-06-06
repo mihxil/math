@@ -9,6 +9,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.params.ParameterizedTest;
+
+import org.junit.jupiter.params.provider.ValueSource;
+
+import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.shapes.dim2.RegularPolygon;
 import org.meeuw.math.shapes.dim2.svg.SVG;
 import org.w3c.dom.Document;
@@ -19,19 +24,33 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 public class SVGTest {
 
 
-    @Test
-    public void regularPolygons() throws Exception {
+    @ParameterizedTest
+    @ValueSource(ints = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19})
+    public void regularPolygons(int n ) throws Exception {
         File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
 
-        for (int n = 3; n < 20; n++) {
-            RegularPolygon<?> nGon = new RegularPolygon<>(n, element(20.0));
-            Document svg = SVG.svg();
-            svg.getDocumentElement().appendChild(
-                SVG.svg(svg, nGon)
-            );
-            try (FileOutputStream fos = new FileOutputStream(new File(dest,  nGon.n() +"-gon.svg"))) {
-                SVG.marshal(svg, new StreamResult(fos));
-            }
+        RegularPolygon<?> nGon = new RegularPolygon<>(n, element(20.0));
+        Document svg = SVG.svg();
+        svg.getDocumentElement().appendChild(
+            SVG.svg(svg, nGon)
+        );
+        try (FileOutputStream fos = new FileOutputStream(new File(dest,  nGon.n() +"-gon.svg"))) {
+            SVG.marshal(svg, new StreamResult(fos));
         }
+    }
+    @Test
+    public void rectangle() throws Exception {
+        File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
+
+
+        Rectangle<?> rectangle = new Rectangle<>(element(10.0), element(20.0));
+        Document svg = SVG.svg();
+        svg.getDocumentElement().appendChild(
+            SVG.svg(svg, rectangle)
+        );
+        try (FileOutputStream fos = new FileOutputStream(new File(dest,  "rectangle.svg"))) {
+            SVG.marshal(svg, new StreamResult(fos));
+        }
+
     }
 }

@@ -100,8 +100,12 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         return field.pi().dividedBy(n).cot().times(size).dividedBy(2);
     }
 
+    public Circle<F> inscribedCircle() {
+        return new Circle<>(inscribedRadius());
+    }
+
     public F circumscribedRadius() {
-        return field.pi().dividedBy(n).csc().times(size).dividedBy(2);
+        return size.dividedBy(field.pi().dividedBy(n).sin().times(2));
     }
 
     /**
@@ -168,7 +172,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
             .mapToObj(i -> {
                 F angle = offset.plus(step.times(i));
                 return FieldVector2.of(
-                    angle.cos().times(size), angle.sin().times(size)
+                    angle.cos().times(radius), angle.sin().times(radius)
                 );
             });
     }

@@ -10,8 +10,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.Polygon;
+import org.meeuw.math.abstractalgebra.dim2.Vector2;
+import org.meeuw.math.shapes.dim2.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -41,6 +41,7 @@ public class SVG {
         try {
             proposal = transFactory.newTransformer();
             proposal.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            proposal.setOutputProperty(OutputKeys.INDENT, "yes");
         } catch (TransformerConfigurationException e) {
             log.warning(e.getMessage());
             proposal = null; // will fail later
@@ -54,24 +55,27 @@ public class SVG {
 
     public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 
+    private static final Vector2 origin = Vector2.of(100, 100);
+    private static final String stroke = "black";
+
 
     private SVG() {
         // utility class
     }
 
-    public static  Element svg(Document doc, Circle<?> circle) throws ParserConfigurationException {
+    public static  Element svg(Document doc, Circle<?> circle) {
         Element circleElement = doc.createElementNS( SVG_NAMESPACE, "circle");
-        circleElement.setAttribute("cx", "100");
-        circleElement.setAttribute("cy", "100");
-        circleElement.setAttribute("stroke", "black");
-        circleElement.setAttribute("stroke-width", "2");
+        circleElement.setAttribute("cx", "" + origin.getX());
+        circleElement.setAttribute("cy", "" + origin.getY());
+        circleElement.setAttribute("stroke", stroke);
+        circleElement.setAttribute("stroke-width", "1");
         circleElement.setAttribute("fill", "none");
 
         circleElement.setAttribute("r", String.valueOf(circle.radius().intValue()));
         return circleElement;
     }
 
-    public static  Element svg(Document doc, Polygon<?, ?> polygon) throws ParserConfigurationException {
+    public static  Element svg(Document doc, Polygon<?, ?> polygon) {
         Element g = doc.createElementNS( SVG_NAMESPACE, "g");
 
         Element element = doc.createElementNS(SVG_NAMESPACE, "polygon");
@@ -83,24 +87,80 @@ public class SVG {
             if (points.length() > 0) {
                 points.append(" ");
             }
-            points.append(100 + v.getX().intValue()).append(",").append(100 + v.getY().intValue());
+            points.append(origin.getX() + v.getX().doubleValue()).append(",").append(origin.getY() + v.getY().doubleValue());
         });
         element.setAttribute("points", points.toString());
-        element.setAttribute("stroke", "black");
-        element.setAttribute("stroke-width", "2");
+        element.setAttribute("stroke", stroke);
+        element.setAttribute("stroke-width", "1");
         element.setAttribute("fill", "none");
 
-        FieldVector2<?> firstPoint = polygon.vertices().findFirst().get();
+        {
+            g.appendChild(doc.createComment("Dot showing the first vertex"));
 
-        Element dot = doc.createElementNS(SVG_NAMESPACE, "circle");
-        dot.setAttribute("cx", String.valueOf(100 + firstPoint.getX().intValue()));
-        dot.setAttribute("cy", String.valueOf(100 + firstPoint.getY().intValue()));
-        dot.setAttribute("r", "2");
-        dot.setAttribute("color", "red");
-        g.appendChild(dot);
+            FieldVector2<?> firstPoint = polygon.vertices().findFirst().get();
 
+            Element dot = doc.createElementNS(SVG_NAMESPACE, "circle");
+            dot.setAttribute("cx", String.valueOf(origin.getX() + firstPoint.getX().doubleValue()));
+            dot.setAttribute("cy", String.valueOf(origin.getY() + firstPoint.getY().doubleValue()));
+            dot.setAttribute("r", "1.1");
+            dot.setAttribute("fill", "#ff0000");
+            g.appendChild(dot);
+        }
+        {
+            g.appendChild(doc.createComment("Circumscribed circle of " + polygon));
+            g.appendChild(circumscribedCircle(doc, polygon));
+        }
 
         return g;
+    }
+    public static  Element svg(Document doc, RegularPolygon<?> polygon) {
+        Element g = svg(doc, (Polygon<?, ?>) polygon);
+        {
+            g.appendChild(doc.createComment("Inscribed circle of " + polygon));
+            g.appendChild(inscribedCircle(doc, polygon));
+        }
+        return g;
+    }
+
+
+        public static  Element circumscribedCircle(Document doc, Shape<?, ?> shape) {
+
+            LocatedShape<?, ? extends Circle<?>> circleLocatedShape = shape.circumscribedCircle();
+
+            StringBuilder points = new StringBuilder();
+
+            Circle<?> circle = circleLocatedShape.shape();
+            FieldVector2<?> offset = circleLocatedShape.location();
+            Element circumscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
+            circumscribed.setAttribute("cx", String.valueOf(origin.getX() + offset.getX().doubleValue()));
+            circumscribed.setAttribute("cy", String.valueOf(origin.getY() + offset.getY().doubleValue()));
+            circumscribed.setAttribute("r", "" + circle.radius().doubleValue());
+            circumscribed.setAttribute("stroke", stroke);
+            circumscribed.setAttribute("stroke-opacity", "0.3");
+            circumscribed.setAttribute("stroke-dasharray", "1,1");
+            circumscribed.setAttribute("stroke-width", "0.2");
+            circumscribed.setAttribute("fill", "none");
+
+        return circumscribed;
+    }
+
+    public static  Element inscribedCircle(Document doc, RegularPolygon<?> shape) {
+
+        Circle<?> circle = shape.inscribedCircle();
+
+        StringBuilder points = new StringBuilder();
+
+        Element circumscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
+        circumscribed.setAttribute("cx", String.valueOf(origin.getX()));
+        circumscribed.setAttribute("cy", String.valueOf(origin.getY()));
+        circumscribed.setAttribute("r", "" + circle.radius().doubleValue());
+        circumscribed.setAttribute("stroke", stroke);
+        circumscribed.setAttribute("stroke-opacity", "0.3");
+        circumscribed.setAttribute("stroke-dasharray", "1,1");
+        circumscribed.setAttribute("stroke-width", "0.2");
+        circumscribed.setAttribute("fill", "none");
+
+        return circumscribed;
     }
 
     public static Document svg() {

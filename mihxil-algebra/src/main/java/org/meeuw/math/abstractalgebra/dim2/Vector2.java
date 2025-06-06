@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.dim2;
 
+import lombok.Getter;
 import lombok.With;
 
 import java.util.Iterator;
@@ -38,9 +39,11 @@ public class Vector2 implements
     WithDoubleOperations<Vector2> {
 
     @With
+    @Getter
     final double x;
 
     @With
+    @Getter
     final double y;
 
 
