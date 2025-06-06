@@ -19,10 +19,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
 
     private final int n;
     private final F size;
-
-
     private final CompleteScalarField<F> field;
-
 
     public RegularPolygon(@Min(3) int n, F size) {
         this.n = n;

@@ -62,6 +62,16 @@ public class SVGTest {
             SVG.marshal(svg, new StreamResult(fos));
         }
     }
+
+    @Test
+    public void ellipse() throws Exception {
+        Ellipse<?> ellipse = new Ellipse<>(element(100.0), element(80.0));
+        Document svg = SVG.svg();
+        SVG.svg(svg, ellipse);
+        try (FileOutputStream fos = new FileOutputStream(new File(dest,  "ellipse.svg"))) {
+            SVG.marshal(svg, new StreamResult(fos));
+        }
+    }
     // end::otherShapes[]
 
 }

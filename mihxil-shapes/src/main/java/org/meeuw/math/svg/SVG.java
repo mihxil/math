@@ -75,9 +75,33 @@ public class SVG {
         circleElement.setAttribute("stroke-width", "1");
         circleElement.setAttribute("fill", "none");
 
-        circleElement.setAttribute("r", String.valueOf(circle.radius().intValue()));
+        circleElement.setAttribute("r", String.valueOf(circle.radius().doubleValue()));
         doc.getDocumentElement().appendChild(circleElement);
         return circleElement;
+    }
+
+    public static  Element svg(Document doc, Ellipse<?> ellipse) {
+        Element g = doc.createElementNS( SVG_NAMESPACE, "g");
+        doc.getDocumentElement().appendChild(g);
+
+        Element element = doc.createElementNS( SVG_NAMESPACE, "ellipse");
+        element.setAttribute("cx", "" + origin.getX());
+        element.setAttribute("cy", "" + origin.getY());
+        element.setAttribute("stroke", stroke);
+        element.setAttribute("stroke-width", "1");
+        element.setAttribute("fill", "none");
+
+        element.setAttribute("rx", String.valueOf(ellipse.radiusx().doubleValue()));
+        element.setAttribute("ry", String.valueOf(ellipse.radiusy().doubleValue()));
+        g.appendChild(element);
+
+        {
+            g.appendChild(doc.createComment("Circumscribed circle of " + ellipse));
+            g.appendChild(circumscribedCircle(doc, ellipse));
+        }
+
+
+        return g;
     }
 
     public static  Element svg(Document doc, Polygon<?, ?> polygon) {

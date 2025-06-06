@@ -38,5 +38,6 @@ image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon"]
 include::src/test/java/org/meeuw/test/math/svg/SVGTest.java[tags=otherShapes,indent=0]
 ----
 
+image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle"]
 image:{docs}/shapes/circle.svg[width={iwidth},title="circle"]
-image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectanble"]
+image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse"]
