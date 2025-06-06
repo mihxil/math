@@ -44,6 +44,8 @@ public class Rotation2<E extends CompleteScalarFieldElement<E>> implements
     }
 
 
+
+
     @Override
     public Rotation2Group<E> getStructure() {
         return structure;

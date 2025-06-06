@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim2;
 
+import java.util.*;
+
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -27,14 +29,18 @@ import org.meeuw.math.abstractalgebra.*;
 public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends AbstractAlgebraicStructure<Rotation2<E>>
     implements MultiplicativeAbelianGroup<Rotation2<E>> {
 
-    CompleteScalarField<E> field;
+    public static final Map<CompleteScalarField<?>, Rotation2Group<?>> INSTANCES = new HashMap<>();
+
+
+    private final CompleteScalarField<E> field;
 
     private Rotation2Group(CompleteScalarField<E> field) {
         this.field = field;
     }
 
+    @SuppressWarnings("unchecked")
     public static <E extends CompleteScalarFieldElement<E>> Rotation2Group<E> of(CompleteScalarField<E> field) {
-        return new Rotation2Group<>(field);
+        return (Rotation2Group<E>) INSTANCES.computeIfAbsent(field, Rotation2Group::new);
     }
 
     @Override
@@ -57,6 +63,10 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
             ), this);
     }
 
+    public static <E extends CompleteScalarFieldElement<E>> Rotation2<E> rotationVector(E angle) {
+        return Rotation2Group.<E>of(angle.getStructure()).rotation(angle);
+    }
+
    /* @Override
     public  Rotation<E> nextRandom(Random r) {
         return new Rotation<E>(field.nextRandom(r).times(2).times(field.pi()));
@@ -75,5 +85,18 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
     @Override
     public String toString() {
         return "SO(2)";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rotation2Group<?> that = (Rotation2Group<?>) o;
+        return Objects.equals(field, that.field);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(field);
     }
 }
