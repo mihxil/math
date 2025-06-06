@@ -463,6 +463,8 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 
 
 
+include::mihxil-shapes/README.adoc
+
 
 
 == Compatibility
@@ -622,6 +624,11 @@ I'm maintaining this mainly as a hobby project.
 | 1.0
 | ?
 | Refactory physical units, to be agnostic about axes.
+
+|0.16
+| june, 2025
+| Introduction of shapes.
+
 
 |0.15
 |2025
