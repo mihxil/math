@@ -995,6 +995,32 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="paragraph">
 <p>The <code>shapes</code> modules contains implementations for several 2 and 3-dimensional shapes, like circles, spheres, and polygons.</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
+<span class="keyword">import</span> <span class="include">org.w3c.dom.Document</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainRealField.element</span>;
+
+
+....
+
+
+<span class="annotation">@ParameterizedTest</span>
+<span class="annotation">@ValueSource</span>(ints = {<span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>})
+<span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
+
+    <span class="predefined-type">Document</span> document = SVG.svg();
+    SVG.svg(document,
+        RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>))
+    );
+    <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  n +<span class="string"><span class="delimiter">&quot;</span><span class="content">-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
+        SVG.marshal(document, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+    }
+}</code></pre>
+</div>
+</div>
 <div class="paragraph">
 <p><span class="image"><a class="image" href="./shapes/3-gon.svg"><img src="./shapes/3-gon.svg" alt="3 gon" width="200"></a></span>
 <span class="image"><img src="./shapes/4-gon.svg" alt="4 gon" width="200" title="square"></span>
@@ -1003,8 +1029,33 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="image"><img src="./shapes/7-gon.svg" alt="7 gon" width="200" title="heptagon"></span>
 <span class="image"><img src="./shapes/8-gon.svg" alt="8 gon" width="200" title="octagon"></span>
 <span class="image"><img src="./shapes/9-gon.svg" alt="9 gon" width="200" title="nonagon"></span>
-<span class="image"><img src="./shapes/10-gon.svg" alt="10 gon" width="200" title="decagon"></span>
-<span class="image"><img src="./shapes/circle.svg" alt="circle" width="200" title="circle"></span>
+<span class="image"><img src="./shapes/10-gon.svg" alt="10 gon" width="200" title="decagon"></span></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="predefined-type">Rectangle</span>&lt;?&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">180.0</span>));
+    <span class="predefined-type">Document</span> svg = SVG.svg();
+    SVG.svg(svg, rectangle);
+    <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">rectangle.svg</span><span class="delimiter">&quot;</span></span>))) {
+        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+    }
+}
+
+<span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    Circle&lt;?&gt; circle = <span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>));
+    <span class="predefined-type">Document</span> svg = SVG.svg();
+    SVG.svg(svg, circle);
+    <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
+        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><span class="image"><img src="./shapes/circle.svg" alt="circle" width="200" title="circle"></span>
 <span class="image"><img src="./shapes/rectangle.svg" alt="rectangle" width="200" title="rectanble"></span></p>
 </div>
 </div>
