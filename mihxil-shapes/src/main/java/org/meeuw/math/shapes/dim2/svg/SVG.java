@@ -1,4 +1,6 @@
-package org.meeuw.math.shapes.dim2;
+package org.meeuw.math.shapes.dim2.svg;
+
+import lombok.extern.java.Log;
 
 import java.io.StringWriter;
 
@@ -8,13 +10,50 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.shapes.dim2.Circle;
+import org.meeuw.math.shapes.dim2.Polygon;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+@Log
 public class SVG {
 
+
+    private static final DocumentBuilder DOCUMENT_BUILDER;
+
+    private static final Transformer TRANSFORMER;
+    static {
+
+        final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder proposal;
+        try {
+            proposal = documentBuilderFactory.newDocumentBuilder();
+
+        } catch (ParserConfigurationException e) {
+            log.warning(e.getMessage());
+            proposal = null; // will fail later
+        }
+        DOCUMENT_BUILDER = proposal;
+    }
+    static {
+        final TransformerFactory transFactory = TransformerFactory.newInstance();
+        Transformer proposal;
+        try {
+            proposal = transFactory.newTransformer();
+            proposal.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+        } catch (TransformerConfigurationException e) {
+            log.warning(e.getMessage());
+            proposal = null; // will fail later
+        }
+        TRANSFORMER = proposal;
+    }
+
+
+
+
+
     public static final String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-    public static final String SVG_XLINK_NAMESPACE = "http://www.w3.org/1999/xlink";
+
 
     private SVG() {
         // utility class
@@ -65,27 +104,16 @@ public class SVG {
     }
 
     public static Document svg() {
-        try {
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElementNS(SVG_NAMESPACE, "svg");
-            doc.appendChild(rootElement);
-            rootElement.setAttribute("width",  "200");
-            rootElement.setAttribute("height",  "200");
-            return doc;
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException("Error creating SVG document", e);
-        }
+        Document doc = DOCUMENT_BUILDER.newDocument();
+        Element rootElement = doc.createElementNS(SVG_NAMESPACE, "svg");
+        doc.appendChild(rootElement);
+        rootElement.setAttribute("width",  "200");
+        rootElement.setAttribute("height",  "200");
+        return doc;
     }
 
     public static void marshal(Document document, StreamResult result) throws TransformerException {
-        TransformerFactory transFactory = TransformerFactory.newInstance();
-        Transformer transformer = transFactory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-        transformer.transform(new DOMSource(document),
-            result);
-
+        TRANSFORMER.transform(new DOMSource(document), result);
     }
 
     public static String toString(Document document) throws TransformerException {

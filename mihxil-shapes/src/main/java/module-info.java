@@ -25,13 +25,14 @@ module org.meeuw.math.shapes {
     requires static jakarta.validation;
 
     requires java.logging;
+    requires java.xml;
 
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
-    requires java.xml;
 
 
     exports org.meeuw.math.shapes.dim2;
     exports org.meeuw.math.shapes.dim3;
+    exports org.meeuw.math.shapes.dim2.svg;
 
 }

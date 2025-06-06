@@ -459,6 +459,11 @@ Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementat
 link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
 
 
+
+include::mihxil-shapes/README.adoc
+
+
+
 == Compatibility
 
 This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
@@ -478,6 +483,11 @@ I'm maintaining this mainly as a hobby project.
 | 1.0
 | ?
 | Refactory physical units, to be agnostic about axes.
+
+|0.16
+| june, 2025
+| Introduction of shapes.
+
 
 |0.15
 |2025

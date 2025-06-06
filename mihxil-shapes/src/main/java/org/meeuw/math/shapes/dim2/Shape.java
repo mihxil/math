@@ -3,21 +3,21 @@ package org.meeuw.math.shapes.dim2;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
-public interface Shape<F extends ScalarFieldElement<F>, SELF extends Shape<F, SELF>>  {
+public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SELF>>  {
 
-    F perimeter();
+    E perimeter();
 
-    F area();
+    E area();
 
-    LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle);
+    LocatedShape<E, Rectangle<E>> circumscribedRectangle(E angle);
 
-    LocatedShape<F, Circle<F>> circumscribedCircle();
+    LocatedShape<E, Circle<E>> circumscribedCircle();
 
-    ScalarField<F> field();
+    ScalarField<E> field();
 
     boolean eq(SELF other);
 
-    SELF times(F multiplier);
+    SELF times(E multiplier);
 
     SELF times(int multiplier);
 

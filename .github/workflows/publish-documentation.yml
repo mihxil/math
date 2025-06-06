@@ -8,6 +8,7 @@ on:
       - 'README-source.adoc'
       - '*/README-source.adoc'
       - 'docs/Makefile'
+      - 'docs/shapes/*.svg'
       - 'docs/algebras.dot.m4'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:

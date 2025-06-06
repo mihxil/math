@@ -61,7 +61,8 @@ public class FieldMatrix2Group<E extends ScalarFieldElement<E>>
         return one;
     }
 
-     @Override
+
+    @Override
     public FieldMatrix2<E> nextRandom(Random r) {
         return FieldMatrix2.of(
             elementStructure.getElementClass(),

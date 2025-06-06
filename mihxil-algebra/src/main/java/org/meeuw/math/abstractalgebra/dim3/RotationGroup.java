@@ -52,7 +52,7 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
 
     @Override
     public Cardinality getCardinality() {
-        return RealField.INSTANCE.getCardinality();
+        return RealField.INSTANCE.getCardinality().pow(3);
     }
 
     @Override

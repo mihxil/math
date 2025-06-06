@@ -16,15 +16,13 @@
 package org.meeuw.test;
 
 import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-
 import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.time.TestClock;
 import org.meeuw.math.statistics.StatisticalDoubleImpl;
+import org.meeuw.math.time.TestClock;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.physics.*;
 
@@ -36,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class IntegrationTest {
 
     @Test
-    public void windowedEventRateToPhysics() throws UnsupportedEncodingException {
+    public void windowedEventRateToPhysics() {
         TestClock clock = new TestClock();
         WindowedEventRate rate = WindowedEventRate.builder()
             .clock(clock)

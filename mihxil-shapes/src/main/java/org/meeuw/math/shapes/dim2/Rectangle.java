@@ -67,14 +67,14 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
             CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
             E sin = (E) completeAngle.sin();
             E cos = (E) completeAngle.cos();
-            return LocatedShape.atOrigin(new Rectangle<>(
+            return atOrigin(new Rectangle<>(
                 width.times(cos).abs().plus(height.times(sin).abs()),
                 width.times(sin).abs().plus(height.times(cos).abs())
             ));
         } else {
             double sin = Math.sin(angle.doubleValue());
             double cos = Math.cos(angle.doubleValue());
-            return LocatedShape.atOrigin(new Rectangle<>(
+            return atOrigin(new Rectangle<>(
                 width.times(cos).abs().plus(height.times(sin).abs()),
                 width.times(sin).abs().plus(height.times(cos).abs())
             ));

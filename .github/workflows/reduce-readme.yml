@@ -21,7 +21,8 @@ jobs:
         asciidoctor-reducer -o README.adoc README-source.adoc
         asciidoctor-reducer -o mihxil-configuration/README.adoc mihxil-configuration/README-source.adoc
         asciidoctor-reducer -o mihxil-theories/README.adoc mihxil-theories/README-source.adoc
+        asciidoctor-reducer -o mihxil-shapes/README.adoc mihxil-shapes/README-source.adoc
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
-        add: '["README.adoc", "mihxil-configuration/README.adoc", "mihxil-theories/README.adoc"]'
+        add: '["README.adoc", "mihxil-configuration/README.adoc", "mihxil-theories/README.adoc", "mihxil-shapes/README.adoc"]'

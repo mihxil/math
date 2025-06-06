@@ -54,7 +54,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         return new RegularPolygon<>(gropu.getN(), size);
     }
 
-    @Override
+/*    @Override
     public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
         if (angle.isZero()) {
             F inscribed = inscribedRadius();
@@ -80,7 +80,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         throw new UnsupportedOperationException("Circumscribed rectangle is not yet implemented for NGon");
 
 
-    }
+    }*/
 
     @Override
     public LocatedShape<F, Circle<F>> circumscribedCircle() {
@@ -109,7 +109,11 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
      */
     @Override
     public String toString() {
-        return String.format("{%d}, size: %s", n, size.toString());
+        if (size.isOne()) {
+            return String.format("{%d}", n);
+        } else {
+            return String.format("{%d}, size: %s", n, size);
+        }
     }
 
     @Override
