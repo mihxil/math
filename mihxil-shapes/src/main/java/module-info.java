@@ -30,7 +30,6 @@ module org.meeuw.math.shapes {
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
 
-
     exports org.meeuw.math.shapes.dim2;
     exports org.meeuw.math.shapes.dim3;
     exports org.meeuw.math.shapes.dim2.svg;

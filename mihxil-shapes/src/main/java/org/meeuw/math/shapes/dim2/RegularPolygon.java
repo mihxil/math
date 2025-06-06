@@ -30,6 +30,10 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         this.field = size.getStructure();
     }
 
+    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> withCircumScribedRadius(int n, F radius) {
+        return new RegularPolygon<>(n, radius.times(2).times(radius.getStructure().pi().dividedBy(n).sin()));
+    }
+
     public F size() {
         return size;
     }

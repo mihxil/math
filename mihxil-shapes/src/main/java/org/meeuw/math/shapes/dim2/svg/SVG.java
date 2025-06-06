@@ -169,6 +169,40 @@ public class SVG {
         doc.appendChild(rootElement);
         rootElement.setAttribute("width",  "200");
         rootElement.setAttribute("height",  "200");
+
+        {
+            Element g = doc.createElementNS( SVG_NAMESPACE, "g");
+
+            g.appendChild(doc.createComment("Grid"));
+            for (int i = 0; i < 200; i += 10) {
+                Element line = doc.createElementNS(SVG_NAMESPACE, "line");
+                line.setAttribute("x1", String.valueOf(i));
+                line.setAttribute("y1", "0");
+                line.setAttribute("x2", String.valueOf(i));
+                line.setAttribute("y2", "200");
+                line.setAttribute("stroke", "#00ff00");
+                line.setAttribute("stroke-width", "0.2");
+                if (i != 100) {
+                    line.setAttribute("stroke-dasharray", "1,1");
+                }
+                g.appendChild(line);
+            }
+            for (int i = 0; i < 200; i += 10) {
+                Element line = doc.createElementNS(SVG_NAMESPACE, "line");
+                line.setAttribute("y1", String.valueOf(i));
+                line.setAttribute("x1", "0");
+                line.setAttribute("y2", String.valueOf(i));
+                line.setAttribute("x2", "200");
+                line.setAttribute("stroke", "#00ff00");
+                line.setAttribute("stroke-width", "0.2");
+                if (i != 100) {
+                    line.setAttribute("stroke-dasharray", "1,1");
+                }
+                g.appendChild(line);
+            }
+            rootElement.appendChild(g);
+        }
+
         return doc;
     }
 
