@@ -1,54 +1,9 @@
 <svg height="200" width="200" xmlns="http://www.w3.org/2000/svg">
     <g>
-        <!--Grid-->
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="0" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="10" x2="10" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="20" x2="20" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="30" x2="30" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="40" x2="40" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="50" x2="50" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="60" x2="60" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="70" x2="70" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="80" x2="80" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="90" x2="90" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-width="0.2" x1="100" x2="100" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="110" x2="110" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="120" x2="120" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="130" x2="130" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="140" x2="140" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="150" x2="150" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="160" x2="160" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="170" x2="170" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="180" x2="180" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="190" x2="190" y1="0" y2="200"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="0" y2="0"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="10" y2="10"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="20" y2="20"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="30" y2="30"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="40" y2="40"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="50" y2="50"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="60" y2="60"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="70" y2="70"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="80" y2="80"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="90" y2="90"/>
-        <line stroke="#00ff00" stroke-width="0.2" x1="0" x2="200" y1="100" y2="100"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="110" y2="110"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="120" y2="120"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="130" y2="130"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="140" y2="140"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="150" y2="150"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="160" y2="160"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="170" y2="170"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="180" y2="180"/>
-        <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="190" y2="190"/>
-    </g>
-    <g>
-        <polygon fill="none" points="100.0,0.0 140.67366430758,8.64545423573992 174.31448254773943,33.08693936411417 195.10565162951536,69.09830056250526 199.45218953682735,110.45284632676534 186.60254037844388,150.0 158.77852522924732,180.90169943749476 120.79116908177596,197.81476007338057 79.2088309182241,197.81476007338057 41.2214747707527,180.90169943749476 13.397459621556152,150.00000000000003 0.5478104631726666,110.45284632676541 4.894348370484636,69.09830056250527 25.685517452260555,33.086939364114215 59.32633569241991,8.645454235739948" stroke="black" stroke-width="1"/>
+        <polygon fill="none" points="100.0,80.0 108.134732861516,81.72909084714799 114.86289650954788,86.61738787282283 119.02113032590307,93.81966011250105 119.89043790736547,102.09056926535307 117.32050807568878,110.0 111.75570504584947,116.18033988749895 104.15823381635519,119.56295201467611 95.84176618364482,119.56295201467611 88.24429495415055,116.18033988749895 82.67949192431124,110.0 80.10956209263453,102.09056926535308 80.97886967409693,93.81966011250105 85.1371034904521,86.61738787282285 91.86526713848399,81.72909084714799" stroke="black" stroke-width="2"/>
         <!--Dot showing the first vertex-->
-        <circle cx="100.0" cy="0.0" fill="#ff0000" r="1.1"/>
-        <!--Circumscribed circle of {15}, size: 41.58233816355186-->
-        <circle cx="100.0" cy="100.0" fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-        <!--Inscribed circle of {15}, size: 41.58233816355186-->
-        <circle cx="100.0" cy="100.0" fill="none" r="97.81476007338055" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <circle color="#ff0000" cx="100.0" cy="80.0" r="2"/>
+        <!--Circumscribed circle of {15}, size: 20-->
+        <circle cx="100.0" cy="100.0" fill="none" r="48.09734344744132" stroke="#555555" stroke-width="1"/>
     </g>
 </svg>

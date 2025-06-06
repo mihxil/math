@@ -145,11 +145,8 @@ public class SVG {
     }
 
     public static  Element inscribedCircle(Document doc, RegularPolygon<?> shape) {
-
         Circle<?> circle = shape.inscribedCircle();
-
         StringBuilder points = new StringBuilder();
-
         Element circumscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
         circumscribed.setAttribute("cx", String.valueOf(origin.getX()));
         circumscribed.setAttribute("cy", String.valueOf(origin.getY()));
@@ -172,7 +169,7 @@ public class SVG {
 
         {
             Element g = doc.createElementNS( SVG_NAMESPACE, "g");
-
+            g.setAttribute("id", "grid");
             g.appendChild(doc.createComment("Grid"));
             for (int i = 0; i < 200; i += 10) {
                 Element line = doc.createElementNS(SVG_NAMESPACE, "line");

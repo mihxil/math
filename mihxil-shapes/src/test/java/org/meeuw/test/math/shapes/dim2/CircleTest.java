@@ -2,12 +2,10 @@ package org.meeuw.test.math.shapes.dim2;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.stream.StreamResult;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -58,10 +56,5 @@ public class CircleTest implements BasicObjectTheory<Circle<UncertainReal>> {
         Document svg  = SVG.svg();
         svg.getDocumentElement().appendChild(SVG.svg(svg, circle.times(20)));
         log.info("xml:" + SVG.toString(svg));
-        try (FileOutputStream fos = new FileOutputStream("/tmp/circle.svg")) {
-            SVG.marshal(svg, new StreamResult(fos));
-
-        }
-
     }
 }
