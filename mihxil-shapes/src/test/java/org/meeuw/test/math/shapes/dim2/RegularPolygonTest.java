@@ -2,11 +2,7 @@ package org.meeuw.test.math.shapes.dim2;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -46,7 +42,7 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
         assertThatAlgebraically(triangle.interiorAngle()).isEqTo(element(Math.PI / 3));
         assertThatAlgebraically(triangle.inscribedRadius()).isEqTo(element(Math.sqrt(3) / 6));
         assertThatAlgebraically(triangle.circumscribedRadius()).isEqTo(element(Math.sqrt(3) / 3));
-        assertThat(triangle.toString()).isEqualTo("{3}, size: 1");
+        assertThat(triangle.toString()).isEqualTo("{3}");
     }
 
     @Test
@@ -81,7 +77,7 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) throws ParserConfigurationException, TransformerException, IOException {
+    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
         nGon.vertices().forEach(fv -> {
             log.info("{}", fv);
         });
