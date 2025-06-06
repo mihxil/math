@@ -77,7 +77,7 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
     @Override
     public E nextRandom(Random random) {
-        return element(random.nextLong() % divisor);
+        return element(Math.abs(random.nextLong() % divisor));
     }
 
     public Stream<String> multiplicationTable(String format) {
