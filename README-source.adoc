@@ -458,8 +458,7 @@ link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{gh
 
 
 
-include::mihxil-shapes/README.adoc
-
+include::mihxil-shapes/README-source.adoc[leveloffset=1]
 
 
 == Compatibility
