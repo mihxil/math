@@ -80,9 +80,7 @@ The terminology which is adopted is this:
 7+^| integer operators
 | root | `^n^√x` | root | root | n-th root | base | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 | power | `x^n^` |  |  | n-th power  | exponent |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-| tetration | `x↑↑n` `^n^x` |   |   |  | height | | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
-
-
+| tetration | `x↑↑n` `^n^x` |   |   |  | height | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
 
 |===
 
@@ -310,6 +308,15 @@ Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper di
 
 [source,java]
 ----
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.physics.Measurement.measurement;
+import static org.meeuw.physics.SI.DecimalPrefix.k;
+import static org.meeuw.physics.SI.DecimalPrefix.none;
+import static org.meeuw.physics.SI.*;
+import static org.meeuw.physics.SIUnit.kg;
+import static org.meeuw.physics.SIUnit.m;
+
 ...
 PhysicalNumber twoLightYear = new Measurement(2, 0.1, ly);        //
 PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
@@ -629,16 +636,11 @@ I'm maintaining this mainly as a hobby project.
 | june, 2025
 | Introduction of shapes.
 
-
 |0.15
 |2025
 |Refactoring related to uncertain duration/ instants
 
 | 0.14
-|2024-12
-|
-
- 0.14
 |2024-12
 |
 
