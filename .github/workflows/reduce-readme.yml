@@ -18,10 +18,13 @@ jobs:
       run: sudo gem install asciidoctor-reducer coderay
     - name: Reduce README
       run: |
-        asciidoctor-reducer -o README.adoc README-source.adoc
-        asciidoctor-reducer -o mihxil-configuration/README.adoc mihxil-configuration/README-source.adoc
-        asciidoctor-reducer -o mihxil-theories/README.adoc mihxil-theories/README-source.adoc
-        asciidoctor-reducer -o mihxil-shapes/README.adoc mihxil-shapes/README-source.adoc
+        for source in README-source.adoc mihxil-configuration/README-source.adoc mihxil-theories/README-source.adoc mihxil-shapes/README-source.adoc; do
+          dest="${source%-source.adoc}.adoc"
+          chmod +w $dest
+          echo "Reducing $source to $dest"
+          asciidoctor-reducer --log-level debug -o $dest $source
+          chmod -w $dest
+        done
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
