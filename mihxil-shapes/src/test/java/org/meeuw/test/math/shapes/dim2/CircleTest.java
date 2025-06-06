@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.svg.SVG;
+import org.meeuw.math.svg.SVG;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
 import org.w3c.dom.Document;

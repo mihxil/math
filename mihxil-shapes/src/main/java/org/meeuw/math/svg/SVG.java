@@ -1,4 +1,4 @@
-package org.meeuw.math.shapes.dim2.svg;
+package org.meeuw.math.svg;
 
 import lombok.extern.java.Log;
 
@@ -76,6 +76,7 @@ public class SVG {
         circleElement.setAttribute("fill", "none");
 
         circleElement.setAttribute("r", String.valueOf(circle.radius().intValue()));
+        doc.getDocumentElement().appendChild(circleElement);
         return circleElement;
     }
 
@@ -114,6 +115,7 @@ public class SVG {
             g.appendChild(doc.createComment("Circumscribed circle of " + polygon));
             g.appendChild(circumscribedCircle(doc, polygon));
         }
+        doc.getDocumentElement().appendChild(g);
 
         return g;
     }
@@ -127,33 +129,17 @@ public class SVG {
     }
 
 
-        public static  Element circumscribedCircle(Document doc, Shape<?, ?> shape) {
+    public static  Element circumscribedCircle(Document doc, Shape<?, ?> shape) {
 
-            LocatedShape<?, ? extends Circle<?>> circleLocatedShape = shape.circumscribedCircle();
+        LocatedShape<?, ? extends Circle<?>> circleLocatedShape = shape.circumscribedCircle();
 
-            StringBuilder points = new StringBuilder();
-
-            Circle<?> circle = circleLocatedShape.shape();
-            FieldVector2<?> offset = circleLocatedShape.location();
-            Element circumscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
-            circumscribed.setAttribute("cx", String.valueOf(origin.getX() + offset.getX().doubleValue()));
-            circumscribed.setAttribute("cy", String.valueOf(origin.getY() + offset.getY().doubleValue()));
-            circumscribed.setAttribute("r", "" + circle.radius().doubleValue());
-            circumscribed.setAttribute("stroke", stroke);
-            circumscribed.setAttribute("stroke-opacity", "0.3");
-            circumscribed.setAttribute("stroke-dasharray", "1,1");
-            circumscribed.setAttribute("stroke-width", "0.2");
-            circumscribed.setAttribute("fill", "none");
-
-        return circumscribed;
-    }
-
-    public static  Element inscribedCircle(Document doc, RegularPolygon<?> shape) {
-        Circle<?> circle = shape.inscribedCircle();
         StringBuilder points = new StringBuilder();
+
+        Circle<?> circle = circleLocatedShape.shape();
+        FieldVector2<?> offset = circleLocatedShape.location();
         Element circumscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
-        circumscribed.setAttribute("cx", String.valueOf(origin.getX()));
-        circumscribed.setAttribute("cy", String.valueOf(origin.getY()));
+        circumscribed.setAttribute("cx", String.valueOf(origin.getX() + offset.getX().doubleValue()));
+        circumscribed.setAttribute("cy", String.valueOf(origin.getY() + offset.getY().doubleValue()));
         circumscribed.setAttribute("r", "" + circle.radius().doubleValue());
         circumscribed.setAttribute("stroke", stroke);
         circumscribed.setAttribute("stroke-opacity", "0.3");
@@ -161,7 +147,26 @@ public class SVG {
         circumscribed.setAttribute("stroke-width", "0.2");
         circumscribed.setAttribute("fill", "none");
 
+        doc.getDocumentElement().appendChild(circumscribed);
         return circumscribed;
+    }
+
+    public static  Element inscribedCircle(Document doc, RegularPolygon<?> shape) {
+        Circle<?> circle = shape.inscribedCircle();
+        StringBuilder points = new StringBuilder();
+        Element inscribed = doc.createElementNS(SVG_NAMESPACE, "circle");
+        inscribed.setAttribute("cx", String.valueOf(origin.getX()));
+        inscribed.setAttribute("cy", String.valueOf(origin.getY()));
+        inscribed.setAttribute("r", "" + circle.radius().doubleValue());
+        inscribed.setAttribute("stroke", stroke);
+        inscribed.setAttribute("stroke-opacity", "0.3");
+        inscribed.setAttribute("stroke-dasharray", "1,1");
+        inscribed.setAttribute("stroke-width", "0.2");
+        inscribed.setAttribute("fill", "none");
+
+        doc.getDocumentElement().appendChild(inscribed);
+
+        return inscribed;
     }
 
     public static Document svg() {
