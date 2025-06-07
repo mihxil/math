@@ -53,6 +53,10 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
      */
     E φ();
 
+    default E element(long n) {
+        return one().times(n);
+    }
+
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;

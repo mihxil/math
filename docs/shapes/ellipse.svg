@@ -49,7 +49,7 @@
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">Ellipse{10,8}</tspan>
             <tspan dy="4.0" x="0">area: 251.32741228718345</tspan>
-            <tspan dy="4.0" x="0">perimeter: Perimeter of an ellipse is not implemented yet</tspan>
+            <tspan dy="4.0" x="0">perimeter: 56.72333577794859</tspan>
         </text>
     </g>
 </svg>

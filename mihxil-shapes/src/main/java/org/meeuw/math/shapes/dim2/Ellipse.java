@@ -101,32 +101,13 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
 
+
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @NonExact("Integration needs to be done.")
     public F perimeter() {
         if (field instanceof CompleteScalarField) {
-            CompleteScalarField<?> completeField = (CompleteScalarField) field;
-
-            CompleteFieldElement<?> sum = (CompleteFieldElement<?>) radiusx.plus(radiusy);
-            CompleteFieldElement<?> sqr = sum.sqr();
-            CompleteFieldElement<?> h = ((CompleteFieldElement<?>) radiusx.minus(radiusy)).sqr();
-            //h.dividedBy(sqr);
-
-            // TODO  James Ivory,[4] Bessel[5] and Kummer,[6]
-            /*
-        F result = field.one();
-        for (int n = 1; n <= 10; n++) {
-            F term = h.pow(n).dividedBy()
-
-            result = result.plus(term);
-        }
-        throw new UnsupportedOperationException("Perimeter of an ellipse is not implemented yet, see");
-        */
-            // Ramanujan's (second) approximation:
-
-            //return h.times(3).dividedBy(completeField.one().times(10).plus(field.one().times(4).minus(h.times(3)).sqrt()) + 10 * h).sqrt().times(2).times(sum);
-            throw new UnsupportedOperationException("Perimeter of an ellipse is not implemented yet");
+            return (F) perimeterRamanujan((CompleteScalarFieldElement) radiusx, (CompleteScalarFieldElement) radiusy);
         } else {
             throw new FieldIncompleteException("Perimeter can only be computed well for complete scalar fields");
         }
@@ -159,7 +140,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @Override
     public boolean eq(Ellipse<F> other) {
-        return  this.radiusx.eq(other.radiusx);
+        return  this.radiusx.eq(other.radiusx) && this.radiusy.eq(other.radiusy);
     }
 
 
@@ -176,6 +157,28 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @Override
     public int hashCode() {
-        return radiusx.hashCode() + radiusy.hashCode();
+        return radiusx.hashCode() + 13 * radiusy.hashCode();
+    }
+
+    public static <E extends  CompleteScalarFieldElement<E>> E perimeterRamanujan(E radiusx, E radiusy) {
+        E sum = radiusx.plus(radiusy);
+        E h = radiusx.minus(radiusy).sqr().dividedBy(sum.sqr());
+        E pi = radiusx.getStructure().pi();
+        E one = radiusx.getStructure().one();
+        E ten = radiusx.getStructure().element(10);
+        E four = radiusx.getStructure().element(4);
+        // Ramanujan's (second) approximation:
+
+        return pi.times(sum).times(
+            one.plus(
+                h.times(3).dividedBy(
+                    ten.plus(
+                        (four.minus(h.times(3))).sqrt()
+                    )
+                )
+            )
+        );
+
+
     }
 }

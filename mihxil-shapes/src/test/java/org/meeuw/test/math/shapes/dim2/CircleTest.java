@@ -2,9 +2,6 @@ package org.meeuw.test.math.shapes.dim2;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import net.jqwik.api.Arbitraries;
@@ -52,7 +49,7 @@ public class CircleTest implements BasicObjectTheory<Circle<UncertainReal>> {
     }
 
     @Test
-    public void svg() throws ParserConfigurationException, TransformerException, IOException {
+    public void svg() throws TransformerException {
         Document svg  = SVG.svg();
         svg.getDocumentElement().appendChild(SVG.svg(svg, circle.times(20)));
         log.info("xml:" + SVG.toString(svg));
