@@ -29,7 +29,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 
 @ParameterizedTest
-@ValueSource(ints = {3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19})
+@ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
 public void regularPolygons(int n ) throws Exception {
 
     Document document = SVG.svg();
@@ -42,13 +42,13 @@ public void regularPolygons(int n ) throws Exception {
 }
 ----
 image:{docs}/shapes/3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/3-gon.svg"]
-image:{docs}/shapes/4-gon.svg[width={iwidth},title="square"]
-image:{docs}/shapes/5-gon.svg[width={iwidth},title="pentagon"]
-image:{docs}/shapes/6-gon.svg[width={iwidth},title="hexagon"]
-image:{docs}/shapes/7-gon.svg[width={iwidth},title="heptagon"]
-image:{docs}/shapes/8-gon.svg[width={iwidth},title="octagon"]
-image:{docs}/shapes/9-gon.svg[width={iwidth},title="nonagon"]
-image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon"]
+image:{docs}/shapes/4-gon.svg[width={iwidth},title="square", link="{docs}/shapes/4-gon.svg"]
+image:{docs}/shapes/5-gon.svg[width={iwidth},title="pentagon", link="{docs}/shapes/5-gon.svg"]
+image:{docs}/shapes/6-gon.svg[width={iwidth},title="hexagon", link="{docs}/shapes/6-gon.svg"]
+image:{docs}/shapes/7-gon.svg[width={iwidth},title="heptagon", link="{docs}/shapes/7-gon.svg"]
+image:{docs}/shapes/8-gon.svg[width={iwidth},title="octagon", link="{docs}/shapes/8-gon.svg"]
+image:{docs}/shapes/9-gon.svg[width={iwidth},title="nonagon", link="{docs}/shapes/9-gon.svg"]
+image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon", link="{docs}/shapes/10-gon.svg"]
 
 [source,java]
 ----
@@ -84,6 +84,6 @@ public void ellipse() throws Exception {
 }
 ----
 
-image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle"]
-image:{docs}/shapes/circle.svg[width={iwidth},title="circle"]
-image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse"]
+image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle", link="{docs}/shapes/rectangle.svg"]
+image:{docs}/shapes/circle.svg[width={iwidth},title="circle", link="{docs}/shapes/circle.svg"]
+image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse", link="{docs}/shapes/ellipse.svg"]
