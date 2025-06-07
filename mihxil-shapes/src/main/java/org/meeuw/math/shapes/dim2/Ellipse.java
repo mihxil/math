@@ -104,7 +104,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    @NonExact("Integration needs to be done.")
+    @NonExact("Integration needs to be done, currently only Ramanujan's approximation is implemented")
     public F perimeter() {
         if (field instanceof CompleteScalarField) {
             return (F) perimeterRamanujan((CompleteScalarFieldElement) radiusx, (CompleteScalarFieldElement) radiusy);
@@ -160,6 +160,15 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         return radiusx.hashCode() + 13 * radiusy.hashCode();
     }
 
+    /**
+     * Computes the perimeter of an ellipse using Ramanujan's second approximation.
+     *
+     * @param radiusx the semi-major axis
+     * @param radiusy the semi-minor axis
+     * @return the approximate perimeter of the ellipse
+     */
+
+    @NonExact
     public static <E extends  CompleteScalarFieldElement<E>> E perimeterRamanujan(E radiusx, E radiusy) {
         E sum = radiusx.plus(radiusy);
         E h = radiusx.minus(radiusy).sqr().dividedBy(sum.sqr());
