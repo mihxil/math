@@ -1,4 +1,4 @@
-<svg height="200" width="200" xmlns="http://www.w3.org/2000/svg">
+<svg height="200.0" width="200.0" xmlns="http://www.w3.org/2000/svg">
     <g id="grid">
         <!--Grid-->
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="0" y1="0" y2="200"/>
@@ -43,17 +43,19 @@
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="190" y2="190"/>
     </g>
     <g>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{11}, size: 56.34651136828593</tspan>
+            <tspan dy="4.0" x="0">area: 2.97352449600579·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 619.8116250511453</tspan>
+        </text>
+    </g>
+    <g>
         <polygon fill="none" points="100.0,1.4210854715202004E-14 154.06408174555975,15.874646716881898 190.96319953545185,58.458498699811365 198.9821441880933,114.2314838273285 175.5749574354258,165.4860733945285 128.17325568414296,195.94929736144974 71.82674431585706,195.94929736144974 24.4250425645742,165.48607339452852 1.0178558119067276,114.23148382732852 9.036800464548165,58.45849869981139 45.93591825444026,15.874646716881884" stroke="black" stroke-width="1"/>
         <!--Dot showing the first vertex-->
         <circle cx="100.0" cy="1.4210854715202004E-14" fill="#ff0000" r="1.1"/>
-        <!--Circumscribed circle of {11}, size: 56.34651136828593-->
-        <circle cx="100.0" cy="100.0" fill="none" r="99.99999999999999" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{11}, size: 5.63465113682859</tspan>
-            <tspan dy="4.0" x="0">area: 297.3524496005786</tspan>
-            <tspan dy="4.0" x="0">perimeter: 61.98116250511453</tspan>
-        </text>
         <!--Inscribed circle of {11}, size: 56.34651136828593-->
         <circle cx="100.0" cy="100.0" fill="none" r="95.94929736144971" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <!--Circumscribed circle of {11}, size: 56.34651136828593-->
+        <circle cx="100.0" cy="100.0" fill="none" r="99.99999999999999" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
     </g>
 </svg>

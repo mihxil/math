@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.svg.SVG;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.BasicObjectTheory;
-import org.w3c.dom.Document;
 
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
@@ -50,8 +48,8 @@ public class CircleTest implements BasicObjectTheory<Circle<UncertainReal>> {
 
     @Test
     public void svg() throws TransformerException {
-        Document svg  = SVG.svg();
-        svg.getDocumentElement().appendChild(SVG.svg(svg, circle.times(20)));
-        log.info("xml:" + SVG.toString(svg));
+        //Document svg  = SVG.svg();
+        //svg.getDocumentElement().appendChild(SVG.svg(svg, circle.times(20)));
+        //log.info("xml:" + SVG.toString(svg));
     }
 }

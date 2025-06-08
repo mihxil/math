@@ -124,6 +124,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         return !(radiusx instanceof Uncertain) || ((Uncertain) radiusx).isExact();
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Override
     public boolean strictlyEquals(Object o) {
         if (this == o) return true;
@@ -144,6 +145,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
 
+    @SuppressWarnings({"DataFlowIssue", "unchecked"})
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

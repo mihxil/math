@@ -1,4 +1,4 @@
-<svg height="200" width="200" xmlns="http://www.w3.org/2000/svg">
+<svg height="200.0" width="200.0" xmlns="http://www.w3.org/2000/svg">
     <g id="grid">
         <!--Grid-->
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="0" y1="0" y2="200"/>
@@ -43,17 +43,19 @@
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="190" y2="190"/>
     </g>
     <g>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{14}, size: 44.50418679126288</tspan>
+            <tspan dy="4.0" x="0">area: 3.03718617382291·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 623.0586150776803</tspan>
+        </text>
+    </g>
+    <g>
         <polygon fill="none" points="200.0,100.0 190.0968867902419,143.38837391175582 162.34898018587336,178.183148246803 122.25209339563145,197.4927912181824 77.74790660436857,197.4927912181824 37.65101981412664,178.183148246803 9.90311320975809,143.38837391175582 -1.4210854715202004E-14,100.00000000000001 9.903113209758075,56.61162608824419 37.65101981412662,21.816851753197014 77.74790660436854,2.5072087818176385 122.25209339563142,2.50720878181761 162.34898018587336,21.816851753197 190.0968867902419,56.61162608824416" stroke="black" stroke-width="1"/>
         <!--Dot showing the first vertex-->
         <circle cx="200.0" cy="100.0" fill="#ff0000" r="1.1"/>
-        <!--Circumscribed circle of {14}, size: 44.50418679126288-->
-        <circle cx="100.0" cy="100.0" fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{14}, size: 4.45041867912629</tspan>
-            <tspan dy="4.0" x="0">area: 303.71861738229074</tspan>
-            <tspan dy="4.0" x="0">perimeter: 62.30586150776804</tspan>
-        </text>
         <!--Inscribed circle of {14}, size: 44.50418679126288-->
         <circle cx="100.0" cy="100.0" fill="none" r="97.49279121818236" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <!--Circumscribed circle of {14}, size: 44.50418679126288-->
+        <circle cx="100.0" cy="100.0" fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
     </g>
 </svg>

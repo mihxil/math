@@ -23,6 +23,7 @@ import org.meeuw.math.exceptions.ReciprocalException;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E> the self type, i.e. the type of the element itself
  */
 public interface FieldElement<E extends FieldElement<E>> extends
     DivisionRingElement<E>,

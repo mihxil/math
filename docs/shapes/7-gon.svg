@@ -1,4 +1,4 @@
-<svg height="200" width="200" xmlns="http://www.w3.org/2000/svg">
+<svg height="200.0" width="200.0" xmlns="http://www.w3.org/2000/svg">
     <g id="grid">
         <!--Grid-->
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="0" y1="0" y2="200"/>
@@ -43,17 +43,19 @@
         <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="0" x2="200" y1="190" y2="190"/>
     </g>
     <g>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{7}, size: 86.77674782351163</tspan>
+            <tspan dy="4.0" x="0">area: 2.7364101886381·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 607.4372347645814</tspan>
+        </text>
+    </g>
+    <g>
         <polygon fill="none" points="100.0,-1.4210854715202004E-14 178.183148246803,37.65101981412664 197.4927912181824,122.25209339563145 143.38837391175582,190.0968867902419 56.611626088244186,190.0968867902419 2.5072087818176385,122.25209339563145 21.816851753197,37.651019814126656" stroke="black" stroke-width="1"/>
         <!--Dot showing the first vertex-->
         <circle cx="100.0" cy="-1.4210854715202004E-14" fill="#ff0000" r="1.1"/>
-        <!--Circumscribed circle of {7}, size: 86.77674782351163-->
-        <circle cx="100.0" cy="100.0" fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{7}, size: 8.67767478235116</tspan>
-            <tspan dy="4.0" x="0">area: 273.6410188638105</tspan>
-            <tspan dy="4.0" x="0">perimeter: 60.74372347645814</tspan>
-        </text>
         <!--Inscribed circle of {7}, size: 86.77674782351163-->
         <circle cx="100.0" cy="100.0" fill="none" r="90.09688679024191" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+        <!--Circumscribed circle of {7}, size: 86.77674782351163-->
+        <circle cx="100.0" cy="100.0" fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
     </g>
 </svg>
