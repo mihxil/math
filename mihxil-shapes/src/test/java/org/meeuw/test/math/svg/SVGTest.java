@@ -33,7 +33,7 @@ public class SVGTest {
         RegularPolygon<UncertainReal> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
 
         SVGDocument document = SVGDocument.builder()
-            .size(Rectangle.of(200, 200))
+            .size(Rectangle.of(205, 205))
             .build()
             .grid(b -> b.spacing(Rectangle.of(10, 10)))
             .info(polygon)

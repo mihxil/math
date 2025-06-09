@@ -1,6 +1,9 @@
 package org.meeuw.math.svg;
 
 
+import java.util.List;
+
+import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.w3c.dom.Document;
@@ -26,33 +29,62 @@ public class SVGGrid implements SVGGroup {
         g.setAttribute("id", "grid");
         Document doc = g.getOwnerDocument();
         g.appendChild(doc.createComment("Grid"));
-        for (int i = 0; i < gridSize.width().intValue(); i += spacing.width().intValue()) {
-            Element line = createElement(doc, "line");
-            line.setAttribute("x1", String.valueOf(i));
-            line.setAttribute("y1", "0");
-            line.setAttribute("x2", String.valueOf(i));
-            line.setAttribute("y2", gridSize.height().intValue() + "");
-            line.setAttribute("stroke", "#00ff00");
-            line.setAttribute("stroke-width", "0.2");
-            if (i != 100) {
-                line.setAttribute("stroke-dasharray", "1,1");
-            }
-            g.appendChild(line);
-        }
-        for (int i = 0; i < gridSize.height().intValue(); i += spacing.height().intValue()) {
-            Element line = createElement(doc, "line");
-            line.setAttribute("y1", String.valueOf(i));
-            line.setAttribute("x1", "0");
-            line.setAttribute("y2", String.valueOf(i));
-            line.setAttribute("x2", gridSize.width().intValue() + "");
-            line.setAttribute("stroke", "#00ff00");
-                line.setAttribute("stroke-width", "0.2");
-                if (i != 100) {
+        Vector2 origin = svg.origin();
+
+
+        {
+            Element yaxis = verticalLine(g, String.valueOf(svg.origin().getX()),
+                "0", String.valueOf(gridSize.height().doubleValue()));
+            double x = 0d;
+
+            while (x < gridSize.width().doubleValue() / 2) {
+                x += spacing.width().doubleValue();
+                List.of(x, -x).forEach(i -> {
+                    Element line = verticalLine(g, String.valueOf(origin.getX() + i), "0", String.valueOf(gridSize.height().intValue()));
                     line.setAttribute("stroke-dasharray", "1,1");
-                }
-                g.appendChild(line);
+                });
+            }
+        }
+        {
+            Element xaxis = horizontalLine(g, "0", String.valueOf(gridSize.width().doubleValue()), String.valueOf(origin.getY()));
+            double y = 0d;
+            while (y < gridSize.height().doubleValue()) {
+                y += spacing.height().doubleValue();
+
+                List.of(y, -y).forEach(i -> {
+                    Element line = horizontalLine(g, "0", String.valueOf(gridSize.width().intValue()),
+                        String.valueOf(origin.getY() + i));
+                    line.setAttribute("stroke-dasharray", "1,1");
+                });
+            }
         }
 
+
+    }
+
+    private Element line(Document doc) {
+        Element line = createElement(doc, "line");
+        line.setAttribute("stroke", "#00ff00");
+        line.setAttribute("stroke-width", "0.2");
+        return line;
+    }
+    private Element verticalLine(Element g, String x, String y1, String y2) {
+        Element line = line(g.getOwnerDocument());
+        line.setAttribute("x1", x);
+        line.setAttribute("y1", y1);
+        line.setAttribute("x2", x);
+        line.setAttribute("y2", y2);
+        g.appendChild(line);
+        return line;
+    }
+    private Element horizontalLine(Element g, String x1, String x2, String y) {
+        Element line = line(g.getOwnerDocument());
+        line.setAttribute("x1", x1);
+        line.setAttribute("y1", y);
+        line.setAttribute("x2", x2);
+        line.setAttribute("y2", y);
+        g.appendChild(line);
+        return line;
     }
 
 }
