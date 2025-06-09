@@ -40,7 +40,7 @@ public void regularPolygons(int n ) throws Exception {
     SVGDocument document = defaultSVG()
         .withSize(size)
         .addGrid(b -> b.spacing(spacing))
-        .addInfo(polygon)
+        .addInfo()
         .addRegularPolygon(polygon, s -> s
             .circumscribedCircle(true)
             .inscribedCircle(true)
@@ -70,7 +70,7 @@ public void rectangle() throws Exception {
     SVGDocument svg = defaultSVG()
         .withSize(size)
         .addGrid(b -> b.spacing( spacing))
-        .addInfo(rectangle)
+        .addInfo()
         .addPolygon(rectangle, s -> {
             s.circumscribedCircle(true);
 
@@ -84,17 +84,15 @@ public void rectangle() throws Exception {
 
 @Test
 public void circle() throws Exception {
-    Circle<UncertainReal> circle = new Circle<>(element(100.0));
-
-    SVGDocument document = defaultSVG()
-        .withSize(size)
-        .addGrid(b -> b.spacing(spacing))
-        .addInfo(circle)
-        .addCircle(circle, s -> {})
-        ;
-
     try (FileOutputStream fos = new FileOutputStream(new File(dest,  "circle.svg"))) {
-        SVG.marshal(document.buildDocument(), new StreamResult(fos));
+        SVG.marshal(defaultSVG()
+            .withSize(size)
+            .addGrid(b -> b.spacing(spacing))
+            .addInfo()
+            .addCircle(new Circle<>(element(100.0)))
+            .buildDocument(),
+            new StreamResult(fos)
+        );
     }
 }
 
@@ -105,7 +103,7 @@ public void ellipse() throws Exception {
     SVGDocument document = defaultSVG()
         .withSize(size)
         .addGrid(b -> b.spacing(spacing))
-        .addInfo(ellipse)
+        .addInfo()
         .addEllipse(ellipse, s -> {s.circumscribedCircle(true);});
 
     try (FileOutputStream fos = new FileOutputStream(new File(dest,  "ellipse.svg"))) {
