@@ -1,7 +1,7 @@
 package org.meeuw.math.svg;
 
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
@@ -39,7 +39,7 @@ public class SVGGrid implements SVGGroup {
 
             while (x < gridSize.width().doubleValue() / 2) {
                 x += spacing.width().doubleValue();
-                List.of(x, -x).forEach(i -> {
+                Arrays.asList(x, -x).forEach(i -> {
                     Element line = verticalLine(g, String.valueOf(origin.getX() + i), "0", String.valueOf(gridSize.height().intValue()));
                     line.setAttribute("stroke-dasharray", "1,1");
                 });
@@ -51,7 +51,7 @@ public class SVGGrid implements SVGGroup {
             while (y < gridSize.height().doubleValue()) {
                 y += spacing.height().doubleValue();
 
-                List.of(y, -y).forEach(i -> {
+                Arrays.asList(y, -y).forEach(i -> {
                     Element line = horizontalLine(g, "0", String.valueOf(gridSize.width().intValue()),
                         String.valueOf(origin.getY() + i));
                     line.setAttribute("stroke-dasharray", "1,1");
