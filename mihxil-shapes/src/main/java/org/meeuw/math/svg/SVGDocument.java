@@ -47,9 +47,32 @@ public class SVGDocument {
         float textSize
         ) {
         this.size = size;
-        this.origin = origin == null ?  new Vector2(size.width().doubleValue()/ 2, size.height().doubleValue() / 2) : origin; // the center of the : origin;
+        this.origin = origin;
         this.stroke = stroke;
         this.textSize = textSize;
+    }
+
+    public Vector2 origin() {
+        return origin == null ?  new Vector2(size.width().doubleValue()/ 2, size.height().doubleValue() / 2) : origin; // the center of the : origin;
+    }
+
+    public static SVGDocument defaultSVG() {
+        return builder().build();
+    }
+
+     /**
+     * Creates a DOM Document with the SVG root element and all groups added to this document.
+     */
+    public Document buildDocument() {
+        Document document = SVG.DOCUMENT_BUILDER.newDocument();
+        Element root = document.createElementNS(SVG.SVG_NAMESPACE, "svg");
+        root.setAttribute("width", String.valueOf(size.width().doubleValue()));
+        root.setAttribute("height", String.valueOf(size.height().doubleValue()));
+        document.appendChild(root);
+        for (SVGGroup group : groups) {
+            group.accept(this, document);
+        }
+        return document;
     }
 
     public void add(SVGGroup svgGroup) {
@@ -102,17 +125,7 @@ public class SVGDocument {
         ellipseConsumer.accept(ellipseBuilder);
         add(ellipseBuilder.build());
         return this;
-      }
-
-    public Document document() {
-        Document document = SVG.DOCUMENT_BUILDER.newDocument();
-        Element root = document.createElementNS(SVG.SVG_NAMESPACE, "svg");
-        root.setAttribute("width", String.valueOf(size.width().doubleValue()));
-        root.setAttribute("height", String.valueOf(size.height().doubleValue()));
-        document.appendChild(root);
-        for (SVGGroup group : groups) {
-            group.accept(this, document);
-        }
-        return document;
     }
+
+
 }

@@ -11,12 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+// tag::imports[]
+
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.*;
-import org.meeuw.math.svg.*;
+import org.meeuw.math.svg.SVG;
+import org.meeuw.math.svg.SVGDocument;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
-import org.meeuw.math.uncertainnumbers.field.*;
-
+import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 // end::imports[]
@@ -35,9 +38,8 @@ public class SVGTest {
 
         RegularPolygon<UncertainReal> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
 
-        SVGDocument document = SVGDocument.builder()
-            .size(size)
-            .build()
+        SVGDocument document = defaultSVG()
+            .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo(polygon)
             .addRegularPolygon(polygon, s -> s
@@ -47,20 +49,18 @@ public class SVGTest {
             ;
 
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  n +"-gon.svg"))) {
-            SVG.marshal(document.document(), new StreamResult(fos));
+            SVG.marshal(document.buildDocument(), new StreamResult(fos));
         }
     }
     // end::regularPolygons[]
 
     // tag::otherShapes[]
-
     @Test
     public void rectangle() throws Exception {
         Rectangle<UncertainReal> rectangle = new Rectangle<>(element(100.0), element(170.0));
 
-        SVGDocument document = SVGDocument.builder()
-            .size(size)
-            .build()
+        SVGDocument svg = defaultSVG()
+            .withSize(size)
             .addGrid(b -> b.spacing( spacing))
             .addInfo(rectangle)
             .addPolygon(rectangle, s -> {
@@ -70,7 +70,7 @@ public class SVGTest {
         //Document svg = SVG.svg();
         //SVG.svg(svg, rectangle);
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "rectangle.svg"))) {
-            SVG.marshal(document.document(), new StreamResult(fos));
+            SVG.marshal(svg.buildDocument(), new StreamResult(fos));
         }
     }
 
@@ -78,16 +78,15 @@ public class SVGTest {
     public void circle() throws Exception {
         Circle<UncertainReal> circle = new Circle<>(element(100.0));
 
-        SVGDocument document = SVGDocument.builder()
-            .size(size)
-            .build()
+        SVGDocument document = defaultSVG()
+            .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo(circle)
             .addCircle(circle, s -> {})
             ;
 
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "circle.svg"))) {
-            SVG.marshal(document.document(), new StreamResult(fos));
+            SVG.marshal(document.buildDocument(), new StreamResult(fos));
         }
     }
 
@@ -95,15 +94,14 @@ public class SVGTest {
     public void ellipse() throws Exception {
         Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0));
 
-        SVGDocument document = SVGDocument.builder()
-            .size(size)
-            .build()
+        SVGDocument document = defaultSVG()
+            .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo(ellipse)
             .addEllipse(ellipse, s -> {s.circumscribedCircle(true);});
 
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "ellipse.svg"))) {
-          SVG.marshal(document.document(), new StreamResult(fos));
+          SVG.marshal(document.buildDocument(), new StreamResult(fos));
         }
     }
     // end::otherShapes[]
