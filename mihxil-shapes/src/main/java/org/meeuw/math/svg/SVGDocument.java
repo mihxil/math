@@ -57,28 +57,28 @@ public class SVGDocument {
     }
 
 
-    public SVGDocument grid(Consumer<SVGGrid.Builder> gridConsumer) {
+    public SVGDocument addGrid(Consumer<SVGGrid.Builder> gridConsumer) {
         SVGGrid.Builder gridBuilder = SVGGrid.builder();
         gridConsumer.accept(gridBuilder);
         add(gridBuilder.build());
         return this;
     }
-    public SVGDocument grid() {
-        return grid((builder) -> {});
+    public SVGDocument addGrid() {
+        return addGrid((builder) -> {});
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument info(Shape<F, S> shape) {
+    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo(Shape<F, S> shape) {
         add(new SVGInfo(shape));
         return this;
     }
 
-    public <F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> SVGDocument polygon(S polygon, Consumer<SVGPolygon.Builder<F, S>> polygonConsumer) {
+    public <F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> SVGDocument addPolygon(S polygon, Consumer<SVGPolygon.Builder<F, S>> polygonConsumer) {
         SVGPolygon.Builder<F, S> polygonBuilder = SVGPolygon.builder();
         polygonBuilder.polygon(polygon);
         polygonConsumer.accept(polygonBuilder);
         add(polygonBuilder.build());
         return this;
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends RegularPolygon<F>> SVGDocument regularPolygon(S polygon, Consumer<SVGRegularPolygon.Builder<F, S>> polygonConsumer) {
+    public  <F extends CompleteScalarFieldElement<F>, S extends RegularPolygon<F>> SVGDocument addRegularPolygon(S polygon, Consumer<SVGRegularPolygon.Builder<F, S>> polygonConsumer) {
 
         SVGRegularPolygon.Builder<F, S> polygonBuilder = SVGRegularPolygon
             .regularPolygonBuilder();
@@ -88,7 +88,7 @@ public class SVGDocument {
         return this;
     }
 
-    public <F extends CompleteScalarFieldElement<F>> SVGDocument circle(Circle<F> circle, Consumer<SVGCircle.Builder<F>> circleConsumer) {
+    public <F extends CompleteScalarFieldElement<F>> SVGDocument addCircle(Circle<F> circle, Consumer<SVGCircle.Builder<F>> circleConsumer) {
         SVGCircle.Builder<F> builder = SVGCircle.builder();
         builder.circle(circle);
         circleConsumer.accept(builder);
@@ -96,7 +96,7 @@ public class SVGDocument {
         return this;
     }
 
-    public <F extends CompleteScalarFieldElement<F>> SVGDocument ellipse(Ellipse<F> ellipse, Consumer<SVGEllipse.Builder<?>> ellipseConsumer) {
+    public <F extends CompleteScalarFieldElement<F>> SVGDocument addEllipse(Ellipse<F> ellipse, Consumer<SVGEllipse.Builder<?>> ellipseConsumer) {
         SVGEllipse.Builder<F> ellipseBuilder = SVGEllipse.builder();
         ellipseBuilder.ellipse(ellipse);
         ellipseConsumer.accept(ellipseBuilder);
