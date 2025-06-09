@@ -997,26 +997,28 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
-<span class="keyword">import</span> <span class="include">org.w3c.dom.Document</span>;
-
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainRealField.element</span>;
-
-
-....
+<pre class="CodeRay highlight"><code data-lang="java">....
 
 
 <span class="annotation">@ParameterizedTest</span>
 <span class="annotation">@ValueSource</span>(ints = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>, <span class="integer">20</span>})
 <span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
-    <span class="predefined-type">Document</span> document = SVG.svg();
-    SVG.svg(document,
-        RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>))
-    );
+    RegularPolygon&lt;UncertainReal&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
+
+    SVGDocument document = SVGDocument.builder()
+        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .build()
+        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
+        .info(polygon)
+        .regularPolygon(polygon, s -&gt;
+            s.circumscribedCircle(<span class="predefined-constant">true</span>)
+                .inscribedCircle(<span class="predefined-constant">true</span>)
+        )
+        ;
+
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  n +<span class="string"><span class="delimiter">&quot;</span><span class="content">-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(document, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+        SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
 }</code></pre>
 </div>
@@ -1035,31 +1037,57 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;?&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">180.0</span>));
-    <span class="predefined-type">Document</span> svg = SVG.svg();
-    SVG.svg(svg, rectangle);
+    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">180.0</span>));
+
+    SVGDocument document = SVGDocument.builder()
+        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .build()
+        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
+        .info(rectangle)
+        .polygon(rectangle, s -&gt; {
+            s.circumscribedCircle(<span class="predefined-constant">true</span>);
+
+        });
+    <span class="comment">//Document svg = SVG.svg();</span>
+    <span class="comment">//SVG.svg(svg, rectangle);</span>
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">rectangle.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+        SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
 }
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Circle&lt;?&gt; circle = <span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>));
-    <span class="predefined-type">Document</span> svg = SVG.svg();
-    SVG.svg(svg, circle);
+    Circle&lt;UncertainReal&gt; circle = <span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>));
+
+      SVGDocument document = SVGDocument.builder()
+        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .build()
+        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
+        .info(circle)
+        .circle(circle, s -&gt; {})
+        ;
+
+
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+        SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
 }
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;?&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>));
-    <span class="predefined-type">Document</span> svg = SVG.svg();
-    SVG.svg(svg, ellipse);
+    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>));
+
+
+    SVGDocument document = SVGDocument.builder()
+        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .build()
+        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
+        .info(ellipse)
+        .ellipse(ellipse, s -&gt; {s.circumscribedCircle(<span class="predefined-constant">true</span>);});
+    <span class="comment">//Document svg = SVG.svg();</span>
+    <span class="comment">//SVG.svg(svg, ellipse);</span>
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">ellipse.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(svg, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+      SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
 }</code></pre>
 </div>
