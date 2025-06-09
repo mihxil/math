@@ -51,37 +51,9 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     public DihedralGroup dihedralGroup() {
         return DihedralGroup.of(n);
     }
-    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> of(DihedralGroup gropu, F size) {
-        return new RegularPolygon<>(gropu.getN(), size);
+    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> of(DihedralGroup group, F size) {
+        return new RegularPolygon<>(group.getN(), size);
     }
-
-/*    @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
-        if (angle.isZero()) {
-            F inscribed = inscribedRadius();
-            F circumscribed = circumscribedRadius();
-            if (n == 3) {
-                return atOrigin(new Rectangle<>(
-                    size,
-                    inscribed.plus(circumscribed)
-                ));
-            }
-            if (n == 4) {
-                return atOrigin(new Rectangle<>(size, size));
-            }
-            if (n % 2 == 0) {
-                return atOrigin(new Rectangle<>(
-                    circumscribed.times(2),
-                    inscribed.times(2)
-                ));
-            } else {
-                throw new UnsupportedOperationException("Circumscribed rectangle is not yet implemented for NGon");
-            }
-        }
-        throw new UnsupportedOperationException("Circumscribed rectangle is not yet implemented for NGon");
-
-
-    }*/
 
     @Override
     public LocatedShape<F, Circle<F>> circumscribedCircle() {

@@ -10,6 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.shapes.dim2.RegularPolygon;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
@@ -22,7 +23,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 @Log4j2
 public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<UncertainReal>> {
-    static RegularPolygon<UncertainReal> triangle = new RegularPolygon<>(3, element(1.0));
+    static RegularPolygon<UncertainReal> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
     static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
     static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));
 
@@ -35,6 +36,7 @@ public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<Unce
     @Test
     public void triangle() {
         assertThat(triangle.n()).isEqualTo(3);
+        assertThat(triangle.numberOfEdges()).isEqualTo(3);
         assertThatAlgebraically(triangle.size()).isEqualTo(element(1));
 
         assertThatAlgebraically(triangle.area()).isEqTo(element(Math.sqrt(3)/ 4));
