@@ -7,10 +7,8 @@ import static org.meeuw.math.svg.SVG.createElement;
 
 public class SVGInfo implements SVGGroup {
 
-    private final Shape<?, ?> shape;
 
-    public SVGInfo(Shape<?,?> shape) {
-        this.shape = shape;
+    public SVGInfo() {
     }
 
     @Override
@@ -21,6 +19,14 @@ public class SVGInfo implements SVGGroup {
         info.setAttribute("y", String.valueOf(0));
         info.setAttribute("font-size", svgDocument.textSize() +"");
         info.setAttribute("fill", "blue");
+        for (Shape<?, ?> shape : svgDocument.shapes()) {
+            fill(shape, svgDocument, info);
+        }
+        g.appendChild(info);
+
+    }
+
+    private void fill(Shape<?, ?> shape, SVGDocument svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());
         tspan(svgDocument, info, "area: " + shape.area());
         try {
@@ -28,8 +34,6 @@ public class SVGInfo implements SVGGroup {
         } catch(Exception e) {
             tspan(svgDocument ,info, "perimeter: " + e.getMessage());
         }
-        g.appendChild(info);
-
     }
     protected  void tspan(SVGDocument document, Element info, String text) {
         Element tspan = createElement(info.getOwnerDocument(), "tspan");
