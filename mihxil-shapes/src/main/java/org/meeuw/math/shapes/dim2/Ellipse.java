@@ -128,14 +128,14 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     @Override
     public boolean strictlyEquals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Circle)) return false;
-        Ellipse<?> circle = (Ellipse<?>) o;
+        if (!(o instanceof Ellipse<?>)) return false;
+        Ellipse<?> ellipse = (Ellipse<?>) o;
         return radiusx instanceof Uncertain ?
-            ((Uncertain) radiusx).strictlyEquals(circle.radiusx) &&
-                ((Uncertain) radiusy).strictlyEquals(circle.radiusy)
+            ((Uncertain) radiusx).strictlyEquals(ellipse.radiusx) &&
+                ((Uncertain) radiusy).strictlyEquals(ellipse.radiusy)
             :
-            radiusx.equals(circle.radiusx) &&
-            radiusy.equals(circle.radiusy);
+            radiusx.equals(ellipse.radiusx) &&
+            radiusy.equals(ellipse.radiusy);
 
     }
 
@@ -149,7 +149,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Circle)) return false;
+        if (!(o instanceof Ellipse)) return false;
         Ellipse<?> ellipse = (Ellipse<?>) o;
         if (!ellipse.field.equals(field)) {
             return false;
