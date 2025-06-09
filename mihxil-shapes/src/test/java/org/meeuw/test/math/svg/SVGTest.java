@@ -67,8 +67,6 @@ public class SVGTest {
                 s.circumscribedCircle(true);
 
             });
-        //Document svg = SVG.svg();
-        //SVG.svg(svg, rectangle);
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "rectangle.svg"))) {
             SVG.marshal(svg.buildDocument(), new StreamResult(fos));
         }
