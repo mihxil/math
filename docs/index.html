@@ -1007,13 +1007,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
     RegularPolygon&lt;UncertainReal&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
 
     SVGDocument document = SVGDocument.builder()
-        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">205</span>, <span class="integer">205</span>))
+        .size(size)
         .build()
-        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
-        .info(polygon)
-        .regularPolygon(polygon, s -&gt;
-            s.circumscribedCircle(<span class="predefined-constant">true</span>)
-                .inscribedCircle(<span class="predefined-constant">true</span>)
+        .addGrid(b -&gt; b.spacing(spacing))
+        .addInfo(polygon)
+        .addRegularPolygon(polygon, s -&gt; s
+            .circumscribedCircle(<span class="predefined-constant">true</span>)
+            .inscribedCircle(<span class="predefined-constant">true</span>)
         )
         ;
 
@@ -1037,14 +1037,14 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">180.0</span>));
+    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>));
 
     SVGDocument document = SVGDocument.builder()
-        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .size(size)
         .build()
-        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
-        .info(rectangle)
-        .polygon(rectangle, s -&gt; {
+        .addGrid(b -&gt; b.spacing( spacing))
+        .addInfo(rectangle)
+        .addPolygon(rectangle, s -&gt; {
             s.circumscribedCircle(<span class="predefined-constant">true</span>);
 
         });
@@ -1059,14 +1059,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="directive">public</span> <span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
     Circle&lt;UncertainReal&gt; circle = <span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>));
 
-      SVGDocument document = SVGDocument.builder()
-        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+    SVGDocument document = SVGDocument.builder()
+        .size(size)
         .build()
-        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
-        .info(circle)
-        .circle(circle, s -&gt; {})
+        .addGrid(b -&gt; b.spacing(spacing))
+        .addInfo(circle)
+        .addCircle(circle, s -&gt; {})
         ;
-
 
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
         SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
@@ -1077,15 +1076,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
     Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>));
 
-
     SVGDocument document = SVGDocument.builder()
-        .size(<span class="predefined-type">Rectangle</span>.of(<span class="integer">200</span>, <span class="integer">200</span>))
+        .size(size)
         .build()
-        .grid(b -&gt; b.spacing(<span class="predefined-type">Rectangle</span>.of(<span class="integer">10</span>, <span class="integer">10</span>)))
-        .info(ellipse)
-        .ellipse(ellipse, s -&gt; {s.circumscribedCircle(<span class="predefined-constant">true</span>);});
-    <span class="comment">//Document svg = SVG.svg();</span>
-    <span class="comment">//SVG.svg(svg, ellipse);</span>
+        .addGrid(b -&gt; b.spacing(spacing))
+        .addInfo(ellipse)
+        .addEllipse(ellipse, s -&gt; {s.circumscribedCircle(<span class="predefined-constant">true</span>);});
+
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">ellipse.svg</span><span class="delimiter">&quot;</span></span>))) {
       SVG.marshal(document.document(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
