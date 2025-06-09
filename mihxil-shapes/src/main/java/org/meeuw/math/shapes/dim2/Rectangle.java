@@ -85,13 +85,18 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
                 width.times(sin).abs().plus(height.times(cos).abs())
             ));
         } else {
-            double sin = Math.sin(angle.doubleValue());
-            double cos = Math.cos(angle.doubleValue());
-            return atOrigin(new Rectangle<>(
-                width.times(cos).abs().plus(height.times(sin).abs()),
-                width.times(sin).abs().plus(height.times(cos).abs())
-            ));
+            throw new FieldIncompleteException("Field of " + this + " is not complete, so sin/cos cannot be computed (try using double argument angle");
         }
+    }
+
+    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(double angle) {
+
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
+        return atOrigin(new Rectangle<>(
+            width.times(cos).abs().plus(height.times(sin).abs()),
+            width.times(sin).abs().plus(height.times(cos).abs())
+        ));
     }
 
     @Override

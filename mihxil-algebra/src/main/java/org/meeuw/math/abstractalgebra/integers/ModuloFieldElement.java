@@ -69,12 +69,17 @@ public class ModuloFieldElement
 
     @Override
     public ModuloFieldElement times(long multiplier) {
-        return new ModuloFieldElement((int) ((long) value * multiplier) % getStructure().divisor, structure);
+        return new ModuloFieldElement((int) (value * multiplier) % getStructure().divisor, structure);
     }
     @Override
     @NonExact
     public ModuloFieldElement times(double multiplier) {
-        return times(Math.round(multiplier));
+        if (multiplier > 20) {
+            return times(Math.round(multiplier));
+        } else {
+            return times(Math.round(multiplier * 1000)).dividedBy(1000);
+        }
+
     }
 
     @Override
