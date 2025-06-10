@@ -96,5 +96,10 @@ public class OddInteger
         return new IntegerElement(bigIntegerSubfactorial());
     }
 
+    @Override
+    public IntegerElement doubleFactorial() {
+        return new IntegerElement(bigIntegerDoubleFactorial());
+    }
+
 
 }

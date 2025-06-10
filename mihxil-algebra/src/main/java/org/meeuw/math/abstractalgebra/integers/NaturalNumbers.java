@@ -28,7 +28,6 @@ import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
-import static org.meeuw.math.abstractalgebra.integers.Factoriable.FACT;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.IDENTIFY;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
@@ -52,7 +51,7 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, ADDITION);
 
-    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(IDENTIFY, SQR, FACT);
+    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(navigableSet(IDENTIFY, SQR), Factoriable.UNARY_OPERATORS);
 
 
     private static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(ABS);

@@ -20,7 +20,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
@@ -145,53 +145,29 @@ public abstract class AbstractIntegerElement<
     }
 
     protected BigInteger bigIntegerFactorial()  {
-        if (value.signum() == -1) {
-            throw new InvalidFactorial("Cannot take factorial of negative integer", value.toString());
-        }
         Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxArgument();
         if (maxArgument != null && value.intValue() > maxArgument) {
             throw new InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")", value.toString());
         }
-        BigInteger product = BigInteger.ONE;
-        for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
-            product = product.multiply(i);
-        }
-        return product;
+        return IntegerUtils.bigIntegerFactorial(value);
     }
-
-    /**
-     * Using a cache for already calculated sub factorials, will because of the recursive nature of the calculation speed
-     * up things a lot for bigger values.
-     */
-    private static final Map<BigInteger, BigInteger> SUBFACT_CACHE = new HashMap<>();
 
     protected BigInteger bigIntegerSubfactorial()  {
-        if (value.signum() == -1) {
-            throw new InvalidFactorial("Cannot take subfactorial of negative integer", value.toString());
+        Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxSubArgument();
+        if (maxArgument != null && value.intValue() > maxArgument) {
+            throw new InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")", value.toString());
         }
-        return bigIntegerSubfactorial(value, SUBFACT_CACHE);
+        return IntegerUtils.bigIntegerSubfactorial(value);
     }
-    private static synchronized  BigInteger bigIntegerSubfactorial(BigInteger n, Map<BigInteger, BigInteger> answers) {
-        if (n.equals(BigInteger.ZERO)) {
-            return BigInteger.ONE;
+
+     protected BigInteger bigIntegerDoubleFactorial()  {
+        Long maxArgument = ConfigurationService.getConfigurationAspect(Factoriable.Configuration.class).getMaxDoubleArgument();
+        if (maxArgument != null && value.intValue() > maxArgument) {
+            throw new InvalidFactorial("Factorial too big (" + value.intValue() + ">" + maxArgument + ")", value.toString());
         }
-        if (n.equals(BigInteger.ONE)) {
-            return BigInteger.ZERO;
-        }
-        BigInteger nMinusOne = n.add(BigInteger.ONE.negate());
-        BigInteger nMinusOneSub = answers.get(nMinusOne);
-        if (nMinusOneSub == null) {
-            nMinusOneSub =  bigIntegerSubfactorial(nMinusOne, answers);
-            answers.put(nMinusOne, nMinusOneSub);
-        }
-        BigInteger nMinusTwo = n.add(IntegerUtils.MINUS_TWO);
-        BigInteger nMinusTwoSub = answers.get(nMinusTwo);
-        if (nMinusTwoSub == null) {
-             nMinusTwoSub = bigIntegerSubfactorial(nMinusTwo, answers);
-             answers.put(nMinusTwo, nMinusTwoSub);
-        }
-        return nMinusOne.multiply(nMinusOneSub.add(nMinusTwoSub));
+        return IntegerUtils.bigIntegerDoubleFactorial(value);
     }
+
 
 
     @SuppressWarnings("unchecked")

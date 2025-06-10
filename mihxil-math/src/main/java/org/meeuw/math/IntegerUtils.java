@@ -307,6 +307,67 @@ public final class IntegerUtils {
         return answer;
     }
 
+
+    public static BigInteger bigIntegerFactorial(BigInteger value)  {
+        if (value.signum() == -1) {
+            throw new InvalidFactorial("Cannot take factorial of negative integer", value.toString());
+        }
+
+        BigInteger product = BigInteger.ONE;
+        for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
+            product = product.multiply(i);
+        }
+        return product;
+    }
+    /**
+     * Using a cache for already calculated sub factorials, will because of the recursive nature of the calculation speed
+     * up things a lot for bigger values.
+     */
+    private static final Map<BigInteger, BigInteger> SUBFACT_CACHE = new HashMap<>();
+
+
+    public static  BigInteger bigIntegerSubfactorial(BigInteger value) {
+        if (value.signum() == -1) {
+            throw new InvalidFactorial("Cannot take subfactorial of negative integer", value.toString());
+        }
+        return bigIntegerSubfactorial(value, SUBFACT_CACHE);
+    }
+
+    private static synchronized  BigInteger bigIntegerSubfactorial(BigInteger n, Map<BigInteger, BigInteger> answers) {
+        if (n.equals(BigInteger.ZERO)) {
+            return BigInteger.ONE;
+        }
+        if (n.equals(BigInteger.ONE)) {
+            return BigInteger.ZERO;
+        }
+        BigInteger nMinusOne = n.add(MINUS_ONE);
+        BigInteger nMinusOneSub = answers.get(nMinusOne);
+        if (nMinusOneSub == null) {
+            nMinusOneSub =  bigIntegerSubfactorial(nMinusOne, answers);
+            answers.put(nMinusOne, nMinusOneSub);
+        }
+        BigInteger nMinusTwo = n.add(MINUS_TWO);
+        BigInteger nMinusTwoSub = answers.get(nMinusTwo);
+        if (nMinusTwoSub == null) {
+             nMinusTwoSub = bigIntegerSubfactorial(nMinusTwo, answers);
+             answers.put(nMinusTwo, nMinusTwoSub);
+        }
+        return nMinusOne.multiply(nMinusOneSub.add(nMinusTwoSub));
+    }
+
+    public static  BigInteger bigIntegerDoubleFactorial(BigInteger value) {
+        if (value.signum() == -1) {
+            throw new InvalidFactorial("Cannot take subfactorial of negative integer", value.toString());
+        }
+        BigInteger product = BigInteger.ONE;
+        while(value.compareTo(BigInteger.ONE) > 0) {
+            product = product.multiply(value);
+            value = value.add(MINUS_TWO);
+        }
+        return product;
+
+    }
+
     static long gcdByEuclidsAlgorithm(final long n1, final long n2) {
         if (n2 == 0) {
             return n1;
