@@ -24,6 +24,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Repeatable(Examples.class)
+@Documented
 public @interface Example {
 
     /**

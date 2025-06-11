@@ -41,18 +41,28 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(MultiplicativeSemiGroup.INT_OPERATORS, ROOT, TETRATION);
 
 
+    /**
+     * 𝜋, the ratio of the circumference of a circle to its diameter, approximately 3.14159.
+     * @see #𝜋()
+     */
     E pi();
 
+    /**
+     * Euler's number, the base of the natural logarithm, approximately 2.71828.
+     */
     E e();
 
 
+    /**
+     * @see #pi()
+     */
     @Synonym("pi")
     default E 𝜋() {
         return pi();
     }
 
     /**
-     * Golden ratio 1/1 + srt(5)
+     * Golden ratio 1/(1 + √5)
      */
     E φ();
 
