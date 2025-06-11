@@ -19,8 +19,8 @@ import lombok.With;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
-import java.lang.reflect.Field;
 import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.*;
 import java.util.function.Consumer;
@@ -29,8 +29,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.categoryofgroups.GroupAsElement;
 import org.meeuw.math.operators.*;
@@ -137,6 +136,7 @@ public class DocumentationTest {
                 c -> Arrays.stream(c.getDeclaredFields())
                     .filter(f -> Arrays.stream(f.getAnnotationsByType(Example.class)).anyMatch(e -> e.value().equals(interfac)))
                     .filter(f -> Modifier.isStatic(f.getModifiers()))
+                    .filter(f -> f.getAnnotation(Synonym.class) == null)
                     .map(f -> {
                         try {
                             return (C) f.get(null);

@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.Synonym;
 import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -44,7 +45,9 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
 
     E e();
 
-    default E π() {
+
+    @Synonym("pi")
+    default E 𝜋() {
         return pi();
     }
 

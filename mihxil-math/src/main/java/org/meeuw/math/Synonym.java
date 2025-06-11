@@ -18,25 +18,17 @@ package org.meeuw.math;
 import java.lang.annotation.*;
 
 /**
- * Marks a class or field as an example for something more generic. This can be used when generating documentation.
+ * Marks a method as a synonym for another one
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
-@Repeatable(Examples.class)
-public @interface Example {
+@Target({ElementType.METHOD})
+public @interface Synonym {
 
     /**
-     * For what class or interface, this class or value is an example of.
+     *
      */
-    Class<?> value();
+    String value();
 
 
-    /**
-     * String to use for the annotated entity when used as an example. This may default to  {@link #toString()} of the
-     * object or of the singleton instance of that, but this may be overridden by this.
-     */
-    String string() default "";
-
-    String prefix() default "";
 }
