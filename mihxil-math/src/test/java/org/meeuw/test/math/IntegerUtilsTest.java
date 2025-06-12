@@ -2,6 +2,8 @@ package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.math.BigInteger;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +16,7 @@ import org.meeuw.math.text.TextUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.math.IntegerUtils.MINUS_ONE;
 
 @Log4j2
 class IntegerUtilsTest {
@@ -125,6 +128,30 @@ class IntegerUtilsTest {
         assertThat(IntegerUtils.factorial(4)).isEqualTo(24);
         assertThat(IntegerUtils.factorial(0)).isEqualTo(1);
         assertThatThrownBy(() -> IntegerUtils.factorial(-1)).isInstanceOf(InvalidFactorial.class);
+    }
+
+    @Test
+    public void bigfactorial() {
+        assertThat(IntegerUtils.bigIntegerFactorial(BigInteger.valueOf(4L))).isEqualTo(24);
+        assertThat(IntegerUtils.bigIntegerFactorial(BigInteger.ZERO)).isEqualTo(1);
+        assertThatThrownBy(() -> IntegerUtils.bigIntegerFactorial(MINUS_ONE)).isInstanceOf(InvalidFactorial.class);
+    }
+
+    @Test
+    public void subfactorial() {
+        assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.valueOf(4L))).isEqualTo(9);
+        assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.valueOf(9L))).isEqualTo(133_496L);
+        assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.ZERO)).isEqualTo(1);
+        assertThatThrownBy(() -> IntegerUtils.bigIntegerSubfactorial(MINUS_ONE)).isInstanceOf(InvalidFactorial.class);
+    }
+
+    @Test
+    public void doubleFactorial() {
+        assertThat(IntegerUtils.bigIntegerDoubleFactorial(BigInteger.valueOf(9L))).isEqualTo(945);
+        assertThat(IntegerUtils.bigIntegerDoubleFactorial(BigInteger.valueOf(8L))).isEqualTo(384);
+
+        assertThat(IntegerUtils.bigIntegerDoubleFactorial(BigInteger.ZERO)).isEqualTo(1);
+        assertThatThrownBy(() -> IntegerUtils.bigIntegerDoubleFactorial(BigInteger.valueOf(-1))).isInstanceOf(InvalidFactorial.class);
     }
 
 

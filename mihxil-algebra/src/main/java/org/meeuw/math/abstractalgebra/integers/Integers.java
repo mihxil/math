@@ -42,7 +42,8 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
 
     static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);
 
-    static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS, navigableSet(Factoriable.FACT));
+    static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS, Factoriable.UNARY_OPERATORS);
 
     static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Ring.FUNCTIONS, MultiplicativeMonoid.FUNCTIONS, Group.FUNCTIONS, navigableSet(BasicFunction.ABS));
 

@@ -80,5 +80,9 @@ public class PositiveInteger
         return new PositiveInteger(bigIntegerSubfactorial());
     }
 
+    @Override
+    public PositiveInteger doubleFactorial() {
+        return new PositiveInteger(bigIntegerDoubleFactorial());
+    }
 
 }

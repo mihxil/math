@@ -19,8 +19,7 @@ import lombok.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
@@ -28,6 +27,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 
 /**
@@ -87,15 +87,52 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
     }
     ;
 
+    AlgebraicUnaryOperator DOUBLE_FACTORIAL = new AlgebraicUnaryOperator() {
+
+        final Method method = getDeclaredMethod(Factoriable.class, "doubleFactorial");
+        @SuppressWarnings("unchecked")
+        @SneakyThrows
+        @Override
+        public <E extends AlgebraicElement<E>> E apply(E e) {
+            try {
+                return (E) method.invoke(e);
+            } catch (InvocationTargetException ita) {
+                throw ita.getCause();
+            }
+        }
+
+        @Override
+        public String stringify(String element) {
+            return element + "!!";
+        }
+
+        @Override
+        public String name() {
+            return "double factorial";
+        }
+    }
+    ;
+
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        FACT,
+        SUB_FACTORIAL,
+        DOUBLE_FACTORIAL
+    );
+
     /**
-     * The number of possible permutation with this many elements.
+     * The number of possible permutations with this many elements.
      */
     F factorial();
 
     /**
-     * The number of possible derangements with this many elements.
+     * The number of possible <a href="https://en.wikipedia.org/wiki/Derangement">derangements</a> with this many elements.
      */
     F subfactorial();
+
+    /***
+     * https://en.wikipedia.org/wiki/Double_factorial
+     */
+    F doubleFactorial();
 
 
     @Getter
@@ -103,13 +140,21 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
         @With
         private final Long maxArgument;
 
+        @With
+        private final Long maxSubArgument;
+
+        @With
+        private final Long maxDoubleArgument;
+
         public Configuration() {
-            this(50000L);
+            this(50000L, 2000L, null);
         }
 
         @lombok.Builder
-        private Configuration(Long maxArgument) {
+        private Configuration(Long maxArgument, Long maxSubArgument, Long maxDoubleArgument) {
             this.maxArgument = maxArgument;
+            this.maxSubArgument = maxSubArgument != null ? maxSubArgument : maxArgument;
+            this.maxDoubleArgument = maxDoubleArgument != null ? maxDoubleArgument : maxArgument;
         }
 
         @Override

@@ -24,10 +24,11 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.FIELD})
 @Repeatable(Examples.class)
+@Documented
 public @interface Example {
 
     /**
-     * For what class of interface this class or value is an example of.
+     * For what class or interface, this class or value is an example of.
      */
     Class<?> value();
 

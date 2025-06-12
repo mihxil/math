@@ -18,13 +18,18 @@ package org.meeuw.math;
 import java.lang.annotation.*;
 
 /**
- * {@link Repeatable} wrapper for {@link Example}
+ * Marks a method as a synonym for another one
+ *
  */
-
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Target({ElementType.METHOD})
 @Documented
-public @interface Examples {
+public @interface Synonym {
 
-    Example[] value();
+    /**
+     *
+     */
+    String value();
+
+
 }
