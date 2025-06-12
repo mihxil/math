@@ -16,8 +16,7 @@
 package org.meeuw.math.exceptions;
 
 /**
-
- *
+ * This can be thrown when converting a value and the original value is not finite, but the target type requires a finite value. E.g. 'padic' numbers, can sometimes be seen as 'infinite' integers, and converting them to integers may result this exception.
  */
 public class NotFiniteException extends IllegalArgumentException {
 

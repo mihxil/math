@@ -32,7 +32,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * This applies to {@link Number#longValue()}, to {@link SizeableScalar#longValue()}
  * but also, to <em>arrays</em>. For a one dimensional array the length must be a square (supposing that it actually represents a 2 dimension square matrix. For a two dimension matrix it is checked whether it is properly square, i.e. all rows and columns have the same size.
  * <p>
- * For matrices, it can also  check whether this square matrix is <em>{@link #invertible() invertible}</a>
+ * For matrices, it can also  check whether this square matrix is <em>{@link #invertible() invertible}</em>
  */
 @Target({METHOD, FIELD, PARAMETER })
 @Retention(RUNTIME)

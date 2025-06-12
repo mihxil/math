@@ -24,10 +24,11 @@ import org.meeuw.math.exceptions.NotComparableException;
  * <p>
  * {@link #lte} and {@link #gte} are provided too, but not necessarily transitively.
  * <p>
- * This implies {@link Comparable<>}
+ * This implies {@link Comparable}
  *
  * @author Michiel Meeuwissen
  * @since 0.7
+ * @param <E> Self reference
  */
 public interface StrictlyOrdered<E extends StrictlyOrdered<E>>
     extends Comparable<E> {

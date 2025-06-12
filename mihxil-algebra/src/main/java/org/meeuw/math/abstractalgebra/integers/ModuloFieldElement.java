@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
@@ -83,7 +84,7 @@ public class ModuloFieldElement
     }
 
     @Override
-    public int compareTo(ModuloFieldElement o) {
+    public int compareTo(@NonNull ModuloFieldElement o) {
         return Long.compare(value, o.value);
     }
 

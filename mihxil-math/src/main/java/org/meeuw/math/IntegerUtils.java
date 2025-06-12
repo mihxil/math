@@ -266,7 +266,7 @@ public final class IntegerUtils {
     /**
      * Returns the greatest common divisor of two long integers.
      * <p>
-     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"></a>Euclid's algorithm</a>.
+     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclid's algorithm</a>.
 
      * @param n1 the first integer
      * @param n2 the second integer
@@ -279,7 +279,7 @@ public final class IntegerUtils {
      /**
      * Returns the greatest common divisor of two integers.
      * <p>
-     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm"></a>Euclid's algorithm</a>.
+     * Uses <a href="https://en.wikipedia.org/wiki/Euclidean_algorithm">Euclid's algorithm</a>.
      *
      * @param n1 the first integer
      * @param n2 the second integer

@@ -82,7 +82,8 @@ public class TestClock extends Clock implements Consumer<Duration> {
 
     /**
      * The current {@link LocalDateTime} for the current test clock.
-     * @see LocalDateTime#now(Clock), which would actually be the same.
+     * <p>
+     * See also {@link LocalDateTime#now(Clock)},  which would actually be the same.
      */
     public LocalDateTime localDateTime() {
         return LocalDateTime.ofInstant(instant(), zone);

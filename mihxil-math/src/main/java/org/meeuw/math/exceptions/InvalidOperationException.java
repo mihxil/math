@@ -16,6 +16,7 @@
 package org.meeuw.math.exceptions;
 
 /**
+ * An operation is invalidly executed. E.g. {@link NoSuchOperatorException there is no such operator}, or {@link InvalidElementCreationException an element cannot be created} for some reason.
  * @author Michiel Meeuwissen
  */
 public class InvalidOperationException extends MathException {

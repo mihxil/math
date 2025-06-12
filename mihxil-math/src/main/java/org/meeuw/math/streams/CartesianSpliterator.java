@@ -40,20 +40,20 @@ import static org.meeuw.configuration.ReflectionUtils.commonSuperClass;
  * // both max = 1
  * 1, 1
  *
- * // we increase the value of the first, and iterate all possible values of the second one <= 2
+ * // we increase the value of the first, and iterate all possible values of the second one &lt;= 2
  * 1, 2
  * 2, 2
  *
- * // Now, we increase only the value of the second and iterate all possible values of the first one < 2
+ * // Now, we increase only the value of the second and iterate all possible values of the first one &lt; 2
  * 2, 1
  *
  * // all combination of 1 and 2 are done, now the same algorithm but with 3
- * // set first one, second <=3
+ * // set first one, second &lt;=3
  * 1, 3
  * 2, 3
  * 3, 3
  *
- * // set second one all before second < 3
+ * // set second one all before second &gt; 3
  * 3, 1
  * 3, 2
  *
@@ -71,7 +71,7 @@ import static org.meeuw.configuration.ReflectionUtils.commonSuperClass;
  * </pre>
  *
  *
- * Another example, but now a cartesian product of _three_ streams.
+ * Another example, but now a cartesian product of <em>three</em> streams.
  *
  * <pre>
  * max = 0

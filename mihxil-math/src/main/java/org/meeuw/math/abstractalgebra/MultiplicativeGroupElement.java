@@ -52,7 +52,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     /**
      * if multiplication and division is defined, then so is exponentiation to any integer power.
      * <p>
-     * This default implementation is based on the default implementation of {@link MultiplicativeMonoidElement#pow(int)
+     * This default implementation is based on the default implementation of {@link MultiplicativeMonoidElement#pow(int)}
      */
     @Override
     default E pow(int exponent) {

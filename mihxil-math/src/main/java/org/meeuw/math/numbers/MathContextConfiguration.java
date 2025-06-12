@@ -29,7 +29,7 @@ import org.meeuw.configuration.ConfigurationService;
 public class MathContextConfiguration implements ConfigurationAspect {
 
     /**
-     * The default value for {@link #getUncertaintyContext()}. A math context with precision 2, and {@link RoundingMode#HALF_UP}.
+     * The default value for {@link #getUncertaintyContext()} . A math context with precision 2, and {@link RoundingMode#HALF_UP}.
      *
      */
     public static MathContext DEFAULT_UNCERTAINTY_CONTEXT =  new MathContext(2, RoundingMode.HALF_UP);
