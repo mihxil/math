@@ -16,6 +16,7 @@
 package org.meeuw.configuration;
 
 /**
+ * Exception thrown related to configuration issues. E.g. thrown by {@link Configuration#getAspect(Class)} when there is no such configuration aspect.
  * @author Michiel Meeuwissen
  * @since 0.4
  */

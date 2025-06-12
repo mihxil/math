@@ -21,10 +21,11 @@ import java.util.*;
  * A simple {@link Map} implementation which allows for changing mappings, but not adding or deleting them.
  * <p>
  * This is used when representing configurations.
- * <p>
  *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <K> the type of keys maintained by this map
+ * @param <V> the type of mapped values
  */
 public class FixedSizeMap<K, V> extends AbstractMap<K, V> {
 

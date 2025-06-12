@@ -46,6 +46,7 @@
     <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
     <log4j.version>2.24.3</log4j.version>
 
+    <delombok.output>delombok</delombok.output>
   </properties>
 
 
@@ -467,10 +468,10 @@
             <configuration>
               <failOnError>false</failOnError>
               <links>
-                <link>https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/</link>
-                <link>https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
-                <link>https://javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
-                <link>https://javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
+                <link>https://static.javadoc.io/doc/org.meeuw.math/mihxil-math/latest/</link>
+                <link>https://static.javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
+                <link>https://static.javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
+                <link>https://static.javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
               </links>
               <detectLinks />
               <detectJavaApiLink />
