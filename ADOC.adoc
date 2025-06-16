@@ -1,4 +1,4 @@
-= Asciidoc
+= Asciidoc[[asciidoc]]
 
 I use https://asciidoc.org/[asciidoc] to write documentation for this.
 

@@ -474,6 +474,7 @@ include::mihxil-theories/README-source.adoc[leveloffset=1]
 
 I'm maintaining this mainly as a hobby project.
 
+
 |===
 |Version |Date  |Remarks
 
@@ -495,3 +496,8 @@ I'm maintaining this mainly as a hobby project.
 
 
 |===
+
+ifndef::htmled[]
+
+include::ADOC.adoc[leveloffset=1]
+endif::[]
