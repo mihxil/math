@@ -62,7 +62,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     }
 
     /**
-     * Golden ratio 1/(1 + √5)
+     * Golden ratio (1 + √5) / 2, approximately 1.61803.
      */
     E φ();
 
@@ -90,6 +90,33 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     default E determinant(E[][] source) {
         // we have comparison and abs, we could use Gaussion elimination with partial pivoting
         return Field.super.determinant(source);
+    }
+
+    /**
+     * Static version of {@link CompleteFieldElement#sin()}, for a more natural syntax in expressions (e.g. {@code sin(angle)}, rather than {@code angle.sin()}).
+     * @see CompleteFieldElement#sin()
+     */
+    @Synonym("angle.sin()")
+    static <E extends CompleteFieldElement<E>> E sin(E angle) {
+        return angle.sin();
+    }
+
+    /**
+     * Static version of {@link CompleteFieldElement#cos()}, for a more natural syntax in expressions (e.g. {@code cos(angle)}, rather than {@code angle.cos()}).
+     * @see CompleteFieldElement#cos()
+     */
+    @Synonym("angle.cos()")
+    static <E extends CompleteFieldElement<E>> E cos(E angle) {
+        return angle.cos();
+    }
+
+    /**
+     * Static version of {@link CompleteFieldElement#sqrt()}, for a more natural syntax in expressions (e.g. {@code sqrt(x)}, rather than {@code x.sqrt()}).
+     * @see CompleteFieldElement#sqrt()
+     */
+    @Synonym("angle.sqrt()")
+    static <E extends CompleteFieldElement<E>> E sqrt(E x) {
+        return x.sqrt();
     }
 
 }
