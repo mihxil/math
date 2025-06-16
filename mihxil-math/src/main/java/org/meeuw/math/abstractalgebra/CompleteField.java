@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.operators.*;
 
@@ -97,7 +98,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
      * @see CompleteFieldElement#sin()
      */
     @Synonym("angle.sin()")
-    static <E extends CompleteFieldElement<E>> E sin(E angle) {
+    static <E extends CompleteFieldElement<E>> E sin(@radians E angle) {
         return angle.sin();
     }
 
@@ -106,7 +107,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
      * @see CompleteFieldElement#cos()
      */
     @Synonym("angle.cos()")
-    static <E extends CompleteFieldElement<E>> E cos(E angle) {
+    static <E extends CompleteFieldElement<E>> E cos(@radians E angle) {
         return angle.cos();
     }
 

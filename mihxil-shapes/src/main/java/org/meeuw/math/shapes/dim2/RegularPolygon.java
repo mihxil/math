@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Min;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.CompleteScalarField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
@@ -148,7 +149,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         }
         return IntStream.range(0, n)
             .mapToObj(i -> {
-                F angle = offset.plus(step.times(i));
+                @radians F angle = offset.plus(step.times(i));
                 return FieldVector2.of(
                     angle.cos().times(radius), angle.sin().times(radius)
                 );

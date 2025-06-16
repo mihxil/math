@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.dim2;
 
 import java.util.*;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -53,7 +54,7 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
     }
 
 
-    public Rotation2<E> rotation(E angle) {
+    public Rotation2<E> rotation(@radians E angle) {
         E sin = angle.sin();
         E cos = angle.cos();
         return new Rotation2<>(
@@ -63,7 +64,7 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
             ), this);
     }
 
-    public static <E extends CompleteScalarFieldElement<E>> Rotation2<E> rotationVector(E angle) {
+    public static <E extends CompleteScalarFieldElement<E>> Rotation2<E> rotationVector(@radians E angle) {
         return Rotation2Group.<E>of(angle.getStructure()).rotation(angle);
     }
 

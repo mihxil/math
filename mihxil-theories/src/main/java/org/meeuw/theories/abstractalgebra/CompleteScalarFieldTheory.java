@@ -17,6 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
+import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.OverflowException;
@@ -54,7 +55,7 @@ public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFiel
 
     @Property
     default void cos(@ForAll(ELEMENTS) E e) {
-        E cos = e.cos();
+        E cos = CompleteField.cos(e);
         assertThat(cos.doubleValue()).isCloseTo(
             Math.cos(e.doubleValue()), offset(0.01)
         );

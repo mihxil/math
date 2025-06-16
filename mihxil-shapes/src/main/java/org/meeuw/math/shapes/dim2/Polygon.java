@@ -3,8 +3,10 @@ package org.meeuw.math.shapes.dim2;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.dim2.*;
+import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.abstractalgebra.dim2.Rotation2Group;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 
 public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, SELF>> extends Shape<F, SELF>   {
@@ -17,7 +19,12 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
 
     Stream<FieldVector2<F>> vertices();
 
-    default LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
+    /**
+     * {@inheritDoc}
+     * <p>
+     * The default implementation of a polygon is based on {@link #vertices()}, and just finding the minimum and maximum x and y coordinates of those.
+     */
+    default LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
         ScalarField<F> field = field();
         if ( ! (field instanceof CompleteScalarField) && ! angle.isZero()) {
             throw new FieldIncompleteException("Cannot compute circumscribed rectangle for " + this + " with angle " + angle + " in field " + field);

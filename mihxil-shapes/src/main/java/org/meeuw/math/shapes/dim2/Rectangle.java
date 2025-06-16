@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Min;
 
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
@@ -74,7 +75,8 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
-    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(E angle) {
+    @Override
+    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(@radians E angle) {
 
         if (angle instanceof CompleteScalarFieldElement<?>) {
             CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
@@ -89,7 +91,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         }
     }
 
-    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(double angle) {
+    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(@radians double angle) {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);

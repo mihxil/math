@@ -2,6 +2,7 @@ package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
@@ -82,7 +83,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
         return atOrigin(
             new Rectangle<>(radiusx.times(2), radiusy.times(2))
         );

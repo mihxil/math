@@ -2,6 +2,7 @@ package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 
+import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.Uncertain;
@@ -55,14 +56,24 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
         }
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For a circle, the circumscribed rectangle is a square with the diameter as side length, at the origin.
+     */
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
         F diameter = diameter();
         return atOrigin(
             new Rectangle<>(diameter, diameter)
         );
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For a circle, the circumscribed circle is the circle itself, at the origin.
+     */
     @Override
     public LocatedShape<F, Circle<F>> circumscribedCircle() {
         return atOrigin(this);
