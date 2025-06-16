@@ -17,8 +17,8 @@ package org.meeuw.math.abstractalgebra;
 
 import jakarta.validation.constraints.Positive;
 
+import org.meeuw.math.Synonym;
 import org.meeuw.math.exceptions.IllegalPowerException;
-import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
 import static org.meeuw.math.operators.BasicAlgebraicIntOperator.POWER;
 
@@ -37,6 +37,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     /**
      * @param multiplier the element to multiply with
      * @return this * multiplier
+     * @see #x(MultiplicativeSemiGroupElement)
      */
     E times(E multiplier);
 
@@ -44,7 +45,9 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * less verbose version of {@link #times(MultiplicativeSemiGroupElement)}
      * @param multiplier the element to multiply with
      * @return this * multiplier
+     * @see #times(MultiplicativeSemiGroupElement)
      */
+    @Synonym("times")
     default E x(E multiplier) {
         return times(multiplier);
     }
