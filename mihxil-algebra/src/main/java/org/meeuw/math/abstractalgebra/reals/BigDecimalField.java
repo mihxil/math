@@ -95,7 +95,7 @@ public class BigDecimalField
     }
 
     @Override
-    public BigDecimalElement φ() {
+    public BigDecimalElement 𝜑() {
         return (BigDecimalElement.ONE.plus(BigDecimalElement.of(5).sqrt())).dividedBy(2);
     }
 }

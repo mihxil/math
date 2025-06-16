@@ -17,8 +17,6 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import lombok.extern.java.Log;
 
-import java.util.Random;
-
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -55,8 +53,8 @@ public abstract class CompleteComplexNumbers<
     }
 
     @Override
-    public S φ() {
-        return of(getElementStructure().φ());
+    public S 𝜑() {
+        return of(getElementStructure().𝜑());
     }
 
 
