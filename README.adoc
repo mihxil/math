@@ -17,8 +17,6 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :docs: {ghraw}docs
 :videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
 
-
-
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
 image:https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/]
