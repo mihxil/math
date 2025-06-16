@@ -65,7 +65,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     /**
      * Golden ratio (1 + √5) / 2, approximately 1.61803.
      */
-    E φ();
+    E 𝜑();
 
     default E element(long n) {
         return one().times(n);
