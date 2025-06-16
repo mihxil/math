@@ -1,0 +1,15 @@
+= Asciidoc
+
+I use https://asciidoc.org/[asciidoc] to write documentation for this.
+
+I think it is nicer than markdown. Sadly I few things don't work in entirely when rendered by github.
+
+- It seems to run in 'SECURE' mode, so includes are not working
+- It seems to also miss things like support for LaTeX formulas and embedding of youtube video's.
+
+
+I worked around the first thing by a github action 'reducing' the .adoc, which effectively resolves the includes (and produces the `README.adoc`s from the `README-source.adoc` files). This way some modules have their own documentation, which is then included as chapter of the overall documentation. The README.adoc then render directly 'mostly' as intended.
+
+The second thing could I presume only be worked around by transforming the entire thing to HTML, which appens in the `publish-documentation` action. The drawback is that the documentation less tight to github itself, and you need to access a different url, but every detail is working there.
+
+
