@@ -37,8 +37,8 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 The core dependency of the modules in the project. It provides the scaffolding for:
 
-- Abstract algebras to ensure a common interface for basic operations. Java does not provide operator overloading. This provides an alternative. Implementations of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adhere to the contracts.
-- An 'uncertain number' interface, plus an implemention of an algebraic field of uncertain numbers.
+- Abstract algebra's to ensure a common interface for basic operations. Java does not provide operator overloading. This provides an alternative. Implementations of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adheres to the contracts.
+- An 'uncertain number' interface, plus an implementation of an algebraic field of uncertain numbers.
 - A Service Provider Interface for formatting the elements of abstract algebras.  This core module only provides an implementation to format  uncertain numbers, using proper rounding and scientific notation.
 
 === Abstract Algebras
