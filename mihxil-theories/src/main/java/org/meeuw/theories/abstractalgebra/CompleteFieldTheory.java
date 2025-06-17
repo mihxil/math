@@ -91,7 +91,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
              setConfiguration(builder ->
                  builder.configure(MathContextConfiguration.class,
                      (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))));
-             assertThat(struct.φ().sqr()).isEqTo(struct.φ().plus(struct.one()));
+             assertThat(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
 
