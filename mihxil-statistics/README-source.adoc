@@ -28,6 +28,8 @@ log.info("Measured rate: {}", rate); // toString
 [source,java]
 ----
 include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=imports,indent=0]
-..
+
+...
+
 include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=eventrate,indent=0]
-....
+----
