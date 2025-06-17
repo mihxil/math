@@ -276,7 +276,7 @@ video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 :leveloffset: 1
 
 = statistics
-Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
+
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
