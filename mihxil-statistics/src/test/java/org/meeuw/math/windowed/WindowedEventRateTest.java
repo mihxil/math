@@ -28,6 +28,8 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 
+// tag::imports[]
+
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -38,6 +40,9 @@ import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
+
+
+// end::imports[]
 
 /**
  * @author Michiel Meeuwissen
@@ -220,6 +225,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
 
     @Test
     public void string() {
+        // tag::eventrate[]
         ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
             () -> {
                 TestClock clock = new TestClock();
@@ -238,6 +244,8 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
                     assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
                 }
             });
+        // end::eventrate[]
+
     }
 
     @Test

@@ -24,3 +24,10 @@ log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
 log.info("Measured rate: {}", rate); // toString
 ----
 
+.another example of WindowedEventRate
+[source,java]
+----
+include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=imports,indent=0]
+..
+include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=eventrate,indent=0]
+....
