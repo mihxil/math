@@ -86,7 +86,7 @@ public class UncertainRealField
     }
 
     @Override
-    public UncertainReal φ() {
+    public UncertainReal 𝜑() {
         double phi = (1d + Math.sqrt(5)) / 2;
         return UncertainDoubleElement.of(phi, DoubleUtils.uncertaintyForDouble(phi));
     }
