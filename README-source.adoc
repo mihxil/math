@@ -274,30 +274,7 @@ The 2-dimensional plane of integers traditionally can be filled by tracking _dia
 .All combinations of 2 streams of positive integers (diagonals)
 video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
-== statistics
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
-image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
-
-
-Implementations of `UncertainDouble`, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.
-
-Also, it includes some classes to keep track of 'sliding window' values of averages.
-
-.example of WindowedEventRate
-[source,java]
-----
-WindowedEventRate rate = WindowedEventRate.builder()
-            .bucketCount(50)
-            .window(Duration.ofMinutes(50))
-            .build();
-rate.newEvent();
-...
-..
-log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
-
-log.info("Measured rate: {}", rate); // toString
-----
-
+include::mihxil-statistics/README-source.adoc[leveloffset=1]
 
 == physics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-physics]

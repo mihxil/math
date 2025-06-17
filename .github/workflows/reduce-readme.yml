@@ -20,7 +20,7 @@ jobs:
       run: sudo gem install asciidoctor-reducer coderay
     - name: Reduce README
       run: |
-        for source in README-source.adoc mihxil-configuration/README-source.adoc mihxil-theories/README-source.adoc mihxil-shapes/README-source.adoc; do
+        for source in README-source.adoc mihxil-configuration/README-source.adoc mihxil-theories/README-source.adoc mihxil-shapes/README-source.adoc mihxil-statistics/README-source.adoc; do
           dest="${source%-source.adoc}.adoc"
           echo "Reducing $source to $dest"
           asciidoctor-reducer --log-level debug -o $dest $source
