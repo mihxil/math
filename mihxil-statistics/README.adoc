@@ -41,7 +41,9 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 
 
-..
+
+...
+
 ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
     () -> {
         TestClock clock = new TestClock();
@@ -60,4 +62,4 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotat
             assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
         }
     });
-....
+----

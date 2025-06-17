@@ -317,7 +317,9 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 
 
-..
+
+...
+
 ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
     () -> {
         TestClock clock = new TestClock();
@@ -336,7 +338,7 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotat
             assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
         }
     });
-....
+----
 
 :leveloffset!:
 
@@ -631,7 +633,7 @@ image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle", link="{docs}
 image:{docs}/shapes/circle.svg[width={iwidth},title="circle", link="{docs}/shapes/circle.svg"]
 image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse", link="{docs}/shapes/ellipse.svg"]
 
-:leveloffset: 1
+:leveloffset!:
 
 
 == Compatibility
@@ -728,7 +730,7 @@ defaultConfiguration((configurationBuilder) ->
 ConfigurationService itself is not actually math related, and is released in a separate artifact.
 
 
-:leveloffset: 1
+:leveloffset!:
 
 :leveloffset: 1
 
@@ -778,7 +780,7 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 |===
 
 
-:leveloffset: 1
+:leveloffset!:
 
 
 == History
@@ -827,4 +829,4 @@ The second thing (formula's and videos) could (I presume) only be worked around 
 
 
 
-:leveloffset: 1
+:leveloffset!:
