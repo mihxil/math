@@ -301,6 +301,42 @@ log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
 log.info("Measured rate: {}", rate); // toString
 ----
 
+.another example of WindowedEventRate
+[source,java]
+----
+
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.Interval;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.time.TestClock;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.Percentage.withPercentage;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
+
+
+..
+ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
+    () -> {
+        TestClock clock = new TestClock();
+        try (WindowedEventRate rate = WindowedEventRate.builder()
+            .window(Duration.ofSeconds(100))
+            .bucketCount(10)
+            .clock(clock)
+            .build()) {
+            for (int i = 0; i < 100; i++) {
+                rate.accept(5 + (i % 3));
+                clock.tick();
+            }
+            clock.tick(50);
+            assertThat(rate.isWarmingUp()).isFalse();
+            assertThat(rate.getRate()).isEqualTo(5.930038867295947);
+            assertThat(rate.toString()).isEqualTo("5.9(1.8) /s");
+        }
+    });
+....
 
 :leveloffset!:
 
@@ -595,7 +631,7 @@ image:{docs}/shapes/rectangle.svg[width={iwidth},title="rectangle", link="{docs}
 image:{docs}/shapes/circle.svg[width={iwidth},title="circle", link="{docs}/shapes/circle.svg"]
 image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse", link="{docs}/shapes/ellipse.svg"]
 
-:leveloffset!:
+:leveloffset: 1
 
 
 == Compatibility
@@ -692,7 +728,7 @@ defaultConfiguration((configurationBuilder) ->
 ConfigurationService itself is not actually math related, and is released in a separate artifact.
 
 
-:leveloffset!:
+:leveloffset: 1
 
 :leveloffset: 1
 
@@ -742,7 +778,7 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 |===
 
 
-:leveloffset!:
+:leveloffset: 1
 
 
 == History
@@ -791,4 +827,4 @@ The second thing (formula's and videos) could (I presume) only be worked around 
 
 
 
-:leveloffset!:
+:leveloffset: 1
