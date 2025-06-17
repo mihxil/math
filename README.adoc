@@ -273,7 +273,10 @@ The 2-dimensional plane of integers traditionally can be filled by tracking _dia
 .All combinations of 2 streams of positive integers (diagonals)
 video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
-== statistics
+:leveloffset: 1
+
+= statistics
+Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
@@ -297,6 +300,8 @@ log.info("Measured rate: {} /s",  rate.getRate(TimeUnit.SECONDS) + " #/s");
 log.info("Measured rate: {}", rate); // toString
 ----
 
+
+:leveloffset!:
 
 == physics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-physics]
