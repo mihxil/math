@@ -29,4 +29,4 @@ jobs:
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
-        add: '["README.adoc", "mihxil-configuration/README.adoc", "mihxil-algebra/README-source.adoc", "mihxil-theories/README.adoc", "mihxil-shapes/README.adoc", "mihxil-statistics/README.adoc"]'
+        add: '["README.adoc", "mihxil-configuration/README.adoc", "mihxil-algebra/README.adoc", "mihxil-theories/README.adoc", "mihxil-shapes/README.adoc", "mihxil-statistics/README.adoc"]'
