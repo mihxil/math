@@ -14,6 +14,8 @@
   <description>
     Some more implementations of abstract algebra's.
   </description>
+  <url>https://github.com/mihxil/math/tree/main/mihxil-algebra</url>
+
   <dependencies>
     <dependency>
       <groupId>org.meeuw.math</groupId>

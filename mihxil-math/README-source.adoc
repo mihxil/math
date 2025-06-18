@@ -1,0 +1,252 @@
+= math
+:gh: https://github.com/mihxil/math/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
+:ghblob: {gh}blob/main/
+:ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
+:docs: {ghraw}docs
+:videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
+
+
+
+
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
+
+The core dependency of the modules in the project. It provides the scaffolding for:
+
+- Abstract algebra's to ensure a common interface for basic operations. Java does not provide operator overloading. This provides an alternative. Implementations of these interfaces can be 'property-based' tested, to make sure that the implementation indeed adheres to the contracts.
+- An 'uncertain number' interface, plus an implementation of an algebraic field of uncertain numbers.
+- A Service Provider Interface for formatting the elements of abstract algebras.  This core module only provides an implementation to format  uncertain numbers, using proper rounding and scientific notation.
+
+== Abstract Algebras
+
+The idea is that every 'abstract algebra' consists of the implementation of two interfaces
+
+. One of the extensions of  link:{ghm}abstractalgebra/AlgebraicElement.java[`org.meeuw.math.abstractalgebra.AlgebraicElement`] defines the properties of all elements of the algebra. It also should implement the actual operations like multiplication and addition.
+
+. One of the corresponding extensions of link:{ghm}abstractalgebra/AlgebraicStructure.java[`org.meeuw.math.abstractalgebra.AlgebraicStructure`], e.g.  link:{ghm}abstractalgebra/Field.java[`org.meeuw.math.abstractalgebra.Field`],  defines properties of the structure itself, and it also serves as a container for utility method for its elements. E.g. if the structure is powerful enough to implement determinants of matrices of its elements, it does so (and more advanced structures, may do it more sophisticatedly. E.g. `Ring` implements `determinant` without using division, but in `DivisionRing` the implementation is optimized with use of that operation)
+
+The terminology which is adopted is this:
+
+|===
+|Algebraic operation  | operator | operator name | static operator name | result name | argument name | defined in
+
+7+^|binary operators
+|operation| `*` | operate | operate | operation | operand |  link:{ghm}abstractalgebra/MagmaElement.java[`MagmaElement`]
+|addition | `+` | plus | add | sum | summand
+| link:{ghm}abstractalgebra/AdditiveSemiGroupElement.java[`AdditiveSemiGroupElement`]
+|subtraction | `-` | minus | subtract | difference | subtrahend | link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|multiplication |  `⋅`  | times | multiply | product | multiplier | link:{ghm}abstractalgebra/MultiplicativeSemiGroupElement.java[`MultiplicativeSemiGroupElement`]
+|division | `/` | dividedBy | divide | quotient |  divisor | link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|exponentiation | `^` | pow | pow | power| exponent| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|metric or distance| `d()` | distanceTo | metric | distance|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+
+7+^|unary operators
+|negation      | `-` | negation | negate | negation|| link:{ghm}abstractalgebra/AdditiveGroupElement.java[`AdditiveGroupElement`]
+|reciprocation | `1/` |  reciprocal | | reciprocal|| link:{ghm}abstractalgebra/MultiplicativeGroupElement.java[`MultiplicativeGroupElement`]
+|square root | `√` | sqrt | sqrt
+ | square root| radicand | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|sine | `sin()`| sin | sin | sine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|cosine | `cos()` | cos | cos | cosine| angle | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+|absolute value, distance to zero|  \|\|  | abs| abs| absolute value|| link:{ghm}abstractalgebra/MetricSpaceElement.java[`MetricSpaceElement`]
+|identify| + |  self |  |  |   | link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`]
+
+
+7+^|comparison operators
+|equals      | `=` | equals | equals | equality| object| `java.lang.Object`
+|loosely equals | `≈` | eq | equals | equality| other element| link:{ghm}abstractalgebra/AlgebraicElement.java[`AlgebraicElement`]
+
+7+^| integer operators
+| root | `^n^√x` | root | root | n-th root | base | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| power | `x^n^` |  |  | n-th power  | exponent |  link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+| tetration | `x↑↑n` `^n^x` |   |   |  | height | link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`]
+
+|===
+
+The methods on the elements take the name of the corresponding operator. So e.g.:
+
+[source,java]
+----
+RationalNumber a, b, c;
+c = a.times(b);
+----
+
+These methods always take the value of the element itself plus zero parameters (for the unary operators) or one parameter (for the binary operators), and create a new value from the same algebra.
+
+Alternative terminology, like e.g. 'add' for addition would have been possible, but it was chosen to use those verbs when the operation is e.g. implemented statically (`E add(e1, e2)`) or are modifying the element itself.
+
+Most implementations are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
+
+=== Algebraic structure
+
+Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'.
+
+NOTE: If the cardinality is 'countable' (< ℵ~1~), the structure can also implement  link:{ghm}abstractalgebra/Streamable.java[`Streamable`] to actually produce all possible elements.
+
+The algebraic structure also contains methods to obtain 'special elements' like the identity elements for multiplication and addition (_one_ and _zero_).
+
+image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), special elements, and example implementations.", link="{docs}/algebras.svg"]
+
+=== Numbers
+
+Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.
+
+|===
+| class/interface  | description
+
+| link:{ghm}numbers/Scalar.java[`Scalar`] |
+A generic interface that defines the methods to convert to java (primitive) number objects. Like `doubleValue()` and `intValue()`. It extends a few interfaces for some properties which can be applied to other structures to, like `Sizeable` and `SignedNumber`.
+
+| link:{ghm}abstractalgebra/ScalarFieldElement.java[`ScalarFieldElement`] |
+A `Scalar` that is also a `FieldElement`. So this is the link from number to algebra. Well-behaved field elements that also behave as a 'Number' may implement `ScalarFieldElement`
+
+| link:{ghm}abstractalgebra/CompleteFieldElement.java[`CompleteFieldElement`] |
+Even more similar to the everyday concept of a number are elements of an algebraic field that is 'complete'.  This in some way means that is has 'no gaps', but essentially boils down to the fact that operations like taking square roots and trigonometric function are possible within the algebra.
+
+| link:{ghm}numbers/NumberOperations.java[`NumberOperations`]
+link:{ghm}numbers/UncertaintyNumberOperations.java[`UncertaintyNumberOperations`]
+|
+Number like structures are backed by existing classes  `BigDecimal` and `Double`. These lack a common interface. Implementations of this class wrap these things with a common interface to all needed operations.
+. E.g. it may use `BigDecimalMath` for `BigDecimal` and `Math#log` for `Double`.
+
+The specialization `UncertaintyNumberOperations` adds the logic for propagation of uncertainties.
+|===
+
+
+=== Numbers and propagation of uncertainties
+
+Most real numbers cannot be represented exactly. It may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on them.
+
+The 'physics' module will add to this that these kinds of uncertainties may originate not only in the finite nature of representing them, but also in the limitations of actually _measuring_ things.
+
+The 'statistics' module introduces uncertain numbers where the uncertainty is defined as the standard deviation in a collected set of values. These numbers are examples of elements that are actually stateful, because new values can be added to the set. This should not actually change the _value_ represented by  the object though, only decrease its _uncertainty_. On performing operations on these kinds of objects you would receive unmodifiable stateless objects with frozen value and uncertainty.
+
+It is not always absolutely defined how propagations must happen. Some interpretation may be needed sometimes. The choices made are currently collected in `UncertaintyNumberOperations'.  This is not currently pluggable or configurable, but it may well be.
+
+|===
+| operation | formula | current uncertainty propagation algorithm
+
+| summation | latexmath:[a ± Δa + b ± Δb] | latexmath:[\sqrt{Δa^2 + Δb^2}]
+| multiplication | latexmath:[a ± Δa \cdot b ± Δb] |
+ latexmath:[\mid a \cdot b \mid \cdot \sqrt{\left(\frac{Δa}{\mid a \mid + Δa }\right)^2 + \left(\frac{Δb}{\mid b \mid + Δb }\right)^2}]
+| exponentiation |
+ latexmath:[\left(a ± Δa\right) ^ {e ± Δe}]
+|
+ latexmath:[\mid a ^ e\mid \cdot
+\sqrt{
+  \left(\frac{e \cdot Δa}{a}\right)^2 +
+  \left(\ln(a) \cdot Δe\right)^2
+}]
+
+| sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]| | |
+|===
+
+==== Zero
+
+Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefore, for now fractional uncertainty is implemented like latexmath:[ \frac{Δa}{|a| +  Δa}] (rather then latexmath:[ \frac{Δa}{|a|}]), where the denominator can never become zero because the uncertainty is strictly bigger than zero.
+
+
+=== Testing
+
+In link:{gh}/mihxil-theories[mihxil-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{ght}org/meeuw.utils/,,test/ElementTheory.java#L20[`elements`].
+
+Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
+
+=== Implementation of `equals`/`hashCode` and `eq`
+
+When a value has uncertainty, then `equals` could consider it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
+
+This is abstracted using a `ConfidenceInterval` concept.
+
+
+In this case the `hashCode` must be a fixed value, because otherwise we can't guarantee that equal values have equal hashCode.
+
+This implies that it's a bad idea to use uncertain values as hash keys.
+
+==== Transitivity of equality
+
+Java - and also mathematics - normally requires that the equality operator ('`=`') is transitive.
+
+For several of the objects (the `Uncertain` ones) this represents a problem, because on one hand it is expected that things like `(x^-1^)^-1^ = x`, and on the other hand transitivity of equals is desired (`x = y ∧ y = z → x = z`).
+
+Therefore, the elements of algebra's have several methods for equality
+
+==== eq
+
+This is the most used equality in algebras. For uncertain valued algebras this _may not be transitive_,  because the uncertainty is considered.
+
+ E.g. `10 ± 5 eq 14 ± 1` and `18 ± 5 eq 14 ± 1`, but `! (10 ± 5 eq  18 ± 5 )`.
+
+For non-uncertain values, `eq` would behave the same as `equals`, the only difference being that its argument is not `Object`.
+
+==== strictlyEquals
+
+If the value is `Uncertain` then it also implements a method `strictlyEquals` which just compares the value without considering uncertainty. This guarantees transitivity, but e.g. reciprocity of inverse operator may not be, since e.g. because of rounding errors  ``(x^-1^)^-1^ !strictlyEquals  x`,
+
+
+==== equals
+
+Java's `equals` method is implemented with `strictlyEquals` or with `eq` if the value is not uncertain (`strictlyEquals` is not available, and it would make no difference).
+
+Via the `CompareConfiguration` configuration aspect, it can be configured though, that `equals` is like `eq`.
+
+[source, java]
+----
+ withAspect(CompareConfiguration.class, compareConfiguration -> compareConfiguration.withEqualsIsStrict(false), () -> {
+     /// here equals behave like eq
+ }
+----
+This common case can also be accessed more concisely:
+[source, java]
+----
+CompareConfiguration.withLooseEquals(() -> {
+    // code here
+});
+----
+
+== Formatting and configuration
+
+A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
+
+The formatters have access to a (thread local) configuration object (see <<configuration_service>>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
+
+The service giving access to the format-providers is `FormatService`. This is a collection of static functions.
+
+
+
+=== unicode
+
+Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
+
+== Utilities
+
+To implement several aspects of the groups there are provided some utility class. We describe here a few which might be of particular interest.
+
+=== Cartesian product of streams
+
+All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.
+
+For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
+
+==== Generic
+
+link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
+
+
+The most generic implementation requires for every axis a supplier for the stream, which will be used every time the first value of the stream is needed again.
+
+This implementation then only advances streams, and needs no state otherwise.
+
+.All combinations of 2 streams of positive integers.
+video::{docs}/positive-plane.mp4[{videooptions}]
+
+.All combinations of 3 streams of positive integers.
+video::C0uaFTHoMVQ[youtube,{videooptions}]
+
+==== Diagonals
+
+The 2-dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
+
+
+.All combinations of 2 streams of positive integers (diagonals)
+video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
