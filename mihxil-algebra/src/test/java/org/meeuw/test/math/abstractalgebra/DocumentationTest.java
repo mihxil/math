@@ -51,6 +51,9 @@ public class DocumentationTest {
     public static final String ALGEBRA_URL = "ALGEBRA_URL";
     public static final String MATH_URL    = "MATH_URL";
 
+    public static final String JAVADOC_ALGEBRA_URL = "JAVADOC_ALGEBRA_URL";
+    public static final String JAVADOC_MATH_URL    = "JAVADOC_MATH_URL";
+
     public static final String BINARY_OPERATOR_COLOR = "teal";
     public static final String COMPARISON_COLOR = "blue";
     public static final String SPECIAL_COLOR = "navy";
@@ -156,7 +159,10 @@ public class DocumentationTest {
         }
         writer.println("\t\tmargin=2\tlabel=<");
         writer.println("<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>");
-        writeCaption(writer,(w) -> w.write(toString(c)), colspan, href(c), c.getSimpleName());
+        writeCaption(writer,(w) -> w.write(toString(c)), colspan,
+            href(c),
+            javadocRef(c),
+            c.getSimpleName());
         body.accept(writer);
         writer.println("</table>");
         writer.println(">");
@@ -165,28 +171,41 @@ public class DocumentationTest {
     protected <C extends AlgebraicStructure<?>>  void writeExamples(final PrintWriter writer, Class<C> target, int cols)  {
         getExamplesClasses(target)
             .forEach(t ->
-                writeCaption(writer, p -> p.write(toString(t)), cols, href(t), t.getSimpleName())
+                writeCaption(writer, p -> p.write(toString(t)), cols,
+                    href(t),
+                    javadocRef(t),
+                    t.getSimpleName())
             );
 
         getExamplesConstants(target).forEach(s ->
-            writeCaption(writer, p -> p.write(s.toString()), cols, href(s.getClass()), s.getDescription())
+            writeCaption(writer, p -> p.write(s.toString()), cols,
+                href(s.getClass()),
+                javadocRef(s.getClass()),
+                s.getDescription())
         );
 
     }
 
-    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href, String title) {
-        writer.write("<tr><td colspan='" + cols + "'");
+    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href, String javadocRef, String title) {
         if (href != null) {
-            writer.write(" title='" + title + "' href='" + href + "'");
+            cols--;
+        }
+        writer.write("<tr><td colspan='" + cols + "'");
+        if (javadocRef != null) {
+            writer.write(" title='" + title + "' href='" + javadocRef + "'");
         }
         writer.write(">");
-        if (href != null) {
+        if (javadocRef != null) {
             writer.write("<font color='#0000a0'>");
         }
         body.accept(writer);
-        if (href != null) {
+        if (javadocRef != null) {
             writer.write("</font>");
         }
+        if (href != null) {
+            writer.write("</td><td href='" + href + "'>\uD83D\uDCD6");
+        }
+
         writer.write("</td></tr>");
 
     }
@@ -409,6 +428,19 @@ public class DocumentationTest {
         return baseurl + "/" + c.getName().replace(".", "/") + ".java";
     }
 
+     protected <C extends AlgebraicStructure<?>>  String javadocRef(Class<C> c){
+        String baseurl;
+        String module = getModule(c);
+        if ("mihxil-math".equals(module)) {
+            baseurl = JAVADOC_MATH_URL;
+        } else if ("mihxil-algebra".equals(module)){
+            baseurl = JAVADOC_ALGEBRA_URL;
+        } else {
+            throw new IllegalArgumentException("Unrecognized module " + module + " for " + c);
+        }
+        return baseurl + "/" + c.getName().replace(".", "/") + ".html";
+     }
+
     static class Super {
         final String name;
         final boolean pseudo;
@@ -507,6 +539,8 @@ public class DocumentationTest {
             "\t\t]\n\n");
         writer.println("        define(`" + MATH_URL + "', https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)");
         writer.println("        define(`" + ALGEBRA_URL + "', https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java)");
+        writer.println("        define(`" + JAVADOC_MATH_URL + "', https://www.javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math)");
+        writer.println("        define(`" + JAVADOC_ALGEBRA_URL + "', https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras)");
         writer.println("         changecom(`  #')\n"); // don't match css color
         body.accept(writer);
         writer.write("}\n");
