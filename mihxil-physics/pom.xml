@@ -22,6 +22,9 @@
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
     </dependency>
+    <!--
+    This seems to be a missed opportunity to use the JSR-385 API
+    Let's look into that later.
     <dependency>
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-theories</artifactId>
