@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.util.Random;
 
 import org.meeuw.math.Equivalence;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 
@@ -29,6 +30,7 @@ import static org.meeuw.math.Utils.Math_2PI;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implements MultiplicativeGroup<Rotation> {
 
     public static final RotationGroup INSTANCE = new RotationGroup();

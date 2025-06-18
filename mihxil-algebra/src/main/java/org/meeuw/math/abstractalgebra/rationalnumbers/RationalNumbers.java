@@ -19,8 +19,7 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Randomizable;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
@@ -39,12 +38,13 @@ import static java.math.BigInteger.ONE;
  * @see org.meeuw.math.abstractalgebra.rationalnumbers
  */
 @Example(ScalarField.class)
+@Singleton
 public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
-    protected RationalNumbers() {
+    private RationalNumbers() {
         super(RationalNumber.class);
     }
 

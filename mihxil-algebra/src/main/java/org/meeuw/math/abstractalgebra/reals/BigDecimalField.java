@@ -20,6 +20,7 @@ import java.math.MathContext;
 import java.util.*;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
 import org.meeuw.math.numbers.BigDecimalOperations;
@@ -32,6 +33,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @since 0.4
  */
 @Example(CompleteScalarField.class)
+@Singleton
 public class BigDecimalField
     extends AbstractAlgebraicStructure<BigDecimalElement>
     implements
@@ -40,7 +42,7 @@ public class BigDecimalField
 
     public static final BigDecimalField INSTANCE = new BigDecimalField();
 
-    protected BigDecimalField() {
+    private BigDecimalField() {
         super(BigDecimalElement.class);
     }
 

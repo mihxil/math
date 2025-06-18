@@ -18,7 +18,9 @@ package org.meeuw.math.abstractalgebra.complex;
 import lombok.extern.java.Log;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.Singleton;
+import org.meeuw.math.abstractalgebra.CompleteField;
+import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.text.TextUtils;
@@ -31,6 +33,7 @@ import org.meeuw.math.text.TextUtils;
  */
 @Log
 @Example(CompleteField.class)
+@Singleton
 public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNumber, RealField> {
 
     public static final ComplexNumbers INSTANCE = new ComplexNumbers();

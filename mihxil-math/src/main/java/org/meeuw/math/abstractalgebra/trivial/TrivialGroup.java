@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.trivial;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -27,6 +28,7 @@ import org.meeuw.math.text.TextUtils;
  * @see org.meeuw.math.abstractalgebra.trivial
  */
 @Example(Group.class)
+@Singleton
 public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement>
     implements Group<TrivialGroupElement>, Streamable<TrivialGroupElement> {
 

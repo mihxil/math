@@ -35,6 +35,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     MultiplicativeSemiGroup<E> getStructure();
 
     /**
+     * Multiplies this element with another element of the same type.
      * @param multiplier the element to multiply with
      * @return this * multiplier
      * @see #x(MultiplicativeSemiGroupElement)
@@ -126,6 +127,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     }
 
     /**
+     * Since multiplication is defined, squaring is also defined, it is just the element {@link #times(MultiplicativeSemiGroupElement) multiplied} by itself.
      * @return this element multiplied by itself.
      */
     @SuppressWarnings("unchecked")

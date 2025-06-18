@@ -15,8 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.lang.reflect.Field;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -27,14 +27,13 @@ import java.util.stream.Stream;
 import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
+import org.meeuw.math.*;
 import org.meeuw.math.Example;
-import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.*;
 import static org.meeuw.math.operators.BasicComparisonOperator.*;
 
 /**
@@ -410,6 +409,29 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             logger.info("{} is not finite. Cayley tables cannot be produced", structure);
         }
 
+    }
+
+    @Property
+    default void singleton(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) throws NoSuchFieldException {
+        Class<?> clazz = structure.getClass();
+        boolean isSingleton = clazz.getAnnotation(Singleton.class) != null;
+        if (isSingleton) {
+            assertThat(clazz.getDeclaredConstructors()).hasSize(1);
+            Constructor<?> declaredConstructor = clazz.getDeclaredConstructors()[0];
+            assertThat(declaredConstructor.getParameterCount()).isEqualTo(0);
+            assertThat(Modifier.isPrivate(declaredConstructor.getModifiers())).isTrue();
+            Field instance = clazz.getField("INSTANCE");
+            assertThat(instance.getType()).isEqualTo(clazz);
+            assertThat(Modifier.isPublic(instance.getModifiers())).isTrue();
+            assertThat(Modifier.isStatic(instance.getModifiers())).isTrue();
+        } else {
+            assertThatThrownBy(() -> clazz.getField("INSTANCE"),
+                "Class %s is not a singleton, but has a field INSTANCE", clazz.getName()
+                )
+                .isInstanceOf(NoSuchFieldException.class);
+
+
+        }
     }
 
 }

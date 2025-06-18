@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.reals;
 import java.util.*;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
 import org.meeuw.math.text.TextUtils;
@@ -30,6 +31,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @since 0.4
  */
 @Example(CompleteScalarField.class)
+@Singleton
 public class RealField extends AbstractAlgebraicStructure<RealNumber>
     implements CompleteScalarField<RealNumber>, MetricSpace<RealNumber, RealNumber> {
 

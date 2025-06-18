@@ -32,7 +32,7 @@ import static org.meeuw.math.operators.OperatorInterface.COMPARATOR;
 /**
  * The base interface of all algebraic structures.
  * <p>
- * If defines what arithmetic {@link BasicAlgebraicBinaryOperator}s are possible its elements
+ * If defines what arithmetic {@link BasicAlgebraicBinaryOperator}s are possible on its elements
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -118,12 +118,15 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * @see #getSuperGroups()
      * @see AlgebraicElement#cast(Class)
      *
-     * @return All super groups and ancestors of these
+     * @return All supergroups and ancestors of these
      */
     default Set<AlgebraicStructure<?>> getAncestorGroups() {
         return getAncestorGroups(new HashSet<>());
     }
 
+    /**
+     * Recursively collects all super groups and ancestors of these in the given set.
+     */
     default Set<AlgebraicStructure<?>> getAncestorGroups(Set<AlgebraicStructure<?>> set) {
         getSuperGroups().forEach(c -> {
             if (set.add(c)) {
@@ -134,7 +137,8 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * @return the cardinality of the complete set of this structure.
+     * The cardinality ('the number of elements') of this structure.
+     * @return the cardinality of this structure.
      */
     Cardinality getCardinality();
 
@@ -183,28 +187,45 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
 
-     /**
+    /**
+     *  The java class of the elements of this algebraic structure
      * @return the java class of the elements of this algebraic structure
      */
     Class<E> getElementClass();
 
     /**
-     * @return a functional interface that can check whether two elements of this structure are equal.
+     * Returns {@link Equivalence} that can check whether two elements of this structure are equal.
      * <p>
      * Default this simply returns {@link Objects#equals(Object, Object)}.
+     * @return a functional interface that can check whether two elements of this structure are equal.
      */
     default Equivalence<E> getEquivalence() {
         return Objects::equals;
     }
 
+    /**
+     * Returns a description of this algebraic structure. Defaults to {@link Object#getClass() getClass()}{@code .}{@link Class#getSimpleName() getSimpleName()}.
+     * @return A string describing this algebraic structure.
+     */
     default String getDescription() {
         return getClass().getSimpleName();
     }
 
+    /**
+     * Instantiates a new two-dimensional matrix for elements of this algebraic structure.
+     * @return a new matrix of elements of this algebraic structure with the given dimensions.
+     * @param i the number of rows
+     * @param j the number of columns
+     */
     default E[][] newMatrix(int i, int j) {
         return ArrayUtils.newMatrix(getElementClass(), i, j);
     }
 
+    /**
+     * Instantiates a new array for elements of this algebraic structure.
+     * @return a new array of elements of this algebraic structure with the given dimensions.
+     * @param i the number of rows
+     */
     @SuppressWarnings("unchecked")
     default E[] newArray(int i) {
         return (E[]) Array.newInstance(getElementClass(), i);
@@ -212,6 +233,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
     /**
      * Returns a random element from the structure
+     * @return a random element from the structure
      */
     @Override
     default  E nextRandom(Random random) {

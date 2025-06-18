@@ -72,6 +72,10 @@ public interface Ring<E extends RingElement<E>> extends Rng<E>, MultiplicativeMo
     }
 
 
+    /**
+     * A Ring supports the operations to perform a matrix product of two matrices.
+     * @return the (new) product matrix
+     */
     default E[][] product(E[][] matrix1, E[][] matrix2) {
         E[][] result = newMatrix(matrix1.length, matrix2.length);
         E z = zero();
@@ -107,6 +111,10 @@ public interface Ring<E extends RingElement<E>> extends Rng<E>, MultiplicativeMo
     }
 
 
+    /**
+     * A Ring supports the operations to perform a matrix product of a matrix and a vector.
+     * @return the (new) product vector
+     */
     default E[] product(E[]@NonNull [] matrix, E[] vector) {
         E[] result = newArray(matrix.length);
         for (int i = 0; i < matrix.length; i++) {

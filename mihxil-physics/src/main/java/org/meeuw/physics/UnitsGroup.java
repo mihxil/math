@@ -18,6 +18,7 @@ package org.meeuw.physics;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.streams.StreamUtils;
 
@@ -30,6 +31,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exact
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
     MultiplicativeAbelianGroup<Units>,
     Streamable<Units> {

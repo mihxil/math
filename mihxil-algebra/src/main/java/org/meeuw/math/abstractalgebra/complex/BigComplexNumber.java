@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import java.io.Serializable;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
@@ -26,6 +27,7 @@ import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
+@Singleton
 public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, BigDecimalElement, BigDecimalField>
     implements
     CompleteFieldElement<BigComplexNumber>,

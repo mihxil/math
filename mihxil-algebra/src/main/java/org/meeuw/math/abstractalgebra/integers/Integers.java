@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.operators.*;
@@ -34,6 +35,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, Integers>
     implements Ring<IntegerElement>,
     MultiplicativeMonoid<IntegerElement>,
@@ -47,6 +49,10 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
 
     static final NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Ring.FUNCTIONS, MultiplicativeMonoid.FUNCTIONS, Group.FUNCTIONS, navigableSet(BasicFunction.ABS));
 
+
+    /**
+     * The set of {@link AlgebraicIntOperator int operators}, which are definied on 'integer like elmenents'. These currently are {@link BasicAlgebraicIntOperator#POWER} and {@link BasicAlgebraicIntOperator#TETRATION} the tetration operator.
+     */
     static final NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(BasicAlgebraicIntOperator.POWER, BasicAlgebraicIntOperator.TETRATION);
 
 

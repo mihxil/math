@@ -186,24 +186,27 @@ public class DocumentationTest {
 
     }
 
-    protected void writeCaption(PrintWriter writer, Consumer<PrintWriter> body, int cols, String href, String javadocRef, String title) {
-        if (href != null) {
+    protected void writeCaption(
+        PrintWriter writer,
+        Consumer<PrintWriter> body,
+        int cols, String href, String javadocRef, String title) {
+        if (javadocRef != null) {
             cols--;
         }
-        writer.write("<tr><td colspan='" + cols + "'");
-        if (javadocRef != null) {
-            writer.write(" title='" + title + "' href='" + javadocRef + "'");
+        writer.write("<tr><td  colspan='" + cols + "'");
+        if (href != null) {
+            writer.write(" title='" + title + "' href='" + href + "'");
         }
         writer.write(">");
-        if (javadocRef != null) {
+        if (href != null) {
             writer.write("<font color='#0000a0'>");
         }
         body.accept(writer);
-        if (javadocRef != null) {
+        if (href != null) {
             writer.write("</font>");
         }
-        if (href != null) {
-            writer.write("</td><td href='" + href + "'>\uD83D\uDCD6");
+        if (javadocRef != null) {
+            writer.write("</td><td  target='javadoc' href='" + javadocRef + "'>\uD83D\uDCD6");
         }
 
         writer.write("</td></tr>");

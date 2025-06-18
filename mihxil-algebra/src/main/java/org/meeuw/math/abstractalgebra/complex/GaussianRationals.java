@@ -18,10 +18,12 @@ package org.meeuw.math.abstractalgebra.complex;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.streams.StreamUtils;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.Singleton;
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.streams.StreamUtils;
 
 /**
  * The {@link Field} of {@link GaussianRational Gaussian Rationals}.
@@ -31,12 +33,13 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @see GaussianRational
  */
 @Example(Field.class)
+@Singleton
 public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber, RationalNumbers>
     implements Field<GaussianRational>, Streamable<GaussianRational> {
 
     public static final GaussianRationals INSTANCE = new GaussianRationals();
 
-    GaussianRationals() {
+    private GaussianRationals() {
         super(GaussianRational.class, RationalNumbers.INSTANCE);
     }
 

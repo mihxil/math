@@ -22,6 +22,7 @@ import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
@@ -35,6 +36,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
+@Singleton
 public class PositiveIntegers extends AbstractIntegers<PositiveInteger, PositiveInteger, PositiveIntegers>
     implements
 
@@ -52,7 +54,7 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
 
     public static final PositiveIntegers INSTANCE = new PositiveIntegers();
 
-    protected PositiveIntegers() {
+    private PositiveIntegers() {
         super(PositiveInteger.class);
     }
 

@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup;
 import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -41,6 +42,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;
  * @since 0.8
  */
 @Example(AdditiveAbelianSemiGroup.class)
+@Singleton
 public class NegativeIntegers
     extends AbstractIntegers<NegativeInteger, PositiveInteger, NegativeIntegers>
     implements
@@ -50,7 +52,7 @@ public class NegativeIntegers
 
     public static final NegativeIntegers INSTANCE = new NegativeIntegers();
 
-    protected NegativeIntegers() {
+    private NegativeIntegers() {
         super(NegativeInteger.class);
     }
 

@@ -34,6 +34,7 @@ import static org.meeuw.math.abstractalgebra.integers.OddInteger.ONE;
  */
 @Example(MultiplicativeMonoid.class)
 @Example(MultiplicativeAbelianSemiGroup.class)
+@Singleton
 public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddIntegers>
     implements
     MultiplicativeMonoid<OddInteger>,

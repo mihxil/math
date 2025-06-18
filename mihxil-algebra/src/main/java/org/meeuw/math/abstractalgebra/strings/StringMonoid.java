@@ -20,6 +20,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
@@ -29,12 +30,13 @@ import org.meeuw.math.operators.BasicComparisonOperator;
  * @since 0.4
  */
 @Example(AdditiveMonoid.class)
+@Singleton
 public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
     implements AdditiveMonoid<StringElement>, Streamable<StringElement> {
 
     public static final StringMonoid INSTANCE = new StringMonoid();
 
-    protected StringMonoid() {
+    private StringMonoid() {
         super(StringElement.class);
     }
 

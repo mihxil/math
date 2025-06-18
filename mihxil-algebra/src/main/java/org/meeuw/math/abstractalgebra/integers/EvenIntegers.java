@@ -28,16 +28,23 @@ import org.meeuw.math.operators.GenericFunction;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
+import static org.meeuw.math.IntegerUtils.TWO;
 import static org.meeuw.math.abstractalgebra.integers.EvenInteger.ZERO;
 
 /**
+ * The <em>even</em> integers are an example of a {@link Rng}
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Example(Rng.class)
+@Singleton
 public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, EvenIntegers>
     implements Rng<EvenInteger>, MultiplicativeAbelianSemiGroup<EvenInteger> {
 
+    /**
+     * This is the singleton instance of this class. Even integers are a singleton, as they are not parametrized in any way.
+     */
     public static final EvenIntegers INSTANCE = new EvenIntegers();
 
     static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(Rng.FUNCTIONS, BasicFunction.ABS);
@@ -58,7 +65,7 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     @Override
     public EvenInteger newElement(BigInteger value) throws InvalidElementCreationException {
-        if (value.remainder(IntegerUtils.TWO).equals(ONE)) {
+        if (value.remainder(TWO).equals(ONE)) {
             throw new InvalidElementCreationException("The argument must be even (" + value + " isn't)");
         }
         return new EvenInteger(value);

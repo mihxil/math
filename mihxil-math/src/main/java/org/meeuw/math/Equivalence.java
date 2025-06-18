@@ -18,7 +18,7 @@ package org.meeuw.math;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 /**
- * A {@link org.meeuw.functional.Equivalence} with two params with the same type, with associated semantics of 'equivalence'.
+ * A {@link org.meeuw.functional.Equivalence}, just extended to mean that this is a 'mathematical' equivalence.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

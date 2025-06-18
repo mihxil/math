@@ -23,6 +23,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
@@ -40,6 +41,7 @@ import static org.meeuw.math.operators.BasicFunction.ABS;
  * @since 0.4
  */
 @Example(AdditiveMonoid.class)
+@Singleton
 public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumber, NaturalNumbers>
     implements
     MultiplicativeMonoid<NaturalNumber>,
@@ -58,7 +60,7 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
 
     public static final NaturalNumbers INSTANCE = new NaturalNumbers();
 
-    protected NaturalNumbers() {
+    private NaturalNumbers() {
         super(NaturalNumber.class);
     }
 

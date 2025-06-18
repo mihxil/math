@@ -15,12 +15,12 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Positive;
-
 import java.math.BigInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.index.qual.NonNegative;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.exceptions.CardinalityNotFiniteException;
 import org.meeuw.math.text.TextUtils;
 
@@ -62,7 +62,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     };
 
     /**
-     * The cardinality of the continuum. According to the <a href="https://en.wikipedia.org/wiki/Continuum_hypothesis">continuum hypothesis</a> this would equal {@link #ALEPH_1}
+     * The cardinality of the continuum. According to the <a href="https://en.wikipedia.org/wiki/Continuum_hypothesis">continuum hypothesis,</a> this would equal {@link #ALEPH_1}
      */
     public static final Cardinality C = new Cardinality(-3) {
         @Override
@@ -71,25 +71,26 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         }
     };
 
-    public static Cardinality of(@Positive BigInteger value) {
+    public static Cardinality of(@NonNegative BigInteger value) {
         if (value.compareTo(BigInteger.ZERO) < 0) {
             throw new IllegalArgumentException();
         }
         return new Cardinality(value);
     }
 
-    public static Cardinality of(@Positive long value) {
+    public static Cardinality of(@NonNegative long value) {
         return of(BigInteger.valueOf(value));
     }
 
 
-    private Cardinality(BigInteger value) {
+    private Cardinality(@NonNegative BigInteger value) {
         this.value = value;
     }
     private Cardinality(long value) {
         this.value = BigInteger.valueOf(value);
     }
 
+    @Singleton
     private static final class Structure implements MultiplicativeAbelianSemiGroup<Cardinality>, Streamable<Cardinality> {
         final static Structure INSTANCE = new Structure();
         @Override

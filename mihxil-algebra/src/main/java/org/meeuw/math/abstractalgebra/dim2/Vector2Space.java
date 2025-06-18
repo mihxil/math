@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.dim2;
 import java.util.Random;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -28,9 +29,14 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.14
  */
 @Example(VectorSpace.class)
+@Singleton
 public class Vector2Space implements VectorSpace<RealNumber, Vector2>, AbelianRing<Vector2> {
 
     public static final Vector2Space INSTANCE = new Vector2Space();
+
+    private  Vector2Space() {
+
+    }
 
     @Override
     public int getDimension() {

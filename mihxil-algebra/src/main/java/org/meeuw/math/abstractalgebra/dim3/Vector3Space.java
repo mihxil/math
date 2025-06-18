@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.util.Random;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -28,9 +29,14 @@ import org.meeuw.math.text.TextUtils;
  * @since 0.4
  */
 @Example(VectorSpace.class)
+@Singleton
 public class Vector3Space implements VectorSpace<RealNumber, Vector3>, AbelianRing<Vector3> {
 
     public static final Vector3Space INSTANCE = new Vector3Space();
+
+    private Vector3Space() {
+        // singleton
+    }
 
     @Override
     public int getDimension() {

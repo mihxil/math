@@ -29,6 +29,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  */
 @Example(CompleteScalarField.class)
+@Singleton
 public class UncertainRealField
     extends AbstractAlgebraicStructure<UncertainReal>
     implements CompleteScalarField<UncertainReal> {

@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
@@ -29,6 +30,7 @@ import org.meeuw.math.abstractalgebra.product.ProductGroup;
  * See also <a href="https://en.wikipedia.org/wiki/Klein_four-group">wikipedia</a>
  */
 @Example(Group.class)
+@Singleton
 public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement> {
 
     public static final KleinGroup INSTANCE = new KleinGroup();

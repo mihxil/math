@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
@@ -24,6 +25,7 @@ import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> {
 
     private static final long serialVersionUID = 0L;

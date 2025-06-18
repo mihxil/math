@@ -14,6 +14,7 @@
  *    limitations under the License.
  */package org.meeuw.math.abstractalgebra.complex;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
@@ -23,6 +24,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber, RationalNumbers> {
 
     public static GaussianRational of(RationalNumber real, RationalNumber imaginary) {

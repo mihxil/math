@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 import java.util.Random;
 
 import org.meeuw.math.Equivalence;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -25,6 +26,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @since 0.4
  * @see org.meeuw.math.abstractalgebra.linear.GeneralLinearGroup
  */
+@Singleton
 public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
     implements MultiplicativeGroup<Matrix3> {
 

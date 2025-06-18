@@ -18,8 +18,11 @@ package org.meeuw.math.abstractalgebra.complex;
 import lombok.extern.java.Log;
 
 import org.meeuw.math.Example;
-import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.reals.*;
+import org.meeuw.math.Singleton;
+import org.meeuw.math.abstractalgebra.CompleteField;
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
 
 /**
  * The {@link Field} of {@link ComplexNumber}s, backed by {@link BigDecimalElement}s.
@@ -29,8 +32,12 @@ import org.meeuw.math.abstractalgebra.reals.*;
  */
 @Log
 @Example(CompleteField.class)
+@Singleton
 public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, BigDecimalElement, BigDecimalField> {
 
+    /**
+     * This is the singleton instance of this class.
+     */
     public static final BigComplexNumbers INSTANCE = new BigComplexNumbers();
 
     private BigComplexNumbers() {

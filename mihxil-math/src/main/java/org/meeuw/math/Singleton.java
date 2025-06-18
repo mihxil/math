@@ -1,5 +1,5 @@
 /*
- *  Copyright 2022 Michiel Meeuwissen
+ *  Copyright 2025 Michiel Meeuwissen
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -13,19 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.math;
+
+import java.lang.annotation.*;
 
 /**
- * A {@link AdditiveSemiGroup}, but with an additive identity element, the {@link #zero()} element.
- * @author Michiel Meeuwissen
- * @since 0.4
- */
-public interface AdditiveMonoid<E extends AdditiveMonoidElement<E>> extends AdditiveSemiGroup<E> {
 
-    /**
-     * The additive group by definition has an element that is 'zero', the additive identity element.
-     * @return the additive identify element 'zero' for this monoid
-     */
-    E zero();
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Documented
+public @interface Singleton {
 
 }
