@@ -11,7 +11,11 @@
   <name>Math - shapes</name>
   <packaging>jar</packaging>
   <description>
+    Contains the structures to represent shapes, such as polygons, circles, and other geometric figures.
   </description>
+
+  <url>https://github.com/mihxil/math/tree/main/mihxil-shapes</url>
+
 
   <dependencies>
     <dependency>
