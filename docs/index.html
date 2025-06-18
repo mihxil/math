@@ -50,7 +50,7 @@
 <li><a href="#_features">4.1. Features</a>
 <ul class="sectlevel3">
 <li><a href="#_real_numbers">4.1.1. Real numbers</a></li>
-<li><a href="#_arbitrary_precision_real_numbers">4.1.2. Arbitrary precision real numbers</a></li>
+<li><a href="#_arbitrary_precision_real_numbers">4.1.2. Arbitrary-precision real numbers</a></li>
 <li><a href="#_rational_numbers">4.1.3. Rational numbers</a></li>
 <li><a href="#_permutations">4.1.4. Permutations</a></li>
 <li><a href="#_integers">4.1.5. Integers</a></li>
@@ -491,7 +491,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_testing">1.1.4. Testing</h4>
 <div class="paragraph">
-<p>In <a href="https://github.com/mihxil/math//mihxil-theories">mihxil-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw.utils/,,test/ElementTheory.java#L20"><code>elements</code></a>.</p>
+<p>In <a href="https://github.com/mihxil/math//mihxil-theories">mihxil-theories</a> for every algebraic structure interface there are 'theory' interfaces using <a href="https://jqwik.net/">jqwik</a>. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example <a href="{ght}org/meeuw.utils/,,test/ElementTheory.java#L20"><code>elements</code></a>.</p>
 </div>
 <div class="paragraph">
 <p>Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.</p>
@@ -807,7 +807,7 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 </div>
 </div>
 <div class="sect3">
-<h4 id="_arbitrary_precision_real_numbers">4.1.2. Arbitrary precision real numbers</h4>
+<h4 id="_arbitrary_precision_real_numbers">4.1.2. Arbitrary-precision real numbers</h4>
 <div class="paragraph">
 <p>The field of reals numbers, but backed by java&#8217;s <code>BigDecimal</code>. This means that it supports arbitrary precision, but, since this still
 is not <em>exact</em> this still is uncertain, and rounding errors are propagated.</p>
