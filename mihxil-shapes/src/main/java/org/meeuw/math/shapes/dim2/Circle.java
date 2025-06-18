@@ -2,6 +2,8 @@ package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 
+import java.util.stream.Stream;
+
 import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
@@ -24,6 +26,15 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
     public Circle(@Min(0) F radius) {
         this.radius = radius;
         this.field = radius.getStructure();
+    }
+
+    public Stream<String[]> info() {
+        return Stream.concat(
+            Shape.super.info(),
+            Stream.of(
+                new String[]{"radius", radius.toString()},
+                new String[]{"diameter", diameter().toString()}
+            ));
     }
 
     @Override

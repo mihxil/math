@@ -2,6 +2,8 @@ package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
 
+import java.util.stream.Stream;
+
 import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
@@ -23,6 +25,17 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         this.radiusx = radiusx;
         this.radiusy = radiusy;
         this.field = radiusx.getStructure();
+    }
+
+    public Stream<String[]> info() {
+        return Stream.concat(
+            Shape.super.info(),
+            Stream.of(
+                new String[]{"radiusx", radiusx.toString()},
+                new String[]{"radiusy", radiusy.toString()},
+                new String[]{"linearEccentricity", linearEccentricity().toString()},
+                new String[]{"eccentricity", eccentricity().toString()}
+            ));
     }
 
     @Override

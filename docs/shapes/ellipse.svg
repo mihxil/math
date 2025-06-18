@@ -73,6 +73,10 @@
             <tspan dy="4.0" x="0">Ellipse{100,80}</tspan>
             <tspan dy="4.0" x="0">area: 2.51327412287183·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 567.2333577794859</tspan>
+            <tspan dy="4.0" x="0">radiusx: 100</tspan>
+            <tspan dy="4.0" x="0">radiusy: 80</tspan>
+            <tspan dy="4.0" x="0">linearEccentricity: 60</tspan>
+            <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
         </text>
     </g>
     <g>

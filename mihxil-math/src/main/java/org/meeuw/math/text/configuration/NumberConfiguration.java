@@ -17,12 +17,15 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.numbers.DecimalFormatToString;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+
+import static org.meeuw.math.text.configuration.GroupingSeparator.NONE;
 
 /**
  * The configuration aspect which specifies how numbers should be formatted.
@@ -45,28 +48,35 @@ public class NumberConfiguration implements ConfigurationAspect {
     /**
      * If the absolute value of the exponent would be bigger than this, then
      * scientific notation will be used. Otherwise, no.
-     *
+     * <p>
      * This defaults to 4.
      */
     @Getter
     @With
     private final int minimalExponent;
 
+    @Getter
+    @With
+    private final GroupingSeparator groupingSeparator;
 
     @Getter
+    @With
     private final DecimalFormat numberFormat;
 
 
-
-
     @lombok.Builder
-    private NumberConfiguration(int minimalExponent, DecimalFormat numberFormat) {
+    private NumberConfiguration(
+        int minimalExponent,
+        GroupingSeparator groupingSeparator,
+        DecimalFormat numberFormat
+       ) {
         this.minimalExponent = minimalExponent;
         this.numberFormat = numberFormat;
+        this.groupingSeparator = groupingSeparator;
     }
 
     public NumberConfiguration() {
-        this(4, getDefaultNumberFormat());
+        this(4, NONE, getDefaultNumberFormat());
     }
 
     @Override

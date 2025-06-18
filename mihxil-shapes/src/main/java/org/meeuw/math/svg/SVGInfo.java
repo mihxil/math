@@ -28,11 +28,8 @@ public class SVGInfo implements SVGGroup {
 
     private void fill(Shape<?, ?> shape, SVGDocument svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());
-        tspan(svgDocument, info, "area: " + shape.area());
-        try {
-            tspan(svgDocument, info, "perimeter: " + shape.perimeter());
-        } catch(Exception e) {
-            tspan(svgDocument ,info, "perimeter: " + e.getMessage());
+        for (String[] entry : shape.info().toList()) {
+            tspan(svgDocument, info, entry[0] + ": " + entry[1]);
         }
     }
     protected  void tspan(SVGDocument document, Element info, String text) {

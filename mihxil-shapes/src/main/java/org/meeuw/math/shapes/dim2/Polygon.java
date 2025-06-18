@@ -17,6 +17,16 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
         return numberOfEdges();
     }
 
+    default Stream<String[]> info() {
+        return Stream.concat(
+            Shape.super.info(),
+            Stream.of(
+                new String[]{"# edges", Integer.toString(numberOfEdges())},
+                new String[]{"# vertices", Integer.toString(numberOfVertices())}
+            )
+        );
+    }
+
     Stream<FieldVector2<F>> vertices();
 
     /**

@@ -1,5 +1,7 @@
 package org.meeuw.math.shapes.dim2;
 
+import java.util.stream.Stream;
+
 import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
@@ -9,6 +11,14 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
     E perimeter();
 
     E area();
+
+    default Stream<String[]> info() {
+        return Stream.of(
+            new String[]{"area", area().toString()},
+            new String[]{"perimeter", perimeter().toString()}
+
+        );
+    }
 
     /**
      * Returns a {@link LocatedShape located} rectangle that precisely contains this shape (after rotation by the given angle (in radians)).

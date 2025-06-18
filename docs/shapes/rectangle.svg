@@ -73,6 +73,8 @@
             <tspan dy="4.0" x="0">Rectangle{100x170}</tspan>
             <tspan dy="4.0" x="0">area: 1.7·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 540</tspan>
+            <tspan dy="4.0" x="0"># edges: 4</tspan>
+            <tspan dy="4.0" x="0"># vertices: 4</tspan>
         </text>
     </g>
     <g>

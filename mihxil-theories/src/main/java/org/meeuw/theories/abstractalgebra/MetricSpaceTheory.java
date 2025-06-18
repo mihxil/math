@@ -38,6 +38,12 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
         assertThat(a.distanceTo(b)).isEqualTo(b.distanceTo(a));
     }
 
+    @Property
+    default void metric(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {
+        assertThat(a.getStructure().apply(a, b)).isEqualTo(a.distanceTo(b));
+    }
+
+
 
     @Property
     default void distancePositive(@ForAll(ELEMENTS) E a, @ForAll(ELEMENTS) E b) {

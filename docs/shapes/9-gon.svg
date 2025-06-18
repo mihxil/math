@@ -73,6 +73,8 @@
             <tspan dy="4.0" x="0">{9}, size: 68.40402866513374</tspan>
             <tspan dy="4.0" x="0">area: 2.89254424358943·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 615.6362579862036</tspan>
+            <tspan dy="4.0" x="0"># edges: 9</tspan>
+            <tspan dy="4.0" x="0"># vertices: 9</tspan>
         </text>
     </g>
     <g>

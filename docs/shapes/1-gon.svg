@@ -73,6 +73,8 @@
             <tspan dy="4.0" x="0">{1}, size: (2 ± 2)·10⁻¹⁴</tspan>
             <tspan dy="4.0" x="0">area: (-1.2 ± 0.8)·10⁻¹²</tspan>
             <tspan dy="4.0" x="0">perimeter: (2 ± 2)·10⁻¹⁴</tspan>
+            <tspan dy="4.0" x="0"># edges: 1</tspan>
+            <tspan dy="4.0" x="0"># vertices: 1</tspan>
         </text>
     </g>
     <g>
