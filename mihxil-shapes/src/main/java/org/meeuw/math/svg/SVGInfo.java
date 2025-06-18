@@ -28,9 +28,10 @@ public class SVGInfo implements SVGGroup {
 
     private void fill(Shape<?, ?> shape, SVGDocument svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());
-        for (String[] entry : shape.info().toList()) {
-            tspan(svgDocument, info, entry[0] + ": " + entry[1]);
-        }
+        shape.info().forEach(e ->
+            tspan(svgDocument, info, e[0] + ": " + e[1])
+        );
+
     }
     protected  void tspan(SVGDocument document, Element info, String text) {
         Element tspan = createElement(info.getOwnerDocument(), "tspan");
