@@ -9,16 +9,8 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :nofooter:
 :source-highlighter: coderay
 :multipage-level: 1
+
 :gh: https://github.com/mihxil/math/
-:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
-:ghblob: {gh}blob/main/
-:ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
-:gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
-:ght: {ghblob}mihxil-theories/src/main/java/
-:docs: {ghraw}docs
-:videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
-
-
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
@@ -29,8 +21,19 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations, and MP4-movies.
 
+:leveloffset: 1
 
-== math
+= math
+:gh: https://github.com/mihxil/math/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
+:ghblob: {gh}blob/main/
+:ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
+:docs: {ghraw}docs
+:videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
+
+
+
+
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
 
@@ -40,7 +43,7 @@ The core dependency of the modules in the project. It provides the scaffolding f
 - An 'uncertain number' interface, plus an implementation of an algebraic field of uncertain numbers.
 - A Service Provider Interface for formatting the elements of abstract algebras.  This core module only provides an implementation to format  uncertain numbers, using proper rounding and scientific notation.
 
-=== Abstract Algebras
+== Abstract Algebras
 
 The idea is that every 'abstract algebra' consists of the implementation of two interfaces
 
@@ -99,7 +102,7 @@ Alternative terminology, like e.g. 'add' for addition would have been possible, 
 
 Most implementations are strictly read-only, but at least all algebraic operations themselves should be without side effects on the algebraic element itself.
 
-==== Algebraic structure
+=== Algebraic structure
 
 Every algebraic element object has a reference to (the same)  instance of this structure. The structure itself defines e.g. the 'cardinality'.
 
@@ -109,7 +112,7 @@ The algebraic structure also contains methods to obtain 'special elements' like 
 
 image::{docs}/algebras.svg[title="The defined algebraic structures, with indication of the operators (and whether they are commutative), special elements, and example implementations.", link="{docs}/algebras.svg"]
 
-==== Numbers
+=== Numbers
 
 Some algebraic elements are like real numbers. There are several interfaces dedicated to formalising properties of that.
 
@@ -135,7 +138,7 @@ The specialization `UncertaintyNumberOperations` adds the logic for propagation 
 |===
 
 
-==== Numbers and propagation of uncertainties
+=== Numbers and propagation of uncertainties
 
 Most real numbers cannot be represented exactly. It may be of interest to keep track of the uncertainty in the value, and try to propagate those uncertainties sensibly when performing operations on them.
 
@@ -163,18 +166,18 @@ It is not always absolutely defined how propagations must happen. Some interpret
 | sin/cos | latexmath:[\sin(\alpha \pm \Delta\alpha)] | latexmath:[\Delta\alpha]| | |
 |===
 
-===== Zero
+==== Zero
 
 Sometimes the value with uncertainty is exactly _zero_, so fractional uncertainty leads to division by zero exceptions. Therefore, for now fractional uncertainty is implemented like latexmath:[ \frac{Δa}{|a| +  Δa}] (rather then latexmath:[ \frac{Δa}{|a|}]), where the denominator can never become zero because the uncertainty is strictly bigger than zero.
 
 
-==== Testing
+=== Testing
 
 In link:{gh}/mihxil-theories[mihxil-theories] for every algebraic structure interface there are 'theory' interfaces using link:https://jqwik.net/[jqwik]. Tests for actual implementations implement these interfaces and provide the code to supply a bunch of example link:{ght}org/meeuw.utils/,,test/ElementTheory.java#L20[`elements`].
 
 Default methods then test whether all theoretical possibilities and limitations of the algebraic structure are indeed working.
 
-==== Implementation of `equals`/`hashCode` and `eq`
+=== Implementation of `equals`/`hashCode` and `eq`
 
 When a value has uncertainty, then `equals` could consider it. So objects may e.g. have different `toString` representation but still be equal, because the difference is considered smaller than the uncertainty, and so can be considered equal.
 
@@ -185,7 +188,7 @@ In this case the `hashCode` must be a fixed value, because otherwise we can't gu
 
 This implies that it's a bad idea to use uncertain values as hash keys.
 
-===== Transitivity of equality
+==== Transitivity of equality
 
 Java - and also mathematics - normally requires that the equality operator ('`=`') is transitive.
 
@@ -193,7 +196,7 @@ For several of the objects (the `Uncertain` ones) this represents a problem, bec
 
 Therefore, the elements of algebra's have several methods for equality
 
-===== eq
+==== eq
 
 This is the most used equality in algebras. For uncertain valued algebras this _may not be transitive_,  because the uncertainty is considered.
 
@@ -201,12 +204,12 @@ This is the most used equality in algebras. For uncertain valued algebras this _
 
 For non-uncertain values, `eq` would behave the same as `equals`, the only difference being that its argument is not `Object`.
 
-===== strictlyEquals
+==== strictlyEquals
 
 If the value is `Uncertain` then it also implements a method `strictlyEquals` which just compares the value without considering uncertainty. This guarantees transitivity, but e.g. reciprocity of inverse operator may not be, since e.g. because of rounding errors  ``(x^-1^)^-1^ !strictlyEquals  x`,
 
 
-===== equals
+==== equals
 
 Java's `equals` method is implemented with `strictlyEquals` or with `eq` if the value is not uncertain (`strictlyEquals` is not available, and it would make no difference).
 
@@ -226,7 +229,7 @@ CompareConfiguration.withLooseEquals(() -> {
 });
 ----
 
-=== Formatting and configuration
+== Formatting and configuration
 
 A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
 
@@ -236,21 +239,21 @@ The service giving access to the format-providers is `FormatService`. This is a 
 
 
 
-==== unicode
+=== unicode
 
 Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
 
-=== Utilities
+== Utilities
 
 To implement several aspects of the groups there are provided some utility class. We describe here a few which might be of particular interest.
 
-==== Cartesian product of streams
+=== Cartesian product of streams
 
 All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.
 
 For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
 
-===== Generic
+==== Generic
 
 link:{ghm}streams/StreamUtils.java[`StreamUtils`] provides several utilities related to streams.
 
@@ -265,13 +268,15 @@ video::{docs}/positive-plane.mp4[{videooptions}]
 .All combinations of 3 streams of positive integers.
 video::C0uaFTHoMVQ[youtube,{videooptions}]
 
-===== Diagonals
+==== Diagonals
 
 The 2-dimensional plane of integers traditionally can be filled by tracking _diagonals_.  `StreamUtils` provides an implementation of that too. It is harder to generalize this to more dimensions, and also it requires that streams can be tracked reversely.
 
 
 .All combinations of 2 streams of positive integers (diagonals)
 video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
+
+:leveloffset!:
 
 :leveloffset: 1
 
@@ -341,7 +346,9 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotat
 
 :leveloffset!:
 
-== physics
+:leveloffset: 1
+
+= physics
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-physics]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
 
@@ -398,6 +405,8 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
  assertThat(measurement.toUnits(Units.of(SIUnit.s)).toString()).isEqualTo("600 ± 45 s");
 ----
 
+:leveloffset!:
+
 :leveloffset: 1
 
 = algebra
@@ -422,7 +431,7 @@ The field of real numbers. Backed by java primitive `double`. A `RealNumber` is 
 
 
 
-=== Arbitrary precision real numbers
+=== Arbitrary-precision real numbers
 
 The field of reals numbers, but backed by java's `BigDecimal`. This means that it supports arbitrary precision, but, since this still
 is not _exact_ this still is uncertain, and rounding errors are propagated.
