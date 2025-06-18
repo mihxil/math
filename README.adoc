@@ -401,6 +401,12 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 :leveloffset: 1
 
 = algebra
+:gh: https://github.com/mihxil/math/
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
+:ghblob: {gh}blob/main/
+:ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
+:gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
+
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
 
@@ -503,7 +509,7 @@ Another non-abelian (not-commutative) multiplicative group.
 
 === Strings
 
-Actually one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).
+Actually, one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).
 
 - element link:{gha}abstractalgebra/strings/StringElement.java[`StringElement`]
 - structure link:{gha}abstractalgebra/strings/StringMonoid.java[`StringMonoid`]
