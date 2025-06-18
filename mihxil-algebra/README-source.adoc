@@ -1,0 +1,115 @@
+= algebra
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
+
+This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
+
+== Features
+=== Real numbers
+
+The field of real numbers. Backed by java primitive `double`. A `RealNumber` is also 'uncertain', which is used to keep track of rounding errors.
+
+- element  link:{gha}abstractalgebra/reals/RealNumber.java[`RealNumber`]
+- structure link:{gha}abstractalgebra/reals/RealField.java[`RealField`]
+
+
+
+=== Arbitrary precision real numbers
+
+The field of reals numbers, but backed by java's `BigDecimal`. This means that it supports arbitrary precision, but, since this still
+is not _exact_ this still is uncertain, and rounding errors are propagated.
+
+- element link:{gha}abstractalgebra/reals/BigDecimalElement.java[`BigDecimalElement`]
+- structure link:{gha}abstractalgebra/reals/BigDecimalField.java[`BigDecimalField`]
+
+
+=== Rational numbers
+
+The field of rational numbers. Implemented using two arbitrary sized `BigIntegers`.
+
+- element link:{gha}abstractalgebra/rationalnumbers/RationalNumber.java[`RationalNumber`]
+- structure link:{gha}abstractalgebra/rationalnumbers/RationalNumbers.java[`RationalNumbers`]
+
+Also, since division is exact in this field, this does _not_ implement `UncertainNumber`.
+
+The cardinality is countable (ℵ~0~) so this _does_ implement `Streamable`.
+
+=== Permutations
+
+The permutation group. An example of a non-abelian finite group.
+
+- element link:{gha}abstractalgebra/permutations/Permutation.java[`Permutation`]
+- structure link:{gha}abstractalgebra/permutations/PermutationGroup.java[`PermutationGroup`]
+
+This is group is finite, so streamable. This means that the group also contains an implementation of 'all permutations' (this is non-trivial, it's using Knuth's algorithm).
+
+The permutation elements themselves are implemented as a `java.util.function.UnaryOperator` on `Object[]` which then performs the actual permutation.
+
+
+=== Integers
+The most basic algebraic structure which can be created from integers are the integers (ℤ) themselves. They form a ring:
+
+- element link:{gha}abstractalgebra/integers/IntegerElement.java[`IntegerElement`]
+- structure link:{gha}abstractalgebra/integers/Integers.java[`Integers`]
+
+
+=== Even integers
+As an example of a 'rng' (a ring without the existence of the multiplicative identity 1), the even integers can serve
+
+- element link:{gha}abstractalgebra/integers/EvenIntegerElement.java[`EvenIntegerElement`]
+- structure link:{gha}abstractalgebra/integers/EvenIntegers.java[`EvenIntegers`]
+
+=== Natural numbers
+In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a 'monoid' (both additive and multiplicative).
+
+- element link:{gha}abstractalgebra/integers/NaturalNumber.java[`NaturalNumber`]
+- structure link:{gha}abstractalgebra/integers/NaturalNumbers.java[`NaturalNumbers`]
+
+=== Modulo groups
+Integers can be simply restricted via modulo arithmetic to form a finite ring:
+
+- element link:{gha}abstractalgebra/integers/ModuloRingElement.java[`ModuloRingElement`]
+- structure link:{gha}abstractalgebra/integers/ModuloRing.java[`ModuloRing`]
+
+If the 'divisor' is a prime, then they even form a field, because the reciprocal can be defined:
+
+- element link:{gha}abstractalgebra/integers/ModuloFieldElement.java[`ModuleFieldElement`]
+- structure link:{gha}abstractalgebra/integers/ModuloField.java[`ModuloField`]
+
+=== Complex numbers
+
+Another well-known field is the field of complex numbers.
+
+- element link:{gha}abstractalgebra/complex/ComplexNumber.java[`ComplexNumber`]
+- structure link:{gha}abstractalgebra/complex/ComplexNumbers.java[`ComplexNumbers`]
+
+=== Quaternions
+
+Quaternions are forming a 'non-commutative' field, a link:{ghm}abstractalgebra/DivisionRing.java[DivisionRing]
+
+- element link:{gha}abstractalgebra/quaternions/Quaternion.java[`Quaternion`]
+- structure link:{gha}abstractalgebra/quaternions/Quaternions.java[`Quaternions`]
+
+=== Matrix and rotation groups
+
+==== SO(3)
+
+Another non-abelian (not-commutative) multiplicative group.
+
+- element link:{gha}abstractalgebra/dim3/Rotation.java[`Rotation`]
+- structure link:{gha}abstractalgebra/dim3/RotationGroup.java[`RotationGroup`]
+
+=== Strings
+
+Actually one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).
+
+- element link:{gha}abstractalgebra/strings/StringElement.java[`StringElement`]
+- structure link:{gha}abstractalgebra/strings/StringMonoid.java[`StringMonoid`]
+
+Their cardinality is only ℵ~0~, so `StringMonoid` also contains an implementation to stream all possible strings.
+
+=== Vector spaces
+
+link:{ghm}abstractalgebra/VectorSpace.java[Vector spaces], which manage link:{ghm}abstractalgebra/Vector.java[`vectors`], are basically fixed sized sets of  link:{ghm}abstractalgebra/ScalarFieldElement.java[`scalars`], but combine that with several vector operations like cross and inner products.
+
+

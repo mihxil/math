@@ -1,0 +1,30 @@
+= History
+
+I'm maintaining this mainly as a hobby project.
+
+
+|===
+|Version |Date  |Remarks
+
+| 1.0
+| ?
+| Refactory physical units, to be agnostic about axes.
+
+|0.17
+| 2025
+| disband java 8 support, require at least java 17
+
+|0.16
+| june, 2025
+| Introduction of shapes.
+
+|0.15
+|2025
+|Refactoring related to uncertain duration/ instants
+
+| 0.14
+|2024-12
+|
+
+
+|===

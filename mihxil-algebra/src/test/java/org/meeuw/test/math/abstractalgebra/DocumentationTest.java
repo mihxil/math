@@ -48,12 +48,12 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
 
-    public static String ALGEBRA_URL = "ALGEBRA_URL";
-    public static String MATH_URL    = "MATH_URL";
+    public static final String ALGEBRA_URL = "ALGEBRA_URL";
+    public static final String MATH_URL    = "MATH_URL";
 
-    public static String BINARY_OPERATOR_COLOR = "teal";
-    public static String COMPARISON_COLOR = "blue";
-    public static String SPECIAL_COLOR = "navy";
+    public static final String BINARY_OPERATOR_COLOR = "teal";
+    public static final String COMPARISON_COLOR = "blue";
+    public static final String SPECIAL_COLOR = "navy";
 
 
     @Test
