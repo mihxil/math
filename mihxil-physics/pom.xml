@@ -26,6 +26,17 @@
     This seems to be a missed opportunity to use the JSR-385 API
     Let's look into that later.
     <dependency>
+      <groupId>javax.measure</groupId>
+      <artifactId>unit-api</artifactId>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>tech.units</groupId>
+      <artifactId>indriya</artifactId>
+      <version>2.2.2</version>
+    </dependency>
+    -->
+    <dependency>
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
