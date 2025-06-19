@@ -542,8 +542,8 @@ public class DocumentationTest {
             "\t\t]\n\n");
         writer.println("        define(`" + MATH_URL + "', https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)");
         writer.println("        define(`" + ALGEBRA_URL + "', https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java)");
-        writer.println("        define(`" + JAVADOC_MATH_URL + "', https://www.javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math)");
-        writer.println("        define(`" + JAVADOC_ALGEBRA_URL + "', https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras)");
+        writer.println("        define(`" + JAVADOC_MATH_URL + "', https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math)");
+        writer.println("        define(`" + JAVADOC_ALGEBRA_URL + "', https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras)");
         writer.println("         changecom(`  #')\n"); // don't match css color
         body.accept(writer);
         writer.write("}\n");
