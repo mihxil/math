@@ -437,6 +437,7 @@
               <links>
                 <link>https://www.javadoc.io/doc/org.meeuw.math/mihxil-math/latest/</link>
                 <link>https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/</link>
+                <link>https://www.javadoc.io/doc/org.meeuw.math/mihxil-configuration/latest/</link>
                 <link>https://www.javadoc.io/doc/jakarta.validation/jakarta.validation-api/${jakarta-validation.version}/</link>
                 <link>https://www.javadoc.io/doc/ch.obermuhlner/big-math/${big-math.version}/</link>
               </links>
