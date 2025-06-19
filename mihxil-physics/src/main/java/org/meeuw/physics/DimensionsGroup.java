@@ -18,6 +18,7 @@ package org.meeuw.physics;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.abstractalgebra.*;
 
@@ -25,6 +26,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  */
 @Example(MultiplicativeAbelianGroup.class)
+@Singleton
 public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnalysis>
     implements
     MultiplicativeAbelianGroup<DimensionalAnalysis>,

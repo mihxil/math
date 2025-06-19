@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.trivial;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -29,6 +30,7 @@ import org.meeuw.math.abstractalgebra.*;
  * </pre>
  */
 @Example(Ring.class)
+@Singleton
 public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<TrivialRingElement> {
 
     public  static final TrivialRing INSTANCE = new TrivialRing();

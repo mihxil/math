@@ -92,7 +92,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     @Singleton
     private static final class Structure implements MultiplicativeAbelianSemiGroup<Cardinality>, Streamable<Cardinality> {
-        final static Structure INSTANCE = new Structure();
+        public final static Structure INSTANCE = new Structure();
         @Override
         public Cardinality getCardinality() {
             return Cardinality.ALEPH_0;

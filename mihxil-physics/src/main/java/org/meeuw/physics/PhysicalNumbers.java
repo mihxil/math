@@ -17,12 +17,12 @@ package org.meeuw.physics;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
-
-import static org.meeuw.math.CollectionUtils.navigableSet;
-
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
+
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * 'Physical' numbers are numbers of a {@link org.meeuw.math.abstractalgebra.Field} but with {@link Units}.
@@ -33,6 +33,7 @@ import org.meeuw.math.operators.BasicComparisonOperator;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Singleton
 public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
     implements MultiplicativeAbelianGroup<PhysicalNumber> {
 
@@ -40,7 +41,7 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
 
     public static final PhysicalNumbers INSTANCE = new PhysicalNumbers();
 
-    protected PhysicalNumbers() {
+    private PhysicalNumbers() {
         super(PhysicalNumber.class);
     }
 
