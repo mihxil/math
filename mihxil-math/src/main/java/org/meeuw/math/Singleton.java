@@ -18,7 +18,7 @@ package org.meeuw.math;
 import java.lang.annotation.*;
 
 /**
-
+ * When an {@link org.meeuw.math.abstractalgebra.AlgebraicStructure} (or other class) is marked with this annotation, it indicates that it can only have one instance (it is a singleton). There should be a public static final field named {@code INSTANCE} that holds this instance. The one constructor should be private.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

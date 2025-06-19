@@ -411,6 +411,11 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     }
 
+    /**
+     * Checks if the structure is a {@link Singleton}, and if so, that it has a private constructor and a public static INSTANCE field was required by that contract.
+     * <p>
+     * If it is not a singleton, it checks that no such field exists.
+     */
     @Property
     default void singleton(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) throws NoSuchFieldException {
         Class<?> clazz = structure.getClass();
