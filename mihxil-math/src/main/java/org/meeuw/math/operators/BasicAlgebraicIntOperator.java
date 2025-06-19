@@ -27,34 +27,43 @@ import org.meeuw.math.text.TextUtils;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 /**
- * The predefined  basic 'operators' of algebra's that just work on an int.
+ * The predefined basic 'operators' of algebra's that just work on an int.
  * @author Michiel Meeuwissen
  * @since 0.14
  */
 @Log
 public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
 
+    /**
+     * Raising to an integer power, which is defined for all {@link MultiplicativeSemiGroupElement}s.
+     */
     POWER(
         getDeclaredMethod(MultiplicativeSemiGroupElement.class, "pow", int.class),
         (s, i) ->  withBracketsIfNeeded(s) + TextUtils.superscript(i)
     ),
+
+    /**
+     * Taking the n-th root of an element, which is defined for all {@link CompleteFieldElement}s.
+     */
     ROOT(
         getDeclaredMethod(CompleteFieldElement.class, "root", int.class),
         (s, i) ->  TextUtils.superscript(i) + "√" + withBracketsIfNeeded(s)
     ),
+
+    /**
+     * Taking the n-th tetration of an element.
+     */
     TETRATION(
         getDeclaredMethod(CompleteFieldElement.class, "tetration", int.class),
         (s, i) -> TextUtils.superscript(i) + withBracketsIfNeeded(s)
     )
     ;
 
-     private static CharSequence withBracketsIfNeeded(CharSequence s) {
-
+    private static CharSequence withBracketsIfNeeded(CharSequence s) {
         return needsBrackets(s) ? ("(" + s + ")") : s;
     }
 
     private static boolean needsBrackets(CharSequence s) {
-
         return s.toString().contains(" ");
     }
 

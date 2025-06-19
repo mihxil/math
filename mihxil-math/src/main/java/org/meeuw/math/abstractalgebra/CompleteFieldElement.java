@@ -34,29 +34,67 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     @Override
     CompleteField<E> getStructure();
 
+    /**
+     * Returns the square root of this element.
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SQRT
+     */
     E sqrt();
 
-    E root(int i);
 
+    /**
+     * Returns the {@code nth} root of this element.
+     * @see org.meeuw.math.operators.BasicAlgebraicIntOperator#ROOT
+     */
+    E root(int n);
+
+    /**
+     * Returns the sine of this element
+     *
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SIN
+     */
     E sin();
 
+    /**
+     * Returns the cosine of this element
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS
+     */
     E cos();
 
+     /**
+     * Returns the tangents of this element. This default implementation is {@code sin().dividedBy(cos())}.
+     */
     default E tan() {
         return sin().dividedBy(cos());
     }
+
+    /**
+     * Returns the cotangents of this element. This default implementation is {@code tan().inverse()}
+     */
 
     default E cot() {
         return tan().inverse();
     }
 
+    /**
+     * Returns the secant of this element. This default implementation is {@code cos().inverse()}
+     */
+
     default E sec() {
         return cos().inverse();
     }
+
+    /**
+     * Returns the cosecant of this element. This default implementation is {@code sin().inverse()}
+     */
+
     default E csc() {
         return sin().inverse();
     }
 
+
+    /**
+     * Returns the power of this element to the given exponent.
+     */
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
     default E pow(E exponent) throws IllegalPowerException, OverflowException {
         try {
@@ -66,6 +104,12 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
         }
     }
 
+    /**
+     * Returns the <a href="https://en.wikipedia.org/wiki/Tetration">tetration</a> of this element to the given integer exponent.
+     * <p>
+     * Note that this can lead to very huge numbers.
+     * @see BasicAlgebraicIntOperator#TETRATION
+     */
     default E tetration(int height) {
         if (height < 0) {
             throw new IllegalPowerException("Cannot tetrate with negative", BasicAlgebraicIntOperator.TETRATION.stringify(toString(), Integer.toString(height)));
@@ -74,16 +118,29 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
             return getStructure().one();
         }
         final E t = (E) this;
-        return t.pow(t.tetration(height -1 ));
+        return t.pow(t.tetration(height -1));
     }
 
+    /**
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#EXP
+     */
     E exp();
 
+
+    /**
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#LN
+     */
     E ln() throws IllegalLogarithmException;
 
+     /**
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SINH
+     */
     default E sinh() {
         return exp().minus(negation().exp()).dividedBy(2);
     }
+    /**
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COSH
+     */
     default E cosh() {
         return exp().plus(negation().exp()).dividedBy(2);
     }
