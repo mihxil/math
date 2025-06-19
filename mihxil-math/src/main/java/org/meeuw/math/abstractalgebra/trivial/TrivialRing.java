@@ -35,6 +35,10 @@ public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<
 
     public  static final TrivialRing INSTANCE = new TrivialRing();
 
+    private TrivialRing() {
+        // singleton
+    }
+
     @Override
     public TrivialRingElement zero() {
         return TrivialRingElement.e;
