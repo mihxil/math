@@ -206,7 +206,7 @@ public class DocumentationTest {
             writer.write("</font>");
         }
         if (javadocRef != null) {
-            writer.write("</td><td  target='javadoc' href='" + javadocRef + "'>\uD83D\uDCD6");
+            writer.write("</td><td  target='_javadoc' href='" + javadocRef + "'>\uD83D\uDCD6");
         }
 
         writer.write("</td></tr>");
