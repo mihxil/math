@@ -1072,6 +1072,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div class="paragraph">
 <p><span class="image"><a class="image" href="./shapes/3-gon.svg"><img src="./shapes/3-gon.svg" alt="3 gon" width="200" title="triangle"></a></span>
+<span class="image"><a class="image" href="./shapes/rotated-3-gon.svg"><img src="./shapes/rotated-3-gon.svg" alt="rotated 3 gon" width="200" title="triangle"></a></span>
 <span class="image"><a class="image" href="./shapes/4-gon.svg"><img src="./shapes/4-gon.svg" alt="4 gon" width="200" title="square"></a></span>
 <span class="image"><a class="image" href="./shapes/5-gon.svg"><img src="./shapes/5-gon.svg" alt="5 gon" width="200" title="pentagon"></a></span>
 <span class="image"><a class="image" href="./shapes/6-gon.svg"><img src="./shapes/6-gon.svg" alt="6 gon" width="200" title="hexagon"></a></span>
@@ -1107,9 +1108,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
             .withSize(size)
             .addGrid(b -&gt; b.spacing(spacing))
             .addInfo()
-            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>)), s -&gt; {
-                s.circumscribedRectangle(<span class="predefined-constant">true</span>);
-            })
+            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>)), s -&gt; s
+                .circumscribedRectangle(<span class="predefined-constant">true</span>)
+                .circumscribedRectangleAttributes(e -&gt; {
+                    e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">stroke</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">red</span><span class="delimiter">&quot;</span></span>);
+                    }
+                )
+            )
             .buildDocument(),
             <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos)
         );
@@ -1118,7 +1123,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
+    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
