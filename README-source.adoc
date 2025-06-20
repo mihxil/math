@@ -9,7 +9,6 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :source-highlighter: coderay
 :multipage-level: 1
 
-:gh: https://github.com/mihxil/math/
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
@@ -19,7 +18,7 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 
 ifndef::htmled[]
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations, and MP4-movies.
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies.
 endif::[]
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
@@ -32,13 +31,9 @@ include::mihxil-algebra/README-source.adoc[leveloffset=1]
 
 include::mihxil-shapes/README-source.adoc[leveloffset=1]
 
-== Compatibility
-
-This project is compiled with java 17, and provides JPMS module info,  until version `0.16.x` it was compatible with java 8.
-
-include::mihxil-configuration/README-source.adoc[leveloffset=1]
-
 include::mihxil-theories/README-source.adoc[leveloffset=1]
+
+include::COMPATIBILITY.adoc[leveloffset=1]
 
 include::HISTORY.adoc[leveloffset=1]
 

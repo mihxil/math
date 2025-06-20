@@ -1,0 +1,3 @@
+= Compatibility
+
+This project is compiled with java 17, and provides JPMS module info,  until version `0.16.x` it was compatible with java 8.
