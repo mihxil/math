@@ -40,10 +40,10 @@
     <jakarta-validation.version>3.0.2</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>5.13.0</junit.version>
+    <junit.version>5.13.1</junit.version>
     <jacoco.version>0.8.13</jacoco.version>
     <assertj.version>3.27.2</assertj.version>
-    <jqwik.version>1.9.2</jqwik.version>
+    <jqwik.version>1.9.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
     <log4j.version>2.24.3</log4j.version>
