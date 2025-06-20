@@ -29,6 +29,9 @@ public interface BasicObjectTheory<E> {
 
     String EQUAL_DATAPOINTS = "equalDatapoints";
 
+    String RANDOMS = "randoms";
+
+
     /**
      * For any non-null reference value x, x.equals(x) should return true
      */
@@ -177,6 +180,11 @@ public interface BasicObjectTheory<E> {
     default Arbitrary<@Nullable E> datapointsOrNull() {
         return datapoints()
             .injectNull(0.1);
+    }
+
+    @Provide
+    default Arbitrary<Random> randoms() {
+        return Arbitraries.randoms();
     }
 
 }

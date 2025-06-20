@@ -2,8 +2,6 @@ package org.meeuw.math.svg;
 
 import lombok.extern.java.Log;
 
-import java.io.StringWriter;
-
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -19,6 +17,7 @@ public class SVG {
     static final DocumentBuilder DOCUMENT_BUILDER;
 
     static final Transformer TRANSFORMER;
+
     static {
 
         final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -62,10 +61,5 @@ public class SVG {
         TRANSFORMER.transform(new DOMSource(document), result);
     }
 
-    public static String toString(Document document) throws TransformerException {
-        StringWriter buffer = new StringWriter();
-        StreamResult result = new StreamResult(buffer);
-        marshal(document, result);
-        return buffer.toString();
-    }
+
 }

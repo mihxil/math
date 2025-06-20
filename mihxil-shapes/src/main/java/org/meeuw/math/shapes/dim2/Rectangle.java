@@ -15,6 +15,8 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
  * Represents a rectangle defined by its width and height, both of which must be non-negative scalar.
@@ -261,4 +263,16 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
             FieldVector2.of(halfWidth.negation(), halfHeight)
         );
     }
+
+    @Override
+    public boolean isExact() {
+        return Polygon.super.isExact() || areExact(width, height, angle);
+    }
+
+    @Override
+    public boolean strictlyEquals(Object o) {
+        return strictlyEqual(this, o, Rectangle::width,Rectangle::height, Rectangle::angle);
+    }
+
+
 }

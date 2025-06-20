@@ -12,6 +12,8 @@ import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
  * Regular polygon with n sides, all of equal length.
@@ -160,4 +162,16 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
                 );
             });
     }
+
+
+    @Override
+    public boolean isExact() {
+        return Polygon.super.isExact() || areExact(size);
+    }
+
+    @Override
+    public boolean strictlyEquals(Object o) {
+        return strictlyEqual(this, o, RegularPolygon::size);
+    }
+
 }

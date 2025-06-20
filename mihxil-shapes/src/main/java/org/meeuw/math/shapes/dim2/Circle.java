@@ -6,16 +6,17 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
  * A circle in a two-dimensional shape, defined by its radius only.
  * @since 0.15
  */
 
-public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<F>>, Uncertain {
+public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<F>> {
 
     private final F radius;
     private final ScalarField<F> field;
@@ -122,15 +123,12 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
 
     @Override
     public boolean isExact() {
-        return !(radius instanceof Uncertain) || ((Uncertain) radius).isExact();
+        return Shape.super.isExact() || areExact(radius);
     }
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Circle)) return false;
-        Circle<?> circle = (Circle<?>) o;
-        return radius instanceof Uncertain ? ((Uncertain) radius).strictlyEquals(circle.radius) : radius.equals(circle.radius);
+        return strictlyEqual(this, o, Circle::radius);
     }
 
     @Override

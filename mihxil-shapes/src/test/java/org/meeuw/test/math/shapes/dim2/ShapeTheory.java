@@ -22,11 +22,17 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
      * should return true if and only if y.equals(x) returns true.
      */
     @Property
-    default void times(@ForAll(DATAPOINTS) S x) {
+    default void timesTwoAndTimesAHalf(@ForAll(DATAPOINTS) S x) {
         assertThat(x.times(2).times(0.5)).isEqualTo(x);
         assertThat(x.times(2).times(0.5).eq(x)).isTrue();
-        E multiplier = x.field().nextRandom(new Random());
-        assertThat(x.times(multiplier).times(multiplier.inverse())).isEqualTo(x);
+    }
+
+    @Property
+    default void timesRandom(@ForAll(DATAPOINTS) S x, @ForAll(RANDOMS) Random random) {
+        E multiplier = x.field().nextRandom(random);
+        S multiplied = x.times(multiplier);
+        log().info("{} x {} = {}", x, multiplier, multiplied);
+        assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);
     }
 
 
@@ -46,6 +52,14 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) S x) {
         LocatedShape<E, Rectangle<E>> circumscribed = x.circumscribedRectangle();
         log().info("Circumscribed rectangle of {} is {}", x, circumscribed);
+    }
+
+    @Property
+    default void isExact(@ForAll(DATAPOINTS) S x) {
+        log().info("{} is exact: {}", x, x.isExact());
+        if (! x.field().elementsAreUncertain()) {
+            assertThat(x.isExact()).isTrue();
+        }
     }
 
 

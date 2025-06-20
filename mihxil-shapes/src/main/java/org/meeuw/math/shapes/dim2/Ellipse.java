@@ -12,6 +12,8 @@ import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
+import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
@@ -154,22 +156,12 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @Override
     public boolean isExact() {
-        return !(radiusx instanceof Uncertain) || ((Uncertain) radiusx).isExact();
+        return Shape.super.isExact() || areExact(radiusx, radiusy, angle);
     }
 
-    @SuppressWarnings("DataFlowIssue")
     @Override
     public boolean strictlyEquals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Ellipse<?>)) return false;
-        Ellipse<?> ellipse = (Ellipse<?>) o;
-        return radiusx instanceof Uncertain ?
-            ((Uncertain) radiusx).strictlyEquals(ellipse.radiusx) &&
-                ((Uncertain) radiusy).strictlyEquals(ellipse.radiusy)
-            :
-            radiusx.equals(ellipse.radiusx) &&
-            radiusy.equals(ellipse.radiusy);
-
+        return strictlyEqual(this, o, Ellipse::radiusx, Ellipse::radiusy, Ellipse::angle);
     }
 
     @Override

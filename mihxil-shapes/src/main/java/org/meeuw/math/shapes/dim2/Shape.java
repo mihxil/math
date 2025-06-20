@@ -6,12 +6,18 @@ import java.util.stream.Stream;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.FieldIncompleteException;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 
-public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SELF>>  {
+public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SELF>> extends Uncertain {
 
     E perimeter();
 
     E area();
+
+    @Override
+    default boolean isExact() {
+        return ! field().elementsAreUncertain();
+    }
 
 
     default String info(Supplier<Object> value) {
@@ -33,8 +39,6 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
      * Returns a {@link LocatedShape located} (unrotated) rectangle that precisely contains this shape (after rotation by the given angle (in radians)).
      */
     LocatedShape<E, Rectangle<E>> circumscribedRectangle();
-
-
 
 
     /**
