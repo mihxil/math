@@ -38,7 +38,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
     @Property
     default void info(@ForAll(DATAPOINTS) S x) {
         Logger log = log();
-        x.info().forEach(e -> log.info(e[0] + ": " + e[1]));
+        x.info().forEach(e -> log.info(e.key() + ": " + e.descriptionString()));
     }
 
 

@@ -127,11 +127,11 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         return new RegularPolygon<>(n, size, this.angle.plus(angle));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RegularPolygon<?>)) return false;
-        RegularPolygon<?> ngon = (RegularPolygon<?>) o;
+        if (!(o instanceof RegularPolygon<?> ngon)) return false;
         if (!ngon.field.equals(field)) {
             return false;
         }

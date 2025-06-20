@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.shapes.Info;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
@@ -28,13 +29,15 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
         this.field = radius.getStructure();
     }
 
-    public Stream<String[]> info() {
+    @Override
+    public Stream<Info> info() {
         return Stream.concat(
             Shape.super.info(),
             Stream.of(
-                new String[]{"radius", radius.toString()},
-                new String[]{"diameter", diameter().toString()}
-            ));
+                new Info(Info.Key.RADIUS, this::radius),
+                new Info(Info.Key.DIAMETER, this::diameter)
+            )
+        );
     }
 
     @Override

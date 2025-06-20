@@ -1,11 +1,10 @@
 package org.meeuw.math.shapes.dim2;
 
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.exceptions.FieldIncompleteException;
+import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
 public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SELF>> extends Uncertain {
@@ -20,18 +19,12 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
     }
 
 
-    default String info(Supplier<Object> value) {
-        try {
-            return value.get().toString();
-        } catch (FieldIncompleteException e) {
-            return e.getMessage();
-        }
-    }
-
-    default Stream<String[]> info() {
+    default Stream<Info> info() {
         return Stream.of(
-            new String[]{"area", info(this::area)},
-            new String[]{"perimeter", info(this::perimeter)}
+            new Info(Info.Key.AREA, this::area),
+            new Info(Info.Key.PERIMETER, this::perimeter),
+            new Info(Info.Key.CIRCUMSCRIBED_RECTANGLE, this::circumscribedRectangle),
+            new Info(Info.Key.CIRCUMSCRIBED_CIRCLE, this::circumscribedCircle)
         );
     }
 

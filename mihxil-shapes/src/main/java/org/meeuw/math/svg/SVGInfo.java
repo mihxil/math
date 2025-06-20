@@ -1,5 +1,8 @@
 package org.meeuw.math.svg;
 
+import java.util.function.Predicate;
+
+import org.meeuw.math.shapes.Info;
 import org.meeuw.math.shapes.dim2.Shape;
 import org.w3c.dom.Element;
 
@@ -7,8 +10,11 @@ import static org.meeuw.math.svg.SVG.createElement;
 
 public class SVGInfo implements SVGGroup {
 
+    private final Predicate<Info> filter;
 
-    public SVGInfo() {
+    @lombok.Builder
+    private SVGInfo(Predicate<Info> filter) {
+        this.filter = filter == null ? i -> true : filter;
     }
 
     @Override
@@ -33,8 +39,8 @@ public class SVGInfo implements SVGGroup {
 
     private void fill(Shape<?, ?> shape, SVGDocument svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());
-        shape.info().forEach(e ->
-            tspan(svgDocument, info, e[0] + ": " + e[1])
+        shape.info().filter(filter).forEach(e ->
+            tspan(svgDocument, info, e.key() + ": " + e.descriptionString())
         );
 
     }

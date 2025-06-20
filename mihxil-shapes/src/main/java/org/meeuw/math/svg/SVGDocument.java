@@ -104,9 +104,14 @@ public class SVGDocument {
     public SVGDocument addGrid() {
         return addGrid((builder) -> {});
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo() {
-        add(null, new SVGInfo());
+    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo(Consumer<SVGInfo.Builder> infoConsumer) {
+        SVGInfo.Builder infoBuilder = SVGInfo.builder();
+        infoConsumer.accept(infoBuilder);
+        add(null, infoBuilder.build());
         return this;
+    }
+    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo() {
+        return addInfo((builder) -> {});
     }
 
     public <F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> SVGDocument addPolygon(S polygon, Consumer<SVGPolygon.Builder<F, S>> polygonConsumer) {

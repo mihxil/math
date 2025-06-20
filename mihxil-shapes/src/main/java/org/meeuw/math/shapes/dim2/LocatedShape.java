@@ -45,6 +45,6 @@ public class LocatedShape<F extends ScalarFieldElement<F>, S extends Shape<F, S>
 
     @Override
     public String toString() {
-        return shape() + " at " + location();
+        return shape() + (location.isZero() ? "" : (" at " + location()));
     }
 }

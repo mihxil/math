@@ -80,6 +80,8 @@
             <tspan dy="4.0" x="0">Circle{100}</tspan>
             <tspan dy="4.0" x="0">area: 3.14159265358979·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 628.3185307179587</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{200x200}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0">radius: 100</tspan>
             <tspan dy="4.0" x="0">diameter: 200</tspan>
         </text>

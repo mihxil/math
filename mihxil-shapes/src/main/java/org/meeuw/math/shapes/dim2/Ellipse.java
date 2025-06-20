@@ -1,6 +1,7 @@
 package org.meeuw.math.shapes.dim2;
 
 import jakarta.validation.constraints.Min;
+import lombok.Getter;
 
 import java.util.stream.Stream;
 
@@ -9,8 +10,10 @@ import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.FieldIncompleteException;
+import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
+import static org.meeuw.math.shapes.Info.Key.*;
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
@@ -18,7 +21,9 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 /**
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
  */
+@Getter
 public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellipse<F>>, Uncertain {
+
 
     private final F radiusx;
     private final F radiusy;
@@ -38,16 +43,17 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         this(radiusx, radiusy, radiusx.getStructure().zero());
     }
 
-    public Stream<String[]> info() {
+    public Stream<Info> info() {
         return Stream.concat(
             Shape.super.info(),
             Stream.of(
-                new String[]{"radiusx", radiusx.toString()},
-                new String[]{"radiusy", radiusy.toString()},
-                new String[]{"angle", angle.toString()},
-                new String[]{"linearEccentricity", info(this::linearEccentricity)},
-                new String[]{"eccentricity", info(this::eccentricity)}
-            ));
+                new Info(RADIUSX, this::radiusx),
+                new Info(RADIUSY, this::radiusy),
+                new Info(ANGLE, this::angle),
+                new Info(LINEAR_ECCENTRICITY, this::linearEccentricity),
+                new Info(ECCENTRICITY, this::eccentricity)
+            )
+        );
     }
 
     @Override
@@ -67,18 +73,6 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     @Override
     public Ellipse<F> rotate(F angle) {
         return new Ellipse<>(radiusx, radiusy, this.angle.plus(angle));
-    }
-
-    public F radiusx() {
-        return radiusx;
-    }
-
-    public F radiusy() {
-        return radiusy;
-    }
-
-    public F angle() {
-        return angle;
     }
 
     @SuppressWarnings("unchecked")
@@ -116,6 +110,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         }
     }
 
+    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
 

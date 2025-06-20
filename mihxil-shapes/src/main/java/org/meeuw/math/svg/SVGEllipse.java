@@ -10,7 +10,6 @@ import static org.meeuw.math.svg.SVG.createElement;
 
 public class SVGEllipse<F extends CompleteScalarFieldElement<F>> extends SVGShape<Ellipse<F>> {
 
-
     private final boolean subscribedCircle;
 
     @lombok.Builder
@@ -32,10 +31,7 @@ public class SVGEllipse<F extends CompleteScalarFieldElement<F>> extends SVGShap
             element.setAttribute("transform", "rotate(" + Math.toDegrees(shape.angle().doubleValue()) + ")");
         }
 
-
         g.appendChild(element);
-
-
 
         if (subscribedCircle) {
             g.appendChild(g.getOwnerDocument().createComment("Circumscribed circle of " + shape));

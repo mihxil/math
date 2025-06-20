@@ -88,6 +88,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      *
      * @return a new Rectangle object with the rotated dimensions
      */
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public LocatedShape<E, Rectangle<E>> circumscribedRectangle() {
 
@@ -233,11 +234,11 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         );
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rectangle<?>)) return false;
-        Rectangle<?> rectangle = (Rectangle<?>) o;
+        if (!(o instanceof Rectangle<?> rectangle)) return false;
         if (!rectangle.field.equals(field)) {
             return false;
         }

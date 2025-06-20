@@ -86,6 +86,8 @@
             <tspan dy="4.0" x="0">{1}, size: (2 ± 2)·10⁻¹⁴</tspan>
             <tspan dy="4.0" x="0">area: (-1.2 ± 0.8)·10⁻¹²</tspan>
             <tspan dy="4.0" x="0">perimeter: (2 ± 2)·10⁻¹⁴</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{0.00000000000000000000000000000 ± 0.00000000000001237572326293616x0 ± 100} at ((6 ± 6)·10⁻¹⁵,-100 ± 50)</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100 ± 100}</tspan>
             <tspan dy="4.0" x="0"># edges: 1</tspan>
             <tspan dy="4.0" x="0"># vertices: 1</tspan>
         </text>
