@@ -70,24 +70,24 @@
             <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-210.0" y2="-210.0"/>
         </g>
         <g>
-            <polygon fill="none" points="98.07852804032305,-19.509032201612825 98.07852804032305,19.509032201612825 83.14696123025452,55.557023301960214 55.55702330196023,83.14696123025452 19.509032201612833,98.07852804032305 -19.50903220161282,98.07852804032305 -55.55702330196019,83.14696123025453 -83.14696123025453,55.557023301960214 -98.07852804032305,19.50903220161286 -98.07852804032305,-19.509032201612836 -83.14696123025455,-55.55702330196019 -55.55702330196029,-83.14696123025448 -19.509032201612868,-98.07852804032305 19.50903220161283,-98.07852804032305 55.557023301960186,-83.14696123025455 83.14696123025446,-55.55702330196029" stroke="black" stroke-width="1"/>
+            <polygon fill="none" points="17.364817766693044,-98.48077530122082 76.60444431189782,64.27876096865394 -93.96926207859083,34.20201433256694" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
-            <circle cx="98.07852804032305" cy="-19.509032201612825" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {16}, size: 39.01806440322565-->
-            <circle fill="none" r="98.07852804032305" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {16}, size: 39.01806440322565-->
-            <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {16}, size: 39.01806440322565-->
-            <rect fill="none" height="196.1570560806461" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="196.1570560806461" x="-98.07852804032305" y="-98.07852804032305"/>
+            <circle cx="17.364817766693044" cy="-98.48077530122082" fill="#ff0000" r="1.1"/>
+            <!--Inscribed circle of {3}, size: 173.20508075688772-->
+            <circle fill="none" r="50.000000000000014" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <!--Circumscribed circle of {3}, size: 173.20508075688772-->
+            <circle fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <!--Circumscribed rectangle of {3}, size: 173.20508075688772-->
+            <rect fill="none" height="162.75953626987476" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="170.57370639048867" x="-93.96926207859084" y="-98.48077530122082"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{16}, size: 39.01806440322565</tspan>
-            <tspan dy="4.0" x="0">area: 3.06146745892072·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 624.2890304516104</tspan>
-            <tspan dy="4.0" x="0"># edges: 16</tspan>
-            <tspan dy="4.0" x="0"># vertices: 16</tspan>
+            <tspan dy="4.0" x="0">{3}, size: 173.20508075688772</tspan>
+            <tspan dy="4.0" x="0">area: 1.29903810567666·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 519.6152422706632</tspan>
+            <tspan dy="4.0" x="0"># edges: 3</tspan>
+            <tspan dy="4.0" x="0"># vertices: 3</tspan>
         </text>
     </g>
 </svg>

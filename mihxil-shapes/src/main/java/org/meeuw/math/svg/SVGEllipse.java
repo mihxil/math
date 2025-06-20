@@ -1,5 +1,7 @@
 package org.meeuw.math.svg;
 
+import java.util.function.Consumer;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.shapes.dim2.Ellipse;
 import org.w3c.dom.Element;
@@ -12,8 +14,8 @@ public class SVGEllipse<F extends CompleteScalarFieldElement<F>> extends SVGShap
     private final boolean subscribedCircle;
 
     @lombok.Builder
-    public SVGEllipse(Ellipse<F> ellipse, boolean circumscribedCircle, boolean circumscribedRectangle) {
-        super(ellipse, circumscribedCircle, circumscribedRectangle);
+    private SVGEllipse(Ellipse<F> ellipse, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
+        super(ellipse, circumscribedCircle, circumscribedRectangle, circumscribedCircleAttributes, circumscribedRectangleAttributes);
         this.subscribedCircle = circumscribedCircle;
     }
 

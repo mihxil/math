@@ -17,14 +17,14 @@ public interface SVGGroup extends BiConsumer<SVGDocument, Element> {
         return createElement(document, "g");
     }
 
-    default Element parent(Element parentG) {
-        return parentG;
+    default void append(Element parentG, Element g) {
+        parentG.appendChild(g);
     }
 
     @Override
     default void accept(SVGDocument svgDocument, Element parentG) {
         Element g = create(svgDocument, parentG.getOwnerDocument());
         fill(svgDocument, g);
-        parent(parentG).appendChild(g);
+        append(parentG, g);
     }
 }

@@ -1,17 +1,20 @@
 package org.meeuw.math.svg;
 
+import java.util.function.Consumer;
+
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
+
 public class SVGCircle<F extends ScalarFieldElement<F>> extends SVGShape<Circle<F>> {
 
 
     @lombok.Builder
-    public SVGCircle(Circle<F> circle, boolean circumscribedRectangle) {
-        super(circle, false, circumscribedRectangle);
+    private SVGCircle(Circle<F> circle, boolean circumscribedRectangle, Consumer<Element> circumscribedRectangleAttributes) {
+        super(circle, false, circumscribedRectangle, null, circumscribedRectangleAttributes);
     }
 
     @Override

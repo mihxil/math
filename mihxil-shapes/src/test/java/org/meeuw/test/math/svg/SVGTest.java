@@ -55,6 +55,28 @@ public class SVGTest {
     }
     // end::regularPolygons[]
 
+    @Test
+    public void rotatedPolygon() throws Exception {
+
+        RegularPolygon<UncertainReal> polygon = RegularPolygon.withCircumScribedRadius(3, element(100.0)).rotate(element(Math.toRadians(10.0)));
+
+        SVGDocument document = defaultSVG()
+            .withSize(size)
+            .addGrid(b -> b.spacing(spacing))
+            .addInfo()
+            .addRegularPolygon(polygon, s -> s
+                .circumscribedCircle(true)
+                .circumscribedRectangle(true)
+                .inscribedCircle(true)
+            )
+            ;
+
+        try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
+            SVG.marshal(document.buildDocument(), new StreamResult(fos));
+        }
+    }
+
+
     // tag::otherShapes[]
     @Test
     public void rectangle() throws Exception {
@@ -81,9 +103,13 @@ public class SVGTest {
                 .withSize(size)
                 .addGrid(b -> b.spacing(spacing))
                 .addInfo()
-                .addCircle(new Circle<>(element(100.0)), s -> {
-                    s.circumscribedRectangle(true);
-                })
+                .addCircle(new Circle<>(element(100.0)), s -> s
+                    .circumscribedRectangle(true)
+                    .circumscribedRectangleAttributes(e -> {
+                        e.setAttribute("stroke", "red");
+                        }
+                    )
+                )
                 .buildDocument(),
                 new StreamResult(fos)
             );
@@ -92,7 +118,7 @@ public class SVGTest {
 
     @Test
     public void ellipse() throws Exception {
-        Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(10.0)));
+        Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
 
         SVGDocument document = defaultSVG()
             .withSize(size)

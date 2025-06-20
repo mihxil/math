@@ -1,16 +1,4 @@
 <svg height="205.0" width="205.0" xmlns="http://www.w3.org/2000/svg">
-    <g>
-        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">Ellipse{100,80}</tspan>
-            <tspan dy="4.0" x="0">area: 2.51327412287183·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 567.2333577794859</tspan>
-            <tspan dy="4.0" x="0">radiusx: 100</tspan>
-            <tspan dy="4.0" x="0">radiusy: 80</tspan>
-            <tspan dy="4.0" x="0">angle: 0.17453292519943</tspan>
-            <tspan dy="4.0" x="0">linearEccentricity: 60</tspan>
-            <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
-        </text>
-    </g>
     <g transform="translate(102.5,102.5)">
         <g id="grid">
             <!--Grid-->
@@ -82,13 +70,25 @@
             <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-210.0" y2="-210.0"/>
         </g>
         <g>
-            <ellipse fill="none" rx="100.0" ry="80.0" stroke="black" stroke-width="1" transform="rotate(10.0)"/>
+            <ellipse fill="none" rx="100.0" ry="80.0" stroke="black" stroke-width="1" transform="rotate(45.0)"/>
             <!--Circumscribed circle of Ellipse{100,80}-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed circle of Ellipse{100,80}-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of Ellipse{100,80}-->
-            <rect fill="none" height="200.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2" width="160.0" x="-100.0" y="80.0"/>
+            <rect fill="none" height="181.10770276274835" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="181.10770276274835" x="-90.55385138137417" y="-90.55385138137417"/>
         </g>
+    </g>
+    <g>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">Ellipse{100,80}</tspan>
+            <tspan dy="4.0" x="0">area: 2.51327412287183·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 567.2333577794859</tspan>
+            <tspan dy="4.0" x="0">radiusx: 100</tspan>
+            <tspan dy="4.0" x="0">radiusy: 80</tspan>
+            <tspan dy="4.0" x="0">angle: 0.78539816339745</tspan>
+            <tspan dy="4.0" x="0">linearEccentricity: 60</tspan>
+            <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
+        </text>
     </g>
 </svg>

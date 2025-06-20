@@ -1,5 +1,7 @@
 package org.meeuw.math.svg;
 
+import java.util.function.Consumer;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.dim2.Polygon;
@@ -10,8 +12,8 @@ import static org.meeuw.math.svg.SVG.createElement;
 public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> extends SVGShape<S> {
 
     @lombok.Builder
-    public SVGPolygon(S polygon, boolean circumscribedCircle, boolean circumscribedRectangle) {
-        super(polygon, circumscribedCircle, circumscribedRectangle);
+    protected SVGPolygon(S polygon, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
+        super(polygon, circumscribedCircle, circumscribedRectangle, circumscribedCircleAttributes, circumscribedRectangleAttributes);
     }
 
     @Override

@@ -25,6 +25,7 @@ include::src/test/java/org/meeuw/test/math/svg/SVGTest.java[tags=imports,indent=
 include::src/test/java/org/meeuw/test/math/svg/SVGTest.java[tags=regularPolygons,indent=0]
 ----
 image:{docs}/shapes/3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/3-gon.svg"]
+image:{docs}/shapes/rotated-3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/rotated-3-gon.svg"]
 image:{docs}/shapes/4-gon.svg[width={iwidth},title="square", link="{docs}/shapes/4-gon.svg"]
 image:{docs}/shapes/5-gon.svg[width={iwidth},title="pentagon", link="{docs}/shapes/5-gon.svg"]
 image:{docs}/shapes/6-gon.svg[width={iwidth},title="hexagon", link="{docs}/shapes/6-gon.svg"]

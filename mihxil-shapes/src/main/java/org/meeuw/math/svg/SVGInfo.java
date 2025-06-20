@@ -12,8 +12,8 @@ public class SVGInfo implements SVGGroup {
     }
 
     @Override
-    public Element parent(Element parentG) {
-        return parentG.getOwnerDocument().getDocumentElement();
+    public void append(Element parentG, Element g) {
+        parentG.getOwnerDocument().getDocumentElement().appendChild(g);
     }
 
     @Override

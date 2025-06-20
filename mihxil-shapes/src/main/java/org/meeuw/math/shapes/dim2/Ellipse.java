@@ -118,9 +118,29 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @Override
     public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
-        return atOrigin(
-            new Rectangle<>(radiusx.times(2), radiusy.times(2), field.zero())
-        );
+
+        if (angle.isZero()) {
+            return atOrigin(
+                new Rectangle<>(radiusx.times(2), radiusy.times(2), field.zero())
+            );
+        } else {
+            if (field instanceof CompleteScalarField) {
+                F sin2 = (F) ((CompleteScalarFieldElement) angle).sin().sqr();
+                F cos2 = (F) ((CompleteScalarFieldElement) angle).cos().sqr();
+                F height = (F) ((CompleteScalarFieldElement) radiusx.sqr().times(sin2).plus(radiusy.sqr().times(cos2))).sqrt().times(2);
+                F width = (F) ((CompleteScalarFieldElement) radiusx.sqr().times(cos2).plus(radiusy.sqr().times(sin2))).sqrt().times(2);
+
+                return atOrigin(
+                    new Rectangle<>(
+                        width,
+                        height,
+                        field.zero()
+                    )
+                );
+            } else {
+                throw new FieldIncompleteException("Circumscribed rectangle can only be computed well for complete scalar fields");
+            }
+        }
     }
 
     @Override

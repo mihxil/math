@@ -1,13 +1,4 @@
 <svg height="205.0" width="205.0" xmlns="http://www.w3.org/2000/svg">
-    <g>
-        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{17}, size: 36.74990356331407</tspan>
-            <tspan dy="4.0" x="0">area: 3.0705541625908·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 624.7483605763392</tspan>
-            <tspan dy="4.0" x="0"># edges: 17</tspan>
-            <tspan dy="4.0" x="0"># vertices: 17</tspan>
-        </text>
-    </g>
     <g transform="translate(102.5,102.5)">
         <g id="grid">
             <!--Grid-->
@@ -87,7 +78,16 @@
             <!--Circumscribed circle of {17}, size: 36.74990356331407-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of {17}, size: 36.74990356331407-->
-            <rect fill="none" height="199.1468352590069" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2" width="198.29730996839018" x="-99.57341762950345" y="98.29730996839018"/>
+            <rect fill="none" height="198.29730996839018" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="199.1468352590069" x="-99.57341762950345" y="-100.0"/>
         </g>
+    </g>
+    <g>
+        <text fill="blue" font-size="4.0" id="info" x="0" y="0">
+            <tspan dy="4.0" x="0">{17}, size: 36.74990356331407</tspan>
+            <tspan dy="4.0" x="0">area: 3.0705541625908·10⁴</tspan>
+            <tspan dy="4.0" x="0">perimeter: 624.7483605763392</tspan>
+            <tspan dy="4.0" x="0"># edges: 17</tspan>
+            <tspan dy="4.0" x="0"># vertices: 17</tspan>
+        </text>
     </g>
 </svg>

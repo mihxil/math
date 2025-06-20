@@ -91,6 +91,9 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     @Override
     public LocatedShape<E, Rectangle<E>> circumscribedRectangle() {
 
+        if (angle.isZero()) {
+            return atOrigin(this);
+        }
         if (angle instanceof CompleteScalarFieldElement<?>) {
             CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
             E sin = (E) completeAngle.sin();
@@ -161,7 +164,6 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         } else {
             throw new FieldIncompleteException("Field of " + this + " is not complete, so sqrt cannot be computed");
         }
-
     }
 
     /**

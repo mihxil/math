@@ -22,13 +22,19 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
 
     private final int n;
     private final F size;
+    private final F angle;
     private final CompleteScalarField<F> field;
 
-    public RegularPolygon(@Min(3) int n, F size) {
+    public RegularPolygon(@Min(3) int n, F size, @radians F angle) {
         this.n = n;
         this.size = size;
+        this.angle = angle;
         this.field = size.getStructure();
     }
+    public RegularPolygon(@Min(3) int n, F size) {
+        this(n, size, size.getStructure().zero());
+    }
+
 
     public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> withCircumScribedRadius(int n, F radius) {
         return new RegularPolygon<>(n, radius.times(2).times(radius.getStructure().pi().dividedBy(n).sin()));
@@ -118,7 +124,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
 
     @Override
     public RegularPolygon<F> rotate(F angle) {
-        return null;
+        return new RegularPolygon<>(n, size, this.angle.plus(angle));
     }
 
     @Override
@@ -156,7 +162,7 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
         }
         return IntStream.range(0, n)
             .mapToObj(i -> {
-                @radians F angle = offset.plus(step.times(i));
+                @radians F angle = offset.plus(step.times(i)).plus(this.angle);
                 return FieldVector2.of(
                     angle.cos().times(radius), angle.sin().times(radius)
                 );

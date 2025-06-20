@@ -1,7 +1,10 @@
 package org.meeuw.math.svg;
 
+import java.util.function.Consumer;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.shapes.dim2.*;
+import org.meeuw.math.shapes.dim2.Circle;
+import org.meeuw.math.shapes.dim2.RegularPolygon;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -12,8 +15,8 @@ public class SVGRegularPolygon<F extends CompleteScalarFieldElement<F>, S extend
     private final boolean inscribedCircle;
 
     @lombok.Builder(builderMethodName = "regularPolygonBuilder")
-    public SVGRegularPolygon(S polygon, boolean circumscribedCircle, boolean inscribedCircle, boolean circumscribedRectangle) {
-        super(polygon, circumscribedCircle, circumscribedRectangle);
+    private SVGRegularPolygon(S polygon, boolean circumscribedCircle, boolean inscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
+        super(polygon, circumscribedCircle, circumscribedRectangle, circumscribedCircleAttributes, circumscribedRectangleAttributes);
         this.inscribedCircle = inscribedCircle;
     }
 

@@ -34,10 +34,6 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
      */
     default LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
         ScalarField<F> field = field();
-
-
-
-        //Iterator<FieldVector2<F>> vertices = vertices().map(f -> f.times(rotation)).iterator();
         Iterator<FieldVector2<F>> vertices = vertices().iterator();
         FieldVector2<F> first = vertices.next();
         F minX  = first.getX();

@@ -22,7 +22,6 @@ public class SVGDocument {
     @With
     private final Rectangle<ModuloFieldElement> size = Rectangle.of(200, 200);
 
-    @Getter
     @With
     private final Vector2 origin;
 
@@ -80,10 +79,11 @@ public class SVGDocument {
         document.appendChild(root);
         Element parentG = SVG.createElement(document, "g");
         parentG.setAttribute("transform",  "translate(" + origin().getX() + "," + origin().getY() + ")");
+        document.getDocumentElement().appendChild(parentG);
         for (SVGGroup group : groups) {
             group.accept(this, parentG);
         }
-        document.getDocumentElement().appendChild(parentG);
+
         return document;
     }
 
