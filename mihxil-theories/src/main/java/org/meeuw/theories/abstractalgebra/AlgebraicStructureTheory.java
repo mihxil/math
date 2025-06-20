@@ -32,6 +32,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.meeuw.math.operators.BasicComparisonOperator.*;
@@ -434,9 +435,21 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 "Class %s is not a singleton, but has a field INSTANCE", clazz.getName()
                 )
                 .isInstanceOf(NoSuchFieldException.class);
-
-
         }
     }
+
+    /**
+     * Checks if the element is an instance of {@link Uncertain} if the structure sais that {@link AlgebraicStructure#elementsAreUncertain()}.
+     */
+    @Property
+    default void uncertain(@ForAll(ELEMENTS) AlgebraicElement<?> element) {
+        if (element.getStructure().elementsAreUncertain()) {
+            assertThat(element).isInstanceOf(Uncertain.class);
+        } else {
+            assertThat(element).isNotInstanceOf(Uncertain.class);
+        }
+
+    }
+
 
 }

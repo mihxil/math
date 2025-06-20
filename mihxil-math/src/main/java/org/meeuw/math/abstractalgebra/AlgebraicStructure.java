@@ -23,6 +23,7 @@ import org.meeuw.math.*;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.exceptions.OperationException;
 import org.meeuw.math.operators.*;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static java.util.Collections.unmodifiableNavigableSet;
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -240,6 +241,12 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
          throw new UnsupportedOperationException("nextRandom not implemented in " + this.getClass() + " " + this);
     }
 
+    /**
+     * @since 0.17
+     */
+    default boolean elementsAreUncertain() {
+        return Uncertain.class.isAssignableFrom(getElementClass());
+    }
 
 
 }
