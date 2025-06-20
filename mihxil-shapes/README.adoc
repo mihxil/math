@@ -55,6 +55,7 @@ public void regularPolygons(int n ) throws Exception {
 }
 ----
 image:{docs}/shapes/3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/3-gon.svg"]
+image:{docs}/shapes/rotated-3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/rotated-3-gon.svg"]
 image:{docs}/shapes/4-gon.svg[width={iwidth},title="square", link="{docs}/shapes/4-gon.svg"]
 image:{docs}/shapes/5-gon.svg[width={iwidth},title="pentagon", link="{docs}/shapes/5-gon.svg"]
 image:{docs}/shapes/6-gon.svg[width={iwidth},title="hexagon", link="{docs}/shapes/6-gon.svg"]
@@ -90,9 +91,13 @@ public void circle() throws Exception {
             .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo()
-            .addCircle(new Circle<>(element(100.0)), s -> {
-                s.circumscribedRectangle(true);
-            })
+            .addCircle(new Circle<>(element(100.0)), s -> s
+                .circumscribedRectangle(true)
+                .circumscribedRectangleAttributes(e -> {
+                    e.setAttribute("stroke", "red");
+                    }
+                )
+            )
             .buildDocument(),
             new StreamResult(fos)
         );
@@ -101,7 +106,7 @@ public void circle() throws Exception {
 
 @Test
 public void ellipse() throws Exception {
-    Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(10.0)));
+    Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
