@@ -2,7 +2,6 @@ package org.meeuw.math.svg;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.shapes.dim2.Polygon;
 import org.w3c.dom.Element;
 
@@ -11,8 +10,8 @@ import static org.meeuw.math.svg.SVG.createElement;
 public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> extends SVGShape<S> {
 
     @lombok.Builder
-    public SVGPolygon(S polygon, boolean circumscribedCircle) {
-        super(polygon, circumscribedCircle);
+    public SVGPolygon(S polygon, boolean circumscribedCircle, boolean circumscribedRectangle) {
+        super(polygon, circumscribedCircle, circumscribedRectangle);
     }
 
     @Override
@@ -22,12 +21,11 @@ public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polyg
         g.appendChild(element);
 
         StringBuilder points = new StringBuilder();
-        Vector2 origin = svgDocument.origin();
         shape.vertices().forEach(v -> {
             if (points.length() > 0) {
                 points.append(" ");
             }
-            points.append(origin.getX() + v.getX().doubleValue()).append(",").append(origin.getY() + v.getY().doubleValue());
+            points.append(v.getX().doubleValue()).append(",").append(v.getY().doubleValue());
         });
         element.setAttribute("points", points.toString());
         element.setAttribute("stroke", svgDocument.stroke());
@@ -40,8 +38,8 @@ public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polyg
             FieldVector2<?> firstPoint = shape.vertices().findFirst().get();
 
             Element dot = createElement(g.getOwnerDocument(), "circle");
-            dot.setAttribute("cx", String.valueOf(origin.getX() + firstPoint.getX().doubleValue()));
-            dot.setAttribute("cy", String.valueOf(origin.getY() + firstPoint.getY().doubleValue()));
+            dot.setAttribute("cx", String.valueOf(firstPoint.getX().doubleValue()));
+            dot.setAttribute("cy", String.valueOf(firstPoint.getY().doubleValue()));
             dot.setAttribute("r", "1.1");
             dot.setAttribute("fill", "#ff0000");
             g.appendChild(dot);

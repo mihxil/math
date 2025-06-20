@@ -44,7 +44,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
     }
     @Property
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) S x) {
-        LocatedShape<E, Rectangle<E>> circumscribed = x.circumscribedRectangle(x.field().one());
+        LocatedShape<E, Rectangle<E>> circumscribed = x.circumscribedRectangle();
         log().info("Circumscribed rectangle of {} is {}", x, circumscribed);
     }
 

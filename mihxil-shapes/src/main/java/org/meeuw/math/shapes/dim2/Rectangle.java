@@ -27,7 +27,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
 
     private final E width;
     private final E height;
-
+    private final E angle ;
 
     private final ScalarField<E> field;
 
@@ -36,20 +36,28 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      *  @param width  the width of the rectangle, must be non-negative
      *  @param height the height of the rectangle, must be non-negative
      */
+    public Rectangle(@Min(0) E width, @Min(0) E height, @radians E angle) {
+        this.width = width;
+        this.height = height;
+        this.angle = angle;
+        this.field = width.getStructure();
+    }
+
     public Rectangle(@Min(0) E width, @Min(0) E height) {
         this.width = width;
         this.height = height;
         this.field = width.getStructure();
+        this.angle = field.zero();
     }
 
     public static Rectangle<RealNumber> of(double width, double height) {
-        return new Rectangle<>(RealNumber.of(width), RealNumber.of(height));
+        return new Rectangle<>(RealNumber.of(width), RealNumber.of(height), RealNumber.ZERO);
     }
 
     public static Rectangle<ModuloFieldElement> of(int width, int height) {
         ModuloField field = ModuloField.of(IntegerUtils.nextPrime((long) width * height));
 
-        return new Rectangle<>(field.element(width), field.element(height));
+        return new Rectangle<>(field.element(width), field.element(height), field.zero());
       }
 
     public E width() {
@@ -58,6 +66,10 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
 
     public E height() {
         return height;
+    }
+
+    public E angle() {
+        return angle;
     }
 
     /**
@@ -72,11 +84,10 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     /**
      * Rotates the enclosing rectangle if the current rectangle is rotated by a given angle in radians.
      *
-     * @param angle the angle in radians to rotate the rectangle
      * @return a new Rectangle object with the rotated dimensions
      */
     @Override
-    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(@radians E angle) {
+    public LocatedShape<E, Rectangle<E>> circumscribedRectangle() {
 
         if (angle instanceof CompleteScalarFieldElement<?>) {
             CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
@@ -84,7 +95,8 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
             E cos = (E) completeAngle.cos();
             return atOrigin(new Rectangle<>(
                 width.times(cos).abs().plus(height.times(sin).abs()),
-                width.times(sin).abs().plus(height.times(cos).abs())
+                width.times(sin).abs().plus(height.times(cos).abs()),
+                field.zero()
             ));
         } else {
             throw new FieldIncompleteException("Field of " + this + " is not complete, so sin/cos cannot be computed (try using double argument angle");
@@ -97,7 +109,8 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         double cos = Math.cos(angle);
         return atOrigin(new Rectangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs())
+            width.times(sin).abs().plus(height.times(cos).abs()),
+            field().zero()
         ));
     }
 
@@ -184,7 +197,8 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     public Rectangle<E> times(E multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier)
+            height.times(multiplier),
+            angle
         );
     }
 
@@ -192,7 +206,8 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     public Rectangle<E> times(int multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier)
+            height.times(multiplier),
+            angle
         );
     }
 
@@ -200,7 +215,17 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     public Rectangle<E> times(double multiplier) {
          return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier)
+            height.times(multiplier),
+             angle
+        );
+    }
+
+    @Override
+    public Rectangle<E> rotate(E angle) {
+        return new Rectangle<>(
+            width,
+            height,
+            this.angle.plus(angle)
         );
     }
 

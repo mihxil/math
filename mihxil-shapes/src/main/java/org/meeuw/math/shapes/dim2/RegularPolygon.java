@@ -115,6 +115,11 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
+    public RegularPolygon<F> rotate(F angle) {
+        return null;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof RegularPolygon<?>)) return false;

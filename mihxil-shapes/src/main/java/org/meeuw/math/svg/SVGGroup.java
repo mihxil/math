@@ -8,7 +8,7 @@ import org.w3c.dom.Element;
 import static org.meeuw.math.svg.SVG.createElement;
 
 @FunctionalInterface
-public interface SVGGroup extends BiConsumer<SVGDocument, Document> {
+public interface SVGGroup extends BiConsumer<SVGDocument, Element> {
 
     void fill(SVGDocument svgDocument, Element g);
 
@@ -17,11 +17,14 @@ public interface SVGGroup extends BiConsumer<SVGDocument, Document> {
         return createElement(document, "g");
     }
 
-    @Override
-    default void accept(SVGDocument svgDocument, Document document) {
-        Element g = create(svgDocument, document);
-        fill(svgDocument, g);
-        document.getDocumentElement().appendChild(g);
+    default Element parent(Element parentG) {
+        return parentG;
+    }
 
+    @Override
+    default void accept(SVGDocument svgDocument, Element parentG) {
+        Element g = create(svgDocument, parentG.getOwnerDocument());
+        fill(svgDocument, g);
+        parent(parentG).appendChild(g);
     }
 }

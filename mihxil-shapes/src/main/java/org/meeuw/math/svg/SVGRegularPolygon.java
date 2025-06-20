@@ -12,8 +12,8 @@ public class SVGRegularPolygon<F extends CompleteScalarFieldElement<F>, S extend
     private final boolean inscribedCircle;
 
     @lombok.Builder(builderMethodName = "regularPolygonBuilder")
-    public SVGRegularPolygon(S polygon, boolean circumscribedCircle, boolean inscribedCircle) {
-        super(polygon, circumscribedCircle);
+    public SVGRegularPolygon(S polygon, boolean circumscribedCircle, boolean inscribedCircle, boolean circumscribedRectangle) {
+        super(polygon, circumscribedCircle, circumscribedRectangle);
         this.inscribedCircle = inscribedCircle;
     }
 
@@ -30,8 +30,6 @@ public class SVGRegularPolygon<F extends CompleteScalarFieldElement<F>, S extend
     protected static Element inscribedCircle(Document doc, SVGDocument svgDocument, RegularPolygon<?> shape) {
         Circle<?> circle = shape.inscribedCircle();
         Element inscribed = createElement(doc, "circle");
-        inscribed.setAttribute("cx", String.valueOf(svgDocument.origin().getX()));
-        inscribed.setAttribute("cy", String.valueOf(svgDocument.origin().getY()));
         inscribed.setAttribute("r", "" + circle.radius().doubleValue());
         inscribed.setAttribute("stroke", svgDocument.stroke());
         inscribed.setAttribute("stroke-opacity", "0.3");

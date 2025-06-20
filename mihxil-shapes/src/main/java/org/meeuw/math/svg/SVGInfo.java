@@ -12,6 +12,11 @@ public class SVGInfo implements SVGGroup {
     }
 
     @Override
+    public Element parent(Element parentG) {
+        return parentG.getOwnerDocument().getDocumentElement();
+    }
+
+    @Override
     public void fill(SVGDocument svgDocument, Element g) {
         Element info = createElement(g.getOwnerDocument(), "text");
         info.setAttribute("id", "info");

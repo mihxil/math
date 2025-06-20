@@ -3,11 +3,9 @@ package org.meeuw.math.shapes.dim2;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.ScalarField;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.abstractalgebra.dim2.Rotation2Group;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 
 public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, SELF>> extends Shape<F, SELF>   {
 
@@ -34,14 +32,8 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
      * <p>
      * The default implementation of a polygon is based on {@link #vertices()}, and just finding the minimum and maximum x and y coordinates of those.
      */
-    default LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
+    default LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
         ScalarField<F> field = field();
-        if ( ! (field instanceof CompleteScalarField) && ! angle.isZero()) {
-            throw new FieldIncompleteException("Cannot compute circumscribed rectangle for " + this + " with angle " + angle + " in field " + field);
-        }
-        CompleteScalarField<?> completeField = (CompleteScalarField) field;
-        Rotation2Group<?> rotationGroup = Rotation2Group.of(completeField);
-        //Rotation2<?> rotation = rotationGroup.rotation((CompleteScalarFieldElement) angle);
 
 
 
@@ -72,7 +64,7 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
         FieldVector2<F> center = FieldVector2.of(centerX, centerY);
         return new LocatedShape<>(new Rectangle<>(
             maxX.minus(minX),
-            maxY.minus(minY)),
+            maxY.minus(minY), field.zero()),
             center
         );
     }

@@ -44,6 +44,7 @@ public class SVGTest {
             .addInfo()
             .addRegularPolygon(polygon, s -> s
                 .circumscribedCircle(true)
+                .circumscribedRectangle(true)
                 .inscribedCircle(true)
             )
             ;
@@ -57,7 +58,7 @@ public class SVGTest {
     // tag::otherShapes[]
     @Test
     public void rectangle() throws Exception {
-        Rectangle<UncertainReal> rectangle = new Rectangle<>(element(100.0), element(170.0));
+        Rectangle<UncertainReal> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
 
         SVGDocument svg = defaultSVG()
             .withSize(size)
@@ -65,6 +66,7 @@ public class SVGTest {
             .addInfo()
             .addPolygon(rectangle, s -> {
                 s.circumscribedCircle(true);
+                s.circumscribedRectangle(true);
 
             });
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "rectangle.svg"))) {
@@ -79,7 +81,9 @@ public class SVGTest {
                 .withSize(size)
                 .addGrid(b -> b.spacing(spacing))
                 .addInfo()
-                .addCircle(new Circle<>(element(100.0)))
+                .addCircle(new Circle<>(element(100.0)), s -> {
+                    s.circumscribedRectangle(true);
+                })
                 .buildDocument(),
                 new StreamResult(fos)
             );
@@ -88,14 +92,16 @@ public class SVGTest {
 
     @Test
     public void ellipse() throws Exception {
-        Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0));
+        Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(10.0)));
 
         SVGDocument document = defaultSVG()
             .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo()
-            .addEllipse(ellipse, s -> {s.circumscribedCircle(true);});
-
+            .addEllipse(ellipse, s -> s
+                .circumscribedCircle(true)
+                .circumscribedRectangle(true)
+            );
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "ellipse.svg"))) {
           SVG.marshal(document.buildDocument(), new StreamResult(fos));
         }

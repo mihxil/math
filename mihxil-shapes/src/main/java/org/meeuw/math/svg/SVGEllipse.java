@@ -12,22 +12,25 @@ public class SVGEllipse<F extends CompleteScalarFieldElement<F>> extends SVGShap
     private final boolean subscribedCircle;
 
     @lombok.Builder
-    public SVGEllipse(Ellipse<F> ellipse, boolean circumscribedCircle) {
-        super(ellipse, circumscribedCircle);
+    public SVGEllipse(Ellipse<F> ellipse, boolean circumscribedCircle, boolean circumscribedRectangle) {
+        super(ellipse, circumscribedCircle, circumscribedRectangle);
         this.subscribedCircle = circumscribedCircle;
     }
 
     @Override
     public void fillShape(SVGDocument svgDocument, Element g) {
         Element element = createElement(g.getOwnerDocument(), "ellipse");
-        element.setAttribute("cx", "" + svgDocument.origin().getX());
-        element.setAttribute("cy", "" + svgDocument.origin().getY());
         element.setAttribute("stroke", svgDocument.stroke());
         element.setAttribute("stroke-width", "1");
         element.setAttribute("fill", "none");
 
         element.setAttribute("rx", String.valueOf(shape.radiusx().doubleValue()));
         element.setAttribute("ry", String.valueOf(shape.radiusy().doubleValue()));
+        if (shape.angle().doubleValue() != 0) {
+            element.setAttribute("transform", "rotate(" + Math.toDegrees(shape.angle().doubleValue()) + ")");
+        }
+
+
         g.appendChild(element);
 
 

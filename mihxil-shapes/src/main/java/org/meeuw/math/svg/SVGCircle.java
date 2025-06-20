@@ -10,15 +10,13 @@ public class SVGCircle<F extends ScalarFieldElement<F>> extends SVGShape<Circle<
 
 
     @lombok.Builder
-    public SVGCircle(Circle<F> circle) {
-        super(circle, false);
+    public SVGCircle(Circle<F> circle, boolean circumscribedRectangle) {
+        super(circle, false, circumscribedRectangle);
     }
 
     @Override
     public void fillShape(SVGDocument svgDocument, Element g) {
         Element circleElement = createElement(g.getOwnerDocument(), "circle");
-        circleElement.setAttribute("cx", "" + svgDocument.origin().getX());
-        circleElement.setAttribute("cy", "" + svgDocument.origin().getY());
         circleElement.setAttribute("stroke", svgDocument.stroke());
         circleElement.setAttribute("stroke-width", "1");
         circleElement.setAttribute("fill", "none");

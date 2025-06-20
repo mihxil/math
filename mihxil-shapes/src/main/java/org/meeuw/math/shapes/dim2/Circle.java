@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Min;
 
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.Uncertain;
@@ -12,7 +11,7 @@ import org.meeuw.math.uncertainnumbers.Uncertain;
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 
 /**
-
+ * A circle in a two-dimensional shape, defined by its radius only.
  * @since 0.15
  */
 
@@ -51,6 +50,11 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
         return new Circle<>(radius.times(multiplier));
     }
 
+    @Override
+    public Circle<F> rotate(F angle) {
+        return this; // a circle is invariant under rotation
+    }
+
     public F radius() {
         return radius;
     }
@@ -73,10 +77,10 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
      * For a circle, the circumscribed rectangle is a square with the diameter as side length, at the origin.
      */
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
         F diameter = diameter();
         return atOrigin(
-            new Rectangle<>(diameter, diameter)
+            new Rectangle<>(diameter, diameter, field.zero())
         );
     }
 

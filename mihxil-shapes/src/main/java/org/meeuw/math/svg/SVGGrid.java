@@ -33,27 +33,37 @@ public class SVGGrid implements SVGGroup {
 
 
         {
-            Element yaxis = verticalLine(g, String.valueOf(svg.origin().getX()),
-                "0", String.valueOf(gridSize.height().doubleValue()));
+            String minusY = String.valueOf(gridSize.height().doubleValue() / -2);
+            String plusY = String.valueOf(gridSize.height().doubleValue() / 2);
+
+
+            Element yaxis = verticalLine(g, "0", minusY, plusY);
             double x = 0d;
 
             while (x < gridSize.width().doubleValue() / 2) {
                 x += spacing.width().doubleValue();
                 Arrays.asList(x, -x).forEach(i -> {
-                    Element line = verticalLine(g, String.valueOf(origin.getX() + i), "0", String.valueOf(gridSize.height().intValue()));
+                    Element line = verticalLine(g, String.valueOf( i),
+                        minusY, plusY);
                     line.setAttribute("stroke-dasharray", "1,1");
                 });
             }
         }
         {
-            Element xaxis = horizontalLine(g, "0", String.valueOf(gridSize.width().doubleValue()), String.valueOf(origin.getY()));
+            String minusX = String.valueOf(gridSize.width().doubleValue() / -2);
+            String plusX = String.valueOf(gridSize.width().doubleValue() / 2);
+            Element xaxis = horizontalLine(g,
+                minusX,
+                plusX,
+                "0");
             double y = 0d;
             while (y < gridSize.height().doubleValue()) {
                 y += spacing.height().doubleValue();
 
                 Arrays.asList(y, -y).forEach(i -> {
-                    Element line = horizontalLine(g, "0", String.valueOf(gridSize.width().intValue()),
-                        String.valueOf(origin.getY() + i));
+                    Element line = horizontalLine(g, minusX,
+                        plusX,
+                        String.valueOf( i));
                     line.setAttribute("stroke-dasharray", "1,1");
                 });
             }

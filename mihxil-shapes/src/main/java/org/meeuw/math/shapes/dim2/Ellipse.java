@@ -13,18 +13,27 @@ import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 
+/**
+ *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
+ */
 public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellipse<F>>, Uncertain {
 
     private final F radiusx;
     private final F radiusy;
+    private final F angle;
     private final ScalarField<F> field;
 
     /**
      */
-    public Ellipse(@Min(0) F radiusx, @Min(0) F radiusy) {
+    public Ellipse(@Min(0) F radiusx, @Min(0) F radiusy, @radians F angle) {
         this.radiusx = radiusx;
         this.radiusy = radiusy;
+        this.angle = angle;
         this.field = radiusx.getStructure();
+    }
+
+    public Ellipse(@Min(0) F radiusx, @Min(0) F radiusy) {
+        this(radiusx, radiusy, radiusx.getStructure().zero());
     }
 
     public Stream<String[]> info() {
@@ -33,6 +42,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
             Stream.of(
                 new String[]{"radiusx", radiusx.toString()},
                 new String[]{"radiusy", radiusy.toString()},
+                new String[]{"angle", angle.toString()},
                 new String[]{"linearEccentricity", info(this::linearEccentricity)},
                 new String[]{"eccentricity", info(this::eccentricity)}
             ));
@@ -40,16 +50,21 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     @Override
     public Ellipse<F> times(F multiplier) {
-        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier));
+        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
     @Override
     public Ellipse<F> times(int multiplier) {
-        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier));
+        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
 
     @Override
     public Ellipse<F> times(double multiplier) {
-        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier));
+        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
+    }
+
+    @Override
+    public Ellipse<F> rotate(F angle) {
+        return new Ellipse<>(radiusx, radiusy, this.angle.plus(angle));
     }
 
     public F radiusx() {
@@ -58,6 +73,10 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
 
     public F radiusy() {
         return radiusy;
+    }
+
+    public F angle() {
+        return angle;
     }
 
     @SuppressWarnings("unchecked")
@@ -96,9 +115,9 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle(@radians F angle) {
+    public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
         return atOrigin(
-            new Rectangle<>(radiusx.times(2), radiusy.times(2))
+            new Rectangle<>(radiusx.times(2), radiusy.times(2), field.zero())
         );
     }
 

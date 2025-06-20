@@ -49,17 +49,15 @@ public class RectangleTest implements ShapeTheory<UncertainReal, Rectangle<Uncer
 
     @Test
     public void circumscribedRectangle() {
-        assertThat(rectangle.circumscribedRectangle(
-            exactly(PI / 2d) // 90 degrees
+        // 90 degrees
+        assertThat(rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle(
         ).shape().aspectRatio()).isEqualTo("9:16");
 
     }
 
     @Test
     public void circumscribedRectangleDegrees() {
-        assertThat(rectangle.circumscribedRectangle(
-            exactly(Math.toRadians(90))
-        ).shape().aspectRatio()).isEqualTo("9:16");
+        assertThat(rectangle.rotate( exactly(Math.toRadians(90))).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
 
         assertThat(intrectangle.circumscribedRectangle(Math.toRadians(90)).shape().aspectRatio()).isEqualTo("9:16");
     }

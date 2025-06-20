@@ -78,9 +78,12 @@ public class SVGDocument {
         root.setAttribute("width", String.valueOf(size.width().doubleValue()));
         root.setAttribute("height", String.valueOf(size.height().doubleValue()));
         document.appendChild(root);
+        Element parentG = SVG.createElement(document, "g");
+        parentG.setAttribute("transform",  "translate(" + origin().getX() + "," + origin().getY() + ")");
         for (SVGGroup group : groups) {
-            group.accept(this, document);
+            group.accept(this, parentG);
         }
+        document.getDocumentElement().appendChild(parentG);
         return document;
     }
 

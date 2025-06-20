@@ -3,7 +3,6 @@ package org.meeuw.math.shapes.dim2;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.FieldIncompleteException;
@@ -31,9 +30,12 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
     }
 
     /**
-     * Returns a {@link LocatedShape located} rectangle that precisely contains this shape (after rotation by the given angle (in radians)).
+     * Returns a {@link LocatedShape located} (unrotated) rectangle that precisely contains this shape (after rotation by the given angle (in radians)).
      */
-    LocatedShape<E, Rectangle<E>> circumscribedRectangle(@radians E angle);
+    LocatedShape<E, Rectangle<E>> circumscribedRectangle();
+
+
+
 
     /**
      * Returns a {@link LocatedShape located} circle that precisely contains this shape.
@@ -49,5 +51,7 @@ public interface Shape<E extends ScalarFieldElement<E>, SELF extends Shape<E, SE
     SELF times(int multiplier);
 
     SELF times(double multiplier);
+
+    SELF rotate(E angle);
 
 }
