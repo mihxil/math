@@ -19,16 +19,6 @@ The `shapes` modules contains implementations for several 2 and 3-dimensional sh
 [source,java]
 ----
 
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
-import org.meeuw.math.shapes.dim2.*;
-import org.meeuw.math.svg.SVG;
-import org.meeuw.math.svg.SVGDocument;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-
-import static org.meeuw.math.svg.SVGDocument.defaultSVG;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
-
-
 ....
 
 
@@ -50,9 +40,27 @@ public void regularPolygons(int n ) throws Exception {
         ;
 
     try (FileOutputStream fos = new FileOutputStream(new File(dest,  n +"-gon.svg"))) {
-        SVG.marshal(document.buildDocument(), new StreamResult(fos));
+        SVG.marshal(document, new StreamResult(fos));
     }
 }
+
+@Test
+public void rotatedPolygon() throws Exception {
+    try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
+        SVG.marshal(defaultSVG()
+            .withSize(size)
+            .addGrid(b -> b.spacing(spacing))
+            .addInfo()
+            .addRegularPolygon(
+                RegularPolygon.withCircumScribedRadius(3, element(size.width().doubleValue() / 2)).rotate(element(Math.toRadians(10.0))),
+                s -> s
+                    .circumscribedCircle(true)
+                    .circumscribedRectangle(true)
+                    .inscribedCircle(true)
+            ), new StreamResult(fos));
+    }
+}
+
 ----
 image:{docs}/shapes/3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/3-gon.svg"]
 image:{docs}/shapes/rotated-3-gon.svg[width={iwidth},title="triangle", link="{docs}/shapes/rotated-3-gon.svg"]

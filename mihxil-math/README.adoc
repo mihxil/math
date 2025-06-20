@@ -11,7 +11,7 @@
 
 
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-math]
-image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
+image:https://javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-math]
 
 The core dependency of the modules in the project. It provides the scaffolding for:
 
