@@ -67,14 +67,13 @@
 </ul>
 </li>
 <li><a href="#shapes">5. Shapes</a></li>
-<li><a href="#_compatibility">6. Compatibility</a></li>
-<li><a href="#configuration_service">7. ConfigurationService</a></li>
-<li><a href="#theories">8. Theory testing</a>
+<li><a href="#theories">6. Theory testing</a>
 <ul class="sectlevel2">
-<li><a href="#_non_math_related_theories">8.1. Non math related theories</a></li>
+<li><a href="#_non_math_related_theories">6.1. Non math related theories</a></li>
 </ul>
 </li>
-<li><a href="#_history">9. History</a></li>
+<li><a href="#_compatibility">7. Compatibility</a></li>
+<li><a href="#_history">8. History</a></li>
 </ul>
 </div>
 </div>
@@ -82,7 +81,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><span class="image"><a class="image" href="https://github.com/mihxil/math/actions/workflows/build.yml"><img src="https://github.com/mihxil/math/actions/workflows/build.yml/badge.svg?" alt="Build Status"></a></span>
+<p><span class="image"><a class="image" href="{gh}actions/workflows/build.yml"><img src="{gh}actions/workflows/build.yml/badge.svg?" alt="Build Status"></a></span>
 <span class="image"><a class="image" href="https://codecov.io/gh/mihxil/math"><img src="https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg" alt="codecov"></a></span>
 <span class="image"><a class="image" href="https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/"><img src="https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg" alt="snapshots"></a></span>
 <span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg" alt="Maven Central"></a></span>
@@ -577,7 +576,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>A service loader is provided for implementations of <code>AlgebraicElementFormatProvider</code> which can create instances of <code>java.text.Format</code> which in turn can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
 </div>
 <div class="paragraph">
-<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">ConfigurationService</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
+<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">[configuration_service]</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
 <p>The service giving access to the format-providers is <code>FormatService</code>. This is a collection of static functions.</p>
@@ -1143,120 +1142,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="_compatibility">6. Compatibility</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This project is compiled with java 17, and provides JPMS module info,  until version <code>0.16.x</code> it was compatible with java 8.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="configuration_service">7. ConfigurationService</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
-<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration"><img src="https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue" alt="javadoc"></a></span></p>
-</div>
-<div class="paragraph">
-<p><code>ConfigurationService</code> is responsible for managing the <code>Configuration</code> thread locals.</p>
-</div>
-<div class="paragraph">
-<p>Like this it can be consulted</p>
-</div>
-<div class="listingblock">
-<div class="title">Accessing configuration</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.Configuration</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
-
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>.*;
-...
-
-Configuration configuration = getConfiguration();
-NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
-<span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>This would however probably mainly be used in <em>implementations</em>.</p>
-</div>
-<div class="paragraph">
-<p>Actual configuration can be done in two basically distinct ways.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>a new configuration object can be set as a thread local</p>
-</li>
-<li>
-<p>global default configuration object can be set</p>
-</li>
-</ul>
-</div>
-<div class="listingblock">
-<div class="title">temporary overrides</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">{
-    <span class="comment">//noinspection resource</span>
-    setConfiguration(builder -&gt;
-        builder.configure(NumberConfiguration.class,
-            (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
-        )
-    );
-
-    <span class="comment">//...code...</span>
-    ConfigurationService.resetToDefaults();
-}
-
-<span class="comment">// or using Autocloseable</span>
-<span class="keyword">try</span> (Reset ignored = setConfiguration(builder -&gt;
-    builder.configure(NumberConfiguration.class,
-        (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
-    )
-)) {
-    ;
-    <span class="comment">//...code...</span>
-}</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>There are some utilities in <code>ConfigurationService</code> that makes this process a bit easier.</p>
-</div>
-<div class="listingblock">
-<div class="title">temporary overrides utilities</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">withConfiguration((con) -&gt;
-        con.configure(UncertaintyConfiguration.class,
-                (uncertaintyConfiguration) -&gt; uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
-            .configure(NumberConfiguration.class,
-                (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">3</span>))
-    , () -&gt; {
-        <span class="comment">// code</span>
-
-    });</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Global defaults can be set similarly</p>
-</div>
-<div class="listingblock">
-<div class="title">setting global defaults</div>
-<div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">defaultConfiguration((configurationBuilder) -&gt;
-    configurationBuilder.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
-        .configure(UncertaintyConfiguration.class, c -&gt; c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
-);</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="theories">8. Theory testing</h2>
+<h2 id="theories">6. Theory testing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-theories"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-theories.svg" alt="Maven Central"></a></span>
@@ -1277,7 +1163,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.</p>
 </div>
 <div class="sect2">
-<h3 id="_non_math_related_theories">8.1. Non math related theories</h3>
+<h3 id="_non_math_related_theories">6.1. Non math related theories</h3>
 <div class="paragraph">
 <p>See <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories"><code>org.meeuw.theories</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
 </div>
@@ -1324,7 +1210,15 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_history">9. History</h2>
+<h2 id="_compatibility">7. Compatibility</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This project is compiled with java 17, and provides JPMS module info,  until version <code>0.16.x</code> it was compatible with java 8.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_history">8. History</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I&#8217;m maintaining this mainly as a hobby project.</p>
