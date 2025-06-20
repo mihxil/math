@@ -1,17 +1,15 @@
 digraph {
     node [
-		  shape=plain
+      shape=plain
     ]
-		edge [
-		  arrowhead = "empty"
-		]
-
-        define(`MATH_URL', https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)
-        define(`ALGEBRA_URL', https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java)
-        define(`JAVADOC_MATH_URL', https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math)
-        define(`JAVADOC_ALGEBRA_URL', https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras)
-         changecom(`  #')
-
+    edge [
+      arrowhead = "empty"
+    ]
+    define(`MATH_URL', https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java)
+    define(`ALGEBRA_URL', https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java)
+    define(`JAVADOC_MATH_URL', https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math)
+    define(`JAVADOC_ALGEBRA_URL', https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras)
+    changecom(`  #')
 
 
 # interface org.meeuw.math.abstractalgebra.Magma
