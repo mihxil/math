@@ -1034,17 +1034,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.integers.ModuloFieldElement</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVGDocument</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainReal</span>;
-
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.defaultSVG</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainRealField.element</span>;
-
-
-....
+<pre class="CodeRay highlight"><code data-lang="java">....
 
 
 <span class="annotation">@ParameterizedTest</span>
@@ -1065,7 +1055,24 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
         ;
 
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  n +<span class="string"><span class="delimiter">&quot;</span><span class="content">-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(document.buildDocument(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+        SVG.marshal(document, <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
+    }
+}
+
+<span class="annotation">@Test</span>
+<span class="directive">public</span> <span class="type">void</span> rotatedPolygon() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,   <span class="string"><span class="delimiter">&quot;</span><span class="content">rotated-3-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
+        SVG.marshal(defaultSVG()
+            .withSize(size)
+            .addGrid(b -&gt; b.spacing(spacing))
+            .addInfo()
+            .addRegularPolygon(
+                RegularPolygon.withCircumScribedRadius(<span class="integer">3</span>, element(size.width().doubleValue() / <span class="integer">2</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>))),
+                s -&gt; s
+                    .circumscribedCircle(<span class="predefined-constant">true</span>)
+                    .circumscribedRectangle(<span class="predefined-constant">true</span>)
+                    .inscribedCircle(<span class="predefined-constant">true</span>)
+            ), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
 }</code></pre>
 </div>
