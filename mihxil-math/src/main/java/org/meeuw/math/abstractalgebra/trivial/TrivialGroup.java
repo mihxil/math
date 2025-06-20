@@ -32,7 +32,7 @@ import org.meeuw.math.text.TextUtils;
 public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement>
     implements Group<TrivialGroupElement>, Streamable<TrivialGroupElement> {
 
-    public  static final TrivialGroup INSTANCE = new TrivialGroup();
+    public static final TrivialGroup INSTANCE = new TrivialGroup();
 
     private TrivialGroup() {
     }
