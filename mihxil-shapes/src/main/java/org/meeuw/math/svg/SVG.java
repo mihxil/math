@@ -61,5 +61,9 @@ public class SVG {
         TRANSFORMER.transform(new DOMSource(document), result);
     }
 
+    public static void marshal(SVGDocument document, StreamResult result) throws TransformerException {
+        marshal(document.buildDocument(), result);
+    }
+
 
 }

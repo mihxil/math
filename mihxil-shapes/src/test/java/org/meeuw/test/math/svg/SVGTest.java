@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-// tag::imports[]
-
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
@@ -50,31 +48,28 @@ public class SVGTest {
             ;
 
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  n +"-gon.svg"))) {
-            SVG.marshal(document.buildDocument(), new StreamResult(fos));
+            SVG.marshal(document, new StreamResult(fos));
         }
     }
-    // end::regularPolygons[]
 
     @Test
     public void rotatedPolygon() throws Exception {
-
-        RegularPolygon<UncertainReal> polygon = RegularPolygon.withCircumScribedRadius(3, element(100.0)).rotate(element(Math.toRadians(10.0)));
-
-        SVGDocument document = defaultSVG()
-            .withSize(size)
-            .addGrid(b -> b.spacing(spacing))
-            .addInfo()
-            .addRegularPolygon(polygon, s -> s
-                .circumscribedCircle(true)
-                .circumscribedRectangle(true)
-                .inscribedCircle(true)
-            )
-            ;
-
         try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
-            SVG.marshal(document.buildDocument(), new StreamResult(fos));
+            SVG.marshal(defaultSVG()
+                .withSize(size)
+                .addGrid(b -> b.spacing(spacing))
+                .addInfo()
+                .addRegularPolygon(
+                    RegularPolygon.withCircumScribedRadius(3, element(size.width().doubleValue() / 2)).rotate(element(Math.toRadians(10.0))),
+                    s -> s
+                        .circumscribedCircle(true)
+                        .circumscribedRectangle(true)
+                        .inscribedCircle(true)
+                ), new StreamResult(fos));
         }
     }
+
+    // end::regularPolygons[]
 
 
     // tag::otherShapes[]
