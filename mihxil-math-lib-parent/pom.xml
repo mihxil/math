@@ -16,7 +16,6 @@
   <url>https://github.com/mihxil/math</url>
 
   <properties>
-    <java.target.version>8</java.target.version>
     <java.version>17</java.version>
   </properties>
 
@@ -124,41 +123,6 @@
             </path>
           </annotationProcessorPaths>
         </configuration>
-        <executions>
-          <execution>
-            <id>default-compile</id>
-            <configuration>
-              <!-- compile everything to ensure module-info contains right entries -->
-              <source>${java.version}</source>
-              <release>${java.version}</release>
-            </configuration>
-          </execution>
-          <execution>
-            <id>base-compile</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <!-- recompile everything for target VM except the module-info.java -->
-            <configuration>
-              <excludes>
-                <exclude>module-info.java</exclude>
-              </excludes>
-              <source>${java.target.version}</source>
-              <release>${java.target.version}</release>
-            </configuration>
-          </execution>
-          <execution>
-            <id>test-compile</id>
-            <phase>process-test-sources</phase>
-            <goals>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <source>${java.version}</source>
-              <release>${java.version}</release>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 
 
