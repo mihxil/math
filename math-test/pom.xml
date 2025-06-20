@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.meeuw.math</groupId>
     <artifactId>mihxil-math-parent</artifactId>
-    <version>0.17.0-SNAPSHOT</version>
+    <version>0.17.0</version>
   </parent>
   <description>A simple (spring boot) application that is using things of this project.</description>
   <artifactId>math-test</artifactId>
