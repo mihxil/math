@@ -34,7 +34,7 @@ include::mihxil-shapes/README-source.adoc[leveloffset=1]
 
 == Compatibility
 
-This project is compiled with java 17, and provided JPMS module info,  but for know is compatible with java 8.
+This project is compiled with java 17, and provides JPMS module info,  until version `0.16.x` it was compatible with java 8.
 
 include::mihxil-configuration/README-source.adoc[leveloffset=1]
 
