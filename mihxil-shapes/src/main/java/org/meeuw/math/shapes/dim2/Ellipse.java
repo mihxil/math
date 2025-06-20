@@ -33,8 +33,8 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
             Stream.of(
                 new String[]{"radiusx", radiusx.toString()},
                 new String[]{"radiusy", radiusy.toString()},
-                new String[]{"linearEccentricity", linearEccentricity().toString()},
-                new String[]{"eccentricity", eccentricity().toString()}
+                new String[]{"linearEccentricity", info(this::linearEccentricity)},
+                new String[]{"eccentricity", info(this::eccentricity)}
             ));
     }
 
@@ -159,7 +159,7 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
 
-    @SuppressWarnings({"DataFlowIssue", "unchecked"})
+    @SuppressWarnings({"unchecked"})
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -21,7 +21,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 
 @Log4j2
-public class RegularPolygonTest implements ShapeTheory<RegularPolygon<UncertainReal>> {
+public class RegularPolygonTest implements ShapeTheory<UncertainReal, RegularPolygon<UncertainReal>> {
     static RegularPolygon<UncertainReal> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
     static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
     static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));

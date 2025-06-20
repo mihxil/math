@@ -24,6 +24,7 @@ open module org.meeuw.test.shapes {
     requires org.meeuw.math.shapes;
 
     requires java.xml;
+    requires org.slf4j;
 
 
 }

@@ -116,6 +116,7 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
     }
 
     @Nested
+    @Group
     class Modulo13Test extends AbstractTest {
 
         protected Modulo13Test() {

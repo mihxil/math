@@ -21,7 +21,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
-public class RectangleTest implements ShapeTheory<Rectangle<UncertainReal>> {
+public class RectangleTest implements ShapeTheory<UncertainReal, Rectangle<UncertainReal>> {
 
     Rectangle<UncertainReal> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));
