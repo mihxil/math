@@ -1060,6 +1060,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
         .addInfo()
         .addRegularPolygon(polygon, s -&gt; s
             .circumscribedCircle(<span class="predefined-constant">true</span>)
+            .circumscribedRectangle(<span class="predefined-constant">true</span>)
             .inscribedCircle(<span class="predefined-constant">true</span>)
         )
         ;
@@ -1084,7 +1085,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>));
+    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
 
     SVGDocument svg = defaultSVG()
         .withSize(size)
@@ -1092,6 +1093,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
         .addInfo()
         .addPolygon(rectangle, s -&gt; {
             s.circumscribedCircle(<span class="predefined-constant">true</span>);
+            s.circumscribedRectangle(<span class="predefined-constant">true</span>);
 
         });
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">rectangle.svg</span><span class="delimiter">&quot;</span></span>))) {
@@ -1106,7 +1108,9 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
             .withSize(size)
             .addGrid(b -&gt; b.spacing(spacing))
             .addInfo()
-            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>)))
+            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>)), s -&gt; {
+                s.circumscribedRectangle(<span class="predefined-constant">true</span>);
+            })
             .buildDocument(),
             <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos)
         );
@@ -1115,14 +1119,16 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>));
+    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
         .addGrid(b -&gt; b.spacing(spacing))
         .addInfo()
-        .addEllipse(ellipse, s -&gt; {s.circumscribedCircle(<span class="predefined-constant">true</span>);});
-
+        .addEllipse(ellipse, s -&gt; s
+            .circumscribedCircle(<span class="predefined-constant">true</span>)
+            .circumscribedRectangle(<span class="predefined-constant">true</span>)
+        );
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">ellipse.svg</span><span class="delimiter">&quot;</span></span>))) {
       SVG.marshal(document.buildDocument(), <span class="keyword">new</span> <span class="predefined-type">StreamResult</span>(fos));
     }
