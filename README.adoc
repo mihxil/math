@@ -416,7 +416,7 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 :gha: {ghblob}mihxil-algebra/src/main/java/org/meeuw/math/
 
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
-image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-algebra]
+image:https://javadoc.io/badge/org.meeuw.math/mihxil-algebra.svg?color=blue[javadoc,link=https://javadoc.io/doc/org.meeuw.math/mihxil-algebra]
 
 This contains various implementations of the algebraic structure interfaces of `mihxil-math`. Like `RationalNumber` (modelling of rational numbers ℚ), and the rotation group SO(3).
 
