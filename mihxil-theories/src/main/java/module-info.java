@@ -27,6 +27,7 @@ module org.meeuw.math.abstractalgebra.test {
     requires org.checkerframework.checker.qual;
     requires org.junit.jupiter.params;
     requires org.meeuw.configuration;
+    requires java.logging;
 
     exports org.meeuw.theories;
     exports org.meeuw.theories.abstractalgebra;

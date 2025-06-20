@@ -25,6 +25,7 @@ open module org.meeuw.test.shapes {
 
     requires java.xml;
     requires org.slf4j;
+    requires java.logging;
 
 
 }

@@ -2,7 +2,7 @@ package org.meeuw.theories;
 
 
 import java.util.*;
-
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
@@ -185,6 +185,10 @@ public interface BasicObjectTheory<E> {
     @Provide
     default Arbitrary<Random> randoms() {
         return Arbitraries.randoms();
+    }
+
+    default Logger log() {
+        return Logger.getLogger(getClass().getName());
     }
 
 }

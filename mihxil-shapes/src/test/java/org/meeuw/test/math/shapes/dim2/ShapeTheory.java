@@ -1,6 +1,7 @@
 package org.meeuw.test.math.shapes.dim2;
 
 import java.util.Random;
+import java.util.logging.Logger;
 
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
@@ -8,8 +9,6 @@ import net.jqwik.api.Property;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.theories.BasicObjectTheory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 
@@ -31,7 +30,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
     default void timesRandom(@ForAll(DATAPOINTS) S x, @ForAll(RANDOMS) Random random) {
         E multiplier = x.field().nextRandom(random);
         S multiplied = x.times(multiplier);
-        log().info("{} x {} = {}", x, multiplier, multiplied);
+        log().info("%s x %s = %s".formatted(x, multiplier, multiplied));
         assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);
     }
 
@@ -46,17 +45,17 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
     @Property
     default void showCircumscribedCircle(@ForAll(DATAPOINTS) S x) {
         LocatedShape<E, Circle<E>> circumscribed = x.circumscribedCircle();
-        log().info("Circumscribed of {} is {}", x, circumscribed);
+        log().info("Circumscribed of %s is %s".formatted(x, circumscribed));
     }
     @Property
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) S x) {
         LocatedShape<E, Rectangle<E>> circumscribed = x.circumscribedRectangle();
-        log().info("Circumscribed rectangle of {} is {}", x, circumscribed);
+        log().info("Circumscribed rectangle of %s is %s".formatted(x, circumscribed));
     }
 
     @Property
     default void isExact(@ForAll(DATAPOINTS) S x) {
-        log().info("{} is exact: {}", x, x.isExact());
+        log().info(() -> "%s is exact: %s".formatted(x, x.isExact()));
         if (! x.field().elementsAreUncertain()) {
             assertThat(x.isExact()).isTrue();
         }
@@ -64,9 +63,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
 
 
 
-    default Logger log() {
-        return LoggerFactory.getLogger(getClass());
-    }
+
 
 
 }
