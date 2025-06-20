@@ -1,0 +1,31 @@
+---
+name: javadocio toucher
+on:
+  push:
+    paths:
+    - pom.xml
+    branches: ['**']
+  workflow_dispatch:
+
+
+jobs:
+  touch:
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_ARGS: '--no-transfer-progress'
+    steps:
+      - uses: actions/checkout@v4.1.2
+      - name: Set up JDK
+        uses: actions/setup-java@v4.2.1
+        with:
+          distribution: 'temurin'
+          java-version: 17
+          cache: maven
+      - name: touch
+        run: |
+          for u in `mvn help:effective-pom | grep  "link>https://javadoc.io" | sed -E 's/.*<link>(.*)<\/link>.*/\1/g'`
+          do
+            echo "Touching $u"
+            curl -s -A "github/${GITHUB_REPOSITORY}" -o /dev/null -w "%{http_code}\n" -L $u
+          done
+
