@@ -10,7 +10,6 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :source-highlighter: coderay
 :multipage-level: 1
 
-:gh: https://github.com/mihxil/math/
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
@@ -19,7 +18,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Mave
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
 
 
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations, and MP4-movies.
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies.
 
 :leveloffset: 1
 
@@ -659,102 +658,6 @@ image:{docs}/shapes/ellipse.svg[width={iwidth},title="ellipse", link="{docs}/sha
 
 :leveloffset!:
 
-== Compatibility
-
-This project is compiled with java 17, and provides JPMS module info,  until version `0.16.x` it was compatible with java 8.
-
-:leveloffset: 1
-
-= ConfigurationService [[configuration_service]]
-
-image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
-image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
-
-`ConfigurationService` is responsible for managing the `Configuration` thread locals.
-
-Like this it can be consulted
-
-.Accessing configuration
-[source,java]
-----
-import org.meeuw.configuration.Configuration;
-import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-
-import static org.meeuw.configuration.ConfigurationService.*;
-...
-
-Configuration configuration = getConfiguration();
-NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
-int minimalExponent = aspect.getMinimalExponent();
-----
-This would however probably mainly be used in _implementations_.
-
-Actual configuration can be done in two basically distinct ways.
-
-- a new configuration object can be set as a thread local
-- global default configuration object can be set
-
-.temporary overrides
-[source,java]
-----
-
-{
-    //noinspection resource
-    setConfiguration(builder ->
-        builder.configure(NumberConfiguration.class,
-            (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
-        )
-    );
-
-    //...code...
-    ConfigurationService.resetToDefaults();
-}
-
-// or using Autocloseable
-try (Reset ignored = setConfiguration(builder ->
-    builder.configure(NumberConfiguration.class,
-        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
-    )
-)) {
-    ;
-    //...code...
-}
-----
-
-There are some utilities in `ConfigurationService` that makes this process a bit easier.
-
-.temporary overrides utilities
-[source, java]
-----
-withConfiguration((con) ->
-        con.configure(UncertaintyConfiguration.class,
-                (uncertaintyConfiguration) -> uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
-            .configure(NumberConfiguration.class,
-                (numberConfiguration) -> numberConfiguration.withMinimalExponent(3))
-    , () -> {
-        // code
-
-    });
-----
-
-Global defaults can be set similarly
-
-.setting global defaults
-[source,java]
-----
-defaultConfiguration((configurationBuilder) ->
-    configurationBuilder.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
-        .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
-);
-----
-
-ConfigurationService itself is not actually math related, and is released in a separate artifact.
-
-
-:leveloffset!:
-
 :leveloffset: 1
 
 = Theory testing [[theories]]
@@ -802,6 +705,14 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
   `subSequenceIsConsistent`
 |===
 
+
+:leveloffset!:
+
+:leveloffset: 1
+
+= Compatibility
+
+This project is compiled with java 17, and provides JPMS module info,  until version `0.16.x` it was compatible with java 8.
 
 :leveloffset!:
 
