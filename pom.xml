@@ -48,7 +48,7 @@
     <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
     <log4j.version>2.24.3</log4j.version>
 
-    <delombok.output>delombok</delombok.output>
+    <delombok.output>target/delombok</delombok.output>
   </properties>
 
 
@@ -378,6 +378,16 @@
               </execution>
             </executions>
           </plugin>
+
+          <!--
+          We want javadoc to be based on delomboked source
+          delombok gets confused by module-info.java, so we move it out of the way first.
+          order matter here.
+          maven executes the plugins in the order they are defined if in the same phase, so we need to define the delombok plugin before the maven-antrun-plugin
+
+          But the moving out of the way is in an earlier phase.
+          It's a bit of a hack, but it works.
+          -->
           <plugin>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-maven-plugin</artifactId>
@@ -406,6 +416,59 @@
                 <goals>
                   <goal>delombok</goal>
                 </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>initialize</phase>
+                <id>Move module-info out of the way</id>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <move
+                      file="${basedir}/src/main/java/module-info.java"
+                      preservelastmodified="true"
+                      failonerror="false"
+                      tofile="${basedir}/target/module-info.ignore" />
+                  </target>
+                </configuration>
+              </execution>
+              <execution>
+                <phase>generate-sources</phase>
+                <id>Move module-info back</id>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                    <move
+                      file="${basedir}/target/module-info.ignore"
+                      preservelastmodified="true"
+                      failonerror="false"
+                      tofile="${basedir}/src/main/java/module-info.java" />
+                  </target>
+                </configuration>
+              </execution>
+               <execution>
+                <phase>generate-sources</phase>
+                <id>Copy module-info to delombok</id>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <target>
+                     <copy
+                      file="${basedir}/src/main/java/module-info.java"
+                      preservelastmodified="true"
+                      failonerror="false"
+                      todir="${delombok.output}" />
+                  </target>
+                </configuration>
               </execution>
             </executions>
           </plugin>
