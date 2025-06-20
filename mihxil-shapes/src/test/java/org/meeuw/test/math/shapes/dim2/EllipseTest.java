@@ -8,11 +8,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.assertj.Assertions;
 import org.meeuw.math.shapes.dim2.Ellipse;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.theories.BasicObjectTheory;
 
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
-class EllipseTest implements BasicObjectTheory<Ellipse<UncertainReal>> {
+class EllipseTest implements ShapeTheory<Ellipse<UncertainReal>> {
 
 
     @Override

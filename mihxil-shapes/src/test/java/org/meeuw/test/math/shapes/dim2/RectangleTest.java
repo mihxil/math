@@ -13,7 +13,6 @@ import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.theories.BasicObjectTheory;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -22,7 +21,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
-public class RectangleTest implements BasicObjectTheory<Rectangle<UncertainReal>> {
+public class RectangleTest implements ShapeTheory<Rectangle<UncertainReal>> {
 
     Rectangle<UncertainReal> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));

@@ -11,14 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.theories.BasicObjectTheory;
 
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 @Log4j2
-public class CircleTest implements BasicObjectTheory<Circle<UncertainReal>> {
+public class CircleTest implements ShapeTheory<Circle<UncertainReal>> {
 
     public static Circle<UncertainReal> circle = new Circle<>(exactly(1)).times(exactly(2));
 

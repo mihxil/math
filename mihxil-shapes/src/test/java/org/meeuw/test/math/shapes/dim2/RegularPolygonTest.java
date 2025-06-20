@@ -14,7 +14,6 @@ import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.shapes.dim2.RegularPolygon;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.theories.BasicObjectTheory;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
@@ -22,7 +21,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 
 @Log4j2
-public class RegularPolygonTest implements BasicObjectTheory<RegularPolygon<UncertainReal>> {
+public class RegularPolygonTest implements ShapeTheory<RegularPolygon<UncertainReal>> {
     static RegularPolygon<UncertainReal> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
     static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
     static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));
