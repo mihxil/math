@@ -10,6 +10,7 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :source-highlighter: coderay
 :multipage-level: 1
 
+:gh: https://github.com/mihxil/math/
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
