@@ -30,7 +30,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp class DoubleOperations implements UncertaintyNumberOperations<Double> {
+public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     public static final DoubleOperations INSTANCE = new DoubleOperations();
 

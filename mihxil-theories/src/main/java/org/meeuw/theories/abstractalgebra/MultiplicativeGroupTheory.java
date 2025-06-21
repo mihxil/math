@@ -31,7 +31,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
+public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<E>>
     extends MultiplicativeMonoidTheory<E> {
 
     @Property

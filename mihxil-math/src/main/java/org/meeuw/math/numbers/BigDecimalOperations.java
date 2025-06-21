@@ -36,7 +36,7 @@ import static org.meeuw.math.BigDecimalUtils.uncertaintyForBigDecimal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp class BigDecimalOperations implements UncertaintyNumberOperations<BigDecimal> {
+public class BigDecimalOperations implements UncertaintyNumberOperations<BigDecimal> {
 
     public static final BigDecimalOperations INSTANCE = new BigDecimalOperations();
 

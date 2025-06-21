@@ -43,7 +43,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
  * @since 0.4
  */
 @Log4j2
-strictfp class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
+class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
 
     @Test
     public void testToString() {

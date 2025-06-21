@@ -38,7 +38,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.4
  */
 @Log4j2
-strictfp class RealFieldTest implements
+class RealFieldTest implements
     CompleteScalarFieldTheory<RealNumber>,
     MetricSpaceTheory<RealNumber, RealNumber>,
     UncertainDoubleTheory<RealNumber> {

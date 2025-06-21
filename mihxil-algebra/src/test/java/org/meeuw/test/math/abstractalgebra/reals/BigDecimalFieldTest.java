@@ -40,7 +40,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-strictfp class BigDecimalFieldTest implements
+class BigDecimalFieldTest implements
     CompleteScalarFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 

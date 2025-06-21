@@ -33,7 +33,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>>
+public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<E>>
     extends CompleteFieldTheory<E>, ScalarTheory<E> {
 
     @Property

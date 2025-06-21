@@ -37,7 +37,7 @@ import static org.meeuw.math.ArrayUtils.determinant2x2;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public strictfp class Matrix3 implements
+public class Matrix3 implements
     MultiplicativeGroupElement<Matrix3>, WithScalarOperations<Matrix3, RealNumber>, WithDoubleOperations<Matrix3> {
 
 

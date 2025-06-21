@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * @author Michiel Meeuwissen
  */
-strictfp class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A> {
+class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A> {
 
 
     static class A implements UncertainDouble<A> {
