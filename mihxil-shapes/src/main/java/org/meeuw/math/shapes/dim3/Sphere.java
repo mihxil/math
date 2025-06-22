@@ -1,12 +1,11 @@
 package org.meeuw.math.shapes.dim3;
 
-import org.meeuw.math.abstractalgebra.CompleteField;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 
-public class Sphere<F extends CompleteScalarFieldElement<F>> implements Volume<F, Sphere<F>> {
+public class Sphere<F extends ScalarFieldElement<F>> implements Volume<F, Sphere<F>> {
 
     private final F radius;
-    private final CompleteField<F> field;
+    private final ScalarField<F> field;
 
     public Sphere(F radius) {
         this.radius = radius;

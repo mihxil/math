@@ -1,54 +1,53 @@
 package org.meeuw.math.shapes.dim3;
 
-public enum PlatonicSolid {
-    TETRAHEDRON(3, 3),
-    CUBE(4, 3),
-    OCTAHEDRON(3, 4),
-    DODECAHEDRON(5, 3),
-    ICOSAHEDRON(3, 5);
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
-    private final int faces;
-    private final int vertices;
-    private final int edges;
+public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedron<F, PlatonicSolid<F>> {
 
-    private final int p;
-    private final int q;
+    private final PlatonicSolidEnum platonicSolidEnum;
 
-
-    PlatonicSolid(int p, int q) {
-        this.faces = 4 * q / (4 - (p - 2) * (q - 2));
-        this.vertices = 4 * p / (4 - (p - 2) * (q - 2));
-        this.edges = 2 * p * q / (4 - (p - 2) * (q - 2));
-        this.p = p;
-        this.q = q;
+    public PlatonicSolid(PlatonicSolidEnum platonicSolidEnum) {
+        this.platonicSolidEnum = platonicSolidEnum;
     }
 
-    public int faces() {
-        return faces;
-    }
-
+    @Override
     public int vertices() {
-        return vertices;
+        return platonicSolidEnum.vertices();
     }
 
+    @Override
     public int edges() {
-        return edges;
+        return platonicSolidEnum.edges();
     }
 
-    /**
-     * Number of edges per face
-     */
-    public int p() {
-        return p;
-    }
-    /**
-     * Number of faces meeting at each vertex
-     */
-    public int q() {
-        return q;
+    @Override
+    public int faces() {
+        return platonicSolidEnum.faces();
     }
 
-    public String toString() {
-        return String.format("{%d,%d}", p, q);
+    public F dihedralAngle() {
+
+        return null; // TODO: implement dihedral angle calculation
+    }
+
+    @Override
+    public F volume() {
+        return null;
+    }
+
+    @Override
+    public F surfaceArea() {
+        return null;
+    }
+
+
+
+    @Override
+    public boolean eq(PlatonicSolid<F> other) {
+        return false;
+    }
+
+    public Sphere<F> circumscribedSphere() {
+        throw new UnsupportedOperationException("Circumscribed sphere not implemented for " + platonicSolidEnum);
     }
 }

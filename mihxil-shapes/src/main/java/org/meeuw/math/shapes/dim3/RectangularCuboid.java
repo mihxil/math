@@ -2,6 +2,8 @@ package org.meeuw.math.shapes.dim3;
 
 import jakarta.validation.constraints.Min;
 
+import lombok.Getter;
+
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 
 /**
@@ -11,7 +13,8 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  *
  * @since 0.15
  */
-public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> implements Volume<F, RectangularCuboid<F>> {
+@Getter
+public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> implements Polyhedron<F, RectangularCuboid<F>> {
 
     private final F width;
     private final F height;
@@ -51,6 +54,22 @@ public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> implemen
             .plus(width.times(depth).times(2))
             .plus(height.times(depth).times(2));
     }
+
+    @Override
+    public int vertices() {
+        return 8;
+    }
+
+    @Override
+    public int edges() {
+        return 12;
+    }
+
+    @Override
+    public int faces() {
+        return 6;
+    }
+
 
     @Override
     public boolean eq(RectangularCuboid<F> other) {
