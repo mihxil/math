@@ -224,6 +224,14 @@ public class RealNumber
     }
 
     @Override
+    @NonAlgebraic
+    public RealNumber asin() {
+        UncertainNumber<Double> asin = operations().asin(value);
+        return immutableInstanceOfPrimitives(asin.getValue(), max(uncertainty, asin.getUncertainty()));
+
+    }
+
+    @Override
     public RealNumber cos() {
         UncertainNumber<Double> cos = operations().cos(value);
 

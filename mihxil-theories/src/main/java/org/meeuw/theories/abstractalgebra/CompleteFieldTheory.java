@@ -81,6 +81,21 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     }
 
     @Property
+    default void asin0(@ForAll(STRUCTURE) CompleteField<E> struct) {
+        assertThat(struct.zero().asin()).isEqTo(struct.zero());
+
+    }
+    @Property
+    default void asin1(@ForAll(STRUCTURE) CompleteField<E> struct) {
+        assertThat(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
+    }
+    @Property
+    default void asinminus1(@ForAll(STRUCTURE) CompleteField<E> struct) {
+        assertThat(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
+    }
+
+
+    @Property
     default void cosPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
         assertThat(struct.pi().cos()).isEqTo(struct.one().negation());
     }

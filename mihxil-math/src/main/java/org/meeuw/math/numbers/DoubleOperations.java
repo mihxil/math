@@ -182,6 +182,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public UncertainNumber<Double> asin(Double aDouble) {
+        return uncertain(Math.asin(aDouble));
+    }
+
+    @Override
     public UncertainNumber<Double> cos(Double aDouble) {
         return uncertain(Math.cos(aDouble));
     }

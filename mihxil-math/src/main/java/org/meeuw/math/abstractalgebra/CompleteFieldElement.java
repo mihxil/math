@@ -54,6 +54,9 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
      */
     E sin();
 
+    @NonAlgebraic("Only calculable for numbers between -1 and 1")
+    E asin();
+
     /**
      * Returns the cosine of this element
      * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS

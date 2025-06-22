@@ -68,4 +68,5 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
     public ComplexNumbers getStructure() {
         return INSTANCE;
     }
+
 }

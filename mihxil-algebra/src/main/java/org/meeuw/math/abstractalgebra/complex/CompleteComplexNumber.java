@@ -78,6 +78,12 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
+    public S asin() {
+        throw new UnsupportedOperationException("TODO: implement asin for complex numbers");
+
+    }
+
+    @Override
     public S cos() {
         return _of(
             real.cos().times(imaginary.cosh()),

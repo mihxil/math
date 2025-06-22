@@ -241,6 +241,12 @@ public class UncertainDoubleElement
     }
 
     @Override
+    public UncertainReal asin() {
+        UncertainNumber<Double> asin = operations().asin(value);
+        return of(asin.getValue(), Math.max(uncertainty, asin.getUncertainty()));
+    }
+
+    @Override
     public UncertainDoubleElement cos() {
         UncertainNumber<Double> cos = operations().cos(value);
         return of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));

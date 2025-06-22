@@ -185,6 +185,15 @@ public class BigDecimalElement implements
         );
     }
 
+    @Override
+    public BigDecimalElement asin() {
+        UncertainNumber<BigDecimal> asin = operations().asin(value);
+        return new BigDecimalElement(
+            asin.getValue(),
+            uncertainty.max(asin.getUncertainty())
+        );
+       }
+
 
     @Override
     public BigDecimalElement cos() {

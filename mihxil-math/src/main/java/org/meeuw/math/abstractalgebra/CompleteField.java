@@ -122,4 +122,8 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
         return x.sqrt();
     }
 
+    static <E extends CompleteFieldElement<E>> E arcsin(E x) {
+        return x.asin();
+    }
+
 }
