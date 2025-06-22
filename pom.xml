@@ -23,8 +23,6 @@
     <module>mihxil-algebra</module>
     <module>mihxil-shapes</module>
 
-    <module>math-test</module>
-
   </modules>
 
   <properties>
@@ -341,6 +339,7 @@
       </activation>
       <modules>
         <module>mihxil-math-test</module>
+        <module>math-test</module>
         <module>report-aggregation</module>
       </modules>
     </profile>
