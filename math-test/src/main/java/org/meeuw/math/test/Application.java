@@ -1,5 +1,7 @@
 package org.meeuw.math.test;
 
+import lombok.extern.java.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
@@ -15,9 +17,9 @@ import org.meeuw.physics.*;
 import static org.meeuw.math.DigitUtils.fromDigits;
 
 
+@Log
 public class Application {
 
-    static final Logger log = Logger.getLogger(Application.class.getName());
     static {
       // must set before the Logger
       // loads logging.properties from the classpath
@@ -30,8 +32,9 @@ public class Application {
       }
 
 
-    public static void main(String[] arg) {
-        permutation(arg);
+    public static void main(String[] arg) throws InterruptedException {
+        //permutation(arg);
+        measure(arg);
     }
 
     public static void permutation(String [] arg) {

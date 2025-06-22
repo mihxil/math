@@ -5,4 +5,5 @@ module mihxil.test {
     requires java.logging;
     requires org.meeuw.math.algebras;
     requires org.meeuw.math;
+    requires static lombok;
 }
