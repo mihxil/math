@@ -68,7 +68,7 @@ public class SVGDocument {
         return builder().build();
     }
 
-     /**
+    /**
      * Creates a DOM Document with the SVG root element and all groups added to this document.
      */
     public Document buildDocument() {

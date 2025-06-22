@@ -92,6 +92,13 @@ class IntegerUtilsTest {
     }
 
 
+    @Test
+    public void nextPrime() {
+        assertThat(IntegerUtils.nextPrime(1)).isEqualTo(2);
+        assertThat(IntegerUtils.nextPrime(13)).isEqualTo(17);
+    }
+
+
 
     @Test
     public void positivePower() {

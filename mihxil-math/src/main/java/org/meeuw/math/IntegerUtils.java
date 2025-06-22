@@ -16,8 +16,6 @@ import org.meeuw.math.text.TextUtils;
  */
 public final class IntegerUtils {
 
-
-
     /**
      * {@link BigInteger#TWO}, but for java 8.
      */
