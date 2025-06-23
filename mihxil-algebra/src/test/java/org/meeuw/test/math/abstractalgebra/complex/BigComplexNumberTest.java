@@ -106,7 +106,7 @@ class BigComplexNumberTest implements
         });
     }
 
-     @Test
+    @Test
     public void asinexample() {
         withLooseEquals(() -> {
             BigComplexNumber ex = BigComplexNumber.of("0.4 + 0.3i");
@@ -116,6 +116,17 @@ class BigComplexNumberTest implements
             assertThat(ex.asin().sin()).isEqualTo(ex);
         });
     }
+
+    @Test
+    public void asinreal() {
+        withLooseEquals(() -> {
+            BigComplexNumber ex = BigComplexNumber.of("1");
+            assertThat(ex.asin()).isEqualTo(
+                BigComplexNumber.of(String.valueOf(Math.asin(1)))
+            );
+        });
+    }
+
 
     @Override
     public Arbitrary<BigComplexNumber> elements() {

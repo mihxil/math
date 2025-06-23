@@ -120,8 +120,6 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         return null;
     }
 
-
-
     public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
     public static long NANOS_IN_MILLIS = 1_000_000;
     public static BigDecimal BIG_NANOS_IN_MILLIS = BigDecimal.valueOf(NANOS_IN_MILLIS);
@@ -143,19 +141,17 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
     @Override
     public Optional<Duration> optionalDurationValue() {
         return getOptionalBigMean()
-            .map(bd -> {
-                switch(mode) {
-                    case DURATION:
-                        return Duration
-                            .ofMillis(bd.longValue())
-                            .plusNanos(
-                                bd.remainder(BigDecimal.ONE).multiply(BIG_NANOS_IN_MILLIS).longValue()
-                            );
-                    case DURATION_NS:
-                        return Duration.ofNanos(bd.longValue());
-                    default: throw new IllegalStateException();
+            .map(bd ->
+                switch (mode) {
+                    case DURATION -> Duration
+                        .ofMillis(bd.longValue())
+                        .plusNanos(
+                            bd.remainder(BigDecimal.ONE).multiply(BIG_NANOS_IN_MILLIS).longValue()
+                        );
+                    case DURATION_NS -> Duration.ofNanos(bd.longValue());
+                    default -> throw new IllegalStateException();
                 }
-            });
+            );
     }
 
     public StatisticalLong add(long d) {
@@ -166,12 +162,11 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
     }
 
     private StatisticalLong _add(TemporalAmount d) {
-        switch (mode) {
-            case DURATION:
-            case INSTANT: return _add(toMillis(d));
-            case DURATION_NS: return _add( toNanos(d));
-            default: throw new IllegalStateException();
-        }
+        return switch (mode) {
+            case DURATION, INSTANT -> _add(toMillis(d));
+            case DURATION_NS -> _add(toNanos(d));
+            default -> throw new IllegalStateException();
+        };
     }
 
     private static long toMillis(TemporalAmount d) {

@@ -20,7 +20,7 @@ import lombok.Getter;
 import java.util.LongSummaryStatistics;
 
 /**
- * A 'statistical' number, can receive a number of values, and can calculate the average (the value of this {@link Number} implementation) and standard deviation of those values.
+ * A 'statistical' number can receive a number of values, and can calculate the average (the value of this {@link Number} implementation) and standard deviation of those values.
  *
  * @author Michiel Meeuwissen
  * @param <N> the type of the numbers to aggregate
