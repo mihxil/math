@@ -31,11 +31,9 @@ public class NotZeroValidator implements ConstraintValidator<NotZero, Object> {
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        if (value == null) {
-            return true; // null is valid
-        }
+
         if (value instanceof Number number) {
-            return number.longValue() != 0;
+            return number.doubleValue() != 0;
         }
         if (value instanceof ScalarFieldElement<?> number) {
             return ! number.isZero();
@@ -43,7 +41,7 @@ public class NotZeroValidator implements ConstraintValidator<NotZero, Object> {
         if (value instanceof SignedNumber<?> number) {
             return ! number.isZero();
         }
-        return false;
+        return true; // we don't know, so assume it is valid, it might be null
     }
 
 }
