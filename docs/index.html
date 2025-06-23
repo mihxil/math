@@ -1034,7 +1034,17 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">....
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.integers.ModuloFieldElement</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVGDocument</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainReal</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.defaultSVG</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainRealField.element</span>;
+
+
+....
 
 
 <span class="annotation">@ParameterizedTest</span>
