@@ -47,9 +47,9 @@ public class PlatonSolidTest {
     @ParameterizedTest
     @MethodSource("platonics")
     public void volume(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("Volume of {}: {}", platonicSolid, platonicSolid.surfaceArea());
+        log.info("Volume of {}: {}", platonicSolid, platonicSolid.volume());
         if (platonicSolid.platonicSolidEnum() == PlatonicSolidEnum.TETRAHEDRON) {
-            assertThat(platonicSolid.surfaceArea().doubleValue()).isEqualTo(6.928203230275511);
+            assertThat(platonicSolid.volume().doubleValue()).isEqualTo(0.9428090415820645);
         }
 
     }
