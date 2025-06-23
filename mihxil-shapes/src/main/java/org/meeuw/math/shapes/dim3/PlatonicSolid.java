@@ -61,7 +61,7 @@ public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedro
 
     @Override
     public F volume() {
-        return null;
+        return inradius().times(surfaceArea()).dividedBy(3);
     }
 
 
@@ -81,5 +81,10 @@ public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedro
 
     public Sphere<F> circumscribedSphere() {
         throw new UnsupportedOperationException("Circumscribed sphere not implemented for " + platonicSolidEnum);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s, edge size: %s", platonicSolidEnum.name(), size);
     }
 }
