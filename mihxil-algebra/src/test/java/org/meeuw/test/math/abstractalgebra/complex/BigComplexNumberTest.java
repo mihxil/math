@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
@@ -122,7 +123,7 @@ class BigComplexNumberTest implements
         withLooseEquals(() -> {
             BigComplexNumber ex = BigComplexNumber.of("1");
             assertThat(ex.asin()).isEqualTo(
-                BigComplexNumber.of(String.valueOf(Math.asin(1)))
+                BigComplexNumber.of(Utils.PI).dividedBy(2)
             );
         });
     }
