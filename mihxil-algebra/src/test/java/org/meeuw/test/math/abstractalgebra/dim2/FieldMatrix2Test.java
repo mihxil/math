@@ -114,7 +114,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
                 .map( l -> FieldMatrix2.of(
                     l.get(0), l.get(1),
                     l.get(2), l.get(3)
-                )
+                    )
                 )
             ;
     }

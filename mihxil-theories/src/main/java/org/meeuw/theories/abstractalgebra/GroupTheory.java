@@ -75,7 +75,7 @@ public interface GroupTheory<E extends GroupElement<E>>
             } catch (InverseException | IllegalPowerException ie) {
                 Assume.that(!BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
 
-                getLogger().info(ie.getMessage());
+                log().info(ie.getMessage());
             }
         });
     }

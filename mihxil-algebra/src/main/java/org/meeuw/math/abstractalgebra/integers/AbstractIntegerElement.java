@@ -15,13 +15,13 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.BigDecimalUtils;

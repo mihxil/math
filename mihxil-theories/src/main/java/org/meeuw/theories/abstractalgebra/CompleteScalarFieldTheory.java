@@ -67,7 +67,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         if (e.isZero()) {
             if (exponent.isNegative()) {
                 assertThatThrownBy(() -> {
-                        getLogger().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent));
+                        log().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent));
                     }
                 ).isInstanceOfAny(
                     OverflowException.class,
@@ -78,7 +78,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         }
         try {
             E pow = e.pow(exponent);
-            getLogger().info("{} = {}", POWER.stringify(e, exponent), pow);
+            log().info("{} = {}", POWER.stringify(e, exponent), pow);
             double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
             assertThat(pow.doubleValue())
                 //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
@@ -88,7 +88,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
                         uncertaintyForDouble(expected)))
                 );
         } catch (OverflowException illegalPowerException) {
-            getLogger().warn("{} = {}", POWER.stringify(e, exponent), illegalPowerException.getMessage());
+            log().warn("{} = {}", POWER.stringify(e, exponent), illegalPowerException.getMessage());
         }
     }
 }

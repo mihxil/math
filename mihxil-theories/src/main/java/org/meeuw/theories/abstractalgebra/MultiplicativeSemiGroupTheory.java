@@ -84,7 +84,8 @@ public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroup
 
 
     @Property
-    default void pow0(
+    default void
+    pow0(
         @ForAll(ELEMENTS) E v1
     )  {
         assertThatThrownBy(() -> v1.pow(0)).isInstanceOf(IllegalPowerException.class);

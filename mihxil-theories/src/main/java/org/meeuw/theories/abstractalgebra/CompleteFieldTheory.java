@@ -59,10 +59,10 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                 .withFailMessage(POWER.stringify(a, b) + " = " + pow + " ≠ " + expectedPow
                 ).isTrue();
         } catch (OverflowException overflowException) {
-            getLogger().info(overflowException.getMessage());
+            log().info(overflowException.getMessage());
         } catch (IllegalLogarithmException illegalLogException){
             Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
-            getLogger().warn(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
+            log().warn(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
 
 
             assertThat(nonalgebraicOptional)

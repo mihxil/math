@@ -57,7 +57,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         E v00, E v01,
         E v10, E v11
         ) {
-        E[][] fs = (E[][]) Array.newInstance(clazz, 3, 3);
+        E[][] fs = (E[][]) Array.newInstance(clazz, 2, 2);
         fs[0][0]  = v00;
         fs[0][1]  = v01;
 
@@ -71,7 +71,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
 
     }
 
-    public FieldMatrix2(@Square(3) E[][] values) {
+    public FieldMatrix2(@Square(2) E[][] values) {
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
         this.zero = this.elementStructure.zero();

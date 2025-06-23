@@ -173,7 +173,7 @@ public class Matrix2 implements
         return "(" + Arrays.stream(asVectors()).map(Vector2::toString).collect(Collectors.joining(", ")) + ")";
     }
 
-    @Square(3)
+    @Square(2)
     public double[][] getValues() {
         return Arrays.stream(values).map(double[]::clone).toArray(double[][]::new);
     }

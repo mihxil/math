@@ -15,10 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Positive;
-
 import java.math.BigInteger;
 
+import org.checkerframework.checker.index.qual.Positive;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.*;

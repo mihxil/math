@@ -2,12 +2,12 @@ package org.meeuw.theories;
 
 
 import java.util.*;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -156,7 +156,7 @@ public interface BasicObjectTheory<E> {
             .injectDuplicates(0.5)
             .sampleStream()
             .limit(1000)
-            .collect(Collectors.toList());
+            .toList();
         final java.util.Set<Tuple2<E, E>> setToReturn = new HashSet<>();
         final List<E> check = new ArrayList<>();
         for (E e : samples) {
@@ -188,7 +188,14 @@ public interface BasicObjectTheory<E> {
     }
 
     default Logger log() {
-        return Logger.getLogger(getClass().getName());
+        return LogManager.getLogger(this.getClass());
     }
+    @Deprecated
+    default Logger getLogger() {
+        return log();
+    }
+
+
+
 
 }

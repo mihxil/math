@@ -15,8 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.PositiveOrZero;
 
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
@@ -39,7 +40,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
      * @see  BasicAlgebraicIntOperator#POWER
      */
     @Override
-    default E pow(@Min(0) int exponent) {
+    default E pow(@NonNegative int exponent) {
         if (exponent < 0) {
             throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Integer.toString(exponent)));
         }
@@ -57,7 +58,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
      * @param exponent
      * @return
      */
-    default E pow(@Min(0) long exponent) {
+    default E pow(@PositiveOrZero long exponent) {
         if (exponent < 0) {
             throw new IllegalPowerException("Negative power", BasicAlgebraicIntOperator.POWER.stringify(toString(), Long.toString(exponent)));
         }

@@ -15,15 +15,13 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Positive;
-
 import java.math.BigInteger;
 
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
+import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
@@ -35,7 +33,7 @@ import org.meeuw.math.numbers.Scalar;
 public class Square
     extends AbstractIntegerElement<Square, Square, Squares>
     implements
-    MultiplicativeSemiGroupElement<Square>,
+    MultiplicativeMonoidElement<Square>,
     Scalar<Square> {
 
     public static final Square ZERO = new Square(BigInteger.ZERO);
@@ -62,10 +60,7 @@ public class Square
     }
 
     @Override
-    public Square pow(@Positive int exponent) {
-        if (exponent == 0) {
-            throw new IllegalPowerException("Cannot raise to 0",  this + "^0");
-        }
+    public Square pow(@NonNegative int exponent) {
         return super.pow(exponent);
     }
 

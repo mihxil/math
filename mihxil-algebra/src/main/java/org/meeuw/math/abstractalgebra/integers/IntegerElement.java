@@ -15,10 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.PositiveOrZero;
-
 import java.math.BigInteger;
 
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -76,7 +75,7 @@ public class IntegerElement
     }
 
     @Override
-    public IntegerElement pow(@PositiveOrZero int exponent) throws IllegalPowerException  {
+    public IntegerElement pow(@NonNegative int exponent) throws IllegalPowerException  {
         return with(IntegerUtils.positivePow(value, exponent));
     }
 

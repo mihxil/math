@@ -21,8 +21,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.*;
-import org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup;
-import org.meeuw.math.abstractalgebra.RandomConfiguration;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.BasicFunction;
 import org.meeuw.math.operators.GenericFunction;
@@ -40,7 +39,7 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 @Example(MultiplicativeAbelianSemiGroup.class)
 @Singleton
 public class Squares extends AbstractIntegers<Square, Square, Squares>
-    implements MultiplicativeAbelianSemiGroup<Square> {
+    implements MultiplicativeMonoid<Square> {
 
     /**
      * This is the singleton instance of this class. Even integers are a singleton, as they are not parametrized in any way.
@@ -75,6 +74,7 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
         return Square.ZERO;
     }
 
+    @Override
     public Square one() {
         return Square.ONE;
     }

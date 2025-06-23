@@ -15,8 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
+import org.checkerframework.checker.index.qual.Positive;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.exceptions.IllegalPowerException;
 
@@ -105,7 +106,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * @see #pow(int)
      */
     @SuppressWarnings({"unchecked"})
-    default E pow(@Positive long exponent) throws IllegalPowerException{
+    default E pow(@PositiveOrZero long exponent) throws IllegalPowerException{
         if (exponent < 0) {
             throw new IllegalPowerException("Not defined for negative exponents", POWER.stringify(toString(), Long.toString(exponent)));
         }

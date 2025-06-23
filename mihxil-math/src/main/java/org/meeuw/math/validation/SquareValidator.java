@@ -19,6 +19,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.Setter;
 
+import java.lang.reflect.Array;
 import java.util.Collection;
 
 import org.meeuw.math.IntegerUtils;
@@ -95,13 +96,14 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
             Class<?> aClass = value.getClass().getComponentType();
             final Object[] arrayValue = (Object[]) value;
             if (aClass.isArray()) {
-                final Object[][] v = (Object[][])  arrayValue;
+
                 toValidate = 0;
-                for (Object[] sv : v) {
-                    if (sv.length != arrayValue.length) {
+                for (Object sv : arrayValue) {
+                    var length = Array.getLength(sv);
+                    if (length != arrayValue.length) {
                         throw new NotASquareException("not a square");
                     }
-                    toValidate += sv.length;
+                    toValidate += length;
                 }
             } else {
                 toValidate = ((Object[]) value).length;

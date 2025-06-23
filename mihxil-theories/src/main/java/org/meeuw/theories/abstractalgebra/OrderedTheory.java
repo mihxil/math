@@ -41,7 +41,7 @@ public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrd
             try {
                 orderedTransitiveImpl(a, b, c);
             } catch (AssertionFailedError afe) {
-                getLogger().info(afe.getMessage());
+                log().info(afe.getMessage());
             }
         }
     }
@@ -54,7 +54,7 @@ public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrd
                     // a <= b, b <= c ->  a <= c
                     assertThat(a.lte(c)).withFailMessage("%s <= %s and %s <= %s -> %s <= %s", a, b, b, c, a, c).isTrue();
                 } else {
-                    getLogger().debug("a <= b,  c <=  b");
+                    log().debug("a <= b,  c <=  b");
                 }
             } else {
                 // b < a
@@ -63,7 +63,7 @@ public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrd
                     assertThat(b.lt(c)).withFailMessage("%s < %s and %s < %s -> %s < %s", b, a, a, c, b, c).isTrue();
                 } else {
                     // b < a, a > c
-                    getLogger().debug("b > a,  a < c");
+                    log().debug("b > a,  a < c");
                 }
             }
         } catch (NotComparableException ncp) {

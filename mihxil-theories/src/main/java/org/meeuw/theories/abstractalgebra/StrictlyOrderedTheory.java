@@ -43,7 +43,7 @@ public interface StrictlyOrderedTheory<E extends StrictlyOrdered<E>> extends Ele
                     // a < b, b < c ->  a < c
                     assertThat(a.lt(c)).withFailMessage("%s < %s and %s = %s -> %s < %s", a, b, b, c, a, c).isTrue();
                 } else {
-                    getLogger().debug("a < b,   b !<  c");
+                    log().debug("a < b,   b !<  c");
                 }
             } else if (b.lt(a)) {
                 // b < a
@@ -52,7 +52,7 @@ public interface StrictlyOrderedTheory<E extends StrictlyOrdered<E>> extends Ele
                     assertThat(b.lt(c)).withFailMessage("%s < %s and %s < %s -> %s < %s", b, a, a, c, b, c).isTrue();
                 } else {
                     // b < a, a > c
-                    getLogger().debug("b > a,  a < c");
+                    log().debug("b > a,  a < c");
                 }
             }
         } catch (NotComparableException ncp) {

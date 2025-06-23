@@ -41,7 +41,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
             try {
                 assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
             } catch (ReciprocalException ae) {
-                getLogger().debug("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
+                log().debug("{} * {} / {} -> {}", e, scalar, scalar, ae.getMessage());
             }
             //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
         });

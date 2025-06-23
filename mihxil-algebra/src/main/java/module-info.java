@@ -49,6 +49,16 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.padic;
     exports org.meeuw.math.abstractalgebra.padic.impl;
 
+    opens org.meeuw.math.abstractalgebra.dim3 to org.hibernate.validator;
+    opens org.meeuw.math.abstractalgebra.dim2 to org.hibernate.validator;
+    opens org.meeuw.math.abstractalgebra.strings to org.hibernate.validator;
+    opens org.meeuw.math.abstractalgebra.linear to org.hibernate.validator;
+    opens org.meeuw.math.abstractalgebra.rationalnumbers to org.hibernate.validator;
+
+
+
+
+
     uses AlgebraicElementFormatProvider;
 
     provides AlgebraicElementFormatProvider with PermutationFormatProvider;

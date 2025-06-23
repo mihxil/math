@@ -42,7 +42,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
                 assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
 
             } catch (DivisionByZeroException divisionByZeroException) {
-                getLogger().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
+                log().info("{} / {} -> {}", v1, divisor, divisionByZeroException.getMessage());
                 assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
             }
         });

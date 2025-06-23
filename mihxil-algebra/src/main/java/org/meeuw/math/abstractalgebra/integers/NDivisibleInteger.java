@@ -15,10 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import jakarta.validation.constraints.Positive;
-
 import java.math.BigInteger;
 
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.abstractalgebra.RngElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -70,7 +69,7 @@ public class NDivisibleInteger
     }
 
     @Override
-    public NDivisibleInteger pow(@Positive int exponent) {
+    public NDivisibleInteger pow(@NonNegative int exponent) {
         if (exponent == 0 && structure.divisor != 1) {
             throw new IllegalPowerException("Cannot raise to 0", this + "^0");
         }

@@ -23,6 +23,7 @@ import org.assertj.core.api.Assertions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.meeuw.theories.BasicObjectTheory;
+import org.meeuw.theories.ValidObjectTheory;
 
 /**
  * The connection between {@link BasicObjectTheory} and algebra testing.
@@ -31,7 +32,7 @@ import org.meeuw.theories.BasicObjectTheory;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface ElementTheory<E>  extends BasicObjectTheory<E> {
+public interface ElementTheory<E>  extends ValidObjectTheory<E> {
 
     String ELEMENTS = "elements";
 
@@ -45,9 +46,6 @@ public interface ElementTheory<E>  extends BasicObjectTheory<E> {
     Arbitrary<E> elements();
 
 
-    default Logger getLogger() {
-        return LogManager.getLogger(this.getClass());
-    }
 
     @Override
     default Arbitrary<E> datapoints() {
