@@ -5,16 +5,20 @@ import lombok.extern.java.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.windowed.WindowedEventRate;
 import org.meeuw.math.windowed.WindowedStatisticalLong;
 import org.meeuw.physics.*;
 
 import static org.meeuw.math.DigitUtils.fromDigits;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 
 @Log
@@ -33,7 +37,12 @@ public class Application {
 
 
     public static void main(String[] arg) throws InterruptedException {
-        //permutation(arg);
+        System.out.println("Starting application with args: " + String.join(", ", arg));
+        System.out.println("===\npermutation===");
+        permutation(arg);
+        System.out.println("===\ncomplex===");
+        complex(arg);
+        System.out.println("===\nmeasure===");
         measure(arg);
     }
 
@@ -46,6 +55,14 @@ public class Application {
                 .map(p -> fromDigits(p.permuteInts(digits)))
                 .reduce(0L, Long::sum))
         );
+    }
+
+      public static void complex(String [] arg) {
+
+          GaussianRational complex1 = GaussianRational.of(RationalNumber.of(1, 2), RationalNumber.of(3, 4));
+
+          GaussianRational square = complex1.sqr();
+          log.info(SQR.stringify(complex1) + "=" + square);
     }
 
     public static void measure(String[] arg) throws InterruptedException {

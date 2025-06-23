@@ -41,7 +41,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      */
     IDENTIFY(
         getDeclaredMethod(AlgebraicElement.class, "self"),
-        (s) -> s.length() > 0 && s.charAt(0) == '+' ? s : "+" + s
+        (s) -> !s.isEmpty() && s.charAt(0) == '+' ? s : "+" + s
     ),
 
     /**
@@ -49,7 +49,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      */
     NEGATION(
         getDeclaredMethod(AdditiveGroupElement.class, "negation"),
-        (s) -> s.length() > 0 && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
+        (s) -> !s.isEmpty() && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
     /**
      * @see MultiplicativeGroupElement#reciprocal()
@@ -72,7 +72,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      */
     SQR(
         getDeclaredMethod(MultiplicativeSemiGroupElement.class, "sqr"),
-        (s) -> s + superscript(2)
+        (s) -> (s.toString().contains(" ") ? "(" + s  + ")" : s ) + superscript(2)
     ),
 
 
