@@ -126,7 +126,7 @@ public final class IntegerUtils {
     }
     public static boolean isSquare(final BigInteger radicand) {
         BigInteger[] proposal = radicand.sqrtAndRemainder();
-        return proposal[1].equals(BigInteger.ZERO) && !proposal[0].equals(BigInteger.ZERO);
+        return proposal[1].equals(BigInteger.ZERO);
     }
 
     /**

@@ -138,7 +138,12 @@ class IntegerUtilsTest {
 
    @Test
    public void timeTest() {
-          {
+       {// warm up
+           for (int i = 0; i < 10000000; i++) {
+               BigInteger.valueOf(9223372036854775806L - i).sqrt().longValueExact();
+           }
+       }
+       {
            long start = System.currentTimeMillis();
            for (int i = 0; i < 10000000; i++) {
                BigInteger.valueOf(9223372036854775806L - i).sqrt().longValueExact();
@@ -151,7 +156,7 @@ class IntegerUtilsTest {
            for (int i = 0; i < 10000000; i++) {
                IntegerUtils.floorSqrt(9223372036854775806L - i);
            }
-           log.info("Time for 1 million floorSqrt calls: {} ms", System.currentTimeMillis() - start);
+           log.info("Time for 1 million floorSqrt calls (using IntegerUtils): {} ms", System.currentTimeMillis() - start);
        }
 
 

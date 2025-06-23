@@ -68,10 +68,14 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
         return new Square(value);
     }
 
-
     public Square zero() {
         return Square.ZERO;
     }
+
+    public Square one() {
+        return Square.ONE;
+    }
+
 
     @Override
     public Stream<Square> stream() {
@@ -94,10 +98,7 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
         return of(valueOf(RandomConfiguration.nextLong(random) * 2));
     }
 
-    @Override
-    public boolean multiplicationIsCommutative() {
-        return true;
-    }
+
 
     @Override
     public String toString() {

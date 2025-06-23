@@ -17,16 +17,16 @@ package org.meeuw.test.math.abstractalgebra.integers;
 
 import java.util.stream.Collectors;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.integers.Square;
 import org.meeuw.math.abstractalgebra.integers.Squares;
 import org.meeuw.theories.abstractalgebra.MultiplicativeAbelianSemiGroupTheory;
 import org.meeuw.theories.numbers.SizeableScalarTheory;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.IntegerUtils.MAX_SQUARABLE;
 
 /**
@@ -38,6 +38,18 @@ class SquareTest implements
     SizeableScalarTheory<Square, Square> {
 
 
+    @Test
+    public void zero() {
+        assertThat(Squares.INSTANCE.zero().times(Squares.INSTANCE.one()).longValue()).isEqualTo(Squares.INSTANCE.zero().longValue());
+    }
+
+    @Property
+    public void resultIsSquare(@ForAll("elements") Square square, @ForAll("elements") Square other) {
+        assertThat(square.times(other).bigIntegerValue()).isEqualTo(square.bigIntegerValue().multiply(other.bigIntegerValue())
+            );
+        assertThat(IntegerUtils.isSquare(square.times(other).bigIntegerValue())).isTrue();
+    }
+
 
     @Override
     public Arbitrary<Square> elements() {
@@ -45,12 +57,17 @@ class SquareTest implements
 
             var l = Math.abs(random.nextLong()) % (MAX_SQUARABLE + 1); // ensure positive
             return Square.of(l * l); // ensure even
-        });
+        }).dontShrink().edgeCases(c ->
+            {
+                c.add(Square.ZERO);
+                c.add(Square.ONE);
+            }
+        );
     }
 
     @Test
     void stream() {
-        Assertions.assertThat(Squares.INSTANCE.stream().limit(11).map(Square::longValue)
+        assertThat(Squares.INSTANCE.stream().limit(11).map(Square::longValue)
             .collect(Collectors.toList())).containsExactly(0L, 1L, 4L, 9L, 16L, 25L, 36L, 49L, 64L, 81L, 100L);
     }
 

@@ -37,7 +37,7 @@ public class Square
     Scalar<Square> {
 
     public static final Square ZERO = new Square(BigInteger.ZERO);
-    public static final Square TWO = new Square(IntegerUtils.TWO);
+    public static final Square ONE = new Square(BigInteger.ONE);
 
 
     public static Square of(BigInteger value) throws InvalidElementCreationException {
@@ -52,14 +52,7 @@ public class Square
 
     Square(BigInteger value) {
         super(Squares.INSTANCE, value);
-
     }
-
-
-    public OddInteger plus(OddInteger summand) {
-        return new OddInteger(value.add(summand.getValue()));
-    }
-
 
     @Override
     public Square times(Square multiplier) {
