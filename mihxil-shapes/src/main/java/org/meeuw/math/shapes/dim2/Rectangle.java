@@ -157,14 +157,9 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      *
      * @return the length of the diagonal
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @NonExact(value = "Diagonal can only be computed well for complete scalar fields", strategy = NonExact.Strategy.EXCEPTION)
     public E diagonal() {
-        if (field instanceof CompleteScalarField) {
-            return (E) ((CompleteScalarFieldElement) width.sqr().plus(height.sqr())).sqrt();
-        } else {
-            throw new FieldIncompleteException("Field of " + this + " is not complete, so sqrt cannot be computed");
-        }
+        return width.sqr().plus(height.sqr()).sqrt();
     }
 
     /**

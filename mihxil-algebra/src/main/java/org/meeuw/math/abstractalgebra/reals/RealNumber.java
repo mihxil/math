@@ -240,6 +240,14 @@ public class RealNumber
     }
 
     @Override
+    public RealNumber tan() {
+        UncertainNumber<Double> tan = operations().tan(value);
+
+        return immutableInstanceOfPrimitives(
+            tan.getValue(), max(uncertainty, tan.getUncertainty()));
+    }
+
+    @Override
     public RealNumber distanceTo(RealNumber otherElement) {
         return minus(otherElement).abs();
     }

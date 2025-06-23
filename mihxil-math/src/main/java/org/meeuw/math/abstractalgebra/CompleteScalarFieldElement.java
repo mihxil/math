@@ -32,4 +32,9 @@ public interface CompleteScalarFieldElement
     @Override
     CompleteScalarField<E> getStructure();
 
+    @Override
+    default E tan() {
+        return CompleteFieldElement.super.tan();
+    }
+
 }

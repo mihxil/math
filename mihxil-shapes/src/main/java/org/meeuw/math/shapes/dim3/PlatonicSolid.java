@@ -1,13 +1,23 @@
 package org.meeuw.math.shapes.dim3;
 
+import lombok.Getter;
+
+import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
+@Getter
 public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedron<F, PlatonicSolid<F>> {
 
     private final PlatonicSolidEnum platonicSolidEnum;
 
-    public PlatonicSolid(PlatonicSolidEnum platonicSolidEnum) {
+    private final ScalarField<F> field;
+    private final F size;
+
+
+    public PlatonicSolid(PlatonicSolidEnum platonicSolidEnum, F size) {
         this.platonicSolidEnum = platonicSolidEnum;
+        this.size = size;
+        this.field = size.getStructure();
     }
 
     @Override
@@ -26,8 +36,27 @@ public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedro
     }
 
     public F dihedralAngle() {
+        var p = platonicSolidEnum.p();
+        var q = platonicSolidEnum.q();
+        return
+            ((field.pi().dividedBy(q)).cos())
+                .dividedBy(
+                    field.pi().dividedBy(p).sin()
+                ).asin().times(2);
+    }
 
-        return null; // TODO: implement dihedral angle calculation
+    public F inradius() {
+        var theta = dihedralAngle();
+        return size().dividedBy(2).dividedBy(
+            field.pi().dividedBy(platonicSolidEnum.p()).tan()
+        ).times(theta.dividedBy(2).tan());
+    }
+
+    public F circumradius() {
+        var theta = dihedralAngle();
+        return size().dividedBy(2).times(
+            field.pi().dividedBy(platonicSolidEnum.q()).tan()
+        ).times(theta.dividedBy(2).tan());
     }
 
     @Override
@@ -35,9 +64,12 @@ public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedro
         return null;
     }
 
+
+
     @Override
     public F surfaceArea() {
-        return null;
+        return size().dividedBy(2).sqr().times((long) faces() * platonicSolidEnum.p())
+            .dividedBy(field.pi().dividedBy(platonicSolidEnum.p()).tan());
     }
 
 

@@ -46,6 +46,9 @@ public interface UncertainReal
     @Override
     UncertainReal plus(UncertainReal summand);
 
+    @Override
+    UncertainReal tan();
+
     /**
      * For uncertain elements, an element is only zero if its value is {@link #isExact()}
      * and of course {@code 0}.

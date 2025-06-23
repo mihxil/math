@@ -253,6 +253,12 @@ public class UncertainDoubleElement
     }
 
     @Override
+    public UncertainDoubleElement tan() {
+        UncertainNumber<Double> tan = operations().tan(value);
+        return of(tan.getValue(), Math.max(uncertainty, tan.getUncertainty()));
+    }
+
+    @Override
     public UncertainReal pow(UncertainReal exponent) throws OverflowException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {

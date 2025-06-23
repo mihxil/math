@@ -29,8 +29,7 @@ import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.numbers.MathContextConfiguration;
-import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.NotZero;
@@ -69,6 +68,13 @@ public class RationalNumber extends Number
 
     public static RationalNumber of(long longValue) {
         return of(longValue, 1);
+    }
+
+
+    public static RationalNumber of(BigDecimal bigDecimal) {
+        bigDecimal = bigDecimal.stripTrailingZeros();
+        BigInteger denominator = BigInteger.TEN.pow(bigDecimal.scale());
+        return of(bigDecimal.scaleByPowerOfTen(bigDecimal.scale()).toBigIntegerExact(),  denominator);
     }
 
     RationalNumber(@NonNull BigInteger numerator, @NonNull @NotZero BigInteger denominator) throws InvalidElementCreationException {
@@ -128,6 +134,37 @@ public class RationalNumber extends Number
     @Override
     public boolean isZero() {
         return numerator.equals(BigInteger.ZERO);
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public RationalNumber sin() {
+        return of(BigDecimalOperations.INSTANCE.sin(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public RationalNumber asin() {
+        return of(BigDecimalOperations.INSTANCE.asin(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public RationalNumber cos() {
+        return of(BigDecimalOperations.INSTANCE.cos(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    public RationalNumber tan() {
+        return of(BigDecimalOperations.INSTANCE.tan(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    public RationalNumber sqrt() {
+        return of(BigDecimalOperations.INSTANCE.sqrt(bigDecimalValue()).getValue());
     }
 
     @Override

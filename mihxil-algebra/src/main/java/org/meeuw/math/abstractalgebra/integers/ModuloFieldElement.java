@@ -20,6 +20,7 @@ import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.validation.NotZero;
 
 /**
@@ -97,5 +98,30 @@ public class ModuloFieldElement
     @Override
     public ModuloFieldElement abs() {
         return this;
+    }
+
+    @Override
+    public ModuloFieldElement sin() {
+        throw new FieldIncompleteException("Sine not implemented for " + getStructure());
+    }
+
+    @Override
+    public ModuloFieldElement asin() {
+        throw new FieldIncompleteException("Arcsine not implemented for " + getStructure());
+    }
+
+    @Override
+    public ModuloFieldElement cos() {
+        throw new FieldIncompleteException("Cosine not implemented for " + getStructure());
+    }
+
+    @Override
+    public ModuloFieldElement tan() {
+        throw new FieldIncompleteException("Tangent not implemented for " + getStructure());
+    }
+
+    @Override
+    public ModuloFieldElement sqrt() {
+        throw new FieldIncompleteException("sqrt not implemented for " + getStructure());
     }
 }

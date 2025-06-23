@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.*;
 import org.meeuw.math.numbers.Scalar;
 
 /**
@@ -36,5 +36,31 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
     default boolean isZero() {
         return FieldElement.super.isZero();
     }
+
+    /**
+     * Returns the sine of this element
+     *
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SIN
+     */
+    @NonExact
+    E sin();
+
+    @NonAlgebraic("Only calculable for numbers between -1 and 1")
+    E asin();
+
+    /**
+     * Returns the cosine of this element
+     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS
+     */
+    @NonAlgebraic
+    E cos();
+
+    @NonAlgebraic
+    E tan();
+
+
+    @NonAlgebraic
+    E sqrt();
+
 
 }
