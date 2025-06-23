@@ -161,6 +161,11 @@ public abstract class AbstractStatisticalDouble
         UncertainNumber<Double> cos = operations.cos(doubleValue());
         return immutableInstance(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
     }
+    @Override
+    public UncertainReal tan() {
+        UncertainNumber<Double> tan = operations.tan(doubleValue());
+        return immutableInstance(tan.getValue(), Math.max(doubleUncertainty(), tan.getValue()));
+    }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
