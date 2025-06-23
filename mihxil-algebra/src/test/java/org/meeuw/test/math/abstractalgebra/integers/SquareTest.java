@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.integers.Square;
 import org.meeuw.math.abstractalgebra.integers.Squares;
+import org.meeuw.theories.abstractalgebra.MultiplicativeAbelianSemiGroupTheory;
 import org.meeuw.theories.abstractalgebra.MultiplicativeMonoidTheory;
 import org.meeuw.theories.numbers.SizeableScalarTheory;
 
@@ -37,6 +38,7 @@ import static org.meeuw.math.IntegerUtils.MAX_SQUARABLE;
  */
 class SquareTest implements
     MultiplicativeMonoidTheory<Square>,
+    MultiplicativeAbelianSemiGroupTheory<Square>,
     SizeableScalarTheory<Square, Square> {
 
 

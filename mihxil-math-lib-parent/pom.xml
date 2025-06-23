@@ -112,8 +112,7 @@
           <source>${java.version}</source>
           <target>${java.version}</target>
           <compilerArgs>
-            <arg>-AprintErrorStack</arg>
-            <arg>-Awarns</arg>
+
           </compilerArgs>
           <annotationProcessorPaths>
             <path>

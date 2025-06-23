@@ -51,12 +51,12 @@
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
-      <scope>optional</scope>
+      <!--scope>optional</scope-->
     </dependency>
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <scope>optional</scope>
+      <!--scope>optional</scope-->
     </dependency>
   </dependencies>
 </project>

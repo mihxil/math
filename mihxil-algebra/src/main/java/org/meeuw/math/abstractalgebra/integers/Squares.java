@@ -36,17 +36,17 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(MultiplicativeAbelianSemiGroup.class)
+@Example(MultiplicativeMonoid.class)
 @Singleton
 public class Squares extends AbstractIntegers<Square, Square, Squares>
-    implements MultiplicativeMonoid<Square> {
+    implements MultiplicativeMonoid<Square>, MultiplicativeAbelianSemiGroup<Square> {
 
     /**
      * This is the singleton instance of this class. Even integers are a singleton, as they are not parametrized in any way.
      */
     public static final Squares INSTANCE = new Squares();
 
-    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(MultiplicativeAbelianSemiGroup.FUNCTIONS, BasicFunction.ABS);
+    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(MultiplicativeMonoid.FUNCTIONS, BasicFunction.ABS);
 
     private Squares() {
         super(Square.class);
