@@ -65,7 +65,10 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
 
     @Override
     public Square newElement(BigInteger value) throws InvalidElementCreationException {
-        return new Square(value);
+        if (!IntegerUtils.isSquare(value)) {
+            throw new InvalidElementCreationException("The argument must be a square (" + value + " isn't)");
+        }
+        return of(value);
     }
 
     public Square zero() {
@@ -77,11 +80,12 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
     }
 
 
+
     @Override
     public Stream<Square> stream() {
 
         return  Stream.iterate(BigInteger.ZERO, (i) -> i.add(ONE))
-            .map(i -> new Square(i.multiply(i)));
+            .map(i -> of(i.multiply(i)));
 
     }
 

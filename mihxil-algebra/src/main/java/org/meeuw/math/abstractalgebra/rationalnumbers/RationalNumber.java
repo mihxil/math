@@ -33,6 +33,7 @@ import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.validation.NotZero;
 
 /**
  * A rational number is implemented using two {@link BigInteger big integers}, one for the numerator, one for denominator
@@ -53,12 +54,12 @@ public class RationalNumber extends Number
     private final @NotNull BigInteger numerator;
     private final @NotNull @Positive BigInteger denominator;
 
-    public static RationalNumber of(long numerator, long denominator) {
+    public static RationalNumber of(long numerator, @NotZero long denominator) {
         return new RationalNumber(BigInteger.valueOf(numerator), BigInteger.valueOf(denominator));
     }
 
     public static RationalNumber of(@NotNull BigInteger numerator, @NotNull
-        @Positive @Negative BigInteger denominator) {
+        @NotZero BigInteger denominator) {
         return new RationalNumber(numerator, denominator);
     }
 
@@ -70,7 +71,7 @@ public class RationalNumber extends Number
         return of(longValue, 1);
     }
 
-    RationalNumber(@NonNull BigInteger numerator, @NonNull BigInteger denominator) throws InvalidElementCreationException {
+    RationalNumber(@NonNull BigInteger numerator, @NonNull @NotZero BigInteger denominator) throws InvalidElementCreationException {
         if (denominator.equals(BigInteger.ZERO)) {
             throw new InvalidElementCreationException("Denominator cannot be zero");
         }

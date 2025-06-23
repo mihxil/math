@@ -20,7 +20,9 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigInteger;
 
 import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
@@ -77,5 +79,17 @@ public class Square
         return of(value.abs());
     }
 
+    @NonAlgebraic
+    public PositiveInteger plus(Square summand)  {
+        return new PositiveInteger(value.add(summand.value));
+    }
+
+    @NonAlgebraic
+    public IntegerElement minus(Square summand)  {
+        return new IntegerElement(value.subtract(summand.value));
+    }
+    public RationalNumber dividedBy(Square divisor) {
+        return RationalNumber.of(value, divisor.value);
+    }
 
 }
