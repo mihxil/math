@@ -18,11 +18,11 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.meeuw.math.*;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeAbelianSemiGroup;
+import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.BasicFunction;
 import org.meeuw.math.operators.GenericFunction;
@@ -79,17 +79,9 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
 
     @Override
     public Stream<Square> stream() {
-        return  Stream.generate(new Supplier<BigInteger>() {
-            BigInteger l = BigInteger.ZERO;
 
-            @Override
-            public BigInteger get() {
-                var i = l.add(ONE);
-                var result = l.multiply(l);
-                l = l.add(ONE);
-                return result;
-            }
-        }).map(this::of);
+        return  Stream.iterate(BigInteger.ZERO, (i) -> i.add(ONE))
+            .map(i -> new Square(i.multiply(i)));
 
     }
 

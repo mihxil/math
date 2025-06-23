@@ -15,7 +15,9 @@
  */
 package org.meeuw.test.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -67,8 +69,27 @@ class SquareTest implements
 
     @Test
     void stream() {
-        assertThat(Squares.INSTANCE.stream().limit(11).map(Square::longValue)
-            .collect(Collectors.toList())).containsExactly(0L, 1L, 4L, 9L, 16L, 25L, 36L, 49L, 64L, 81L, 100L);
+        assertThat(Stream.concat(Squares.INSTANCE.stream()
+            .limit(11),
+            Squares.INSTANCE.stream().skip(100_000_000).limit(3)
+            ).map(Square::bigIntegerValue)
+            .map(BigInteger::toString)
+            .collect(Collectors.toList())).containsExactly(
+                "0",
+            "1",
+            "4",
+            "9",
+            "16",
+            "25",
+            "36",
+            "49",
+            "64",
+            "81",
+            "100",
+            "10000000000000000", // todo this takes considerable time, but skipping should have been simple!
+            "10000000200000001",
+            "10000000400000004"
+        );
     }
 
 }
