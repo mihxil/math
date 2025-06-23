@@ -15,6 +15,8 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
+import lombok.extern.log4j.Log4j2;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
@@ -26,12 +28,15 @@ import org.meeuw.theories.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQRT;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
+
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.8
  */
+@Log4j2
 class BigComplexNumberTest implements
     CompleteFieldTheory<BigComplexNumber>,
     MetricSpaceTheory<BigComplexNumber, BigDecimalElement>,
@@ -49,11 +54,21 @@ class BigComplexNumberTest implements
         assertThat(BigComplexNumber.of(BigDecimalElement.ONE)).isEqualTo(BigComplexNumber.of(BigDecimalElement.ONE, BigDecimalElement.ZERO));
     }
 
+    @Test
+    public void sqrt() {
+        BigComplexNumber a = BigComplexNumber.of("0.93 - 0.24i");
+        BigComplexNumber s = a.sqrt();
+        log.info("{} = {}", SQRT.stringify(a), s);
+        assertThat(s).isEqualTo(
+            BigComplexNumber.of("0.9722316173666970657425912469437875253699116940133041752687870355356957277102731598795197032865742360 - 0.1234273786785721682678705937060281380123926735849942471609379264448153198764290187034913427341540813i")
+        );
+
+
+    }
+
 
     @Test
     public void tetration() {
-
-
         withLooseEquals(() -> {
             BigComplexNumber i = BigComplexNumber.of( "i");
             assertThat(i.tetration(1)).isEqualTo(i);
@@ -77,6 +92,28 @@ class BigComplexNumberTest implements
             assertThat(mi.tetration(4)).isEqualTo(
                 BigComplexNumber.of(".050092236109321075325057857667404946468201913766929482251191903794255108466570245223267516389354812588592387618207418313011412671583091915593513930380985112553213035843274365368782823138559170316757475 - 0.60211652703600378785675053054092402757580126795341617146912039064405965761446533166149876455748874894091972947073733788769473802085944138985142758564968985377506548603564612677376823835793273631198015i")
             );
+        });
+    }
+
+    @Test
+    public void asini() {
+        withLooseEquals(() -> {
+            BigComplexNumber i = BigComplexNumber.of("i");
+            assertThat(i.asin()).isEqualTo(
+                BigComplexNumber.of("0.8813735870195430252326093249797923090281603282616354107532956086533771842220260878337068919102560422i")
+            );
+            // assertThat(i.asin().sin()).isEqualTo(i); TODO
+        });
+    }
+
+     @Test
+    public void asinexample() {
+        withLooseEquals(() -> {
+            BigComplexNumber ex = BigComplexNumber.of("0.4 + 0.3i");
+            assertThat(ex.asin()).isEqualTo(
+                BigComplexNumber.of("0.3903162045220236919955233192246937426417507847073594611232342921938896698631709352163426813930629989 + 0.3189624333048183974533632421390216733671896809815027761489118643037886558460986645968922599086008903i")
+            );
+            assertThat(ex.asin().sin()).isEqualTo(ex);
         });
     }
 

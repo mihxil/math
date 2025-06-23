@@ -72,7 +72,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
 
     @Property
     default void ePowZero(@ForAll(STRUCTURE) CompleteField<E> struct) {
-                assertThat(struct.e().pow(struct.zero())).isEqTo(struct.one());
+        assertThat(struct.e().pow(struct.zero())).isEqTo(struct.one());
     }
 
     @Property

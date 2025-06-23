@@ -79,8 +79,9 @@ public abstract class CompleteComplexNumber<
 
     @Override
     public S asin() {
-        throw new UnsupportedOperationException("TODO: implement asin for complex numbers");
-
+        var i = getStructure().i();
+        var o = getStructure().one();
+        return (this.times(i).plus(o.minus(this.sqr()).sqrt())).ln().dividedBy(i);
     }
 
     @Override

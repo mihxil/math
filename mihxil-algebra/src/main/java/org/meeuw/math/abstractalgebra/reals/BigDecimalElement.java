@@ -263,7 +263,7 @@ public class BigDecimalElement implements
         UncertainNumber<BigDecimal> uncertaintyValue = uncertainty.equals(BigDecimal.ZERO) ?
             BigDecimalField.INSTANCE.zero() :
             operations().withUncertaintyContext(() ->
-                operations().divide(BigDecimal.valueOf(divisor), uncertainty)
+                operations().divide(uncertainty, BigDecimal.valueOf(divisor))
             );
         return new BigDecimalElement(
             newValue.getValue(),
