@@ -27,6 +27,7 @@ import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.uncertainnumbers.*;
+import org.meeuw.math.validation.NotZero;
 
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
@@ -258,7 +259,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement dividedBy(long divisor) {
+    public BigDecimalElement dividedBy(@NotZero long divisor) {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, BigDecimal.valueOf(divisor));
         UncertainNumber<BigDecimal> uncertaintyValue = uncertainty.equals(BigDecimal.ZERO) ?
             BigDecimalField.INSTANCE.zero() :

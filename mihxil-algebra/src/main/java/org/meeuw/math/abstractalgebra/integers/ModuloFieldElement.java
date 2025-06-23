@@ -20,6 +20,7 @@ import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.validation.NotZero;
 
 /**
  * Elements of {@link ModuloField ℤ/nℤ}
@@ -64,7 +65,7 @@ public class ModuloFieldElement
     }
 
     @Override
-    public ModuloFieldElement dividedBy(long divisor) {
+    public ModuloFieldElement dividedBy(@NotZero long divisor) {
         return times(new ModuloFieldElement((int) divisor % structure.divisor, structure).reciprocal());
     }
 

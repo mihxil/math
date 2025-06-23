@@ -91,7 +91,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber dividedBy(long divisor) throws DivisionByZeroException {
+    public RationalNumber dividedBy(@NotZero long divisor) throws DivisionByZeroException {
         return new RationalNumber(
             numerator,
             denominator.multiply(BigInteger.valueOf(divisor)));

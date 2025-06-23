@@ -15,7 +15,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = { NotZeroValidator.class })
 public  @interface NotZero {
 
-     String message() default "{org.meeuw.math.notZero}";
+    String message() default "{org.meeuw.math.notZero}";
 
     Class<?>[] groups() default {};
 

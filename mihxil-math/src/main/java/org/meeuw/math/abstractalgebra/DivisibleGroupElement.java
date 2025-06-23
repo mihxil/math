@@ -15,9 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import jakarta.validation.constraints.Positive;
-
 import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.validation.NotZero;
 
 /**
  *
@@ -35,12 +34,12 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
     /**
      * Returns the result of dividing this element by the given divisor.
      */
-    E dividedBy(@Positive long divisor);
+    E dividedBy(@NotZero long divisor);
 
     /**
      * Returns the result of multiplying this element by the given multiplier.
      */
-    E times(@Positive long multiplier);
+    E times(long multiplier);
 
 
 
