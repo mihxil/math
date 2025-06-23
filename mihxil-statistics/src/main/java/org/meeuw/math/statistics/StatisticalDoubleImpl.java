@@ -128,6 +128,12 @@ public class StatisticalDoubleImpl
     }
 
     @Override
+    public UncertainReal asin() {
+        double value = Math.asin(getValue());
+        return new UncertainDoubleElement(value, getUncertainty());
+    }
+
+    @Override
     public UncertainReal exp() {
         double value = Math.exp(getValue());
         return new UncertainDoubleElement(value, getUncertainty()); /// todo);
