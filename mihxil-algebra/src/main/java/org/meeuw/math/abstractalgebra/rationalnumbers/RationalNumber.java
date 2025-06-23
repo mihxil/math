@@ -158,11 +158,13 @@ public class RationalNumber extends Number
     }
 
     @Override
+    @NonAlgebraic
     public RationalNumber tan() {
         return of(BigDecimalOperations.INSTANCE.tan(bigDecimalValue()).getValue());
     }
 
     @Override
+    @NonAlgebraic
     public RationalNumber sqrt() {
         return of(BigDecimalOperations.INSTANCE.sqrt(bigDecimalValue()).getValue());
     }
