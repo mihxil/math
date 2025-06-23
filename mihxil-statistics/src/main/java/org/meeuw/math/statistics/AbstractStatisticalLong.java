@@ -47,6 +47,7 @@ import static java.lang.Math.*;
  *
  * @author Michiel Meeuwissen
  */
+@SuppressWarnings("unchecked")
 @Log
 public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLong<SELF>>
     extends

@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.Ordered;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
@@ -101,26 +102,31 @@ public class ModuloFieldElement
     }
 
     @Override
+    @NonAlgebraic
     public ModuloFieldElement sin() {
         throw new FieldIncompleteException("Sine not implemented for " + getStructure());
     }
 
     @Override
+    @NonAlgebraic
     public ModuloFieldElement asin() {
         throw new FieldIncompleteException("Arcsine not implemented for " + getStructure());
     }
 
     @Override
+    @NonAlgebraic
     public ModuloFieldElement cos() {
         throw new FieldIncompleteException("Cosine not implemented for " + getStructure());
     }
 
     @Override
+    @NonAlgebraic
     public ModuloFieldElement tan() {
         throw new FieldIncompleteException("Tangent not implemented for " + getStructure());
     }
 
     @Override
+    @NonAlgebraic
     public ModuloFieldElement sqrt() {
         throw new FieldIncompleteException("sqrt not implemented for " + getStructure());
     }

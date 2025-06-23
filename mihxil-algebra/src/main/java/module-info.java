@@ -56,9 +56,6 @@ module org.meeuw.math.algebras {
     opens org.meeuw.math.abstractalgebra.rationalnumbers to org.hibernate.validator;
 
 
-
-
-
     uses AlgebraicElementFormatProvider;
 
     provides AlgebraicElementFormatProvider with PermutationFormatProvider;
