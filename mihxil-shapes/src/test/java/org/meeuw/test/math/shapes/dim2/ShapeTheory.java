@@ -1,11 +1,11 @@
 package org.meeuw.test.math.shapes.dim2;
 
 import java.util.Random;
-import java.util.logging.Logger;
 
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
+import org.apache.logging.log4j.Logger;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.theories.BasicObjectTheory;
