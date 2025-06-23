@@ -22,6 +22,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.ScalarField;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.validation.Prime;
 
@@ -55,4 +56,8 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         return new ModuloFieldElement(v, this);
     }
 
+    @Override
+    public ModuloFieldElement pi() {
+        throw new FieldIncompleteException("pi cannot be approximated in a modulo field");
+    }
 }

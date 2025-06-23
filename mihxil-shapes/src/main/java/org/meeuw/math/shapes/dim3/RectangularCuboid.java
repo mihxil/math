@@ -1,10 +1,9 @@
 package org.meeuw.math.shapes.dim3;
 
 import jakarta.validation.constraints.Min;
-
 import lombok.Getter;
 
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
 /**
  * Represents a rectangle defined by its width and height, both of which must be non-negative scalara.
@@ -14,7 +13,7 @@ import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
  * @since 0.15
  */
 @Getter
-public class RectangularCuboid<F extends CompleteScalarFieldElement<F>> implements Polyhedron<F, RectangularCuboid<F>> {
+public class RectangularCuboid<F extends ScalarFieldElement<F>> implements Polyhedron<F, RectangularCuboid<F>> {
 
     private final F width;
     private final F height;

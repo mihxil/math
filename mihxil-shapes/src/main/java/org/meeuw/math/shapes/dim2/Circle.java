@@ -63,16 +63,10 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
         return radius;
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @NonExact("Area can only be computed well for complete scalar fields")
     public F area() {
-        if (field instanceof CompleteScalarField) {
-            CompleteScalarField<?> completeField = (CompleteScalarField) field;
-            return ((F) completeField.pi()).times(radius.sqr());
-        } else {
-            return radius().sqr().times(Math.PI);
-        }
+        return field.pi().times(radius.sqr());
     }
 
     /**

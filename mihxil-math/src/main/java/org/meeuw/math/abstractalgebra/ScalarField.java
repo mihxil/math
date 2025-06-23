@@ -54,4 +54,13 @@ public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
         return true;
     }
 
+    /**
+     * 𝜋, the ratio of the circumference of a circle to its diameter, approximately 3.14159.
+     * This probably is an approximation, as the value of π is not known exactly for most field implementations.
+     * @throws org.meeuw.math.exceptions.FieldIncompleteException if the field does not support this value, not even approximately.
+     */
+    E pi();
+
+
+
 }

@@ -44,6 +44,8 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
+    private static final RationalNumber APPROX_PI = RationalNumber.of(new BigInteger(Utils.PI.replace(".", ""), 10), BigInteger.TEN.pow(Utils.PI.length() - 2));
+
     private RationalNumbers() {
         super(RationalNumber.class);
     }
@@ -61,6 +63,12 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     @Override
     public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return BasicComparisonOperator.ALL;
+    }
+
+    @Override
+    @NonExact
+    public RationalNumber pi() {
+        return APPROX_PI;
     }
 
     @Override

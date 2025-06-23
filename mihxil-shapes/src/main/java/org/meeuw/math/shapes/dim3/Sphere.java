@@ -14,12 +14,12 @@ public class Sphere<F extends ScalarFieldElement<F>> implements Volume<F, Sphere
 
     @Override
     public F volume() {
-        return field.pi().times(4).dividedBy(3).times(radius.pow(3));
-    }
+        return radius.pow(3).times(field.pi().times(4));
 
+    }
     @Override
     public F surfaceArea() {
-        return field.pi().times(4).times(radius.sqr());
+        return radius.sqr().times(field.pi()).times(4);
     }
 
     @Override

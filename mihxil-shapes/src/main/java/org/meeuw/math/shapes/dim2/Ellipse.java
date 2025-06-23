@@ -98,16 +98,10 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @NonExact("Area can only be computed well for complete scalar fields")
     public F area() {
-        if (field instanceof CompleteScalarField) {
-            CompleteScalarField<?> completeField = (CompleteScalarField) field;
-            return ((F) completeField.pi()).times(radiusx).times(radiusy);
-        } else {
-            return radiusx.times(radiusy).times(Math.PI);
-        }
+        return field.pi().times(radiusx).times(radiusy);
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})

@@ -17,9 +17,9 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import static org.meeuw.math.CollectionUtils.navigableSet;
-
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  *  A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
@@ -36,6 +36,11 @@ public interface CompleteScalarField<E extends CompleteScalarFieldElement<E>> ex
     default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
+
+
+    @Override
+    E pi();
+
 
 
 }
