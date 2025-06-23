@@ -82,8 +82,11 @@ public final class IntegerUtils {
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
 
+    public static final long MAX_SQUARABLE = BigInteger.valueOf(Long.MAX_VALUE ).sqrt().longValueExact();
+
     /**
-     * <p>A quick square root implementation fpr integers.</p>
+     *
+     * <p>A quick square root implementation for integers.</p>
      * <p>
      * Returns the biggest integer that is smaller than or equal to the square root of an integer.
      * </p>
@@ -92,20 +95,13 @@ public final class IntegerUtils {
      * </p>
      */
     public static long floorSqrt(final long radicand) {
-        long proposal = 0;
-        long m;
-        long r = radicand + 1;
-
-        while (proposal != r - 1) {
-            m = (proposal + r) / 2;
-
-            if (m * m <= radicand) {
-                proposal = m;
-            } else {
-                r = m;
-            }
+        // The optimization of BigInteger are very good, so even though we don't need big numbers, it is still much faster than anything I can come up with quickly
+        if (radicand < 0) {
+            throw new IllegalSqrtException("Cannot take square root of negative number", "" + radicand);
         }
-        return proposal;
+        return BigInteger.valueOf(radicand).sqrt().longValueExact();
+
+
     }
 
     /**
@@ -119,6 +115,18 @@ public final class IntegerUtils {
             throw new NotASquareException(radicand + " is not a square");
         }
         return proposal;
+    }
+
+     public static boolean isSquare(final long radicand) {
+        long proposal = floorSqrt(radicand);
+        if (proposal * proposal < radicand) {
+            return false;
+        }
+        return true;
+    }
+    public static boolean isSquare(final BigInteger radicand) {
+        BigInteger[] proposal = radicand.sqrtAndRemainder();
+        return proposal[1].equals(BigInteger.ZERO) && !proposal[0].equals(BigInteger.ZERO);
     }
 
     /**

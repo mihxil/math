@@ -124,11 +124,38 @@ class IntegerUtilsTest {
 
 
    @Test
-    public void sqrt() {
-        assertThat(IntegerUtils.sqrt(4)).isEqualTo(2);
-        assertThat(IntegerUtils.floorSqrt(5)).isEqualTo(2);
-        assertThatThrownBy(() -> IntegerUtils.sqrt(5)).isInstanceOf(MathException.class);
-    }
+   public void sqrt() {
+       assertThat(IntegerUtils.sqrt(4)).isEqualTo(2);
+       assertThatThrownBy(() -> IntegerUtils.sqrt(5)).isInstanceOf(MathException.class);
+   }
+   @ParameterizedTest
+   @ValueSource(longs = {0, 5, 2564287193236147620L, 9223372036854775806L, Long.MAX_VALUE })
+
+   public void floorSqrt(long value) {
+       assertThat(IntegerUtils.floorSqrt(value)).isEqualTo(BigInteger.valueOf(value).sqrt().longValue());
+
+   }
+
+   @Test
+   public void timeTest() {
+          {
+           long start = System.currentTimeMillis();
+           for (int i = 0; i < 10000000; i++) {
+               BigInteger.valueOf(9223372036854775806L - i).sqrt().longValueExact();
+           }
+
+           log.info("Time for 1 million floorSqrt calls: {} ms", System.currentTimeMillis() - start);
+       }
+       {
+           long start = System.currentTimeMillis();
+           for (int i = 0; i < 10000000; i++) {
+               IntegerUtils.floorSqrt(9223372036854775806L - i);
+           }
+           log.info("Time for 1 million floorSqrt calls: {} ms", System.currentTimeMillis() - start);
+       }
+
+
+   }
 
     @Test
     public void factorial() {
