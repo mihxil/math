@@ -5,3 +5,4 @@ jqwik-database
 /.vscode/settings.json
 /test/dependency-reduced-pom.xml
 delombok
+.DS_Store
