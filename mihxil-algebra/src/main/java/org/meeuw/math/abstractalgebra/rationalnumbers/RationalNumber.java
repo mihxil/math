@@ -176,7 +176,7 @@ public class RationalNumber extends Number
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
-    public RationalNumber dividedBy(RationalNumber divisor) throws DivisionByZeroException {
+    public RationalNumber dividedBy(@NotZero RationalNumber divisor) throws DivisionByZeroException {
         if (divisor.isZero()) {
             throw new DivisionByZeroException(this, divisor);
         }

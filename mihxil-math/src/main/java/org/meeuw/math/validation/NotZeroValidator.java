@@ -18,6 +18,9 @@ package org.meeuw.math.validation;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.numbers.SignedNumber;
+
 /**
  * Implementation for {@link NotZero}
  */
@@ -33,6 +36,12 @@ public class NotZeroValidator implements ConstraintValidator<NotZero, Object> {
         }
         if (value instanceof Number number) {
             return number.longValue() != 0;
+        }
+        if (value instanceof ScalarFieldElement<?> number) {
+            return ! number.isZero();
+        }
+        if (value instanceof SignedNumber<?> number) {
+            return ! number.isZero();
         }
         return false;
     }
