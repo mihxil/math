@@ -8,6 +8,7 @@ import java.util.function.LongConsumer;
 import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
+import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -94,8 +95,8 @@ public final class IntegerUtils {
      * Using a binary search algorithm.
      * </p>
      */
-    public static long floorSqrt(final long radicand) {
-        // The optimization of BigInteger are very good, so even though we don't need big numbers, it is still much faster than anything I can come up with quickly
+    public static long floorSqrt(@NonNegative final long radicand) {
+        // The optimizations of BigInteger are very good, so even though we don't need big numbers, it is still much faster than anything I can come up with quickly
         if (radicand < 0) {
             throw new IllegalSqrtException("Cannot take square root of negative number", "" + radicand);
         }
@@ -109,7 +110,7 @@ public final class IntegerUtils {
      * @see #floorSqrt(long)
      * @throws NotASquareException If the given argument is not a square.
      */
-    public static long sqrt(final long radicand) throws NotASquareException {
+    public static long sqrt(@NonNegative final long radicand) throws NotASquareException {
         long proposal = floorSqrt(radicand);
         if (proposal * proposal < radicand) {
             throw new NotASquareException(radicand + " is not a square");
@@ -118,6 +119,9 @@ public final class IntegerUtils {
     }
 
      public static boolean isSquare(final long radicand) {
+        if (radicand < 0) {
+            return false;
+        }
         long proposal = floorSqrt(radicand);
         if (proposal * proposal < radicand) {
             return false;
@@ -125,6 +129,9 @@ public final class IntegerUtils {
         return true;
     }
     public static boolean isSquare(final BigInteger radicand) {
+        if (radicand.signum() < 0) {
+            return false;
+        }
         BigInteger[] proposal = radicand.sqrtAndRemainder();
         return proposal[1].equals(BigInteger.ZERO);
     }
