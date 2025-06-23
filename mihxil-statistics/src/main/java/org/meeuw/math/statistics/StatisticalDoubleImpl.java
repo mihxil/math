@@ -127,11 +127,6 @@ public class StatisticalDoubleImpl
         return UncertainRealField.INSTANCE;
     }
 
-    @Override
-    public UncertainReal asin() {
-        double value = Math.asin(getValue());
-        return new UncertainDoubleElement(value, getUncertainty());
-    }
 
     @Override
     public UncertainReal exp() {

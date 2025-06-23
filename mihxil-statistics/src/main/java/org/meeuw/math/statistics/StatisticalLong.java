@@ -77,6 +77,7 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         return result;
     }
 
+
     @Override
     protected StatisticalLong _copy() {
         StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);

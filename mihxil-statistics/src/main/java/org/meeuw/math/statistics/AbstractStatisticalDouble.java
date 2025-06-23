@@ -150,6 +150,13 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
+    public UncertainReal asin() {
+        UncertainNumber<Double> asin = operations.asin(doubleValue());
+        return immutableInstance(asin.getValue(), Math.max(doubleUncertainty(), asin.getValue()));
+    }
+
+
+    @Override
     public UncertainReal cos() {
         UncertainNumber<Double> cos = operations.cos(doubleValue());
         return immutableInstance(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
