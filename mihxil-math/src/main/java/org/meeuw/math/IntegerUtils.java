@@ -392,6 +392,9 @@ public final class IntegerUtils {
     }
 
 
+    /**
+     * @see ComparableUtils#max(Comparable, Comparable[])
+     */
     public static int max(int value, int... values) {
         int result = value;
         for (int v : values) {
