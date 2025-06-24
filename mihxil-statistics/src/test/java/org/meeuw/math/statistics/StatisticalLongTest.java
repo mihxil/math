@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import java.math.BigDecimal;
 import java.time.*;
 import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import net.jqwik.api.*;
@@ -61,6 +62,10 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
             assertThat(mes.getOptionalBigMean()).contains(new BigDecimal("1593070087106"));
 
             assertThat(mes.with(ChronoField.MILLI_OF_SECOND, 0).toString()).isEqualTo("2020-06-25T07:28:07Z");
+            assertThat(mes.until(Instant.parse("2025-06-24T23:15:00Z"), ChronoUnit.DAYS)).isEqualTo(1825L);
+            assertThat(mes.until(Instant.parse("2025-06-24T23:15:00Z"), ChronoUnit.HOURS)).isEqualTo(43815L);
+            assertThat(mes.until(Instant.parse("2025-06-24T23:15:00Z")).toString()).isEqualTo("PT43815H46M52.894S ± PT0.216S");
+
 
 
             assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);

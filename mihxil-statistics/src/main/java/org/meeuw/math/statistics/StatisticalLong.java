@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.statistics.time.*;
+import org.meeuw.math.time.BasicUncertainDuration;
 import org.meeuw.math.time.UncertainDuration;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
@@ -117,7 +118,9 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
             UncertainDuration<?> uncertainDuration = (UncertainDuration<?>) endExclusive;
             return plus(uncertainDuration.durationValue());
         }
-        return null;
+        long result = instantValue().until(endExclusive, ChronoUnit.MILLIS);
+        return new BasicUncertainDuration<>((double) result, getUncertainty());
+
     }
 
     public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
