@@ -276,6 +276,18 @@ The 2-dimensional plane of integers traditionally can be filled by tracking _dia
 .All combinations of 2 streams of positive integers (diagonals)
 video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
+== Clocks
+
+Because some uncertain values may be related to rates, often for testing purposes this module also provides extensions of `Clock`
+
+=== `TestClock`
+
+A clock which must be manually 'ticked'
+
+=== `DistinctClock`
+
+A clock for which each call is guaranteed to result an Instant strictly after all previous calls.
+
 :leveloffset!:
 
 :leveloffset: 1
@@ -554,6 +566,17 @@ The `shapes` modules contains implementations for several 2 and 3-dimensional sh
 
 [source,java]
 ----
+
+
+import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.shapes.dim2.*;
+import org.meeuw.math.svg.SVG;
+import org.meeuw.math.svg.SVGDocument;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+
+import static org.meeuw.math.svg.SVGDocument.defaultSVG;
+import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+
 
 ....
 
