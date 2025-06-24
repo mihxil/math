@@ -260,6 +260,6 @@ Because some uncertain values may be related to rates, often for testing purpose
 
 A clock which must be manually 'ticked'
 
-==== `DistinctClock`
+==== `UniqueClock`
 
 A clock for which each call is guaranteed to result an Instant strictly after all previous calls.
