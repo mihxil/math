@@ -17,6 +17,7 @@ package org.meeuw.test.math;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.exceptions.InvalidElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,5 +82,20 @@ public class ArrayUtilsTest {
         byte[] a = new byte[] {(byte) 1, (byte) 2, 3};
         byte[] b = rotate(a, 1);
         assertThat(b).containsExactly(3, 1, 2);
+    }
+
+    @Test
+    public void tostring() {
+        assertThat(ArrayUtils.toString(new int[] {1, 2, -2})).isEqualTo("(1,2,-2)");
+    }
+
+    @Test
+    public void byteEquals() {
+        assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -2})).isTrue();
+        assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -3})).isFalse();
+        assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -2, -3})).isFalse();
+        byte[] a = new byte[] {1, 2, -2};
+
+        assertThat(ArrayUtils.equals(a, a)).isTrue();
     }
 }
