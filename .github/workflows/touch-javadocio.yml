@@ -6,7 +6,9 @@ on:
     - pom.xml
     branches: ['**']
   workflow_dispatch:
-
+# If we generate javadoc for new links, it may fail because javadoc.io is not yet synced
+# This triggers it to download as soon as I make a change in pom.xml
+# This hopefully, resolves the issue.
 
 jobs:
   touch:
