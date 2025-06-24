@@ -96,14 +96,22 @@ class IntegerUtilsTest {
     public void nextPrime() {
         assertThat(IntegerUtils.nextPrime(1)).isEqualTo(2);
         assertThat(IntegerUtils.nextPrime(13)).isEqualTo(17);
+        assertThat(IntegerUtils.nextPrime(22)).isEqualTo(23);
+
     }
 
 
 
     @Test
-    public void positivePower() {
+    public void positivePower10() {
         assertThatThrownBy(() -> IntegerUtils.positivePow10(-1)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow10(2)).isEqualTo(100);
+    }
+
+    @Test
+    public void positivePower() {
+        assertThatThrownBy(() -> IntegerUtils.positivePow(BigInteger.TEN, -1)).isInstanceOf(IllegalPowerException.class);
+        assertThat(IntegerUtils.positivePow(BigInteger.TEN, 2)).isEqualTo(BigInteger.valueOf(100));
     }
 
 
@@ -130,10 +138,12 @@ class IntegerUtilsTest {
    }
    @ParameterizedTest
    @ValueSource(longs = {0, 5, 2564287193236147620L, 9223372036854775806L, Long.MAX_VALUE })
-
    public void floorSqrt(long value) {
        assertThat(IntegerUtils.floorSqrt(value)).isEqualTo(BigInteger.valueOf(value).sqrt().longValue());
-
+   }
+   @Test
+   public void floorSqrtNegative() {
+       assertThatThrownBy(() -> IntegerUtils.floorSqrt(-1)).isInstanceOf(IllegalSqrtException.class);
    }
 
    @Test
@@ -207,7 +217,27 @@ class IntegerUtilsTest {
         assertThat(IntegerUtils.log10(20)).isEqualTo(1);
     }
 
+    @Test
+    public void max() {
+        assertThat(IntegerUtils.max(1, 2, 3)).isEqualTo(3);
+        assertThat(IntegerUtils.max(1, 2, 3, 4, 5)).isEqualTo(5);
+        assertThat(IntegerUtils.max(1, 2, -3)).isEqualTo(2);
+        assertThat(IntegerUtils.max(-1, -2, -3)).isEqualTo(-1);
+    }
 
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1, 4, 9, 16, 25})
+    public void isSquare(int i) {
+        assertThat(IntegerUtils.isSquare(i)).isTrue();
+        assertThat(IntegerUtils.isSquare(BigInteger.valueOf(i))).isTrue();
+    }
+    @ParameterizedTest
+    @ValueSource(ints = {-25, -24, 27, 27})
+    public void isNotSquare(int i) {
+        assertThat(IntegerUtils.isSquare(i)).isFalse();
+        assertThat(IntegerUtils.isSquare(BigInteger.valueOf(i))).isFalse();
+    }
 
     @Provide
     Arbitrary<Long> positiveLongs() {

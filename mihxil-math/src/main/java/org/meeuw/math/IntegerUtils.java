@@ -35,9 +35,10 @@ public final class IntegerUtils {
      * @param e  the exponent
      * @return 10<sup>e</sup>
      */
-    public static long positivePow10(@Min(0) int e) {
+    public static long positivePow10(@PositiveOrZero int e) {
         return positivePow(10, e);
     }
+
 
     /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
@@ -47,7 +48,7 @@ public final class IntegerUtils {
      * @param e  the exponent
      * @return base<sup>e</sup>
      */
-    public static long positivePow(@NotNull long base, @Min(0) int e) {
+    public static long positivePow(@NotNull long base, @PositiveOrZero int e) {
         if (e < 0) {
             throw new IllegalPowerException("Cannot raise to negative", base + TextUtils.superscript( e));
         }

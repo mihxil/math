@@ -23,7 +23,10 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
+import org.meeuw.math.numbers.SignedNumber;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.validation.NotZero;
+import org.meeuw.math.validation.NotZeroValidator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -67,6 +70,46 @@ class NotZeroValidatorTest {
     }
 
 
+    @Test
+    public void isValid() {
+        NotZeroValidator validator = new NotZeroValidator();
+        assertThat(validator.isValid(0, null)).isFalse();
+        assertThat(validator.isValid(0d, null)).isFalse();
+        assertThat(validator.isValid(0.1d, null)).isTrue();
+        assertThat(validator.isValid(UncertainDoubleElement.exactly(0), null)).isFalse();
+        assertThat(validator.isValid(UncertainDoubleElement.exactly(1), null)).isTrue();
+        assertThat(validator.isValid(BigDecimal.valueOf(0), null)).isFalse();
+        assertThat(validator.isValid(BigDecimal.valueOf(0.001), null)).isTrue();
+        assertThat(validator.isValid(null, null)).isTrue();
+        assertThat(validator.isValid("foobar", null)).isTrue();
+        assertThat(validator.isValid("foobar", null)).isTrue();
+
+        assertThat(validator.isValid(new MySignedNumber(0) , null)).isFalse();
+        assertThat(validator.isValid(new MySignedNumber(1) , null)).isTrue();
+        assertThat(validator.isValid(new MySignedNumber(-1) , null)).isTrue();
+
+
+
+    }
+
+
+    static class MySignedNumber implements SignedNumber<MySignedNumber> {
+        final int signum;
+
+        MySignedNumber(int signum) {
+            this.signum = signum;
+        }
+
+        @Override
+        public int compareTo(MySignedNumber o) {
+            return o.signum - signum;
+        }
+
+        @Override
+        public int signum() {
+            return signum;
+        }
+    }
 
 
 

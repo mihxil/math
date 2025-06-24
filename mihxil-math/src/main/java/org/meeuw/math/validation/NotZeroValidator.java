@@ -27,17 +27,16 @@ import org.meeuw.math.numbers.SignedNumber;
 public class NotZeroValidator implements ConstraintValidator<NotZero, Object> {
 
 
-
-
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        if (value instanceof Number number) {
-            return number.doubleValue() != 0;
-        }
         if (value instanceof ScalarFieldElement<?> number) {
             return ! number.isZero();
         }
+        if (value instanceof Number number) {
+            return number.doubleValue() != 0;
+        }
+
         if (value instanceof SignedNumber<?> number) {
             return ! number.isZero();
         }
