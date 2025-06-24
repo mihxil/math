@@ -60,7 +60,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
 
             assertThat(mes.getOptionalBigMean()).contains(new BigDecimal("1593070087106"));
 
-            assertThat(mes.with(ChronoField.MILLI_OF_SECOND, 0).toString()).isEqualTo("4 ± 2");
+            assertThat(mes.with(ChronoField.MILLI_OF_SECOND, 0).toString()).isEqualTo("2020-06-25T07:28:07Z");
 
 
             assertThatThrownBy(() -> mes.enter(Duration.ofMillis(100))).isInstanceOf(IllegalStateException.class);
