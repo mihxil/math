@@ -46,19 +46,19 @@ jobs:
       - name: Build with Maven
         run: mvn -B -fae
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.19.0
+        uses: EnricoMi/publish-unit-test-result-action@v2.20.0
         if: always() &&  runner.os == 'Linux'
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2.19.0
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2.20.0
         if: always() &&  runner.os == 'Windows'
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action/macos@v2.19.0
+        uses: EnricoMi/publish-unit-test-result-action/macos@v2.20.0
         if: always() && runner.os == 'macOS'
         with:
           files: "**/target/surefire-reports/*.xml"
