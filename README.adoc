@@ -276,15 +276,15 @@ The 2-dimensional plane of integers traditionally can be filled by tracking _dia
 .All combinations of 2 streams of positive integers (diagonals)
 video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
-== Clocks
+=== Clocks
 
 Because some uncertain values may be related to rates, often for testing purposes this module also provides extensions of `Clock`
 
-=== `TestClock`
+==== `TestClock`
 
 A clock which must be manually 'ticked'
 
-=== `DistinctClock`
+==== `DistinctClock`
 
 A clock for which each call is guaranteed to result an Instant strictly after all previous calls.
 
