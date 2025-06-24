@@ -32,6 +32,12 @@ public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
 
     public static final Matrix3Group INSTANCE = new Matrix3Group();
 
+    private final Matrix3 one = new Matrix3(new double[][] {
+        {1, 0, 0},
+        {0, 1, 0},
+        {0 , 0, 1}
+    });
+
     @FunctionalInterface
     public interface DoubleEquivalence {
         boolean test(double t, double u);
@@ -46,11 +52,7 @@ public class Matrix3Group extends AbstractAlgebraicStructure<Matrix3>
 
     @Override
     public Matrix3 one() {
-        return new Matrix3(new double[][] {
-            {1, 0, 0},
-            {0, 1, 0},
-            {0 , 0, 1}
-        });
+        return one;
     }
 
     @Override

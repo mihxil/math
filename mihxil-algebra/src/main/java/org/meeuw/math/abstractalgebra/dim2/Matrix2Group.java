@@ -32,6 +32,11 @@ public class Matrix2Group extends AbstractAlgebraicStructure<Matrix2>
 
     public static final Matrix2Group INSTANCE = new Matrix2Group();
 
+    private final Matrix2 one = new Matrix2(new double[][] {
+        {1, 0},
+        {0, 1}
+    });
+
     @FunctionalInterface
     public interface DoubleEquivalence {
         boolean test(double t, double u);
@@ -46,10 +51,7 @@ public class Matrix2Group extends AbstractAlgebraicStructure<Matrix2>
 
     @Override
     public Matrix2 one() {
-        return new Matrix2(new double[][] {
-            {1, 0},
-            {0, 1}
-        });
+        return one;
     }
 
      @Override

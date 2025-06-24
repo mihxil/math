@@ -32,8 +32,8 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
 
     public static final Map<CompleteScalarField<?>, Rotation2Group<?>> INSTANCES = new HashMap<>();
 
-
     private final CompleteScalarField<E> field;
+    private Rotation2<E> one = null;
 
     private Rotation2Group(CompleteScalarField<E> field) {
         this.field = field;
@@ -46,11 +46,14 @@ public class Rotation2Group<E extends CompleteScalarFieldElement<E>> extends Abs
 
     @Override
     public Rotation2<E> one() {
-        return new Rotation2<>(
-            FieldMatrix2.of(
-                field.one(), field.zero(),
-                field.zero(), field.one()
-            ), this);
+        if (one == null) {
+            one = new Rotation2<>(
+                FieldMatrix2.of(
+                    field.one(), field.zero(),
+                    field.zero(), field.one()
+                ), this);
+        }
+        return one;
     }
 
 

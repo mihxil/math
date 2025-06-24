@@ -118,9 +118,15 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
 
     @Property
-    default void unity(@ForAll(ELEMENTS) E element) {
-
+    default void one(@ForAll(ELEMENTS) E element) {
         assertThat(element.times(element.getStructure().unity())).isEqTo(element);
         assertThat(element.getStructure().unity().times(element)).isEqTo(element);
+
+        assertThat(element.times(element.getStructure().one())).isEqTo(element);
+        assertThat(element.getStructure().one().times(element)).isEqTo(element);
+    }
+    @Property
+    default void one(@ForAll(STRUCTURE) MultiplicativeGroup<E> structure) {
+        assertThat(structure.one()).isSameAs(structure.unity());
     }
 }
