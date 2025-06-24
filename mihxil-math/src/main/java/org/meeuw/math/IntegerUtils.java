@@ -9,7 +9,9 @@ import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
 import org.checkerframework.checker.index.qual.NonNegative;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -348,6 +350,30 @@ public final class IntegerUtils {
         }
         return bigIntegerSubfactorial(value, SUBFACT_CACHE);
     }
+
+    public static BigInteger pow(BigInteger base, BigInteger e) {
+
+       if (base.equals(BigInteger.ZERO)) {
+           if (e.signum() == 0) {
+               return BigInteger.ONE;
+           }
+           if (e.signum() < 0) {
+               throw new IllegalPowerException("Cannot raise to negative power", base + TextUtils.superscript(e.toString()));
+           }
+
+           return BigInteger.ZERO;
+       }
+       BigInteger result = BigInteger.ONE;
+       // branching will make this slow
+       while (e.signum() > 0) {
+           result = result.multiply(base);
+           if (result.bitLength() > ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getMaxBits()) {
+               throw new OverflowException("Too big", base + TextUtils.superscript(e.toString()));
+           }
+           e = e.add(BigInteger.ONE.negate());
+       }
+       return result;
+   }
 
     private static synchronized  BigInteger bigIntegerSubfactorial(BigInteger n, Map<BigInteger, BigInteger> answers) {
         if (n.equals(BigInteger.ZERO)) {

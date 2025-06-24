@@ -2,10 +2,7 @@ package org.meeuw.math;
 
 import java.math.*;
 
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.IllegalPowerException;
-import org.meeuw.math.exceptions.OverflowException;
-import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.text.TextUtils;
 
 import static java.math.BigDecimal.*;
@@ -66,25 +63,6 @@ public final class BigDecimalUtils {
             e++;
         }
         assert e == 0;
-        return result;
-    }
-
-     public static BigInteger pow(BigInteger base, BigInteger e) {
-        BigInteger result = BigInteger.ONE;
-        if (base.equals(BigInteger.ZERO)) {
-            if (e.signum() <= 0) {
-                throw new IllegalPowerException("Cannot raise to negative power", base + TextUtils.superscript(e.toString()));
-            }
-            return result;
-        }
-        // branching will make this slow
-        while (e.signum() > 0) {
-            result = result.multiply(base);
-            if (result.bitLength() > ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getMaxBits()) {
-                throw new OverflowException("Too big", base + TextUtils.superscript(e.toString()));
-            }
-            e = e.add(BigInteger.ONE.negate());
-        }
         return result;
     }
 

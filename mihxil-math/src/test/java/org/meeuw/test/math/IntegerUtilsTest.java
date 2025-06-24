@@ -2,15 +2,14 @@ package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.math.BigInteger;
+import java.math.*;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import org.meeuw.math.DigitUtils;
-import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.text.TextUtils;
 
@@ -114,6 +113,15 @@ class IntegerUtilsTest {
         assertThat(IntegerUtils.positivePow(BigInteger.TEN, 2)).isEqualTo(BigInteger.valueOf(100));
     }
 
+    @Test
+    public void pow() {
+        assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.ZERO)).isEqualTo(BigInteger.ONE);
+        assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.ONE)).isEqualTo(BigInteger.ZERO);
+        assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.TWO)).isEqualTo(BigInteger.ZERO);
+        assertThatThrownBy(() -> IntegerUtils.pow(BigInteger.ZERO, BigInteger.valueOf(-1)))
+            .isInstanceOf(IllegalPowerException.class)
+        ;
+    }
 
     @Property
     public void factorization(@ForAll("positiveLongs") long random) {

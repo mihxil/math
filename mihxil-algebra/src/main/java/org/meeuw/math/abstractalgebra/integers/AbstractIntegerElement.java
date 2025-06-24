@@ -24,7 +24,6 @@ import java.util.Optional;
 import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.BigDecimalUtils;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -97,7 +96,7 @@ public abstract class AbstractIntegerElement<
         if (height == 0) {
             return BigInteger.ONE;
         }
-        return BigDecimalUtils.pow(v,_tetration(v, height -1 ));
+        return IntegerUtils.pow(v,_tetration(v, height -1 ));
     }
 
     @Override
