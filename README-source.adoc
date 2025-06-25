@@ -24,6 +24,8 @@ endif::[]
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
 
+include::mihxil-time/README-source.adoc[leveloffset=1]
+
 include::mihxil-statistics/README-source.adoc[leveloffset=1]
 
 include::mihxil-physics/README-source.adoc[leveloffset=1]
@@ -33,6 +35,9 @@ include::mihxil-algebra/README-source.adoc[leveloffset=1]
 include::mihxil-shapes/README-source.adoc[leveloffset=1]
 
 include::mihxil-theories/README-source.adoc[leveloffset=1]
+
+include::mihxil-configuration/README-source.adoc[leveloffset=1]
+
 
 include::COMPATIBILITY.adoc[leveloffset=1]
 
