@@ -54,7 +54,7 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.meeuw.math</groupId>
+        <groupId>org.meeuw</groupId>
         <artifactId>mihxil-time</artifactId>
         <version>${project.version}</version>
       </dependency>

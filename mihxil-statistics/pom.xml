@@ -23,7 +23,7 @@
       <artifactId>mihxil-math</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.meeuw.math</groupId>
+      <groupId>org.meeuw</groupId>
       <artifactId>mihxil-time</artifactId>
     </dependency>
     <dependency>
