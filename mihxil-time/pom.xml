@@ -7,6 +7,7 @@
     <version>0.18-SNAPSHOT</version>
     <relativePath>../mihxil-math-lib-parent</relativePath>
   </parent>
+  <groupId>org.meeuw</groupId>
   <artifactId>mihxil-time</artifactId>
   <name>Math - time</name>
   <packaging>jar</packaging>
