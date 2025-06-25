@@ -26,7 +26,7 @@ import java.util.function.LongConsumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.statistics.time.UncertainJavaTime;
+import org.meeuw.time.UncertainJavaTime;
 
 /**
  * {@link StatisticalLong}s can be aggregated, and therefore {@link Windowed}.

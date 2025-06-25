@@ -24,6 +24,10 @@
     </dependency>
     <dependency>
       <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-time</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
     </dependency>
@@ -41,5 +45,6 @@
       <artifactId>big-math</artifactId>
       <optional>true</optional>
     </dependency>
+
   </dependencies>
 </project>

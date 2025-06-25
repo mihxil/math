@@ -28,17 +28,17 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.statistics.text.TimeConfiguration;
-import org.meeuw.math.statistics.time.UncertainJavaTime;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
+import org.meeuw.time.UncertainJavaTime;
+import org.meeuw.time.text.TimeConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.statistics.time.UncertainJavaTime.Mode.*;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
+import static org.meeuw.time.UncertainJavaTime.Mode.*;
 
 /**
  * @author Michiel Meeuwissen

@@ -18,6 +18,7 @@ package org.meeuw.math.statistics.text;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import org.meeuw.time.text.UncertainTimeFormat;
 
 /**
  * @author Michiel Meeuwissen

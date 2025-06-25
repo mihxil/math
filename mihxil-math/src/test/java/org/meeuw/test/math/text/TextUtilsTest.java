@@ -60,13 +60,6 @@ public class TextUtilsTest  {
         assertThat(TextUtils.controlEach(null, '\u033f')).isNull();
     }
 
-    @Test
-    public void instant() {
-        assertThat(TextUtils.format(Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).startsWith("2021-08");
-
-        assertThat(TextUtils.format(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).isEqualTo("2021-08-22");
-        assertThat(TextUtils.format(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.SECONDS)).isEqualTo("2021-08-22T22:00:14");
-    }
 
 
 }

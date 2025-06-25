@@ -55,6 +55,11 @@
       </dependency>
       <dependency>
         <groupId>org.meeuw.math</groupId>
+        <artifactId>mihxil-time</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-theories</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>

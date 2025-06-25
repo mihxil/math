@@ -23,7 +23,7 @@ import java.util.DoubleSummaryStatistics;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.data.Offset;
 
-import org.meeuw.math.time.TestClock;
+import org.meeuw.time.TestClock;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

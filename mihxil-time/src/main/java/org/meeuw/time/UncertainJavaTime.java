@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.statistics.time;
+package org.meeuw.time;
 
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -25,8 +25,8 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * a {@link java.time.temporal.TemporalAmount}.
  * TODO Implement this too using {@link java.math.BigDecimal} to avoid overflows.
  * @since 0.9
- * @see org.meeuw.math.time.UncertainDuration
- * @see org.meeuw.math.time.UncertainInstant
+ * @see UncertainDuration
+ * @see UncertainInstant
  */
 public interface UncertainJavaTime<N extends Number> extends UncertainNumber<N> {
 

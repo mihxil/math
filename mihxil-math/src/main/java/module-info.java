@@ -61,7 +61,7 @@ module org.meeuw.math {
     exports org.meeuw.math.abstractalgebra.product;
     exports org.meeuw.math.abstractalgebra.trivial;
     exports org.meeuw.math.abstractalgebra.categoryofgroups;
-    exports org.meeuw.math.time;
+
 
     uses AlgebraicElementFormatProvider;
     uses ConfigurationAspect;

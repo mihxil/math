@@ -1,7 +1,10 @@
-package org.meeuw.math.time;
+package org.meeuw.time;
 
 import java.time.Duration;
 import java.time.temporal.Temporal;
+
+import org.meeuw.math.text.FormatService;
+import org.meeuw.time.text.spi.UncertainTemporalFormatProvider;
 
 /**
  * @since 0.18
@@ -48,6 +51,6 @@ public class BasicUncertainDuration<N extends Number> implements UncertainDurati
     }
     @Override
     public String toString() {
-        return durationValue() + " ± " + Duration.ofMillis(uncertainty.longValue());
+        return FormatService.getFormat( UncertainTemporalFormatProvider.class).format(this);
     }
 }

@@ -27,12 +27,12 @@ import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.DoubleUtils;
-import org.meeuw.math.statistics.time.*;
-import org.meeuw.math.time.BasicUncertainDuration;
-import org.meeuw.math.time.UncertainDuration;
+import org.meeuw.math.statistics.time.StatisticalDuration;
+import org.meeuw.math.statistics.time.StatisticalInstant;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.time.*;
 
-import static org.meeuw.math.statistics.time.UncertainJavaTime.Mode.LONG;
+import static org.meeuw.time.UncertainJavaTime.Mode.LONG;
 
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.

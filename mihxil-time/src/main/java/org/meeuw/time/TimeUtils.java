@@ -13,10 +13,10 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.time;
+package org.meeuw.time;
 
-import java.time.Duration;
-import java.time.Instant;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 /**
@@ -27,9 +27,9 @@ public final class TimeUtils {
     private TimeUtils() {}
 
     /**
-     * Given a {@code Duration}, returns an 'order of magnitude' that it.
+     * Given a {@code Duration}, returns an 'order of magnitude' that it has.
      * <p>
-     * The first match of
+     * This is the first match of the following::
      * <ul>
      *     <li>{@link ChronoUnit#DAYS} if the given duration is longer than 2 days</li>
      *     <li>{@link ChronoUnit#HOURS} if the given duration is longer than 2 hours</li>
@@ -61,22 +61,21 @@ public final class TimeUtils {
      * @param order    The {@link ChronoUnit} to round to
      */
     public static Duration round(Duration duration, ChronoUnit order) {
-        switch(order) {
-            case DAYS:
-                //return Duration.ofDays(Math.round(duration.getSeconds() / 86400f));
-            case HOURS:
-                return Duration.ofHours(Math.round(duration.getSeconds() / 3600f));
-            case MINUTES:
-                return Duration.ofMinutes(Math.round(duration.getSeconds() / 60f));
-            case SECONDS:
-                return Duration.ofSeconds(duration.toMillis() / 1000);
-            case MILLIS:
-                return Duration.ofMillis(duration.toMillis());
-            default:
-                throw new IllegalArgumentException();
-        }
+        return switch (order) {
+            //return Duration.ofDays(Math.round(duration.getSeconds() / 86400f));
+            case DAYS, HOURS -> Duration.ofHours(Math.round(duration.getSeconds() / 3600f));
+            case MINUTES -> Duration.ofMinutes(Math.round(duration.getSeconds() / 60f));
+            case SECONDS -> Duration.ofSeconds(duration.toMillis() / 1000);
+            case MILLIS -> Duration.ofMillis(duration.toMillis());
+            default -> throw new IllegalArgumentException();
+        };
     }
 
+    /**
+     * Round a duration to the order of magnitude of the given duration. This is used when the duration is a standard deviation
+     * (e.g. in a duration or in an {@link UncertainInstant instant}).
+     * @param stddev The duration to round
+     */
     public static Duration roundStddev(Duration stddev) {
         return round(stddev, orderOfMagnitude(stddev));
     }
@@ -94,4 +93,18 @@ public final class TimeUtils {
          }
          return instant.truncatedTo(trunc);
     }
+
+    public static String format(Instant instant, ChronoUnit order) {
+        return format(ZoneId.systemDefault(), instant, order);
+    }
+
+    public static String format(ZoneId zoneId, Instant instant, ChronoUnit order) {
+        Instant toFormat = round(instant, order);
+        if (order.ordinal() < ChronoUnit.DAYS.ordinal()) {
+            return DateTimeFormatter.ISO_DATE_TIME.format(toFormat.atZone(zoneId).toLocalDateTime());
+        } else {
+            return DateTimeFormatter.ISO_DATE.format(toFormat.atZone(zoneId).toLocalDate());
+        }
+    }
+
 }

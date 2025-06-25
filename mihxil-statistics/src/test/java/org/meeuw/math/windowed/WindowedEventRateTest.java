@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.time.TestClock;
+import org.meeuw.time.TestClock;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 

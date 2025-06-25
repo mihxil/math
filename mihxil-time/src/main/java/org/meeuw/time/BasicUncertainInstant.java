@@ -1,4 +1,4 @@
-package org.meeuw.math.time;
+package org.meeuw.time;
 
 import java.time.Duration;
 import java.time.Instant;

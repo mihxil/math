@@ -23,7 +23,7 @@ import java.util.function.LongConsumer;
 
 import org.meeuw.math.statistics.NoValues;
 import org.meeuw.math.statistics.StatisticalNumber;
-import org.meeuw.math.time.UncertainDuration;
+import org.meeuw.time.UncertainDuration;
 
 /**
  *

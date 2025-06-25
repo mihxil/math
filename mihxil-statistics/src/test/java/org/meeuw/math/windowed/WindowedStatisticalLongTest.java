@@ -24,10 +24,10 @@ import java.util.function.BiConsumer;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.time.TestClock;
+import org.meeuw.time.TestClock;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.statistics.time.UncertainJavaTime;
+import org.meeuw.time.UncertainJavaTime;
 import org.meeuw.math.windowed.Windowed.Event;
 
 import static org.assertj.core.api.Assertions.assertThat;

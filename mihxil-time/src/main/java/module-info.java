@@ -13,33 +13,46 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-import org.meeuw.configuration.ConfigurationAspect;
 
+import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.configuration.spi.ToStringProvider;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
+import org.meeuw.time.text.TimeConfiguration;
+import org.meeuw.time.text.spi.UncertainTemporalFormatProvider;
+import org.meeuw.time.text.spi.ZoneIdToString;
 
 /**
  * @author Michiel Meeuwissen
- * @since 0.4
+ * @since 0.18
  */
-module org.meeuw.math.statistics {
+module org.meeuw.time {
+
     requires static lombok;
     requires static org.checkerframework.checker.qual;
-    requires static jakarta.validation;
-    requires static jakarta.annotation;
+
 
     requires java.logging;
-    requires org.meeuw.math;
-    requires org.meeuw.configuration;
-    requires org.meeuw.time;
 
-    exports org.meeuw.math.statistics;
-    exports org.meeuw.math.windowed;
-    exports org.meeuw.math.statistics.time;
+
+    requires org.meeuw.math; requires org.meeuw.configuration;
+
+
+    exports org.meeuw.time;
+    exports org.meeuw.time.text.spi;
+    exports org.meeuw.time.text;
 
     uses AlgebraicElementFormatProvider;
-    uses ConfigurationAspect;
+
+
+    provides AlgebraicElementFormatProvider with
+        UncertainTemporalFormatProvider;
+
+    provides ConfigurationAspect with
+        TimeConfiguration;
+
+    provides ToStringProvider with
+        ZoneIdToString;
 
 
 
 }
-

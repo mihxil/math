@@ -22,7 +22,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.PolyNull;
-import org.meeuw.math.time.TimeUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -188,18 +187,6 @@ public final class TextUtils {
 
     }});
 
-    public static String format(Instant instant, ChronoUnit order) {
-         return format(ZoneId.systemDefault(), instant, order);
-    }
-
-    public static String format(ZoneId zoneId, Instant instant, ChronoUnit order) {
-         Instant toFormat = TimeUtils.round(instant, order);
-         if (order.ordinal() < ChronoUnit.DAYS.ordinal()) {
-             return DateTimeFormatter.ISO_DATE_TIME.format(toFormat.atZone(zoneId).toLocalDateTime());
-         } else {
-             return DateTimeFormatter.ISO_DATE.format(toFormat.atZone(zoneId).toLocalDate());
-         }
-    }
 
     /**
      * @param s a charsequence to underline

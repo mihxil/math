@@ -13,13 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.time;
+package org.meeuw.test.time;
 
 import java.time.*;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.time.TestClock;
+import org.meeuw.time.TestClock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

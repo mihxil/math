@@ -13,8 +13,10 @@
     <module>mihxil-bom</module>
     <module>mihxil-math-lib-parent</module>
 
-    <module>mihxil-configuration</module>
     <module>mihxil-math</module>
+
+    <module>mihxil-configuration</module>
+    <module>mihxil-time</module>
 
     <module>mihxil-theories</module>
 
