@@ -161,7 +161,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      */
     default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> rowConsumer) {
         if (!isFinite()) {
-            throw new NotFiniteException("Not finite");
+            throw new NotFiniteException("Cayley table can only be produced for finite algebraic structures, but " + this + " is " + getCardinality());
         }
         List<String> line = new ArrayList<>();
 

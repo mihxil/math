@@ -17,6 +17,9 @@ package org.meeuw.math.exceptions;
 
 /**
  * This can be thrown when converting a value and the original value is not finite, but the target type requires a finite value. E.g. 'padic' numbers, can sometimes be seen as 'infinite' integers, and converting them to integers may result this exception.
+ * <p>
+ * It can also be throws for other cases, e.g. when trying an operation on an infinite structure, which is not possible then (e.g. generating
+ * a Cayley table for an infinite group).
  */
 public class NotFiniteException extends IllegalArgumentException {
 
