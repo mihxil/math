@@ -280,6 +280,29 @@ video::{docs}/diagonals-positive-plane.mp4[{videooptions}]
 
 :leveloffset: 1
 
+= time
+
+image:https://img.shields.io/maven-central/v/org.meeuw/mihxil-time.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw/mihxil-time]
+image:https://www.javadoc.io/badge/org.meeuw/mihxil-time.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw/mihxil-time]
+
+This collects some utility related to time (actually to Durations and Instants). The main purpose is to provide a way to represent uncertain values of time, but it also provides some utilities for working with `Clock`.
+
+== Clocks
+
+Because some uncertain values may be related to event rates, you may also need some things related to clocks. Especially, in test cases.
+
+=== `TestClock`
+
+A clock which must be manually 'ticked'. This  is mainly useful for testing purposes.
+
+=== `UniqueClock`
+
+A clock for which each call is guaranteed to result an Instant strictly after all previous calls. This can be used in tests, but also in production code, for example to ensure that events are always uniquely ordered.
+
+:leveloffset!:
+
+:leveloffset: 1
+
 = statistics
 
 image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics]
@@ -732,6 +755,99 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 
 
 :leveloffset!:
+
+:leveloffset: 1
+
+= ConfigurationService [[configuration_service]]
+
+image:https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration]
+image:https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration]
+
+`ConfigurationService` is responsible for managing the `Configuration` thread locals.
+
+Like this it can be consulted
+
+.Accessing configuration
+[source,java]
+----
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+
+import static org.meeuw.configuration.ConfigurationService.*;
+...
+
+Configuration configuration = getConfiguration();
+NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+int minimalExponent = aspect.getMinimalExponent();
+----
+This would however probably mainly be used in _implementations_.
+
+Actual configuration can be done in two basically distinct ways.
+
+- a new configuration object can be set as a thread local
+- global default configuration object can be set
+
+.temporary overrides
+[source,java]
+----
+
+{
+    //noinspection resource
+    setConfiguration(builder ->
+        builder.configure(NumberConfiguration.class,
+            (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+        )
+    );
+
+    //...code...
+    ConfigurationService.resetToDefaults();
+}
+
+// or using Autocloseable
+try (Reset ignored = setConfiguration(builder ->
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -> numberConfiguration.withMinimalExponent(8)
+    )
+)) {
+    ;
+    //...code...
+}
+----
+
+There are some utilities in `ConfigurationService` that makes this process a bit easier.
+
+.temporary overrides utilities
+[source, java]
+----
+withConfiguration((con) ->
+        con.configure(UncertaintyConfiguration.class,
+                (uncertaintyConfiguration) -> uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
+            .configure(NumberConfiguration.class,
+                (numberConfiguration) -> numberConfiguration.withMinimalExponent(3))
+    , () -> {
+        // code
+
+    });
+----
+
+Global defaults can be set similarly
+
+.setting global defaults
+[source,java]
+----
+defaultConfiguration((configurationBuilder) ->
+    configurationBuilder.configure(NumberConfiguration.class, c -> c.withMinimalExponent(4))
+        .configure(UncertaintyConfiguration.class, c -> c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+);
+----
+
+ConfigurationService itself is not actually math related, and is released in a separate artifact.
+
+
+:leveloffset!:
+
 
 :leveloffset: 1
 
