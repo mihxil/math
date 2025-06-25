@@ -43,37 +43,48 @@
 </li>
 </ul>
 </li>
-<li><a href="#_statistics">2. statistics</a></li>
-<li><a href="#_physics">3. physics</a></li>
-<li><a href="#_algebra">4. algebra</a>
+<li><a href="#_time">2. time</a>
 <ul class="sectlevel2">
-<li><a href="#_features">4.1. Features</a>
+<li><a href="#_clocks">2.1. Clocks</a>
 <ul class="sectlevel3">
-<li><a href="#_real_numbers">4.1.1. Real numbers</a></li>
-<li><a href="#_arbitrary_precision_real_numbers">4.1.2. Arbitrary-precision real numbers</a></li>
-<li><a href="#_rational_numbers">4.1.3. Rational numbers</a></li>
-<li><a href="#_permutations">4.1.4. Permutations</a></li>
-<li><a href="#_integers">4.1.5. Integers</a></li>
-<li><a href="#_even_integers">4.1.6. Even integers</a></li>
-<li><a href="#_natural_numbers">4.1.7. Natural numbers</a></li>
-<li><a href="#_modulo_groups">4.1.8. Modulo groups</a></li>
-<li><a href="#_complex_numbers">4.1.9. Complex numbers</a></li>
-<li><a href="#_quaternions">4.1.10. Quaternions</a></li>
-<li><a href="#_matrix_and_rotation_groups">4.1.11. Matrix and rotation groups</a></li>
-<li><a href="#_strings">4.1.12. Strings</a></li>
-<li><a href="#_vector_spaces">4.1.13. Vector spaces</a></li>
+<li><a href="#_testclock">2.1.1. <code>TestClock</code></a></li>
+<li><a href="#_uniqueclock">2.1.2. <code>UniqueClock</code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#shapes">5. Shapes</a></li>
-<li><a href="#theories">6. Theory testing</a>
+<li><a href="#_statistics">3. statistics</a></li>
+<li><a href="#_physics">4. physics</a></li>
+<li><a href="#_algebra">5. algebra</a>
 <ul class="sectlevel2">
-<li><a href="#_non_math_related_theories">6.1. Non math related theories</a></li>
+<li><a href="#_features">5.1. Features</a>
+<ul class="sectlevel3">
+<li><a href="#_real_numbers">5.1.1. Real numbers</a></li>
+<li><a href="#_arbitrary_precision_real_numbers">5.1.2. Arbitrary-precision real numbers</a></li>
+<li><a href="#_rational_numbers">5.1.3. Rational numbers</a></li>
+<li><a href="#_permutations">5.1.4. Permutations</a></li>
+<li><a href="#_integers">5.1.5. Integers</a></li>
+<li><a href="#_even_integers">5.1.6. Even integers</a></li>
+<li><a href="#_natural_numbers">5.1.7. Natural numbers</a></li>
+<li><a href="#_modulo_groups">5.1.8. Modulo groups</a></li>
+<li><a href="#_complex_numbers">5.1.9. Complex numbers</a></li>
+<li><a href="#_quaternions">5.1.10. Quaternions</a></li>
+<li><a href="#_matrix_and_rotation_groups">5.1.11. Matrix and rotation groups</a></li>
+<li><a href="#_strings">5.1.12. Strings</a></li>
+<li><a href="#_vector_spaces">5.1.13. Vector spaces</a></li>
 </ul>
 </li>
-<li><a href="#_compatibility">7. Compatibility</a></li>
-<li><a href="#_history">8. History</a></li>
+</ul>
+</li>
+<li><a href="#shapes">6. Shapes</a></li>
+<li><a href="#theories">7. Theory testing</a>
+<ul class="sectlevel2">
+<li><a href="#_non_math_related_theories">7.1. Non math related theories</a></li>
+</ul>
+</li>
+<li><a href="#configuration_service">8. ConfigurationService</a></li>
+<li><a href="#_compatibility">9. Compatibility</a></li>
+<li><a href="#_history">10. History</a></li>
 </ul>
 </div>
 </div>
@@ -576,7 +587,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>A service loader is provided for implementations of <code>AlgebraicElementFormatProvider</code> which can create instances of <code>java.text.Format</code> which in turn can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
 </div>
 <div class="paragraph">
-<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">[configuration_service]</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
+<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">ConfigurationService</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
 <p>The service giving access to the format-providers is <code>FormatService</code>. This is a collection of static functions.</p>
@@ -646,7 +657,37 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_statistics">2. statistics</h2>
+<h2 id="_time">2. time</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw/mihxil-time"><img src="https://img.shields.io/maven-central/v/org.meeuw/mihxil-time.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw/mihxil-time"><img src="https://www.javadoc.io/badge/org.meeuw/mihxil-time.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="paragraph">
+<p>This collects some utility related to time (actually to Durations and Instants). The main purpose is to provide a way to represent uncertain values of time, but it also provides some utilities for working with <code>Clock</code>.</p>
+</div>
+<div class="sect2">
+<h3 id="_clocks">2.1. Clocks</h3>
+<div class="paragraph">
+<p>Because some uncertain values may be related to event rates, you may also need some things related to clocks. Especially, in test cases.</p>
+</div>
+<div class="sect3">
+<h4 id="_testclock">2.1.1. <code>TestClock</code></h4>
+<div class="paragraph">
+<p>A clock which must be manually 'ticked'. This  is mainly useful for testing purposes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_uniqueclock">2.1.2. <code>UniqueClock</code></h4>
+<div class="paragraph">
+<p>A clock for which each call is guaranteed to result an Instant strictly after all previous calls. This can be used in tests, but also in production code, for example to ensure that events are always uniquely ordered.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_statistics">3. statistics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-statistics"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.svg" alt="Maven Central"></a></span>
@@ -714,7 +755,7 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -&gt; e.withNo
 </div>
 </div>
 <div class="sect1">
-<h2 id="_physics">3. physics</h2>
+<h2 id="_physics">4. physics</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-physics"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg" alt="Maven Central"></a></span>
@@ -778,7 +819,7 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 </div>
 </div>
 <div class="sect1">
-<h2 id="_algebra">4. algebra</h2>
+<h2 id="_algebra">5. algebra</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-algebra.svg" alt="Maven Central"></a></span>
@@ -788,9 +829,9 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 <p>This contains various implementations of the algebraic structure interfaces of <code>mihxil-math</code>. Like <code>RationalNumber</code> (modelling of rational numbers ℚ), and the rotation group SO(3).</p>
 </div>
 <div class="sect2">
-<h3 id="_features">4.1. Features</h3>
+<h3 id="_features">5.1. Features</h3>
 <div class="sect3">
-<h4 id="_real_numbers">4.1.1. Real numbers</h4>
+<h4 id="_real_numbers">5.1.1. Real numbers</h4>
 <div class="paragraph">
 <p>The field of real numbers. Backed by java primitive <code>double</code>. A <code>RealNumber</code> is also 'uncertain', which is used to keep track of rounding errors.</p>
 </div>
@@ -806,7 +847,7 @@ PhysicalNumber rateInHours = measurement.toUnits(Units.of(SI.hour).reciprocal())
 </div>
 </div>
 <div class="sect3">
-<h4 id="_arbitrary_precision_real_numbers">4.1.2. Arbitrary-precision real numbers</h4>
+<h4 id="_arbitrary_precision_real_numbers">5.1.2. Arbitrary-precision real numbers</h4>
 <div class="paragraph">
 <p>The field of reals numbers, but backed by java&#8217;s <code>BigDecimal</code>. This means that it supports arbitrary precision, but, since this still
 is not <em>exact</em> this still is uncertain, and rounding errors are propagated.</p>
@@ -823,7 +864,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_rational_numbers">4.1.3. Rational numbers</h4>
+<h4 id="_rational_numbers">5.1.3. Rational numbers</h4>
 <div class="paragraph">
 <p>The field of rational numbers. Implemented using two arbitrary sized <code>BigIntegers</code>.</p>
 </div>
@@ -845,7 +886,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_permutations">4.1.4. Permutations</h4>
+<h4 id="_permutations">5.1.4. Permutations</h4>
 <div class="paragraph">
 <p>The permutation group. An example of a non-abelian finite group.</p>
 </div>
@@ -867,7 +908,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_integers">4.1.5. Integers</h4>
+<h4 id="_integers">5.1.5. Integers</h4>
 <div class="paragraph">
 <p>The most basic algebraic structure which can be created from integers are the integers (ℤ) themselves. They form a ring:</p>
 </div>
@@ -883,7 +924,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_even_integers">4.1.6. Even integers</h4>
+<h4 id="_even_integers">5.1.6. Even integers</h4>
 <div class="paragraph">
 <p>As an example of a 'rng' (a ring without the existence of the multiplicative identity 1), the even integers can serve</p>
 </div>
@@ -899,7 +940,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_natural_numbers">4.1.7. Natural numbers</h4>
+<h4 id="_natural_numbers">5.1.7. Natural numbers</h4>
 <div class="paragraph">
 <p>In the natural numbers ℕ (the non-negative integers), there can be no subtraction. So they only form a 'monoid' (both additive and multiplicative).</p>
 </div>
@@ -915,7 +956,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_modulo_groups">4.1.8. Modulo groups</h4>
+<h4 id="_modulo_groups">5.1.8. Modulo groups</h4>
 <div class="paragraph">
 <p>Integers can be simply restricted via modulo arithmetic to form a finite ring:</p>
 </div>
@@ -944,7 +985,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_complex_numbers">4.1.9. Complex numbers</h4>
+<h4 id="_complex_numbers">5.1.9. Complex numbers</h4>
 <div class="paragraph">
 <p>Another well-known field is the field of complex numbers.</p>
 </div>
@@ -960,7 +1001,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_quaternions">4.1.10. Quaternions</h4>
+<h4 id="_quaternions">5.1.10. Quaternions</h4>
 <div class="paragraph">
 <p>Quaternions are forming a 'non-commutative' field, a <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/DivisionRing.java">DivisionRing</a></p>
 </div>
@@ -976,7 +1017,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_matrix_and_rotation_groups">4.1.11. Matrix and rotation groups</h4>
+<h4 id="_matrix_and_rotation_groups">5.1.11. Matrix and rotation groups</h4>
 <div class="sect4">
 <h5 id="_so3">SO(3)</h5>
 <div class="paragraph">
@@ -995,7 +1036,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_strings">4.1.12. Strings</h4>
+<h4 id="_strings">5.1.12. Strings</h4>
 <div class="paragraph">
 <p>Actually, one of the simplest algebraic object you can think of are the strings. They form an additive monoid, an algebraic structure with only one operation (addition).</p>
 </div>
@@ -1014,7 +1055,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect3">
-<h4 id="_vector_spaces">4.1.13. Vector spaces</h4>
+<h4 id="_vector_spaces">5.1.13. Vector spaces</h4>
 <div class="paragraph">
 <p><a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/VectorSpace.java">Vector spaces</a>, which manage <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Vector.java"><code>vectors</code></a>, are basically fixed sized sets of  <a href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/ScalarFieldElement.java"><code>scalars</code></a>, but combine that with several vector operations like cross and inner products.</p>
 </div>
@@ -1023,7 +1064,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="shapes">5. Shapes</h2>
+<h2 id="shapes">6. Shapes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-shapes.svg" alt="Maven Central"></a></span>
@@ -1164,7 +1205,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="theories">6. Theory testing</h2>
+<h2 id="theories">7. Theory testing</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.math/mihxil-theories"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-theories.svg" alt="Maven Central"></a></span>
@@ -1185,7 +1226,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.</p>
 </div>
 <div class="sect2">
-<h3 id="_non_math_related_theories">6.1. Non math related theories</h3>
+<h3 id="_non_math_related_theories">7.1. Non math related theories</h3>
 <div class="paragraph">
 <p>See <a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories"><code>org.meeuw.theories</code></a> for theories not directly related to mathematical structures, but merely to java contracting like e.g.</p>
 </div>
@@ -1232,7 +1273,112 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="_compatibility">7. Compatibility</h2>
+<h2 id="configuration_service">8. ConfigurationService</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw.configuration/mihxil-configuration"><img src="https://img.shields.io/maven-central/v/org.meeuw.configuration/mihxil-configuration.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.configuration/mihxil-configuration"><img src="https://www.javadoc.io/badge/org.meeuw.configuration/mihxil-configuration.svg?color=blue" alt="javadoc"></a></span></p>
+</div>
+<div class="paragraph">
+<p><code>ConfigurationService</code> is responsible for managing the <code>Configuration</code> thread locals.</p>
+</div>
+<div class="paragraph">
+<p>Like this it can be consulted</p>
+</div>
+<div class="listingblock">
+<div class="title">Accessing configuration</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.Configuration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>.*;
+...
+
+Configuration configuration = getConfiguration();
+NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
+<span class="type">int</span> minimalExponent = aspect.getMinimalExponent();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would however probably mainly be used in <em>implementations</em>.</p>
+</div>
+<div class="paragraph">
+<p>Actual configuration can be done in two basically distinct ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a new configuration object can be set as a thread local</p>
+</li>
+<li>
+<p>global default configuration object can be set</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="title">temporary overrides</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">{
+    <span class="comment">//noinspection resource</span>
+    setConfiguration(builder -&gt;
+        builder.configure(NumberConfiguration.class,
+            (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
+        )
+    );
+
+    <span class="comment">//...code...</span>
+    ConfigurationService.resetToDefaults();
+}
+
+<span class="comment">// or using Autocloseable</span>
+<span class="keyword">try</span> (Reset ignored = setConfiguration(builder -&gt;
+    builder.configure(NumberConfiguration.class,
+        (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">8</span>)
+    )
+)) {
+    ;
+    <span class="comment">//...code...</span>
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>There are some utilities in <code>ConfigurationService</code> that makes this process a bit easier.</p>
+</div>
+<div class="listingblock">
+<div class="title">temporary overrides utilities</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">withConfiguration((con) -&gt;
+        con.configure(UncertaintyConfiguration.class,
+                (uncertaintyConfiguration) -&gt; uncertaintyConfiguration.withNotation(UncertaintyConfiguration.Notation.PARENTHESES))
+            .configure(NumberConfiguration.class,
+                (numberConfiguration) -&gt; numberConfiguration.withMinimalExponent(<span class="integer">3</span>))
+    , () -&gt; {
+        <span class="comment">// code</span>
+
+    });</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Global defaults can be set similarly</p>
+</div>
+<div class="listingblock">
+<div class="title">setting global defaults</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">defaultConfiguration((configurationBuilder) -&gt;
+    configurationBuilder.configure(NumberConfiguration.class, c -&gt; c.withMinimalExponent(<span class="integer">4</span>))
+        .configure(UncertaintyConfiguration.class, c -&gt; c.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>ConfigurationService itself is not actually math related, and is released in a separate artifact.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compatibility">9. Compatibility</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This project is compiled with java 17, and provides JPMS module info,  until version <code>0.16.x</code> it was compatible with java 8.</p>
@@ -1240,7 +1386,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 </div>
 <div class="sect1">
-<h2 id="_history">8. History</h2>
+<h2 id="_history">10. History</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I&#8217;m maintaining this mainly as a hobby project.</p>
