@@ -20,8 +20,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 import org.meeuw.math.*;
-import org.meeuw.math.exceptions.NotStreamable;
-import org.meeuw.math.exceptions.OperationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
@@ -161,7 +160,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      */
     default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> rowConsumer) {
         if (!isFinite()) {
-            throw new NotStreamable("Not finite");
+            throw new NotFiniteException("Not finite");
         }
         List<String> line = new ArrayList<>();
 

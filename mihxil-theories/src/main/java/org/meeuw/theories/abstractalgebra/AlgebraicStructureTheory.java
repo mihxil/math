@@ -400,6 +400,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+
+    /**
+     * Generates Cayley tables for the structure, if it is finite.
+     * <p>
+     *  No assertions if finite, so then it just tests whether the method can be called without exceptions.
+     *  If the structure is infinite, it will assert that the method throws a {@link NotFiniteException} for every operator.
+     * @param structure
+     */
     @Property
     default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) {
         Logger logger = log();
@@ -414,6 +422,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             }
         } else {
             logger.info("{} is not finite. Cayley tables cannot be produced", structure);
+            for (AlgebraicBinaryOperator op : structure.getSupportedOperators()) {
+                assertThatThrownBy(() -> structure.cayleyTable(op, (r) -> {})).isInstanceOf(NotFiniteException.class);
+            }
         }
 
     }
