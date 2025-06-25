@@ -39,7 +39,6 @@
 <li><a href="#_utilities">1.3. Utilities</a>
 <ul class="sectlevel3">
 <li><a href="#_cartesian_product_of_streams">1.3.1. Cartesian product of streams</a></li>
-<li><a href="#_clocks">1.3.2. Clocks</a></li>
 </ul>
 </li>
 </ul>
@@ -643,24 +642,6 @@ Your browser does not support the video tag.
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="_clocks">1.3.2. Clocks</h4>
-<div class="paragraph">
-<p>Because some uncertain values may be related to rates, often for testing purposes this module also provides extensions of <code>Clock</code></p>
-</div>
-<div class="sect4">
-<h5 id="_testclock"><code>TestClock</code></h5>
-<div class="paragraph">
-<p>A clock which must be manually 'ticked'</p>
-</div>
-</div>
-<div class="sect4">
-<h5 id="_uniqueclock"><code>UniqueClock</code></h5>
-<div class="paragraph">
-<p>A clock for which each call is guaranteed to result an Instant strictly after all previous calls.</p>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
@@ -698,7 +679,7 @@ log.info(<span class="string"><span class="delimiter">&quot;</span><span class="
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.Interval</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.time.TestClock</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.time.TestClock</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainReal</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.theories.abstractalgebra.UncertainDoubleTheory</span>;
 
@@ -1284,8 +1265,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <td class="tableblock halign-left valign-top"><p class="tableblock">Refactory physical units, to be agnostic about axes.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.18</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">june, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">org.meeuw.math.time became org.meeuw.time, and a new module mihxil-time</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.17</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">june, 2025</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">disband java 8 support, require at least java 17</p></td>
 </tr>
 <tr>
