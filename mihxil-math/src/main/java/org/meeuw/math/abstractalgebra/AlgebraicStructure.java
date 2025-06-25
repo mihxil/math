@@ -157,6 +157,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      *
      * @param op The operator to produce the table for
      * @param rowConsumer A consumer for every {@code n + 1} produced tuple of {@code n + 1} strings.
+     * @throws NotFiniteException if the structure is not finite.
      */
     default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> rowConsumer) {
         if (!isFinite()) {
