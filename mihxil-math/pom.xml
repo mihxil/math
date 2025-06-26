@@ -24,7 +24,7 @@
     <dependency>
       <groupId>org.meeuw.util</groupId>
       <artifactId>mihxil-functional</artifactId>
-      <version>1.11</version>
+      <version>1.12</version>
     </dependency>
 
     <dependency>
