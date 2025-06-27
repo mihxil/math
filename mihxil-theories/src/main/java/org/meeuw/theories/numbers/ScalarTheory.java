@@ -23,8 +23,11 @@ import org.meeuw.math.numbers.Scalar;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * Theory testing for {@link Scalar} implementations.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <S> the type of {@link Scalar} to test
  */
 public interface ScalarTheory<S extends Scalar<S>>
     extends SizeableScalarTheory<S, S> {
@@ -39,6 +42,11 @@ public interface ScalarTheory<S extends Scalar<S>>
     @Property
     default void absSignum(@ForAll(ELEMENTS) S e) {
         assertThat(e.abs().signum()).isIn(0, 1);
+    }
+
+    @Property
+    default void asNumber(@ForAll(ELEMENTS) S e) {
+        assertThat(e.doubleValue()).isEqualTo(e.asNumber().doubleValue());
     }
 
 

@@ -19,7 +19,10 @@ import net.jqwik.api.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * Testing the {@link Number} interface.
+ *
  * @author Michiel Meeuwissen
+ * @param <N> the type of {@link Number} to test
  */
 public interface NumberTheory<N extends Number> {
 

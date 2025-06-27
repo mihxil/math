@@ -23,8 +23,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * <li>{@link #compareToNull(Object) comparing to null should raise NullPointerException}</li>
  * <li>{@link #compareToIsAntiCommutative(E, E) compare to is anti-commutative}</li>
  * <li>{@code compareTo} is also transitive ({@link #compareToIsTransitiveBigger}, {@link #compareToIsTransitiveSmaller}, {@link #compareToIsTransitiveEquals})</li>
+ * </ul>
  * @author Michiel Meeuwissen
  * @since 0.10
+ * @param <E> the type of objects to test
  */
 public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTheory<E> {
 
@@ -63,7 +65,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
     }
 
     /**
-     * The implementor must also ensure that the relation is transitive: (x.compareTo(y)>0 && y.compareTo(z)>0) implies x.compareTo(z)>0.
+     * The implementor must also ensure that the relation is transitive: {@code x.compareTo(y)>0 && y.compareTo(z)>0} implies {@code x.compareTo(z)>0}.
      */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveBigger(
@@ -83,7 +85,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
     }
 
     /**
-     * The implementor must also ensure that the relation is transitive: (x.compareTo(y)<0 && y.compareTo(z)<0) implies x.compareTo(z)<0.
+     * The implementor must also ensure that the relation is transitive: {@code x.compareTo(y)<0 && y.compareTo(z)<0} implies {@code x.compareTo(z)<0}.
      */
     @Property(maxDiscardRatio = 1000)
     default void compareToIsTransitiveSmaller(
@@ -103,7 +105,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
     }
 
     /**
-     * The implementor must also ensure that the relation is transitive: (x.compareTo(y)==0 && y.compareTo(z)==0) implies x.compareTo(z)==0.
+     * The implementor must also ensure that the relation is transitive: {@code x.compareTo(y)==0 && y.compareTo(z)==0} implies {@code x.compareTo(z)==0}.
      */
     @Property
     default void compareToIsTransitiveEquals(

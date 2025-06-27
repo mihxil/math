@@ -21,8 +21,11 @@ import net.jqwik.api.Property;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
+ * Theory testing for {@link CharSequence} implementations.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <C> the type of {@link CharSequence} to test
  */
 public interface CharSequenceTheory<C extends CharSequence> {
 
