@@ -4,7 +4,7 @@
   <artifactId>mihxil-math-parent</artifactId>
   <name>Math - parent</name>
   <packaging>pom</packaging>
-  <version>0.18.0</version>
+  <version>0.18.1-SNAPSHOT</version>
 
   <description>Math related utilities. Algebraic interfaces, implementations thereof, physics, statistics, shapes</description>
   <url>https://github.com/mihxil/math</url>
@@ -182,7 +182,7 @@
     <connection>scm:git:${project.scm.url}</connection>
     <developerConnection>scm:git:${project.scm.url}</developerConnection>
     <url>https://github.com/mihxil/math</url>
-    <tag>0.18.0</tag>
+    <tag>0.18-SNAPSHOT</tag>
   </scm>
 
   <distributionManagement>
