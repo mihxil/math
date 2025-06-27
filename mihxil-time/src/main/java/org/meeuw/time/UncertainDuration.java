@@ -36,6 +36,11 @@ public interface UncertainDuration<N extends Number> extends UncertainNumber<N>,
     Duration durationValue();
 
     /**
+     * Returns the value of this uncertain number as a {@link Duration}.
+     */
+    Duration durationUncertainty();
+
+    /**
      *  @return The backing uncertain value for this duration. It
      * is for this interface still left open whether that is e.g. 'milliseconds' or 'nanoseconds', or something else.
      */

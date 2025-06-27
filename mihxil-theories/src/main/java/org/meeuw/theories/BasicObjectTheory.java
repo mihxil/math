@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
  *
  * @author Michiel Meeuwissen
  * @since 0.10
+ * @param <E> the type of objects to test
  */
 public interface BasicObjectTheory<E> {
 

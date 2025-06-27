@@ -78,6 +78,11 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         return result;
     }
 
+    @Override
+    public Duration durationUncertainty() {
+        return null;
+    }
+
 
     @Override
     protected StatisticalLong _copy() {
@@ -110,6 +115,11 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
     @Override
     public Temporal plus(long amountToAdd, TemporalUnit unit) {
         return instantValue().plus(amountToAdd, unit);
+    }
+
+    @Override
+    public Duration instantUncertainty() {
+        return null;
     }
 
     @Override
@@ -220,7 +230,6 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
     protected boolean durationMode() {
         return mode == Mode.DURATION || mode == Mode.DURATION_NS;
     }
-
 }
 
 
