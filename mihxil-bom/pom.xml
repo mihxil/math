@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.meeuw.math</groupId>
   <artifactId>mihxil-bom</artifactId>
-  <version>0.18.1</version>
+  <version>0.18.2-SNAPSHOT</version>
   <name>mihxil-math-bom</name>
   <description>
     BOM for the mihxil-math project, containing all dependencies and their versions.
@@ -15,7 +15,7 @@
     <connection>scm:git:${project.scm.url}</connection>
     <developerConnection>scm:git:${project.scm.url}</developerConnection>
     <url>https://github.com/mihxil/math</url>
-    <tag>0.18.1</tag>
+    <tag>0.18-SNAPSHOT</tag>
   </scm>
   <licenses>
     <license>
