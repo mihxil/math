@@ -34,7 +34,8 @@ class TestClockTest {
         clock = clock.withZone(ZoneId.of("UTC"));
         Instant i = clock.tick();
         assertThat(i).isEqualTo(Instant.parse("2021-01-15T21:39:27Z"));
-        clock.sleep(2000);
+        clock.accept(Duration.ofSeconds(1));
+        clock.sleep(1000);
         assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.of(2021, 1, 15, 21, 39, 29));
         assertThat(clock.localDateTime()).isEqualTo(LocalDateTime.now(clock));
         assertThat(clock.getZone().toString()).isEqualTo("UTC");
