@@ -38,7 +38,7 @@ jobs:
           git config --global user.email 'github@meeuw.org'
           mvn --batch-mode  -Darguments=-DskipTests  -DpushChanges=false release:prepare
           git push --atomic -v --follow-tags
-          mvn -Ddeploy --batch-mode -Darguments=-DskipTests release:perform
+          mvn -Ddeploy -Pdeploy --batch-mode -Darguments=-DskipTests release:perform
         # use -D rather than -P because the 'no-deploy' profile is activated on !deploy
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
