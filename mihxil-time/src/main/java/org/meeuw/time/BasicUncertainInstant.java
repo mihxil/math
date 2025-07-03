@@ -34,6 +34,11 @@ public class BasicUncertainInstant<N extends Number> implements UncertainInstant
     }
 
     @Override
+    public Duration instantUncertainty() {
+        return Duration.ofMillis(uncertainty.longValue());
+    }
+
+    @Override
     public UncertainDuration<N> until(Temporal endExclusive) {
         // Implementation of until method
         //return new BasicUncertainDuration<>(instantValue().until(endExclusive).get(ChronoUnit.MILLIS), uncertainty); // Placeholder implementation

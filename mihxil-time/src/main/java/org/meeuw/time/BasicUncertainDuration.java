@@ -26,6 +26,11 @@ public class BasicUncertainDuration<N extends Number> implements UncertainDurati
     }
 
     @Override
+    public Duration durationUncertainty() {
+        return Duration.ofMillis(uncertainty.longValue());
+    }
+
+    @Override
     public N getValue() {
         return value;
     }

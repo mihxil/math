@@ -70,11 +70,11 @@ public class UncertainTimeFormat extends Format {
             }
          } else if (number instanceof UncertainInstant<?> uncertainInstant) {
              toAppendTo.append(formatInstant(uncertainInstant.instantValue(),
-                 Duration.ofMillis(uncertainInstant.getUncertainty().longValue())));
+                 uncertainInstant.instantUncertainty()));
              return toAppendTo;
          } else if (number instanceof UncertainDuration<?> uncertainDuration) {
              toAppendTo.append(formatDuration(uncertainDuration.durationValue(),
-                 Duration.ofMillis(uncertainDuration.getUncertainty().longValue())));
+                 uncertainDuration.durationUncertainty()));
              return toAppendTo;
          }
          throw new IllegalArgumentException("Cannot format given " + number.getClass() + " as a UncertainJavaTime");

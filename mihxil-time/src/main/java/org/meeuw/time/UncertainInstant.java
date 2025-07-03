@@ -15,6 +15,7 @@
  */
 package org.meeuw.time;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.*;
 
@@ -33,7 +34,14 @@ public interface UncertainInstant<N extends Number> extends UncertainNumber<N>, 
      */
     @Override
     N getValue();
+
     Instant instantValue();
+
+    /**
+     * Returns the value of this uncertain number as a {@link Duration}.
+     */
+    Duration instantUncertainty();
+
 
     @Override
     default boolean isSupported(TemporalUnit unit) {
