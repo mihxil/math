@@ -12,6 +12,12 @@ on:
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+
 jobs:
   build:
     strategy:
@@ -27,8 +33,7 @@ jobs:
     env:
       MAVEN_ARGS: '--no-transfer-progress'
     steps:
-      - name: Cancel previous Action
-        uses: styfle/cancel-workflow-action@0.12.1
+
       - uses: actions/checkout@v4
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
@@ -38,9 +43,9 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: maven
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_PASSWORD
+          server-id: central
+          server-username: CENTRAL_USERNAME
+          server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
           gpg-passphrase: GPG_SECRET_KEY_PASSPHRASE
       - name: Build with Maven
@@ -71,8 +76,8 @@ jobs:
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_SECRET_KEY_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - name: Commit generated dot file if it changed
         uses: EndBug/add-and-commit@v9
