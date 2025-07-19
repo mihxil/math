@@ -1,0 +1,15 @@
+= Demo
+:docinfo: private
+
+++++
+<form>
+  <label for="result">Result:</label> <input type="text" id="result" value="24" />
+   <br />
+  <label for="numbers">Numbers:</label><input type="text" id="numbers" value="8 8 3 3"/>
+  <br />
+  <textarea id="output" > </textarea>
+  <br />
+  <button id="submit" name="submit" disabled="disabled">go!</button>
+</form>
+++++
+
