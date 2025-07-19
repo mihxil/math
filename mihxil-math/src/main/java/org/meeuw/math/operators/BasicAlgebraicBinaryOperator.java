@@ -44,7 +44,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     OPERATION(
         getDeclaredBinaryMethod(MagmaElement.class, "operate"), "*",
         getDeclaredMethod(Group.class, "unity"),
-        BasicAlgebraicUnaryOperator.INVERSION
+        BasicAlgebraicUnaryOperator.INVERSION,
+        2
     ),
 
     /**
@@ -53,7 +54,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     ADDITION(
         getDeclaredBinaryMethod(AdditiveSemiGroupElement.class, "plus"), "+",
         getDeclaredMethod(AdditiveMonoid.class, "zero"),
-        BasicAlgebraicUnaryOperator.NEGATION
+        BasicAlgebraicUnaryOperator.NEGATION,
+        2
     ),
 
     /**
@@ -62,7 +64,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     SUBTRACTION(
         getDeclaredBinaryMethod(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
-        ADDITION.inverse
+        ADDITION.inverse,
+        2
     ),
 
 
@@ -72,7 +75,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     MULTIPLICATION(
         getDeclaredBinaryMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
         getDeclaredMethod(MultiplicativeMonoid.class, "one"),
-        BasicAlgebraicUnaryOperator.RECIPROCAL
+        BasicAlgebraicUnaryOperator.RECIPROCAL,
+        3
     ),
 
     /**
@@ -81,7 +85,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     DIVISION(
         getDeclaredBinaryMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
         MULTIPLICATION.unity,
-        MULTIPLICATION.inverse
+        MULTIPLICATION.inverse,
+        3
     ),
 
     /**
@@ -90,7 +95,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     POWER(
         getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"), "^",
         MULTIPLICATION.unity,
-        null
+        null,
+        4
     );
 
 
@@ -111,12 +117,15 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     @Getter
     final String symbol;
 
-    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse) {
+    final int precedence;
+
+    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
         this.method = method;
         this.symbol = symbol;
         this.stringify = (a, b) -> a + " " + symbol + " " + b;
         this.unity = unity;
         this.inverse = inverse;
+        this.precedence = precedence;
     }
 
 
@@ -180,6 +189,11 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     @Override
     public String stringify(String element1, String element2) {
         return stringify.apply(element1, element2).toString();
+    }
+
+    @Override
+    public int precedence() {
+        return precedence;
     }
 
 
