@@ -64,6 +64,10 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
             public String name() {
                 return AlgebraicBinaryOperator.this.name() + " and then " + after.name();
             }
+            @Override
+            public int precedence() {
+                return 0;
+            }
         };
     }
 
@@ -89,6 +93,12 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
             return OperatorInterface.super.getMethodFor(e);
         }
     }
+
+    /**
+     * When using infix notation, the precedence of this binary operation
+     * @since 0.19
+     */
+    int precedence();
 
 
 }
