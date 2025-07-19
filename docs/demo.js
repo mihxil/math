@@ -27,7 +27,7 @@ form.onsubmit =  async (e) => {
 	const stream = await Solver.result(result, numbers);
   const lines = await stream.toArray()
 	for (let i = 0; i < lines.length; i++) {
-		textarea.value += await lines[i].toString();
+		textarea.value += await lines[i].toString() + "\n";
 	}
 	button.disabled = false;
 

@@ -2,7 +2,7 @@
 :docinfo: private
 
 ++++
-<form>
+<form class="demo">
   <label for="result">Result:</label> <input type="text" id="result" value="24" />
    <br />
   <label for="numbers">Numbers:</label><input type="text" id="numbers" value="8 8 3 3"/>
