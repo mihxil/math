@@ -21,6 +21,11 @@ public class SampleBinaryOperator implements AlgebraicBinaryOperator {
     }
 
     @Override
+    public int precedence() {
+        return 0;
+    }
+
+    @Override
     public String name() {
         return "first";
     }
