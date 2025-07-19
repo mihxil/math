@@ -9,7 +9,7 @@
   <br />
   <textarea id="output" > </textarea>
   <br />
-  <button id="submit" name="submit" disabled="disabled">go!</button>
+  <button id="submit" name="submit" disabled="true">go!</button>
 </form>
 ++++
 

@@ -3,10 +3,11 @@ const button = document.getElementById('submit');
 
 form.onsubmit = async (e) => {
   e.preventDefault();
-  // your code here
 };
 await cheerpjInit({version: 17});
-const pref = "/app/math/jars/"
+const pref = document.location.pathname.startsWith("/math") ? "/app/math/jars/": "/app/jars/";
+
+
 const version= "0.19-SNAPSHOT"
 const cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-functional-1.13.jar`);
 
@@ -17,7 +18,6 @@ const textarea = document.querySelector('textarea');
 console.log("ready");
 button.disabled = false;
 form.onsubmit =  async (e) => {
-	console.log("preventing default");
 	e.preventDefault();
 	textarea.value = '';
 	button.disabled = true;
