@@ -27,7 +27,7 @@ jobs:
           git config --global --add safe.directory $(pwd)
           cd docs
           apk add graphviz m4
-          make clean index.html
+          make clean index.html DEMO.html
           git status
           git pull
       - name: Commit generated doc files if they changed
