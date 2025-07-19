@@ -14,7 +14,7 @@ index.html: ../README-source.adoc Makefile algebras.svg
 %.dot: %.dot.m4
 	m4 $< > $@
 
-%.html: %.adoc
+%.html: %.adoc %-docinfo.html
 	asciidoctor $<
 
 
@@ -34,3 +34,6 @@ clean:
 
 algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java
 	(cd ../mihxil-algebra ; if `which $(MVN) > /dev/null` ; then $(MVN) -DskipTests=false -Dtest=DocumentationTest test ;fi )
+
+run:
+	npx serve
