@@ -249,4 +249,11 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
 
+    /**
+     * since 0.19
+     */
+    default E parse(String value) throws NotParsable{
+        throw new NotParsable("parseElement not implemented in " + this.getClass() + " " + this);
+    }
+
 }
