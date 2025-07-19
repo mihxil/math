@@ -6,7 +6,7 @@ form.onsubmit = async (e) => {
   // your code here
 };
 await cheerpjInit({version: 17});
-const pref = "/app/jars/"
+const pref = "/app/math/jars/"
 const version= "0.19-SNAPSHOT"
 const cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-functional-1.13.jar`);
 
