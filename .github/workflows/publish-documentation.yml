@@ -10,6 +10,8 @@ on:
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
       - 'docs/algebras.dot.m4'
+      - 'docs/DEMO.adoc'
+      - 'docs/DEMO-docinfo.html'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
 
