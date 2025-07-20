@@ -1404,6 +1404,12 @@ Give desired outcome number, and a few input numbers, and it will find the possi
   <br />
   <button id="submit" name="submit">go!</button>
 </form>
+<details>
+<summary class="title">java source code</summary>
+<div class="content">
+<div class="paragraph">
+<p>This is the source code for the above.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.meeuw.math.abstractalgebra.rationalnumbers</span>;
@@ -1412,32 +1418,41 @@ Give desired outcome number, and a few input numbers, and it will find the possi
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
+<span class="keyword">import</span> <span class="include">org.meeuw.math.CollectionUtils</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.operators.AlgebraicBinaryOperator</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.operators.BasicAlgebraicBinaryOperator</span>.*;
 
 <span class="comment">/**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */</span>
 <span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span> {
 
-    <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = CollectionUtils.navigableSet(
+        ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
+    );
+
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
 
     <span class="directive">public</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;RationalNumber&gt;&gt; stream(RationalNumber... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
         <span class="keyword">return</span> permutations.stream()
-            .flatMap(permutation -&gt; {
-                RationalNumber<span class="type">[]</span> permuted = permutation.permute(set);
-                <span class="keyword">return</span> AST.stream(
-                    <span class="predefined-type">List</span>.of(permuted),
-                    RationalNumbers.INSTANCE.getSupportedOperators()
-                );
-            })
+            .map(permutation -&gt; permutation.permute(set))
+            .map(<span class="predefined-type">List</span>::of)
             .distinct()
-            .peek(e -&gt; {
-                tries.getAndIncrement();
-            });
+            .flatMap(permuted -&gt;
+                AST.stream(
+                    permuted,
+                    OPERATORS
+                )
+            )
+            .map( e -&gt; e.canonize(RationalNumbers.INSTANCE))
+            .distinct()
+            .peek(e -&gt; tries.getAndIncrement());
     }
 
 
@@ -1467,14 +1482,16 @@ Give desired outcome number, and a few input numbers, and it will find the possi
             set[i] = instance.parse(numbers[i]);
         }
         Solver solver = <span class="keyword">new</span> Solver();
+        <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
         <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(set)
             .filter(e -&gt;
                 e.result().eq(result)
-            ).map(EvaluatedExpression::toString),
-            solver.tries);
+            ).peek(e -&gt; matches.getAndIncrement())
+            .map(EvaluatedExpression::toString),
+            solver.tries, matches);
     }
 
-    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries) {
+    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches) {
 
     }
 
@@ -1486,12 +1503,69 @@ Give desired outcome number, and a few input numbers, and it will find the possi
         }
         SolverResult result = result(integers[<span class="integer">0</span>], <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
         result.stream().forEach(<span class="predefined-type">System</span>.out::println);
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready tried </span><span class="delimiter">&quot;</span></span> + result.tries.get());
-
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready found </span><span class="delimiter">&quot;</span></span> + result.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + result.tries.get() );
     }
 }</code></pre>
 </div>
 </div>
+</div>
+</details>
+<details>
+<summary class="title">javascript</summary>
+<div class="content">
+<div class="paragraph">
+<p>This is the source code for the above.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupSolver</span>() {
+
+        const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#solver</span><span class="delimiter">'</span></span>);
+        const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
+        const buttonText = button.textContent;
+        const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
+
+
+        let Solver = <span class="predefined-constant">null</span>;
+        form.onsubmit = async (e) =&gt; {
+                e.preventDefault();
+                button.disabled = <span class="predefined-constant">true</span>;
+                <span class="keyword">if</span> (cj === <span class="predefined-constant">null</span>) {
+                        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
+                        await setupCheerpj();
+                }
+                <span class="keyword">if</span> (Solver == <span class="predefined-constant">null</span>) {
+                        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
+                        Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
+                        console.log(Solver);
+                }
+                const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#result</span><span class="delimiter">&quot;</span></span>).value;
+                const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#numbers</span><span class="delimiter">&quot;</span></span>).value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
+                textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+                button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
+                <span class="keyword">try</span> {
+                        const solverResult = await Solver.result(result, numbers);
+                        const stream = await solverResult.stream();
+                        const lines = await stream.toArray();
+                        <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
+                                textarea.value += await lines[i].toString() + <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+                        }
+                        const tries = await (await solverResult.tries()).get();
+                        const matches = await (await solverResult.matches()).get();
+                        textarea.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
+                        textarea.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
+                } <span class="keyword">catch</span> (error) {
+                        textarea.value += await error.toString();
+                }
+                button.textContent = buttonText;
+                button.disabled = <span class="predefined-constant">false</span>;
+        };
+}
+setupSolver();</code></pre>
+</div>
+</div>
+</div>
+</details>
 </div>
 </div>
 <div class="sect1">
