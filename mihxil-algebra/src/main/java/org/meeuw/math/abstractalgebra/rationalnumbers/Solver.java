@@ -4,12 +4,12 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 /**
@@ -17,7 +17,9 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  */
 public  class Solver {
 
-    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = CollectionUtils.navigableSet(
+    private static RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
+
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
 
@@ -36,7 +38,7 @@ public  class Solver {
                     OPERATORS
                 )
             )
-            .map( e -> e.canonize(RationalNumbers.INSTANCE))
+            .map( e -> e.canonize(STRUCTURE))
             .distinct()
             .peek(e -> tries.getAndIncrement());
     }
@@ -61,11 +63,10 @@ public  class Solver {
      *
      */
     public static SolverResult result(String resultString, String[] numbers) {
-        RationalNumbers instance = RationalNumbers.INSTANCE;
-        RationalNumber result = instance.parse(resultString);
+        RationalNumber result = STRUCTURE.parse(resultString);
         RationalNumber[] set = new RationalNumber[numbers.length];
         for (int i = 0; i < set.length; i++) {
-            set[i] = instance.parse(numbers[i]);
+            set[i] = STRUCTURE.parse(numbers[i]);
         }
         Solver solver = new Solver();
         AtomicLong matches = new AtomicLong();
