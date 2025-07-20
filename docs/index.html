@@ -1385,15 +1385,113 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect1">
 <h2 id="_demo">9. Demo</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>This is a running demo (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>)
+Give desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.</p>
+</div>
 <form class="demo">
-  <label for="result">Result:</label> <input type="text" id="result" value="24" />
+  <label for="result">Desired outcome:</label> <input type="text" id="result"  list="result-examples" value="24" />
+   <datalist id="result-examples">
+     <option value="24">
+     <option value="4 1/3">
+     <option value="41">
+   </datalist>
    <br />
-  <label for="numbers">Numbers:</label><input type="text" id="numbers" value="8 8 3 3"/>
+  <label for="numbers">Input numbers:</label><input type="text" id="numbers" value="8 8 3 3"/>
+
   <br />
   <textarea id="output" > </textarea>
   <br />
-  <button id="submit" name="submit" disabled="true">go!</button>
+  <button id="submit" name="submit" disabled="true">loading...</button>
 </form>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.meeuw.math.abstractalgebra.rationalnumbers</span>;
+
+<span class="keyword">import</span> <span class="include">java.util</span>.*;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
+<span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
+
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
+
+<span class="comment">/**
+ * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
+ */</span>
+<span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span> {
+
+    <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
+
+    <span class="directive">public</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;RationalNumber&gt;&gt; stream(RationalNumber... set) {
+        PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
+
+        <span class="keyword">return</span> permutations.stream()
+            .flatMap(permutation -&gt; {
+                RationalNumber<span class="type">[]</span> permuted = permutation.permute(set);
+                <span class="keyword">return</span> AST.stream(
+                    <span class="predefined-type">List</span>.of(permuted),
+                    RationalNumbers.INSTANCE.getSupportedOperators()
+                );
+            })
+            .distinct()
+            .peek(e -&gt; {
+                tries.getAndIncrement();
+            });
+    }
+
+
+
+    <span class="directive">public</span> Stream&lt;EvaluatedExpression&lt;RationalNumber&gt;&gt; evaledStream(RationalNumber... set) {
+        <span class="keyword">return</span> stream(set)
+            .map(e -&gt; {
+                <span class="keyword">try</span> {
+                    RationalNumber evaled = e.eval();
+                    <span class="keyword">return</span> <span class="keyword">new</span> EvaluatedExpression&lt;&gt;(e, evaled);
+                } <span class="keyword">catch</span> (MathException ex) {
+                    <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+                }
+            })
+            .filter(Objects::nonNull);
+    }
+
+
+    <span class="comment">/**
+     *
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> SolverResult result(<span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span><span class="type">[]</span> numbers) {
+        RationalNumbers instance = RationalNumbers.INSTANCE;
+        RationalNumber result = instance.parse(resultString);
+        RationalNumber<span class="type">[]</span> set = <span class="keyword">new</span> RationalNumber[numbers.length];
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
+            set[i] = instance.parse(numbers[i]);
+        }
+        Solver solver = <span class="keyword">new</span> Solver();
+        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(set)
+            .filter(e -&gt;
+                e.result().eq(result)
+            ).map(EvaluatedExpression::toString),
+            solver.tries);
+    }
+
+    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries) {
+
+    }
+
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
+        <span class="keyword">if</span> (integers.length &lt; <span class="integer">3</span>) {
+            <span class="predefined-type">System</span>.out.println();
+            <span class="predefined-type">System</span>.exit(<span class="integer">1</span>);
+        }
+        SolverResult result = result(integers[<span class="integer">0</span>], <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
+        result.stream().forEach(<span class="predefined-type">System</span>.out::println);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready tried </span><span class="delimiter">&quot;</span></span> + result.tries.get());
+
+    }
+}</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
