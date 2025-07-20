@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.arithmetic.ast.AST;
 import org.meeuw.math.arithmetic.ast.Expression;
@@ -28,9 +29,13 @@ public  class Solver {
     public Stream<Expression<RationalNumber>> stream(RationalNumber... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
-        return permutations.stream().flatMap(permutation -> {
+        return permutations.stream()
+            .flatMap(permutation -> {
                 RationalNumber[] permuted = permutation.permute(set);
-                return AST.stream(List.of(permuted), List.of(operators));
+                return AST.stream(
+                    List.of(permuted),
+                    List.of(operators)
+                );
             })
             .distinct()
             .peek(e -> {
@@ -42,6 +47,7 @@ public  class Solver {
     public record EvaledExpression(Expression<RationalNumber> expression, RationalNumber result) {
 
         @Override
+        @NonNull
         public String toString() {
             return AST.toInfix(expression) + " = " + result;
         }
@@ -62,22 +68,34 @@ public  class Solver {
     }
 
 
+    public static Stream<String> result(String resultString, String[] numbers) {
+        RationalNumbers instance = RationalNumbers.INSTANCE;
+        RationalNumber result = instance.parse(resultString);
+        RationalNumber[] set = new RationalNumber[numbers.length];
+        for (int i = 0; i < set.length; i++) {
+            set[i] = instance.parse(numbers[i]);
+        }
+        Solver solver = new Solver();
+        return solver.evaledStream(set)
+            .filter(e ->
+                e.result().eq(result)
+            ).map(EvaledExpression::toString);
+    }
+
+    public static String[] resultList(String resultString, String[] numbers) {
+
+        return result(resultString, numbers)
+            .toArray(String[]::new);
+    }
 
     public static void main(String[] integers) {
         if (integers.length < 3) {
             System.out.println();
             System.exit(1);
         }
-        RationalNumber result = RationalNumber.of(Long.parseLong(integers[0]));
-        RationalNumber[] set = new RationalNumber[integers.length - 1];
-        for (int i = 1; i <= set.length; i++) {
-            set[i - 1] = RationalNumber.of(Long.parseLong(integers[i]));
-        }
-        Solver solver = new Solver();
-        solver.evaledStream(set)
-            .filter(e ->
-                e.result().eq(result)
-            ).forEach(System.out::println);
+        result(integers[0], Arrays.copyOfRange(integers, 1, integers.length))
+         .forEach(System.out::println);
+        System.out.println("ready");
 
     }
 }
