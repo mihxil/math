@@ -2,7 +2,13 @@
 
 let cj = null;
 async function setupCheerpj() {
-    await cheerpjInit({version: 17});
+    const properties=  [
+        `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
+    ]
+    await cheerpjInit({
+        version: 17,
+        javaProperties: properties
+    });
     const pref = document.location.pathname.startsWith("/math") ? "/app/math/jars/" : "/app/jars/";
     const version = "0.19-SNAPSHOT"
     cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}mihxil-functional-1.14.jar`);
