@@ -36,7 +36,10 @@ public interface Field<E extends FieldElement<E>> extends
     AbelianRing<E>,
     DivisibleGroup<E> {
 
-    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(DivisionRing.OPERATORS, AbelianRing.OPERATORS);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        DivisionRing.OPERATORS,
+        AbelianRing.OPERATORS
+    );
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(DivisionRing.UNARY_OPERATORS, AbelianRing.UNARY_OPERATORS);
 
