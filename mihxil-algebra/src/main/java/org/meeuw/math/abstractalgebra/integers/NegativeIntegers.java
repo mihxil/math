@@ -36,7 +36,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.OPERATION;
 
 /**
- * The 'Semigroup'  of  negative numbers
+ * The 'Semigroup' of negative numbers
  *
  * @author Michiel Meeuwissen
  * @since 0.8

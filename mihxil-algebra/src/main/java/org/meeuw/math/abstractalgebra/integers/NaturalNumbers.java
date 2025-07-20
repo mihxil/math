@@ -103,6 +103,18 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
         return true;
     }
     @Override
+    public boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator == BasicAlgebraicBinaryOperator.MULTIPLICATION) {
+            return multiplicationIsCommutative();
+        }
+
+        if (operator == BasicAlgebraicBinaryOperator.ADDITION) {
+            return additionIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+
+    }
+    @Override
     public boolean operationIsCommutative() {
         return MultiplicativeMonoid.super.operationIsCommutative();
     }

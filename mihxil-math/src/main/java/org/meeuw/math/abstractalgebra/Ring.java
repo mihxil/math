@@ -21,6 +21,10 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.ArrayUtils;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
+
 import org.meeuw.math.validation.Square;
 
 import static org.meeuw.math.ArrayUtils.minor;
@@ -125,5 +129,17 @@ public interface Ring<E extends RingElement<E>> extends Rng<E>, MultiplicativeMo
         }
         return result;
     }
+
+    @Override
+    default boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator.equals(MULTIPLICATION)) {
+            return multiplicationIsCommutative();
+        }
+        if (operator.equals(ADDITION)) {
+            return additionIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+    }
+
 
 }

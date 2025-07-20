@@ -20,6 +20,8 @@ import java.util.NavigableSet;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
+
 /**
  * A commutative ring, next to {@link AdditiveSemiGroupElement#plus(AdditiveSemiGroupElement) addition}, also {@link MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement) multiplication} is commutative.
  *
@@ -41,6 +43,13 @@ public interface AbelianRing<E extends AbelianRingElement<E>>
     @Override
     default boolean multiplicationIsCommutative() {
         return true;
+    }
+    @Override
+    default boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator.equals(MULTIPLICATION)) {
+            return multiplicationIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
     }
 
 }

@@ -69,4 +69,12 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
         return multiplicationIsCommutative();
     }
 
+    @Override
+    default boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator.equals(MULTIPLICATION)) {
+            return multiplicationIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+    }
+
 }

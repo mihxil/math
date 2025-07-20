@@ -39,7 +39,6 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 @Singleton
 public class PositiveIntegers extends AbstractIntegers<PositiveInteger, PositiveInteger, PositiveIntegers>
     implements
-
     MultiplicativeMonoid<PositiveInteger>,
     MultiplicativeAbelianSemiGroup<PositiveInteger>,
     AdditiveAbelianSemiGroup<PositiveInteger> {
@@ -57,6 +56,8 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     private PositiveIntegers() {
         super(PositiveInteger.class);
     }
+
+
 
     @Override
     PositiveInteger of(BigInteger value) {
@@ -94,6 +95,18 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     @Override
     public boolean operationIsCommutative() {
         return multiplicationIsCommutative();
+    }
+    @Override
+    public boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator == BasicAlgebraicBinaryOperator.MULTIPLICATION) {
+            return multiplicationIsCommutative();
+        }
+
+        if (operator == BasicAlgebraicBinaryOperator.ADDITION) {
+            return additionIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+
     }
 
     @Override

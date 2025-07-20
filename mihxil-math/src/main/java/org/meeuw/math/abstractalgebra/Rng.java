@@ -21,6 +21,8 @@ import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 
 /**
  * Like a {@link Ring} but without multiplicative identity.
@@ -55,6 +57,16 @@ public interface Rng<E extends RngElement<E>> extends
     @Override
     default boolean operationIsCommutative() {
         return multiplicationIsCommutative();
+    }
+      @Override
+    default boolean isCommutative(AlgebraicBinaryOperator operator) {
+        if (operator.equals(MULTIPLICATION)) {
+            return multiplicationIsCommutative();
+        }
+        if (operator.equals(ADDITION)) {
+            return additionIsCommutative();
+        }
+        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
     }
 
 }

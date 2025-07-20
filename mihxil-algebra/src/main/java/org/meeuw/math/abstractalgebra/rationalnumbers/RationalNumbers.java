@@ -34,7 +34,7 @@ import org.meeuw.math.streams.StreamUtils;
 import static java.math.BigInteger.ONE;
 
 /**
- * Implementation of the field of Rational Numbers, commonly referred to as ℚ
+ * Implementation for the field of Rational Numbers, commonly referred to as ℚ
  *
  * @author Michiel Meeuwissen
  * @since 0.4
