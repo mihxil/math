@@ -49,7 +49,7 @@ public interface AbelianRing<E extends AbelianRingElement<E>>
         if (operator.equals(MULTIPLICATION)) {
             return multiplicationIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
     }
 
 }

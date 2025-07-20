@@ -50,20 +50,11 @@ public class DateParser implements Supplier<ZonedDateTime> {
     private int week = -1;
     private boolean positive = true;
 
-    private final Clock clock;
-    private final Locale locale;
+    private final Clock clock = Clock.systemDefaultZone();
+    private final Locale locale = Locale.getDefault();
 
     private ZonedDateTime cal = getInstance();
 
-
-    public DateParser() {
-        this(null, null);
-    }
-
-    public DateParser(Clock clock, Locale locale) {
-        this.clock = clock == null ? Clock.systemDefaultZone() : clock;
-        this.locale = locale == null ? Locale.getDefault(): locale;
-    }
 
 
     public static void main(String[] argv) throws ParseException, InterruptedException {

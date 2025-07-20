@@ -111,7 +111,7 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
         if (operator == BasicAlgebraicBinaryOperator.ADDITION) {
             return additionIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
 
     }
     @Override

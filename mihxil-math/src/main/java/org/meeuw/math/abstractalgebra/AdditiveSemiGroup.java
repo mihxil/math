@@ -53,7 +53,7 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
         if (operator.equals(ADDITION)) {
             return additionIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutatative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
     }
 
 }
