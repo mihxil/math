@@ -159,6 +159,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * @param rowConsumer A consumer for every {@code n + 1} produced tuple of {@code n + 1} strings.
      * @throws NotFiniteException if the structure is not finite.
      */
+    @SuppressWarnings("unchecked")
     default void cayleyTable(AlgebraicBinaryOperator op, Consumer<String[]> rowConsumer) {
         if (!isFinite()) {
             throw new NotFiniteException("Cayley table can only be produced for finite algebraic structures, but " + this + " is " + getCardinality());
@@ -169,7 +170,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         Streamable<E> streamable = (Streamable<E>) this;
         streamable.stream().forEach(e ->
             line.add(e.toString()));
-        rowConsumer.accept(line.toArray(new String[line.size()]));
+        rowConsumer.accept(line.toArray(new String[0]));
         line.clear();
         streamable.stream().forEach(e1 -> {
                 line.add(e1.toString());
@@ -180,7 +181,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
                         line.add(oe.getClass().getSimpleName() + ":" + oe.getMessage());
                     }
                 });
-                rowConsumer.accept(line.toArray(new String[line.size()]));
+                rowConsumer.accept(line.toArray(new String[0]));
                 line.clear();
             }
             );
@@ -254,6 +255,17 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      */
     default E parse(String value) throws NotParsable{
         throw new NotParsable("parseElement not implemented in " + this.getClass() + " " + this);
+    }
+
+    /**
+     * since 0.19
+     */
+    default boolean isCommutative(AlgebraicBinaryOperator op) {
+        var ops = getSupportedOperators();
+        if (! ops.contains(op)) {
+            return false;
+        }
+        throw new NoSuchOperatorException(op + " is not one of " + ops + " of " + this);
     }
 
 }
