@@ -16,7 +16,7 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
-[*.java]
+[{*.java,*.jj}]
 indent_size = 4
 indent_style = space
 tab_width = 4
