@@ -21,10 +21,19 @@ Give desired outcome number, and a few input numbers, and it will find the possi
 </form>
 ++++
 
-[%collapsible, title=source code]
+[%collapsible, title=java source code]
 ====
+This is the source code for the above.
 [source,java]
 ----
 include::../mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/Solver.java[indent=-]
+----
+====
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+include::demo.js[indent=-,tag=solver]
 ----
 ====

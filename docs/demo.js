@@ -9,12 +9,16 @@ async function setupCheerpj() {
 }
 
 
+// tag::solver[]
+
+
 async function setupSolver() {
 
 	const form = document.querySelector('#solver');
 	const button = form.querySelector('button');
 	const buttonText = button.textContent;
 	const textarea = form.querySelector('textarea');
+
 
 	let Solver = null;
 	form.onsubmit = async (e) => {
@@ -53,4 +57,4 @@ async function setupSolver() {
 }
 setupSolver();
 
-
+# end::solver[]
