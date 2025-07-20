@@ -34,7 +34,8 @@ public class AST {
                 return stream(leftLeaves, operators)
                     .flatMap(left -> stream(rightLeaves, operators)
                         .flatMap(right -> operators.stream()
-                            .map(op -> new BinaryOperation<>(op, left, right))));
+                            .map(op -> new BinaryOperation<>(op, left, right)))
+                    );
             });
     }
 
