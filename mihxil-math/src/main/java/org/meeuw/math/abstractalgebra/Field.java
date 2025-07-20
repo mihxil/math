@@ -25,7 +25,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 /**
  * <a href="https://en.wikipedia.org/wiki/Field_(mathematics)">Field</a>
  * <p>
- * For simplicity it is both an {@link AdditiveGroup} and a {@link MultiplicativeGroup}, which is not absolutely correct, because it contains one element {@link #zero()} that has no multiplicative {@link MultiplicativeGroupElement#reciprocal()}.
+ * For simplicity, it is both an {@link AdditiveGroup} and a {@link MultiplicativeGroup}, which is not absolutely correct, because it contains one element {@link #zero()} that has no multiplicative {@link MultiplicativeGroupElement#reciprocal()}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4

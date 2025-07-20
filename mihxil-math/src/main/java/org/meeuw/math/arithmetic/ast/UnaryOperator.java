@@ -20,4 +20,9 @@ public class UnaryOperator<E extends AlgebraicElement<E>> implements Expression<
     public E eval() {
         return operator.apply(operand.eval());
     }
+
+    @Override
+    public int compareTo(Expression<E> o) {
+        return 0;
+    }
 }

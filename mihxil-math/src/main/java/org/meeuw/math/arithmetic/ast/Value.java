@@ -14,7 +14,6 @@ public class Value<E extends AlgebraicElement<E>> implements Expression<E> {
     public Value(E value) {
         this.value = value;
     }
-
     @Override
     public E eval() {
         return value;
@@ -25,4 +24,8 @@ public class Value<E extends AlgebraicElement<E>> implements Expression<E> {
         return value.toString();
     }
 
+    @Override
+    public int compareTo(Expression<E> o) {
+        return value.toString().compareTo(o.toString());
+    }
 }

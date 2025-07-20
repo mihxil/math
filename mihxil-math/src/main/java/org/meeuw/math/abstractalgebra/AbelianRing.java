@@ -20,6 +20,7 @@ import java.util.NavigableSet;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 
 /**
@@ -48,6 +49,9 @@ public interface AbelianRing<E extends AbelianRingElement<E>>
     default boolean isCommutative(AlgebraicBinaryOperator operator) {
         if (operator.equals(MULTIPLICATION)) {
             return multiplicationIsCommutative();
+        }
+        if (operator.equals(ADDITION)) {
+            return additionIsCommutative();
         }
         return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
     }

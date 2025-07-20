@@ -30,7 +30,7 @@ public class BinaryOperation<E extends AlgebraicElement<E>> implements Expressio
 
     @Override
     public BinaryOperation<E> canonize(AlgebraicStructure<E> structure) {
-        if (structure.isCommutative(operator) && left.canonize(structure).hashCode() > right.canonize(structure).hashCode()) {
+        if (structure.isCommutative(operator) && left.canonize(structure).compareTo(  right.canonize(structure)) > 0)  {
             return reverse();
         } else {
             return this;
@@ -51,5 +51,8 @@ public class BinaryOperation<E extends AlgebraicElement<E>> implements Expressio
     }
 
 
-
+    @Override
+    public int compareTo(Expression<E> o) {
+        return toString().compareTo(o.toString());
+    }
 }

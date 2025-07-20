@@ -34,7 +34,8 @@ public  class Solver {
                 AST.stream(
                     permuted,
                     OPERATORS
-                ))
+                )
+            )
             .map( e -> e.canonize(RationalNumbers.INSTANCE))
             .distinct()
             .peek(e -> tries.getAndIncrement());
