@@ -22,6 +22,8 @@ import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -46,6 +48,8 @@ public interface MultiplicativeAbelianSemiGroupTheory<E extends MultiplicativeSe
     default void multiplicativeCommutativityProperty(
         @ForAll(STRUCTURE) MultiplicativeSemiGroup<E> group) {
         assertThat(group.multiplicationIsCommutative()).isTrue();
+        assertThat(group.isCommutative(BasicAlgebraicBinaryOperator.MULTIPLICATION)).isTrue();
+
     }
 
 }

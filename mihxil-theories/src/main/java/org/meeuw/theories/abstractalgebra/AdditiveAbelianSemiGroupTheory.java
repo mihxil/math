@@ -18,7 +18,9 @@ package org.meeuw.theories.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.AdditiveSemiGroup;
+import org.meeuw.math.abstractalgebra.AdditiveSemiGroupElement;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,6 +42,7 @@ public interface AdditiveAbelianSemiGroupTheory<E extends AdditiveSemiGroupEleme
     default void additiveCommutativityProperty(
         @ForAll(STRUCTURE) AdditiveSemiGroup<E> group) {
         assertThat(group.additionIsCommutative()).isTrue();
+        assertThat(group.isCommutative(BasicAlgebraicBinaryOperator.ADDITION)).isTrue();
     }
 
 }
