@@ -16,3 +16,9 @@ A clock which must be manually 'ticked'. This  is mainly useful for testing purp
 === `UniqueClock`
 
 A clock for which each call is guaranteed to result an Instant strictly after all previous calls. This can be used in tests, but also in production code, for example to ensure that events are always uniquely ordered.
+
+== Dynamic date time parsing
+
+Can be found in DynamicDateTime. E.g. parse things like 'tomorrow' to actual time instances.
+
+TODO: add more documentation
