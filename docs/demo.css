@@ -18,3 +18,7 @@ form.demo button {
   width: 100%;
   box-sizing: border-box;
 }
+
+form#dynamicdate textarea {
+  height: 2em;
+}

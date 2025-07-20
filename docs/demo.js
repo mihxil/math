@@ -8,6 +8,19 @@ async function setupCheerpj() {
     cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}mihxil-functional-1.14.jar`);
 }
 
+async function setupFormWithClass(button, clazz, instance) {
+    button.disabled = true;
+    if (cj === null) {
+        button.textContent = "loading...";
+        await setupCheerpj();
+    }
+    if (instance == null) {
+        button.textContent = "loading...";
+        instance = await cj[clazz]
+        console.log(instance);
+    }
+    return instance;
+}
 
 // tag::solver[]
 
@@ -19,20 +32,10 @@ async function setupSolver() {
     const buttonText = button.textContent;
     const textarea = form.querySelector('textarea');
 
-
     let Solver = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        button.disabled = true;
-        if (cj === null) {
-            button.textContent = "loading...";
-            await setupCheerpj();
-        }
-        if (Solver == null) {
-            button.textContent = "loading...";
-            Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
-            console.log(Solver);
-        }
+        Solver = await setupFormWithClass(button, 'org.meeuw.math.abstractalgebra.rationalnumbers.Solver', Solver);
         const result = form.querySelector("#solver_result").value;
         const numbers = form.querySelector("#solver_numbers").value.split(" ");
         textarea.value = '';
@@ -75,24 +78,14 @@ async function setupDynamicDate() {
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        button.disabled = true;
-        if (cj === null) {
-            button.textContent = "loading...";
-            await setupCheerpj();
-        }
-        if (DynamicDateTime == null) {
-            button.textContent = "loading...";
-            DynamicDateTime = await cj.org.meeuw.time.dateparser.DynamicDateTime
-            console.log(DynamicDateTime);
-        }
-        textarea.value = '';
+        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.dateparser.DynamicDateTime', DynamicDateTime);
         button.textContent = "executing..";
         try {
             const parser = await new DynamicDateTime();
             const parseResult = await parser.parse(form.querySelector("#dynamicdate_toparse").value);
-            textarea.value += await parseResult.toString();
+            textarea.value = await parseResult.toString();
         } catch (error) {
-            textarea.value += await error.toString();
+            textarea.value = await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = false;

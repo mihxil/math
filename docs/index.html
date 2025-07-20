@@ -56,6 +56,7 @@
 <li><a href="#_uniqueclock">2.1.2. <code>UniqueClock</code></a></li>
 </ul>
 </li>
+<li><a href="#_dynamic_date_time_parsing">2.2. Dynamic date time parsing</a></li>
 </ul>
 </li>
 <li><a href="#_statistics">3. statistics</a></li>
@@ -692,6 +693,15 @@ Your browser does not support the video tag.
 <div class="paragraph">
 <p>A clock for which each call is guaranteed to result an Instant strictly after all previous calls. This can be used in tests, but also in production code, for example to ensure that events are always uniquely ordered.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dynamic_date_time_parsing">2.2. Dynamic date time parsing</h3>
+<div class="paragraph">
+<p>Can be found in DynamicDateTime. E.g. parse things like 'tomorrow' to actual time instances.</p>
+</div>
+<div class="paragraph">
+<p>TODO: add more documentation</p>
 </div>
 </div>
 </div>
@@ -1401,6 +1411,25 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>Give desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.</p>
 </div>
+<div class="paragraph">
+<p>This combines several aspects of this project:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It uses 'rational numbers' to make all operations exact</p>
+</li>
+<li>
+<p>It uses the permutation group to permute all combinations of values</p>
+</li>
+<li>
+<p>It uses the Abstract Syntax Tree feature to combine values and operators</p>
+</li>
+<li>
+<p>It uses some features of the group of 'RationalNumbers', e.g. to perform operators genericly.</p>
+</li>
+</ul>
+</div>
 <form id="solver" class="demo">
   <label for="solver_result">Desired outcome:</label> <input type="text" id="solver_result"  list="result-examples" value="24" />
    <datalist id="solver_result-examples">
@@ -1537,20 +1566,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     const buttonText = button.textContent;
     const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
 
-
     let Solver = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        button.disabled = <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (cj === <span class="predefined-constant">null</span>) {
-            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
-            await setupCheerpj();
-        }
-        <span class="keyword">if</span> (Solver == <span class="predefined-constant">null</span>) {
-            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
-            Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
-            console.log(Solver);
-        }
+        Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.abstractalgebra.rationalnumbers.Solver</span><span class="delimiter">'</span></span>, Solver);
         const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_result</span><span class="delimiter">&quot;</span></span>).value;
         const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_numbers</span><span class="delimiter">&quot;</span></span>).value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
         textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
@@ -1611,16 +1630,7 @@ setupSolver();</code></pre>
     let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        button.disabled = <span class="predefined-constant">true</span>;
-        <span class="keyword">if</span> (cj === <span class="predefined-constant">null</span>) {
-            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
-            await setupCheerpj();
-        }
-        <span class="keyword">if</span> (DynamicDateTime == <span class="predefined-constant">null</span>) {
-            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">loading...</span><span class="delimiter">&quot;</span></span>;
-            DynamicDateTime = await cj.org.meeuw.time.dateparser.DynamicDateTime
-            console.log(DynamicDateTime);
-        }
+        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>, DynamicDateTime);
         textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
