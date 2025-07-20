@@ -23,7 +23,11 @@ async function setupSolver() {
 		if (cj === null) {
 			button.textContent = "loading...";
 			await setupCheerpj();
+		}
+		if (Solver == null) {
+			button.textContent = "loading...";
 			Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
+			console.log(Solver);
 		}
 		const result = form.querySelector("#result").value;
 		const numbers = form.querySelector("#numbers").value.split(" ");
@@ -37,6 +41,8 @@ async function setupSolver() {
 				textarea.value += await lines[i].toString() + "\n";
 			}
 			const tries = await (await solverResult.tries()).get();
+			const matches = await (await solverResult.matches()).get();
+			textarea.value += `\nFound: ${matches}`;
 			textarea.value += `\nTried: ${tries}`;
 		} catch (error) {
 			textarea.value += await error.toString();
