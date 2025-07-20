@@ -5,7 +5,7 @@ async function setupCheerpj() {
     await cheerpjInit({version: 17});
     const pref = document.location.pathname.startsWith("/math") ? "/app/math/jars/" : "/app/jars/";
     const version = "0.19-SNAPSHOT"
-    cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-functional-1.14.jar`);
+    cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}mihxil-functional-1.14.jar`);
 }
 
 
@@ -33,8 +33,8 @@ async function setupSolver() {
             Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
             console.log(Solver);
         }
-        const result = form.querySelector("#result").value;
-        const numbers = form.querySelector("#numbers").value.split(" ");
+        const result = form.querySelector("#solver_result").value;
+        const numbers = form.querySelector("#solver_numbers").value.split(" ");
         textarea.value = '';
         button.textContent = "executing..";
         try {
@@ -58,3 +58,46 @@ async function setupSolver() {
 setupSolver();
 
 //end::solver[]
+
+
+
+
+// tag::dynamicdate[]
+
+
+async function setupDynamicDate() {
+
+    const form = document.querySelector('#dynamicdate');
+    const button = form.querySelector('button');
+    const buttonText = button.textContent;
+    const textarea = form.querySelector('textarea');
+
+    let DynamicDateTime = null;
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        button.disabled = true;
+        if (cj === null) {
+            button.textContent = "loading...";
+            await setupCheerpj();
+        }
+        if (DynamicDateTime == null) {
+            button.textContent = "loading...";
+            DynamicDateTime = await cj.org.meeuw.time.dateparser.DynamicDateTime
+            console.log(DynamicDateTime);
+        }
+        textarea.value = '';
+        button.textContent = "executing..";
+        try {
+            const parser = await new DynamicDateTime();
+            const parseResult = await parser.parse(form.querySelector("#dynamicdate_toparse").value);
+            textarea.value += await parseResult.toString();
+        } catch (error) {
+            textarea.value += await error.toString();
+        }
+        button.textContent = buttonText;
+        button.disabled = false;
+    };
+}
+setupDynamicDate();
+
+//end::dynamicdate[]
