@@ -103,7 +103,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         List<String> test = new ArrayList<>();
         PermutationGroup.ofDegree(3).stream()
             .map(p -> p.apply(values))
-            .map(List::of)
+            .map(List::of) // List has proper equals, so distinct works as wanted.
             .distinct()
             .forEach(a -> {
                 String s = a.stream().map(Object::toString).collect(Collectors.joining(", "));
