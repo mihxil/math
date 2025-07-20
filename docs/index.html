@@ -1389,7 +1389,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>This is a running demo (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>)
 Give desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.</p>
 </div>
-<form class="demo">
+<form id="solver" class="demo">
   <label for="result">Desired outcome:</label> <input type="text" id="result"  list="result-examples" value="24" />
    <datalist id="result-examples">
      <option value="24">
@@ -1402,7 +1402,7 @@ Give desired outcome number, and a few input numbers, and it will find the possi
   <br />
   <textarea id="output" > </textarea>
   <br />
-  <button id="submit" name="submit" disabled="true">loading...</button>
+  <button id="submit" name="submit">go!</button>
 </form>
 <div class="listingblock">
 <div class="content">
