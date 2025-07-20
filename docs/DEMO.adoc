@@ -59,3 +59,13 @@ The `mihxil-time` module contain a 'dynamic date parser`
   <button name="submit">go!</button>
 </form>
 ++++
+
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+include::demo.js[indent=-,tag=dynamicdate]
+----
+====
+
