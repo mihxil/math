@@ -24,4 +24,4 @@ Give desired outcome number, and a few input numbers, and it will find the possi
 [source,java]
 ----
 include::../mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/rationalnumbers/Solver.java[indent=-]
----
+----

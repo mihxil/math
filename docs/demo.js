@@ -29,11 +29,14 @@ form.onsubmit =  async (e) => {
 	const numbers = document.querySelector("#numbers").value.split(" ");
 
 	try {
-		const stream = await Solver.result(result, numbers);
-		const lines = await stream.toArray()
+		const solverResult = await Solver.result(result, numbers);
+		const stream = await solverResult.stream();
+		const lines = await stream.toArray();
 		for (let i = 0; i < lines.length; i++) {
 			textarea.value += await lines[i].toString() + "\n";
 		}
+		const tries = await (await solverResult.tries()).get();
+		textarea.value += `\nTried: ${tries}`;
 	} catch (error) {
 		textarea.value += await error.toString();
 	}

@@ -1,5 +1,6 @@
 package org.meeuw.math.arithmetic.ast;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -21,7 +22,7 @@ public class AST {
      * @param operators
      */
     public static <E extends AlgebraicElement<E>> Stream<Expression<E>> stream(
-        List<E> leaves, List<AlgebraicBinaryOperator> operators) {
+        List<E> leaves, Collection<AlgebraicBinaryOperator> operators) {
         if (leaves.size() == 1) {
             return Stream.of(new Value<>(leaves.get(0)));
         }
