@@ -96,6 +96,26 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     }
 
+
+    @Test
+    public void permuteWithDuplicates() {
+        String[] values = {"a", "b", "b"};
+        List<String> test = new ArrayList<>();
+        PermutationGroup.ofDegree(3).stream()
+            .map(p -> p.apply(values))
+            .map(List::of)
+            .distinct()
+            .forEach(a -> {
+                String s = a.stream().map(Object::toString).collect(Collectors.joining(", "));
+            log.info(s);
+            test.add(s);
+        });
+        assertThat(test).containsExactly(
+            "a, b, b", "b, a, b", "b, b, a"
+
+        );
+    }
+
     @Test
     public void permuteInts() {
         final Permutation permutation = Permutation.of(2, 3, 1);
