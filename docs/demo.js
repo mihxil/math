@@ -1,48 +1,50 @@
-const form = document.querySelector('form');
-const button = document.getElementById('submit');
-
-form.onsubmit = async (e) => {
-  e.preventDefault();
-};
-
-await cheerpjInit({version: 17});
-
-const pref = document.location.pathname.startsWith("/math") ? "/app/math/jars/": "/app/jars/";
 
 
-const version= "0.19-SNAPSHOT"
-const cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-functional-1.14.jar`);
-
-const Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
-
-
-const textarea = document.querySelector('textarea');
-
-button.textContent = "go!";
-button.disabled = false;
-form.onsubmit =  async (e) => {
-	e.preventDefault();
-	textarea.value = '';
-	button.textContent = "executing..";
-	button.disabled = true;
-	const result = document.querySelector("#result").value;
-	const numbers = document.querySelector("#numbers").value.split(" ");
-
-	try {
-		const solverResult = await Solver.result(result, numbers);
-		const stream = await solverResult.stream();
-		const lines = await stream.toArray();
-		for (let i = 0; i < lines.length; i++) {
-			textarea.value += await lines[i].toString() + "\n";
-		}
-		const tries = await (await solverResult.tries()).get();
-		textarea.value += `\nTried: ${tries}`;
-	} catch (error) {
-		textarea.value += await error.toString();
-	}
-	button.textContent = "go!";
-	button.disabled = false;
-
+let cj = null;
+async function setupCheerpj() {
+	await cheerpjInit({version: 17});
+	const pref = document.location.pathname.startsWith("/math") ? "/app/math/jars/" : "/app/jars/";
+	const version = "0.19-SNAPSHOT"
+	cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-functional-1.14.jar`);
 }
+
+
+async function setupSolver() {
+
+	const form = document.querySelector('#solver');
+	const button = form.querySelector('button');
+	const buttonText = button.textContent;
+	const textarea = form.querySelector('textarea');
+
+	let Solver = null;
+	form.onsubmit = async (e) => {
+		e.preventDefault();
+		button.disabled = true;
+		if (cj === null) {
+			button.textContent = "loading...";
+			await setupCheerpj();
+			Solver = await cj.org.meeuw.math.abstractalgebra.rationalnumbers.Solver
+		}
+		const result = form.querySelector("#result").value;
+		const numbers = form.querySelector("#numbers").value.split(" ");
+		textarea.value = '';
+		button.textContent = "executing..";
+		try {
+			const solverResult = await Solver.result(result, numbers);
+			const stream = await solverResult.stream();
+			const lines = await stream.toArray();
+			for (let i = 0; i < lines.length; i++) {
+				textarea.value += await lines[i].toString() + "\n";
+			}
+			const tries = await (await solverResult.tries()).get();
+			textarea.value += `\nTried: ${tries}`;
+		} catch (error) {
+			textarea.value += await error.toString();
+		}
+		button.textContent = buttonText;
+		button.disabled = false;
+	};
+}
+setupSolver();
 
 
