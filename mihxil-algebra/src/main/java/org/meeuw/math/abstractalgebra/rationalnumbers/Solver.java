@@ -17,8 +17,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  */
 public  class Solver {
 
-    private static RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
-
+    private static final RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
