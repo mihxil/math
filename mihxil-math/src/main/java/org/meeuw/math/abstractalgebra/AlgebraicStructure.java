@@ -271,9 +271,9 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         AlgebraicBinaryOperator  op, NavigableSet<AlgebraicBinaryOperator> supportedOperators) {
 
         if (! supportedOperators.contains(op)) {
-            return false;
+            throw new NoSuchOperatorException(op + " is not one of " + supportedOperators);
         }
-        throw new NoSuchOperatorException(op + " is not one of " + supportedOperators);
+        return false;
     }
 
 }
