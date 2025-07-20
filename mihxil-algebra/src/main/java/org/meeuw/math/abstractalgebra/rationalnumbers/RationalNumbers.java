@@ -17,6 +17,8 @@ package org.meeuw.math.abstractalgebra.rationalnumbers;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.*;
@@ -24,6 +26,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
 import org.meeuw.math.streams.StreamUtils;
@@ -121,5 +124,31 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     @Override
     public String toString() {
         return "ℚ";
+    }
+
+    static Pattern PATTERN = Pattern.compile("^\\s*(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+)\\s*$");
+    @Override
+    public RationalNumber parse(String s) {
+        Matcher m = PATTERN.matcher(s);
+        if (!m.matches()) {
+            throw new NotParsable("Invalid rational number: " + s);
+        }
+        if (m.group(4) != null) {
+            // Just an integer
+            return RationalNumber.of(new BigInteger(m.group(4)), BigInteger.ONE);
+        } else if (m.group(1) != null && m.group(2) != null && m.group(3) != null) {
+            // Mixed number: whole numerator/denominator
+            BigInteger w = new BigInteger(m.group(1));
+            BigInteger n = new BigInteger(m.group(2));
+            BigInteger d = new BigInteger(m.group(3));
+            BigInteger num = w.abs().multiply(d).add(n);
+            if (w.signum() < 0) num = num.negate();
+            return RationalNumber.of(num, d);
+        } else if (m.group(2) != null && m.group(3) != null) {
+            // Just a fraction
+            return RationalNumber.of(new BigInteger(m.group(2)), new BigInteger(m.group(3)));
+        } else {
+            throw new NotParsable("Invalid rational number: " + s);
+        }
     }
 }
