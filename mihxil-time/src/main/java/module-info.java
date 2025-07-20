@@ -40,6 +40,7 @@ module org.meeuw.time {
     exports org.meeuw.time;
     exports org.meeuw.time.text.spi;
     exports org.meeuw.time.text;
+    exports org.meeuw.time.dateparser;
 
     uses AlgebraicElementFormatProvider;
 

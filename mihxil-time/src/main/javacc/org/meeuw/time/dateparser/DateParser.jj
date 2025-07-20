@@ -37,36 +37,30 @@ import java.util.*;
 import java.util.function.Supplier;
 
 
-public class DateParser implements Supplier<ZonedDateTime> {
-
-    private  Random random = new Random();
+class DateParser implements Supplier<ZonedDateTime> {
 
     private boolean dynamic = true;
-    private long prev = 0;
+    private ZonedDateTime prev = null;
     private int amount = 0;
     private int factor = 1;
     private TemporalField field = null;
+    private TemporalUnit unit = null;
     private int monthorday = -1;
     private int week = -1;
     private boolean positive = true;
 
-    private final Clock clock = Clock.systemDefaultZone();
-    private final Locale locale = Locale.getDefault();
+    private ZonedDateTime cal = null;
 
-    private ZonedDateTime cal = getInstance();
+    private DynamicDateTime dynamicDateTime;
 
-
-
-    public static void main(String[] argv) throws ParseException, InterruptedException {
-        DateParser parser = new DateParser(new StringReader(argv[0]));
-        parser.start();
-        System.out.println("" + parser.get());
+    protected void setDynamicDateTime(DynamicDateTime dynamicDateTime) {
+        this.dynamicDateTime = dynamicDateTime;
+        this.cal = getInstance();
     }
 
     public ZonedDateTime get()  {
         return cal;
     }
-
     public boolean dynamic()  {
         return dynamic;
     }
@@ -87,8 +81,7 @@ public class DateParser implements Supplier<ZonedDateTime> {
 
     protected void beginOfWeek() {
         beginOfDay();
-        DayOfWeek firstDayOfWeek = WeekFields.of(locale).getFirstDayOfWeek();
-        setDayOfWeek(firstDayOfWeek);
+        setDayOfWeek(dynamicDateTime.getFirstDayOfWeek());
     }
 
     protected void beginOfMonth() {
@@ -96,7 +89,7 @@ public class DateParser implements Supplier<ZonedDateTime> {
         beginOfDay();
     }
     protected void beginOfYear() {
-        cal = cal.withMonth(Month.JANUARY.getValue());
+        setMonth(Month.JANUARY);
         beginOfMonth();
     }
     protected void beginOfCentury(boolean pedantic) {
@@ -107,17 +100,17 @@ public class DateParser implements Supplier<ZonedDateTime> {
     }
     protected void beginOfEra() {
         beginOfYear();
-        Chronology chronology = Chronology.ofLocale(locale);
-        ChronoLocalDate minDate = chronology.dateEpochDay(Long.MIN_VALUE);
-        int minYear = minDate.get(ChronoField.YEAR_OF_ERA);
-        cal = cal.withYear(minYear);
+        cal = cal.withYear(1970);
     }
 
     protected ZonedDateTime getInstance() {
-        return ZonedDateTime.now(clock);
+        return dynamicDateTime.getInstance();
     }
     protected void setDayOfWeek(DayOfWeek day) {
-        cal = cal.with(TemporalAdjusters.nextOrSame(targetDay));
+        cal = cal.with(TemporalAdjusters.nextOrSame(day));
+    }
+    protected void setMonth(Month month) {
+        cal = cal.withMonth(month.getValue());
     }
 }
 
@@ -185,17 +178,25 @@ void date() :  {}
             beginOfMonth(); }
     | "yesteryear" { cal = getInstance();
      cal = cal.minusYears(1); beginOfYear(); }
-    | "duration" { beginOfYear(); cal.setTimeZone(TimeZone.getTimeZone("UTC")); cal.set(Calendar.YEAR, 1970); }
-    | "borreltijd"  { beginOfHour();
-           cal=cal.withHour(17);
-           setDayOfWeek(Calendar.FRIDAY);
+    | "duration" {
+         beginOfYear();
+         dynamicDateTime.setZoneId(ZoneId.of("UTC"));
+         cal = dynamicDateTime.resetToEra();
+        }
+    | "borreltijd"  {
+           beginOfHour();
+           cal = cal.withHour(17);
+           setDayOfWeek(DayOfWeek.FRIDAY);
     }
 }
 
 void time_zone() : {}
 {
- <TIMEZONE> {cal.setTimeZone(TimeZone.getTimeZone(token.toString().substring(2).trim()));}
-  |  "Z" { cal.setTimeZone(TimeZone.getTimeZone("UTC"));} //  For compatibility ISO_8601 (with trailing 'Z')
+ <TIMEZONE> {
+    cal = cal.withZoneSameLocal(ZoneId.of(token.toString().substring(2).trim()));}
+  |  "Z" {
+      cal.withZoneSameLocal(ZoneId.of("UTC"));
+} //  For compatibility ISO_8601 (with trailing 'Z')
 }
 
 void unary() : {}
@@ -212,15 +213,25 @@ void integer() : {}
 
 void seconds() : {}
 {
-    integer() {  cal.setTimeInMillis((positive ? 1 : -1 ) * Long.parseLong(token.toString()) * 1000); dynamic = false; positive = true;}
+    integer() {
+
+      cal = dynamicDateTime.resetToEra();
+      cal = cal.plusNanos(1_000_000 * ((positive ? 1 : -1 ) * Long.parseLong(token.toString()) * 1000));
+      dynamic = false; positive = true;
+    }
 }
 void year_number() : { }
 {
-    integer()  {  cal.set(Calendar.YEAR, (positive ? 1 : -1) * Integer.parseInt(token.toString())); positive = true;}
+    integer()  {
+          cal = cal.withYear((positive ? 1 : -1) * Integer.parseInt(token.toString()));
+          positive = true;
+    }
 }
 void week_number() : { }
 {
-    <POSITIVE>  {  cal.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(token.toString()));}
+    <POSITIVE>  {
+        cal = cal.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, Integer.parseInt(token.toString()));
+    }
 }
 
 void inc_number() : { }
@@ -236,61 +247,91 @@ void day_of_month_or_week_number() : { }
 {
     <POSITIVE> {
         if (monthorday > 0) {
-            cal.set(Calendar.MONTH, monthorday - 1);
+            cal = cal.withMonth(monthorday);
             monthorday = -1;
-            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(token.toString()));
+            cal = cal.withDayOfMonth(Integer.parseInt(token.toString()));
         } else {
-            cal.set(Calendar.WEEK_OF_YEAR, week);
+            cal = cal.with(IsoFields.WEEK_OF_WEEK_BASED_YEAR, week);
             week = -1;
             int day = (Integer.parseInt(token.toString()) + 1) % 7; if (day == 0) day = 7;
-            cal.set(Calendar.DAY_OF_WEEK, day);
+            setDayOfWeek(DayOfWeek.of(day));
         }
     }
 }
 void day_of_year_number() : { }
 {
-    <POSITIVE> { cal.set(Calendar.DAY_OF_YEAR, Integer.parseInt(token.toString()));}
+    <POSITIVE> {
+       cal = cal.withDayOfYear(Integer.parseInt(token.toString()));
+    }
 }
 void day_of_week_number() : { }
 {
-    <POSITIVE> { cal.set(Calendar.DAY_OF_WEEK, Integer.parseInt(token.toString()));}
+    <POSITIVE> {
+
+       setDayOfWeek(DayOfWeek.of(Integer.parseInt(token.toString())));
+    }
 }
 
 void hour_number() : { }
 {
-    <POSITIVE> { cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(token.toString()));}
+    <POSITIVE> {
+        int parsed = Integer.parseInt(token.toString());
+        while(parsed > 23) {
+            parsed -= 24;
+            cal = cal.plusDays(1);
+        }
+        while (parsed < 0) {
+            parsed += 24;
+            cal = cal.minusDays(1);
+        }
+        cal = cal.withHour(parsed);
+     }
 }
 void minute_number() : { }
 {
-    <POSITIVE> { cal.set(Calendar.MINUTE, Integer.parseInt(token.toString())); cal.set(Calendar.SECOND, 0); cal.set(Calendar.MILLISECOND, 0);}
+    <POSITIVE> {
+        cal = cal.withMinute(Integer.parseInt(token.toString()));
+        cal = cal.withSecond(0);
+        cal = cal.withNano(0);
+    }
 }
 void second_number() : { }
 {
-    <POSITIVE> { cal.set(Calendar.SECOND, Integer.parseInt(token.toString())); cal.set(Calendar.MILLISECOND, 0);}
+    <POSITIVE> {
+       cal = cal.withSecond(Integer.parseInt(token.toString()));
+       cal = cal.withNano(0);
+    }
 }
 void millisecond_number() : { }
 {
-    <THOUSANDS> { cal.set(Calendar.MILLISECOND, Integer.parseInt(token.toString().substring(1)));}
+    <THOUSANDS> {
+         cal = cal.withNano(1_000_000 * Integer.parseInt(token.toString().substring(1)));
+    }
 }
 
 
 void increment() : {}
 {
-  "+"  inc_number() inc_period() { cal.add(field, amount * factor); factor = 1; }
-   | <NEXT> inc_period()  { cal.add(field, 1 * factor); factor = 1;}
-   | <PREVIOUS> inc_period()  { cal.add(field, -1 * factor); factor = 1;}
-   | next() day_of_week() { beginOfDay(); if (cal.getTime().getTime() < prev) {cal.add(Calendar.DAY_OF_YEAR, 7); } }
-   | previous() day_of_week() { beginOfDay(); if (cal.getTime().getTime() > prev) {cal.add(Calendar.DAY_OF_YEAR, -7); } }
+  "+"  inc_number() inc_period() {
+       cal = cal.plus(amount * factor, unit); factor = 1;
+      }
+   | <NEXT> inc_period()  { int v = cal.get(field); cal = cal.with(field, v + 1 * factor); factor = 1;}
+   | <PREVIOUS> inc_period()  { int v = cal.get(field); cal = cal.with(field, v - 1 * factor); factor = 1;}
+   | next() day_of_week() { beginOfDay(); if (cal.isBefore(prev)) {cal = cal.plusDays(7); } }
+   | previous() day_of_week() { beginOfDay(); if (cal.isAfter(prev)) {cal = cal.minusDays(7); } }
   | <THIS> day_of_week() { beginOfDay(); }
-   | next() month_of_year() { beginOfMonth(); if (cal.getTime().getTime() < prev) {cal.add(Calendar.YEAR, 1); } }
-   | previous() month_of_year() { beginOfMonth(); if (cal.getTime().getTime() > prev) {cal.add(Calendar.YEAR, -1); } }
+   | next() month_of_year() { beginOfMonth(); if (cal.isBefore(prev)) {cal = cal.plusYears(1); } }
+   | previous() month_of_year() { beginOfMonth(); if (cal.isAfter(prev)) {cal = cal.minusYears(1); } }
    | <THIS> month_of_year() { beginOfMonth(); }
    | <THIS> to_period()
-   | "ish"  {  cal.add(Calendar.MILLISECOND, (int) (random.nextGaussian() * 1200000.0)/* 20 min */ + 300000 /* 5 minutes late on average*/); dynamic = true;}
+   | "ish"  {  cal = cal.plusNanos(1_000_000 * ((int) (dynamicDateTime.random.nextGaussian() * 1200000.0)/* 20 min */ + 300000 /* 5 minutes late on average*/)); dynamic = true;}
 }
 void decrement() : {}
 {
-    "-"  inc_number() inc_period() {cal.add(field, -1 * amount * factor); factor = 1; }
+    "-"  inc_number() inc_period() {
+        cal = cal.minus(amount * factor, unit);
+        factor = 1;
+      }
 }
 void to_period() : { cal = getInstance(); }
 {
@@ -298,19 +339,19 @@ void to_period() : { cal = getInstance(); }
 }
 void inc_period() : {}
 {
-  "second" { field = TemporalField.SECOND; }
- | "minute" { field = TemporalField.MINUTE;}
- | "hour"   { field = TemporalField.HOUR; }
- | "day"    { field = TemporalField.DAY_OF_YEAR;}
- | "week"   { field = TemporalField.WEEK_OF_YEAR; }
-  | "month"  { field = TemporalField.MONTH; }
-  | "year" {   field = TemporalField.YEAR; }
-  | "century" {   field = TemporalField.YEAR; factor =  100;}
- | "millisecond" { field = TemporalField.MILLISECOND; }
+  "second" { unit = ChronoUnit.SECONDS; }
+ | "minute" { unit = ChronoUnit.MINUTES;}
+ | "hour"   { unit = ChronoUnit.HOURS; }
+ | "day"    { unit = ChronoUnit.DAYS;}
+ | "week"   { unit = ChronoUnit.WEEKS; }
+  | "month"  { unit = ChronoUnit.MONTHS; }
+  | "year" {   unit = ChronoUnit.YEARS; }
+  | "century" {   unit = ChronoUnit.YEARS; factor =  100;}
+ | "millisecond" { unit = ChronoUnit.MILLIS; factor = 1; }
 }
 
 void this_period() : {}  {
-  "second"  { cal.set(Calendar.MILLISECOND, 0); }
+  "second"  { cal = cal.withNano(0); }
   | "minute"  { beginOfMinute(); }
   | "hour"  { beginOfHour(); }
   | "day"  { beginOfDay(); }
@@ -323,7 +364,7 @@ void this_period() : {}  {
 }
 void day_of_week() : {
     // If you don't do this. '2005-01-01 this monday' parses to something odd. Which I don't quite understand.
-    cal.getTime();
+    //cal.getTime();
 }
 {
   "sunday" { setDayOfWeek(DayOfWeek.SUNDAY);}
@@ -336,25 +377,25 @@ void day_of_week() : {
 }
 void month_of_year() : {}
 {
-  "january" { cal = cal.withMonth(Month.JANUARY); }
-| "february" { cal.set(Calendar.MONTH, Calendar.FEBRUARY); }
-| "march" { cal.set(Calendar.MONTH, Calendar.MARCH); }
-| "april" { cal.set(Calendar.MONTH, Calendar.APRIL); }
-| "may" { cal.set(Calendar.MONTH, Calendar.MAY); }
-| "june" { cal.set(Calendar.MONTH, Calendar.JUNE); }
-| "july" { cal.set(Calendar.MONTH, Calendar.JULY); }
-| "august" { cal.set(Calendar.MONTH, Calendar.AUGUST); }
-| "september" { cal.set(Calendar.MONTH, Calendar.SEPTEMBER); }
-| "october" { cal.set(Calendar.MONTH, Calendar.OCTOBER); }
-| "november" { cal.set(Calendar.MONTH, Calendar.NOVEMBER); }
-| "december" { cal.set(Calendar.MONTH, Calendar.DECEMBER); }
+  "january" { setMonth(Month.JANUARY); }
+| "february" { setMonth(Month.FEBRUARY); }
+| "march" { setMonth(Month.MARCH); }
+| "april" { setMonth(Month.APRIL); }
+| "may" { setMonth(Month.MAY); }
+| "june" { setMonth(Month.JUNE); }
+| "july" { setMonth(Month.JULY); }
+| "august" { setMonth(Month.AUGUST); }
+| "september" { setMonth(Month.SEPTEMBER); }
+| "october" { setMonth(Month.OCTOBER); }
+| "november" { setMonth(Month.NOVEMBER); }
+| "december" { setMonth(Month.DECEMBER); }
 }
 
 void next() : {}
 {
-    <NEXT> { prev = cal.getTime().getTime(); }
+    <NEXT> { prev = cal; }
 }
 void previous() : {}
 {
-    <PREVIOUS> { prev = cal.getTime().getTime(); }
+    <PREVIOUS> { prev = cal; }
 }
