@@ -4,7 +4,7 @@ root = true
 charset = utf-8
 end_of_line = lf
 indent_size = 2
-indent_style = tab
+indent_style = space
 insert_final_newline = true
 max_line_length = 120
 tab_width = 2
@@ -16,7 +16,7 @@ ij_formatter_tags_enabled = false
 ij_smart_tabs = false
 ij_wrap_on_typing = false
 
-[{*.java,*.jj}]
+[{*.java,*.jj,*.js}]
 indent_size = 4
 indent_style = space
 tab_width = 4
