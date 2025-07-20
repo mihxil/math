@@ -8,6 +8,7 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :nofooter:
 :source-highlighter: coderay
 :multipage-level: 1
+:docinfo: private
 
 :gh: https://github.com/mihxil/math/
 
@@ -19,7 +20,7 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 
 ifndef::htmled[]
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies.
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a working demo.
 endif::[]
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
@@ -37,6 +38,11 @@ include::mihxil-shapes/README-source.adoc[leveloffset=1]
 include::mihxil-theories/README-source.adoc[leveloffset=1]
 
 include::mihxil-configuration/README-source.adoc[leveloffset=1]
+
+
+ifdef::htmled[]
+include::docs/DEMO.adoc[leveloffset=1]
+endif::[]
 
 
 include::COMPATIBILITY.adoc[leveloffset=1]
