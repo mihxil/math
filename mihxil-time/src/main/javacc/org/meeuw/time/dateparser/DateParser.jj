@@ -1,0 +1,369 @@
+/* -*- java -*-
+
+This software is OSI Certified Open Source Software.
+OSI Certified is a certification mark of the Open Source Initiative.
+
+The license (Mozilla version 1.0) can be read at the MMBase site.
+See http://www.MMBase.org/license
+
+*/
+/**
+ * DateParsed inspired by at(1) syntax, and original mm:time.
+ * This file is parsed by <a href="https://javacc.dev.java.net/">javacc</a>.
+ * Implemented many years ago for MMBase. Changed for modern times (Calendar -> ZonedDateTime)
+ *
+ * @author Michiel Meeuwisssen
+ * @since MMBase-1-8
+ * @since 0.19
+ */
+
+options {
+    LOOKAHEAD = 2;
+    STATIC = false;
+    FORCE_LA_CHECK = false;
+    IGNORE_CASE = true;
+}
+
+PARSER_BEGIN(DateParser)
+
+package org.meeuw.time.dateparser;
+
+
+import java.time.*;
+import java.time.temporal.*;
+import java.time.chrono.*;
+import java.io.*;
+import java.util.*;
+import java.util.function.Supplier;
+
+
+public class DateParser implements Supplier<ZonedDateTime> {
+
+    private  Random random = new Random();
+
+    private boolean dynamic = true;
+    private long prev = 0;
+    private int amount = 0;
+    private int factor = 1;
+    private TemporalField field = null;
+    private int monthorday = -1;
+    private int week = -1;
+    private boolean positive = true;
+
+    private final Clock clock;
+    private final Locale locale;
+
+    private ZonedDateTime cal = getInstance();
+
+
+    public DateParser() {
+        this(null, null);
+    }
+
+    public DateParser(Clock clock, Locale locale) {
+        this.clock = clock == null ? Clock.systemDefaultZone() : clock;
+        this.locale = locale == null ? Locale.getDefault(): locale;
+    }
+
+
+    public static void main(String[] argv) throws ParseException, InterruptedException {
+        DateParser parser = new DateParser(new StringReader(argv[0]));
+        parser.start();
+        System.out.println("" + parser.get());
+    }
+
+    public ZonedDateTime get()  {
+        return cal;
+    }
+
+    public boolean dynamic()  {
+        return dynamic;
+    }
+
+    protected void beginOfMinute() {
+        cal = cal.withSecond(0).withNano(0);
+    }
+
+    protected void beginOfHour() {
+        cal = cal.withMinute(0);
+        beginOfMinute();
+    }
+
+    protected void beginOfDay() {
+        cal = cal.withHour(0);
+        beginOfHour();
+    }
+
+    protected void beginOfWeek() {
+        beginOfDay();
+        DayOfWeek firstDayOfWeek = WeekFields.of(locale).getFirstDayOfWeek();
+        setDayOfWeek(firstDayOfWeek);
+    }
+
+    protected void beginOfMonth() {
+        cal = cal.withDayOfMonth(1);
+        beginOfDay();
+    }
+    protected void beginOfYear() {
+        cal = cal.withMonth(Month.JANUARY.getValue());
+        beginOfMonth();
+    }
+    protected void beginOfCentury(boolean pedantic) {
+        beginOfYear();
+        int year = cal.getYear();
+        year -= (year % 100);
+        cal = cal.withYear(year + (pedantic ? 1 : 0));
+    }
+    protected void beginOfEra() {
+        beginOfYear();
+        Chronology chronology = Chronology.ofLocale(locale);
+        ChronoLocalDate minDate = chronology.dateEpochDay(Long.MIN_VALUE);
+        int minYear = minDate.get(ChronoField.YEAR_OF_ERA);
+        cal = cal.withYear(minYear);
+    }
+
+    protected ZonedDateTime getInstance() {
+        return ZonedDateTime.now(clock);
+    }
+    protected void setDayOfWeek(DayOfWeek day) {
+        cal = cal.with(TemporalAdjusters.nextOrSame(targetDay));
+    }
+}
+
+PARSER_END(DateParser)
+
+SKIP : {" " | "\t" | "\n" | "\r" }
+
+TOKEN :
+{
+ <NEXT: "next" >
+| <PREVIOUS: "previous" >
+| <THIS: "this" >
+| <TO: "to" >
+| <POSITIVE: ["0"-"9"] (["0"-"9"])* >
+| <THOUSANDS: "." ["0"-"9"]["0"-"9"]["0"-"9"] >
+| <TIMEZONE: "TZ" ([" ", "\n", "\t", "\r"])* ["A"-"Z"] (["A"-"Z","a"-"z", "/", "_"])* (["-", "+"] <POSITIVE> (":" <POSITIVE>)?)?>
+
+}
+
+
+void start() : {}
+{
+    (time_zone())? (date() (["T"] time())?)? (increment() | decrement())* (time_zone())? <EOF>
+      // T: only for compatibility with ISO_8601
+}
+
+
+void time() : {}
+{
+    hour_number() ":" minute_number() (":" second_number() (millisecond_number())?)?
+    | "noon"     { beginOfHour(); cal = cal.withHour(12); }
+    | "midnight" { beginOfHour(); cal = cal.withHour(0); }
+    | "teatime"  { beginOfHour(); cal = cal.withHour(16); }
+    | hour_number() "oclock" { cal = cal.withMinute(0);}
+}
+
+void date() :  {}
+{
+    LOOKAHEAD(6)
+
+    year_number() "-" month_or_day_or_week_number() ("-" day_of_month_or_week_number())? {
+         if (monthorday > 0) cal = cal.withDayOfYear(monthorday);
+         if (week >= 0) {
+             //cal.withWeek(Calendar.WEEK_OF_YEAR, week);
+             //cal.set(Calendar.DAY_OF_WEEK, 2);
+             week = -1;
+         }
+         beginOfDay(); dynamic = false;
+    }
+    | day_of_week() {beginOfDay();}
+    | month_of_year() {beginOfMonth();}
+    | "now"      { cal = getInstance(); }
+    | seconds()  {  }
+    | <TO> to_period() {}
+    | "tomorrow" {
+        cal = getInstance();
+        cal = cal.plusDays(1);
+        beginOfDay();
+        }
+    | "yesterday" { cal = getInstance();
+          cal = cal.minus(Duration.ofDays(1));
+          beginOfDay(); }
+    | "yestermonth" { cal = getInstance();
+            cal = cal.minusMonths(1);
+            beginOfMonth(); }
+    | "yesteryear" { cal = getInstance();
+     cal = cal.minusYears(1); beginOfYear(); }
+    | "duration" { beginOfYear(); cal.setTimeZone(TimeZone.getTimeZone("UTC")); cal.set(Calendar.YEAR, 1970); }
+    | "borreltijd"  { beginOfHour();
+           cal=cal.withHour(17);
+           setDayOfWeek(Calendar.FRIDAY);
+    }
+}
+
+void time_zone() : {}
+{
+ <TIMEZONE> {cal.setTimeZone(TimeZone.getTimeZone(token.toString().substring(2).trim()));}
+  |  "Z" { cal.setTimeZone(TimeZone.getTimeZone("UTC"));} //  For compatibility ISO_8601 (with trailing 'Z')
+}
+
+void unary() : {}
+{
+    "-" { positive = false; }
+|   "+" { positive = true; }
+
+}
+void integer() : {}
+{
+    unary() <POSITIVE>
+|  <POSITIVE>
+}
+
+void seconds() : {}
+{
+    integer() {  cal.setTimeInMillis((positive ? 1 : -1 ) * Long.parseLong(token.toString()) * 1000); dynamic = false; positive = true;}
+}
+void year_number() : { }
+{
+    integer()  {  cal.set(Calendar.YEAR, (positive ? 1 : -1) * Integer.parseInt(token.toString())); positive = true;}
+}
+void week_number() : { }
+{
+    <POSITIVE>  {  cal.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(token.toString()));}
+}
+
+void inc_number() : { }
+{
+    <POSITIVE> { amount = Integer.parseInt(token.toString()); }
+}
+void month_or_day_or_week_number() : { }
+{
+    <POSITIVE> { monthorday = Integer.parseInt(token.toString());  week = -1; }
+    |  "W" <POSITIVE> { monthorday = -1; week = Integer.parseInt(token.toString());  }
+}
+void day_of_month_or_week_number() : { }
+{
+    <POSITIVE> {
+        if (monthorday > 0) {
+            cal.set(Calendar.MONTH, monthorday - 1);
+            monthorday = -1;
+            cal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(token.toString()));
+        } else {
+            cal.set(Calendar.WEEK_OF_YEAR, week);
+            week = -1;
+            int day = (Integer.parseInt(token.toString()) + 1) % 7; if (day == 0) day = 7;
+            cal.set(Calendar.DAY_OF_WEEK, day);
+        }
+    }
+}
+void day_of_year_number() : { }
+{
+    <POSITIVE> { cal.set(Calendar.DAY_OF_YEAR, Integer.parseInt(token.toString()));}
+}
+void day_of_week_number() : { }
+{
+    <POSITIVE> { cal.set(Calendar.DAY_OF_WEEK, Integer.parseInt(token.toString()));}
+}
+
+void hour_number() : { }
+{
+    <POSITIVE> { cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(token.toString()));}
+}
+void minute_number() : { }
+{
+    <POSITIVE> { cal.set(Calendar.MINUTE, Integer.parseInt(token.toString())); cal.set(Calendar.SECOND, 0); cal.set(Calendar.MILLISECOND, 0);}
+}
+void second_number() : { }
+{
+    <POSITIVE> { cal.set(Calendar.SECOND, Integer.parseInt(token.toString())); cal.set(Calendar.MILLISECOND, 0);}
+}
+void millisecond_number() : { }
+{
+    <THOUSANDS> { cal.set(Calendar.MILLISECOND, Integer.parseInt(token.toString().substring(1)));}
+}
+
+
+void increment() : {}
+{
+  "+"  inc_number() inc_period() { cal.add(field, amount * factor); factor = 1; }
+   | <NEXT> inc_period()  { cal.add(field, 1 * factor); factor = 1;}
+   | <PREVIOUS> inc_period()  { cal.add(field, -1 * factor); factor = 1;}
+   | next() day_of_week() { beginOfDay(); if (cal.getTime().getTime() < prev) {cal.add(Calendar.DAY_OF_YEAR, 7); } }
+   | previous() day_of_week() { beginOfDay(); if (cal.getTime().getTime() > prev) {cal.add(Calendar.DAY_OF_YEAR, -7); } }
+  | <THIS> day_of_week() { beginOfDay(); }
+   | next() month_of_year() { beginOfMonth(); if (cal.getTime().getTime() < prev) {cal.add(Calendar.YEAR, 1); } }
+   | previous() month_of_year() { beginOfMonth(); if (cal.getTime().getTime() > prev) {cal.add(Calendar.YEAR, -1); } }
+   | <THIS> month_of_year() { beginOfMonth(); }
+   | <THIS> to_period()
+   | "ish"  {  cal.add(Calendar.MILLISECOND, (int) (random.nextGaussian() * 1200000.0)/* 20 min */ + 300000 /* 5 minutes late on average*/); dynamic = true;}
+}
+void decrement() : {}
+{
+    "-"  inc_number() inc_period() {cal.add(field, -1 * amount * factor); factor = 1; }
+}
+void to_period() : { cal = getInstance(); }
+{
+    this_period()
+}
+void inc_period() : {}
+{
+  "second" { field = TemporalField.SECOND; }
+ | "minute" { field = TemporalField.MINUTE;}
+ | "hour"   { field = TemporalField.HOUR; }
+ | "day"    { field = TemporalField.DAY_OF_YEAR;}
+ | "week"   { field = TemporalField.WEEK_OF_YEAR; }
+  | "month"  { field = TemporalField.MONTH; }
+  | "year" {   field = TemporalField.YEAR; }
+  | "century" {   field = TemporalField.YEAR; factor =  100;}
+ | "millisecond" { field = TemporalField.MILLISECOND; }
+}
+
+void this_period() : {}  {
+  "second"  { cal.set(Calendar.MILLISECOND, 0); }
+  | "minute"  { beginOfMinute(); }
+  | "hour"  { beginOfHour(); }
+  | "day"  { beginOfDay(); }
+  | "week"  { beginOfWeek(); }
+  | "month" { beginOfMonth(); }
+  |  "year" { beginOfYear(); }
+  | "century" { beginOfCentury(false); }
+  | "century_pedantic" { beginOfCentury(true); }
+  | "era" { beginOfEra(); }
+}
+void day_of_week() : {
+    // If you don't do this. '2005-01-01 this monday' parses to something odd. Which I don't quite understand.
+    cal.getTime();
+}
+{
+  "sunday" { setDayOfWeek(DayOfWeek.SUNDAY);}
+  | "monday" { setDayOfWeek(DayOfWeek.MONDAY);}
+| "tuesday" { setDayOfWeek(DayOfWeek.TUESDAY); }
+| "wednesday" { setDayOfWeek(DayOfWeek.WEDNESDAY); }
+| "thursday" { setDayOfWeek(DayOfWeek.THURSDAY); }
+| "friday" {setDayOfWeek(DayOfWeek.FRIDAY);}
+| "saturday" { setDayOfWeek(DayOfWeek.SATURDAY); }
+}
+void month_of_year() : {}
+{
+  "january" { cal = cal.withMonth(Month.JANUARY); }
+| "february" { cal.set(Calendar.MONTH, Calendar.FEBRUARY); }
+| "march" { cal.set(Calendar.MONTH, Calendar.MARCH); }
+| "april" { cal.set(Calendar.MONTH, Calendar.APRIL); }
+| "may" { cal.set(Calendar.MONTH, Calendar.MAY); }
+| "june" { cal.set(Calendar.MONTH, Calendar.JUNE); }
+| "july" { cal.set(Calendar.MONTH, Calendar.JULY); }
+| "august" { cal.set(Calendar.MONTH, Calendar.AUGUST); }
+| "september" { cal.set(Calendar.MONTH, Calendar.SEPTEMBER); }
+| "october" { cal.set(Calendar.MONTH, Calendar.OCTOBER); }
+| "november" { cal.set(Calendar.MONTH, Calendar.NOVEMBER); }
+| "december" { cal.set(Calendar.MONTH, Calendar.DECEMBER); }
+}
+
+void next() : {}
+{
+    <NEXT> { prev = cal.getTime().getTime(); }
+}
+void previous() : {}
+{
+    <PREVIOUS> { prev = cal.getTime().getTime(); }
+}
