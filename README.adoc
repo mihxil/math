@@ -880,6 +880,16 @@ I'm maintaining this mainly as a hobby project.
 | ?
 | Refactory physical units, to be agnostic about axes.
 
+
+| 0.19
+| july, 2025
+|
+ Introduces also the 'arithmetic' package, which contains an AST implementation to represent combination of operators and elements.
+
+ `mihxil-time` now also has support for dynamic date parsing
+
+
+
 | 0.18
 | june, 2025
 | org.meeuw.math.time became org.meeuw.time, and a new module mihxil-time
