@@ -341,7 +341,7 @@
       </activation>
       <modules>
         <module>mihxil-math-test</module>
-        <module>math-test</module>
+        <module>mihxil-demo</module>
         <module>report-aggregation</module>
       </modules>
     </profile>
