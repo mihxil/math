@@ -6,8 +6,8 @@
     <version>0.19-SNAPSHOT</version>
   </parent>
   <description>A simple application that is using things of this project.</description>
-  <artifactId>math-test</artifactId>
-  <name>Math - testing</name>
+  <artifactId>mihxil-demo</artifactId>
+  <name>Math - demo</name>
   <packaging>jar</packaging>
 
   <properties>
