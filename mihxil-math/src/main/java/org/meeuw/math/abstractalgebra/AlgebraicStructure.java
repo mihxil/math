@@ -261,17 +261,18 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * since 0.19
      */
     default boolean isCommutative(AlgebraicBinaryOperator op) {
-        return defaultIsCommutative(op, getSupportedOperators());
+        return defaultIsCommutative(op, this);
     }
 
     /**
      * since 0.19
      */
-    static boolean defaultIsCommutative(
-        AlgebraicBinaryOperator  op, NavigableSet<AlgebraicBinaryOperator> supportedOperators) {
+    static <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> boolean defaultIsCommutative(
+        AlgebraicBinaryOperator  op,
+        S structure) {
 
-        if (! supportedOperators.contains(op)) {
-            throw new NoSuchOperatorException(op + " is not one of " + supportedOperators);
+        if (! structure.getSupportedOperators().contains(op)) {
+            throw new NoSuchOperatorException(op + " is not one of " + structure.getSupportedOperators() + " of class " + structure.getClass());
         }
         return false;
     }
