@@ -41,7 +41,7 @@ include::mihxil-configuration/README-source.adoc[leveloffset=1]
 
 
 ifdef::htmled[]
-include::docs/DEMO.adoc[leveloffset=1]
+include::mihxil-demo/README-source.adoc[leveloffset=1]
 endif::[]
 
 
