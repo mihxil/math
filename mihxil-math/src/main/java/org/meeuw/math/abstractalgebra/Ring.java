@@ -138,7 +138,7 @@ public interface Ring<E extends RingElement<E>> extends Rng<E>, MultiplicativeMo
         if (operator.equals(ADDITION)) {
             return additionIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, this);
     }
 
 

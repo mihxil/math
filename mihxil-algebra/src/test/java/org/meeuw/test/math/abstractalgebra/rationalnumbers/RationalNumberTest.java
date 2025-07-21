@@ -21,9 +21,9 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
 import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
-import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.theories.numbers.ScalarTheory;
 
 import static java.math.BigInteger.valueOf;
@@ -127,6 +127,7 @@ class RationalNumberTest implements
             log.info(i.toString() + ":" + i.bigDecimalValue());
         });
     }
+
 
 
 }

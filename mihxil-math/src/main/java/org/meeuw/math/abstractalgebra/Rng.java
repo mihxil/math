@@ -66,7 +66,7 @@ public interface Rng<E extends RngElement<E>> extends
         if (operator.equals(ADDITION)) {
             return additionIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, this);
     }
 
 }

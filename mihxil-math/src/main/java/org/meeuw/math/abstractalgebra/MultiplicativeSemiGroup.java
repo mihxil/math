@@ -74,7 +74,7 @@ public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElemen
         if (operator.equals(MULTIPLICATION)) {
             return multiplicationIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, this);
     }
 
 }

@@ -105,7 +105,7 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
         if (operator == BasicAlgebraicBinaryOperator.ADDITION) {
             return additionIsCommutative();
         }
-        return AlgebraicStructure.defaultIsCommutative(operator, getSupportedOperators());
+        return AlgebraicStructure.defaultIsCommutative(operator, this);
 
     }
 
