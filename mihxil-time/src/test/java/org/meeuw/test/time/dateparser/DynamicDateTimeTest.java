@@ -1,5 +1,7 @@
 package org.meeuw.test.time.dateparser;
 
+import java.util.Date;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -34,10 +36,12 @@ class DynamicDateTimeTest {
     @ParameterizedTest
     @MethodSource("getDemo")
     public void tryDemo(String demo) throws ParseException {
-        DynamicDateTime dt = new DynamicDateTime();
-        TestClock clock = TestClock.twentyTwenty();
-        dt.setClock(clock);
-        System.out.println(dt.parse(demo));
+        java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
+
+        DynamicDateTime dt = DynamicDateTime.builder()
+            .clock( TestClock.twentyTwenty())
+            .build();
+        System.out.println(formatter.format(Date.from(dt.applyWithException(demo).toInstant())) + "\t" + demo);
     }
 
 }
