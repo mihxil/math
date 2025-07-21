@@ -1,5 +1,7 @@
 = Demo
 :docinfo: private
+:source-highlighter: coderay
+
 
 These are a running demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]). It doesn't always work.
 
