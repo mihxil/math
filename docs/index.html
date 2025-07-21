@@ -12,8 +12,8 @@
 <meta name="keywords" content="open source, documentation">
 
 <script src="https://cjrtnc.leaningtech.com/20250718_2607/loader.js" type="text/javascript"></script>
-<script src="demo.js" type="module" ></script>
-<link rel="stylesheet" href="demo.css" />
+<script src="resources/demo.js" type="module" ></script>
+<link rel="stylesheet" href="resources/demo.css" />
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -1401,7 +1401,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <h2 id="_demo">9. Demo</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These are a running demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>)</p>
+<p>These are a running demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>). It doesn&#8217;t always work.</p>
 </div>
 <div class="sect2">
 <h3 id="_solver">9.1. Solver</h3>
@@ -1426,7 +1426,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>It uses the Abstract Syntax Tree feature to combine values and operators</p>
 </li>
 <li>
-<p>It uses some features of the group of 'RationalNumbers', e.g. to perform operators genericly.</p>
+<p>It uses some features of the group of 'RationalNumbers', e.g. to perform operators generically.</p>
 </li>
 </ul>
 </div>
@@ -1453,18 +1453,20 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.meeuw.math.abstractalgebra.rationalnumbers</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.meeuw.math.test</span>;
 
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
-<span class="keyword">import</span> <span class="include">org.meeuw.math.CollectionUtils</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.operators.AlgebraicBinaryOperator</span>;
 
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.CollectionUtils.navigableSet</span>;
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.operators.BasicAlgebraicBinaryOperator</span>.*;
 
 <span class="comment">/**
@@ -1472,7 +1474,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
  */</span>
 <span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span> {
 
-    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = CollectionUtils.navigableSet(
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
 
@@ -1491,7 +1494,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                     OPERATORS
                 )
             )
-            .map( e -&gt; e.canonize(RationalNumbers.INSTANCE))
+            .map( e -&gt; e.canonize(STRUCTURE))
             .distinct()
             .peek(e -&gt; tries.getAndIncrement());
     }
@@ -1516,11 +1519,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
      *
      */</span>
     <span class="directive">public</span> <span class="directive">static</span> SolverResult result(<span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span><span class="type">[]</span> numbers) {
-        RationalNumbers instance = RationalNumbers.INSTANCE;
-        RationalNumber result = instance.parse(resultString);
+        RationalNumber result = STRUCTURE.parse(resultString);
         RationalNumber<span class="type">[]</span> set = <span class="keyword">new</span> RationalNumber[numbers.length];
         <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
-            set[i] = instance.parse(numbers[i]);
+            set[i] = STRUCTURE.parse(numbers[i]);
         }
         Solver solver = <span class="keyword">new</span> Solver();
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
@@ -1569,7 +1571,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     let Solver = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.abstractalgebra.rationalnumbers.Solver</span><span class="delimiter">'</span></span>, Solver);
+        Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+        await cj.org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers
+
         const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_result</span><span class="delimiter">&quot;</span></span>).value;
         const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_numbers</span><span class="delimiter">&quot;</span></span>).value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
         textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
@@ -1630,15 +1634,14 @@ setupSolver();</code></pre>
     let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>, DynamicDateTime);
-        textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>);
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
             const parser = await <span class="keyword">new</span> DynamicDateTime();
-            const parseResult = await parser.parse(form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
-            textarea.value += await parseResult.toString();
+            const parseResult = await parser.applyWithException(form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
+            textarea.value = await parseResult.toString();
         } <span class="keyword">catch</span> (error) {
-            textarea.value += await error.toString();
+            textarea.value = await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = <span class="predefined-constant">false</span>;
@@ -1684,6 +1687,12 @@ setupDynamicDate();</code></pre>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Refactory physical units, to be agnostic about axes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">0.19</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">july, 2025</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Introduces also the 'arithmetic' package, which contains an AST implementation to represent combination of operators and elements.</p>
+<p class="tableblock"> <code>mihxil-time</code> now also has support for dynamic date parsing</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.18</p></td>
