@@ -35,12 +35,14 @@ module org.meeuw.time {
 
 
     requires org.meeuw.math; requires org.meeuw.configuration;
+    requires org.meeuw.functional;
 
 
     exports org.meeuw.time;
     exports org.meeuw.time.text.spi;
     exports org.meeuw.time.text;
     exports org.meeuw.time.dateparser;
+    exports org.meeuw.time.eventsearchers;
 
     uses AlgebraicElementFormatProvider;
 

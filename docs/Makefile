@@ -1,12 +1,22 @@
+.PHONY: resources
+
 
 all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4
+
+
 
 MVN=mvn
 # sudo gem install asciidoctor asciidoctor-multipage
 
-index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg
+index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg resources
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
+
+DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources
+	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
+
+resources:
+	find ../mihxil-demo/resources -type f -exec cp -au \{\} resources \;
 
 %.svg: %.dot
 	dot  -Tsvg $< -o $@
