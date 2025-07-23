@@ -28,10 +28,12 @@ public class BinaryOperation<E extends FieldElement<E>> extends AbstractExpressi
 
     @Override
     public BinaryOperation<E> canonize(AlgebraicStructure<E> structure) {
-        if (structure.isCommutative(operator) && left.canonize(structure).compareTo(  right.canonize(structure)) > 0)  {
-            return reverse();
+        Expression<E> cleft = left.canonize(structure);
+        Expression<E> cright = right.canonize(structure);
+        if (structure.isCommutative(operator) && cleft.compareTo(  cright) > 0)  {
+            return new BinaryOperation<>(operator, cright, cleft);
         } else {
-            return this;
+            return new BinaryOperation<>(operator, cleft, cright);
         }
     }
 
