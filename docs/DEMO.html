@@ -7,6 +7,7 @@
 <meta name="generator" content="Asciidoctor 2.0.23">
 <title>Demo</title>
 <link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="./coderay-asciidoctor.css">
 <meta name="keywords" content="open source, documentation">
 
 <script src="https://cjrtnc.leaningtech.com/20250718_2607/loader.js" type="text/javascript"></script>
@@ -76,40 +77,40 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-java" data-lang="java">package org.meeuw.math.test;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">org.meeuw.math.test</span>;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Stream;
+<span class="keyword">import</span> <span class="include">java.util</span>.*;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
+<span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
-import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.arithmetic.ast.*;
-import org.meeuw.math.exceptions.MathException;
-import org.meeuw.math.operators.AlgebraicBinaryOperator;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.operators.AlgebraicBinaryOperator</span>;
 
-import static org.meeuw.math.CollectionUtils.navigableSet;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.CollectionUtils.navigableSet</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.operators.BasicAlgebraicBinaryOperator</span>.*;
 
-/**
+<span class="comment">/**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
- */
-public  class Solver {
+ */</span>
+<span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span> {
 
-    private static final RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
-    private static final NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = navigableSet(
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
+    <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
 
-    private final AtomicLong tries = new AtomicLong();
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
 
-    public Stream&lt;Expression&lt;RationalNumber&gt;&gt; stream(RationalNumber... set) {
+    <span class="directive">public</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;RationalNumber&gt;&gt; stream(RationalNumber... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
-        return permutations.stream()
+        <span class="keyword">return</span> permutations.stream()
             .map(permutation -&gt; permutation.permute(set))
-            .map(List::of)
+            .map(<span class="predefined-type">List</span>::of)
             .distinct()
             .flatMap(permuted -&gt;
                 AST.stream(
@@ -124,32 +125,32 @@ public  class Solver {
 
 
 
-    public Stream&lt;EvaluatedExpression&lt;RationalNumber&gt;&gt; evaledStream(RationalNumber... set) {
-        return stream(set)
+    <span class="directive">public</span> Stream&lt;EvaluatedExpression&lt;RationalNumber&gt;&gt; evaledStream(RationalNumber... set) {
+        <span class="keyword">return</span> stream(set)
             .map(e -&gt; {
-                try {
+                <span class="keyword">try</span> {
                     RationalNumber evaled = e.eval();
-                    return new EvaluatedExpression&lt;&gt;(e, evaled);
-                } catch (MathException ex) {
-                    return null;
+                    <span class="keyword">return</span> <span class="keyword">new</span> EvaluatedExpression&lt;&gt;(e, evaled);
+                } <span class="keyword">catch</span> (MathException ex) {
+                    <span class="keyword">return</span> <span class="predefined-constant">null</span>;
                 }
             })
             .filter(Objects::nonNull);
     }
 
 
-    /**
+    <span class="comment">/**
      *
-     */
-    public static SolverResult result(String resultString, String[] numbers) {
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> SolverResult result(<span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span><span class="type">[]</span> numbers) {
         RationalNumber result = STRUCTURE.parse(resultString);
-        RationalNumber[] set = new RationalNumber[numbers.length];
-        for (int i = 0; i &lt; set.length; i++) {
+        RationalNumber<span class="type">[]</span> set = <span class="keyword">new</span> RationalNumber[numbers.length];
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
             set[i] = STRUCTURE.parse(numbers[i]);
         }
-        Solver solver = new Solver();
-        AtomicLong matches = new AtomicLong();
-        return new SolverResult(solver.evaledStream(set)
+        Solver solver = <span class="keyword">new</span> Solver();
+        <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
+        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(set)
             .filter(e -&gt;
                 e.result().eq(result)
             ).peek(e -&gt; matches.getAndIncrement())
@@ -157,19 +158,19 @@ public  class Solver {
             solver.tries, matches);
     }
 
-    public record SolverResult(Stream&lt;String&gt; stream, AtomicLong tries, AtomicLong matches) {
+    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches) {
 
     }
 
 
-    public static void main(String[] integers) {
-        if (integers.length &lt; 3) {
-            System.out.println();
-            System.exit(1);
+    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
+        <span class="keyword">if</span> (integers.length &lt; <span class="integer">3</span>) {
+            <span class="predefined-type">System</span>.out.println();
+            <span class="predefined-type">System</span>.exit(<span class="integer">1</span>);
         }
-        SolverResult result = result(integers[0], Arrays.copyOfRange(integers, 1, integers.length));
-        result.stream().forEach(System.out::println);
-        System.out.println("ready found " + result.matches().get() + ", tried " + result.tries.get() );
+        SolverResult result = result(integers[<span class="integer">0</span>], <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
+        result.stream().forEach(<span class="predefined-type">System</span>.out::println);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready found </span><span class="delimiter">&quot;</span></span> + result.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + result.tries.get() );
     }
 }</code></pre>
 </div>
@@ -184,39 +185,39 @@ public  class Solver {
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">async function setupSolver() {
+<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupSolver</span>() {
 
-    const form = document.querySelector('#solver');
-    const button = form.querySelector('button');
+    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#solver</span><span class="delimiter">'</span></span>);
+    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
 
-    let Solver = null;
+    let Solver = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+        Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
         await cj.org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers
 
-        const result = form.querySelector("#solver_result").value;
-        const numbers = form.querySelector("#solver_numbers").value.split(" ");
-        textarea.value = '';
-        button.textContent = "executing..";
-        try {
+        const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_result</span><span class="delimiter">&quot;</span></span>).value;
+        const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_numbers</span><span class="delimiter">&quot;</span></span>).value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
+        textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">try</span> {
             const solverResult = await Solver.result(result, numbers);
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
-            for (let i = 0; i &lt; lines.length; i++) {
-                textarea.value += await lines[i].toString() + "\n";
+            <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
+                textarea.value += await lines[i].toString() + <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
             }
             const tries = await (await solverResult.tries()).get();
             const matches = await (await solverResult.matches()).get();
-            textarea.value += `\nFound: ${matches}`;
-            textarea.value += `\nTried: ${tries}`;
-        } catch (error) {
+            textarea.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
+            textarea.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
+        } <span class="keyword">catch</span> (error) {
             textarea.value += await error.toString();
         }
         button.textContent = buttonText;
-        button.disabled = false;
+        button.disabled = <span class="predefined-constant">false</span>;
     };
 }
 setupSolver();</code></pre>
@@ -249,27 +250,27 @@ setupSolver();</code></pre>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-javascript" data-lang="javascript">async function setupDynamicDate() {
+<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupDynamicDate</span>() {
 
-    const form = document.querySelector('#dynamicdate');
-    const button = form.querySelector('button');
+    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#dynamicdate</span><span class="delimiter">'</span></span>);
+    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
 
-    let DynamicDateTime = null;
+    let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.dateparser.DynamicDateTime');
-        button.textContent = "executing..";
-        try {
-            const parser = await new DynamicDateTime();
-            const parseResult = await parser.applyWithException(form.querySelector("#dynamicdate_toparse").value);
+        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>);
+        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
+        <span class="keyword">try</span> {
+            const parser = await <span class="keyword">new</span> DynamicDateTime();
+            const parseResult = await parser.applyWithException(form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
             textarea.value = await parseResult.toString();
-        } catch (error) {
+        } <span class="keyword">catch</span> (error) {
             textarea.value = await error.toString();
         }
         button.textContent = buttonText;
-        button.disabled = false;
+        button.disabled = <span class="predefined-constant">false</span>;
     };
 }
 setupDynamicDate();</code></pre>
@@ -282,7 +283,7 @@ setupDynamicDate();</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-21 15:01:06 +0200
+Last updated 2025-07-21 13:20:56 UTC
 </div>
 </div>
 </body>
