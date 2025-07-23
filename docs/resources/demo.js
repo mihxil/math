@@ -31,7 +31,7 @@ async function setupSolver() {
     const form = document.querySelector('#solver');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const output = form.querySelector('output');
 
     let Solver = null;
     form.onsubmit = async (e) => {
@@ -41,21 +41,21 @@ async function setupSolver() {
 
         const result = form.querySelector("#solver_result").value;
         const numbers = form.querySelector("#solver_numbers").value.split(" ");
-        textarea.value = '';
+        output.value = '';
         button.textContent = "executing..";
         try {
             const solverResult = await Solver.result(result, numbers);
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
             for (let i = 0; i < lines.length; i++) {
-                textarea.value += await lines[i].toString() + "\n";
+                output.value += await lines[i].toString() + "\n";
             }
             const tries = await (await solverResult.tries()).get();
             const matches = await (await solverResult.matches()).get();
-            textarea.value += `\nFound: ${matches}`;
-            textarea.value += `\nTried: ${tries}`;
+            output.value += `\nFound: ${matches}`;
+            output.value += `\nTried: ${tries}`;
         } catch (error) {
-            textarea.value += await error.toString();
+            output.value += await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = false;
@@ -76,7 +76,7 @@ async function setupDynamicDate() {
     const form = document.querySelector('#dynamicdate');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const output = form.querySelector('output');
 
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
@@ -86,9 +86,9 @@ async function setupDynamicDate() {
         try {
             const parser = await new DynamicDateTime();
             const parseResult = await parser.applyWithException(form.querySelector("#dynamicdate_toparse").value);
-            textarea.value = await parseResult.toString();
+            output.value = await parseResult.toString();
         } catch (error) {
-            textarea.value = await error.toString();
+            output.value = await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = false;
