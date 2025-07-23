@@ -42,7 +42,7 @@ module org.meeuw.time {
     exports org.meeuw.time.text.spi;
     exports org.meeuw.time.text;
     exports org.meeuw.time.dateparser;
-    exports org.meeuw.time.eventsearchers;
+    //exports org.meeuw.time.eventsearchers;
 
     uses AlgebraicElementFormatProvider;
 
@@ -55,7 +55,6 @@ module org.meeuw.time {
 
     provides ToStringProvider with
         ZoneIdToString;
-
 
 
 }
