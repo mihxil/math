@@ -78,7 +78,7 @@ class ASTTest {
     @Test
     public void parse() {
         Expression<UncertainReal> exp = AST.parse("(3 ⋅ (8 - 3)) + 8", INSTANCE);
-        System.out.println(AST.toInfix(exp));
+        System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
         Expression<UncertainReal> exp2 = AST.parse("((8 - 3) ⋅ 3) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
 

@@ -66,7 +66,6 @@ public class AST {
         private final List<String> tokens;
         private int pos = 0;
         private final Field<E> field;
-        private final ExpressionField<E> expressionField;
 
 
         InfixParser(String input,  Field<E> field) {
@@ -75,7 +74,6 @@ public class AST {
                 .collect(
                     Collectors.toMap(AlgebraicBinaryOperator::getSymbol, o -> o));
             this.field = field;
-            this.expressionField = ExpressionField.of(field);
             this.ops = "()" + String.join("", this.operators.keySet());
             this.tokens = tokenize(input);
         }
