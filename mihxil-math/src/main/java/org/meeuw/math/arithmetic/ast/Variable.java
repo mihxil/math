@@ -3,29 +3,33 @@ package org.meeuw.math.arithmetic.ast;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.function.Supplier;
+
 import org.meeuw.math.abstractalgebra.FieldElement;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class Value<E extends FieldElement<E>> extends AbstractExpression<E> {
+public class Variable<E extends FieldElement<E>> extends AbstractExpression<E> {
 
-    private final E value;
+    private final Supplier<E> value;
+    private final String name;
 
-    public Value(E value) {
+    public Variable(String name, Supplier<E> value) {
         this.value = value;
+        this.name = name;
     }
     @Override
     public E eval() {
-        return value;
+        return value.get();
     }
 
     @Override
     public String toString() {
-        return value.toString();
+        return name;
     }
 
     @Override
     public int compareTo(Expression<E> o) {
-        return value.toString().compareTo(o.toString());
+        return name.compareTo(o.toString());
     }
 }

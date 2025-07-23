@@ -1,16 +1,14 @@
 package org.meeuw.math.arithmetic.ast;
 
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.abstractalgebra.AlgebraicStructure;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 @Getter
-@EqualsAndHashCode
-public class BinaryOperation<E extends AlgebraicElement<E>> implements Expression<E> {
+@EqualsAndHashCode(callSuper = true)
+public class BinaryOperation<E extends FieldElement<E>> extends AbstractExpression<E>  {
     private final AlgebraicBinaryOperator operator;
     private final Expression<E> left;
     private final Expression<E> right;
