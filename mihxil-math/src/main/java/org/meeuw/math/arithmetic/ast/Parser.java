@@ -5,11 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.abstractalgebra.AlgebraicStructure;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
-public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> {
+public class Parser<E extends FieldElement<E>, S extends AlgebraicStructure<E>> {
 
 
     private final S structure;
