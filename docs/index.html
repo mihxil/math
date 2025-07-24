@@ -1432,7 +1432,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <form id="solver" class="demo">
   <label for="solver_result">Desired outcome:</label>
-  <input type="text" id="solver_result"  list="solver_result-examples" value="24" />
+    <input type="text" pattern="^[-+]?(?:(?:\d+\s+)?\d+\/\d+|\d+)$" id="solver_result"  list="solver_result-examples" value="24"/>
    <datalist id="solver_result-examples">
      <option value="24">
      <option value="4 1/3">
