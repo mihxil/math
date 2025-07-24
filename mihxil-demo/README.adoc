@@ -22,7 +22,7 @@ This combines several aspects of this project:
 ++++
 <form id="solver" class="demo">
   <label for="solver_result">Desired outcome:</label>
-  <input type="text" id="solver_result"  list="solver_result-examples" value="24" />
+    <input type="text" pattern="^[-+]?(?:(?:\d+\s+)?\d+\/\d+|\d+)$" id="solver_result"  list="solver_result-examples" value="24"/>
    <datalist id="solver_result-examples">
      <option value="24">
      <option value="4 1/3">
@@ -32,7 +32,7 @@ This combines several aspects of this project:
   <label for="solver_numbers">Input numbers:</label>
   <input type="text" id="solver_numbers" value="8 8 3 3"/>
   <br />
-  <textarea id="solver_output" > </textarea>
+  <output id="solver_output"  for="solver_result solver_numbers"> </output>
   <br />
   <button name="submit">go!</button>
 </form>
@@ -199,7 +199,7 @@ The `mihxil-time` module contain a 'dynamic date parser`
    <datalist id="dynamicdate_toparse-examples">
    </datalist>
    <br />
-  <textarea id="dynamicdate_output" > </textarea>
+  <output id="dynamicdate_output" for="dynamicdate_toparse"> </output>
   <br />
   <button name="submit">go!</button>
 </form>
