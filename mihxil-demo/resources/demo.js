@@ -97,3 +97,25 @@ async function setupDynamicDate() {
 setupDynamicDate();
 
 //end::dynamicdate[]
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    document.querySelectorAll(".validate").forEach(input => {
+
+        input.addEventListener("input", function (e) {
+            const input = e.target;
+            const pattern = new RegExp(input.getAttribute("pattern"));
+
+            if (input.value && !pattern.test(input.value)) {
+                const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
+
+                input.setCustomValidity(errorMessage);
+                // Optional: add visual feedback
+                input.classList.add("invalid");
+            } else {
+                input.setCustomValidity("");
+                input.classList.remove("invalid");
+            }
+        });
+    });
+});
