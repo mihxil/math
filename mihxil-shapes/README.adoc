@@ -2,7 +2,6 @@
 = Shapes [[shapes]]
 :gh: https://github.com/mihxil/math/
 :ghblob: {gh}blob/main/
-:ght: {ghblob}mihxil-shapes/src/main/java/
 :ghraw: https://raw.githubusercontent.com/mihxil/math/main/
 :docs: {ghraw}docs
 :iwidth: 200
