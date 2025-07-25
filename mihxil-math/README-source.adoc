@@ -209,7 +209,7 @@ CompareConfiguration.withLooseEquals(() -> {
 
 A service loader is provided for implementations of `AlgebraicElementFormatProvider` which can create instances of `java.text.Format` which in turn can be used to convert algebraic elements to a string. `#toString` can be based on it.
 
-The formatters have access to a (thread local) configuration object (see <<configuration_service>>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
+The formatters have access to a (thread local) configuration object (see <<configuration_service>>). Like this a consistent way is available to configure how e.g., uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.
 
 The service giving access to the format-providers is `FormatService`. This is a collection of static functions.
 
@@ -217,7 +217,7 @@ The service giving access to the format-providers is `FormatService`. This is a 
 
 === unicode
 
-Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.
+Formatting normally happens using Unicode if possible. So if it is common in mathematics or physics to use superscripts, subscripts, greek letters or other special symbols, then this will be done as good as possible using just Unicode characters and modifiers.
 
 == Utilities
 
@@ -225,9 +225,9 @@ To implement several aspects of the groups there are provided some utility class
 
 === Cartesian product of streams
 
-All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.
+All countable, `Streamable` algebras need to implement a stream providing _all_ elements. This is not always trivial. It may require producing all combinations of all elements of two or more underlying streams of objects.
 
-For finite streams this is more or less trivial. For _infinite_ streams this is a bit more interesting.
+For finite streams, this is more or less trivial. For _infinite_ streams, this is a bit more interesting.
 
 ==== Generic
 
