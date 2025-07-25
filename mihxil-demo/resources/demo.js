@@ -97,7 +97,7 @@ async function setupDynamicDate() {
 //end::dynamicdate[]
 
 async function setupValidation() {
-     document.querySelectorAll(".validate").forEach(input => {
+     document.querySelectorAll(".demo input[pattern]").forEach(input => {
 
         input.addEventListener("input", function (e) {
             const input = e.target;
