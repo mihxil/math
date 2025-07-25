@@ -1,4 +1,4 @@
-/* DO NOT EDIT. Copied from ../mihxil-demo/resources/\n
+/* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */
 
 
 let cj = null;
