@@ -598,7 +598,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <p>A service loader is provided for implementations of <code>AlgebraicElementFormatProvider</code> which can create instances of <code>java.text.Format</code> which in turn can be used to convert algebraic elements to a string. <code>#toString</code> can be based on it.</p>
 </div>
 <div class="paragraph">
-<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">ConfigurationService</a>). Like this a consistent way is available to configure how e.g. uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
+<p>The formatters have access to a (thread local) configuration object (see <a href="#configuration_service">ConfigurationService</a>). Like this a consistent way is available to configure how e.g., uncertainties must be represented. Currently, this configuration object can only be filled by code. The base configuration object in itself is empty, but the available `AlgebraicElementFormatProvider`s  communicate the 'configuration aspects' which it can use.</p>
 </div>
 <div class="paragraph">
 <p>The service giving access to the format-providers is <code>FormatService</code>. This is a collection of static functions.</p>
@@ -606,7 +606,7 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_unicode">1.2.1. unicode</h4>
 <div class="paragraph">
-<p>Formatting normally happens using unicode if possible. So if it is common in mathematics or physics to use super scripts, sub scripts, greek letters or other special symbols, then this will be done as good as possible using just unicode characters and modifiers.</p>
+<p>Formatting normally happens using Unicode if possible. So if it is common in mathematics or physics to use superscripts, subscripts, greek letters or other special symbols, then this will be done as good as possible using just Unicode characters and modifiers.</p>
 </div>
 </div>
 </div>
@@ -618,10 +618,10 @@ If the cardinality is 'countable' (&lt; ℵ<sub>1</sub>), the structure can also
 <div class="sect3">
 <h4 id="_cartesian_product_of_streams">1.3.1. Cartesian product of streams</h4>
 <div class="paragraph">
-<p>All countable, <code>Streamable</code> algebras need to implement a stream providing <em>all</em> elements. This is not always trivial. It may require to produce all combinations of all elements of two or more underlying streams of objects.</p>
+<p>All countable, <code>Streamable</code> algebras need to implement a stream providing <em>all</em> elements. This is not always trivial. It may require producing all combinations of all elements of two or more underlying streams of objects.</p>
 </div>
 <div class="paragraph">
-<p>For finite streams this is more or less trivial. For <em>infinite</em> streams this is a bit more interesting.</p>
+<p>For finite streams, this is more or less trivial. For <em>infinite</em> streams, this is a bit more interesting.</p>
 </div>
 <div class="sect4">
 <h5 id="_generic">Generic</h5>
