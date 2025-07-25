@@ -22,6 +22,11 @@ options {
     STATIC = false;
     FORCE_LA_CHECK = false;
     IGNORE_CASE = true;
+    CHOICE_AMBIGUITY_CHECK = 2;
+    GENERATE_GENERICS = true;
+    GENERATE_STRING_BUILDER	= true;
+    JAVA_TEMPLATE_TYPE = "modern";
+    UNICODE_INPUT = true;
 }
 
 PARSER_BEGIN(DateParser)
