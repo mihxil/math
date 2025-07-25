@@ -10,7 +10,7 @@ These are a running demos (using link:https://cheerpj.com/docs/getting-started/J
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
 
-Give desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.
+Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.
 
 This combines several aspects of this project:
 
@@ -22,7 +22,7 @@ This combines several aspects of this project:
 ++++
 <form id="solver" class="demo">
   <label for="solver_result">Desired outcome:</label>
-  <input type="text" class="validate"
+  <input type="text"
          required="required"
          pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*|\d+\s+\d+/[1-9]\d*)$"
          id="solver_result"  list="solver_result-examples"
@@ -36,7 +36,7 @@ This combines several aspects of this project:
    </datalist>
    <br />
   <label for="solver_numbers">Input numbers:</label>
-  <input type="text" id="solver_numbers" class="validate"
+  <input type="text" id="solver_numbers"
          list="solver_numbers-examples"
          required="required"
          pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*)(?:\s+\d+|\d+/[1-9]\d*)*$"
@@ -170,7 +170,7 @@ async function setupSolver() {
     const form = document.querySelector('#solver');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const output = form.querySelector('output');
 
     let Solver = null;
     form.onsubmit = async (e) => {
@@ -180,27 +180,26 @@ async function setupSolver() {
 
         const result = form.querySelector("#solver_result").value;
         const numbers = form.querySelector("#solver_numbers").value.split(" ");
-        textarea.value = '';
+        output.value = '';
         button.textContent = "executing..";
         try {
             const solverResult = await Solver.result(result, numbers);
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
             for (let i = 0; i < lines.length; i++) {
-                textarea.value += await lines[i].toString() + "\n";
+                output.value += await lines[i].toString() + "\n";
             }
             const tries = await (await solverResult.tries()).get();
             const matches = await (await solverResult.matches()).get();
-            textarea.value += `\nFound: ${matches}`;
-            textarea.value += `\nTried: ${tries}`;
+            output.value += `\nFound: ${matches}`;
+            output.value += `\nTried: ${tries}`;
         } catch (error) {
-            textarea.value += await error.toString();
+            output.value += await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = false;
     };
 }
-setupSolver();
 
 ----
 ====
@@ -234,7 +233,7 @@ async function setupDynamicDate() {
     const form = document.querySelector('#dynamicdate');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
-    const textarea = form.querySelector('textarea');
+    const output = form.querySelector('output');
 
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
@@ -244,15 +243,14 @@ async function setupDynamicDate() {
         try {
             const parser = await new DynamicDateTime();
             const parseResult = await parser.applyWithException(form.querySelector("#dynamicdate_toparse").value);
-            textarea.value = await parseResult.toString();
+            output.value = await parseResult.toString();
         } catch (error) {
-            textarea.value = await error.toString();
+            output.value = await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = false;
     };
 }
-setupDynamicDate();
 
 ----
 ====
