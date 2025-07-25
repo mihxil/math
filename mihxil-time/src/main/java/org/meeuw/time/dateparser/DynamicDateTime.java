@@ -3,7 +3,6 @@ package org.meeuw.time.dateparser;
 import lombok.Getter;
 import lombok.With;
 
-import java.io.StringReader;
 import java.time.*;
 import java.time.chrono.Chronology;
 import java.time.temporal.WeekFields;
@@ -56,14 +55,14 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
 
     @Override
     public ZonedDateTime applyWithException(String string) throws ParseException {
-        DateParser parser = new DateParser(new StringReader(string));
+        DateParser parser = new DateParser(string);
         parser.setDynamicDateTime(this);
         parser.start();
         return parser.get();
     }
     public ThrowingSupplier<ZonedDateTime, ParseException> supply(String string)  {
         return () -> {
-            DateParser parser = new DateParser(new StringReader(string));
+            DateParser parser = new DateParser(string);
             parser.setDynamicDateTime(this);
             parser.start();
             return parser.get();
