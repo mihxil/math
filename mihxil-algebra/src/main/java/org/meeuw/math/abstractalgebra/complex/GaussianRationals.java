@@ -62,4 +62,21 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
         return "\uD835\uDC10(i)";
     }
 
+
+    @Override
+    public GaussianRational parse(String s) {
+        String[] parts = s.split("\\+");
+        RationalNumber real = RationalNumber.ZERO;
+        RationalNumber imaginary = RationalNumber.ZERO;
+        for (String part: parts) {
+            String withoutI = part.replaceFirst("i", "");
+            if (withoutI.equals(part)) {
+                real = real.plus(RationalNumbers.INSTANCE.parse(part));
+            } else {
+                imaginary = imaginary.plus(RationalNumbers.INSTANCE.parse(withoutI));
+            }
+        }
+        return  new GaussianRational(real, imaginary);
+    }
+
 }
