@@ -11,6 +11,7 @@ on:
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
       - 'docs/algebras.dot.m4'
+      - 'mihxil-demo/resources/*'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
 
