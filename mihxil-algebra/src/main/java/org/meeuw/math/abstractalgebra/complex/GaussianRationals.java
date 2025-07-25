@@ -65,11 +65,11 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     }
 
 
-    Pattern pattern = Pattern.compile("([+-]?)\\s*([^+-]+)");
+     static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
 
     @Override
     public GaussianRational parse(String s) {
-        Matcher matcher = pattern.matcher(s.trim());
+        Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
 
         RationalNumber real = RationalNumber.ZERO;
         RationalNumber imaginary = RationalNumber.ZERO;
@@ -89,7 +89,7 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
                 }
             }
         }
-        return  new GaussianRational(real, imaginary);
+        return GaussianRational.of(real, imaginary);
     }
 
 }

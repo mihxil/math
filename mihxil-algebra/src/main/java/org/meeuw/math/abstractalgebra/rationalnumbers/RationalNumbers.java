@@ -150,7 +150,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     public RationalNumber parse(String s) {
         Matcher m = PATTERN.matcher(s);
         if (!m.matches()) {
-            throw new NotParsable("Invalid rational number: " + s);
+            throw new NotParsable("Invalid rational number: '" + s + "'");
         }
         if (m.group(4) != null) {
             // Just an integer
