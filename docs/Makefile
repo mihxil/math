@@ -16,7 +16,7 @@ DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinf
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
 resources:
-	find ../mihxil-demo/resources -type f -exec cp -a \{\} resources \;
+	find ../mihxil-demo/resources -type f -exec sh -c 'echo "/* DONOTEDIT Copied from ../mihxil-demo/resources*/\n" > resources/$$(basename $$1) ; cat $$1 >> resources/$$(basename $$1)' sh \{\} \;
 
 %.svg: %.dot
 	dot  -Tsvg $< -o $@
