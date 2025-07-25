@@ -20,6 +20,8 @@ This combines several aspects of this project:
 - It uses some features of the Field, e.g. to perform operators generically.
 - It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also suport for `RealField` (and for example also support the POW operator)
 
+Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?
+
 ++++
 <form id="solver" class="demo">
   <label for="solver_result">Desired outcome:</label>
