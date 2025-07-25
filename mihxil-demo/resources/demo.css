@@ -4,6 +4,7 @@ form.demo output {
   max-height: 20em;
   padding: 1ex;
   background-color: aliceblue;
+  overflow: auto;
 }
 form.demo {
   display: flex;
