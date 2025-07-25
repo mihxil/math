@@ -211,7 +211,7 @@ The `mihxil-time` module contain a 'dynamic date parser`
 
 ++++
 <form id="dynamicdate" class="demo">
-  <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="toparse-examples" value="" />
+  <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
    <datalist id="dynamicdate_toparse-examples">
    </datalist>
    <br />
