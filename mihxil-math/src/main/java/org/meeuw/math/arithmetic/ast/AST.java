@@ -39,15 +39,26 @@ public class AST {
 
 
     /**
-     * Given an AST Expressin, convert it to infix notation (using brackets)
+     * Given an AST Expression, convert it to infix notation (using brackets)
      */
     public static String toInfix(Expression<?> expr) {
+        return toInfix(expr, 0);
+    }
+
+    private static String toInfix(Expression<?> expr, int level) {
         if (expr instanceof Value) {
             return expr.toString();
+        } else if (expr instanceof Variable) {
+            return expr.toString();
         } else if (expr instanceof BinaryOperation<?> binOp) {
-            String left = toInfix(binOp.getLeft());
-            String right = toInfix(binOp.getRight());
-            return "(" + binOp.getOperator().stringify(left, right) + ")";
+            String left = toInfix(binOp.getLeft(), level + 1);
+            String right = toInfix(binOp.getRight(), level + 1);
+            String stringify = binOp.getOperator().stringify(left, right);
+            if (level ==0 ) {
+                return stringify;
+            } else {
+                return "(" + stringify + ")";
+            }
         }
         throw new IllegalArgumentException("Unknown Expression type");
     }
