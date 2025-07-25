@@ -1584,7 +1584,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#solver</span><span class="delimiter">'</span></span>);
     const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
-    const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
+    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
 
     let Solver = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
@@ -1594,27 +1594,26 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
         const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_result</span><span class="delimiter">&quot;</span></span>).value;
         const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_numbers</span><span class="delimiter">&quot;</span></span>).value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
-        textarea.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
             const solverResult = await Solver.result(result, numbers);
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
-                textarea.value += await lines[i].toString() + <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
+                output.value += await lines[i].toString() + <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span>;
             }
             const tries = await (await solverResult.tries()).get();
             const matches = await (await solverResult.matches()).get();
-            textarea.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
-            textarea.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
+            output.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
+            output.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
         } <span class="keyword">catch</span> (error) {
-            textarea.value += await error.toString();
+            output.value += await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = <span class="predefined-constant">false</span>;
     };
-}
-setupSolver();</code></pre>
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1647,7 +1646,7 @@ setupSolver();</code></pre>
     const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#dynamicdate</span><span class="delimiter">'</span></span>);
     const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
-    const textarea = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">textarea</span><span class="delimiter">'</span></span>);
+    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
 
     let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
@@ -1657,15 +1656,14 @@ setupSolver();</code></pre>
         <span class="keyword">try</span> {
             const parser = await <span class="keyword">new</span> DynamicDateTime();
             const parseResult = await parser.applyWithException(form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
-            textarea.value = await parseResult.toString();
+            output.value = await parseResult.toString();
         } <span class="keyword">catch</span> (error) {
-            textarea.value = await error.toString();
+            output.value = await error.toString();
         }
         button.textContent = buttonText;
         button.disabled = <span class="predefined-constant">false</span>;
     };
-}
-setupDynamicDate();</code></pre>
+}</code></pre>
 </div>
 </div>
 </div>
