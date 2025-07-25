@@ -23,9 +23,9 @@ This combines several aspects of this project:
   <label for="solver_result">Desired outcome:</label>
   <input type="text"
          required="required"
-         pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*|\d+\s+\d+/[1-9]\d*)$"
          id="solver_result"  list="solver_result-examples"
-          data-error-message="enter one (fractional) number"
+         data-parser="parseResult"
+         data-error-message="enter one (fractional) number"
          value="24"/>
   <datalist id="solver_result-examples">
      <option value="24">24, the original 24 game value</option>
@@ -38,8 +38,8 @@ This combines several aspects of this project:
   <input type="text" id="solver_numbers"
          list="solver_numbers-examples"
          required="required"
-         pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*)(?:\s+(?:\d+|\d+/[1-9]\d*))*$"
-          placeholder="Enter a few numbers (probably no more than 5)"
+         placeholder="Enter a few numbers (probably no more than 5)"
+          data-parser="parseInput"
           data-error-message="enter one or more (fractional) numbers"
          />
    <datalist id="solver_numbers-examples">

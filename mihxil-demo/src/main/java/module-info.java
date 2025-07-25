@@ -6,4 +6,5 @@ module mihxil.test {
     requires org.meeuw.math.algebras;
     requires org.meeuw.math;
     requires static lombok;
+    requires org.meeuw.time;
 }

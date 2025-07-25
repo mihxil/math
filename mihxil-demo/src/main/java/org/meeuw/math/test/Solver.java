@@ -13,6 +13,7 @@ import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -103,15 +104,32 @@ public  class Solver<E extends FieldElement<E>> {
 
     }
 
-    public record ParseResult<E extends FieldElement<E>>(E result, E[] input, Field<E> field) {
+    public record ParseResult<E extends FieldElement<E>>(
+        E result,
+        E[] input,
+        Field<E> field,
+        String resultError,
+        String inputError) {
 
         public static <F extends FieldElement<F>> ParseResult<F> parse(Field<F> field, String resultString, String... input) {
-            F  result = field.parse(resultString);
-            F[] set = field.newArray(input.length);
-            for (int i = 0; i < set.length; i++) {
-                set[i] = field.parse(input[i]);
+            String resultError = null;
+            F  result;
+            try {
+                result = field.parse(resultString);
+            } catch (NotParsable pe) {
+                result = null;
+                resultError = pe.getMessage();
             }
-            return new ParseResult<>(result, set, field);
+            String inputError = null;
+            F[] set = field.newArray(input.length);
+            try {
+                for (int i = 0; i < set.length; i++) {
+                    set[i] = field.parse(input[i]);
+                }
+            } catch (NotParsable pe) {
+                inputError = pe.getMessage();
+            }
+            return new ParseResult<>(result, set, field, resultError, inputError);
         }
 
         public static ParseResult<?> parse(String resultString, String... input) {
