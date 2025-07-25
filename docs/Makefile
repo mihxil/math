@@ -16,7 +16,7 @@ DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinf
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
 resources:
-	find ../mihxil-demo/resources -type f -exec cp -au \{\} resources \;
+	find ../mihxil-demo/resources -type f -exec cp -a \{\} resources \;
 
 %.svg: %.dot
 	dot  -Tsvg $< -o $@
