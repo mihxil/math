@@ -1,4 +1,4 @@
-/* DONOTEDIT Copied from ../mihxil-demo/resources*/\n
+/* DO NOT EDIT. Copied from ../mihxil-demo/resources/\n
 
 
 let cj = null;
