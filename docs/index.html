@@ -1426,7 +1426,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>It uses the Abstract Syntax Tree feature to combine values and operators</p>
 </li>
 <li>
-<p>It uses some features of the group of 'RationalNumbers', e.g. to perform operators generically.</p>
+<p>It uses some features of the Field, e.g. to perform operators generically.</p>
+</li>
+<li>
+<p>It will currently use the field of <code>RationalNumbers</code> <em>or</em> <code>GaussianRationals</code> if the input contains a complex number. I might add also suport for <code>RealField</code> (and for example also support the POW operator)</p>
 </li>
 </ul>
 </div>
