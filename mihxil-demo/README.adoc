@@ -24,9 +24,9 @@ This combines several aspects of this project:
   <label for="solver_result">Desired outcome:</label>
   <input type="text"
          required="required"
-         pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*|\d+\s+\d+/[1-9]\d*)$"
          id="solver_result"  list="solver_result-examples"
-          data-error-message="enter one (fractional) number"
+         data-parser="parseResult"
+         data-error-message="enter one (fractional) number"
          value="24"/>
   <datalist id="solver_result-examples">
      <option value="24">24, the original 24 game value</option>
@@ -39,8 +39,8 @@ This combines several aspects of this project:
   <input type="text" id="solver_numbers"
          list="solver_numbers-examples"
          required="required"
-         pattern="^[\-+]?(?:\d+|\d+/[1-9]\d*)(?:\s+(?:\d+|\d+/[1-9]\d*))*$"
-          placeholder="Enter a few numbers (probably no more than 5)"
+         placeholder="Enter a few numbers (probably no more than 5)"
+          data-parser="parseInput"
           data-error-message="enter one or more (fractional) numbers"
          />
    <datalist id="solver_numbers-examples">
@@ -62,15 +62,20 @@ This is the source code for the above.
 ----
 package org.meeuw.math.test;
 
+import lombok.Getter;
+
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -79,16 +84,22 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 /**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */
-public  class Solver {
+public  class Solver<E extends FieldElement<E>> {
 
-    private static final RationalNumbers STRUCTURE = RationalNumbers.INSTANCE;
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
 
     private final AtomicLong tries = new AtomicLong();
 
-    public Stream<Expression<RationalNumber>> stream(RationalNumber... set) {
+    @Getter
+    private final Field<E> structure;
+
+    public Solver(Field<E> structure) {
+        this.structure = structure;
+    }
+
+    public Stream<Expression<E>> stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
         return permutations.stream()
@@ -101,18 +112,18 @@ public  class Solver {
                     OPERATORS
                 )
             )
-            .map( e -> e.canonize(STRUCTURE))
+            .map( e -> e.canonize(structure))
             .distinct()
             .peek(e -> tries.getAndIncrement());
     }
 
 
 
-    public Stream<EvaluatedExpression<RationalNumber>> evaledStream(RationalNumber... set) {
+    public Stream<EvaluatedExpression<E>> evaledStream(E... set) {
         return stream(set)
             .map(e -> {
                 try {
-                    RationalNumber evaled = e.eval();
+                    E evaled = e.eval();
                     return new EvaluatedExpression<>(e, evaled);
                 } catch (MathException ex) {
                     return null;
@@ -121,39 +132,88 @@ public  class Solver {
             .filter(Objects::nonNull);
     }
 
+    public  static <E extends FieldElement<?>> SolverResult solve(String resultString, String[] numbers) {
+        if (resultString.contains("i") || Stream.of(numbers).anyMatch(s -> s.contains("i"))) {
+            return solve(GaussianRationals.INSTANCE, resultString, numbers);
+        } else {
+            return solve(RationalNumbers.INSTANCE, resultString, numbers);
+        }
+
+    }
 
     /**
      *
      */
-    public static SolverResult result(String resultString, String[] numbers) {
-        RationalNumber result = STRUCTURE.parse(resultString);
-        RationalNumber[] set = new RationalNumber[numbers.length];
-        for (int i = 0; i < set.length; i++) {
-            set[i] = STRUCTURE.parse(numbers[i]);
-        }
-        Solver solver = new Solver();
+    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, String resultString, String[] numbers) {
+
+        ParseResult<E> parseResult = ParseResult.parse(structure, resultString, numbers);
+        return solve(parseResult);
+    }
+
+    public  static <E extends FieldElement<E>> SolverResult solve(ParseResult<E> parseResult) {
+
+        Solver<E> solver = new Solver<>(parseResult.field);
         AtomicLong matches = new AtomicLong();
-        return new SolverResult(solver.evaledStream(set)
+        return new SolverResult(solver.evaledStream(parseResult.input)
             .filter(e ->
-                e.result().eq(result)
+                e.result().eq(parseResult.result)
             ).peek(e -> matches.getAndIncrement())
             .map(EvaluatedExpression::toString),
-            solver.tries, matches);
+            solver.tries, matches, parseResult.field);
     }
 
-    public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches) {
+    public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Field<?> field) {
 
     }
 
+    public record ParseResult<E extends FieldElement<E>>(
+        E result,
+        E[] input,
+        Field<E> field,
+        String resultError,
+        String inputError) {
+
+        public static <F extends FieldElement<F>> ParseResult<F> parse(Field<F> field, String resultString, String... input) {
+            String resultError = null;
+            F  result;
+            try {
+                result = field.parse(resultString);
+            } catch (NotParsable pe) {
+                result = null;
+                resultError = pe.getMessage();
+            }
+            String inputError = null;
+            F[] set = field.newArray(input.length);
+            try {
+                for (int i = 0; i < set.length; i++) {
+                    set[i] = field.parse(input[i]);
+                }
+            } catch (NotParsable pe) {
+                inputError = pe.getMessage();
+            }
+            return new ParseResult<>(result, set, field, resultError, inputError);
+        }
+
+        public static ParseResult<?> parse(String resultString, String... input) {
+            if (resultString.contains("i") || Stream.of(input).anyMatch(s -> s.contains("i"))) {
+                return parse(GaussianRationals.INSTANCE, resultString, input);
+            } else {
+                return parse(RationalNumbers.INSTANCE, resultString, input);
+            }
+        }
+
+    }
 
     public static void main(String[] integers) {
         if (integers.length < 3) {
             System.out.println();
             System.exit(1);
         }
-        SolverResult result = result(integers[0], Arrays.copyOfRange(integers, 1, integers.length));
+
+        ParseResult<?> parseResult = ParseResult.parse(integers[0], Arrays.copyOfRange(integers, 1, integers.length));
+        SolverResult result = Solver.solve(parseResult);
         result.stream().forEach(System.out::println);
-        System.out.println("ready found " + result.matches().get() + ", tried " + result.tries.get() );
+        System.out.println("ready, found " + result.matches().get() + ", tried " + result.tries.get() + ", field " + result.field().toString());
     }
 }
 ----
@@ -171,33 +231,75 @@ async function setupSolver() {
     const button = form.querySelector('button');
     const buttonText = button.textContent;
     const output = form.querySelector('output');
+    const result = form.querySelector("#solver_result");
+    const numbers = form.querySelector("#solver_numbers");
+    function go() {
+        button.textContent = buttonText;
+        button.disabled = false;
+    }
+
+
+    const model = {
+        ParseResult: null,
+        result: null,
+        parseIfNeeded: async function() {
+          if (this.result == null) {
+              await this.parse();
+          }
+          return this.result;
+        },
+
+        parse: async function() {
+            const splitNumbers = numbers.value.split(" ");
+            if (this.ParseResult == null) {
+                this.ParseResult = await setupFormWithClass(button, 'org.meeuw.math.test.Solver$ParseResult');
+            }
+            this.result = await this.ParseResult.parse(result.value, splitNumbers);
+            go();
+        },
+        parseResult:  async function(input) {
+            await this.parse();
+            return await this.result.resultError();
+        },
+        parseInput :  async function(input) {
+            await this.parse()
+            return await this.result.inputError();
+        },
+        reset: function() {
+            this.result =null;
+        }
+    };
+    result['model'] = model;
+    numbers['model'] = model;
+
 
     let Solver = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
         Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
-        await cj.org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers
 
-        const result = form.querySelector("#solver_result").value;
-        const numbers = form.querySelector("#solver_numbers").value.split(" ");
         output.value = '';
         button.textContent = "executing..";
         try {
-            const solverResult = await Solver.result(result, numbers);
+            const parseResult = await model.parseIfNeeded();
+            output.value += "using: " + await (await parseResult.field()).toString();
+            const solverResult = await Solver.solve(parseResult);
+
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
             for (let i = 0; i < lines.length; i++) {
-                output.value += await lines[i].toString() + "\n";
+                output.value += "\n" + await lines[i].toString();
             }
             const tries = await (await solverResult.tries()).get();
             const matches = await (await solverResult.matches()).get();
             output.value += `\nFound: ${matches}`;
             output.value += `\nTried: ${tries}`;
+
         } catch (error) {
             output.value += await error.toString();
         }
-        button.textContent = buttonText;
-        button.disabled = false;
+        go();
+
     };
 }
 
@@ -236,6 +338,8 @@ async function setupDynamicDate() {
     const button = form.querySelector('button');
     const buttonText = button.textContent;
     const output = form.querySelector('output');
+
+
 
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
