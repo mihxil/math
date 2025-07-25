@@ -2,6 +2,7 @@ form.demo output {
 	width: 100%;
 	min-height: 3em;
   max-height: 20em;
+  padding: 1ex;
   background-color: aliceblue;
 }
 form.demo {
