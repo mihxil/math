@@ -37,7 +37,8 @@ public  class Solver<E extends FieldElement<E>> {
         this.structure = structure;
     }
 
-    public Stream<Expression<E>> stream(E... set) {
+    @SafeVarargs
+    public final Stream<Expression<E>> stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
         return permutations.stream()
@@ -70,75 +71,68 @@ public  class Solver<E extends FieldElement<E>> {
             .filter(Objects::nonNull);
     }
 
-    public  static <E extends FieldElement<?>> SolverResult solve(String resultString, String[] numbers) {
-        if (resultString.contains("i") || Stream.of(numbers).anyMatch(s -> s.contains("i"))) {
-            return solve(GaussianRationals.INSTANCE, resultString, numbers);
-        } else {
-            return solve(RationalNumbers.INSTANCE, resultString, numbers);
-        }
-
-    }
-
     /**
      *
      */
-    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, String resultString, String[] numbers) {
+    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, String outcomeString, String inputStrings) {
 
-        ParseResult<E> parseResult = ParseResult.parse(structure, resultString, numbers);
-        return solve(parseResult);
+        ParseResult<E> outcome = parseOutcome(structure, outcomeString);
+        ParseResult<E[]> input = parseInput(structure, inputStrings);
+        if (outcome.success() && input.success()) {
+            return solve(structure, outcome.result(), input.result());
+        } else {
+            throw new NotParsable(outcome.error() + "/" + input.error());
+        }
     }
 
-    public  static <E extends FieldElement<E>> SolverResult solve(ParseResult<E> parseResult) {
+    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, E outcome, E[] input) {
 
-        Solver<E> solver = new Solver<>(parseResult.field);
+        Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
-        return new SolverResult(solver.evaledStream(parseResult.input)
+        return new SolverResult(solver.evaledStream(input)
             .filter(e ->
-                e.result().eq(parseResult.result)
+                e.result().eq(outcome)
             ).peek(e -> matches.getAndIncrement())
             .map(EvaluatedExpression::toString),
-            solver.tries, matches, parseResult.field);
+            solver.tries, matches, structure);
     }
+
+    public static <F extends FieldElement<F>> ParseResult<F> parseOutcome(Field<F> field, String outcomeString) {
+        String resultError = null;
+        F result;
+        try {
+            result = field.parse(outcomeString);
+        } catch (NotParsable pe) {
+            result = null;
+            resultError = pe.getMessage();
+        }
+        return new ParseResult<F>(outcomeString, result, resultError);
+    }
+    public static <F extends FieldElement<F>> ParseResult<F[]> parseInput(Field<F> field, String inputStrings) {
+        String inputError = null;
+
+        String[] input = inputStrings.split("\s+");
+        F[] set = field.newArray(input.length);
+        try {
+            for (int i = 0; i < set.length; i++) {
+                set[i] = field.parse(input[i]);
+            }
+        } catch (NotParsable pe) {
+            inputError = pe.getMessage();
+        }
+        return new ParseResult<>(inputStrings, set, inputError);
+    }
+
+    public static Field<?> fieldFor(String outcomeString, String input) {
+        if (outcomeString.contains("i") || input.contains("i")) {
+            return GaussianRationals.INSTANCE;
+        } else {
+            return RationalNumbers.INSTANCE;
+        }
+    }
+
 
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Field<?> field) {
-
-    }
-
-    public record ParseResult<E extends FieldElement<E>>(
-        E result,
-        E[] input,
-        Field<E> field,
-        String resultError,
-        String inputError) {
-
-        public static <F extends FieldElement<F>> ParseResult<F> parse(Field<F> field, String resultString, String... input) {
-            String resultError = null;
-            F  result;
-            try {
-                result = field.parse(resultString);
-            } catch (NotParsable pe) {
-                result = null;
-                resultError = pe.getMessage();
-            }
-            String inputError = null;
-            F[] set = field.newArray(input.length);
-            try {
-                for (int i = 0; i < set.length; i++) {
-                    set[i] = field.parse(input[i]);
-                }
-            } catch (NotParsable pe) {
-                inputError = pe.getMessage();
-            }
-            return new ParseResult<>(result, set, field, resultError, inputError);
-        }
-
-        public static ParseResult<?> parse(String resultString, String... input) {
-            if (resultString.contains("i") || Stream.of(input).anyMatch(s -> s.contains("i"))) {
-                return parse(GaussianRationals.INSTANCE, resultString, input);
-            } else {
-                return parse(RationalNumbers.INSTANCE, resultString, input);
-            }
-        }
 
     }
 
@@ -147,10 +141,12 @@ public  class Solver<E extends FieldElement<E>> {
             System.out.println();
             System.exit(1);
         }
+        String resultString = integers[0];
+        String inputStrings = String.join(" ", Arrays.copyOfRange(integers, 1, integers.length));
 
-        ParseResult<?> parseResult = ParseResult.parse(integers[0], Arrays.copyOfRange(integers, 1, integers.length));
-        SolverResult result = Solver.solve(parseResult);
-        result.stream().forEach(System.out::println);
-        System.out.println("ready, found " + result.matches().get() + ", tried " + result.tries.get() + ", field " + result.field().toString());
+        Field<?> field = fieldFor(resultString, inputStrings);
+        SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
+        solverResult.stream().forEach(System.out::println);
+        System.out.println("ready, found " + solverResult.matches().get() + ", tried " + solverResult.tries.get() + ", field " + solverResult.field().toString());
     }
 }

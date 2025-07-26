@@ -32,8 +32,8 @@ async function setupSolver() {
     const button = form.querySelector('button');
     const buttonText = button.textContent;
     const output = form.querySelector('output');
-    const result = form.querySelector("#solver_result");
-    const numbers = form.querySelector("#solver_numbers");
+    const outcome = form.querySelector("#solver_outcome");
+    const input = form.querySelector("#solver_input");
     function go() {
         button.textContent = buttonText;
         button.disabled = false;
@@ -41,37 +41,30 @@ async function setupSolver() {
 
 
     const model = {
-        ParseResult: null,
-        result: null,
-        parseIfNeeded: async function() {
-          if (this.result == null) {
-              await this.parse();
-          }
-          return this.result;
-        },
-
-        parse: async function() {
-            const splitNumbers = numbers.value.split(" ");
-            if (this.ParseResult == null) {
-                this.ParseResult = await setupFormWithClass(button, 'org.meeuw.math.test.Solver$ParseResult');
-            }
-            this.result = await this.ParseResult.parse(result.value, splitNumbers);
+        field: null,
+        outcome: null,
+        input: null,
+        parseOutcome:  async function(string) {
+            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            this.field = await Solver.fieldFor(string, input.value)
+            this.outcome = await Solver.parseOutcome(this.field, string);
             go();
+            return await this.outcome.error();
+
         },
-        parseResult:  async function(input) {
-            await this.parse();
-            return await this.result.resultError();
-        },
-        parseInput :  async function(input) {
-            await this.parse()
-            return await this.result.inputError();
+        parseInput :  async function(string) {
+            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            this.field = await Solver.fieldFor(outcome.value, string);
+            this.input = await Solver.parseInput(this.field, string);
+            go();
+            return await this.input.error();
         },
         reset: function() {
-            this.result =null;
+            this.outcome =null;
         }
     };
-    result['model'] = model;
-    numbers['model'] = model;
+    outcome['model'] = model;
+    input['model'] = model;
 
 
     let Solver = null;
@@ -82,9 +75,8 @@ async function setupSolver() {
         output.value = '';
         button.textContent = "executing..";
         try {
-            const parseResult = await model.parseIfNeeded();
-            output.value += "using: " + await (await parseResult.field()).toString();
-            const solverResult = await Solver.solve(parseResult);
+            output.value += "using: " + await (model.field).toString();
+            const solverResult = await Solver.solve(model.field, outcome.value, input.value);
 
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
@@ -165,8 +157,6 @@ async function setupValidation() {
             const input = e.target;
             const parser = input.getAttribute("data-parser");
             const model = input['model'];
-            model.reset();
-
             const error = await model[parser](input.value);
             if (error !== null) {
                 const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
