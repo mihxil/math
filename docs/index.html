@@ -1437,29 +1437,29 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?</p>
 </div>
 <form id="solver" class="demo">
-  <label for="solver_result">Desired outcome:</label>
+  <label for="solver_outcome">Desired outcome:</label>
   <input type="text"
          required="required"
-         id="solver_result"  list="solver_result-examples"
-         data-parser="parseResult"
+         id="solver_outcome"  list="solver_outcome-examples"
+         data-parser="parseOutcome"
          data-error-message="enter one (fractional) number"
          value="24"/>
-  <datalist id="solver_result-examples">
+  <datalist id="solver_outcome-examples">
      <option value="24">24, the original 24 game value</option>
      <option value="4 1/3">factions are allowed</option>
      <option value="41"></option>
      <option value="120">120, a nicer value for 5 input numbers</option>
    </datalist>
    <br />
-  <label for="solver_numbers">Input numbers:</label>
-  <input type="text" id="solver_numbers"
-         list="solver_numbers-examples"
+  <label for="solver_input">Input numbers:</label>
+  <input type="text" id="solver_input"
+         list="solver_input-examples"
          required="required"
          placeholder="Enter a few numbers (probably no more than 5)"
           data-parser="parseInput"
           data-error-message="enter one or more (fractional) numbers"
          />
-   <datalist id="solver_numbers-examples">
+   <datalist id="solver_input-examples">
      <option value="8 8 3 3">a hard one to make 24 with</option>
      <option value="4 7 7 7 8" >a hard one to make 120 with</option>
 
@@ -1516,7 +1516,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.structure = structure;
     }
 
-    <span class="directive">public</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;E&gt;&gt; stream(E... set) {
+    <span class="annotation">@SafeVarargs</span>
+    <span class="directive">public</span> <span class="directive">final</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;E&gt;&gt; stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
 
         <span class="keyword">return</span> permutations.stream()
@@ -1549,75 +1550,68 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             .filter(Objects::nonNull);
     }
 
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;?&gt;&gt; SolverResult solve(<span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span><span class="type">[]</span> numbers) {
-        <span class="keyword">if</span> (resultString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || Stream.of(numbers).anyMatch(s -&gt; s.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>))) {
-            <span class="keyword">return</span> solve(GaussianRationals.INSTANCE, resultString, numbers);
-        } <span class="keyword">else</span> {
-            <span class="keyword">return</span> solve(RationalNumbers.INSTANCE, resultString, numbers);
-        }
-
-    }
-
     <span class="comment">/**
      *
      */</span>
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(<span class="predefined-type">Field</span>&lt;E&gt; structure, <span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span><span class="type">[]</span> numbers) {
+    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(<span class="predefined-type">Field</span>&lt;E&gt; structure, <span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> inputStrings) {
 
-        ParseResult&lt;E&gt; parseResult = ParseResult.parse(structure, resultString, numbers);
-        <span class="keyword">return</span> solve(parseResult);
+        ParseResult&lt;E&gt; outcome = parseOutcome(structure, outcomeString);
+        ParseResult&lt;E<span class="type">[]</span>&gt; input = parseInput(structure, inputStrings);
+        <span class="keyword">if</span> (outcome.success() &amp;&amp; input.success()) {
+            <span class="keyword">return</span> solve(structure, outcome.result(), input.result());
+        } <span class="keyword">else</span> {
+            <span class="keyword">throw</span> <span class="keyword">new</span> NotParsable(outcome.error() + <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span> + input.error());
+        }
     }
 
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(ParseResult&lt;E&gt; parseResult) {
+    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(<span class="predefined-type">Field</span>&lt;E&gt; structure, E outcome, E<span class="type">[]</span> input) {
 
-        Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(parseResult.field);
+        Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
-        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(parseResult.input)
+        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(input)
             .filter(e -&gt;
-                e.result().eq(parseResult.result)
+                e.result().eq(outcome)
             ).peek(e -&gt; matches.getAndIncrement())
             .map(EvaluatedExpression::toString),
-            solver.tries, matches, parseResult.field);
+            solver.tries, matches, structure);
     }
+
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> FieldElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(<span class="predefined-type">Field</span>&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
+        <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
+        F result;
+        <span class="keyword">try</span> {
+            result = field.parse(outcomeString);
+        } <span class="keyword">catch</span> (NotParsable pe) {
+            result = <span class="predefined-constant">null</span>;
+            resultError = pe.getMessage();
+        }
+        <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;F&gt;(outcomeString, result, resultError);
+    }
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> FieldElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(<span class="predefined-type">Field</span>&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
+        <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
+
+        <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">\s</span><span class="content">+</span><span class="delimiter">&quot;</span></span>);
+        F<span class="type">[]</span> set = field.newArray(input.length);
+        <span class="keyword">try</span> {
+            <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
+                set[i] = field.parse(input[i]);
+            }
+        } <span class="keyword">catch</span> (NotParsable pe) {
+            inputError = pe.getMessage();
+        }
+        <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;&gt;(inputStrings, set, inputError);
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">Field</span>&lt;?&gt; fieldFor(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> input) {
+        <span class="keyword">if</span> (outcomeString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || input.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">return</span> GaussianRationals.INSTANCE;
+        } <span class="keyword">else</span> {
+            <span class="keyword">return</span> RationalNumbers.INSTANCE;
+        }
+    }
+
 
     <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, <span class="predefined-type">Field</span>&lt;?&gt; field) {
-
-    }
-
-    <span class="directive">public</span> record ParseResult&lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt;(
-        E result,
-        E<span class="type">[]</span> input,
-        <span class="predefined-type">Field</span>&lt;E&gt; field,
-        <span class="predefined-type">String</span> resultError,
-        <span class="predefined-type">String</span> inputError) {
-
-        <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> FieldElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parse(<span class="predefined-type">Field</span>&lt;F&gt; field, <span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span>... input) {
-            <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
-            F  result;
-            <span class="keyword">try</span> {
-                result = field.parse(resultString);
-            } <span class="keyword">catch</span> (NotParsable pe) {
-                result = <span class="predefined-constant">null</span>;
-                resultError = pe.getMessage();
-            }
-            <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
-            F<span class="type">[]</span> set = field.newArray(input.length);
-            <span class="keyword">try</span> {
-                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
-                    set[i] = field.parse(input[i]);
-                }
-            } <span class="keyword">catch</span> (NotParsable pe) {
-                inputError = pe.getMessage();
-            }
-            <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;&gt;(result, set, field, resultError, inputError);
-        }
-
-        <span class="directive">public</span> <span class="directive">static</span> ParseResult&lt;?&gt; parse(<span class="predefined-type">String</span> resultString, <span class="predefined-type">String</span>... input) {
-            <span class="keyword">if</span> (resultString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || Stream.of(input).anyMatch(s -&gt; s.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>))) {
-                <span class="keyword">return</span> parse(GaussianRationals.INSTANCE, resultString, input);
-            } <span class="keyword">else</span> {
-                <span class="keyword">return</span> parse(RationalNumbers.INSTANCE, resultString, input);
-            }
-        }
 
     }
 
@@ -1626,11 +1620,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             <span class="predefined-type">System</span>.out.println();
             <span class="predefined-type">System</span>.exit(<span class="integer">1</span>);
         }
+        <span class="predefined-type">String</span> resultString = integers[<span class="integer">0</span>];
+        <span class="predefined-type">String</span> inputStrings = <span class="predefined-type">String</span>.join(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
 
-        ParseResult&lt;?&gt; parseResult = ParseResult.parse(integers[<span class="integer">0</span>], <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
-        SolverResult result = Solver.solve(parseResult);
-        result.stream().forEach(<span class="predefined-type">System</span>.out::println);
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + result.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + result.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + result.field().toString());
+        <span class="predefined-type">Field</span>&lt;?&gt; field = fieldFor(resultString, inputStrings);
+        SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
+        solverResult.stream().forEach(<span class="predefined-type">System</span>.out::println);
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + solverResult.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + solverResult.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + solverResult.field().toString());
     }
 }</code></pre>
 </div>
@@ -1651,8 +1647,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
     const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
-    const result = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_result</span><span class="delimiter">&quot;</span></span>);
-    const numbers = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_numbers</span><span class="delimiter">&quot;</span></span>);
+    const outcome = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_outcome</span><span class="delimiter">&quot;</span></span>);
+    const input = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_input</span><span class="delimiter">&quot;</span></span>);
     <span class="keyword">function</span> <span class="function">go</span>() {
         button.textContent = buttonText;
         button.disabled = <span class="predefined-constant">false</span>;
@@ -1660,37 +1656,30 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
 
     const model = {
-        <span class="key">ParseResult</span>: <span class="predefined-constant">null</span>,
-        <span class="key">result</span>: <span class="predefined-constant">null</span>,
-        <span class="key">parseIfNeeded</span>: async <span class="keyword">function</span>() {
-          <span class="keyword">if</span> (<span class="local-variable">this</span>.result == <span class="predefined-constant">null</span>) {
-              await <span class="local-variable">this</span>.parse();
-          }
-          <span class="keyword">return</span> <span class="local-variable">this</span>.result;
-        },
-
-        <span class="key">parse</span>: async <span class="keyword">function</span>() {
-            const splitNumbers = numbers.value.split(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>);
-            <span class="keyword">if</span> (<span class="local-variable">this</span>.ParseResult == <span class="predefined-constant">null</span>) {
-                <span class="local-variable">this</span>.ParseResult = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver$ParseResult</span><span class="delimiter">'</span></span>);
-            }
-            <span class="local-variable">this</span>.result = await <span class="local-variable">this</span>.ParseResult.parse(result.value, splitNumbers);
+        <span class="key">field</span>: <span class="predefined-constant">null</span>,
+        <span class="key">outcome</span>: <span class="predefined-constant">null</span>,
+        <span class="key">input</span>: <span class="predefined-constant">null</span>,
+        <span class="key">parseOutcome</span>:  async <span class="keyword">function</span>(string) {
+            Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+            <span class="local-variable">this</span>.field = await Solver.fieldFor(string, input.value)
+            <span class="local-variable">this</span>.outcome = await Solver.parseOutcome(<span class="local-variable">this</span>.field, string);
             go();
+            <span class="keyword">return</span> await <span class="local-variable">this</span>.outcome.error();
+
         },
-        <span class="key">parseResult</span>:  async <span class="keyword">function</span>(input) {
-            await <span class="local-variable">this</span>.parse();
-            <span class="keyword">return</span> await <span class="local-variable">this</span>.result.resultError();
-        },
-        <span class="key">parseInput</span> :  async <span class="keyword">function</span>(input) {
-            await <span class="local-variable">this</span>.parse()
-            <span class="keyword">return</span> await <span class="local-variable">this</span>.result.inputError();
+        <span class="key">parseInput</span> :  async <span class="keyword">function</span>(string) {
+            Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+            <span class="local-variable">this</span>.field = await Solver.fieldFor(outcome.value, string);
+            <span class="local-variable">this</span>.input = await Solver.parseInput(<span class="local-variable">this</span>.field, string);
+            go();
+            <span class="keyword">return</span> await <span class="local-variable">this</span>.input.error();
         },
         <span class="function">reset</span>: <span class="keyword">function</span>() {
-            <span class="local-variable">this</span>.result =<span class="predefined-constant">null</span>;
+            <span class="local-variable">this</span>.outcome =<span class="predefined-constant">null</span>;
         }
     };
-    result[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
-    numbers[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
+    outcome[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
+    input[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
 
 
     let Solver = <span class="predefined-constant">null</span>;
@@ -1701,9 +1690,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
-            const parseResult = await model.parseIfNeeded();
-            output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (await parseResult.field()).toString();
-            const solverResult = await Solver.solve(parseResult);
+            output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (model.field).toString();
+            const solverResult = await Solver.solve(model.field, outcome.value, input.value);
 
             const stream = await solverResult.stream();
             const lines = await stream.toArray();
