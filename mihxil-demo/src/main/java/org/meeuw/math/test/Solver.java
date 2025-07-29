@@ -6,10 +6,10 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
+import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
@@ -22,7 +22,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 /**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */
-public  class Solver<E extends FieldElement<E>> {
+public  class Solver<E extends RingElement<E>> {
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
@@ -31,9 +31,9 @@ public  class Solver<E extends FieldElement<E>> {
     private final AtomicLong tries = new AtomicLong();
 
     @Getter
-    private final Field<E> structure;
+    private final Ring<E> structure;
 
-    public Solver(Field<E> structure) {
+    public Solver(Ring<E> structure) {
         this.structure = structure;
     }
 
@@ -74,7 +74,7 @@ public  class Solver<E extends FieldElement<E>> {
     /**
      *
      */
-    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, String outcomeString, String inputStrings) {
+    public  static <E extends RingElement<E>> SolverResult solve(Ring<E> structure, String outcomeString, String inputStrings) {
 
         ParseResult<E> outcome = parseOutcome(structure, outcomeString);
         ParseResult<E[]> input = parseInput(structure, inputStrings);
@@ -85,7 +85,7 @@ public  class Solver<E extends FieldElement<E>> {
         }
     }
 
-    public  static <E extends FieldElement<E>> SolverResult solve(Field<E> structure, E outcome, E[] input) {
+    public  static <E extends RingElement<E>> SolverResult solve(Ring<E> structure, E outcome, E[] input) {
 
         Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
@@ -97,7 +97,7 @@ public  class Solver<E extends FieldElement<E>> {
             solver.tries, matches, structure);
     }
 
-    public static <F extends FieldElement<F>> ParseResult<F> parseOutcome(Field<F> field, String outcomeString) {
+    public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> field, String outcomeString) {
         String resultError = null;
         F result;
         try {
@@ -108,7 +108,7 @@ public  class Solver<E extends FieldElement<E>> {
         }
         return new ParseResult<F>(outcomeString, result, resultError);
     }
-    public static <F extends FieldElement<F>> ParseResult<F[]> parseInput(Field<F> field, String inputStrings) {
+    public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
         String inputError = null;
 
         String[] input = inputStrings.split("\s+");
@@ -123,8 +123,10 @@ public  class Solver<E extends FieldElement<E>> {
         return new ParseResult<>(inputStrings, set, inputError);
     }
 
-    public static Field<?> fieldFor(String outcomeString, String input) {
-        if (outcomeString.contains("i") || input.contains("i")) {
+    public static Ring<?> algebraicStructureFor(String outcomeString, String input) {
+        if (outcomeString.matches(".*[jk].*") || input.matches(".*[jk].*")) {
+            return Quaternions.of(RationalNumbers.INSTANCE);
+        } else if (outcomeString.contains("i") || input.contains("i")) {
             return GaussianRationals.INSTANCE;
         } else {
             return RationalNumbers.INSTANCE;
@@ -132,7 +134,7 @@ public  class Solver<E extends FieldElement<E>> {
     }
 
 
-    public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Field<?> field) {
+    public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
 
     }
 
@@ -144,7 +146,7 @@ public  class Solver<E extends FieldElement<E>> {
         String resultString = integers[0];
         String inputStrings = String.join(" ", Arrays.copyOfRange(integers, 1, integers.length));
 
-        Field<?> field = fieldFor(resultString, inputStrings);
+        Ring<?> field = algebraicStructureFor(resultString, inputStrings);
         SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
         solverResult.stream().forEach(System.out::println);
         System.out.println("ready, found " + solverResult.matches().get() + ", tried " + solverResult.tries.get() + ", field " + solverResult.field().toString());

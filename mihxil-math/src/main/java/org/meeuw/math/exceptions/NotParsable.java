@@ -26,4 +26,11 @@ public class NotParsable extends IllegalArgumentException {
     public NotParsable(NumberFormatException numberFormatException) {
         super(numberFormatException.getMessage(), numberFormatException);
     }
+
+    public static class  NotImplemented extends NotParsable {
+
+        public NotImplemented(String message) {
+            super(message);
+        }
+    }
 }

@@ -328,7 +328,7 @@ public class RationalNumber extends Number
         if (denominator.equals(BigInteger.ONE)) {
             return numerator.toString();
         } else {
-            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + "⁄" + TextUtils.subscript(denominator.toString());
+            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + TextUtils.FRACTION_SLASH + TextUtils.subscript(denominator.toString());
         }
     }
 

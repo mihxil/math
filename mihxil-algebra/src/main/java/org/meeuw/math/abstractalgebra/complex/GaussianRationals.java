@@ -65,7 +65,7 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     }
 
 
-     static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
+    static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
 
     @Override
     public GaussianRational parse(String s) {

@@ -34,6 +34,8 @@ import static java.math.BigInteger.ONE;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 
+import org.meeuw.math.text.TextUtils;
+
 /**
  * Implementation for the field of Rational Numbers, commonly referred to as ℚ
  *
@@ -148,6 +150,8 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     static Pattern PATTERN = Pattern.compile("^\\s*(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+)\\s*$");
     @Override
     public RationalNumber parse(String s) {
+        s = TextUtils.unsuperscript(TextUtils.unsubscript(s));
+        s = s.replace(TextUtils.FRACTION_SLASH, '/');
         Matcher m = PATTERN.matcher(s);
         if (!m.matches()) {
             throw new NotParsable("Invalid rational number: '" + s + "'");

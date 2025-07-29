@@ -110,4 +110,6 @@ class QuaternionTest implements
             RationalNumber.of(-1)
         );
     }
+
+
 }

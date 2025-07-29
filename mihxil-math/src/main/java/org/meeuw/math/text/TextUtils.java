@@ -35,6 +35,7 @@ public final class TextUtils {
     public static final String NOT_EQUALS = "≠";
 
     public static final String PLACEHOLDER = "x";
+    public static final char FRACTION_SLASH = '\u2044';
 
     private TextUtils() {
     }
@@ -55,6 +56,25 @@ public final class TextUtils {
         return script(i, SUB_MINUS, SUBSCRIPTS);
     }
 
+
+    public static String unsuperscript(CharSequence s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            sb.append(REVERSE_SUPERSCRIPTS.getOrDefault(c, c));
+        }
+        return sb.toString();
+    }
+
+    public static String unsubscript(CharSequence s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            sb.append(REVERSE_SUBSCRIPTS.getOrDefault(c, c));
+        }
+        return sb.toString();
+    }
+
     public static @PolyNull String subscript(@PolyNull CharSequence i) {
         return script(i, SUB, SUBSCRIPTS);
     }
@@ -62,6 +82,8 @@ public final class TextUtils {
     public static @PolyNull String superscript(@PolyNull CharSequence i) {
         return script(i, SUPER, SUPERSCRIPTS);
     }
+
+
 
     /**
      * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
@@ -170,6 +192,16 @@ public final class TextUtils {
     };
     private static final char SUB_MINUS = '₋';
 
+    private static final Map<Character, Character> REVERSE_SUPERSCRIPTS = new HashMap<>();
+    private static final Map<Character, Character> REVERSE_SUBSCRIPTS = new HashMap<>();
+    static {
+        for (int i = 0; i < SUPERSCRIPTS.length; i++) {
+            REVERSE_SUPERSCRIPTS.put(SUPERSCRIPTS[i], (char)('0' + i));
+        }
+        for (int i = 0; i < SUBSCRIPTS.length; i++) {
+            REVERSE_SUBSCRIPTS.put(SUBSCRIPTS[i], (char)('0' + i));
+        }
+    }
 
 
     private static final Map<Character, Character> SUB = Collections.unmodifiableMap(new HashMap<Character, Character>() {{
@@ -233,7 +265,8 @@ public final class TextUtils {
         controlEach(result, s, control);
         return result.toString();
     }
-     public static void controlEach(StringBuilder builder, CharSequence s, Character control) {
+
+    public static void controlEach(StringBuilder builder, CharSequence s, Character control) {
         if (s == null) {
             return;
         }

@@ -30,7 +30,7 @@ import org.meeuw.math.validation.Square;
 import static org.meeuw.math.ArrayUtils.minor;
 
 /**
- * A ring is a {@link AdditiveGroup}, but also defines multiplication, though an inverse {@link MultiplicativeGroupElement#reciprocal()} is not defined (That would make it a {@link Field})
+ * A ring is a {@link AdditiveGroup}, but also defines multiplication, though an inverse {@link MultiplicativeGroupElement#reciprocal()} is not defined (That would make it a {@link Field}, or at least a {@link DivisionRing}
  *
  * @author Michiel Meeuwissen
  * @since 0.4

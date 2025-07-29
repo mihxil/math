@@ -15,6 +15,9 @@
  */
 package org.meeuw.math.abstractalgebra.quaternions;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import lombok.Getter;
 import lombok.extern.java.Log;
 
@@ -25,6 +28,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
@@ -130,4 +134,48 @@ public class Quaternions<E extends ScalarFieldElement<E>>
             elementStructure.nextRandom(random)
         );
     }
+
+      static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
+
+    @Override
+    public Quaternion<E> parse(String s) {
+        Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
+
+        E real = elementStructure.zero();
+        E i = elementStructure.zero();
+        E j = elementStructure.zero();
+        E k = elementStructure.zero();
+        E one = elementStructure.one();
+
+        while (matcher.find()) {
+            String sign = matcher.group(1);
+            String term = matcher.group(2).trim();
+            int factor = sign.equals("+") || sign.isEmpty() ? 1 : -1;
+
+            if (term.endsWith("i")) {
+                String coeff = term.substring(0, term.length() - 1).trim();
+                i = i.plus(parseCoefficient(coeff, factor));
+            } else if (term.endsWith("j")) {
+                String coeff = term.substring(0, term.length() - 1).trim();
+                j = j.plus(parseCoefficient(coeff, factor));
+            } else if (term.endsWith("k")) {
+                String coeff = term.substring(0, term.length() - 1).trim();
+                k = k.plus(parseCoefficient(coeff, factor));
+            } else {
+                real = real.plus(parseCoefficient(term.trim(), factor));
+            }
+        }
+        return new Quaternion<>(real, i, j, k);
+    }
+
+
+    private E parseCoefficient(String coeff, int factor) {
+        if (coeff.isEmpty()) {
+            return elementStructure.one().times(factor);
+        } else {
+            return elementStructure.parse(coeff).times(factor);
+        }
+    }
+
+
 }
