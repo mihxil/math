@@ -8,7 +8,7 @@ import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class BinaryOperation<E extends FieldElement<E>> extends AbstractExpression<E>  {
+public class BinaryOperation<E extends AlgebraicElement<E>> extends AbstractExpression<E>  {
     private final AlgebraicBinaryOperator operator;
     private final Expression<E> left;
     private final Expression<E> right;

@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
-public class Parser<E extends FieldElement<E>, S extends AlgebraicStructure<E>> {
+public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> {
 
 
     private final S structure;

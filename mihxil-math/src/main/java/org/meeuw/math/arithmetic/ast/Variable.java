@@ -5,11 +5,11 @@ import lombok.Getter;
 
 import java.util.function.Supplier;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class Variable<E extends FieldElement<E>> extends AbstractExpression<E> {
+public class Variable<E extends AlgebraicElement<E>> extends AbstractExpression<E> {
 
     private final Supplier<E> value;
     private final String name;

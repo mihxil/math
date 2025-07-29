@@ -19,7 +19,7 @@ public class AST {
      * @param leaves
      * @param operators
      */
-    public static <E extends FieldElement<E>> Stream<Expression<E>> stream(
+    public static <E extends AlgebraicElement<E>> Stream<Expression<E>> stream(
         List<E> leaves, Collection<AlgebraicBinaryOperator> operators) {
         if (leaves.size() == 1) {
             return Stream.of(new Value<>(leaves.get(0)));
@@ -63,23 +63,23 @@ public class AST {
         throw new IllegalArgumentException("Unknown Expression type");
     }
 
-    public static <E extends FieldElement<E>>  Expression<E> parse(String parse, Field<E> field) {
+    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field) {
          InfixParser<E> parser = new InfixParser<>(parse, field);
         return parser.parse();
     }
 
 
 
-    static class InfixParser<E extends FieldElement<E>> {
+    static class InfixParser<E extends AlgebraicElement<E>> {
 
         private final Map<String, AlgebraicBinaryOperator> operators;
         private final String ops;
         private final List<String> tokens;
         private int pos = 0;
-        private final Field<E> field;
+        private final AlgebraicStructure<E> field;
 
 
-        InfixParser(String input,  Field<E> field) {
+        InfixParser(String input,  AlgebraicStructure<E> field) {
             this.operators = field.getSupportedOperators()
                 .stream()
                 .collect(

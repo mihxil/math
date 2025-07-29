@@ -3,11 +3,11 @@ package org.meeuw.math.arithmetic.ast;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class Value<E extends FieldElement<E>> extends AbstractExpression<E> {
+public class Value<E extends AlgebraicElement<E>> extends AbstractExpression<E> {
 
     private final E value;
 

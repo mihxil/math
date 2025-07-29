@@ -2,12 +2,12 @@ package org.meeuw.math.arithmetic.ast;
 
 import lombok.EqualsAndHashCode;
 
-import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 @EqualsAndHashCode
-public abstract class AbstractExpression<E extends FieldElement<E>> implements Expression<E> {
+public abstract class AbstractExpression<E extends AlgebraicElement<E>> implements Expression<E> {
 
 
 
