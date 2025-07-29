@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.exceptions;
 
+import java.text.ParsePosition;
+
 /**
  *  @since 0.19
  */
@@ -24,6 +26,10 @@ public class NotParsable extends IllegalArgumentException {
         super(message);
     }
     public NotParsable(NumberFormatException numberFormatException) {
+        super(numberFormatException.getMessage(), numberFormatException);
+    }
+
+    public NotParsable(ParsePosition parsePosition, NumberFormatException numberFormatException) {
         super(numberFormatException.getMessage(), numberFormatException);
     }
 

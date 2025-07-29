@@ -22,12 +22,15 @@ import java.util.Locale;
 import java.util.Optional;
 
 import org.meeuw.math.DoubleUtils;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
+
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 /**
  * @author Michiel Meeuwissen
@@ -83,7 +86,15 @@ public class UncertainDoubleFormat extends Format {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-        return null;
+        try {
+
+            UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.exactly(Double.parseDouble(source.trim()));
+            pos.setIndex(pos.getIndex() + source.length());
+            return uncertainDoubleElement;
+        } catch (NumberFormatException e) {
+            //return null;
+            throw new NotParsable(pos, e);
+        }
     }
 
     /**

@@ -38,6 +38,6 @@ public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvide
 
     @Override
     public int weight(Class<? extends AlgebraicElement<?>> element) {
-        return UncertainNumber.class.isAssignableFrom(element) ? 1 : 0;
+        return UncertainNumber.class.isAssignableFrom(element) ? 1 : -1;
     }
 }

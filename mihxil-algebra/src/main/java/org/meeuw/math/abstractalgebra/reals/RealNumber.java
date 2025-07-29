@@ -29,6 +29,7 @@ import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static java.lang.Math.max;
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;

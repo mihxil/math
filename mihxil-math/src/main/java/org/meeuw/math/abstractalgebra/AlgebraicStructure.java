@@ -22,6 +22,7 @@ import java.util.function.Consumer;
 import org.meeuw.math.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static java.util.Collections.unmodifiableNavigableSet;
@@ -254,7 +255,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * since 0.19
      */
     default E parse(String value) throws NotParsable{
-        throw new NotParsable.NotImplemented("parseElement not implemented in " + this.getClass() + " " + this);
+        return FormatService.fromString(value, getElementClass());
     }
 
     /**

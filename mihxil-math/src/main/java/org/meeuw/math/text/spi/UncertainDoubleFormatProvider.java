@@ -48,6 +48,6 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
 
     @Override
     public int weight(Class<? extends AlgebraicElement<?>> element) {
-        return UncertainDouble.class.isAssignableFrom(element) ? 1 : 0;
+        return UncertainDouble.class.isAssignableFrom(element) ? 1 : -1;
     }
 }

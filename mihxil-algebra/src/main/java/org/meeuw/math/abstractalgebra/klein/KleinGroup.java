@@ -23,6 +23,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
+import org.meeuw.math.exceptions.NotParsable;
 
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein Klein 4 group}, denoted by {@code V}.
@@ -74,6 +75,16 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     @Override
     public String toString() {
         return "V";
+    }
+
+    @Override
+    public KleinElement parse(String s) throws NotParsable {
+        try {
+            return KleinElement.valueOf(s);
+        } catch (IllegalArgumentException e) {
+            throw new NotParsable(s);
+        }
+
     }
 
 }

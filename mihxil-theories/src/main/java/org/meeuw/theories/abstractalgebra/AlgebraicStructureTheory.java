@@ -409,7 +409,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
      * @param structure
      */
     @Property
-    default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) {
+    default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<E> structure) {
         Logger logger = log();
         if (structure.isFinite()) {
 
@@ -435,7 +435,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
      * If it is not a singleton, it checks that no such field exists.
      */
     @Property
-    default void singleton(@ForAll(STRUCTURE) AlgebraicStructure<?> structure) throws NoSuchFieldException {
+    default void singleton(@ForAll(STRUCTURE) AlgebraicStructure<E> structure) throws NoSuchFieldException {
         Class<?> clazz = structure.getClass();
         boolean isSingleton = clazz.getAnnotation(Singleton.class) != null;
         if (isSingleton) {
@@ -459,7 +459,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
      * Checks if the element is an instance of {@link Uncertain} if the structure sais that {@link AlgebraicStructure#elementsAreUncertain()}.
      */
     @Property
-    default void uncertain(@ForAll(ELEMENTS) AlgebraicElement<?> element) {
+    default void uncertain(@ForAll(ELEMENTS) E element) {
         if (element.getStructure().elementsAreUncertain()) {
             assertThat(element).isInstanceOf(Uncertain.class);
         } else {
@@ -468,9 +468,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    default void parse(@ForAll(ELEMENTS) AlgebraicElement<?> element) {
+    default void parse(@ForAll(ELEMENTS) E  element) {
         try {
-            assertThat(element.getStructure().parse(element.toString())).isEqualTo(element);
+            assertThat(element.getStructure().parse(element.toString()).eq(element)).isTrue();
         } catch (NotParsable.NotImplemented e) {
             log().warn(e.getMessage());
         }

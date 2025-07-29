@@ -29,6 +29,7 @@ import java.util.stream.StreamSupport;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 import static org.meeuw.configuration.ConfigurationService.getConfiguration;
@@ -101,24 +102,25 @@ public final class FormatService {
             .orElse("<TO STRING " + object.getClass().getName() + " FAILED>");
     }
 
-    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz) {
+    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz) throws NotParsable {
         return fromString(source, clazz, getConfiguration());
     }
 
 
     @SuppressWarnings("unchecked")
-    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) {
+    public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) throws NotParsable {
         return getFormat(clazz, configuration)
             .map(f -> {
                 try {
-                    return (E) f.parseObject(source);
+                    E parsed =  (E) f.parseObject(source);
+                    return parsed;
                 } catch (ParseException e) {
                     return null;
                 }
             })
             .filter(Objects::nonNull)
             .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("Could not parse '" + source + "' to " + clazz));
+            .orElseThrow(() -> new NotParsable.NotImplemented("Could not parse '" + source + "' to " + clazz + " (with " + getFormat(clazz, configuration).toList() + ")"));
     }
 
     /**

@@ -21,7 +21,7 @@ import java.util.Random;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NotParsable;
+import org.meeuw.math.text.FormatService;
 
 /**
  * The field of {@link UncertainReal}'s
@@ -95,11 +95,7 @@ public class UncertainRealField
 
     @Override
     public UncertainReal parse(String s) {
-        try {
-            return UncertainDoubleElement.exactly(Double.parseDouble(s.trim()));
-        } catch (NumberFormatException e) {
-            throw new NotParsable(e);
-        }
+        return FormatService.fromString(s,  UncertainReal.class);
     }
 
 }
