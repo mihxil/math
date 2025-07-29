@@ -465,7 +465,15 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         } else {
             assertThat(element).isNotInstanceOf(Uncertain.class);
         }
+    }
 
+    @Property
+    default void parse(@ForAll(ELEMENTS) AlgebraicElement<?> element) {
+        try {
+            assertThat(element.getStructure().parse(element.toString())).isEqualTo(element);
+        } catch (NotParsable.NotImplemented e) {
+            log().warn(e.getMessage());
+        }
     }
 
 
