@@ -68,6 +68,11 @@ public class StringMonoid extends AbstractAlgebraicStructure<StringElement>
         return stream(new State());
     }
 
+    @Override
+    public StringElement fromString(String string) {
+        return new StringElement(string);
+    }
+
 
     public Stream<StringElement> stream(State state) {
         return Stream.iterate(state,
