@@ -78,4 +78,10 @@ public abstract class AbstractIntegers<
     public abstract E newElement(BigInteger value) throws InvalidElementCreationException;
 
 
+
+    @Override
+    public E fromString(String string) {
+        return of(new BigInteger(string));
+    }
+
 }
