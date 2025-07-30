@@ -149,7 +149,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     static Pattern PATTERN = Pattern.compile("^\\s*(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+)\\s*$");
     @Override
-    public RationalNumber parse(String s) {
+    public RationalNumber fromString(String s) {
         s = TextUtils.unsuperscript(TextUtils.unsubscript(s));
         s = s.replace(TextUtils.FRACTION_SLASH, '/');
         Matcher m = PATTERN.matcher(s);

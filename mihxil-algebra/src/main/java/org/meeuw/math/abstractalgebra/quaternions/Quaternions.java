@@ -28,7 +28,6 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
@@ -138,7 +137,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
       static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
 
     @Override
-    public Quaternion<E> parse(String s) {
+    public Quaternion<E> fromString(String s) {
         Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
 
         E real = elementStructure.zero();
@@ -173,7 +172,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         if (coeff.isEmpty()) {
             return elementStructure.one().times(factor);
         } else {
-            return elementStructure.parse(coeff).times(factor);
+            return elementStructure.fromString(coeff).times(factor);
         }
     }
 

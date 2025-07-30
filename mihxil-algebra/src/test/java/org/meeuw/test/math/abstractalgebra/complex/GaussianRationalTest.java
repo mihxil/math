@@ -119,12 +119,12 @@ class GaussianRationalTest implements
 
     @Test
     public void parse() {
-        assertThat(structure.parse("i")).isEqualTo(structure.i());
-        assertThat(structure.parse("2i")).isEqualTo(structure.i().times(2));
-        assertThat(structure.parse("1 - 2i")).isEqualTo(structure.one().minus(structure.i().times(2)));
-        assertThat(structure.parse("1/2 - 2i")).isEqualTo(structure.one().dividedBy(2).minus(structure.i().times(2)));
+        assertThat(structure.fromString("i")).isEqualTo(structure.i());
+        assertThat(structure.fromString("2i")).isEqualTo(structure.i().times(2));
+        assertThat(structure.fromString("1 - 2i")).isEqualTo(structure.one().minus(structure.i().times(2)));
+        assertThat(structure.fromString("1/2 - 2i")).isEqualTo(structure.one().dividedBy(2).minus(structure.i().times(2)));
 
-        assertThat(structure.parse("1 1/2 - 2i")).isEqualTo(structure.one().times(3).dividedBy(2).minus(structure.i().times(2)));
+        assertThat(structure.fromString("1 1/2 - 2i")).isEqualTo(structure.one().times(3).dividedBy(2).minus(structure.i().times(2)));
 
 
     }

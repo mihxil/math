@@ -101,7 +101,7 @@ public  class Solver<E extends RingElement<E>> {
         String resultError = null;
         F result;
         try {
-            result = field.parse(outcomeString);
+            result = field.fromString(outcomeString);
         } catch (NotParsable pe) {
             result = null;
             resultError = pe.getMessage();
@@ -115,7 +115,7 @@ public  class Solver<E extends RingElement<E>> {
         F[] set = field.newArray(input.length);
         try {
             for (int i = 0; i < set.length; i++) {
-                set[i] = field.parse(input[i]);
+                set[i] = field.fromString(input[i]);
             }
         } catch (NotParsable pe) {
             inputError = pe.getMessage();

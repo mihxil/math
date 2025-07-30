@@ -115,7 +115,7 @@ public class AST {
                 return expr;
             } else {
                 pos++;
-                return new Value<>(field.parse(token));
+                return new Value<>(field.fromString(token));
             }
         }
 

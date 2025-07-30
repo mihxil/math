@@ -94,7 +94,7 @@ public class UncertainRealField
     }
 
     @Override
-    public UncertainReal parse(String s) {
+    public UncertainReal fromString(String s) {
         return FormatService.fromString(s,  UncertainReal.class);
     }
 

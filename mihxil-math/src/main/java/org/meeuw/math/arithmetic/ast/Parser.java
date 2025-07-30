@@ -84,7 +84,7 @@ public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<
                     operators.pop(); // pop '('
                 }
             } else {
-                E e = structure.parse(token);
+                E e = structure.fromString(token);
                 output.push(new Value<>(e));
             }
         });

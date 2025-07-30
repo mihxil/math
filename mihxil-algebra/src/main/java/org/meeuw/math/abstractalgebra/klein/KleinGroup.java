@@ -78,7 +78,7 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     }
 
     @Override
-    public KleinElement parse(String s) throws NotParsable {
+    public KleinElement fromString(String s) throws NotParsable {
         try {
             return KleinElement.valueOf(s);
         } catch (IllegalArgumentException e) {

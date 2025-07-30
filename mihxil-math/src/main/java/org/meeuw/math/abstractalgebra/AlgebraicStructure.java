@@ -254,7 +254,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     /**
      * since 0.19
      */
-    default E parse(String value) throws NotParsable{
+    default E fromString(String value) throws NotParsable{
         return FormatService.fromString(value, getElementClass());
     }
 
