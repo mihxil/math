@@ -39,7 +39,7 @@ import static org.meeuw.time.UncertainJavaTime.Mode.LONG;
  * <p>
  * It can work in different {@link Mode}s, which indicates how the long value itself must be interpreted.
  * Therefore, this implements {@link TemporalAmount} and {@link Temporal}, but related methods only work in the corresponding mode.
- * This may get  deprecated, though. And in preparation this is now implementing {@link StatisticalInstant}, {@link StatisticalDuration} if the value must be interpreted as such.
+ * This may get deprecated, though. And in preparation this is now implementing {@link StatisticalInstant}, {@link StatisticalDuration} if the value must be interpreted as such.
  * <p>
  *
  *
