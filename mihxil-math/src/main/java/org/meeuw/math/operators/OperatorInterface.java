@@ -17,6 +17,7 @@ package org.meeuw.math.operators;
 
 import lombok.SneakyThrows;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.Optional;
@@ -40,12 +41,12 @@ public interface OperatorInterface {
      * Returns a {@link Method method} associated with this operator.
      * @throws UnsupportedOperationException if no such method is defined, e.g. because the operator is {@link AlgebraicUnaryOperator#compose  composite}.
      */
-    default Method getMethod() {
+    default MethodHandle getMethod() {
         throw new UnsupportedOperationException();
     }
 
     default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        return ! getNonAlgebraic(e).isPresent();
+        return getNonAlgebraic(e).isEmpty();
     }
     default <E extends AlgebraicElement<E>> Optional<NonAlgebraic> getNonAlgebraic(E e) {
         return Optional.ofNullable(getMethodFor(e).getAnnotation(NonAlgebraic.class));
@@ -53,6 +54,7 @@ public interface OperatorInterface {
 
     @SneakyThrows
     default <E extends AlgebraicElement<E>> Method getMethodFor(E e) {
-        return e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
+        throw new UnsupportedOperationException();
+        //return e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
     }
 }

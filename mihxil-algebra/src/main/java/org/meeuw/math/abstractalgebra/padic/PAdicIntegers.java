@@ -6,6 +6,8 @@ import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethodHandle;
+
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.Cardinality;
@@ -24,9 +26,9 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInteger> {
 
 
-    public static final AlgebraicIntOperator LEFT_SHIFT = new AbstractAlgebraicIntOperator("left_shift",  getDeclaredMethod(PAdicInteger.class, "leftShift", int.class), (e, i) -> e + "<<" + i);
+    public static final AlgebraicIntOperator LEFT_SHIFT = new AbstractAlgebraicIntOperator("left_shift",  getDeclaredMethodHandle(PAdicInteger.class, "leftShift", int.class), (e, i) -> e + "<<" + i);
 
-    public static final AlgebraicIntOperator RIGHT_SHIFT = new AbstractAlgebraicIntOperator("right_shift",  getDeclaredMethod(PAdicInteger.class, "rightShift", int.class), (e, i) -> e + ">>" + i);
+    public static final AlgebraicIntOperator RIGHT_SHIFT = new AbstractAlgebraicIntOperator("right_shift",  getDeclaredMethodHandle(PAdicInteger.class, "rightShift", int.class), (e, i) -> e + ">>" + i);
 
 
     final int base;

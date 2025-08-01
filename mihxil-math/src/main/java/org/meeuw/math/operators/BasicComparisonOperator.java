@@ -18,6 +18,7 @@ package org.meeuw.math.operators;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.Method;
 import java.util.NavigableSet;
 import java.util.function.BinaryOperator;
@@ -26,7 +27,7 @@ import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
-import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethodHandle;
 
 /**
  * The basic operators to compare two elements. Works on two things of the same type, returning a
@@ -41,7 +42,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see AlgebraicElement#eq
      */
     EQ(
-        getDeclaredBinaryMethod(AlgebraicElement.class, "eq"),
+        getDeclaredBinaryMethodHandle(AlgebraicElement.class, "eq"),
         (a, b) -> a + " ≈ " + b
     ),
 
@@ -49,7 +50,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see AlgebraicElement#neq
      */
     NEQ(
-        getDeclaredBinaryMethod(AlgebraicElement.class, "neq"),
+        getDeclaredBinaryMethodHandle(AlgebraicElement.class, "neq"),
         (a, b) -> a + " ≉ " + b
     ),
 
@@ -57,7 +58,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see Object#equals(Object)
      */
     EQUALS(
-        getDeclaredBinaryMethod(Object.class, "equals"),
+        getDeclaredBinaryMethodHandle(Object.class, "equals"),
         (a, b) -> a + " = " + b
     ),
 
@@ -65,7 +66,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#lt
      */
     LT(
-        getDeclaredBinaryMethod(StrictlyOrdered.class, "lt"),
+        getDeclaredBinaryMethodHandle(StrictlyOrdered.class, "lt"),
         (a, b) -> a + " < " + b
     ),
 
@@ -73,7 +74,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#lte
      */
     LTE(
-        getDeclaredBinaryMethod(StrictlyOrdered.class, "lte"),
+        getDeclaredBinaryMethodHandle(StrictlyOrdered.class, "lte"),
         (a, b) -> a + " ≲ " + b
     ),
 
@@ -81,7 +82,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#gt
      */
     GT(
-        getDeclaredBinaryMethod(StrictlyOrdered.class, "gt"),
+        getDeclaredBinaryMethodHandle(StrictlyOrdered.class, "gt"),
         (a, b) -> a + " > " + b
     ),
 
@@ -89,7 +90,7 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
      * @see StrictlyOrdered#gte
      */
     GTE(
-        getDeclaredBinaryMethod(StrictlyOrdered.class, "gte"),
+        getDeclaredBinaryMethodHandle(StrictlyOrdered.class, "gte"),
         (a, b) -> a + " ≳ " + b
     )
     ;
@@ -103,12 +104,12 @@ public enum BasicComparisonOperator implements AlgebraicComparisonOperator {
 
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     @Getter
     final BinaryOperator<CharSequence> stringify;
 
-    BasicComparisonOperator(Method method, java.util.function.BinaryOperator<CharSequence> stringify) {
+    BasicComparisonOperator(MethodHandle method, java.util.function.BinaryOperator<CharSequence> stringify) {
         this.method = method;
         this.stringify = stringify;
     }

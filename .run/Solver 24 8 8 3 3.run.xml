@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Solver" type="Application" factoryName="Application" nameIsGenerated="true">
+  <configuration default="false" name="Solver 24 8 8 3 3" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="org.meeuw.math.test.Solver" />
     <module name="mihxil-demo" />
-    <option name="PROGRAM_PARAMETERS" value="24 8 8 3 3" />
+    <option name="PROGRAM_PARAMETERS" value="24 8 8 3 3 " />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.meeuw.math.test.*" />

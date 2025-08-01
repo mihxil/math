@@ -87,11 +87,12 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
 
     @Override
     default <E extends AlgebraicElement<E>> Method getMethodFor(E e) {
-        try {
+     /*   try {
             return e.getClass().getMethod(getMethod().getName(), e.getStructure().getElementClass());
         } catch (NoSuchMethodException nsme) {
             return OperatorInterface.super.getMethodFor(e);
-        }
+        }*/
+        return null;
     }
 
     /**

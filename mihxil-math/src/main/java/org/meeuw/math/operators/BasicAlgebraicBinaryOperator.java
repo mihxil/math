@@ -18,8 +18,8 @@ package org.meeuw.math.operators;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.function.BinaryOperator;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -27,8 +27,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
 
-import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
-import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethodHandle;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethodHandle;
 
 /**
  * The basic operations of arithmetic
@@ -42,8 +42,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MagmaElement#operate(MagmaElement)
      */
     OPERATION(
-        getDeclaredBinaryMethod(MagmaElement.class, "operate"), "*",
-        getDeclaredMethod(Group.class, "unity"),
+        getDeclaredBinaryMethodHandle(MagmaElement.class, "operate"), "*",
+        getDeclaredMethodHandle(Group.class, "unity"),
         BasicAlgebraicUnaryOperator.INVERSION,
         2
     ),
@@ -52,8 +52,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see AdditiveSemiGroupElement#plus(AdditiveSemiGroupElement)
      */
     ADDITION(
-        getDeclaredBinaryMethod(AdditiveSemiGroupElement.class, "plus"), "+",
-        getDeclaredMethod(AdditiveMonoid.class, "zero"),
+        getDeclaredBinaryMethodHandle(AdditiveSemiGroupElement.class, "plus"), "+",
+        getDeclaredMethodHandle(AdditiveMonoid.class, "zero"),
         BasicAlgebraicUnaryOperator.NEGATION,
         2
     ),
@@ -62,7 +62,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see AdditiveGroupElement#minus(AdditiveGroupElement)
      */
     SUBTRACTION(
-        getDeclaredBinaryMethod(AdditiveGroupElement.class, "minus"), "-",
+        getDeclaredBinaryMethodHandle(AdditiveGroupElement.class, "minus"), "-",
         ADDITION.unity,
         ADDITION.inverse,
         2
@@ -73,8 +73,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MultiplicativeSemiGroupElement#times(MultiplicativeSemiGroupElement)
      */
     MULTIPLICATION(
-        getDeclaredBinaryMethod(MultiplicativeSemiGroupElement.class, "times"), "⋅",
-        getDeclaredMethod(MultiplicativeMonoid.class, "one"),
+        getDeclaredBinaryMethodHandle(MultiplicativeSemiGroupElement.class, "times"), "⋅",
+        getDeclaredMethodHandle(MultiplicativeMonoid.class, "one"),
         BasicAlgebraicUnaryOperator.RECIPROCAL,
         3
     ),
@@ -83,7 +83,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see MultiplicativeGroupElement#dividedBy(MultiplicativeGroupElement)
      */
     DIVISION(
-        getDeclaredBinaryMethod(MultiplicativeGroupElement.class, "dividedBy"), "/",
+        getDeclaredBinaryMethodHandle(MultiplicativeGroupElement.class, "dividedBy"), "/",
         MULTIPLICATION.unity,
         MULTIPLICATION.inverse,
         3
@@ -93,7 +93,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see CompleteFieldElement#pow(CompleteFieldElement)
      */
     POWER(
-        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"), "^",
+        getDeclaredBinaryMethodHandle(CompleteFieldElement.class, "pow"), "^",
         MULTIPLICATION.unity,
         null,
         4
@@ -101,10 +101,10 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     @Getter
-    final Method unity;
+    final MethodHandle unity;
 
     @Getter
     @Nullable
@@ -119,7 +119,8 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
     final int precedence;
 
-    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
+    @SneakyThrows
+    BasicAlgebraicBinaryOperator(MethodHandle method, String symbol, MethodHandle unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
         this.method = method;
         this.symbol = symbol;
         this.stringify = (a, b) -> a + " " + symbol + " " + b;
@@ -134,12 +135,12 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E element1, E element2) {
         try {
-            if (!method.getParameterTypes()[0].isInstance(element1)) {
+         /*   if (!method.getParameterTypes()[0].isInstance(element1)) {
                 throw new NoSuchOperatorException(element1.getClass().getSimpleName() + " " + element1 + " has no operator '" + method.getName() + "'");
-            }
+            }*/
             E result = (E) method.invoke(element1, element2);
             if (result == null) {
-                throw new InvalidAlgebraicResult("" + method + "(" + element1 + ',' + element2 + ") resulted null");
+                throw new InvalidAlgebraicResult(method + "(" + element1 + ',' + element2 + ") resulted null");
             }
             return result;
         } catch (InvocationTargetException ite) {
@@ -175,15 +176,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     @SuppressWarnings("unchecked")
     @SneakyThrows
     public <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> E  unity(S structure) {
-        try {
-            return (E) unity.invoke(structure);
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException(unity.getDeclaringClass().getName() + "." + unity.getName() + "(" + structure + " ): " + e.getMessage());
-        } catch (IllegalArgumentException iae) {
-            throw new NoSuchOperatorException("for unity of " + structure + ":" + iae.getMessage(), iae);
-        } catch (InvocationTargetException e) {
-            throw e.getCause();
-        }
+        return (E) unity.invoke(structure);
     }
 
     @Override

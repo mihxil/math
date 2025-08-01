@@ -15,11 +15,15 @@
  */
 package org.meeuw.math.operators;
 
+import java.lang.invoke.MethodHandle;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
 import java.lang.reflect.Method;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethodHandle;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
@@ -38,7 +42,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
      * Raising to an integer power, which is defined for all {@link MultiplicativeSemiGroupElement}s.
      */
     POWER(
-        getDeclaredMethod(MultiplicativeSemiGroupElement.class, "pow", int.class),
+        getDeclaredMethodHandle(MultiplicativeSemiGroupElement.class, "pow", int.class),
         (s, i) ->  withBracketsIfNeeded(s) + TextUtils.superscript(i)
     ),
 
@@ -46,7 +50,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
      * Taking the n-th root of an element, which is defined for all {@link CompleteFieldElement}s.
      */
     ROOT(
-        getDeclaredMethod(CompleteFieldElement.class, "root", int.class),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "root", int.class),
         (s, i) ->  TextUtils.superscript(i) + "√" + withBracketsIfNeeded(s)
     ),
 
@@ -54,7 +58,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
      * Taking the n-th tetration of an element.
      */
     TETRATION(
-        getDeclaredMethod(CompleteFieldElement.class, "tetration", int.class),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "tetration", int.class),
         (s, i) -> TextUtils.superscript(i) + withBracketsIfNeeded(s)
     )
     ;
@@ -70,11 +74,11 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
 
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     final java.util.function.BiFunction<CharSequence, CharSequence, String> stringify;
 
-    BasicAlgebraicIntOperator(Method method, java.util.function.BiFunction<CharSequence, CharSequence, String> stringify) {
+    BasicAlgebraicIntOperator(MethodHandle method, java.util.function.BiFunction<CharSequence, CharSequence, String> stringify) {
         this.method = method;
         this.stringify = stringify;
     }

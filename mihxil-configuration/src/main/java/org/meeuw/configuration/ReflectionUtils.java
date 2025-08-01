@@ -18,6 +18,8 @@ package org.meeuw.configuration;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
@@ -52,8 +54,19 @@ public class ReflectionUtils {
         return clazz.getDeclaredMethod(name, params);
     }
 
+    @SneakyThrows
+    public static MethodHandle getDeclaredMethodHandle(Class<?> clazz, String name, Class<?>... params) {
+        return MethodHandles.publicLookup().unreflect(clazz.getDeclaredMethod(name, params));
+    }
+
+
     public static Method getDeclaredBinaryMethod(Class<?> clazz, String name) {
         return getDeclaredMethod(clazz, name, clazz);
+    }
+
+    @SneakyThrows
+    public static MethodHandle getDeclaredBinaryMethodHandle(Class<?> clazz, String name) {
+        return MethodHandles.publicLookup().unreflect(getDeclaredBinaryMethod(clazz, name));
     }
 
     /**
