@@ -9,6 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.time.UncertainJavaTime;
 
 @Log4j2
 class SolverTest {
@@ -22,9 +24,17 @@ class SolverTest {
 
     @Test
     void solve2() {
-        Instant start = Instant.now();
-        Solver.SolverResult solve = Solver.solve(RationalNumbers.INSTANCE, "120", "4 7 7 7 8");
-        List<String> list = solve.stream().toList();
-        log.info("Solved {} -> {} ({})", solve, list, Duration.between(start, Instant.now()));
+        StatisticalLong duration =new StatisticalLong(UncertainJavaTime.Mode.DURATION);
+
+        for (int i =0; i < 100; i++) {
+            Instant start = Instant.now();
+            Solver.SolverResult solve = Solver.solve(RationalNumbers.INSTANCE, "120", "4 7 7 7 8");
+            List<String> list = solve.stream().toList();
+            duration.enter(Duration.between(start, Instant.now()));
+            if (i == 0) {
+                log.info("Solved {} -> {}", solve, list);
+            }
+        }
+        log.info("Solved: {}", duration.toString());
     }
 }
