@@ -23,7 +23,7 @@ class SolverTest {
     }
 
     @Test
-    void solve2() {
+    void solvce2() {
         StatisticalLong duration =new StatisticalLong(UncertainJavaTime.Mode.DURATION);
 
         for (int i =0; i < 100; i++) {

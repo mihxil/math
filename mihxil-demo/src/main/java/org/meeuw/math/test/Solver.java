@@ -6,7 +6,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Ring;
+import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
@@ -135,6 +136,7 @@ public  class Solver<E extends RingElement<E>> {
 
 
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
+
 
     }
 

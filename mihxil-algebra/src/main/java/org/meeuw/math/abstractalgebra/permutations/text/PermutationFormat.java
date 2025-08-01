@@ -81,7 +81,9 @@ public class PermutationFormat extends Format {
             string = subsource.split("");
         }
         for (String s : string) {
-            result.add(Integer.parseInt(s));
+            if (!s.isEmpty()) {
+                result.add(Integer.parseInt(s));
+            }
         }
         pos.setIndex(close);
         return Permutation.zeroOffset(result.stream().mapToInt(in-> in - offset.getAsInt()).toArray());
