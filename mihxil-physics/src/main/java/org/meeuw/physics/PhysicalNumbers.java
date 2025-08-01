@@ -19,6 +19,7 @@ import java.util.NavigableSet;
 
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicComparisonOperator;
 import org.meeuw.math.operators.BasicComparisonOperator;
 
@@ -63,6 +64,11 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
     @Override
     public boolean multiplicationIsCommutative() {
         return true;
+    }
+
+    @Override
+    public PhysicalNumber fromString(String s) {
+        throw new NotParsable.NotImplemented("not implemented");
     }
 
 }
