@@ -470,7 +470,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void fromString(@ForAll(ELEMENTS) E  element) {
         try {
-            assertThat(element.getStructure().fromString(element.toString()).eq(element)).isTrue();
+            String value = element.toString();
+            E fromString = element.getStructure().fromString(value);
+            assertThat(fromString.eq(element)).withFailMessage(" " + value + " didn't parse to " + element + " but to " + fromString).isTrue();
         } catch (NotParsable.NotImplemented e) {
             log().warn(e.getMessage());
         }

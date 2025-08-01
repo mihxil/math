@@ -50,7 +50,7 @@ public class PermutationConfiguration implements ConfigurationAspect {
 
 
     public PermutationConfiguration() {
-        this(Notation.CYCLES, Offset.ONE);
+        this(Notation.LIST, Offset.ONE);
     }
 
     @lombok.Builder

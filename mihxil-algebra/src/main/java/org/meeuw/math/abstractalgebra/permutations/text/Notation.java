@@ -27,7 +27,7 @@ public enum Notation {
      */
     CYCLES,
     /**
-     * Use  list notation.
+     * Use list notation. This is the default because it can more easily be parsed.
      */
     LIST
 }

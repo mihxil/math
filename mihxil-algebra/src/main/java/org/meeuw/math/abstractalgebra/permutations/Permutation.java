@@ -129,25 +129,27 @@ public class Permutation  implements
     public List<Cycle> getCycles() {
         if (cycles == null) {
             List<Cycle> result = new ArrayList<>();
-            List<Integer> help = new ArrayList<>(value.length);
-            int[] todo = Arrays.copyOf(value, value.length);
+            if (value.length > 0) {
+                List<Integer> help = new ArrayList<>(value.length);
+                int[] todo = Arrays.copyOf(value, value.length);
 
-            int i = 0;
-            OUTER:
-            while(true) {
-                help.add(i);
-                todo[i] = -1;
-                i = value[i];
-                if (help.contains(i)) {
-                    result.add(new Cycle(help.stream().mapToInt(e -> e).toArray()));
-                    help.clear();
-                    for (int j = 0; j < todo.length; j++) {
-                        if (todo[j] != -1) {
-                            i = j;
-                            continue OUTER;
+                int i = 0;
+                OUTER:
+                while (true) {
+                    help.add(i);
+                    todo[i] = -1;
+                    i = value[i];
+                    if (help.contains(i)) {
+                        result.add(new Cycle(help.stream().mapToInt(e -> e).toArray()));
+                        help.clear();
+                        for (int j = 0; j < todo.length; j++) {
+                            if (todo[j] != -1) {
+                                i = j;
+                                continue OUTER;
+                            }
                         }
+                        break;
                     }
-                    break;
                 }
             }
             cycles = Collections.unmodifiableList(result);
@@ -160,7 +162,7 @@ public class Permutation  implements
      */
     public String cycleNotation(int offset) {
         String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString(offset)).collect(Collectors.joining());
-        if (s.length() == 0) {
+        if (s.isEmpty()) {
             return "()";
         } else {
             return s;
