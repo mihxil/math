@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.operators;
 
+import java.lang.invoke.MethodHandle;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
@@ -33,13 +35,13 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 public  class AbstractAlgebraicIntOperator implements AlgebraicIntOperator {
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     final BiFunction<CharSequence, CharSequence, String> stringify;
 
     final String name;
 
-    public AbstractAlgebraicIntOperator(String name, Method method, BiFunction<CharSequence, CharSequence, String> stringify) {
+    public AbstractAlgebraicIntOperator(String name, MethodHandle method, BiFunction<CharSequence, CharSequence, String> stringify) {
         this.name = name;
         this.method = method;
         this.stringify = stringify;

@@ -15,12 +15,16 @@
  */
 package org.meeuw.math.operators;
 
+import java.lang.invoke.MethodHandle;
+
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethodHandle;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
@@ -40,7 +44,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see AlgebraicElement#self()
      */
     IDENTIFY(
-        getDeclaredMethod(AlgebraicElement.class, "self"),
+        getDeclaredMethodHandle(AlgebraicElement.class, "self"),
         (s) -> !s.isEmpty() && s.charAt(0) == '+' ? s : "+" + s
     ),
 
@@ -48,14 +52,14 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see AdditiveGroupElement#negation()
      */
     NEGATION(
-        getDeclaredMethod(AdditiveGroupElement.class, "negation"),
+        getDeclaredMethodHandle(AdditiveGroupElement.class, "negation"),
         (s) -> !s.isEmpty() && s.charAt(0) == '-' ? "+" + s.subSequence(1, s.length()) : "-" + s),
 
     /**
      * @see MultiplicativeGroupElement#reciprocal()
      */
     RECIPROCAL(
-        getDeclaredMethod(MultiplicativeGroupElement.class, "reciprocal"),
+        getDeclaredMethodHandle(MultiplicativeGroupElement.class, "reciprocal"),
         (s) -> s + superscript(-1)
     ),
 
@@ -63,7 +67,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see GroupElement#inverse()
      */
     INVERSION(
-        getDeclaredMethod(GroupElement.class, "inverse"),
+        getDeclaredMethodHandle(GroupElement.class, "inverse"),
         (s) -> "inverse(" + s  + ")"
     ),
 
@@ -71,7 +75,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see MultiplicativeSemiGroupElement#sqr()
      */
     SQR(
-        getDeclaredMethod(MultiplicativeSemiGroupElement.class, "sqr"),
+        getDeclaredMethodHandle(MultiplicativeSemiGroupElement.class, "sqr"),
         (s) -> (s.toString().contains(" ") ? "(" + s  + ")" : s ) + superscript(2)
     ),
 
@@ -80,7 +84,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sqrt()
      */
     SQRT(
-        getDeclaredMethod(CompleteFieldElement.class, "sqrt"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "sqrt"),
         (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s)
     ),
 
@@ -88,7 +92,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sin()
      */
     SIN(
-        getDeclaredMethod(CompleteFieldElement.class, "sin"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "sin"),
         (s) -> "sin(" + s + ")"
     ),
 
@@ -96,7 +100,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#cos()
      */
     COS(
-        getDeclaredMethod(CompleteFieldElement.class, "cos"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "cos"),
         (s) -> "cos(" + s + ")"
     ),
 
@@ -104,7 +108,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#exp()
      */
     EXP(
-        getDeclaredMethod(CompleteFieldElement.class, "exp"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "exp"),
         (s) -> "exp(" + s + ")"
     ),
 
@@ -112,7 +116,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#ln()
      */
     LN(
-        getDeclaredMethod(CompleteFieldElement.class, "ln"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "ln"),
         (s) -> "ln(" + s + ")"
     ),
 
@@ -120,7 +124,7 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#sinh()
      */
     SINH(
-        getDeclaredMethod(CompleteFieldElement.class, "sinh"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "sinh"),
         (s) -> "sinh(" + s + ")"
     ),
 
@@ -128,18 +132,18 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
      * @see CompleteFieldElement#cosh()
      */
     COSH(
-        getDeclaredMethod(CompleteFieldElement.class, "cosh"),
+        getDeclaredMethodHandle(CompleteFieldElement.class, "cosh"),
         (s) -> "cosh(" + s + ")"
     )
 
     ;
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     final java.util.function.UnaryOperator<CharSequence> stringify;
 
-    BasicAlgebraicUnaryOperator(Method method, java.util.function.UnaryOperator<CharSequence> stringify) {
+    BasicAlgebraicUnaryOperator(MethodHandle method, java.util.function.UnaryOperator<CharSequence> stringify) {
         this.method = method;
         this.stringify = stringify;
     }
@@ -151,13 +155,12 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
         try {
             return (E) method.invoke(e);
         } catch (IllegalArgumentException iae) {
-            try {
+
                 // It is possible that the operation is defined, but the class does not extend the correct class
                 // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
-                return (E) e.getClass().getMethod(method.getName()).invoke(e);
-            } catch (java.lang.NoSuchMethodException noSuchMethodError) {
-                throw new NoSuchOperatorException("No operation " + this + " found on " + e, noSuchMethodError);
-            }
+                //return (E) e.getClass().getMethod(method.getName()).invoke(e);
+                throw iae;
+
         } catch (InvocationTargetException ex) {
             throw ex.getCause();
         }
