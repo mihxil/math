@@ -26,11 +26,10 @@ import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
-
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
 
 /**
  * @author Michiel Meeuwissen
@@ -87,10 +86,17 @@ public class UncertainDoubleFormat extends Format {
     @Override
     public Object parseObject(String source, ParsePosition pos) {
         try {
+            String[] string = source.split(TextUtils.PLUSMIN, 2);
 
-            UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.exactly(Double.parseDouble(source.trim()));
-            pos.setIndex(pos.getIndex() + source.length());
-            return uncertainDoubleElement;
+            if (string.length == 1) {
+                UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.exactly(Double.parseDouble(source.trim()));
+                pos.setIndex(pos.getIndex() + source.length());
+                return uncertainDoubleElement;
+            } else {
+                UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.of(Double.parseDouble(string[0].trim()), Double.parseDouble(string[1].trim()));
+                pos.setIndex(pos.getIndex() + source.length());
+                return uncertainDoubleElement;
+            }
         } catch (NumberFormatException e) {
             //return null;
             throw new NotParsable(pos, e);

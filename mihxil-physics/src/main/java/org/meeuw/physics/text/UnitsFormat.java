@@ -63,7 +63,8 @@ public class UnitsFormat extends Format {
             pos.setIndex(pos.getIndex() + 1);
             return Units.DIMENSIONLESS;
         }
-        throw new UnsupportedOperationException();
+        return null;
+        //throw new UnsupportedOperationException();
     }
 
 }

@@ -40,7 +40,7 @@ public class PhysicalNumberFormat extends Format {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-        throw new UnsupportedOperationException();
+        return null;
     }
 
 }
