@@ -15,10 +15,6 @@
  */
 package org.meeuw.math.text;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.PolyNull;
@@ -30,7 +26,8 @@ import org.checkerframework.checker.nullness.qual.PolyNull;
 public final class TextUtils {
 
     public static final String TIMES      = "·";  /* "·10' */
-    public static final String PLUSMIN    = "±";
+
+    public static final char PLUSMIN    = '±';
     public static final String INFINITY   = "∞";
     public static final String NOT_EQUALS = "≠";
 

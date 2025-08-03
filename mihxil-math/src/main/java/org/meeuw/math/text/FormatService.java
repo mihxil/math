@@ -16,11 +16,13 @@
 package org.meeuw.math.text;
 
 import lombok.Generated;
+import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
 import java.text.Format;
 import java.text.ParseException;
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
@@ -29,6 +31,7 @@ import java.util.stream.StreamSupport;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.*;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.abstractalgebra.AlgebraicStructure;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
@@ -41,6 +44,8 @@ import static org.meeuw.configuration.ConfigurationService.getConfiguration;
  */
 @Log
 public final class FormatService {
+
+    private static final ThreadLocal<AlgebraicStructure<?>> CURRENT_STRUCTURE = ThreadLocal.withInitial(() -> null);
 
     private FormatService() {
     }
@@ -106,6 +111,12 @@ public final class FormatService {
         return fromString(source, clazz, getConfiguration());
     }
 
+    @SneakyThrows
+    public static <E extends AlgebraicElement<E>> E fromString(AlgebraicStructure<E> structure, final String source, Class<E> clazz) throws NotParsable {
+        return with(structure, () -> fromString(source, clazz, getConfiguration()));
+    }
+
+
 
     @SuppressWarnings("unchecked")
     public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) throws NotParsable {
@@ -141,6 +152,16 @@ public final class FormatService {
     @Generated
     public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
         ConfigurationService.withConfiguration(configuration, r);
+    }
+
+    public static <E extends AlgebraicElement<E>, R> R with(AlgebraicStructure<E> structure, Callable<R> r) throws Exception {
+        try {
+            CURRENT_STRUCTURE.set(structure);
+            return r.call();
+        } finally {
+            CURRENT_STRUCTURE.remove();
+        }
+
     }
 
 

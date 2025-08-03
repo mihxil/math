@@ -43,9 +43,8 @@ public class PermutationFormat extends Format {
     @Override
     public StringBuffer format(Object obj, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
 
-        if (obj instanceof Permutation) {
+        if (obj instanceof Permutation p) {
             int o = offset.getAsInt();
-            Permutation p = (Permutation) obj;
             switch (notation) {
                 case CYCLES:
                     toAppendTo.append(p.cycleNotation(o));

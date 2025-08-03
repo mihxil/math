@@ -57,7 +57,7 @@ class UncertainDoubleTest implements ScalarTheory<UncertainDoubleTest.A> {
         }
         @Override
         public String toString() {
-            return value + TextUtils.PLUSMIN + uncertainty;
+            return String.valueOf(value) + TextUtils.PLUSMIN + uncertainty;
         }
 
         @SuppressWarnings("com.haulmont.jpb.EqualsDoesntCheckParameterClass")

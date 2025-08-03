@@ -29,7 +29,7 @@ import org.meeuw.math.exceptions.NotASubGroup;
  *
  * @author Michiel Meeuwissen
  * @since 0.4
- * @param <E> The self type
+ * @param <E> The self-type
  */
 public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Serializable {
 

@@ -70,8 +70,7 @@ public class UncertainDoubleFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainDouble) {
-            UncertainDouble<?> uncertainNumber = (UncertainDouble<?>) number;
+        if (number instanceof UncertainDouble<?> uncertainNumber) {
             if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
                 toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {
@@ -85,20 +84,50 @@ public class UncertainDoubleFormat extends Format {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
-        try {
-            String[] string = source.split(TextUtils.PLUSMIN, 2);
+        int start = pos.getIndex();
+        int length = source.length();
+        int i = start;
+        int plusminIndex = -1;
 
-            if (string.length == 1) {
-                UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.exactly(Double.parseDouble(source.trim()));
-                pos.setIndex(pos.getIndex() + source.length());
-                return uncertainDoubleElement;
+        // Find the plus-minus character, if present
+        while (i < length) {
+            char c = source.charAt(i);
+            if (c == TextUtils.PLUSMIN) {
+                plusminIndex = i;
+                break;
+            }
+            if (!Character.isDigit(c) && c != '.' && !Character.isWhitespace(c) && c != '-') {
+                break;
+            }
+            i++;
+        }
+
+        try {
+            if (plusminIndex == -1) {
+                // Only value, parse until non-numeric
+                String valueStr = source.substring(start, i).trim();
+                double value = Double.parseDouble(valueStr);
+                pos.setIndex(i);
+                return UncertainDoubleElement.exactly(value);
             } else {
-                UncertainDoubleElement uncertainDoubleElement = UncertainDoubleElement.of(Double.parseDouble(string[0].trim()), Double.parseDouble(string[1].trim()));
-                pos.setIndex(pos.getIndex() + source.length());
-                return uncertainDoubleElement;
+                // Value and uncertainty
+                String valueStr = source.substring(start, plusminIndex).trim();
+                int j = plusminIndex + 1;
+                // Parse uncertainty until non-numeric
+                while (j < length) {
+                    char c = source.charAt(j);
+                    if (!Character.isDigit(c) && c != '.' && !Character.isWhitespace(c) && c != '-') {
+                        break;
+                    }
+                    j++;
+                }
+                String uncertaintyStr = source.substring(plusminIndex + 1, j).trim();
+                double value = Double.parseDouble(valueStr);
+                double uncertainty = Double.parseDouble(uncertaintyStr);
+                pos.setIndex(j);
+                return UncertainDoubleElement.of(value, uncertainty);
             }
         } catch (NumberFormatException e) {
-            //return null;
             throw new NotParsable(pos, e);
         }
     }

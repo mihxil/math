@@ -179,7 +179,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         Permutation r = Permutation.of(2, 4, 1, 3, 5, 10, 6, 8, 9, 7);
         assertThat(r.cycleNotation(1)).isEqualTo("(1 2 4 3)(6 10 7)");
 
-        assertThat(p.getStructure().one().toString()).isEqualTo("()");
+        assertThat(p.getStructure().one().cycleNotation(1)).isEqualTo("()");
 
     }
 
