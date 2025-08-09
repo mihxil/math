@@ -16,8 +16,7 @@
 package org.meeuw.math;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -186,7 +185,7 @@ public final class ArrayUtils {
     public static  String toString(int[] array) {
         Integer[] a = new Integer[array.length];
         for (int i = 0; i < array.length; i++) {
-            a[i] = Integer.valueOf(array[i]);
+            a[i] = array[i];
         }
         return toString(a, Object::toString);
     }
@@ -294,6 +293,20 @@ public final class ArrayUtils {
         }
         return true;
     }
+
+    /**
+     * Converts a collection of Number to in int[] array.
+     * @since 0.19
+     */
+    public static int[] toArray(Collection<? extends Number> collection) {
+        Object[] boxedArray = collection.toArray();
+        int len = boxedArray.length;
+        int[] array = new int[len];
+        for (int i = 0; i < len; i++) {
+            array[i] = ((Number) boxedArray[i]).intValue();
+        }
+        return array;
+  }
 
 
 }
