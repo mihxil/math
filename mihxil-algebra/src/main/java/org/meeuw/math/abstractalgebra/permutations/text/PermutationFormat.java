@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.permutations.text;
 
+import java.util.regex.Pattern;
+
 import lombok.With;
 
 import java.text.*;
@@ -22,7 +24,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.abstractalgebra.permutations.Permutation;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.abstractalgebra.permutations.*;
+import org.meeuw.math.text.FormatService;
 
 /**
  * @author Michiel Meeuwissen
@@ -62,7 +67,15 @@ public class PermutationFormat extends Format {
      * only support list notation for now.
      */
     @Override
-    public Object parseObject(String source, ParsePosition pos) {
+    public Object parseObject(String source, @NonNull ParsePosition pos) {
+        Notation notation = ConfigurationService.getConfigurationAspect(PermutationConfiguration.class).getNotation();
+        return switch(notation) {
+            case LIST -> parseListNotation(source, pos);
+            case CYCLES -> parseCycleNotation(FormatService.getCurrentStructure(), source, pos);
+        };
+
+    }
+    public Permutation parseListNotation(String source, ParsePosition pos) {
         int open = pos.getIndex();
         if (source.charAt(open) != '(') {
             pos.setErrorIndex(open);
@@ -78,6 +91,10 @@ public class PermutationFormat extends Format {
         String[] string = subsource.split(" ");
         if (string.length == 1 && string[0].length() > 1) {
             string = subsource.split("");
+
+        }
+        if (string.length == 1 && string[0].length() > 1) {
+            string = subsource.split("");
         }
         for (String s : string) {
             if (!s.isEmpty()) {
@@ -87,4 +104,37 @@ public class PermutationFormat extends Format {
         pos.setIndex(close);
         return Permutation.zeroOffset(result.stream().mapToInt(in-> in - offset.getAsInt()).toArray());
     }
+
+    public Permutation parseCycleNotation(PermutationGroup group, String source, ParsePosition pos) {
+        int start = pos.getIndex();
+        List<int[]> cycles = new ArrayList<>();
+        int i = start;
+        Pattern splitPattern = Pattern.compile(group.getDegree() > 9 ? "\\s+" : "");
+        while (i < source.length()) {
+            if (source.charAt(i) == '(') {
+                int end = source.indexOf(')', i);
+                if (end == -1) {
+                    pos.setErrorIndex(i);
+                    return null;
+                }
+                String cycleStr = source.substring(i + 1, end).trim();
+                if (!cycleStr.isEmpty()) {
+                    String[] elements = splitPattern.split(cycleStr);
+                    List<Integer> cycle = new ArrayList<>();
+                    for (String el : elements) {
+                        cycle.add(Integer.parseInt(el) - offset.getAsInt());
+                    }
+                    cycles.add(ArrayUtils.toArray(cycle));
+                }
+                i = end + 1;
+            } else if (Character.isWhitespace(source.charAt(i))) {
+                i++;
+            } else {
+                break;
+            }
+        }
+        pos.setIndex(i);
+        return group.fromCycles(cycles);
+    }
+
 }
