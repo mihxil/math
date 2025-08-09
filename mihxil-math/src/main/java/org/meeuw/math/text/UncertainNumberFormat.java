@@ -45,6 +45,7 @@ public class UncertainNumberFormat extends Format {
 
     @Override
     public Object parseObject(String source, ParsePosition pos) {
+        pos.setErrorIndex(pos.getIndex());
         return null;
     }
 

@@ -15,12 +15,15 @@
  */
 package org.meeuw.math.text;
 
-import lombok.*;
+
+import lombok.Getter;
+import lombok.Setter;
 
 import java.text.*;
 import java.util.Locale;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -83,7 +86,11 @@ public class UncertainDoubleFormat extends Format {
     }
 
     @Override
-    public Object parseObject(String source, ParsePosition pos) {
+    public Object parseObject(String source, @NonNull ParsePosition  pos) {
+        return parse(source, pos);
+    }
+
+    public UncertainDoubleElement parse(String source, ParsePosition pos) {
         int start = pos.getIndex();
         int length = source.length();
         int i = start;
@@ -113,22 +120,33 @@ public class UncertainDoubleFormat extends Format {
                 // Value and uncertainty
                 String valueStr = source.substring(start, plusminIndex).trim();
                 int j = plusminIndex + 1;
-                // Parse uncertainty until non-numeric
-                while (j < length) {
-                    char c = source.charAt(j);
-                    if (!Character.isDigit(c) && c != '.' && !Character.isWhitespace(c) && c != '-') {
-                        break;
-                    }
+                while (j < length && Character.isWhitespace(source.charAt(j))) {
                     j++;
                 }
-                String uncertaintyStr = source.substring(plusminIndex + 1, j).trim();
+                final String uncertaintyStr;
+                if (source.startsWith("NaN")) {
+                    uncertaintyStr = "NaN";
+                    j +=3;
+                } else {
+                    // Parse uncertainty until non-numeric
+                    while (j < length) {
+                        char c = source.charAt(j);
+                        if (!Character.isDigit(c) && c != '.' && !Character.isWhitespace(c) && c != '-') {
+                            break;
+                        }
+                        j++;
+                    }
+                    uncertaintyStr = source.substring(plusminIndex + 1, j).trim();
+                }
                 double value = Double.parseDouble(valueStr);
                 double uncertainty = Double.parseDouble(uncertaintyStr);
                 pos.setIndex(j);
                 return UncertainDoubleElement.of(value, uncertainty);
             }
         } catch (NumberFormatException e) {
-            throw new NotParsable(pos, e);
+            pos.setErrorIndex(pos.getIndex());
+            return null;
+            //throw new NotParsable(pos, e);
         }
     }
 
