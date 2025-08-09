@@ -20,8 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
@@ -202,5 +201,15 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
         return Arbitraries.of(
             PermutationGroup.ofDegree(5).stream().collect(Collectors.toList())
         );
+    }
+
+
+    @Property
+    public void fromListNotation(@ForAll(ELEMENTS) Permutation  element) {
+        ConfigurationService.withAspect(PermutationConfiguration.class, configuration -> {
+            return configuration.withNotation(LIST);
+        }, () -> {
+            fromString(element);
+        });
     }
 }

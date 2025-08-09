@@ -161,7 +161,9 @@ public class Permutation  implements
      * See <a href="https://en.wikipedia.org/wiki/Permutation#Cycle_notation">wikipedia</a>
      */
     public String cycleNotation(int offset) {
-        String s = getCycles().stream().map(c -> c.value.length == 1 ? "" : c.toString(offset)).collect(Collectors.joining());
+        String s = getCycles().stream()
+            .map(c -> c.value.length == 1 ? "" : c.toString(offset))
+            .collect(Collectors.joining());
         if (s.isEmpty()) {
             return "()";
         } else {

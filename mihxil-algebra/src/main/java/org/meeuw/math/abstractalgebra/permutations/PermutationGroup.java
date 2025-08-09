@@ -22,9 +22,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import org.meeuw.math.*;
+import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.text.TextUtils;
+
+import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
+import static org.meeuw.math.IntegerUtils.factorial;
 
 /**
  * @author Michiel Meeuwissen
@@ -78,12 +83,29 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
 
     @Override
     public Cardinality getCardinality() {
-        return Cardinality.of(IntegerUtils.factorial(degree));
+        return Cardinality.of(factorial(degree));
     }
+
+    public Permutation fromCycles(List<int[]> cycles) {
+        int offset = getConfigurationAspect(PermutationConfiguration.class).getOffset().getAsInt();
+        int[] mapping = new int[degree];
+        for (int i = 0; i < degree; i++) {
+            mapping[i] = i;
+        }
+        for (int[] cycle : cycles) {
+            int[] elements = cycle;
+            int len = elements.length;
+            for (int i = 0; i < len; i++) {
+                mapping[elements[i]] = elements[(i + 1) % len];
+            }
+        }
+        return Permutation.zeroOffset(mapping);
+    }
+
 
     @Override
     public Stream<Permutation> stream() {
-        final Iterator<Permutation> iterator = new Iterator<Permutation>() {
+        final Iterator<Permutation> iterator = new Iterator<>() {
             Permutation p = one();
             final int[] values = Arrays.copyOf(p.value, degree);
 
