@@ -164,6 +164,10 @@ public final class FormatService {
 
     }
 
+    public static <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> S getCurrentStructure() {
+        return (S) CURRENT_STRUCTURE.get();
+    }
+
 
 }
 
