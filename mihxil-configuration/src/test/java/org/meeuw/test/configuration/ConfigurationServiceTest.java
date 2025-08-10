@@ -17,6 +17,7 @@ package org.meeuw.test.configuration;
 
 import lombok.extern.java.Log;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.List;
 
@@ -146,7 +147,7 @@ public class ConfigurationServiceTest {
     public void invalid() {
         assertThatThrownBy(() ->
             getConfiguration().toBuilder().aspectDefault(InvalidConfigurationAspect.class)
-        ).isInstanceOf(InstantiationException.class);
+        ).isInstanceOf(InvocationTargetException.class);
     }
 
 
