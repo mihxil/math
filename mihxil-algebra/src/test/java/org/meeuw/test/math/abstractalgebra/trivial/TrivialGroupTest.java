@@ -13,16 +13,17 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra;
+package org.meeuw.test.math.abstractalgebra.trivial;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-import org.meeuw.theories.abstractalgebra.RingTheory;
-import org.meeuw.math.abstractalgebra.trivial.TrivialRingElement;
 
-public class TrivialRingTest implements RingTheory<TrivialRingElement> {
+import org.meeuw.theories.abstractalgebra.GroupTheory;
+import org.meeuw.math.abstractalgebra.trivial.TrivialGroupElement;
+
+public class TrivialGroupTest implements GroupTheory<TrivialGroupElement> {
     @Override
-    public Arbitrary<TrivialRingElement> elements() {
-        return Arbitraries.of(TrivialRingElement.e);
+    public Arbitrary<TrivialGroupElement> elements() {
+        return Arbitraries.of(TrivialGroupElement.e);
     }
 }
