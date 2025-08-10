@@ -15,18 +15,17 @@
  */
 package org.meeuw.math.abstractalgebra.permutations.text;
 
-import java.util.regex.Pattern;
-
 import lombok.With;
 
 import java.text.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.ArrayUtils;
-import org.meeuw.math.abstractalgebra.permutations.*;
+import org.meeuw.math.abstractalgebra.permutations.Permutation;
+import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.text.FormatService;
 
 /**
@@ -37,6 +36,7 @@ public class PermutationFormat extends Format {
 
     @With
     private final Notation notation;
+
     @With
     private final Offset offset;
 
@@ -68,7 +68,6 @@ public class PermutationFormat extends Format {
      */
     @Override
     public Object parseObject(String source, @NonNull ParsePosition pos) {
-        Notation notation = ConfigurationService.getConfigurationAspect(PermutationConfiguration.class).getNotation();
         return switch(notation) {
             case LIST -> parseListNotation(source, pos);
             case CYCLES -> parseCycleNotation(FormatService.getCurrentStructure(), source, pos);
