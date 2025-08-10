@@ -21,8 +21,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.text.TextUtils.subscript;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncertain;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.uncertain;
 import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.Planck.PlanckUnit.*;
 

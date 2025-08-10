@@ -34,7 +34,7 @@ import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
@@ -47,25 +47,25 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
 
     @Test
     public void testToString() {
-        UncertainDoubleElement uncertainDouble = new UncertainDoubleElement(5, 1);
+        UncertainDouble uncertainDouble = new UncertainDouble(5, 1);
         assertThat(uncertainDouble.toString()).isEqualTo("5.0 ± 1.0");
     }
 
     @Test
     public void pow() {
-        UncertainDoubleElement w = new UncertainDoubleElement(-1971, 680);
+        UncertainDouble w = new UncertainDouble(-1971, 680);
         assertThat(w.pow(-2).doubleUncertainty()).isPositive();
     }
 
     @Test
     public void determinant2() {
-         UncertainDoubleElement[][] realNumbers = new UncertainDoubleElement[][] {
-            new UncertainDoubleElement[]{element(1), element(2)},
-            new UncertainDoubleElement[]{element(3), element(4)},
+         UncertainDouble[][] realNumbers = new UncertainDouble[][] {
+            new UncertainDouble[]{element(1), element(2)},
+            new UncertainDouble[]{element(3), element(4)},
         };
 
         assertThat(UncertainRealField.INSTANCE.determinant(realNumbers))
-            .isEqualTo(UncertainDoubleElement.exactly(-2));
+            .isEqualTo(UncertainDouble.exactly(-2));
     }
 
     @Property
@@ -106,8 +106,8 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
             .randomValue(INSTANCE::nextRandom)
             .dontShrink()
             .edgeCases(c -> {
-                c.add(UncertainDoubleElement.ONE);
-                c.add(UncertainDoubleElement.ZERO);
+                c.add(UncertainDouble.ONE);
+                c.add(UncertainDouble.ZERO);
             });
     }
 

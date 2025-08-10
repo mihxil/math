@@ -210,7 +210,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
         if (getValue() >= 0) {
             return this;
         } else {
-            return new UncertainDoubleElement(getValue(), getUncertainty()).abs();
+            return new UncertainDouble(getValue(), getUncertainty()).abs();
         }
     }
 
@@ -251,7 +251,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
 
 
     @Override
-    public UncertainDoubleElement reciprocal() {
+    public UncertainDouble reciprocal() {
         UncertainNumber<Double> reciprocal = operations().reciprocal(getValue());
         double v = 1d / getValue();
         return immutableInstance(

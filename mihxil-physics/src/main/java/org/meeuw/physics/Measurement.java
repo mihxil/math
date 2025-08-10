@@ -24,7 +24,7 @@ import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.uncertain;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.uncertain;
 
 /**
  * A number with an uncertainty where the uncertainty is simply explicitly stated.

@@ -17,8 +17,7 @@ package org.meeuw.physics;
 
 import lombok.Getter;
 
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.math.text.TextUtils.subscript;
@@ -44,12 +43,12 @@ public class PhysicalConstant extends PhysicalNumber {
     public static final PhysicalConstant hbar  = new PhysicalConstant("\u0127", 1.0545718176461563912624280033022807447228263300204131224219234705984359127347390624985306286124570001989184744174155120232087219301212030916619114529221059634766659521109532072460048990299368330557758e-34,  Units.of(SI.J).times(Units.of(SIUnit.s)), "Reduced Planck constant");
 
     public static final PhysicalConstant G  = new PhysicalConstant("G",
-        new UncertainDoubleElement(6.6743e-11d, 0.00015e-11d),
+        new UncertainDouble(6.6743e-11d, 0.00015e-11d),
         Units.of(SIUnit.m, SIUnit.m, SIUnit.m)
             .dividedBy(Units.of(SIUnit.kg, SIUnit.s, SIUnit.s)), "Gravitational Constant");
 
     public static final PhysicalConstant kB = new PhysicalConstant("kB",
-        new UncertainDoubleElement(1.380_648_52e-23d, 0.000_000_79e-23d),
+        new UncertainDouble(1.380_648_52e-23d, 0.000_000_79e-23d),
         SI.J.dividedBy(Units.of(SIUnit.K)), "Boltzmann constant");
 
     @Getter
@@ -59,7 +58,7 @@ public class PhysicalConstant extends PhysicalNumber {
     private final String symbol;
 
     public PhysicalConstant(String symbol, double value, Units units, String name) {
-        this(symbol, new UncertainDoubleElement(value, UncertainDouble.EXACT), units, name);
+        this(symbol, new UncertainDouble(value, org.meeuw.math.uncertainnumbers.UncertainDouble.EXACT), units, name);
     }
 
     public PhysicalConstant(String symbol, UncertainReal wrapped, Units units, String name) {

@@ -28,8 +28,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.time.UncertainJavaTime;
@@ -130,7 +129,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         assertThat(statCombined.getStandardDeviation()).isEqualTo(2.29128784747792);
         assertThat(statCombined.toString()).isEqualTo("4 ± 2");
 
-        UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().weightedAverage(stat2.immutableCopy());
+        org.meeuw.math.uncertainnumbers.UncertainDouble<?> combinedMeasurement = stat1.immutableCopy().weightedAverage(stat2.immutableCopy());
 
         assertThat(combinedMeasurement.getValue()).isEqualTo(3.5);
 
@@ -198,7 +197,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
             StatisticalLong minusOne = new StatisticalLong();
             minusOne.accept(-1);
             minusOne.accept(-1L);
-            UncertainDoubleElement divided = minusOne.dividedBy(26904L);
+            UncertainDouble divided = minusOne.dividedBy(26904L);
             UncertainReal multiplied = divided.times(26904L);
             assertThat(multiplied).isEqualTo(minusOne);
         });

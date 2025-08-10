@@ -131,24 +131,24 @@ public class StatisticalDoubleImpl
     @Override
     public UncertainReal exp() {
         double value = Math.exp(getValue());
-        return new UncertainDoubleElement(value, getUncertainty()); /// todo);
+        return new UncertainDouble(value, getUncertainty()); /// todo);
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
     public UncertainReal ln()  throws IllegalLogarithmException {
         UncertainNumber<Double> value = operations().ln(getValue());
-        return new UncertainDoubleElement(value.getValue(), value.getUncertainty());
+        return new UncertainDouble(value.getValue(), value.getUncertainty());
     }
 
 
     @Override
-    public UncertainDoubleElement reciprocal() {
+    public UncertainDouble reciprocal() {
         if (getValue() == 0d) {
             throw new DivisionByZeroException("Division by zero", "1/" + getValue());
         }
         double value = 1d / getValue();
-        return new UncertainDoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
+        return new UncertainDouble(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
 
 

@@ -3,7 +3,7 @@ package org.meeuw.physics;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.BinaryPrefix.Ki;
 import static org.meeuw.physics.SI.hour;

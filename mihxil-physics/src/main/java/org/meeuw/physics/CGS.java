@@ -20,7 +20,7 @@ import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.physics.CGS.CGSUnit.*;
 import static org.meeuw.physics.Quantity.*;
 import static org.meeuw.physics.UnitExponent.of;

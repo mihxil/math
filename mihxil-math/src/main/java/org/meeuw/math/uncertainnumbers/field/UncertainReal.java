@@ -16,7 +16,6 @@
 package org.meeuw.math.uncertainnumbers.field;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.UncertainScalar;
 
 /**
@@ -26,12 +25,13 @@ import org.meeuw.math.uncertainnumbers.UncertainScalar;
  * So, an uncertain scalar that is also an element of an algebra (a {@link org.meeuw.math.abstractalgebra.Field}, event)
  *
  * @author Michiel Meeuwissen
- * @since 0.4
+ * @see UncertainDouble
+ *  * @since 0.4
  */
 public interface UncertainReal
     extends
     UncertainScalar<Double, UncertainReal>,
-    UncertainDouble<UncertainReal>,
+    org.meeuw.math.uncertainnumbers.UncertainDouble<UncertainReal>,
     CompleteScalarFieldElement<UncertainReal> {
 
     @Override

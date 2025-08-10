@@ -13,7 +13,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 @Log4j2

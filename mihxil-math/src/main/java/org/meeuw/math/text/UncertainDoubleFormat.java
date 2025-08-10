@@ -25,11 +25,9 @@ import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
-import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
@@ -73,7 +71,7 @@ public class UncertainDoubleFormat extends Format {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainDouble<?> uncertainNumber) {
+        if (number instanceof org.meeuw.math.uncertainnumbers.UncertainDouble<?> uncertainNumber) {
             if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
                 toAppendTo.append(scientificNotation(uncertainNumber.doubleValue(), minimumExponent));
             } else {
@@ -90,7 +88,7 @@ public class UncertainDoubleFormat extends Format {
         return parse(source, pos);
     }
 
-    public UncertainDoubleElement parse(String source, ParsePosition pos) {
+    public UncertainDouble parse(String source, ParsePosition pos) {
         int start = pos.getIndex();
         int length = source.length();
         int i = start;
@@ -115,7 +113,7 @@ public class UncertainDoubleFormat extends Format {
                 String valueStr = source.substring(start, i).trim();
                 double value = Double.parseDouble(valueStr);
                 pos.setIndex(i);
-                return UncertainDoubleElement.exactly(value);
+                return UncertainDouble.exactly(value);
             } else {
                 // Value and uncertainty
                 String valueStr = source.substring(start, plusminIndex).trim();
@@ -141,7 +139,7 @@ public class UncertainDoubleFormat extends Format {
                 double value = Double.parseDouble(valueStr);
                 double uncertainty = Double.parseDouble(uncertaintyStr);
                 pos.setIndex(j);
-                return UncertainDoubleElement.of(value, uncertainty);
+                return UncertainDouble.of(value, uncertainty);
             }
         } catch (NumberFormatException e) {
             pos.setErrorIndex(pos.getIndex());

@@ -18,7 +18,7 @@ import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 
 public class RectangleTest implements ShapeTheory<UncertainReal, Rectangle<UncertainReal>> {

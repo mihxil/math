@@ -20,7 +20,7 @@ import lombok.Getter;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 
 /**
  * In US

@@ -22,7 +22,7 @@ import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 
 /**
  * The representation of the physical units of a value.

@@ -27,7 +27,7 @@ import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
-import org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement;
+import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
 import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
@@ -104,9 +104,9 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainDoubleElement dividedBy(long divisor) {
+    public UncertainDouble dividedBy(long divisor) {
         double newValue = doubleValue() / divisor;
-        return new UncertainDoubleElement(
+        return new UncertainDouble(
             newValue,
             Math.max(
                 doubleUncertainty() / divisor,
@@ -116,18 +116,18 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainDoubleElement times(long multiplier) {
+    public UncertainDouble times(long multiplier) {
         return immutableInstance(getValue() * multiplier, getUncertainty() * multiplier);
     }
 
 
     @Override
-    public UncertainDoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
-        return new UncertainDoubleElement(value, uncertainty);
+    public UncertainDouble immutableInstanceOfPrimitives(double value, double uncertainty) {
+        return new UncertainDouble(value, uncertainty);
     }
 
     @Override
-    public UncertainDoubleElement immutableInstance(@NonNull Double value, @NonNull Double uncertainty) {
+    public UncertainDouble immutableInstance(@NonNull Double value, @NonNull Double uncertainty) {
         return immutableInstanceOfPrimitives(value, uncertainty);
     }
 

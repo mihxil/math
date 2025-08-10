@@ -25,8 +25,12 @@ import org.meeuw.math.text.FormatService;
 
 /**
  * The field of {@link UncertainReal}'s
+ * <p>
+ * It can have any kind of {@link UncertainReal} elements. But it can always fall back to
+ * {@link UncertainDouble}, an immutable instance based on primitive doubles.
  *
  * @author Michiel Meeuwissen
+ * @see UncertainDouble
  * @since 0.4
  */
 @Example(CompleteScalarField.class)
@@ -43,19 +47,23 @@ public class UncertainRealField
 
     @Override
     public UncertainReal zero() {
-        return UncertainDoubleElement.ZERO;
+        return UncertainDouble.ZERO;
     }
 
     @Override
     public UncertainReal one() {
-        return UncertainDoubleElement.ONE;
+        return UncertainDouble.ONE;
+    }
+
+    public RealNumber two() {
+        return RealNumber.TWO;
     }
     /**
-     * Just as {@link UncertainDoubleElement#exactly(double)}, but with a name more emphasizing that this creates an element of the field.
+     * Just as {@link UncertainDouble#exactly(double)}, but with a name more emphasizing that this creates an element of the field.
      * @since 0.15
      */
-    public static UncertainDoubleElement element(double value) {
-        return UncertainDoubleElement.exactly(value);
+    public static UncertainDouble element(double value) {
+        return UncertainDouble.exactly(value);
     }
 
     @Override
@@ -67,7 +75,7 @@ public class UncertainRealField
     public UncertainReal nextRandom(Random random) {
         double value = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize() * (random.nextDouble() - 0.5d);
         boolean nan = random.nextDouble() < 0.1;
-        return new UncertainDoubleElement(value,
+        return new UncertainDouble(value,
             nan ? Double.NaN : Math.abs(0.5 * value * random.nextDouble())
         );
     }
@@ -79,18 +87,18 @@ public class UncertainRealField
 
     @Override
     public UncertainReal pi() {
-        return UncertainDoubleElement.of(Math.PI, DoubleUtils.uncertaintyForDouble(Math.PI));
+        return UncertainDouble.of(Math.PI, DoubleUtils.uncertaintyForDouble(Math.PI));
     }
 
     @Override
     public UncertainReal e() {
-        return UncertainDoubleElement.of(Math.E, DoubleUtils.uncertaintyForDouble(Math.E));
+        return UncertainDouble.of(Math.E, DoubleUtils.uncertaintyForDouble(Math.E));
     }
 
     @Override
     public UncertainReal 𝜑() {
         double phi = (1d + Math.sqrt(5)) / 2;
-        return UncertainDoubleElement.of(phi, DoubleUtils.uncertaintyForDouble(phi));
+        return UncertainDouble.of(phi, DoubleUtils.uncertaintyForDouble(phi));
     }
 
     @Override

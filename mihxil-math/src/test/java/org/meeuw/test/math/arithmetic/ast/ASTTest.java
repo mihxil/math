@@ -8,7 +8,7 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.exactly;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
 import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
 
 class ASTTest {

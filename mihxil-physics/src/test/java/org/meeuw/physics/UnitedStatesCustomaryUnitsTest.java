@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDoubleElement.of;
+import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.of;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SIUnit.m;
 
