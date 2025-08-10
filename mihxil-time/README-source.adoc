@@ -19,6 +19,16 @@ A clock for which each call is guaranteed to result an Instant strictly after al
 
 == Dynamic date time parsing
 
-Can be found in DynamicDateTime. E.g. parse things like 'tomorrow' to actual time instances.
+Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual time instances. This is based on https://github.com/mmbase/mmbase/blob/MMBase-1_9/core/src/main/javacc/org/mmbase/util/dateparser/DateParser.jj[old mmbase code]. It is a https://javacc.org[javacc-grammar]. I modernized it to be fully based on `java.time` classes, and also incorporate the 'event searchers' I added to https://natty-parser.github.io[natty].
+
+=== Comparison to natty
+
+I always thought that for the use cases I saw natty is not a very good fit, and my own, old, mmbase utility was much nicer.
+
+- natty parses entire sentences, and tries to find all date like string in it, therefore also it returns a complicated DateGroup object as a parse result
+- DynamicDateTime always parses to one ZonedDateTime, or gives an exeption
+
+The idea is that this can be used in configurations or requests that are dependent on the current time. E.g. 'give me all object created between 2 weeks ago' and 'now'.  Using the parser it can support this for you. It'll parse ISO dates, but also 'now' and similar things.
+
 
 TODO: add more documentation
