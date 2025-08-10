@@ -109,10 +109,11 @@
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
-<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.Field</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.FieldElement</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.Ring</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.RingElement</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.complex.GaussianRationals</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.quaternions.Quaternions</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
@@ -125,7 +126,7 @@
 <span class="comment">/**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */</span>
-<span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span>&lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; {
+<span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span>&lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; {
 
     <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
@@ -134,9 +135,9 @@
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
 
     <span class="annotation">@Getter</span>
-    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">Field</span>&lt;E&gt; structure;
+    <span class="directive">private</span> <span class="directive">final</span> Ring&lt;E&gt; structure;
 
-    <span class="directive">public</span> Solver(<span class="predefined-type">Field</span>&lt;E&gt; structure) {
+    <span class="directive">public</span> Solver(Ring&lt;E&gt; structure) {
         <span class="local-variable">this</span>.structure = structure;
     }
 
@@ -177,7 +178,7 @@
     <span class="comment">/**
      *
      */</span>
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(<span class="predefined-type">Field</span>&lt;E&gt; structure, <span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> inputStrings) {
+    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; SolverResult solve(Ring&lt;E&gt; structure, <span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> inputStrings) {
 
         ParseResult&lt;E&gt; outcome = parseOutcome(structure, outcomeString);
         ParseResult&lt;E<span class="type">[]</span>&gt; input = parseInput(structure, inputStrings);
@@ -188,7 +189,7 @@
         }
     }
 
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> FieldElement&lt;E&gt;&gt; SolverResult solve(<span class="predefined-type">Field</span>&lt;E&gt; structure, E outcome, E<span class="type">[]</span> input) {
+    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; SolverResult solve(Ring&lt;E&gt; structure, E outcome, E<span class="type">[]</span> input) {
 
         Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
@@ -200,25 +201,25 @@
             solver.tries, matches, structure);
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> FieldElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(<span class="predefined-type">Field</span>&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
         <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
         F result;
         <span class="keyword">try</span> {
-            result = field.parse(outcomeString);
+            result = field.fromString(outcomeString);
         } <span class="keyword">catch</span> (NotParsable pe) {
             result = <span class="predefined-constant">null</span>;
             resultError = pe.getMessage();
         }
         <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;F&gt;(outcomeString, result, resultError);
     }
-    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> FieldElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(<span class="predefined-type">Field</span>&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
         <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
 
         <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">\s</span><span class="content">+</span><span class="delimiter">&quot;</span></span>);
         F<span class="type">[]</span> set = field.newArray(input.length);
         <span class="keyword">try</span> {
             <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
-                set[i] = field.parse(input[i]);
+                set[i] = field.fromString(input[i]);
             }
         } <span class="keyword">catch</span> (NotParsable pe) {
             inputError = pe.getMessage();
@@ -226,8 +227,10 @@
         <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;&gt;(inputStrings, set, inputError);
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">Field</span>&lt;?&gt; fieldFor(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> input) {
-        <span class="keyword">if</span> (outcomeString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || input.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>)) {
+    <span class="directive">public</span> <span class="directive">static</span> Ring&lt;?&gt; algebraicStructureFor(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> input) {
+        <span class="keyword">if</span> (outcomeString.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">.*[jk].*</span><span class="delimiter">&quot;</span></span>) || input.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">.*[jk].*</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">return</span> Quaternions.of(RationalNumbers.INSTANCE);
+        } <span class="keyword">else</span> <span class="keyword">if</span> (outcomeString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || input.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>)) {
             <span class="keyword">return</span> GaussianRationals.INSTANCE;
         } <span class="keyword">else</span> {
             <span class="keyword">return</span> RationalNumbers.INSTANCE;
@@ -235,7 +238,8 @@
     }
 
 
-    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, <span class="predefined-type">Field</span>&lt;?&gt; field) {
+    <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, Ring&lt;?&gt; field) {
+
 
     }
 
@@ -247,7 +251,7 @@
         <span class="predefined-type">String</span> resultString = integers[<span class="integer">0</span>];
         <span class="predefined-type">String</span> inputStrings = <span class="predefined-type">String</span>.join(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
 
-        <span class="predefined-type">Field</span>&lt;?&gt; field = fieldFor(resultString, inputStrings);
+        Ring&lt;?&gt; field = algebraicStructureFor(resultString, inputStrings);
         SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
         solverResult.stream().forEach(<span class="predefined-type">System</span>.out::println);
         <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + solverResult.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + solverResult.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + solverResult.field().toString());
@@ -399,7 +403,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-07-26 21:05:14 UTC
+Last updated 2025-08-10 21:41:18 UTC
 </div>
 </div>
 </body>
