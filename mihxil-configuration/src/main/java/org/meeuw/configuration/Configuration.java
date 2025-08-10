@@ -146,7 +146,7 @@ public class Configuration implements Iterable<ConfigurationAspect> {
 
         @SneakyThrows
         public <E extends ConfigurationAspect> Builder aspectDefault(Class<E> clazz) {
-            configuration.put(clazz, clazz.newInstance());
+            configuration.put(clazz, clazz.getDeclaredConstructor().newInstance());
             return this;
         }
 
