@@ -34,7 +34,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.time.TestClock;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,7 +50,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  */
 @SuppressWarnings("resource")
 @Log4j2
-public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainReal> {
+public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> {
 
     @AfterAll
     public static void shutdown() {
@@ -306,7 +306,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<UncertainRea
 
 
     @Override
-    public Arbitrary<UncertainReal> elements() {
+    public Arbitrary<RealNumber> elements() {
         final TestClock clock = new TestClock();
 
         return Arbitraries.randomValue(r -> {

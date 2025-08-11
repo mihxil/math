@@ -3,7 +3,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[M
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
 
 
-This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `UncertainDouble`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
+This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `DoubleElement`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
 
 Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
 

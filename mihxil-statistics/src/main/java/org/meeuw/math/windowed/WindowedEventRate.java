@@ -31,8 +31,8 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 
 /**
@@ -52,7 +52,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     implements
     AutoCloseable,
     IntConsumer,
-    org.meeuw.math.uncertainnumbers.UncertainDouble<UncertainReal>, WithUnits {
+    org.meeuw.math.uncertainnumbers.UncertainDouble<RealNumber>, WithUnits {
 
 
     private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
@@ -133,7 +133,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
             / getTotalDuration().toMillis();
     }
 
-    public UncertainReal getUncertainRate() {
+    public RealNumber getUncertainRate() {
         return immutableInstanceOfPrimitives(getRate(), doubleUncertainty());
     }
 
@@ -143,8 +143,8 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     }
 
     @Override
-    public UncertainDouble immutableInstanceOfPrimitives(double value, double uncertainty) {
-        return new UncertainDouble(value, uncertainty);
+    public DoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
+        return new DoubleElement(value, uncertainty);
     }
 
     /**

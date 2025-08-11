@@ -25,7 +25,7 @@ import org.meeuw.math.text.TextUtils;
 import org.meeuw.physics.SI.DecimalPrefix;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
 import static org.meeuw.physics.Quantity.ENERGY;

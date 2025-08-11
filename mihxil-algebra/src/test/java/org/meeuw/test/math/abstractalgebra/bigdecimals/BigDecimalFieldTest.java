@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.abstractalgebra.reals;
+package org.meeuw.test.math.abstractalgebra.bigdecimals;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -25,15 +25,15 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.theories.abstractalgebra.MetricSpaceTheory;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
-import static org.meeuw.math.abstractalgebra.reals.BigDecimalField.INSTANCE;
+import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
+import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField.INSTANCE;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
@@ -44,13 +44,13 @@ class PrefixedUnitTest {
 
     @Test
     void getSIFactor() {
-        assertThat(kN.getSIFactor()).isEqualTo(UncertainDouble.exactly(1000d));
+        assertThat(kN.getSIFactor()).isEqualTo(DoubleElement.exactly(1000d));
     }
 
     @Test
     void reciprocal() {
         Units units = kN.reciprocal();
-        assertThat(units.getSIFactor()).isEqualTo(UncertainDouble.exactly(0.001d));
+        assertThat(units.getSIFactor()).isEqualTo(DoubleElement.exactly(0.001d));
         assertThat(units.toString()).isEqualTo("kN⁻¹");
     }
 

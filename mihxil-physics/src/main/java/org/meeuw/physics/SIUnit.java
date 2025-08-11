@@ -20,8 +20,8 @@ import lombok.Getter;
 import java.util.function.BiFunction;
 
 import org.checkerframework.checker.units.qual.*;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
 import static org.meeuw.physics.Dimension.*;
 
@@ -104,12 +104,12 @@ public enum SIUnit implements BaseUnit {
         for (int i = 0; i < exponents.length; i++) {
             unitExponents[i] = UnitExponent.of(values()[i], exponents[i]);
         }
-        return new CompositeUnits(UncertainRealField.INSTANCE.one(), unitExponents);
+        return new CompositeUnits(RealField.INSTANCE.one(), unitExponents);
     }
 
     @Override
-    public UncertainReal getSIFactor() {
-        return UncertainRealField.INSTANCE.one();
+    public RealNumber getSIFactor() {
+        return RealField.INSTANCE.one();
     }
 
     public static SIUnit valueOf(Dimension dimension) {

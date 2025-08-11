@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.statistics.StatisticalNumber;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * {@link StatisticalNumber}s can be aggregated, and therefore be {@link Windowed}.
@@ -31,10 +31,10 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N, UncertainReal>>
+public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N, RealNumber>>
 
     extends Windowed<T>
-    implements Supplier<UncertainReal> {
+    implements Supplier<RealNumber> {
 
 
     protected WindowedStatisticalNumber(
@@ -59,7 +59,7 @@ public abstract class WindowedStatisticalNumber<N extends Number, T extends Stat
     }
 
     @Override
-    public UncertainReal get() {
+    public RealNumber get() {
         return getWindowValue().immutableCopy();
     }
 

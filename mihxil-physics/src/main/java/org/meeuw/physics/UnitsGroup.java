@@ -22,7 +22,7 @@ import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.streams.StreamUtils;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 
 /**
  * The {@link MultiplicativeAbelianGroup} of {@link Units}.

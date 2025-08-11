@@ -38,7 +38,7 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.permutations;
     exports org.meeuw.math.abstractalgebra.quaternions;
     exports org.meeuw.math.abstractalgebra.rationalnumbers;
-    exports org.meeuw.math.abstractalgebra.reals;
+    exports org.meeuw.math.abstractalgebra.bigdecimals;
     exports org.meeuw.math.abstractalgebra.strings;
     exports org.meeuw.math.abstractalgebra.trivial;
     exports org.meeuw.math.abstractalgebra.vectorspace;

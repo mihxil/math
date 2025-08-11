@@ -22,10 +22,10 @@ import java.util.function.DoubleConsumer;
 
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
-import org.meeuw.math.uncertainnumbers.field.*;
 
 /**
  * Represents a set of measured values. The value represents the average value.
@@ -37,7 +37,7 @@ import org.meeuw.math.uncertainnumbers.field.*;
 
 public class StatisticalDoubleImpl
     extends AbstractStatisticalDouble<StatisticalDoubleImpl>
-    implements UncertainReal, StatisticalDouble<StatisticalDoubleImpl>, DoubleConsumer {
+    implements RealNumber, StatisticalDouble<StatisticalDoubleImpl>, DoubleConsumer {
 
     @Getter
     private double sum = 0;
@@ -91,7 +91,7 @@ public class StatisticalDoubleImpl
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link StatisticalDoubleImpl#plus(UncertainReal)} which is something entirely different.
+     * See also {@link StatisticalDoubleImpl#plus(RealNumber)} which is something entirely different.
      */
     @Override
     public StatisticalDoubleImpl enter(StatisticalDoubleImpl m) {
@@ -123,32 +123,32 @@ public class StatisticalDoubleImpl
     }
 
     @Override
-    public UncertainRealField getStructure() {
-        return UncertainRealField.INSTANCE;
+    public RealField getStructure() {
+        return RealField.INSTANCE;
     }
 
 
     @Override
-    public UncertainReal exp() {
+    public RealNumber exp() {
         double value = Math.exp(getValue());
-        return new UncertainDouble(value, getUncertainty()); /// todo);
+        return new DoubleElement(value, getUncertainty()); /// todo);
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
-    public UncertainReal ln()  throws IllegalLogarithmException {
+    public RealNumber ln()  throws IllegalLogarithmException {
         UncertainNumber<Double> value = operations().ln(getValue());
-        return new UncertainDouble(value.getValue(), value.getUncertainty());
+        return new DoubleElement(value.getValue(), value.getUncertainty());
     }
 
 
     @Override
-    public UncertainDouble reciprocal() {
+    public DoubleElement reciprocal() {
         if (getValue() == 0d) {
             throw new DivisionByZeroException("Division by zero", "1/" + getValue());
         }
         double value = 1d / getValue();
-        return new UncertainDouble(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
+        return new DoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
 
 

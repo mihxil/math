@@ -9,17 +9,15 @@ import org.junit.jupiter.api.Test;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 @Log4j2
 public class CircleTest {
-
-
 
     @Nested
     @Group
@@ -36,9 +34,9 @@ public class CircleTest {
 
     @Nested
     @Group
-    public class RealCircleTest implements ShapeTheory<UncertainReal, Circle<UncertainReal>> {
+    public class RealCircleTest implements ShapeTheory<RealNumber, Circle<RealNumber>> {
 
-        public static Circle<UncertainReal> circle = new Circle<>(exactly(1)).times(exactly(2));
+        public static Circle<RealNumber> circle = new Circle<>(exactly(1)).times(exactly(2));
 
         @Test
         public void area() {
@@ -59,7 +57,7 @@ public class CircleTest {
         }
 
         @Override
-        public Arbitrary<@NonNull Circle<UncertainReal>> datapoints() {
+        public Arbitrary<@NonNull Circle<RealNumber>> datapoints() {
             return Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(d -> new Circle<>(element(d)));
         }

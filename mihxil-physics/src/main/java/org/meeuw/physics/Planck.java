@@ -18,11 +18,11 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.math.text.TextUtils.subscript;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.uncertain;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.uncertain;
 import static org.meeuw.physics.Dimension.*;
 import static org.meeuw.physics.Planck.PlanckUnit.*;
 
@@ -83,12 +83,12 @@ public class Planck  implements SystemOfMeasurements {
         private final Dimension dimension;
 
         @Getter
-        private final UncertainReal SIFactor;
+        private final RealNumber SIFactor;
 
         @Getter
         private final String symbol;
 
-        PlanckUnit(Dimension dimension, String symbol, UncertainReal siFactor) {
+        PlanckUnit(Dimension dimension, String symbol, RealNumber siFactor) {
             this.dimension = dimension;
             this.symbol = symbol;
             this.SIFactor = siFactor;

@@ -13,12 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.uncertainnumbers;
+package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.BigDecimal;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
+import org.meeuw.math.uncertainnumbers.UncertainScalar;
 
 /**
  * A number with an uncertainty {@link #doubleUncertainty()}
@@ -30,12 +31,12 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public abstract class AbstractUncertainDouble
     extends Number
     implements
-    UncertainScalar<Double, UncertainReal>,
-    Comparable<UncertainReal>,
-    UncertainDouble<UncertainReal> {
+    UncertainScalar<Double, RealNumber>,
+    Comparable<RealNumber>,
+    UncertainDouble<RealNumber> {
 
     @Override
-    public int compareTo(@NonNull UncertainReal o) {
+    public int compareTo(@NonNull RealNumber o) {
         if (equals(o)) {
             return 0;
         }
@@ -56,6 +57,7 @@ public abstract class AbstractUncertainDouble
     public BigDecimal bigDecimalValue() {
         return BigDecimal.valueOf(doubleValue());
     }
+
 
 
 }

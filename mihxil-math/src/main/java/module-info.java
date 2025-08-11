@@ -49,7 +49,7 @@ module org.meeuw.math {
 
     exports org.meeuw.math.text;
     exports org.meeuw.math.uncertainnumbers;
-    exports org.meeuw.math.uncertainnumbers.field;
+    exports org.meeuw.math.abstractalgebra.reals;
     exports org.meeuw.math.exceptions;
 
     exports org.meeuw.math.text.spi;

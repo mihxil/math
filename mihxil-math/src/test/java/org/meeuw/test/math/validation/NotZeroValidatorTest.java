@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.meeuw.math.numbers.SignedNumber;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.validation.NotZero;
 import org.meeuw.math.validation.NotZeroValidator;
 
@@ -76,8 +76,8 @@ class NotZeroValidatorTest {
         assertThat(validator.isValid(0, null)).isFalse();
         assertThat(validator.isValid(0d, null)).isFalse();
         assertThat(validator.isValid(0.1d, null)).isTrue();
-        assertThat(validator.isValid(UncertainDouble.exactly(0), null)).isFalse();
-        assertThat(validator.isValid(UncertainDouble.exactly(1), null)).isTrue();
+        assertThat(validator.isValid(DoubleElement.exactly(0), null)).isFalse();
+        assertThat(validator.isValid(DoubleElement.exactly(1), null)).isTrue();
         assertThat(validator.isValid(BigDecimal.valueOf(0), null)).isFalse();
         assertThat(validator.isValid(BigDecimal.valueOf(0.001), null)).isTrue();
         assertThat(validator.isValid(null, null)).isTrue();

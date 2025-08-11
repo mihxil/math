@@ -12,18 +12,18 @@ import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.shapes.dim2.Rectangle;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-public class RectangleTest implements ShapeTheory<UncertainReal, Rectangle<UncertainReal>> {
+public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumber>> {
 
-    Rectangle<UncertainReal> rectangle = new Rectangle<>(
+    Rectangle<RealNumber> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));
 
     ModuloField field = ModuloField.of(2002927);
@@ -116,7 +116,7 @@ public class RectangleTest implements ShapeTheory<UncertainReal, Rectangle<Uncer
     }
 
     @Override
-    public Arbitrary<@NonNull Rectangle<UncertainReal>> datapoints() {
+    public Arbitrary<@NonNull Rectangle<RealNumber>> datapoints() {
         return Arbitraries.doubles().ofScale(3).between(0.001, 1000)
             .flatMap(width -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(height -> new Rectangle<>(element(width), element(height))));

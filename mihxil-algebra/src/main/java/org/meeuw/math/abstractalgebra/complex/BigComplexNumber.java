@@ -20,8 +20,8 @@ import java.io.Serializable;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 
 /**
  * @author Michiel Meeuwissen

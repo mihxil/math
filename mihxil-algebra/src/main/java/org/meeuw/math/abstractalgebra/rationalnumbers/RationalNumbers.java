@@ -23,18 +23,17 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.streams.StreamUtils;
+import org.meeuw.math.text.TextUtils;
 
 import static java.math.BigInteger.ONE;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
-
-import org.meeuw.math.text.TextUtils;
 
 /**
  * Implementation for the field of Rational Numbers, commonly referred to as ℚ

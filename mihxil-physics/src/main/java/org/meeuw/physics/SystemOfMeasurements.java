@@ -19,8 +19,8 @@ import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ReflectionUtils;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
  * There are different 'systems of measurements' in use. E.g. {@link SI}  and {@link Planck}.
@@ -43,9 +43,9 @@ public interface SystemOfMeasurements {
         UnitExponent[] unitExponents = dimensionalAnalysis.stream()
             .map(dimensionExponent -> dimensionExponent.toUnitExponent(this))
             .toArray(UnitExponent[]::new);
-        final UncertainReal siFactor = Arrays.stream(unitExponents)
+        final RealNumber siFactor = Arrays.stream(unitExponents)
             .map(UnitExponent::getSIFactor)
-            .reduce(UncertainRealField.INSTANCE.one(), UncertainReal::times);
+            .reduce(RealField.INSTANCE.one(), RealNumber::times);
         return new CompositeUnits(siFactor, unitExponents);
     }
 

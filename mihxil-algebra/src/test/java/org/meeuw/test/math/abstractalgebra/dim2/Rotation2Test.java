@@ -22,21 +22,21 @@ import net.jqwik.api.Arbitrary;
 
 import org.meeuw.math.abstractalgebra.dim2.Rotation2;
 import org.meeuw.math.abstractalgebra.dim2.Rotation2Group;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 
 import static org.meeuw.math.Utils.Math_2PI;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Log4j2
-class Rotation2Test implements MultiplicativeGroupTheory<Rotation2<UncertainReal>> {
+class Rotation2Test implements MultiplicativeGroupTheory<Rotation2<RealNumber>> {
 
     @Override
-    public Arbitrary<Rotation2<UncertainReal>> elements() {
+    public Arbitrary<Rotation2<RealNumber>> elements() {
         return Arbitraries.doubles().ofScale(20).between(0, Math_2PI)
             .map(t -> Rotation2Group.rotationVector(element(t)));
 

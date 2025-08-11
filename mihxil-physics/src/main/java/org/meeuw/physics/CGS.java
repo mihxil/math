@@ -18,9 +18,9 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.physics.CGS.CGSUnit.*;
 import static org.meeuw.physics.Quantity.*;
 import static org.meeuw.physics.UnitExponent.of;
@@ -36,17 +36,18 @@ public class CGS implements SystemOfMeasurements {
     @Override
     @NonNull
     public Unit forDimension(Dimension dimension) {
-        switch(dimension) {
-            case L: return cm;
-            case M: return g;
-            case T: return s;
-            case I: return SIUnit.A;
-            case Θ: return SIUnit.K;
-            case N: return SIUnit.mol;
-            default:
+        return switch (dimension) {
+            case L -> cm;
+            case M -> g;
+            case T -> s;
+            case I -> SIUnit.A;
+            case Θ -> SIUnit.K;
+            case N -> SIUnit.mol;
+            default -> {
                 assert dimension == Dimension.J;
-                return SIUnit.cd;
-        }
+                yield SIUnit.cd;
+            }
+        };
     }
 
     enum CGSUnit implements BaseUnit {
@@ -59,9 +60,9 @@ public class CGS implements SystemOfMeasurements {
         private final Dimension dimension;
 
         @Getter
-        private final UncertainReal SIFactor;
+        private final RealNumber SIFactor;
 
-        CGSUnit(Dimension dimension, UncertainReal siFactor) {
+        CGSUnit(Dimension dimension, RealNumber siFactor) {
             this.dimension = dimension;
             SIFactor = siFactor;
         }

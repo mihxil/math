@@ -26,8 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.dim2.Matrix2;
 import org.meeuw.math.abstractalgebra.dim2.Matrix2Group;
 
-import org.meeuw.math.abstractalgebra.reals.RealField;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 
@@ -57,8 +56,8 @@ class Matrix2Test implements MultiplicativeGroupTheory<Matrix2>, WithScalarTheor
 
     @Override
     public Arbitrary<RealNumber> scalars() {
-        return Arbitraries.randomValue((random) ->
-            new RealNumber(random.nextDouble() * 200 - 100, random.nextDouble() * 10))
+        return Arbitraries.<RealNumber>randomValue((random) ->
+            new DoubleElement(random.nextDouble() * 200 - 100, random.nextDouble() * 10))
             .dontShrink()
             .edgeCases(config -> {
                 config.add(RealField.INSTANCE.zero());

@@ -27,7 +27,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
@@ -88,7 +88,7 @@ public class UncertainDoubleFormat extends Format {
         return parse(source, pos);
     }
 
-    public UncertainDouble parse(String source, ParsePosition pos) {
+    public DoubleElement parse(String source, ParsePosition pos) {
         int start = pos.getIndex();
         int length = source.length();
         int i = start;
@@ -113,7 +113,7 @@ public class UncertainDoubleFormat extends Format {
                 String valueStr = source.substring(start, i).trim();
                 double value = Double.parseDouble(valueStr);
                 pos.setIndex(i);
-                return UncertainDouble.exactly(value);
+                return DoubleElement.exactly(value);
             } else {
                 // Value and uncertainty
                 String valueStr = source.substring(start, plusminIndex).trim();
@@ -139,7 +139,7 @@ public class UncertainDoubleFormat extends Format {
                 double value = Double.parseDouble(valueStr);
                 double uncertainty = Double.parseDouble(uncertaintyStr);
                 pos.setIndex(j);
-                return UncertainDouble.of(value, uncertainty);
+                return DoubleElement.of(value, uncertainty);
             }
         } catch (NumberFormatException e) {
             pos.setErrorIndex(pos.getIndex());

@@ -77,7 +77,7 @@ include::resources/demo.js[indent=-,tag=solver]
 
 == Dynamic date parsing
 
-The `mihxil-time` module contain a 'dynamic date parser`
+The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code. It uses
 
 ++++
 <form id="dynamicdate" class="demo">

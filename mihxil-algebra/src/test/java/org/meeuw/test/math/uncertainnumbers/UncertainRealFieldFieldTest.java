@@ -23,49 +23,51 @@ import java.math.BigInteger;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.field.*;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
+import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
+
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
  */
 @Log4j2
-class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<UncertainReal> {
+class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
     public void testToString() {
-        UncertainDouble uncertainDouble = new UncertainDouble(5, 1);
+        DoubleElement uncertainDouble = new DoubleElement(5, 1);
         assertThat(uncertainDouble.toString()).isEqualTo("5.0 ± 1.0");
     }
 
     @Test
     public void pow() {
-        UncertainDouble w = new UncertainDouble(-1971, 680);
+        DoubleElement w = new DoubleElement(-1971, 680);
         assertThat(w.pow(-2).doubleUncertainty()).isPositive();
     }
 
     @Test
     public void determinant2() {
-         UncertainDouble[][] realNumbers = new UncertainDouble[][] {
-            new UncertainDouble[]{element(1), element(2)},
-            new UncertainDouble[]{element(3), element(4)},
+         RealNumber[][] realNumbers = new RealNumber[][] {
+            new RealNumber[]{element(1), element(2)},
+            new RealNumber[]{element(3), element(4)},
         };
 
-        assertThat(UncertainRealField.INSTANCE.determinant(realNumbers))
-            .isEqualTo(UncertainDouble.exactly(-2));
+        assertThat(INSTANCE.determinant(realNumbers))
+            .isEqualTo(exactly(-2));
     }
 
     @Property
@@ -80,10 +82,10 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
                 if (operator == BasicAlgebraicBinaryOperator.POWER) {
                     big2 = big2.divide(BigDecimal.valueOf(100));
                 }
-                UncertainReal a = exactly(r1.doubleValue());
-                UncertainReal b = exactly(big2.doubleValue());
+                RealNumber a = exactly(r1.doubleValue());
+                RealNumber b = exactly(big2.doubleValue());
 
-                UncertainReal applied = operator.apply(a, b);
+                RealNumber applied = operator.apply(a, b);
                 log.info("{} = {}", operator.stringify(a, b), applied);
                 BigDecimalElement ba = BigDecimalElement.of(r1);
                 BigDecimalElement bb = BigDecimalElement.of(big2);
@@ -101,13 +103,13 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<Uncertain
 
 
     @Override
-    public Arbitrary<UncertainReal> elements() {
+    public Arbitrary<RealNumber> elements() {
         return Arbitraries
             .randomValue(INSTANCE::nextRandom)
             .dontShrink()
             .edgeCases(c -> {
-                c.add(UncertainDouble.ONE);
-                c.add(UncertainDouble.ZERO);
+                c.add(RealNumber.ONE);
+                c.add(RealNumber.ZERO);
             });
     }
 

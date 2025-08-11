@@ -28,8 +28,8 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.time.UncertainJavaTime;
 import org.meeuw.time.text.TimeConfiguration;
@@ -44,7 +44,7 @@ import static org.meeuw.time.UncertainJavaTime.Mode.*;
  * @since 0.3
  */
 @Log4j2
-class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
+class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
     public void instants() {
@@ -197,8 +197,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
             StatisticalLong minusOne = new StatisticalLong();
             minusOne.accept(-1);
             minusOne.accept(-1L);
-            UncertainDouble divided = minusOne.dividedBy(26904L);
-            UncertainReal multiplied = divided.times(26904L);
+            DoubleElement divided = minusOne.dividedBy(26904L);
+            RealNumber multiplied = divided.times(26904L);
             assertThat(multiplied).isEqualTo(minusOne);
         });
     }
@@ -216,10 +216,10 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         StatisticalLong mes = new StatisticalLong();
         mes.enter(-1, 1);
         assertThatThrownBy(() -> {
-            UncertainReal ln = mes.ln();
+            RealNumber ln = mes.ln();
         }).isInstanceOf(IllegalLogarithmException.class);
         assertThatThrownBy(() -> {
-            UncertainReal pow = mes.pow(-1);
+            RealNumber pow = mes.pow(-1);
             log.info("{} ^ {} -> {}", mes, -1, pow);
         }).isInstanceOf(IllegalPowerException.class);
     }
@@ -229,12 +229,12 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<UncertainReal> {
         StatisticalLong statisticalLong = new StatisticalLong();
         statisticalLong.enter(0L, 0L, 0L, 0L);
         assertThat(statisticalLong.isZero()).isTrue();
-        UncertainReal zero = statisticalLong.getStructure().zero();
+        RealNumber zero = statisticalLong.getStructure().zero();
         assertThat(statisticalLong.eq(zero)).isTrue();
     }
 
     @Override
-    public Arbitrary<UncertainReal> elements() {
+    public Arbitrary<RealNumber> elements() {
 
         Arbitrary<Integer> amounts = Arbitraries.integers()
             .between(2, 100)

@@ -33,7 +33,7 @@ import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * <p>
@@ -62,18 +62,18 @@ public abstract class PhysicalNumber
     Comparable<PhysicalNumber>,
     SignedNumber<PhysicalNumber>,
     WithUnits,
-    Supplier<UncertainReal> {
+    Supplier<RealNumber> {
 
-    protected final Supplier<UncertainReal> wrapped;
+    protected final Supplier<RealNumber> wrapped;
 
     @Getter
     protected final Units units;
 
-    PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
+    PhysicalNumber(@NonNull RealNumber wrapped, @NonNull Units units) {
         this(() -> wrapped, units);
     }
 
-    PhysicalNumber(@NonNull Supplier<UncertainReal> wrapped, @NonNull Units units) {
+    PhysicalNumber(@NonNull Supplier<RealNumber> wrapped, @NonNull Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }
@@ -129,7 +129,7 @@ public abstract class PhysicalNumber
         );
     }
 
-    public PhysicalNumber times(UncertainReal multiplier) {
+    public PhysicalNumber times(RealNumber multiplier) {
         return copy(get().times(multiplier), units);
     }
 
@@ -180,7 +180,7 @@ public abstract class PhysicalNumber
         if (getUnits().equals(target)) {
             return this;
         }
-        UncertainReal factor = getUnits().conversionFactor(target);
+        RealNumber factor = getUnits().conversionFactor(target);
         return copy(get().times(factor), target);
     }
 
@@ -211,7 +211,7 @@ public abstract class PhysicalNumber
         return copy(get().plus(summand), units);
     }
 
-    protected abstract PhysicalNumber copy(UncertainReal wrapped, Units units);
+    protected abstract PhysicalNumber copy(RealNumber wrapped, Units units);
 
     @Override
     public PhysicalNumbers getStructure() {
@@ -274,7 +274,7 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public UncertainReal get() {
+    public RealNumber get() {
         return wrapped.get();
     }
 

@@ -28,7 +28,7 @@ import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static net.jqwik.api.RandomDistribution.uniform;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,8 +42,8 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
  */
 @Log4j2
 public class StatisticalDoubleTest implements
-    UncertainDoubleTheory<UncertainReal>,
-    CompleteScalarFieldTheory<UncertainReal> {
+    UncertainDoubleTheory<RealNumber>,
+    CompleteScalarFieldTheory<RealNumber> {
 
 
     @Test
@@ -190,7 +190,7 @@ public class StatisticalDoubleTest implements
         StatisticalDoubleImpl instance = new StatisticalDoubleImpl();
         instance.enter(1d, 2d, 1d, 2d, 1d, 1d, 1d);
         instance.eq(instance);
-        UncertainReal uncertainDoubleElement = instance.immutableCopy();
+        RealNumber uncertainDoubleElement = instance.immutableCopy();
         instance.eq(uncertainDoubleElement);
 
 
@@ -198,7 +198,7 @@ public class StatisticalDoubleTest implements
     }
 
     @Override
-    public Arbitrary<UncertainReal> elements() {
+    public Arbitrary<RealNumber> elements() {
         Arbitrary<Integer> amounts = Arbitraries.integers()
             .between(1, 100)
             .shrinkTowards(2)

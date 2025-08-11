@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.statistics.time.StatisticalDuration;
 import org.meeuw.math.statistics.time.StatisticalInstant;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.time.*;
 
 import static org.meeuw.time.UncertainJavaTime.Mode.LONG;
@@ -47,8 +47,8 @@ import static org.meeuw.time.UncertainJavaTime.Mode.LONG;
  */
 @Log
 public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> implements
-    StatisticalInstant<StatisticalLong, Double, UncertainReal>,
-    StatisticalDuration<StatisticalLong, Double, UncertainReal>,
+    StatisticalInstant<StatisticalLong, Double, RealNumber>,
+    StatisticalDuration<StatisticalLong, Double, RealNumber>,
     UncertainJavaTime<Double> {
 
     @Getter

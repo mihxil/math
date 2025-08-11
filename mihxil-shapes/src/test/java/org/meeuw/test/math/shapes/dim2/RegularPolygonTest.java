@@ -13,21 +13,21 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.shapes.dim2.RegularPolygon;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 @Log4j2
-public class RegularPolygonTest implements ShapeTheory<UncertainReal, RegularPolygon<UncertainReal>> {
-    static RegularPolygon<UncertainReal> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
-    static RegularPolygon<UncertainReal> square = new RegularPolygon<>(4, element(1.0));
-    static RegularPolygon<UncertainReal> pentagon = new RegularPolygon<>(5, element(1.0));
+public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygon<RealNumber>> {
+    static RegularPolygon<RealNumber> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
+    static RegularPolygon<RealNumber> square = new RegularPolygon<>(4, element(1.0));
+    static RegularPolygon<RealNumber> pentagon = new RegularPolygon<>(5, element(1.0));
 
-    static RegularPolygon<UncertainReal> hexagon = new RegularPolygon<>(6, element(1.0));
-    static RegularPolygon<UncertainReal> heptagon = new RegularPolygon<>(7, element(1.0));
+    static RegularPolygon<RealNumber> hexagon = new RegularPolygon<>(6, element(1.0));
+    static RegularPolygon<RealNumber> heptagon = new RegularPolygon<>(7, element(1.0));
 
 
 
@@ -57,7 +57,7 @@ public class RegularPolygonTest implements ShapeTheory<UncertainReal, RegularPol
     }
 
 
-    public static List<RegularPolygon<UncertainReal>> nGons() {
+    public static List<RegularPolygon<RealNumber>> nGons() {
         return List.of(triangle, square, pentagon, hexagon,
             heptagon,
             new RegularPolygon<>(8, element(1.0)),
@@ -70,22 +70,22 @@ public class RegularPolygonTest implements ShapeTheory<UncertainReal, RegularPol
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
+    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<RealNumber> nGon) {
 
-        UncertainReal ratio = nGon.circumscribedRadius().sqr().minus(nGon.inscribedRadius().sqr());
+        RealNumber ratio = nGon.circumscribedRadius().sqr().minus(nGon.inscribedRadius().sqr());
         assertThatAlgebraically(ratio).isEqTo(element(0.25));
     }
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void vertices(@ForAll("nGons") RegularPolygon<UncertainReal> nGon) {
+    public void vertices(@ForAll("nGons") RegularPolygon<RealNumber> nGon) {
         nGon.vertices().forEach(fv -> {
             log.info("{}", fv);
         });
     }
 
     @Override
-    public Arbitrary<@NonNull RegularPolygon<UncertainReal>> datapoints() {
+    public Arbitrary<@NonNull RegularPolygon<RealNumber>> datapoints() {
         return Arbitraries.integers().between(3, 20)
             .flatMap(n -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(size -> new RegularPolygon<>(n, element(size))));

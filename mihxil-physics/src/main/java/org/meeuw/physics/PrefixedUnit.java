@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * A unit wrapping another {@link Unit} with a {@link Prefix}, and it is therefore just a multiple of that unit.
@@ -57,7 +57,7 @@ public class PrefixedUnit implements Unit {
     }
 
     @Override
-    public UncertainReal getSIFactor() {
+    public RealNumber getSIFactor() {
         return wrapped.getSIFactor().times(prefix.getAsDouble());
     }
 

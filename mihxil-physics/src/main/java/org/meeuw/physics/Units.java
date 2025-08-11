@@ -19,10 +19,10 @@ import java.util.List;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 
 /**
  * The representation of the physical units of a value.
@@ -48,12 +48,12 @@ public interface Units extends
         return UnitsGroup.INSTANCE;
     }
 
-    static CompositeUnits of(UncertainReal siFactor, Unit... units) {
+    static CompositeUnits of(RealNumber siFactor, Unit... units) {
         return new CompositeUnits(siFactor, units);
     }
 
     static CompositeUnits of(Unit... units) {
-        UncertainReal factor = UncertainRealField.INSTANCE.one();
+        RealNumber factor = RealField.INSTANCE.one();
         for (Unit u : units) {
             factor = factor.times(u.getSIFactor());
         }
@@ -82,7 +82,7 @@ public interface Units extends
         return dividedBy(units);
     }
 
-    UncertainReal getSIFactor();
+    RealNumber getSIFactor();
 
     default Units withQuantity(Quantity... quantity) {
         return new CompositeUnits(
@@ -101,7 +101,7 @@ public interface Units extends
         return new DerivedUnit(this, name, null);
     }
 
-    default UncertainReal conversionFactor(Units units) {
+    default RealNumber conversionFactor(Units units) {
         if (! Units.dimensionEquals(this, units)) {
             throw new DimensionsMismatchException("" + this + " cannot be converted to " + units);
         }

@@ -20,6 +20,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2Space;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -31,7 +32,7 @@ import org.meeuw.theories.abstractalgebra.*;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
 /**
@@ -46,7 +47,7 @@ class FieldVector2Test implements
     @Test
     public void abs() {
         FieldVector2<RealNumber> v = FieldVector2.of(3, -4);
-        assertThat(v.abs()).isEqualTo(new RealNumber(5, 0));
+        assertThat(v.abs()).isEqualTo(new DoubleElement(5, 0));
     }
 
     @Test
@@ -98,8 +99,8 @@ class FieldVector2Test implements
 
     @Override
     public Arbitrary<RealNumber> scalars() {
-        return Arbitraries.randomValue(r ->
-            new RealNumber(r.nextDouble() * 10, Math.abs(r.nextDouble()))
+        return Arbitraries.<RealNumber>randomValue(r ->
+            new DoubleElement(r.nextDouble() * 10, Math.abs(r.nextDouble()))
         )
             .injectDuplicates(0.1)
             .dontShrink()

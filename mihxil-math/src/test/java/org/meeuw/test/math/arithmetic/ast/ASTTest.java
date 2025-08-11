@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.INSTANCE;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
+import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
 
 class ASTTest {
 
     @Test
     public void test() {
-        BinaryOperation<UncertainReal> op = new Value<>(exactly(2d)).times(
+        BinaryOperation<RealNumber> op = new Value<>(exactly(2d)).times(
             new UnaryOperator<>(BasicAlgebraicUnaryOperator.SQR,
                 new BinaryOperation<>(ADDITION,
                     new Value<>(exactly(3d)), new Value<>(exactly(8d))
@@ -77,9 +77,9 @@ class ASTTest {
 
     @Test
     public void parse() {
-        Expression<UncertainReal> exp = AST.parse("(3 ⋅ (8 - 3)) + 8", INSTANCE);
+        Expression<RealNumber> exp = AST.parse("(3 ⋅ (8 - 3)) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
-        Expression<UncertainReal> exp2 = AST.parse("((8 - 3) ⋅ 3) + 8", INSTANCE);
+        Expression<RealNumber> exp2 = AST.parse("((8 - 3) ⋅ 3) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
 
     }

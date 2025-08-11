@@ -22,9 +22,9 @@ import java.util.function.Supplier;
 import org.meeuw.math.WithUnits;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.uncertain;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.uncertain;
 
 /**
  * A number with an uncertainty where the uncertainty is simply explicitly stated.
@@ -54,18 +54,18 @@ public class Measurement extends PhysicalNumber {
     }
 
     /**
-     * Just a shortcut to {@link #Measurement(UncertainReal, Units)}, which can be statically imported.
+     * Just a shortcut to {@link #Measurement(RealNumber, Units)}, which can be statically imported.
      * @see #measurement(double, double, Units)
      */
-    public static Measurement measurement(UncertainReal value, Units units) {
+    public static Measurement measurement(RealNumber value, Units units) {
         return new Measurement(value, units);
     }
 
     /**
-     * Just a shortcut to {@link #Measurement(UncertainReal, Units)}, which can be statically imported.
+     * Just a shortcut to {@link #Measurement(RealNumber, Units)}, which can be statically imported.
      * @see #measurement(double, double, Units)
      */
-    public static Measurement measurement(Supplier<UncertainReal> value, Units units) {
+    public static Measurement measurement(Supplier<RealNumber> value, Units units) {
         return new Measurement(value, units);
     }
 
@@ -78,11 +78,11 @@ public class Measurement extends PhysicalNumber {
         this(uncertain(value, uncertainty), Units.of(derivedUnit));
     }
 
-    public Measurement(UncertainReal wrapped, Units units) {
+    public Measurement(RealNumber wrapped, Units units) {
         super(wrapped, units);
     }
 
-    public Measurement(Supplier<UncertainReal> wrapped, Units units) {
+    public Measurement(Supplier<RealNumber> wrapped, Units units) {
         super(wrapped, units);
     }
 
@@ -103,7 +103,7 @@ public class Measurement extends PhysicalNumber {
     }
 
     @Override
-    protected Measurement copy(@NonNull UncertainReal wrapped, @NonNull Units units) {
+    protected Measurement copy(@NonNull RealNumber wrapped, @NonNull Units units) {
         return new Measurement(wrapped, units);
     }
 

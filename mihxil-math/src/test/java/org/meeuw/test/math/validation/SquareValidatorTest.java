@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.validation.Square;
 import org.meeuw.math.validation.SquareValidator;
 
@@ -45,10 +45,10 @@ class SquareValidatorTest {
 
     static class A1 {
         @Square(invertible = true)
-        final UncertainDouble[][] array;
+        final DoubleElement[][] array;
 
         A1(double[][] array) {
-            this.array = UncertainDouble.exactly(array);
+            this.array = DoubleElement.exactly(array);
         }
 
     }

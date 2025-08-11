@@ -21,8 +21,8 @@ import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalField;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 
 /**
  * The {@link Field} of {@link ComplexNumber}s, backed by {@link BigDecimalElement}s.

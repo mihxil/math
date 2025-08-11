@@ -20,8 +20,8 @@ import lombok.Getter;
 import java.util.*;
 
 import org.meeuw.math.text.FormatService;
-import org.meeuw.math.uncertainnumbers.AbstractUncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.AbstractUncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * Represents the units of a {@link AbstractUncertainDouble}.
@@ -33,22 +33,22 @@ import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 public class CompositeUnits implements Units  {
 
     @Getter
-    private final UncertainReal SIFactor;
+    private final RealNumber SIFactor;
 
     @Getter
     private final UnitExponent[] exponents;
 
     private final List<Quantity> quantities;
 
-    public CompositeUnits(UncertainReal siFactor, Unit... units) {
+    public CompositeUnits(RealNumber siFactor, Unit... units) {
         this(siFactor, Unit.toArray(units));
     }
 
-    public CompositeUnits(UncertainReal siFactor, UnitExponent... units) {
+    public CompositeUnits(RealNumber siFactor, UnitExponent... units) {
         this(siFactor, units, null);
     }
 
-    private CompositeUnits(UncertainReal siFactor, UnitExponent[] units, List<Quantity> quantities) {
+    private CompositeUnits(RealNumber siFactor, UnitExponent[] units, List<Quantity> quantities) {
         this.exponents = units;
         this.SIFactor = siFactor;
         this.quantities = quantities == null ? Collections.emptyList() : quantities;
@@ -57,7 +57,7 @@ public class CompositeUnits implements Units  {
     /**
      * SI Units for given analysis
      */
-    public static CompositeUnits si(UncertainReal siFactor, DimensionalAnalysis units) {
+    public static CompositeUnits si(RealNumber siFactor, DimensionalAnalysis units) {
         return new CompositeUnits(siFactor, units.stream()
             .filter(e -> e.getExponent() != 0)
             .map(de -> de.toUnitExponent(SI.INSTANCE))

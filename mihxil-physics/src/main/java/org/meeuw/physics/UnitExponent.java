@@ -18,7 +18,7 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * Packs a certain {@link Unit} with an exponent.
@@ -85,7 +85,7 @@ public class UnitExponent implements Comparable<UnitExponent> {
         return unit.getSymbol() + (exponent != 1 ? TextUtils.superscript(exponent) : "");
     }
 
-    UncertainReal getSIFactor() {
+    RealNumber getSIFactor() {
         return unit.getSIFactor().pow(exponent);
     }
 }

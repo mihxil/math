@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.statistics.StatisticalDoubleImpl;
 import org.meeuw.time.TestClock;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -62,7 +62,7 @@ class WindowedStatisticalDoubleTest {
         impl.accept(0.24);
         log.info(() -> String.valueOf(impl));
         StatisticalDoubleImpl windowValue = impl.getWindowValue();
-        UncertainReal uncertainNumber = windowValue.immutableCopy();
+        RealNumber uncertainNumber = windowValue.immutableCopy();
         assertThat(windowValue.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(uncertainNumber.toString()).isEqualTo("0.20 ± 0.04");
         assertThat(windowValue.getCount()).isEqualTo(8);

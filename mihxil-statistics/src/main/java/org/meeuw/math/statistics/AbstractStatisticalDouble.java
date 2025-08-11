@@ -27,8 +27,8 @@ import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
@@ -41,7 +41,7 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
  */
 public abstract class AbstractStatisticalDouble
     <SELF extends AbstractStatisticalDouble<SELF>>
-    extends AbstractStatisticalNumber<SELF, Double, UncertainReal>
+    extends AbstractStatisticalNumber<SELF, Double, RealNumber>
     implements
     UncertainNumber<Double>,
     StatisticalDouble<SELF> {
@@ -97,16 +97,16 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainReal pow(int exponent) {
+    public RealNumber pow(int exponent) {
         Double pow = operations().pow(doubleValue(), exponent);
         Double powerUncertainty = operations().powerUncertainty(doubleValue(), getUncertainty(), (double) exponent, 0d, pow);
         return immutableInstance(pow, powerUncertainty);
     }
 
     @Override
-    public UncertainDouble dividedBy(long divisor) {
+    public DoubleElement dividedBy(long divisor) {
         double newValue = doubleValue() / divisor;
-        return new UncertainDouble(
+        return new DoubleElement(
             newValue,
             Math.max(
                 doubleUncertainty() / divisor,
@@ -116,60 +116,60 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainDouble times(long multiplier) {
+    public DoubleElement times(long multiplier) {
         return immutableInstance(getValue() * multiplier, getUncertainty() * multiplier);
     }
 
 
     @Override
-    public UncertainDouble immutableInstanceOfPrimitives(double value, double uncertainty) {
-        return new UncertainDouble(value, uncertainty);
+    public DoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
+        return new DoubleElement(value, uncertainty);
     }
 
     @Override
-    public UncertainDouble immutableInstance(@NonNull Double value, @NonNull Double uncertainty) {
+    public DoubleElement immutableInstance(@NonNull Double value, @NonNull Double uncertainty) {
         return immutableInstanceOfPrimitives(value, uncertainty);
     }
 
     @Override
-    public UncertainReal sqrt() {
+    public RealNumber sqrt() {
         UncertainNumber<Double> sqrt = operations.sqrt(doubleValue());
         return immutableInstance(sqrt.getValue(), Math.max(doubleUncertainty(), sqrt.getValue()));
     }
 
     @Override
-    public UncertainReal root(int base) {
+    public RealNumber root(int base) {
         UncertainNumber<Double> sqrt = operations.root(doubleValue(), base);
         return immutableInstance(sqrt.getValue(), Math.max(doubleUncertainty(), sqrt.getValue()));
     }
 
     @Override
-    public UncertainReal sin() {
+    public RealNumber sin() {
         UncertainNumber<Double> sin = operations.sin(doubleValue());
         return immutableInstance(sin.getValue(), Math.max(doubleUncertainty(), sin.getValue()));
     }
 
     @Override
-    public UncertainReal asin() {
+    public RealNumber asin() {
         UncertainNumber<Double> asin = operations.asin(doubleValue());
         return immutableInstance(asin.getValue(), Math.max(doubleUncertainty(), asin.getValue()));
     }
 
 
     @Override
-    public UncertainReal cos() {
+    public RealNumber cos() {
         UncertainNumber<Double> cos = operations.cos(doubleValue());
         return immutableInstance(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
     }
     @Override
-    public UncertainReal tan() {
+    public RealNumber tan() {
         UncertainNumber<Double> tan = operations.tan(doubleValue());
         return immutableInstance(tan.getValue(), Math.max(doubleUncertainty(), tan.getValue()));
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
-    public UncertainReal pow(UncertainReal exponent) throws IllegalPowerException {
+    public RealNumber pow(RealNumber exponent) throws IllegalPowerException {
         UncertainNumber<Double> result = operations.pow(doubleValue(), exponent.doubleValue());
         return immutableInstance(
             result.getValue(),
@@ -182,7 +182,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainReal times(UncertainReal multiplier) {
+    public RealNumber times(RealNumber multiplier) {
         double v = doubleValue() * multiplier.doubleValue();
         return immutableInstanceOfPrimitives(v,
             Math.max(
@@ -193,7 +193,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public UncertainReal plus(UncertainReal summand) {
+    public RealNumber plus(RealNumber summand) {
         return immutableInstance(doubleValue() + summand.doubleValue(), operations.additionUncertainty(doubleUncertainty(), summand.doubleUncertainty()));
     }
 
@@ -203,7 +203,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public int compareTo(@NonNull UncertainReal o) {
+    public int compareTo(@NonNull RealNumber o) {
         if (equals(o)) {
             return 0;
         } else {
@@ -212,7 +212,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public boolean eq(UncertainReal o) {
+    public boolean eq(RealNumber o) {
         if (getCount() == 0 && o instanceof StatisticalNumber<?,?,?>) {
             return ((StatisticalNumber<?, ?, ?>) o).getCount() == 0;
         }
@@ -223,12 +223,13 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (! (o instanceof AbstractStatisticalDouble<?>)) {
+        if (! (o instanceof AbstractStatisticalDouble<?> number)) {
             return false;
         }
-        AbstractStatisticalDouble<?> number = (AbstractStatisticalDouble<?>) o;
 
-        return getCount() == 0 ? number.getCount() == 0 : Objects.equals(getValue(), number.getValue());
+        return getCount() == 0 ?
+            number.getCount() == 0 :
+            Objects.equals(getValue(), number.getValue());
     }
 
     @SuppressWarnings("unchecked")

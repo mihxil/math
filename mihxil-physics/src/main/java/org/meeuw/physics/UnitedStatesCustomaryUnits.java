@@ -18,9 +18,9 @@ package org.meeuw.physics;
 import lombok.Getter;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 
 /**
  * In US
@@ -31,14 +31,14 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
 
     @Override
     public @NonNull Unit forDimension(Dimension dimension) {
-        switch(dimension) {
-            case L: return US.yd;
-            case M: return US.lb;
-            case T: return SI.min;
-            case N: return SIUnit.mol;
-            case J: return SIUnit.cd;
-        }
-        throw new IllegalArgumentException();
+        return switch (dimension) {
+            case L -> US.yd;
+            case M -> US.lb;
+            case T -> SI.min;
+            case N -> SIUnit.mol;
+            case J -> SIUnit.cd;
+            default -> throw new IllegalArgumentException();
+        };
     }
 
 
@@ -46,7 +46,7 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
         yd(Dimension.L, "yard", exactly(0.9144)),
         lb(Dimension.M, "pound", exactly(0.45359237))
         ;
-        US(Dimension dimension, String description, UncertainReal siFactor) {
+        US(Dimension dimension, String description, RealNumber siFactor) {
             this.dimension = dimension;
             this.description = description;
             this.SIFactor = siFactor;
@@ -60,7 +60,7 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
         private final Dimension dimension;
 
         @Getter
-        private final UncertainReal SIFactor;
+        private final RealNumber SIFactor;
 
         @Getter
         private final String description;

@@ -23,10 +23,10 @@ import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.field.UncertainDouble;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 
 import static org.meeuw.math.BigDecimalUtils.pow10;
-import static org.meeuw.math.uncertainnumbers.field.UncertainDouble.exactly;
+import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.physics.Quantity.*;
 import static org.meeuw.physics.SIUnit.*;
 import static org.meeuw.physics.UnitExponent.of;
@@ -295,12 +295,12 @@ public class SI implements SystemOfMeasurements {
         new DerivedUnit(exactly(0.001), "g", "gram", of(kg, 1))
             .withQuantity(MASS);
     public static final DerivedUnit Da = new DerivedUnit("Da", "dalton",
-        UncertainDouble.of(
+        DoubleElement.of(
             1.660539040e-27,
             0.000000020e-27), kg)
         .withQuantity(MASS);
     public static final DerivedUnit M0 = new DerivedUnit("M" + TextUtils.subscript("☉"), "Solar mass",
-        UncertainDouble.of(
+        DoubleElement.of(
             1.98847e30,
             0.00007e30), kg)
         .withQuantity(MASS);

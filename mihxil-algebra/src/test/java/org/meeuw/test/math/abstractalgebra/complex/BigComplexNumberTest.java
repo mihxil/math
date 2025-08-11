@@ -24,11 +24,11 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
-import org.meeuw.math.abstractalgebra.reals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.abstractalgebra.reals.BigDecimalElement.of;
+import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQRT;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 

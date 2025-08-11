@@ -19,15 +19,15 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 /**
  * Primitive {@code double} version of {@link StatisticalNumber}.
  */
 public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     extends
-    UncertainDouble<UncertainReal>,
-    StatisticalNumber<SELF, Double, UncertainReal>, UncertainReal {
+    UncertainDouble<RealNumber>,
+    StatisticalNumber<SELF, Double, RealNumber>, RealNumber {
 
     double doubleStandardDeviation();
 
@@ -85,6 +85,6 @@ public interface StatisticalDouble<SELF extends StatisticalDouble<SELF>>
     }
 
     @Override
-    boolean eq(UncertainReal other);
+    boolean eq(RealNumber other);
 
 }

@@ -27,12 +27,12 @@ import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
 import org.meeuw.math.*;
+import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.math.statistics.time.StatisticalDuration;
 import org.meeuw.math.statistics.time.StatisticalInstant;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
-import org.meeuw.math.uncertainnumbers.field.*;
 
 import static java.lang.Math.*;
 
@@ -142,7 +142,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
     /**
      * Assuming that the measurement <code>m</code> is from the same set, add it to the already existing
      * statistics.
-     * See also {@link AbstractStatisticalLong#plus(UncertainReal)} which is something entirely different.
+     * See also {@link AbstractStatisticalLong#plus(RealNumber)} which is something entirely different.
      * @param m The other {@link AbstractStatisticalLong} which value must be entered into this one
      */
     @Override
@@ -206,11 +206,11 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
     }
 
     @Override
-    public UncertainReal abs() {
+    public RealNumber abs() {
         if (getValue() >= 0) {
             return this;
         } else {
-            return new UncertainDouble(getValue(), getUncertainty()).abs();
+            return new DoubleElement(getValue(), getUncertainty()).abs();
         }
     }
 
@@ -227,18 +227,18 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
     }
 
     @Override
-    public UncertainRealField getStructure() {
-        return UncertainRealField.INSTANCE;
+    public RealField getStructure() {
+        return RealField.INSTANCE;
     }
 
     @Override
-    public UncertainReal exp() {
+    public RealNumber exp() {
         return immutableInstance(Math.exp(getValue()), getUncertainty()/* TODO */);
     }
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
-    public UncertainReal ln() throws IllegalLogarithmException {
+    public RealNumber ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(getValue());
         return immutableInstance(
             ln.getValue(),
@@ -251,7 +251,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
 
 
     @Override
-    public UncertainDouble reciprocal() {
+    public DoubleElement reciprocal() {
         UncertainNumber<Double> reciprocal = operations().reciprocal(getValue());
         double v = 1d / getValue();
         return immutableInstance(

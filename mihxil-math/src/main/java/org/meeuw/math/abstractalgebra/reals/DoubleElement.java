@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.uncertainnumbers.field;
+package org.meeuw.math.abstractalgebra.reals;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
@@ -24,68 +24,32 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
-import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
- * The most basic implementation of an {@link UncertainReal}. Immutable, based on primitive {@code double}s.
+ * The most basic implementation of an {@link RealNumber}. Immutable, based on primitive {@code double}s.
  * <p>
- * The structure is {@link UncertainRealField}
+ * The structure is {@link RealField}
  *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainDouble
+public class DoubleElement
     extends AbstractUncertainDouble
-    implements UncertainReal {
+    implements RealNumber {
 
     public static final int EPSILON_FACTOR = 2;
     public static final double UNCERTAINTY_FOR_ONE = DoubleUtils.uncertaintyForDouble(1);
     public static final double UNCERTAINTY_FOR_ZERO = DoubleUtils.uncertaintyForDouble(0);
 
-    public static final UncertainDouble ZERO = new UncertainDouble(0, EXACT) {
-        @Override
-        public UncertainDouble sqrt() {
-            return this;
-        }
 
-        @Override
-        public UncertainDouble sqr() {
-            return this;
-        }
 
-        @Override
-        public UncertainDouble pow(int exponent) {
-            if (exponent == 0) {
-                return ONE;
-            }
-            if (exponent < 0) {
-                throw new IllegalPowerException("Cannot take negative power", this + TextUtils.superscript(  exponent));
-            }
-            return this;
-        }
-    };
 
-    public static final UncertainDouble ONE  = new UncertainDouble(1, EXACT) {
-        @Override
-        public UncertainDouble sqrt() {
-            return this;
-        }
-        @Override
-        public UncertainDouble sqr() {
-            return this;
-        }
-        @Override
-        public UncertainDouble pow(int exponent) {
-            return this;
-        }
-    };
+    public static final DoubleElement TWO = DoubleElement.exactly(2d);
 
-    public static final UncertainDouble TWO = UncertainDouble.exactly(2d);
-
-    public static final UncertainDouble SMALLEST = new UncertainDouble(0d, UNCERTAINTY_FOR_ZERO);
+    public static final DoubleElement SMALLEST = new DoubleElement(0d, UNCERTAINTY_FOR_ZERO);
 
     private static final UncertaintyNumberOperations<Double> operations = DoubleOperations.INSTANCE;
 
@@ -93,7 +57,7 @@ public class UncertainDouble
     private final double uncertainty;
 
      /**
-     * Just a shortcut to {@link #UncertainDouble(double, double)}, which can be statically imported.
+     * Just a shortcut to {@link #DoubleElement(double, double)}, which can be statically imported.
      * <p>
      * So then you can type:
      * <pre>{@code
@@ -103,22 +67,22 @@ public class UncertainDouble
      *  }
      * </pre>
      */
-    public static UncertainDouble exactly(double value) {
-        return new UncertainDouble(value, EXACT);
+    public static DoubleElement exactly(double value) {
+        return new DoubleElement(value, EXACT);
     }
 
 
 
-    public static UncertainDouble[] exactly(double[] value) {
-        UncertainDouble[] result = new UncertainDouble[value.length];
+    public static DoubleElement[] exactly(double[] value) {
+        DoubleElement[] result = new DoubleElement[value.length];
         for (int i = 0; i < value.length; i++) {
             result[i] = exactly(value[i]);
         }
         return result;
     }
 
-    public static UncertainDouble[][] exactly(double[][] value) {
-        UncertainDouble[][] result = new UncertainDouble[value.length][];
+    public static DoubleElement[][] exactly(double[][] value) {
+        DoubleElement[][] result = new DoubleElement[value.length][];
         for (int i = 0; i < value.length; i++) {
             result[i] = exactly(value[i]);
         }
@@ -134,12 +98,17 @@ public class UncertainDouble
      * Which just more emphasises the type that is created.
      * @see #uncertain(double, double)
      */
-    public static UncertainDouble of(double value, double uncertainty) {
-        return new UncertainDouble(value, uncertainty);
+    public static DoubleElement of(double value, double uncertainty) {
+        return new DoubleElement(value, uncertainty);
     }
 
+    public static DoubleElement of(double value) {
+        return exactly(value);
+    }
+
+
     /**
-     * Just a shortcut to {@link #UncertainDouble(double, double)}, which can be statically imported.
+     * Just a shortcut to {@link #DoubleElement(double, double)}, which can be statically imported.
      * <p>
      * So then you can type:
      * <pre>{@code
@@ -149,11 +118,11 @@ public class UncertainDouble
      *  }
      * </pre>
      */
-    public static UncertainDouble uncertain(double value, double uncertainty) {
+    public static DoubleElement uncertain(double value, double uncertainty) {
         return of(value, uncertainty);
     }
 
-    public UncertainDouble(double value, double uncertainty) {
+    public DoubleElement(double value, double uncertainty) {
         this.value = value;
         this.uncertainty = uncertainty;
     }
@@ -164,26 +133,26 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainRealField getStructure() {
-        return UncertainRealField.INSTANCE;
+    public RealField getStructure() {
+        return RealField.INSTANCE;
     }
 
     @Override
-    public UncertainReal dividedBy(long divisor) {
+    public RealNumber dividedBy(long divisor) {
         double result = value / divisor;
-        return new UncertainDouble(result,
+        return new DoubleElement(result,
             Math.max(Math.abs(uncertainty / divisor), uncertaintyForDouble(result)));
     }
 
     @Override
-    public UncertainDouble times(long multiplier) {
+    public DoubleElement times(long multiplier) {
         double result = value * multiplier;
-        return new UncertainDouble(result,
+        return new DoubleElement(result,
             Math.max(Math.abs(uncertainty * multiplier), uncertaintyForDouble(result)));
     }
 
     @Override
-    public UncertainDouble times(UncertainReal multiplier) {
+    public DoubleElement times(RealNumber multiplier) {
         if (multiplier.isOne()){
             return this;
         }
@@ -197,7 +166,7 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainDouble plus(UncertainReal summand) {
+    public DoubleElement plus(RealNumber summand) {
         double v1 = this.doubleValue();
         double v2 = summand.doubleValue();
         double result  = v1 + v2;
@@ -213,16 +182,16 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainDouble reciprocal() {
-        try {
-            return pow(-1);
-        } catch (IllegalPowerException illegalPowerException) {
-            throw new ReciprocalException(illegalPowerException.getMessage(), BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(this));
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    public DoubleElement reciprocal() throws DivisionByZeroException {
+        if (isZero()) {
+            throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
         }
+        return pow(-1);
     }
 
     @Override
-    public UncertainDouble negation() {
+    public DoubleElement negation() {
         return times(-1);
     }
 
@@ -232,42 +201,42 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainDouble sqrt() {
+    public DoubleElement sqrt() {
         return of(Math.sqrt(value), uncertainty);
     }
 
 
     @Override
-    public UncertainDouble root(int i) {
+    public DoubleElement root(int i) {
         return of(Math.pow(value, 1d/i), uncertainty);
     }
 
     @Override
-    public UncertainDouble sin() {
+    public DoubleElement sin() {
         UncertainNumber<Double> sin = operations().sin(value);
         return of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
     }
 
     @Override
-    public UncertainReal asin() {
+    public RealNumber asin() {
         UncertainNumber<Double> asin = operations().asin(value);
         return of(asin.getValue(), Math.max(uncertainty, asin.getUncertainty()));
     }
 
     @Override
-    public UncertainDouble cos() {
+    public DoubleElement cos() {
         UncertainNumber<Double> cos = operations().cos(value);
         return of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
     }
 
     @Override
-    public UncertainDouble tan() {
+    public DoubleElement tan() {
         UncertainNumber<Double> tan = operations().tan(value);
         return of(tan.getValue(), Math.max(uncertainty, tan.getUncertainty()));
     }
 
     @Override
-    public UncertainReal pow(UncertainReal exponent) throws OverflowException {
+    public RealNumber pow(RealNumber exponent) throws OverflowException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {
             throw new OverflowException("Result is infinite  " + result,   this + "^" + exponent );
@@ -286,8 +255,9 @@ public class UncertainDouble
             ));
     }
 
+
     @Override
-    public UncertainReal exp() {
+    public RealNumber exp() {
         return of(
             Math.exp(this.doubleValue()),
             doubleUncertainty() // TODO
@@ -296,7 +266,7 @@ public class UncertainDouble
 
     @Override
     @NonAlgebraic
-    public UncertainReal ln() throws IllegalLogarithmException {
+    public RealNumber ln() throws IllegalLogarithmException {
         UncertainNumber<Double> ln = operations().ln(this.doubleValue());
 
         return of(
@@ -306,7 +276,8 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainDouble pow(int exponent) {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    public DoubleElement pow(int exponent) {
         double v = this.doubleValue();
         if (v == 0 && exponent < 0) {
             throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify(Double.toString(v),  Integer.toString(exponent)));
@@ -317,27 +288,27 @@ public class UncertainDouble
     }
 
     @Override
-    public UncertainDouble abs() {
+    public DoubleElement abs() {
         return of(Math.abs(this.doubleValue()), uncertainty);
     }
 
     @Override
-    public UncertainDouble immutableInstanceOfPrimitives(double value, double uncertainty) {
+    public DoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
         return of(value, uncertainty);
     }
 
     @Override
-    public boolean eq(UncertainReal other) {
+    public boolean eq(RealNumber other) {
         return eq(other,
             ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (!(o instanceof UncertainDouble)) {
+        if (!(o instanceof DoubleElement)) {
             return false;
         }
-        UncertainDouble uncertainDoubleElement = (UncertainDouble) o;
+        DoubleElement uncertainDoubleElement = (DoubleElement) o;
         return value == uncertainDoubleElement.value;
     }
 
@@ -346,7 +317,7 @@ public class UncertainDouble
         if ( ConfigurationService.getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
             return strictlyEquals(o);
         } else {
-            return eq((UncertainReal) o);
+            return eq((RealNumber) o);
         }
     }
 
@@ -373,4 +344,32 @@ public class UncertainDouble
     public long longValue() {
         return DoubleUtils.round(doubleValue());
     }
+
+    protected boolean isExactlyZero() {
+        return value == 0 && isExact();
+    }
+
+
+    public static DoubleElement considerMultiplicationBySpecialValues(DoubleElement r1, DoubleElement r2) {
+        double newValue = r1.value * r2.value;
+        // multiplication by zero
+        if (r1.isExactlyZero() || r2.isExactlyZero()) {
+            return DoubleElement.ZERO;
+        } else if (r1.value == 0 && r2.value != 0) {
+            return new DoubleElement(newValue, r1.uncertainty);
+        } else if (r2.value == 0 && r1.value != 0) {
+            return new DoubleElement(newValue, r2.uncertainty);
+            // NaN
+        } else if (Double.isNaN(r1.value) || Double.isNaN(r2.value)) {
+            return new DoubleElement(newValue, Double.NaN);
+        } else {
+            return new DoubleElement(newValue,
+                Math.abs(newValue) * (
+                    Math.abs(r1.uncertainty / (r1.value + r1.uncertainty)) +
+                        Math.abs(r2.uncertainty / (r2.value + r2.uncertainty))) + uncertaintyForDouble(newValue)
+
+            );
+        }
+    }
+
 }

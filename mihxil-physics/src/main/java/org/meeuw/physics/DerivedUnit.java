@@ -22,8 +22,8 @@ import java.util.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
-import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 
 /**
  * A 'derived' unit is a singular {@link Unit} which is not a {@link BaseUnit}. It has one symbol, and
@@ -38,7 +38,7 @@ public class DerivedUnit implements Unit {
 
     @Getter
     @NonNull
-    final UncertainReal SIFactor;
+    final RealNumber SIFactor;
 
     final int[] exponents;
 
@@ -54,7 +54,7 @@ public class DerivedUnit implements Unit {
     final List<Quantity> quantities;
 
     public DerivedUnit(
-        @NonNull UncertainReal SIFactor,
+        @NonNull RealNumber SIFactor,
         String name,
         String description,
         UnitExponent... siExponents) {
@@ -66,7 +66,7 @@ public class DerivedUnit implements Unit {
      * Used by {@link With}ers. Not unused as reported by Intellij.
      */
     private DerivedUnit(
-        UncertainReal SIFactor,
+        RealNumber SIFactor,
         int[] exponents,
         String name,
         String description,
@@ -77,7 +77,7 @@ public class DerivedUnit implements Unit {
 
     @lombok.Builder
     private DerivedUnit(
-        @NonNull UncertainReal siFactor,
+        @NonNull RealNumber siFactor,
         final int[] exponents,
         final String name,
         final String description,
@@ -113,7 +113,7 @@ public class DerivedUnit implements Unit {
     }
 
 
-    public DerivedUnit(String name, String description, UncertainReal siFactor, Units derivedUnit) {
+    public DerivedUnit(String name, String description, RealNumber siFactor, Units derivedUnit) {
         this.exponents = new int[SIUnit.values().length];
         System.arraycopy(derivedUnit.getDimensions().exponents, 0, this.exponents, 0, this.exponents.length);
         this.name = name;
@@ -122,7 +122,7 @@ public class DerivedUnit implements Unit {
         this.quantities = Collections.emptyList();
     }
 
-    public DerivedUnit(String name, String description, @NonNull UncertainReal siFactor, SIUnit siUnit) {
+    public DerivedUnit(String name, String description, @NonNull RealNumber siFactor, SIUnit siUnit) {
         this.exponents = new int[SIUnit.values().length];
         this.exponents[siUnit.ordinal()] = 1;
         this.name = name;
@@ -132,7 +132,7 @@ public class DerivedUnit implements Unit {
     }
 
     public DerivedUnit(String name, String description, UnitExponent... siExponents) {
-        this(UncertainRealField.INSTANCE.one(), name, description,  siExponents);
+        this(RealField.INSTANCE.one(), name, description,  siExponents);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class DerivedUnit implements Unit {
         }
         int[] exponents = getDimensions().times(multiplier.getDimensions()).getExponents();
 
-        UncertainReal factor = SIFactor.times(multiplier.getSIFactor());
+        RealNumber factor = SIFactor.times(multiplier.getSIFactor());
 
         if (Arrays.stream(exponents).allMatch(i -> i == 0) && factor.isOne()) {
             return DerivedUnit.DIMENSIONLESS;
@@ -190,7 +190,7 @@ public class DerivedUnit implements Unit {
         }
         int[] exponents = getDimensions().getExponents();
 
-        UncertainReal factor = SIFactor.times(multiplier);
+        RealNumber factor = SIFactor.times(multiplier);
 
         return DerivedUnit.builder()
             .siFactor(factor)
@@ -205,7 +205,7 @@ public class DerivedUnit implements Unit {
         for (int i = 0; i < this.exponents.length; i++) {
             exponents[i] = -1 * this.exponents[i];
         }
-        UncertainReal reciprocalFactor = SIFactor.reciprocal();
+        RealNumber reciprocalFactor = SIFactor.reciprocal();
         if (Arrays.stream(exponents).allMatch(i -> i == 0) && reciprocalFactor.isOne()) {
             return DerivedUnit.DIMENSIONLESS;
         }
