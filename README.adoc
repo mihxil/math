@@ -24,6 +24,32 @@ See link:https://mihxil.github.io/math/[this file in html] for proper display of
 
 :leveloffset: 1
 
+= quickstart
+
+The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
+
+== statistics
+
+add a quick example here
+
+== time
+
+quick explanation of parsing/clocks
+
+== theories
+
+quick explanation of theories.
+
+== configuration
+
+
+
+
+
+:leveloffset!:
+
+:leveloffset: 1
+
 = math
 :gh: https://github.com/mihxil/math/
 :ghraw: https://raw.githubusercontent.com/mihxil/math/main/
