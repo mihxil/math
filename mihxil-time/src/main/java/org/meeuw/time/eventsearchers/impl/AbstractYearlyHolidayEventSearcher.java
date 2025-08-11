@@ -12,11 +12,11 @@ import org.meeuw.time.eventsearchers.EventSearcher;
 public abstract class AbstractYearlyHolidayEventSearcher implements EventSearcher<LocalDate> {
 
 
-  public abstract Optional<? extends YearlyEvent> fromSummary(String eventSummary);
+  public abstract Optional<? extends YearlyEvent> fromDescription(String description);
 
   @Override
-  public Stream<LocalDate> findEvents(Range<Year> range, String eventSummary) {
-    YearlyEvent holiday = fromSummary(eventSummary).orElse(null);
+  public Stream<LocalDate> findEvents(Range<Year> range, String description) {
+    YearlyEvent holiday = fromDescription(description).orElse(null);
     if (holiday == null) {
       return Stream.empty();
     }

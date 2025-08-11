@@ -8,16 +8,16 @@ import org.meeuw.time.Range;
 
 /**
  * @author Michiel Meeuwissen
- * @since 1.1
+ * @since 0.19
  */
 public interface EventSearcher<T extends Temporal> {
 
     /**
      * Finds dates within the specified range that match the given event summary.
 
-     * @param eventSummary The summary of the event to search for.
+     * @param description The description of the event to search for.
      * @return A stream of LocalDate objects that match the criteria.
      */
-    Stream<T> findEvents(Range<Year> range, String eventSummary);
+    Stream<T> findEvents(Range<Year> range, String description);
 
 }

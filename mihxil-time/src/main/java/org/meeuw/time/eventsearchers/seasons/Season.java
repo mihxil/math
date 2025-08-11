@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
 
+import lombok.Getter;
 import lombok.extern.java.Log;
 
 import org.meeuw.time.eventsearchers.impl.Event;
@@ -47,21 +48,19 @@ public enum Season implements Event, Function<Year, Instant> {
     }
 
 
+    @Getter
     private final String description;
 
     Season(String description) {
         this.description = description;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public static Optional<Season> fromName(String summary) {
-        if (summary == null || summary.trim().isEmpty()) {
+    public static Optional<Season> fromDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(lookup.get(summary.toLowerCase()));
+        return Optional.ofNullable(lookup.get(description.toLowerCase()));
     }
 
     @Override

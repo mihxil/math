@@ -4,6 +4,8 @@ import java.time.*;
 import java.util.*;
 import java.util.function.Function;
 
+import lombok.Getter;
+
 import org.meeuw.time.eventsearchers.impl.YearlyEvent;
 
 
@@ -160,8 +162,9 @@ public enum WellknownHoliday implements YearlyEvent {
      */
     VALENTINES_DAY("Valentine's Day", (year) -> LocalDate.of(year.getValue(), 2, 14));
 
-    private final String name;
-    final Function<Year, LocalDate> dateFunction;
+    @Getter
+    private final String description;
+    private final Function<Year, LocalDate> dateFunction;
 
     private static final Map<String, WellknownHoliday> lookup;
 
@@ -173,20 +176,16 @@ public enum WellknownHoliday implements YearlyEvent {
         lookup = Collections.unmodifiableMap(map);
     }
 
-    WellknownHoliday(String name, Function<Year, LocalDate> dateFunction) {
-        this.name = name;
+    WellknownHoliday(String description, Function<Year, LocalDate> dateFunction) {
+        this.description = description;
         this.dateFunction = dateFunction;
     }
 
-    public String getDescription() {
-        return name;
-    }
-
-    public static Optional<WellknownHoliday> fromSummary(String summary) {
-        if (summary == null || summary.trim().isEmpty()) {
+    public static Optional<WellknownHoliday> fromDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(lookup.get(summary.toLowerCase()));
+        return Optional.ofNullable(lookup.get(description.toLowerCase()));
     }
 
 

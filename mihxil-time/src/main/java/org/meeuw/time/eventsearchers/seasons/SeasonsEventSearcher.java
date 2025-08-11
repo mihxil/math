@@ -14,9 +14,9 @@ import org.meeuw.time.eventsearchers.EventSearcher;
  */
 public class SeasonsEventSearcher implements EventSearcher<Instant> {
   @Override
-  public Stream<Instant> findEvents(Range<Year> range, String eventSummary) {
+  public Stream<Instant> findEvents(Range<Year> range, String description) {
 
-      Season season = Season.fromName(eventSummary).orElse(null);
+      Season season = Season.fromDescription(description).orElse(null);
       if (season == null) {
           return Stream.empty();
       }

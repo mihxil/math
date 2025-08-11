@@ -24,11 +24,11 @@ public class EventSearcherService implements EventSearcher<Temporal> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Stream<Temporal> findEvents(Range<Year> range, String eventSummary) {
+    public Stream<Temporal> findEvents(Range<Year> range, String description) {
         Spliterator<? extends EventSearcher> splitIterator = Spliterators.spliteratorUnknownSize(loader.iterator(), Spliterator.ORDERED);
 
         return StreamSupport.stream(splitIterator, false)
-            .flatMap(searcher -> searcher.findEvents(range, eventSummary))
+            .flatMap(searcher -> searcher.findEvents(range, description))
             ;
     }
 

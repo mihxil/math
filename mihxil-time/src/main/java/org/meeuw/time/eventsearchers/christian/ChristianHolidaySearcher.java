@@ -26,8 +26,8 @@ public class ChristianHolidaySearcher extends AbstractYearlyHolidayEventSearcher
     }
 
     @Override
-    public Optional<ChristianHoliday> fromSummary(String eventSummary) {
-        return ChristianHoliday.fromName(eventSummary);
+    public Optional<ChristianHoliday> fromDescription(String eventSummary) {
+        return ChristianHoliday.fromDescription(eventSummary);
     }
 
 

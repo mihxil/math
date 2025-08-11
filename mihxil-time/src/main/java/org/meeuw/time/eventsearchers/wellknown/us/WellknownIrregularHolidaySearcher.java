@@ -24,8 +24,8 @@ public class WellknownIrregularHolidaySearcher implements EventSearcher<LocalDat
 
 
     @Override
-    public Stream<LocalDate> findEvents(Range<Year> range, String eventSummary) {
-        WellknownIrregularHoliday holiday = WellknownIrregularHoliday.fromSummary(eventSummary)
+    public Stream<LocalDate> findEvents(Range<Year> range, String description) {
+        WellknownIrregularHoliday holiday = WellknownIrregularHoliday.fromDescription(description)
             .orElse(null);
         if (holiday == null) {
             return Stream.empty();

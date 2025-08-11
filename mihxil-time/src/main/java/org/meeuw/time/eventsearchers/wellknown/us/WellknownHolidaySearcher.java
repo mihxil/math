@@ -17,7 +17,7 @@ public class WellknownHolidaySearcher extends AbstractYearlyHolidayEventSearcher
     }
 
     @Override
-    public Optional<WellknownHoliday> fromSummary(String eventSummary) {
-        return WellknownHoliday.fromSummary(eventSummary);
+    public Optional<WellknownHoliday> fromDescription(String description) {
+        return WellknownHoliday.fromDescription(description);
     }
 }

@@ -1,5 +1,7 @@
 package org.meeuw.time.eventsearchers.christian;
 
+import lombok.Getter;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.*;
@@ -47,8 +49,9 @@ public enum ChristianHoliday implements YearlyEvent {
     TRINITY_SUNDAY("Trinity Sunday", year -> EASTER.dateFunction.apply(year).plusDays(56))
     ;
 
-    private final String name;
-    final Function<Year, LocalDate> dateFunction;
+    @Getter
+    private final String description;
+    private final Function<Year, LocalDate> dateFunction;
 
     private static final Map<String, ChristianHoliday> lookup;
 
@@ -62,20 +65,16 @@ public enum ChristianHoliday implements YearlyEvent {
         lookup = Collections.unmodifiableMap(map);
     }
 
-    ChristianHoliday(String name, Function<Year, LocalDate> dateFunction) {
-        this.name = name;
+    ChristianHoliday(String description, Function<Year, LocalDate> dateFunction) {
+        this.description = description;
         this.dateFunction = dateFunction;
     }
 
-    public String getDescription() {
-        return name;
-    }
-
-    public static Optional<ChristianHoliday> fromName(String summary) {
-        if (summary == null || summary.trim().isEmpty()) {
+    public static Optional<ChristianHoliday> fromDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(lookup.get(summary.toLowerCase()));
+        return Optional.ofNullable(lookup.get(description.toLowerCase()));
     }
 
     @Override

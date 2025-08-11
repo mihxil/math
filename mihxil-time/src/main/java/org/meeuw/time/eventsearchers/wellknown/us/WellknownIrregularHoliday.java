@@ -1,8 +1,12 @@
 package org.meeuw.time.eventsearchers.wellknown.us;
 
+import lombok.Getter;
+
 import java.time.*;
 import java.util.*;
 import java.util.function.Function;
+
+import org.meeuw.time.eventsearchers.impl.Event;
 
 import static org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHolidaySearcher.SPECIAL_INAUGURATIONS;
 
@@ -11,7 +15,7 @@ import static org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHolid
  * @author Michiel Meeuwissen
  * @since 0.19
  */
-public enum WellknownIrregularHoliday implements Function<Year, List<LocalDate>> {
+public enum WellknownIrregularHoliday implements Function<Year, List<LocalDate>>, Event  {
 
 
     /**
@@ -45,33 +49,30 @@ public enum WellknownIrregularHoliday implements Function<Year, List<LocalDate>>
         return result;
     });
 
-    private final String summary;
-    final Function<Year, List<LocalDate>> dateFunction;
+    @Getter
+    private final String description;
+    private final Function<Year, List<LocalDate>> dateFunction;
 
     private static final Map<String, WellknownIrregularHoliday> lookup;
 
     static {
         Map<String, WellknownIrregularHoliday> map = new HashMap<>();
         for (WellknownIrregularHoliday h : values()) {
-            map.put(h.getSummary().toLowerCase(), h);
+            map.put(h.getDescription().toLowerCase(), h);
         }
         lookup = Collections.unmodifiableMap(map);
     }
 
-    WellknownIrregularHoliday(String summary, Function<Year, List<LocalDate>> dateFunction) {
-        this.summary = summary;
+    WellknownIrregularHoliday(String description, Function<Year, List<LocalDate>> dateFunction) {
+        this.description = description;
         this.dateFunction = dateFunction;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public static Optional<WellknownIrregularHoliday> fromSummary(String summary) {
-        if (summary == null || summary.trim().isEmpty()) {
+    public static Optional<WellknownIrregularHoliday> fromDescription(String description) {
+        if (description == null || description.trim().isEmpty()) {
             return Optional.empty();
         }
-        return Optional.ofNullable(lookup.get(summary.toLowerCase()));
+        return Optional.ofNullable(lookup.get(description.toLowerCase()));
     }
 
 
