@@ -750,7 +750,7 @@ Your browser does not support the video tag.
 <span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
 <div class="paragraph">
-<p>Implementations of <code>UncertainDouble</code>, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.</p>
+<p>Implementations of <code>DoubleElement</code>, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.</p>
 </div>
 <div class="paragraph">
 <p>Also, it includes some classes to keep track of 'sliding window' values of averages.</p>
@@ -777,7 +777,7 @@ log.info(<span class="string"><span class="delimiter">&quot;</span><span class="
 <span class="keyword">import</span> <span class="include">org.meeuw.math.Interval</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.time.TestClock</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainReal</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealNumber</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.theories.abstractalgebra.UncertainDoubleTheory</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.assertj.core.api.Assertions.assertThat</span>;
@@ -818,7 +818,7 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -&gt; e.withNo
 <span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
 <div class="paragraph">
-<p>This module involves mostly around <code>PhysicalNumber</code> and its derivatives. A <code>PhysicalNumber</code> is a <code>UncertainDouble</code>, but the uncertainty is stated (it is a <code>Measurement</code>), and knows how to propagate those uncertainties when doing algebraic operations.</p>
+<p>This module involves mostly around <code>PhysicalNumber</code> and its derivatives. A <code>PhysicalNumber</code> is a <code>DoubleElement</code>, but the uncertainty is stated (it is a <code>Measurement</code>), and knows how to propagate those uncertainties when doing algebraic operations.</p>
 </div>
 <div class="paragraph">
 <p>Also, a <code>PhysicalNumber</code> can be assigned <code>Units</code>. This can be used for proper displaying the value, and for dimensional analysis.</p>
@@ -1135,10 +1135,10 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVGDocument</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainReal</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealNumber</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.defaultSVG</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.uncertainnumbers.field.UncertainRealField.element</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealField.element</span>;
 
 
 ....
@@ -1148,7 +1148,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="annotation">@ValueSource</span>(ints = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>, <span class="integer">20</span>})
 <span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
-    RegularPolygon&lt;UncertainReal&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
+    RegularPolygon&lt;RealNumber&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
@@ -1199,7 +1199,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;UncertainReal&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
+    <span class="predefined-type">Rectangle</span>&lt;RealNumber&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
 
     SVGDocument svg = defaultSVG()
         .withSize(size)
@@ -1237,7 +1237,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;UncertainReal&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
+    Ellipse&lt;RealNumber&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
@@ -1758,7 +1758,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="_dynamic_date_parsing">9.2. Dynamic date parsing</h3>
 <div class="paragraph">
-<p>The <code>mihxil-time</code> module contain a 'dynamic date parser`</p>
+<p>The <code>mihxil-time</code> module contain a 'dynamic date parser. I dusted this of from old <a href="mmbase.org">mmbase</a> code. It uses</p>
 </div>
 <form id="dynamicdate" class="demo">
   <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
