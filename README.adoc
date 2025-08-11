@@ -336,7 +336,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-statistics.sv
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-statistics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-statistics]
 
 
-Implementations of `UncertainDouble`, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.
+Implementations of `DoubleElement`, which are based on calculating standard deviations on sets of incoming data, and use that as the uncertainty value.
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
@@ -363,7 +363,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.time.TestClock;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -403,7 +403,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-physics.svg[M
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-physics.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math/mihxil-physics]
 
 
-This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `UncertainDouble`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
+This module involves mostly around `PhysicalNumber` and its derivatives. A `PhysicalNumber` is a `DoubleElement`, but the uncertainty is stated (it is a `Measurement`), and knows how to propagate those uncertainties when doing algebraic operations.
 
 Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
 
@@ -609,10 +609,10 @@ import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
 import org.meeuw.math.svg.SVGDocument;
-import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.math.svg.SVGDocument.defaultSVG;
-import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
+import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 ....
@@ -622,7 +622,7 @@ import static org.meeuw.math.uncertainnumbers.field.UncertainRealField.element;
 @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
 public void regularPolygons(int n ) throws Exception {
 
-    RegularPolygon<UncertainReal> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
+    RegularPolygon<RealNumber> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
@@ -672,7 +672,7 @@ image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon", link="{docs}/shap
 ----
 @Test
 public void rectangle() throws Exception {
-    Rectangle<UncertainReal> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
+    Rectangle<RealNumber> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
 
     SVGDocument svg = defaultSVG()
         .withSize(size)
@@ -710,7 +710,7 @@ public void circle() throws Exception {
 
 @Test
 public void ellipse() throws Exception {
-    Ellipse<UncertainReal> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
+    Ellipse<RealNumber> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
