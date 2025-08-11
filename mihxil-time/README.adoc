@@ -20,7 +20,16 @@ A clock for which each call is guaranteed to result an Instant strictly after al
 
 == Dynamic date time parsing
 
-Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual time instances. This is based on https://github.com/mmbase/mmbase/blob/MMBase-1_9/core/src/main/javacc/org/mmbase/util/dateparser/DateParser.jj[old mmbase code]. It is a https://javacc.org[javacc-grammar]. I modernized it to be fully based on `java.time` classes, and also incorporate the 'event searchers' I added to https://natty-parser.github.io[natty].
+Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual time instances. This is based on https://github.com/mmbase/mmbase/blob/MMBase-1_9/core/src/main/javacc/org/mmbase/util/dateparser/DateParser.jj[old MMBase code]. It is a https://javacc.org[javacc-grammar]. I modernized it to be fully based on `java.time` classes, and also incorporate the 'event searchers' I added to https://natty-parser.github.io[natty].
+
+=== Comparison to MMBase
+
+The parser in MMBase was actually implemented as an extension of `java.util.Date` itself (`org.mmbase.util.DynamicDate`), and was in that aspect simpler. But it was not a very good citizen because of that, because the actually value of the date could be 'dynamic', and sometimes that required some explicit conversion to a normal `java.util.Date` object. Turns out that date object can't be extended very well.
+
+So, this idea was dropped. The parser was taken 1-1 but it was converted to parse to `java.time.ZonedDateTime` instead of `java.util.Date`, also a wrapper class was added `DynamicDateTime`, which can contain a bit of configuration for the parsing (like the `Clock` to use).
+
+Also, inspired by natty, the 'event searchers' are added so the parser can also support holidays and other events like 'next spring'.
+
 
 === Comparison to natty
 
