@@ -40,6 +40,8 @@ import java.time.chrono.*;
 import java.io.*;
 import java.util.*;
 import java.util.function.Supplier;
+import org.meeuw.time.eventsearchers.EventSearcherService;
+import org.meeuw.time.Range;
 
 
 class DateParser implements Supplier<ZonedDateTime> {
@@ -53,6 +55,8 @@ class DateParser implements Supplier<ZonedDateTime> {
     private int monthorday = -1;
     private int week = -1;
     private boolean positive = true;
+
+    private String eventName = null;
 
     private ZonedDateTime cal = null;
 
@@ -132,6 +136,8 @@ TOKEN :
 | <POSITIVE: ["0"-"9"] (["0"-"9"])* >
 | <THOUSANDS: "." ["0"-"9"]["0"-"9"]["0"-"9"] >
 | <TIMEZONE: "TZ" ([" ", "\n", "\t", "\r"])* ["A"-"Z"] (["A"-"Z","a"-"z", "/", "_"])* (["-", "+"] <POSITIVE> (":" <POSITIVE>)?)?>
+ | <EVENT: "\"" (["a"-"z", " "])+ "\"" >
+
 
 }
 
@@ -193,7 +199,17 @@ void date() :  {}
            cal = cal.withHour(17);
            setDayOfWeek(DayOfWeek.FRIDAY);
     }
+    | event() {
+     cal = dynamicDateTime.getForEvent(cal, eventName);
+   }
 }
+
+void event() : {   }
+{
+    <EVENT> { eventName = token.image.substring(1, token.image.length() - 1).toLowerCase(); }
+
+}
+
 
 void time_zone() : {}
 {

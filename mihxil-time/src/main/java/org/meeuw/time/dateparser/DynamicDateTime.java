@@ -11,6 +11,8 @@ import java.util.Random;
 
 import org.meeuw.functional.ThrowingFunction;
 import org.meeuw.functional.ThrowingSupplier;
+import org.meeuw.time.Range;
+import org.meeuw.time.eventsearchers.EventSearcherService;
 
 
 /**
@@ -57,6 +59,10 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
     }
     protected void setZoneId(ZoneId timeZone) {
         clock = clock.withZone(timeZone);
+    }
+
+    protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName) {
+        return EventSearcherService.INSTANCE.findEvents(Range.fromYear(cal.getYear()), cal.getZone(), eventName).findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName)).atZone(cal.getZone());
     }
 
     protected ZonedDateTime resetToEra() {
