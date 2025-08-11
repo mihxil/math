@@ -36,7 +36,7 @@ public class SeasonsTest {
     public void seasons() {
 
         Stream.of(Season.values()).forEach(season -> {
-            assertThat( season.apply(Year.of(2025)).toString()).isEqualTo(EXPECTED.get(season));
+            assertThat( season.apply(Year.of(2025)).toString()).isEqualTo(EXPECTED.get(2025).get(season));
         });
     }
 
