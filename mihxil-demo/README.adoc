@@ -312,6 +312,7 @@ The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from o
    <datalist id="dynamicdate_toparse-examples">
      <option value="tomorrow"></option>
      <option value="next friday"></option>
+     <option value="next spring"></option>
    </datalist>
    <br />
   <output id="dynamicdate_output" for="dynamicdate_toparse"> </output>
