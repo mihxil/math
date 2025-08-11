@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.operators;
 
+import java.lang.invoke.MethodHandle;
+
 import lombok.SneakyThrows;
 
 import java.lang.reflect.InvocationTargetException;
@@ -46,21 +48,16 @@ public interface AlgebraicIntOperator extends OperatorInterface {
 
     @SuppressWarnings("unchecked")
     @SneakyThrows
-    static  <E extends AlgebraicElement<E>> E apply(AlgebraicIntOperator operator, Method method, E e, int i) {
+    static  <E extends AlgebraicElement<E>> E apply(AlgebraicIntOperator operator, MethodHandle method, E e, int i) {
         try {
             return (E) method.invoke(e, i);
         } catch (IllegalArgumentException iae) {
-            try {
-                // It is possible that the operation is defined, but the class does not extend the correct class
-                // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
-                return (E) e.getClass().getMethod(method.getName(), int.class).invoke(e, i);
-            } catch (NoSuchMethodException noSuchMethodError) {
-                throw new NoSuchOperatorException("No operation " + operator + " found on " + e, noSuchMethodError);
-            } catch (InvocationTargetException ex) {
-                throw ex.getCause();
-            }
-        } catch (InvocationTargetException ex) {
-            throw ex.getCause();
+
+            // It is possible that the operation is defined, but the class does not extend the correct class
+            // e.g. an odd integer implements negation, but it is not an additive group (negation is possible inside the algebra, but addition itself isn't).
+            //return (E) e.getClass().getMethod(method.getName(), int.class).invoke(e, i);
+            throw iae;
+
         }
     }
 

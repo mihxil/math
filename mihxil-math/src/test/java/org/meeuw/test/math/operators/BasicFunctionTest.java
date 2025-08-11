@@ -17,6 +17,7 @@ package org.meeuw.test.math.operators;
 
 import lombok.EqualsAndHashCode;
 
+import java.lang.invoke.WrongMethodTypeException;
 import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ public class BasicFunctionTest {
     public void abs() {
         assertThatThrownBy(() -> {
             BasicFunction.ABS.apply("tests");
-        }).isInstanceOf(NoSuchMethodException.class);
+        }).isInstanceOf(WrongMethodTypeException.class);
 
         assertThat(((A) BasicFunction.ABS.apply(new A(-1))).i).isEqualTo(1);
 

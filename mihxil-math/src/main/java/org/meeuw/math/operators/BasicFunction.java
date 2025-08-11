@@ -19,14 +19,14 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
+import java.lang.invoke.MethodHandle;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.numbers.SizeableScalar;
 import org.meeuw.math.text.TextUtils;
 
-import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethodHandle;
 
 @Log
 public enum BasicFunction implements GenericFunction {
@@ -34,27 +34,27 @@ public enum BasicFunction implements GenericFunction {
     /**
      * @see Sizeable#abs()
      */
-    ABS(getDeclaredMethod(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
+    ABS(getDeclaredMethodHandle(Sizeable.class, "abs"), (s) -> "|" + s + "|"),
 
     /**
      * Returns the 'decimal' (actually {@link java.math.BigDecimal}) presentation of the given object.
      * @see SizeableScalar#bigDecimalValue()
      */
-    DECIMAL(getDeclaredMethod(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
+    DECIMAL(getDeclaredMethodHandle(SizeableScalar.class, "bigDecimalValue"), (s) ->  s + TextUtils.subscript("=")),
 
     /**
      * Returns an 'integer' (actually {@link java.math.BigInteger}) version of the given object.
      * This may involve rounding.
      * @see SizeableScalar#bigIntegerValue()
      */
-    INTEGER(getDeclaredMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
+    INTEGER(getDeclaredMethodHandle(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
 
     @Getter
-    final Method method;
+    final MethodHandle method;
 
     final java.util.function.UnaryOperator<CharSequence> stringify;
 
-    BasicFunction(Method method, java.util.function.UnaryOperator<CharSequence> stringify) {
+    BasicFunction(MethodHandle method, java.util.function.UnaryOperator<CharSequence> stringify) {
         this.method = method;
         this.stringify = stringify;
     }
@@ -65,10 +65,11 @@ public enum BasicFunction implements GenericFunction {
     public <T, R> R apply(T t) {
         try {
             try {
-                return (R) method.invoke(t);
+                return (R) method.invokeExact(t);
             } catch (IllegalArgumentException iae) {
-                log.fine(this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
-                return (R) t.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(t);
+                //log.fine(this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
+                //return (R) t.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(t);
+                throw new IllegalArgumentException(iae.getMessage());
             }
         } catch (InvocationTargetException ex) {
             throw ex.getCause();
