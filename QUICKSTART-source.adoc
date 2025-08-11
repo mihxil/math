@@ -1,0 +1,21 @@
+= quickstart
+
+The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
+
+== statistics
+
+add a quick example here
+
+== time
+
+quick explanation of parsing/clocks
+
+== theories
+
+quick explanation of theories.
+
+== configuration
+
+
+
+

@@ -5,9 +5,9 @@ on:
   push:
     branches: [main]
     paths:
-      - 'README-source.adoc'
-      - '*/README-source.adoc'
-      - '*/README-source-docinfo.html'
+      - '*-source.adoc'
+      - '*/*-source.adoc'
+      - '*/*-source-docinfo.html'
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
       - 'docs/algebras.dot.m4'

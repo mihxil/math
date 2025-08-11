@@ -23,6 +23,8 @@ ifndef::htmled[]
 See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a working demo.
 endif::[]
 
+include::QUICKSTART-source.adoc[leveloffset=1]
+
 include::mihxil-math/README-source.adoc[leveloffset=1]
 
 include::mihxil-time/README-source.adoc[leveloffset=1]
