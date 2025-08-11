@@ -5,7 +5,7 @@ import java.time.Year;
 import java.util.*;
 import java.util.function.Function;
 
-import org.meeuw.time.eventsearchers.YearlyEvent;
+import org.meeuw.time.eventsearchers.impl.YearlyEvent;
 
 
 /**

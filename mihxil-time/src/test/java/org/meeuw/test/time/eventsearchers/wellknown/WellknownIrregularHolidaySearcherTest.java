@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.time.Range;
 import org.meeuw.time.eventsearchers.EventSearcherService;
-import org.meeuw.time.eventsearchers.wellknown.WellknownIrregularHoliday;
-import org.meeuw.time.eventsearchers.wellknown.WellknownIrregularHolidaySearcher;
+import org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHoliday;
+import org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHolidaySearcher;
 
 
 public class WellknownIrregularHolidaySearcherTest  {

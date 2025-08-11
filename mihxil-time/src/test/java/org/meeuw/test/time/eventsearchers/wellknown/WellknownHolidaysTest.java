@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.time.eventsearchers.wellknown.WellknownHoliday;
+import org.meeuw.time.eventsearchers.wellknown.us.WellknownHoliday;
 
 
 public class WellknownHolidaysTest {

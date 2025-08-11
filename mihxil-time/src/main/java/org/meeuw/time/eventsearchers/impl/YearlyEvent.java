@@ -1,4 +1,4 @@
-package org.meeuw.time.eventsearchers;
+package org.meeuw.time.eventsearchers.impl;
 
 import java.time.LocalDate;
 import java.time.Year;

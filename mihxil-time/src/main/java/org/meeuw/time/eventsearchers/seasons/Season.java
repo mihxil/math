@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 import lombok.extern.java.Log;
 
-import org.meeuw.time.eventsearchers.Event;
+import org.meeuw.time.eventsearchers.impl.Event;
 
 
 /*

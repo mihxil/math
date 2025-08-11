@@ -1,15 +1,15 @@
-package org.meeuw.time.eventsearchers.wellknown;
+package org.meeuw.time.eventsearchers.wellknown.us;
 
 import java.time.*;
 import java.util.*;
 import java.util.function.Function;
 
-import org.meeuw.time.eventsearchers.YearlyEvent;
+import org.meeuw.time.eventsearchers.impl.YearlyEvent;
 
 
 /**
  * @author Michiel Meeuwissen
- * @since 1.1
+ * @since 0.19
  */
 public enum WellknownHoliday implements YearlyEvent {
     /**

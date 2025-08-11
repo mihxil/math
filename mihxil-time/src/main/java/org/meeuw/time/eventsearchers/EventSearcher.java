@@ -18,6 +18,6 @@ public interface EventSearcher<T extends Temporal> {
      * @param eventSummary The summary of the event to search for.
      * @return A stream of LocalDate objects that match the criteria.
      */
-  Stream<T> findEvents(Range<Year> range, String eventSummary);
+    Stream<T> findEvents(Range<Year> range, String eventSummary);
 
 }
