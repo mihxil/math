@@ -1,13 +1,13 @@
 package org.meeuw.time.eventsearchers.seasons;
 
+import lombok.Getter;
+import lombok.extern.java.Log;
+
 import java.time.Instant;
 import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.function.Function;
-
-import lombok.Getter;
-import lombok.extern.java.Log;
 
 import org.meeuw.time.eventsearchers.impl.Event;
 
@@ -69,12 +69,8 @@ public enum Season implements Event, Function<Year, Instant> {
     }
 
     // Meeus Table 27.B periodic terms for each event
-    private static final Map<Season, double[][]> PERIODIC_TERMS;
-
-    static {
-        PERIODIC_TERMS = new HashMap<>();
-
-        PERIODIC_TERMS.put(SPRING, new double[][]{
+    private static final Map<Season, double[][]> PERIODIC_TERMS = Map.of(
+        SPRING, new double[][]{
             {485, 324.96, 1934.136},
             {203, 337.23, 32964.467},
             {199, 342.08, 20.186},
@@ -99,8 +95,8 @@ public enum Season implements Event, Function<Year, Instant> {
             {12, 320.81, 34777.259},
             {9, 227.73, 1222.114},
             {8, 15.45, 16859.074}
-        });
-        PERIODIC_TERMS.put(SUMMER, new double[][]{
+        },
+        SUMMER, new double[][]{
             {171, 44.96, 1934.136},
             {50, 10.23, 32964.467},
             {32, 57.08, 20.186},
@@ -125,8 +121,8 @@ public enum Season implements Event, Function<Year, Instant> {
             {2, 320.81, 34777.259},
             {1, 227.73, 1222.114},
             {1, 15.45, 16859.074}
-        });
-        PERIODIC_TERMS.put(FALL, new double[][]{
+        },
+        FALL, new double[][]{
             {62, 90.96, 1934.136},
             {29, 45.23, 32964.467},
             {21, 57.08, 20.186},
@@ -151,8 +147,8 @@ public enum Season implements Event, Function<Year, Instant> {
             {2, 320.81, 34777.259},
             {1, 227.73, 1222.114},
             {1, 15.45, 16859.074}
-        });
-        PERIODIC_TERMS.put(WINTER, new double[][]{
+        },
+        WINTER, new double[][]{
             {65, 45.96, 1934.136},
             {31, 45.23, 32964.467},
             {23, 57.08, 20.186},
@@ -178,19 +174,16 @@ public enum Season implements Event, Function<Year, Instant> {
             {1, 227.73, 1222.114},
             {1, 15.45, 16859.074}
         });
-    }
 
 
-    private static final Map<Season, double[]> COEFFICIENTS;
 
-    static {
+    private static final Map<Season, double[]> COEFFICIENTS = Map.of(
+        SPRING, new double[]{2451623.80984, 365242.37404, 0.05169, -0.00411, -0.00057},
+        SUMMER, new double[]{2451716.56767, 365241.62603, 0.00325, 0.00888, -0.00030},
+        FALL, new double[]{2451810.21715, 365242.01767, -0.11575, 0.00337, 0.00078},
+        WINTER, new double[]{2451900.05952, 365242.74049, -0.06223, -0.00823, 0.00032}
+    );
 
-        COEFFICIENTS = new HashMap<>();
-        COEFFICIENTS.put(SPRING, new double[]{2451623.80984, 365242.37404, 0.05169, -0.00411, -0.00057});
-        COEFFICIENTS.put(SUMMER, new double[]{2451716.56767, 365241.62603, 0.00325, 0.00888, -0.00030});
-        COEFFICIENTS.put(FALL, new double[]{2451810.21715, 365242.01767, -0.11575, 0.00337, 0.00078});
-        COEFFICIENTS.put(WINTER, new double[]{2451900.05952, 365242.74049, -0.06223, -0.00823, 0.00032});
-    }
 
     public static Instant equinoxSolsticeMeeusAlgorithm(int year, Season event) {
 

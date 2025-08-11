@@ -27,10 +27,7 @@ public class SeasonsTest {
         seasons2025.put(FALL,   "2025-09-22T18:22:23Z");
         seasons2025.put(WINTER, "2025-12-21T15:01:41Z");
 
-        Map<Integer, Map<Season, String>> expected = new HashMap<>();
-        expected.put(2025, Collections.unmodifiableMap(seasons2025));
-
-        EXPECTED = Collections.unmodifiableMap(expected);
+        EXPECTED = Map.of(2025, Collections.unmodifiableMap(seasons2025));
     }
     @Test
     public void seasons() {
