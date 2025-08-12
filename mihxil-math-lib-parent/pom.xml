@@ -12,7 +12,7 @@
 
 
 
-  <description>Serves as a parent for the modules that are distributed as a library. And are e.g. still java 8 compatible.</description>
+  <description>Serves as a parent for the modules that are distributed as a library</description>
   <url>https://github.com/mihxil/math</url>
 
   <properties>
@@ -111,7 +111,6 @@
         <configuration>
           <release>${java.version}</release>
           <compilerArgs>
-
           </compilerArgs>
           <annotationProcessorPaths>
             <path>

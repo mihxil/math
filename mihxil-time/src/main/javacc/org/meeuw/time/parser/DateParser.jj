@@ -31,7 +31,7 @@ options {
 
 PARSER_BEGIN(DateParser)
 
-package org.meeuw.time.dateparser;
+package org.meeuw.time.parser;
 
 
 import java.time.*;

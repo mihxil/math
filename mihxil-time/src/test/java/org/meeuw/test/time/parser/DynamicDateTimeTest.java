@@ -1,13 +1,19 @@
-package org.meeuw.test.time.dateparser;
+package org.meeuw.test.time.parser;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import org.meeuw.functional.ThrowingSupplier;
 import org.meeuw.time.TestClock;
-import org.meeuw.time.dateparser.DynamicDateTime;
-import org.meeuw.time.dateparser.ParseException;
+import org.meeuw.time.parser.DynamicDateTime;
+import org.meeuw.time.parser.ParseException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class DynamicDateTimeTest {
 
@@ -43,9 +49,29 @@ class DynamicDateTimeTest {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
 
         DynamicDateTime dt = DynamicDateTime.builder()
-            .clock( TestClock.twentyTwenty())
+            .clock(TestClock.twentyTwenty())
             .build();
         System.out.println(formatter.format(Date.from(dt.applyWithException(demo).toInstant())) + "\t" + demo);
+    }
+
+
+    @Test
+    public void supplier() {
+
+        TestClock clock = TestClock.twentyTwenty();
+        DynamicDateTime dt = DynamicDateTime.builder()
+            .clock(clock)
+            .build();
+
+        ThrowingSupplier<ZonedDateTime, ParseException> supplier = dt.supplier("now + 10 minute");
+
+
+        assertThat(supplier.get().toString()).isEqualTo("2020-02-20T20:30+01:00[Europe/Amsterdam]");
+
+        clock.tick(Duration.ofMinutes(5));
+
+        assertThat(supplier.get().toString()).isEqualTo("2020-02-20T20:35+01:00[Europe/Amsterdam]");
+
     }
 
 }

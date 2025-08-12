@@ -1,4 +1,4 @@
-package org.meeuw.time.dateparser;
+package org.meeuw.time.parser;
 
 import lombok.Getter;
 import lombok.With;
@@ -90,7 +90,7 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
      * @param string The string to be parsed into a ZonedDateTime.
      * @return A Supplier that can be used to parse the string into a ZonedDateTime.
      */
-    public ThrowingSupplier<ZonedDateTime, ParseException> supply(String string)  {
+    public ThrowingSupplier<ZonedDateTime, ParseException> supplier(String string)  {
         return () -> {
             DateParser parser = new DateParser(string);
             parser.setDynamicDateTime(this);
