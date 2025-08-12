@@ -9,6 +9,8 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Random;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.functional.ThrowingFunction;
 import org.meeuw.functional.ThrowingSupplier;
 import org.meeuw.time.Range;
@@ -29,20 +31,23 @@ import org.meeuw.time.eventsearchers.EventSearcherService;
 public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, ParseException> {
 
     @With
+    @NonNull
     final Random random;
 
     @Getter
     @With
+    @NonNull
     Clock clock;
 
     @With
+    @NonNull
     final Locale locale;
 
     public DynamicDateTime() {
         this(null, null, null);
     }
     @lombok.Builder
-    private DynamicDateTime(Random random, Clock clock, Locale locale) {
+    private DynamicDateTime(@Nullable Random random, @Nullable Clock clock, @Nullable Locale locale) {
         this.random = random == null ? new Random() : random;
         this.clock = clock == null ? Clock.systemDefaultZone() : clock;
         this.locale = locale == null ? Locale.getDefault() : locale;
@@ -57,12 +62,17 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
     protected ZonedDateTime getInstance() {
         return ZonedDateTime.now(clock);
     }
-    protected void setZoneId(ZoneId timeZone) {
+    protected void setZoneId(@NonNull ZoneId timeZone) {
         clock = clock.withZone(timeZone);
     }
 
+    /**
+     * Shortcut for calling the EventSearcherService. Used in the javacc-file.
+     */
     protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName) {
-        return EventSearcherService.INSTANCE.findEvents(Range.fromYear(cal.getYear()), cal.getZone(), eventName).findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName)).atZone(cal.getZone());
+        return EventSearcherService.INSTANCE.findEvents(Range.fromYear(cal.getYear()), cal.getZone(), eventName)
+            .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName))
+            .atZone(cal.getZone());
     }
 
     protected ZonedDateTime resetToEra() {

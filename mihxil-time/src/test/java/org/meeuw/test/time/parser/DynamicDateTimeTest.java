@@ -38,7 +38,7 @@ class DynamicDateTimeTest {
             "2005-01-01 this monday",
             "next year",
             "\"spring\"",
-            "next year \"spring\"",
+            "2005-01-01 this \"spring\"",
             "\"easter sunday\""
         };
     }

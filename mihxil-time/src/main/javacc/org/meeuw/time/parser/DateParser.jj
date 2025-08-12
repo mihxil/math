@@ -40,7 +40,6 @@ import java.time.chrono.*;
 import java.io.*;
 import java.util.*;
 import java.util.function.Supplier;
-import org.meeuw.time.eventsearchers.EventSearcherService;
 import org.meeuw.time.Range;
 
 
@@ -50,7 +49,7 @@ class DateParser implements Supplier<ZonedDateTime> {
     private ZonedDateTime prev = null;
     private int amount = 0;
     private int factor = 1;
-    private TemporalField field = null;
+
     private TemporalUnit unit = null;
     private int monthorday = -1;
     private int week = -1;
@@ -336,8 +335,8 @@ void increment() : {}
   "+"  inc_number() inc_period() {
        cal = cal.plus(amount * factor, unit); factor = 1;
       }
-   | <NEXT> inc_period()  { int v = cal.get(field); cal = cal.with(field, v + 1 * factor); factor = 1;}
-   | <PREVIOUS> inc_period()  { int v = cal.get(field); cal = cal.with(field, v - 1 * factor); factor = 1;}
+   | <NEXT> inc_period()  { cal = cal.plus(1 * factor, unit); factor = 1;}
+   | <PREVIOUS> inc_period()  {  cal = cal.minus(- 1 * factor, unit); factor = 1;}
    | next() day_of_week() { beginOfDay(); if (cal.isBefore(prev)) {cal = cal.plusDays(7); } }
    | previous() day_of_week() { beginOfDay(); if (cal.isAfter(prev)) {cal = cal.minusDays(7); } }
   | <THIS> day_of_week() { beginOfDay(); }
@@ -345,6 +344,7 @@ void increment() : {}
    | previous() month_of_year() { beginOfMonth(); if (cal.isAfter(prev)) {cal = cal.minusYears(1); } }
    | <THIS> month_of_year() { beginOfMonth(); }
    | <THIS> to_period()
+   | <THIS> to_event()
    | "ish"  {  cal = cal.plusNanos(1_000_000 * ((int) (dynamicDateTime.random.nextGaussian() * 1200000.0)/* 20 min */ + 300000 /* 5 minutes late on average*/)); dynamic = true;}
 }
 void decrement() : {}
@@ -358,10 +358,15 @@ void to_period() : { cal = getInstance(); }
 {
     this_period()
 }
+
+void to_event() : { cal = getInstance(); }
+{
+   <EVENT> { eventName = token.image.substring(1, token.image.length() - 1).toLowerCase(); }
+}
 void inc_period() : {}
 {
   "second" { unit = ChronoUnit.SECONDS; }
- | "minute" { unit = ChronoUnit.MINUTES;}
+ | "minute" { unit = ChronoUnit.MINUTES;  }
  | "hour"   { unit = ChronoUnit.HOURS; }
  | "day"    { unit = ChronoUnit.DAYS;}
  | "week"   { unit = ChronoUnit.WEEKS; }
