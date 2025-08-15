@@ -1990,7 +1990,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>);
+        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.parser.DynamicDateTime</span><span class="delimiter">'</span></span>);
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
             const parser = await <span class="keyword">new</span> DynamicDateTime();
