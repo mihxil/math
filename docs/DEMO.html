@@ -543,7 +543,7 @@
     let DynamicDateTime = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.dateparser.DynamicDateTime</span><span class="delimiter">'</span></span>);
+        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.parser.DynamicDateTime</span><span class="delimiter">'</span></span>);
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="keyword">try</span> {
             const parser = await <span class="keyword">new</span> DynamicDateTime();
@@ -565,7 +565,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-15 14:55:25 UTC
+Last updated 2025-08-15 14:59:11 UTC
 </div>
 </div>
 </body>
