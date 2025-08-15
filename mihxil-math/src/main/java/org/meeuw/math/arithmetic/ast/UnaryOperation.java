@@ -7,11 +7,11 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 @Getter
-public class UnaryOperator<E extends AlgebraicElement<E>> extends AbstractExpression<E> {
+public class UnaryOperation<E extends AlgebraicElement<E>> extends AbstractExpression<E> {
     private final AlgebraicUnaryOperator operator;
     private final Expression<E> operand;
 
-    public UnaryOperator(AlgebraicUnaryOperator operator, Expression<E> operand) {
+    public UnaryOperation(AlgebraicUnaryOperator operator, Expression<E> operand) {
         this.operator = operator;
         this.operand = operand;
     }
@@ -24,5 +24,10 @@ public class UnaryOperator<E extends AlgebraicElement<E>> extends AbstractExpres
     @Override
     public int compareTo(Expression<E> o) {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "(unary:" + operator.stringify(operand.toString()) + ")";
     }
 }
