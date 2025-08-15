@@ -12,16 +12,19 @@ async function setupCheerpj() {
     });
     const pref = document.location.pathname.startsWith("/math") ? "/app/math/resources/jars/" : "/app/resources/jars/";
     const version = "0.19-SNAPSHOT"
-    cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar`);
+    cj = await cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar:${pref}big-math-2.3.2.jar`);
 }
 
-async function setupFormWithClass(button, clazz) {
+async function setupFormWithClass(button, ...clazz) {
     button.disabled = true;
     button.textContent = "loading...";
     if (cj === null) {
         await setupCheerpj();
     }
-    return await cj[clazz]
+    for (const c of clazz) {
+        await cj[c]
+    }
+    return await cj[clazz[0]];
 }
 
 // tag::calculator[]
@@ -50,7 +53,8 @@ async function setupCalculator() {
             button.textContent = "executing..";
             output.value = await Calculator.eval(input.value, field.value);
         } catch (e) {
-            output.value = await e.getMessage();
+            let cla = await e.getClass()
+            output.value = "" + (await cla.toString()) + ":" + (await e.getMessage());
         }
         go();
     };
