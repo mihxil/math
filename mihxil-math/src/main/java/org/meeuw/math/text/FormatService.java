@@ -20,7 +20,7 @@ import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
 import java.text.Format;
-import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
@@ -122,12 +122,13 @@ public final class FormatService {
     public static <E extends AlgebraicElement<E>> E fromString(final String source, Class<E> clazz, Configuration configuration) throws NotParsable {
         return getFormat(clazz, configuration)
             .map(f -> {
-                try {
-                    E parsed =  (E) f.parseObject(source);
-                    return parsed;
-                } catch (ParseException e) {
+                ParsePosition pos = new ParsePosition(0);
+
+                E parsed =  (E) f.parseObject(source, pos);
+                if (pos.getIndex() != source.length()) {
                     return null;
                 }
+                return parsed;
             })
             .filter(Objects::nonNull)
             .findFirst()
