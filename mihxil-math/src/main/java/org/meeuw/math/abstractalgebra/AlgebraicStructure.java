@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import java.lang.reflect.Array;
+import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
 
@@ -96,6 +96,38 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     default NavigableSet<GenericFunction> getSupportedFunctions() {
         return FUNCTIONS;
     }
+
+    /**
+     * since 0.11
+     */
+    default Optional<AlgebraicBinaryOperator> getOperationBySymbol(String symbol) {
+        return getSupportedOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
+    }
+
+    /**
+     * since 0.11
+     */
+    default Optional<AlgebraicUnaryOperator> getUnaryOperationBySymbol(String symbol) {
+        return getSupportedUnaryOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
+    }
+
+    /**
+     * since 0.11
+     */
+    @SuppressWarnings("unchecked")
+    default Optional<E> getConstant(String symbol) {
+        try {
+            Method m = getClass().getMethod(symbol);
+            if (getElementClass().isAssignableFrom(m.getReturnType())) {
+                return Optional.of((E) m.invoke(this));
+            } else {
+                return Optional.empty();
+            }
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            return Optional.empty();
+        }
+    }
+
 
     /**
      * Gets the direct (known) super groups (or other algebraic structure) which this structure is part of.
