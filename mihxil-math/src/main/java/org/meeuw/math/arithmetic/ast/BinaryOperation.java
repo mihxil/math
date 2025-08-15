@@ -26,6 +26,11 @@ public class BinaryOperation<E extends AlgebraicElement<E>> extends AbstractExpr
         return new BinaryOperation<>(operator, right, left);
     }
 
+    /**
+     * Canonize this BinaryOperation. i.e., if the operator is commutative, put the smallest value on the left size.
+     *
+     * @return A new BinaryOperator unless this BinaryOperator is already canonical (then it simply returns {@code this})
+     */
     @Override
     public BinaryOperation<E> canonize(AlgebraicStructure<E> structure) {
         Expression<E> cleft = left.canonize(structure);
@@ -33,7 +38,11 @@ public class BinaryOperation<E extends AlgebraicElement<E>> extends AbstractExpr
         if (structure.isCommutative(operator) && cleft.compareTo(  cright) > 0)  {
             return new BinaryOperation<>(operator, cright, cleft);
         } else {
-            return new BinaryOperation<>(operator, cleft, cright);
+            if (cleft == left && cright == right) {
+                return this;
+            } else {
+                return new BinaryOperation<>(operator, cleft, cright);
+            }
         }
     }
 
@@ -44,9 +53,9 @@ public class BinaryOperation<E extends AlgebraicElement<E>> extends AbstractExpr
 
     @Override
     public String toString() {
-        return operator.stringify(
+        return "(binary:" + operator.stringify(
             left.toString(),
-            right.toString()
+            right.toString() + ")"
         );
     }
 

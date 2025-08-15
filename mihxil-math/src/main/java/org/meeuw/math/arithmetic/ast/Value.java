@@ -21,11 +21,15 @@ public class Value<E extends AlgebraicElement<E>> extends AbstractExpression<E> 
 
     @Override
     public String toString() {
-        return value.toString();
+        return "(value:" + value.toString() + ")";
     }
 
     @Override
     public int compareTo(Expression<E> o) {
-        return value.toString().compareTo(o.toString());
+        if (o instanceof Value<?> otherValue) {
+            return value.toString().compareTo(otherValue.value.toString());
+        } else {
+            return toString().compareTo(o.toString());
+        }
     }
 }

@@ -16,7 +16,7 @@ class ASTTest {
     @Test
     public void test() {
         BinaryOperation<RealNumber> op = new Value<>(exactly(2d)).times(
-            new UnaryOperator<>(BasicAlgebraicUnaryOperator.SQR,
+            new UnaryOperation<>(BasicAlgebraicUnaryOperator.SQR,
                 new BinaryOperation<>(ADDITION,
                     new Value<>(exactly(3d)), new Value<>(exactly(8d))
                 )
@@ -30,7 +30,7 @@ class ASTTest {
         assertThat(
             new Value<>(exactly(3d))
                 .plus(new Value<>(exactly(2d))
-            ).canonize(INSTANCE).toString()).isEqualTo("2 + 3");
+            ).canonize(INSTANCE).toString()).isEqualTo("(binary:(value:2) + (value:3))");
 
 
         var sub=
@@ -54,8 +54,6 @@ class ASTTest {
 
     @Test
     public void equivalence() {
-
-
         assertThat(new Value<>(exactly(2d)).canonize(INSTANCE)).isEqualTo(new Value<>(exactly(2d)));
 
         assertThat(new BinaryOperation<>(MULTIPLICATION,
@@ -77,10 +75,22 @@ class ASTTest {
 
     @Test
     public void parse() {
-        Expression<RealNumber> exp = AST.parse("(3 ⋅ (8 - 3)) + 8", INSTANCE);
+        Expression<RealNumber> exp = AST.parse("(3 * (8 - 3)) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
-        Expression<RealNumber> exp2 = AST.parse("((8 - 3) ⋅ 3) + 8", INSTANCE);
+        Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
+    }
+    @Test
+    public void parseInfix1(){
+        String s = "(1 + 2) + 200";
+        Expression<?> parse = AST.parse(s, INSTANCE);
+        assertThat(parse).isInstanceOf(BinaryOperation.class);
+    }
 
+     @Test
+    public void parseInfix2(){
+        String s = "1 + -1";
+        Expression<RealNumber> parse = AST.parse(s, INSTANCE);
+        assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 }
