@@ -15,7 +15,13 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.arithmetic.ast.AST;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -26,4 +32,16 @@ public interface FieldTheory<E extends FieldElement<E>> extends
     DivisionRingTheory<E>,
     GroupTheory<E> {
 
+
+    @Property
+    default void evalPlus(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
+        String result = AST.parse("%s + %s".formatted(e1.toString(), e2.toString()), e1.getStructure()).eval().toString();
+        assertThat(result).isEqualTo(e1.p(e2).toString());
+    }
+
+    @Property
+    default void evalMin(@ForAll(ELEMENTS) E e1, @ForAll(ELEMENTS) E e2) {
+        String result = AST.parse("%s - %s".formatted(e1.toString(), e2.toString()), e1.getStructure()).eval().toString();
+        assertThat(result).isEqualTo(e1.minus(e2).toString());
+    }
 }
