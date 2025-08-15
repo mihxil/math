@@ -1483,7 +1483,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-
+     <option value="1+2"</option>
+     <option value="1+ 3/5"</option>
+     <option value="sin(pi/2)"</option>
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
@@ -1493,7 +1495,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
    </select>
-</select>
+  </select>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
