@@ -24,6 +24,7 @@
     <module>mihxil-statistics</module>
     <module>mihxil-algebra</module>
     <module>mihxil-shapes</module>
+    <module>mihxil-math-parser</module>
 
   </modules>
 

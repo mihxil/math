@@ -2,14 +2,14 @@ package org.meeuw.test.math.arithmetic.ast;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 class ASTTest {
 
@@ -74,23 +74,23 @@ class ASTTest {
     }
 
     @Test
-    public void parse() {
-        Expression<RealNumber> exp = AST.parse("(3 * (8 - 3)) + 8", INSTANCE);
+    public void parseInfix() {
+        Expression<RealNumber> exp = AST.parseInfix("(3 * (8 - 3)) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
-        Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
+        Expression<RealNumber> exp2 = AST.parseInfix("((8 - 3) * 3) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
     }
     @Test
     public void parseInfix1(){
         String s = "(1 + 2) + 200";
-        Expression<?> parse = AST.parse(s, INSTANCE);
+        Expression<?> parse = AST.parseInfix(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 
      @Test
     public void parseInfix2(){
         String s = "1 + -1";
-        Expression<RealNumber> parse = AST.parse(s, INSTANCE);
+        Expression<RealNumber> parse = AST.parseInfix(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 }

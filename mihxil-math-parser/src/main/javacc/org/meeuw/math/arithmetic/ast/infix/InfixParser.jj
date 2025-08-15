@@ -12,7 +12,7 @@ options {
 
 PARSER_BEGIN(InfixParser)
 
-package org.meeuw.math.arithmetic.parser;
+package org.meeuw.math.arithmetic.ast.infix;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.*;

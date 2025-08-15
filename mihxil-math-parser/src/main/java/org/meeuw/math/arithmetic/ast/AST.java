@@ -7,8 +7,8 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.AlgebraicStructure;
-import org.meeuw.math.arithmetic.parser.InfixParser;
-import org.meeuw.math.arithmetic.parser.ParseException;
+import org.meeuw.math.arithmetic.ast.infix.InfixParser;
+import org.meeuw.math.arithmetic.ast.infix.ParseException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.text.TextUtils;
 
@@ -65,9 +65,27 @@ public class AST {
             } else {
                 return "(" + stringify + ")";
             }
+        } else if (expr instanceof UnaryOperation<?> unOp) {
+            String operand = toInfix(unOp.getOperand(), level + 1);
+            String stringify = unOp.getOperator().stringify(operand);
+            if (level ==0 ) {
+                return stringify;
+            } else {
+                return "(" + stringify + ")";
+            }
         }
         throw new IllegalArgumentException("Unknown Expression type");
     }
+
+    public static <E extends AlgebraicElement<E>>  Expression<E> parseInfix(String parse, AlgebraicStructure<E> field)  {
+        try {
+            InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field);
+            return parser.parse();
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field)  {
         try {
@@ -77,7 +95,6 @@ public class AST {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
-
 
 
 

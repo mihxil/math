@@ -45,39 +45,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <build>
-    <plugins>
-     <plugin>
-
-        <groupId>org.javacc.plugin</groupId>
-        <artifactId>javacc-maven-plugin</artifactId>
-        <version>3.0.3</version>
-        <executions>
-          <execution>
-            <id>javacc</id>
-             <goals>
-               <goal>javacc</goal>
-             </goals>
-            <configuration>
-              <codeGenerator>java</codeGenerator>
-              <supportClassVisibilityPublic>false</supportClassVisibilityPublic>
-            </configuration>
-          </execution>
-        </executions>
-       <dependencies>
-           <dependency>
-             <groupId>org.javacc.generator</groupId>
-             <artifactId>java</artifactId>
-             <version>${javacc.version}</version>
-           </dependency>
-           <dependency>
-             <groupId>org.javacc</groupId>
-             <artifactId>core</artifactId>
-             <version>${javacc.version}</version>
-           </dependency>
-         </dependencies>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

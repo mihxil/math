@@ -8,6 +8,10 @@ import java.util.stream.Stream;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
+
+/**
+ * Shungint yard parser. I think this is obsolete bercause of {@link org.meeuw.math.arithmetic.parser.InfixParser}
+ */
 public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> {
 
 
@@ -17,11 +21,6 @@ public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<
         this.structure = structure;
     }
 
-    public Optional<AlgebraicBinaryOperator> parseBinaryOperator(String s) {
-        return structure.getSupportedOperators().stream().filter(
-            o -> s.trim().equalsIgnoreCase(o.getSymbol())).findFirst();
-
-    }
     /**
      * Shunting yard algorithm for parsing a stream of
      */
@@ -65,7 +64,7 @@ public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<
         Stack<Expression<E>> output = new Stack<>();
 
         tokens.forEach(token -> {
-            Optional<AlgebraicBinaryOperator> operator = parseBinaryOperator(token);
+            Optional<AlgebraicBinaryOperator> operator = structure.getOperationBySymbol(token);
             if (operator.isPresent()) {
                 AlgebraicBinaryOperator op = operator.get();
                 while (!operators.isEmpty() &&

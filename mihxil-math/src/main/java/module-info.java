@@ -60,8 +60,7 @@ module org.meeuw.math {
     exports org.meeuw.math.validation;
     exports org.meeuw.math.abstractalgebra.product;
     exports org.meeuw.math.abstractalgebra.categoryofgroups;
-    exports org.meeuw.math.arithmetic.ast;
-    exports org.meeuw.math.arithmetic.parser;
+
 
 
     uses AlgebraicElementFormatProvider;

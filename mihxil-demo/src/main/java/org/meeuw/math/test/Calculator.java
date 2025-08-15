@@ -23,7 +23,7 @@ public class Calculator {
             case "complex" -> ComplexNumbers.INSTANCE;
             default -> throw new IllegalArgumentException("Unsupported field: " + field);
         };
-        Expression<?> parsedExpression = AST.parse(expression, f);
+        Expression<?> parsedExpression = AST.parseInfix(expression, f);
         return parsedExpression.eval().toString();
     }
     //end::eval[]

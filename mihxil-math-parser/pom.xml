@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.meeuw.math</groupId>
+    <artifactId>mihxil-math-lib-parent</artifactId>
+    <version>0.19-SNAPSHOT</version>
+    <relativePath>../mihxil-math-lib-parent</relativePath>
+  </parent>
+  <artifactId>mihxil-math-parser</artifactId>
+  <name>Math - parser</name>
+  <packaging>jar</packaging>
+  <description>
+
+  </description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-math</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+     <plugin>
+       <groupId>org.javacc.plugin</groupId>
+       <artifactId>javacc-maven-plugin</artifactId>
+       <version>3.0.3</version>
+        <executions>
+          <execution>
+            <id>javacc</id>
+            <goals>
+              <goal>javacc</goal>
+            </goals>
+            <configuration>
+              <codeGenerator>java</codeGenerator>
+              <supportClassVisibilityPublic>false</supportClassVisibilityPublic>
+            </configuration>
+          </execution>
+        </executions>
+       <dependencies>
+         <dependency>
+           <groupId>org.javacc.generator</groupId>
+           <artifactId>java</artifactId>
+           <version>${javacc.version}</version>
+         </dependency>
+         <dependency>
+           <groupId>org.javacc</groupId>
+           <artifactId>core</artifactId>
+           <version>${javacc.version}</version>
+         </dependency>
+       </dependencies>
+     </plugin>
+    </plugins>
+  </build>
+</project>

@@ -44,7 +44,6 @@ import org.meeuw.time.Range;
 
 
 class DateParser implements Supplier<ZonedDateTime> {
-
     private boolean dynamic = true;
     private ZonedDateTime prev = null;
     private int amount = 0;
@@ -168,7 +167,8 @@ void date() :  {}
              //cal.set(Calendar.DAY_OF_WEEK, 2);
              week = -1;
          }
-         beginOfDay(); dynamic = false;
+         beginOfDay();
+         dynamic = false;
     }
     | day_of_week() {beginOfDay();}
     | month_of_year() {beginOfMonth();}
@@ -199,7 +199,7 @@ void date() :  {}
            setDayOfWeek(DayOfWeek.FRIDAY);
     }
     | event() {
-     cal = dynamicDateTime.getForEvent(cal, eventName);
+        cal = dynamicDateTime.getForEvent(cal, eventName);
    }
 }
 

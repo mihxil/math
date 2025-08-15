@@ -12,7 +12,6 @@ import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;

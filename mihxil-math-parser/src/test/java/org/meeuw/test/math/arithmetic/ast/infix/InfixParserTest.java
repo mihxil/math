@@ -1,4 +1,4 @@
-package org.meeuw.test.math.arithmetic.infix;
+package org.meeuw.test.math.arithmetic.ast.infix;
 
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -7,8 +7,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.arithmetic.ast.Expression;
-import org.meeuw.math.arithmetic.parser.InfixParser;
-import org.meeuw.math.arithmetic.parser.ParseException;
+import org.meeuw.math.arithmetic.ast.infix.InfixParser;
+import org.meeuw.math.arithmetic.ast.infix.ParseException;
 
 public class InfixParserTest {
 
