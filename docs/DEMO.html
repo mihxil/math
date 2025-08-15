@@ -27,6 +27,94 @@
 </div>
 </div>
 <div class="sect1">
+<h2 id="_calculator">Calculator</h2>
+<div class="sectionbody">
+<form id="calculator" class="demo">
+  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
+   <datalist id="calculator_toparse-examples">
+
+   </datalist>
+   <label for="calculator_field">Field:</label>
+   <select id="calculator_field"  >
+      <option value="rational" selected>Rational</option>
+      <option value="real">Real</option>
+      <option value="bigdecimal">Real (arbitrary precision)</option>
+      <option value="complex">Complex</option>
+      <option value="gaussian">Gaussian</option>
+   </select>
+</select>
+   <br />
+  <output id="calculator_output" for="calculator_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+<details>
+<summary class="title">java</summary>
+<div class="content">
+<div class="paragraph">
+<p>This is the source code for the above.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
+    <span class="predefined-type">Field</span>&lt;?&gt; f = <span class="keyword">switch</span> (field) {
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">rational</span><span class="delimiter">&quot;</span></span> -&gt; RationalNumbers.INSTANCE;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">real</span><span class="delimiter">&quot;</span></span> -&gt; RealField.INSTANCE;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">bigdecimal</span><span class="delimiter">&quot;</span></span> -&gt; BigDecimalField.INSTANCE;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">gaussian</span><span class="delimiter">&quot;</span></span> -&gt; GaussianRationals.INSTANCE;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">complex</span><span class="delimiter">&quot;</span></span> -&gt; ComplexNumbers.INSTANCE;
+        <span class="keyword">default</span> -&gt; <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported field: </span><span class="delimiter">&quot;</span></span> + field);
+    };
+    <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parse(expression, f);
+    <span class="keyword">return</span> parsedExpression.eval().toString();
+}</code></pre>
+</div>
+</div>
+</div>
+</details>
+<details>
+<summary class="title">javascript</summary>
+<div class="content">
+<div class="paragraph">
+<p>This is the source code for the above.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupCalculator</span>() {
+
+    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>);
+    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
+    const buttonText = button.textContent;
+    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
+    const input = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>);
+    const field = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>);
+
+    <span class="keyword">function</span> <span class="function">go</span>() {
+        button.textContent = buttonText;
+        button.disabled = <span class="predefined-constant">false</span>;
+    }
+
+    let Calculator = <span class="predefined-constant">null</span>;
+    form.onsubmit = async (e) =&gt; {
+        e.preventDefault();
+        <span class="keyword">try</span> {
+            Calculator = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>);
+            output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
+            output.value = await Calculator.eval(input.value, field.value);
+        } <span class="keyword">catch</span> (e) {
+            output.value = await e.getMessage();
+        }
+        go();
+    };
+}</code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_solver">Solver</h2>
 <div class="sectionbody">
 <div class="paragraph">
@@ -215,7 +303,7 @@
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
         <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
 
-        <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="content">\s</span><span class="content">+</span><span class="delimiter">&quot;</span></span>);
+        <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
         F<span class="type">[]</span> set = field.newArray(input.length);
         <span class="keyword">try</span> {
             <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
@@ -271,6 +359,7 @@
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupSolver</span>() {
 
+    const clazz= <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>;
     const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#solver</span><span class="delimiter">'</span></span>);
     const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
     const buttonText = button.textContent;
@@ -288,7 +377,7 @@
         <span class="key">outcome</span>: <span class="predefined-constant">null</span>,
         <span class="key">input</span>: <span class="predefined-constant">null</span>,
         <span class="key">parseOutcome</span>:  async <span class="keyword">function</span>(string) {
-            Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+            Solver = await setupFormWithClass(button, clazz);
             <span class="local-variable">this</span>.field = await Solver.fieldFor(string, input.value)
             <span class="local-variable">this</span>.outcome = await Solver.parseOutcome(<span class="local-variable">this</span>.field, string);
             go();
@@ -296,7 +385,7 @@
 
         },
         <span class="key">parseInput</span> :  async <span class="keyword">function</span>(string) {
-            Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+            Solver = await setupFormWithClass(button, clazz);
             <span class="local-variable">this</span>.field = await Solver.fieldFor(outcome.value, string);
             <span class="local-variable">this</span>.input = await Solver.parseInput(<span class="local-variable">this</span>.field, string);
             go();
@@ -313,7 +402,7 @@
     let Solver = <span class="predefined-constant">null</span>;
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
-        Solver = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>);
+        Solver = await setupFormWithClass(button, clazz);
 
         output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
@@ -476,7 +565,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-11 21:44:08 UTC
+Last updated 2025-08-15 14:55:25 UTC
 </div>
 </div>
 </body>

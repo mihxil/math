@@ -6,6 +6,91 @@
 
 These are a running demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]). It doesn't always work.
 
+
+== Calculator
+
+++++
+<form id="calculator" class="demo">
+  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
+   <datalist id="calculator_toparse-examples">
+
+   </datalist>
+   <label for="calculator_field">Field:</label>
+   <select id="calculator_field"  >
+      <option value="rational" selected>Rational</option>
+      <option value="real">Real</option>
+      <option value="bigdecimal">Real (arbitrary precision)</option>
+      <option value="complex">Complex</option>
+      <option value="gaussian">Gaussian</option>
+   </select>
+</select>
+   <br />
+  <output id="calculator_output" for="calculator_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+++++
+
+[%collapsible, title=java]
+====
+This is the source code for the above.
+[source,java]
+----
+
+public static String eval(String expression, String field) {
+    Field<?> f = switch (field) {
+        case "rational" -> RationalNumbers.INSTANCE;
+        case "real" -> RealField.INSTANCE;
+        case "bigdecimal" -> BigDecimalField.INSTANCE;
+        case "gaussian" -> GaussianRationals.INSTANCE;
+        case "complex" -> ComplexNumbers.INSTANCE;
+        default -> throw new IllegalArgumentException("Unsupported field: " + field);
+    };
+    Expression<?> parsedExpression = AST.parse(expression, f);
+    return parsedExpression.eval().toString();
+}
+----
+====
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+
+
+async function setupCalculator() {
+
+    const form = document.querySelector('#calculator');
+    const button = form.querySelector('button');
+    const buttonText = button.textContent;
+    const output = form.querySelector('output');
+    const input = form.querySelector('input');
+    const field = form.querySelector('select');
+
+    function go() {
+        button.textContent = buttonText;
+        button.disabled = false;
+    }
+
+    let Calculator = null;
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+            Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
+            output.value = '';
+            button.textContent = "executing..";
+            output.value = await Calculator.eval(input.value, field.value);
+        } catch (e) {
+            output.value = await e.getMessage();
+        }
+        go();
+    };
+}
+
+----
+====
+
+
 == Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
@@ -177,7 +262,7 @@ public  class Solver<E extends RingElement<E>> {
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
         String inputError = null;
 
-        String[] input = inputStrings.split("\s+");
+        String[] input = inputStrings.split("\\s+");
         F[] set = field.newArray(input.length);
         try {
             for (int i = 0; i < set.length; i++) {
@@ -230,6 +315,7 @@ This is the source code for the above.
 
 async function setupSolver() {
 
+    const clazz= 'org.meeuw.math.test.Solver';
     const form = document.querySelector('#solver');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
@@ -247,7 +333,7 @@ async function setupSolver() {
         outcome: null,
         input: null,
         parseOutcome:  async function(string) {
-            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            Solver = await setupFormWithClass(button, clazz);
             this.field = await Solver.fieldFor(string, input.value)
             this.outcome = await Solver.parseOutcome(this.field, string);
             go();
@@ -255,7 +341,7 @@ async function setupSolver() {
 
         },
         parseInput :  async function(string) {
-            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            Solver = await setupFormWithClass(button, clazz);
             this.field = await Solver.fieldFor(outcome.value, string);
             this.input = await Solver.parseInput(this.field, string);
             go();
@@ -272,7 +358,7 @@ async function setupSolver() {
     let Solver = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+        Solver = await setupFormWithClass(button, clazz);
 
         output.value = '';
         button.textContent = "executing..";
