@@ -46,7 +46,7 @@ public static String eval(String expression, String field) {
         case "complex" -> ComplexNumbers.INSTANCE;
         default -> throw new IllegalArgumentException("Unsupported field: " + field);
     };
-    Expression<?> parsedExpression = AST.parse(expression, f);
+    Expression<?> parsedExpression = AST.parseInfix(expression, f);
     return parsedExpression.eval().toString();
 }
 ----
@@ -162,7 +162,6 @@ import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
@@ -498,7 +497,7 @@ async function setupDynamicDate() {
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.dateparser.DynamicDateTime');
+        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.parser.DynamicDateTime');
         button.textContent = "executing..";
         try {
             const parser = await new DynamicDateTime();
