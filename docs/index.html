@@ -1516,7 +1516,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">complex</span><span class="delimiter">&quot;</span></span> -&gt; ComplexNumbers.INSTANCE;
         <span class="keyword">default</span> -&gt; <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported field: </span><span class="delimiter">&quot;</span></span> + field);
     };
-    <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parse(expression, f);
+    <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
     <span class="keyword">return</span> parsedExpression.eval().toString();
 }</code></pre>
 </div>
@@ -1652,7 +1652,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.quaternions.Quaternions</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.NotParsable</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.operators.AlgebraicBinaryOperator</span>;
