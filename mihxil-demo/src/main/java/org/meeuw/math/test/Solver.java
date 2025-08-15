@@ -112,7 +112,7 @@ public  class Solver<E extends RingElement<E>> {
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
         String inputError = null;
 
-        String[] input = inputStrings.split("\s+");
+        String[] input = inputStrings.split("\\s+");
         F[] set = field.newArray(input.length);
         try {
             for (int i = 0; i < set.length; i++) {
