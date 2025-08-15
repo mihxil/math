@@ -36,3 +36,7 @@ cheerpj:index.html  ## run cheerpj
 index.html: README-source.adoc README-source-docinfo.html Makefile
 	asciidoctor $< -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
+
+
+test:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "sin(pi / 2)" bigdecimal
