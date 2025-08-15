@@ -72,6 +72,11 @@ public final class TextUtils {
         return sb.toString();
     }
 
+    public static String undo(CharSequence s) {
+        String st = TextUtils.unsuperscript(TextUtils.unsubscript(s));
+        return  st.replace(TextUtils.FRACTION_SLASH, '/');
+    }
+
     public static @PolyNull String subscript(@PolyNull CharSequence i) {
         return script(i, SUB, SUBSCRIPTS);
     }
