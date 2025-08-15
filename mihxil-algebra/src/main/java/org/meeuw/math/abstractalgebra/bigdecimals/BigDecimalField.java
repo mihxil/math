@@ -100,4 +100,10 @@ public class BigDecimalField
     public BigDecimalElement 𝜑() {
         return (BigDecimalElement.ONE.plus(BigDecimalElement.of(5).sqrt())).dividedBy(2);
     }
+
+    @Override
+    public BigDecimalElement fromString(String s) {
+        return BigDecimalElement.of(s);
+
+    }
 }
