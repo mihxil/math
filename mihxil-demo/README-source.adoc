@@ -5,6 +5,49 @@
 
 These are a running demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]). It doesn't always work.
 
+
+== Calculator
+
+++++
+<form id="calculator" class="demo">
+  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
+   <datalist id="calculator_toparse-examples">
+
+   </datalist>
+   <label for="calculator_field">Field:</label>
+   <select id="calculator_field"  >
+      <option value="rational" selected>Rational</option>
+      <option value="real">Real</option>
+      <option value="bigdecimal">Real (arbitrary precision)</option>
+      <option value="complex">Complex</option>
+      <option value="gaussian">Gaussian</option>
+   </select>
+</select>
+   <br />
+  <output id="calculator_output" for="calculator_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+++++
+
+[%collapsible, title=java]
+====
+This is the source code for the above.
+[source,java]
+----
+include::src/main/java/org/meeuw/math/test/Calculator.java[indent=-,tag=eval]
+----
+====
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+include::resources/demo.js[indent=-,tag=calculator]
+----
+====
+
+
 == Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
