@@ -27,6 +27,14 @@
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-algebra</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-math-parser</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.obermuhlner</groupId>
+      <artifactId>big-math</artifactId>
+    </dependency>
   </dependencies>
 
   <build>

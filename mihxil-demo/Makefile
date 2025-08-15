@@ -1,0 +1,38 @@
+
+URL:=mihxil/mihxil-demo:latest
+VERSION:=$(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+
+
+help:     ## Show this help.
+	@sed -n 's/^##//p' $(MAKEFILE_LIST)
+	@grep -E '^[/%a-zA-Z0-9._-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+target/mihxil-demo-$(VERSION).jar:
+	(cd ../mihxil-configuration/ ; mvn  install ) ; (cd ../mihxil-math/ ; mvn install ) ; mvn
+
+docker: Dockerfile
+	docker build -t $(URL) --build-arg VERSION=$(VERSION) .
+
+localrun: target/math-test-$(VERSION).jar
+	java -jar $< prefs
+
+
+runro:
+	docker run -v $(HOME):/root:ro -it  $(URL) prefs
+
+run:
+	docker run -v $(HOME):/root -it  $(URL)
+
+runprefs:
+	docker run -v $(HOME):/root -it  $(URL) prefs mm
+
+explore:
+	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
+
+cheerpj:index.html  ## run cheerpj
+	npx serve
+
+
+index.html: README-source.adoc README-source-docinfo.html Makefile
+	asciidoctor $< -a htmled=true -a docs=. -o $@
+	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
