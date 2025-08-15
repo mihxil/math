@@ -23,11 +23,47 @@ async function setupFormWithClass(button, clazz) {
     return await cj[clazz]
 }
 
+// tag::calculator[]
+
+
+async function setupCalculator() {
+
+    const form = document.querySelector('#calculator');
+    const button = form.querySelector('button');
+    const buttonText = button.textContent;
+    const output = form.querySelector('output');
+    const input = form.querySelector('input');
+    const field = form.querySelector('select');
+
+    function go() {
+        button.textContent = buttonText;
+        button.disabled = false;
+    }
+
+    let Calculator = null;
+    form.onsubmit = async (e) => {
+        e.preventDefault();
+        try {
+            Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
+            output.value = '';
+            button.textContent = "executing..";
+            output.value = await Calculator.eval(input.value, field.value);
+        } catch (e) {
+            output.value = await e.getMessage();
+        }
+        go();
+    };
+}
+
+//end::calculator[]
+
+
 // tag::solver[]
 
 
 async function setupSolver() {
 
+    const clazz= 'org.meeuw.math.test.Solver';
     const form = document.querySelector('#solver');
     const button = form.querySelector('button');
     const buttonText = button.textContent;
@@ -45,7 +81,7 @@ async function setupSolver() {
         outcome: null,
         input: null,
         parseOutcome:  async function(string) {
-            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            Solver = await setupFormWithClass(button, clazz);
             this.field = await Solver.fieldFor(string, input.value)
             this.outcome = await Solver.parseOutcome(this.field, string);
             go();
@@ -53,7 +89,7 @@ async function setupSolver() {
 
         },
         parseInput :  async function(string) {
-            Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+            Solver = await setupFormWithClass(button, clazz);
             this.field = await Solver.fieldFor(outcome.value, string);
             this.input = await Solver.parseInput(this.field, string);
             go();
@@ -70,7 +106,7 @@ async function setupSolver() {
     let Solver = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        Solver = await setupFormWithClass(button, 'org.meeuw.math.test.Solver');
+        Solver = await setupFormWithClass(button, clazz);
 
         output.value = '';
         button.textContent = "executing..";
@@ -176,6 +212,7 @@ async function setupValidation() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
+    setupCalculator();
     setupSolver();
     setupDynamicDate();
     setupValidation();
