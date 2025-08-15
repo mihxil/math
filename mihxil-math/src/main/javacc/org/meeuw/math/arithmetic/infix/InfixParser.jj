@@ -73,7 +73,7 @@ Expression<E> sum() :
      (
         op = <PLUS>
         right = product()
-        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image), left, right);}
+        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
      )*
     { return left; }
 }
