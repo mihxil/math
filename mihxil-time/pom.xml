@@ -16,7 +16,6 @@
   <url>https://github.com/mihxil/math/tree/main/mihxil-time</url>
 
   <properties>
-    <javacc.version>8.0.1</javacc.version>
   </properties>
 
   <build>

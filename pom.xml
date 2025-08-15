@@ -47,6 +47,8 @@
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
     <log4j.version>2.25.1</log4j.version>
+    <javacc.version>8.0.1</javacc.version>
+
 
     <delombok.output>target/delombok</delombok.output>
   </properties>
