@@ -1,0 +1,155 @@
+options {
+    LOOKAHEAD = 2;
+    STATIC = false;
+    FORCE_LA_CHECK = true;
+    IGNORE_CASE = true;
+    CHOICE_AMBIGUITY_CHECK = 2;
+    GENERATE_GENERICS = true;
+    GENERATE_STRING_BUILDER	= true;
+    JAVA_TEMPLATE_TYPE = "modern";
+    UNICODE_INPUT = true;
+}
+
+PARSER_BEGIN(InfixParser)
+
+package org.meeuw.math.arithmetic.parser;
+
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.arithmetic.ast.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
+public class InfixParser<E extends AlgebraicElement<E>> {
+
+    private AlgebraicStructure<E> structure;
+
+    public InfixParser(Provider provider, AlgebraicStructure<E> s) {
+        this(provider);
+        this.structure = s;
+    }
+    public InfixParser(String provider, AlgebraicStructure<E> s) throws ParseException {
+        this(provider);
+        this.structure = s;
+    }
+
+}
+
+
+PARSER_END(InfixParser)
+
+SKIP : {
+    " " | "\t" | "\n" | "\r"
+}
+
+TOKEN : {
+    < NUMBER: (["0"-"9"])+ ( "." (["0"-"9"])+ )? (["i"-"k"])? >
+|   < PLUS: (["+", "-"]) >
+|   < MULT: (["*", "/"]) >
+|   < POW: "^" >
+|   < LPAREN: "(" >
+|   < RPAREN: ")" >
+|   < Function: ( ["a"-"z"])+ >
+}
+
+
+Expression<E> parse() :
+{
+   Expression<E> expression;
+}
+ {
+   expression = sum() <EOF>   // sum has lowes priority, so that goes first
+  {return expression; }
+
+}
+
+
+Expression<E> sum() :
+{
+        Expression<E> left = null;
+        Expression<E> right;
+        Token  op;
+}
+{
+    left = product()
+     (
+        op = <PLUS>
+        right = product()
+        {left = new BinaryOperation<>(BasicAlgebraicBinaryOperator.forSymbol(op.image), left, right);}
+     )*
+    { return left; }
+}
+
+Expression<E> product() :
+{
+      Expression<E> left = null;
+      Expression<E> right;
+      Token  op;
+}
+{
+    left = term()
+     (
+        op = <MULT>
+        right = term()
+        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
+     )*
+    { return left; }
+}
+
+BinaryOperation<E> power() :
+{}
+{
+    term() <POW> term()
+    { return null; }
+
+}
+
+Value<E> number() :
+{
+    Token sign  = null;
+    Token t;
+}
+{
+    (sign = <PLUS>)?
+    t = <NUMBER>
+    {
+       String numberString = (sign == null ? "" : sign.image) + t.image;
+       return new Value<>(structure.fromString(numberString));
+    }
+}
+
+Expression<E> term() :
+{ Expression<E> expr; }
+{
+  (
+    expr = number()
+
+ |  <LPAREN> expr = sum() <RPAREN>
+|   expr = function()
+| expr = constant()
+)
+   {return expr;}
+}
+
+UnaryOperation<E> function() :
+{
+      Token functionName;
+      Expression<E> functionArgument;
+}
+{
+    functionName = <Function>
+    "(" functionArgument = sum() ")"
+
+   {
+     return new UnaryOperation<>(structure.getUnaryOperationBySymbol(functionName.image).orElseThrow(), functionArgument);
+    }
+}
+
+Value<E> constant() :
+{
+      Token constantName;
+}
+{
+    constantName = <Function>
+   {
+     return new Value<>(structure.getConstant(constantName.image).orElseThrow());
+    }
+}
