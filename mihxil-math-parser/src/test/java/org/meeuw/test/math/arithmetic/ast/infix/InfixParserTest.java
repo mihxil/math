@@ -35,6 +35,8 @@ public class InfixParserTest {
         "1 * (2 - 3)",
         "e",
         "pi/2",
+        "sin(pi/2)",
+        "e ^ 0"
 
     })
     public void parse(String string) throws ParseException {

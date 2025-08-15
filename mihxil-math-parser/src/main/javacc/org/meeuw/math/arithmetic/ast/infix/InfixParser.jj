@@ -64,9 +64,9 @@ Expression<E> parse() :
 
 Expression<E> sum() :
 {
-        Expression<E> left = null;
-        Expression<E> right;
-        Token  op;
+    Expression<E> left = null;
+    Expression<E> right;
+    Token  op;
 }
 {
     left = product()
@@ -85,21 +85,29 @@ Expression<E> product() :
       Token  op;
 }
 {
-    left = term()
+    left = power()
      (
         op = <MULT>
-        right = term()
+        right = power()
         {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
      )*
     { return left; }
 }
 
-BinaryOperation<E> power() :
-{}
+Expression<E> power() :
 {
-    term() <POW> term()
-    { return null; }
-
+      Expression<E> left = null;
+      Expression<E> right;
+      Token op;
+}
+{
+    left = term()
+     (
+        op = <POW>
+        right = term()
+        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
+     )*
+    { return left; }
 }
 
 Value<E> number() :
