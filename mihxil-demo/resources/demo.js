@@ -152,7 +152,7 @@ async function setupDynamicDate() {
     let DynamicDateTime = null;
     form.onsubmit = async (e) => {
         e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.dateparser.DynamicDateTime');
+        DynamicDateTime = await setupFormWithClass(button, 'org.meeuw.time.parser.DynamicDateTime');
         button.textContent = "executing..";
         try {
             const parser = await new DynamicDateTime();
