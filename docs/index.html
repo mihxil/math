@@ -1556,7 +1556,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
             output.value = await Calculator.eval(input.value, field.value);
         } <span class="keyword">catch</span> (e) {
-            output.value = await e.getMessage();
+            let cla = await e.getClass()
+            output.value = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + (await cla.toString()) + <span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span> + (await e.getMessage());
         }
         go();
     };
@@ -1654,6 +1655,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.permutations.PermutationGroup</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.quaternions.Quaternions</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.arithmetic.ast</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.MathException</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.exceptions.NotParsable</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.operators.AlgebraicBinaryOperator</span>;
