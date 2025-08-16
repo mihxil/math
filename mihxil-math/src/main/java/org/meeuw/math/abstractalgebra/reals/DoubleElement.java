@@ -344,10 +344,6 @@ public class DoubleElement
         return DoubleUtils.round(doubleValue());
     }
 
-    protected boolean isExactlyZero() {
-        return value == 0 && isExact();
-    }
-
 
     public static DoubleElement considerMultiplicationBySpecialValues(DoubleElement r1, DoubleElement r2) {
         double newValue = r1.value * r2.value;
