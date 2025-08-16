@@ -1,10 +1,13 @@
 package org.meeuw.test.math;
 
 import lombok.extern.log4j.Log4j2;
+
+import org.junit.jupiter.api.Test;
+
+import org.meeuw.math.DoubleUtils;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import org.junit.jupiter.api.Test;
-import org.meeuw.math.DoubleUtils;
 
 @Log4j2
 public class DoubleUtilsTest {
@@ -43,6 +46,16 @@ public class DoubleUtilsTest {
         log.info("{} : {}", d, System.currentTimeMillis() - start);
         assertThat(DoubleUtils.log10(10d)).isEqualTo(1);
         assertThat(DoubleUtils.log10(20d)).isEqualTo(1);
+    }
+
+
+    @Test
+    public void implicitUncertainty() {
+        assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1")).isEqualTo(0.5d);
+        assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1.00")).isEqualTo(0.005d);
+        assertThat(DoubleUtils.implicitUncertaintyForDouble(0.1, "0.01")).isEqualTo(0.005d);
+
+
     }
 
 }

@@ -305,10 +305,9 @@ public class DoubleElement
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (!(o instanceof DoubleElement)) {
+        if (!(o instanceof DoubleElement uncertainDoubleElement)) {
             return false;
         }
-        DoubleElement uncertainDoubleElement = (DoubleElement) o;
         return value == uncertainDoubleElement.value;
     }
 

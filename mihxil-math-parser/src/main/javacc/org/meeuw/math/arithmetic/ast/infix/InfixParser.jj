@@ -1,5 +1,5 @@
 options {
-    LOOKAHEAD = 2;
+    LOOKAHEAD = 3;
     STATIC = false;
     FORCE_LA_CHECK = true;
     IGNORE_CASE = true;
@@ -47,7 +47,7 @@ TOKEN : {
 |   < POW: "^" >
 |   < LPAREN: "(" >
 |   < RPAREN: ")" >
-|   < Function: ( ["a"-"z"])+ >
+|   < FUNCTION: ( ["a"-"z"])+ >
 }
 
 
@@ -143,7 +143,7 @@ UnaryOperation<E> function() :
       Expression<E> functionArgument;
 }
 {
-    functionName = <Function>
+    functionName = <FUNCTION>
     "(" functionArgument = sum() ")"
 
    {
@@ -156,7 +156,7 @@ Value<E> constant() :
       Token constantName;
 }
 {
-    constantName = <Function>
+    constantName = <FUNCTION>
    {
      return new Value<>(structure.getConstant(constantName.image).orElseThrow());
     }

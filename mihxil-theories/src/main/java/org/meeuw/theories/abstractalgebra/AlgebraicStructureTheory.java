@@ -472,7 +472,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         try {
             String value = element.toString();
             E fromString = element.getStructure().fromString(value);
-            assertThat(fromString.eq(element)).withFailMessage(" " + value + " didn't parse to " + element + " but to " + fromString).isTrue();
+            assertThat(fromString.eq(element)).withFailMessage( " " + value + " didn't parse to " + element.getClass().getSimpleName() + " " + element + " but to " + fromString.getClass().getSimpleName() + " " + fromString).isTrue();
         } catch (NotParsable.NotImplemented e) {
             log().warn(e.getMessage());
         }

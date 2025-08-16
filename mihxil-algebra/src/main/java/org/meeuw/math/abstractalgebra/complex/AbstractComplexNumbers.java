@@ -19,6 +19,8 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.meeuw.math.abstractalgebra.*;
 
@@ -85,5 +87,33 @@ public abstract class AbstractComplexNumbers<
     @Override
     public Cardinality getCardinality() {
         return getElementStructure().getCardinality();
+    }
+
+
+    static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
+
+    @Override
+    public S fromString(String s) {
+        Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
+
+        E real = elementStructure.zero();
+        E imaginary = elementStructure.zero();
+
+        while (matcher.find()) {
+            String sign = matcher.group(1);
+            String term = matcher.group(2).trim();
+            int factor = sign.equals("+") || sign.isEmpty() ? 1 : -1;
+            String withoutI = term.replaceFirst("i", "");
+            if (withoutI.equals(term)) {
+                real = real.plus(elementStructure.fromString(term).times(factor));
+            } else {
+                if (withoutI.isEmpty()) {
+                    imaginary = imaginary.plus(elementStructure.one().times(factor));
+                } else {
+                    imaginary = imaginary.plus(elementStructure.fromString(withoutI).times(factor));
+                }
+            }
+        }
+        return of(real, imaginary);
     }
 }

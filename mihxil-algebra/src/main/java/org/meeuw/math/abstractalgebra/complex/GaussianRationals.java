@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -62,34 +60,6 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     @Override
     public String toString() {
         return "\uD835\uDC10(i)";
-    }
-
-
-    static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
-
-    @Override
-    public GaussianRational fromString(String s) {
-        Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
-
-        RationalNumber real = RationalNumber.ZERO;
-        RationalNumber imaginary = RationalNumber.ZERO;
-
-        while (matcher.find()) {
-            String sign = matcher.group(1);
-            String term = matcher.group(2).trim();
-            int factor = sign.equals("+") || sign.isEmpty() ? 1 : -1;
-            String withoutI = term.replaceFirst("i", "");
-            if (withoutI.equals(term)) {
-                real = real.plus(RationalNumbers.INSTANCE.fromString(term).times(factor));
-            } else {
-                if (withoutI.isEmpty()) {
-                    imaginary = imaginary.plus(RationalNumbers.INSTANCE.one().times(factor));
-                } else {
-                    imaginary = imaginary.plus(RationalNumbers.INSTANCE.fromString(withoutI).times(factor));
-                }
-            }
-        }
-        return GaussianRational.of(real, imaginary);
     }
 
 }

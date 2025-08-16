@@ -21,6 +21,7 @@
     <dependency>
       <groupId>jakarta.validation</groupId>
       <artifactId>jakarta.validation-api</artifactId>
+      <scope>compile</scope>
     </dependency>
     <!--
     This seems to be a missed opportunity to use the JSR-385 API
@@ -41,5 +42,6 @@
       <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 </project>

@@ -74,7 +74,7 @@ public final class DoubleUtils {
     }
 
     /**
-     * A crude order of magnitude implemention
+     * A crude order of magnitude implementation
      * <p>
      * This is like {@code Math.log10(Mat.abs(d))}
      * @param d a double
@@ -96,6 +96,21 @@ public final class DoubleUtils {
 
     public static double uncertaintyForDouble(double doubleValue) {
         return pow2(leastSignificantBit(doubleValue));
+    }
+
+    /**
+     * If uncertain double is not presented with an error, you may guess that is in the order of the number of shown digits.
+     */
+    public static double implicitUncertaintyForDouble(double doubleValue, String string) {
+        if (doubleValue < 1) {
+            while (string.startsWith("0")) {
+                string = string.substring(1);
+            }
+        }
+        string = string.replace(".", "");
+
+        int order = log10(doubleValue);
+        return 5 * Math.pow(10, order  - string.length());
     }
 
     public static double max(double... values) {

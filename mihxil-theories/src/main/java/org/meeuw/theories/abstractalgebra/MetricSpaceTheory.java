@@ -50,7 +50,7 @@ public interface MetricSpaceTheory<E extends MetricSpaceElement<E, S>, S extends
         withLooseEquals(() -> {
             if (a.equals(b)) {
                 assertThat(a.distanceTo(b).isZero())
-                    .withFailMessage(() -> String.format("%s equals %s -> hence distance must be zero (but is %s", a, b, a.distanceTo(b)))
+                    .withFailMessage(() -> String.format("%s equals %s -> hence distance must be zero (but is %s)", a, b, a.distanceTo(b)))
                     .isTrue();
             } else {
                 assertThat(a.distanceTo(b).isPositive())
