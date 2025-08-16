@@ -2,6 +2,8 @@
 URL:=mihxil/mihxil-demo:latest
 VERSION:=$(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 
+EXPR:=3 * sin (pi / 4)
+
 
 help:     ## Show this help.
 	@sed -n 's/^##//p' $(MAKEFILE_LIST)
@@ -38,5 +40,18 @@ index.html: README-source.adoc README-source-docinfo.html Makefile
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
 
-test:
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "sin(pi / 2)" bigdecimal
+test_big:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" bigdecimal
+
+test_rational:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" rational
+
+test_complex:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" complex
+
+test_real:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" real
+
+test_gaussian:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" gaussian
+test: test_big test_rational test_complex test_real

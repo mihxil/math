@@ -10,7 +10,7 @@ These are a running demos (using link:https://cheerpj.com/docs/getting-started/J
 
 ++++
 <form id="calculator" class="demo">
-  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
+  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
      <option value="1+2"</option>
      <option value="1+ 3/5"</option>

@@ -14,7 +14,7 @@ PARSER_BEGIN(InfixParser)
 
 package org.meeuw.math.arithmetic.ast.infix;
 
-import org.meeuw.math.abstractalgebra.*;
+import java.util.function.Supplier;import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
@@ -31,6 +31,13 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         this.structure = s;
     }
 
+    private Supplier<IllegalArgumentException> illegalArgument(String type, Token illegalValue) {
+        return new Supplier<IllegalArgumentException>() {
+          public IllegalArgumentException get() {
+             return   new IllegalArgumentException("No such  " + type + " '" + illegalValue.image + "' in " + structure);
+          }
+        };
+    }
 }
 
 
@@ -147,7 +154,10 @@ UnaryOperation<E> function() :
     "(" functionArgument = sum() ")"
 
    {
-     return new UnaryOperation<>(structure.getUnaryOperationBySymbol(functionName.image).orElseThrow(), functionArgument);
+     return new UnaryOperation<>(structure.getUnaryOperationBySymbol(functionName.image).orElseThrow(
+         illegalArgument("function", functionName)
+     ),
+     functionArgument);
     }
 }
 
@@ -158,6 +168,6 @@ Value<E> constant() :
 {
     constantName = <FUNCTION>
    {
-     return new Value<>(structure.getConstant(constantName.image).orElseThrow());
-    }
+     return new Value<>(structure.getConstant(constantName.image).orElseThrow(illegalArgument("constant", constantName)));
+   }
 }

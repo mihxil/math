@@ -118,11 +118,8 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     default Optional<E> getConstant(String symbol) {
         try {
             Method m = getClass().getMethod(symbol);
-            if (getElementClass().isAssignableFrom(m.getReturnType())) {
-                return Optional.of((E) m.invoke(this));
-            } else {
-                return Optional.empty();
-            }
+
+            return Optional.of((E) m.invoke(this));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             return Optional.empty();
         }

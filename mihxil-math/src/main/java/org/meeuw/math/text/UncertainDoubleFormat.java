@@ -113,7 +113,7 @@ public class UncertainDoubleFormat extends Format {
                 String valueStr = source.substring(start, i).trim();
                 double value = Double.parseDouble(valueStr);
                 pos.setIndex(i);
-                return DoubleElement.of(value, DoubleUtils.implicitUncertaintyForDouble(value, source));
+                return DoubleElement.of(value, DoubleUtils.uncertaintyForDouble(value));
             } else {
                 // Value and uncertainty
                 String valueStr = source.substring(start, plusminIndex).trim();

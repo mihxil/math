@@ -50,6 +50,7 @@ async function setupCalculator() {
             Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
             output.value = '';
             button.textContent = "executing..";
+            console.log("evaluating", input.value, "for", field.value);
             output.value = await Calculator.eval(input.value, field.value);
         } catch (e) {
             let cla = await e.getClass()

@@ -101,6 +101,16 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     }
 
     @Property
+    default void hasPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
+        assertThat(struct.getConstant("pi")).isPresent();
+    }
+
+    @Property
+    default void hasE(@ForAll(STRUCTURE) CompleteField<E>  struct) {
+        assertThat(struct.getConstant("e")).isPresent();
+    }
+
+    @Property
     default void goldenRatio(@ForAll(STRUCTURE)  CompleteField<E> struct) {
          try {
              setConfiguration(builder ->
@@ -112,5 +122,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
 
          }
     }
+
+
 
 }
