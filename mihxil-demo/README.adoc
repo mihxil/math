@@ -11,7 +11,7 @@ These are a running demos (using link:https://cheerpj.com/docs/getting-started/J
 
 ++++
 <form id="calculator" class="demo">
-  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calulator_toparse-examples" value="" />
+  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
      <option value="1+2"</option>
      <option value="1+ 3/5"</option>
@@ -81,9 +81,11 @@ async function setupCalculator() {
             Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
             output.value = '';
             button.textContent = "executing..";
+            console.log("evaluating", input.value, "for", field.value);
             output.value = await Calculator.eval(input.value, field.value);
         } catch (e) {
-            output.value = await e.getMessage();
+            let cla = await e.getClass()
+            output.value = "" + (await cla.toString()) + ":" + (await e.getMessage());
         }
         go();
     };
@@ -164,6 +166,7 @@ import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.permutations.PermutationGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.exceptions.MathException;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
