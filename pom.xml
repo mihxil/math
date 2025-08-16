@@ -38,7 +38,7 @@
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
     <checkerframework.version>3.49.5</checkerframework.version>
-    <jakarta-validation.version>3.0.2</jakarta-validation.version>
+    <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
     <junit.version>5.13.4</junit.version>
@@ -46,7 +46,7 @@
     <assertj.version>3.27.4</assertj.version>
     <jqwik.version>1.9.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
-    <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
+    <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
     <log4j.version>2.25.1</log4j.version>
     <javacc.version>8.0.1</javacc.version>
 
@@ -145,7 +145,7 @@
       <dependency>
         <groupId>jakarta.annotation</groupId>
         <artifactId>jakarta.annotation-api</artifactId>
-        <version>2.1.1</version>
+        <version>3.0.0</version>
         <scope>provided</scope>
       </dependency>
     </dependencies>
@@ -233,6 +233,14 @@
         <configuration>
           <publishingServerId>central</publishingServerId>
           <autoPublish>true</autoPublish>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.18.0</version>
+        <configuration>
+          <rulesUri>file:///${maven.multiModuleProjectDirectory}/rules.xml</rulesUri>
         </configuration>
       </plugin>
     </plugins>
