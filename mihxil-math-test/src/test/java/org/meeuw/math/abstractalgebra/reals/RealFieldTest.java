@@ -25,6 +25,7 @@ import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static java.lang.Double.NaN;
+import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
@@ -203,5 +204,11 @@ class RealFieldTest implements
                     realNumberConfig.add(RealNumber.of(1));
                 })
             ;
+    }
+
+    @Test
+    public void sinPi() {
+        RealNumber sin = DoubleElement.of(PI).sin();
+        assertThatAlgebraically(sin).isEqTo(INSTANCE.zero());
     }
 }

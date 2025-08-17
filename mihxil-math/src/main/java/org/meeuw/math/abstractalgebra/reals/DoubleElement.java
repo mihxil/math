@@ -103,7 +103,7 @@ public class DoubleElement
     }
 
     public static DoubleElement of(double value) {
-        return exactly(value);
+        return of(value, uncertaintyForDouble(value));
     }
 
 
@@ -156,13 +156,17 @@ public class DoubleElement
         if (multiplier.isOne()){
             return this;
         }
-        double newValue = this.doubleValue() * multiplier.doubleValue();
-        return of(newValue,
-            Math.max(
-                operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(),  multiplier.doubleFractionalUncertainty()),
-                uncertaintyForDouble(newValue)
-            )
-        );
+        if (multiplier instanceof DoubleElement doubleElement) {
+            return considerMultiplicationBySpecialValues(this, doubleElement);
+        } else {
+            double newValue = this.doubleValue() * multiplier.doubleValue();
+            return of(newValue,
+                Math.max(
+                    operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()),
+                    uncertaintyForDouble(newValue)
+                )
+            );
+        }
     }
 
     @Override
@@ -173,7 +177,7 @@ public class DoubleElement
         return of(
             result,
             DoubleUtils.max(
-                operations.add(uncertainty, summand.doubleUncertainty()),
+                uncertainty + summand.doubleUncertainty() + uncertaintyForDouble(result),
                 uncertaintyForDouble(result),
                 uncertaintyForDouble(v1),
                 uncertaintyForDouble(v2)

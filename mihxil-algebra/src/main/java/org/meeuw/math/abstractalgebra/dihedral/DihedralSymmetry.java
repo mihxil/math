@@ -4,12 +4,12 @@ import lombok.EqualsAndHashCode;
 
 import java.util.function.UnaryOperator;
 
-import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.text.TextUtils;
 
+import static org.meeuw.math.Utils.TAU;
 import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.r;
 import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.s;
 
@@ -96,7 +96,7 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
 
     public Matrix2 asMatrix2() {
         if (asMatrix == null) {
-            double phi = Utils.Math_2PI * k / group.n;
+            double phi = TAU * k / group.n;
             double cos = Math.cos(phi);
             double sin = Math.sin(phi);
             if (symmetry == r) {

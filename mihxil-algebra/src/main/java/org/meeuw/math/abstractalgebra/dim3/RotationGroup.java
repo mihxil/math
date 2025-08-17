@@ -22,7 +22,7 @@ import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 
-import static org.meeuw.math.Utils.Math_2PI;
+import static org.meeuw.math.Utils.TAU;
 
 /**
  * SO(3) group. A non-abelian multiplicative group.
@@ -46,9 +46,9 @@ public class RotationGroup extends AbstractAlgebraicStructure<Rotation> implemen
 
     @Override
      public Rotation nextRandom(Random r) {
-        Rotation rx = Rotation.Rx(r.nextDouble() * Math_2PI);
-        Rotation ry = Rotation.Ry(r.nextDouble() * Math_2PI);
-        Rotation rz = Rotation.Rz(r.nextDouble() * Math_2PI);
+        Rotation rx = Rotation.Rx(r.nextDouble() * TAU);
+        Rotation ry = Rotation.Ry(r.nextDouble() * TAU);
+        Rotation rz = Rotation.Rz(r.nextDouble() * TAU);
         return rx.times(ry).times(rz);
     }
 

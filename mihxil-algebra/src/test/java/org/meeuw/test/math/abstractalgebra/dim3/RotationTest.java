@@ -28,6 +28,7 @@ import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.Utils.Math_2PI;
 import static org.meeuw.math.abstractalgebra.dim3.FieldVector3.of;
 import static org.meeuw.math.abstractalgebra.dim3.Rotation.*;
@@ -44,13 +45,14 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     public void rotx() {
         withLooseEquals(() -> {
             Rotation half = Rx(PI);
-            Rotation quarter = Rx(PI / 2);
+
             FieldVector3<RealNumber> v = of(0, 1, 0);
             FieldVector3<RealNumber> rotated = half.apply(v);
-            assertThat(rotated).isEqualTo(of(0, -1, 0));
+            assertThatAlgebraically(rotated).isEqTo(of(0, -1, 0));
 
+            Rotation quarter = Rx(PI / 2);
             FieldVector3<RealNumber> rotatedQuarter = quarter.apply(v);
-            assertThat(rotatedQuarter).isEqualTo(of(0, 0, 1));
+            assertThatAlgebraically(rotatedQuarter).isEqTo(of(0, 0, 1));
 
             RealNumber det = half.asMatrix().determinant();
             log.info("Determinant of {}: {}", half.asMatrix(), det);

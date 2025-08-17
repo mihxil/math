@@ -34,7 +34,6 @@ public class InfixParserTest {
         "pi/2",
         "sin(pi/2)",
         "e ^ 0"
-
     })
     public void parse(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE);

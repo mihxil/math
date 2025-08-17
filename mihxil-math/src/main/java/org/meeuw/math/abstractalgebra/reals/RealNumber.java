@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -80,7 +81,7 @@ public interface RealNumber
 
 
     static RealNumber of(double value) {
-        return DoubleElement.exactly(value);
+        return DoubleElement.of(value, DoubleUtils.uncertaintyForDouble(value));
     }
 
     @Override

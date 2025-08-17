@@ -35,4 +35,5 @@ public final class Utils {
 
     public static final double Math_2PI = 2d * Math.PI;
 
+    public static final double TAU = Math_2PI;
 }
