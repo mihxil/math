@@ -124,6 +124,9 @@ public class DoubleElement
 
     public DoubleElement(double value, double uncertainty) {
         this.value = value;
+        if (uncertainty < 0) {
+            throw new InvalidUncertaintyException("Uncertainty cannot be negative");
+        }
         this.uncertainty = uncertainty;
     }
 

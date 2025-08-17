@@ -64,14 +64,10 @@ public class UncertainNumberFormat extends Format {
     }
 
     public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
-        switch (uncertaintyNotation) {
-            case PARENTHESES:
-                return valueParenthesesError(value, error);
-            case PLUS_MINUS:
-                return valuePlusMinError(value, error);
-            default:
-                throw new IllegalArgumentException();
-        }
+        return switch (uncertaintyNotation) {
+            case PARENTHESES -> valueParenthesesError(value, error);
+            case PLUS_MINUS -> valuePlusMinError(value, error);
+        };
     }
 
 

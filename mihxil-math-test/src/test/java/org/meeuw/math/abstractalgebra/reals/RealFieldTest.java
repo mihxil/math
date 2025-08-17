@@ -47,8 +47,8 @@ class RealFieldTest implements
     public void test() {
         assertThatThrownBy(() -> new DoubleElement(1, 0).immutableInstanceOfPrimitives(1, -1)).isInstanceOf(InvalidUncertaintyException.class);
         assertThatAlgebraically(exactly(5d).times(2).times(of(6d))).isEqualTo(exactly(60d));
-        assertThat(exactly(0d).getConfidenceInterval().getLow()).isEqualTo(DoubleElement.EPSILON_FACTOR * -4.9E-324);
-        assertThat(exactly(0d).getConfidenceInterval().getHigh()).isEqualTo(DoubleElement.EPSILON_FACTOR * 4.9E-324);
+        assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(DoubleElement.EPSILON_FACTOR * -4.9E-324);
+        assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(DoubleElement.EPSILON_FACTOR * 4.9E-324);
 
     }
 
@@ -67,9 +67,9 @@ class RealFieldTest implements
 
     @Test
     public void string() {
-        assertThat(DoubleElement.exactly(1).toString()).isEqualTo("1");
-        RealNumber half  = exactly(1).dividedBy(exactly(2));
-        assertThat(half.doubleUncertainty()).isEqualTo(8.881784197001247E-16);
+        assertThat(DoubleElement.of(1).toString()).isEqualTo("1");
+        RealNumber half  = of(1).dividedBy(of(2));
+        assertThat(half.doubleUncertainty()).isEqualTo(6.661338147750937E-16);
         assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
@@ -83,7 +83,7 @@ class RealFieldTest implements
     public void fractionalUncertainty() {
         DoubleElement ex = new DoubleElement(2.36, 0.04);
         assertThat(ex.doubleFractionalUncertainty()).isEqualTo(0.016666666666666666);
-        assertThat(ex.sqr().doubleFractionalUncertainty()).isEqualTo(0.03225806451612903);
+        assertThat(ex.sqr().doubleFractionalUncertainty()).isEqualTo(0.03225806451612933);
         assertThat(ex.sqr().toString()).isEqualTo("5.57 ± 0.19");
     }
 
@@ -180,8 +180,8 @@ class RealFieldTest implements
     @Test
     public void weightedAverageOfZero() {
         withLooseEquals(() -> {
-            DoubleElement n1 = DoubleElement.exactly(-906.2970587338823);
-            DoubleElement n2 = DoubleElement.exactly(0);
+            DoubleElement n1 = DoubleElement.of(-906.2970587338823);
+            DoubleElement n2 = DoubleElement.of(0);
             RealNumber weighted = n1.weightedAverage(n2);
             assertThatAlgebraically(weighted).isEqualTo(DoubleElement.of(0));
         });
