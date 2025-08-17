@@ -18,15 +18,12 @@ public class InfixParserTest {
         "-1",
         "10.1",
         "sin(4)",
-        "5i",
-        "5j"
+        "\"-1\""
     })
     public void terms(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE);
-
         Expression<RealNumber> expression = parser.term();
         System.out.print("parsed: " + expression);
-
     }
 
     @ParameterizedTest

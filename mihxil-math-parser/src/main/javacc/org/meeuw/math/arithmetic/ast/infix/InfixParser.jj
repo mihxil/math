@@ -49,12 +49,15 @@ SKIP : {
 
 TOKEN : {
     < NUMBER: (["0"-"9"])+ ( "." (["0"-"9"])+ )? (["i"-"k"])? >
+|   < QUOTED_STRING: "\"" (~["\""])* "\"" >
 |   < PLUS: (["+", "-"]) >
 |   < MULT: (["*", "/"]) >
 |   < POW: "^" >
 |   < LPAREN: "(" >
 |   < RPAREN: ")" >
 |   < FUNCTION: ( ["a"-"z"])+ >
+|   < SYMBOLS: "𝜋" |  "𝜑"  >
+
 }
 
 
@@ -117,16 +120,22 @@ Expression<E> power() :
     { return left; }
 }
 
-Value<E> number() :
-{
+Value<E> number() : {
     Token sign  = null;
     Token t;
 }
 {
+   ((
     (sign = <PLUS>)?
     t = <NUMBER>
+    ) |
+    (
+      t = <QUOTED_STRING>
+    )
+    )
     {
-       String numberString = (sign == null ? "" : sign.image) + t.image;
+       String numberString = (sign == null ? "" : sign.image) +
+       (t.kind == QUOTED_STRING ? t.image.substring(1, t.image.length() - 1) : t.image);
        return new Value<>(structure.fromString(numberString));
     }
 }
@@ -166,7 +175,9 @@ Value<E> constant() :
       Token constantName;
 }
 {
-    constantName = <FUNCTION>
+    ( constantName = <FUNCTION>
+     | constantName = <SYMBOLS>
+    )
    {
      return new Value<>(structure.getConstant(constantName.image).orElseThrow(illegalArgument("constant", constantName)));
    }
