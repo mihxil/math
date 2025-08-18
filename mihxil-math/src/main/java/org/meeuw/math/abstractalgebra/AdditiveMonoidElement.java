@@ -27,4 +27,8 @@ public interface AdditiveMonoidElement<E extends AdditiveMonoidElement<E>> exten
     default boolean isZero() {
         return getStructure().zero().eq((E) this);
     }
+
+    default boolean isExactlyZero() {
+        return getStructure().zero().equals(this);
+    }
 }

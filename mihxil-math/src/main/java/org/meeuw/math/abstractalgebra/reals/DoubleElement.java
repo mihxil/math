@@ -191,7 +191,7 @@ public class DoubleElement
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public DoubleElement reciprocal() throws DivisionByZeroException {
-        if (isZero()) {
+        if (isExactlyZero()) {
             throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
         }
         return pow(-1);

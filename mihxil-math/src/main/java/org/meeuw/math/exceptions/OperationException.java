@@ -44,4 +44,10 @@ public class OperationException extends MathException {
         initCause(e);
         this.operationAsString = operationAsString;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + " for " + operationAsString;
+    }
+
 }

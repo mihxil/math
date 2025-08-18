@@ -64,7 +64,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
     @Property
     default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
         Assume.that(! e.isNegative());
-        if (e.isZero()) {
+        if (e.isExactlyZero()) {
             if (exponent.isNegative()) {
                 assertThatThrownBy(() -> {
                         log().info("{}^{} = {} (expected exception)", e, exponent, e.pow(exponent));
