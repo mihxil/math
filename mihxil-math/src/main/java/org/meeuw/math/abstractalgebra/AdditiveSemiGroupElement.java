@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.meeuw.math.Synonym;
+
 /**
  * Elements of a {@link AdditiveSemiGroup} can be added to each other (via {@link #plus(AdditiveSemiGroupElement)}.
  *
@@ -31,9 +33,11 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
      * @param summand the element to add to this one
      * @return this + summand
      */
+    @Synonym("p")
     E plus(E summand);
 
     @Override
+    @Synonym("plus")
     default E operate(E operand) {
         return plus(operand);
     }
@@ -44,6 +48,7 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
      * @return this + summand
      * @see #plus(AdditiveSemiGroupElement)
      */
+    @Synonym("plus")
     default E p(E summand) {
         return plus(summand);
     }
