@@ -173,7 +173,7 @@ public abstract class AbstractComplexNumber<
             }
             result.append("i");
         }
-        if (result.length() == 0) {
+        if (result.isEmpty()) {
             result.append("0");
         }
         return result.toString();
