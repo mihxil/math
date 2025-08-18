@@ -96,7 +96,7 @@ async function setupSolver() {
         },
         parseInput :  async function(string) {
             Solver = await setupFormWithClass(button, clazz);
-            this.field = await Solver.fieldFor(outcome.value, string);
+            this.field = await Solver.algebraicStructureFor(outcome.value, string);
             this.input = await Solver.parseInput(this.field, string);
             go();
             return await this.input.error();

@@ -390,7 +390,7 @@
         },
         <span class="key">parseInput</span> :  async <span class="keyword">function</span>(string) {
             Solver = await setupFormWithClass(button, clazz);
-            <span class="local-variable">this</span>.field = await Solver.fieldFor(outcome.value, string);
+            <span class="local-variable">this</span>.field = await Solver.algebraicStructureFor(outcome.value, string);
             <span class="local-variable">this</span>.input = await Solver.parseInput(<span class="local-variable">this</span>.field, string);
             go();
             <span class="keyword">return</span> await <span class="local-variable">this</span>.input.error();
@@ -569,7 +569,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-16 22:57:27 UTC
+Last updated 2025-08-18 21:29:48 UTC
 </div>
 </div>
 </body>
