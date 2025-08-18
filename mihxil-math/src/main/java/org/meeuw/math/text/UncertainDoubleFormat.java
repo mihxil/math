@@ -149,8 +149,11 @@ public class UncertainDoubleFormat extends Format {
     }
 
     /**
-     * Represents the mean value in a scientific notation (using unicode characters).
-     * The value of the standard deviation is used to determin how many digits can sensibly be shown.
+     * Represents the mean value in a scientific notation (using Unicode characters), if sensible.
+     * The value of the standard deviation is used to determine how many digits can sensibly be shown.
+     * <p>
+     * If the string will not be less concise without using scientific notation, it may do that. E.g. if the value is very precise, you can just as wel just state
+     * all known digits.
      */
     public String scientificNotationWithUncertainty(
         double meanDouble,
@@ -161,7 +164,7 @@ public class UncertainDoubleFormat extends Format {
 
             boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
 
-            // use difference of order of magnitude of std to determin how mean digits of the mean are
+            // use difference of order of magnitude of std to determine how mean digits of the mean are
             // relevant
             int magnitudeDifference = mean.exponent - std.exponent;
             //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
@@ -188,7 +191,7 @@ public class UncertainDoubleFormat extends Format {
                 // number anyway
                 (mean.exponent > 0 && meanDigits > mean.exponent)) {
 
-                double pow = DoubleUtils.pow10(mean.exponent);
+                double pow = Math.abs(DoubleUtils.pow10(mean.exponent));
                 mean.exponent = 0;
                 mean.coefficient *= pow;
                 std.coefficient *= pow;

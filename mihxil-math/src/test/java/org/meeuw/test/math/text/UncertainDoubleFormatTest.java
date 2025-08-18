@@ -96,6 +96,21 @@ class UncertainDoubleFormatTest {
         });
     }
 
+    @Test
+    public void formatSmall() {
+        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+        String s= formatter.scientificNotationWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
+        assertThat(s).isEqualTo("0.019820185668507406 ± 0.000000000000000007");
+
+    }
+
+    @Test
+    public void formatSmall2() {
+        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+        String s= formatter.scientificNotationWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
+        assertThat(s).isEqualTo("-0.22967301287511077 ± 0.00000000000000006");
+
+    }
 
 
 }
