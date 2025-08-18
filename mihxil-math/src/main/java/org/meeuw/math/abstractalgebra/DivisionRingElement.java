@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.Synonym;
 
 /**
  * An element of an algebraic Field. Next to multiplication, also addition is defined.
@@ -38,6 +39,7 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
      * @return
      */
     @Override
+    @Synonym("groupOperator().apply")
     default E operate(E operand) {
         return getStructure().groupOperator().apply(self(), operand);
     }

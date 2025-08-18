@@ -41,6 +41,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * @return this * multiplier
      * @see #x(MultiplicativeSemiGroupElement)
      */
+    @Synonym("x")
     E times(E multiplier);
 
     /**
@@ -60,6 +61,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
      * This is a default implementation that calls {@link #times(MultiplicativeSemiGroupElement)}.
      */
     @Override
+    @Synonym("times")
     default E operate(E operand) {
         return times(operand);
     }
