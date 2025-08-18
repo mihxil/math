@@ -89,20 +89,21 @@ public class ConfigurationService {
      * Sets the given configuration object as a thread local
      * @param configuration the new configuration
      */
-    public  static void setConfiguration(Configuration configuration) {
+    public  static Reset setConfiguration(Configuration configuration) {
+        Reset reset = new Reset(getConfiguration());
         CONFIGURATION.set(configuration);
-
+        return reset;
     }
 
     /**
      * @since 0.10
      */
-    public  static Reset setConfiguration(Configuration configuration, Consumer<Configuration.Builder> consumer) {
+    public static Reset setConfiguration(Configuration configuration, Consumer<Configuration.Builder> consumer) {
         Configuration.Builder builder = configuration.toBuilder();
         consumer.accept(builder);
-        setConfiguration(builder);
-        return RESET_TO_DEFAULTS;
+        return setConfiguration(builder);
     }
+
     /**
      * @since 0.10
      */
@@ -115,8 +116,8 @@ public class ConfigurationService {
      *
      * @since 0.10
      */
-    public  static void setConfiguration(Configuration.Builder configuration) {
-        setConfiguration(configuration.build());
+    public  static Reset setConfiguration(Configuration.Builder configuration) {
+        return setConfiguration(configuration.build());
     }
 
     /**
@@ -161,12 +162,8 @@ public class ConfigurationService {
      * @param supplier The code to execute
      */
     public static <R> R withConfiguration(final Configuration configuration, final Supplier<R> supplier) {
-        final Configuration before = getConfiguration();
-        try {
-            setConfiguration(configuration);
+        try (Reset reset = setConfiguration(configuration)) {
             return supplier.get();
-        } finally {
-            setConfiguration(before);
         }
     }
 
@@ -206,6 +203,19 @@ public class ConfigurationService {
         withAspect(configurationAspectClass, aspectConfigurer,
             supplier(r)
         );
+    }
+
+    /**
+     * As {@link #withAspect(Class, UnaryOperator, Supplier)}, but with a {@link Runnable} argument
+     * @since 0.19
+     */
+    public static <E extends ConfigurationAspect> Reset withAspect(
+        Class<E> configurationAspectClass,
+        UnaryOperator<E> aspectConfigurer) {
+        Configuration.Builder builder = getConfiguration().toBuilder();
+        builder.configure(configurationAspectClass, aspectConfigurer);
+        return setConfiguration(builder.build());
+
     }
 
     public static <E extends ConfigurationAspect> void withAspect(E configurationAspect, Runnable r) {
@@ -284,12 +294,23 @@ public class ConfigurationService {
     }
 
     public static class Reset implements AutoCloseable {
-        private Reset() {
 
+        private final Configuration configuration;
+
+        private Reset() {
+            this(null);
+        }
+
+        private Reset(Configuration configuration) {
+            this.configuration = configuration;
         }
         @Override
         public void close() {
-            ConfigurationService.resetToDefaults();
+            if (configuration != null) {
+                CONFIGURATION.set(configuration);
+            } else {
+                ConfigurationService.resetToDefaults();
+            }
         }
     }
 }

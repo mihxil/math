@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
 import org.meeuw.configuration.*;
 import org.meeuw.test.configuration.spi.*;
@@ -39,11 +38,12 @@ public class ConfigurationServiceTest {
     @BeforeAll
     public static void setup() {
         ConfigurationService.setupUserPreferences();
+        ConfigurationService.resetToDefaultDefaults();
     }
 
     @Test
     public void invalidConfigurationAspect() {
-        Assertions.assertThatThrownBy(() -> getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
+        assertThatThrownBy(() -> getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
     }
 
     @Test
@@ -142,6 +142,19 @@ public class ConfigurationServiceTest {
             assertThat(before).isNotEqualTo(getConfiguration());
         });
     }
+
+    @Test
+    public void testWithAspect() {
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
+        try (Reset reset = withAspect(TestConfigurationAspect.class,
+            (b) -> b.withSomeInt(4))) {
+            assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(4);
+        }
+        assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
+
+
+    }
+
 
     @Test
     public void invalid() {
