@@ -286,12 +286,15 @@ public class DoubleElement
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public DoubleElement pow(int exponent) {
         double v = this.doubleValue();
+        if (v == 0  && uncertainty != 0) {
+            v = uncertainty;
+        }
         if (v == 0 && exponent < 0) {
             throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify(Double.toString(v),  Integer.toString(exponent)));
         }
         return of(
-            Math.pow(this.doubleValue(), exponent),
-            Math.abs(exponent) * Math.pow(Math.abs(this.doubleValue()), exponent -1) * doubleUncertainty());
+            Math.pow(v, exponent),
+            Math.abs(exponent) * Math.pow(Math.abs(v), exponent -1) * doubleUncertainty());
     }
 
     @Override
