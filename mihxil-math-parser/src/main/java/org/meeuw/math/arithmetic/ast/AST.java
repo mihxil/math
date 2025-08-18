@@ -52,10 +52,10 @@ public class AST {
     }
 
     private static String toInfix(Expression<?> expr, int level) {
-        if (expr instanceof Value) {
-            return expr.toString();
-        } else if (expr instanceof Variable) {
-            return expr.toString();
+        if (expr instanceof Value<?> value) {
+            return value.getValue().toString();
+        } else if (expr instanceof Variable<?> variable) {
+            return variable.getValue().get().toString();
         } else if (expr instanceof BinaryOperation<?> binOp) {
             String left = toInfix(binOp.getLeft(), level + 1);
             String right = toInfix(binOp.getRight(), level + 1);
@@ -68,7 +68,7 @@ public class AST {
         } else if (expr instanceof UnaryOperation<?> unOp) {
             String operand = toInfix(unOp.getOperand(), level + 1);
             String stringify = unOp.getOperator().stringify(operand);
-            if (level ==0 ) {
+            if (level == 0) {
                 return stringify;
             } else {
                 return "(" + stringify + ")";
