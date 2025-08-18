@@ -51,7 +51,7 @@ public class ConfigurationService {
     private static final Configuration.Builder DEFAULT = Configuration.builder();
     private static boolean useUserPreferences = false;
 
-    public static  Reset RESET_TO_DEFAULTS = new Reset();
+    public static final Reset RESET_TO_DEFAULTS = new Reset();
 
     /**
      * Persists settings via {@link ConfigurationPreferences} (a wrapper around {@link java.util.prefs.Preferences}). This may result in a config file in {@code $HOME/.java/.userPrefs} (UNIXes), in {@code $HOME/Library/Preferences/org.meeuw.configuration.plist} (OS X) or registry entries (Windows)
