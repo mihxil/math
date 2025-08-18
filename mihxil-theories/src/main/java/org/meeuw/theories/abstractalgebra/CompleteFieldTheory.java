@@ -22,8 +22,10 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.configuration.ConfigurationService.Reset;
 import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.CompleteField;
+import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.math.numbers.MathContextConfiguration;
@@ -112,11 +114,10 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
 
     @Property
     default void goldenRatio(@ForAll(STRUCTURE)  CompleteField<E> struct) {
-         try {
-             setConfiguration(builder ->
+         try (Reset res = setConfiguration(builder ->
                  builder.configure(MathContextConfiguration.class,
-                     (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))));
-             assertThat(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
+                     (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))))) {
+              assertThat(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
 
