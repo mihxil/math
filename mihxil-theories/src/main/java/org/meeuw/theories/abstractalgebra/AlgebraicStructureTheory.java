@@ -27,14 +27,18 @@ import java.util.stream.Stream;
 import net.jqwik.api.*;
 
 import org.apache.logging.log4j.Logger;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.*;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
+import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.operators.BasicComparisonOperator.*;
 
 /**
@@ -467,14 +471,23 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+
     @Property
     default void fromString(@ForAll(ELEMENTS) E  element) {
-        try {
-            String value = element.toString();
-            E fromString = element.getStructure().fromString(value);
-            assertThat(fromString.eq(element)).withFailMessage( " " + value + " didn't parse to " + element.getClass().getSimpleName() + " " + element + " but to " + fromString.getClass().getSimpleName() + " " + fromString).isTrue();
-        } catch (NotParsable.NotImplemented e) {
-            log().warn(e.getMessage());
+        try (ConfigurationService.Reset reset = setConfiguration(b -> {
+            // 'toString' may lose some information about errors, and it may fall back on default guesses for doubles.
+            b.configure(ConfidenceIntervalConfiguration.class, uc -> uc.withSds(4));
+
+        })) {
+            try {
+                String value = element.toString();
+                E fromString = element.getStructure().fromString(value);
+                assertThatAlgebraically(fromString)
+                    .withValueDescription("fromString(toString())")
+                    .isEqTo(element);
+            } catch (NotParsable.NotImplemented e) {
+                log().warn(e.getMessage());
+            }
         }
     }
 
