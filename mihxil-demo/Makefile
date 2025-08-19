@@ -40,7 +40,7 @@ index.html: README-source.adoc README-source-docinfo.html Makefile
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
 
-test_big:
+test_big:  ## test real
 	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" bigdecimal
 
 test_rational:
@@ -49,7 +49,7 @@ test_rational:
 test_complex:
 	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" complex
 
-test_real:
+test_real:  ## test real
 	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" real
 
 test_gaussian:
