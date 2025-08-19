@@ -28,9 +28,9 @@ class PlanckTest {
         assertThat(units.toString()).isEqualTo("ℓₚ·tₚ⁻¹");
 
         PhysicalNumber cSI = Planck.c.toUnits(SI.INSTANCE);
-        assertThat(cSI.toString()).isEqualTo("(2.99792 ± 0.00005)·10⁸ m·s⁻¹");
+        assertThat(cSI.toString()).isEqualTo("(2.99792 ± 0.00007)·10⁸ m·s⁻¹");
 
-        assertThat(cSI.toUnits(Planck.INSTANCE).toString()).isEqualTo("1.00000 ± 0.00002 ℓₚ·tₚ⁻¹");
+        assertThat(cSI.toUnits(Planck.INSTANCE).toString()).isEqualTo("1.00000 ± 0.00004 ℓₚ·tₚ⁻¹");
     }
 
     @Test
