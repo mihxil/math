@@ -42,7 +42,7 @@ public class UnitsFormat extends Format {
         CompositeUnits units = (CompositeUnits) object;
         for (UnitExponent e : units.getExponents()) {
             if (e.getExponent() != 0) {
-                if (builder.length() > 0) {
+                if (!builder.isEmpty()) {
                     builder.append(TextUtils.TIMES);
                 }
                 builder.append(e);
@@ -59,8 +59,8 @@ public class UnitsFormat extends Format {
             pos.setIndex(pos.getIndex() + 2);
             return Units.of(SIUnit.s).reciprocal();
         }
-        if ("".equals(source.substring(pos.getIndex()).trim())) {
-            pos.setIndex(pos.getIndex() + 1);
+        if (source.substring(pos.getIndex()).trim().isEmpty()) {
+            pos.setIndex(pos.getIndex());
             return Units.DIMENSIONLESS;
         }
         return null;
