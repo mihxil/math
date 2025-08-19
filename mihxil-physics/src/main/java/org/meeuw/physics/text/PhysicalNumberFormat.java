@@ -18,6 +18,7 @@ package org.meeuw.physics.text;
 import java.text.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.physics.PhysicalNumber;
 
 /**
@@ -31,7 +32,8 @@ public class PhysicalNumberFormat extends Format {
 
         StringBuffer buf = new StringBuffer();
         PhysicalNumber physicalNumber = (PhysicalNumber) number;
-        buf.append(physicalNumber.get())
+        RealNumber value = physicalNumber.get();
+        buf.append(value)
             .append(" ")
             .append(physicalNumber.getUnits());
 
