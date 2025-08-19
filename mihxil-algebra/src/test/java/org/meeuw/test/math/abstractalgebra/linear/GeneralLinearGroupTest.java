@@ -50,7 +50,7 @@ class GeneralLinearGroupTest {
         RealNumber det = e.determinant();
         assertThat(det.doubleValue()).isEqualTo(-2d);
 
-        assertThat(e.getStructure().toString()).isEqualTo("GL₂(ℝₚ)");
+        assertThat(e.getStructure().toString()).isEqualTo("GL₂(ℝᵤ)");
     }
 
     @Test
