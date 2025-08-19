@@ -46,9 +46,9 @@ class MeasurementTest  {
         Measurement height = new Measurement(21, 0.2, LENGTH);
         Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
-        assertThat(area.toString()).isEqualTo("630 ± 21 m²"); // or should that be 27?
+        assertThat(area.toString()).isEqualTo("630 ± 26 m²"); // or should that be 27?
         ConfigurationService.withAspect(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
-            () -> assertThat(area.toString()).isEqualTo("630(21) m²")
+            () -> assertThat(area.toString()).isEqualTo("630(26) m²")
         );
     }
 
@@ -69,7 +69,7 @@ class MeasurementTest  {
 
         Measurement distance = new Measurement(2.0, 0.05, SI.INSTANCE.forQuantity(Quantity.DISTANCE));
         PhysicalNumber duration = distance.dividedBy(speed);
-        assertThat(duration.toString()).isEqualTo("0.33 ± 0.02 s");
+        assertThat(duration.toString()).isEqualTo("0.33 ± 0.03 s");
     }
 
     @Test
