@@ -52,7 +52,10 @@ public class BigDecimalElement implements
      * π as a {@link BigDecimalElement}
      * @see Utils#PI
      */
-    public static final BigDecimalElement PI = new BigDecimalElement(new BigDecimal(Utils.PI), new BigDecimal("1e-" + (Utils.PI.length() - 1)));
+    public static final BigDecimalElement PI = new BigDecimalElement(
+        new BigDecimal(Utils.PI),
+        new BigDecimal("1e-" + (Utils.PI.length() - 1))
+    );
      /**
      * e as a {@link BigDecimalElement}
      * @see Utils#e
