@@ -49,6 +49,10 @@ test_rational:
 test_complex:
 	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" complex
 
+test_bigcomplex:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" bigcomplex
+
+
 test_real:  ## test real
 	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" real
 
