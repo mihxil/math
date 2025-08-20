@@ -1,13 +1,20 @@
 package org.meeuw.math.test;
 
+import java.math.MathContext;
+
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
-import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
-import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
+import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
 import org.meeuw.math.arithmetic.ast.Expression;
+import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 
 
 public class Calculator {
@@ -22,10 +29,20 @@ public class Calculator {
             case "bigdecimal" -> BigDecimalField.INSTANCE;
             case "gaussian" -> GaussianRationals.INSTANCE;
             case "complex" -> ComplexNumbers.INSTANCE;
+            case "bigcomplex" -> BigComplexNumbers.INSTANCE;
+
             default -> throw new IllegalArgumentException("Unsupported field: " + field);
         };
         Expression<?> parsedExpression = AST.parseInfix(expression, f);
-        return parsedExpression.eval().toString();
+        try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
+            cb.configure(UncertaintyConfiguration.class,
+                    (ub) -> ub.withNotation(PARENTHESES))
+                .configure(MathContextConfiguration.class,
+                    (mc) ->
+                        mc.withContext(new MathContext(Utils.PI.length())))
+        )) {
+            return parsedExpression.eval().toString();
+        }
     }
     //end::eval[]
 
