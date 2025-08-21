@@ -48,7 +48,7 @@ jobs:
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Build with Maven
-        run: mvn -B -fae
+        run: mvn -B -Dmaven.test.failure.ignore=true
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.20.0
         if: always() &&  runner.os == 'Linux'
@@ -71,6 +71,7 @@ jobs:
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
+      - uses: mihxil/after-maven-action@main
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
