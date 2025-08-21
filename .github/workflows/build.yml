@@ -50,23 +50,23 @@ jobs:
       - name: Build with Maven
         run: mvn -B -D"maven.test.failure.ignore=true"
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v2.20.0
+        uses: EnricoMi/publish-unit-test-result-action@v2
         if: always() &&  runner.os == 'Linux'
         with:
           files: "**/target/surefire-reports/*.xml"
-          check_name: Tests results
+          check_name: Tests results linux ${{ matrix.java }}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2.20.0
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
         if: always() &&  runner.os == 'Windows'
         with:
           files: "**/target/surefire-reports/*.xml"
-          check_name: Tests results
+          check_name: Tests results windows ${{ matrix.java }}
       - name: Publish Unit Test Results
-        uses: EnricoMi/publish-unit-test-result-action/macos@v2.20.0
+        uses: EnricoMi/publish-unit-test-result-action/macos@v2
         if: always() && runner.os == 'macOS'
         with:
           files: "**/target/surefire-reports/*.xml"
-          check_name: Tests results
+          check_name: Tests results macos ${{ matrix.java }}
       - uses: codecov/codecov-action@v4
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         with:
