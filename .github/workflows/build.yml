@@ -71,7 +71,7 @@ jobs:
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-      - uses: mihxil/after-maven-action@main
+      - uses: mmprogrami/after-maven-action@main
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
