@@ -18,6 +18,8 @@ package org.meeuw.math.text;
 /**
  * Split a double up in 2 numbers: a double approximately 1 (the 'coefficient'), and an integer
  * indicating the order of magnitude (the 'exponent').
+ * <p>
+ * This is a protected utility. It's not a record, the fields are just access directly, and occasionally modified.
  */
 
 class SplitNumber {
