@@ -66,10 +66,20 @@
         <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">bigdecimal</span><span class="delimiter">&quot;</span></span> -&gt; BigDecimalField.INSTANCE;
         <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">gaussian</span><span class="delimiter">&quot;</span></span> -&gt; GaussianRationals.INSTANCE;
         <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">complex</span><span class="delimiter">&quot;</span></span> -&gt; ComplexNumbers.INSTANCE;
+        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">bigcomplex</span><span class="delimiter">&quot;</span></span> -&gt; BigComplexNumbers.INSTANCE;
+
         <span class="keyword">default</span> -&gt; <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported field: </span><span class="delimiter">&quot;</span></span> + field);
     };
     <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
-    <span class="keyword">return</span> parsedExpression.eval().toString();
+    <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
+        cb.configure(UncertaintyConfiguration.class,
+                (ub) -&gt; ub.withNotation(PARENTHESES))
+            .configure(MathContextConfiguration.class,
+                (mc) -&gt;
+                    mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
+    )) {
+        <span class="keyword">return</span> parsedExpression.eval().toString();
+    }
 }</code></pre>
 </div>
 </div>
@@ -570,7 +580,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-18 21:57:58 UTC
+Last updated 2025-08-21 08:17:25 UTC
 </div>
 </div>
 </body>
