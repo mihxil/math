@@ -48,7 +48,7 @@ jobs:
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Build with Maven
-        run: mvn -B -Dmaven.test.failure.ignore=true
+        run: mvn -B -Dmaven.test.failure.ignore=true install
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v2.20.0
         if: always() &&  runner.os == 'Linux'
