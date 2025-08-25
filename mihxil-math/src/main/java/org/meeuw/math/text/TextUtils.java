@@ -15,8 +15,12 @@
  */
 package org.meeuw.math.text;
 
+import lombok.SneakyThrows;
+
+import java.io.IOException;
 import java.util.*;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
@@ -39,8 +43,14 @@ public final class TextUtils {
 
     /**
      * @param i an integer
-     * @return an integer in 'superscript' notation, using Unicode.
+     * @since 0.19
      */
+    @SneakyThrows(IOException.class)
+    public static void superscript(Appendable a, long i)  {
+        script(a, i, SUPER_MINUS, SUPERSCRIPTS);
+    }
+
+
     public static String superscript(long i) {
         return script(i, SUPER_MINUS, SUPERSCRIPTS);
     }
@@ -111,47 +121,70 @@ public final class TextUtils {
 
     private static String script(long i, char minusChar, char[] digits) {
         StringBuilder bul = new StringBuilder();
-        boolean minus = script(bul, i, digits);
-        if (minus) bul.insert(0, minusChar);
+        try {
+            script(bul, i, minusChar, digits);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         return bul.toString();
     }
+
 
     private static @PolyNull String script(@PolyNull CharSequence i, Map<Character, Character> chars, char[] digits) {
         if (i == null) {
             return null;
         }
         StringBuilder bul = new StringBuilder();
-
-        i.chars().forEach(c -> {
-            if (Character.isDigit(c)) {
-                bul.append(digits[c - '0']);
-            } else {
-                Character replaced = chars.get((char) c);
-                if (replaced != null) {
-                    bul.append(replaced);
-                } else {
-                    bul.append((char) c);
-                }
-            }
-        });
+        script(bul, i, chars, digits);
         return bul.toString();
     }
 
-    private static boolean script(StringBuilder bul, long i, char[] digits) {
-        boolean minus = false;
+
+    /**
+     * @since 0.19
+     */
+    private static void script(@NonNull Appendable bul, CharSequence i, Map<Character, Character> chars, char[] digits) {
+        if (i == null) {
+            return;
+        }
+        i.chars().forEach(c -> {
+            try {
+                if (Character.isDigit(c)) {
+                    bul.append(digits[c - '0']);
+                } else {
+                    Character replaced = chars.get((char) c);
+                    if (replaced != null) {
+                        bul.append(replaced);
+                    } else {
+                        bul.append((char) c);
+                    }
+                }
+            } catch (IOException ignored) {}
+        });
+
+    }
+
+    /**
+     * @since 0.19
+     */
+    private static void script(Appendable bul, long i, char minusChar, char[] digits) throws IOException {
         if (i < 0) {
-            minus = true;
+            bul.append(minusChar);
             i = -1 * i;
         }
         if (i == 0) {
-            bul.insert(0, digits[0]);
+            bul.append(digits[0]);
         }
+        char[] buf = new char[21];
+        int pos = 0;
         while (i > 0) {
             int j = (int) (i % 10);
             i /= 10;
-            bul.insert(0, digits[j]);
+            buf[pos++] = digits[j];
         }
-        return minus;
+        while (pos > 0) {
+            bul.append(buf[--pos]);
+        }
     }
 
     private static final char[] SUPERSCRIPTS = {
