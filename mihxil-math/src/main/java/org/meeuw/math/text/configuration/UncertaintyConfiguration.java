@@ -66,6 +66,13 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         /**
          * User parentheses to indicate the uncertainty in the last displayed decimals.
          */
-        PARENTHESES
+        PARENTHESES//,
+
+        /**
+         * Just round the value.
+         *
+         * @since 0.19
+         */
+        //ROUND_VALUE
     }
 }
