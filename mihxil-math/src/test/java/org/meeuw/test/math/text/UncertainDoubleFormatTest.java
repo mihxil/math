@@ -75,6 +75,17 @@ class UncertainDoubleFormatTest {
     }
 
     @Test
+    public void infinityExact() {
+        assertThat(UncertainDoubleFormat.scientificNotation(Double.POSITIVE_INFINITY, 1)).isEqualTo("∞");
+        assertThat(UncertainDoubleFormat.scientificNotation(Double.NEGATIVE_INFINITY, 0)).isEqualTo("-∞");
+    }
+
+    @Test
+    public void zeroExact() {
+        assertThat(UncertainDoubleFormat.scientificNotation(0, 1)).isEqualTo("0.");
+    }
+
+    @Test
     public void parentheses() {
         formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
         assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
