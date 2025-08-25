@@ -17,12 +17,12 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.text.*;
 import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.numbers.DecimalFormatToString;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.meeuw.math.text.configuration.GroupingSeparator.NONE;
@@ -37,6 +37,10 @@ import static org.meeuw.math.text.configuration.GroupingSeparator.NONE;
 public class NumberConfiguration implements ConfigurationAspect {
 
     private static final DecimalFormat DEFAULT = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
+    static {
+        DEFAULT.getDecimalFormatSymbols().setInfinity(TextUtils.INFINITY);
+
+    }
     static {
         DEFAULT.setGroupingUsed(false);
     }
