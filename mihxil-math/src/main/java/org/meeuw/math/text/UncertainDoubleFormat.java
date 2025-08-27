@@ -67,7 +67,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
     @Override
     DoubleElement of(String valueStr) {
         double value = Double.parseDouble(valueStr);
-        return DoubleElement.of(value);
+        return DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
 
             int meanDigits = magnitudeDifference; // at least one digit
 
-            assert mean.coefficient < 10;
+            assert Double.isNaN(mean.coefficient) || Math.abs(mean.coefficient) < 10;
 
             // for std starting with '1' we allow an extra digit.
             if (std.coefficient < 2 && std.coefficient > 0) {

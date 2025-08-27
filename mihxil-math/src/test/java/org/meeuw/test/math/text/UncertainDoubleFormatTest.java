@@ -15,13 +15,18 @@
  */
 package org.meeuw.test.math.text;
 
+import lombok.extern.log4j.Log4j2;
+
 import java.text.*;
 import java.util.Locale;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -34,6 +39,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log4j2
 class UncertainDoubleFormatTest {
 
     @BeforeAll
@@ -120,7 +126,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatSmall() {
-        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+
         String s= formatter.scientificNotationWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
         assertThat(s).isEqualTo("0.019820185668507406 ± 0.000000000000000007");
 
@@ -128,7 +134,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatSmall2() {
-        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+
         String s= formatter.scientificNotationWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
         assertThat(s).isEqualTo("-0.22967301287511077 ± 0.00000000000000006");
     }
@@ -136,11 +142,36 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatSmallWithE() {
-        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
         String s= formatter.scientificNotationWithUncertainty(
             -2.2967301287511077E-10,
                0.000005551115123125783E-10);
         assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
+
+    }
+
+
+
+    @Test
+    public void formatNegative() {
+
+        String s= formatter.scientificNotationWithUncertainty(
+            -2.2967301287511077E-10,
+               0.000005551115123125783E-10);
+        assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
+    }
+
+    @ParameterizedTest
+    @ValueSource(doubles = {
+        1.3660434920643638d
+    })
+    public void formatAndParse(double d) {
+        DoubleElement from = DoubleElement.of(d);
+        String toString = formatter.format(from);
+        ParsePosition parsePosition = new ParsePosition(0);
+        DoubleElement doubleElement = formatter.parseObject(toString, parsePosition);
+        assertThat(parsePosition.getIndex()).isEqualTo(toString.length());
+        log.info("{} -> {} -> {} -> {}", d, from, toString, doubleElement.toString());
+        assertThat(doubleElement.eq(from)).isTrue();
 
     }
 

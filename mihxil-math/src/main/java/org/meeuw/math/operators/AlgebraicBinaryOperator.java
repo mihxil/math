@@ -81,6 +81,13 @@ public interface AlgebraicBinaryOperator  extends OperatorInterface {
         return stringify(element1.toString(), element2.toString());
     }
 
+    /**
+     * @since 0.19
+     */
+    default <E extends AlgebraicElement<E>> String stringifyEval(E element1, E element2) {
+        E eval = apply(element1, element2);
+        return stringify(element1.toString(), element2.toString()) + "=" + eval.toString();
+    }
     default String getSymbol() {
         return stringify(TextUtils.PLACEHOLDER, TextUtils.PLACEHOLDER);
     }

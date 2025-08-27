@@ -16,8 +16,7 @@
 package org.meeuw.math.text;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.text.*;
 
@@ -72,6 +71,11 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     abstract F of(String v, String uncertainty);
 
 
+    @SneakyThrows
+    @SuppressWarnings("unchecked")
+    public F parseObject(String value) {
+        return (F) super.parseObject(value);
+    }
 
     @Override
     public F parseObject(String source, @NonNull ParsePosition pos) {
