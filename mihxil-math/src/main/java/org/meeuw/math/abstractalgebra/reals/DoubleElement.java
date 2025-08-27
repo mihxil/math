@@ -68,6 +68,9 @@ public class DoubleElement
      * </pre>
      */
     public static DoubleElement exactly(double value) {
+        if (Double.isNaN(value)) {
+            throw new IllegalArgumentException("NaN");
+        }
         return new DoubleElement(value, EXACT);
     }
 
@@ -99,6 +102,9 @@ public class DoubleElement
      * @see #uncertain(double, double)
      */
     public static DoubleElement of(double value, double uncertainty) {
+        if (Double.isNaN(value)) {
+            throw new IllegalArgumentException("NaN");
+        }
         return new DoubleElement(value, uncertainty);
     }
 
@@ -177,7 +183,10 @@ public class DoubleElement
     public DoubleElement plus(RealNumber summand) {
         double v1 = this.doubleValue();
         double v2 = summand.doubleValue();
+        assert ! Double.isNaN(v1);
+        assert ! Double.isNaN(v2);
         double result  = v1 + v2;
+
         return of(
             result,
             DoubleUtils.max(
@@ -195,7 +204,11 @@ public class DoubleElement
         if (isExactlyZero()) {
             throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
         }
-        return pow(-1);
+        try {
+            return pow(-1);
+        } catch(IllegalPowerException illegalPowerException) {
+            throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
+        }
     }
 
     @Override
@@ -293,8 +306,13 @@ public class DoubleElement
         if (v == 0 && exponent < 0) {
             throw new IllegalPowerException("Cannot take negative power of zero", BasicAlgebraicIntOperator.POWER.stringify(Double.toString(v),  Integer.toString(exponent)));
         }
+        double result = Math.pow(v, exponent);
+        if (Double.isInfinite(result)) {
+            throw new IllegalPowerException("Resulted infinity", BasicAlgebraicIntOperator.POWER.stringify(Double.toString(v),  Integer.toString(exponent)));
+
+        }
         return of(
-            Math.pow(v, exponent),
+            result,
             Math.abs(exponent) * Math.pow(Math.abs(v), exponent -1) * doubleUncertainty());
     }
 
