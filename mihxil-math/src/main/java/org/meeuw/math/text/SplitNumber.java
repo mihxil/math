@@ -43,15 +43,19 @@ class SplitNumber {
         boolean negative = in < 0;
         double coefficient = Math.abs(in);
         int exponent    = 0;
-        while (coefficient >= 10) {
-            coefficient /= 10;
-            exponent++;
+        if (coefficient != 0) {
+            while (coefficient >= 10) {
+                coefficient /= 10;
+                exponent++;
+            }
+            while (coefficient < 0.1) {
+                coefficient *= 10;
+                exponent--;
+            }
         }
-        while (coefficient > 0 && coefficient < 1) {
-            coefficient *=10;
-            exponent--;
+        if (negative) { // put sign back
+            coefficient *= -1;
         }
-        if (negative) coefficient *= -1;
         return new SplitNumber(coefficient, exponent);
     }
 
