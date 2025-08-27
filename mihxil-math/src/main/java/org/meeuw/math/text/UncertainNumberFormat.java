@@ -15,9 +15,10 @@
  */
 package org.meeuw.math.text;
 
-import lombok.*;
+import lombok.NonNull;
 
-import java.text.*;
+import java.text.FieldPosition;
+import java.text.Format;
 
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -26,17 +27,12 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.9
  */
-public class UncertainNumberFormat extends Format {
-
-    @Getter
-    @Setter
-    private UncertaintyConfiguration.Notation uncertaintyNotation = UncertaintyConfiguration.Notation.PLUS_MINUS;
+public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumber<?>> {
 
     @Override
     public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber<?>) {
-            UncertainNumber<?> uncertainNumber = (UncertainNumber<?>) number;
-            toAppendTo.append(valueAndError(uncertainNumber.getValue().toString(), uncertainNumber.getUncertainty().toString(), getUncertaintyNotation()));
+        if (number instanceof UncertainNumber<?> uncertainNumber) {
+            valueAndError(toAppendTo, ToStringFormat.INSTANCE,  pos, uncertainNumber.getValue(), uncertainNumber.getUncertainty(),getUncertaintyNotation());
             return toAppendTo;
         } else {
             throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
@@ -44,15 +40,32 @@ public class UncertainNumberFormat extends Format {
     }
 
     @Override
-    public Object parseObject(String source, ParsePosition pos) {
-        pos.setErrorIndex(pos.getIndex());
-        return null;
+    UncertainNumber<?> of(String v) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    UncertainNumber<?> of(String v, String uncertainty) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
 
 
     public static String valuePlusMinError(String value, String error) {
         return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
+    }
+
+
+    /**
+     * @since 0.19
+     */
+    static void valuePlusMinError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error) {
+        format.format(value, appendable, position);
+        appendable.append(' ');
+        appendable.append(TextUtils.PLUSMIN);
+        appendable.append(' ');
+        format.format(value, appendable, position);
     }
 
     public static String valueParenthesesError(String value, String error) {
@@ -63,11 +76,35 @@ public class UncertainNumberFormat extends Format {
          return value +  "(" + error.substring(i) + ")";
     }
 
+
+    /**
+     * @since 0.19
+     */
+     static void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
+        format.format(value, appendable, pos);
+        appendable.append('(');
+        format.format(error, appendable, pos);
+        appendable.append(')');
+     }
+
     public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> valuePlusMinError(value, error);
+           // case ROUND_VALUE -> valueRounded(value, error);
         };
+    }
+
+
+    /**
+     * @since 0.19
+     */
+    public static void valueAndError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error, UncertaintyConfiguration.Notation uncertaintyNotation) {
+        switch (uncertaintyNotation) {
+            case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
+            case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
+           // case ROUND_VALUE -> valueRounded(value, error);
+        }
     }
 
 

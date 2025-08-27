@@ -63,8 +63,14 @@ class UncertainDoubleFormatTest {
     public void zero() {
         assertThat(formatter.scientificNotationWithUncertainty(0, 0)).isEqualTo("0 ± 0");
     }
+
+
     @Test
     public void zeroWithUncertainty() {
+        assertThat(formatter.scientificNotationWithUncertainty(0, 0.003)).isEqualTo("0.000 ± 0.003");
+    }
+    @Test
+    public void zeroWithUncertainty1() {
         assertThat(formatter.scientificNotationWithUncertainty(0, 0.001)).isEqualTo("0.0000 ± 0.0010");
     }
 
@@ -82,7 +88,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void zeroExact() {
-        assertThat(UncertainDoubleFormat.scientificNotation(0, 1)).isEqualTo("0.");
+        assertThat(UncertainDoubleFormat.scientificNotation(0, 1)).isEqualTo("0");
     }
 
     @Test
@@ -95,13 +101,15 @@ class UncertainDoubleFormatTest {
     @Test
     public void grouping() {
         ConfigurationService.withAspect(NumberConfiguration.class, nc -> {
+
             DecimalFormat nf = nc.getNumberFormat();
             nf.setGroupingUsed(true);
             nf.setGroupingSize(4);
             DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);
             dfs.setGroupingSeparator('_');
             nf.setDecimalFormatSymbols(dfs);
-            return nc;
+
+            return nc.withNumberFormat(nf);
         }, () -> {
             UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
 
@@ -123,6 +131,16 @@ class UncertainDoubleFormatTest {
         UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
         String s= formatter.scientificNotationWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
         assertThat(s).isEqualTo("-0.22967301287511077 ± 0.00000000000000006");
+    }
+
+
+    @Test
+    public void formatSmallWithE() {
+        UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
+        String s= formatter.scientificNotationWithUncertainty(
+            -2.2967301287511077E-10,
+               0.000005551115123125783E-10);
+        assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
 
     }
 
