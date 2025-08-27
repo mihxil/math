@@ -46,10 +46,20 @@ public static String eval(String expression, String field) {
         case "bigdecimal" -> BigDecimalField.INSTANCE;
         case "gaussian" -> GaussianRationals.INSTANCE;
         case "complex" -> ComplexNumbers.INSTANCE;
+        case "bigcomplex" -> BigComplexNumbers.INSTANCE;
+
         default -> throw new IllegalArgumentException("Unsupported field: " + field);
     };
     Expression<?> parsedExpression = AST.parseInfix(expression, f);
-    return parsedExpression.eval().toString();
+    try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
+        cb.configure(UncertaintyConfiguration.class,
+                (ub) -> ub.withNotation(PARENTHESES))
+            .configure(MathContextConfiguration.class,
+                (mc) ->
+                    mc.withContext(new MathContext(Utils.PI.length())))
+    )) {
+        return parsedExpression.eval().toString();
+    }
 }
 ----
 ====
@@ -346,7 +356,7 @@ async function setupSolver() {
         },
         parseInput :  async function(string) {
             Solver = await setupFormWithClass(button, clazz);
-            this.field = await Solver.fieldFor(outcome.value, string);
+            this.field = await Solver.algebraicStructureFor(outcome.value, string);
             this.input = await Solver.parseInput(this.field, string);
             go();
             return await this.input.error();
