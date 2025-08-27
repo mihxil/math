@@ -122,6 +122,14 @@ class PhysicalNumberTest implements
         PhysicalNumber inm = measurement(3, 0.1, m);
     }
 
+    @Test
+    public void zeroWithError() {
+        PhysicalNumber ph = measurement(0, 0.001, mPerS);
+        assertThat(ph.toString()).isEqualTo("0.0000 ± 0.0010 m·s⁻¹");
+        PhysicalNumber rec = ph.reciprocal();
+        log.info("{} = {}", ph, rec);
+    }
+
     /**
      * Returns only velocities for now.
      *

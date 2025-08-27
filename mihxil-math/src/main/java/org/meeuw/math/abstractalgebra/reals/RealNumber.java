@@ -109,15 +109,17 @@ public interface RealNumber
         return minus(otherElement).abs();
     }
 
-    /**
-     * For uncertain elements, an element is only zero if its value is {@link #isExact()}
-     * and of course {@code 0}.
-     */
+
     @Override
     default boolean isZero() {
         return CompleteScalarFieldElement.super.isZero();
     }
 
+
+    /**
+     * For uncertain elements, an element is only zero if its value is {@link #isExact()}
+     * and of course {@code 0}.
+     */
     default boolean isExactlyZero() {
         return isExact() && isZero();
     }
