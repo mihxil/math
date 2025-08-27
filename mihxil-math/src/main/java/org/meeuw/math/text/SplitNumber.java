@@ -48,7 +48,7 @@ class SplitNumber {
                 coefficient /= 10;
                 exponent++;
             }
-            while (coefficient < 0.1) {
+            while (coefficient < 1) {
                 coefficient *= 10;
                 exponent--;
             }
