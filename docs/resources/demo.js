@@ -30,7 +30,7 @@ async function setupFormWithClass(button, ...clazz) {
 // tag::calculator[]
 
 
-async function setupCalculator() {
+async function setupCalculator(setup) {
 
     const form = document.querySelector('#calculator');
     const button = form.querySelector('button');
@@ -44,11 +44,24 @@ async function setupCalculator() {
         button.disabled = false;
     }
 
-    let Calculator = null;
+    var Calculator;
+
+    async function setForm() {
+        if (! Calculator) {
+            Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
+            go();
+        }
+        return Calculator;
+    }
+
+    if (setup) {
+        setForm();
+    }
+
     form.onsubmit = async (e) => {
         e.preventDefault();
         try {
-            Calculator = await setupFormWithClass(button, 'org.meeuw.math.test.Calculator');
+            await setForm();
             output.value = '';
             button.textContent = "executing..";
             console.log("evaluating", input.value, "for", field.value);
@@ -81,14 +94,13 @@ async function setupSolver() {
         button.disabled = false;
     }
 
-
     const model = {
         field: null,
         outcome: null,
         input: null,
         parseOutcome:  async function(string) {
             Solver = await setupFormWithClass(button, clazz);
-            this.field = await Solver.fieldFor(string, input.value)
+            this.field = await Solver.algebraicStructureFor(string, input.value)
             this.outcome = await Solver.parseOutcome(this.field, string);
             go();
             return await this.outcome.error();
@@ -218,8 +230,12 @@ async function setupValidation() {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    setupCalculator();
-    setupSolver();
-    setupDynamicDate();
-    setupValidation();
+    const isDemo = document.querySelector('meta[name="demo"]')?.content;
+    if (isDemo) {
+        console.log("demo page");
+    }
+    setupCalculator(isDemo);
+    setupSolver(isDemo);
+    setupDynamicDate(isDemo);
+    setupValidation(isDemo);
 });
