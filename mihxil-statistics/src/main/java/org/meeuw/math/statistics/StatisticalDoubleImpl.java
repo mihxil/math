@@ -148,7 +148,7 @@ public class StatisticalDoubleImpl
             throw new DivisionByZeroException("Division by zero", "1/" + getValue());
         }
         double value = 1d / getValue();
-        return new DoubleElement(value, value * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
+        return new DoubleElement(value, Math.abs(value) * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
 
 

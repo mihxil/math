@@ -181,8 +181,10 @@ public class StatisticalDoubleTest implements
 
         zero.enter(5e-324);
 
-        assertThat(zero.isZero()).isFalse(); // it _is_ not zero
-        assertThat(zero.getStructure().zero().eq(zero)).isTrue(); // but it is close enough
+        assertThat(zero.isExactlyZero()).isFalse(); // it _is_ not zero
+        assertThat(zero.getStructure().zero().eq(zero)).isTrue();
+        assertThat(zero.isZero()).isTrue();
+// but it is close enough
     }
 
     @Test

@@ -163,7 +163,9 @@ public interface UncertainNumber<N extends Number>
      * Compares this uncertain number with on other one. Considering {@link #getConfidenceInterval}{@code (sds)}
      */
     default boolean eq(UncertainNumber<N> other, float sds) {
-        if (this == other) return true;
+        if (this == other) {
+            return true;
+        }
         NumberOperations<N> o = operations();
         if (o.isNaN(getValue())) {
             return o.isNaN(other.getValue());
