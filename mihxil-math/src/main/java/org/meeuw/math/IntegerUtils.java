@@ -30,6 +30,14 @@ public final class IntegerUtils {
 
     private IntegerUtils() {}
 
+
+    private static final long[] POWERS = {
+        1L, 10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L,
+        10_000_000L, 100_000_000L, 1_000_000_000L, 10_000_000_000L,
+        100_000_000_000L, 1_000_000_000_000L, 10_000_000_000_000L,
+        100_000_000_000_000L, 1_000_000_000_000_000L, 10_000_000_000_000_000L,
+        100_000_000_000_000_000L, 1_000_000_000_000_000_000L
+    };
     /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      *
@@ -37,10 +45,14 @@ public final class IntegerUtils {
      * @param e  the exponent
      * @return 10<sup>e</sup>
      */
+    @Synonym("pow10")
     public static long positivePow10(@PositiveOrZero int e) {
-        return positivePow(10, e);
+        return POWERS[e];
     }
-
+    @Synonym("positivePow10")
+    public static long pow10(@PositiveOrZero int e){
+        return positivePow10(e);
+    }
 
     /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
@@ -51,6 +63,9 @@ public final class IntegerUtils {
      * @return base<sup>e</sup>
      */
     public static long positivePow(@NotNull long base, @PositiveOrZero int e) {
+        if (base == 10) {
+            return pow10(e);
+        }
         if (e < 0) {
             throw new IllegalPowerException("Cannot raise to negative", base + TextUtils.superscript( e));
         }
@@ -85,6 +100,8 @@ public final class IntegerUtils {
 
         //return (63 - Long.numberOfLeadingZeros(l)) >> 2;
     }
+
+
 
     public static final long MAX_SQUARABLE = BigInteger.valueOf(Long.MAX_VALUE ).sqrt().longValueExact();
 

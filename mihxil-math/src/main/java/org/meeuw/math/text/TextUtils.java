@@ -29,7 +29,7 @@ import org.checkerframework.checker.nullness.qual.PolyNull;
  */
 public final class TextUtils {
 
-    public static final String TIMES      = "·";  /* "·10' */
+    public static final char TIMES      = '·';  /* "·10' */
 
     public static final char PLUSMIN    = '±';
     public static final String INFINITY   = "∞";
@@ -68,10 +68,14 @@ public final class TextUtils {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-            sb.append(REVERSE_SUPERSCRIPTS.getOrDefault(c, c));
+            sb.append(unsuperscript(c));
         }
         return sb.toString();
     }
+     public static char unsuperscript(char c) {
+         return REVERSE_SUPERSCRIPTS.getOrDefault(c, c);
+    }
+
 
     public static String unsubscript(CharSequence s) {
         StringBuilder sb = new StringBuilder();
@@ -233,9 +237,14 @@ public final class TextUtils {
         for (int i = 0; i < SUPERSCRIPTS.length; i++) {
             REVERSE_SUPERSCRIPTS.put(SUPERSCRIPTS[i], (char)('0' + i));
         }
+        REVERSE_SUPERSCRIPTS.put(SUPER_MINUS, '-');
+        REVERSE_SUPERSCRIPTS.put(SUPER_PLUS, '+');
+
         for (int i = 0; i < SUBSCRIPTS.length; i++) {
             REVERSE_SUBSCRIPTS.put(SUBSCRIPTS[i], (char)('0' + i));
         }
+        REVERSE_SUBSCRIPTS.put(SUB_MINUS, '-');
+        REVERSE_SUBSCRIPTS.put(SUPER_PLUS, '+');
     }
 
 

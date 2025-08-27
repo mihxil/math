@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.text.*;
+import java.util.OptionalLong;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
@@ -65,16 +66,29 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
     }
 
     @Override
-    DoubleElement of(String valueStr) {
+    DoubleElement of(String valueStr, OptionalLong multiplier, OptionalLong dividor) {
         double value = Double.parseDouble(valueStr);
-        return DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value));
+        return of(DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value)), multiplier, dividor);
+
     }
 
     @Override
-    DoubleElement of(String valueStr, String uncertaintyStr) {
+    DoubleElement of(String valueStr, String uncertaintyStr, OptionalLong multiplier, OptionalLong dividor) {
         double value = Double.parseDouble(valueStr);
         double uncertainty = Double.parseDouble(uncertaintyStr);
-        return DoubleElement.of(value, uncertainty);
+
+        return of(DoubleElement.of(value, uncertainty), multiplier, dividor);
+
+    }
+    DoubleElement of(DoubleElement doubleElement, OptionalLong multiplier, OptionalLong dividor) {
+        if (multiplier.isPresent()) {
+            doubleElement = doubleElement.times(multiplier.getAsLong());
+        }
+        if (dividor.isPresent()) {
+            doubleElement = doubleElement.dividedBy(dividor.getAsLong());
+        }
+        return doubleElement;
+
     }
 
     public String scientificNotationWithUncertainty(

@@ -142,12 +142,12 @@ public class DoubleElement
     }
 
     @Override
-    public RealField getStructure() {
-        return RealField.INSTANCE;
-    }
-
-    @Override
-    public RealNumber dividedBy(long divisor) {
+    public DoubleElement dividedBy(long divisor) {
+        if (divisor == 0) {
+            throw new DivisionByZeroException("Divisor", this.toString());
+         } else if (divisor == 1) {
+            return this;
+        }
         double result = value / divisor;
         return new DoubleElement(result,
             Math.max(Math.abs(uncertainty / divisor), uncertaintyForDouble(result)));
@@ -155,6 +155,11 @@ public class DoubleElement
 
     @Override
     public DoubleElement times(long multiplier) {
+        if (multiplier == 0) {
+            return DoubleElement.ZERO;
+        } else if (multiplier == 1) {
+            return this;
+        }
         double result = value * multiplier;
         return new DoubleElement(result,
             Math.max(Math.abs(uncertainty * multiplier), uncertaintyForDouble(result)));
@@ -166,7 +171,9 @@ public class DoubleElement
             return this;
         }
         if (multiplier instanceof DoubleElement doubleElement) {
-            return considerMultiplicationBySpecialValues(this, doubleElement);
+            return considerMultiplicationBySpecialValues(
+                this, doubleElement
+            );
         } else {
             double newValue = this.doubleValue() * multiplier.doubleValue();
             return of(newValue,
@@ -183,8 +190,8 @@ public class DoubleElement
     public DoubleElement plus(RealNumber summand) {
         double v1 = this.doubleValue();
         double v2 = summand.doubleValue();
-        assert ! Double.isNaN(v1);
-        assert ! Double.isNaN(v2);
+        assert ! Double.isNaN(v1) : "value is NaN";
+        assert ! Double.isNaN(v2) : "summand is NaN";
         double result  = v1 + v2;
 
         return of(

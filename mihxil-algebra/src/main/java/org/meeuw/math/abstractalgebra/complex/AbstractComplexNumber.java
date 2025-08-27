@@ -60,7 +60,10 @@ public abstract class AbstractComplexNumber<
     @Override
     public S times(S multiplier) {
         return _of(
-            this.real.times(multiplier.real).minus(this.imaginary.times(multiplier.imaginary)),
+            this.real.times(multiplier.real)
+                .minus(
+                    this.imaginary.times(multiplier.imaginary)
+                ),
             this.real.times(multiplier.imaginary).plus(this.imaginary.times(multiplier.real)));
     }
 

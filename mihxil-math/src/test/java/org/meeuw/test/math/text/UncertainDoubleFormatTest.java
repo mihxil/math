@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import java.text.*;
 import java.util.Locale;
 
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,8 +28,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
-import org.meeuw.math.text.FormatService;
-import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.*;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
@@ -174,6 +174,51 @@ class UncertainDoubleFormatTest {
         assertThat(doubleElement.eq(from)).isTrue();
 
     }
+
+    @Test
+    public void parseBracket() {
+        DoubleElement doubleElement = formatter.parseObject("1.567(45)");
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(1.567);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.045);
+    }
+
+    @Test
+    public void parseBracket0() {
+        DoubleElement doubleElement = formatter.parseObject("1.567()");
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(1.567);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.0);
+    }
+
+    @Test
+    public void parseBracket1() {
+        DoubleElement doubleElement = formatter.parseObject("-1123.567(4)");
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-1123.567);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.004);
+    }
+
+
+    @Test
+    public void parseBracket10() {
+        DoubleElement doubleElement = formatter.parseObject("-1.567(4) ·10" + TextUtils.superscript(5));
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-156700d);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(400);
+    }
+
+    @Test
+    public void parseBracketE() {
+        DoubleElement doubleElement = formatter.parseObject("-1.567(4)E5");
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-156700d);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(400);
+    }
+
+    @Test
+    public void parsePlusMin() {
+        DoubleElement doubleElement = formatter.parseObject("(-2.296730 ± 0.000006)·10⁻¹⁰)");
+
+        assertThat(doubleElement.getValue().doubleValue()).isCloseTo(-2.296730e-10, Offset.offset(0.000001e-10));
+        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.000006e-10);
+    }
+
 
 
 }
