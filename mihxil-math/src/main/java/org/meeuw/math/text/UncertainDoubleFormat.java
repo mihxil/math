@@ -113,7 +113,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
 
             int meanDigits = magnitudeDifference; // at least one digit
 
-            assert Double.isNaN(mean.coefficient) || Math.abs(mean.coefficient) < 10;
+            assert Double.isNaN(mean.coefficient) || Math.abs(mean.coefficient) < 10 : "unexpected coefficient " + mean.coefficient;
 
             // for std starting with '1' we allow an extra digit.
             if (std.coefficient < 2 && std.coefficient > 0) {

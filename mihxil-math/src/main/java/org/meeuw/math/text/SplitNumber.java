@@ -43,7 +43,7 @@ class SplitNumber {
         boolean negative = in < 0;
         double coefficient = Math.abs(in);
         int exponent    = 0;
-        while (coefficient > 10) {
+        while (coefficient >= 10) {
             coefficient /= 10;
             exponent++;
         }
