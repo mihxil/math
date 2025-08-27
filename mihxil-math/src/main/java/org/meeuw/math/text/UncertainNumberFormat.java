@@ -65,7 +65,7 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
         appendable.append(' ');
         appendable.append(TextUtils.PLUSMIN);
         appendable.append(' ');
-        format.format(value, appendable, position);
+        format.format(error, appendable, position);
     }
 
     public static String valueParenthesesError(String value, String error) {

@@ -2,6 +2,9 @@ package org.meeuw.math.text;
 
 import java.text.*;
 
+/**
+ * @since 0.19
+ */
 class ToStringFormat extends Format {
 
     static final ToStringFormat INSTANCE = new ToStringFormat();
