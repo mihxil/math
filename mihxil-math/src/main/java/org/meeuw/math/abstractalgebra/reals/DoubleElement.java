@@ -165,7 +165,8 @@ public class DoubleElement
             double newValue = this.doubleValue() * multiplier.doubleValue();
             return of(newValue,
                 Math.max(
-                    operations.multiplicationUncertainty(newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()),
+                    operations.multiplicationUncertainty(
+                        newValue, doubleFractionalUncertainty(), multiplier.doubleFractionalUncertainty()),
                     uncertaintyForDouble(newValue)
                 )
             );
@@ -360,18 +361,19 @@ public class DoubleElement
         // multiplication by zero
         if (r1.isExactlyZero() || r2.isExactlyZero()) {
             return DoubleElement.ZERO;
-        } else if (r1.value == 0 && r2.value != 0) {
+      /*  } else if (r1.value == 0 && r2.value != 0) {
             return new DoubleElement(newValue, r1.uncertainty);
         } else if (r2.value == 0 && r1.value != 0) {
             return new DoubleElement(newValue, r2.uncertainty);
-            // NaN
+            // NaN*/
         } else if (Double.isNaN(r1.value) || Double.isNaN(r2.value)) {
             return new DoubleElement(newValue, Double.NaN);
         } else {
             return new DoubleElement(newValue,
                 Math.abs(newValue) * (
-                    Math.abs(r1.uncertainty / (r1.value + r1.uncertainty)) +
-                        Math.abs(r2.uncertainty / (r2.value + r2.uncertainty))) + uncertaintyForDouble(newValue)
+                    r1.uncertainty / (Math.abs(r1.value) + r1.uncertainty) +
+                        r2.uncertainty / (Math.abs(r2.value) + r2.uncertainty)
+                ) + uncertaintyForDouble(newValue)
 
             );
         }
