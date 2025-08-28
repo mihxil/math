@@ -93,7 +93,7 @@
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupCalculator</span>() {
+<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupCalculator</span>(setup) {
 
     const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>);
     const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
@@ -107,11 +107,24 @@
         button.disabled = <span class="predefined-constant">false</span>;
     }
 
-    let Calculator = <span class="predefined-constant">null</span>;
+    <span class="keyword">var</span> Calculator;
+
+    async <span class="keyword">function</span> <span class="function">setForm</span>() {
+        <span class="keyword">if</span> (! Calculator) {
+            Calculator = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>);
+            go();
+        }
+        <span class="keyword">return</span> Calculator;
+    }
+
+    <span class="keyword">if</span> (setup) {
+        setForm();
+    }
+
     form.onsubmit = async (e) =&gt; {
         e.preventDefault();
         <span class="keyword">try</span> {
-            Calculator = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>);
+            await setForm();
             output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
             button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaluating</span><span class="delimiter">&quot;</span></span>, input.value, <span class="string"><span class="delimiter">&quot;</span><span class="content">for</span><span class="delimiter">&quot;</span></span>, field.value);
@@ -386,14 +399,13 @@
         button.disabled = <span class="predefined-constant">false</span>;
     }
 
-
     const model = {
         <span class="key">field</span>: <span class="predefined-constant">null</span>,
         <span class="key">outcome</span>: <span class="predefined-constant">null</span>,
         <span class="key">input</span>: <span class="predefined-constant">null</span>,
         <span class="key">parseOutcome</span>:  async <span class="keyword">function</span>(string) {
             Solver = await setupFormWithClass(button, clazz);
-            <span class="local-variable">this</span>.field = await Solver.fieldFor(string, input.value)
+            <span class="local-variable">this</span>.field = await Solver.algebraicStructureFor(string, input.value)
             <span class="local-variable">this</span>.outcome = await Solver.parseOutcome(<span class="local-variable">this</span>.field, string);
             go();
             <span class="keyword">return</span> await <span class="local-variable">this</span>.outcome.error();
@@ -580,7 +592,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-25 22:23:04 UTC
+Last updated 2025-08-27 23:22:13 UTC
 </div>
 </div>
 </body>
