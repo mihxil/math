@@ -83,7 +83,7 @@ public class RealField
     }
 
     @Override
-    public RealNumber nextRandom(Random random) {
+    public DoubleElement nextRandom(Random random) {
         double value = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize() * (random.nextDouble() - 0.5d);
         boolean nan = random.nextDouble() < 0.1;
         return new DoubleElement(value,

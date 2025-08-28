@@ -66,7 +66,8 @@ public final class FormatService {
         getProviders().forEach(list::add);
         list.removeIf(e -> e.weight(elementClass) < 0);
         list.sort(Comparator.comparingInt(e -> -1 * e.weight(elementClass)));
-        return list.stream().map(p -> p.getInstance(configuration));
+        return list.stream()
+            .map(p -> p.getInstance(configuration));
     }
 
     @SuppressWarnings("unchecked")
@@ -123,9 +124,9 @@ public final class FormatService {
         return getFormat(clazz, configuration)
             .map(f -> {
                 ParsePosition pos = new ParsePosition(0);
-
                 E parsed =  (E) f.parseObject(source, pos);
-                if (pos.getIndex() != source.length()) {
+                if (pos.getErrorIndex() > 0 || pos.getIndex() != source.length()) {
+                    log.fine(() -> "Could not parse '" + source + "' with " + f);
                     return null;
                 }
                 return parsed;

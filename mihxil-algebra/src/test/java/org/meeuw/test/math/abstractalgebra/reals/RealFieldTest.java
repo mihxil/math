@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.test.math.uncertainnumbers;
+package org.meeuw.test.math.abstractalgebra.reals;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -41,11 +41,14 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 /**
+ *
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @TODO There are 2 RealFieldTest's!
  */
 @Log4j2
-class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<RealNumber> {
+class RealFieldTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
     public void testToString() {
@@ -84,12 +87,13 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<RealNumbe
                 }
                 RealNumber a = exactly(r1.doubleValue());
                 RealNumber b = exactly(big2.doubleValue());
-
-                RealNumber applied = operator.apply(a, b);
-                log.info("{} = {}", operator.stringify(a, b), applied);
                 BigDecimalElement ba = BigDecimalElement.of(r1);
                 BigDecimalElement bb = BigDecimalElement.of(big2);
+
                 try {
+                    RealNumber applied = operator.apply(a, b);
+                    log.info("{} = {}", operator.stringify(a, b), applied);
+
                     BigDecimalElement exactApplied = operator.apply(ba, bb);
                     log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
 
@@ -105,7 +109,7 @@ class UncertainRealFieldFieldTest implements CompleteScalarFieldTheory<RealNumbe
     @Override
     public Arbitrary<RealNumber> elements() {
         return Arbitraries
-            .randomValue(INSTANCE::nextRandom)
+            .<RealNumber>randomValue(INSTANCE::nextRandom)
             .dontShrink()
             .edgeCases(c -> {
                 c.add(RealNumber.ONE);

@@ -16,14 +16,12 @@
 package org.meeuw.math.text;
 
 
-import java.util.OptionalLong;
-
 import lombok.*;
 
 import java.text.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -155,7 +153,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                 if (bracketFound) {
                     if (source.charAt(j) != ')') {
                         pos.setErrorIndex(j);
-                        return null;
+                        throw new NotParsable("No closing bracket");
                     }
                     j++;
                 }
@@ -180,7 +178,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                     j++;
                 }
                 final String uncertaintyStr;
-                if (source.startsWith("NaN")) {
+                if (source.length() >= j + 3 && source.substring(j, j+3).equalsIgnoreCase("NaN")) {
                     uncertaintyStr = "NaN";
                     j +=3;
                 } else {
@@ -200,7 +198,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                 if (bracketFound) {
                     if (source.charAt(j) != ')') {
                         pos.setErrorIndex(j);
-                        return null;
+                        throw new NotParsable("No closing bracket found in " + source + " at postion " + pos.getIndex());
                     }
                     j++;
                 }
@@ -210,8 +208,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
             }
         } catch (NumberFormatException e) {
             pos.setErrorIndex(pos.getIndex());
-            return null;
-            //throw new NotParsable(pos, e);
+            throw new NotParsable( pos, e);
         }
     }
 

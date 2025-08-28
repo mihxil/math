@@ -24,6 +24,7 @@ import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -103,7 +104,7 @@ public class DoubleElement
      */
     public static DoubleElement of(double value, double uncertainty) {
         if (Double.isNaN(value)) {
-            throw new IllegalArgumentException("NaN");
+            throw new IllegalArgumentException(value + " " + TextUtils.PLUSMIN + " " + uncertainty + " : value cannot be NaN");
         }
         return new DoubleElement(value, uncertainty);
     }
@@ -229,14 +230,23 @@ public class DoubleElement
     }
 
     @Override
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="square root of negative numbers is not possible")
     public DoubleElement sqrt() {
+        if (value < 0) {
+            throw new IllegalSqrtException("Cannot take square root of negative number", Double.toString(value));
+        }
         return of(Math.sqrt(value), uncertainty);
     }
 
 
     @Override
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value=" of negative numbers is not possible")
     public DoubleElement root(int i) {
-        return of(Math.pow(value, 1d/i), uncertainty);
+        double result = Math.pow(value, 1d/i);
+        if (Double.isNaN(result)) {
+            throw new IllegalPowerException("Cannot take fractional root of negative number", Double.toString(value));
+        }
+        return of(result, uncertainty);
     }
 
     @Override
@@ -264,10 +274,14 @@ public class DoubleElement
     }
 
     @Override
-    public RealNumber pow(RealNumber exponent) throws OverflowException {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="non integer powers of negative numbers are not possible")
+    public RealNumber pow(RealNumber exponent) throws OverflowException, IllegalPowerException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {
             throw new OverflowException("Result is infinite  " + result,   this + "^" + exponent );
+        }
+        if (Double.isNaN(result)) {
+            throw new IllegalPowerException("Result is NaN",   this + "^" + exponent );
         }
         return of(
             result,

@@ -221,6 +221,12 @@ class UncertainDoubleFormatTest {
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.000006e-10);
     }
 
+    @Test
+    public void parseNaNUncertainty() {
+        DoubleElement doubleElement = formatter.parseObject("306 ± NaN");
+        assertThat(doubleElement.getValue().doubleValue()).isEqualTo(306);
+        assertThat(doubleElement.getUncertainty().doubleValue()).isNaN();
+    }
 
 
 }
