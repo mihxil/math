@@ -7,11 +7,12 @@ This module involves mostly around `PhysicalNumber` and its derivatives. A `Phys
 
 Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
 
+.Example code for how measurements work
 [source,java]
 ----
-include::src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=imports, indent=0]
+include::src/test/java/org/meeuw/test/physics/PhysicalNumberTest.java[tag=imports, indent=0]
 ...
-include::src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=add, indent=0]
+include::src/test/java/org/meeuw/test/physics/PhysicalNumberTest.java[tag=add, indent=0]
 ----
 
 Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).

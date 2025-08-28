@@ -27,6 +27,9 @@ import org.meeuw.theories.numbers.NumberTheory;
 import org.meeuw.theories.numbers.ScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+// tag::imports[]
+
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.DecimalPrefix.none;
