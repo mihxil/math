@@ -41,7 +41,6 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     final ScalarField<E> elementStructure;
 
-    final E zero;
 
     public static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
         E v00, E v01, E v02,
@@ -53,6 +52,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
             v20, v21, v22);
 
     }
+
 
 
     @SuppressWarnings("unchecked")
@@ -85,7 +85,6 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     public FieldMatrix3(@Square(3) E[][] values) {
         this.elementStructure = values[0][0].getStructure();
         this.values = values;
-        this.zero = this.elementStructure.zero();
     }
 
     @Override

@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.util.*;
 
@@ -27,6 +28,7 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@Log
 public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<FieldMatrix3<E>>
     implements MultiplicativeGroup<FieldMatrix3<E>> {
@@ -55,6 +57,7 @@ public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
             eOne, eZero, eZero,
             eZero, eOne, eZero,
             eZero, eZero, eOne);
+        log.info(() -> "Created " + this);
     }
 
     @Override

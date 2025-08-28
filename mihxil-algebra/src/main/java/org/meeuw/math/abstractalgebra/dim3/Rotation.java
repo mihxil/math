@@ -110,7 +110,9 @@ public class Rotation implements
 
     @Override
     public Rotation reciprocal() {
-        return new Rotation(rot.reciprocal());
+        return new Rotation(
+            rot.reciprocal()
+        );
     }
 
     @Override

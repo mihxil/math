@@ -394,10 +394,13 @@ public class DoubleElement
         } else if (Double.isNaN(r1.value) || Double.isNaN(r2.value)) {
             return new DoubleElement(newValue, Double.NaN);
         } else {
+            double value1 = Math.max(Math.abs(r1.value), r1.uncertainty);
+            double value2 = Math.max(Math.abs(r2.value), r2.uncertainty);
+            double newValueForUncertaintiy = value1 * value2;
             return new DoubleElement(newValue,
-                Math.abs(newValue) * (
-                    r1.uncertainty / (Math.abs(r1.value) + r1.uncertainty) +
-                        r2.uncertainty / (Math.abs(r2.value) + r2.uncertainty)
+                newValueForUncertaintiy * (
+                    r1.uncertainty / value1 +
+                        r2.uncertainty / value2
                 ) + uncertaintyForDouble(newValue)
 
             );

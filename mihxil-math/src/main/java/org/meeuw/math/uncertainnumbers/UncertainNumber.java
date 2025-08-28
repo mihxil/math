@@ -174,8 +174,9 @@ public interface UncertainNumber<N extends Number>
             return o.isNaN(getValue());
         }
 
-        return getConfidenceInterval(sds).contains(other.getValue())
+        boolean result =  getConfidenceInterval(sds).contains(other.getValue())
             ||  other.getConfidenceInterval(sds).contains(getValue());
+        return result;
     }
 
     default boolean eq(UncertainNumber<N> o) {

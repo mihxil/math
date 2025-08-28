@@ -20,8 +20,8 @@ import lombok.extern.log4j.Log4j2;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
-import org.meeuw.math.abstractalgebra.dim3.Rotation;
+import org.meeuw.math.abstractalgebra.dim3.*;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
@@ -40,6 +40,11 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  */
 @Log4j2
 class RotationTest implements MultiplicativeGroupTheory<Rotation> {
+
+    static {
+        FieldMatrix3Group.of(RealField.INSTANCE);
+
+    }
 
     @Test
     public void rotx() {
@@ -95,7 +100,30 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     public Arbitrary<Rotation> elements() {
         return Arbitraries.doubles().ofScale(20).between(0, Math_2PI)
             .tuple3()
+            .filter(t -> {
+                log.info("Tuple {}", t);
+                return true;
+            })
             .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())))
             ;
     }
+
+
+    /**
+     * C case that used to fila
+     */
+    @Test
+    public void reciprocalCase() {
+        withLooseEquals(() -> {
+            Rotation rotation = Rx(5.956901712986539).times(Ry(1.1e-19)).times(Rz(4.108345485500838));
+            Rotation reciprocal = rotation.reciprocal();
+            Rotation reciprocal2 = reciprocal.reciprocal();
+            log.info("Rotation: {}", rotation);
+            log.info("Reciprocated: {}", reciprocal);
+            log.info("Reciprocated again: {}", reciprocal2);
+            assertThatAlgebraically(reciprocal2).isEqTo(rotation);
+        });
+    }
+
+
 }
