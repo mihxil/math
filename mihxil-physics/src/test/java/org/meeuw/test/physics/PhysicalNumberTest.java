@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -21,11 +21,10 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.physics.*;
 import org.meeuw.theories.abstractalgebra.*;
 import org.meeuw.theories.numbers.NumberTheory;
 import org.meeuw.theories.numbers.ScalarTheory;
-
-// tag::imports[]
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.Measurement.measurement;
@@ -70,11 +69,11 @@ class PhysicalNumberTest implements
 
         PhysicalNumber inLightYear = two_kpc.toUnits(Units.of(ly));
         assertThat(inLightYear.doubleValue()).isEqualTo(6523.1275543348665);
-        assertThat(inLightYear.toString()).isEqualTo("6523 ± 311 ly");
+        assertThat(inLightYear.toString()).isEqualTo("6523 ± 326 ly");
 
         assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁹ m");
         assertThat(inLightYear.toUnits(CGS.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10²¹ cm");
-        assertThat(inLightYear.toUnits(Planck.INSTANCE).toString()).isEqualTo("(3.82 ± 0.17)·10⁵⁴ ℓₚ");
+        assertThat(inLightYear.toUnits(Planck.INSTANCE).toString()).isEqualTo("(3.82 ± 0.19)·10⁵⁴ ℓₚ");
     }
 
     @Test

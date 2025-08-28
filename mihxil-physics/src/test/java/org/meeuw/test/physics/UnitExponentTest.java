@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -21,6 +21,7 @@ import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.IntegerArbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.physics.*;
 import org.meeuw.theories.ComparableTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;

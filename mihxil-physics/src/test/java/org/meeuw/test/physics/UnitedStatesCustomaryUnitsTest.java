@@ -13,11 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.of;

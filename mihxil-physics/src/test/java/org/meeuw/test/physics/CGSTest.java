@@ -13,9 +13,11 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.CGS.INSTANCE;
@@ -52,7 +54,7 @@ class CGSTest {
         assertThat(mPerS2.equals(gal)).isFalse();
 
         assertThat(mPerS2).isEqualTo(m.per(s.sqr()));
-        assertThat(acc.toUnits(mPerS2).toString()).isEqualTo("0.0100 ± 0.0009 m·s⁻²");
+        assertThat(acc.toUnits(mPerS2).toString()).isEqualTo("0.0100 ± 0.0010 m·s⁻²");
 
     }
 

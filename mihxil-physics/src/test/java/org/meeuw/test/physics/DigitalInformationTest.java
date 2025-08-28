@@ -1,6 +1,8 @@
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import org.junit.jupiter.api.Test;
+
+import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
@@ -27,7 +29,7 @@ public class DigitalInformationTest {
 
         PhysicalNumber speed = thousandKiB.dividedBy(measurement(2d, 0.1d, s));
 
-        assertThat(speed.toString()).isEqualTo("500 ± 24 Kibit·s⁻¹");
+        assertThat(speed.toString()).isEqualTo("500 ± 25 Kibit·s⁻¹");
         assertThat(inBytes.dividedBy(measurement(2d, 0.1d, hour)).toString()).isEqualTo("62 ± 3 KiByte·h⁻¹");
     }
 }

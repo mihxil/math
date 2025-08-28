@@ -42,7 +42,7 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
     }
 
 
-    enum US implements BaseUnit {
+    public enum US implements BaseUnit {
         yd(Dimension.L, "yard", exactly(0.9144)),
         lb(Dimension.M, "pound", exactly(0.45359237))
         ;

@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 

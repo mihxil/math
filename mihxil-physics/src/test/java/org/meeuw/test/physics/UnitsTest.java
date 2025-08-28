@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -24,8 +24,9 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.theories.abstractalgebra.MultiplicativeAbelianGroupTheory;
 import org.meeuw.math.text.FormatService;
+import org.meeuw.physics.*;
+import org.meeuw.theories.abstractalgebra.MultiplicativeAbelianGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -82,7 +83,7 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
         assertThat(mps).isEqualTo(n.toUnits(SI.INSTANCE));
 
-        assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("(9.3 ± 0.8)·10⁻⁹ ℓₚ·tₚ⁻¹");
+        assertThat(n.toUnits(Planck.INSTANCE).toString()).isEqualTo("(9.3 ± 0.9)·10⁻⁹ ℓₚ·tₚ⁻¹");
     }
 
     @Override

@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +22,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.physics.*;
 import org.meeuw.physics.SI.DecimalPrefix;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,8 +34,8 @@ import static org.meeuw.physics.Quantity.LUMINOUS_INTENSITY;
 import static org.meeuw.physics.SI.DecimalPrefix.*;
 import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SI.J;
-import static org.meeuw.physics.SIUnit.m;
 import static org.meeuw.physics.SIUnit.*;
+import static org.meeuw.physics.SIUnit.m;
 
 /**
  * @author Michiel Meeuwissen

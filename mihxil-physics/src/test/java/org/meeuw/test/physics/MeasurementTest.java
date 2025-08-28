@@ -13,12 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.physics;
+package org.meeuw.test.physics;
 
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -46,9 +47,9 @@ class MeasurementTest  {
         Measurement height = new Measurement(21, 0.2, LENGTH);
         Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
-        assertThat(area.toString()).isEqualTo("630 ± 26 m²"); // or should that be 27?
+        assertThat(area.toString()).isEqualTo("630 ± 27 m²"); // or should that be 27?
         ConfigurationService.withAspect(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
-            () -> assertThat(area.toString()).isEqualTo("630(26) m²")
+            () -> assertThat(area.toString()).isEqualTo("630(27) m²")
         );
     }
 

@@ -50,7 +50,7 @@ public class CGS implements SystemOfMeasurements {
         };
     }
 
-    enum CGSUnit implements BaseUnit {
+    public enum CGSUnit implements BaseUnit {
         cm(Dimension.L, exactly(0.01)),
         g(Dimension.M, exactly(0.001)),
         s(Dimension.T, exactly(1)),
