@@ -69,7 +69,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void zero() {
-        assertThat(formatter.scientificNotationWithUncertainty(0, 0)).isEqualTo("0 ± 0");
+        assertThat(formatter.scientificNotationWithUncertainty(0, 0)).isEqualTo("0");
     }
 
 
@@ -226,6 +226,21 @@ class UncertainDoubleFormatTest {
         DoubleElement doubleElement = formatter.parseObject("306 ± NaN");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(306);
         assertThat(doubleElement.getUncertainty().doubleValue()).isNaN();
+    }
+
+
+
+    @Test
+    public void impreciseNotation() {
+
+        DoubleElement doubleElement = formatter.parseObject("1.12345678(2)");
+        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
+        assertThat(formatter.format(doubleElement)).isEqualTo("1.12345678(2)");
+        formatter.setMaximalPrecision(3);
+        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
+        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PLUS_MINUS);
+        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
+
     }
 
 

@@ -20,7 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.text.*;
-import java.util.OptionalLong;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
@@ -43,9 +42,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
     @Setter
     private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
-    @Getter
-    @Setter
-    private double considerRoundingErrorFactor = 1000d;
+
 
 
     private boolean roundingErrorsOnly(double value, double uncertainty) {
@@ -157,6 +154,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
 
 
 
+            meanDigits = Math.min(meanDigits, maximalPrecision);
 
             NumberFormat format = (NumberFormat) numberFormat.clone();
             format.setMaximumFractionDigits(meanDigits);

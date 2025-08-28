@@ -84,9 +84,9 @@
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">{2}, size: 200</tspan>
-            <tspan dy="4.0" x="0">area: (1.2 ± 0.6)·10⁻¹²</tspan>
+            <tspan dy="4.0" x="0">area: 1.22464679914735·10⁻¹²</tspan>
             <tspan dy="4.0" x="0">perimeter: 400</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{200x(1.2 ± 1.1)·10⁻¹⁴}</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{200x1·10⁻¹⁴}</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0"># edges: 2</tspan>
             <tspan dy="4.0" x="0"># vertices: 2</tspan>

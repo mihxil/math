@@ -61,7 +61,12 @@ public abstract class AbstractUncertainFormat<F> extends Format {
 
     @Getter
     @Setter
-    private double considerRoundingErrorFactor = 1000d;
+    protected double considerRoundingErrorFactor = 1000d;
+
+    @Getter
+    @Setter
+    protected int maximalPrecision = Integer.MAX_VALUE;
+
 
 
 

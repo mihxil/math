@@ -74,7 +74,7 @@
             <!--Dot showing the first vertex-->
             <circle cx="6.123233995736766E-15" cy="-100.0" fill="#ff0000" r="1.1"/>
             <!--Inscribed circle of {19}, size: 32.91891805614678-->
-            <circle fill="none" r="98.63613034027223" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <circle fill="none" r="98.63613034027225" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed circle of {19}, size: 32.91891805614678-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of {19}, size: 32.91891805614678-->
@@ -86,7 +86,7 @@
             <tspan dy="4.0" x="0">{19}, size: 32.91891805614678</tspan>
             <tspan dy="4.0" x="0">area: 3.08464495744449·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 625.4594430667888</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{199.31689860133397x198.63613034027225} at (0.000000000000000000000000000 ± 0.000000000000171526343018815,-0.68193482986388)</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{199.31689860133397x198.63613034027225} at (0.00,-0.68)</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0"># edges: 19</tspan>
             <tspan dy="4.0" x="0"># vertices: 19</tspan>

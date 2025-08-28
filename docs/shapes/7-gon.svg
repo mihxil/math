@@ -74,7 +74,7 @@
             <!--Dot showing the first vertex-->
             <circle cx="6.123233995736767E-15" cy="-100.00000000000001" fill="#ff0000" r="1.1"/>
             <!--Inscribed circle of {7}, size: 86.77674782351163-->
-            <circle fill="none" r="90.09688679024191" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <circle fill="none" r="90.09688679024192" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed circle of {7}, size: 86.77674782351163-->
             <circle fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of {7}, size: 86.77674782351163-->
@@ -86,7 +86,7 @@
             <tspan dy="4.0" x="0">{7}, size: 86.77674782351163</tspan>
             <tspan dy="4.0" x="0">area: 2.7364101886381·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 607.4372347645814</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{194.98558243636475x190.09688679024194} at ((7 ± 169)·10⁻¹⁵,-4.95155660487904)</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{194.98558243636475x190.09688679024194} at (7·10⁻¹⁵,-4.95155660487904)</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100.00000000000003}</tspan>
             <tspan dy="4.0" x="0"># edges: 7</tspan>
             <tspan dy="4.0" x="0"># vertices: 7</tspan>

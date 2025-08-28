@@ -7,21 +7,22 @@ import java.io.FileOutputStream;
 
 import javax.xml.transform.stream.StreamResult;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-// tag::imports[]
-
-
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
 import org.meeuw.math.svg.SVGDocument;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
-import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
+import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 
 // end::imports[]
 
@@ -31,6 +32,17 @@ public class SVGTest {
     Rectangle<ModuloFieldElement> size = Rectangle.of(205, 205);
     Rectangle<ModuloFieldElement> spacing = Rectangle.of(10, 10);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
+
+    @BeforeEach
+    public void setUp() {
+        ConfigurationService.defaultConfiguration(c -> {
+            c.configure(UncertaintyConfiguration.class, ac -> {
+                return ac.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE);
+            }).configure(NumberConfiguration.class, nc -> {
+                return nc.withMaximalPrecision(2);
+            });
+        });
+    }
 
     // tag::regularPolygons[]
     @ParameterizedTest

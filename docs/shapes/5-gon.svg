@@ -86,7 +86,7 @@
             <tspan dy="4.0" x="0">{5}, size: 117.55705045849463</tspan>
             <tspan dy="4.0" x="0">area: 2.37764129073788·10⁴</tspan>
             <tspan dy="4.0" x="0">perimeter: 587.7852522924732</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{190.21130325903073x180.90169943749476} at ((-7 ± 168)·10⁻¹⁵,-9.54915028125263)</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{190.21130325903073x180.90169943749476} at (-7·10⁻¹⁵,-9.54915028125263)</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0"># edges: 5</tspan>
             <tspan dy="4.0" x="0"># vertices: 5</tspan>

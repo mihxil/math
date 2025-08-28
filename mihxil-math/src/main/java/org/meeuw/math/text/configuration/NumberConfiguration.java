@@ -68,19 +68,27 @@ public class NumberConfiguration implements ConfigurationAspect {
     private final DecimalFormat numberFormat;
 
 
+    @Getter
+    @With
+    private final int maximalPrecision;
+
+
+
     @lombok.Builder
     private NumberConfiguration(
         int minimalExponent,
         GroupingSeparator groupingSeparator,
-        DecimalFormat numberFormat
+        DecimalFormat numberFormat,
+        int maximalPrecision
        ) {
         this.minimalExponent = minimalExponent;
         this.numberFormat = numberFormat;
         this.groupingSeparator = groupingSeparator;
+        this.maximalPrecision = maximalPrecision;
     }
 
     public NumberConfiguration() {
-        this(4, NONE, getDefaultNumberFormat());
+        this(4, NONE, getDefaultNumberFormat(), Integer.MAX_VALUE);
     }
 
     @Override

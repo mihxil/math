@@ -40,8 +40,11 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
         NumberConfiguration numberConfiguration = getConfigurationAspect(NumberConfiguration.class);
         format.setMinimumExponent(numberConfiguration.getMinimalExponent());
         format.setNumberFormat(numberConfiguration.getNumberFormat());
+        format.setMaximalPrecision(numberConfiguration.getMaximalPrecision());
+
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
         format.setConsiderRoundingErrorFactor(getConfigurationAspect(UncertaintyConfiguration.class).getConsiderRoundingErrorFactor());
+
 
         return format;
     }

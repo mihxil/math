@@ -73,21 +73,21 @@
             <polygon fill="none" points="6.123233995736766E-15,-100.0" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="6.123233995736766E-15" cy="-100.0" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {1}, size: (2 ± 2)·10⁻¹⁴-->
+            <!--Inscribed circle of {1}, size: 2·10⁻¹⁴-->
             <circle fill="none" r="-100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {1}, size: (2 ± 2)·10⁻¹⁴-->
+            <!--Circumscribed circle of {1}, size: 2·10⁻¹⁴-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {1}, size: (2 ± 2)·10⁻¹⁴-->
+            <!--Circumscribed rectangle of {1}, size: 2·10⁻¹⁴-->
             <rect fill="none" height="0.0" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="0.0" x="6.123233995736766E-15" y="-100.0"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{1}, size: (2 ± 2)·10⁻¹⁴</tspan>
-            <tspan dy="4.0" x="0">area: (-1.2 ± 0.8)·10⁻¹²</tspan>
-            <tspan dy="4.0" x="0">perimeter: (2 ± 2)·10⁻¹⁴</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{0.00000000000000000000000000000 ± 0.00000000000001237572326293616x0 ± 100} at ((6 ± 6)·10⁻¹⁵,-100 ± 50)</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100 ± 100}</tspan>
+            <tspan dy="4.0" x="0">{1}, size: 2·10⁻¹⁴</tspan>
+            <tspan dy="4.0" x="0">area: -1·10⁻¹²</tspan>
+            <tspan dy="4.0" x="0">perimeter: 2·10⁻¹⁴</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{0.00x0}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0"># edges: 1</tspan>
             <tspan dy="4.0" x="0"># vertices: 1</tspan>
         </text>

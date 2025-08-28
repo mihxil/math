@@ -74,7 +74,7 @@
             <!--Dot showing the first vertex-->
             <circle cx="98.07852804032305" cy="-19.509032201612825" fill="#ff0000" r="1.1"/>
             <!--Inscribed circle of {16}, size: 39.01806440322565-->
-            <circle fill="none" r="98.07852804032305" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <circle fill="none" r="98.07852804032304" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed circle of {16}, size: 39.01806440322565-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of {16}, size: 39.01806440322565-->

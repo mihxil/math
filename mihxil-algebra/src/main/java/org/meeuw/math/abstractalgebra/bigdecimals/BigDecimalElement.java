@@ -33,6 +33,8 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
 
 /**
  * A real number (backend by a big decimal), element of {@link BigDecimalElement}.
+ * <p>
+ * This can be arbitrary precise, but still a bit uncertain because in some cases because these would need infinite precision.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
@@ -380,6 +382,7 @@ public class BigDecimalElement implements
 
     @Override
     public String toString() {
+        // TODO
         return value.toString();
     }
 

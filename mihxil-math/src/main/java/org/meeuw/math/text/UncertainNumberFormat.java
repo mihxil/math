@@ -55,7 +55,12 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
 
 
     public static String valuePlusMinError(String value, String error) {
-        return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
+        boolean empty = error.replaceAll("^[0.]+", "").isEmpty();
+        if (empty) {
+            return value;
+        } else {
+            return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
+        }
     }
 
 
@@ -75,7 +80,12 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
         while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
              i++;
          }
-         return value +  "(" + error.substring(i) + ")";
+        String e = error.substring(i);
+        if (e.isEmpty()) {
+            return value;
+        } else {
+            return value + "(" + e + ")";
+        }
     }
 
 
@@ -93,7 +103,7 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> valuePlusMinError(value, error);
-           // case ROUND_VALUE -> valueRounded(value, error);
+            case ROUND_VALUE -> value;
         };
     }
 
@@ -105,7 +115,10 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-           // case ROUND_VALUE -> valueRounded(value, error);
+            case ROUND_VALUE -> {
+                format.format(value, appendable, position);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
         }
     }
 
