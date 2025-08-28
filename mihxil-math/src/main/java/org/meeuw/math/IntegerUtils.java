@@ -33,6 +33,8 @@ public final class IntegerUtils {
     private IntegerUtils() {}
 
 
+    private static final Map<Integer, Integer> maxExponents = new  HashMap<>();
+
     private static final long[] POWERS = {
         1L, 10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L,
         10_000_000L, 100_000_000L, 1_000_000_000L, 10_000_000_000L,
@@ -43,13 +45,19 @@ public final class IntegerUtils {
     /**
      * Returns 10 to the power i, a utility in java.lang.Math for that lacks.
      *
-     * @see #positivePow(long, int)
+     * @see #positivePow(int, int)
      * @param e  the exponent
      * @return 10<sup>e</sup>
      */
     @Synonym("pow10")
     @Positive
-    public static long positivePow10(@PositiveOrZero int e) {
+    public static long positivePow10(@PositiveOrZero @Max(18) int e) {
+        if (e < 0) {
+            throw new IllegalPowerException("Cannot raise to negative", 10 + TextUtils.superscript( e));
+        }
+        if (e >= POWERS.length) {
+            throw new IllegalPowerException("Result cannot fit long", 10 + TextUtils.superscript( e));
+        }
         return POWERS[e];
     }
     @Synonym("positivePow10")
@@ -57,6 +65,8 @@ public final class IntegerUtils {
     public static long pow10(@PositiveOrZero int e){
         return positivePow10(e);
     }
+
+
 
     /**
      * Returns base to the power i, a utility in java.lang.Math for that lacks.
@@ -66,13 +76,18 @@ public final class IntegerUtils {
      * @param e  the exponent
      * @return base<sup>e</sup>
      */
-    public static long positivePow(@NotZero long base, @PositiveOrZero int e) {
+    public static long positivePow(@NotZero int base, @PositiveOrZero int e) {
         if (base == 10) {
             return pow10(e);
         }
         if (e < 0) {
             throw new IllegalPowerException("Cannot raise to negative", base + TextUtils.superscript( e));
         }
+        int maxExponent = maxExponents.computeIfAbsent(base, (b) -> (int) Math.floor(Math.log(Long.MAX_VALUE) / Math.log(b)));
+        if (e > maxExponent) {
+            throw new IllegalPowerException("Result cannot fit long", base + TextUtils.superscript( e));
+        }
+
         long result = 1;
         while (e > 0) {
             result *= base;

@@ -108,6 +108,20 @@ class IntegerUtilsTest {
     }
 
     @Test
+    public void positivePower10TooBig() {
+        assertThatThrownBy(() -> IntegerUtils.positivePow10(19)).isInstanceOf(IllegalPowerException.class);
+        assertThat(IntegerUtils.positivePow10(18)).isEqualTo(1000000000000000000L);
+    }
+
+    @Test
+    public void positivePowerTooBig() {
+        assertThat(IntegerUtils.positivePow(11, 18)).isEqualTo(5_559_917_313_492_231_481L);
+        assertThatThrownBy( () -> IntegerUtils.positivePow(11, 19)).isInstanceOf(IllegalPowerException.class);
+
+    }
+
+
+    @Test
     public void positivePower() {
         assertThatThrownBy(() -> IntegerUtils.positivePow(BigInteger.TEN, -1)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow(BigInteger.TEN, 2)).isEqualTo(BigInteger.valueOf(100));
