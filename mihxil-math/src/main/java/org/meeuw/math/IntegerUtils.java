@@ -9,10 +9,12 @@ import java.util.stream.LongStream;
 import java.util.stream.StreamSupport;
 
 import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.validation.NotZero;
 
 /**
  * @since 0.9
@@ -46,10 +48,12 @@ public final class IntegerUtils {
      * @return 10<sup>e</sup>
      */
     @Synonym("pow10")
+    @Positive
     public static long positivePow10(@PositiveOrZero int e) {
         return POWERS[e];
     }
     @Synonym("positivePow10")
+    @Positive
     public static long pow10(@PositiveOrZero int e){
         return positivePow10(e);
     }
@@ -62,7 +66,7 @@ public final class IntegerUtils {
      * @param e  the exponent
      * @return base<sup>e</sup>
      */
-    public static long positivePow(@NotNull long base, @PositiveOrZero int e) {
+    public static long positivePow(@NotZero long base, @PositiveOrZero int e) {
         if (base == 10) {
             return pow10(e);
         }
@@ -77,7 +81,7 @@ public final class IntegerUtils {
         return result;
     }
 
-    public static BigInteger positivePow(@NotNull BigInteger base, @PositiveOrZero int e) {
+    public static BigInteger positivePow(@NotNull @NotZero BigInteger base, @PositiveOrZero int e) {
         if (e < 0) {
             throw new IllegalPowerException("Cannot raise to negative",  base +  TextUtils.superscript(e));
         }
@@ -130,6 +134,7 @@ public final class IntegerUtils {
      * @see #floorSqrt(long)
      * @throws NotASquareException If the given argument is not a square.
      */
+    @NonNegative
     public static long sqrt(@NonNegative final long radicand) throws NotASquareException {
         long proposal = floorSqrt(radicand);
         if (proposal * proposal < radicand) {
@@ -148,7 +153,7 @@ public final class IntegerUtils {
         }
         return true;
     }
-    public static boolean isSquare(final BigInteger radicand) {
+    public static boolean isSquare(@NonNull final BigInteger radicand) {
         if (radicand.signum() < 0) {
             return false;
         }
@@ -160,7 +165,8 @@ public final class IntegerUtils {
      *
      * @see #sqrt(long)
      */
-    public static int sqrt(final int radicand) throws NotASquareException {
+    @NonNegative
+    public static int sqrt(@NonNegative final int radicand) throws NotASquareException {
         return (int) sqrt((long) radicand);
     }
 

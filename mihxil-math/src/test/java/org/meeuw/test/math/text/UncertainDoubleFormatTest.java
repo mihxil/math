@@ -20,23 +20,22 @@ import lombok.extern.log4j.Log4j2;
 import java.text.*;
 import java.util.Locale;
 
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
-import org.meeuw.math.text.*;
-
-import static org.meeuw.math.text.TextUtils.superscript;
-
+import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.text.TextUtils.superscript;
 
 /**
  * @author Michiel Meeuwissen
