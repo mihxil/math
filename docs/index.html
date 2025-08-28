@@ -863,10 +863,23 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -&gt; e.withNo
 <p>Also, a <code>PhysicalNumber</code> can be assigned <code>Units</code>. This can be used for proper displaying the value, and for dimensional analysis.</p>
 </div>
 <div class="listingblock">
+<div class="title">Example code for how measurements work</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">Unresolved directive in mihxil-physics/README-source.adoc - include::src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=imports, indent=<span class="integer">0</span>]
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.Measurement.measurement</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI.DecimalPrefix.k</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI.DecimalPrefix.none</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.kg</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.m</span>;
+
 ...
-Unresolved directive in mihxil-physics/README-source.adoc - include::src/test/java/org/meeuw/physics/PhysicalNumberTest.java[tag=add, indent=<span class="integer">0</span>]</code></pre>
+PhysicalNumber twoLightYear = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
+PhysicalNumber oneParsec = measurement(<span class="integer">1</span>, <span class="float">0.1</span>, pc); <span class="comment">// using the static import as a shortcut</span>
+
+assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.3 ± 0.4 ly</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.61 ± 0.13 pc</span><span class="delimiter">&quot;</span></span>);
+assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); <span class="comment">//different toString does not mean that they represent a different value</span>
+log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">{} + {} = {}</span><span class="delimiter">&quot;</span></span>, twoLightYear, oneParsec, twoLightYear.plus(oneParsec));</code></pre>
 </div>
 </div>
 <div class="paragraph">
