@@ -21,6 +21,7 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.util.OptionalLong;
 
+import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -41,12 +42,12 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
     }
 
     @Override
-    UncertainNumber<?> of(String v, OptionalLong multiplier, OptionalLong dividor) {
+    UncertainNumber<?> of(String v, Factor factor) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    UncertainNumber<?> of(String v, String uncertainty, OptionalLong multiplier, OptionalLong dividor) {
+    UncertainNumber<?> of(String v, String uncertainty, Factor factor) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

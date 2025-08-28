@@ -24,6 +24,7 @@ import java.text.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
@@ -73,9 +74,9 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     });
 
 
-    abstract F of(String v, OptionalLong multiplier, OptionalLong dividor);
+    abstract F of(String v, Factor factor);
 
-    abstract F of(String v, String uncertainty, OptionalLong multiplier, OptionalLong dividor);
+    abstract F of(String v, String uncertainty, Factor factor);
 
 
     @SneakyThrows
@@ -126,11 +127,8 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                 // Only value, parse until non-numeric
                 String valueStr = source.substring(start, i).trim();
                 pos.setIndex(i);
-                long multiplier = parsePower(valueStr, pos);
-                return of(valueStr,
-                    multiplier > 0 ? OptionalLong.of(multiplier) : OptionalLong.empty(),
-                    multiplier < 0 ? OptionalLong.of(multiplier) : OptionalLong.empty()
-                    );
+                Factor factor = parsePower(valueStr, pos);
+                return of(valueStr, factor);
             } else if (errorBracket >= 0)  {
                 // Value and uncertainty
                 final String valueStr = source.substring(start, errorBracket).trim();
@@ -170,11 +168,8 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                 }
 
                 String uncertaintyStr = valueStr.substring(firstDigit, valueStr.length() - errorDigits.length()).replaceAll("\\d", "0") + errorDigits;
-                long multiplier = parsePower(source, pos);
-                return of(valueStr, uncertaintyStr,
-                    multiplier > 0 ? OptionalLong.of(multiplier) : OptionalLong.empty(),
-                    multiplier < 0 ? OptionalLong.of(-1 * multiplier) : OptionalLong.empty()
-                );
+                Factor factor = parsePower(source, pos);
+                return of(valueStr, uncertaintyStr,  factor);
 
 
             } else {
@@ -210,11 +205,8 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                     j++;
                 }
                 pos.setIndex(j);
-                long multiplier = parsePower(source, pos);
-                return of(valueStr, uncertaintyStr,
-                    multiplier > 0 ? OptionalLong.of(multiplier) : OptionalLong.empty(),
-                    multiplier < 0 ? OptionalLong.of(-1 * multiplier) : OptionalLong.empty()
-                );
+                Factor factor = parsePower(source, pos);
+                return of(valueStr, uncertaintyStr, factor);
             }
         } catch (NumberFormatException e) {
             pos.setErrorIndex(pos.getIndex());
@@ -223,7 +215,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         }
     }
 
-    long parsePower(String value, ParsePosition parsePosition) {
+    Factor parsePower(String value, ParsePosition parsePosition) {
         int pos = parsePosition.getIndex();
         //skip leading space
         while (pos < value.length() && isWhitespace(value.charAt(pos))) {
@@ -231,19 +223,19 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         }
         // if nothing, just return 1;
         if (pos >= value.length()) {
-            return 1;
+            return Factor.ONE;
         }
         if (value.charAt(pos) == 'e' || value.charAt(pos) == 'E') {
             parsePosition.setIndex(pos + 1);
             int power = parseInt(value, parsePosition);
-            return Integer.signum(power) * IntegerUtils.pow10(power);
+            return Factor.ofPow10(power);
         } else if (value.charAt(pos) == TextUtils.TIMES) {
             parsePosition.setIndex(pos + 1);
             int base = parseInt(value, parsePosition);
             int power = parseSuperscript(value, parsePosition);
-            return Integer.signum(power) * IntegerUtils.positivePow(base, Math.abs(power));
+            return Factor.ofPow(base, power);
         } else {
-            return 1;
+            return Factor.ONE;
         }
     }
 
@@ -253,7 +245,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
             pos++;
         }
         int i = pos;
-        while(isDigit(value.charAt(i))) {
+        while(i < value.length() && isDigit(value.charAt(i))) {
             i++;
         }
         parsePosition.setIndex(i);

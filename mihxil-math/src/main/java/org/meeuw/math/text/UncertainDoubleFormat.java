@@ -25,6 +25,7 @@ import java.util.OptionalLong;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
@@ -66,30 +67,21 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
     }
 
     @Override
-    DoubleElement of(String valueStr, OptionalLong multiplier, OptionalLong dividor) {
+    DoubleElement of(String valueStr, Factor factor) {
         double value = Double.parseDouble(valueStr);
-        return of(DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value)), multiplier, dividor);
+        return (DoubleElement) factor.apply(DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value)));
 
     }
 
     @Override
-    DoubleElement of(String valueStr, String uncertaintyStr, OptionalLong multiplier, OptionalLong dividor) {
+    DoubleElement of(String valueStr, String uncertaintyStr, Factor factor) {
         double value = Double.parseDouble(valueStr);
         double uncertainty = Double.parseDouble(uncertaintyStr);
 
-        return of(DoubleElement.of(value, uncertainty), multiplier, dividor);
+        return (DoubleElement) factor.apply(DoubleElement.of(value, uncertainty));
 
     }
-    DoubleElement of(DoubleElement doubleElement, OptionalLong multiplier, OptionalLong dividor) {
-        if (multiplier.isPresent()) {
-            doubleElement = doubleElement.times(multiplier.getAsLong());
-        }
-        if (dividor.isPresent()) {
-            doubleElement = doubleElement.dividedBy(dividor.getAsLong());
-        }
-        return doubleElement;
 
-    }
 
     public String scientificNotationWithUncertainty(
         double meanDouble,

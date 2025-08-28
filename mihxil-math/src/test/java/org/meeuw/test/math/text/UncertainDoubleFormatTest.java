@@ -29,6 +29,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.text.*;
+
+import static org.meeuw.math.text.TextUtils.superscript;
+
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
@@ -199,7 +202,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void parseBracket10() {
-        DoubleElement doubleElement = formatter.parseObject("-1.567(4) ·10" + TextUtils.superscript(5));
+        DoubleElement doubleElement = formatter.parseObject("-1.567(4) ·10" + superscript(5));
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-156700d);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(400);
     }
