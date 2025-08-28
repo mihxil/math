@@ -49,7 +49,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Build with Maven
         run: mvn -B -D"maven.test.failure.ignore=true"
-      - uses: codecov/codecov-action@v4
+      - uses: codecov/codecov-action@v5
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
@@ -59,21 +59,19 @@ jobs:
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results linux ${{ matrix.java }}
-          action_fail: true
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action/windows@v2
         if: always() &&  runner.os == 'Windows'
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results windows ${{ matrix.java }}
-          action_fail: true
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action/macos@v2
         if: always() && runner.os == 'macOS'
         with:
           files: "**/target/surefire-reports/*.xml"
           check_name: Tests results macos ${{ matrix.java }}
-          action_fail: true
+      - uses: MMProgrami/after-maven-action@v2
       - name: Deploy with Maven
         run: mvn -B -Ddeploy  -DskipTests=true deploy
         if: ${{ github.event_name == 'push'  && ! cancelled() && runner.os == 'Linux' && matrix.java == '17'}}

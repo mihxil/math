@@ -30,6 +30,13 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * <p>
  * It can have any kind of {@link RealNumber} elements. But it can always fall back to
  * {@link DoubleElement}, an immutable instance based on primitive doubles.
+ * <h3>special values</h3>
+ * <p>
+ * Primitive {@code double} can contain special values {@link Double#NaN}, {@link Double#POSITIVE_INFINITY}, {@link Double#NEGATIVE_INFINITY}.
+ * There are currently intentionally not supported, but I think I changed my mind a few times. May be it is worth supporting them, because
+ * why would a {@code DoubleElement} be less 'powerfull' then an {@code double}
+ * <p>
+ * But it gives some issues, when <em>comparing</em>. E.g. is 1 \pm Nan, equal to 0 \pm Nan? Is {@code +Infinity} a proper element of the group? It is not really. It doesn't have a proper {@link MultiplicativeGroupElement#reciprocal} or {@link AdditiveGroupElement#negation()}
  *
  * @author Michiel Meeuwissen
  * @see DoubleElement
