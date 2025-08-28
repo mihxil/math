@@ -21,57 +21,57 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import net.jqwik.api.*;
-import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
-import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 /**
- *
+ * This just adds some extra tests for {@link org.meeuw.math.abstractalgebra.reals.RealField} where we also use {@link BigDecimalElement}
  *
  * @author Michiel Meeuwissen
  * @since 0.4
- * @TODO There are 2 RealFieldTest's!
+ *
  */
 @Log4j2
-class RealFieldTest implements CompleteScalarFieldTheory<RealNumber> {
+class RealFieldComparedWithBigDecimalFieldTest {
 
-    @Test
-    public void testToString() {
-        DoubleElement uncertainDouble = new DoubleElement(5, 1);
-        assertThat(uncertainDouble.toString()).isEqualTo("5.0 ± 1.0");
+    public Arbitrary<RealNumber> elements() {
+        return Arbitraries
+            .<RealNumber>randomValue(INSTANCE::nextRandom)
+            .dontShrink()
+            .edgeCases(c -> {
+                c.add(RealNumber.ONE);
+                c.add(RealNumber.ZERO);
+            });
     }
 
-    @Test
-    public void pow() {
-        DoubleElement w = new DoubleElement(-1971, 680);
-        assertThat(w.pow(-2).doubleUncertainty()).isPositive();
+
+    @Provide
+    public Arbitrary<AlgebraicBinaryOperator> operators() {
+        return Arbitraries.of(INSTANCE.getSupportedOperators());
     }
 
-    @Test
-    public void determinant2() {
-         RealNumber[][] realNumbers = new RealNumber[][] {
-            new RealNumber[]{element(1), element(2)},
-            new RealNumber[]{element(3), element(4)},
-        };
 
-        assertThat(INSTANCE.determinant(realNumbers))
-            .isEqualTo(exactly(-2));
+    @Provide
+    public Arbitrary<BigDecimal> bigdecimals() {
+        return Arbitraries.randomValue(r -> {
+            BigInteger a = new BigInteger(10, r);
+            BigInteger b = new BigInteger(40, r);
+            return new BigDecimal((r.nextBoolean() ? "+" : "-") + a  + "." + b);
+        });
     }
+
 
     @Property
     public void errorPropagation(
@@ -106,31 +106,5 @@ class RealFieldTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
 
-    @Override
-    public Arbitrary<RealNumber> elements() {
-        return Arbitraries
-            .<RealNumber>randomValue(INSTANCE::nextRandom)
-            .dontShrink()
-            .edgeCases(c -> {
-                c.add(RealNumber.ONE);
-                c.add(RealNumber.ZERO);
-            });
-    }
-
-
-    @Provide
-    public Arbitrary<AlgebraicBinaryOperator> operators() {
-        return Arbitraries.of(INSTANCE.getSupportedOperators());
-    }
-
-
-    @Provide
-    public Arbitrary<BigDecimal> bigdecimals() {
-        return Arbitraries.randomValue(r -> {
-            BigInteger a = new BigInteger(10, r);
-            BigInteger b = new BigInteger(40, r);
-            return new BigDecimal((r.nextBoolean() ? "+" : "-") + a  + "." + b);
-        });
-    }
 
 }

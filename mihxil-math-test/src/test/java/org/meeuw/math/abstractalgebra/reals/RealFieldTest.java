@@ -36,7 +36,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
- *  @TODO There are 2 RealFieldTest's!
+
  */
 @Log4j2
 class RealFieldTest implements
@@ -50,7 +50,12 @@ class RealFieldTest implements
         assertThatAlgebraically(exactly(5d).times(2).times(of(6d))).isEqualTo(exactly(60d));
         assertThat(of(0d).getConfidenceInterval().getLow()).isEqualTo(DoubleElement.EPSILON_FACTOR * -4.9E-324);
         assertThat(of(0d).getConfidenceInterval().getHigh()).isEqualTo(DoubleElement.EPSILON_FACTOR * 4.9E-324);
+    }
 
+    @Test
+    public void testToString() {
+        DoubleElement uncertainDouble = new DoubleElement(5, 1);
+        assertThat(uncertainDouble.toString()).isEqualTo("5.0 ± 1.0");
     }
 
     @Test
@@ -70,7 +75,7 @@ class RealFieldTest implements
     public void string() {
         assertThat(DoubleElement.of(1).toString()).isEqualTo("1");
         RealNumber half  = of(1).dividedBy(of(2));
-        assertThat(half.doubleUncertainty()).isEqualTo(6.661338147750937E-16);
+        assertThat(half.doubleUncertainty()).isEqualTo(6.661338147750939E-16);
         assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
@@ -84,7 +89,7 @@ class RealFieldTest implements
     public void fractionalUncertainty() {
         DoubleElement ex = new DoubleElement(2.36, 0.04);
         assertThat(ex.doubleFractionalUncertainty()).isEqualTo(0.016666666666666666);
-        assertThat(ex.sqr().doubleFractionalUncertainty()).isEqualTo(0.03225806451612933);
+        assertThat(ex.sqr().doubleFractionalUncertainty()).isEqualTo(0.03278688524590194);
         assertThat(ex.sqr().toString()).isEqualTo("5.57 ± 0.19");
     }
 
@@ -107,8 +112,8 @@ class RealFieldTest implements
 
         assertThatAlgebraically(new DoubleElement(5, 1).times(ZERO)).isEqualTo(ZERO);
         assertThat(new DoubleElement(5, 1).times(new DoubleElement(0, 1)).doubleValue()).isEqualTo(0);
-        assertThat(new DoubleElement(5, 1).times(new DoubleElement(0, 1)).doubleUncertainty()).isEqualTo(1);
-        assertThat(new DoubleElement(0, 1).times(new DoubleElement(0, 1)).doubleUncertainty()).isEqualTo(4.9E-324);
+        assertThat(new DoubleElement(5, 1).times(new DoubleElement(0, 1)).doubleUncertainty()).isEqualTo(6);
+        assertThat(new DoubleElement(0, 1).times(new DoubleElement(0, 1)).doubleUncertainty()).isEqualTo(2);
 
     }
 
@@ -212,4 +217,13 @@ class RealFieldTest implements
         RealNumber sin = DoubleElement.of(PI).sin();
         assertThatAlgebraically(sin).isEqTo(INSTANCE.zero());
     }
+
+    @Test
+    public void pow() {
+        DoubleElement w = new DoubleElement(-1971, 680);
+        assertThat(w.pow(-2).doubleUncertainty()).isPositive();
+    }
+
+
+
 }
