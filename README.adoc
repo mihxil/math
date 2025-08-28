@@ -433,10 +433,10 @@ This module involves mostly around `PhysicalNumber` and its derivatives. A `Phys
 
 Also, a `PhysicalNumber` can be assigned `Units`. This can be used for proper displaying the value, and for dimensional analysis.
 
+.Example code for how measurements work
 [source,java]
 ----
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SI.DecimalPrefix.none;
@@ -629,17 +629,6 @@ The `shapes` modules contains implementations for several 2 and 3-dimensional sh
 
 [source,java]
 ----
-
-
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
-import org.meeuw.math.shapes.dim2.*;
-import org.meeuw.math.svg.SVG;
-import org.meeuw.math.svg.SVGDocument;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
-
-import static org.meeuw.math.svg.SVGDocument.defaultSVG;
-import static org.meeuw.math.abstractalgebra.reals.RealField.element;
-
 
 ....
 

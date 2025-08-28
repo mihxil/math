@@ -18,17 +18,6 @@ The `shapes` modules contains implementations for several 2 and 3-dimensional sh
 [source,java]
 ----
 
-
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
-import org.meeuw.math.shapes.dim2.*;
-import org.meeuw.math.svg.SVG;
-import org.meeuw.math.svg.SVGDocument;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
-
-import static org.meeuw.math.svg.SVGDocument.defaultSVG;
-import static org.meeuw.math.abstractalgebra.reals.RealField.element;
-
-
 ....
 
 
