@@ -78,9 +78,11 @@ export class BaseClass {
             dl.addEventListener('click', (e) => {
                 const datalist = e.target.closest('datalist').id;
                 const optionValue = e.target.value;
-                document.querySelectorAll(`*[list="${datalist}"]`).forEach(e => {
-                    e.value = optionValue;
-                });
+                if (optionValue) {
+                    document.querySelectorAll(`*[list="${datalist}"]`).forEach(e => {
+                        e.value = optionValue;
+                    });
+                }
             });
         });
         this.form.querySelectorAll("datalist option").forEach(o => {
