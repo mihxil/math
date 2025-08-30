@@ -72,15 +72,21 @@ export class BaseClass {
                 await new Promise(resolve => setTimeout(resolve, 50)); // check every 50ms
             }
         } else {
-            console.log(this.Class, "already set up");
+            //console.log(this.Class, "already set up");
         }
         this.form.querySelectorAll("datalist").forEach(dl => {
-            dl.addEventListener('click', (e) => {
+            dl.addEventListener('click', async (e) => {
                 const datalist = e.target.closest('datalist').id;
-                const optionValue = e.target.value;
+                const optionValue = await e.target.value;
                 if (optionValue) {
-                    document.querySelectorAll(`*[list="${datalist}"]`).forEach(e => {
+                    document.querySelectorAll(`*[list="${datalist}"]`).forEach(async e => {
                         e.value = optionValue;
+                        const event = new CustomEvent('exampleFilled', {
+                            detail: {
+                                optionValue: optionValue
+                            }
+                        });
+                        await this.form.dispatchEvent(event);
                     });
                 }
             });
@@ -108,7 +114,7 @@ export class BaseClass {
             e.preventDefault();
             try {
                 await this.setupForm();
-                console.log("submitting for", this.Class);
+                console.log("submitting for",  this.Class.prototype);
                 this.output.value = '';
                 this.button.textContent = "executing..";
                 await this.onSubmit(this.Class);

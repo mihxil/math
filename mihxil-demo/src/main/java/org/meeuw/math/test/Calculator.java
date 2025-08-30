@@ -1,14 +1,10 @@
 package org.meeuw.math.test;
 
-import java.util.logging.Level;
-
 import lombok.Getter;
 import lombok.extern.java.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.MathContext;
-import java.util.logging.LogManager;
+import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;

@@ -4,16 +4,22 @@ export class DynamicDate extends BaseClass {
 
     constructor() {
         super(['org.meeuw.time.parser.DynamicDateTime'], '#dynamicdate');
+        this.form.addEventListener('exampleFilled', async (e) => {
+            this.onSubmit(await this.Class);
+        });
 
     }
 
 // tag::dynamicdate[]
 
     async onSubmit(DynamicDateTime){
-
-        const parser = await new DynamicDateTime();
-        const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
-        this.output.value = await parseResult.toString();
+        try {
+            const parser = await new DynamicDateTime();
+            const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
+            this.output.value = await parseResult.toString();
+        } catch (error) {
+            console.log(error);
+        }
 
     }
 

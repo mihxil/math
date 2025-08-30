@@ -9,6 +9,8 @@ import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Random;
 
+import lombok.extern.java.Log;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.functional.ThrowingFunction;
@@ -28,6 +30,7 @@ import org.meeuw.time.eventsearchers.EventSearcherService;
  * @see DateParser
  * @since 0.19
  */
+@Log
 public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, ParseException> {
 
     @With
@@ -82,16 +85,21 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
 
     /**
      * Parses the given string into a {@link ZonedDateTime}.
-     * @param string The strign to be parsed.
+     * @param string The string to be parsed.
      * @return A ZonedDateTime object representing the parsed date and time
      * @throws ParseException If the string could not be parsed
      */
     @Override
     public ZonedDateTime applyWithException(String string) throws ParseException {
-        DateParser parser = new DateParser(string);
-        parser.setDynamicDateTime(this);
-        parser.start();
-        return parser.get();
+        try {
+            DateParser parser = new DateParser(string);
+            parser.setDynamicDateTime(this);
+            parser.start();
+            return parser.get();
+        } catch (ParseException e) {
+            log.fine(e.getMessage());
+            throw e;
+        }
     }
 
     /**
