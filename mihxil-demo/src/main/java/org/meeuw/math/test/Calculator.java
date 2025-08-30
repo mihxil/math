@@ -69,7 +69,7 @@ public class Calculator {
                 AlgebraicElement<?> result = parsedExpression.eval();
                 log.info("Result " + result);
                 return result.toString();
-            } catch (Exception ex) {
+            } catch (Throwable ex) {
                 log.log(Level.SEVERE, ex.getMessage(), ex);
                 throw ex;
             }
