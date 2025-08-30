@@ -66,8 +66,9 @@
 </li>
 <li><a href="#_dynamic_date_time_parsing">3.2. Dynamic date time parsing</a>
 <ul class="sectlevel3">
-<li><a href="#_comparison_to_mmbase">3.2.1. Comparison to MMBase</a></li>
-<li><a href="#_comparison_to_natty">3.2.2. Comparison to natty</a></li>
+<li><a href="#_syntax">3.2.1. syntax</a></li>
+<li><a href="#_comparison_to_mmbase">3.2.2. Comparison to MMBase</a></li>
+<li><a href="#_comparison_to_natty">3.2.3. Comparison to natty</a></li>
 </ul>
 </li>
 </ul>
@@ -745,7 +746,180 @@ Your browser does not support the video tag.
 <p>Can be found in <code>DynamicDateTime</code>. E.g. parse things like 'tomorrow' to actual time instances. This is based on <a href="https://github.com/mmbase/mmbase/blob/MMBase-1_9/core/src/main/javacc/org/mmbase/util/dateparser/DateParser.jj">old MMBase code</a>. It is a <a href="https://javacc.org">javacc-grammar</a>. I modernized it to be fully based on <code>java.time</code> classes, and also incorporate the 'event searchers' I added to <a href="https://natty-parser.github.io">natty</a>.</p>
 </div>
 <div class="sect3">
-<h4 id="_comparison_to_mmbase">3.2.1. Comparison to MMBase</h4>
+<h4 id="_syntax">3.2.1. syntax</h4>
+<div class="paragraph">
+<p>The most basic idea is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code>&lt;base time&gt;] [modifications]*</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So, it starts with specifying some absolute time, which can be dynamic (refer to the current clock).</p>
+</div>
+<div class="paragraph">
+<p>If no &lt;base time&gt; is specified, that implies 'now'.</p>
+</div>
+<div class="paragraph">
+<p>Like so</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Input</th>
+<th class="tableblock halign-left valign-top">Output</th>
+<th class="tableblock halign-left valign-top">remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'now' is the default, so the empty string is valid too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">just state it in ISO foramt</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T00:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time is optional</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Then zero or more 'modifications' can be given. Most basically with + and -.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Input</th>
+<th class="tableblock halign-left valign-top">Output</th>
+<th class="tableblock halign-left valign-top">remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now + 5 minute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'now' is the default, so the empty string is valid too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">just state it in ISO foramt</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T00:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">time is optional</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now + 5 minute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">next week</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+===
+| Input | Output | remarks
+| now this day | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
+| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 100%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.</p>
+<p class="tableblock">he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+===</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T12:00 teatime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_comparison_to_mmbase">3.2.2. Comparison to MMBase</h4>
 <div class="paragraph">
 <p>The parser in MMBase was actually implemented as an extension of <code>java.util.Date</code> itself (<code>org.mmbase.util.DynamicDate</code>), and was in that aspect simpler. But it was not a very good citizen because of that, because the actually value of the date could be 'dynamic', and sometimes that required some explicit conversion to a normal <code>java.util.Date</code> object. Turns out that date object can&#8217;t be extended very well.</p>
 </div>
@@ -757,7 +931,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_comparison_to_natty">3.2.2. Comparison to natty</h4>
+<h4 id="_comparison_to_natty">3.2.3. Comparison to natty</h4>
 <div class="paragraph">
 <p>I always thought that for the use cases I saw natty was not a very good fit, and my own, old, mmbase utility was nicer.</p>
 </div>
