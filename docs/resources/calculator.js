@@ -43,6 +43,7 @@ export class CalculatorClass extends BaseClass {
         examples.forEach(example => {
             const option = document.createElement('option');
             option.value = example;
+            option.text = example;
             this.inputDataList.appendChild(option);
         });
         console.log("Updated data list for", selectedField, examples);

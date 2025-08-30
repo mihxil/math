@@ -1486,6 +1486,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
       <option value="bigcomplex">Big complex</option>
+      <option value="quaternions">Quaternions</option>
+
 
    </select>
   </select>
@@ -1504,7 +1506,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
 
-    <span class="predefined-type">Field</span>&lt;?&gt; f = FieldInformation.valueOf(field).getField();
+    DivisionRing&lt;?&gt; f = FieldInformation.valueOf(field).getField();
     <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
@@ -1567,6 +1569,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         examples.forEach(example =&gt; {
             const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
             option.value = example;
+            option.text = example;
             <span class="local-variable">this</span>.inputDataList.appendChild(option);
         });
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, examples);

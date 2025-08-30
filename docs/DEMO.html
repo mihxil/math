@@ -47,6 +47,8 @@
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
       <option value="bigcomplex">Big complex</option>
+      <option value="quaternions">Quaternions</option>
+
 
    </select>
   </select>
@@ -65,7 +67,7 @@
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
 
-    <span class="predefined-type">Field</span>&lt;?&gt; f = FieldInformation.valueOf(field).getField();
+    DivisionRing&lt;?&gt; f = FieldInformation.valueOf(field).getField();
     <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
@@ -128,6 +130,7 @@
         examples.forEach(example =&gt; {
             const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
             option.value = example;
+            option.text = example;
             <span class="local-variable">this</span>.inputDataList.appendChild(option);
         });
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, examples);
@@ -529,7 +532,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-08-30 18:49:00 UTC
+Last updated 2025-08-30 19:57:47 UTC
 </div>
 </div>
 </body>
