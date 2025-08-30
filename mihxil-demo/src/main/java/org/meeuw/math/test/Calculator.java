@@ -6,9 +6,10 @@ import java.math.MathContext;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.DivisionRing;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
+import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
@@ -28,13 +29,15 @@ public class Calculator {
         bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)"),
         gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" * 8i"),
         complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)", "exp(i * pi)", "\"2 + 3i\" * i"),
-        bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" * 8i")
+        bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" * 8i"),
+        quaternions(Quaternions.of(RationalNumbers.INSTANCE),
+            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" * 8i")
         ;
 
-        private final Field<?> field;
+        private final DivisionRing<?> field;
         private final String[] examples;
 
-        FieldInformation(Field<?> field, String... examples) {
+        FieldInformation(DivisionRing<?> field, String... examples) {
             this.field = field;
             this.examples = examples;
         }
@@ -45,7 +48,7 @@ public class Calculator {
 
     public static String eval(String expression, String field) {
 
-        Field<?> f = FieldInformation.valueOf(field).getField();
+        DivisionRing<?> f = FieldInformation.valueOf(field).getField();
         Expression<?> parsedExpression = AST.parseInfix(expression, f);
         try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
             cb.configure(UncertaintyConfiguration.class,
