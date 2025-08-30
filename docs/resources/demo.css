@@ -35,3 +35,17 @@ form.demo button {
 input:focus.invalid, input.invalid {
   border-color: red !important;
 }
+datalist {
+  display: block;
+}
+datalist::before {
+  content: 'examples: '
+}
+datalist option {
+  color: #009999;
+  display: inline;
+}
+datalist option:not(:last-child)::after {
+  color: black;
+  content: ", ";
+}

@@ -74,8 +74,22 @@ export class BaseClass {
             }
         } else {
             console.log(this.Class, "already set up");
-
         }
+        this.form.querySelectorAll("datalist").forEach(dl => {
+            dl.addEventListener('click', (e) => {
+                const datalist = e.target.closest('datalist').id;
+                const optionValue = e.target.value;
+                document.querySelectorAll(`*[list="${datalist}"]`).forEach(e => {
+                    e.value = optionValue;
+                });
+            });
+        });
+        this.form.querySelectorAll("datalist option").forEach(o => {
+            if (o.text === '') {
+                o.text = o.value;
+            }
+        });
+
         await this.readyToGo();
     }
 
