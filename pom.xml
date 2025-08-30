@@ -268,8 +268,6 @@
               <include>%regex[.*Test[\$\.].*]</include>
             </includes>
             <systemPropertyVariables>
-              <projectArtifactId>${project.artifactId}</projectArtifactId>
-
               <!--
                logging in tests cases is arranged with log4j2
                code itself may log with jul (to avoid dependencies).

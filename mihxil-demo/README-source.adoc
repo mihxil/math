@@ -2,8 +2,9 @@
 :docinfo: private
 :source-highlighter: coderay
 
+These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
-These are a running demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]). It doesn't always work.
+It doesn't always work, which I have quit understood yet.
 
 
 == Calculator
@@ -12,9 +13,7 @@ These are a running demos (using link:https://cheerpj.com/docs/getting-started/J
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-     <option value="1+2"</option>
-     <option value="1+ 3/5"</option>
-     <option value="sin(pi/2)"</option>
+
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
@@ -23,6 +22,8 @@ These are a running demos (using link:https://cheerpj.com/docs/getting-started/J
       <option value="bigdecimal">Real (arbitrary precision)</option>
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
+      <option value="bigcomplex">Big complex</option>
+
    </select>
   </select>
    <br />
@@ -45,7 +46,7 @@ include::src/main/java/org/meeuw/math/test/Calculator.java[indent=-,tag=eval]
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/demo.js[indent=-,tag=calculator]
+include::resources/calculator.js[indent=-,tag=calculator]
 ----
 ====
 
@@ -115,7 +116,7 @@ include::src/main/java/org/meeuw/math/test/Solver.java[indent=-]
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/demo.js[indent=-,tag=solver]
+include::resources/resolver.js[indent=-,tag=solver]
 ----
 ====
 
@@ -216,7 +217,7 @@ The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from o
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/demo.js[indent=-,tag=dynamicdate]
+include::resources/dynamicdate.js[indent=-,tag=dynamicdate]
 ----
 ====
 

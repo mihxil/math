@@ -31,11 +31,11 @@ runprefs:
 explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
 
-cheerpj:index.html  ## run cheerpj
+cheerpj: index.html  ## run cheerpj
 	npx serve
 
 
-index.html: README-source.adoc README-source-docinfo.html Makefile
+index.html: README-source.adoc README-source-docinfo.html Makefile resources/*  ## create index.html from README-source.adoc
 	asciidoctor $< -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
