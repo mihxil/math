@@ -46,6 +46,7 @@ Like so
 Then zero or more 'modifications' can be given. Most basically with + and -.
 
 
+[options="header"]
 |===
 | Input | Output | remarks
 
@@ -58,6 +59,7 @@ Then zero or more 'modifications' can be given. Most basically with + and -.
 Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.
 
 
+[options="header"]
 |===
 | Input | Output | remarks
 | now + 5 minute | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
@@ -66,7 +68,9 @@ Then zero or more 'modifications' or 'offset' can be given. Most basically with 
 |===
 
 The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
-===
+
+[options="header"]
+|===
 | Input | Output | remarks
 | now this day | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
 | 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
@@ -75,13 +79,15 @@ The offset can also be something like 'this month', 'this day', or 'today', whic
 There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.
 
 he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
-===
+
+|===
 | Input | Output | remarks
 | 2025-08-30T12:00 teatime | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
 | 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
 |===
 
 
+Finally, then entire thing can be post fixed and prefixed by an explicit timezone.
 
 
 === Comparison to MMBase
