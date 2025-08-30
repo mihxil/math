@@ -367,7 +367,7 @@ This is the source code for the above.
 
 == Dynamic date parsing
 
-The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code. It uses
+The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code.
 
 ++++
 <form id="dynamicdate" class="demo">
