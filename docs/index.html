@@ -848,12 +848,14 @@ Your browser does not support the video tag.
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
-<tbody>
+<thead>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
+<th class="tableblock halign-left valign-top">Input</th>
+<th class="tableblock halign-left valign-top">Output</th>
+<th class="tableblock halign-left valign-top">remarks</th>
 </tr>
+</thead>
+<tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">now + 5 minute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
@@ -872,51 +874,67 @@ Your browser does not support the video tag.
 </tbody>
 </table>
 <div class="paragraph">
-<p>The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
-===
-| Input | Output | remarks
-| now this day | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
-| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |</p>
+<p>The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 100%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Input</th>
+<th class="tableblock halign-left valign-top">Output</th>
+<th class="tableblock halign-left valign-top">remarks</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.</p>
-<p class="tableblock">he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
-===</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T12:00 teatime</p></td>
-</tr>
-<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now this day</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.</p>
+</div>
+<div class="paragraph">
+<p>he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T12:00 teatime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Finally, then entire thing can be post fixed and prefixed by an explicit timezone.</p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_comparison_to_mmbase">3.2.2. Comparison to MMBase</h4>
@@ -2031,7 +2049,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="_dynamic_date_parsing">10.3. Dynamic date parsing</h3>
 <div class="paragraph">
-<p>The <code>mihxil-time</code> module contain a 'dynamic date parser. I dusted this of from old <a href="mmbase.org">mmbase</a> code. It uses</p>
+<p>The <code>mihxil-time</code> module contain a 'dynamic date parser. I dusted this of from old <a href="mmbase.org">mmbase</a> code.</p>
 </div>
 <form id="dynamicdate" class="demo">
   <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
