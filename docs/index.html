@@ -1699,6 +1699,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
 
     DivisionRing&lt;?&gt; f = FieldInformation.valueOf(field).getField();
+    log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression: </span><span class="delimiter">&quot;</span></span> + expression);
     <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
@@ -1707,7 +1708,14 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 (mc) -&gt;
                     mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
-        <span class="keyword">return</span> parsedExpression.eval().toString();
+        <span class="keyword">try</span> {
+            AlgebraicElement&lt;?&gt; result = parsedExpression.eval();
+            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Result </span><span class="delimiter">&quot;</span></span> + result);
+            <span class="keyword">return</span> result.toString();
+        } <span class="keyword">catch</span> (<span class="exception">Exception</span> ex) {
+            log.log(<span class="predefined-type">Level</span>.SEVERE, ex.getMessage(), ex);
+            <span class="keyword">throw</span> ex;
+        }
     }
 }</code></pre>
 </div>
@@ -2144,10 +2152,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">async onSubmit(DynamicDateTime){
-
-    const parser = await <span class="keyword">new</span> DynamicDateTime();
-    const parseResult = await parser.applyWithException(<span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
-    <span class="local-variable">this</span>.output.value = await parseResult.toString();
+    <span class="keyword">try</span> {
+        const parser = await <span class="keyword">new</span> DynamicDateTime();
+        const parseResult = await parser.applyWithException(<span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
+        <span class="local-variable">this</span>.output.value = await parseResult.toString();
+    } <span class="keyword">catch</span> (error) {
+        console.log(error);
+    }
 
 }</code></pre>
 </div>
