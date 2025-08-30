@@ -98,21 +98,21 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * since 0.11
+     * since 0.19
      */
     default Optional<AlgebraicBinaryOperator> getOperationBySymbol(String symbol) {
         return getSupportedOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
     }
 
     /**
-     * since 0.11
+     * since 0.19
      */
     default Optional<AlgebraicUnaryOperator> getUnaryOperationBySymbol(String symbol) {
         return getSupportedUnaryOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
     }
 
     /**
-     * since 0.11
+     * since 0.19
      */
     @SuppressWarnings("unchecked")
     default Optional<E> getConstant(String symbol) {
