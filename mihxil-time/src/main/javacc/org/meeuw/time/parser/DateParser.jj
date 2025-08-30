@@ -354,26 +354,40 @@ void decrement() : {}
         factor = 1;
       }
 }
-void to_period() : { cal = getInstance(); }
+void to_period() : {
+}
 {
     this_period()
 }
 
-void to_event() : { cal = getInstance(); }
+void to_event() : {
+   }
 {
-   <EVENT> { eventName = token.image.substring(1, token.image.length() - 1).toLowerCase(); }
+   <EVENT> {eventName = token.image.substring(1, token.image.length() - 1).toLowerCase();
+       cal = dynamicDateTime.getForEvent(cal, eventName);
+
+      }
 }
 void inc_period() : {}
 {
   "second" { unit = ChronoUnit.SECONDS; }
+  | "seconds" { unit = ChronoUnit.SECONDS; }
  | "minute" { unit = ChronoUnit.MINUTES;  }
+ | "minutes" { unit = ChronoUnit.MINUTES;  }
  | "hour"   { unit = ChronoUnit.HOURS; }
+ | "hours"   { unit = ChronoUnit.HOURS; }
  | "day"    { unit = ChronoUnit.DAYS;}
+ | "days"    { unit = ChronoUnit.DAYS;}
  | "week"   { unit = ChronoUnit.WEEKS; }
+ | "weeks"   { unit = ChronoUnit.WEEKS; }
   | "month"  { unit = ChronoUnit.MONTHS; }
+  | "months"  { unit = ChronoUnit.MONTHS; }
   | "year" {   unit = ChronoUnit.YEARS; }
+  | "years" {   unit = ChronoUnit.YEARS; }
   | "century" {   unit = ChronoUnit.YEARS; factor =  100;}
+  | "centuries" {   unit = ChronoUnit.YEARS; factor =  100;}
  | "millisecond" { unit = ChronoUnit.MILLIS; factor = 1; }
+ | "milliseconds" { unit = ChronoUnit.MILLIS; factor = 1; }
 }
 
 void this_period() : {}  {

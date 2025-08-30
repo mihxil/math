@@ -21,6 +21,68 @@ A clock for which each call is guaranteed to result an Instant strictly after al
 
 Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual time instances. This is based on https://github.com/mmbase/mmbase/blob/MMBase-1_9/core/src/main/javacc/org/mmbase/util/dateparser/DateParser.jj[old MMBase code]. It is a https://javacc.org[javacc-grammar]. I modernized it to be fully based on `java.time` classes, and also incorporate the 'event searchers' I added to https://natty-parser.github.io[natty].
 
+=== syntax
+
+The most basic idea is:
+[source]
+----
+<base time>] [modifications]*
+----
+So, it starts with specifying some absolute time, which can be dynamic (refer to the current clock).
+
+If no <base time> is specified, that implies 'now'.
+
+Like so
+|===
+| Input | Output | remarks
+
+| now  | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
+| | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
+| 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
+| 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
+|===
+
+Then zero or more 'modifications' can be given. Most basically with + and -.
+
+
+|===
+| Input | Output | remarks
+
+| now + 5 minute | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
+| | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
+| 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
+| 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
+|===
+
+Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.
+
+
+|===
+| Input | Output | remarks
+| now + 5 minute | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
+| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+| next week | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+|===
+
+The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+===
+| Input | Output | remarks
+| now this day | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
+| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+|===
+
+There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.
+
+he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+===
+| Input | Output | remarks
+| 2025-08-30T12:00 teatime | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
+| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+|===
+
+
+
+
 === Comparison to MMBase
 
 The parser in MMBase was actually implemented as an extension of `java.util.Date` itself (`org.mmbase.util.DynamicDate`), and was in that aspect simpler. But it was not a very good citizen because of that, because the actually value of the date could be 'dynamic', and sometimes that required some explicit conversion to a normal `java.util.Date` object. Turns out that date object can't be extended very well.

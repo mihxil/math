@@ -17,6 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class DynamicDateTimeTest {
 
+    TestClock clock = TestClock.twentyTwenty();
+    DynamicDateTime dt = DynamicDateTime.builder()
+            .clock(clock)
+            .build();
 
     public static String[] getDemo() {
         return new String[] {
@@ -48,20 +52,70 @@ class DynamicDateTimeTest {
     public void tryDemo(String demo) throws ParseException {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
 
-        DynamicDateTime dt = DynamicDateTime.builder()
-            .clock(TestClock.twentyTwenty())
-            .build();
+
         System.out.println(formatter.format(Date.from(dt.applyWithException(demo).toInstant())) + "\t" + demo);
+    }
+
+    @Test
+    public  void now() {
+        assertThat(dt.apply("now").toString()).isEqualTo("2020-02-20T20:20+01:00[Europe/Amsterdam]");
+        assertThat(dt.apply("").toString()).isEqualTo("2020-02-20T20:20+01:00[Europe/Amsterdam]");
+    }
+
+    @Test
+    public  void absolute() {
+        assertThat(dt.apply("1973-03-05").toString()).isEqualTo("1973-03-05T00:00+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("1973-03-05T06:00").toString()).isEqualTo("1973-03-05T06:00+01:00[Europe/Amsterdam]");
+    }
+
+    @Test
+    public void offset() {
+
+        assertThat(dt.apply("now + 5 minute").toString()).isEqualTo("2020-02-20T20:25+01:00[Europe/Amsterdam]");
+        assertThat(dt.apply("now + 5 minute").toString()).isEqualTo("2020-02-20T20:25+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("now + 5 minutes").toString()).isEqualTo("2020-02-20T20:25+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("2021-08-05T20:00 + 1 minute - 2 days").toString()).isEqualTo("2021-08-03T20:01+02:00[Europe/Amsterdam]");
+         assertThat(dt.apply("now next week").toString()).isEqualTo("2020-02-27T20:20+01:00[Europe/Amsterdam]");
+    }
+
+    @Test
+    public void special_offset() {
+        assertThat(dt.apply("2025-08-30T12:00 teatime").toString()).isEqualTo("");
+    }
+
+
+
+    @Test
+    public void rounding() {
+
+        assertThat(dt.apply("now this day").toString()).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("this day").toString()).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("this month").toString()).isEqualTo("2020-02-01T00:00+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("next month this month").toString()).isEqualTo("2020-03-01T00:00+01:00[Europe/Amsterdam]");
+
+    }
+
+
+
+
+    @Test
+
+    public void spring2005() {
+
+        assertThat(dt.apply("2005-01-01 \"spring\"").toString()).isEqualTo("");
     }
 
 
     @Test
     public void supplier() {
 
-        TestClock clock = TestClock.twentyTwenty();
-        DynamicDateTime dt = DynamicDateTime.builder()
-            .clock(clock)
-            .build();
+
 
         ThrowingSupplier<ZonedDateTime, ParseException> supplier = dt.supplier("now + 10 minute");
 

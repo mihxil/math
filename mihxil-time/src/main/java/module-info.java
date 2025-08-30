@@ -44,6 +44,9 @@ module org.meeuw.time {
     exports org.meeuw.time.text;
     exports org.meeuw.time.parser;
     exports org.meeuw.time.eventsearchers;
+    exports org.meeuw.time.eventsearchers.seasons to org.meeuw.time.test;
+    exports org.meeuw.time.eventsearchers.wellknown.us  to org.meeuw.time.test;
+    exports org.meeuw.time.eventsearchers.christian to org.meeuw.time.test;
 
     uses AlgebraicElementFormatProvider;
     uses EventSearcher;
