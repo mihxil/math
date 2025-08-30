@@ -2,7 +2,7 @@
   <configuration default="false" name="Calculator" type="Application" factoryName="Application" nameIsGenerated="true">
     <option name="MAIN_CLASS_NAME" value="org.meeuw.math.test.Calculator" />
     <module name="mihxil-demo" />
-    <option name="PROGRAM_PARAMETERS" value="&quot;2.3 * (2 - 5)&quot;" />
+    <option name="PROGRAM_PARAMETERS" value="&quot;2 * (2 - 5)&quot;" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="org.meeuw.math.test.*" />

@@ -24,7 +24,7 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 @Log
 public class Application {
 
-    static {
+    public static void setupLogging() {
       // must set before the Logger
       // loads logging.properties from the classpath
           try (InputStream is = Application.class.getClassLoader().
@@ -34,6 +34,7 @@ public class Application {
               log.log(Level.WARNING, e.getMessage(), e);
           }
       }
+
 
 
     public static void main(String[] arg) throws InterruptedException {

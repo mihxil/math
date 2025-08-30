@@ -1,11 +1,18 @@
 package org.meeuw.math.test;
 
-import lombok.Getter;
+import java.util.logging.Level;
 
+import lombok.Getter;
+import lombok.extern.java.Log;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.MathContext;
+import java.util.logging.LogManager;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.DivisionRing;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
@@ -19,8 +26,12 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
-
+@Log
 public class Calculator {
+    static {
+        Application.setupLogging();
+    }
+
 
     @Getter
     public  enum FieldInformation {
@@ -49,6 +60,7 @@ public class Calculator {
     public static String eval(String expression, String field) {
 
         DivisionRing<?> f = FieldInformation.valueOf(field).getField();
+        log.info("Evaluating expression: " + expression);
         Expression<?> parsedExpression = AST.parseInfix(expression, f);
         try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
             cb.configure(UncertaintyConfiguration.class,
@@ -57,7 +69,14 @@ public class Calculator {
                     (mc) ->
                         mc.withContext(new MathContext(Utils.PI.length())))
         )) {
-            return parsedExpression.eval().toString();
+            try {
+                AlgebraicElement<?> result = parsedExpression.eval();
+                log.info("Result " + result);
+                return result.toString();
+            } catch (Exception ex) {
+                log.log(Level.SEVERE, ex.getMessage(), ex);
+                throw ex;
+            }
         }
     }
     //end::eval[]
