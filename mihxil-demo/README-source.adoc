@@ -23,6 +23,8 @@ It doesn't always work, which I have quit understood yet.
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
       <option value="bigcomplex">Big complex</option>
+      <option value="quaternions">Quaternions</option>
+
 
    </select>
   </select>
