@@ -1466,16 +1466,17 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <h2 id="_demo">10. Demo</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These are a running demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>). It doesn&#8217;t always work.</p>
+<p>These are a running <a href="https://webassembly.org/">webassembly</a> demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>).</p>
+</div>
+<div class="paragraph">
+<p>It doesn&#8217;t always work, which I have quit understood yet.</p>
 </div>
 <div class="sect2">
 <h3 id="_calculator">10.1. Calculator</h3>
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-     <option value="1+2"</option>
-     <option value="1+ 3/5"</option>
-     <option value="sin(pi/2)"</option>
+
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
@@ -1484,6 +1485,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
       <option value="bigdecimal">Real (arbitrary precision)</option>
       <option value="complex">Complex</option>
       <option value="gaussian">Gaussian</option>
+      <option value="bigcomplex">Big complex</option>
+
    </select>
   </select>
    <br />
@@ -1500,20 +1503,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
-    <span class="predefined-type">Field</span>&lt;?&gt; f = <span class="keyword">switch</span> (field) {
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">rational</span><span class="delimiter">&quot;</span></span> -&gt; RationalNumbers.INSTANCE;
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">real</span><span class="delimiter">&quot;</span></span> -&gt; RealField.INSTANCE;
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">bigdecimal</span><span class="delimiter">&quot;</span></span> -&gt; BigDecimalField.INSTANCE;
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">gaussian</span><span class="delimiter">&quot;</span></span> -&gt; GaussianRationals.INSTANCE;
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">complex</span><span class="delimiter">&quot;</span></span> -&gt; ComplexNumbers.INSTANCE;
-        <span class="keyword">case</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">bigcomplex</span><span class="delimiter">&quot;</span></span> -&gt; BigComplexNumbers.INSTANCE;
 
-        <span class="keyword">default</span> -&gt; <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">IllegalArgumentException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">Unsupported field: </span><span class="delimiter">&quot;</span></span> + field);
-    };
+    <span class="predefined-type">Field</span>&lt;?&gt; f = FieldInformation.valueOf(field).getField();
     <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
-                (ub) -&gt; ub.withNotation(PARENTHESES))
+                (ub) -&gt; ub.withNotation(ROUND_VALUE))
             .configure(MathContextConfiguration.class,
                 (mc) -&gt;
                     mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
@@ -1533,48 +1528,60 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupCalculator</span>(setup) {
-
-    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>);
-    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
-    const buttonText = button.textContent;
-    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
-    const input = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>);
-    const field = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>);
-
-    <span class="keyword">function</span> <span class="function">go</span>() {
-        button.textContent = buttonText;
-        button.disabled = <span class="predefined-constant">false</span>;
+<pre class="CodeRay highlight"><code data-lang="javascript">    constructor() {
+        <span class="reserved">super</span>([<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>], <span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.input = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.field = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.inputDataList= <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">datalist</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.exampleValues = <span class="predefined-constant">null</span>;
     }
 
-    <span class="keyword">var</span> Calculator;
 
-    async <span class="keyword">function</span> <span class="function">setForm</span>() {
-        <span class="keyword">if</span> (! Calculator) {
-            Calculator = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>);
-            go();
+    async onInView(Calculator){
+        await <span class="reserved">super</span>.onInView(Calculator);
+        <span class="keyword">if</span> (<span class="local-variable">this</span>.exampleValues === <span class="predefined-constant">null</span>) {
+            <span class="local-variable">this</span>.exampleValues = {};
+            const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
+            const values = await fi.values();
+
+            <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
+                const value = values[i];
+                const examples = await value.getExamples();
+                const e = [];
+                <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; examples.length; j++) {
+                    e[j] = await examples[j];
+                }
+                <span class="local-variable">this</span>.exampleValues[await values[i].name()] = e;
+
+            }
         }
-        <span class="keyword">return</span> Calculator;
+        <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
+            <span class="local-variable">this</span>.updateDataList();
+        });
+        <span class="local-variable">this</span>.updateDataList();
+    }
+    updateDataList() {
+        const selectedField = <span class="local-variable">this</span>.field.value;
+        const examples = <span class="local-variable">this</span>.exampleValues[selectedField] || [];
+        <span class="local-variable">this</span>.inputDataList.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        examples.forEach(example =&gt; {
+            const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
+            option.value = example;
+            <span class="local-variable">this</span>.inputDataList.appendChild(option);
+        });
+        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, examples);
+
     }
 
-    <span class="keyword">if</span> (setup) {
-        setForm();
+    async onSubmit(Calculator) {
+        <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
+        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaluating</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">this</span>.input.value, <span class="string"><span class="delimiter">&quot;</span><span class="content">for</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">this</span>.field.value);
+        <span class="local-variable">this</span>.output.value = await Calculator.eval(
+            <span class="local-variable">this</span>.input.value, <span class="local-variable">this</span>.field.value
+        );
     }
 
-    form.onsubmit = async (e) =&gt; {
-        e.preventDefault();
-        <span class="keyword">try</span> {
-            await setForm();
-            output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-            button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaluating</span><span class="delimiter">&quot;</span></span>, input.value, <span class="string"><span class="delimiter">&quot;</span><span class="content">for</span><span class="delimiter">&quot;</span></span>, field.value);
-            output.value = await Calculator.eval(input.value, field.value);
-        } <span class="keyword">catch</span> (e) {
-            let cla = await e.getClass()
-            output.value = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + (await cla.toString()) + <span class="string"><span class="delimiter">&quot;</span><span class="content">:</span><span class="delimiter">&quot;</span></span> + (await e.getMessage());
-        }
-        go();
-    };
 }</code></pre>
 </div>
 </div>
@@ -1823,74 +1830,21 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupSolver</span>() {
+<pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
+        <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
+        const solverResult = await Solver.solve(
+            <span class="local-variable">this</span>.model.field, self.outcome.value, self.input.value);
 
-    const clazz= <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Solver</span><span class="delimiter">'</span></span>;
-    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#solver</span><span class="delimiter">'</span></span>);
-    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
-    const buttonText = button.textContent;
-    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
-    const outcome = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_outcome</span><span class="delimiter">&quot;</span></span>);
-    const input = form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#solver_input</span><span class="delimiter">&quot;</span></span>);
-    <span class="keyword">function</span> <span class="function">go</span>() {
-        button.textContent = buttonText;
-        button.disabled = <span class="predefined-constant">false</span>;
+        const stream = await solverResult.stream();
+        const lines = await stream.toArray();
+        <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
+            <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await lines[i].toString();
+        }
+        const tries = await (await solverResult.tries()).get();
+        const matches = await (await solverResult.matches()).get();
+        <span class="local-variable">this</span>.output.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
+        <span class="local-variable">this</span>.output.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
     }
-
-    const model = {
-        <span class="key">field</span>: <span class="predefined-constant">null</span>,
-        <span class="key">outcome</span>: <span class="predefined-constant">null</span>,
-        <span class="key">input</span>: <span class="predefined-constant">null</span>,
-        <span class="key">parseOutcome</span>:  async <span class="keyword">function</span>(string) {
-            Solver = await setupFormWithClass(button, clazz);
-            <span class="local-variable">this</span>.field = await Solver.algebraicStructureFor(string, input.value)
-            <span class="local-variable">this</span>.outcome = await Solver.parseOutcome(<span class="local-variable">this</span>.field, string);
-            go();
-            <span class="keyword">return</span> await <span class="local-variable">this</span>.outcome.error();
-
-        },
-        <span class="key">parseInput</span> :  async <span class="keyword">function</span>(string) {
-            Solver = await setupFormWithClass(button, clazz);
-            <span class="local-variable">this</span>.field = await Solver.algebraicStructureFor(outcome.value, string);
-            <span class="local-variable">this</span>.input = await Solver.parseInput(<span class="local-variable">this</span>.field, string);
-            go();
-            <span class="keyword">return</span> await <span class="local-variable">this</span>.input.error();
-        },
-        <span class="function">reset</span>: <span class="keyword">function</span>() {
-            <span class="local-variable">this</span>.outcome =<span class="predefined-constant">null</span>;
-        }
-    };
-    outcome[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
-    input[<span class="string"><span class="delimiter">'</span><span class="content">model</span><span class="delimiter">'</span></span>] = model;
-
-
-    let Solver = <span class="predefined-constant">null</span>;
-    form.onsubmit = async (e) =&gt; {
-        e.preventDefault();
-        Solver = await setupFormWithClass(button, clazz);
-
-        output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">try</span> {
-            output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (model.field).toString();
-            const solverResult = await Solver.solve(model.field, outcome.value, input.value);
-
-            const stream = await solverResult.stream();
-            const lines = await stream.toArray();
-            <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
-                output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await lines[i].toString();
-            }
-            const tries = await (await solverResult.tries()).get();
-            const matches = await (await solverResult.matches()).get();
-            output.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
-            output.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
-
-        } <span class="keyword">catch</span> (error) {
-            output.value += await error.toString();
-        }
-        go();
-
-    };
 }</code></pre>
 </div>
 </div>
@@ -1994,30 +1948,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="javascript">async <span class="keyword">function</span> <span class="function">setupDynamicDate</span>() {
+<pre class="CodeRay highlight"><code data-lang="javascript">async onSubmit(DynamicDateTime){
 
-    const form = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#dynamicdate</span><span class="delimiter">'</span></span>);
-    const button = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
-    const buttonText = button.textContent;
-    const output = form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">output</span><span class="delimiter">'</span></span>);
+    const parser = await <span class="keyword">new</span> DynamicDateTime();
+    const parseResult = await parser.applyWithException(<span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
+    <span class="local-variable">this</span>.output.value = await parseResult.toString();
 
-
-
-    let DynamicDateTime = <span class="predefined-constant">null</span>;
-    form.onsubmit = async (e) =&gt; {
-        e.preventDefault();
-        DynamicDateTime = await setupFormWithClass(button, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.time.parser.DynamicDateTime</span><span class="delimiter">'</span></span>);
-        button.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-        <span class="keyword">try</span> {
-            const parser = await <span class="keyword">new</span> DynamicDateTime();
-            const parseResult = await parser.applyWithException(form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
-            output.value = await parseResult.toString();
-        } <span class="keyword">catch</span> (error) {
-            output.value = await error.toString();
-        }
-        button.textContent = buttonText;
-        button.disabled = <span class="predefined-constant">false</span>;
-    };
 }</code></pre>
 </div>
 </div>
