@@ -1666,7 +1666,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="_calculator">10.1. Calculator</h3>
 <form id="calculator" class="demo">
-  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+  <label for="calculator_toparse">String to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
@@ -1674,7 +1674,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
-  </select>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
@@ -1690,8 +1689,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
 
-    Ring&lt;?&gt; f = FieldInformation.valueOf(field).getField();
-    log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
                 (ub) -&gt; ub.withNotation(ROUND_VALUE))
@@ -1699,6 +1697,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 (mc) -&gt;
                     mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
+        Magma&lt;?&gt; f = FieldInformation.valueOf(field).getField();
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
         log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( expression));
 
         <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
@@ -1739,24 +1739,35 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.information = <span class="predefined-constant">null</span>;
     }
 
+    insert(c) {
+        const input = <span class="local-variable">this</span>.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        input.value = value.slice(<span class="integer">0</span>, start) + c + value.slice(end);
+        input.setSelectionRange(start + <span class="integer">1</span>, start + <span class="integer">1</span>);
+    }
+
     async setupForm() {
         await <span class="reserved">super</span>.setupForm();
         <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, async (e) =&gt; {
+            <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">=</span><span class="delimiter">'</span></span>) {
                 console.log(<span class="local-variable">this</span>.input.value);
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 await <span class="local-variable">this</span>.handleSubmit();
             }
-             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">[</span><span class="delimiter">'</span></span>) {
+             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) {
+                 <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use [</span><span class="delimiter">&quot;</span></span>;
                  e.preventDefault();
                  e.stopImmediatePropagation();
-                 const input = <span class="local-variable">this</span>.input;
-                 const start = input.selectionStart;
-                 const end = input.selectionEnd;
-                 const value = input.value;
-                 input.value = value.slice(<span class="integer">0</span>, start) + <span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span> + value.slice(end);
-                 input.setSelectionRange(start + <span class="integer">1</span>, start + <span class="integer">1</span>);
+                 <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>)
+             }
+            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">[</span><span class="delimiter">'</span></span>) {
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>)
              }
         });
     }
