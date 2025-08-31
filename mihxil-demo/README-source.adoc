@@ -11,7 +11,7 @@ It doesn't always work, which I haven't quit understood yet.
 
 ++++
 <form id="calculator" class="demo">
-  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+  <label for="calculator_toparse">String to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
@@ -19,7 +19,6 @@ It doesn't always work, which I haven't quit understood yet.
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
-  </select>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
