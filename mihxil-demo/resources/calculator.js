@@ -11,24 +11,35 @@ export class CalculatorClass extends BaseClass {
         this.information = null;
     }
 
+    insert(c) {
+        const input = this.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        input.value = value.slice(0, start) + c + value.slice(end);
+        input.setSelectionRange(start + 1, start + 1);
+    }
+
     async setupForm() {
         await super.setupForm();
         this.form.addEventListener('beforeinput', async (e) => {
+            this.form.querySelector("span.help").innerHTML = '';
             if (e.data === '=') {
                 console.log(this.input.value);
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 await this.handleSubmit();
             }
-             if (e.data === '[') {
+             if (e.data === '*') {
+                 this.form.querySelector("span.help").innerHTML = "to type * use [";
                  e.preventDefault();
                  e.stopImmediatePropagation();
-                 const input = this.input;
-                 const start = input.selectionStart;
-                 const end = input.selectionEnd;
-                 const value = input.value;
-                 input.value = value.slice(0, start) + '⋅' + value.slice(end);
-                 input.setSelectionRange(start + 1, start + 1);
+                 this.insert('⋅')
+             }
+            if (e.data === '[') {
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 this.insert('*')
              }
         });
     }
