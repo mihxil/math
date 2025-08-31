@@ -30,6 +30,7 @@ public class InfixParserTest {
     @ValueSource(strings = {
         "-1",
         "1 * (2 - 3)",
+        "2 ⋅ 3",
         "e",
         "pi/2",
         "sin(pi/2)",

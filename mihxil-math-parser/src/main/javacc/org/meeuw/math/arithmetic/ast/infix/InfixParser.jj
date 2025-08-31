@@ -33,13 +33,10 @@ public class InfixParser<E extends AlgebraicElement<E>> {
 
     public AlgebraicBinaryOperator getOperationBySymbol(Token string) {
         String token = string.image;
-        if (token.equals("*")) {
-            token = "⋅";
-        }
         return structure.getOperationBySymbol(token).orElseThrow(
               new Supplier<IllegalArgumentException>() {
           public IllegalArgumentException get() {
-             return   new IllegalArgumentException("No such operator " + string + "' in " + structure + " (" + structure.getSupportedOperators() + ")");
+             return   new IllegalArgumentException("No such operator '" + token + "' in " + structure + " (" + structure.getSupportedOperators() + ")");
           }
         });
     }
@@ -48,7 +45,7 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         return structure.getUnaryOperationBySymbol(string.image).orElseThrow(
               new Supplier<IllegalArgumentException>() {
           public IllegalArgumentException get() {
-             return   new IllegalArgumentException("No such operator " + string + "' in " + structure + " (" + structure.getSupportedUnaryOperators() + ")");
+             return   new IllegalArgumentException("No such unary operator '" + string + "' in " + structure + " (" + structure.getSupportedUnaryOperators() + ")");
           }
         });
     }
@@ -73,7 +70,7 @@ TOKEN : {
     < NUMBER: (["0"-"9"])+ ( "." (["0"-"9"])+ )? (["i"-"k"])? >
 |   < QUOTED_STRING: "\"" (~["\""])* "\"" >
 |   < PLUS: (["+", "-"]) >
-|   < MULT: (["*", "/"]) >
+|   < MULT: (["*", "/", "\u22c5"]) >
 |   < POW: "^" >
 |   < LPAREN: "(" >
 |   < RPAREN: ")" >
@@ -88,7 +85,7 @@ Expression<E> parse() :
    Expression<E> expression;
 }
  {
-   expression = sum() <EOF>   // sum has lowes priority, so that goes first
+   expression = sum() <EOF>   // sum has lower priority, so that goes first
   {return expression; }
 
 }
