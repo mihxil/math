@@ -54,7 +54,7 @@
         <configuration>
           <transformers>
              <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-               <mainClass>org.meeuw.math.test.Application</mainClass>
+               <mainClass>org.meeuw.math.demo.Application</mainClass>
              </transformer>
              <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
            </transformers>
