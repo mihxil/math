@@ -5,7 +5,7 @@
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
-It doesn't always work, which I have quit understood yet.
+It doesn't always work, which I haven't quit understood yet.
 
 
 == Calculator
@@ -14,19 +14,11 @@ It doesn't always work, which I have quit understood yet.
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-
+   <!-- filled by calculator.js -->
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
-      <option value="rational" selected>Rational</option>
-      <option value="real">Real</option>
-      <option value="bigdecimal">Real (arbitrary precision)</option>
-      <option value="complex">Complex</option>
-      <option value="gaussian">Gaussian</option>
-      <option value="bigcomplex">Big complex</option>
-      <option value="quaternions">Quaternions</option>
-
-
+   <!-- filled by calculator.js -->
    </select>
   </select>
    <br />
@@ -42,10 +34,10 @@ This is the source code for the above.
 [source,java]
 ----
 
-public static String eval(String expression, String field) {
+public static String eval(final String expression, final String field) {
 
-    DivisionRing<?> f = FieldInformation.valueOf(field).getField();
-    Expression<?> parsedExpression = AST.parseInfix(expression, f);
+    Ring<?> f = FieldInformation.valueOf(field).getField();
+    log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
     try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
         cb.configure(UncertaintyConfiguration.class,
                 (ub) -> ub.withNotation(ROUND_VALUE))
@@ -53,7 +45,24 @@ public static String eval(String expression, String field) {
                 (mc) ->
                     mc.withContext(new MathContext(Utils.PI.length())))
     )) {
-        return parsedExpression.eval().toString();
+        log.info("Parsing expression: %s".formatted( expression));
+
+        Expression<?> parsedExpression = AST.parseInfix(expression, f);
+        try {
+            log.info("Parsed expression: %s".formatted( parsedExpression));
+            AlgebraicElement<?> result = parsedExpression.eval();
+            String resultAsString = result.toString();
+            log.info("Result: %s = %s".formatted(expression, resultAsString));
+            return resultAsString;
+        } catch (Throwable ex) {
+            log.log(Level.SEVERE, "odd1:" +  ex.getClass() + " " + ex.getMessage(), ex);
+            throw ex;
+        }
+    } catch (Throwable ex) {
+        log.log(Level.SEVERE, "odd: " + ex.getClass() + " " + ex.getMessage(), ex);
+        throw ex;
+    } finally {
+        log.finer("Ready evaluation");
     }
 }
 ----
@@ -64,55 +73,92 @@ This is the source code for the above.
 [source,javascript]
 ----
     constructor() {
-        super(['org.meeuw.math.test.Calculator'], '#calculator');
+        super('#calculator', 'org.meeuw.math.test.Calculator');
         this.input = this.form.querySelector('input');
         this.field = this.form.querySelector('select');
         this.inputDataList= this.form.querySelector('datalist');
-        this.exampleValues = null;
+        this.information = null;
     }
 
+    async setupForm() {
+        await super.setupForm();
+        this.form.addEventListener('beforeinput', (e) => {
+            if (e.data === '=') {
+                console.log(this.input.value);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                this.onSubmit(this.Class);
+            }
+        });
+
+    }
 
     async onInView(Calculator){
+
         await super.onInView(Calculator);
-        if (this.exampleValues === null) {
-            this.exampleValues = {};
+        // using the field information to update the example per field
+        if (this.information === null) {
+            this.information = {};
             const fi = await (await BaseClass.cj)['org.meeuw.math.test.Calculator$FieldInformation'];
             const values = await fi.values();
 
             for (let i = 0; i < values.length; i++) {
                 const value = values[i];
                 const examples = await value.getExamples();
+                const description = await value.getDescription();
+                const field = await value.getField();
+                const string = await field.toString();
+
                 const e = [];
                 for (let j = 0; j < examples.length; j++) {
                     e[j] = await examples[j];
                 }
-                this.exampleValues[await values[i].name()] = e;
-
+                this.information[await values[i].name()] = {
+                    examples: e,
+                    description: description,
+                    string: string
+                };
             }
         }
+        await         this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
         });
-        this.updateDataList();
+        await this.updateDataList();
+
+
     }
-    updateDataList() {
-        const selectedField = this.field.value;
-        const examples = this.exampleValues[selectedField] || [];
-        this.inputDataList.innerHTML = '';
-        examples.forEach(example => {
+
+    updateFieldList() {
+        for (const [key, value] of Object.entries(this.information)) {
+
             const option = document.createElement('option');
-            option.value = example;
-            option.text = example;
-            this.inputDataList.appendChild(option);
-        });
-        console.log("Updated data list for", selectedField, examples);
+            option.value = key;
+            option.text = value.description + ' ' + value.string;
+            this.field.appendChild(option);
+        }
+    }
+
+    async updateDataList() {
+        const selectedField = this.field.value;
+        const information = this.information[selectedField];
+        if (information) {
+            this.inputDataList.innerHTML = '';
+            for (const example of information.examples) {
+                const option = document.createElement('option');
+                option.value = example;
+                option.text = example;
+                this.inputDataList.appendChild(option);
+            }
+            console.log("Updated data list for", selectedField, information.examples);
+        }
 
     }
 
     async onSubmit(Calculator) {
         this.output.value = '';
         this.textContent = "executing..";
-        console.log("evaluating", this.input.value, "for", this.field.value);
+        //console.log("evaluating", this.input.value, "for", this.field.value);
         this.output.value = await Calculator.eval(
             this.input.value, this.field.value
         );
@@ -463,10 +509,13 @@ This is the source code for the above.
 ----
 
 async onSubmit(DynamicDateTime){
-
-    const parser = await new DynamicDateTime();
-    const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
-    this.output.value = await parseResult.toString();
+    try {
+        const parser = await new DynamicDateTime();
+        const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
+        this.output.value = await parseResult.toString();
+    } catch (error) {
+        console.log(error);
+    }
 
 }
 
