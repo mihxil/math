@@ -1661,26 +1661,18 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>These are a running <a href="https://webassembly.org/">webassembly</a> demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>).</p>
 </div>
 <div class="paragraph">
-<p>It doesn&#8217;t always work, which I have quit understood yet.</p>
+<p>It doesn&#8217;t always work, which I haven&#8217;t quit understood yet.</p>
 </div>
 <div class="sect2">
 <h3 id="_calculator">10.1. Calculator</h3>
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-
+   <!-- filled by calculator.js -->
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
-      <option value="rational" selected>Rational</option>
-      <option value="real">Real</option>
-      <option value="bigdecimal">Real (arbitrary precision)</option>
-      <option value="complex">Complex</option>
-      <option value="gaussian">Gaussian</option>
-      <option value="bigcomplex">Big complex</option>
-      <option value="quaternions">Quaternions</option>
-
-
+   <!-- filled by calculator.js -->
    </select>
   </select>
    <br />
@@ -1696,11 +1688,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> expression, <span class="predefined-type">String</span> field) {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
 
-    DivisionRing&lt;?&gt; f = FieldInformation.valueOf(field).getField();
-    log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression: </span><span class="delimiter">&quot;</span></span> + expression);
-    <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
+    Ring&lt;?&gt; f = FieldInformation.valueOf(field).getField();
+    log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
     <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
         cb.configure(UncertaintyConfiguration.class,
                 (ub) -&gt; ub.withNotation(ROUND_VALUE))
@@ -1708,14 +1699,24 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 (mc) -&gt;
                     mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( expression));
+
+        <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
         <span class="keyword">try</span> {
+            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
             AlgebraicElement&lt;?&gt; result = parsedExpression.eval();
-            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Result </span><span class="delimiter">&quot;</span></span> + result);
-            <span class="keyword">return</span> result.toString();
-        } <span class="keyword">catch</span> (<span class="exception">Exception</span> ex) {
-            log.log(<span class="predefined-type">Level</span>.SEVERE, ex.getMessage(), ex);
+            <span class="predefined-type">String</span> resultAsString = result.toString();
+            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
+            <span class="keyword">return</span> resultAsString;
+        } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
+            log.log(<span class="predefined-type">Level</span>.SEVERE, <span class="string"><span class="delimiter">&quot;</span><span class="content">odd1:</span><span class="delimiter">&quot;</span></span> +  ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
             <span class="keyword">throw</span> ex;
         }
+    } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
+        log.log(<span class="predefined-type">Level</span>.SEVERE, <span class="string"><span class="delimiter">&quot;</span><span class="content">odd: </span><span class="delimiter">&quot;</span></span> + ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
+        <span class="keyword">throw</span> ex;
+    } <span class="keyword">finally</span> {
+        log.finer(<span class="string"><span class="delimiter">&quot;</span><span class="content">Ready evaluation</span><span class="delimiter">&quot;</span></span>);
     }
 }</code></pre>
 </div>
@@ -1731,55 +1732,92 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    constructor() {
-        <span class="reserved">super</span>([<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>], <span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>);
+        <span class="reserved">super</span>(<span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.input = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.field = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.inputDataList= <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">datalist</span><span class="delimiter">'</span></span>);
-        <span class="local-variable">this</span>.exampleValues = <span class="predefined-constant">null</span>;
+        <span class="local-variable">this</span>.information = <span class="predefined-constant">null</span>;
     }
 
+    async setupForm() {
+        await <span class="reserved">super</span>.setupForm();
+        <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, (e) =&gt; {
+            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">=</span><span class="delimiter">'</span></span>) {
+                console.log(<span class="local-variable">this</span>.input.value);
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                <span class="local-variable">this</span>.onSubmit(<span class="local-variable">this</span>.Class);
+            }
+        });
+
+    }
 
     async onInView(Calculator){
+
         await <span class="reserved">super</span>.onInView(Calculator);
-        <span class="keyword">if</span> (<span class="local-variable">this</span>.exampleValues === <span class="predefined-constant">null</span>) {
-            <span class="local-variable">this</span>.exampleValues = {};
+        <span class="comment">// using the field information to update the example per field</span>
+        <span class="keyword">if</span> (<span class="local-variable">this</span>.information === <span class="predefined-constant">null</span>) {
+            <span class="local-variable">this</span>.information = {};
             const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
             const values = await fi.values();
 
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
                 const value = values[i];
                 const examples = await value.getExamples();
+                const description = await value.getDescription();
+                const field = await value.getField();
+                const string = await field.toString();
+
                 const e = [];
                 <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; examples.length; j++) {
                     e[j] = await examples[j];
                 }
-                <span class="local-variable">this</span>.exampleValues[await values[i].name()] = e;
-
+                <span class="local-variable">this</span>.information[await values[i].name()] = {
+                    <span class="key">examples</span>: e,
+                    <span class="key">description</span>: description,
+                    <span class="key">string</span>: string
+                };
             }
         }
+        await         <span class="local-variable">this</span>.updateFieldList();
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
             <span class="local-variable">this</span>.updateDataList();
         });
-        <span class="local-variable">this</span>.updateDataList();
+        await <span class="local-variable">this</span>.updateDataList();
+
+
     }
-    updateDataList() {
-        const selectedField = <span class="local-variable">this</span>.field.value;
-        const examples = <span class="local-variable">this</span>.exampleValues[selectedField] || [];
-        <span class="local-variable">this</span>.inputDataList.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-        examples.forEach(example =&gt; {
+
+    updateFieldList() {
+        <span class="keyword">for</span> (const [key, value] of Object.entries(<span class="local-variable">this</span>.information)) {
+
             const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
-            option.value = example;
-            option.text = example;
-            <span class="local-variable">this</span>.inputDataList.appendChild(option);
-        });
-        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, examples);
+            option.value = key;
+            option.text = value.description + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span> + value.string;
+            <span class="local-variable">this</span>.field.appendChild(option);
+        }
+    }
+
+    async updateDataList() {
+        const selectedField = <span class="local-variable">this</span>.field.value;
+        const information = <span class="local-variable">this</span>.information[selectedField];
+        <span class="keyword">if</span> (information) {
+            <span class="local-variable">this</span>.inputDataList.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+            <span class="keyword">for</span> (const example of information.examples) {
+                const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
+                option.value = example;
+                option.text = example;
+                <span class="local-variable">this</span>.inputDataList.appendChild(option);
+            }
+            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
+        }
 
     }
 
     async onSubmit(Calculator) {
         <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaluating</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">this</span>.input.value, <span class="string"><span class="delimiter">&quot;</span><span class="content">for</span><span class="delimiter">&quot;</span></span>, <span class="local-variable">this</span>.field.value);
+        <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, this.field.value);</span>
         <span class="local-variable">this</span>.output.value = await Calculator.eval(
             <span class="local-variable">this</span>.input.value, <span class="local-variable">this</span>.field.value
         );
