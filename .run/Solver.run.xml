@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Solver" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="org.meeuw.math.test.Solver" />
+    <option name="MAIN_CLASS_NAME" value="org.meeuw.math.demo.Solver" />
     <module name="mihxil-demo" />
     <option name="PROGRAM_PARAMETERS" value="24 8 8 3 3" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="org.meeuw.math.test.*" />
+        <option name="PATTERN" value="org.meeuw.cheerpj.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
