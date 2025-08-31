@@ -15,8 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.klein;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
+import java.util.logging.LogManager;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -24,6 +24,7 @@ import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 import org.meeuw.math.exceptions.NotParsable;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein Klein 4 group}, denoted by {@code V}.
@@ -41,6 +42,12 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
 
     private KleinGroup() {
     }
+
+   /* @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        log.info("get operators");
+        return Group.super.getSupportedOperators();
+    }*/
 
     @Override
     public Cardinality getCardinality() {
@@ -84,7 +91,6 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
         } catch (IllegalArgumentException e) {
             throw new NotParsable(s);
         }
-
     }
 
 }
