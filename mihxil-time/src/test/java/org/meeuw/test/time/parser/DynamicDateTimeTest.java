@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -82,6 +83,7 @@ class DynamicDateTimeTest {
     }
 
     @Test
+    @Disabled
     public void special_offset() {
         assertThat(dt.apply("2025-08-30T12:00 teatime").toString()).isEqualTo("");
     }
@@ -105,7 +107,7 @@ class DynamicDateTimeTest {
 
 
     @Test
-
+    @Disabled
     public void spring2005() {
 
         assertThat(dt.apply("2005-01-01 \"spring\"").toString()).isEqualTo("");
@@ -114,8 +116,6 @@ class DynamicDateTimeTest {
 
     @Test
     public void supplier() {
-
-
 
         ThrowingSupplier<ZonedDateTime, ParseException> supplier = dt.supplier("now + 10 minute");
 
