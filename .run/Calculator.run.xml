@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Calculator" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="org.meeuw.math.test.Calculator" />
+    <option name="MAIN_CLASS_NAME" value="org.meeuw.math.demo.Calculator" />
     <module name="mihxil-demo" />
     <option name="PROGRAM_PARAMETERS" value="&quot;2 * (2 - 5)&quot;" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="org.meeuw.math.test.*" />
+        <option name="PATTERN" value="org.meeuw.cheerpj.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
