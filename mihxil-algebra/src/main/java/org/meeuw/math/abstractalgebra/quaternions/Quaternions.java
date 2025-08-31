@@ -51,7 +51,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
         return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
             Quaternions<E> result = new Quaternions<>(numberFieldElement);
-            log.info("Created new instance of " + result);
+            log.info("Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
             return result;
 
             }
