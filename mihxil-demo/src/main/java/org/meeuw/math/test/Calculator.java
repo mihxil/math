@@ -13,6 +13,7 @@ import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
+import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -40,14 +41,20 @@ public class Calculator {
         bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" * 8i"),
         quaternions(Quaternions.of(RationalNumbers.INSTANCE),
             "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" * 8i"),
-        modulo10(ModuloRing.of(10), "4 * 7", "10 - 3"),
-        modulo13(ModuloField.of(13), "10 * 7", "10 - 3"),
+        quaternions_bigdecimal(Quaternions.of(BigDecimalField.INSTANCE),
+            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" * 8i"),
+        modulo10(ModuloRing.of(10), "4 * 7", "9 - 3"),
+        modulo13(ModuloField.of(13), "10 * 7", "10 - 3", "12 * 6 / 4"),
+        klein(KleinGroup.INSTANCE,
+            "a * b * c * e",
+            "a * b"
+        )
         ;
 
-        private final Ring<?> field;
+        private final Magma<?> field;
         private final String[] examples;
 
-        FieldInformation(Ring<?> field, String... examples) {
+        FieldInformation(Magma<?> field, String... examples) {
             this.field = field;
             this.examples = examples;
         }
@@ -62,8 +69,7 @@ public class Calculator {
 
     public static String eval(final String expression, final String field) {
 
-        Ring<?> f = FieldInformation.valueOf(field).getField();
-        log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+
         try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
             cb.configure(UncertaintyConfiguration.class,
                     (ub) -> ub.withNotation(ROUND_VALUE))
@@ -71,6 +77,8 @@ public class Calculator {
                     (mc) ->
                         mc.withContext(new MathContext(Utils.PI.length())))
         )) {
+            Magma<?> f = FieldInformation.valueOf(field).getField();
+            log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
             log.info("Parsing expression: %s".formatted( expression));
 
             Expression<?> parsedExpression = AST.parseInfix(expression, f);
