@@ -10,7 +10,7 @@ import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 
 /**
- * Shungint yard parser. I think this is obsolete bercause of {@link org.meeuw.math.arithmetic.parser.InfixParser}
+ * Shungint yard parser. I think this is obsolete because of {@link org.meeuw.math.arithmetic.ast.infix.InfixParser}
  */
 public class Parser<E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> {
 
