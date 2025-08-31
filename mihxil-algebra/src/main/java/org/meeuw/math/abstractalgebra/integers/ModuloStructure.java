@@ -101,4 +101,9 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         return "ℤ/" + divisor + "ℤ";
     }
 
+    @Override
+    public E fromString(String s) {
+        return element(Long.parseLong(s, (int) divisor));
+    }
+
 }

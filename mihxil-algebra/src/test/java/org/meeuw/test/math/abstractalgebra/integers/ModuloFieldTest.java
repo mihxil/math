@@ -86,6 +86,17 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
         assertThat(ten.dividedBy(9).getValue()).isEqualTo(19);
     }
 
+    @Test
+    public void fromString() {
+        ModuloField f = ModuloField.of(23);
+        ModuloFieldElement ten = f.fromString("a");
+        assertThat(ten.getValue()).isEqualTo(10);
+
+        ModuloFieldElement _22 = f.fromString("m");
+        assertThat(_22.getValue()).isEqualTo(22);
+
+    }
+
 
 
 
