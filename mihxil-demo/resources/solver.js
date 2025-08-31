@@ -3,7 +3,7 @@ import { BaseClass } from './base.js';
 export class SolverClass extends BaseClass {
 
     constructor() {
-        super("#solver", 'org.meeuw.math.test.Solver');
+        super("#solver", 'org.meeuw.math.demo.Solver');
         this.outcome = this.form.querySelector("#solver_outcome");
         this.input = this.form.querySelector("#solver_input");
 
