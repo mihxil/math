@@ -1,4 +1,4 @@
-package org.meeuw.math.test;
+package org.meeuw.math.demo;
 
 public record ParseResult<V>(
     String input,
