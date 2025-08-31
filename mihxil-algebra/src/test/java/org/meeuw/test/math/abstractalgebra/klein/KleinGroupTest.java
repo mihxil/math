@@ -17,14 +17,23 @@ package org.meeuw.test.math.abstractalgebra.klein;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
+import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.klein.KleinElement;
+import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.theories.abstractalgebra.GroupTheory;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class KleinGroupTest implements GroupTheory<KleinElement> {
     @Override
     public Arbitrary<KleinElement> elements() {
         return Arbitraries.of(KleinElement.values());
+    }
+
+    @Test
+    public void operators() {
+        assertThat(KleinGroup.INSTANCE.getSupportedOperators().toString()).isEqualTo("[OPERATION]");
     }
 
 
