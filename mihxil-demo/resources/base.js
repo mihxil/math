@@ -13,7 +13,7 @@ export class BaseClass {
 
         this.output = this.form.querySelector('output');
         this.button = this.form.querySelector('button');
-
+        this.ready = false;
     }
 
 
@@ -35,11 +35,12 @@ export class BaseClass {
             const pref = document.location.pathname.startsWith("/math") ?
                 "/app/math/resources/jars/" :
                 "/app/resources/jars/";
-            const version = "0.19-SNAPSHOT"
+            const version = "0.19-SNAPSHOT";
             BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar:${pref}big-math-2.3.2.jar`);
+            //BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-demo-${version}.jar`);
             console.log("cj -> ", await BaseClass.cj);
         }
-        return BaseClass.cj;
+        return await BaseClass.cj;
     }
 
     static async loadClassesForForm(className, classNames) {
@@ -63,6 +64,7 @@ export class BaseClass {
         console.log("Ready", this.form);
         this.button.textContent = this.button.getAttribute("data-original-text");
         this.button.disabled = false;
+        this.ready = true;
     }
 
     async setupForm() {
@@ -134,21 +136,25 @@ export class BaseClass {
         await this.setupSubmit()
     }
 
+    async handleSubmit() {
+        try {
+            //console.log("submitting for",  this.Class.prototype);
+            this.output.value = '';
+            this.button.textContent = "executing..";
+            await this.onSubmit(this.Class);
+        } catch (e) {
+            console.log(e);
+            this.output.value = e.stack ? e.stack : await e.toString();
+        } finally {
+            console.log("submit ready");
+            await this.readyToGo();
+        }
+    }
+
     async setupSubmit() {
         this.form.onsubmit = async (e) => {
             e.preventDefault();
-            try {
-                //console.log("submitting for",  this.Class.prototype);
-                this.output.value = '';
-                this.button.textContent = "executing..";
-                await this.onSubmit(this.Class);
-            } catch (e) {
-                console.log(e);
-                this.output.value = e.stack ? e.stack : await e.toString();
-            } finally {
-                console.log("submit ready");
-                await this.readyToGo();
-            }
+            await this.handleSubmit();
         };
     }
 
@@ -156,25 +162,21 @@ export class BaseClass {
      *
      */
     async setup() {
-
-
-
-
         this.button.disabled = true;
         console.log("created", this.button);
         // enforce rendering
         await new Promise(resolve => setTimeout(resolve, 0));
 
-
         const observer = new IntersectionObserver(async (entries) => {
-            await entries.forEach(async entry => {
+            for (const entry of entries) {
                 if (entry.isIntersecting) {
                     console.log("intersecting", entry.target, "setup form");
                     await this.onInView(this.Class);
-                    console.log("readyToGo");
+                    console.log("readyToGo", this.Class.prototype);
                     await this.readyToGo();
+                    observer.disconnect();
                 }
-            });
+            }
         }, {threshold: 0.1}); // Adjust threshold as needed
         await observer.observe(this.form);
     }
