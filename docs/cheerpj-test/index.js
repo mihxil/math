@@ -16,16 +16,18 @@ const Impl = await cj['org.meeuw.math.abstractalgebra.klein.KleinGroup']
 const instance = await Impl.INSTANCE;
 
 const sup = await instance.getSupportedOperators();
-const a = await sup.toString()
+const result = await sup.toString()
 */
 const Impl = await cj['org.meeuw.cheerpj.CheerpjTest']
-const a = await Impl.getSupportedOperators();
+const result = await Impl.getSupportedOperators();
 
 const output = document.querySelector("output");
 
-
+output.style.whiteSpace = 'pre-wrap';
 
 //const b = await instance.getB();
 output.textContent = `
-Operators of KleinGroup: ${a} (should be [OPERATION])
+Operators of KleinGroup: ${result} (should be [OPERATION])
+
+${result != '[OPERATION]' ? "FAILS" : 'success'}
 `
