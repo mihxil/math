@@ -33,7 +33,9 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  */
 public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> {
 
-    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(AlgebraicStructure.OPERATORS, BasicAlgebraicBinaryOperator.OPERATION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        BasicAlgebraicBinaryOperator.OPERATION
+    );
 
     @Override
     default NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
