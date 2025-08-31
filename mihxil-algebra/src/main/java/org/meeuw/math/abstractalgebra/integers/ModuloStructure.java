@@ -103,7 +103,9 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
     @Override
     public E fromString(String s) {
-        return element(Long.parseLong(s, (int) divisor));
+        return element(Long.parseLong(s));
+        // this would make sense too
+        //return element(Long.parseLong(s, (int) divisor));
     }
 
 }

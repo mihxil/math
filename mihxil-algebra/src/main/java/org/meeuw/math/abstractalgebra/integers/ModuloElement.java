@@ -38,7 +38,8 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
     final S structure;
 
     ModuloElement(long value, S structure) {
-        this.value = value % structure.divisor;
+        this.value = ((value % structure.divisor) + structure.divisor) % structure.divisor;
+        assert this.value >= 0;
         this.structure = structure;
     }
 

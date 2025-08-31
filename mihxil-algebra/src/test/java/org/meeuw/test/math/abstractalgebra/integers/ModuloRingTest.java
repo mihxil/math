@@ -25,7 +25,7 @@ import org.meeuw.theories.abstractalgebra.RingTheory;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-class ModuloRingElementTest implements RingTheory<ModuloRingElement> {
+class ModuloRingTest implements RingTheory<ModuloRingElement> {
 
     @Override
     @Provide

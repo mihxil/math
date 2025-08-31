@@ -89,12 +89,11 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
     @Test
     public void fromString() {
         ModuloField f = ModuloField.of(23);
-        ModuloFieldElement ten = f.fromString("a");
+        ModuloFieldElement ten = f.fromString("10");
         assertThat(ten.getValue()).isEqualTo(10);
 
-        ModuloFieldElement _22 = f.fromString("m");
+        ModuloFieldElement _22 = f.fromString("22");
         assertThat(_22.getValue()).isEqualTo(22);
-
     }
 
 
