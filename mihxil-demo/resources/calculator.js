@@ -13,15 +13,24 @@ export class CalculatorClass extends BaseClass {
 
     async setupForm() {
         await super.setupForm();
-        this.form.addEventListener('beforeinput', (e) => {
+        this.form.addEventListener('beforeinput', async (e) => {
             if (e.data === '=') {
                 console.log(this.input.value);
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                this.onSubmit(this.Class);
+                await this.handleSubmit();
             }
+             if (e.data === '[') {
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 const input = this.input;
+                 const start = input.selectionStart;
+                 const end = input.selectionEnd;
+                 const value = input.value;
+                 input.value = value.slice(0, start) + '⋅' + value.slice(end);
+                 input.setSelectionRange(start + 1, start + 1);
+             }
         });
-
     }
 
     async onInView(Calculator){
@@ -51,7 +60,7 @@ export class CalculatorClass extends BaseClass {
                 };
             }
         }
-        await         this.updateFieldList();
+        await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
         });
