@@ -8,10 +8,11 @@ import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.abstractalgebra.DivisionRing;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
+import org.meeuw.math.abstractalgebra.integers.ModuloField;
+import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -38,25 +39,31 @@ public class Calculator {
         complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)", "exp(i * pi)", "\"2 + 3i\" * i"),
         bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" * 8i"),
         quaternions(Quaternions.of(RationalNumbers.INSTANCE),
-            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" * 8i")
+            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" * 8i"),
+        modulo10(ModuloRing.of(10), "4 * 7", "10 - 3"),
+        modulo13(ModuloField.of(13), "10 * 7", "10 - 3"),
         ;
 
-        private final DivisionRing<?> field;
+        private final Ring<?> field;
         private final String[] examples;
 
-        FieldInformation(DivisionRing<?> field, String... examples) {
+        FieldInformation(Ring<?> field, String... examples) {
             this.field = field;
             this.examples = examples;
+        }
+
+        public String getDescription() {
+            return field.getDescription();
         }
     }
 
 
    // tag::eval[]
 
-    public static String eval(String expression, String field) {
+    public static String eval(final String expression, final String field) {
 
-        DivisionRing<?> f = FieldInformation.valueOf(field).getField();
-        log.info("Evaluating expression: " + expression);
+        Ring<?> f = FieldInformation.valueOf(field).getField();
+        log.info("Evaluating expression in %s: %s".formatted(f, expression));
         Expression<?> parsedExpression = AST.parseInfix(expression, f);
         try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
             cb.configure(UncertaintyConfiguration.class,
@@ -67,12 +74,16 @@ public class Calculator {
         )) {
             try {
                 AlgebraicElement<?> result = parsedExpression.eval();
-                log.info("Result " + result);
-                return result.toString();
+                String resultAsString = result.toString();
+                log.info("Result %s = %s".formatted(expression, resultAsString));
+                return resultAsString;
             } catch (Throwable ex) {
                 log.log(Level.SEVERE, ex.getMessage(), ex);
                 throw ex;
             }
+        } catch (Throwable ex) {
+            log.log(Level.SEVERE, ex.getMessage(), ex);
+                throw ex;
         }
     }
     //end::eval[]
