@@ -12,7 +12,7 @@ It doesn't always work, which I haven't quit understood yet.
 
 ++++
 <form id="calculator" class="demo">
-  <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+  <label for="calculator_toparse">String to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
@@ -20,7 +20,6 @@ It doesn't always work, which I haven't quit understood yet.
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
-  </select>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
@@ -36,8 +35,7 @@ This is the source code for the above.
 
 public static String eval(final String expression, final String field) {
 
-    Ring<?> f = FieldInformation.valueOf(field).getField();
-    log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+
     try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
         cb.configure(UncertaintyConfiguration.class,
                 (ub) -> ub.withNotation(ROUND_VALUE))
@@ -45,6 +43,8 @@ public static String eval(final String expression, final String field) {
                 (mc) ->
                     mc.withContext(new MathContext(Utils.PI.length())))
     )) {
+        Magma<?> f = FieldInformation.valueOf(field).getField();
+        log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
         log.info("Parsing expression: %s".formatted( expression));
 
         Expression<?> parsedExpression = AST.parseInfix(expression, f);
@@ -80,17 +80,37 @@ This is the source code for the above.
         this.information = null;
     }
 
+    insert(c) {
+        const input = this.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        input.value = value.slice(0, start) + c + value.slice(end);
+        input.setSelectionRange(start + 1, start + 1);
+    }
+
     async setupForm() {
         await super.setupForm();
-        this.form.addEventListener('beforeinput', (e) => {
+        this.form.addEventListener('beforeinput', async (e) => {
+            this.form.querySelector("span.help").innerHTML = '';
             if (e.data === '=') {
                 console.log(this.input.value);
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                this.onSubmit(this.Class);
+                await this.handleSubmit();
             }
+             if (e.data === '*') {
+                 this.form.querySelector("span.help").innerHTML = "to type * use [";
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 this.insert('⋅')
+             }
+            if (e.data === '[') {
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 this.insert('*')
+             }
         });
-
     }
 
     async onInView(Calculator){
@@ -120,7 +140,7 @@ This is the source code for the above.
                 };
             }
         }
-        await         this.updateFieldList();
+        await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
         });
