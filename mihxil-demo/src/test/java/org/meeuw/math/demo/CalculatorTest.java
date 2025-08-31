@@ -1,4 +1,4 @@
-package org.meeuw.math.test;
+package org.meeuw.math.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
