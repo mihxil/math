@@ -18,7 +18,9 @@ package org.meeuw.math;
 import java.lang.annotation.*;
 
 /**
- * Sometime I had to override a method withouth a clear reason.
+ * Sometimes I had to override a method without a clear reason.
+ * Mainly to help cheerpj for the online demo.
+ *
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

@@ -4,29 +4,30 @@ export class BaseClass {
     static cj = null;
     static cjInit = null;
 
-    constructor(classes, formSelector, buttonSelector = 'button') {
+    constructor(formSelector, ...classes) {
 
         const [first, ...rest] = classes;
         this.className = first;
         this.classNames = rest;
         this.form = document.querySelector(formSelector);
-        this.button = this.form.querySelector(buttonSelector);
-        this.buttonText = this.button.textContent;
+
         this.output = this.form.querySelector('output');
+        this.button = this.form.querySelector('button');
 
     }
+
 
     static async getCheerpj() {
         if (BaseClass.cjInit === null) {
             BaseClass.cjInit = "locked";
-            console.log("init cheerpj 17");
             const properties = [
-                `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
-            ]
-            BaseClass.cjInit = cheerpjInit({
+                `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
+            const settings = {
                 version: 17,
                 javaProperties: properties
-            });
+            }
+            console.log("init cheerpj", settings);
+            BaseClass.cjInit = cheerpjInit(settings);
         }
         await BaseClass.cjInit;
         if (BaseClass.cj === null) {
@@ -36,7 +37,7 @@ export class BaseClass {
                 "/app/resources/jars/";
             const version = "0.19-SNAPSHOT"
             BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar:${pref}big-math-2.3.2.jar`);
-            console.log("cj -> ", BaseClass.cj);
+            console.log("cj -> ", await BaseClass.cj);
         }
         return BaseClass.cj;
     }
@@ -55,8 +56,12 @@ export class BaseClass {
         return clazz;
     }
 
+    /**
+     * Just puts the normal text back on the submit button and enables it.
+     */
     readyToGo() {
-        this.button.textContent = this.buttonText;
+        console.log("Ready", this.form);
+        this.button.textContent = this.button.getAttribute("data-original-text");
         this.button.disabled = false;
     }
 
@@ -66,7 +71,7 @@ export class BaseClass {
         if (!this.Class) {
             this.Class = "locked";
             this.Class = await BaseClass.loadClassesForForm(this.className, this.classNames);
-            console.log(this.Class, "set up");
+            console.log(this.Class.prototype, "set up");
         } else if (this.Class === "locked") {
             while (this.Class === "locked") {
                 await new Promise(resolve => setTimeout(resolve, 50)); // check every 50ms
@@ -74,30 +79,47 @@ export class BaseClass {
         } else {
             //console.log(this.Class, "already set up");
         }
-        this.form.querySelectorAll("datalist").forEach(dl => {
-            dl.addEventListener('click', async (e) => {
+        await this.setupDataLists();
+        await this.setupValidation();
+    }
+
+    async setupDataLists() {
+        // if someone clicks on a datalist option, fill the value in the
+        // corresponding input
+        const datalists = this.form.querySelectorAll("datalist");
+
+        for (const dl of datalists) {
+            dl.addEventListener('click',  async (e) => {
                 const datalist = e.target.closest('datalist').id;
-                const optionValue = await e.target.value;
+                const optionValue =  e.target.value;
                 if (optionValue) {
-                    document.querySelectorAll(`*[list="${datalist}"]`).forEach(async e => {
-                        e.value = optionValue;
-                        const event = new CustomEvent('exampleFilled', {
-                            detail: {
-                                optionValue: optionValue
-                            }
-                        });
-                        await this.form.dispatchEvent(event);
-                    });
+                    const datalists = document.querySelectorAll(`*[list="${datalist}"]`);
+                    for (const e of datalists) {
+                        if (e.value !== optionValue) {
+                            e.value = optionValue;
+
+                            const event = new CustomEvent('exampleFilled', {
+                                detail: {
+                                    optionValue: optionValue
+                                }
+                            });
+                            this.form.dispatchEvent(event);
+                            this.output.value = '';
+                            const inputEvent = new InputEvent('input', {bubbles: true});
+
+                            e.dispatchEvent(inputEvent)
+                        }
+                    }
                 }
             });
-        });
-        this.form.querySelectorAll("datalist option").forEach(o => {
+        }
+        // this makes it needed that all text are !=== ''
+        const options = this.form.querySelectorAll("datalist option");
+        for (const o of options) {
             if (o.text === '') {
                 o.text = o.value;
             }
-        });
-
-        await this.readyToGo();
+        }
     }
 
     async onSubmit(Class) {
@@ -105,51 +127,61 @@ export class BaseClass {
 
     }
 
-    async onInView(Class) {
+    async onInView() {
+        console.log("in view", await this.className);
+        this.button.textContent = "loading...";
         await this.setupForm();
+        await this.setupSubmit()
     }
 
-    async setup(setup) {
+    async setupSubmit() {
         this.form.onsubmit = async (e) => {
             e.preventDefault();
             try {
-                await this.setupForm();
-                console.log("submitting for",  this.Class.prototype);
+                //console.log("submitting for",  this.Class.prototype);
                 this.output.value = '';
                 this.button.textContent = "executing..";
                 await this.onSubmit(this.Class);
             } catch (e) {
-                if (e instanceof Promise || e.getMessage) {
-                    let error = await e;
-                    let cla = await error.getClass()
-                    console.log(await cla.toString());
-                    this.output.value = await error.getMessage();
-                } else {
-                    console.log(e);
-                    this.output.value = e.stack ? e.stack : e.toString();
-                }
+                console.log(e);
+                this.output.value = e.stack ? e.stack : await e.toString();
+            } finally {
+                console.log("submit ready");
+                await this.readyToGo();
             }
-            this.readyToGo();
         };
-        if (setup) {
-            this.setupForm();
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+    }
+
+    /**
+     *
+     */
+    async setup() {
+
+
+
+
+        this.button.disabled = true;
+        console.log("created", this.button);
+        // enforce rendering
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+
+        const observer = new IntersectionObserver(async (entries) => {
+            await entries.forEach(async entry => {
                 if (entry.isIntersecting) {
                     console.log("intersecting", entry.target, "setup form");
-                    this.setupForm()
-                    this.onInView(this.Class);
+                    await this.onInView(this.Class);
+                    console.log("readyToGo");
+                    await this.readyToGo();
                 }
             });
         }, {threshold: 0.1}); // Adjust threshold as needed
-        observer.observe(this.form);
+        await observer.observe(this.form);
     }
 
 
-    static async setupValidation() {
-        document.querySelectorAll(".demo input[pattern]").forEach(input => {
-
+    async setupValidation() {
+        await this.form.querySelectorAll("input[pattern]").forEach(input => {
             input.addEventListener("input", function (e) {
                 const input = e.target;
                 const pattern = new RegExp(input.getAttribute("pattern"));
@@ -166,7 +198,7 @@ export class BaseClass {
                 }
             });
         });
-        document.querySelectorAll(".demo input[data-parser]").forEach(input => {
+        await this.form.querySelectorAll("input[data-parser]").forEach(input => {
 
             input.addEventListener("input", async function (e) {
                 const input = e.target;

@@ -63,8 +63,7 @@ public class Calculator {
     public static String eval(final String expression, final String field) {
 
         Ring<?> f = FieldInformation.valueOf(field).getField();
-        log.info("Evaluating expression in %s: %s".formatted(f, expression));
-        Expression<?> parsedExpression = AST.parseInfix(expression, f);
+        log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
         try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
             cb.configure(UncertaintyConfiguration.class,
                     (ub) -> ub.withNotation(ROUND_VALUE))
@@ -72,18 +71,24 @@ public class Calculator {
                     (mc) ->
                         mc.withContext(new MathContext(Utils.PI.length())))
         )) {
+            log.info("Parsing expression: %s".formatted( expression));
+
+            Expression<?> parsedExpression = AST.parseInfix(expression, f);
             try {
+                log.info("Parsed expression: %s".formatted( parsedExpression));
                 AlgebraicElement<?> result = parsedExpression.eval();
                 String resultAsString = result.toString();
-                log.info("Result %s = %s".formatted(expression, resultAsString));
+                log.info("Result: %s = %s".formatted(expression, resultAsString));
                 return resultAsString;
             } catch (Throwable ex) {
-                log.log(Level.SEVERE, ex.getMessage(), ex);
+                log.log(Level.SEVERE, "odd1:" +  ex.getClass() + " " + ex.getMessage(), ex);
                 throw ex;
             }
         } catch (Throwable ex) {
-            log.log(Level.SEVERE, ex.getMessage(), ex);
-                throw ex;
+            log.log(Level.SEVERE, "odd: " + ex.getClass() + " " + ex.getMessage(), ex);
+            throw ex;
+        } finally {
+            log.finer("Ready evaluation");
         }
     }
     //end::eval[]

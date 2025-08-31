@@ -15,6 +15,8 @@
  */
 package org.meeuw.test.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
@@ -27,6 +29,7 @@ import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
 import org.meeuw.theories.abstractalgebra.ScalarFieldTheory;
@@ -140,6 +143,12 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
             var pow100million = ten.pow(big);
             log.info("{}={}", BasicAlgebraicIntOperator.POWER.stringify(ten.toString(),  Long.toString(big)) , pow100million);
 
+        }
+        @Test
+        public void simple() {
+            AlgebraicBinaryOperator operationBySymbol = structure.getOperationBySymbol("*").get();
+            assertThat(operationBySymbol.apply(structure.element(4), structure.element(7)).toString()).isEqualTo("2");
+            assertThat(structure.fromString("4").times(structure.fromString("7")).toString()).isEqualTo("2");
         }
     }
 

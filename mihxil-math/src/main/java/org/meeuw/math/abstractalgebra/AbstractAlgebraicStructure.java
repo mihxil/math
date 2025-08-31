@@ -45,7 +45,7 @@ public abstract class AbstractAlgebraicStructure<E extends AlgebraicElement<E>>
         if (type instanceof Class) {
             return (Class<E>) type;
         } else if (type instanceof TypeVariable<?>) {
-            return toClass(((TypeVariable) type).getBounds()[0]);
+            return toClass(((TypeVariable<?>) type).getBounds()[0]);
         } else {
             return toClass(((ParameterizedType) type).getRawType());
         }

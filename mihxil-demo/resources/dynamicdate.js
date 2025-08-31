@@ -3,7 +3,7 @@ import { BaseClass } from './base.js';
 export class DynamicDate extends BaseClass {
 
     constructor() {
-        super(['org.meeuw.time.parser.DynamicDateTime'], '#dynamicdate');
+        super("#dynamicdate", 'org.meeuw.time.parser.DynamicDateTime');
         this.form.addEventListener('exampleFilled', async (e) => {
             this.onSubmit(await this.Class);
         });

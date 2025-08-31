@@ -4,7 +4,7 @@
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
-It doesn't always work, which I have quit understood yet.
+It doesn't always work, which I haven't quit understood yet.
 
 
 == Calculator
@@ -13,19 +13,11 @@ It doesn't always work, which I have quit understood yet.
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate:</label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
-
+   <!-- filled by calculator.js -->
    </datalist>
    <label for="calculator_field">Field:</label>
    <select id="calculator_field"  >
-      <option value="rational" selected>Rational</option>
-      <option value="real">Real</option>
-      <option value="bigdecimal">Real (arbitrary precision)</option>
-      <option value="complex">Complex</option>
-      <option value="gaussian">Gaussian</option>
-      <option value="bigcomplex">Big complex</option>
-      <option value="quaternions">Quaternions</option>
-
-
+   <!-- filled by calculator.js -->
    </select>
   </select>
    <br />
@@ -118,7 +110,7 @@ include::src/main/java/org/meeuw/math/test/Solver.java[indent=-]
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/resolver.js[indent=-,tag=solver]
+include::resources/solver.js[indent=-,tag=solver]
 ----
 ====
 

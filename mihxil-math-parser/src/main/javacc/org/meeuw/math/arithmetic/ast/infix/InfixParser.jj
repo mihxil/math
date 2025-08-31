@@ -16,7 +16,7 @@ package org.meeuw.math.arithmetic.ast.infix;
 
 import java.util.function.Supplier;import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.*;
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.math.operators.*;
 
 public class InfixParser<E extends AlgebraicElement<E>> {
 
@@ -31,10 +31,32 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         this.structure = s;
     }
 
+    public AlgebraicBinaryOperator getOperationBySymbol(Token string) {
+        String token = string.image;
+        if (token.equals("*")) {
+            token = "⋅";
+        }
+        return structure.getOperationBySymbol(token).orElseThrow(
+              new Supplier<IllegalArgumentException>() {
+          public IllegalArgumentException get() {
+             return   new IllegalArgumentException("No such operator " + string + "' in " + structure + " (" + structure.getSupportedOperators() + ")");
+          }
+        });
+    }
+
+      public AlgebraicUnaryOperator getUnaryOperationBySymbol(Token  string) {
+        return structure.getUnaryOperationBySymbol(string.image).orElseThrow(
+              new Supplier<IllegalArgumentException>() {
+          public IllegalArgumentException get() {
+             return   new IllegalArgumentException("No such operator " + string + "' in " + structure + " (" + structure.getSupportedUnaryOperators() + ")");
+          }
+        });
+    }
+
     private Supplier<IllegalArgumentException> illegalArgument(String type, Token illegalValue) {
         return new Supplier<IllegalArgumentException>() {
           public IllegalArgumentException get() {
-             return   new IllegalArgumentException("No such  " + type + " '" + illegalValue.image + "' in " + structure);
+             return   new IllegalArgumentException("No such " + type + " '" + illegalValue.image + "' in " + structure);
           }
         };
     }
@@ -83,7 +105,7 @@ Expression<E> sum() :
      (
         op = <PLUS>
         right = product()
-        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
+        {left = new BinaryOperation<>(getOperationBySymbol(op), left, right);}
      )*
     { return left; }
 }
@@ -99,7 +121,7 @@ Expression<E> product() :
      (
         op = <MULT>
         right = power()
-        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
+        {left = new BinaryOperation<>(getOperationBySymbol(op), left, right);}
      )*
     { return left; }
 }
@@ -115,7 +137,7 @@ Expression<E> power() :
      (
         op = <POW>
         right = term()
-        {left = new BinaryOperation<>(structure.getOperationBySymbol(op.image).orElseThrow(), left, right);}
+        {left = new BinaryOperation<>(getOperationBySymbol(op), left, right);}
      )*
     { return left; }
 }
@@ -163,11 +185,8 @@ UnaryOperation<E> function() :
     "(" functionArgument = sum() ")"
 
    {
-     return new UnaryOperation<>(structure.getUnaryOperationBySymbol(functionName.image).orElseThrow(
-         illegalArgument("function", functionName)
-     ),
-     functionArgument);
-    }
+     return new UnaryOperation<>(getUnaryOperationBySymbol(functionName), functionArgument);
+   }
 }
 
 Value<E> constant() :

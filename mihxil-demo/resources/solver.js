@@ -1,32 +1,35 @@
 import { BaseClass } from './base.js';
 
-export class ResolverClass extends BaseClass {
+export class SolverClass extends BaseClass {
 
     constructor() {
-        super(['org.meeuw.math.test.Solver'], "#solver");
+        super("#solver", 'org.meeuw.math.test.Solver');
         this.outcome = this.form.querySelector("#solver_outcome");
         this.input = this.form.querySelector("#solver_input");
 
-        // model is used by validation.
+
+        // model is used by BaseClass#setupValidation.
         this.model = {
             self: this,
             field: null,
             outcome: null,
             input: null,
+            // this is the 'data-parser' attribute of the 'outcome' input
             parseOutcome: async function (string) {
                 await this.self.setupForm();
-                this.field = await this.self.Class.algebraicStructureFor(string, this.input.value)
-                this.outcome = await Class.parseOutcome(this.field, string);
+                this.model.field = await this.self.Class.algebraicStructureFor(string, this.input.value)
+                this.model.outcome = await Class.parseOutcome(this.field, string);
                 this.readyToGo();
-                return await this.outcome.error();
+                    return await this.outcome.error();
             },
+            // this is the 'data-parser' attribute of the 'input' input
             parseInput: async function (string) {
                 await this.self.setupForm();
                 this.field = await this.self.Class.algebraicStructureFor(this.outcome.value, string);
                 this.input = await Class.parseInput(this.field, string);
                 this.readyToGo();
                 return await this.input.error();
-            }.bind(this),
+            },
             reset: function () {
                 this.outcome = null;
             }
