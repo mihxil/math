@@ -83,6 +83,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         return EQ_ONLY;
     }
 
+
     /**
      * Returns the {@link GenericFunction}s that elements of this structure support.
      * <p>
@@ -101,14 +102,20 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
      * since 0.19
      */
     default Optional<AlgebraicBinaryOperator> getOperationBySymbol(String symbol) {
-        return getSupportedOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
+        return getSupportedOperators()
+            .stream()
+            .filter(op -> op.getSymbol().equals(symbol))
+            .findFirst();
     }
 
     /**
      * since 0.19
      */
     default Optional<AlgebraicUnaryOperator> getUnaryOperationBySymbol(String symbol) {
-        return getSupportedUnaryOperators().stream().filter(op -> op.getSymbol().equals(symbol)).findFirst();
+        return getSupportedUnaryOperators()
+            .stream()
+            .filter(op -> op.getSymbol().equals(symbol))
+            .findFirst();
     }
 
     /**
@@ -118,11 +125,16 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     default Optional<E> getConstant(String symbol) {
         try {
             Method m = getClass().getMethod(symbol);
-
             return Optional.of((E) m.invoke(this));
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            return Optional.empty();
+
         }
+        try {
+            return Optional.of(fromString(symbol));
+        } catch (NotParsable notParsable) {
+
+        }
+        return Optional.empty();
     }
 
 
@@ -283,7 +295,7 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     /**
      * since 0.19
      */
-    default E fromString(String value) throws NotParsable{
+    default E fromString(String value) throws NotParsable {
         return FormatService.fromString(this, value, getElementClass());
     }
 

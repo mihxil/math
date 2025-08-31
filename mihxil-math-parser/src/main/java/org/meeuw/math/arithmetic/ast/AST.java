@@ -79,7 +79,10 @@ public class AST {
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parseInfix(String parse, AlgebraicStructure<E> field)  {
         try {
-            InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field);
+            InfixParser<E> parser = new InfixParser<>(
+                TextUtils.undo(parse),
+                field
+            );
             return parser.parse();
         } catch (ParseException e) {
             throw new IllegalArgumentException(e.getMessage());
