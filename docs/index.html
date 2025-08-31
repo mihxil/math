@@ -1747,7 +1747,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="comment">// using the field information to update the example per field</span>
         <span class="keyword">if</span> (<span class="local-variable">this</span>.information === <span class="predefined-constant">null</span>) {
             <span class="local-variable">this</span>.information = {};
-            const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.test.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
+            const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.demo.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
             const values = await fi.values();
 
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
