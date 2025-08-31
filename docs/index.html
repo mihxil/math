@@ -1741,15 +1741,24 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     async setupForm() {
         await <span class="reserved">super</span>.setupForm();
-        <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, (e) =&gt; {
+        <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, async (e) =&gt; {
             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">=</span><span class="delimiter">'</span></span>) {
                 console.log(<span class="local-variable">this</span>.input.value);
                 e.preventDefault();
                 e.stopImmediatePropagation();
-                <span class="local-variable">this</span>.onSubmit(<span class="local-variable">this</span>.Class);
+                await <span class="local-variable">this</span>.handleSubmit();
             }
+             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">[</span><span class="delimiter">'</span></span>) {
+                 e.preventDefault();
+                 e.stopImmediatePropagation();
+                 const input = <span class="local-variable">this</span>.input;
+                 const start = input.selectionStart;
+                 const end = input.selectionEnd;
+                 const value = input.value;
+                 input.value = value.slice(<span class="integer">0</span>, start) + <span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span> + value.slice(end);
+                 input.setSelectionRange(start + <span class="integer">1</span>, start + <span class="integer">1</span>);
+             }
         });
-
     }
 
     async onInView(Calculator){
@@ -1779,7 +1788,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 };
             }
         }
-        await         <span class="local-variable">this</span>.updateFieldList();
+        await <span class="local-variable">this</span>.updateFieldList();
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
             <span class="local-variable">this</span>.updateDataList();
         });
