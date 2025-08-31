@@ -31,7 +31,7 @@ It doesn't always work, which I haven't quit understood yet.
 This is the source code for the above.
 [source,java]
 ----
-include::src/main/java/org/meeuw/math/test/Calculator.java[indent=-,tag=eval]
+include::src/main/java/org/meeuw/math/demo/Calculator.java[indent=-,tag=eval]
 ----
 ====
 [%collapsible, title=javascript]
@@ -101,7 +101,7 @@ Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong 
 This is the source code for the above.
 [source,java]
 ----
-include::src/main/java/org/meeuw/math/test/Solver.java[indent=-]
+include::src/main/java/org/meeuw/math/demo/Solver.java[indent=-]
 ----
 ====
 [%collapsible, title=javascript]
