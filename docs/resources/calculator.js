@@ -5,7 +5,7 @@ export class CalculatorClass extends BaseClass {
 
 // tag::calculator[]
     constructor() {
-        super('#calculator', 'org.meeuw.math.test.Calculator');
+        super('#calculator', 'org.meeuw.math.demo.Calculator');
         this.input = this.form.querySelector('input');
         this.field = this.form.querySelector('select');
         this.inputDataList= this.form.querySelector('datalist');
