@@ -50,7 +50,7 @@ export class CalculatorClass extends BaseClass {
         // using the field information to update the example per field
         if (this.information === null) {
             this.information = {};
-            const fi = await (await BaseClass.cj)['org.meeuw.math.test.Calculator$FieldInformation'];
+            const fi = await (await BaseClass.cj)['org.meeuw.math.demo.Calculator$FieldInformation'];
             const values = await fi.values();
 
             for (let i = 0; i < values.length; i++) {
