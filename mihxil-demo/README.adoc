@@ -73,7 +73,7 @@ This is the source code for the above.
 [source,javascript]
 ----
     constructor() {
-        super('#calculator', 'org.meeuw.math.test.Calculator');
+        super('#calculator', 'org.meeuw.math.demo.Calculator');
         this.input = this.form.querySelector('input');
         this.field = this.form.querySelector('select');
         this.inputDataList= this.form.querySelector('datalist');
@@ -119,7 +119,7 @@ This is the source code for the above.
         // using the field information to update the example per field
         if (this.information === null) {
             this.information = {};
-            const fi = await (await BaseClass.cj)['org.meeuw.math.test.Calculator$FieldInformation'];
+            const fi = await (await BaseClass.cj)['org.meeuw.math.demo.Calculator$FieldInformation'];
             const values = await fi.values();
 
             for (let i = 0; i < values.length; i++) {
@@ -246,7 +246,7 @@ Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong 
 This is the source code for the above.
 [source,java]
 ----
-package org.meeuw.math.test;
+package org.meeuw.math.demo;
 
 import lombok.Getter;
 
