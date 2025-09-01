@@ -49,7 +49,7 @@ public class Calculator {
             "a * b"
         ),
         dihedral(DihedralGroup.D3,
-            "r1 * r3",
+            "r1 * r2",
             "s0 * r1 * s0"
         )
         ;
