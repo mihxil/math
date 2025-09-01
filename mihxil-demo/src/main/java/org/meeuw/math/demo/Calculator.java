@@ -11,6 +11,7 @@ import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Magma;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
+import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
@@ -47,6 +48,10 @@ public class Calculator {
         klein(KleinGroup.INSTANCE,
             "a * b * c * e",
             "a * b"
+        ),
+        dihedral(DihedralGroup.D3,
+            "r1 * r3",
+            "s0 * r1 * s0"
         )
         ;
 

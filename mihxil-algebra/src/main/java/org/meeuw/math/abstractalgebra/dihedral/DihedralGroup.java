@@ -12,6 +12,8 @@ import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
+import org.meeuw.math.text.TextUtils;
+
 import static org.meeuw.math.text.TextUtils.subscript;
 
 /**
@@ -102,5 +104,22 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     @Override
     public String toString() {
         return "D" + subscript(n);
+    }
+
+    public String getDescription() {
+        return "dihedral symmetry group representing the symmetries of a regular " + n + "-gon";
+    }
+
+    @Override
+    public DihedralSymmetry fromString(String s) {
+        s = TextUtils.undo(s.trim());
+        if (s.startsWith("r")) {
+            int k = Integer.parseInt(s.substring(1).trim());
+            return r(k);
+        } else if (s.startsWith("s")) {
+            int k = Integer.parseInt(s.substring(1).trim());
+            return s(k);
+        }
+        throw new InvalidElementCreationException("Cannot create element from " + s);
     }
 }
