@@ -8,7 +8,30 @@ These are a running link:https://webassembly.org/[webassembly] demos (using link
 It doesn't always work, which I haven't quit understood yet.
 
 
+.NOTE
+----
+This section is work in progress
+----
+
+
 == Calculator
+
+
+.NOTE
+====
+Expressions can be typed using the following operators:
+
+*  + for addition
+*  - for subtraction
+*  ⋅ for multiplication (can be typed by '*')
+*  / for division
+*  * for the default 'group operation' (can be type by ';')
+
+Furthermore, constants of the field are recognized like 'pi'.
+
+Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i".
+
+====
 
 ++++
 <form id="calculator" class="demo">
