@@ -53,6 +53,8 @@ datalist option:not(:last-child)::after {
   float: right;
   width: 50%;
   padding-left: 2ex;
+  max-height: 300px;
+  overflow-y: auto;
 }
 #demo_calculator + .sectionbody .admonitionblock.tip table {
   border-collapse: collapse;
@@ -72,7 +74,9 @@ datalist option:not(:last-child)::after {
 #demo_calculator + .sectionbody .admonitionblock.tip table td.icon {
   display:none;
 }
-
+#demo_calculator + .sectionbody dl dd {
+    margin-top: -2em;
+}
 #demo_section .sect1 {
   clear:both;
 
