@@ -1,21 +1,27 @@
-.PHONY: resources
-
-
-all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4
-
-
-
 MVN=mvn
+
+.PHONY: resources
+.DEFAULT_GOAL := index.html
+
+all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4  ## all
+
+
 # sudo gem install asciidoctor asciidoctor-multipage
 
-index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg resources
+
+help:     ## Show this help.
+	@sed -n 's/^##//p' $(MAKEFILE_LIST)
+	@grep -E '^[/%a-zA-Z0-9._-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+
+index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg resources   ## create index.html
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
 DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
-resources:
+resources:  ## copy resources from ../mihxil-demo
 	find ../mihxil-demo/resources -type f -exec sh -c 'echo "/* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */" > resources/$$(basename $$1) ; cat $$1 >> resources/$$(basename $$1)' sh \{\} \;
 
 %.svg: %.dot
@@ -38,12 +44,12 @@ resources:
 	for i in {1..999} ; do head -$$i $< | gnuplot frame.gp ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
 
 
-clean:
-	rm -f algebras.svg algebras.dot
+clean: ## clean
+	rm -f algebras.svg algebras.dot index.html
 
 
-algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java
+algebras.dot.m4: ../mihxil-algebra/src/test/java/org/meeuw/test/math/abstractalgebra/DocumentationTest.java  ## creates .m4 using mvn
 	(cd ../mihxil-algebra ; if `which $(MVN) > /dev/null` ; then $(MVN) -DskipTests=false -Dtest=DocumentationTest test ;fi )
 
-run:
+run:  ## Serve locally
 	npx serve
