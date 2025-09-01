@@ -26,7 +26,7 @@ Expressions can be typed using the following operators:
 *  - for subtraction
 *  ⋅ for multiplication (can be typed by '*')
 *  / for division
-*  * for the default 'group operation' (can be type by ';')
+*  * for the default 'group operation' (can be typed by ';'), for many groups this is the same as multiplication
 
 Furthermore, constants of the field are recognized like 'pi'.
 
