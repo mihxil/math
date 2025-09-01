@@ -23,10 +23,10 @@ Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual t
 
 === syntax
 
-.NOTE
-----
+[NOTE]
+====
 This section is work in progress
-----
+====
 
 The most basic idea is:
 [source]
