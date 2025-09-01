@@ -2,6 +2,7 @@
 = Demo
 :docinfo: private
 :source-highlighter: coderay
+:toc:
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
@@ -34,32 +35,22 @@ This is the source code for the above.
 ----
 
 public static String eval(final String expression, final String field) {
-
-
-    try (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb ->
-        cb.configure(UncertaintyConfiguration.class,
-                (ub) -> ub.withNotation(ROUND_VALUE))
-            .configure(MathContextConfiguration.class,
-                (mc) ->
-                    mc.withContext(new MathContext(Utils.PI.length())))
+    try (var r = ConfigurationService.setConfiguration(cb -> cb
+        .configure(UncertaintyConfiguration.class,
+            (ub) -> ub.withNotation(ROUND_VALUE))
+        .configure(MathContextConfiguration.class,
+            (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
     )) {
-        Magma<?> f = FieldInformation.valueOf(field).getField();
-        log.info("Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-        log.info("Parsing expression: %s".formatted( expression));
-
-        Expression<?> parsedExpression = AST.parseInfix(expression, f);
-        try {
-            log.info("Parsed expression: %s".formatted( parsedExpression));
-            AlgebraicElement<?> result = parsedExpression.eval();
-            String resultAsString = result.toString();
-            log.info("Result: %s = %s".formatted(expression, resultAsString));
-            return resultAsString;
-        } catch (Throwable ex) {
-            log.log(Level.SEVERE, "odd1:" +  ex.getClass() + " " + ex.getMessage(), ex);
-            throw ex;
-        }
+        var f = FieldInformation.valueOf(field).getField();
+        log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        var parsedExpression = AST.parseInfix(expression, f);
+        log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
+        var result = parsedExpression.eval();
+        var resultAsString = result.toString();
+        log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
+        return resultAsString;
     } catch (Throwable ex) {
-        log.log(Level.SEVERE, "odd: " + ex.getClass() + " " + ex.getMessage(), ex);
+        log.log(Level.SEVERE,  ex.getClass() + " " + ex.getMessage(), ex);
         throw ex;
     } finally {
         log.finer("Ready evaluation");
@@ -100,12 +91,12 @@ This is the source code for the above.
                 await this.handleSubmit();
             }
              if (e.data === '*') {
-                 this.form.querySelector("span.help").innerHTML = "to type * use [";
+                 this.form.querySelector("span.help").innerHTML = "to type * use ;";
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  this.insert('⋅')
              }
-            if (e.data === '[') {
+            if (e.data === ';') {
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  this.insert('*')
