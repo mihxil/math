@@ -16,6 +16,7 @@ This section is work in progress
 
 
 [#demo_calculator]
+[.tips-aside]
 == Calculator
 
 
@@ -70,12 +71,15 @@ include::resources/calculator.js[indent=-,tag=calculator]
 ====
 
 [#demo_solver]
+[.tips-aside]
 == Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
 
 Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.
 
+[TIP]
+====
 This combines several aspects of this project:
 
 - It uses 'rational numbers' to make all operations exact
@@ -85,6 +89,7 @@ This combines several aspects of this project:
 - It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also suport for `RealField` (and for example also support the POW operator)
 
 Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?
+====
 
 ++++
 <form id="solver" class="demo">
