@@ -1688,32 +1688,22 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
-
-
-    <span class="keyword">try</span> (ConfigurationService.Reset r = ConfigurationService.setConfiguration(cb -&gt;
-        cb.configure(UncertaintyConfiguration.class,
-                (ub) -&gt; ub.withNotation(ROUND_VALUE))
-            .configure(MathContextConfiguration.class,
-                (mc) -&gt;
-                    mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
+    <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
+        .configure(UncertaintyConfiguration.class,
+            (ub) -&gt; ub.withNotation(ROUND_VALUE))
+        .configure(MathContextConfiguration.class,
+            (mc) -&gt; mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
-        Magma&lt;?&gt; f = FieldInformation.valueOf(field).getField();
-        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( expression));
-
-        <span class="predefined-type">Expression</span>&lt;?&gt; parsedExpression = AST.parseInfix(expression, f);
-        <span class="keyword">try</span> {
-            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
-            AlgebraicElement&lt;?&gt; result = parsedExpression.eval();
-            <span class="predefined-type">String</span> resultAsString = result.toString();
-            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
-            <span class="keyword">return</span> resultAsString;
-        } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
-            log.log(<span class="predefined-type">Level</span>.SEVERE, <span class="string"><span class="delimiter">&quot;</span><span class="content">odd1:</span><span class="delimiter">&quot;</span></span> +  ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
-            <span class="keyword">throw</span> ex;
-        }
+        <span class="type">var</span> f = FieldInformation.valueOf(field).getField();
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        <span class="type">var</span> parsedExpression = AST.parseInfix(expression, f);
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
+        <span class="type">var</span> result = parsedExpression.eval();
+        <span class="type">var</span> resultAsString = result.toString();
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
+        <span class="keyword">return</span> resultAsString;
     } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
-        log.log(<span class="predefined-type">Level</span>.SEVERE, <span class="string"><span class="delimiter">&quot;</span><span class="content">odd: </span><span class="delimiter">&quot;</span></span> + ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
+        log.log(<span class="predefined-type">Level</span>.SEVERE,  ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
         <span class="keyword">throw</span> ex;
     } <span class="keyword">finally</span> {
         log.finer(<span class="string"><span class="delimiter">&quot;</span><span class="content">Ready evaluation</span><span class="delimiter">&quot;</span></span>);
@@ -1759,12 +1749,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 await <span class="local-variable">this</span>.handleSubmit();
             }
              <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) {
-                 <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use [</span><span class="delimiter">&quot;</span></span>;
+                 <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use ;</span><span class="delimiter">&quot;</span></span>;
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>)
              }
-            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">[</span><span class="delimiter">'</span></span>) {
+            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>) {
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>)
