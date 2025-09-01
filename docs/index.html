@@ -1664,30 +1664,35 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>Expressions can be typed using the following operators:</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>+ for addition</p>
-</li>
-<li>
-<p>- for subtraction</p>
-</li>
-<li>
-<p>⋅ for multiplication (can be typed by '*')</p>
-</li>
-<li>
-<p>/ for division</p>
-</li>
-<li>
-<p>* for the default 'group operation' (can be typed by ';'), for many groups this is the same as multiplication</p>
-</li>
-</ul>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">+</dt>
+<dd>
+<p>for addition</p>
+</dd>
+<dt class="hdlist1">-</dt>
+<dd>
+<p>for subtraction</p>
+</dd>
+<dt class="hdlist1">⋅</dt>
+<dd>
+<p>for multiplication (can be typed by '*')</p>
+</dd>
+<dt class="hdlist1">/</dt>
+<dd>
+<p>for division</p>
+</dd>
+<dt class="hdlist1">*</dt>
+<dd>
+<p>for the default 'group operation' (type ';'), for many groups this is the same as multiplication</p>
+</dd>
+</dl>
 </div>
 <div class="paragraph">
-<p>Furthermore, constants of the field are recognized like 'pi'.</p>
+<p>Furthermore, constants of the field are recognized. Like 'pi' or 'i'.</p>
 </div>
 <div class="paragraph">
-<p>Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i".</p>
+<p>Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i". If they are simple strings like 'r3' they can also be matched as a constant of the field.</p>
 </div>
 </td>
 </tr>
@@ -1724,7 +1729,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     )) {
         <span class="type">var</span> f = FieldInformation.valueOf(field).getField();
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-        <span class="type">var</span> parsedExpression = AST.parseInfix(expression, f);
+        <span class="type">var</span> parsedExpression = AST.parse(expression, f);
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
         <span class="type">var</span> resultAsString = result.toString();
