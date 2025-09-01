@@ -32,12 +32,12 @@ export class CalculatorClass extends BaseClass {
                 await this.handleSubmit();
             }
              if (e.data === '*') {
-                 this.form.querySelector("span.help").innerHTML = "to type * use [";
+                 this.form.querySelector("span.help").innerHTML = "to type * use ;";
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  this.insert('⋅')
              }
-            if (e.data === '[') {
+            if (e.data === ';') {
                  e.preventDefault();
                  e.stopImmediatePropagation();
                  this.insert('*')
