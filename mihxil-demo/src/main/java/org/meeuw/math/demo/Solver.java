@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+import lombok.extern.java.Log;
+
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
@@ -23,7 +25,11 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 /**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */
+@Log
 public  class Solver<E extends RingElement<E>> {
+    static {
+        Application.setupLogging();
+    }
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
@@ -90,6 +96,8 @@ public  class Solver<E extends RingElement<E>> {
 
         Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
+        log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
+
         return new SolverResult(solver.evaledStream(input)
             .filter(e ->
                 e.result().eq(outcome)
@@ -99,6 +107,8 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> field, String outcomeString) {
+        log.info(() -> "Parsing input " + outcomeString + " in field " + field);
+
         String resultError = null;
         F result;
         try {
@@ -110,6 +120,8 @@ public  class Solver<E extends RingElement<E>> {
         return new ParseResult<F>(outcomeString, result, resultError);
     }
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
+        log.info(() -> "Parsing input " + inputStrings + " in field " + field);
+
         String inputError = null;
 
         String[] input = inputStrings.split("\\s+");
@@ -125,6 +137,7 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static Ring<?> algebraicStructureFor(String outcomeString, String input) {
+        log.info(() -> "Determining algebraic structure for outcome " + outcomeString + " and input " + input);
         if (outcomeString.matches(".*[jk].*") || input.matches(".*[jk].*")) {
             return Quaternions.of(RationalNumbers.INSTANCE);
         } else if (outcomeString.contains("i") || input.contains("i")) {
