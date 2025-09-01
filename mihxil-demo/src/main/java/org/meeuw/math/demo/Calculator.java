@@ -79,7 +79,11 @@ public class Calculator {
                 (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
         )) {
             var f = FieldInformation.valueOf(field).getField();
+
             log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+            if (f.getSupportedOperators().isEmpty()) {
+                log.log(Level.SEVERE,  "Supported operators is empty for " + f);
+            }
             var parsedExpression = AST.parse(expression, f);
             log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
             var result = parsedExpression.eval();
