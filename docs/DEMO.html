@@ -130,7 +130,11 @@
             (mc) -&gt; mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
         <span class="type">var</span> f = FieldInformation.valueOf(field).getField();
+
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        <span class="keyword">if</span> (f.getSupportedOperators().isEmpty()) {
+            log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
+        }
         <span class="type">var</span> parsedExpression = AST.parse(expression, f);
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
@@ -657,7 +661,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 17:33:21 UTC
+Last updated 2025-09-01 17:55:54 UTC
 </div>
 </div>
 </body>

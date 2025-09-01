@@ -1337,7 +1337,20 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java">....
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.integers.ModuloFieldElement</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealNumber</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVGDocument</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
+
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealField.element</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.defaultSVG</span>;
+
+
+....
 
 
 <span class="annotation">@ParameterizedTest</span>
@@ -1728,7 +1741,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             (mc) -&gt; mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
         <span class="type">var</span> f = FieldInformation.valueOf(field).getField();
+
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        <span class="keyword">if</span> (f.getSupportedOperators().isEmpty()) {
+            log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
+        }
         <span class="type">var</span> parsedExpression = AST.parse(expression, f);
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
