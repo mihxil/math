@@ -18,6 +18,7 @@ I'm maintaining this mainly as a hobby project.
 
  `mihxil-time` now also has support for dynamic date parsing
 
+Set up running demo's with `cheerpj`
 
 
 | 0.18
