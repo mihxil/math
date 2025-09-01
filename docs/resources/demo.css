@@ -31,20 +31,28 @@ form.demo button {
   box-sizing: border-box;
 }
 
-
 input:focus.invalid, input.invalid {
   border-color: red !important;
 }
 datalist {
   display: block;
 }
+
 datalist::before {
   content: 'examples: '
 }
+
 datalist option {
   color: #009999;
-  display: inline;
+  display: inline-block;
 }
+datalist option::before {
+  content: attr(value);
+}
+datalist option:not(:empty)::before {
+  content: attr(value) ": ";
+}
+
 datalist option:not(:last-child)::after {
   color: black;
   content: ", ";

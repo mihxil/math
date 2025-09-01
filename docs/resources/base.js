@@ -25,6 +25,7 @@ export class BaseClass {
                 `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
             const settings = {
                 version: 17,
+                enableDebug: false,
                 javaProperties: properties
             }
             console.log("init cheerpj", settings);
@@ -39,7 +40,7 @@ export class BaseClass {
             const version = "0.19-SNAPSHOT";
             BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar:${pref}big-math-2.3.2.jar`);
             //BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-demo-${version}.jar`);
-            console.log("cj -> ", await BaseClass.cj);
+            //console.log("cj -> ", await BaseClass.cj);
         }
         return await BaseClass.cj;
     }
@@ -69,9 +70,10 @@ export class BaseClass {
     }
 
     async setupForm() {
-        this.button.disabled = true;
-        this.button.textContent = "loading...";
+
         if (!this.Class) {
+            this.button.disabled = true;
+            this.button.textContent = "loading...";
             this.Class = "locked";
             this.Class = await BaseClass.loadClassesForForm(this.className, this.classNames);
             console.log(this.Class.prototype, "set up");
@@ -89,38 +91,33 @@ export class BaseClass {
     async setupDataLists() {
         // if someone clicks on a datalist option, fill the value in the
         // corresponding input
-        const datalists = this.form.querySelectorAll("datalist");
+        if (! this.form.getAttribute('data-datalists-setup')) {
+            this.form.setAttribute('data-datalists-setup',  true);
+            const datalists = this.form.querySelectorAll("datalist");
+            for (const dl of datalists) {
+                dl.addEventListener('click', async (e) => {
+                    const datalist = e.target.closest('datalist').id;
+                    const optionValue = e.target.value;
+                    if (optionValue) {
+                        const datalists = document.querySelectorAll(`*[list="${datalist}"]`);
+                        for (const e of datalists) {
+                            if (e.value !== optionValue) {
+                                e.value = optionValue;
 
-        for (const dl of datalists) {
-            dl.addEventListener('click',  async (e) => {
-                const datalist = e.target.closest('datalist').id;
-                const optionValue =  e.target.value;
-                if (optionValue) {
-                    const datalists = document.querySelectorAll(`*[list="${datalist}"]`);
-                    for (const e of datalists) {
-                        if (e.value !== optionValue) {
-                            e.value = optionValue;
+                                const event = new CustomEvent('exampleFilled', {
+                                    detail: {
+                                        optionValue: optionValue
+                                    }
+                                });
+                                this.form.dispatchEvent(event);
+                                this.output.value = '';
+                                const inputEvent = new InputEvent('input', {bubbles: true});
 
-                            const event = new CustomEvent('exampleFilled', {
-                                detail: {
-                                    optionValue: optionValue
-                                }
-                            });
-                            this.form.dispatchEvent(event);
-                            this.output.value = '';
-                            const inputEvent = new InputEvent('input', {bubbles: true});
-
-                            e.dispatchEvent(inputEvent)
+                                e.dispatchEvent(inputEvent)
+                            }
                         }
                     }
-                }
-            });
-        }
-        // this makes it needed that all text are !=== ''
-        const options = this.form.querySelectorAll("datalist option");
-        for (const o of options) {
-            if (o.text === '') {
-                o.text = o.value;
+                });
             }
         }
     }
@@ -184,42 +181,46 @@ export class BaseClass {
 
 
     async setupValidation() {
-        await this.form.querySelectorAll("input[pattern]").forEach(input => {
-            input.addEventListener("input", function (e) {
-                const input = e.target;
-                const pattern = new RegExp(input.getAttribute("pattern"));
+        if (!this.form.getAttribute('data-validation-setup')) {
+            this.form.setAttribute('data-validation-setup', true);
+            const inputs = this.form.querySelectorAll("input[pattern]");
+            for (const input of inputs) {
+                input.addEventListener("input", function (e) {
+                    const input = e.target;
+                    const pattern = new RegExp(input.getAttribute("pattern"));
 
-                if (input.value && !pattern.test(input.value)) {
-                    const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
+                    if (input.value && !pattern.test(input.value)) {
+                        const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
 
-                    input.setCustomValidity(errorMessage);
-                    // Optional: add visual feedback
-                    input.classList.add("invalid");
-                } else {
-                    input.setCustomValidity("");
-                    input.classList.remove("invalid");
-                }
-            });
-        });
-        await this.form.querySelectorAll("input[data-parser]").forEach(input => {
-
-            input.addEventListener("input", async function (e) {
-                const input = e.target;
-                const parser = input.getAttribute("data-parser");
-                const model = input['model'];
-                const error = await model[parser](input.value);
-                if (error !== null) {
-                    const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
-                    input.setCustomValidity(errorMessage);
-                    // Optional: add visual feedback
-                    input.classList.add("invalid");
-                    input.reportValidity(); // Show the message immediately
-                } else {
-                    input.setCustomValidity("");
-                    input.classList.remove("invalid");
-                }
-            });
-        });
+                        input.setCustomValidity(errorMessage);
+                        // Optional: add visual feedback
+                        input.classList.add("invalid");
+                    } else {
+                        input.setCustomValidity("");
+                        input.classList.remove("invalid");
+                    }
+                });
+            }
+            const inputs2 = this.form.querySelectorAll("input[data-parser]");
+            for (const input of inputs2) {
+                input.addEventListener("input", async function (e) {
+                    const input = e.target;
+                    const parser = input.getAttribute("data-parser");
+                    const model = input['model'];
+                    const error = await model[parser](input.value);
+                    if (error !== null) {
+                        const errorMessage = input.getAttribute("data-error-message") || "Invalid input";
+                        input.setCustomValidity(errorMessage);
+                        // Optional: add visual feedback
+                        input.classList.add("invalid");
+                        input.reportValidity(); // Show the message immediately
+                    } else {
+                        input.setCustomValidity("");
+                        input.classList.remove("invalid");
+                    }
+                });
+            }
+        }
     }
 }
 
