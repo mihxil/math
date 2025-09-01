@@ -1,6 +1,7 @@
 = Demo
 :docinfo: private
 :source-highlighter: coderay
+:toc:
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
