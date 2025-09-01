@@ -6,7 +6,7 @@
 :ghm: {ghblob}mihxil-math/src/main/java/org/meeuw/math/
 :ght: {ghblob}mihxil-theories/src/main/java/
 :docs: {ghraw}docs
-:videooptions: width=400,height=400,opts=autoplay,loop,nocontrols
+:videooptions: width=400,height=400,opts=loop,nocontrols,preload=none
 
 
 
