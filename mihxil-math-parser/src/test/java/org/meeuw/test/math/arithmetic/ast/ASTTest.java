@@ -75,22 +75,22 @@ class ASTTest {
 
     @Test
     public void parseInfix() {
-        Expression<RealNumber> exp = AST.parseInfix("(3 * (8 - 3)) + 8", INSTANCE);
+        Expression<RealNumber> exp = AST.parse("(3 * (8 - 3)) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
-        Expression<RealNumber> exp2 = AST.parseInfix("((8 - 3) * 3) + 8", INSTANCE);
+        Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
         System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
     }
     @Test
     public void parseInfix1(){
         String s = "(1 + 2) + 200";
-        Expression<?> parse = AST.parseInfix(s, INSTANCE);
+        Expression<?> parse = AST.parse(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 
      @Test
     public void parseInfix2(){
         String s = "1 + -1";
-        Expression<RealNumber> parse = AST.parseInfix(s, INSTANCE);
+        Expression<RealNumber> parse = AST.parse(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 }

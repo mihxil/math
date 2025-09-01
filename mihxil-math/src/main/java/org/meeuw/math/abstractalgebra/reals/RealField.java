@@ -89,7 +89,7 @@ public class RealField
         double value = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize() * (random.nextDouble() - 0.5d);
         boolean nan = random.nextDouble() < 0.1;
         return new DoubleElement(value,
-            nan ? Double.NaN : Math.abs(0.5 * value * random.nextDouble())
+            nan ? Double.NaN : Math.abs(0.05 * value * random.nextDouble())
         );
     }
 

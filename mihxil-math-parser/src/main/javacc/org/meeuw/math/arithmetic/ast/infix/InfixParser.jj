@@ -14,7 +14,10 @@ PARSER_BEGIN(InfixParser)
 
 package org.meeuw.math.arithmetic.ast.infix;
 
-import java.util.function.Supplier;import org.meeuw.math.abstractalgebra.*;
+import java.util.function.Supplier;
+import java.util.function.Function;
+import java.util.Optional;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.operators.*;
 
@@ -22,13 +25,19 @@ public class InfixParser<E extends AlgebraicElement<E>> {
 
     private AlgebraicStructure<E> structure;
 
-    public InfixParser(Provider provider, AlgebraicStructure<E> s) {
+    private Function<String, Optional<E>> getConstant;
+
+
+    public InfixParser(Provider provider, AlgebraicStructure<E> s, Function<String, Optional<E>> getConstant) {
         this(provider);
         this.structure = s;
+        this.getConstant = getConstant;
     }
-    public InfixParser(String provider, AlgebraicStructure<E> s) throws ParseException {
-        this(provider);
+
+    public InfixParser(String string, AlgebraicStructure<E> s, Function<String, Optional<E>> getConstant) throws ParseException {
+        this(string);
         this.structure = s;
+        this.getConstant = getConstant;
     }
 
     public AlgebraicBinaryOperator getOperationBySymbol(Token string) {
@@ -195,6 +204,6 @@ Value<E> constant() :
      | constantName = <SYMBOLS>
     )
    {
-     return new Value<>(structure.getConstant(constantName.image).orElseThrow(illegalArgument("constant", constantName)));
+     return new Value<>(getConstant.apply(constantName.image).orElseThrow(illegalArgument("constant", constantName)));
    }
 }

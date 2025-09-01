@@ -80,7 +80,7 @@ public class Calculator {
         )) {
             var f = FieldInformation.valueOf(field).getField();
             log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-            var parsedExpression = AST.parseInfix(expression, f);
+            var parsedExpression = AST.parse(expression, f);
             log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
             var result = parsedExpression.eval();
             var resultAsString = result.toString();

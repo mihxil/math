@@ -23,15 +23,15 @@ This section is work in progress
 ====
 Expressions can be typed using the following operators:
 
-*  + for addition
-*  - for subtraction
-*  ⋅ for multiplication (can be typed by '*')
-*  / for division
-*  * for the default 'group operation' (can be typed by ';'), for many groups this is the same as multiplication
++:: for addition
+-:: for subtraction
+⋅:: for multiplication (can be typed by '*')
+/:: for division
+*:: for the default 'group operation' (type ';'), for many groups this is the same as multiplication
 
-Furthermore, constants of the field are recognized like 'pi'.
+Furthermore, constants of the field are recognized. Like 'pi' or 'i'.
 
-Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i".
+Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i". If they are simple strings like 'r3' they can also be matched as a constant of the field.
 
 ====
 

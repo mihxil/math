@@ -1,7 +1,7 @@
 package org.meeuw.math.arithmetic.ast;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -77,22 +77,14 @@ public class AST {
         throw new IllegalArgumentException("Unknown Expression type");
     }
 
-    public static <E extends AlgebraicElement<E>>  Expression<E> parseInfix(String parse, AlgebraicStructure<E> field)  {
-        try {
-            InfixParser<E> parser = new InfixParser<>(
-                TextUtils.undo(parse),
-                field
-            );
-            return parser.parse();
-        } catch (ParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
-        }
-    }
-
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field)  {
+        return parse(parse, field, field::getConstant);
+    }
+
+    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, Function<String, Optional<E>> getConstant)  {
         try {
-            InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field);
+            InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field, getConstant);
             return parser.parse();
         } catch (ParseException e) {
             throw new IllegalArgumentException(e.getMessage());
