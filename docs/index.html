@@ -747,6 +747,12 @@ Your browser does not support the video tag.
 </div>
 <div class="sect3">
 <h4 id="_syntax">3.2.1. syntax</h4>
+<div class="listingblock">
+<div class="title">NOTE</div>
+<div class="content">
+<pre>This section is work in progress</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>The most basic idea is:</p>
 </div>
@@ -780,45 +786,6 @@ Your browser does not support the video tag.
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">now</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">'now' is the default, so the empty string is valid too.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">just state it in ISO foramt</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T00:00+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">time is optional</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>Then zero or more 'modifications' can be given. Most basically with + and -.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Input</th>
-<th class="tableblock halign-left valign-top">Output</th>
-<th class="tableblock halign-left valign-top">remarks</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">now + 5 minute</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
@@ -906,7 +873,7 @@ Your browser does not support the video tag.
 <p>There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.</p>
 </div>
 <div class="paragraph">
-<p>he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding</p>
+<p>The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1663,8 +1630,47 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>It doesn&#8217;t always work, which I haven&#8217;t quit understood yet.</p>
 </div>
+<div class="listingblock">
+<div class="title">NOTE</div>
+<div class="content">
+<pre>This section is work in progress</pre>
+</div>
+</div>
 <div class="sect2">
 <h3 id="_calculator">10.1. Calculator</h3>
+<div class="exampleblock">
+<div class="title">Example 1. NOTE</div>
+<div class="content">
+<div class="paragraph">
+<p>Expressions can be typed using the following operators:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>+ for addition</p>
+</li>
+<li>
+<p>- for subtraction</p>
+</li>
+<li>
+<p>⋅ for multiplication (can be typed by '*')</p>
+</li>
+<li>
+<p>/ for division</p>
+</li>
+<li>
+<p>* for the default 'group operation' (can be type by ';')</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Furthermore, constants of the field are recognized like 'pi'.</p>
+</div>
+<div class="paragraph">
+<p>Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i".</p>
+</div>
+</div>
+</div>
 <form id="calculator" class="demo">
   <label for="calculator_toparse">String to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
