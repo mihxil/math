@@ -255,7 +255,6 @@
             <span class="keyword">for</span> (const example of information.examples) {
                 const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
                 option.value = example;
-                option.text = example;
                 <span class="local-variable">this</span>.inputDataList.appendChild(option);
             }
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
@@ -323,7 +322,7 @@
          value="24"/>
   <datalist id="solver_outcome-examples">
      <option value="24">the original 24 game value</option>
-     <option value="4 1/3">factions are allowed</option>
+     <option value="4 1/3">fractions are allowed</option>
      <option value="41"></option>
      <option value="120">a nicer value for 5 input numbers</option>
    </datalist>
@@ -362,6 +361,8 @@
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
+<span class="keyword">import</span> <span class="include">lombok.extern.java.Log</span>;
+
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.Ring</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.RingElement</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.complex.GaussianRationals</span>;
@@ -379,7 +380,11 @@
 <span class="comment">/**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */</span>
+<span class="annotation">@Log</span>
 <span class="directive">public</span>  <span class="type">class</span> <span class="class">Solver</span>&lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; {
+    <span class="directive">static</span> {
+        Application.setupLogging();
+    }
 
     <span class="directive">private</span> <span class="directive">static</span> <span class="directive">final</span> NavigableSet&lt;AlgebraicBinaryOperator&gt; OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
@@ -446,6 +451,8 @@
 
         Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Solving input </span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(input) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + outcome + <span class="string"><span class="delimiter">&quot;</span><span class="content"> ( in field </span><span class="delimiter">&quot;</span></span> + structure + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>);
+
         <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(input)
             .filter(e -&gt;
                 e.result().eq(outcome)
@@ -455,6 +462,8 @@
     }
 
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + field);
+
         <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
         F result;
         <span class="keyword">try</span> {
@@ -466,6 +475,8 @@
         <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;F&gt;(outcomeString, result, resultError);
     }
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + inputStrings + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + field);
+
         <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
 
         <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
@@ -481,6 +492,7 @@
     }
 
     <span class="directive">public</span> <span class="directive">static</span> Ring&lt;?&gt; algebraicStructureFor(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> input) {
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Determining algebraic structure for outcome </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> and input </span><span class="delimiter">&quot;</span></span> + input);
         <span class="keyword">if</span> (outcomeString.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">.*[jk].*</span><span class="delimiter">&quot;</span></span>) || input.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">.*[jk].*</span><span class="delimiter">&quot;</span></span>)) {
             <span class="keyword">return</span> Quaternions.of(RationalNumbers.INSTANCE);
         } <span class="keyword">else</span> <span class="keyword">if</span> (outcomeString.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>) || input.contains(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>)) {
@@ -525,7 +537,8 @@
 <pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
         const solverResult = await Solver.solve(
-            <span class="local-variable">this</span>.model.field, self.outcome.value, self.input.value);
+            <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
+            );
 
         const stream = await solverResult.stream();
         const lines = await stream.toArray();
@@ -661,7 +674,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-01 20:38:33 UTC
+Last updated 2025-09-01 21:35:01 UTC
 </div>
 </div>
 </body>

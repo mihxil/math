@@ -17,18 +17,20 @@ export class SolverClass extends BaseClass {
             input: null,
             // this is the 'data-parser' attribute of the 'outcome' input
             parseOutcome: async function (string) {
+                console.log("parsing outcome",  string);
                 await this.self.setupForm();
-                this.model.field = await this.self.Class.algebraicStructureFor(string, this.input.value)
-                this.model.outcome = await Class.parseOutcome(this.field, string);
-                this.readyToGo();
-                    return await this.outcome.error();
+                this.field = await this.self.Class.algebraicStructureFor(string, this.self.input.value)
+                this.outcome = await this.self.Class.parseOutcome(this.field, string);
+                this.self.readyToGo();
+                return await this.outcome.error();
             },
             // this is the 'data-parser' attribute of the 'input' input
             parseInput: async function (string) {
+                console.log("parsing input",  string);
                 await this.self.setupForm();
-                this.field = await this.self.Class.algebraicStructureFor(this.outcome.value, string);
-                this.input = await Class.parseInput(this.field, string);
-                this.readyToGo();
+                this.field = await this.self.Class.algebraicStructureFor(this.self.outcome.value, string);
+                this.input = await this.self.Class.parseInput(this.field, string);
+                this.self.readyToGo();
                 return await this.input.error();
             },
             reset: function () {
@@ -46,7 +48,8 @@ export class SolverClass extends BaseClass {
     async onSubmit(Solver) {
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
-            this.model.field, self.outcome.value, self.input.value);
+            this.model.field, this.outcome.value, this.input.value
+            );
 
         const stream = await solverResult.stream();
         const lines = await stream.toArray();
