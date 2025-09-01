@@ -15,10 +15,11 @@ This section is work in progress
 ====
 
 
+[#demo_calculator]
 == Calculator
 
 
-[NOTE]
+[TIP]
 ====
 Expressions can be typed using the following operators:
 
@@ -68,7 +69,7 @@ include::resources/calculator.js[indent=-,tag=calculator]
 ----
 ====
 
-
+[#demo_solver]
 == Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
@@ -138,7 +139,7 @@ include::resources/solver.js[indent=-,tag=solver]
 ----
 ====
 
-
+[#demo_dynamicdate]
 == Dynamic date parsing
 
 The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code.
