@@ -67,7 +67,11 @@ public static String eval(final String expression, final String field) {
             (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
     )) {
         var f = FieldInformation.valueOf(field).getField();
+
         log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        if (f.getSupportedOperators().isEmpty()) {
+            log.log(Level.SEVERE,  "Supported operators is empty for " + f);
+        }
         var parsedExpression = AST.parse(expression, f);
         log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
         var result = parsedExpression.eval();
@@ -183,7 +187,6 @@ This is the source code for the above.
             for (const example of information.examples) {
                 const option = document.createElement('option');
                 option.value = example;
-                option.text = example;
                 this.inputDataList.appendChild(option);
             }
             console.log("Updated data list for", selectedField, information.examples);
@@ -232,7 +235,7 @@ Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong 
          value="24"/>
   <datalist id="solver_outcome-examples">
      <option value="24">the original 24 game value</option>
-     <option value="4 1/3">factions are allowed</option>
+     <option value="4 1/3">fractions are allowed</option>
      <option value="41"></option>
      <option value="120">a nicer value for 5 input numbers</option>
    </datalist>
@@ -270,6 +273,8 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
+import lombok.extern.java.Log;
+
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
@@ -287,7 +292,11 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 /**
  * A tool to evaluate all possible expressions (of a certain number of rational numbers) (and check if it equals a certain value)
  */
+@Log
 public  class Solver<E extends RingElement<E>> {
+    static {
+        Application.setupLogging();
+    }
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
@@ -354,6 +363,8 @@ public  class Solver<E extends RingElement<E>> {
 
         Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
+        log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
+
         return new SolverResult(solver.evaledStream(input)
             .filter(e ->
                 e.result().eq(outcome)
@@ -363,6 +374,8 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> field, String outcomeString) {
+        log.info(() -> "Parsing input " + outcomeString + " in field " + field);
+
         String resultError = null;
         F result;
         try {
@@ -374,6 +387,8 @@ public  class Solver<E extends RingElement<E>> {
         return new ParseResult<F>(outcomeString, result, resultError);
     }
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
+        log.info(() -> "Parsing input " + inputStrings + " in field " + field);
+
         String inputError = null;
 
         String[] input = inputStrings.split("\\s+");
@@ -389,6 +404,7 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static Ring<?> algebraicStructureFor(String outcomeString, String input) {
+        log.info(() -> "Determining algebraic structure for outcome " + outcomeString + " and input " + input);
         if (outcomeString.matches(".*[jk].*") || input.matches(".*[jk].*")) {
             return Quaternions.of(RationalNumbers.INSTANCE);
         } else if (outcomeString.contains("i") || input.contains("i")) {
@@ -430,7 +446,8 @@ This is the source code for the above.
     async onSubmit(Solver) {
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
-            this.model.field, self.outcome.value, self.input.value);
+            this.model.field, this.outcome.value, this.input.value
+            );
 
         const stream = await solverResult.stream();
         const lines = await stream.toArray();
