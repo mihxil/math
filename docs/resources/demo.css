@@ -50,32 +50,34 @@ datalist option:not(:last-child)::after {
   content: ", ";
 }
 
-#demo_calculator + :is(.sectionbody, *) .admonitionblock.tip {
+/* complicated selected becasue the id is attached to the heading, and the class of the section is either sec1 or sect2,
+whether this rendered stand alone or as part of a larger document. */
+div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip {
   float: right;
   width: 50%;
   padding-left: 2ex;
   max-height: 300px;
   overflow-y: auto;
 }
-#demo_calculator +  :is(.sectionbody, *) .admonitionblock.tip table {
+div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip table {
   border-collapse: collapse;
   width: 100%;
   background: none;
   box-shadow: none;
   border: none;
 }
-#demo_calculator + :is(.sectionbody, *) .admonitionblock.tip table td,
-#demo_calculator + :is(.sectionbody, *) .admonitionblock.tip table th {
+div:is(.sect1, .sect2):has(>#demo_calculator)  .admonitionblock.tip table td,
+div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
    border: none;
      padding: 0.5em 0;
 
 }
 
 
-#demo_calculator + :is(.sectionbody, *) .admonitionblock.tip table td.icon {
+div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip table td.icon {
   display:none;
 }
-#demo_calculator + :is(.sectionbody, *) dl dd {
+div:is(.sect1, .sect2):has(>#demo_calculator) > dl dd {
     margin-top: -2em;
 }
 #demo_section .sect1 {
