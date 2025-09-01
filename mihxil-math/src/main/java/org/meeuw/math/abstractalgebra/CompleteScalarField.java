@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.Synonym;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -39,7 +40,10 @@ public interface CompleteScalarField<E extends CompleteScalarFieldElement<E>> ex
 
 
     @Override
+    @Synonym("𝜋")
     E pi();
+
+
 
 
 

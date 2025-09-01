@@ -30,14 +30,13 @@ public class Calculator {
         Application.setupLogging();
     }
 
-
     @Getter
     public  enum FieldInformation {
         rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
-        real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)"),
-        bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)"),
+        real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
+        bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
         gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
-        complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(pi/2)", "exp(i ⋅ pi)", "\"2 + 3i\" ⋅ i"),
+        complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
         bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
         quaternions(Quaternions.of(RationalNumbers.INSTANCE),
             "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),

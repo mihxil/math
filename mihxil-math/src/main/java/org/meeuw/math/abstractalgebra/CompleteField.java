@@ -46,6 +46,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
      * 𝜋, the ratio of the circumference of a circle to its diameter, approximately 3.14159.
      * @see #𝜋()
      */
+    @Synonym("𝜋")
     E pi();
 
     /**
