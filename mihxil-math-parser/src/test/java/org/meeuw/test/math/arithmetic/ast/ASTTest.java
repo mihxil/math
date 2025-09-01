@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.arithmetic.ast.*;
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
