@@ -77,7 +77,7 @@ div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
 div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip table td.icon {
   display:none;
 }
-div:is(.sect1, .sect2):has(>#demo_calculator) > dl dd {
+div:is(.sect1, .sect2):has(>#demo_calculator)  dl dd {
     margin-top: -2em;
 }
 #demo_section .sect1 {
