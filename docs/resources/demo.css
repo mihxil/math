@@ -49,3 +49,33 @@ datalist option:not(:last-child)::after {
   color: black;
   content: ", ";
 }
+
+#demo_calculator + .sectionbody .admonitionblock.tip {
+  float: right;
+  width: 50%;
+  padding-left: 2ex;
+}
+#demo_calculator + .sectionbody .admonitionblock.tip table {
+  border-collapse: collapse;
+  width: 100%;
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+#demo_calculator + .sectionbody .admonitionblock.tip table td,
+#demo_calculator + .sectionbody .admonitionblock.tip table th {
+   border: none;
+     padding: 0.5em 0;
+
+}
+
+
+#demo_calculator + .sectionbody .admonitionblock.tip table td.icon {
+  display:none;
+}
+
+#demo_section .sect1 {
+  clear:both;
+
+}
+
