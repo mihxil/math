@@ -10,16 +10,16 @@ These are a running link:https://webassembly.org/[webassembly] demos (using link
 It doesn't always work, which I haven't quit understood yet.
 
 
-.NOTE
-----
+[NOTE]
+====
 This section is work in progress
-----
+====
 
 
 == Calculator
 
 
-.NOTE
+[NOTE]
 ====
 Expressions can be typed using the following operators:
 
