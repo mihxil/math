@@ -22,7 +22,7 @@ localrun: target/math-test-$(VERSION).jar
 runro:
 	docker run -v $(HOME):/root:ro -it  $(URL) prefs
 
-run:
+dockerrun:
 	docker run -v $(HOME):/root -it  $(URL)
 
 runprefs:
@@ -31,7 +31,7 @@ runprefs:
 explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
 
-cheerpj: index.html  ## run cheerpj
+run: index.html  ## run with cheerpj
 	npx serve
 
 
