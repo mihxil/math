@@ -1,5 +1,6 @@
 await cheerpjInit({
-    version: 17
+    version: 17,
+    enableDebug: true
 });
 
 const pref = document.location.pathname.startsWith("/math") ?
