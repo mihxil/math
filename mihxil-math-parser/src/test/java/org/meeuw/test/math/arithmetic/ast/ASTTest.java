@@ -1,9 +1,12 @@
 package org.meeuw.test.math.arithmetic.ast;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.arithmetic.ast.*;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -87,10 +90,18 @@ class ASTTest {
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 
-     @Test
+    @Test
     public void parseInfix2(){
         String s = "1 + -1";
         Expression<RealNumber> parse = AST.parse(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
+    }
+
+    @Test
+    public void stream() {
+        assertThat(AST.stream(List.of(INSTANCE.element(1), INSTANCE.element(2)),
+            List.of(
+                ADDITION,MULTIPLICATION)
+        ).toList().toString()).isEqualTo("[(binary:(value:1) + (value:2)), (binary:(value:1) ⋅ (value:2))]");
     }
 }

@@ -19,6 +19,10 @@ import org.meeuw.math.text.TextUtils;
  */
 public class AST {
 
+    private AST() {
+
+    }
+
 
     /**
      * Return a stream of all possible AST expression with given leaves and operators
