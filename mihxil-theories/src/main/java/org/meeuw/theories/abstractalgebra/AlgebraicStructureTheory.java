@@ -475,6 +475,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         try {
             String value = element.toString();
             E fromString = structure.fromString(value);
+            log().info("fromString({}) = {}", value, fromString);
             assertThatAlgebraically(fromString)
                 .withValueDescription("fromString(toString())")
                 .isEqTo(element);
