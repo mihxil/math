@@ -333,6 +333,11 @@ Can be found in `DynamicDateTime`. E.g. parse things like 'tomorrow' to actual t
 
 === syntax
 
+.NOTE
+----
+This section is work in progress
+----
+
 The most basic idea is:
 [source]
 ----
@@ -347,19 +352,6 @@ Like so
 | Input | Output | remarks
 
 | now  | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
-| | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
-| 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
-| 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
-|===
-
-Then zero or more 'modifications' can be given. Most basically with + and -.
-
-
-[options="header"]
-|===
-| Input | Output | remarks
-
-| now + 5 minute | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
 | | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
 | 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
 | 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
@@ -387,7 +379,7 @@ The offset can also be something like 'this month', 'this day', or 'today', whic
 
 There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.
 
-he offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
 
 |===
 | Input | Output | remarks
@@ -395,9 +387,7 @@ he offset can also be something like 'this month', 'this day', or 'today', which
 | 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
 |===
 
-
 Finally, then entire thing can be post fixed and prefixed by an explicit timezone.
-
 
 === Comparison to MMBase
 
