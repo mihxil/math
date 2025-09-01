@@ -60,21 +60,27 @@ datalist option:not(:last-child)::after {
 
 /* complicated selected becasue the id is attached to the heading, and the class of the section is either sec1 or sect2,
 whether this rendered stand alone or as part of a larger document. */
-div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip {
+div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
   float: right;
   width: 50%;
   padding-left: 2ex;
   max-height: 300px;
   overflow-y: auto;
 }
-div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip table {
+
+div:is(.sect1, .sect2):has(>#demo_solver) .admonitionblock.tip {
+  max-height: 500px;
+}
+
+
+div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table {
   border-collapse: collapse;
   width: 100%;
   background: none;
   box-shadow: none;
   border: none;
 }
-div:is(.sect1, .sect2):has(>#demo_calculator)  .admonitionblock.tip table td,
+div:is(.sect1, .sect2).tips-aside  .admonitionblock.tip table td,
 div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
    border: none;
      padding: 0.5em 0;
@@ -82,10 +88,10 @@ div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
 }
 
 
-div:is(.sect1, .sect2):has(>#demo_calculator) .admonitionblock.tip table td.icon {
+div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td.icon {
   display:none;
 }
-div:is(.sect1, .sect2):has(>#demo_calculator)  dl dd {
+div:is(.sect1, .sect2).tips-aside  dl dd {
     margin-top: -2em;
 }
 #demo_section .sect1 {
