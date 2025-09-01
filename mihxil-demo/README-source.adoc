@@ -1,3 +1,4 @@
+[#demo_section]
 = Demo
 :docinfo: private
 :source-highlighter: coderay
