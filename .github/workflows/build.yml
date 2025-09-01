@@ -55,7 +55,7 @@ jobs:
              echo "target=-Ddeploy deploy" >> $GITHUB_OUTPUT
              echo "mainbuild=true" >> $GITHUB_OUTPUT
           else
-             echo "target=" >> $GITHUB_OUTPUT
+             echo "target=test" >> $GITHUB_OUTPUT
           fi
       - name: Build with Maven
         run: mvn -B -D"maven.test.failure.ignore=true"  ${{ steps.set_target.outputs.target }}
