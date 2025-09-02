@@ -38,8 +38,9 @@ form.demo.disabled {
 form.demo .help {
   opacity: 0.8;
   font-size: 80%;
-  height: 0.8em;
+  min-height: 0.8em;
   margin-bottom: 0;
+
 }
 
 

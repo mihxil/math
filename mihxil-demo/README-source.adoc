@@ -6,7 +6,7 @@
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
-It doesn't always work, which I haven't quit understood yet.
+It doesn't always work, which I haven't quite understood yet. It normally shows as 'No such operator', while that is incorrect.
 
 
 [NOTE]
