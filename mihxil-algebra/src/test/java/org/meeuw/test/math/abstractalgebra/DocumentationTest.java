@@ -181,7 +181,8 @@ public class DocumentationTest {
             writeCaption(writer, p -> p.write(s.toString()), cols,
                 href(s.getClass()),
                 javadocRef(s.getClass()),
-                s.getDescription())
+                s.getDescription().orElse(s.getClass().getSimpleName())
+            )
         );
 
     }
