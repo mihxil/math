@@ -4,11 +4,13 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.Magma;
+import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
@@ -62,11 +64,18 @@ public class Calculator {
 
         private final Magma<?> field;
         private final String[] examples;
+        private final String[] elements;
+
 
 
         FieldInformation(Magma<?> field, String... examples) {
             this.field = field;
             this.examples = examples;
+            this.elements = field.isFinite() ?
+                ((Streamable<?>) field).stream()
+                    .map(Object::toString)
+                    .toArray(String[]::new) : null;
+            log.info("Created %s, %s, %s".formatted(field, List.of(examples), elements == null ? null : List.of(elements)));
         }
 
         public String getDescription() {
