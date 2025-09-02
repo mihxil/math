@@ -57,19 +57,31 @@ export class CalculatorClass extends BaseClass {
             for (let i = 0; i < values.length; i++) {
                 const value = await values[i];
                 const examples = await value.getExamples();
+                const elements = await value.getElements();
+
                 const description = await value.getDescription();
                 const help = await value.getHelp();
 
-                const e = [];
+                const awaitedExamples = [];
                 for (let j = 0; j < examples.length; j++) {
-                    e[j] = await examples[j];
+                    awaitedExamples[j] = await examples[j];
+                }
+
+                let awaitedElements = null;
+                if (elements) {
+                    awaitedElements = [];
+                    for (let j = 0; j < elements.length; j++) {
+                        awaitedElements[j] = await elements[j];
+                    }
                 }
                 this.information[await values[i].name()] = {
-                    examples: e,
+                    examples: awaitedExamples,
+                    elements: awaitedElements,
                     description: description,
                     help: help,
                 };
             }
+            console.log(JSON.stringify(this.information));
         }
         await this.updateFieldList();
         this.field.addEventListener('change', () => {
@@ -77,6 +89,10 @@ export class CalculatorClass extends BaseClass {
             let help = this.information[this.field.value].help;
             if (! help) {
                 help = "";
+            }
+            const elements = this.information[this.field.value].elements;
+            if (elements) {
+                help += "<br />elements: " + elements;
             }
             this.field.parentNode.querySelector("div.help").innerHTML = help;
         });

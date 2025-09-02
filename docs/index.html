@@ -1825,19 +1825,31 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
                 const value = await values[i];
                 const examples = await value.getExamples();
+                const elements = await value.getElements();
+
                 const description = await value.getDescription();
                 const help = await value.getHelp();
 
-                const e = [];
+                const awaitedExamples = [];
                 <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; examples.length; j++) {
-                    e[j] = await examples[j];
+                    awaitedExamples[j] = await examples[j];
+                }
+
+                let awaitedElements = <span class="predefined-constant">null</span>;
+                <span class="keyword">if</span> (elements) {
+                    awaitedElements = [];
+                    <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
+                        awaitedElements[j] = await elements[j];
+                    }
                 }
                 <span class="local-variable">this</span>.information[await values[i].name()] = {
-                    <span class="key">examples</span>: e,
+                    <span class="key">examples</span>: awaitedExamples,
+                    <span class="key">elements</span>: awaitedElements,
                     <span class="key">description</span>: description,
                     <span class="key">help</span>: help,
                 };
             }
+            console.log(JSON.stringify(<span class="local-variable">this</span>.information));
         }
         await <span class="local-variable">this</span>.updateFieldList();
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
@@ -1845,6 +1857,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             let help = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].help;
             <span class="keyword">if</span> (! help) {
                 help = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
+            }
+            const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elements;
+            <span class="keyword">if</span> (elements) {
+                help += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br /&gt;elements: </span><span class="delimiter">&quot;</span></span> + elements;
             }
             <span class="local-variable">this</span>.field.parentNode.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">div.help</span><span class="delimiter">&quot;</span></span>).innerHTML = help;
         });
