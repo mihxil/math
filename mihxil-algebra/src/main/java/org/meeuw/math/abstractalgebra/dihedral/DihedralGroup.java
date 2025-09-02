@@ -2,8 +2,7 @@ package org.meeuw.math.abstractalgebra.dihedral;
 
 import lombok.Getter;
 
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -106,8 +105,8 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
         return "D" + subscript(n);
     }
 
-    public String getDescription() {
-        return "dihedral symmetry group representing the symmetries of a regular " + n + "-gon";
+    public Optional<String> getDescription() {
+        return Optional.of("dihedral symmetry group representing the symmetries of a regular " + n + "-gon");
     }
 
     @Override

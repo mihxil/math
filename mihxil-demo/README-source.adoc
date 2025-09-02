@@ -46,6 +46,7 @@ Elements of the field are simply recognized if they are numeric, otherwise they 
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
+   <div class="help"></div>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />

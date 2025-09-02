@@ -64,7 +64,11 @@ public class Calculator {
         }
 
         public String getDescription() {
-            return field.getDescription();
+            return field.getClass().getSimpleName() + " " + field;
+        }
+
+        public String getHelp() {
+            return field.getDescription().orElse(null);
         }
     }
 

@@ -248,11 +248,11 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * Returns a description of this algebraic structure. Defaults to {@link Object#getClass() getClass()}{@code .}{@link Class#getSimpleName() getSimpleName()}.
+     * Returns a description of this algebraic structure. Defaults to {@code Optional.empty()}.
      * @return A string describing this algebraic structure.
      */
-    default String getDescription() {
-        return getClass().getSimpleName();
+    default Optional<String> getDescription() {
+        return Optional.empty();
     }
 
     /**
