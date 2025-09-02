@@ -15,6 +15,7 @@ import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
+import org.meeuw.math.abstractalgebra.quaternions.QuaternionGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -48,9 +49,14 @@ public class Calculator {
             "a * b * c * e",
             "a * b"
         ),
-        dihedral(DihedralGroup.D3,
+        quaterniongroup(QuaternionGroup.INSTANCE, "i", "e" ),
+        dihedral3(DihedralGroup.D3,
             "r1 * r2",
             "s0 * r1 * s0"
+        ),
+        dihedral4(DihedralGroup.of(4),
+            "r1 * r2",
+            "s0 * r1 * s0 * s3"
         )
         ;
 

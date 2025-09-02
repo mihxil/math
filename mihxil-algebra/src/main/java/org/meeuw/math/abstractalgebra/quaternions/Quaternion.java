@@ -164,7 +164,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         append(b, result, 'i');
         append(c, result, 'j');
         append(d, result, 'k');
-        if (result.length() == 0) {
+        if (result.isEmpty()) {
             result.append('0');
         }
         return result.toString();
@@ -172,7 +172,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
 
 
     protected void append(E value, StringBuilder result, char i) {
-        boolean hasValues = result.length() > 0;
+        boolean hasValues = !result.isEmpty();
         if (!value.isZero()) {
             if (hasValues) {
                 result.append(' ');
@@ -189,7 +189,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
             }
             E abs = value.abs();
             if (! abs.isOne()) {
-                result.append(abs.toString());
+                result.append(abs);
             }
             result.append(i);
         }

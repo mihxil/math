@@ -6,10 +6,6 @@
 package org.meeuw.test.math.text;
 
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
-
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
@@ -47,7 +43,7 @@ public class TextUtilsTest  {
 
     @Test
     public void overLine() {
-        assertThat(TextUtils.overLine("foo bar 123")).isEqualTo("f̅o̅o̅ ̅b̅a̅r̅ ̅1̅2̅3̅");
+        assertThat(TextUtils.overLine("foo bar 123eijk")).isEqualTo("f̅o̅o̅ ̅b̅a̅r̅ ̅1̅2̅3̅e̅i̅j̅k̅");
     }
 
     @Test
