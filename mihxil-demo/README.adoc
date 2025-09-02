@@ -47,6 +47,7 @@ Elements of the field are simply recognized if they are numeric, otherwise they 
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
+   <div class="help"></div>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
@@ -146,9 +147,8 @@ This is the source code for the above.
             for (let i = 0; i < values.length; i++) {
                 const value = values[i];
                 const examples = await value.getExamples();
-                const description = await value.getDescription();
-                const field = await value.getField();
-                const string = await field.toString();
+                const description = await value.getDescription;
+                const help = await value.getHelp();
 
                 const e = [];
                 for (let j = 0; j < examples.length; j++) {
@@ -157,7 +157,7 @@ This is the source code for the above.
                 this.information[await values[i].name()] = {
                     examples: e,
                     description: description,
-                    string: string
+                    help: help,
                 };
             }
         }
