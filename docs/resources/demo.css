@@ -31,6 +31,11 @@ form.demo button {
   box-sizing: border-box;
 }
 
+form.demo.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 input:focus.invalid, input.invalid {
   border-color: red !important;
 }
