@@ -57,9 +57,8 @@ export class CalculatorClass extends BaseClass {
             for (let i = 0; i < values.length; i++) {
                 const value = values[i];
                 const examples = await value.getExamples();
-                const description = await value.getDescription();
-                const field = await value.getField();
-                const string = await field.toString();
+                const description = await value.getDescription;
+                const help = await value.getHelp();
 
                 const e = [];
                 for (let j = 0; j < examples.length; j++) {
@@ -68,7 +67,7 @@ export class CalculatorClass extends BaseClass {
                 this.information[await values[i].name()] = {
                     examples: e,
                     description: description,
-                    string: string
+                    help: help,
                 };
             }
         }

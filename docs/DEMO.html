@@ -109,6 +109,7 @@
    <select id="calculator_field"  >
    <!-- filled by calculator.js -->
    </select>
+   <div class="help"></div>
    <br />
   <output id="calculator_output" for="calculator_toparse"> </output>
   <br />
@@ -213,9 +214,8 @@
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
                 const value = values[i];
                 const examples = await value.getExamples();
-                const description = await value.getDescription();
-                const field = await value.getField();
-                const string = await field.toString();
+                const description = await value.getDescription;
+                const help = await value.getHelp();
 
                 const e = [];
                 <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; examples.length; j++) {
@@ -224,7 +224,7 @@
                 <span class="local-variable">this</span>.information[await values[i].name()] = {
                     <span class="key">examples</span>: e,
                     <span class="key">description</span>: description,
-                    <span class="key">string</span>: string
+                    <span class="key">help</span>: help,
                 };
             }
         }
@@ -685,7 +685,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-02 10:47:30 UTC
+Last updated 2025-09-02 20:42:18 UTC
 </div>
 </div>
 </body>

@@ -177,7 +177,7 @@ export class BaseClass {
                     observer.disconnect();
                 }
             }
-        }, {threshold: 0.1}); // Adjust threshold as needed
+        }, {threshold: 0.1});
         await observer.observe(this.form);
     }
 

@@ -1,12 +1,11 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */
-
 import { BaseClass } from './base.js';
 export class DynamicDate extends BaseClass {
 
     constructor() {
         super("#dynamicdate", 'org.meeuw.time.parser.DynamicDateTime');
         this.form.addEventListener('exampleFilled', async (e) => {
-            this.onSubmit(await this.Class);
+            await this.onSubmit(await this.Class);
         });
 
     }
