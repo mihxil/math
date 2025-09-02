@@ -55,9 +55,9 @@ export class CalculatorClass extends BaseClass {
             const values = await fi.values();
 
             for (let i = 0; i < values.length; i++) {
-                const value = values[i];
+                const value = await values[i];
                 const examples = await value.getExamples();
-                const description = await value.getDescription;
+                const description = await value.getDescription();
                 const help = await value.getHelp();
 
                 const e = [];
@@ -74,6 +74,11 @@ export class CalculatorClass extends BaseClass {
         await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
+            let help = this.information[this.field.value].help;
+            if (! help) {
+                help = "";
+            }
+            this.field.parentNode.querySelector("div.help").innerHTML = help;
         });
         await this.updateDataList();
 
@@ -85,7 +90,7 @@ export class CalculatorClass extends BaseClass {
 
             const option = document.createElement('option');
             option.value = key;
-            option.text = value.description + ' ' + value.string;
+            option.text = value.description;
             this.field.appendChild(option);
         }
     }
