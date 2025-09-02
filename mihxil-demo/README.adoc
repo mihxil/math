@@ -7,7 +7,7 @@
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
 
-It doesn't always work, which I haven't quit understood yet.
+It doesn't always work, which I haven't quite understood yet. It normally shows as 'No such operator', while that is incorrect.
 
 
 [NOTE]
@@ -145,9 +145,9 @@ This is the source code for the above.
             const values = await fi.values();
 
             for (let i = 0; i < values.length; i++) {
-                const value = values[i];
+                const value = await values[i];
                 const examples = await value.getExamples();
-                const description = await value.getDescription;
+                const description = await value.getDescription();
                 const help = await value.getHelp();
 
                 const e = [];
@@ -164,6 +164,11 @@ This is the source code for the above.
         await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
+            let help = this.information[this.field.value].help;
+            if (! help) {
+                help = "";
+            }
+            this.field.parentNode.querySelector("div.help").innerHTML = help;
         });
         await this.updateDataList();
 
@@ -175,7 +180,7 @@ This is the source code for the above.
 
             const option = document.createElement('option');
             option.value = key;
-            option.text = value.description + ' ' + value.string;
+            option.text = value.description;
             this.field.appendChild(option);
         }
     }
