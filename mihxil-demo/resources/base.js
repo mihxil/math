@@ -41,7 +41,7 @@ export class BaseClass {
             //BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-demo-${version}.jar`);
             //console.log("cj -> ", await BaseClass.cj);
         }
-        return await BaseClass.cj;
+        return BaseClass.cj;
     }
 
     static async loadClassesForForm(className, classNames) {
@@ -65,6 +65,7 @@ export class BaseClass {
         console.log("Ready", this.form);
         this.button.textContent = this.button.getAttribute("data-original-text");
         this.button.disabled = false;
+        this.form.classList.remove('disabled');
         this.ready = true;
     }
 
@@ -72,6 +73,7 @@ export class BaseClass {
 
         if (!this.Class) {
             this.button.disabled = true;
+            this.form.classList.add('disabled'); // To gray out
             this.button.textContent = "loading...";
             this.Class = "locked";
             this.Class = await BaseClass.loadClassesForForm(this.className, this.classNames);
@@ -90,10 +92,10 @@ export class BaseClass {
     async setupDataLists() {
         // if someone clicks on a datalist option, fill the value in the
         // corresponding input
-        if (! this.form.getAttribute('data-datalists-setup')) {
-            this.form.setAttribute('data-datalists-setup',  true);
-            const datalists = this.form.querySelectorAll("datalist");
-            for (const dl of datalists) {
+        if (! this.form.getAttribute('data-data_lists-setup')) {
+            this.form.setAttribute('data-data_lists-setup',  true);
+            const data_lists = this.form.querySelectorAll("datalist");
+            for (const dl of data_lists) {
                 dl.addEventListener('click', async (e) => {
                     const datalist = e.target.closest('datalist').id;
                     const optionValue = e.target.value;
