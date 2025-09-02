@@ -1,6 +1,7 @@
 package org.meeuw.math.abstractalgebra.quaternions;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Singleton;
@@ -38,6 +39,11 @@ public class QuaternionGroup implements Group<QuaternionElement>, Streamable<Qua
     @Override
     public String toString() {
         return "Q" + TextUtils.subscript(8);
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The quaternion group is a non-abelian group of order eight, isomorphic to the eight-element subset {1,i,j,k,-1,-i,-j,-k} of the quaternions under multiplication.");
     }
 
 
