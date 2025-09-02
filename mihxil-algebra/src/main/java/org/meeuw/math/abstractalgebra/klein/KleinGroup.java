@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra.klein;
 
 import java.util.*;
-import java.util.logging.LogManager;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -24,7 +23,6 @@ import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 import org.meeuw.math.exceptions.NotParsable;
-import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 /**
  * The structure of the {@link org.meeuw.math.abstractalgebra.klein Klein 4 group}, denoted by {@code V}.
@@ -82,6 +80,11 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     @Override
     public String toString() {
         return "V";
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The Klein four-group is an abelian group with four elements, in which each element is self-inverse (composing it with itself produces the identity) and in which composing any two of the three non-identity elements produces the third one");
     }
 
     @Override
