@@ -1677,7 +1677,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>Expressions can be typed using the following operators:</p>
 </div>
-<div class="dlist">
+<div id="calculator_operators" class="dlist">
 <dl>
 <dt class="hdlist1">+</dt>
 <dd>
@@ -1824,29 +1824,35 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
                 const value = await values[i];
-                const examples = await value.getExamples();
                 const elements = await value.getElements();
-
-                const description = await value.getDescription();
-                const help = await value.getHelp();
-
-                const awaitedExamples = [];
-                <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; examples.length; j++) {
-                    awaitedExamples[j] = await examples[j];
-                }
-
                 let awaitedElements = <span class="predefined-constant">null</span>;
                 <span class="keyword">if</span> (elements) {
                     awaitedElements = [];
                     <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
-                        awaitedElements[j] = await elements[j];
+                        const span = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
+                        span.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">element</span><span class="delimiter">'</span></span>);
+                        span.textContent = await elements[j];
+                        span.onclick = async e =&gt; {
+                            console.log(e.target.textContent);
+                            const input = <span class="local-variable">this</span>.input;
+                            const start = input.selectionStart;
+                            const end = input.selectionEnd;
+                            const value = input.value;
+                            const insertText = e.target.textContent;
+                            input.value = value.slice(<span class="integer">0</span>, start) + insertText + value.slice(end);
+                            input.setSelectionRange(start + insertText.length, start + insertText.length);
+                            input.focus();
+                        };
+                        awaitedElements[j] = span;
                     }
                 }
                 <span class="local-variable">this</span>.information[await values[i].name()] = {
-                    <span class="key">examples</span>: awaitedExamples,
+                    <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
                     <span class="key">elements</span>: awaitedElements,
-                    <span class="key">description</span>: description,
-                    <span class="key">help</span>: help,
+                    <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    <span class="key">finite</span>: await value.isFinite(),
+                    <span class="key">description</span>: await value.getDescription(),
+                    <span class="key">help</span>: await value.getHelp()
                 };
             }
             console.log(JSON.stringify(<span class="local-variable">this</span>.information));
@@ -1854,17 +1860,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         await <span class="local-variable">this</span>.updateFieldList();
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
             <span class="local-variable">this</span>.updateDataList();
-            let help = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].help;
-            <span class="keyword">if</span> (! help) {
-                help = <span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span>;
-            }
-            const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elements;
-            <span class="keyword">if</span> (elements) {
-                help += <span class="string"><span class="delimiter">&quot;</span><span class="content">&lt;br /&gt;elements: </span><span class="delimiter">&quot;</span></span> + elements;
-            }
-            <span class="local-variable">this</span>.field.parentNode.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">div.help</span><span class="delimiter">&quot;</span></span>).innerHTML = help;
+            <span class="local-variable">this</span>.updateHelp();
+            <span class="local-variable">this</span>.updateOperators();
+
         });
         await <span class="local-variable">this</span>.updateDataList();
+        await <span class="local-variable">this</span>.updateHelp();
+        await <span class="local-variable">this</span>.updateOperators();
 
 
     }
@@ -1891,7 +1893,40 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             }
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
         }
-
+    }
+    async updateHelp() {
+        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+        const div = <span class="local-variable">this</span>.field.parentNode.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">div.help</span><span class="delimiter">&quot;</span></span>);
+        div.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        let help = fieldInformation.help;
+        <span class="keyword">if</span> (help) {
+            div.appendChild(document.createTextNode(help));
+        }
+        const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elements;
+        <span class="keyword">if</span> (elements) {
+            div.appendChild(document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">br</span><span class="delimiter">&quot;</span></span>));
+            div.appendChild(document.createTextNode(<span class="string"><span class="delimiter">&quot;</span><span class="content">elements: </span><span class="delimiter">&quot;</span></span>));
+            elements.forEach(element =&gt; {
+                div.appendChild(element);
+            })
+            <span class="keyword">if</span> (!fieldInformation.finite) {
+                div.appendChild(document.createTextNode(<span class="string"><span class="delimiter">&quot;</span><span class="content">... infinitely many more</span><span class="delimiter">&quot;</span></span>));
+            }
+        }
+    }
+    async updateOperators() {
+        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+        const operators = fieldInformation.binaryOperators;
+        const dd = document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_operators</span><span class="delimiter">&quot;</span></span>);
+        dd.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>).forEach(e =&gt; {
+            <span class="keyword">if</span> (! operators.includes(e.textContent.trim())) {
+                e.hidden = <span class="predefined-constant">true</span>;
+                e.nextElementSibling.hidden = <span class="predefined-constant">true</span>;
+            } <span class="keyword">else</span> {
+                e.hidden = <span class="predefined-constant">false</span>;
+                e.nextElementSibling.hidden = <span class="predefined-constant">false</span>;
+            }
+        });
     }
 
     async onSubmit(Calculator) {

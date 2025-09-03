@@ -25,6 +25,7 @@ This section is work in progress
 ====
 Expressions can be typed using the following operators:
 
+[#calculator_operators]
 +:: for addition
 -:: for subtraction
 ⋅:: for multiplication (can be typed by '*')
@@ -146,31 +147,49 @@ This is the source code for the above.
 
             for (let i = 0; i < values.length; i++) {
                 const value = await values[i];
-                const examples = await value.getExamples();
-                const description = await value.getDescription();
-                const help = await value.getHelp();
-
-                const e = [];
-                for (let j = 0; j < examples.length; j++) {
-                    e[j] = await examples[j];
+                const elements = await value.getElements();
+                let awaitedElements = null;
+                if (elements) {
+                    awaitedElements = [];
+                    for (let j = 0; j < elements.length; j++) {
+                        const span = document.createElement('span');
+                        span.classList.add('element');
+                        span.textContent = await elements[j];
+                        span.onclick = async e => {
+                            console.log(e.target.textContent);
+                            const input = this.input;
+                            const start = input.selectionStart;
+                            const end = input.selectionEnd;
+                            const value = input.value;
+                            const insertText = e.target.textContent;
+                            input.value = value.slice(0, start) + insertText + value.slice(end);
+                            input.setSelectionRange(start + insertText.length, start + insertText.length);
+                            input.focus();
+                        };
+                        awaitedElements[j] = span;
+                    }
                 }
                 this.information[await values[i].name()] = {
-                    examples: e,
-                    description: description,
-                    help: help,
+                    examples: await BaseClass.awaitedArray(value.getExamples()),
+                    elements: awaitedElements,
+                    binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    finite: await value.isFinite(),
+                    description: await value.getDescription(),
+                    help: await value.getHelp()
                 };
             }
+            console.log(JSON.stringify(this.information));
         }
         await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
-            let help = this.information[this.field.value].help;
-            if (! help) {
-                help = "";
-            }
-            this.field.parentNode.querySelector("div.help").innerHTML = help;
+            this.updateHelp();
+            this.updateOperators();
+
         });
         await this.updateDataList();
+        await this.updateHelp();
+        await this.updateOperators();
 
 
     }
@@ -197,7 +216,40 @@ This is the source code for the above.
             }
             console.log("Updated data list for", selectedField, information.examples);
         }
-
+    }
+    async updateHelp() {
+        const fieldInformation =  this.information[this.field.value];
+        const div = this.field.parentNode.querySelector("div.help");
+        div.innerHTML = '';
+        let help = fieldInformation.help;
+        if (help) {
+            div.appendChild(document.createTextNode(help));
+        }
+        const elements = this.information[this.field.value].elements;
+        if (elements) {
+            div.appendChild(document.createElement("br"));
+            div.appendChild(document.createTextNode("elements: "));
+            elements.forEach(element => {
+                div.appendChild(element);
+            })
+            if (!fieldInformation.finite) {
+                div.appendChild(document.createTextNode("... infinitely many more"));
+            }
+        }
+    }
+    async updateOperators() {
+        const fieldInformation =  this.information[this.field.value];
+        const operators = fieldInformation.binaryOperators;
+        const dd = document.querySelector("#calculator_operators");
+        dd.querySelectorAll("dt").forEach(e => {
+            if (! operators.includes(e.textContent.trim())) {
+                e.hidden = true;
+                e.nextElementSibling.hidden = true;
+            } else {
+                e.hidden = false;
+                e.nextElementSibling.hidden = false;
+            }
+        });
     }
 
     async onSubmit(Calculator) {

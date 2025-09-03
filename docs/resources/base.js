@@ -59,6 +59,15 @@ export class BaseClass {
         return clazz;
     }
 
+    static async awaitedArray(array) {
+        const awaited = [];
+        const a = await array;
+        for (let j = 0; j < a.length; j++) {
+            awaited[j] = await a[j];
+        }
+        return awaited;
+    }
+
     /**
      * Just puts the normal text back on the submit button and enables it.
      */
