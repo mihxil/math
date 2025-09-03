@@ -175,6 +175,15 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         return value.signum() >= 0;
     }
 
+    /**
+     * If the cardinality is {@link #isFinite()} or {@link #ALEPH_0} then we consider
+     * it 'countable', and the structure should also be {@link Streamable}
+     * @since 0.19
+     */
+    public boolean isCountable() {
+        return value.longValue() >= -1;
+    }
+
     @Override
     public String toString() {
         return String.valueOf(value);

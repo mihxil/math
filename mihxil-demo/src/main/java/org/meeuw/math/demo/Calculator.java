@@ -9,8 +9,7 @@ import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.Magma;
-import org.meeuw.math.abstractalgebra.Streamable;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
@@ -65,14 +64,17 @@ public class Calculator {
         private final Magma<?> field;
         private final String[] examples;
         private final String[] elements;
+        private final boolean finite;
 
 
 
         FieldInformation(Magma<?> field, String... examples) {
             this.field = field;
+            this.finite = field.isFinite();
             this.examples = examples;
-            this.elements = field.isFinite() ?
+            this.elements = field.getCardinality().isCountable() ?
                 ((Streamable<?>) field).stream()
+                    .limit(100)
                     .map(Object::toString)
                     .toArray(String[]::new) : null;
             log.info("Created %s, %s, %s".formatted(field, List.of(examples), elements == null ? null : List.of(elements)));

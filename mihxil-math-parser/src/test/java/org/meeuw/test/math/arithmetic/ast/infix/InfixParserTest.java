@@ -24,7 +24,7 @@ public class InfixParserTest {
         "\"-1\""
     })
     public void terms(String string) throws ParseException {
-        InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, RealField.INSTANCE::getConstant);
+        InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.term();
         System.out.print("parsed: " + expression);
     }
@@ -39,13 +39,22 @@ public class InfixParserTest {
         "sin(pi/2)",
         "e ^ 0",
         "r4 + r5",
+        "-pi",
     })
     public void parse(String string) throws ParseException {
-        InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, (s) ->
-            Optional.of(RealField.INSTANCE.nextRandom(random)));
-
+        InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.parse();
         System.out.print("parsed: " + expression + " -> " + expression.eval());
+
+    }
+
+    Optional<RealNumber> getConstant(String sign, String name) {
+        RealNumber v = RealField.INSTANCE.getConstant(name)
+                .orElse(RealField.INSTANCE.nextRandom(random));
+        if ("-".equals(sign)) {
+            v = v.negation();
+        }
+        return Optional.of(v);
 
     }
 

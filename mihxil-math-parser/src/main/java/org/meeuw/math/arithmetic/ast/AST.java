@@ -1,12 +1,11 @@
 package org.meeuw.math.arithmetic.ast;
 
 import java.util.*;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.math.abstractalgebra.AlgebraicStructure;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.infix.InfixParser;
 import org.meeuw.math.arithmetic.ast.infix.ParseException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
@@ -83,10 +82,24 @@ public class AST {
 
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field)  {
-        return parse(parse, field, field::getConstant);
+        return parse(parse, field, (sign, name) ->
+            field.getConstant(name).map(c -> {
+                if (c instanceof AdditiveGroupElement<?> groupElement) {
+                    if ("-".equals(sign)) {
+                        return (E) groupElement.negation();
+
+                    } else {
+                        return c;
+                    }
+                } else {
+                    assert sign == null;
+                    return c;
+                }
+            })
+        );
     }
 
-    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, Function<String, Optional<E>> getConstant)  {
+    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant)  {
         try {
             InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field, getConstant);
             return parser.parse();

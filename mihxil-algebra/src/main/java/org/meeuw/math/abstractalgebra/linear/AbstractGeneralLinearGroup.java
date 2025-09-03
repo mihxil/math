@@ -67,7 +67,7 @@ public abstract class AbstractGeneralLinearGroup<
     @SuppressWarnings("unchecked")
     @Override
     public Stream<M> stream() {
-        if (elementStructure.getCardinality().compareTo(ALEPH_0) <=0) {
+        if (elementStructure.getCardinality().isCountable()) {
             return StreamUtils.nCartesianStream(dimension * dimension, () -> ((Streamable<E>) elementStructure).stream())
                 .map(es -> {
                     try {
