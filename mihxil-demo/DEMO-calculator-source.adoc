@@ -1,0 +1,56 @@
+[#demo_calculator]
+[.tips-aside]
+= Calculator
+
+
+[TIP]
+====
+Expressions can be typed using the following operators:
+
+[#calculator_operators]
++:: for addition
+-:: for subtraction
+⋅:: for multiplication (can be typed by '*')
+/:: for division
+*:: for the default 'group operation' (type ';'), for many groups this is the same as multiplication
+
+Furthermore, constants of the field are recognized. Like 'pi' or 'i'.
+
+Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i". If they are simple strings like 'r3' they can also be matched as a constant of the field.
+
+====
+
+++++
+<form id="calculator" class="demo">
+  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+   <datalist id="calculator_toparse-examples">
+   <!-- filled by calculator.js -->
+   </datalist>
+   <label for="calculator_field">Field:</label>
+   <select id="calculator_field"  >
+   <!-- filled by calculator.js -->
+   </select>
+   <div class="help"></div>
+   <br />
+  <output id="calculator_output" for="calculator_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+++++
+
+[%collapsible, title=java]
+====
+This is the source code for the above.
+[source,java]
+----
+include::src/main/java/org/meeuw/math/demo/Calculator.java[indent=-,tag=eval]
+----
+====
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+include::resources/calculator.js[indent=-,tag=calculator]
+----
+====

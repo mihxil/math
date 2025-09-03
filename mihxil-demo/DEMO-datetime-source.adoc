@@ -1,0 +1,104 @@
+[#demo_dynamicdate]
+= Dynamic date parsing
+
+The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code.
+
+// tag::body[]
+
+++++
+<form id="dynamicdate" class="demo">
+  <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
+   <datalist id="dynamicdate_toparse-examples">
+    <option value="0"></option>
+    <option value="10000"></option>
+    <option value="-10000"></option>
+    <option value="+1000"></option>
+    <option value="1973-05-03"></option>
+    <option value="2006-05-09"></option>
+    <option value="-3-12-25"></option>
+    <option value="2000-01-01 16:00"></option>
+    <option value="TZUTC 2001-01-01 16:00"></option>
+    <option value="today 12:34:56.789"></option>
+    <option value="now"></option>
+    <option value="today"></option>
+    <option value="tomorrow"></option>
+    <option value="now + 10 minute"></option>
+    <option value="today + 5 day"></option>
+    <option value="now this year"></option>
+    <option value="next august"></option>
+    <option value="today + 6 month next august"></option>
+    <option value="tomonth"></option>
+    <option value="borreltijd"></option>
+    <option value="today + 5 dayish"></option>
+    <option value="yesteryear"></option>
+    <option value="mondayish"></option>
+    <option value="duration + 5 minute"></option>
+    <option value="duration + 100 year"></option>
+    <option value="TZUTC today noon"></option>
+    <option value="TZEurope/Amsterdam today noon"></option>
+    <option value="TZUTC today"></option>
+    <option value="TZEurope/Amsterdam today"></option>
+    <option value="TZ UTC today noon"></option>
+    <option value="TZ Europe/Amsterdam today noon"></option>
+    <option value="TZ UTC today"></option>
+    <option value="TZ Europe/Amsterdam today"></option>
+    <option value="TZ Europe/Amsterdam -1000"></option>
+    <option value="today 6 oclock"></option>
+    <option value="today 23 oclock"></option>
+    <option value="today 43 oclock"></option>
+    <option value="tosecond"></option>
+    <option value="tominute"></option>
+    <option value="tohour"></option>
+    <option value="today"></option>
+    <option value="previous monday"></option>
+    <option value="tomonth"></option>
+    <option value="toyear"></option>
+    <option value="tocentury"></option>
+    <option value="tocentury_pedantic"></option>
+    <option value="toera"></option>
+    <option value="toweek"></option>
+    <option value="now this second"></option>
+    <option value="now this minute"></option>
+    <option value="now this hour"></option>
+    <option value="now this day"></option>
+    <option value="today previous monday"></option>
+    <option value="now this month"></option>
+    <option value="now this year"></option>
+    <option value="now this century"></option>
+    <option value="now this era"></option>
+    <option value="now - 15 year this century"></option>
+    <option value="now - 20 year this century_pedantic"></option>
+    <option value="today + 2 century"></option>
+    <option value="toera - 1 minute"></option>
+    <option value="this july"></option>
+    <option value="previous july"></option>
+    <option value="next july"></option>
+    <option value="this sunday"></option>
+    <option value="previous sunday"></option>
+    <option value="next sunday"></option>
+    <option value="2009-W01-01"></option>
+    <option value="2009-W53-7"></option>
+    <option value="2006-123"></option>
+    <option value="2005-01-01 this monday"></option>
+    <option value="next year"></option>
+    <option value="&quot;spring&quot;"></option>
+    <option value="next year &quot;spring&quot;"></option>
+    <option value="&quot;easter sunday&quot;"></option>
+   </datalist>
+   <br />
+  <output id="dynamicdate_output" for="dynamicdate_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+++++
+
+[%collapsible, title=javascript]
+====
+This is the source code for the above.
+[source,javascript]
+----
+include::resources/dynamicdate.js[indent=-,tag=dynamicdate]
+----
+====
+
+//end::bodye[]

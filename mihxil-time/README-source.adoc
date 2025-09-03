@@ -1,4 +1,5 @@
 = time
+:toc:
 
 image:https://img.shields.io/maven-central/v/org.meeuw/mihxil-time.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw/mihxil-time]
 image:https://www.javadoc.io/badge/org.meeuw/mihxil-time.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw/mihxil-time]
@@ -79,6 +80,9 @@ The offset can also be something like 'this month', 'this day', or 'today', whic
 
 Finally, then entire thing can be post fixed and prefixed by an explicit timezone.
 
+=== demo
+include::../mihxil-demo/DEMO-datetime-source.adoc[leveloffset=2, tag=body]
+
 === Comparison to MMBase
 
 The parser in MMBase was actually implemented as an extension of `java.util.Date` itself (`org.mmbase.util.DynamicDate`), and was in that aspect simpler. But it was not a very good citizen because of that, because the actually value of the date could be 'dynamic', and sometimes that required some explicit conversion to a normal `java.util.Date` object. Turns out that date object can't be extended very well.
@@ -86,6 +90,7 @@ The parser in MMBase was actually implemented as an extension of `java.util.Date
 So, this idea was dropped. The parser was taken as is but, it was converted to parse to `java.time.ZonedDateTime` instead of `java.util.Date`, also a wrapper class was added `DynamicDateTime`, which can contain a bit of configuration for the parsing (like the `Clock` to use).
 
 Also, inspired by natty, the 'event searchers' are added so the parser can also support holidays and other events like 'next spring'.
+
 
 
 === Comparison to natty
