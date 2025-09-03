@@ -173,3 +173,8 @@ export class CalculatorClass extends BaseClass {
 }
 //end::calculator[]
 
+
+document.addEventListener("DOMContentLoaded", function() {
+    new CalculatorClass().setup();
+});
+

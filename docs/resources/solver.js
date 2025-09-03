@@ -63,3 +63,6 @@ export class SolverClass extends BaseClass {
     }
 }
 //end::solver[]
+document.addEventListener("DOMContentLoaded", function() {
+    new SolverClass().setup();
+});
