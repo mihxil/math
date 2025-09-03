@@ -1734,7 +1734,76 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Getter</span>
+<span class="directive">public</span>  <span class="type">enum</span> FieldInformation {
+    rational(RationalNumbers.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>),
+    real(RealField.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sin(𝜋/2)</span><span class="delimiter">&quot;</span></span>),
+    bigdecimal(BigDecimalField.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sin(𝜋/2)</span><span class="delimiter">&quot;</span></span>),
+    gaussian(GaussianRationals.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">1 + 2i</span><span class="char">\&quot;</span><span class="content"> ⋅ 8i</span><span class="delimiter">&quot;</span></span>),
+    complex(ComplexNumbers.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sin(𝜋/2)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">exp(-i ⋅ 𝜋)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">2 + 3i</span><span class="char">\&quot;</span><span class="content"> ⋅ i</span><span class="delimiter">&quot;</span></span>),
+    bigcomplex(BigComplexNumbers.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">1 + 2i</span><span class="char">\&quot;</span><span class="content"> ⋅ 8i</span><span class="delimiter">&quot;</span></span>),
+    quaternions(Quaternions.of(RationalNumbers.INSTANCE),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">1 + 2i + 3j + 4k</span><span class="char">\&quot;</span><span class="content"> ⋅ 8i</span><span class="delimiter">&quot;</span></span>),
+    quaternions_bigdecimal(Quaternions.of(BigDecimalField.INSTANCE),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">1 + 2i + 3j + 4k</span><span class="char">\&quot;</span><span class="content"> ⋅ 8i</span><span class="delimiter">&quot;</span></span>),
+    modulo10(ModuloRing.of(<span class="integer">10</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">4 ⋅ 7</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">9 - 3</span><span class="delimiter">&quot;</span></span>),
+    modulo13(ModuloField.of(<span class="integer">13</span>), <span class="string"><span class="delimiter">&quot;</span><span class="content">10 ⋅ 7</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">10 - 3</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">12 ⋅ 6 / 4</span><span class="delimiter">&quot;</span></span>),
+    klein(KleinGroup.INSTANCE,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b * c * e</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b</span><span class="delimiter">&quot;</span></span>
+    ),
+    quaterniongroup(QuaternionGroup.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">e</span><span class="delimiter">&quot;</span></span> ),
+    dihedral3(DihedralGroup.D3,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0</span><span class="delimiter">&quot;</span></span>
+    ),
+    dihedral4(DihedralGroup.of(<span class="integer">4</span>),
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0 * s3</span><span class="delimiter">&quot;</span></span>
+    )
+    ;
+
+    <span class="directive">private</span> <span class="directive">final</span> Magma&lt;?&gt; field;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> examples;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> elements;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> binaryOperators;
+    <span class="directive">private</span> <span class="directive">final</span> <span class="type">boolean</span> finite;
+
+    FieldInformation(Magma&lt;?&gt; field, <span class="predefined-type">String</span>... examples) {
+        <span class="local-variable">this</span>.field = field;
+        <span class="local-variable">this</span>.finite = field.isFinite();
+        <span class="local-variable">this</span>.examples = examples;
+        <span class="local-variable">this</span>.elements = elements(field);
+        <span class="local-variable">this</span>.binaryOperators = field.getSupportedOperators()
+            .stream()
+            .map(AlgebraicBinaryOperator::getSymbol)
+            .toArray(<span class="predefined-type">String</span><span class="type">[]</span>::<span class="keyword">new</span>);
+
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">Created %s, operators: %s, examples: %s, elements: %s</span><span class="delimiter">&quot;</span></span>.formatted(field,
+            <span class="predefined-type">List</span>.of(binaryOperators),
+            <span class="predefined-type">List</span>.of(examples), <span class="predefined-type">List</span>.of(elements)));
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span><span class="type">[]</span> elements(Magma&lt;?&gt; field) {
+        <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; elements = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;(field.getConstants().keySet());
+        <span class="keyword">if</span> (field.getCardinality().isCountable() &amp;&amp; field <span class="keyword">instanceof</span>  Streamable&lt;?&gt; streamable) {
+            streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
+        }
+        <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> getDescription() {
+        <span class="keyword">return</span> field.getClass().getSimpleName() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + field;
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span> getHelp() {
+        <span class="keyword">return</span> field.getDescription().orElse(<span class="predefined-constant">null</span>);
+    }
+}
+
+
+
+<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
     <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
         .configure(UncertaintyConfiguration.class,
             (ub) -&gt; ub.withNotation(ROUND_VALUE))
