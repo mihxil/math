@@ -61,6 +61,7 @@ public interface DivisionRing<E extends DivisionRingElement<E>> extends
     default BasicAlgebraicBinaryOperator groupOperator() {
         return ConfigurationService.getConfigurationAspect(GenericGroupConfiguration.class).getGroupOperator();
     }
+
     @Override
     default E unity() {
         return groupOperator().unity(this);

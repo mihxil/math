@@ -37,6 +37,7 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.integers;
     exports org.meeuw.math.abstractalgebra.permutations;
     exports org.meeuw.math.abstractalgebra.quaternions;
+    exports org.meeuw.math.abstractalgebra.quaternions.q8;
     exports org.meeuw.math.abstractalgebra.rationalnumbers;
     exports org.meeuw.math.abstractalgebra.bigdecimals;
     exports org.meeuw.math.abstractalgebra.strings;

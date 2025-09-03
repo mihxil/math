@@ -484,5 +484,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    @Property
+    default void constants(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
+        for (Map.Entry<String, E> entry : structure.getConstants().entrySet()) {
+            log().info("{}={}", entry.getKey(), entry.getValue());
+            structure.getConstant(entry.getKey());
+        }
+    }
+
 
 }

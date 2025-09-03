@@ -1,27 +1,30 @@
 package org.meeuw.math.demo;
 
+import java.util.*;
+
 import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.Magma;
+import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
-import org.meeuw.math.abstractalgebra.quaternions.QuaternionGroup;
+import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
 import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
@@ -38,7 +41,7 @@ public class Calculator {
         real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
         bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
         gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
-        complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
+        complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(-i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
         bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
         quaternions(Quaternions.of(RationalNumbers.INSTANCE),
             "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
@@ -64,6 +67,8 @@ public class Calculator {
         private final Magma<?> field;
         private final String[] examples;
         private final String[] elements;
+        private final String[] binaryOperators;
+
         private final boolean finite;
 
 
@@ -72,12 +77,24 @@ public class Calculator {
             this.field = field;
             this.finite = field.isFinite();
             this.examples = examples;
-            this.elements = field.getCardinality().isCountable() ?
-                ((Streamable<?>) field).stream()
-                    .limit(100)
-                    .map(Object::toString)
-                    .toArray(String[]::new) : null;
-            log.info("Created %s, %s, %s".formatted(field, List.of(examples), elements == null ? null : List.of(elements)));
+            this.elements = elements(field);
+            this.binaryOperators = field.getSupportedOperators()
+                .stream()
+                .map(AlgebraicBinaryOperator::getSymbol)
+                .toArray(String[]::new);
+
+            log.info("Created %s, operators: %s, examples: %s, elements: %s".formatted(field,
+                List.of(binaryOperators),
+                List.of(examples), List.of(elements)));
+        }
+
+        public static String[] elements(Magma<?> field) {
+            Set<String> elements = new LinkedHashSet<>(field.getConstants().keySet());
+            if (field.getCardinality().isCountable() && field instanceof  Streamable<?> streamable) {
+                streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+            }
+            return elements.toArray(new String[0]);
+
         }
 
         public String getDescription() {

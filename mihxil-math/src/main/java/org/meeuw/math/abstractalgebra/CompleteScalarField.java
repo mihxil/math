@@ -43,6 +43,11 @@ public interface CompleteScalarField<E extends CompleteScalarFieldElement<E>> ex
     @Synonym("𝜋")
     E pi();
 
+    @Override
+    default E 𝜋() {
+        return pi();
+    }
+
 
 
 

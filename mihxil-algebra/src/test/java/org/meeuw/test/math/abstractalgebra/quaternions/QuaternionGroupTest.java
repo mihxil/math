@@ -17,7 +17,7 @@ package org.meeuw.test.math.abstractalgebra.quaternions;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.quaternions.*;
+import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionElement;
 import org.meeuw.theories.abstractalgebra.*;
 
 /**

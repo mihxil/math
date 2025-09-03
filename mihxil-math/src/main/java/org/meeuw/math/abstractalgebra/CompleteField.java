@@ -58,7 +58,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     /**
      * @see #pi()
      */
-    @Synonym("pi")
+    @Synonym(value = "pi", preferred = true)
     default E 𝜋() {
         return pi();
     }

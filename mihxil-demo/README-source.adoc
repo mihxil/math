@@ -24,6 +24,7 @@ This section is work in progress
 ====
 Expressions can be typed using the following operators:
 
+[#calculator_operators]
 +:: for addition
 -:: for subtraction
 ⋅:: for multiplication (can be typed by '*')

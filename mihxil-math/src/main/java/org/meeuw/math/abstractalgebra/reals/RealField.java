@@ -59,15 +59,18 @@ public class RealField
     }
 
     @Override
+    @Synonym("0")
     public RealNumber zero() {
         return DoubleElement.ZERO;
     }
 
     @Override
+    @Synonym("1")
     public RealNumber one() {
         return DoubleElement.ONE;
     }
 
+    @Synonym("2")
     public RealNumber two() {
         return DoubleElement.TWO;
     }
@@ -99,6 +102,7 @@ public class RealField
     }
 
     @Override
+    @Synonym("𝜋")
     public RealNumber pi() {
         return DoubleElement.of(Math.PI, DoubleUtils.uncertaintyForDouble(Math.PI));
     }

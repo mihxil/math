@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 
@@ -64,6 +65,7 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
     }
 
     @Override
+    @Synonym("r0")
     public DihedralSymmetry unity() {
         return r(0);
     }

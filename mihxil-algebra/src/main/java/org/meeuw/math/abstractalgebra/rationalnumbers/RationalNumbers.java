@@ -56,11 +56,13 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     }
 
     @Override
+    @Synonym("0")
     public RationalNumber zero() {
         return RationalNumber.ZERO;
     }
 
     @Override
+    @Synonym("1")
     public RationalNumber one() {
         return RationalNumber.ONE;
     }
@@ -90,6 +92,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     @Override
     @NonExact
+    @Synonym("𝜋")
     public RationalNumber pi() {
         return APPROX_PI;
     }

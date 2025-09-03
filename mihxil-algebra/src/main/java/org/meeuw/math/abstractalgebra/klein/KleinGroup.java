@@ -18,8 +18,7 @@ package org.meeuw.math.abstractalgebra.klein;
 import java.util.*;
 import java.util.stream.Stream;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Singleton;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 import org.meeuw.math.exceptions.NotParsable;
@@ -58,6 +57,7 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     }
 
     @Override
+    @Synonym("e")
     public KleinElement unity() {
         return KleinElement.e;
     }

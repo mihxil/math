@@ -23,8 +23,7 @@ import java.util.Random;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.meeuw.math.DubiousOverride;
-import org.meeuw.math.Randomizable;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
@@ -66,11 +65,13 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
 
 
     @Override
+    @Synonym("1")
     public E one() {
         return one;
     }
 
     @Override
+    @Synonym("0")
     public E zero() {
         return zero;
     }

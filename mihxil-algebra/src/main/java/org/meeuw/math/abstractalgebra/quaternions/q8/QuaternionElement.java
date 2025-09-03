@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math.abstractalgebra.quaternions;
+package org.meeuw.math.abstractalgebra.quaternions.q8;
 
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;

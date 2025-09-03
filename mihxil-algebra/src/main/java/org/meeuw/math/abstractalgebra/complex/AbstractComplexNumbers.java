@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -66,11 +67,13 @@ public abstract class AbstractComplexNumbers<
     }
 
     @Override
+    @Synonym("0")
     public S zero() {
         return zero;
     }
 
     @Override
+    @Synonym("1")
     public S one() {
         return one;
     }
@@ -80,6 +83,7 @@ public abstract class AbstractComplexNumbers<
         return of(getElementStructure().nextRandom(random), getElementStructure().nextRandom(random));
     }
 
+    @Synonym("i")
     public S i() {
         return i;
     }

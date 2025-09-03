@@ -19,8 +19,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.*;
 
-import org.meeuw.math.Example;
-import org.meeuw.math.Singleton;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumbers;
 import org.meeuw.math.numbers.BigDecimalOperations;
@@ -47,11 +46,13 @@ public class BigDecimalField
     }
 
     @Override
+    @Synonym("0")
     public BigDecimalElement zero() {
         return BigDecimalElement.ZERO;
     }
 
     @Override
+    @Synonym("1")
     public BigDecimalElement one() {
         return BigDecimalElement.ONE;
     }
@@ -83,6 +84,7 @@ public class BigDecimalField
     }
 
     @Override
+    @Synonym("𝜋")
     public BigDecimalElement pi() {
         return BigDecimalElement.PI;
     }

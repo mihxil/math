@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
+import org.meeuw.math.Synonym;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.operators.*;
 
@@ -60,6 +61,11 @@ public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
      * @throws org.meeuw.math.exceptions.FieldIncompleteException if the field does not support this value, not even approximately.
      */
     E pi();
+
+    default E 𝜋() {
+        return pi();
+    }
+
 
 
 

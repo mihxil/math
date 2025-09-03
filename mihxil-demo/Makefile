@@ -32,7 +32,7 @@ explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
 
 run: index.html  ## run with cheerpj
-	npx serve
+	npx serve -l 3001
 
 
 index.html: README-source.adoc README-source-docinfo.html Makefile resources/*  ## create index.html from README-source.adoc

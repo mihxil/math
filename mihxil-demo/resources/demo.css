@@ -71,6 +71,14 @@ datalist option:not(:last-child)::after {
   content: ", ";
 }
 
+form.demo span.element {
+  color: #009999;
+}
+form.demo span.element:not(:last-child)::after {
+  content: ", ";
+
+}
+
 /* complicated selected becasue the id is attached to the heading, and the class of the section is either sec1 or sect2,
 whether this rendered stand alone or as part of a larger document. */
 div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
@@ -84,7 +92,6 @@ div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
 div:is(.sect1, .sect2):has(>#demo_solver) .admonitionblock.tip {
   max-height: 500px;
 }
-
 
 div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table {
   border-collapse: collapse;

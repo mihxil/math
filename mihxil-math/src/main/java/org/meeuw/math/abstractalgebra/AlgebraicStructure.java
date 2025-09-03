@@ -137,6 +137,32 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         return Optional.empty();
     }
 
+    /**
+     * @since 0.19
+     */
+    default Map<String, E> getConstants() {
+        Map<String, E> map = new HashMap<>();
+        for (Method method : getClass().getMethods()) {
+            if (method.getParameterCount() == 0
+                && method.getReturnType().isAssignableFrom(getElementClass())) {
+                try {
+                    Synonym synonym = method.getAnnotation(Synonym.class);
+                    if (synonym == null || synonym.preferred()) {
+                        Object v = method.invoke(this);
+                        if (getElementClass().isInstance(v)) {
+                            map.put(method.getName(), (E) v);
+                        }
+                    }
+                } catch (IllegalAccessException | InvocationTargetException ignored) {
+
+                }
+            }
+
+        }
+        return map;
+
+    }
+
 
     /**
      * Gets the direct (known) super groups (or other algebraic structure) which this structure is part of.

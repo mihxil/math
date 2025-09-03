@@ -55,29 +55,35 @@ export class CalculatorClass extends BaseClass {
 
             for (let i = 0; i < values.length; i++) {
                 const value = await values[i];
-                const examples = await value.getExamples();
                 const elements = await value.getElements();
-
-                const description = await value.getDescription();
-                const help = await value.getHelp();
-
-                const awaitedExamples = [];
-                for (let j = 0; j < examples.length; j++) {
-                    awaitedExamples[j] = await examples[j];
-                }
-
                 let awaitedElements = null;
                 if (elements) {
                     awaitedElements = [];
                     for (let j = 0; j < elements.length; j++) {
-                        awaitedElements[j] = await elements[j];
+                        const span = document.createElement('span');
+                        span.classList.add('element');
+                        span.textContent = await elements[j];
+                        span.onclick = async e => {
+                            console.log(e.target.textContent);
+                            const input = this.input;
+                            const start = input.selectionStart;
+                            const end = input.selectionEnd;
+                            const value = input.value;
+                            const insertText = e.target.textContent;
+                            input.value = value.slice(0, start) + insertText + value.slice(end);
+                            input.setSelectionRange(start + insertText.length, start + insertText.length);
+                            input.focus();
+                        };
+                        awaitedElements[j] = span;
                     }
                 }
                 this.information[await values[i].name()] = {
-                    examples: awaitedExamples,
+                    examples: await BaseClass.awaitedArray(value.getExamples()),
                     elements: awaitedElements,
-                    description: description,
-                    help: help,
+                    binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    finite: await value.isFinite(),
+                    description: await value.getDescription(),
+                    help: await value.getHelp()
                 };
             }
             console.log(JSON.stringify(this.information));
@@ -85,17 +91,13 @@ export class CalculatorClass extends BaseClass {
         await this.updateFieldList();
         this.field.addEventListener('change', () => {
             this.updateDataList();
-            let help = this.information[this.field.value].help;
-            if (! help) {
-                help = "";
-            }
-            const elements = this.information[this.field.value].elements;
-            if (elements) {
-                help += "<br />elements: " + elements;
-            }
-            this.field.parentNode.querySelector("div.help").innerHTML = help;
+            this.updateHelp();
+            this.updateOperators();
+
         });
         await this.updateDataList();
+        await this.updateHelp();
+        await this.updateOperators();
 
 
     }
@@ -122,7 +124,40 @@ export class CalculatorClass extends BaseClass {
             }
             console.log("Updated data list for", selectedField, information.examples);
         }
-
+    }
+    async updateHelp() {
+        const fieldInformation =  this.information[this.field.value];
+        const div = this.field.parentNode.querySelector("div.help");
+        div.innerHTML = '';
+        let help = fieldInformation.help;
+        if (help) {
+            div.appendChild(document.createTextNode(help));
+        }
+        const elements = this.information[this.field.value].elements;
+        if (elements) {
+            div.appendChild(document.createElement("br"));
+            div.appendChild(document.createTextNode("elements: "));
+            elements.forEach(element => {
+                div.appendChild(element);
+            })
+            if (!fieldInformation.finite) {
+                div.appendChild(document.createTextNode("... infinitely many more"));
+            }
+        }
+    }
+    async updateOperators() {
+        const fieldInformation =  this.information[this.field.value];
+        const operators = fieldInformation.binaryOperators;
+        const dd = document.querySelector("#calculator_operators");
+        dd.querySelectorAll("dt").forEach(e => {
+            if (! operators.includes(e.textContent.trim())) {
+                e.hidden = true;
+                e.nextElementSibling.hidden = true;
+            } else {
+                e.hidden = false;
+                e.nextElementSibling.hidden = false;
+            }
+        });
     }
 
     async onSubmit(Calculator) {

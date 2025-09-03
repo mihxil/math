@@ -1,9 +1,10 @@
-package org.meeuw.math.abstractalgebra.quaternions;
+package org.meeuw.math.abstractalgebra.quaternions.q8;
 
 import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Singleton;
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
@@ -17,6 +18,7 @@ public class QuaternionGroup implements Group<QuaternionElement>, Streamable<Qua
     }
 
     @Override
+    @Synonym("e")
     public QuaternionElement unity() {
         return QuaternionElement.e;
     }

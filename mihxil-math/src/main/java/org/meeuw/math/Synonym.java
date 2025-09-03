@@ -32,4 +32,5 @@ public @interface Synonym {
     String value();
 
 
+    boolean preferred() default false;
 }
