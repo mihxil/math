@@ -183,7 +183,7 @@ export class BaseClass {
                     await this.onInView(this.Class);
                     console.log("readyToGo", this.Class.prototype);
                     await this.readyToGo();
-                    observer.disconnect();
+                    await observer.disconnect();
                 }
             }
         }, {threshold: 0.1});
