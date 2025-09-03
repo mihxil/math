@@ -1,11 +1,10 @@
 package org.meeuw.math.demo;
 
-import java.util.*;
-
 import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
+import java.util.*;
 import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
@@ -18,8 +17,8 @@ import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloRing;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
-import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
+import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
@@ -34,6 +33,8 @@ public class Calculator {
     static {
         Application.setupLogging();
     }
+
+    // tag::eval[]
 
     @Getter
     public  enum FieldInformation {
@@ -68,10 +69,7 @@ public class Calculator {
         private final String[] examples;
         private final String[] elements;
         private final String[] binaryOperators;
-
         private final boolean finite;
-
-
 
         FieldInformation(Magma<?> field, String... examples) {
             this.field = field;
@@ -94,7 +92,6 @@ public class Calculator {
                 streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
             }
             return elements.toArray(new String[0]);
-
         }
 
         public String getDescription() {
@@ -107,7 +104,6 @@ public class Calculator {
     }
 
 
-   // tag::eval[]
 
     public static String eval(final String expression, final String field) {
         try (var r = ConfigurationService.setConfiguration(cb -> cb
