@@ -1,4 +1,5 @@
 import { BaseClass } from './base.js';
+
 export class DynamicDate extends BaseClass {
 
     constructor() {
@@ -24,4 +25,9 @@ export class DynamicDate extends BaseClass {
 
 //end::dynamicdate[]
 }
+
+
+document.addEventListener("DOMContentLoaded",  function() {
+    new DynamicDate().setup();
+});
 
