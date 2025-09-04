@@ -15,10 +15,11 @@ It doesn't always work, which I haven't quite understood yet. It normally shows 
 This section is work in progress
 ====
 
+:leveloffset: 1
 
 [#demo_calculator]
 [.tips-aside]
-== Calculator
+= Calculator
 
 
 [TIP]
@@ -61,6 +62,75 @@ Elements of the field are simply recognized if they are numeric, otherwise they 
 This is the source code for the above.
 [source,java]
 ----
+
+@Getter
+public  enum FieldInformation {
+    rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
+    real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
+    bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
+    gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
+    complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(-i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
+    bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
+    quaternions(Quaternions.of(RationalNumbers.INSTANCE),
+        "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
+    quaternions_bigdecimal(Quaternions.of(BigDecimalField.INSTANCE),
+        "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
+    modulo10(ModuloRing.of(10), "4 ⋅ 7", "9 - 3"),
+    modulo13(ModuloField.of(13), "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
+    klein(KleinGroup.INSTANCE,
+        "a * b * c * e",
+        "a * b"
+    ),
+    quaterniongroup(QuaternionGroup.INSTANCE, "i", "e" ),
+    dihedral3(DihedralGroup.D3,
+        "r1 * r2",
+        "s0 * r1 * s0"
+    ),
+    dihedral4(DihedralGroup.of(4),
+        "r1 * r2",
+        "s0 * r1 * s0 * s3"
+    )
+    ;
+
+    private final Magma<?> field;
+    private final String[] examples;
+    private final String[] elements;
+    private final String[] binaryOperators;
+    private final boolean finite;
+
+    FieldInformation(Magma<?> field, String... examples) {
+        this.field = field;
+        this.finite = field.isFinite();
+        this.examples = examples;
+        this.elements = elements(field);
+        this.binaryOperators = field.getSupportedOperators()
+            .stream()
+            .map(AlgebraicBinaryOperator::getSymbol)
+            .toArray(String[]::new);
+
+        log.info("Created %s, operators: %s, examples: %s, elements: %s".formatted(field,
+            List.of(binaryOperators),
+            List.of(examples), List.of(elements)));
+    }
+
+    public static String[] elements(Magma<?> field) {
+        Set<String> elements = new LinkedHashSet<>(field.getConstants().keySet());
+        if (field.getCardinality().isCountable() && field instanceof  Streamable<?> streamable) {
+            streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+        }
+        return elements.toArray(new String[0]);
+    }
+
+    public String getDescription() {
+        return field.getClass().getSimpleName() + " " + field;
+    }
+
+    public String getHelp() {
+        return field.getDescription().orElse(null);
+    }
+}
+
+
 
 public static String eval(final String expression, final String field) {
     try (var r = ConfigurationService.setConfiguration(cb -> cb
@@ -265,9 +335,13 @@ This is the source code for the above.
 ----
 ====
 
+:leveloffset!:
+
+:leveloffset: 1
+
 [#demo_solver]
 [.tips-aside]
-== Solver
+= Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
 
@@ -525,10 +599,16 @@ This is the source code for the above.
 ----
 ====
 
+:leveloffset!:
+
+:leveloffset: 1
+
 [#demo_dynamicdate]
-== Dynamic date parsing
+= Dynamic date parsing
 
 The `mihxil-time` module contain a 'dynamic date parser. I dusted this of from old link:mmbase.org[mmbase] code.
+
+// tag::body[]
 
 ++++
 <form id="dynamicdate" class="demo">
@@ -636,3 +716,7 @@ async onSubmit(DynamicDateTime){
 
 ----
 ====
+
+//end::bodye[]
+
+:leveloffset!:

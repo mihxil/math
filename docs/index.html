@@ -12,8 +12,12 @@
 <meta name="keywords" content="open source, documentation" />
 
 <script src="https://cjrtnc.leaningtech.com/20250718_2607/loader.js"></script>
-<script src="resources/demo.js" type="module" ></script>
 <link rel="stylesheet" href="resources/demo.css" />
+
+<script src="resources/demo.js" type="module" ></script>
+<script src="resources/calculator.js" type="module" ></script>
+<script src="resources/dynamicdate.js" type="module" ></script>
+<script src="resources/solver.js" type="module" ></script>
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
@@ -67,8 +71,9 @@
 <li><a href="#_dynamic_date_time_parsing">3.2. Dynamic date time parsing</a>
 <ul class="sectlevel3">
 <li><a href="#_syntax">3.2.1. syntax</a></li>
-<li><a href="#_comparison_to_mmbase">3.2.2. Comparison to MMBase</a></li>
-<li><a href="#_comparison_to_natty">3.2.3. Comparison to natty</a></li>
+<li><a href="#_demo">3.2.2. demo</a></li>
+<li><a href="#_comparison_to_mmbase">3.2.3. Comparison to MMBase</a></li>
+<li><a href="#_comparison_to_natty">3.2.4. Comparison to natty</a></li>
 </ul>
 </li>
 </ul>
@@ -103,15 +108,12 @@
 </ul>
 </li>
 <li><a href="#configuration_service">9. ConfigurationService</a></li>
-<li><a href="#demo_section">10. Demo</a>
-<ul class="sectlevel2">
-<li><a href="#demo_calculator">10.1. Calculator</a></li>
-<li><a href="#demo_solver">10.2. Solver</a></li>
-<li><a href="#demo_dynamicdate">10.3. Dynamic date parsing</a></li>
-</ul>
-</li>
-<li><a href="#_compatibility">11. Compatibility</a></li>
-<li><a href="#_history">12. History</a></li>
+<li><a href="#demo_section">10. Demo</a></li>
+<li><a href="#demo_calculator">11. Calculator</a></li>
+<li><a href="#demo_solver">12. Solver</a></li>
+<li><a href="#demo_dynamicdate">13. Dynamic date parsing</a></li>
+<li><a href="#_compatibility">14. Compatibility</a></li>
+<li><a href="#_history">15. History</a></li>
 </ul>
 </div>
 </div>
@@ -912,7 +914,116 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_comparison_to_mmbase">3.2.2. Comparison to MMBase</h4>
+<h4 id="_demo">3.2.2. demo</h4>
+<form id="dynamicdate" class="demo">
+  <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
+   <datalist id="dynamicdate_toparse-examples">
+    <option value="0"></option>
+    <option value="10000"></option>
+    <option value="-10000"></option>
+    <option value="+1000"></option>
+    <option value="1973-05-03"></option>
+    <option value="2006-05-09"></option>
+    <option value="-3-12-25"></option>
+    <option value="2000-01-01 16:00"></option>
+    <option value="TZUTC 2001-01-01 16:00"></option>
+    <option value="today 12:34:56.789"></option>
+    <option value="now"></option>
+    <option value="today"></option>
+    <option value="tomorrow"></option>
+    <option value="now + 10 minute"></option>
+    <option value="today + 5 day"></option>
+    <option value="now this year"></option>
+    <option value="next august"></option>
+    <option value="today + 6 month next august"></option>
+    <option value="tomonth"></option>
+    <option value="borreltijd"></option>
+    <option value="today + 5 dayish"></option>
+    <option value="yesteryear"></option>
+    <option value="mondayish"></option>
+    <option value="duration + 5 minute"></option>
+    <option value="duration + 100 year"></option>
+    <option value="TZUTC today noon"></option>
+    <option value="TZEurope/Amsterdam today noon"></option>
+    <option value="TZUTC today"></option>
+    <option value="TZEurope/Amsterdam today"></option>
+    <option value="TZ UTC today noon"></option>
+    <option value="TZ Europe/Amsterdam today noon"></option>
+    <option value="TZ UTC today"></option>
+    <option value="TZ Europe/Amsterdam today"></option>
+    <option value="TZ Europe/Amsterdam -1000"></option>
+    <option value="today 6 oclock"></option>
+    <option value="today 23 oclock"></option>
+    <option value="today 43 oclock"></option>
+    <option value="tosecond"></option>
+    <option value="tominute"></option>
+    <option value="tohour"></option>
+    <option value="today"></option>
+    <option value="previous monday"></option>
+    <option value="tomonth"></option>
+    <option value="toyear"></option>
+    <option value="tocentury"></option>
+    <option value="tocentury_pedantic"></option>
+    <option value="toera"></option>
+    <option value="toweek"></option>
+    <option value="now this second"></option>
+    <option value="now this minute"></option>
+    <option value="now this hour"></option>
+    <option value="now this day"></option>
+    <option value="today previous monday"></option>
+    <option value="now this month"></option>
+    <option value="now this year"></option>
+    <option value="now this century"></option>
+    <option value="now this era"></option>
+    <option value="now - 15 year this century"></option>
+    <option value="now - 20 year this century_pedantic"></option>
+    <option value="today + 2 century"></option>
+    <option value="toera - 1 minute"></option>
+    <option value="this july"></option>
+    <option value="previous july"></option>
+    <option value="next july"></option>
+    <option value="this sunday"></option>
+    <option value="previous sunday"></option>
+    <option value="next sunday"></option>
+    <option value="2009-W01-01"></option>
+    <option value="2009-W53-7"></option>
+    <option value="2006-123"></option>
+    <option value="2005-01-01 this monday"></option>
+    <option value="next year"></option>
+    <option value="&quot;spring&quot;"></option>
+    <option value="next year &quot;spring&quot;"></option>
+    <option value="&quot;easter sunday&quot;"></option>
+   </datalist>
+   <br />
+  <output id="dynamicdate_output" for="dynamicdate_toparse"> </output>
+  <br />
+  <button name="submit">go!</button>
+</form>
+<details>
+<summary class="title">javascript</summary>
+<div class="content">
+<div class="paragraph">
+<p>This is the source code for the above.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="javascript">async onSubmit(DynamicDateTime){
+    <span class="keyword">try</span> {
+        const parser = await <span class="keyword">new</span> DynamicDateTime();
+        const parseResult = await parser.applyWithException(<span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
+        <span class="local-variable">this</span>.output.value = await parseResult.toString();
+    } <span class="keyword">catch</span> (error) {
+        console.log(error);
+    }
+
+}</code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect3">
+<h4 id="_comparison_to_mmbase">3.2.3. Comparison to MMBase</h4>
 <div class="paragraph">
 <p>The parser in MMBase was actually implemented as an extension of <code>java.util.Date</code> itself (<code>org.mmbase.util.DynamicDate</code>), and was in that aspect simpler. But it was not a very good citizen because of that, because the actually value of the date could be 'dynamic', and sometimes that required some explicit conversion to a normal <code>java.util.Date</code> object. Turns out that date object can&#8217;t be extended very well.</p>
 </div>
@@ -924,7 +1035,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect3">
-<h4 id="_comparison_to_natty">3.2.3. Comparison to natty</h4>
+<h4 id="_comparison_to_natty">3.2.4. Comparison to natty</h4>
 <div class="paragraph">
 <p>I always thought that for the use cases I saw natty was not a very good fit, and my own, old, mmbase utility was nicer.</p>
 </div>
@@ -1665,8 +1776,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </tr>
 </table>
 </div>
-<div class="sect2 tips-aside">
-<h3 id="demo_calculator">10.1. Calculator</h3>
+</div>
+</div>
+<div class="sect1 tips-aside">
+<h2 id="demo_calculator">11. Calculator</h2>
+<div class="sectionbody">
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -2013,8 +2127,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </details>
 </div>
-<div class="sect2 tips-aside">
-<h3 id="demo_solver">10.2. Solver</h3>
+</div>
+<div class="sect1 tips-aside">
+<h2 id="demo_solver">12. Solver</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The same idea as my <a href="https://meeuw.org/flippo/flippo.html">very first applet</a>. Solving the '24 flippo game'.</p>
 </div>
@@ -2301,8 +2417,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </details>
 </div>
-<div class="sect2">
-<h3 id="demo_dynamicdate">10.3. Dynamic date parsing</h3>
+</div>
+<div class="sect1">
+<h2 id="demo_dynamicdate">13. Dynamic date parsing</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>The <code>mihxil-time</code> module contain a 'dynamic date parser. I dusted this of from old <a href="mmbase.org">mmbase</a> code.</p>
 </div>
@@ -2414,9 +2532,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </details>
 </div>
 </div>
-</div>
 <div class="sect1">
-<h2 id="_compatibility">11. Compatibility</h2>
+<h2 id="_compatibility">14. Compatibility</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>This project is compiled with java 17, and provides JPMS module info,  until version <code>0.16.x</code> it was compatible with java 8.</p>
@@ -2424,7 +2541,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </div>
 <div class="sect1">
-<h2 id="_history">12. History</h2>
+<h2 id="_history">15. History</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>I&#8217;m maintaining this mainly as a hobby project.</p>
