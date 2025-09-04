@@ -53,7 +53,7 @@ jobs:
           server-username: CENTRAL_USERNAME
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Build with Maven ${{ matrix.target }}
+      - name: ${{matrix.target}} with maven
         run: |
           if [ "${{ matrix.target }}" = "deploy" ]; then
             extra_args=-Ddeploy
