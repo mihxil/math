@@ -53,8 +53,8 @@ jobs:
           server-username: CENTRAL_USERNAME
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Build with Maven ${{ matrix.deploy }}
-        run: mvn -B -D"maven.test.failure.ignore=true" -D${{ matrix.target }}
+      - name: Build with Maven ${{ matrix.target }}
+        run: mvn -B -D"maven.test.failure.ignore=true" -D${{matrix.target}} ${{matrix.target}}
         timeout-minutes: 10
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
