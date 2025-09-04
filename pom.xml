@@ -52,6 +52,7 @@
 
 
     <delombok.output>target/delombok</delombok.output>
+    <argLine />
   </properties>
 
 
@@ -371,7 +372,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.7</version>
+            <version>3.2.8</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -478,7 +479,7 @@
           </plugin>
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.11.2</version>
+            <version>3.11.3</version>
             <executions>
               <execution>
                 <id>attach-javadocs</id>

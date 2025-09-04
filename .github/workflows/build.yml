@@ -25,16 +25,13 @@ jobs:
       matrix:
         os: [ windows-latest, macos-latest ]
         java: [ 17 ]
-        target: [ test  ]
         # also check (once) on latest
         include:
           - os: ubuntu-latest
             java: 24
-            target: test
-            rank: main #
           - os: ubuntu-latest
             java: 17
-            target: deploy
+            rank: main
     runs-on: ${{ matrix.os }}
     env:
       MAVEN_ARGS: '--no-transfer-progress'
@@ -53,14 +50,15 @@ jobs:
           server-username: CENTRAL_USERNAME
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: ${{matrix.target}} with maven
+      - name: Build with maven
         shell: bash
         run: |
-          if [ "${{ matrix.target }}" = "deploy" ]; then
-            extra_args=-Ddeploy
-          fi
-          mvn -B -D"maven.test.failure.ignore=true" $extra_args ${{matrix.target}}
+          mvn -B -D"maven.test.failure.ignore=true" test
+      - name: deploy to central
         timeout-minutes: 10
+        run: |
+          mvn -B -DskipTests -Ddeploy deploy
+        if:  ${{ matrix.rank == 'main' }}
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
