@@ -8,6 +8,8 @@ module org.meeuw.time.test {
 
     requires transitive  org.meeuw.time;
     requires org.meeuw.functional;
+    requires org.meeuw.math.abstractalgebra.test;
+    requires org.checkerframework.checker.qual;
 
     opens org.meeuw.test.time.parser;
     opens org.meeuw.test.time;

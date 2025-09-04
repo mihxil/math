@@ -2,11 +2,16 @@ package org.meeuw.test.time;
 
 import java.time.Year;
 
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.theories.BasicObjectTheory;
 import org.meeuw.time.Range;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class RangeTest {
 
@@ -40,7 +45,10 @@ class RangeTest {
             Year.of(2025)
         );
         assertThat(range.isConnected(Range.fromYear(2026))).isFalse();
+        assertThat(Range.fromYear(2026).isConnected(range)).isFalse();
+
         assertThat(range.isConnected(Range.untilYear(2026))).isTrue();
+        assertThat(Range.untilYear(2026).isConnected(range)).isTrue();
 
     }
 
@@ -62,8 +70,45 @@ class RangeTest {
             Year.of(2017),
             Year.of(2016)
         );
+        assertThat(range.isConnected(Range.fromYear(2026))).isFalse();
+        assertThat(Range.fromYear(2026).isConnected(range)).isFalse();
+
+        assertThat(range.isConnected(Range.untilYear(2026))).isTrue();
+        assertThat(Range.untilYear(2026).isConnected(range)).isTrue();
     }
 
+    @Test
+    public void illegal() {
+        assertThatThrownBy(() -> new Range<>(null, 2020)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+
+    public static class YearRangeTest implements BasicObjectTheory<Range<Year>> {
+
+        @Override
+        public Arbitrary<@NonNull Range<Year>> datapoints() {
+            return Arbitraries.integers().between(1900, 2100)
+                .flatMap(start ->
+                    Arbitraries.integers()
+                        .between(1900, 2100)
+                        .injectNull(0.1)
+                    .map(end -> Range.ofYears(start, end))
+                );
+        }
+    }
+    public static class DoubleRangeTest implements BasicObjectTheory<Range<Double>> {
+
+        @Override
+        public Arbitrary<@NonNull Range<Double>> datapoints() {
+            return Arbitraries.doubles().between(-100, 100)
+                .flatMap(start ->
+                    Arbitraries.doubles()
+                        .between(-100, 100)
+                        .injectNull(0.1)
+                        .map(end -> new Range<>(start, end))
+                );
+        }
+    }
 
 
 }

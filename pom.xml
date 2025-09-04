@@ -261,7 +261,7 @@
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
             <useModulePath>false</useModulePath>
             <excludes>
-              <exclude />
+              <exclude>**/module-info.java</exclude>
             </excludes>
             <includes>
               <include>**/*Test.java</include>
