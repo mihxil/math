@@ -33,6 +33,12 @@ class RangeTest {
         assertThat(range.test(Year.of(2003))).isTrue();
         assertThat(range.test(Year.of(2005))).isTrue();
         assertThat(range.test(Year.of(2006))).isFalse();
+
+        assertThat(range.encloses(Range.ofYears(2000, 2005))).isTrue();
+        assertThat(range.encloses(Range.ofYears(1999, 2005))).isFalse();
+        assertThat(range.encloses(Range.ofYears(1999, 2006))).isFalse();
+        assertThat(range.encloses(Range.ofYears(2001, 2004))).isTrue();
+
     }
 
     @Test

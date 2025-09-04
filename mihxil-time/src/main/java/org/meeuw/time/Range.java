@@ -16,7 +16,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * <p>
  * The end value may also be less than the start value, which means it is a backward range.
  * <p>
- * Times often occur in ranges.
+ * Time-related objects often occur in ranges.
  *
  * @author Michiel Meeuwissen
  * @since 0.19
