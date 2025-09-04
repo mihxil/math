@@ -31,7 +31,7 @@ jobs:
           - os: ubuntu-latest
             java: 24
             target: test
-            mainbuild: true
+            rank: main #
           - os: ubuntu-latest
             java: 17
             target: deploy
@@ -54,20 +54,20 @@ jobs:
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Build with Maven ${{ matrix.target }}
-        run: mvn -B -D"maven.test.failure.ignore=true" -D${{matrix.target}} ${{matrix.target}}
+        run: mvn -B -D"maven.test.failure.ignore=true" -D"${{matrix.target}}" ${{matrix.target}}
         timeout-minutes: 10
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - uses: codecov/codecov-action@v5
-        if:  ${{ matrix.mainbuild == 'true' }}
+        if:  ${{ matrix.rank == 'main' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - uses: MMProgrami/after-maven-action@main
       - name: Commit generated graphviz file if it changed
         uses: EndBug/add-and-commit@v9
-        if: ${{  matrix.mainbuild  == 'true' }}
+        if: ${{  matrix.rank  == 'main' }}
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
