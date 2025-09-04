@@ -275,8 +275,7 @@
               -->
               <java.util.logging.manager>org.apache.logging.log4j.jul.LogManager</java.util.logging.manager>
             </systemPropertyVariables>
-            <!--argLine>@{argLine} -Dfile.encoding=UTF-8</argLine-->
-            <argLine>-Dfile.encoding=UTF-8</argLine>
+            <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
             <properties>
               <configurationParameters>
                 jqwik.database=jqwik-database
