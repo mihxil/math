@@ -54,7 +54,7 @@ class AlgebraicStructureTest {
     public void test() {
         assertThat(s.getSupportedOperators()).isEmpty();
         assertThat(s.getSupportedUnaryOperators()).containsExactly(BasicAlgebraicUnaryOperator.IDENTIFY);
-        assertThat(s.getDescription()).isEqualTo("S");
+        assertThat(s.getDescription()).isEmpty();
         assertThat(s.getEquivalence().test(new E(), new E())).isFalse();
     }
 
