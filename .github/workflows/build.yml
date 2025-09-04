@@ -54,6 +54,7 @@ jobs:
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: ${{matrix.target}} with maven
+        shell: bash
         run: |
           if [ "${{ matrix.target }}" = "deploy" ]; then
             extra_args=-Ddeploy
