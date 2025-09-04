@@ -59,6 +59,7 @@ jobs:
           fi
       - name: Build with Maven
         run: mvn -B -D"maven.test.failure.ignore=true"  ${{ steps.set_target.outputs.target }}
+        timeout-minutes: 10
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
