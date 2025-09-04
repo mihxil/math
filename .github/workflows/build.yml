@@ -23,12 +23,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
+        os: [ windows-latest, macos-latest ]
         java: [ 17 ]
+        target: [ test  ]
         # also check (once) on latest
         include:
           - os: ubuntu-latest
             java: 24
+            target: test
+            mainbuild: true
+          - os: ubuntu-latest
+            java: 17
+            target: deploy
     runs-on: ${{ matrix.os }}
     env:
       MAVEN_ARGS: '--no-transfer-progress'
@@ -47,31 +53,21 @@ jobs:
           server-username: CENTRAL_USERNAME
           server-password: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Determine target
-        id: set_target
-        shell: bash
-        run: |
-          if [[ "${GITHUB_EVENT_NAME}" == "push" && "${RUNNER_OS}" == "Linux" && "${{ matrix.java }}" == "17" ]]; then
-             echo "target=-Ddeploy deploy" >> $GITHUB_OUTPUT
-             echo "mainbuild=true" >> $GITHUB_OUTPUT
-          else
-             echo "target=test" >> $GITHUB_OUTPUT
-          fi
-      - name: Build with Maven
-        run: mvn -B -D"maven.test.failure.ignore=true"  ${{ steps.set_target.outputs.target }}
+      - name: Build with Maven ${{ matrix.deploy }}
+        run: mvn -B -D"maven.test.failure.ignore=true" -D${{ maxtrix.target }}
         timeout-minutes: 10
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
       - uses: codecov/codecov-action@v5
-        if:  ${{ steps.set_target.outputs.mainbuild == 'true' }}
+        if:  ${{ matrix.mainbuild == 'true' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - uses: MMProgrami/after-maven-action@main
-      - name: Commit generated dot file if it changed
+      - name: Commit generated graphviz file if it changed
         uses: EndBug/add-and-commit@v9
-        if: ${{ steps.set_target.outputs.mainbuild == 'true' }}
+        if: ${{  matrix.mainbuild  == 'true' }}
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
