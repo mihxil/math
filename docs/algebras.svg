@@ -813,7 +813,7 @@
 </g>
 <g id="a_node15_126"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="450.62,-930.75 450.62,-969.25 490.62,-969.25 490.62,-930.75 450.62,-930.75"/>
-<text text-anchor="start" x="452.62" y="-945.33" font-family="Times,serif" font-size="14.00">0 u 1</text>
+<text text-anchor="start" x="452.62" y="-945.33" font-family="Times,serif" font-size="14.00">0 1 u</text>
 </a>
 </g>
 <g id="a_node15_127"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java" xlink:title="Quaternions">
