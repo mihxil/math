@@ -24,6 +24,7 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
@@ -69,6 +70,8 @@ public class Calculator {
         private final String[] examples;
         private final String[] elements;
         private final String[] binaryOperators;
+        private final String[] unaryOperators;
+
         private final boolean finite;
 
         FieldInformation(Magma<?> field, String... examples) {
@@ -81,8 +84,14 @@ public class Calculator {
                 .map(AlgebraicBinaryOperator::getSymbol)
                 .toArray(String[]::new);
 
-            log.info("Created %s, operators: %s, examples: %s, elements: %s".formatted(field,
+            this.unaryOperators = field.getSupportedUnaryOperators()
+                .stream()
+                .map(AlgebraicUnaryOperator::getSymbol)
+                .toArray(String[]::new);
+
+            log.info("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
                 List.of(binaryOperators),
+                List.of(unaryOperators),
                 List.of(examples), List.of(elements)));
         }
 
