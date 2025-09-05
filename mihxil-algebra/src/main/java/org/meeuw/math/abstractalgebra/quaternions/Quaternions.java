@@ -15,15 +15,14 @@
  */
 package org.meeuw.math.abstractalgebra.quaternions;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
@@ -51,7 +50,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
         return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
             Quaternions<E> result = new Quaternions<>(numberFieldElement);
-            log.info("Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
+            log.fine(() -> "Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
             return result;
 
             }
