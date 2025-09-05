@@ -32,8 +32,6 @@ import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 
 import static java.math.BigInteger.ONE;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.ADDITION;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 
 /**
  * Implementation for the field of Rational Numbers, commonly referred to as ℚ
@@ -70,24 +68,6 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     @Override
     public NavigableSet<AlgebraicComparisonOperator> getSupportedComparisonOperators() {
         return BasicComparisonOperator.ALL;
-    }
-
-    @Override
-    @DubiousOverride("cheerpj")
-    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
-        return Field.OPERATORS;
-    }
-
-    @Override
-    @DubiousOverride("cheerpj")
-    public boolean isCommutative(AlgebraicBinaryOperator operator) {
-        if (operator.equals(MULTIPLICATION)) {
-            return multiplicationIsCommutative();
-        }
-        if (operator.equals(ADDITION)) {
-            return additionIsCommutative();
-        }
-        return AlgebraicStructure.defaultIsCommutative(operator, this);
     }
 
     @Override

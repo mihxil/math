@@ -15,18 +15,16 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import java.util.NavigableSet;
-
 import lombok.Getter;
 
 import java.util.Random;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.meeuw.math.*;
+import org.meeuw.math.Randomizable;
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
-import org.meeuw.math.operators.AlgebraicBinaryOperator;
 
 /**
  * Implementation of {@code ℤ/nℤ}
@@ -55,12 +53,6 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         this.cardinality = Cardinality.of(divisor);
         one = element(1);
         zero = element(0);
-    }
-
-    @Override
-    @DubiousOverride("cheerpj")
-    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
-        return Rng.OPERATORS;
     }
 
 
