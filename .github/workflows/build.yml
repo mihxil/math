@@ -59,6 +59,9 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - uses: MMProgrami/after-maven-action@main
+        with:
+          coverage: true
+          determine_version: false
       - name: Deploy to central
         # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
         # It also sets the default target to deploy
