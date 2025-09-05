@@ -93,15 +93,15 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
      * @see CompleteFieldElement#pow(CompleteFieldElement)
      */
     POWER(
-        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"), "^",
+        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"),
+        "^",
         MULTIPLICATION.unity,
         null,
         4
     );
 
 
-    @Getter
-    final Method method;
+    final SimpleAlgebraicBinaryOperator wrapped;
 
     @Getter
     final Method unity;
@@ -111,40 +111,22 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     final BasicAlgebraicUnaryOperator inverse;
 
 
-    @Getter
-    final BinaryOperator<CharSequence> stringify;
-
-    @Getter
-    final String symbol;
-
-    final int precedence;
 
     BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
-        this.method = method;
-        this.symbol = symbol;
-        this.stringify = (a, b) -> a + " " + symbol + " " + b;
+        this.wrapped = new SimpleAlgebraicBinaryOperator(
+            method,
+            symbol,
+            precedence,
+            name()
+        );
         this.unity = unity;
         this.inverse = inverse;
-        this.precedence = precedence;
     }
 
 
     @Override
-    @SuppressWarnings("unchecked")
-    @SneakyThrows
     public <E extends AlgebraicElement<E>> E apply(E element1, E element2) {
-        try {
-            if (!method.getParameterTypes()[0].isInstance(element1)) {
-                throw new NoSuchOperatorException(element1.getClass().getSimpleName() + " " + element1 + " has no operator '" + method.getName() + "'");
-            }
-            E result = (E) method.invoke(element1, element2);
-            if (result == null) {
-                throw new InvalidAlgebraicResult("" + method + "(" + element1 + ',' + element2 + ") resulted null");
-            }
-            return result;
-        } catch (InvocationTargetException ite) {
-            throw ite.getCause();
-        }
+        return wrapped.apply(element1, element2);
     }
 
     /**
@@ -188,13 +170,23 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
     @Override
     public String stringify(String element1, String element2) {
-        return stringify.apply(element1, element2).toString();
+        return wrapped.stringify(element1, element2);
     }
 
     @Override
     public int precedence() {
-        return precedence;
+        return wrapped.precedence;
     }
 
+
+    @Override
+    public String getSymbol() {
+        return wrapped.getSymbol();
+    }
+
+
+    public BinaryOperator<CharSequence> getStringify() {
+        return wrapped.getStringify();
+    }
 
 }
