@@ -91,8 +91,17 @@ public class AST {
                     } else {
                         return c;
                     }
+                } else if (c instanceof GroupElement<?> groupElement) {
+                    if ("-".equals(sign)) {
+                        return (E) groupElement.inverse();
+                    } else {
+                        return c;
+                    }
                 } else {
-                    assert sign == null;
+                    if (sign != null) {
+                        // it may be parseable?
+                        return field.fromString(sign + c);
+                    }
                     return c;
                 }
             })
