@@ -14,8 +14,7 @@ import org.meeuw.math.abstractalgebra.Streamable;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
-import org.meeuw.math.abstractalgebra.integers.ModuloField;
-import org.meeuw.math.abstractalgebra.integers.ModuloRing;
+import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
@@ -31,16 +30,13 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 
 @Log
 public class Calculator {
-    static {
-        Application.setupLogging();
-    }
 
     // tag::eval[]
 
     @Getter
     public  enum FieldInformation {
         rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
-        real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
+        real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "sqr(𝜑) - 𝜑"),
         bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
         gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
         complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(-i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
@@ -51,6 +47,9 @@ public class Calculator {
             "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
         modulo10(ModuloRing.of(10), "4 ⋅ 7", "9 - 3"),
         modulo13(ModuloField.of(13), "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
+        natural(NaturalNumbers.INSTANCE, "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
+        even(EvenIntegers.INSTANCE, "10 ⋅ 8", "10 - 4"),
+
         klein(KleinGroup.INSTANCE,
             "a * b * c * e",
             "a * b"
@@ -89,7 +88,7 @@ public class Calculator {
                 .map(AlgebraicUnaryOperator::getSymbol)
                 .toArray(String[]::new);
 
-            log.info("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
+            log.fine("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
                 List.of(binaryOperators),
                 List.of(unaryOperators),
                 List.of(examples), List.of(elements)));
@@ -123,12 +122,12 @@ public class Calculator {
         )) {
             var f = FieldInformation.valueOf(field).getField();
 
-            log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+            log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
             if (f.getSupportedOperators().isEmpty()) {
                 log.log(Level.SEVERE,  "Supported operators is empty for " + f);
             }
             var parsedExpression = AST.parse(expression, f);
-            log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
+            log.fine(() -> "Parsed expression: %s".formatted( parsedExpression));
             var result = parsedExpression.eval();
             var resultAsString = result.toString();
             log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));

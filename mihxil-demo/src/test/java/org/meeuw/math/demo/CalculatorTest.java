@@ -16,7 +16,15 @@ public class CalculatorTest {
 
     @Test
     public void quaternions() {
+        Utils.setupLogging("FINE");
         String result = Calculator.eval("-i * i", Calculator.FieldInformation.quaterniongroup.name());
         assertThat(result).isEqualTo("e");
+    }
+
+    @Test
+    public void natural() {
+        Utils.setupLogging("FINE");
+        String result = Calculator.eval("2 ^ 10", Calculator.FieldInformation.natural.name());
+        assertThat(result).isEqualTo("1024");
     }
 }
