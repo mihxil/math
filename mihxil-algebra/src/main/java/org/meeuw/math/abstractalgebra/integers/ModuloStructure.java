@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import lombok.Getter;
 
+import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
@@ -25,6 +26,10 @@ import org.meeuw.math.Randomizable;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+
+import static org.meeuw.math.CollectionUtils.navigableSet;
+import static org.meeuw.math.abstractalgebra.integers.AbstractIntegers.INTEGER_POWER;
 
 /**
  * Implementation of {@code ℤ/nℤ}
@@ -35,6 +40,12 @@ import org.meeuw.math.exceptions.InvalidStructureCreationException;
 public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
     extends AbstractAlgebraicStructure<E>
     implements AbelianRing<E>, Streamable<E>, Randomizable<E> {
+
+
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        AbelianRing.OPERATORS,
+        INTEGER_POWER
+    );
 
     @Getter
     final long divisor;
@@ -55,6 +66,10 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         zero = element(0);
     }
 
+    @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
+    }
 
     @Override
     @Synonym("1")

@@ -51,7 +51,11 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
 
 
 
-    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, MULTIPLICATION, ADDITION);
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        OPERATION,
+        MULTIPLICATION,
+        ADDITION,
+        INTEGER_POWER);
 
     private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(navigableSet(IDENTIFY, SQR), Factoriable.UNARY_OPERATORS);
 

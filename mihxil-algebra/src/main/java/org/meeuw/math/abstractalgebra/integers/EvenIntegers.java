@@ -23,8 +23,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.operators.BasicFunction;
-import org.meeuw.math.operators.GenericFunction;
+import org.meeuw.math.operators.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
@@ -51,6 +50,11 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
 
     private EvenIntegers() {
         super(EvenInteger.class);
+    }
+
+
+    public NavigableSet<AlgebraicComparisonOperator> getSupportedOperations() {
+        return BasicComparisonOperator.ALL_AND_EQUALS;
     }
 
     @Override

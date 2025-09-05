@@ -44,7 +44,11 @@ public class PositiveIntegers extends AbstractIntegers<PositiveInteger, Positive
     AdditiveAbelianSemiGroup<PositiveInteger> {
 
 
-    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(MultiplicativeMonoid.OPERATORS, AdditiveAbelianSemiGroup.OPERATORS);
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        MultiplicativeMonoid.OPERATORS,
+        AdditiveAbelianSemiGroup.OPERATORS,
+        navigableSet(INTEGER_POWER)
+    );
 
     private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(MultiplicativeMonoid.UNARY_OPERATORS, AdditiveAbelianSemiGroup.UNARY_OPERATORS, Factoriable.UNARY_OPERATORS);
 

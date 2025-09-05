@@ -54,6 +54,7 @@ public abstract class AbstractIntegerElement<
     Ordered<E> {
 
 
+
     @Getter
     protected final BigInteger value;
 
@@ -83,7 +84,9 @@ public abstract class AbstractIntegerElement<
             throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(exponent)));
         }
     }
-
+    public E pow(E exponent) {
+        return with(IntegerUtils.pow(value, exponent.value));
+    }
 
     public E tetration(int height) {
         return with(_tetration(value, height));

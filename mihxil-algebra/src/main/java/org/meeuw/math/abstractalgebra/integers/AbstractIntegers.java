@@ -23,8 +23,9 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
-import org.meeuw.math.operators.AlgebraicComparisonOperator;
-import org.meeuw.math.operators.BasicComparisonOperator;
+import org.meeuw.math.operators.*;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 
 /**
  * An abstract super structure for various integer types.
@@ -40,6 +41,12 @@ public abstract class AbstractIntegers<
     extends AbstractAlgebraicStructure<E>  implements
     Streamable<E> ,
     Randomizable<E> {
+
+    public static AlgebraicBinaryOperator INTEGER_POWER = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(AbstractIntegerElement.class, "pow"),
+        BasicAlgebraicBinaryOperator.POWER
+    );
+
 
 
     protected AbstractIntegers(Class<E> clazz) {
