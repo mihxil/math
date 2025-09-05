@@ -35,7 +35,7 @@ jobs:
         run: |
           git config --global user.name 'github actions'
           git config --global user.email 'github@meeuw.org'
-          mvn --batch-mode  -Darguments=-DskipTests  -DpushChanges=false release:prepare
+          mvn --batch-mode  -Darguments="-DskipTests -Ddeploy"  -DpushChanges=false release:prepare
           git push --atomic -v --follow-tags
           mvn -Darguments=-Ddeploy--batch-mode -Darguments=-DskipTests release:perform
         # use -D rather than -P because the 'no-deploy' profile is activated on !deploy

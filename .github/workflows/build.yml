@@ -54,23 +54,26 @@ jobs:
         shell: bash
         run: |
           mvn -B -D"maven.test.failure.ignore=true" test
-      - name: deploy to central
+      - uses: codecov/codecov-action@v5
+        if: ${{ matrix.rank == 'main' }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }} # required
+      - uses: MMProgrami/after-maven-action@main
+      - name: Deploy to central
+        # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
+        # It also sets the default target to deploy
         timeout-minutes: 10
-        run: |
-          mvn -B -DskipTests -Ddeploy deploy
-        if:  ${{ matrix.rank == 'main' }}
+        run: mvn -B -DskipTests -Ddeploy deploy
+        if: ${{ matrix.rank == 'main' }}
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
-      - uses: codecov/codecov-action@v5
-        if:  ${{ matrix.rank == 'main' }}
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }} # required
-      - uses: MMProgrami/after-maven-action@main
       - name: Commit generated graphviz file if it changed
         uses: EndBug/add-and-commit@v9
         if: ${{  matrix.rank  == 'main' }}
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
+
+
