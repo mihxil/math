@@ -391,7 +391,8 @@ public final class IntegerUtils {
 
     public static BigInteger pow(BigInteger base, BigInteger e) {
 
-       if (base.equals(BigInteger.ZERO)) {
+
+        if (base.equals(BigInteger.ZERO)) {
            if (e.signum() == 0) {
                return BigInteger.ONE;
            }
@@ -400,12 +401,16 @@ public final class IntegerUtils {
            }
 
            return BigInteger.ZERO;
-       }
-       BigInteger result = BigInteger.ONE;
-       // branching will make this slow
+        }
+        if (base.equals(BigInteger.ONE)) {
+            return BigInteger.ONE;
+        }
+        BigInteger result = BigInteger.ONE;
+        long maxBits = ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getMaxBits();
+        // branching will make this slow
        while (e.signum() > 0) {
            result = result.multiply(base);
-           if (result.bitLength() > ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getMaxBits()) {
+           if (result.bitLength() > maxBits) {
                throw new OverflowException("Too big", base + TextUtils.superscript(e.toString()));
            }
            e = e.add(BigInteger.ONE.negate());
