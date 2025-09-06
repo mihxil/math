@@ -16,7 +16,6 @@
 package org.meeuw.test.physics;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.Optional;
 
@@ -76,8 +75,8 @@ class SITest {
         while (prefix.isPresent()) {
             Prefix p = prefix.get();
             log.info("%s: %s (%s)".formatted(p, p.getAsDouble(), p.getPrefixName()));
-            log.info("%s . %s = %s".formatted(p, p.times(k)));
-            log.info("%s / %s = %s".formatted( p, p.dividedBy(k)));
+            log.info("%s . %s = %s".formatted(p,k ,  p.times(k)));
+            log.info("%s / %s = %s".formatted( p, k, p.dividedBy(k)));
             log.info(p + " " + TextUtils.superscript(-1) + " = " + p.reciprocal());
             prefix = prefix.get().inc();
         }
@@ -85,8 +84,8 @@ class SITest {
         while (prefix.isPresent()) {
             Prefix p = prefix.get();
             log.info("%s: %s (%s)".formatted(p, p.getAsDouble(), p.getPrefixName()));
-            log.info("%s . %s = %s".formatted(p, p.times(k)));
-            log.info("%s / %s = %s".formatted( p, p.dividedBy(k)));
+            log.info("%s . %s = %s".formatted(p, k, p.times(k)));
+            log.info("%s / %s = %s".formatted( p, k, p.dividedBy(k)));
             log.info(p + " " + TextUtils.superscript(-1) + " = " + p.reciprocal());
           prefix = prefix.get().dec();
         }

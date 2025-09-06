@@ -247,12 +247,7 @@
               <include>%regex[.*Test[\$\.].*]</include>
             </includes>
             <systemPropertyVariables>
-              <!--
-               logging in tests cases is arranged with log4j2
-               code itself may log with jul (to avoid dependencies).
-               This makes it log to log4j2
-              -->
-              <!--java.util.logging.manager>org.apache.logging.log4j.jul.LogManager</java.util.logging.manager-->
+              <java.util.logging.manager>java.util.logging.LogManager</java.util.logging.manager>
             </systemPropertyVariables>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
             <properties>

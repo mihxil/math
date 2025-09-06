@@ -185,6 +185,12 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     }
 
 
+    @Override
+    public Method getMethod() {
+        return wrapped.getMethod();
+    }
+
+
     public BinaryOperator<CharSequence> getStringify() {
         return wrapped.getStringify();
     }

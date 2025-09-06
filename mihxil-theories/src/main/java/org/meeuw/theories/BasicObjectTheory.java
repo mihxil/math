@@ -189,7 +189,7 @@ public interface BasicObjectTheory<E> {
     }
 
     default Logger log() {
-        return LogManager.getLogManager().getLogger(this.getClass().getName());
+        return Logger.getLogger(this.getClass().getName());
     }
     @Deprecated
     default Logger getLogger() {

@@ -6,5 +6,5 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math-parser.svg?color=b
 
 == Arithmetic
 
-This module contains classes to parse expression to algebraic elements and their operations
+This module contains classes to parse expression to algebraic elements and their operations. This is based on link:javacc
 
