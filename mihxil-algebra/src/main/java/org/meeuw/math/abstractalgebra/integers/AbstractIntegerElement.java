@@ -28,8 +28,7 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.exceptions.IllegalPowerException;
-import org.meeuw.math.exceptions.InvalidFactorial;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
@@ -78,7 +77,8 @@ public abstract class AbstractIntegerElement<
         return structure.of(value);
     }
 
-    public E pow(@Positive int exponent) {
+
+    public E pow(@Positive int exponent){
         try {
             return structure.newElement(value.pow(exponent));
         } catch (ArithmeticException ae) {
@@ -91,7 +91,10 @@ public abstract class AbstractIntegerElement<
      * @param divisor integer divisor
      * @return this / divisor
      */
-    public E dividedByEuclidean(E divisor) {
+    public E dividedByEuclidean(E divisor) throws DivisionByZeroException {
+        if (divisor.value.equals(BigInteger.ZERO)) {
+            throw new DivisionByZeroException(this, divisor);
+        }
         return with(value.divide(divisor.value));
     }
 
@@ -109,7 +112,7 @@ public abstract class AbstractIntegerElement<
         return RationalNumber.of(value, divisor.value);
     }
 
-    public E pow(E exponent) {
+    public E pow(E exponent) throws OverflowException {
         return structure.newElement(IntegerUtils.pow(value, exponent.value));
     }
 
