@@ -20,7 +20,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Mave
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
 
 
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a working demo.
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a link:https://mihxil.github.io/math/[working demo] (using webassembly).
 
 :leveloffset: 1
 
@@ -625,7 +625,7 @@ PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import a
 assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
 assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo("1.61 ± 0.13 pc");
 assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
-log.info("{} + {} = {}", twoLightYear, oneParsec, twoLightYear.plus(oneParsec));
+log.info(twoLightYear + "+" + oneParsec + "=" + twoLightYear.plus(oneParsec));
 ----
 
 Physical numbers themselves are actually only forming a multiplicative group, because they cannot be added without constraints. In this example they can only be added to each other because both values have the same dimensions (both are about distance).
