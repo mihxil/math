@@ -18,7 +18,6 @@ package org.meeuw.test.math.abstractalgebra.linear;
 import jakarta.validation.*;
 import jakarta.validation.executable.ExecutableValidator;
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
 import java.util.*;

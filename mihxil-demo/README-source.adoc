@@ -2,7 +2,6 @@
 = Demo
 :docinfo: private
 :source-highlighter: coderay
-:myleveloffset: 1
 :toc:
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
@@ -13,8 +12,8 @@ These are a running link:https://webassembly.org/[webassembly] demos (using link
 This section is work in progress
 ====
 
-include::DEMO-calculator-source.adoc[leveloffset={myleveloffset}]
+include::DEMO-calculator-source.adoc[leveloffset=+1]
 
-include::DEMO-solver-source.adoc[leveloffset={myleveloffset}]
+include::DEMO-solver-source.adoc[leveloffset=+1]
 
-include::DEMO-datetime-source.adoc[leveloffset={myleveloffset}]
+include::DEMO-datetime-source.adoc[leveloffset=+1]

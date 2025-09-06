@@ -9,6 +9,8 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :source-highlighter: coderay
 :multipage-level: 1
 :docinfo: private
+:myleveloffset: 2
+
 
 :gh: https://github.com/mihxil/math/
 

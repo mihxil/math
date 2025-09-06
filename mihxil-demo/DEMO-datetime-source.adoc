@@ -101,4 +101,4 @@ include::resources/dynamicdate.js[indent=-,tag=dynamicdate]
 ----
 ====
 
-//end::bodye[]
+//end::body[]
