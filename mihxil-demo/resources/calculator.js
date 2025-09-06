@@ -11,13 +11,13 @@ export class CalculatorClass extends BaseClass {
         this.information = null;
     }
 
-    insert(c) {
+    insert(string) {
         const input = this.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const value = input.value;
-        input.value = value.slice(0, start) + c + value.slice(end);
-        input.setSelectionRange(start + 1, start + 1);
+        input.value = value.slice(0, start) + string + value.slice(end);
+        input.setSelectionRange(start + string.length, start + string.length);
         input.focus();
     }
 
@@ -74,6 +74,7 @@ export class CalculatorClass extends BaseClass {
                     examples: await BaseClass.awaitedArray(value.getExamples()),
                     elements: awaitedElements,
                     binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     finite: await value.isFinite(),
                     description: await value.getDescription(),
                     help: await value.getHelp()
@@ -138,20 +139,28 @@ export class CalculatorClass extends BaseClass {
             }
         }
     }
-    async updateOperators() {
-        const fieldInformation =  this.information[this.field.value];
-        const operators = fieldInformation.binaryOperators;
-        const dd = document.querySelector("#calculator_operators");
-        dd.querySelectorAll("dt").forEach(e => {
+    operatorDts(dl, operators) {
+        const list = dl.querySelectorAll("dt");
+        const symbolsInList = Array.from(list).map(e => e.textContent.trim());
+        const unmatchedOperators = operators.filter(op => !symbolsInList.includes(op));
+        unmatchedOperators.forEach(op => {
+            const dt = document.createElement("dt");
+            dt.classList.add('hdlist1');
+            dt.textContent = op;
+            dl.appendChild(dt);
+            const dd = document.createElement("dd");
+            dl.appendChild(dd);
+        });
+        for (const e of dl.querySelectorAll("dt")) {
             const symbol = e.textContent.trim();
             const title = e.nextElementSibling.textContent;
-            if (! e.hasAttribute("original-display")) {
+            if (!e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
                 e.onclick = async e => {
                     this.insert(e.target.textContent);
                 };
             }
-            if (! operators.includes(symbol)) {
+            if (!operators.includes(symbol)) {
                 e.style.display = 'none';
                 e.nextElementSibling.hidden = true;
             } else {
@@ -159,7 +168,15 @@ export class CalculatorClass extends BaseClass {
                 e.style.display = e.getAttribute("original-display");
                 e.nextElementSibling.hidden = false;
             }
-        });
+        }
+    }
+
+    async updateOperators() {
+        const fieldInformation =  this.information[this.field.value];
+        const operators = fieldInformation.binaryOperators;
+        this.operatorDts(document.querySelector("#calculator_operators dl"), operators);
+        const unaryOperators = fieldInformation.unaryOperators;
+        this.operatorDts(document.querySelector("#calculator_unary_operator dl"), unaryOperators);
     }
 
     async onSubmit(Calculator) {
