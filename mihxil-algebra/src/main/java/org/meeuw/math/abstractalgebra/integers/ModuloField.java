@@ -16,9 +16,8 @@
 package org.meeuw.math.abstractalgebra.integers;
 
 import java.util.Map;
+import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 
 import org.meeuw.math.Example;
 import org.meeuw.math.IntegerUtils;
@@ -26,8 +25,10 @@ import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.operators.*;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.validation.Prime;
+
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * The Galois field ℤ/pℤ.
@@ -57,6 +58,17 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         }
     }
 
+    private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        ScalarField.OPERATORS,
+        MODULO_POWER
+    );
+
+
+
+    @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
+    }
 
     @Override
     public ModuloFieldElement element(long v) {
