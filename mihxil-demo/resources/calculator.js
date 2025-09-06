@@ -150,11 +150,28 @@ export class CalculatorClass extends BaseClass {
         const operators = fieldInformation.binaryOperators;
         const dd = document.querySelector("#calculator_operators");
         dd.querySelectorAll("dt").forEach(e => {
-            if (! operators.includes(e.textContent.trim())) {
-                e.hidden = true;
+            const symbol = e.textContent.trim();
+            const title = e.nextElementSibling.textContent;
+            if (! e.hasAttribute("original-display")) {
+                e.setAttribute("original-display", window.getComputedStyle(e).display);
+                e.onclick = async e => {
+                    console.log(e.target.textContent);
+                    const input = this.input;
+                    const start = input.selectionStart;
+                    const end = input.selectionEnd;
+                    const value = input.value;
+                    const insertText = e.target.textContent;
+                    input.value = value.slice(0, start) + insertText + value.slice(end);
+                    input.setSelectionRange(start + insertText.length, start + insertText.length);
+                    input.focus();
+                };
+            }
+            if (! operators.includes(symbol)) {
+                e.style.display = 'none';
                 e.nextElementSibling.hidden = true;
             } else {
-                e.hidden = false;
+                e.title = title;
+                e.style.display = e.getAttribute("original-display");
                 e.nextElementSibling.hidden = false;
             }
         });

@@ -55,7 +55,10 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
         OPERATION,
         MULTIPLICATION,
         ADDITION,
-        INTEGER_POWER);
+        INTEGER_POWER,
+        EUCLIDEAN_DIVISION,
+        EUCLIDEAN_MODULO
+    );
 
     private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(navigableSet(IDENTIFY, SQR), Factoriable.UNARY_OPERATORS);
 

@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.configuration;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
@@ -29,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 
-@Log4j2
+@Log
 class ReflectionUtilsTest {
 
     public static class A {

@@ -22,11 +22,13 @@ import java.util.Random;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
-import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.*;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.abstractalgebra.integers.AbstractIntegers.INTEGER_POWER;
@@ -41,10 +43,15 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     extends AbstractAlgebraicStructure<E>
     implements AbelianRing<E>, Streamable<E>, Randomizable<E> {
 
+    public static AlgebraicBinaryOperator MODULO_POWER = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(ModuloElement.class, "pow"),
+        BasicAlgebraicBinaryOperator.POWER
+    );
+
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         AbelianRing.OPERATORS,
-        INTEGER_POWER
+        MODULO_POWER
     );
 
     @Getter

@@ -1,12 +1,11 @@
 package org.meeuw.math.demo;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
-
-import lombok.extern.java.Log;
 
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
@@ -27,10 +26,6 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  */
 @Log
 public  class Solver<E extends RingElement<E>> {
-    static {
-        Application.setupLogging();
-    }
-
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );

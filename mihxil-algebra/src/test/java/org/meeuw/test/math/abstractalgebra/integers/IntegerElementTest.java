@@ -80,8 +80,8 @@ class IntegerElementTest implements
     @Property
     void eucledianDivision(@ForAll(ELEMENTS) IntegerElement e1, @ForAll(ELEMENTS) IntegerElement e2) {
         Assume.that(!e2.isZero());
-        assertThat(e1.dividedBy(e2).getValue()).isEqualTo(e1.getValue().divide(e2.getValue()));
-        assertThat(e1.dividedBy(e2).times(e2).plus(e1.mod(e2))).isEqualTo(e1);
+        assertThat(e1.dividedByEuclidean(e2).getValue()).isEqualTo(e1.getValue().divide(e2.getValue()));
+        assertThat(e1.dividedByEuclidean(e2).times(e2).plus(e1.mod(e2))).isEqualTo(e1);
     }
 
     @Property

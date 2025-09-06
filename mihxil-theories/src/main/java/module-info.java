@@ -22,7 +22,6 @@ module org.meeuw.math.abstractalgebra.test {
     requires org.meeuw.math;
     requires net.jqwik.api;
     requires org.assertj.core;
-    requires org.apache.logging.log4j;
     requires org.junit.jupiter.api;
     requires org.checkerframework.checker.qual;
     requires org.junit.jupiter.params;

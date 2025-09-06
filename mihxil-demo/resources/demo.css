@@ -83,7 +83,7 @@ form.demo span.element:not(:last-child)::after {
 whether this rendered stand alone or as part of a larger document. */
 div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
   float: right;
-  width: 50%;
+  width: 30%;
   padding-left: 2ex;
   max-height: 300px;
   overflow-y: auto;
@@ -102,8 +102,8 @@ div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table {
 }
 div:is(.sect1, .sect2).tips-aside  .admonitionblock.tip table td,
 div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
-   border: none;
-     padding: 0.5em 0;
+  border: none;
+  padding: 0.5em 0;
 
 }
 
@@ -111,9 +111,30 @@ div.sect1:has(>#demo_calculator)  .admonitionblock.tip table th {
 div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td.icon {
   display:none;
 }
-div:is(.sect1, .sect2).tips-aside  dl dd {
-    margin-top: -2em;
+div:is(.sect1, .sect2).tips-aside  dl {
+  position: relative;
 }
+
+
+div:is(.sect1, .sect2).tips-aside  dl dd {
+  display: none;
+}
+
+div:is(.sect1, .sect2).tips-aside  dl dt {
+  display: inline-block;
+  margin: 0.1em;
+  padding: 0.3em 0.6em;
+  background: #f0f0f0;
+  border: 2px solid #bbb;
+  border-radius: 0.4em;
+  font-size: 1.2em;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  transition: background 0.1s, box-shadow 0.1s;
+}
+
+
 #demo_section .sect1 {
   clear:both;
 

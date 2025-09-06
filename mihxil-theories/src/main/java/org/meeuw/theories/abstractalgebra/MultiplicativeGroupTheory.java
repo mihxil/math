@@ -65,9 +65,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         try {
             assertThat(v1.pow(-1).eq(v1.reciprocal())).isTrue();
         } catch (IllegalPowerException ae) {
-            log().warn("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
+            log().warning("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         } catch (ReciprocalException ae) {
-            log().warn(v1 + superscript(-1) + ": " + ae.getMessage());
+            log().warning(v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
 
@@ -82,9 +82,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E oneDividedBySqr = v1.getStructure().one().dividedBy(v1.times(v1));
             assertThat(powMinus2).usingComparator(eqComparator()).isEqualTo(oneDividedBySqr);
         } catch (IllegalPowerException ae) {
-            log().warn("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
+            log().warning("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
          } catch (ReciprocalException ae) {
-            log().warn(v1 + superscript(-2) + ": " + ae.getMessage());
+            log().warning(v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
 
@@ -97,9 +97,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         try {
             assertThat(v1.pow(-3)).usingComparator(eqComparator()).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
         } catch (IllegalPowerException ae) {
-            log().warn("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
+            log().warning("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         } catch (ReciprocalException ae) {
-            log().warn(v1 + superscript(-3) + ": " + ae.getMessage());
+            log().warning(v1 + superscript(-3) + ": " + ae.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
                     .isTrue();
             } catch (ReciprocalException | IllegalPowerException ae) {
                 // The element may be zero
-                log().warn("{}: {} = zero?", ae.getMessage(), e);
+                log().warning("%s: %s = zero?".formatted( ae.getMessage(), e));
             }
         });
     }

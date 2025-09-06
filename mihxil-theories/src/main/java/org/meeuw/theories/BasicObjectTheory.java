@@ -2,12 +2,12 @@ package org.meeuw.theories;
 
 
 import java.util.*;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -189,7 +189,7 @@ public interface BasicObjectTheory<E> {
     }
 
     default Logger log() {
-        return LogManager.getLogger(this.getClass());
+        return LogManager.getLogManager().getLogger(this.getClass().getName());
     }
     @Deprecated
     default Logger getLogger() {

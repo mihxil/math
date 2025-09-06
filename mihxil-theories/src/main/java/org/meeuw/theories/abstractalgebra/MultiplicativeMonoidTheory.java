@@ -50,7 +50,7 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
                 .usingComparator(AlgebraicElement.eqComparator())
                 .isEqualTo(v1.getStructure().one());
         } catch (DivisionByZeroException ae){
-            log().warn("" + v1 + superscript(0) + ": " + ae.getMessage());
+            log().warning( v1 + superscript(0) + ": " + ae.getMessage());
         }
     }
 

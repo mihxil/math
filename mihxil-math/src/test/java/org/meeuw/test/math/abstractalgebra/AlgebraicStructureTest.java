@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class AlgebraicStructureTest {
     private static class E implements AlgebraicElement<E> {
         @Override

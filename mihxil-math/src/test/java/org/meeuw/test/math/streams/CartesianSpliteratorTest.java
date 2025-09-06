@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.streams;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.io.*;
 import java.util.*;
@@ -33,7 +33,7 @@ import org.meeuw.math.streams.CartesianSpliterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Log4j2
+@Log
 class CartesianSpliteratorTest {
 
     /**
@@ -109,7 +109,7 @@ class CartesianSpliteratorTest {
     @SafeVarargs
     private <E> E[] testAdvance(CartesianSpliterator<? extends E> cartesianSpliterator, E... values) {
         return testAdvance(cartesianSpliterator, i ->
-            log.info("Found {}", cartesianSpliterator.currentAsString()),
+                log.info("Found %s".formatted(cartesianSpliterator.currentAsString())),
             values
         );
     }
@@ -213,7 +213,7 @@ class CartesianSpliteratorTest {
         CartesianSpliterator<Integer> cartesianSpliterator =
             new CartesianSpliterator<>(Integer.class, values::spliterator,  values::spliterator, values::spliterator);
         StreamSupport.stream(cartesianSpliterator, parallel).forEach(e -> {
-            log.info("{} ({})", e, Thread.currentThread().getName());
+            log.info("%s (%s)".formatted( e, Thread.currentThread().getName()));
             size.incrementAndGet();
             }
         );
@@ -231,7 +231,7 @@ class CartesianSpliteratorTest {
         final List<Integer[]> result = new ArrayList<>();
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
         StreamSupport.stream(cartesianSpliterator, false).limit(100).forEach(a -> {
-            log.info("{}", Arrays.asList(a));
+            log.info(Arrays.asList(a).toString());
             result.add(a);
             }
         );
@@ -249,7 +249,7 @@ class CartesianSpliteratorTest {
         final List<Integer[]> result = new CopyOnWriteArrayList<>();
         assertThat(cartesianSpliterator.estimateSize()).isEqualTo(Long.MAX_VALUE);
         StreamSupport.stream(cartesianSpliterator, true).limit(100).forEach(a -> {
-            log.info("{} ({})", Arrays.asList(a), Thread.currentThread().getName());
+            log.info("%s (%s)".formatted(Arrays.asList(a), Thread.currentThread().getName()));
             result.add(a);
             }
         );

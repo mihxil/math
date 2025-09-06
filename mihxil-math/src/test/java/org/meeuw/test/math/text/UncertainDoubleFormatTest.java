@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.math.text;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.text.*;
@@ -41,7 +42,7 @@ import static org.meeuw.math.text.TextUtils.superscript;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class UncertainDoubleFormatTest {
 
     @BeforeAll
@@ -172,7 +173,7 @@ class UncertainDoubleFormatTest {
         ParsePosition parsePosition = new ParsePosition(0);
         DoubleElement doubleElement = formatter.parseObject(toString, parsePosition);
         assertThat(parsePosition.getIndex()).isEqualTo(toString.length());
-        log.info("{} -> {} -> {} -> {}", d, from, toString, doubleElement.toString());
+        log.info("%s -> %s -> %s -> %s".formatted( d, from, toString, doubleElement.toString()));
         assertThat(doubleElement.eq(from)).isTrue();
 
     }

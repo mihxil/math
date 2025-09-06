@@ -47,6 +47,21 @@ public abstract class AbstractIntegers<
         BasicAlgebraicBinaryOperator.POWER
     );
 
+    public static AlgebraicBinaryOperator EUCLIDEAN_DIVISION = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(AbstractIntegerElement.class, "dividedByEuclidean"),
+        "\\",
+        BasicAlgebraicBinaryOperator.DIVISION.precedence(),
+        "EUCLIDEAN_DIVISION"
+    );
+
+    public static AlgebraicBinaryOperator EUCLIDEAN_MODULO = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(AbstractIntegerElement.class, "mod"),
+        "%",
+        BasicAlgebraicBinaryOperator.DIVISION.precedence(),
+        "EUCLIDEAN_MODULO"
+    );
+
+
 
 
     protected AbstractIntegers(Class<E> clazz) {

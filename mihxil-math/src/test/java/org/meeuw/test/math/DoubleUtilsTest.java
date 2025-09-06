@@ -1,5 +1,6 @@
 package org.meeuw.test.math;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
@@ -9,7 +10,7 @@ import org.meeuw.math.DoubleUtils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Log4j2
+@Log
 public class DoubleUtilsTest {
 
 
@@ -43,7 +44,7 @@ public class DoubleUtilsTest {
         for (int i = 0; i < 1000000L; i++) {
             d = DoubleUtils.log10(123456789);
         }
-        log.info("{} : {}", d, System.currentTimeMillis() - start);
+        log.info("%s : %s".formatted(d, System.currentTimeMillis() - start));
         assertThat(DoubleUtils.log10(10d)).isEqualTo(1);
         assertThat(DoubleUtils.log10(20d)).isEqualTo(1);
     }

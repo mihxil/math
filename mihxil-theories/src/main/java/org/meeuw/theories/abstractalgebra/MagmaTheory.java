@@ -46,7 +46,7 @@ public interface MagmaTheory<E extends MagmaElement<E>>
             assertThat(m1.operate(m2)).withFailMessage(
                 String.format(s, "should be")
             ).isEqTo(m2.operate(m1));
-            log().debug(String.format(s, "is"));
+            log().fine(String.format(s, "is"));
         } else {
             String s = OPERATION.stringify(m1, m2) + " %s " +
                 OPERATION.stringify(m2, m1);
@@ -55,7 +55,7 @@ public interface MagmaTheory<E extends MagmaElement<E>>
                 assertThat(e3).withFailMessage(
                     String.format(s, "should not be")
                 ).isNotEqTo(m2.operate(m1));
-                log().debug(String.format(s, "is not "));
+                log().fine(String.format(s, "is not "));
             } catch (AssertionError ae) {
                 log().info(String.format(s, "is (!) ") + " (" + e3 + ")");
                 throw new TestAbortedException(ae.getMessage());

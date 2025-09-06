@@ -413,6 +413,20 @@ public final class IntegerUtils {
        return result;
    }
 
+   public static long modPow(long base, long exponent, long modulus){
+       if (modulus == 1) return 0;
+       long result = 1;
+       base = base % modulus;
+       while (exponent > 0) {
+           if ((exponent & 1) == 1) {
+               result = (result * base) % modulus;
+           }
+           exponent >>= 1;
+           base = (base * base) % modulus;
+       }
+       return result;
+   }
+
     private static synchronized  BigInteger bigIntegerSubfactorial(BigInteger n, Map<BigInteger, BigInteger> answers) {
         if (n.equals(BigInteger.ZERO)) {
             return BigInteger.ONE;

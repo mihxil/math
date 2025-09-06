@@ -1,6 +1,6 @@
 package org.meeuw.test.math;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -13,7 +13,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Log4j2
+@Log
 public class BigDecimalUtilsTest {
 
 

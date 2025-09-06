@@ -42,7 +42,12 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     MultiplicativeAbelianSemiGroup<IntegerElement>,
     Group<IntegerElement> {
 
-    static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION);
+    static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION,
+        INTEGER_POWER,
+        EUCLIDEAN_DIVISION,
+        EUCLIDEAN_MODULO
+    );
 
     static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
         Ring.UNARY_OPERATORS, MultiplicativeMonoid.UNARY_OPERATORS, Group.UNARY_OPERATORS, Factoriable.UNARY_OPERATORS);

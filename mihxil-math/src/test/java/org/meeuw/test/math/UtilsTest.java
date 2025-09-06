@@ -15,12 +15,12 @@
  */
 package org.meeuw.test.math;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class UtilsTest {
 
 

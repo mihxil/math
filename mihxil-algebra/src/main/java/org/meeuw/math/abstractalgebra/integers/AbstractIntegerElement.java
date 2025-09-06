@@ -25,6 +25,7 @@ import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.IntegerUtils;
+import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -79,17 +80,41 @@ public abstract class AbstractIntegerElement<
 
     public E pow(@Positive int exponent) {
         try {
-            return with(value.pow(exponent));
+            return structure.newElement(value.pow(exponent));
         } catch (ArithmeticException ae) {
             throw new IllegalPowerException(ae, BasicAlgebraicIntOperator.POWER.stringify(value.toString(), Integer.toString(exponent)));
         }
     }
+
+    /**
+     * Euclidean division of integers.
+     * @param divisor integer divisor
+     * @return this / divisor
+     */
+    public E dividedByEuclidean(E divisor) {
+        return with(value.divide(divisor.value));
+    }
+
+    /**
+     * The remainder of Euclidean division of integers.
+     * @param divisor integer divisor
+     * @return this % divisor
+     */
+    public E mod(E divisor) {
+        return with(value.remainder(divisor.value));
+    }
+
+    @NonAlgebraic
+    public RationalNumber dividedBy(E divisor) {
+        return RationalNumber.of(value, divisor.value);
+    }
+
     public E pow(E exponent) {
-        return with(IntegerUtils.pow(value, exponent.value));
+        return structure.newElement(IntegerUtils.pow(value, exponent.value));
     }
 
     public E tetration(int height) {
-        return with(_tetration(value, height));
+        return structure.newElement(_tetration(value, height));
     }
 
     static protected BigInteger _tetration(BigInteger v, int height) {

@@ -18,12 +18,15 @@ package org.meeuw.math.abstractalgebra.integers;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+
 import org.meeuw.math.Example;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.operators.*;
 import org.meeuw.math.validation.Prime;
 
 /**
@@ -34,6 +37,9 @@ import org.meeuw.math.validation.Prime;
 @Example(value = Field.class, string = "ℤ/pℤ")
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
     implements ScalarField<ModuloFieldElement> {
+
+
+
 
     private static final Map<Long, ModuloField> INSTANCES = new ConcurrentHashMap<>();
 

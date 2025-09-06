@@ -1,5 +1,6 @@
 package org.meeuw.test.math;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import static java.lang.Byte.toUnsignedInt;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.DigitUtils.fromInverseDigitsInBase;
 
-@Log4j2
+@Log
 public class DigitUtilsTest {
 
 

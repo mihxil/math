@@ -1,5 +1,6 @@
 package org.meeuw.test.math;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.math.*;
@@ -17,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.IntegerUtils.MINUS_ONE;
 
-@Log4j2
+@Log
 class IntegerUtilsTest {
 
 
@@ -143,13 +144,13 @@ class IntegerUtilsTest {
 
         assertThat(IntegerUtils.primeFactorization(random)
             .reduce(1L, (l1, l2) -> {
-                if (builder.length() > 0 ) {
+                if (!builder.isEmpty()) {
                     builder.append(" " + TextUtils.TIMES + " ");
                 }
                 builder.append(l2);
                 return l1 * l2;
             })).isEqualTo(random);
-        log.info("{} = {} ({} {})", random, builder.toString(), IntegerUtils.isPrime((int) random), IntegerUtils.isPrimePower(random));
+        log.info("%s = %s (%s %s)".formatted(random, builder.toString(), IntegerUtils.isPrime((int) random), IntegerUtils.isPrimePower(random)));
     }
 
 
@@ -181,14 +182,14 @@ class IntegerUtilsTest {
                BigInteger.valueOf(9223372036854775806L - i).sqrt().longValueExact();
            }
 
-           log.info("Time for 1 million floorSqrt calls: {} ms", System.currentTimeMillis() - start);
+           log.info("Time for 1 million floorSqrt calls: %s ms".formatted(System.currentTimeMillis() - start));
        }
        {
            long start = System.currentTimeMillis();
            for (int i = 0; i < 10000000; i++) {
                IntegerUtils.floorSqrt(9223372036854775806L - i);
            }
-           log.info("Time for 1 million floorSqrt calls (using IntegerUtils): {} ms", System.currentTimeMillis() - start);
+           log.info("Time for 1 million floorSqrt calls (using IntegerUtils): %s ms".formatted( System.currentTimeMillis() - start));
        }
 
 
@@ -233,7 +234,7 @@ class IntegerUtilsTest {
         for (int i = 0; i < 1000000L; i++) {
             d = IntegerUtils.log10(123456789);
         }
-        log.info("{} : {}", d, System.currentTimeMillis() - start);
+        log.info("%s : %s".formatted(d, System.currentTimeMillis() - start));
         assertThat(IntegerUtils.log10(10)).isEqualTo(1);
         assertThat(IntegerUtils.log10(100)).isEqualTo(2);
         assertThat(IntegerUtils.log10(20)).isEqualTo(1);

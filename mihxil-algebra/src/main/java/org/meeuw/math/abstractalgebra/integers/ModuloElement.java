@@ -20,6 +20,8 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+import static org.meeuw.math.IntegerUtils.modPow;
+
 import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 /**
@@ -61,6 +63,10 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
     @Override
     public E negation() {
         return structure.element(-1 * value );
+    }
+
+    public E pow(E exponent) {
+        return structure.element(modPow(value, exponent.value, structure.divisor));
     }
 
     @Override

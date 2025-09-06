@@ -16,7 +16,7 @@
 package org.meeuw.test.math.streams;
 
 import lombok.Data;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class StreamUtilsTest {
 
     @Data
@@ -133,7 +133,7 @@ class StreamUtilsTest {
         synchronized (this) {
             while (! needed.isEmpty()) {
                 this.wait();
-                log.info("{}", needed);
+                log.info("" + needed);
             }
         }
         customThreadPool.shutdownNow();
@@ -246,7 +246,7 @@ class StreamUtilsTest {
         );
 
         cartesianStream.limit(20).forEach(ia ->
-            log.info(Arrays.asList(ia))
+            log.info(Arrays.asList(ia).toString())
         );
     }
 

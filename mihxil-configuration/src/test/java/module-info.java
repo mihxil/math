@@ -13,7 +13,7 @@ module org.meeuw.test.configuration {
     requires transitive org.junit.jupiter.engine;
     requires transitive net.jqwik.api;
     requires transitive org.assertj.core;
-    requires transitive org.apache.logging.log4j;
+
     requires static lombok;
     requires java.logging;
     requires java.prefs;

@@ -21,7 +21,6 @@ import org.checkerframework.checker.index.qual.NonNegative;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.numbers.Scalar;
 
@@ -83,8 +82,7 @@ public class Square
     public IntegerElement minus(Square summand)  {
         return new IntegerElement(value.subtract(summand.value));
     }
-    public RationalNumber dividedBy(Square divisor) {
-        return RationalNumber.of(value, divisor.value);
-    }
+
+
 
 }

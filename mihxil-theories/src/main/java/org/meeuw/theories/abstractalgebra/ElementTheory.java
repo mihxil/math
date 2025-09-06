@@ -20,8 +20,6 @@ import net.jqwik.api.lifecycle.BeforeProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.assertj.core.api.Assertions;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.meeuw.theories.BasicObjectTheory;
 import org.meeuw.theories.ValidObjectTheory;
 

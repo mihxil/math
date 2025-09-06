@@ -17,7 +17,7 @@ export class BaseClass {
     }
 
 
-    static async getCheerpj() {
+    static async getCheerpj(level = 'INFO') {
         if (BaseClass.cjInit === null) {
             BaseClass.cjInit = "locked";
             const properties = [
@@ -47,6 +47,7 @@ export class BaseClass {
     static async loadClassesForForm(className, classNames) {
         const cjj = await BaseClass.getCheerpj();
 
+        await (await cjj['org.meeuw.math.demo.DemoUtils']).setupLogging('FINE');
         console.log(cjj, "setting up", className, classNames);
         for (const c of classNames) {
             await cjj[c]

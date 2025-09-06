@@ -5,18 +5,22 @@
 
 [TIP]
 ====
-Expressions can be typed using the following operators:
-
 [#calculator_operators]
 +:: for addition
 -:: for subtraction
-⋅:: for multiplication (can be typed by '*')
+⋅:: for multiplication
 /:: for division
-*:: for the default 'group operation' (type ';'), for many groups this is the same as multiplication
+\:: for euclidean division
+%:: for modulo division
+*:: for the default 'group operation'
+^:: for exponentiation
 
-Furthermore, constants of the field are recognized. Like 'pi' or 'i'.
+[#calculator_unary_operator]
+-:: negation
 
-Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i". If they are simple strings like 'r3' they can also be matched as a constant of the field.
+[#calculator_special]
+( ):: brackets
+"":: quotes
 
 ====
 

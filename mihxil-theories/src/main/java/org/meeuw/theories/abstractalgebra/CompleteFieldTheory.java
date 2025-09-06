@@ -64,7 +64,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             log().info(overflowException.getMessage());
         } catch (IllegalLogarithmException illegalLogException){
             Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
-            log().warn(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
+            log().warning(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
 
 
             assertThat(nonalgebraicOptional)

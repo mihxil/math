@@ -2,11 +2,7 @@ package org.meeuw.math.demo;
 
 import lombok.extern.java.Log;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
@@ -23,17 +19,6 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 @Log
 public class Application {
-
-    public static void setupLogging() {
-      // must set before the Logger
-      // loads logging.properties from the classpath
-          try (InputStream is = Application.class.getClassLoader().
-              getResourceAsStream("logging.properties")) {
-              LogManager.getLogManager().readConfiguration(is);
-          } catch (IOException e) {
-              log.log(Level.WARNING, e.getMessage(), e);
-          }
-      }
 
 
 

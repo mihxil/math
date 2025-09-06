@@ -99,23 +99,7 @@ public class IntegerElement
         return with(value.multiply(value));
     }
 
-    /**
-     * Euclidean division of integers.
-     * @param divisor integer divisor
-     * @return this / divisor
-     */
-    public IntegerElement dividedBy(IntegerElement divisor) {
-        return with(value.divide(divisor.value));
-    }
 
-    /**
-     * The remainder of Euclidean division of integers.
-     * @param divisor integer divisor
-     * @return this % divisor
-     */
-    public IntegerElement mod(IntegerElement divisor) {
-        return with(value.remainder(divisor.value));
-    }
 
     @Override
     public IntegerElement negation() {

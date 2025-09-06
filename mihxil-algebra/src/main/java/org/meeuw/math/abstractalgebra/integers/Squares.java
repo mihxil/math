@@ -21,13 +21,17 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.*;
+
+import static org.meeuw.math.CollectionUtils.navigableSet;
+
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
-import org.meeuw.math.operators.BasicFunction;
-import org.meeuw.math.operators.GenericFunction;
+import org.meeuw.math.operators.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
+import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 /**
@@ -46,10 +50,21 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
      */
     public static final Squares INSTANCE = new Squares();
 
-    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(MultiplicativeMonoid.FUNCTIONS, BasicFunction.ABS);
+    static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        MultiplicativeSemiGroup.OPERATORS,
+        INTEGER_POWER
+    );
+
+    static NavigableSet<GenericFunction> FUNCTIONS = CollectionUtils.navigableSet(
+        MultiplicativeMonoid.FUNCTIONS, BasicFunction.ABS);
 
     private Squares() {
         super(Square.class);
+    }
+
+     @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
     }
 
     @Override
