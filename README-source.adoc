@@ -20,7 +20,7 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 
 ifndef::htmled[]
-See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a working demo.
+See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. Also, this will include a link:https://mihxil.github.io/math/[working demo] (using webassembly).
 endif::[]
 
 include::QUICKSTART-source.adoc[leveloffset=1]
