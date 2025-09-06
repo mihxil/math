@@ -1996,13 +1996,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.information = <span class="predefined-constant">null</span>;
     }
 
-    insert(c) {
+    insert(string) {
         const input = <span class="local-variable">this</span>.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const value = input.value;
-        input.value = value.slice(<span class="integer">0</span>, start) + c + value.slice(end);
-        input.setSelectionRange(start + <span class="integer">1</span>, start + <span class="integer">1</span>);
+        input.value = value.slice(<span class="integer">0</span>, start) + string + value.slice(end);
+        input.setSelectionRange(start + string.length, start + string.length);
         input.focus();
     }
 
@@ -2059,6 +2059,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                     <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
                     <span class="key">elements</span>: awaitedElements,
                     <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     <span class="key">finite</span>: await value.isFinite(),
                     <span class="key">description</span>: await value.getDescription(),
                     <span class="key">help</span>: await value.getHelp()
@@ -2123,20 +2124,28 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             }
         }
     }
-    async updateOperators() {
-        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
-        const operators = fieldInformation.binaryOperators;
-        const dd = document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_operators</span><span class="delimiter">&quot;</span></span>);
-        dd.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>).forEach(e =&gt; {
+    operatorDts(dl, operators) {
+        const list = dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
+        const symbolsInList = Array.from(list).map(e =&gt; e.textContent.trim());
+        const unmatchedOperators = operators.filter(op =&gt; !symbolsInList.includes(op));
+        unmatchedOperators.forEach(op =&gt; {
+            const dt = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
+            dt.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">hdlist1</span><span class="delimiter">'</span></span>);
+            dt.textContent = op;
+            dl.appendChild(dt);
+            const dd = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dd</span><span class="delimiter">&quot;</span></span>);
+            dl.appendChild(dd);
+        });
+        <span class="keyword">for</span> (const e of dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>)) {
             const symbol = e.textContent.trim();
             const title = e.nextElementSibling.textContent;
-            <span class="keyword">if</span> (! e.hasAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="keyword">if</span> (!e.hasAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>)) {
                 e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>, window.getComputedStyle(e).display);
                 e.onclick = async e =&gt; {
                     <span class="local-variable">this</span>.insert(e.target.textContent);
                 };
             }
-            <span class="keyword">if</span> (! operators.includes(symbol)) {
+            <span class="keyword">if</span> (!operators.includes(symbol)) {
                 e.style.display = <span class="string"><span class="delimiter">'</span><span class="content">none</span><span class="delimiter">'</span></span>;
                 e.nextElementSibling.hidden = <span class="predefined-constant">true</span>;
             } <span class="keyword">else</span> {
@@ -2144,7 +2153,15 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 e.style.display = e.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>);
                 e.nextElementSibling.hidden = <span class="predefined-constant">false</span>;
             }
-        });
+        }
+    }
+
+    async updateOperators() {
+        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+        const operators = fieldInformation.binaryOperators;
+        <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_operators dl</span><span class="delimiter">&quot;</span></span>), operators);
+        const unaryOperators = fieldInformation.unaryOperators;
+        <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_unary_operator dl</span><span class="delimiter">&quot;</span></span>), unaryOperators);
     }
 
     async onSubmit(Calculator) {
