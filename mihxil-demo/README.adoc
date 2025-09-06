@@ -22,18 +22,22 @@ This section is work in progress
 
 [TIP]
 ====
-Expressions can be typed using the following operators:
-
 [#calculator_operators]
 +:: for addition
 -:: for subtraction
-⋅:: for multiplication (can be typed by '*')
+⋅:: for multiplication
 /:: for division
-*:: for the default 'group operation' (type ';'), for many groups this is the same as multiplication
+\:: for euclidean division
+%:: for modulo division
+*:: for the default 'group operation'
+^:: for exponentiation
 
-Furthermore, constants of the field are recognized. Like 'pi' or 'i'.
+[#calculator_unary_operator]
+-:: negation
 
-Elements of the field are simply recognized if they are numeric, otherwise they may be quoted. E.g. an element of the complex field may be given as "3+4i". If they are simple strings like 'r3' they can also be matched as a constant of the field.
+[#calculator_special]
+( ):: brackets
+"":: quotes
 
 ====
 
@@ -64,7 +68,7 @@ This is the source code for the above.
 @Getter
 public  enum FieldInformation {
     rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
-    real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
+    real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "sqr(𝜑) - 𝜑"),
     bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
     gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
     complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(-i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
@@ -73,8 +77,13 @@ public  enum FieldInformation {
         "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
     quaternions_bigdecimal(Quaternions.of(BigDecimalField.INSTANCE),
         "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
+    integers(Integers.INSTANCE, "4 ⋅ 7", "9 - 3"),
     modulo10(ModuloRing.of(10), "4 ⋅ 7", "9 - 3"),
     modulo13(ModuloField.of(13), "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
+    natural(NaturalNumbers.INSTANCE, "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
+    even(EvenIntegers.INSTANCE, "10 ⋅ 8", "10 - 4"),
+    squares(Squares.INSTANCE, "2 ⋅ 9"),
+
     klein(KleinGroup.INSTANCE,
         "a * b * c * e",
         "a * b"
@@ -94,6 +103,8 @@ public  enum FieldInformation {
     private final String[] examples;
     private final String[] elements;
     private final String[] binaryOperators;
+    private final String[] unaryOperators;
+
     private final boolean finite;
 
     FieldInformation(Magma<?> field, String... examples) {
@@ -106,8 +117,14 @@ public  enum FieldInformation {
             .map(AlgebraicBinaryOperator::getSymbol)
             .toArray(String[]::new);
 
-        log.info("Created %s, operators: %s, examples: %s, elements: %s".formatted(field,
+        this.unaryOperators = field.getSupportedUnaryOperators()
+            .stream()
+            .map(AlgebraicUnaryOperator::getSymbol)
+            .toArray(String[]::new);
+
+        log.fine("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
             List.of(binaryOperators),
+            List.of(unaryOperators),
             List.of(examples), List.of(elements)));
     }
 
@@ -139,12 +156,12 @@ public static String eval(final String expression, final String field) {
     )) {
         var f = FieldInformation.valueOf(field).getField();
 
-        log.info(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
+        log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
         if (f.getSupportedOperators().isEmpty()) {
             log.log(Level.SEVERE,  "Supported operators is empty for " + f);
         }
         var parsedExpression = AST.parse(expression, f);
-        log.info(() -> "Parsed expression: %s".formatted( parsedExpression));
+        log.fine(() -> "Parsed expression: %s".formatted( parsedExpression));
         var result = parsedExpression.eval();
         var resultAsString = result.toString();
         log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
@@ -171,13 +188,14 @@ This is the source code for the above.
         this.information = null;
     }
 
-    insert(c) {
+    insert(string) {
         const input = this.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const value = input.value;
-        input.value = value.slice(0, start) + c + value.slice(end);
-        input.setSelectionRange(start + 1, start + 1);
+        input.value = value.slice(0, start) + string + value.slice(end);
+        input.setSelectionRange(start + string.length, start + string.length);
+        input.focus();
     }
 
     async setupForm() {
@@ -224,15 +242,7 @@ This is the source code for the above.
                         span.classList.add('element');
                         span.textContent = await elements[j];
                         span.onclick = async e => {
-                            console.log(e.target.textContent);
-                            const input = this.input;
-                            const start = input.selectionStart;
-                            const end = input.selectionEnd;
-                            const value = input.value;
-                            const insertText = e.target.textContent;
-                            input.value = value.slice(0, start) + insertText + value.slice(end);
-                            input.setSelectionRange(start + insertText.length, start + insertText.length);
-                            input.focus();
+                            this.insert(e.target.textContent);
                         };
                         awaitedElements[j] = span;
                     }
@@ -241,6 +251,7 @@ This is the source code for the above.
                     examples: await BaseClass.awaitedArray(value.getExamples()),
                     elements: awaitedElements,
                     binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                    unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     finite: await value.isFinite(),
                     description: await value.getDescription(),
                     help: await value.getHelp()
@@ -305,19 +316,44 @@ This is the source code for the above.
             }
         }
     }
+    operatorDts(dl, operators) {
+        const list = dl.querySelectorAll("dt");
+        const symbolsInList = Array.from(list).map(e => e.textContent.trim());
+        const unmatchedOperators = operators.filter(op => !symbolsInList.includes(op));
+        unmatchedOperators.forEach(op => {
+            const dt = document.createElement("dt");
+            dt.classList.add('hdlist1');
+            dt.textContent = op;
+            dl.appendChild(dt);
+            const dd = document.createElement("dd");
+            dl.appendChild(dd);
+        });
+        for (const e of dl.querySelectorAll("dt")) {
+            const symbol = e.textContent.trim();
+            const title = e.nextElementSibling.textContent;
+            if (!e.hasAttribute("original-display")) {
+                e.setAttribute("original-display", window.getComputedStyle(e).display);
+                e.onclick = async e => {
+                    this.insert(e.target.textContent);
+                };
+            }
+            if (!operators.includes(symbol)) {
+                e.style.display = 'none';
+                e.nextElementSibling.hidden = true;
+            } else {
+                e.title = title;
+                e.style.display = e.getAttribute("original-display");
+                e.nextElementSibling.hidden = false;
+            }
+        }
+    }
+
     async updateOperators() {
         const fieldInformation =  this.information[this.field.value];
         const operators = fieldInformation.binaryOperators;
-        const dd = document.querySelector("#calculator_operators");
-        dd.querySelectorAll("dt").forEach(e => {
-            if (! operators.includes(e.textContent.trim())) {
-                e.hidden = true;
-                e.nextElementSibling.hidden = true;
-            } else {
-                e.hidden = false;
-                e.nextElementSibling.hidden = false;
-            }
-        });
+        this.operatorDts(document.querySelector("#calculator_operators dl"), operators);
+        const unaryOperators = fieldInformation.unaryOperators;
+        this.operatorDts(document.querySelector("#calculator_unary_operator dl"), unaryOperators);
     }
 
     async onSubmit(Calculator) {
@@ -402,12 +438,11 @@ This is the source code for the above.
 package org.meeuw.math.demo;
 
 import lombok.Getter;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
-
-import lombok.extern.java.Log;
 
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
@@ -428,10 +463,6 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  */
 @Log
 public  class Solver<E extends RingElement<E>> {
-    static {
-        Application.setupLogging();
-    }
-
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
         ADDITION, SUBTRACTION, MULTIPLICATION, DIVISION
     );
