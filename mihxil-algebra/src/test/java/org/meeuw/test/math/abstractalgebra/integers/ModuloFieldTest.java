@@ -15,10 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.integers;
 
-import java.util.Optional;
-
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
 

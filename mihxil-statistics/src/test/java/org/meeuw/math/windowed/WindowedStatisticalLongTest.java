@@ -16,7 +16,6 @@
 package org.meeuw.math.windowed;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.time.*;
 import java.util.ArrayList;

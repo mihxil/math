@@ -17,7 +17,6 @@ package org.meeuw.test.math.abstractalgebra;
 
 import lombok.With;
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
 import java.lang.reflect.*;

@@ -16,7 +16,6 @@
 package org.meeuw.test.configuration;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

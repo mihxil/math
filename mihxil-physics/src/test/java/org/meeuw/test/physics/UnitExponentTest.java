@@ -16,7 +16,6 @@
 package org.meeuw.test.physics;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.*;
 import net.jqwik.api.arbitraries.IntegerArbitrary;

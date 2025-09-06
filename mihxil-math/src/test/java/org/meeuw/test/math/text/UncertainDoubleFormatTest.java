@@ -16,7 +16,6 @@
 package org.meeuw.test.math.text;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.text.*;
 import java.util.Locale;

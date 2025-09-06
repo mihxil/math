@@ -16,7 +16,6 @@
 package org.meeuw.test.math.abstractalgebra.complex;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;

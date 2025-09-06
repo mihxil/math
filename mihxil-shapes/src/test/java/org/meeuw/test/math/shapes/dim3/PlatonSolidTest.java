@@ -1,7 +1,6 @@
 package org.meeuw.test.math.shapes.dim3;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;

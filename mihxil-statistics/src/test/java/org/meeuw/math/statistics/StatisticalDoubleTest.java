@@ -16,7 +16,6 @@
 package org.meeuw.math.statistics;
 
 import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
 
