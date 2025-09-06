@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-@Log4j2
+@Log
 class BigComplexNumberTest implements
     CompleteFieldTheory<BigComplexNumber>,
     MetricSpaceTheory<BigComplexNumber, BigDecimalElement>,
@@ -59,7 +59,7 @@ class BigComplexNumberTest implements
     public void sqrt() {
         BigComplexNumber a = BigComplexNumber.of("0.93 - 0.24i");
         BigComplexNumber s = a.sqrt();
-        log.info("{} = {}", SQRT.stringify(a), s);
+        log.info(SQRT.stringify(a) +  "=" + s);
         assertThat(s).isEqualTo(
             BigComplexNumber.of("0.9722316173666970657425912469437875253699116940133041752687870355356957277102731598795197032865742360 - 0.1234273786785721682678705937060281380123926735849942471609379264448153198764290187034913427341540813i")
         );

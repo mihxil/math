@@ -4,7 +4,7 @@ module org.meeuw.time.test {
     requires transitive org.junit.jupiter.engine;
     requires transitive net.jqwik.api;
     requires transitive org.assertj.core;
-    requires transitive org.apache.logging.log4j;
+    requires transitive java.logging;
 
     requires transitive  org.meeuw.time;
     requires org.meeuw.functional;

@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
@@ -29,14 +30,14 @@ import static org.meeuw.physics.PhysicalConstant.*;
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class PhysicalConstantTest {
 
     @Test
     public void NA() {
         assertThat(NA.toString()).isEqualTo("6.02214076·10²³ mol⁻¹");
         assertThat(NA.getName()).isEqualTo("Avogadro's number");
-        log.info("{}={}", NA.getSymbol(), NA.toString());
+        log.info("%s=%s".formatted(NA.getSymbol(), NA.toString()));
     }
 
     @Test
@@ -48,13 +49,13 @@ class PhysicalConstantTest {
     public void h() {
         assertThat(h.toString()).isEqualTo("6.62607015·10⁻³⁴ J·s");
         assertThat(hbar.toString()).isEqualTo("1.05457181764616·10⁻³⁴ J·s");
-        log.info("{}={}", hbar.getSymbol(), hbar.toString());
+        log.info(hbar.getSymbol() + "=" + hbar);
     }
 
     @Test
     public void G() {
         assertThat(G.toString()).isEqualTo("(6.67430 ± 0.00015)·10⁻¹¹ m³·kg⁻¹·s⁻²");
-        log.info("{}={}", G.getSymbol(), G.toString());
+        log.info(G.getSymbol() + "+" + G);
 
         ConfigurationService.withAspect(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
             () -> assertThat(G.toString()).isEqualTo("6.67430(15)·10⁻¹¹ m³·kg⁻¹·s⁻²")

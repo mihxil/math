@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.*;
@@ -27,7 +28,7 @@ import org.meeuw.theories.ComparableTheory;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Log4j2
+@Log
 class UnitExponentTest implements ComparableTheory<UnitExponent> {
 
     @Override

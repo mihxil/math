@@ -16,6 +16,7 @@
 package org.meeuw.test.math.abstractalgebra;
 
 import lombok.With;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.*;
@@ -44,7 +45,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  * converted to the SVG in the documentation
  */
 @SuppressWarnings({"TextBlockMigration", "unchecked"})
-@Log4j2
+@Log
 public class DocumentationTest {
     final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
 
@@ -92,7 +93,7 @@ public class DocumentationTest {
                     try {
                         writeInterface(writer, c);
                     } catch (Throwable e) {
-                        log.error(e.getMessage());
+                        log.severe(e.getMessage());
                     }
                 }
                 //log.info("{}", c);
@@ -120,7 +121,7 @@ public class DocumentationTest {
                     return null;
                 }
             });
-        log.debug("Proxying {}: {}", interfac, c);
+        log.fine("Proxying %s: %s".formatted(interfac, c));
         return c;
 
     }
@@ -144,7 +145,7 @@ public class DocumentationTest {
                         try {
                             return (C) f.get(null);
                         } catch (IllegalAccessException e) {
-                            log.error(e.getMessage());
+                            log.severe(e.getMessage());
                             return null;
                         }
                     })
@@ -217,10 +218,10 @@ public class DocumentationTest {
     protected <C extends AlgebraicStructure<?>> String toString(Class<C> structureClass) {
         StringBuilder build = new StringBuilder();
         Example a = structureClass.getAnnotation(Example.class);
-        if (a != null && ! a.prefix().equals("")) {
+        if (a != null && !a.prefix().isEmpty()) {
             build.append(a.prefix());
         }
-        if (a != null && ! a.string().equals("")) {
+        if (a != null && !a.string().isEmpty()) {
             build.append(a.string());
         } else {
             build.append(structureClass.getSimpleName());
@@ -235,7 +236,7 @@ public class DocumentationTest {
         } catch (NoSuchFieldException ignored) {
 
         } catch (IllegalAccessException e) {
-            log.error(e.getMessage());
+            log.severe("" + e.getMessage());
         }
         return build.toString();
     }
@@ -359,7 +360,7 @@ public class DocumentationTest {
              if (m.getParameterTypes().length == 0) {
                  if (AlgebraicElement.class.isAssignableFrom(m.getReturnType()) && ! AlgebraicStructure.class.isAssignableFrom(m.getReturnType())) {
                      String name = specialSpecials.getOrDefault(m.getName(), m.getName());
-                     if (name.length() > 0) {
+                     if (!name.isEmpty()) {
                          if (!builder.contains(name)) {
                              builder.add(name);
                          }
@@ -379,7 +380,7 @@ public class DocumentationTest {
 
     protected  int writeOperators(final PrintWriter writer, List<OperatorCell> ops)  {
 
-        if (ops.size() > 0) {
+        if (!ops.isEmpty()) {
             writer.print("<tr>");
             for (OperatorCell o : ops) {
                 writer.print("<td");
@@ -490,17 +491,17 @@ public class DocumentationTest {
                             }
 
                             Method method = elementClass.getDeclaredMethod(superMethod.getName(), elementClass);
-                            log.debug("super: {}.{} -> sub {}.{}", superElementClass.getSimpleName(), superMethod.getName(), elementClass, method.getName());
+                            log.fine("super: %s.%s -> sub %s.%s".formatted(superElementClass.getSimpleName(), superMethod.getName(), elementClass, method.getName()));
                             if (method.getAnnotation(NonAlgebraic.class) != null) {
                                 pseudo = true;
-                                log.info("**** {}.{} is non algebraic -> {} (from {})", elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName());
+                                log.info("**** %s.%s is non algebraic -> %s (from %s)".formatted(elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName()));
                             } else if (method.getExceptionTypes().length  > 0) {
                                 pseudo = true;
-                                log.info("*** {}.{} has exception, and hence cannot be algebraic -> {} (from {})", elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName());
+                                log.info("*** %s.%s has exception, and hence cannot be algebraic -> %s (from %s)".formatted(elementClass.getSimpleName(), method.getName(), elementClass, superElementClass.getSimpleName()));
                             }
 
                         } catch (NoSuchMethodException e) {
-                            log.debug(e.getMessage());
+                            log.fine(e.getMessage());
                         }
                     }
                     supers.add(new Super(superInterface.getSimpleName(), pseudo));

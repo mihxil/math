@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.permutations;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,7 +39,7 @@ import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @Test

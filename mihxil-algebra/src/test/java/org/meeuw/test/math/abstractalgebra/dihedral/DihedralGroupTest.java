@@ -1,6 +1,6 @@
 package org.meeuw.test.math.abstractalgebra.dihedral;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-@Log4j2
+@Log
 public class DihedralGroupTest { // GroupTest is done in subclasses
 
     @Test
@@ -30,7 +30,7 @@ public class DihedralGroupTest { // GroupTest is done in subclasses
     public void s() {
         DihedralSymmetry s1 = DihedralSymmetry.s(1, 4);
         Vector2 v2 = s1.apply(Vector2.of(0.1, 1));
-        log.info("{}", v2);
+        log.info("" + v2);
         assertThat(v2.toString()).isEqualTo("(1, 0.1)");
 
     }

@@ -17,6 +17,7 @@ package org.meeuw.test.math.abstractalgebra.linear;
 
 import jakarta.validation.*;
 import jakarta.validation.executable.ExecutableValidator;
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.lang.reflect.Method;
@@ -38,7 +39,7 @@ import org.meeuw.math.exceptions.NotASquareException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Log4j2
+@Log
 public class SpecialLinearGroupTest {
 
     @Test
@@ -47,7 +48,7 @@ public class SpecialLinearGroupTest {
             IntegerElement.of(1), IntegerElement.of(2),
             IntegerElement.of(0), IntegerElement.of(-1)
         );
-        log.info("{}", e);
+        log.info("" + e);
         assertThat(e.getStructure().getDimension()).isEqualTo(2);
 
         IntegerElement det = e.determinant();
@@ -94,9 +95,9 @@ public class SpecialLinearGroupTest {
         e.stream().limit(limit).forEach(m -> {
             IntegerElement det = m.determinant();
             if (collect.size() % 1000 == 0) {
-                log.info("det({})={}", m, det);
+                log.info("det(%s)=%s".formatted( m, det));
             } else {
-                log.debug("det({})={}", m, det);
+                log.fine("det(%s)=%s".formatted( m, det));
             }
 
             assertThat(m.determinant().abs()).isIn(IntegerElement.ONE);
@@ -125,7 +126,7 @@ public class SpecialLinearGroupTest {
             Set<ConstraintViolation<SpecialLinearGroup<IntegerElement>>> violations
                 = executableValidator.validateParameters(
                 SpecialLinearGroup.SL_N, method, parameterValues);
-            log.info("{}", violations);
+            log.info(violations.toString());
             assertThat(violations).hasSize(1);
         }
     }
@@ -135,7 +136,7 @@ public class SpecialLinearGroupTest {
 
         @Property
         public void determinant(@ForAll(ELEMENTS) SpecialLinearMatrix<IntegerElement> matrix) {
-            log.info("det({}) = {}", matrix, matrix.determinant());
+            log.info("det(%s) = %s".formatted(matrix, matrix.determinant()));
             assertThat(matrix.determinant()).isIn(IntegerElement.ONE, IntegerElement.ONE.negation());
 
         }

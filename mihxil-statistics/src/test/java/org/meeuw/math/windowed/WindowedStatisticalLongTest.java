@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.time.*;
@@ -37,7 +38,7 @@ import static org.meeuw.math.windowed.Windowed.Event.WINDOW_COMPLETED;
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class WindowedStatisticalLongTest {
 
     @Test
@@ -46,7 +47,7 @@ class WindowedStatisticalLongTest {
         final List<Event> events = new ArrayList<>();
         BiConsumer<Event, Windowed<StatisticalLong>> listener = (e, l) -> {
             if (e == WINDOW_COMPLETED) {
-                log.info("Event on: {} {}", e, l);
+                log.info("Event on: " + e + l);
                 synchronized (events) {
                     events.add(e);
                     events.notifyAll();
@@ -95,21 +96,22 @@ class WindowedStatisticalLongTest {
         final int bucketDuration = 10; // ms
         TestClock clock = new TestClock();
 
-        WindowedStatisticalLong impl = WindowedStatisticalLong
+        try (WindowedStatisticalLong impl = WindowedStatisticalLong
             .builder()
             .bucketCount(bucketCount)
             .bucketDuration(Duration.ofMillis(bucketDuration))
             .clock(clock)
-            .build();
+            .build()) {
 
 
-        impl.accept(100L);
-        clock.sleep(1);
+            impl.accept(100L);
+            clock.sleep(1);
 
-        impl.accept(101L, 150L);
+            impl.accept(101L, 150L);
 
-        assertThat(impl.getWindowValue().getCount()).isEqualTo(3);
-        log.info(() -> "toString: " + impl.getWindowValue().toString());
+            assertThat(impl.getWindowValue().getCount()).isEqualTo(3);
+            log.info(() -> "toString: " + impl.getWindowValue().toString());
+        }
     }
 
     @Test

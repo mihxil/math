@@ -17,6 +17,7 @@ package org.meeuw.test.math.abstractalgebra.integers;
 
 import java.util.Optional;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
@@ -41,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
 
     @Test
@@ -70,7 +71,7 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
     public void nextRandom() {
         ModuloField modulo23 = ModuloField.of(23);
         ModuloFieldElement moduloFieldElement = modulo23.nextRandom(new Random());
-        log.info(moduloFieldElement);
+        log.info(moduloFieldElement.toString());
         assertThat(moduloFieldElement.getStructure()).isEqualTo(modulo23);
     }
 
@@ -141,7 +142,7 @@ class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
             var ten = structure.element(11);
             var big = 100_00_000_001L;
             var pow100million = ten.pow(big);
-            log.info("{}={}", BasicAlgebraicIntOperator.POWER.stringify(ten.toString(),  Long.toString(big)) , pow100million);
+            log.info(BasicAlgebraicIntOperator.POWER.stringify(ten.toString(),  Long.toString(big)) + "=" + pow100million);
 
         }
         @Test

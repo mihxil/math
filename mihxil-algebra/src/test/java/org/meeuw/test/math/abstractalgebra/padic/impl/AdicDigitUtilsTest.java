@@ -1,6 +1,6 @@
 package org.meeuw.test.math.abstractalgebra.padic.impl;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.multiplyAdicDigits;
 
-@Log4j2
+@Log
 public class AdicDigitUtilsTest {
 
 
@@ -164,7 +164,7 @@ public class AdicDigitUtilsTest {
         AdicDigits a1 = AdicDigits.of("1", "");
         AdicDigits a2 = AdicDigits.of("2", "");
         AdicDigits result  = multiplyAdicDigits(10, a1, a2);
-        log.info("{} x {} = {}", a1, a2, result);
+        log.info("%s x %s = %s".formatted(a1, a2, result));
         assertThat(result.toString()).isEqualTo("...197530864 2");
     }
 
@@ -173,7 +173,7 @@ public class AdicDigitUtilsTest {
         AdicDigits a1 = AdicDigits.of("5", "4");
         AdicDigits a2 = AdicDigits.of("6", "");
         AdicDigits result  = multiplyAdicDigits( 10, a1, a2);
-        log.info("{} x {} = {}", a1, a2, result);
+        log.info("%s x %s = %s".formatted(a1, a2, result));
         assertThat(result.toString()).isEqualTo("...296 4");
     }
 
@@ -182,7 +182,7 @@ public class AdicDigitUtilsTest {
         AdicDigits a1 = AdicDigits.of("0", "12345");
         AdicDigits a2 = AdicDigits.of("0", "5678");
         AdicDigits result  = multiplyAdicDigits(10, a1, a2);
-        log.info("{} x {} = {}", a1, a2, result);
+        log.info("%s x %s = %s".formatted(a1, a2, result));
         assertThat(result.toString()).isEqualTo("...0 70094910");
     }
 
@@ -193,7 +193,7 @@ public class AdicDigitUtilsTest {
         AdicDigits a = AdicDigits.of("010", "4");
         AdicDigits one = AdicDigits.of( 1);
         AdicDigits result = multiplyAdicDigits(10, a, one);
-        log.info("{} x {} = {}", a, one, result);
+        log.info("%s x %s = %s".formatted(a, one, result));
 
         assertThat(result.toString()).isEqualTo("...010 4");
 

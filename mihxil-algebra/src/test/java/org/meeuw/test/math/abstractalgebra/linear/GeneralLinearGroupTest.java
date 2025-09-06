@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.linear;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
-@Log4j2
+@Log
 class GeneralLinearGroupTest {
 
 
@@ -44,7 +44,7 @@ class GeneralLinearGroupTest {
             RealNumber.of(1), RealNumber.of(2),
             RealNumber.of(3), RealNumber.of(4)
         );
-        log.info("{}", e);
+        log.info("" +  e);
         assertThat(e.getStructure().getDimension()).isEqualTo(2);
 
         RealNumber det = e.determinant();
@@ -96,7 +96,7 @@ class GeneralLinearGroupTest {
         InvertibleMatrix<RealNumber> rec = e.reciprocal();
         assertThat(rec.determinant().isZero()).isFalse();
 
-        log.info("{} x {} = {}", e, rec, e.times(rec));
+        log.info("%s x %s = %s".formatted(e, rec, e.times(rec)));
     }
 
     @Test
@@ -108,7 +108,7 @@ class GeneralLinearGroupTest {
         NVector<RationalNumber> multiplier = NVector.of(RationalNumber.of(1), RationalNumber.of(2));
         NVector<RationalNumber> result = e.times(multiplier);
         assertThat(result).isEqualTo(NVector.of(RationalNumber.of(12), RationalNumber.of(7)));
-        log.info("{} x {} = {}", e, multiplier, result);
+        log.info("%s x %s = %s".formatted(e, multiplier, result));
     }
 
     @Test

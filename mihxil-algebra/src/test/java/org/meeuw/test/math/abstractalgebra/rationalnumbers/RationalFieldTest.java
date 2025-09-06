@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.rationalnumbers;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class RationalFieldTest implements FieldTheory<RationalNumber> {
 
     @Test

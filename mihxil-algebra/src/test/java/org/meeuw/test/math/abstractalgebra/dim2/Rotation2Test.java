@@ -15,8 +15,6 @@
  */
 package org.meeuw.test.math.abstractalgebra.dim2;
 
-import lombok.extern.log4j.Log4j2;
-
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
@@ -32,7 +30,6 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.element;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
 class Rotation2Test implements MultiplicativeGroupTheory<Rotation2<RealNumber>> {
 
     @Override

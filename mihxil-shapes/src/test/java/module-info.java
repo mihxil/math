@@ -9,7 +9,7 @@ open module org.meeuw.test.shapes {
     requires transitive org.junit.jupiter.engine;
     requires transitive net.jqwik.api;
     requires transitive org.assertj.core;
-    requires transitive org.apache.logging.log4j;
+    requires transitive java.logging;
 
 
     requires lombok;
@@ -24,9 +24,6 @@ open module org.meeuw.test.shapes {
     requires org.meeuw.math.shapes;
 
     requires java.xml;
-    requires org.slf4j;
-    requires java.logging;
-
 
 }
 

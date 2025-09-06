@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 
@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class GaussianRationalTest implements
     FieldTheory<GaussianRational>,
     WithScalarTheory<GaussianRational, RationalNumber> {

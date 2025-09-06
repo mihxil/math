@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.Arbitraries;
@@ -43,7 +44,7 @@ import static org.meeuw.physics.SIUnit.m;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class PhysicalNumberTest implements
     MultiplicativeAbelianGroupTheory<PhysicalNumber>,
     SignedNumberTheory<PhysicalNumber>,
@@ -60,7 +61,7 @@ class PhysicalNumberTest implements
         assertThat(twoLightYear.plus(oneParsec).toString()).isEqualTo("5.3 ± 0.4 ly");
         assertThat(oneParsec.plus(twoLightYear).toString()).isEqualTo("1.61 ± 0.13 pc");
         assertThat(oneParsec.plus(twoLightYear).eq(twoLightYear.plus(oneParsec))).isTrue(); //different toString does not mean that they represent a different value
-        log.info("{} + {} = {}", twoLightYear, oneParsec, twoLightYear.plus(oneParsec));
+        log.info(twoLightYear + "+" + oneParsec + "=" + twoLightYear.plus(oneParsec));
         // end::add[]
 
     }
@@ -89,7 +90,7 @@ class PhysicalNumberTest implements
 
         Measurement measurementInM = measurement(1010, 100, m);
 
-        log.info("{} =? {}", measurementInM, measurementInKm);
+        log.info(measurementInM + "=? " + measurementInKm);
 
         assertThat(measurementInM.eq(measurementInKm)).isTrue();
 
@@ -105,7 +106,7 @@ class PhysicalNumberTest implements
         Units g = kg.withPrefix(none);
         Measurement measurementInG = measurement(1010, 100, g);
 
-        log.info("{} =? {}", measurementInKg, measurementInG);
+        log.info(measurementInKg + " =? " + measurementInG);
 
         assertThat(measurementInKg.eq(measurementInG)).isTrue();
 
@@ -129,7 +130,7 @@ class PhysicalNumberTest implements
         PhysicalNumber ph = measurement(0, 0.001, mPerS);
         assertThat(ph.toString()).isEqualTo("0.0000 ± 0.0010 m·s⁻¹");
         PhysicalNumber rec = ph.reciprocal();
-        log.info("{} = {}", ph, rec);
+        log.info(ph + " = " + rec);
     }
 
     /**

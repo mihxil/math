@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.time.Duration;
 import java.util.function.BiConsumer;
@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 class WindowedStatisticalDoubleTest {
 
     @Test
@@ -40,7 +40,7 @@ class WindowedStatisticalDoubleTest {
 
         BiConsumer<Windowed.Event, Windowed<StatisticalDoubleImpl>> listener =
             (event, statisticalDouble) -> {
-                log.info("{}", statisticalDouble);
+                log.info("" +  statisticalDouble);
         };
 
         WindowedStatisticalDouble impl = WindowedStatisticalDouble

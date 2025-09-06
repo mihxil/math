@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Optional;
@@ -41,7 +42,7 @@ import static org.meeuw.physics.SIUnit.m;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class SITest {
 
     @Test
@@ -74,20 +75,19 @@ class SITest {
         Optional<? extends Prefix> prefix = startPoint.inc();
         while (prefix.isPresent()) {
             Prefix p = prefix.get();
-            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
-            log.info("{} . k = {}", p, p.times(k));
-            log.info("{} / k = {}", p, p.dividedBy(k));
-            log.info("{} " + TextUtils.superscript(-1) + " = {}", p, p.reciprocal());
+            log.info("%s: %s (%s)".formatted(p, p.getAsDouble(), p.getPrefixName()));
+            log.info("%s . %s = %s".formatted(p, p.times(k)));
+            log.info("%s / %s = %s".formatted( p, p.dividedBy(k)));
+            log.info(p + " " + TextUtils.superscript(-1) + " = " + p.reciprocal());
             prefix = prefix.get().inc();
         }
         prefix = startPoint.dec();
         while (prefix.isPresent()) {
             Prefix p = prefix.get();
-            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
-            log.info("{}: {} ({})", p, p.getAsDouble(), p.getPrefixName());
-            log.info("{} . k = {}", p, p.times(k));
-            log.info("{} / k = {}", p, p.dividedBy(k));
-            log.info("{} " + TextUtils.superscript(-1) + " = {}", p, p.reciprocal());
+            log.info("%s: %s (%s)".formatted(p, p.getAsDouble(), p.getPrefixName()));
+            log.info("%s . %s = %s".formatted(p, p.times(k)));
+            log.info("%s / %s = %s".formatted( p, p.dividedBy(k)));
+            log.info(p + " " + TextUtils.superscript(-1) + " = " + p.reciprocal());
           prefix = prefix.get().dec();
         }
     }
@@ -169,7 +169,7 @@ class SITest {
     public void unitsOf() {
         INSTANCE.getUnits().forEach(i -> {
             String s = i.toString();
-            log.info(INSTANCE.unitsOf(s));
+            log.info("" + INSTANCE.unitsOf(s));
         });
 
     }

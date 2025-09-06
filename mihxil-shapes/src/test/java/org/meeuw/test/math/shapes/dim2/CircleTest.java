@@ -1,6 +1,6 @@
 package org.meeuw.test.math.shapes.dim2;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Nested;
@@ -8,15 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.shapes.dim2.Circle;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.shapes.dim2.Circle;
 
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-@Log4j2
+@Log
 public class CircleTest {
 
     @Nested

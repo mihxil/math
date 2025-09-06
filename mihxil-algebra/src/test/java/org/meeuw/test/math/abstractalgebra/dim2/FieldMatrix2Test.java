@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.dim2;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  * @since 0.14
  */
 @PropertyDefaults(tries = 100)
-@Log4j2
+@Log
 class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<RationalNumber>> {
 
 
@@ -85,7 +85,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
         );
         RationalNumber determinant = fm.determinant();
         assertThat(determinant).isEqualTo(of(6));
-        log.info("Determinant {}", determinant);
+        log.info("Determinant " + determinant);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package org.meeuw.test.math.abstractalgebra.categoryofgroups;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.util.Random;
 
@@ -16,7 +16,7 @@ import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.theories.abstractalgebra.MultiplicativeSemiGroupTheory;
 
-@Log4j2
+@Log
 public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group<?>> {
 
 
@@ -24,7 +24,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
     public void basic() {
         ProductGroup times = KleinGroup.INSTANCE.times(ModuloRing.of(5));
         times.stream().forEach(ge -> {
-            log.info("{}", ge);
+            log.info("" + ge);
         });
     }
 
@@ -32,7 +32,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
     public void infiniteStream() {
         ProductGroup times = EvenIntegers.INSTANCE.times(Quaternions.of(RationalNumbers.INSTANCE));
         times.stream().limit(10).forEach(ge -> {
-            log.info("{}", ge);
+            log.info("" + ge);
         });
     }
 
@@ -41,7 +41,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
         Random random = new Random(1);
         ProductGroup times = Quaternions.of(RationalNumbers.INSTANCE).times(ModuloField.of(13));
         for (int i = 0; i < 100; i++) {
-            log.info(times.nextRandom(random));
+            log.info("" + times.nextRandom(random));
         }
     }
 

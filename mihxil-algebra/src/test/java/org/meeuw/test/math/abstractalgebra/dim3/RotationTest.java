@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.dim3;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class RotationTest implements MultiplicativeGroupTheory<Rotation> {
 
     static {
@@ -60,12 +60,12 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
             assertThatAlgebraically(rotatedQuarter).isEqTo(of(0, 0, 1));
 
             RealNumber det = half.asMatrix().determinant();
-            log.info("Determinant of {}: {}", half.asMatrix(), det);
+            log.info("Determinant of %s: %s".formatted(half.asMatrix(), det));
             Rotation reciprocal = half.reciprocal();
-            log.info("{}", reciprocal);
+            log.info("" +  reciprocal);
 
             Rotation pow = half.pow(-1);
-            log.info("{}", pow);
+            log.info("" +  pow);
         });
     }
 
@@ -101,7 +101,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
         return Arbitraries.doubles().ofScale(20).between(0, Math_2PI)
             .tuple3()
             .filter(t -> {
-                log.info("Tuple {}", t);
+                log.info("Tuple " + t);
                 return true;
             })
             .map(t -> Rx(t.get1()).times(Ry(t.get2())).times(Rz(t.get3())))
@@ -118,9 +118,9 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
             Rotation rotation = Rx(5.956901712986539).times(Ry(1.1e-19)).times(Rz(4.108345485500838));
             Rotation reciprocal = rotation.reciprocal();
             Rotation reciprocal2 = reciprocal.reciprocal();
-            log.info("Rotation: {}", rotation);
-            log.info("Reciprocated: {}", reciprocal);
-            log.info("Reciprocated again: {}", reciprocal2);
+            log.info("Rotation: " +  rotation);
+            log.info("Reciprocated: " +  reciprocal);
+            log.info("Reciprocated again: " + reciprocal2);
             assertThatAlgebraically(reciprocal2).isEqTo(rotation);
         });
     }

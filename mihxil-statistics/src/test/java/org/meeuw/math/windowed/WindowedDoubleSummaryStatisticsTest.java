@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.time.Duration;
 import java.util.DoubleSummaryStatistics;
@@ -31,7 +31,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class WindowedDoubleSummaryStatisticsTest {
 
     @Test
@@ -58,7 +58,7 @@ class WindowedDoubleSummaryStatisticsTest {
         assertThat(combined.getAverage()).isCloseTo(200, Offset.offset(0.001));
 
 
-        log.info(instance.getRanges());
+        log.info("" + instance.getRanges());
     }
 
 }

@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -49,7 +49,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @since 0.38
  */
 @SuppressWarnings("resource")
-@Log4j2
+@Log
 public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> {
 
     @AfterAll
@@ -104,7 +104,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
             .window(Duration.ofSeconds(5))
             .clock(clock)
             .reporter((we) -> {
-                log.info("{}: for window {} ({})", we.getRate(), we.getWindowValue(), we.getTotalCount());
+                log.info("%s: for window %s (%s)".formatted(we.getRate(), we.getWindowValue(), we.getTotalCount()));
                 synchronized (consumer) {
                     consumer.add(we.getRate(Duration.ofSeconds(1)));
                     if (consumer.size() == 2) {
@@ -116,7 +116,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
 
             })
             .eventListeners((event, atomicLongWindowed) -> {
-                log.debug("{}/{}", event, atomicLongWindowed);
+                log.fine("%s/%s".formatted(event, atomicLongWindowed));
                 eventListeners.add(event);
                 if (eventListeners.size() % 3 == 0) {
                     throw new RuntimeException("foo bar");
@@ -142,12 +142,12 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
         clock.sleep(201L);
 
         assertThat(rate.isWarmingUp()).isFalse();
-        log.info("ranges: {}", rate.getRanges());
+        log.info("ranges: " + rate.getRanges());
 
-        log.info("events: {}", eventListeners);
+        log.info("events: " +  eventListeners);
         synchronized (consumer) {
             while (consumer.size() < 5) {
-                log.info("consumers: {}", consumer);
+                log.info("consumers: " + consumer);
                 consumer.wait();
             }
         }
@@ -301,7 +301,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
         rate.newEvent();
         rate.newEvent();
         rate.newEvent();
-        log.info(rate.getTotalCount());
+        log.info("" + rate.getTotalCount());
     }
 
 

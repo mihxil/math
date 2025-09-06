@@ -1,6 +1,6 @@
 package org.meeuw.test.math.shapes.dim2;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
-@Log4j2
+@Log
 public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygon<RealNumber>> {
     static RegularPolygon<RealNumber> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
     static RegularPolygon<RealNumber> square = new RegularPolygon<>(4, element(1.0));
@@ -80,7 +80,7 @@ public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygo
     @MethodSource("nGons")
     public void vertices(@ForAll("nGons") RegularPolygon<RealNumber> nGon) {
         nGon.vertices().forEach(fv -> {
-            log.info("{}", fv);
+            log.info(fv.toString());
         });
     }
 

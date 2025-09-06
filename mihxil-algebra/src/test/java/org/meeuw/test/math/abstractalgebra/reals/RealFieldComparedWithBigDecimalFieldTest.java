@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.reals;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -43,7 +43,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
  * @since 0.4
  *
  */
-@Log4j2
+@Log
 class RealFieldComparedWithBigDecimalFieldTest {
 
     public Arbitrary<RealNumber> elements() {
@@ -92,14 +92,14 @@ class RealFieldComparedWithBigDecimalFieldTest {
 
                 try {
                     RealNumber applied = operator.apply(a, b);
-                    log.info("{} = {}", operator.stringify(a, b), applied);
+                    log.info( operator.stringify(a, b) + "=" +  applied);
 
                     BigDecimalElement exactApplied = operator.apply(ba, bb);
-                    log.info("{} = {}", operator.stringify(ba, bb), exactApplied);
+                    log.info(operator.stringify(ba, bb) + "=" + exactApplied);
 
                     assertThat(applied.eq(exactly(exactApplied.doubleValue()))).isTrue();
                 } catch (ReciprocalException | IllegalPowerException rce) {
-                    log.info("{} -> {}", operator.stringify(ba, bb), rce.getMessage());
+                    log.info(operator.stringify(ba, bb) + "->" + rce.getMessage());
                 }
             });
 

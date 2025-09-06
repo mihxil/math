@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.windowed;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.time.Duration;
 import java.util.LongSummaryStatistics;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
  * @author Michiel Meeuwissen
  * @since 1.66
  */
-@Log4j2
+@Log
 public class WindowedLongSummaryStatisticsTest {
 
     @Test
@@ -54,7 +54,7 @@ public class WindowedLongSummaryStatisticsTest {
         assertThat(buckets[buckets.length - 2].getAverage()).isCloseTo(150, Offset.offset(0.001));
 
         assertThat(combined.getAverage()).isCloseTo(200, Offset.offset(0.001));
-        log.info(instance.getRanges());
+        log.info("" + instance.getRanges());
     }
 
 }

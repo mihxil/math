@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.statistics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.Random;
@@ -40,7 +41,7 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
 /**
  * @author Michiel Meeuwissen
  */
-@Log4j2
+@Log
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<RealNumber>,
     CompleteScalarFieldTheory<RealNumber> {
@@ -141,13 +142,13 @@ public class StatisticalDoubleTest implements
     @Property
     public void testString(@ForAll(ELEMENTS) AlgebraicElement<?> e) {
         StatisticalDoubleImpl casted = (StatisticalDoubleImpl) e;
-        log.info("{} {}", casted.getCount(), e);
+        log.info(casted.getCount() + " " + e);
     }
 
     @Test
     public void intransitiveEq() {
 
-        log.info("SDS: {}", getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        log.info("SDS: " + getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         d1.enter(0, 5, 10);
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();

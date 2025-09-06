@@ -18,6 +18,7 @@ export class CalculatorClass extends BaseClass {
         const value = input.value;
         input.value = value.slice(0, start) + c + value.slice(end);
         input.setSelectionRange(start + 1, start + 1);
+        input.focus();
     }
 
     async setupForm() {
@@ -64,15 +65,7 @@ export class CalculatorClass extends BaseClass {
                         span.classList.add('element');
                         span.textContent = await elements[j];
                         span.onclick = async e => {
-                            console.log(e.target.textContent);
-                            const input = this.input;
-                            const start = input.selectionStart;
-                            const end = input.selectionEnd;
-                            const value = input.value;
-                            const insertText = e.target.textContent;
-                            input.value = value.slice(0, start) + insertText + value.slice(end);
-                            input.setSelectionRange(start + insertText.length, start + insertText.length);
-                            input.focus();
+                            this.insert(e.target.textContent);
                         };
                         awaitedElements[j] = span;
                     }
@@ -155,15 +148,7 @@ export class CalculatorClass extends BaseClass {
             if (! e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
                 e.onclick = async e => {
-                    console.log(e.target.textContent);
-                    const input = this.input;
-                    const start = input.selectionStart;
-                    const end = input.selectionEnd;
-                    const value = input.value;
-                    const insertText = e.target.textContent;
-                    input.value = value.slice(0, start) + insertText + value.slice(end);
-                    input.setSelectionRange(start + insertText.length, start + insertText.length);
-                    input.focus();
+                    this.insert(e.target.textContent);
                 };
             }
             if (! operators.includes(symbol)) {

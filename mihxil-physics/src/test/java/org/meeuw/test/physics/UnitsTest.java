@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ import static org.meeuw.physics.SIUnit.s;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
     final Units DISTANCE = INSTANCE.forQuantity(Quantity.DISTANCE);
@@ -78,7 +79,7 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
         PhysicalNumber mps = n.toUnits(SI.INSTANCE);
 
-        log.info("{} -> {}", n, mps);
+        log.info(n + " -> " + mps);
         assertThat(mps.toString()).isEqualTo("2.8 ± 0.3 m·s⁻¹");
 
         assertThat(mps).isEqualTo(n.toUnits(SI.INSTANCE));

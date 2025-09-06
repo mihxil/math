@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.complex;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import net.jqwik.api.Arbitraries;
@@ -37,7 +38,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log4j2
+@Log
 class ComplexNumberTest implements
     CompleteFieldTheory<ComplexNumber>,
     MetricSpaceTheory<ComplexNumber, RealNumber>,
@@ -98,7 +99,7 @@ class ComplexNumberTest implements
 
         assertThat(result1.eq(result2)).isTrue();
 
-        log.info("{}", result1);
+        log.info("" +  result1);
     }
 
     @Test
@@ -114,7 +115,7 @@ class ComplexNumberTest implements
     public void i8() {
         var i8 = ComplexNumber.of(0, 8);
         var minusi8 = i8.negation();
-        log.info("{}", i8.sqrt().plus(minusi8.sqrt()));
-        log.info("{}", ComplexNumbers.INSTANCE.i().sqrt());
+        log.info("" +  i8.sqrt().plus(minusi8.sqrt()));
+        log.info("" + ComplexNumbers.INSTANCE.i().sqrt());
     }
 }

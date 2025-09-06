@@ -1,6 +1,6 @@
 package org.meeuw.test.math.abstractalgebra.padic;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -18,7 +18,7 @@ import org.meeuw.theories.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Log4j2
+@Log
 @Timeout(unit = TimeUnit.SECONDS, value = 10)
 @Disabled("WIP")
 @net.jqwik.api.Disabled("WIP")
@@ -39,7 +39,7 @@ class PadicIntegersTest {
 
         assertThat(c.toString()).isEqualTo("...0 1124₅");
 
-        log.info("{} + {} = {}", a.bigIntegerValue(), b.bigIntegerValue(), c.bigIntegerValue());
+        log.info("%s + %s = %s".formatted(a.bigIntegerValue(), b.bigIntegerValue(), c.bigIntegerValue()));
     }
 
     @Test
@@ -65,7 +65,7 @@ class PadicIntegersTest {
     public void timesOne(String repetend, String digits) {
         PAdicInteger sample = p5.of(repetend, digits);
         PAdicInteger timesOne = sample.times(p5.one());
-        log.info("{} x {} = {}", sample, p5.one(), timesOne);
+        log.info("%s x %s = %s".formatted(sample, p5.one(), timesOne));
         assertThat(timesOne).isEqualTo(sample);
     }
 
@@ -81,7 +81,7 @@ class PadicIntegersTest {
         PAdicInteger random = p5.nextRandom(r);
         assertThat(random.toString()).isEqualTo("...120444 44133432324221₅");
         for (int i = 0; i < 200; i++) {
-            log.info("{}", p5.nextRandom(r));
+            log.info("" + p5.nextRandom(r));
         }
     }
 

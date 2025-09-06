@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.product;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.integers.ModuloField.Z3Z;
 
-@Log4j2
+@Log
 public class ProductGroupTest implements GroupTheory<ProductElement> {
 
     @Test

@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.statistics;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.math.BigDecimal;
 import java.time.*;
@@ -43,7 +43,7 @@ import static org.meeuw.time.UncertainJavaTime.Mode.*;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
-@Log4j2
+@Log
 class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
@@ -220,7 +220,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
         }).isInstanceOf(IllegalLogarithmException.class);
         assertThatThrownBy(() -> {
             RealNumber pow = mes.pow(-1);
-            log.info("{} ^ {} -> {}", mes, -1, pow);
+            log.info("%s ^ %s -> %s".formatted(mes, -1, pow));
         }).isInstanceOf(IllegalPowerException.class);
     }
 

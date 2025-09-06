@@ -1,6 +1,6 @@
 package org.meeuw.test.math.svg;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,7 +28,7 @@ import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 
 // end::imports[]
 
-@Log4j2
+@Log
 public class SVGTest {
 
     Rectangle<ModuloFieldElement> size = Rectangle.of(205, 205);

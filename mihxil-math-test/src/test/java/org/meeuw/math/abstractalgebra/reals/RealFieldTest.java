@@ -15,7 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.4
 
  */
-@Log4j2
+@Log
 class RealFieldTest implements
     CompleteScalarFieldTheory<RealNumber>,
     MetricSpaceTheory<RealNumber, RealNumber>,
@@ -99,7 +99,7 @@ class RealFieldTest implements
         DoubleElement someNumber = new DoubleElement(5, 0.1);
 
         DoubleElement product = someNumber.times(zero);
-        log.info("{} . {} = {}", someNumber, zero, product);
+        log.info("%s . %s = %s".formatted(someNumber, zero, product));
     }
 
     @Test
@@ -161,7 +161,7 @@ class RealFieldTest implements
     @Test
     public void ln() {
         RealNumber ln = of(800).ln();
-        log.info("ln(800) = {}", ln);
+        log.info("ln(800) = " + ln);
         assertThat(ln.toString()).isEqualTo("6.68461172766793");
     }
 

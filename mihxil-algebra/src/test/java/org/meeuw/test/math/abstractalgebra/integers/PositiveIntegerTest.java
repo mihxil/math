@@ -15,7 +15,7 @@
  */
 package org.meeuw.test.math.abstractalgebra.integers;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.java.Log;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -40,7 +40,7 @@ import static org.meeuw.math.abstractalgebra.integers.PositiveInteger.of;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-@Log4j2
+@Log
 class PositiveIntegerTest implements
     MultiplicativeMonoidTheory<PositiveInteger>,
     AdditiveAbelianSemiGroupTheory<PositiveInteger>,
@@ -65,9 +65,9 @@ class PositiveIntegerTest implements
     public void fact(int value) {
         ConfigurationService.withAspect(Factoriable.Configuration.class, c -> c.withMaxArgument(2001L), () -> {
             try {
-                log.info("{}! = {}", value, of(value).factorial());
+                log.info("%s! = %s".formatted(value, of(value).factorial()));
             } catch (InvalidFactorial invalidFactorial) {
-                log.info("{}! => {}", value, invalidFactorial.getMessage());
+                log.info("%s! => %s".formatted(value, invalidFactorial.getMessage()));
             }
         });
     }

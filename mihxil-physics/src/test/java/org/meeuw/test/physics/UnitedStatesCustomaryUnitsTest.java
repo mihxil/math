@@ -15,6 +15,7 @@
  */
 package org.meeuw.test.physics;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ import static org.meeuw.math.abstractalgebra.reals.DoubleElement.of;
 import static org.meeuw.physics.SI.DecimalPrefix.k;
 import static org.meeuw.physics.SIUnit.m;
 
-@Log4j2
+@Log
 class UnitedStatesCustomaryUnitsTest {
 
 

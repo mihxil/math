@@ -1,5 +1,6 @@
 package org.meeuw.test.math.shapes.dim3;
 
+import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j2;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,7 +12,7 @@ import org.meeuw.math.shapes.dim3.PlatonicSolidEnum;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 
-@Log4j2
+@Log
 public class PlatonSolidTest {
 
 
@@ -30,13 +31,13 @@ public class PlatonSolidTest {
     @ParameterizedTest
     @MethodSource("platonics")
     public void dihedralAngle(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("Dihedral angle of {}: {}", platonicSolid, Math.toDegrees(platonicSolid.dihedralAngle().doubleValue()));
+        log.info("Dihedral angle of %s: %s".formatted(platonicSolid, Math.toDegrees(platonicSolid.dihedralAngle().doubleValue())));
     }
 
     @ParameterizedTest
     @MethodSource("platonics")
     public void area(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("Area of {}: {}", platonicSolid, platonicSolid.surfaceArea());
+        log.info("Area of %s: %s".formatted(platonicSolid, platonicSolid.surfaceArea()));
         if (platonicSolid.platonicSolidEnum() == PlatonicSolidEnum.TETRAHEDRON) {
             assertThat(platonicSolid.surfaceArea().doubleValue()).isEqualTo(6.928203230275511);
         }
@@ -47,7 +48,7 @@ public class PlatonSolidTest {
     @ParameterizedTest
     @MethodSource("platonics")
     public void volume(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("Volume of {}: {}", platonicSolid, platonicSolid.volume());
+        log.info("Volume of %s: %s".formatted(platonicSolid, platonicSolid.volume()));
         if (platonicSolid.platonicSolidEnum() == PlatonicSolidEnum.TETRAHEDRON) {
             assertThat(platonicSolid.volume().doubleValue()).isEqualTo(0.9428090415820645);
         }
@@ -57,7 +58,7 @@ public class PlatonSolidTest {
     @ParameterizedTest
     @MethodSource("platonics")
     public void inradius(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("Inradius of {}: {}", platonicSolid, platonicSolid.inradius());
+        log.info("Inradius of %s: %s".formatted(platonicSolid, platonicSolid.inradius()));
         if (platonicSolid.platonicSolidEnum() == PlatonicSolidEnum.TETRAHEDRON) {
             assertThat(platonicSolid.inradius().doubleValue()).isEqualTo(0.40824829046386335);
         }
@@ -67,7 +68,7 @@ public class PlatonSolidTest {
     @ParameterizedTest
     @MethodSource("platonics")
     public void circumradius(PlatonicSolid<RealNumber> platonicSolid) {
-        log.info("circumradiusius of {}: {}", platonicSolid, platonicSolid.circumradius());
+        log.info("circumradiusius of %s: %s".formatted(platonicSolid, platonicSolid.circumradius()));
         if (platonicSolid.platonicSolidEnum() == PlatonicSolidEnum.TETRAHEDRON) {
 
             assertThat(platonicSolid.circumradius().doubleValue()).isEqualTo(1.2247448713915894);
