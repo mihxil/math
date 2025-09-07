@@ -25,7 +25,7 @@ export class CalculatorClass extends BaseClass {
     }
 
     insertOperator(string) {
-        const needsBrackets = string.length > 0;
+        const needsBrackets = string.length > 1;
         if (! needsBrackets) {
             return this.insert(string);
         }
@@ -85,23 +85,24 @@ export class CalculatorClass extends BaseClass {
 
             for (let i = 0; i < values.length; i++) {
                 const value = await values[i];
-                const elements = await value.getElements();
-                let awaitedElements = null;
+                const elements = await BaseClass.awaitedArray(value.getElements());
+                let elementSpans = null;
                 if (elements) {
-                    awaitedElements = [];
+                    elementSpans = [];
                     for (let j = 0; j < elements.length; j++) {
                         const span = document.createElement('span');
                         span.classList.add('element');
-                        span.textContent = await elements[j];
+                        span.textContent = elements[j];
                         span.onclick = async e => {
                             this.insert(e.target.textContent);
                         };
-                        awaitedElements[j] = span;
+                        elementSpans[j] = span;
                     }
                 }
                 this.information[await values[i].name()] = {
                     examples: await BaseClass.awaitedArray(value.getExamples()),
-                    elements: awaitedElements,
+                    elements: elements,
+                    elementsSpans: elementSpans,
                     binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
                     unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     finite: await value.isFinite(),
@@ -116,11 +117,13 @@ export class CalculatorClass extends BaseClass {
             this.updateDataList();
             this.updateHelp();
             this.updateOperators();
+            this.updateDigits();
 
         });
         await this.updateDataList();
         await this.updateHelp();
         await this.updateOperators();
+        await this.updateDigits();
 
 
     }
@@ -156,7 +159,7 @@ export class CalculatorClass extends BaseClass {
         if (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = this.information[this.field.value].elements;
+        const elements = this.information[this.field.value].elementSpans;
         if (elements) {
             div.appendChild(document.createElement("br"));
             div.appendChild(document.createTextNode("elements: "));
@@ -169,6 +172,17 @@ export class CalculatorClass extends BaseClass {
         }
     }
     operatorDts(dl, operators) {
+        this.dts(dl, operators, async e => {
+            this.insertOperator(e.target.textContent);
+        });
+    }
+    elementsDts(dl, operators) {
+        this.dts(dl, operators, async e => {
+            this.insert(e.target.textContent);
+        });
+    }
+
+    dts(dl, operators, onclick) {
         const list = dl.querySelectorAll("dt");
         const symbolsInList = Array.from(list).map(e => e.textContent.trim());
         const unmatchedOperators = operators.filter(op => !symbolsInList.includes(op));
@@ -185,9 +199,7 @@ export class CalculatorClass extends BaseClass {
             const title = e.nextElementSibling.textContent;
             if (!e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
-                e.onclick = async e => {
-                    this.insertOperator(e.target.textContent);
-                };
+                e.onclick =onclick;
             }
             if (!operators.includes(symbol)) {
                 e.style.display = 'none';
@@ -206,6 +218,13 @@ export class CalculatorClass extends BaseClass {
         this.operatorDts(document.querySelector("#calculator_operators dl"), operators);
         const unaryOperators = fieldInformation.unaryOperators;
         this.operatorDts(document.querySelector("#calculator_unary_operator dl"), unaryOperators);
+    }
+
+
+    async updateDigits() {
+        const fieldInformation =  this.information[this.field.value];
+        const elements = fieldInformation.elements;
+        this.elementsDts(document.querySelector("#calculator_digits dl"), elements);
     }
 
     async onSubmit(Calculator) {
