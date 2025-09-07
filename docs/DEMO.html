@@ -281,7 +281,36 @@
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(<span class="integer">0</span>, start) + string + value.slice(end);
-        input.setSelectionRange(start + string.length, start + string.length);
+        input.setSelectionRange(
+            start + string.length,
+            start + string.length
+        );
+        input.focus();
+    }
+
+    insertOperator(string) {
+        const needsBrackets = string.length &gt; <span class="integer">0</span>;
+        <span class="keyword">if</span> (! needsBrackets) {
+            <span class="keyword">return</span> <span class="local-variable">this</span>.insert(string);
+        }
+        const input = <span class="local-variable">this</span>.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        <span class="keyword">if</span> (start === end) {
+            input.value = string + <span class="string"><span class="delimiter">&quot;</span><span class="content">(</span><span class="delimiter">&quot;</span></span> + value + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>;
+            input.setSelectionRange(
+                start + string.length + <span class="integer">1</span>,
+                start + string.length + <span class="integer">1</span>
+            );
+        } <span class="keyword">else</span> {
+            input.value = value.slice(<span class="integer">0</span>, start) + string + <span class="string"><span class="delimiter">&quot;</span><span class="content">(</span><span class="delimiter">&quot;</span></span> + value.slice(start, end) + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span> + value.slice(end);
+            input.setSelectionRange(
+                start,
+                end  + string.length + <span class="integer">2</span>
+            );
+        }
+
         input.focus();
     }
 
@@ -421,7 +450,7 @@
             <span class="keyword">if</span> (!e.hasAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>)) {
                 e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>, window.getComputedStyle(e).display);
                 e.onclick = async e =&gt; {
-                    <span class="local-variable">this</span>.insert(e.target.textContent);
+                    <span class="local-variable">this</span>.insertOperator(e.target.textContent);
                 };
             }
             <span class="keyword">if</span> (!operators.includes(symbol)) {
@@ -861,7 +890,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-06 19:38:15 UTC
+Last updated 2025-09-07 08:59:14 UTC
 </div>
 </div>
 </body>

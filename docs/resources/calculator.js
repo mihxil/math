@@ -18,7 +18,36 @@ export class CalculatorClass extends BaseClass {
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(0, start) + string + value.slice(end);
-        input.setSelectionRange(start + string.length, start + string.length);
+        input.setSelectionRange(
+            start + string.length,
+            start + string.length
+        );
+        input.focus();
+    }
+
+    insertOperator(string) {
+        const needsBrackets = string.length > 0;
+        if (! needsBrackets) {
+            return this.insert(string);
+        }
+        const input = this.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        if (start === end) {
+            input.value = string + "(" + value + ")";
+            input.setSelectionRange(
+                start + string.length + 1,
+                start + string.length + 1
+            );
+        } else {
+            input.value = value.slice(0, start) + string + "(" + value.slice(start, end) + ")" + value.slice(end);
+            input.setSelectionRange(
+                start,
+                end  + string.length + 2
+            );
+        }
+
         input.focus();
     }
 
@@ -158,7 +187,7 @@ export class CalculatorClass extends BaseClass {
             if (!e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
                 e.onclick = async e => {
-                    this.insert(e.target.textContent);
+                    this.insertOperator(e.target.textContent);
                 };
             }
             if (!operators.includes(symbol)) {
