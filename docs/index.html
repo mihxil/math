@@ -2010,7 +2010,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     insertOperator(string) {
-        const needsBrackets = string.length &gt; <span class="integer">0</span>;
+        const needsBrackets = string.length &gt; <span class="integer">1</span>;
         <span class="keyword">if</span> (! needsBrackets) {
             <span class="keyword">return</span> <span class="local-variable">this</span>.insert(string);
         }
@@ -2070,23 +2070,24 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
             <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
                 const value = await values[i];
-                const elements = await value.getElements();
-                let awaitedElements = <span class="predefined-constant">null</span>;
+                const elements = await BaseClass.awaitedArray(value.getElements());
+                let elementSpans = <span class="predefined-constant">null</span>;
                 <span class="keyword">if</span> (elements) {
-                    awaitedElements = [];
+                    elementSpans = [];
                     <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
                         const span = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
                         span.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">element</span><span class="delimiter">'</span></span>);
-                        span.textContent = await elements[j];
+                        span.textContent = elements[j];
                         span.onclick = async e =&gt; {
                             <span class="local-variable">this</span>.insert(e.target.textContent);
                         };
-                        awaitedElements[j] = span;
+                        elementSpans[j] = span;
                     }
                 }
                 <span class="local-variable">this</span>.information[await values[i].name()] = {
                     <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
-                    <span class="key">elements</span>: awaitedElements,
+                    <span class="key">elements</span>: elements,
+                    <span class="key">elementsSpans</span>: elementSpans,
                     <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
                     <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     <span class="key">finite</span>: await value.isFinite(),
@@ -2101,11 +2102,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             <span class="local-variable">this</span>.updateDataList();
             <span class="local-variable">this</span>.updateHelp();
             <span class="local-variable">this</span>.updateOperators();
+            <span class="local-variable">this</span>.updateDigits();
 
         });
         await <span class="local-variable">this</span>.updateDataList();
         await <span class="local-variable">this</span>.updateHelp();
         await <span class="local-variable">this</span>.updateOperators();
+        await <span class="local-variable">this</span>.updateDigits();
 
 
     }
@@ -2141,7 +2144,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="keyword">if</span> (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elements;
+        const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elementSpans;
         <span class="keyword">if</span> (elements) {
             div.appendChild(document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">br</span><span class="delimiter">&quot;</span></span>));
             div.appendChild(document.createTextNode(<span class="string"><span class="delimiter">&quot;</span><span class="content">elements: </span><span class="delimiter">&quot;</span></span>));
@@ -2154,6 +2157,17 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
     operatorDts(dl, operators) {
+        <span class="local-variable">this</span>.dts(dl, operators, async e =&gt; {
+            <span class="local-variable">this</span>.insertOperator(e.target.textContent);
+        });
+    }
+    elementsDts(dl, operators) {
+        <span class="local-variable">this</span>.dts(dl, operators, async e =&gt; {
+            <span class="local-variable">this</span>.insert(e.target.textContent);
+        });
+    }
+
+    dts(dl, operators, onclick) {
         const list = dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
         const symbolsInList = Array.from(list).map(e =&gt; e.textContent.trim());
         const unmatchedOperators = operators.filter(op =&gt; !symbolsInList.includes(op));
@@ -2170,9 +2184,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             const title = e.nextElementSibling.textContent;
             <span class="keyword">if</span> (!e.hasAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>)) {
                 e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>, window.getComputedStyle(e).display);
-                e.onclick = async e =&gt; {
-                    <span class="local-variable">this</span>.insertOperator(e.target.textContent);
-                };
+                e.onclick =onclick;
             }
             <span class="keyword">if</span> (!operators.includes(symbol)) {
                 e.style.display = <span class="string"><span class="delimiter">'</span><span class="content">none</span><span class="delimiter">'</span></span>;
@@ -2191,6 +2203,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_operators dl</span><span class="delimiter">&quot;</span></span>), operators);
         const unaryOperators = fieldInformation.unaryOperators;
         <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_unary_operator dl</span><span class="delimiter">&quot;</span></span>), unaryOperators);
+    }
+
+
+    async updateDigits() {
+        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+        const elements = fieldInformation.elements;
+        <span class="local-variable">this</span>.elementsDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_digits dl</span><span class="delimiter">&quot;</span></span>), elements);
     }
 
     async onSubmit(Calculator) {
