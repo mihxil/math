@@ -43,7 +43,10 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     Group<IntegerElement> {
 
     static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
-        OPERATION, ADDITION, SUBTRACTION, MULTIPLICATION,
+        OPERATION,
+        ADDITION,
+        SUBTRACTION,
+        MULTIPLICATION,
         EUCLIDEAN_DIVISION,
         EUCLIDEAN_MODULO
     );
