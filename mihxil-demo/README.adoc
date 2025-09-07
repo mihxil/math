@@ -3,7 +3,6 @@
 = Demo
 :docinfo: private
 :source-highlighter: coderay
-:myleveloffset: 1
 :toc:
 
 These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
@@ -14,7 +13,7 @@ These are a running link:https://webassembly.org/[webassembly] demos (using link
 This section is work in progress
 ====
 
-:leveloffset: 1
+:leveloffset: +1
 
 [#demo_calculator]
 [.tips-aside]
@@ -372,7 +371,7 @@ This is the source code for the above.
 
 :leveloffset!:
 
-:leveloffset: 1
+:leveloffset: +1
 
 [#demo_solver]
 [.tips-aside]
@@ -631,7 +630,7 @@ This is the source code for the above.
 
 :leveloffset!:
 
-:leveloffset: 1
+:leveloffset: +1
 
 [#demo_dynamicdate]
 = Dynamic date parsing
@@ -747,6 +746,6 @@ async onSubmit(DynamicDateTime){
 ----
 ====
 
-//end::bodye[]
+//end::body[]
 
 :leveloffset!:
