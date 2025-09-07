@@ -21,17 +21,13 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.meeuw.math.*;
-
-import static org.meeuw.math.CollectionUtils.navigableSet;
-
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.*;
 
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.valueOf;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
-import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.MULTIPLICATION;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 /**
@@ -85,11 +81,13 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
         return of(value);
     }
 
+    @Synonym("0")
     public Square zero() {
         return Square.ZERO;
     }
 
     @Override
+    @Synonym("1")
     public Square one() {
         return Square.ONE;
     }
