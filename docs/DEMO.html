@@ -57,6 +57,12 @@
 <div class="sect1 tips-aside">
 <h2 id="demo_calculator">Calculator</h2>
 <div class="sectionbody">
+<form id="calculator" class="demo">
+  <label for="calculator_field">Field:</label>
+  <select id="calculator_field"  >
+   <!-- filled by calculator.js -->
+  </select>
+  <div class="help"></div>
 <div class="admonitionblock tip">
 <table>
 <tr>
@@ -64,6 +70,20 @@
 <div class="title">Tip</div>
 </td>
 <td class="content">
+<div id="calculator_digits" class="dlist">
+<dl>
+<dt class="hdlist1">0</dt>
+<dt class="hdlist1">1</dt>
+<dt class="hdlist1">2</dt>
+<dt class="hdlist1">3</dt>
+<dt class="hdlist1">4</dt>
+<dt class="hdlist1">5</dt>
+<dt class="hdlist1">6</dt>
+<dt class="hdlist1">7</dt>
+<dt class="hdlist1">8</dt>
+<dt class="hdlist1">9</dt>
+</dl>
+</div>
 <div id="calculator_operators" class="dlist">
 <dl>
 <dt class="hdlist1">+</dt>
@@ -124,20 +144,14 @@
 </tr>
 </table>
 </div>
-<form id="calculator" class="demo">
+<div class="form">
   <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
-   <label for="calculator_field">Field:</label>
-   <select id="calculator_field"  >
-   <!-- filled by calculator.js -->
-   </select>
-   <div class="help"></div>
-   <br />
+  <button name="submit">=</button>
   <output id="calculator_output" for="calculator_toparse"> </output>
-  <br />
-  <button name="submit">go!</button>
+</div>
 </form>
 <details>
 <summary class="title">java</summary>
@@ -909,7 +923,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-09-07 19:51:14 UTC
+Last updated 2025-09-07 20:17:24 UTC
 </div>
 </div>
 </body>
