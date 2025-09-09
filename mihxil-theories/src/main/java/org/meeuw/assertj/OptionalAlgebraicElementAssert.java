@@ -18,7 +18,7 @@ public class OptionalAlgebraicElementAssert<E extends AlgebraicElement<E>> exten
 
     @SuppressWarnings("UnusedReturnValue")
     public OptionalAlgebraicElementAssert<E> containsEq(E expected) {
-        if (actual.isPresent()) {
+        if (actual.isEmpty()) {
             assertionError("Expected to contain %s, but was empty".formatted(expected));
         }
         if (!actual.get().eq(expected)) {
