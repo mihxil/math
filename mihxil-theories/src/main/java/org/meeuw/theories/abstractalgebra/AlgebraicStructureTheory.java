@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 
+import org.meeuw.assertj.Assertions;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
@@ -496,7 +497,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         String s = element.toString();
         try {
             structure.fromString(s);
-            assertThat(structure.getConstant(element.toString())).contains(element);
+            assertThatAlgebraically(structure.getConstant(element.toString())).containsEq(element);
         } catch (NotParsable.NotImplemented ignored) {
             log().info("NotParsable: %s".formatted(ignored.getMessage()));
         }

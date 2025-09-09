@@ -123,6 +123,22 @@ public final class TextUtils {
         return builder.toString();
     }
 
+    /**
+     * @since 0.19
+     * @param s
+     */
+    public static String stripParentheses(String s) {
+        if (s == null || s.isEmpty()) {
+            return s;
+        }
+        s = s.trim();
+        if (s.startsWith("(") && s.endsWith(")")) {
+            return s.substring(1, s.length() - 1);
+        }
+        return s;
+
+    }
+
     private static String script(long i, char minusChar, char[] digits) {
         StringBuilder bul = new StringBuilder();
         try {

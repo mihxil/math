@@ -1,5 +1,7 @@
 package org.meeuw.assertj;
 
+import java.util.Optional;
+
 import org.assertj.core.api.AbstractObjectAssert;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
@@ -19,6 +21,14 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
 
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E expected) {
+        if (!actual.eq(expected)) {
+            assertionError("%s %s≉ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription));
+        }
+        return myself;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public AlgebraicElementAssert<E> containsEq(E expected) {
         if (!actual.eq(expected)) {
             assertionError("%s %s≉ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription));
         }

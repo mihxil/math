@@ -77,4 +77,18 @@ public class Vector2Space implements VectorSpace<RealNumber, Vector2>, AbelianRi
     public String toString() {
         return getField() + TextUtils.superscript(3);
     }
+
+    @Override
+    public Vector2 fromString(String s) {
+        String stripped = TextUtils.stripParentheses(s);
+        String[] parts = stripped.split(",");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Cannot parse " + s + " as " + this);
+        }
+        return Vector2.of(
+            getField().fromString(parts[0]).doubleValue(),
+            getField().fromString(parts[1]).doubleValue()
+        );
+
+    }
 }

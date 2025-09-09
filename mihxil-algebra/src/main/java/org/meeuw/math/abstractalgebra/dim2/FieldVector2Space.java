@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.text.TextUtils;
 
 /**
  * @author Michiel Meeuwissen
@@ -87,5 +88,18 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
     @Override
     public Class<FieldVector2<E>> getElementClass() {
         return (Class<FieldVector2<E>>) zero().getClass();
+    }
+    @Override
+    public FieldVector2<E> fromString(String s) {
+        String stripped = TextUtils.stripParentheses(s);
+        String[] parts = stripped.split(",");
+        if (parts.length != 2) {
+            throw new IllegalArgumentException("Cannot parse " + s + " as " + this);
+        }
+        return FieldVector2.of(
+            getField().fromString(parts[0]),
+            getField().fromString(parts[1])
+        );
+
     }
 }
