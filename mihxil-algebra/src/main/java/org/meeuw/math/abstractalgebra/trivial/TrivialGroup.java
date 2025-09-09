@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -60,6 +61,14 @@ public class TrivialGroup extends AbstractAlgebraicStructure<TrivialGroupElement
     @Override
     public String toString() {
         return "C" + TextUtils.subscript(1);
+    }
+
+    @Override
+    public TrivialGroupElement fromString(String s) {
+        if (! "e".equals(s)) {
+            throw new NotParsable(s);
+        }
+        return TrivialGroupElement.e;
     }
 
 }

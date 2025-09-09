@@ -10,7 +10,7 @@ on:
       - '*/*-source-docinfo.html'
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
-      - 'docs/algebras.dot.m4'
+      - 'docs/*.scss'
       - 'mihxil-demo/resources/*'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:

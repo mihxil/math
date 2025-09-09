@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotParsable;
 
 /**
  * The trivial ring has one element, which is both zero and one.
@@ -60,6 +61,14 @@ public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<
     }
 
     @Override
+    public TrivialRingElement fromString(String s) {
+        if (! "e".equals(s)) {
+            throw new NotParsable(s);
+        }
+        return TrivialRingElement.e;
+    }
+
+    @Override
     public String toString() {
         return "{0}";
     }
@@ -68,5 +77,10 @@ public class TrivialRing implements AbelianRing<TrivialRingElement>, Streamable<
     public Stream<TrivialRingElement> stream() {
         return Stream.of(TrivialRingElement.e);
     }
+    @Override
+    public boolean operationIsCommutative() {
+        return true;
+    }
+
 
 }

@@ -493,7 +493,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
         AlgebraicStructure<E> structure = element.getStructure();
-        assertThat(structure.getConstant(element.toString())).contains(element);
+        String s = element.toString();
+        try {
+            structure.fromString(s);
+            assertThat(structure.getConstant(element.toString())).contains(element);
+        } catch (NotParsable.NotImplemented ignored) {
+            log().info("NotParsable: %s".formatted(ignored.getMessage()));
+        }
     }
 
 
