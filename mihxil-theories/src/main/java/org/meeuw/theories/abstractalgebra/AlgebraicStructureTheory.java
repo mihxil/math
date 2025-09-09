@@ -188,9 +188,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void algebraicUnaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
-        @ForAll(ELEMENTS) AlgebraicElement<?> o1) throws Throwable {
-        E e1 = (E) o1;
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1) throws Throwable {
 
         AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
@@ -226,9 +225,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void algebraicIntOperations(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
-        @ForAll(ELEMENTS) AlgebraicElement<?> o1) throws Throwable {
-        E e1 = (E) o1;
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1) throws Throwable {
 
         AtomicLong count = UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
         AtomicLong countError = ERROR_UCOUNTS.computeIfAbsent(s, k -> new AtomicLong(0));
@@ -268,8 +266,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void functions(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> s,
-        @ForAll(ELEMENTS) AlgebraicElement<?> e1) throws Throwable {
+        @ForAll(STRUCTURE) AlgebraicStructure<E> s,
+        @ForAll(ELEMENTS) E e1) throws Throwable {
 
         for (GenericFunction o : s.getSupportedFunctions()) {
             try {
@@ -292,7 +290,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
 
     @Property
-    default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
+    default void getComparisonOperators(@ForAll(STRUCTURE) AlgebraicStructure<E> struct) {
         if (Ordered.class.isAssignableFrom(struct.getElementClass())) {
             assertThat(struct.getSupportedComparisonOperators())
                 .contains(LT, LTE, GT, GTE);
@@ -317,7 +315,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void staticOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> structure,
+        @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
         @ForAll BasicAlgebraicBinaryOperator o) {
 
         try {
@@ -343,7 +341,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void staticUnaryOperators(
-        @ForAll(STRUCTURE) AlgebraicStructure<?> structure,
+        @ForAll(STRUCTURE) AlgebraicStructure<E> structure,
         @ForAll BasicAlgebraicUnaryOperator o) {
 
         try {
@@ -524,9 +522,5 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             }
         }
     }
-
-
-
-
 
 }
