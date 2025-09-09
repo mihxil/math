@@ -1,4 +1,9 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */
+
+form.demo div.form {
+  width: 70%;
+}
+
 form.demo output {
   width: 100%;
   min-height: 3em;
@@ -7,12 +12,12 @@ form.demo output {
   background-color: aliceblue;
   overflow: auto;
 }
-
 form.demo {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
 }
+
 form.demo label {
   margin-bottom: 0.2em;
 }
@@ -88,9 +93,10 @@ div:is(.sect1, .sect2).tips-aside form  {
 whether this rendered stand alone or as part of a larger document. */
 div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
   float: right;
-  width: 50%;
+  width: 30%;
   padding-left: 2ex;
   overflow-y: auto;
+  background: #00fafa;
 }
 
 div:is(.sect1, .sect2):has(>#demo_solver) .admonitionblock.tip {
