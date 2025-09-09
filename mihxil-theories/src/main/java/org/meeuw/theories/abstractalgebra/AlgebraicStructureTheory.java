@@ -493,4 +493,20 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
 
+    @Property
+    default void isCommutative(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
+        for (BasicAlgebraicBinaryOperator operator : BasicAlgebraicBinaryOperator.values()) {
+            if (! structure.getSupportedOperators().contains(operator)) {
+                log().info("%s does not support %s".formatted(structure, operator));
+                assertThatThrownBy(() -> structure.isCommutative(operator))
+                    .isInstanceOf(NoSuchOperatorException.class);
+                continue;
+            }
+            log().info("%s -> %s".formatted(operator, structure.isCommutative(operator) ? "is commutative" : "is not commutative"));
+        }
+    }
+
+
+
+
 }
