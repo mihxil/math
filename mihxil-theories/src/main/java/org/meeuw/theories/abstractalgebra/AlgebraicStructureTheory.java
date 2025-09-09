@@ -492,6 +492,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    @Property
+    default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
+        AlgebraicStructure<E> structure = element.getStructure();
+        assertThat(structure.getConstant(element.toString())).contains(element);
+
+    }
+
 
     @Property
     default void isCommutative(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
