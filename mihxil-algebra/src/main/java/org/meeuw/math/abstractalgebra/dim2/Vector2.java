@@ -73,7 +73,9 @@ public class Vector2 implements
 
         Vector2 vector3 = (Vector2) o;
 
-        if (Math.abs(vector3.x - x) > 2 * uncertaintyForDouble(x)) return false;
+        if (Math.abs(vector3.x - x) > 2 * uncertaintyForDouble(x)) {
+            return false;
+        }
         return !(Math.abs(vector3.y - y) > 2 * uncertaintyForDouble(y));
     }
 
@@ -146,7 +148,9 @@ public class Vector2 implements
 
     @Override
     public Iterator<RealNumber> iterator() {
-        return Stream.of(x, y).map(RealNumber::of).iterator();
+        return Stream.of(x, y)
+            .map(RealNumber::of)
+            .iterator();
     }
 
     @Override

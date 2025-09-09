@@ -44,7 +44,6 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
 
 
 
-
     private boolean roundingErrorsOnly(double value, double uncertainty) {
         return uncertainty < uncertaintyForDouble(value) * considerRoundingErrorFactor;
     }

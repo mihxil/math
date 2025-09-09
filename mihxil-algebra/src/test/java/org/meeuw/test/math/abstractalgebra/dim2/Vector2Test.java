@@ -83,7 +83,7 @@ class Vector2Test implements
     @Test
     public void stringEqualsHashCode() {
         Vector2 example = of(1, 2);
-        assertThat(example.toString()).isEqualTo("(1, 2)");
+        assertThat(example.toString()).isEqualTo("(1.0, 2.0)");
 
         assertThat(example.equals(example)).isTrue();
         assertThat(example.equals("bla")).isFalse();

@@ -79,6 +79,12 @@ class RealFieldTest implements
         assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
+    @Test
+    public void stringOfExact() {
+        double val = 0.14824015720431231;
+        RealNumber rn = RealNumber.of(val);
+        assertThat(rn.toString()).isEqualTo("" + val);
+    }
 
     @Test
     public void minus() {

@@ -12,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @Log
 public class DoubleUtilsTest {
 
-
     @Test
     public void uncertaintyForDouble() {
         assertThat(DoubleUtils.uncertaintyForDouble(0)).isEqualTo(4.9E-324);
@@ -54,8 +53,6 @@ public class DoubleUtilsTest {
         assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1")).isEqualTo(0.5d);
         assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1.00")).isEqualTo(0.005d);
         assertThat(DoubleUtils.implicitUncertaintyForDouble(0.1, "0.01")).isEqualTo(0.005d);
-
-
     }
 
 }

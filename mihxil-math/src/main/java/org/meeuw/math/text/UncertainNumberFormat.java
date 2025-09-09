@@ -20,6 +20,7 @@ import lombok.NonNull;
 import java.text.FieldPosition;
 import java.text.Format;
 
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -43,12 +44,12 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
 
     @Override
     UncertainNumber<?> of(String v, Factor factor) {
-        throw new NotParsable.NotImplemented("Not supported yet.");
+        throw new NotParsable.NotImplemented("Not supported yet. to parse number " + v + " (" + factor + ")");
     }
 
     @Override
     UncertainNumber<?> of(String v, String uncertainty, Factor factor) {
-        throw new NotParsable.NotImplemented("Not supported yet.");
+        return DoubleElement.of(Double.parseDouble(v), Double.parseDouble(uncertainty));
     }
 
 

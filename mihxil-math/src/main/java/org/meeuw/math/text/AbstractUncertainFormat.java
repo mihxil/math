@@ -24,11 +24,13 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
 import static org.meeuw.math.text.TextUtils.unsuperscript;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PLUS_MINUS;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
 /**
  * @author Michiel Meeuwissen
@@ -56,7 +58,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
 
     @Getter
     @Setter
-    protected UncertaintyConfiguration.Notation uncertaintyNotation = UncertaintyConfiguration.Notation.PLUS_MINUS;
+    protected Notation uncertaintyNotation = PLUS_MINUS;
 
 
     @Getter
@@ -66,8 +68,6 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     @Getter
     @Setter
     protected int maximalPrecision = Integer.MAX_VALUE;
-
-
 
 
     static ThreadLocal<DecimalFormat> EXACT_DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
@@ -131,7 +131,26 @@ public abstract class AbstractUncertainFormat<F> extends Format {
                 String valueStr = source.substring(start, i).trim();
                 pos.setIndex(i);
                 Factor factor = parsePower(valueStr, pos);
-                return of(valueStr, factor);
+                if (uncertaintyNotation == ROUND_VALUE) {
+                    StringBuilder uncertaintyStr = new StringBuilder(valueStr);
+                    int lastMatch = -1;
+                    for (int j = 0; j < uncertaintyStr.length(); j++) {
+                        if (Character.isDigit(uncertaintyStr.charAt(j))) {
+                            lastMatch = j;
+                            uncertaintyStr.setCharAt(j, '0');
+                        }
+                    }
+                    if (lastMatch >= 0) {
+                        uncertaintyStr.setCharAt(lastMatch, '5');
+                    }
+                    while(uncertaintyStr.charAt(0) == '-') {
+                        uncertaintyStr.deleteCharAt(0);
+                    }
+                    return of(valueStr, uncertaintyStr.toString(), factor);
+                } else {
+                    // it must have been exact/not a result of format
+                    return of(valueStr, factor);
+                }
             } else if (errorBracket >= 0)  {
                 // Value and uncertainty
                 final String valueStr = source.substring(start, errorBracket).trim();

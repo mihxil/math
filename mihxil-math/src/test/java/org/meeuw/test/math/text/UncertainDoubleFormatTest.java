@@ -23,11 +23,13 @@ import java.util.Locale;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.assertj.core.data.Offset;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainDoubleFormat;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -36,6 +38,7 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.text.TextUtils.superscript;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.*;
 
 /**
  * @author Michiel Meeuwissen
@@ -48,6 +51,7 @@ class UncertainDoubleFormatTest {
     public static void setup() {
         ConfigurationService.resetToDefaultDefaults();
     }
+
     UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
 
@@ -101,7 +105,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void parentheses() {
-        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
+        formatter.setUncertaintyNotation(PARENTHESES);
         assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
         assertThat(formatter.scientificNotationWithUncertainty(1234.234, 0.0456)).isEqualTo("1234.23(5)");
     }
@@ -155,11 +159,45 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatNegative() {
-
-        String s= formatter.scientificNotationWithUncertainty(
+        String s = formatter.scientificNotationWithUncertainty(
             -2.2967301287511077E-10,
-               0.000005551115123125783E-10);
-        assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
+            0.000005551115123125783E-10);
+    }
+
+
+    @ParameterizedTest
+    @CsvSource(
+        textBlock = """
+            1,                       0.5,                         1.0,                   1.0 ± 0.5,                      1.0(5)
+            1,                       0.00001,                     1.000000,              1.000000 ± 0.000010,            1.000000(10)
+            1,                       0.20,                        1.0,                   1.0 ± 0.2,                      1.0(2)
+            -2.2967301287511077E-10, 0.000005551115123125783E-10, -2.296730·10⁻¹⁰,       (-2.296730 ± 0.000006)·10⁻¹⁰,  -2.296730(6)·10⁻¹⁰
+            """
+    )
+    public void notations(double value, double error, String rounded, String plusminus, String parentheses) {
+        var el = DoubleElement.of(value,error);
+
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(ROUND_VALUE))) {
+            testNotation(el, rounded);
+        }
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(PLUS_MINUS))) {
+            testNotation(el, plusminus);
+        }
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(PARENTHESES))) {
+            testNotation(el, parentheses);
+        }
+
+    }
+    private void testNotation(DoubleElement el, String expected) {
+        UncertaintyConfiguration.Notation notation = ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getNotation();
+        String toString = el.toString();
+        assertThat(toString)
+            .withFailMessage(() -> notation + ": toString of " + el.getValue() +"/" + el.getUncertainty() + " is " + toString + " but it should have been " + expected)
+            .isEqualTo(expected);
+        DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
+        assertThat(parsed.toString())
+            .withFailMessage(() -> notation+ ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is correct (" + toString + "), but parsing it again resulted "  + parsed.getValue() + "/" + parsed.getUncertainty())
+            .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -232,15 +270,15 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void impreciseNotation() {
-
         DoubleElement doubleElement = formatter.parseObject("1.12345678(2)");
-        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PARENTHESES);
+        formatter.setUncertaintyNotation(PARENTHESES);
         assertThat(formatter.format(doubleElement)).isEqualTo("1.12345678(2)");
+
         formatter.setMaximalPrecision(3);
         assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
-        formatter.setUncertaintyNotation(UncertaintyConfiguration.Notation.PLUS_MINUS);
-        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
 
+        formatter.setUncertaintyNotation(PLUS_MINUS);
+        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
     }
 
 
