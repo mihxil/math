@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Synonym;
 
 /**
@@ -27,6 +28,7 @@ public interface AdditiveSemiGroupElement<E extends AdditiveSemiGroupElement<E>>
     extends MagmaElement<E> {
 
     @Override
+    @NonNull
     AdditiveSemiGroup<E> getStructure();
 
     /**

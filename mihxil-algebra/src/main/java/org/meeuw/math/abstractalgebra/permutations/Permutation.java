@@ -21,6 +21,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -72,7 +73,7 @@ public class Permutation  implements
     }
 
     @Override
-    public PermutationGroup getStructure() {
+    public @NonNull PermutationGroup getStructure() {
         return PermutationGroup.ofDegree(value.length);
     }
 

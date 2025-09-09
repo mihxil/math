@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * An element of a {@link Ring}, so something that can be added, subtracted and multiplied by each other.
  * @author Michiel Meeuwissen
@@ -23,6 +25,7 @@ package org.meeuw.math.abstractalgebra;
 public interface RingElement<E extends RingElement<E>> extends RngElement<E>, MultiplicativeMonoidElement<E> {
 
     @Override
+    @NonNull
     Ring<E> getStructure();
 
 }

@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 
@@ -30,6 +31,7 @@ public interface MultiplicativeMonoidElement<E extends MultiplicativeMonoidEleme
     extends MultiplicativeSemiGroupElement<E> {
 
     @Override
+    @NonNull
     MultiplicativeMonoid<E> getStructure();
 
     /**

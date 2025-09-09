@@ -26,6 +26,7 @@ import java.util.OptionalDouble;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
@@ -227,7 +228,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
     }
 
     @Override
-    public RealField getStructure() {
+    public @NonNull RealField getStructure() {
         return RealField.INSTANCE;
     }
 

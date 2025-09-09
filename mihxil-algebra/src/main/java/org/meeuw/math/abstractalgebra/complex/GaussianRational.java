@@ -14,6 +14,7 @@
  *    limitations under the License.
  */package org.meeuw.math.abstractalgebra.complex;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
@@ -40,7 +41,7 @@ public class GaussianRational extends AbstractComplexNumber<GaussianRational, Ra
     }
 
     @Override
-    public GaussianRationals getStructure() {
+    public @NonNull GaussianRationals getStructure() {
         return GaussianRationals.INSTANCE;
     }
 

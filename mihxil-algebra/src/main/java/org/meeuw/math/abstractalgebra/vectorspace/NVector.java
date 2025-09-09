@@ -142,7 +142,7 @@ public class NVector<E extends FieldElement<E>> implements
     }
 
     @Override
-    public AbelianRing<NVector<E>> getStructure() {
+    public @NonNull AbelianRing<NVector<E>> getStructure() {
         return getSpace();
     }
 

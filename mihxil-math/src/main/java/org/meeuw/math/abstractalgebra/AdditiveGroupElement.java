@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * An element for the algebraic {@link AdditiveGroup group}  (where the operation is addition)
  *
@@ -28,6 +30,7 @@ public interface AdditiveGroupElement<E extends AdditiveGroupElement<E>>
     GroupElement<E> {
 
     @Override
+    @NonNull
     AdditiveGroup<E> getStructure();
 
     /**

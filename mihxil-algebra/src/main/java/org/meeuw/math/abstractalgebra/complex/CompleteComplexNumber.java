@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
@@ -45,7 +46,7 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
-    public abstract CompleteComplexNumbers<S, E, ES> getStructure();
+    public abstract @NonNull CompleteComplexNumbers<S, E, ES> getStructure();
 
 
     @Override

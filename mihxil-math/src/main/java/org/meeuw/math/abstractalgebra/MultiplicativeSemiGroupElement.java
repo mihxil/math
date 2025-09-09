@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import jakarta.validation.constraints.PositiveOrZero;
 
 import org.checkerframework.checker.index.qual.Positive;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.exceptions.IllegalPowerException;
 
@@ -33,6 +34,7 @@ public interface MultiplicativeSemiGroupElement<E extends MultiplicativeSemiGrou
     extends MagmaElement<E> {
 
     @Override
+    @NonNull
     MultiplicativeSemiGroup<E> getStructure();
 
     /**

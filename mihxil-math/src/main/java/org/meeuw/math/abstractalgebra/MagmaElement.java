@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * An element of a  {@link Magma}, a group where it is not defined whether the operation is addition, multiplication or even some
  * other one (like e.g. division)
@@ -26,6 +28,7 @@ public interface MagmaElement<E extends MagmaElement<E>> extends
     AlgebraicElement<E> {
 
     @Override
+    @NonNull
     Magma<E> getStructure();
 
     /**

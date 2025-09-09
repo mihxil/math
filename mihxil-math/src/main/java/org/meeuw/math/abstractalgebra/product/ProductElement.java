@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;
 import org.meeuw.math.exceptions.AlgebraicStructureException;
@@ -73,7 +74,7 @@ public class ProductElement implements GroupElement<ProductElement>, Serializabl
 
 
     @Override
-    public ProductGroup getStructure() {
+    public @NonNull ProductGroup getStructure() {
         return structure;
     }
 

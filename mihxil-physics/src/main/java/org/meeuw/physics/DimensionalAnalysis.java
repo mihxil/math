@@ -60,7 +60,7 @@ public class DimensionalAnalysis
     }
 
     @Override
-    public DimensionsGroup getStructure() {
+    public @NonNull DimensionsGroup getStructure() {
         return DimensionsGroup.INSTANCE;
     }
 

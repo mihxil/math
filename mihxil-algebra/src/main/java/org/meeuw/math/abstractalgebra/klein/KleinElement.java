@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.klein;
 
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;
 
@@ -43,7 +44,7 @@ public enum KleinElement implements GroupElement<KleinElement> {
     ;
 
     @Override
-    public Group<KleinElement> getStructure() {
+    public @NonNull Group<KleinElement> getStructure() {
         return KleinGroup.INSTANCE;
     }
 

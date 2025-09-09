@@ -17,12 +17,14 @@ package org.meeuw.math.abstractalgebra;
 
 import java.io.Serializable;
 import java.util.*;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotASubGroup;
 
 /**
  * The base interface for elements of algebraic structures.
  * <p>
- * Every element in a algebraic structure has at least a reference to the {@link AlgebraicStructure} of wich it is an element
+ * Every element in an algebraic structure has at least a reference to the {@link AlgebraicStructure} of which it is an element
  * of. See {@link #getStructure()}.
  * <p>
  * An algebraic element should basically be unmodifiable, at least in the sense that it from the start on  should represent the same <em>value</em>.
@@ -36,6 +38,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     /**
      * @return the {@link AlgebraicStructure} associated with the object.
      */
+    @NonNull
     AlgebraicStructure<E> getStructure();
 
     /**
@@ -116,7 +119,7 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
      * @return A new algebraic element, which same value, but as a member of a super structure
      * @param clazz The class of the object to cast to
      * @param <F> The type of the class of the object to cast to
-     * @throws NotASubGroup if the argument cannot cast, because is not a sub-group of the current group
+     * @throws NotASubGroup if the argument cannot cast, because is not a subgroup of the current group
      */
     default <F extends AlgebraicElement<F>> F cast(Class<F> clazz) {
         Optional<F> directly = castDirectly(clazz);

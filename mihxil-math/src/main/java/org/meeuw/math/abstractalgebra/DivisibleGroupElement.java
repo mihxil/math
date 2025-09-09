@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.validation.NotZero;
 
@@ -29,6 +30,7 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
     WithDoubleOperations<E> {
 
     @Override
+    @NonNull
     DivisibleGroup<E> getStructure();
 
     /**

@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
@@ -32,6 +33,7 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     FieldElement<E> {
 
     @Override
+    @NonNull
     CompleteField<E> getStructure();
 
     /**

@@ -19,6 +19,7 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Equivalence;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
@@ -173,7 +174,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3Group<E> getStructure() {
+    public @NonNull FieldMatrix3Group<E> getStructure() {
         return FieldMatrix3Group.of(elementStructure);
     }
 

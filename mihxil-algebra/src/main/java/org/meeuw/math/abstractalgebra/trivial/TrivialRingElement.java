@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.trivial;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 
@@ -34,7 +35,7 @@ public enum TrivialRingElement
     e;
 
     @Override
-    public TrivialRing getStructure() {
+    public @NonNull TrivialRing getStructure() {
         return TrivialRing.INSTANCE;
     }
 

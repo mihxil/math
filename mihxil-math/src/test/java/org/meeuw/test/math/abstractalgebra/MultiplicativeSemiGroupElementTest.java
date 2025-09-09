@@ -17,6 +17,8 @@ package org.meeuw.test.math.abstractalgebra;
 
 import java.util.Random;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.*;
@@ -39,7 +41,7 @@ class MultiplicativeSemiGroupElementTest {
         }
 
         @Override
-        public MultiplicativeSemiGroup<A> getStructure() {
+        public @NonNull MultiplicativeSemiGroup<A> getStructure() {
             return new Struct();
         }
 

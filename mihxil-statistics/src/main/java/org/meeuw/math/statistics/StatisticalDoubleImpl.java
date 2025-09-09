@@ -20,6 +20,7 @@ import lombok.Getter;
 import java.util.OptionalDouble;
 import java.util.function.DoubleConsumer;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.reals.*;
@@ -123,7 +124,7 @@ public class StatisticalDoubleImpl
     }
 
     @Override
-    public RealField getStructure() {
+    public @NonNull RealField getStructure() {
         return RealField.INSTANCE;
     }
 

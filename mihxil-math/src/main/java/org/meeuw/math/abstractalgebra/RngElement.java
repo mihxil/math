@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * Like {@link RingElement}, but the structure is not a complete {@link Ring}, but merely a {@link Rng}
  *
@@ -27,6 +29,7 @@ public interface RngElement<E extends RngElement<E>> extends
     MultiplicativeSemiGroupElement<E> {
 
     @Override
+    @NonNull
     Rng<E> getStructure();
 
     @Override

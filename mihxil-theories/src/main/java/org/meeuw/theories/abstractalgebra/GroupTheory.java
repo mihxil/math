@@ -17,6 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.exceptions.*;
@@ -82,7 +83,7 @@ public interface GroupTheory<E extends GroupElement<E>>
     class UnknownGroupElement implements GroupElement<UnknownGroupElement> {
 
         @Override
-        public UnknownGroup getStructure() {
+        public @NonNull UnknownGroup getStructure() {
             return null;
         }
 

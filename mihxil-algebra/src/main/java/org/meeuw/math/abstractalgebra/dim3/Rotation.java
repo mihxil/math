@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.dim3;
 
 import java.util.function.UnaryOperator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.validation.Square;
@@ -84,7 +85,7 @@ public class Rotation implements
     }
 
     @Override
-    public RotationGroup getStructure() {
+    public @NonNull RotationGroup getStructure() {
         return RotationGroup.INSTANCE;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.numbers.Scalar;
 
@@ -30,6 +31,7 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
     WithDoubleOperations<E> {
 
     @Override
+    @NonNull
     ScalarField<E> getStructure();
 
     @Override

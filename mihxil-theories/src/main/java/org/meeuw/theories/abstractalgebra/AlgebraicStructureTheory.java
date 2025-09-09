@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 
-import org.meeuw.assertj.Assertions;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
@@ -395,7 +394,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         if (eqMethods.size() > 1) {
             log().info("Eq methods for " + element);
             for (Method m : eqMethods) {
-                log().info(() -> m.toString());
+                log().info(m::toString);
             }
         }
     }
@@ -406,7 +405,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
      * <p>
      *  No assertions if finite, so then it just tests whether the method can be called without exceptions.
      *  If the structure is infinite, it will assert that the method throws a {@link NotFiniteException} for every operator.
-     * @param structure
+     * @param structure The structure for which to generate the Cayley table
      */
     @Property
     default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<E> structure) {
@@ -416,9 +415,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
             for (AlgebraicBinaryOperator op : structure.getSupportedOperators()) {
                 logger.info("CayleyTable for %s and operation %s (%s)".formatted( structure, op, op.getSymbol()));
 
-                structure.cayleyTable(op, (line) -> {
-                    logger.info(Stream.of(line).collect(Collectors.joining("\t")));
-                });
+                structure.cayleyTable(op, (line) ->
+                    logger.info(Stream.of(line).collect(Collectors.joining("\t")))
+                );
             }
         } else {
             logger.info("%s is not finite. Cayley tables cannot be produced".formatted(structure));
@@ -498,8 +497,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         try {
             structure.fromString(s);
             assertThatAlgebraically(structure.getConstant(element.toString())).containsEq(element);
-        } catch (NotParsable.NotImplemented ignored) {
-            log().info("NotParsable: %s".formatted(ignored.getMessage()));
+        } catch (NotParsable.NotImplemented notImplemented) {
+            log().info("NotParsable: %s".formatted(notImplemented.getMessage()));
         }
     }
 

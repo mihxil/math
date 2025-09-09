@@ -214,7 +214,7 @@ public abstract class PhysicalNumber
     protected abstract PhysicalNumber copy(RealNumber wrapped, Units units);
 
     @Override
-    public PhysicalNumbers getStructure() {
+    public @org.checkerframework.checker.nullness.qual.NonNull PhysicalNumbers getStructure() {
         return PhysicalNumbers.INSTANCE;
     }
 

@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.trivial;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.GroupElement;
 
 
@@ -38,7 +39,7 @@ public enum TrivialGroupElement implements
     e;
 
     @Override
-    public TrivialGroup getStructure() {
+    public @NonNull TrivialGroup getStructure() {
         return TrivialGroup.INSTANCE;
     }
 

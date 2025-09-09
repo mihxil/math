@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.util.function.UnaryOperator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -59,7 +60,7 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
 
 
     @Override
-    public DihedralGroup getStructure() {
+    public @NonNull DihedralGroup getStructure() {
         return group;
     }
 

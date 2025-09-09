@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -22,6 +24,7 @@ package org.meeuw.math.abstractalgebra;
 public interface AdditiveMonoidElement<E extends AdditiveMonoidElement<E>> extends AdditiveSemiGroupElement<E> {
 
     @Override
+    @NonNull
     AdditiveMonoid<E> getStructure();
 
     default boolean isZero() {

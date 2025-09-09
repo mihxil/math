@@ -19,6 +19,7 @@ import lombok.Getter;
 
 import java.util.*;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.abstractalgebra.reals.AbstractUncertainDouble;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -66,7 +67,7 @@ public class CompositeUnits implements Units  {
 
 
     @Override
-    public UnitsGroup getStructure() {
+    public @NonNull UnitsGroup getStructure() {
         return UnitsGroup.INSTANCE;
     }
 

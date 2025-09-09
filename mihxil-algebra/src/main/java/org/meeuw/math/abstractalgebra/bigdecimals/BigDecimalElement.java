@@ -259,7 +259,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalField getStructure() {
+    public @NonNull BigDecimalField getStructure() {
         return BigDecimalField.INSTANCE;
     }
 

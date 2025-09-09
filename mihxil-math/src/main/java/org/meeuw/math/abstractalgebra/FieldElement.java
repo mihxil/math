@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.ReciprocalException;
 
@@ -32,6 +33,7 @@ public interface FieldElement<E extends FieldElement<E>> extends
     GroupElement<E> {
 
     @Override
+    @NonNull
     Field<E> getStructure();
 
     @Override

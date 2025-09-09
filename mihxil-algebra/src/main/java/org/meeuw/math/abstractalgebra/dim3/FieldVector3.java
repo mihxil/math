@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
@@ -178,7 +179,7 @@ public class FieldVector3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public AbelianRing<FieldVector3<E>> getStructure() {
+    public @NonNull AbelianRing<FieldVector3<E>> getStructure() {
         return getSpace();
     }
 

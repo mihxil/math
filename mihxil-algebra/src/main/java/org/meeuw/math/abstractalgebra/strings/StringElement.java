@@ -52,7 +52,7 @@ public class StringElement implements AdditiveMonoidElement<StringElement>, Char
     }
 
     @Override
-    public StringMonoid getStructure() {
+    public @NonNull StringMonoid getStructure() {
         return StringMonoid.INSTANCE;
     }
 

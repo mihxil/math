@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * Elements of a {@link CompleteField}.
  *
@@ -30,6 +32,7 @@ public interface CompleteScalarFieldElement
     ScalarFieldElement<E> {
 
     @Override
+    @NonNull
     CompleteScalarField<E> getStructure();
 
     @Override

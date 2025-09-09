@@ -17,6 +17,7 @@ package org.meeuw.physics;
 
 import java.util.List;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -44,7 +45,7 @@ public interface Units extends
      * The physical units form a {@link org.meeuw.math.abstractalgebra.MultiplicativeGroup}, implemented by {@link UnitsGroup}.
      */
     @Override
-    default UnitsGroup getStructure() {
+    default @NonNull UnitsGroup getStructure() {
         return UnitsGroup.INSTANCE;
     }
 

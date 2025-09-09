@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.dim2;
 
 import java.util.function.UnaryOperator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.validation.Square;
 
@@ -47,7 +48,7 @@ public class Rotation2<E extends CompleteScalarFieldElement<E>> implements
 
 
     @Override
-    public Rotation2Group<E> getStructure() {
+    public @NonNull Rotation2Group<E> getStructure() {
         return structure;
     }
 

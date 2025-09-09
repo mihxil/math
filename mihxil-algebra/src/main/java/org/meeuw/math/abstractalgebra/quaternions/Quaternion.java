@@ -20,6 +20,7 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
@@ -57,7 +58,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternions<E> getStructure() {
+    public @NonNull Quaternions<E> getStructure() {
         return Quaternions.of(a.getStructure());
     }
 

@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
@@ -125,7 +126,7 @@ public interface RealNumber
     }
 
     @Override
-    default RealField getStructure() {
+    default @NonNull RealField getStructure() {
         return RealField.INSTANCE;
     }
 

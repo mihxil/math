@@ -20,6 +20,8 @@ import lombok.Getter;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import static org.meeuw.math.IntegerUtils.modPow;
 
 import org.meeuw.math.abstractalgebra.AbelianRingElement;
@@ -46,7 +48,7 @@ public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends Mod
     }
 
     @Override
-    public S getStructure() {
+    public @NonNull S getStructure() {
         return structure;
     }
 

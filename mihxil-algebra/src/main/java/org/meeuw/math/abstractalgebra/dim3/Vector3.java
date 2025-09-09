@@ -157,7 +157,7 @@ public class Vector3 implements
     }
 
     @Override
-    public AbelianRing<Vector3> getStructure() {
+    public @NonNull AbelianRing<Vector3> getStructure() {
         return getSpace();
     }
 

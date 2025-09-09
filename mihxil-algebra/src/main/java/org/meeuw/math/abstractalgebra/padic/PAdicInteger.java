@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 
 import java.math.BigInteger;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
@@ -52,7 +53,7 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
 
 
     @Override
-    public PAdicIntegers getStructure() {
+    public @NonNull PAdicIntegers getStructure() {
         return structure;
     }
 

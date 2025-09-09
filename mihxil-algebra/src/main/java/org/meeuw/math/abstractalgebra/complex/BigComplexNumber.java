@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
 import org.meeuw.math.abstractalgebra.MetricSpaceElement;
@@ -84,7 +85,7 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
     }
 
     @Override
-    public BigComplexNumbers getStructure() {
+    public @NonNull BigComplexNumbers getStructure() {
         return BigComplexNumbers.INSTANCE;
     }
 

@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.Synonym;
 
@@ -29,6 +30,7 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
     RingElement<E> {
 
     @Override
+    @NonNull
     DivisionRing<E> getStructure();
 
     /**

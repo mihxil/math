@@ -21,6 +21,7 @@ import lombok.With;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -149,7 +150,7 @@ public class Vector2 implements
     }
 
     @Override
-    public AbelianRing<Vector2> getStructure() {
+    public @NonNull AbelianRing<Vector2> getStructure() {
         return getSpace();
     }
 

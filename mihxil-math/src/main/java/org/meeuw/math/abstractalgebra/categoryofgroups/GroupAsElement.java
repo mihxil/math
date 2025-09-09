@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.categoryofgroups;
 
 import java.io.Serializable;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.product.ProductGroup;
 
@@ -31,7 +32,7 @@ public interface GroupAsElement extends
     Serializable {
 
     @Override
-    default CategoryOfGroups getStructure() {
+    default @NonNull CategoryOfGroups getStructure() {
         return CategoryOfGroups.INSTANCE;
     }
 

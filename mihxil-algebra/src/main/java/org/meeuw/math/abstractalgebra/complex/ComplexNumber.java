@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -65,7 +66,7 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
     }
 
     @Override
-    public ComplexNumbers getStructure() {
+    public @NonNull ComplexNumbers getStructure() {
         return INSTANCE;
     }
 

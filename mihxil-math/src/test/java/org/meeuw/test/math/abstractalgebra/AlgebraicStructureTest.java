@@ -17,6 +17,8 @@ package org.meeuw.test.math.abstractalgebra;
 
 import lombok.extern.java.Log;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -31,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AlgebraicStructureTest {
     private static class E implements AlgebraicElement<E> {
         @Override
-        public AlgebraicStructure<E> getStructure() {
+        public @NonNull AlgebraicStructure<E> getStructure() {
             return new S();
         }
     }

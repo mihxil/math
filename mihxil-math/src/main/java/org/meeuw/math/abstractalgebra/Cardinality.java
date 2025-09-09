@@ -20,6 +20,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.index.qual.NonNegative;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.exceptions.CardinalityNotFiniteException;
 import org.meeuw.math.text.TextUtils;
@@ -124,7 +125,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     }
 
     @Override
-    public MultiplicativeSemiGroup<Cardinality> getStructure() {
+    public @NonNull MultiplicativeSemiGroup<Cardinality> getStructure() {
         return Structure.INSTANCE;
     }
 

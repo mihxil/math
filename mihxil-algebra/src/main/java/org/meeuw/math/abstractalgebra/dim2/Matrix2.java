@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.dim2;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
@@ -79,7 +80,7 @@ public class Matrix2 implements
     }
 
     @Override
-    public Matrix2Group getStructure() {
+    public @NonNull Matrix2Group getStructure() {
         return Matrix2Group.INSTANCE;
     }
 

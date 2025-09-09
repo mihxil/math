@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.*;
 
@@ -33,6 +34,7 @@ public interface MultiplicativeGroupElement<E extends MultiplicativeGroupElement
     extends MultiplicativeMonoidElement<E>, GroupElement<E> {
 
     @Override
+    @NonNull
     MultiplicativeGroup<E> getStructure();
 
     /**

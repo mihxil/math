@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * An element of a {@link AbelianRing}, so like {@link Ring}, but the operations are 'abelian' too.
  * @author Michiel Meeuwissen
@@ -23,6 +25,7 @@ package org.meeuw.math.abstractalgebra;
 public interface AbelianRingElement<E extends AbelianRingElement<E>> extends RingElement<E> {
 
     @Override
+    @NonNull
     AbelianRing<E> getStructure();
 
 }

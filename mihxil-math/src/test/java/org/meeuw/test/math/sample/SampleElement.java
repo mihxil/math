@@ -17,6 +17,7 @@ package org.meeuw.test.math.sample;
 
 import java.util.function.BinaryOperator;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.AdditiveGroupElement;
 
 public class SampleElement implements AdditiveGroupElement<SampleElement> {
@@ -35,7 +36,7 @@ public class SampleElement implements AdditiveGroupElement<SampleElement> {
     }
 
     @Override
-    public SampleStructure getStructure() {
+    public @NonNull SampleStructure getStructure() {
         return new SampleStructure();
     }
 
