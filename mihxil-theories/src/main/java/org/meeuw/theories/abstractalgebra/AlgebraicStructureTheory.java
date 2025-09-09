@@ -496,7 +496,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
         AlgebraicStructure<E> structure = element.getStructure();
         assertThat(structure.getConstant(element.toString())).contains(element);
-
     }
 
 
@@ -507,11 +506,25 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 log().info("%s does not support %s".formatted(structure, operator));
                 assertThatThrownBy(() -> structure.isCommutative(operator))
                     .isInstanceOf(NoSuchOperatorException.class);
-                continue;
+            } else {
+                log().info("%s -> %s".formatted(operator, structure.isCommutative(operator) ? "is commutative" : "is not commutative"));
             }
-            log().info("%s -> %s".formatted(operator, structure.isCommutative(operator) ? "is commutative" : "is not commutative"));
         }
     }
+
+
+    @Property
+    default void unaryBySymbol(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
+        for (BasicAlgebraicUnaryOperator operator : BasicAlgebraicUnaryOperator.values()) {
+            if (! structure.getSupportedUnaryOperators().contains(operator)) {
+                log().info("%s does not support %s".formatted(structure, operator));
+                assertThat(structure.getUnaryOperationBySymbol(operator.getSymbol())).isEmpty();
+            } else {
+                assertThat(structure.getUnaryOperationBySymbol(operator.getSymbol())).contains(operator);
+            }
+        }
+    }
+
 
 
 
