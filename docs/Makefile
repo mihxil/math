@@ -1,7 +1,9 @@
 MVN=mvn
 
 .PHONY: resources
+.PRECIOUS: sass/%.scss
 .DEFAULT_GOAL := index.html
+
 
 all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4  ## all
 
@@ -24,7 +26,11 @@ DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinf
 resources:  ## copy resources from ../mihxil-demo
 	find ../mihxil-demo/resources -type f -exec sh -c 'echo "/* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */" > resources/$$(basename $$1) ; cat $$1 >> resources/$$(basename $$1)' sh \{\} \;
 
-resources/css/%.css: ../mihxil-demo/sass/%.scss
+sass/%.scss: ../mihxil-demo/sass/%.scss
+	echo '// DO NOT EDIT' > $@
+	cat $< >> $@
+
+resources/css/%.css: sass/%.scss
 	sass $< $@
 
 %.svg: %.dot

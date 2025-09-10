@@ -34,6 +34,8 @@ explore:
 run: index.html  ## run with cheerpj
 	npx serve -l 3001
 
+sass/%.css:
+
 resources/css/%.css: sass/%.scss
 	sass $< $@
 
