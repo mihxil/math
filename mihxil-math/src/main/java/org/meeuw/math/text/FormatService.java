@@ -15,7 +15,6 @@
  */
 package org.meeuw.math.text;
 
-import lombok.Generated;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
@@ -23,8 +22,6 @@ import java.text.Format;
 import java.text.ParsePosition;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.function.Consumer;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -136,25 +133,6 @@ public final class FormatService {
             .orElseThrow(() -> new NotParsable.NotImplemented("Could not parse '" + source + "' to " + clazz + " (with " + getFormat(clazz, configuration).toList() + ")"));
     }
 
-    /**
-     * @deprecated
-     */
-    @Deprecated
-    @Generated // exclude from coverage
-    public static void setConfiguration(Configuration build) {
-        ConfigurationService.setConfiguration(build);
-    }
-    @Deprecated
-    @Generated
-    public static <E extends ConfigurationAspect> void with(Class<E> configurationAspect, UnaryOperator<E> aspect, Runnable r) {
-        ConfigurationService.withAspect(configurationAspect, aspect, r);
-    }
-
-    @Deprecated
-    @Generated
-    public static void with(Consumer<Configuration.Builder> configuration, Runnable r) {
-        ConfigurationService.withConfiguration(configuration, r);
-    }
 
     public static <E extends AlgebraicElement<E>, R> R with(AlgebraicStructure<E> structure, Callable<R> r) throws Exception {
         try {
@@ -166,6 +144,7 @@ public final class FormatService {
 
     }
 
+    @SuppressWarnings("unchecked")
     public static <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> S getCurrentStructure() {
         return (S) CURRENT_STRUCTURE.get();
     }
