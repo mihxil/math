@@ -34,8 +34,12 @@ explore:
 run: index.html  ## run with cheerpj
 	npx serve -l 3001
 
+resources/css/%.css: sass/%.scss
+	sass $< $@
 
-index.html: README-source.adoc README-source-docinfo.html Makefile resources/*  DEMO-*.adoc  ## create index.html from README-source.adoc
+
+
+index.html: README-source.adoc README-source-docinfo.html Makefile  resources/*  DEMO-*.adoc  resources/css/demo.css ## create index.html from README-source.adoc
 	asciidoctor $< -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
