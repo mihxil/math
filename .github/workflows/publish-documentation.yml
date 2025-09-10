@@ -23,12 +23,15 @@ jobs:
       - uses: actions/checkout@v5
         with:
           set-safe-directory: true
+      - name: Install needed tools
+        run: |
+          apk add --no-cache graphviz m4 npm
+          npm install -g sass
       - name: Create html from adoc
         run: |
           echo "PWD" $(pwd)
           git config --global --add safe.directory $(pwd)
           cd docs
-          apk add --no-cache graphviz m4 sass
           make clean index.html DEMO.html
           git status
           git pull
