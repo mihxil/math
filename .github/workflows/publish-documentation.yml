@@ -10,7 +10,7 @@ on:
       - '*/*-source-docinfo.html'
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
-      - 'docs/*.scss'
+      - 'mihxil-demo/sass/*'
       - 'mihxil-demo/resources/*'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
@@ -28,7 +28,7 @@ jobs:
           echo "PWD" $(pwd)
           git config --global --add safe.directory $(pwd)
           cd docs
-          apk add graphviz m4
+          apk add --no-cache graphviz m4 sass
           make clean index.html DEMO.html
           git status
           git pull
