@@ -190,7 +190,7 @@ class UncertainDoubleFormatTest {
     }
     private void testNotation(DoubleElement el, String expected) {
         UncertaintyConfiguration.Notation notation = ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getNotation();
-        String toString = el.toString();
+        String toString = formatter.format(el);
         assertThat(toString)
             .withFailMessage(() -> notation + ": toString of " + el.getValue() +"/" + el.getUncertainty() + " is " + toString + " but it should have been " + expected)
             .isEqualTo(expected);

@@ -29,7 +29,6 @@ import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
-import static org.meeuw.math.text.UncertainNumberFormat.valueAndError;
 
 /**
  * @author Michiel Meeuwissen
@@ -181,8 +180,8 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
         }
     }
 
-    public  String notationWithUncertainty(double meanDouble,
-                                           double stdDouble) {
+    public  String notationWithUncertainty(
+        double meanDouble, double stdDouble) {
         NumberFormat format = (NumberFormat) numberFormat.clone();
         int digits = DoubleUtils.log10(stdDouble);
         //format.setMaximumFractionDigits(fd);
