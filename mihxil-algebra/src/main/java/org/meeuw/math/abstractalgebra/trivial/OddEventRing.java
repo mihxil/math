@@ -3,9 +3,11 @@ package org.meeuw.math.abstractalgebra.trivial;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
-public class OddEventRing   implements AbelianRing<OddEven>, Streamable<OddEven> {
+@Example(AbelianRing.class)
+public class OddEventRing implements AbelianRing<OddEven>, Streamable<OddEven> {
 
     static final OddEventRing INSTANCE = new OddEventRing();
 
