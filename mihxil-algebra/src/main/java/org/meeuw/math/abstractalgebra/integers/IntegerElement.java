@@ -32,7 +32,7 @@ import org.meeuw.math.numbers.Scalar;
 public class IntegerElement
     extends AbstractIntegerElement<IntegerElement, IntegerElement, Integers>
     implements
-    RingElement<IntegerElement>,
+    AbelianRingElement<IntegerElement>,
     Scalar<IntegerElement>,
     MultiplicativeMonoidElement<IntegerElement>,
     GroupElement<IntegerElement>,

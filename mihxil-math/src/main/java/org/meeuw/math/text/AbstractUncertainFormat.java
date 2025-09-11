@@ -24,6 +24,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static java.lang.Character.isDigit;
@@ -38,10 +39,9 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  */
 public abstract class AbstractUncertainFormat<F> extends Format {
 
-
-    public static final int VALUE_FIELD = 0;
+    public static final int VALUE_FIELD       = 0;
     public static final int UNCERTAINTY_FIELD = 1;
-    public static final int E_FIELD = 2;
+    public static final int E_FIELD           = 2;
 
     public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
 
@@ -306,5 +306,75 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     }
 
 
+
+
+
+    public static String valuePlusMinError(String value, String error) {
+        boolean empty = error.replaceAll("^[0.]+", "").isEmpty();
+        if (empty) {
+            return value;
+        } else {
+            return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
+        }
+    }
+
+
+    /**
+     * @since 0.19
+     */
+    static void valuePlusMinError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error) {
+        format.format(value, appendable, position);
+        appendable.append(' ');
+        appendable.append(TextUtils.PLUSMIN);
+        appendable.append(' ');
+        format.format(error, appendable, position);
+    }
+
+    public static String valueParenthesesError(String value, String error) {
+        int i = 0;
+        while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
+             i++;
+         }
+        String e = error.substring(i);
+        if (e.isEmpty()) {
+            return value;
+        } else {
+            return value + "(" + e + ")";
+        }
+    }
+
+
+    /**
+     * @since 0.19
+     */
+     static void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
+        format.format(value, appendable, pos);
+        appendable.append('(');
+        format.format(error, appendable, pos);
+        appendable.append(')');
+     }
+
+    public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
+        return switch (uncertaintyNotation) {
+            case PARENTHESES -> valueParenthesesError(value, error);
+            case PLUS_MINUS -> valuePlusMinError(value, error);
+            case ROUND_VALUE -> value;
+        };
+    }
+
+
+    /**
+     * @since 0.19
+     */
+    public static void valueAndError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error, UncertaintyConfiguration.Notation uncertaintyNotation) {
+        switch (uncertaintyNotation) {
+            case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
+            case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
+            case ROUND_VALUE -> {
+                format.format(value, appendable, position);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
+        }
+    }
 
 }

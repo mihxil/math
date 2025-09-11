@@ -1,20 +1,18 @@
 package org.meeuw.math.abstractalgebra.polynomial;
 
 import java.lang.reflect.Array;
-
 import java.util.Arrays;
 import java.util.Objects;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.ArrayUtils;
-import org.meeuw.math.abstractalgebra.AdditiveMonoidElement;
-import org.meeuw.math.abstractalgebra.RingElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.text.TextUtils;
 
 /**
  * @since 0.19
  */
-public class Polynomial<E extends RingElement<E>> implements RingElement<Polynomial<E>> {
+public class Polynomial<E extends AbelianRingElement<E>> implements AbelianRingElement<Polynomial<E>> {
 
     private final E[] coefficients;
 
@@ -102,6 +100,9 @@ public class Polynomial<E extends RingElement<E>> implements RingElement<Polynom
 
     @Override
     public String toString() {
+        if (isZero()) {
+            return "0";
+        }
         StringBuilder b = new StringBuilder();
         for (int i = 0; i < coefficients.length; i++) {
             if (!coefficients[i].isZero()) {

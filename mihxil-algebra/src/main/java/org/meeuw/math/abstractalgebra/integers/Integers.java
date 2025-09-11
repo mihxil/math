@@ -37,7 +37,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
  */
 @Singleton
 public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, Integers>
-    implements Ring<IntegerElement>,
+    implements AbelianRing<IntegerElement>,
     MultiplicativeMonoid<IntegerElement>,
     MultiplicativeAbelianSemiGroup<IntegerElement>,
     Group<IntegerElement> {
@@ -107,7 +107,6 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
     public boolean multiplicationIsCommutative() {
         return true;
     }
-
 
     @Override
     IntegerElement of(BigInteger value) {

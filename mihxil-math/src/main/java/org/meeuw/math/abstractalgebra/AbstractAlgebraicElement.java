@@ -17,15 +17,18 @@ package org.meeuw.math.abstractalgebra;
 
 import lombok.Getter;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 public abstract class AbstractAlgebraicElement<
     E extends AbstractAlgebraicElement<E, S>,
     S extends AlgebraicStructure<E>
     > implements AlgebraicElement<E> {
 
     @Getter
+    @NonNull
     protected final S structure;
 
-    protected AbstractAlgebraicElement(S structure) {
+    protected AbstractAlgebraicElement(@NonNull S structure) {
         this.structure = structure;
     }
 
