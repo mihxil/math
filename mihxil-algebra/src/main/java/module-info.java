@@ -44,6 +44,7 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.trivial;
     exports org.meeuw.math.abstractalgebra.vectorspace;
     exports org.meeuw.math.abstractalgebra.permutations.text;
+    exports org.meeuw.math.abstractalgebra.polynomial;
     exports org.meeuw.math.abstractalgebra.linear;
     exports org.meeuw.math.abstractalgebra.klein;
     exports org.meeuw.math.abstractalgebra.dihedral;
