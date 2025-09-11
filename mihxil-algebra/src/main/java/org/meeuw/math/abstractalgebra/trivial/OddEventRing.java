@@ -9,7 +9,7 @@ import org.meeuw.math.abstractalgebra.*;
 @Example(AbelianRing.class)
 public class OddEventRing implements AbelianRing<OddEven>, Streamable<OddEven> {
 
-    static final OddEventRing INSTANCE = new OddEventRing();
+    public static final OddEventRing INSTANCE = new OddEventRing();
 
     @Override
     public OddEven one() {

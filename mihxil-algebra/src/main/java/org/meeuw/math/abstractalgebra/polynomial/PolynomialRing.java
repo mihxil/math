@@ -43,10 +43,10 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     }
 
     @Example(AbelianRing.class)
-    public static PolynomialRing<RationalNumber> RATIONAL_POLYNOMIALS = of(RationalNumbers.INSTANCE);
+    public static final PolynomialRing<RationalNumber> RATIONAL_POLYNOMIALS = of(RationalNumbers.INSTANCE);
 
     @Example(AbelianRing.class)
-    public static PolynomialRing<IntegerElement> INTEGER_POLYNOMIALS = of(Integers.INSTANCE);
+    public static final PolynomialRing<IntegerElement> INTEGER_POLYNOMIALS = of(Integers.INSTANCE);
 
     private static final AlgebraicUnaryOperator DERIVATIVE = new AlgebraicUnaryOperator() {
             final Method method = getDeclaredMethod(Polynomial.class, "derivative");
