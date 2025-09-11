@@ -18,6 +18,7 @@ package org.meeuw.math;
 import java.lang.reflect.Array;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.exceptions.InvalidElementException;
@@ -249,8 +250,22 @@ public final class ArrayUtils {
             count++;
         }
         if (count > 0) {
-            final byte[] out = new byte[in.length - count];
             final byte[] withoutTrail = new byte[in.length - count];
+            arraycopy(in, 0, withoutTrail, 0, in.length - count);
+            return withoutTrail;
+        } else {
+            return in;
+        }
+    }
+
+     @SuppressWarnings("unchecked")
+     public static <E> E[] removeTrailingIf(Predicate<E> predicate, Class<E> clazz, E[] in) {
+        int count = 0;
+        while(count < in.length && predicate.test(in[in.length - 1 - count])) {
+            count++;
+        }
+        if (count > 0) {
+            final E[] withoutTrail = (E[]) Array.newInstance(clazz, in.length - count);
             arraycopy(in, 0, withoutTrail, 0, in.length - count);
             return withoutTrail;
         } else {
