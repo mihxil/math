@@ -1,7 +1,9 @@
 package org.meeuw.math.abstractalgebra.polynomial;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -14,6 +16,10 @@ import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.operators.AlgebraicUnaryOperator;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * @since 0.19
@@ -42,6 +48,34 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     @Example(AbelianRing.class)
     public static PolynomialRing<IntegerElement> INTEGER_POLYNOMIALS = of(Integers.INSTANCE);
 
+    private static final AlgebraicUnaryOperator DERIVATIVE = new AlgebraicUnaryOperator() {
+            final Method method = getDeclaredMethod(Polynomial.class, "derivative");
+
+            @Override
+            @SneakyThrows
+            public <E extends AlgebraicElement<E>> E apply(E e) {
+                try {
+                    return (E) method.invoke(e);
+                } catch (Exception ex) {
+                    throw ex.getCause();
+                }
+            }
+
+            @Override
+            public String stringify(String element) {
+                return element + "'";
+            }
+
+            @Override
+            public String name() {
+                return "derivative";
+            }
+    };
+
+    private static final NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        Rng.UNARY_OPERATORS,
+        DERIVATIVE
+    );
     @Getter
     private final AbelianRing<E> coefficientRing;
     @Getter
@@ -50,6 +84,11 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     private PolynomialRing(AbelianRing<E> coefficientRing, String variable) {
         this.coefficientRing = coefficientRing;
         this.variable = variable;
+    }
+
+    @Override
+    public NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
+        return UNARY_OPERATORS;
     }
 
 
