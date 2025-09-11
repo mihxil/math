@@ -1,0 +1,36 @@
+package org.meeuw.math.abstractalgebra.trivial;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
+
+import org.meeuw.math.abstractalgebra.*;
+
+public class OddEventRing   implements AbelianRing<OddEven>, Streamable<OddEven> {
+
+    static final OddEventRing INSTANCE = new OddEventRing();
+
+    @Override
+    public OddEven one() {
+        return OddEven.odd;
+    }
+
+    @Override
+    public OddEven zero() {
+        return OddEven.even;
+    }
+
+    @Override
+    public Cardinality getCardinality() {
+        return Cardinality.of(OddEven.values().length);
+    }
+
+    @Override
+    public Class<OddEven> getElementClass() {
+        return OddEven.class;
+    }
+
+    @Override
+    public Stream<OddEven> stream() {
+        return Arrays.stream(OddEven.values());
+    }
+}
