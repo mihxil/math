@@ -119,6 +119,10 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
         return of(value);
     }
 
+    public IntegerElement newElement(long value) {
+        return of(BigInteger.valueOf(value));
+    }
+
     @Override
     public IntegerElement zero() {
         return ZERO;
