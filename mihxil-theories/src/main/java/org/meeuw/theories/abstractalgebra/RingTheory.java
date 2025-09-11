@@ -29,6 +29,9 @@ import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
  */
 public interface RingTheory<E extends RingElement<E>> extends AdditiveGroupTheory<E>, RngTheory<E> , MultiplicativeMonoidTheory<E> {
 
+    /**
+     * Rings require distributivity of multiplication over addition.
+     */
     @Property
     default void distributivity (
         @ForAll(ELEMENTS) E v1,
