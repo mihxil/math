@@ -6,11 +6,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.ArrayUtils;
+import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
 
 /**
  * @since 0.19
  */
+@Example(Ring.class)
 public class PolynomialRing<E extends RingElement<E>>  extends AbstractAlgebraicStructure<Polynomial<E>> implements Ring<Polynomial<E>> {
 
     private static final Map<Ring<?>, Map<String, PolynomialRing<?>>> CACHE = new ConcurrentHashMap<>();
@@ -67,6 +69,17 @@ public class PolynomialRing<E extends RingElement<E>>  extends AbstractAlgebraic
         E[] trimmed = ArrayUtils.removeTrailingIf(AdditiveMonoidElement::isZero, getCoefficientRing().getElementClass(), coefficients);
         return new Polynomial<>(this, trimmed);
     }
+
+    @Override
+    public String toString() {
+        return coefficientRing.toString() + "[" +  variable + "]";
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The polynomial ring in %s over %s".formatted(variable, coefficientRing.toString()));
+    }
+
 
 
 
