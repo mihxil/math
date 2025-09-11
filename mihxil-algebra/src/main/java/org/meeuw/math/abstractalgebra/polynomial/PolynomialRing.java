@@ -36,10 +36,10 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
         return of(coefficientRing, "x");
     }
 
-    @Example(Ring.class)
+    @Example(AbelianRing.class)
     public static PolynomialRing<RationalNumber> RATIONAL_POLYNOMIALS = of(RationalNumbers.INSTANCE);
 
-    @Example(Ring.class)
+    @Example(AbelianRing.class)
     public static PolynomialRing<IntegerElement> INTEGER_POLYNOMIALS = of(Integers.INSTANCE);
 
     @Getter
