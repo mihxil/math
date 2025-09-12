@@ -4,12 +4,18 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 
 @Example(AbelianRing.class)
+@Singleton
 public class OddEventRing implements AbelianRing<OddEven>, Streamable<OddEven> {
 
     public static final OddEventRing INSTANCE = new OddEventRing();
+
+    private OddEventRing() {
+        // singleton
+    }
 
     @Override
     public OddEven one() {
