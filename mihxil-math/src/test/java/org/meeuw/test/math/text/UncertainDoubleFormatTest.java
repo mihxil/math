@@ -55,6 +55,12 @@ class UncertainDoubleFormatTest {
     UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
 
+
+    @Test
+    public void weight() {
+        assertThat(FormatService.getFormat(DoubleElement.class, ConfigurationService.getConfiguration()).findFirst().get()).isInstanceOf(UncertainDoubleFormat.class);
+    }
+
     @Test
     public void basic() {
         UncertainDoubleFormat formatter = new UncertainDoubleFormat();

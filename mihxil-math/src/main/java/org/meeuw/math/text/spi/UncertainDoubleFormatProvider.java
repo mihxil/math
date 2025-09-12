@@ -49,8 +49,11 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
         return format;
     }
 
+    /**
+     * A bit heavier then {@link org.meeuw.math.text.UncertainNumberFormat} for {@link UncertainDouble}.
+     */
     @Override
     public int weight(Class<? extends AlgebraicElement<?>> element) {
-        return UncertainDouble.class.isAssignableFrom(element) ? 1 : -1;
+        return UncertainDouble.class.isAssignableFrom(element) ? 2 : -1;
     }
 }

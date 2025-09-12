@@ -21,20 +21,21 @@ import lombok.Setter;
 
 import java.text.*;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
 /**
+ * Can format {@link DoubleElement}s.
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement> {
+public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDouble<?>, DoubleElement> {
 
 
     @Getter
@@ -42,23 +43,13 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
     private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
 
+    public UncertainDoubleFormat() {
+        super(UncertainDouble.class);
+    }
+
 
     private boolean roundingErrorsOnly(double value, double uncertainty) {
         return uncertainty < uncertaintyForDouble(value) * considerRoundingErrorFactor;
-    }
-
-    @Override
-    public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof org.meeuw.math.uncertainnumbers.UncertainDouble<?> uncertainNumber) {
-            if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
-                scientificNotation(uncertainNumber.doubleValue(), minimumExponent, toAppendTo, pos);
-            } else {
-                scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty(), toAppendTo, pos);
-            }
-            return toAppendTo;
-        } else {
-            throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
-        }
     }
 
     @Override
@@ -75,6 +66,30 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<DoubleElement
 
         return (DoubleElement) factor.apply(DoubleElement.of(value, uncertainty));
 
+    }
+
+    @Override
+    protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
+        valueAndError(appendable, position, uncertainNumber);
+    }
+
+    @Override
+    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
+        valueAndError(appendable, position, uncertainNumber);
+    }
+
+    @Override
+    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value) {
+        scientificNotation(value.doubleValue(), minimumExponent, appendable, position);
+
+    }
+
+    protected void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
+        if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
+            valueRound(appendable, position, uncertainNumber);
+        } else {
+            scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty(), appendable, position);
+        }
     }
 
 

@@ -26,6 +26,7 @@ import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
@@ -36,8 +37,10 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 /**
  * @author Michiel Meeuwissen
  * @since 0.19
+ * @param <F> formattable
+ * @param <P> parsing to
  */
-public abstract class AbstractUncertainFormat<F> extends Format {
+public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P extends UncertainNumber<?>> extends Format {
 
     public static final int VALUE_FIELD       = 0;
     public static final int UNCERTAINTY_FIELD = 1;
@@ -76,20 +79,39 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         return numberFormat;
     });
 
+    private final Class<? extends F> clazz;
 
-    abstract F of(String v, Factor factor);
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    protected AbstractUncertainFormat(Class clazz) {
+        this.clazz = clazz;
+    }
 
-    abstract F of(String v, String uncertainty, Factor factor);
+    @Override
+    public final StringBuffer format(Object number, @lombok.NonNull StringBuffer toAppendTo, @lombok.NonNull FieldPosition pos) {
+        if (clazz.isInstance(number)) {
+            valueAndError(toAppendTo,
+                pos,
+                (F) number,
+                getUncertaintyNotation());
+            return toAppendTo;
+        } else {
+            throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
+        }
+    }
+
+    abstract P of(String v, Factor factor);
+
+    abstract P of(String v, String uncertainty, Factor factor);
 
 
     @SneakyThrows
     @SuppressWarnings("unchecked")
-    public F parseObject(String value) {
-        return (F) super.parseObject(value);
+    public P parseObject(String value) {
+        return (P) super.parseObject(value);
     }
 
     @Override
-    public F parseObject(String source, @NonNull ParsePosition pos) {
+    public P parseObject(String source, @NonNull ParsePosition pos) {
         int start = pos.getIndex();
         int length = source.length();
 
@@ -260,7 +282,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         }
     }
 
-    int parseInt(String value, ParsePosition parsePosition) {
+    static int parseInt(String value, ParsePosition parsePosition) {
         int pos = parsePosition.getIndex();
         while(isWhitespace(value.charAt(pos))) {
             pos++;
@@ -273,7 +295,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         return Integer.parseInt(value.substring(pos, i));
     }
 
-    int parseSuperscript(String value, ParsePosition parsePosition) {
+    static int parseSuperscript(String value, ParsePosition parsePosition) {
         int pos = parsePosition.getIndex();
         while(isWhitespace(value.charAt(pos))) {
             pos++;
@@ -330,7 +352,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
         format.format(error, appendable, position);
     }
 
-    public static String valueParenthesesError(String value, String error) {
+    static String valueParenthesesError(String value, String error) {
         int i = 0;
         while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
              i++;
@@ -347,14 +369,14 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     /**
      * @since 0.19
      */
-     static void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
+     void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
         format.format(value, appendable, pos);
         appendable.append('(');
         format.format(error, appendable, pos);
         appendable.append(')');
      }
 
-    public static String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
+    public String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> valuePlusMinError(value, error);
@@ -366,7 +388,7 @@ public abstract class AbstractUncertainFormat<F> extends Format {
     /**
      * @since 0.19
      */
-    public static void valueAndError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error, UncertaintyConfiguration.Notation uncertaintyNotation) {
+    public  void valueAndError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error, UncertaintyConfiguration.Notation uncertaintyNotation) {
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
@@ -376,5 +398,22 @@ public abstract class AbstractUncertainFormat<F> extends Format {
             default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
         }
     }
+
+
+    /**
+     * Performs the switch on notation.
+     */
+    protected void valueAndError(StringBuffer appendable, FieldPosition position, F value, UncertaintyConfiguration.Notation uncertaintyNotation) {
+        switch (uncertaintyNotation) {
+            case PARENTHESES -> valueParenthesesError(appendable, position, value);
+            case PLUS_MINUS -> valuePlusMinError(appendable,  position, value);
+            case ROUND_VALUE -> valueRound(appendable, position, value);
+            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
+        }
+    }
+    protected abstract void valueParenthesesError(StringBuffer appendable, FieldPosition position, F value);
+    protected abstract void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value);
+    protected abstract void valueRound(StringBuffer appendable, FieldPosition position, F value);
+
 
 }

@@ -15,44 +15,47 @@
  */
 package org.meeuw.math.text;
 
-import lombok.NonNull;
-
 import java.text.FieldPosition;
-import java.text.Format;
 
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.9
  */
-public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumber<?>> {
+public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumber<?>, DoubleElement> {
 
-    @Override
-    public StringBuffer format(Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-        if (number instanceof UncertainNumber<?> uncertainNumber) {
-            valueAndError(toAppendTo, ToStringFormat.INSTANCE,  pos, uncertainNumber.getValue(), uncertainNumber.getUncertainty(),getUncertaintyNotation());
-            return toAppendTo;
-        } else {
-            throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
-        }
+    public UncertainNumberFormat() {
+        super(UncertainNumber.class);
     }
 
     @Override
-    UncertainNumber<?> of(String v, Factor factor) {
+    DoubleElement of(String v, Factor factor) {
         throw new NotParsable.NotImplemented("Not supported yet. to parse number " + v + " (" + factor + ")");
     }
 
     @Override
-    UncertainNumber<?> of(String v, String uncertainty, Factor factor) {
+    DoubleElement of(String v, String uncertainty, Factor factor) {
         return DoubleElement.of(Double.parseDouble(v), Double.parseDouble(uncertainty));
     }
 
+    @Override
+    protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
+        valueParenthesesError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+    }
 
+    @Override
+    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
+        valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+    }
+
+    @Override
+    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
+        ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
+    }
 
 
 }
