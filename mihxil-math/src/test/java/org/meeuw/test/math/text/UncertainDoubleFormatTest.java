@@ -52,18 +52,19 @@ class UncertainDoubleFormatTest {
         ConfigurationService.resetToDefaultDefaults();
     }
 
-    UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
+
+    UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
 
     @Test
     public void weight() {
-        assertThat(FormatService.getFormat(DoubleElement.class, ConfigurationService.getConfiguration()).findFirst().get()).isInstanceOf(UncertainDoubleFormat.class);
+        assertThat(FormatService.getFormat(DoubleElement.class, ConfigurationService.getConfiguration()).findFirst()).containsInstanceOf(UncertainDoubleFormat.class);
     }
 
     @Test
     public void basic() {
-        UncertainDoubleFormat formatter = new UncertainDoubleFormat();
+
         assertThat(formatter.scientificNotationWithUncertainty(5, 1)).isEqualTo("5.0 ± 1.0");
         assertThat(formatter.scientificNotationWithUncertainty(5, 2)).isEqualTo("5 ± 2");
         assertThat(formatter.scientificNotationWithUncertainty(5.1, 1.9)).isEqualTo("5.1 ± 1.9");
@@ -87,6 +88,7 @@ class UncertainDoubleFormatTest {
     public void zeroWithUncertainty() {
         assertThat(formatter.scientificNotationWithUncertainty(0, 0.003)).isEqualTo("0.000 ± 0.003");
     }
+
     @Test
     public void zeroWithUncertainty1() {
         assertThat(formatter.scientificNotationWithUncertainty(0, 0.001)).isEqualTo("0.0000 ± 0.0010");
@@ -196,6 +198,8 @@ class UncertainDoubleFormatTest {
     }
     private void testNotation(DoubleElement el, String expected) {
         UncertaintyConfiguration.Notation notation = ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getNotation();
+        // note that we bypassed FormatterService, we need to configurer the formatter ourselves.
+        formatter.setUncertaintyNotation(notation);
         String toString = formatter.format(el);
         assertThat(toString)
             .withFailMessage(() -> notation + ": toString of " + el.getValue() +"/" + el.getUncertainty() + " is " + toString + " but it should have been " + expected)
