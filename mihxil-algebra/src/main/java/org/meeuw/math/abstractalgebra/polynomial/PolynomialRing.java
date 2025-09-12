@@ -22,6 +22,10 @@ import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
+ * The algebraic structures for polynomials (in one variable).
+ * <p>
+ *  For every variable, for every {@link AbelianRing} a polynomial ring object can be {@link #of(AbelianRing, String) acquired}.
+ *  After that its elements, the {@link Polynomial polynomials} itself, can be instantiated with {@link #newElement(AbelianRingElement[])}
  * @since 0.19
  */
 
@@ -38,6 +42,10 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
         return (PolynomialRing<E>) CACHE.computeIfAbsent(coefficientRing, (k) -> new HashMap<>())
             .computeIfAbsent(variable, k -> new PolynomialRing<>(coefficientRing, variable));
     }
+
+    /**
+     * Defaulting version of {@link #of(AbelianRing, String)}, where the variable is 'x'.
+     */
     public static <E extends AbelianRingElement<E>> PolynomialRing<E> of(AbelianRing<E> coefficientRing) {
         return of(coefficientRing, "x");
     }
@@ -126,6 +134,12 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
         return result;
     }
 
+    /**
+     * Instantiate a new polynomial in this ring.
+     * <p>
+     * E.g. to instantiate '5 + 2·x²', call it with {@code ring.newElement(of(5), of(2))}
+     * @param coefficients An array of coefficients for the polynomial. The position in the array determines to which power of the variable they apply.
+     */
     @SafeVarargs
     public final Polynomial<E> newElement(E... coefficients) {
         E[] trimmed = ArrayUtils.removeTrailingIf(AdditiveMonoidElement::isZero, getCoefficientRing().getElementClass(), coefficients);

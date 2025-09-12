@@ -235,7 +235,7 @@ public class DocumentationTest {
         } catch (NoSuchFieldException ignored) {
 
         } catch (IllegalAccessException e) {
-            log.severe("" + e.getMessage());
+            log.severe(e.getMessage());
         }
         return build.toString();
     }

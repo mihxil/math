@@ -129,6 +129,9 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
         return Structure.INSTANCE;
     }
 
+    /**
+     * Multiplying cardinalities amounts to taking the products of their {@link #getValue() values} if they are {@link #isInfinite() finite}, or otherwise just taking the 'larger' one.
+     */
     @Override
     public Cardinality times(Cardinality cardinality) {
         if (isFinite() && cardinality.isFinite()) {
@@ -168,16 +171,16 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
     public boolean isInfinite() {
         return value.signum() < 0;
     }
+
     /**
      * Whether the cardinality is finite.
      */
-
     public boolean isFinite() {
         return value.signum() >= 0;
     }
 
     /**
-     * If the cardinality is {@link #isFinite()} or {@link #ALEPH_0} then we consider
+     * If the cardinality is {@link #isFinite() finite} or {@link #ALEPH_0} then we consider
      * it 'countable', and the structure should also be {@link Streamable}
      * @since 0.19
      */
@@ -196,7 +199,7 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
             if (! isInfinite()) {
                 return -1;
             } else {
-                return o.value.compareTo(value);
+                return o.value.compareTo(value); // 'bigger' infinites are represented with more negative values.
             }
         } else {
             if (isInfinite()) {
@@ -206,6 +209,5 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
             }
         }
     }
-
 
 }
