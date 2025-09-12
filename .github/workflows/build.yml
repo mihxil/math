@@ -30,6 +30,8 @@ jobs:
           - os: ubuntu-latest
             java: 25-ea
           - os: ubuntu-latest
+            java: 21
+          - os: ubuntu-latest
             java: 17
             rank: main
     runs-on: ${{ matrix.os }}
