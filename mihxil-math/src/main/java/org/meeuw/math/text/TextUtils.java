@@ -15,6 +15,11 @@
  */
 package org.meeuw.math.text;
 
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isWhitespace;
+
+import java.text.ParsePosition;
+
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -22,6 +27,7 @@ import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
+import org.meeuw.math.numbers.Factor;
 
 /**
  * @author Michiel Meeuwissen
@@ -64,15 +70,19 @@ public final class TextUtils {
     }
 
 
-    public static String unsuperscript(CharSequence s) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
+    public static String unsuperscript(CharSequence s, int start) {
+        StringBuilder sb = new StringBuilder(s.subSequence(0, start));
+        for (int i = start; i < s.length(); i++) {
             char c = s.charAt(i);
             sb.append(unsuperscript(c));
         }
         return sb.toString();
     }
-     public static char unsuperscript(char c) {
+
+    public static String unsuperscript(CharSequence s) {
+        return unsuperscript(s, 0);
+    }
+    public static char unsuperscript(char c) {
          return REVERSE_SUPERSCRIPTS.getOrDefault(c, c);
     }
 
@@ -247,6 +257,18 @@ public final class TextUtils {
     };
     private static final char SUB_MINUS = '₋';
 
+    private static final Set<Character> SUPER_NUMERIC;
+    static {
+        Set<Character> set = new HashSet<>();
+        for (char c : SUPERSCRIPTS) {
+            set.add(c);
+        }
+        set.add(SUPER_PLUS);
+        set.add(SUPER_MINUS);
+        SUPER_NUMERIC = Collections.unmodifiableSet(set);
+    }
+
+
     private static final Map<Character, Character> REVERSE_SUPERSCRIPTS = new HashMap<>();
     private static final Map<Character, Character> REVERSE_SUBSCRIPTS = new HashMap<>();
     static {
@@ -334,6 +356,73 @@ public final class TextUtils {
             builder.append(s.charAt(i));
             builder.append(control);
         }
-     }
+    }
 
+    public static boolean isNumberChar(char c) {
+        return Character.isDigit(c) || c == TIMES || c == '.' ||
+            c == '+' ||
+            c == '-' ||
+            Character.isWhitespace(c) || SUPER_NUMERIC.contains(c);
+    }
+
+    /**
+     * Parses  a^b (probably 10^b), or e&lt;number&gt; at the given parse position.
+     * Allowing for some introductionary whitespace.
+     *
+     */
+    public static Factor parsePower(String value, ParsePosition parsePosition) {
+        int pos = parsePosition.getIndex();
+        //skip leading space
+        while (pos < value.length() && isWhitespace(value.charAt(pos))) {
+            pos++;
+        }
+        // if nothing, just return 1;
+        if (pos >= value.length()) {
+            return Factor.ONE;
+        }
+        if (value.charAt(pos) == 'e' || value.charAt(pos) == 'E') {
+            parsePosition.setIndex(pos + 1);
+            int power = UncertainFormatUtils.parseInt(value, parsePosition);
+            return Factor.ofPow10(power);
+        } else if (value.charAt(pos) == TIMES) {
+            parsePosition.setIndex(pos + 1);
+            int base = UncertainFormatUtils.parseInt(value, parsePosition);
+            int power = parseSuperscript(value, parsePosition);
+            return Factor.ofPow(base, power);
+        } else {
+            return Factor.ONE;
+        }
+    }
+
+    public static int parseSuperscript(String value, ParsePosition parsePosition) {
+        int pos = parsePosition.getIndex();
+        while (isWhitespace(value.charAt(pos))) {
+            pos++;
+        }
+        int i = pos;
+        char c = unsuperscript(value.charAt(i));
+        int result = 0;
+
+        boolean negative = false;
+        if (c == '+' || c == '-') {
+            i++;
+            if (c == '-') {
+                negative = true;
+            }
+            c = unsuperscript(value.charAt(i));
+        }
+        while (isDigit(c)) {
+            i++;
+            result = result * 10 + c - '0';
+            if (i >= value.length()) {
+                break;
+            }
+            c = unsuperscript(value.charAt(i));
+        }
+        parsePosition.setIndex(i);
+        if (i == pos) {
+            return 1;
+        }
+        return negative ? -1 * result : result;
+    }
 }
