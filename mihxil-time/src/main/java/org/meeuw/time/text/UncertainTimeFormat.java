@@ -23,9 +23,9 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.text.UncertainFormatUtils;
 import org.meeuw.time.*;
 
-import static org.meeuw.math.text.UncertainNumberFormat.valuePlusMinError;
 import static org.meeuw.time.TimeUtils.round;
 import static org.meeuw.time.TimeUtils.roundStddev;
 
@@ -82,11 +82,11 @@ public class UncertainTimeFormat extends Format {
 
     protected String formatDuration(Duration duration, Duration stddev) {
         ChronoUnit order = TimeUtils.orderOfMagnitude(stddev);
-        return valuePlusMinError(duration.toString(), round(stddev, order).toString());
+        return UncertainFormatUtils.valuePlusMinError(duration.toString(), round(stddev, order).toString());
     }
     protected String formatInstant(Instant instant, Duration stddev) {
         ChronoUnit order = TimeUtils.orderOfMagnitude(stddev);
-        return valuePlusMinError(TimeUtils.format(zoneId, instant, order), round(stddev, order).toString());
+        return UncertainFormatUtils.valuePlusMinError(TimeUtils.format(zoneId, instant, order), round(stddev, order).toString());
     }
 
 

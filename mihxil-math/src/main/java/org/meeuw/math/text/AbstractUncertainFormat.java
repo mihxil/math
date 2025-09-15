@@ -23,6 +23,7 @@ import java.text.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
+import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
@@ -30,7 +31,6 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static org.meeuw.math.text.TextUtils.unsuperscript;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PLUS_MINUS;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
@@ -39,14 +39,18 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  * @since 0.19
  * @param <F> formattable
  * @param <P> parsing to
+ * @param <N> number type
  */
-public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P extends UncertainNumber<?>> extends Format {
+public abstract class AbstractUncertainFormat<
+    F extends UncertainNumber<?>,
+    P extends UncertainNumber<?>,
+    N extends Number
+    > extends Format {
 
     public static final int VALUE_FIELD       = 0;
     public static final int UNCERTAINTY_FIELD = 1;
     public static final int E_FIELD           = 2;
 
-    public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
 
     /**
      * The minimum exponent defined how close a number must be to 1, to not use scientific notation
@@ -63,7 +67,6 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
     @Setter
     protected Notation uncertaintyNotation = PLUS_MINUS;
 
-
     @Getter
     @Setter
     protected double considerRoundingErrorFactor = 1000d;
@@ -72,18 +75,20 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
     @Setter
     protected int maximalPrecision = Integer.MAX_VALUE;
 
+    @Getter
+    @Setter
+    private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
-    static ThreadLocal<DecimalFormat> EXACT_DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-        DecimalFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
-        numberFormat.setMaximumFractionDigits(14);
-        return numberFormat;
-    });
+    @Getter
+    final ScientificNotation<N> scientific;
 
     private final Class<? extends F> clazz;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected AbstractUncertainFormat(Class clazz) {
+    protected AbstractUncertainFormat(Class clazz, NumberOperations<N> operations) {
         this.clazz = clazz;
+        this.scientific = new ScientificNotation<>(this, operations);
+        ;
     }
 
     @Override
@@ -141,7 +146,7 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
                 errorBracket = i;
                 break;
             }
-            if (!isDigit(c) && c != '.' && !Character.isWhitespace(c) && c != '-') {
+            if (! TextUtils.isNumberChar(c)) {
                 break;
             }
             i++;
@@ -152,22 +157,25 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
                 // Only value, parse until non-numeric
                 String valueStr = source.substring(start, i).trim();
                 pos.setIndex(i);
-                Factor factor = parsePower(valueStr, pos);
+                Factor factor = TextUtils.parsePower(valueStr, pos);
                 if (uncertaintyNotation == ROUND_VALUE) {
-                    StringBuilder uncertaintyStr = new StringBuilder(valueStr);
-                    int lastMatch = -1;
-                    for (int j = 0; j < uncertaintyStr.length(); j++) {
-                        if (Character.isDigit(uncertaintyStr.charAt(j))) {
-                            lastMatch = j;
-                            uncertaintyStr.setCharAt(j, '0');
-                        }
-                    }
-                    if (lastMatch >= 0) {
-                        uncertaintyStr.setCharAt(lastMatch, '5');
-                    }
+                    StringBuilder uncertaintyStr = new StringBuilder(valueStr.trim());
                     while(uncertaintyStr.charAt(0) == '-') {
                         uncertaintyStr.deleteCharAt(0);
                     }
+                    int lastHit = 0;
+                    for (int j = 0; j < uncertaintyStr.length(); j++) {
+                        char c = uncertaintyStr.charAt(j);
+                        if (Character.isDigit(c)) {
+                            uncertaintyStr.setCharAt(j, '0');
+                            lastHit = j;
+                        } else if (c == '.') {
+                            continue;
+                        } else {
+                            break;
+                        }
+                    }
+                    uncertaintyStr.setCharAt(lastHit, '5');
                     return of(valueStr, uncertaintyStr.toString(), factor);
                 } else {
                     // it must have been exact/not a result of format
@@ -212,7 +220,7 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
                 }
 
                 String uncertaintyStr = valueStr.substring(firstDigit, valueStr.length() - errorDigits.length()).replaceAll("\\d", "0") + errorDigits;
-                Factor factor = parsePower(source, pos);
+                Factor factor = TextUtils.parsePower(source, pos);
                 return of(valueStr, uncertaintyStr,  factor);
 
 
@@ -249,7 +257,7 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
                     j++;
                 }
                 pos.setIndex(j);
-                Factor factor = parsePower(source, pos);
+                Factor factor = TextUtils.parsePower(source, pos);
                 return of(valueStr, uncertaintyStr, factor);
             }
         } catch (NumberFormatException e) {
@@ -258,146 +266,6 @@ public abstract class AbstractUncertainFormat<F extends UncertainNumber<?>, P ex
         }
     }
 
-    Factor parsePower(String value, ParsePosition parsePosition) {
-        int pos = parsePosition.getIndex();
-        //skip leading space
-        while (pos < value.length() && isWhitespace(value.charAt(pos))) {
-            pos++;
-        }
-        // if nothing, just return 1;
-        if (pos >= value.length()) {
-            return Factor.ONE;
-        }
-        if (value.charAt(pos) == 'e' || value.charAt(pos) == 'E') {
-            parsePosition.setIndex(pos + 1);
-            int power = parseInt(value, parsePosition);
-            return Factor.ofPow10(power);
-        } else if (value.charAt(pos) == TextUtils.TIMES) {
-            parsePosition.setIndex(pos + 1);
-            int base = parseInt(value, parsePosition);
-            int power = parseSuperscript(value, parsePosition);
-            return Factor.ofPow(base, power);
-        } else {
-            return Factor.ONE;
-        }
-    }
-
-    static int parseInt(String value, ParsePosition parsePosition) {
-        int pos = parsePosition.getIndex();
-        while(isWhitespace(value.charAt(pos))) {
-            pos++;
-        }
-        int i = pos;
-        while(i < value.length() && isDigit(value.charAt(i))) {
-            i++;
-        }
-        parsePosition.setIndex(i);
-        return Integer.parseInt(value.substring(pos, i));
-    }
-
-    static int parseSuperscript(String value, ParsePosition parsePosition) {
-        int pos = parsePosition.getIndex();
-        while(isWhitespace(value.charAt(pos))) {
-            pos++;
-        }
-        int i = pos;
-        char c = unsuperscript(value.charAt(i));
-        int result = 0;
-
-        boolean negative = false;
-        if (c == '+' || c == '-') {
-            i++;
-            if (c == '-') {
-                negative = true;
-            }
-            c = unsuperscript(value.charAt(i));
-        }
-        while(isDigit(c)) {
-            i++;
-            result = result * 10 + c - '0';
-            if (i >= value.length()) {
-                break;
-            }
-            c = unsuperscript(value.charAt(i));
-        }
-        parsePosition.setIndex(i);
-        if (i == pos) {
-            return 1;
-        }
-        return negative ? -1 * result : result;
-    }
-
-
-
-
-
-    public static String valuePlusMinError(String value, String error) {
-        boolean empty = error.replaceAll("^[0.]+", "").isEmpty();
-        if (empty) {
-            return value;
-        } else {
-            return value + ' ' + TextUtils.PLUSMIN + ' ' + error;
-        }
-    }
-
-
-    /**
-     * @since 0.19
-     */
-    static void valuePlusMinError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error) {
-        format.format(value, appendable, position);
-        appendable.append(' ');
-        appendable.append(TextUtils.PLUSMIN);
-        appendable.append(' ');
-        format.format(error, appendable, position);
-    }
-
-    static String valueParenthesesError(String value, String error) {
-        int i = 0;
-        while (i < error.length() && (error.charAt(i) == '0' || error.charAt(i) == '.')) {
-             i++;
-         }
-        String e = error.substring(i);
-        if (e.isEmpty()) {
-            return value;
-        } else {
-            return value + "(" + e + ")";
-        }
-    }
-
-
-    /**
-     * @since 0.19
-     */
-     void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
-        format.format(value, appendable, pos);
-        appendable.append('(');
-        format.format(error, appendable, pos);
-        appendable.append(')');
-     }
-
-    public String valueAndError(String value, String error, UncertaintyConfiguration.Notation uncertaintyNotation) {
-        return switch (uncertaintyNotation) {
-            case PARENTHESES -> valueParenthesesError(value, error);
-            case PLUS_MINUS -> valuePlusMinError(value, error);
-            case ROUND_VALUE -> value;
-        };
-    }
-
-
-    /**
-     * @since 0.19
-     */
-    public  void valueAndError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error, UncertaintyConfiguration.Notation uncertaintyNotation) {
-        switch (uncertaintyNotation) {
-            case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
-            case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-            case ROUND_VALUE -> {
-                format.format(value, appendable, position);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
-        }
-    }
 
 
     /**

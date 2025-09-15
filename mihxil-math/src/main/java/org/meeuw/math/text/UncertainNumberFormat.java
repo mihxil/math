@@ -18,18 +18,19 @@ package org.meeuw.math.text;
 import java.text.FieldPosition;
 
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.NotParsable;
-import org.meeuw.math.numbers.Factor;
+import org.meeuw.math.numbers.*;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.9
  */
-public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumber<?>, DoubleElement> {
+public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFormat<UncertainNumber<?>, RealNumber, N> {
 
     public UncertainNumberFormat() {
-        super(UncertainNumber.class);
+        super(UncertainNumber.class, null);
     }
 
     @Override
@@ -44,12 +45,12 @@ public class UncertainNumberFormat extends AbstractUncertainFormat<UncertainNumb
 
     @Override
     protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
-        valueParenthesesError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+        UncertainFormatUtils.valueParenthesesError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
     }
 
     @Override
     protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
-        valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+        UncertainFormatUtils.valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
     }
 
     @Override

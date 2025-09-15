@@ -30,8 +30,7 @@ import org.assertj.core.data.Offset;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealField;
-import org.meeuw.math.text.FormatService;
-import org.meeuw.math.text.UncertainDoubleFormat;
+import org.meeuw.math.text.*;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
@@ -64,58 +63,62 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void basic() {
-
-        assertThat(formatter.scientificNotationWithUncertainty(5, 1)).isEqualTo("5.0 ± 1.0");
-        assertThat(formatter.scientificNotationWithUncertainty(5, 2)).isEqualTo("5 ± 2");
-        assertThat(formatter.scientificNotationWithUncertainty(5.1, 1.9)).isEqualTo("5.1 ± 1.9");
-        assertThat(formatter.scientificNotationWithUncertainty(5.4e-20, 4.34e-22)).isEqualTo("(5.40 ± 0.04)·10⁻²⁰");
+        ScientificNotation<Double> scientificNotation = formatter.getScientific();
+        assertThat(scientificNotation.formatWithUncertainty(5d, 1d)).isEqualTo("5.0 ± 1.0");
+        assertThat(scientificNotation.formatWithUncertainty(5d, 2d)).isEqualTo("5 ± 2");
+        assertThat(scientificNotation.formatWithUncertainty(5.1, 1.9)).isEqualTo("5.1 ± 1.9");
+        assertThat(scientificNotation.formatWithUncertainty(5.4e-20, 4.34e-22)).isEqualTo("(5.40 ± 0.04)·10⁻²⁰");
     }
 
 
     @Test
     public void numberFormat() {
         formatter.setNumberFormat(NumberFormat.getNumberInstance(new Locale("nl")));
-        assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5,0 ± 1,9");
+        ScientificNotation<Double> scientific = formatter.getScientific();
+
+        assertThat(scientific.formatWithUncertainty(5.d, 1.9d)).isEqualTo("5,0 ± 1,9");
     }
 
     @Test
     public void zero() {
-        assertThat(formatter.scientificNotationWithUncertainty(0, 0)).isEqualTo("0");
+        ScientificNotation<Double> scientific = formatter.getScientific();
+        assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0");
     }
 
 
     @Test
     public void zeroWithUncertainty() {
-        assertThat(formatter.scientificNotationWithUncertainty(0, 0.003)).isEqualTo("0.000 ± 0.003");
+        assertThat(formatter.getScientific().formatWithUncertainty(0d, 0.003d)).isEqualTo("0.000 ± 0.003");
     }
 
     @Test
     public void zeroWithUncertainty1() {
-        assertThat(formatter.scientificNotationWithUncertainty(0, 0.001)).isEqualTo("0.0000 ± 0.0010");
+        assertThat(formatter.getScientific().formatWithUncertainty(0d, 0.001d)).isEqualTo("0.0000 ± 0.0010");
     }
 
     @Test
     public void infinity() {
-        assertThat(formatter.scientificNotationWithUncertainty(Double.POSITIVE_INFINITY, 0)).isEqualTo("∞");
-        assertThat(formatter.scientificNotationWithUncertainty(Double.NEGATIVE_INFINITY, 0)).isEqualTo("-∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 0d)).isEqualTo("∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 
     @Test
     public void infinityExact() {
-        assertThat(UncertainDoubleFormat.scientificNotation(Double.POSITIVE_INFINITY, 1)).isEqualTo("∞");
-        assertThat(UncertainDoubleFormat.scientificNotation(Double.NEGATIVE_INFINITY, 0)).isEqualTo("-∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 1d)).isEqualTo("∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 
     @Test
     public void zeroExact() {
-        assertThat(UncertainDoubleFormat.scientificNotation(0, 1)).isEqualTo("0");
+        assertThat(formatter.getScientific()
+            .formatWithUncertainty(0d, 0d)).isEqualTo("0");
     }
 
     @Test
     public void parentheses() {
         formatter.setUncertaintyNotation(PARENTHESES);
-        assertThat(formatter.scientificNotationWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
-        assertThat(formatter.scientificNotationWithUncertainty(1234.234, 0.0456)).isEqualTo("1234.23(5)");
+        assertThat(formatter.getScientific().formatWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
+        assertThat(formatter.getScientific().formatWithUncertainty(1234.234d, 0.0456d)).isEqualTo("1234.23(5)");
     }
 
     @Test
@@ -133,7 +136,7 @@ class UncertainDoubleFormatTest {
         }, () -> {
             UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
 
-            assertThat(formatter.scientificNotationWithUncertainty(5_000_000d,
+            assertThat(formatter.getScientific().formatWithUncertainty(5_000_000d,
                 2d)).isEqualTo("500_0000 ± 2");
         });
     }
@@ -141,7 +144,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void formatSmall() {
 
-        String s= formatter.scientificNotationWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
+        String s= formatter.getScientific().formatWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
         assertThat(s).isEqualTo("0.019820185668507406 ± 0.000000000000000007");
 
     }
@@ -149,14 +152,14 @@ class UncertainDoubleFormatTest {
     @Test
     public void formatSmall2() {
 
-        String s= formatter.scientificNotationWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
+        String s= formatter.getScientific().formatWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
         assertThat(s).isEqualTo("-0.22967301287511077 ± 0.00000000000000006");
     }
 
 
     @Test
     public void formatSmallWithE() {
-        String s= formatter.scientificNotationWithUncertainty(
+        String s= formatter.getScientific().formatWithUncertainty(
             -2.2967301287511077E-10,
                0.000005551115123125783E-10);
         assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
@@ -167,7 +170,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatNegative() {
-        String s = formatter.scientificNotationWithUncertainty(
+        String s = formatter.getScientific().formatWithUncertainty(
             -2.2967301287511077E-10,
             0.000005551115123125783E-10);
     }
@@ -286,8 +289,13 @@ class UncertainDoubleFormatTest {
 
         formatter.setMaximalPrecision(3);
         assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
+    }
 
+    @Test
+    public void impreciseNotationPlusMinus() {
+        DoubleElement doubleElement = DoubleElement.of(1.12345678d, 0.00000002);
         formatter.setUncertaintyNotation(PLUS_MINUS);
+        formatter.setMaximalPrecision(3);
         assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
     }
 

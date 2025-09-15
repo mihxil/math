@@ -16,16 +16,11 @@
 package org.meeuw.math.text;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import java.text.FieldPosition;
 
-import java.text.*;
-
-import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.Factor;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -35,18 +30,16 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDouble<?>, DoubleElement> {
+public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDouble<?>, DoubleElement, Double> {
 
 
-    @Getter
-    @Setter
-    private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
+
+    DoubleOperations ops;
 
 
     public UncertainDoubleFormat() {
-        super(UncertainDouble.class);
+        super(UncertainDouble.class, DoubleOperations.INSTANCE);
     }
-
 
     private boolean roundingErrorsOnly(double value, double uncertainty) {
         return uncertainty < uncertaintyForDouble(value) * considerRoundingErrorFactor;
@@ -54,15 +47,15 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
 
     @Override
     DoubleElement of(String valueStr, Factor factor) {
-        double value = Double.parseDouble(valueStr);
+        double value = scientific.fromString(valueStr);
         return (DoubleElement) factor.apply(DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value)));
 
     }
 
     @Override
     DoubleElement of(String valueStr, String uncertaintyStr, Factor factor) {
-        double value = Double.parseDouble(valueStr);
-        double uncertainty = Double.parseDouble(uncertaintyStr);
+        double value = scientific.fromString(valueStr);
+        double uncertainty = scientific.fromString(uncertaintyStr);
 
         return (DoubleElement) factor.apply(DoubleElement.of(value, uncertainty));
 
@@ -80,170 +73,27 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
 
     @Override
     protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value) {
-        scientificNotation(value.doubleValue(), minimumExponent, appendable, position);
+        valueAndError(appendable, position, value);
 
     }
 
     protected void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
         if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
-            valueRound(appendable, position, uncertainNumber);
+            scientific.format(
+                uncertainNumber.getValue(),
+                minimumExponent,
+                appendable, position);
         } else {
-            scientificNotationWithUncertainty(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty(), appendable, position);
-        }
-    }
-
-
-    public String scientificNotationWithUncertainty(
-        double meanDouble,
-        double stdDouble) {
-        StringBuffer result = new StringBuffer();
-        scientificNotationWithUncertainty(meanDouble, stdDouble, result, new FieldPosition(VALUE_FIELD));
-        return result.toString();
-    }
-    /**
-     * Represents the mean value in a scientific notation (using Unicode characters), if sensible.
-     * The value of the standard deviation is used to determine how many digits can sensibly be shown.
-     * <p>
-     * If the string will not be less concise without using scientific notation, it may do that. E.g. if the value is very precise, you can just as wel just state
-     * all known digits.
-     * @since 0.19
-     */
-    public void scientificNotationWithUncertainty(
-        double meanDouble,
-        double stdDouble,
-        StringBuffer buffer,
-        FieldPosition position) {
-        if (Double.isInfinite(meanDouble)) {
-            EXACT_DOUBLE_FORMAT.get().format(meanDouble, buffer, position);
-        } else {
-
-            SplitNumber mean = SplitNumber.split(meanDouble);
-            SplitNumber std = SplitNumber.split(stdDouble);
-
-            boolean largeError = Math.abs(stdDouble) > Math.abs(meanDouble);
-
-            // use difference of order of magnitude of std to determine how mean digits of the mean are
-            // relevant
-            int magnitudeDifference = mean.exponent - std.exponent;
-            //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
-
-            int meanDigits = magnitudeDifference; // at least one digit
-
-            assert Double.isNaN(mean.coefficient) || Math.abs(mean.coefficient) < 10 : "unexpected coefficient " + mean.coefficient;
-
-            // for std starting with '1' we allow an extra digit.
-            if (std.coefficient < 2 && std.coefficient > 0) {
-                //System.out.println("Extra digit");
-                meanDigits++;
-            }
-
-            //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
-
-
-            // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
-            // match the exponent of mean.
-            std.coefficient /= DoubleUtils.pow10(magnitudeDifference);
-
-
-            // For numbers close to 1, we don't use scientific notation.
-            if (mean.exponent != 0 // no useE anyways
-                && (
-                Math.abs(mean.exponent) < minimumExponent ||
-                // neither do we do that if the precision is so high, that we'd show the complete
-                // number anyway
-                    (meanDigits >= Math.abs(mean.exponent))
-            )
-            ) {
-
-                double pow = Math.abs(DoubleUtils.pow10(mean.exponent));
-                meanDigits -= mean.exponent;
-                mean.exponent = 0;
-                mean.coefficient *= pow;
-                std.coefficient *= pow;
-
-            }
-
-            boolean useE = mean.exponent != 0;
-
-
-
-            meanDigits = Math.min(meanDigits, maximalPrecision);
-
-            NumberFormat format = (NumberFormat) numberFormat.clone();
-            format.setMaximumFractionDigits(meanDigits);
-            format.setMinimumFractionDigits(meanDigits);
-
-            final boolean useBrackets = useE && uncertaintyNotation == UncertaintyConfiguration.Notation.PLUS_MINUS;
-            if (useBrackets) {
-                buffer.append('(');
-            }
-            buffer.append(
-                valueAndError(
-                    format.format(mean.coefficient),
-                    format.format(std.coefficient),
-                    uncertaintyNotation
-                )
+            scientific.formatWithUncertainty(
+                uncertainNumber.doubleValue(),
+                uncertainNumber.doubleUncertainty(),
+                appendable,
+                position
             );
-
-            if (useBrackets) {
-                buffer.append(')');
-            }
-            if (useE) {
-                buffer.append(TIMES_10);
-                TextUtils.superscript(buffer, mean.exponent);
-            }
         }
     }
 
-    public  String notationWithUncertainty(
-        double meanDouble, double stdDouble) {
-        NumberFormat format = (NumberFormat) numberFormat.clone();
-        int digits = DoubleUtils.log10(stdDouble);
-        //format.setMaximumFractionDigits(fd);
-        //format.setMinimumFractionDigits(fd);
-        return "";
-    }
 
 
-    static ThreadLocal<DecimalFormat> EXACT_DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-        DecimalFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
-        numberFormat.setMaximumFractionDigits(14);
-        return numberFormat;
-    });
 
-
-    public static String scientificNotation(double meanDouble, int minimumExponent) {
-        StringBuffer  result = new StringBuffer();
-        scientificNotation(meanDouble, minimumExponent, result, new FieldPosition(VALUE_FIELD));
-        return result.toString();
-    }
-
-    /**
-     *
-     * @param minimumExponent If the number is smaller than 10^mininumExponent no 10^ notation is used.
-     * @since 0.19
-     */
-    public static void scientificNotation(double meanDouble, int minimumExponent, StringBuffer buffer, FieldPosition position) {
-        if (Double.isInfinite(meanDouble)) {
-            EXACT_DOUBLE_FORMAT.get().format(meanDouble, buffer, position);
-        } else {
-            SplitNumber mean = SplitNumber.split(meanDouble);
-            // For numbers close to 1, we don't use scientific notation.
-            if (Math.abs(mean.exponent) < minimumExponent) {
-                double pow = DoubleUtils.pow10(mean.exponent);
-                mean.exponent = 0;
-                mean.coefficient *= pow;
-            }
-
-            boolean useE = mean.exponent != 0;
-
-            EXACT_DOUBLE_FORMAT.get().format(mean.coefficient, buffer, position);
-            if (useE) {
-                buffer.append(TIMES_10);
-                String superscript = TextUtils.superscript(mean.exponent);
-                buffer.append(superscript);
-                position.setEndIndex(position.getEndIndex() + TIMES_10.length() + superscript.length());
-            }
-        }
-    }
 }
