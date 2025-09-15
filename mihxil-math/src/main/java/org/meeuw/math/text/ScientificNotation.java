@@ -1,6 +1,5 @@
 package org.meeuw.math.text;
 
-import java.math.BigInteger;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.util.function.IntSupplier;
@@ -185,9 +184,8 @@ public class ScientificNotation<N extends Number> {
             SplitNumber<N> splitMean = SplitNumber.split(mean);
             // For numbers close to 1, we don't use scientific notation.
             if (Math.abs(splitMean.exponent) < minimumExponent) {
-                BigInteger pow = BigInteger.TEN.pow(splitMean.exponent);
+                splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
                 splitMean.exponent = 0;
-                splitMean.coefficient = operations.multiply(splitMean.coefficient, pow);
             }
 
             boolean useE = splitMean.exponent != 0;
