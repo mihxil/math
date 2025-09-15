@@ -81,12 +81,12 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
         if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
             scientific.format(
                 uncertainNumber.getValue(),
-                minimumExponent,
+                uncertainNumber.getUncertainty(),
                 appendable, position);
         } else {
             scientific.formatWithUncertainty(
-                uncertainNumber.doubleValue(),
-                uncertainNumber.doubleUncertainty(),
+                uncertainNumber.getValue(),
+                uncertainNumber.getUncertainty(),
                 appendable,
                 position
             );

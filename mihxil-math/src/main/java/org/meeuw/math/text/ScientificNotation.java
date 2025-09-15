@@ -1,7 +1,6 @@
 package org.meeuw.math.text;
 
-import java.text.FieldPosition;
-import java.text.NumberFormat;
+import java.text.*;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
@@ -9,7 +8,6 @@ import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static org.meeuw.math.text.AbstractUncertainFormat.VALUE_FIELD;
-import static org.meeuw.math.text.UncertainFormatUtils.EXACT_DOUBLE_FORMAT;
 
 /**
  *  Utilities to deal with 'scientific notation', and {@link org.meeuw.math.uncertainnumbers.UncertainNumber uncertaintity}
@@ -21,7 +19,7 @@ public class ScientificNotation<N extends Number> {
 
     public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
 
-    protected final IntSupplier minimumExponenSupplier;
+    protected final IntSupplier minimumExponentSupplier;
 
     protected final IntSupplier maximalPrecisionSupplier;
 
@@ -30,6 +28,7 @@ public class ScientificNotation<N extends Number> {
     protected final Supplier<NumberFormat> numberFormatSupplier;
 
     protected final NumberOperations<N> operations;
+
 
 
     public ScientificNotation(AbstractUncertainFormat<?, ?, N> formatter, NumberOperations<N> operations) {
@@ -49,13 +48,19 @@ public class ScientificNotation<N extends Number> {
         Supplier<NumberFormat> numberFormat,
         NumberOperations<N> operations
         ) {
-        this.minimumExponenSupplier = minimumExponent;
+        this.minimumExponentSupplier = minimumExponent;
         this.maximalPrecisionSupplier = maximalPrecision;
         this.uncertaintyNotationSupplier = uncertaintyNotation;
         this.numberFormatSupplier = numberFormat;
         this.operations = operations;
     }
 
+
+    private void formatInfinity(StringBuffer buffer, FieldPosition position, N value) {
+        buffer.append(operations.signum(value) == 1 ? "+"  : "-");
+        buffer.append(TextUtils.INFINITY);
+        position.setEndIndex(buffer.length());
+    }
 
     /**
      * Represents the mean value in a scientific notation (using Unicode characters), if sensible.
@@ -75,16 +80,21 @@ public class ScientificNotation<N extends Number> {
         N uncertaintity,
         StringBuffer buffer,
         FieldPosition position) {
+        formatWithUncertainty(mean, uncertaintity, buffer, position, uncertaintyNotationSupplier.get());
+    }
+
+    protected void formatWithUncertainty(
+        N mean,
+        N uncertaintity,
+        StringBuffer buffer,
+        FieldPosition position,
+        Notation uncertaintyNotation
+        ) {
         if (! operations.isFinite(mean)) {
-            EXACT_DOUBLE_FORMAT.get().format(
-                mean,
-                buffer,
-                position
-            );
+            formatInfinity(buffer, position, mean);
         } else {
-            int minimumExponent = minimumExponenSupplier.getAsInt();
+            int minimumExponent = minimumExponentSupplier.getAsInt();
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
-            Notation uncertaintyNotation = uncertaintyNotationSupplier.get();
 
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean);
             SplitNumber<N> splitStd = SplitNumber.split(operations, uncertaintity);
@@ -170,48 +180,32 @@ public class ScientificNotation<N extends Number> {
      /**
      * Format the number without any error indication.
      *
-     * @param minimumExponent If the number is smaller than 10^{@code minimumExponent} no 10^ notation is used.
      * @since 0.19
      */
-    public void format(
+    protected void format(
         N mean,
-        int minimumExponent,
-        StringBuffer buffer, FieldPosition position) {
+        N uncertaintity,
+        StringBuffer buffer,
+        FieldPosition position) {
 
-        if (! operations.isFinite(mean)) {
-            EXACT_DOUBLE_FORMAT.get().format(mean, buffer, position);
-        } else {
-            SplitNumber<N> splitMean = SplitNumber.split(mean);
-            // For numbers close to 1, we don't use scientific notation.
-            if (Math.abs(splitMean.exponent) < minimumExponent) {
-                splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
-                splitMean.exponent = 0;
-            }
+        formatWithUncertainty(mean, uncertaintity, buffer, position, Notation.ROUND_VALUE);
 
-            boolean useE = splitMean.exponent != 0;
-            EXACT_DOUBLE_FORMAT.get().format(splitMean.coefficient, buffer, position);
-            if (useE) {
-                buffer.append(TIMES_10);
-                String superscript = TextUtils.superscript(splitMean.exponent);
-                buffer.append(superscript);
-                position.setEndIndex(position.getEndIndex() + TIMES_10.length() + superscript.length());
-            }
-        }
     }
 
 
     /**
-     * Wrapper for {@link #formatWithUncertainty(Number, Number, StringBuffer, FieldPosition)}
+     * Wrapper for {@link #formatWithUncertainty(Number, Number, StringBuffer, FieldPosition, Notation)}
      */
     public String formatWithUncertainty(
         N mean,
-        N uncertaintiy) {
+        N uncertaintity) {
         StringBuffer result = new StringBuffer();
         formatWithUncertainty(
             mean,
-            uncertaintiy,
+            uncertaintity,
             result,
-            new FieldPosition(VALUE_FIELD)
+            new FieldPosition(VALUE_FIELD),
+            uncertaintyNotationSupplier.get()
         );
         return result.toString();
     }
@@ -220,13 +214,13 @@ public class ScientificNotation<N extends Number> {
 
     /**
      * Format the number without any error indication.
-     * Wrapper for {@link #format(Number, int, StringBuffer, FieldPosition)}
+     * Wrapper for {@link #format(Number, Number, StringBuffer, FieldPosition)}
      */
-    public String format(N mean, int minimumExponent) {
+    public String format(N mean, N uncertainity) {
         StringBuffer  result = new StringBuffer();
         format(
             mean,
-            minimumExponent,
+            uncertainity,
             result,
             new FieldPosition(VALUE_FIELD)
         );

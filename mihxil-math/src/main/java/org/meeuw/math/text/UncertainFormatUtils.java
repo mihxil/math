@@ -2,25 +2,15 @@ package org.meeuw.math.text;
 
 import java.text.*;
 
-import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static org.meeuw.math.text.TextUtils.unsuperscript;
 
 /**
  * @since 0.19
  */
 public class UncertainFormatUtils {
-
-
-
-    static ThreadLocal<DecimalFormat> EXACT_DOUBLE_FORMAT = ThreadLocal.withInitial(() -> {
-        DecimalFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
-        numberFormat.setMaximumFractionDigits(14);
-        return numberFormat;
-    });
 
 
     static int parseInt(String value, ParsePosition parsePosition) {
@@ -121,9 +111,7 @@ public class UncertainFormatUtils {
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-            case ROUND_VALUE -> {
-                format.format(value, appendable, position);
-            }
+            case ROUND_VALUE -> format.format(value, appendable, position);
             default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
         }
     }
