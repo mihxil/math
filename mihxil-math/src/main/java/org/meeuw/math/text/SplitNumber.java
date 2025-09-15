@@ -15,6 +15,10 @@
  */
 package org.meeuw.math.text;
 
+import org.meeuw.math.numbers.NumberOperations;
+
+import static org.meeuw.math.text.ScientificNotation.TIMES_10;
+
 /**
  * Split a double up in 2 numbers: a double approximately 1 (the 'coefficient'), and an integer
  * indicating the order of magnitude (the 'exponent').
@@ -22,41 +26,50 @@ package org.meeuw.math.text;
  * This is a protected utility. It's not a record, the fields are just access directly, and occasionally modified.
  */
 
-class SplitNumber {
-    double coefficient;
-    int  exponent;
+class SplitNumber<N extends Number> {
+    N coefficient;
+    int exponent;
 
-    SplitNumber(double coefficient, int exponent) {
+    SplitNumber(N coefficient, int exponent) {
         this.coefficient = coefficient;
         this.exponent = exponent;
     }
 
     @Override
     public String toString() {
-        return coefficient + UncertainDoubleFormat.TIMES_10 + TextUtils.superscript(exponent);
+        return coefficient + TIMES_10 + TextUtils.superscript(exponent);
     }
 
-    static SplitNumber split(double in) {
-        if (Double.isInfinite(in)) {
+    static <N extends Number> SplitNumber<N> split(N in) {
+        NumberOperations<N> operations = NumberOperations.of(in);
+        return split(operations, in);
+    }
+
+
+    static <N extends Number> SplitNumber<N> split(NumberOperations<N> operations, N in) {
+
+        if (! operations.isFinite(in)) {
             throw new IllegalArgumentException("" + in);
         }
-        boolean negative = in < 0;
-        double coefficient = Math.abs(in);
+        boolean negative = operations.signum(in) < 0;
+        N coefficient = operations.abs(in);
         int exponent    = 0;
-        if (coefficient != 0) {
-            while (coefficient >= 10) {
-                coefficient /= 10;
+        if (!operations.isZero(coefficient)) {
+            // use operations.scaleByPowerOf10?
+            while (operations.gte(coefficient, 10)) {
+                coefficient = operations.divideInt(coefficient, 10);
                 exponent++;
             }
-            while (coefficient < 1) {
-                coefficient *= 10;
+
+            while (operations.lt(coefficient, 1)) {
+                coefficient = operations.multiply(coefficient, 10);
                 exponent--;
             }
         }
         if (negative) { // put sign back
-            coefficient *= -1;
+            coefficient = operations.negate(coefficient);
         }
-        return new SplitNumber(coefficient, exponent);
+        return new SplitNumber<>(coefficient, exponent);
     }
 
 }
