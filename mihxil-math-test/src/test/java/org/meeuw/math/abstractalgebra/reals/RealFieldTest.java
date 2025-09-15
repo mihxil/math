@@ -73,10 +73,10 @@ class RealFieldTest implements
 
     @Test
     public void string() {
-        assertThat(DoubleElement.of(1).toString()).isEqualTo("1");
+        assertThat(DoubleElement.of(1).toString()).isEqualTo("1.0000000000000000");
         RealNumber half  = of(1).dividedBy(of(2));
         assertThat(half.doubleUncertainty()).isEqualTo(6.661338147750939E-16);
-        assertThat(half.toString()).isEqualTo("0.5"); // rounding errors only
+        assertThat(half.toString()).isEqualTo("0.5000000000000000"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
     @Test
