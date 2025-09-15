@@ -98,13 +98,13 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void infinity() {
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 0d)).isEqualTo("∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 0d)).isEqualTo("+∞");
         assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 
     @Test
     public void infinityExact() {
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 1d)).isEqualTo("∞");
+        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 1d)).isEqualTo("+∞");
         assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 

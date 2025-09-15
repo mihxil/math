@@ -110,7 +110,10 @@ public class DoubleElement
     }
 
     public static DoubleElement of(double value) {
-        return of(value, uncertaintyForDouble(value));
+        return of(
+            value,
+            uncertaintyForDouble(value)
+        );
     }
 
 
