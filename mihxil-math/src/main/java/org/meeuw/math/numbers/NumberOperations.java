@@ -16,6 +16,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Arrays;
 
 import org.meeuw.math.exceptions.IllegalLogarithmException;
@@ -31,6 +32,13 @@ public interface NumberOperations<N extends Number> {
     @SuppressWarnings("unchecked")
     static <N extends Number> NumberOperations<N> of(N n) {
         if (n instanceof BigDecimal) {
+            return (NumberOperations<N>) BigDecimalOperations.INSTANCE;
+        } else {
+            return (NumberOperations<N>) DoubleOperations.INSTANCE;
+        }
+    }
+    static <N extends Number> NumberOperations<N> ofClass(Class<N> numberClass) {
+        if (BigDecimal.class.isAssignableFrom(numberClass)) {
             return (NumberOperations<N>) BigDecimalOperations.INSTANCE;
         } else {
             return (NumberOperations<N>) DoubleOperations.INSTANCE;
@@ -59,13 +67,15 @@ public interface NumberOperations<N extends Number> {
 
     UncertainNumber<N> ln(N n) throws IllegalLogarithmException;
 
-    default N multiply(N n1, int n2) {
-        N result = n1;
-        for (int i = n2; i > 1; i--) {
-            result = add(result, n1);
-        }
-        return result;
-    }
+     N multiply(N n1, int n2);
+
+    N multiply(N n1, Factor factor);
+
+    N scaleByPowerOfTen(N n1, int n2);
+
+
+     N multiply(N n1, BigInteger n2);
+
     default UncertainNumber<N> multiply(N n2, int n, int d) {
         return divide(multiply(n2, n), d);
     }
@@ -75,6 +85,8 @@ public interface NumberOperations<N extends Number> {
     UncertainNumber<N> divide(N n1, N n2);
 
     UncertainNumber<N> divide(N n1, int n2);
+
+    N divideInt(N n1, int n2);
 
     N add(N n1, N n2);
 
@@ -93,6 +105,8 @@ public interface NumberOperations<N extends Number> {
 
     boolean lt(N n1, N n2);
 
+    boolean lt(N n1, long i);
+
     boolean lte(N n1, N n2);
 
     default boolean gt(N n1, N n2) {
@@ -102,6 +116,8 @@ public interface NumberOperations<N extends Number> {
     default boolean gte(N n1, N n2) {
         return ! lt(n1, n2);
     }
+    boolean gte(N n1, long i);
+
 
     default int compare(N n1, N n2) {
         if (lt(n1, n2)) {
@@ -144,5 +160,7 @@ public interface NumberOperations<N extends Number> {
 
 
     boolean isZero(N n);
+
+    N fromString(String s);
 
 }

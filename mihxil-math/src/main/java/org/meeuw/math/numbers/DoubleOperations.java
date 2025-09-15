@@ -16,6 +16,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.stream.Stream;
 
 import org.meeuw.math.DoubleUtils;
@@ -116,6 +117,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public Double divideInt(Double n1, int n2) {
+        return n1 / n2;
+    }
+
+    @Override
     public Double add(Double n1, Double n2) {
         return n1 + n2;
     }
@@ -152,8 +158,18 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public boolean lt(Double n1, long i) {
+        return n1 < i;
+    }
+
+    @Override
     public boolean lte(Double n1, Double n2) {
         return n1 <= n2;
+    }
+
+    @Override
+    public boolean gte(Double n1, long i) {
+        return n1 >= i;
     }
 
     @Override
@@ -207,6 +223,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public Double fromString(String s) {
+        return Double.parseDouble(s.trim());
+    }
+
+    @Override
     public UncertainNumber<Double> ln(Double v) throws IllegalLogarithmException {
         if (v <= 0) {
             throw new IllegalLogarithmException("Can't take logarithm of negative", "ln(" + v + ")");
@@ -214,6 +235,25 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
         return uncertain(Math.log(v));
     }
 
+    @Override
+    public Double multiply(Double n1, int n2) {
+        return n1 * n2;
+    }
+
+    @Override
+    public Double multiply(Double n1, Factor factor) {
+        return factor.apply(n1);
+    }
+
+    @Override
+    public Double scaleByPowerOfTen(Double n1, int n2) {
+        return n1 * DoubleUtils.pow10(n2);
+    }
+
+    @Override
+    public Double multiply(Double n1, BigInteger n2) {
+        return n1 * n2.longValueExact();
+    }
 
 
     protected UncertainNumber<Double> uncertain(Double newValue) {

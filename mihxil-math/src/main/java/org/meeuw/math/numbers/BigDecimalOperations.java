@@ -17,8 +17,7 @@ package org.meeuw.math.numbers;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import java.math.*;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -118,6 +117,26 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     }
 
     @Override
+    public BigDecimal multiply(BigDecimal n1, int n2) {
+        return n1.multiply(BigDecimal.valueOf(n2));
+    }
+
+    @Override
+    public BigDecimal multiply(BigDecimal n1, Factor factor) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public BigDecimal scaleByPowerOfTen(BigDecimal n1, int n2) {
+        return n1.scaleByPowerOfTen(n2);
+    }
+
+    @Override
+    public BigDecimal multiply(BigDecimal n1, BigInteger n2) {
+        return n1.multiply(new BigDecimal(n2));
+    }
+
+    @Override
     public UncertainNumber<BigDecimal> divide(BigDecimal n1, BigDecimal n2) {
         try {
             return uncertain(n1.divide(n2, context()));
@@ -133,6 +152,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         } catch (ArithmeticException ae) {
             throw new DivisionByZeroException(n1, n2, ae);
         }
+    }
+
+    @Override
+    public BigDecimal divideInt(BigDecimal n1, int n2) {
+        return n1.divide(new BigDecimal(n2), context());
     }
 
 
@@ -188,8 +212,18 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     }
 
     @Override
+    public boolean lt(BigDecimal n1, long i) {
+        return n1.compareTo(BigDecimal.valueOf(i)) < 0;
+    }
+
+    @Override
     public boolean lte(BigDecimal n1, BigDecimal n2) {
         return n1.compareTo(n2) <= 0;
+    }
+
+    @Override
+    public boolean gte(BigDecimal n1, long i) {
+        return n1.compareTo(BigDecimal.valueOf(i)) >= 0;
     }
 
     @Override
@@ -240,6 +274,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     @Override
     public boolean isZero(BigDecimal bigDecimal) {
         return bigDecimal.equals(BigDecimal.ZERO);
+    }
+
+    @Override
+    public BigDecimal fromString(String s) {
+        return new BigDecimal(s);
     }
 
     @Override
