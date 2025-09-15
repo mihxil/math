@@ -42,6 +42,17 @@ public record Factor(long factor, boolean divide) {
         } else {
             return operand.times(factor);
         }
-
     }
+    public double apply(double operand) {
+        if (factor == 1) {
+            return operand;
+        }
+        if (divide) {
+            return operand / factor;
+        } else {
+            return operand * factor;
+        }
+    }
+
+
 }
