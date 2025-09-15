@@ -130,7 +130,10 @@ public final class FormatService {
             })
             .filter(Objects::nonNull)
             .findFirst()
-            .orElseThrow(() -> new NotParsable.NotImplemented("Could not parse '" + source + "' to " + clazz + " (with " + getFormat(clazz, configuration).toList() + ")"));
+            .orElseThrow(() ->
+                new NotParsable.NotImplemented("Could not parse '" + source + "' to " + clazz
+                    + " (with " + getFormat(clazz, configuration).toList() + ")")
+            );
     }
 
 
