@@ -276,7 +276,7 @@ public abstract class AbstractUncertainFormat<
             case PARENTHESES -> valueParenthesesError(appendable, position, value);
             case PLUS_MINUS -> valuePlusMinError(appendable,  position, value);
             case ROUND_VALUE -> valueRound(appendable, position, value);
-            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
+            case ROUND_VALUE_AND_TRIM -> valueRound(appendable, position, value);
         }
     }
     protected abstract void valueParenthesesError(StringBuffer appendable, FieldPosition position, F value);

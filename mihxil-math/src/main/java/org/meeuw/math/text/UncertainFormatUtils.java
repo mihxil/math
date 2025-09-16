@@ -96,6 +96,7 @@ public class UncertainFormatUtils {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> UncertainFormatUtils.valuePlusMinError(value, error);
             case ROUND_VALUE -> value;
+            case ROUND_VALUE_AND_TRIM -> value;
         };
     }
 
@@ -112,7 +113,7 @@ public class UncertainFormatUtils {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
             case ROUND_VALUE -> format.format(value, appendable, position);
-            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
+            case ROUND_VALUE_AND_TRIM -> format.format(value, appendable, position);
         }
     }
 }
