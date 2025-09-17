@@ -68,7 +68,7 @@ jobs:
       - name: Use variable
         run: |
            echo "The value is ${{ steps.after_maven.outputs.MAVEN_TESTS_FAILED}}"
-           echo "The values are ${{ steps.after_maven.outputs}}"
+           echo "The values are ${{ toJson(steps.after_maven.outputs) }}"
         if: always()
       - name: Deploy to central
         # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
