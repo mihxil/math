@@ -61,9 +61,14 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - uses: MMProgrami/after-maven-action@main
+        id: after_maven
         with:
           coverage: true
           determine_version: false
+      - name: Use variable
+        run: |
+           echo "The value is ${{ steps.after_maven.outputs.MAVEN_TESTS_FAILED}}"
+           echo "The values are ${{ steps.after_maven.outputs}}"
       - name: Deploy to central
         # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
         # It also sets the default target to deploy
