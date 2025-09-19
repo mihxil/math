@@ -1913,6 +1913,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     dihedral4(DihedralGroup.of(<span class="integer">4</span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0 * s3</span><span class="delimiter">&quot;</span></span>
+    ),
+    polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">x + 2x^2 + x^5</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>
     )
     ;
 
@@ -1948,7 +1952,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span><span class="type">[]</span> elements(Magma&lt;?&gt; field) {
         <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; elements = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;(field.getConstants().keySet());
         <span class="keyword">if</span> (field.getCardinality().isCountable() &amp;&amp; field <span class="keyword">instanceof</span>  Streamable&lt;?&gt; streamable) {
-            streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
+            <span class="keyword">try</span> {
+                streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
+            } <span class="keyword">catch</span> (NotStreamable ignored) {}
         }
         <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
     }
@@ -1964,7 +1970,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
 
 
-<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> input, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+    <span class="directive">final</span> <span class="predefined-type">String</span> expression = input.strip();
     <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
         .configure(UncertaintyConfiguration.class,
             (ub) -&gt; ub.withNotation(ROUND_VALUE))
@@ -2241,7 +2248,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </details>
 </div>
-<div class="sect2 tips-aside">
+<div class="sect2">
 <h3 id="demo_solver">10.2. Solver</h3>
 <div class="paragraph">
 <p>The same idea as my <a href="https://meeuw.org/flippo/flippo.html">very first applet</a>. Solving the '24 flippo game'.</p>
@@ -2249,11 +2256,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.</p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<div class="title">Note</div>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -2274,12 +2281,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>It uses some features of the Field, e.g. to perform operators generically.</p>
 </li>
 <li>
-<p>It will currently use the field of <code>RationalNumbers</code> <em>or</em> <code>GaussianRationals</code> if the input contains a complex number. I might add also suport for <code>RealField</code> (and for example also support the POW operator)</p>
+<p>It will currently use the field of <code>RationalNumbers</code> <em>or</em> <code>GaussianRationals</code> if the input contains a complex number. I might add also support for <code>RealField</code> (and for example also support the POW operator)</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?</p>
 </div>
 </td>
 </tr>
