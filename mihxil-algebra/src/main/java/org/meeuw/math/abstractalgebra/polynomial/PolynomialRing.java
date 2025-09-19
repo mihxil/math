@@ -6,8 +6,6 @@ import lombok.SneakyThrows;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.ArrayUtils;
@@ -19,7 +17,6 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
-import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -62,11 +59,12 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     private static final AlgebraicUnaryOperator DERIVATIVE = new AlgebraicUnaryOperator() {
             final Method method = getDeclaredMethod(Polynomial.class, "derivative");
 
+            @SuppressWarnings("unchecked")
             @Override
             @SneakyThrows
-            public <E extends AlgebraicElement<E>> E apply(E e) {
+            public <V extends AlgebraicElement<V>> V apply(V e) {
                 try {
-                    return (E) method.invoke(e);
+                    return (V) method.invoke(e);
                 } catch (Exception ex) {
                     throw ex.getCause();
                 }
@@ -152,62 +150,7 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
 
     @Override
     public Polynomial<E> fromString(String input) {
-        input = input
-            .replaceAll("\\s+", "")
-            .replaceAll("-", "+-");
-        input = TextUtils.unsuperscript(input);
-        if (input.startsWith("+")) {
-            input = input.substring(1);
-        }
-
-        String[] terms = input.split("\\+");
-        Map<Integer, E> coeffs = new HashMap<>();
-
-        Pattern termPattern = Pattern.compile("(.*?)·?(?:" + variable + "\\^?(\\d*))?");
-        for (String term : terms) {
-            if (term.isEmpty()) continue;
-            Matcher m = termPattern.matcher(term);
-            if (m.matches()) {
-                String coeff = m.group(1);
-                String e = m.group(2);
-                final int exp;
-                if (e == null) {
-                    exp = 0;
-                } else {
-                    if (e.isEmpty()) {
-                        exp = 1;
-                    } else {
-                        exp = Integer.parseInt(e);
-                    }
-                }
-                E coeffValue;
-                if (coeff.isEmpty()) {
-                    coeffValue = coefficientRing.one();
-                } else if (coeff.equals("-")) {
-                    coeffValue = coefficientRing.one().negation();
-                } else {
-                    coeffValue = coefficientRing.fromString(coeff);
-                }
-                E prev = coeffs.get(exp);
-                if (prev == null) {
-                    coeffs.put(exp, coeffValue);
-                } else {
-                    coeffs.put(exp, prev.plus(coeffValue));
-                }
-
-            } else {
-                throw new IllegalArgumentException("Cannot parse term: " + term);
-            }
-        }
-        int maxExp = coeffs.keySet().stream().max(Integer::compareTo).orElse(0);
-        if (maxExp == 0 &&  coeffs.getOrDefault(0, coefficientRing.zero()).isZero()) {
-            return zero();
-        }
-        E[] arr = coefficientRing.newArray(maxExp + 1);
-        for (int i = 0; i <= maxExp; i++) {
-            arr[i] = coeffs.getOrDefault(i, coefficientRing.zero());
-        }
-        return new Polynomial<>(this, arr);
+        return Parser.fromString(this, input);
     }
 
     @Override
