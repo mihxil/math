@@ -68,8 +68,8 @@ public class Calculator {
             "s0 * r1 * s0 * s3"
         ),
         polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
-            "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\"",
-            "\"x + 2x^2 + x^5\""
+            "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\" · \"15·x² + 2·x³\"",
+            "\"x + 2x^2 + x^5\" + \"5 + 3/4x^2 - x^5\""
         )
         ;
 
