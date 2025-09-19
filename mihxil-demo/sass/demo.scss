@@ -2,150 +2,154 @@
 $tip-bg: #f0f0f0;
 $tip-border: #bbb;
 $element-color: #009999;
+$output-core: aliceblue;
 
-form.demo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
+#demo_section {
+  div:is(.sect1, .sect2) {
 
-  &.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
+    form.demo {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
 
-  label {
-    margin-bottom: 0.2em;
-  }
-
-  input,
-  output,
-  button {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  output {
-    width: 100%;
-    min-height: 3em;
-    max-height: 20em;
-    padding: 1ex;
-    background-color: aliceblue;
-    overflow: auto;
-    display: block;
-    border: 1px solid;
-    white-space: pre-wrap;
-    resize: vertical;
-  }
-
-  .help {
-    opacity: 0.8;
-    font-size: 80%;
-    min-height: 0.8em;
-    margin-bottom: 0;
-  }
-
-  span.element {
-    color: $element-color;
-
-    &:not(:last-child)::after {
-      content: ", ";
-    }
-  }
-}
-
-input:focus.invalid,
-input.invalid {
-  border-color: red !important;
-}
-
-datalist {
-  display: block;
-
-  &::before {
-    content: 'examples: ';
-  }
-
-  option {
-    color: $element-color;
-    display: inline-block;
-
-    &::before {
-      content: attr(value);
-    }
-
-    &:not(:empty)::before {
-      content: attr(value) ": ";
-    }
-
-    &:not(:last-child)::after {
-      color: black;
-      content: ", ";
-    }
-  }
-}
-
-div:is(.sect1, .sect2).tips-aside {
-  form {
-    display: block;
-  }
-
-  .admonitionblock.tip {
-    float: right;
-    width: 50%;
-    padding-left: 2ex;
-    overflow-y: auto;
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      background: none;
-      box-shadow: none;
-      border: none;
-
-      td,
-      th {
-        border: none;
-        padding: 0.5em 0;
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
       }
 
-      td.icon {
-        display: none;
+      label {
+        margin-bottom: 0.2em;
+      }
+
+      input,
+      output,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      output {
+        width: 100%;
+        min-height: 3em;
+        max-height: 20em;
+        padding: 1ex;
+        background-color: $output-core;
+        overflow: auto;
+        display: block;
+        border: 1px solid;
+        white-space: pre-wrap;
+        resize: vertical;
+      }
+
+      .help {
+        opacity: 0.8;
+        font-size: 80%;
+        min-height: 0.8em;
+        margin-bottom: 0;
+      }
+
+      span.element {
+        color: $element-color;
+
+        &:not(:last-child)::after {
+          content: ", ";
+        }
+      }
+
+
+      input:focus.invalid,
+      input.invalid {
+        border-color: red !important;
+      }
+
+
+      datalist {
+        display: block;
+
+        &::before {
+          content: 'examples: ';
+        }
+
+        option {
+          color: $element-color;
+          display: inline-block;
+
+          &::before {
+            content: attr(value);
+          }
+
+          &:not(:empty)::before {
+            content: attr(value) ": ";
+          }
+
+          &:not(:last-child)::after {
+            color: black;
+            content: ", ";
+          }
+        }
+      }
+    }
+    &.tips-aside {
+
+      details {
+        clear: both;
+      }
+
+      form {
+        display: block;
+        input, button, output {
+          width: 50%;
+        }
+      }
+
+      .admonitionblock.tip {
+        float: right;
+        width: 50%;
+        padding-left: 2ex;
+        overflow-y: auto;
+
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          background: none;
+          box-shadow: none;
+          border: none;
+
+          td,
+          th {
+            border: none;
+            padding: 0.5em 0;
+          }
+
+          td.icon {
+            display: none;
+          }
+        }
+      }
+
+      dl {
+        position: relative;
+
+        dd {
+          display: none;
+        }
+
+        dt {
+          display: inline-block;
+          margin: 0.1em;
+          padding: 0.3em 0.6em;
+          background: $tip-bg;
+          border: 2px solid $tip-border;
+          border-radius: 0.4em;
+          font-size: 1.2em;
+          text-align: center;
+          cursor: pointer;
+          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+          transition: background 0.1s, box-shadow 0.1s;
+        }
       }
     }
   }
-
-  dl {
-    position: relative;
-
-    dd {
-      display: none;
-    }
-
-    dt {
-      display: inline-block;
-      margin: 0.1em;
-      padding: 0.3em 0.6em;
-      background: $tip-bg;
-      border: 2px solid $tip-border;
-      border-radius: 0.4em;
-      font-size: 1.2em;
-      text-align: center;
-      cursor: pointer;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
-      transition: background 0.1s, box-shadow 0.1s;
-    }
-  }
 }
 
-div:is(.sect1, .sect2):has(>#demo_solver) .admonitionblock.tip {
-  max-height: 500px;
-}
-
-div.sect1:has(>#demo_calculator) .admonitionblock.tip table th {
-  border: none;
-  padding: 0.5em 0;
-}
-
-#demo_section .sect1 {
-  clear: both;
-}
