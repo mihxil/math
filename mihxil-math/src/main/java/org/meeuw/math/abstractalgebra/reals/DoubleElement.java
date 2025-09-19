@@ -45,9 +45,6 @@ public class DoubleElement
     public static final double UNCERTAINTY_FOR_ONE = DoubleUtils.uncertaintyForDouble(1);
     public static final double UNCERTAINTY_FOR_ZERO = DoubleUtils.uncertaintyForDouble(0);
 
-
-
-
     public static final DoubleElement TWO = DoubleElement.exactly(2d);
 
     public static final DoubleElement SMALLEST = new DoubleElement(0d, UNCERTAINTY_FOR_ZERO);
