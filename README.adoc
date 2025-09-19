@@ -18,7 +18,7 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
 image:https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg[codecov,link=https://codecov.io/gh/mihxil/math]
 //image:https://img.shields.io/nexus/s/https/oss.sonatype.org/org.meeuw.math/mihxil-math.svg[snapshots,link=https://oss.sonatype.org/content/repositories/snapshots/org/meeuw/math/]
-image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://search.maven.org/search?q=g:%22org.meeuw.math%22]
+image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Maven Central,link=https://central.sonatype.com/search?q=g%3Aorg.meeuw.math]
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
 
 
