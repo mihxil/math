@@ -29,7 +29,6 @@ public class PhysicalNumberFormat extends Format {
 
     @Override
     public StringBuffer format(@NonNull Object number, @NonNull StringBuffer toAppendTo, @NonNull FieldPosition pos) {
-
         StringBuffer buf = new StringBuffer();
         PhysicalNumber physicalNumber = (PhysicalNumber) number;
         RealNumber value = physicalNumber.get();

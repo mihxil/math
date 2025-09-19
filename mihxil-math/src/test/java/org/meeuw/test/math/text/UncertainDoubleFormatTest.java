@@ -35,6 +35,7 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.text.*;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -193,11 +194,13 @@ class UncertainDoubleFormatTest {
         new Case(1, 0.00001,
             "1.000000",         "1",               "1.000000 ± 0.000010",          "1.000000(10)"),
         new Case(1, 0.20,
-            "1.0",              "1",               " 1.0 ± 0.2",                    "1.0(2)"),
+            "1.0",              "1",               "1.0 ± 0.2",                    "1.0(2)"),
         new Case(1, 0.00001,
             "1.000000",         "1",                "1.000000 ± 0.000010",          "1.000000(10)"),
         new Case(-2.2967301287511077E-10, 0.000005551115123125783E-10,
-            "-2.296730·10⁻¹⁰",  "-2.296730·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰")
+            "-2.296730·10⁻¹⁰",  "-2.296730·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰"),
+        new Case(1000, 0,
+            "1000",  "1000",  "1000",  "1000")
     );
 
     public static Stream<Object[]> cases() {
@@ -213,7 +216,7 @@ class UncertainDoubleFormatTest {
 
     @ParameterizedTest
     @MethodSource("cases")
-    public void notations(double value, double error, UncertaintyConfiguration.Notation notation, String expected) {
+    public void notations(double value, double error, Notation notation, String expected) {
         var el = DoubleElement.of(value,error);
 
         try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(notation))) {
@@ -221,7 +224,7 @@ class UncertainDoubleFormatTest {
             formatter.setUncertaintyNotation(notation);
             String toString = formatter.format(el);
             assertThat(toString)
-                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is " + toString + " but it should have been " + expected)
+                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is '" + toString + "' but it should have been '" + expected + "'")
                 .isEqualTo(expected);
             DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
             assertThat(parsed.toString())
