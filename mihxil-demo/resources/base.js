@@ -17,7 +17,7 @@ export class BaseClass {
     }
 
 
-    static async getCheerpj(level = 'INFO') {
+    static async getCheerpj() {
         if (BaseClass.cjInit === null) {
             BaseClass.cjInit = "locked";
             const properties = [
@@ -32,7 +32,6 @@ export class BaseClass {
         }
         await BaseClass.cjInit;
         if (BaseClass.cj === null) {
-
             const pref = document.location.pathname.startsWith("/math") ?
                 "/app/math/resources/jars/" :
                 "/app/resources/jars/";
@@ -41,7 +40,7 @@ export class BaseClass {
             //BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-demo-${version}.jar`);
             //console.log("cj -> ", await BaseClass.cj);
         }
-        return BaseClass.cj;
+        return await BaseClass.cj;
     }
 
     static async loadClassesForForm(className, classNames) {
@@ -179,9 +178,9 @@ export class BaseClass {
         const observer = new IntersectionObserver(async (entries) => {
             for (const entry of entries) {
                 if (entry.isIntersecting) {
-                    console.log("intersecting", entry.target, "setup form");
+                    console.log("intersecting", await entry.target, "setup form");
                     await this.onInView(this.Class);
-                    console.log("readyToGo", this.Class.prototype);
+                    //console.log("readyToGo", this.Class.prototype);
                     await this.readyToGo();
                     await observer.disconnect();
                 }
