@@ -180,12 +180,19 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
                         exp = Integer.parseInt(e);
                     }
                 }
+                E coeffValue;
                 if (coeff.isEmpty()) {
-                    coeffs.put(exp, coefficientRing.one());
+                    coeffValue = coefficientRing.one();
                 } else if (coeff.equals("-")) {
-                    coeffs.put(exp, coefficientRing.one().negation());
+                    coeffValue = coefficientRing.one().negation();
                 } else {
-                    coeffs.put(exp, coefficientRing.fromString(coeff));
+                    coeffValue = coefficientRing.fromString(coeff);
+                }
+                E prev = coeffs.get(exp);
+                if (prev == null) {
+                    coeffs.put(exp, coeffValue);
+                } else {
+                    coeffs.put(exp, prev.plus(coeffValue));
                 }
 
             } else {
