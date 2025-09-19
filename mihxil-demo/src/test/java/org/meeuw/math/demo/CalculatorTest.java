@@ -54,4 +54,17 @@ public class CalculatorTest {
             assertThat(result).isEqualTo("2");
         }
     }
+
+
+    @Test
+    public void polynomials() {
+        log.fine("test");
+        {
+            String result = Calculator.eval("""
+            "x + 2x^2 + x^5" * "7 + x"
+            """, Calculator.FieldInformation.polynomials.name());
+            assertThat(result).isEqualTo("7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶");
+        }
+
+    }
 }
