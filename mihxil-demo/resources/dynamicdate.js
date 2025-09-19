@@ -19,6 +19,8 @@ export class DynamicDate extends BaseClass {
             this.output.value = await parseResult.toString();
         } catch (error) {
             console.log(error);
+            this.output.value = await (await error.getMessage()).toString();
+
         }
 
     }
