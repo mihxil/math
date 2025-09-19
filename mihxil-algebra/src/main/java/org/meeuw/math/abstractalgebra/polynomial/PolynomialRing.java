@@ -19,11 +19,10 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
-
-import org.meeuw.math.text.TextUtils;
 
 /**
  * The algebraic structures for polynomials (in one variable).
@@ -194,6 +193,9 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
             }
         }
         int maxExp = coeffs.keySet().stream().max(Integer::compareTo).orElse(0);
+        if (maxExp == 0 &&  coeffs.getOrDefault(0, coefficientRing.zero()).isZero()) {
+            return zero();
+        }
         E[] arr = coefficientRing.newArray(maxExp + 1);
         for (int i = 0; i <= maxExp; i++) {
             arr[i] = coeffs.getOrDefault(i, coefficientRing.zero());
