@@ -49,7 +49,7 @@ export class SolverClass extends BaseClass {
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
-            );
+        );
 
         const stream = await solverResult.stream();
         const lines = await stream.toArray();

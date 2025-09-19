@@ -1017,6 +1017,8 @@ Your browser does not support the video tag.
         <span class="local-variable">this</span>.output.value = await parseResult.toString();
     } <span class="keyword">catch</span> (error) {
         console.log(error);
+        <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
+
     }
 
 }</code></pre>
@@ -1915,8 +1917,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0 * s3</span><span class="delimiter">&quot;</span></span>
     ),
     polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
-        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">x + 2x^2 + x^5</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶</span><span class="char">\&quot;</span><span class="content"> · </span><span class="char">\&quot;</span><span class="content">15·x² + 2·x³</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">x + 2x^2 + x^5</span><span class="char">\&quot;</span><span class="content"> + </span><span class="char">\&quot;</span><span class="content">5 + 3/4x^2 - x^5</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>
     )
     ;
 
@@ -2510,7 +2512,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
         const solverResult = await Solver.solve(
             <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
-            );
+        );
 
         const stream = await solverResult.stream();
         const lines = await stream.toArray();
@@ -2632,6 +2634,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.output.value = await parseResult.toString();
     } <span class="keyword">catch</span> (error) {
         console.log(error);
+        <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
+
     }
 
 }</code></pre>
