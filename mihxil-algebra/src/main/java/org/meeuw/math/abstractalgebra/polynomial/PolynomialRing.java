@@ -6,6 +6,8 @@ import lombok.SneakyThrows;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.ArrayUtils;
@@ -20,6 +22,8 @@ import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
+
+import org.meeuw.math.text.TextUtils;
 
 /**
  * The algebraic structures for polynomials (in one variable).
@@ -146,6 +150,56 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
         return new Polynomial<>(this, trimmed);
     }
 
+
+    @Override
+    public Polynomial<E> fromString(String input) {
+        input = input
+            .replaceAll("\\s+", "")
+            .replaceAll("-", "+-");
+        input = TextUtils.unsuperscript(input);
+        if (input.startsWith("+")) {
+            input = input.substring(1);
+        }
+
+        String[] terms = input.split("\\+");
+        Map<Integer, E> coeffs = new HashMap<>();
+
+        Pattern termPattern = Pattern.compile("(.*?)·?(?:" + variable + "\\^?(\\d*))?");
+        for (String term : terms) {
+            if (term.isEmpty()) continue;
+            Matcher m = termPattern.matcher(term);
+            if (m.matches()) {
+                String coeff = m.group(1);
+                String e = m.group(2);
+                final int exp;
+                if (e == null) {
+                    exp = 0;
+                } else {
+                    if (e.isEmpty()) {
+                        exp = 1;
+                    } else {
+                        exp = Integer.parseInt(e);
+                    }
+                }
+                if (coeff.isEmpty()) {
+                    coeffs.put(exp, coefficientRing.one());
+                } else if (coeff.equals("-")) {
+                    coeffs.put(exp, coefficientRing.one().negation());
+                } else {
+                    coeffs.put(exp, coefficientRing.fromString(coeff));
+                }
+
+            } else {
+                throw new IllegalArgumentException("Cannot parse term: " + term);
+            }
+        }
+        int maxExp = coeffs.keySet().stream().max(Integer::compareTo).orElse(0);
+        E[] arr = coefficientRing.newArray(maxExp + 1);
+        for (int i = 0; i <= maxExp; i++) {
+            arr[i] = coeffs.getOrDefault(i, coefficientRing.zero());
+        }
+        return new Polynomial<>(this, arr);
+    }
 
     @Override
     public String toString() {

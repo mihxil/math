@@ -18,7 +18,7 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
 
     @Override
     public Arbitrary<Polynomial<IntegerElement>> elements() {
-        return Arbitraries.randomValue(r -> INTEGER_POLYNOMIALS.nextRandom(r));
+        return Arbitraries.randomValue(INTEGER_POLYNOMIALS::nextRandom);
     }
 
     @Test
@@ -50,4 +50,29 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
         var derived = longer.derivative();
         assertThat(derived.toString()).isEqualTo("5 + 50·x");
     }
+
+    @Test
+    public void fromStringTestAscii() {
+         Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("1 - 60x + 7x^2");
+         assertThat(pol.toString()).isEqualTo("1 - 60·x + 7·x²");
+     }
+
+     @Test
+    public void fromStringX() {
+         Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("x");
+         assertThat(pol.toString()).isEqualTo("x");
+
+
+         Polynomial<IntegerElement> pol2 = INTEGER_POLYNOMIALS.fromString("-x");
+         assertThat(pol2.toString()).isEqualTo("-x");
+     }
+
+    @Test
+    public void fromStringTest() {
+        Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("7·x² + 1 - 60·x");
+        assertThat(pol.toString()).isEqualTo("1 - 60·x + 7·x²");
+
+    }
+
+
 }
