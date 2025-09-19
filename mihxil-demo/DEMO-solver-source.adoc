@@ -1,12 +1,11 @@
 [#demo_solver]
-[.tips-aside]
 = Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
 
 Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.
 
-[TIP]
+[NOTE]
 ====
 This combines several aspects of this project:
 
@@ -14,9 +13,8 @@ This combines several aspects of this project:
 - It uses the permutation group to permute all combinations of values
 - It uses the Abstract Syntax Tree feature to combine values and operators
 - It uses some features of the Field, e.g. to perform operators generically.
-- It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also suport for `RealField` (and for example also support the POW operator)
+- It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also support for `RealField` (and for example also support the POW operator)
 
-Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?
 ====
 
 ++++

@@ -123,7 +123,8 @@ public class Calculator {
 
 
 
-    public static String eval(final String expression, final String field) {
+    public static String eval(String input, final String field) {
+        final String expression = input.strip();
         try (var r = ConfigurationService.setConfiguration(cb -> cb
             .configure(UncertaintyConfiguration.class,
                 (ub) -> ub.withNotation(ROUND_VALUE))

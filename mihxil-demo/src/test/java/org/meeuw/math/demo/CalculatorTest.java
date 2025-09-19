@@ -2,6 +2,8 @@ package org.meeuw.math.demo;
 
 import lombok.extern.java.Log;
 
+import java.util.logging.Level;
+
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,14 +11,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Log
 public class CalculatorTest {
     static {
-        DemoUtils.setupLogging("FINE");
+        DemoUtils.setupLogging(Level.FINE);
     }
 
     @Test
     public void gaussian() {
         String result = Calculator.eval("""
-            "i"  * "1 + 3i"
-            """, "gaussian");
+           "i"  * "1 + 3i"
+           """, "gaussian");
         assertThat(result).isEqualTo("-3 + i");
     }
 
