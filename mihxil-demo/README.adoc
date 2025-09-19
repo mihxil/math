@@ -20,8 +20,31 @@ This section is work in progress
 = Calculator
 
 
+++++
+<form id="calculator" class="demo">
+  <label for="calculator_field">Field:</label>
+  <select id="calculator_field"  >
+   <!-- filled by calculator.js -->
+  </select>
+  <div class="help"></div>
+
+++++
+
+
 [TIP]
 ====
+[#calculator_digits]
+0::
+1::
+2::
+3::
+4::
+5::
+6::
+7::
+8::
+9::
+
 [#calculator_operators]
 +:: for addition
 -:: for subtraction
@@ -41,21 +64,16 @@ This section is work in progress
 
 ====
 
+
 ++++
-<form id="calculator" class="demo">
+<div class="form">
   <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
-   <label for="calculator_field">Field:</label>
-   <select id="calculator_field"  >
-   <!-- filled by calculator.js -->
-   </select>
-   <div class="help"></div>
-   <br />
+  <button name="submit">=</button>
   <output id="calculator_output" for="calculator_toparse"> </output>
-  <br />
-  <button name="submit">go!</button>
+</div>
 </form>
 ++++
 
@@ -194,7 +212,36 @@ This is the source code for the above.
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(0, start) + string + value.slice(end);
-        input.setSelectionRange(start + string.length, start + string.length);
+        input.setSelectionRange(
+            start + string.length,
+            start + string.length
+        );
+        input.focus();
+    }
+
+    insertOperator(string) {
+        const needsBrackets = string.length > 1;
+        if (! needsBrackets) {
+            return this.insert(string);
+        }
+        const input = this.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        if (start === end) {
+            input.value = string + "(" + value + ")";
+            input.setSelectionRange(
+                start + string.length + 1,
+                start + string.length + 1
+            );
+        } else {
+            input.value = value.slice(0, start) + string + "(" + value.slice(start, end) + ")" + value.slice(end);
+            input.setSelectionRange(
+                start,
+                end  + string.length + 2
+            );
+        }
+
         input.focus();
     }
 
@@ -233,23 +280,24 @@ This is the source code for the above.
 
             for (let i = 0; i < values.length; i++) {
                 const value = await values[i];
-                const elements = await value.getElements();
-                let awaitedElements = null;
+                const elements = await BaseClass.awaitedArray(value.getElements());
+                let elementSpans = null;
                 if (elements) {
-                    awaitedElements = [];
+                    elementSpans = [];
                     for (let j = 0; j < elements.length; j++) {
                         const span = document.createElement('span');
                         span.classList.add('element');
-                        span.textContent = await elements[j];
+                        span.textContent = elements[j];
                         span.onclick = async e => {
                             this.insert(e.target.textContent);
                         };
-                        awaitedElements[j] = span;
+                        elementSpans[j] = span;
                     }
                 }
                 this.information[await values[i].name()] = {
                     examples: await BaseClass.awaitedArray(value.getExamples()),
-                    elements: awaitedElements,
+                    elements: elements,
+                    elementsSpans: elementSpans,
                     binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
                     unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                     finite: await value.isFinite(),
@@ -264,11 +312,13 @@ This is the source code for the above.
             this.updateDataList();
             this.updateHelp();
             this.updateOperators();
+            this.updateDigits();
 
         });
         await this.updateDataList();
         await this.updateHelp();
         await this.updateOperators();
+        await this.updateDigits();
 
 
     }
@@ -304,7 +354,7 @@ This is the source code for the above.
         if (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = this.information[this.field.value].elements;
+        const elements = this.information[this.field.value].elementSpans;
         if (elements) {
             div.appendChild(document.createElement("br"));
             div.appendChild(document.createTextNode("elements: "));
@@ -317,6 +367,17 @@ This is the source code for the above.
         }
     }
     operatorDts(dl, operators) {
+        this.dts(dl, operators, async e => {
+            this.insertOperator(e.target.textContent);
+        });
+    }
+    elementsDts(dl, operators) {
+        this.dts(dl, operators, async e => {
+            this.insert(e.target.textContent);
+        });
+    }
+
+    dts(dl, operators, onclick) {
         const list = dl.querySelectorAll("dt");
         const symbolsInList = Array.from(list).map(e => e.textContent.trim());
         const unmatchedOperators = operators.filter(op => !symbolsInList.includes(op));
@@ -333,9 +394,7 @@ This is the source code for the above.
             const title = e.nextElementSibling.textContent;
             if (!e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
-                e.onclick = async e => {
-                    this.insert(e.target.textContent);
-                };
+                e.onclick =onclick;
             }
             if (!operators.includes(symbol)) {
                 e.style.display = 'none';
@@ -354,6 +413,13 @@ This is the source code for the above.
         this.operatorDts(document.querySelector("#calculator_operators dl"), operators);
         const unaryOperators = fieldInformation.unaryOperators;
         this.operatorDts(document.querySelector("#calculator_unary_operator dl"), unaryOperators);
+    }
+
+
+    async updateDigits() {
+        const fieldInformation =  this.information[this.field.value];
+        const elements = fieldInformation.elements;
+        this.elementsDts(document.querySelector("#calculator_digits dl"), elements);
     }
 
     async onSubmit(Calculator) {
