@@ -58,7 +58,7 @@ public class Calculator {
             "a * b * c * e",
             "a * b"
         ),
-        quaterniongroup(QuaternionGroup.INSTANCE, "i", "e" ),
+        quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i" ),
         dihedral3(DihedralGroup.D3,
             "r1 * r2",
             "s0 * r1 * s0"
