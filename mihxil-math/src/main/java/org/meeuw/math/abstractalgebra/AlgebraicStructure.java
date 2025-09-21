@@ -326,6 +326,18 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
+     * 0.19
+     */
+    default boolean isValid(String value) {
+        try {
+            fromString(value);
+            return true;
+        } catch (NotParsable notParsable) {
+            return false;
+        }
+    }
+
+    /**
      * since 0.19
      */
     default boolean isCommutative(AlgebraicBinaryOperator op) {
