@@ -42,6 +42,7 @@ public class UncertainFormatUtils {
         appendable.append(' ');
         appendable.append(TextUtils.PLUSMIN);
         appendable.append(' ');
+
         final int before = appendable.length();
         format.format(error, appendable, position);
          // remove error indication again if it contains only zeros
@@ -96,7 +97,11 @@ public class UncertainFormatUtils {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> UncertainFormatUtils.valuePlusMinError(value, error);
             case ROUND_VALUE -> value;
-            case ROUND_VALUE_AND_TRIM -> value;
+            case ROUND_VALUE_AND_TRIM -> {
+                StringBuffer buf = new StringBuffer(value);
+                trim(buf, new FieldPosition(-1));
+                yield buf.toString();
+            }
         };
     }
 
@@ -113,7 +118,23 @@ public class UncertainFormatUtils {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
             case ROUND_VALUE -> format.format(value, appendable, position);
-            case ROUND_VALUE_AND_TRIM -> format.format(value, appendable, position);
+            case ROUND_VALUE_AND_TRIM -> {
+                format.format(value, appendable, position);
+                trim(appendable, position);
+            }
+        }
+    }
+
+    public static void trim(StringBuffer appendable, FieldPosition position) {
+        int dot = appendable.lastIndexOf(".");
+        if (dot >= 0) {
+            int j = appendable.length();
+            while (j > dot && appendable.charAt(--j) == '0') {
+                appendable.deleteCharAt(j);
+            }
+            if (j == dot) {
+                appendable.deleteCharAt(dot);
+            }
         }
     }
 }
