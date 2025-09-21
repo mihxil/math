@@ -41,7 +41,10 @@ public interface Field<E extends FieldElement<E>> extends
         AbelianRing.OPERATORS
     );
 
-    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(DivisionRing.UNARY_OPERATORS, AbelianRing.UNARY_OPERATORS);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        DivisionRing.UNARY_OPERATORS,
+        AbelianRing.UNARY_OPERATORS
+    );
 
 
     @Override
