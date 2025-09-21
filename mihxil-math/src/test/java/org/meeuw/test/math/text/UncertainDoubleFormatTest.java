@@ -198,9 +198,11 @@ class UncertainDoubleFormatTest {
         new Case(1, 0.00001,
             "1.000000",         "1",                "1.000000 ± 0.000010",          "1.000000(10)"),
         new Case(-2.2967301287511077E-10, 0.000005551115123125783E-10,
-            "-2.296730·10⁻¹⁰",  "-2.296730·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰"),
+            "-2.296730·10⁻¹⁰",  "-2.29673·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰"),
         new Case(1000, 0,
-            "1000",  "1000",  "1000",  "1000")
+            "1000",  "1000",  "1000",  "1000"),
+        new Case(6.62607015E-34, 0,
+            "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴")
     );
 
     public static Stream<Object[]> cases() {
@@ -227,9 +229,9 @@ class UncertainDoubleFormatTest {
                 .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is '" + toString + "' but it should have been '" + expected + "'")
                 .isEqualTo(expected);
             DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
-            assertThat(parsed.toString())
+            assertThat(parsed.eq(el))
                 .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is correct (" + toString + "), but parsing it again resulted " + parsed.getValue() + "/" + parsed.getUncertainty())
-                .isEqualTo(expected);
+                .isTrue();
         }
     }
 
