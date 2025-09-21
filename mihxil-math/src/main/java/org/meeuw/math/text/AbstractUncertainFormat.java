@@ -104,7 +104,12 @@ public abstract class AbstractUncertainFormat<
         }
     }
 
-    abstract P of(String v, Factor factor);
+
+    /**
+     * Parses a value of the {@code P}
+     * @param factor
+     */
+    abstract P exactly(String v, Factor factor);
 
     abstract P of(String v, String uncertainty, Factor factor);
 
@@ -179,7 +184,7 @@ public abstract class AbstractUncertainFormat<
                     return of(valueStr, uncertaintyStr.toString(), factor);
                 } else {
                     // it must have been exact/not a result of format
-                    return of(valueStr, factor);
+                    return exactly(valueStr, factor);
                 }
             } else if (errorBracket >= 0)  {
                 // Value and uncertainty
@@ -267,7 +272,6 @@ public abstract class AbstractUncertainFormat<
     }
 
 
-
     /**
      * Performs the switch on notation.
      */
@@ -275,13 +279,15 @@ public abstract class AbstractUncertainFormat<
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, position, value);
             case PLUS_MINUS -> valuePlusMinError(appendable,  position, value);
-            case ROUND_VALUE -> valueRound(appendable, position, value);
-            case ROUND_VALUE_AND_TRIM -> valueRound(appendable, position, value);
+            case ROUND_VALUE -> valueRound(appendable, position, value, false);
+            case ROUND_VALUE_AND_TRIM -> {
+                valueRound(appendable, position, value, true);
+            }
         }
     }
     protected abstract void valueParenthesesError(StringBuffer appendable, FieldPosition position, F value);
     protected abstract void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value);
-    protected abstract void valueRound(StringBuffer appendable, FieldPosition position, F value);
+    protected abstract void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim);
 
 
 }
