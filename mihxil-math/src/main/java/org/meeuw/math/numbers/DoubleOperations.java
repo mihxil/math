@@ -228,6 +228,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public Double zero() {
+        return 0.0d;
+    }
+
+    @Override
     public UncertainNumber<Double> ln(Double v) throws IllegalLogarithmException {
         if (v <= 0) {
             throw new IllegalLogarithmException("Can't take logarithm of negative", "ln(" + v + ")");

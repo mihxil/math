@@ -163,4 +163,6 @@ public interface NumberOperations<N extends Number> {
 
     N fromString(String s);
 
+    N zero();
+
 }
