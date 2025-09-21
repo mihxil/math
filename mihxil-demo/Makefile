@@ -32,7 +32,7 @@ explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
 
 run: index.html  ## run with cheerpj
-	npx serve -l 3001
+	npx serve -l 3000
 
 sass/%.css:
 
