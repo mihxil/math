@@ -54,14 +54,14 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
      * Returns the cosine of this element
      * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS
      */
-    @NonAlgebraic
+    @NonExact
     E cos();
 
-    @NonAlgebraic
+    @NonAlgebraic("Not calculable for certain value.")
     E tan();
 
 
-    @NonAlgebraic
+    @NonAlgebraic("Cannot be calculated for negative values")
     E sqrt();
 
 
