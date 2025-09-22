@@ -97,11 +97,12 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber dividedBy(@NotZero long divisor) throws DivisionByZeroException {
+    public RationalNumber dividedBy(@NotZero BigInteger divisor) throws DivisionByZeroException {
         return new RationalNumber(
             numerator,
-            denominator.multiply(BigInteger.valueOf(divisor)));
+            denominator.multiply(divisor));
     }
+
 
     @Override
     @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
@@ -224,9 +225,9 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public RationalNumber times(long multiplier) {
+    public RationalNumber times(BigInteger multiplier) {
         return new RationalNumber(
-                numerator.multiply(BigInteger.valueOf(multiplier)),
+                numerator.multiply(multiplier),
                 denominator
         );
     }

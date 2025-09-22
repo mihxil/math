@@ -58,13 +58,19 @@ public class PAdicInteger implements FieldElement<PAdicInteger> {
     }
 
     @Override
-    public PAdicInteger dividedBy(long divisor) {
+    public PAdicInteger dividedBy(BigInteger divisor) {
         return null;
     }
 
     @Override
     public PAdicInteger times(long multiplier) {
         AdicDigits mult = AdicDigits.create(DigitUtils.toBase(structure.base, multiplier), new byte[0]);
+        return new PAdicInteger(structure, multiplyAdicDigits((byte) structure.base, this.digits, mult));
+    }
+
+    @Override
+    public PAdicInteger times(BigInteger multiplier) {
+        AdicDigits mult = AdicDigits.create(DigitUtils.toBase(structure.base, multiplier.longValue()), new byte[0]);
         return new PAdicInteger(structure, multiplyAdicDigits((byte) structure.base, this.digits, mult));
     }
 

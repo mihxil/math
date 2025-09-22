@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.math.BigInteger;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.NonExact;
@@ -70,11 +72,21 @@ public class ModuloFieldElement
     public ModuloFieldElement dividedBy(@NotZero long divisor) {
         return times(new ModuloFieldElement((int) divisor % structure.divisor, structure).reciprocal());
     }
+    @Override
+    public ModuloFieldElement dividedBy(@NotZero BigInteger divisor) {
+        return times(new ModuloFieldElement( divisor.mod(BigInteger.valueOf(structure.divisor)).intValue(), structure).reciprocal());
+    }
 
     @Override
     public ModuloFieldElement times(long multiplier) {
         return new ModuloFieldElement((int) (value * multiplier) % getStructure().divisor, structure);
     }
+
+    @Override
+    public ModuloFieldElement times(BigInteger multiplier) {
+        return new ModuloFieldElement(BigInteger.valueOf(value).multiply( multiplier).mod(BigInteger.valueOf(getStructure().divisor)).intValue(), structure);
+    }
+
     @Override
     @NonExact
     public ModuloFieldElement times(double multiplier) {
