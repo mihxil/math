@@ -49,7 +49,7 @@ public class IntegrationTest {
         assertThat(rateInHours.toString()).isEqualTo("7200 h⁻¹");
         PrintStream out = new PrintStream(System.out, true, StandardCharsets.UTF_8);
 
-        out.println("Rate: " + rateInHours + " h⁻¹ " + Charset.defaultCharset() + " " + System.getProperty("file.encoding"));
+        out.println("Rate: " + rateInHours + " h⁻¹ " + Charset.defaultCharset() + " " + Charset.defaultCharset().displayName());
     }
 
     @Test
