@@ -3,7 +3,9 @@ package org.meeuw.math.arithmetic.ast;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -21,7 +23,10 @@ public class Value<E extends AlgebraicElement<E>> extends AbstractExpression<E> 
 
     @Override
     public String toString() {
-        return "(value:" + value.toString() + ")";
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class,
+            (c) -> c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM))) {
+            return "(value:" + value.toString() + ")";
+        }
     }
 
     @Override
