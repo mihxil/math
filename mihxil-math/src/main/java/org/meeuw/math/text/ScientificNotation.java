@@ -4,6 +4,7 @@ import java.text.*;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
@@ -84,8 +85,8 @@ public class ScientificNotation<N extends Number> {
     }
 
     protected void formatWithUncertainty(
-        N mean,
-        N uncertaintity,
+        @NonNull N mean,
+        N uncertainty,
         StringBuffer buffer,
         FieldPosition position,
         Notation uncertaintyNotation
@@ -97,9 +98,9 @@ public class ScientificNotation<N extends Number> {
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
 
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean);
-            SplitNumber<N> splitStd = SplitNumber.split(operations, uncertaintity);
+            SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty);
 
-            boolean largeError = operations.gt(operations.abs(uncertaintity), operations.abs(mean));
+            boolean largeError = operations.gt(operations.abs(uncertainty), operations.abs(mean));
 
             // use difference of order of magnitude of std to determine how mean digits of the mean are
             // relevant
