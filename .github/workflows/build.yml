@@ -60,10 +60,10 @@ jobs:
         if: ${{ matrix.rank == 'main' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
-      - uses: MMProgrami/after-maven-action@main
+      - uses: MMProgrami/after-maven-action@v2
         id: after_maven
         with:
-          coverage: true
+          coverage: false
           determine_version: false
       - name: Use variable
         run: |
