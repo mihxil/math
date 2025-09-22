@@ -50,15 +50,15 @@ export class SolverClass extends BaseClass {
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
         );
-
-        const stream = await solverResult.stream();
-        const lines = await stream.toArray();
-        for (let i = 0; i < lines.length; i++) {
-            this.output.value += "\n" + await lines[i].toString();
+        // using iterator, because I can't figure out java lambda's here.
+        const stream = await (await solverResult.stream()).iterator();
+        while(await stream.hasNext()) {
+            const line = await stream.next();
+            this.output.value += "\n" + await line.toString();
         }
-        const tries = await (await solverResult.tries()).get();
         const matches = await (await solverResult.matches()).get();
         this.output.value += `\nFound: ${matches}`;
+        const tries = await (await solverResult.tries()).get();
         this.output.value += `\nTried: ${tries}`;
     }
 }
