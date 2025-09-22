@@ -203,6 +203,13 @@ public class DoubleElement
     }
 
     @Override
+    public DoubleElement scalb(int exponent) {
+        double result = Math.scalb(value, exponent);
+        double un  = Math.scalb(uncertainty, exponent);
+        return new DoubleElement(result, un);
+    }
+
+    @Override
     public DoubleElement times(RealNumber multiplier) {
         if (multiplier.isOne()){
             return this;

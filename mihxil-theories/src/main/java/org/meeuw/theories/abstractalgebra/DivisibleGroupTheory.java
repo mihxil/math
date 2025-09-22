@@ -58,6 +58,17 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
 
     }
 
+
+    @Property
+    default void scalb(@ForAll(ELEMENTS) E v1) {
+        withLooseEquals(() -> {
+            E scaled = v1.scalb(2);
+            E unscaled = scaled.scalb(-2);
+            assertThat(unscaled).isEqTo(v1);
+        });
+
+    }
+
     @Provide
     default Arbitrary<Long> positiveLongs() {
         return Arbitraries.longs().between(1, 1_000_000);

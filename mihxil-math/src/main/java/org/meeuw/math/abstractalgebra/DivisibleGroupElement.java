@@ -61,12 +61,26 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
 
 
     /**
+     *
      * @since 0.19
      */
     default E scaleByPowerOfTen(int n) {
         BigInteger factor = BigInteger.TEN.pow(Math.abs(n));
         if (n > 0) {
-             return times(factor);
+            return times(factor);
+        } else {
+            return dividedBy(factor);
+        }
+    }
+
+    /**
+     *
+     * @since 0.19
+     */
+    default E scalb(int n) {
+        BigInteger factor = BigInteger.TWO.pow(Math.abs(n));
+        if (n > 0) {
+            return times(factor);
         } else {
             return dividedBy(factor);
         }
