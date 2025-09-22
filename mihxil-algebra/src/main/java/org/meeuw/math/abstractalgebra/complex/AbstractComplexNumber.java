@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.math.BigInteger;
+
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -109,13 +111,24 @@ public abstract class AbstractComplexNumber<
     }
 
     @Override
+    public S dividedBy(BigInteger divisor) {
+        return _of(real.dividedBy(divisor), imaginary.dividedBy(divisor));
+    }
+
+    @Override
     public S dividedBy(long divisor) {
         return _of(real.dividedBy(divisor), imaginary.dividedBy(divisor));
     }
 
 
+
     @Override
     public S times(long multiplier) {
+        return _of(real.times(multiplier), imaginary.times(multiplier));
+    }
+
+    @Override
+    public S times(BigInteger multiplier) {
         return _of(real.times(multiplier), imaginary.times(multiplier));
     }
 
