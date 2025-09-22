@@ -53,6 +53,7 @@ class SplitNumber<N extends Number> {
         if (! operations.isFinite(in)) {
             throw new IllegalArgumentException("Not a finite number: " + in);
         }
+
         boolean negative = operations.signum(in) < 0;
         N coefficient = operations.abs(in);
         int exponent    = 0;

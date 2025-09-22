@@ -81,15 +81,16 @@ public class ScientificNotation<N extends Number> {
         N uncertaintity,
         StringBuffer buffer,
         FieldPosition position) {
-        formatWithUncertainty(mean, uncertaintity, buffer, position, uncertaintyNotationSupplier.get());
+        formatWithUncertainty(mean, uncertaintity, buffer, position, uncertaintyNotationSupplier.get(), true);
     }
 
     protected void formatWithUncertainty(
         @NonNull N mean,
-        N uncertainty,
+        @NonNull N uncertainty,
         StringBuffer buffer,
         FieldPosition position,
-        Notation uncertaintyNotation
+        Notation uncertaintyNotation,
+        boolean errorIndication
         ) {
         if (! operations.isFinite(mean)) {
             formatInfinity(buffer, position, mean);
@@ -98,62 +99,66 @@ public class ScientificNotation<N extends Number> {
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
 
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean);
-            SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty);
-
-            boolean largeError = operations.gt(operations.abs(uncertainty), operations.abs(mean));
-
-            // use difference of order of magnitude of std to determine how mean digits of the mean are
-            // relevant
-            int magnitudeDifference = splitMean.exponent - splitStd.exponent;
-            //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
-
-            int meanDigits = magnitudeDifference; // at least one digit
-
-            assert operations.isNaN(splitMean.coefficient) || operations.lt(operations.abs(splitMean.coefficient), 10) : "unexpected coefficient " + splitMean.coefficient;
-
-            // for std starting with '1' we allow an extra digit.
-            if (operations.lt(splitStd.coefficient, 2) && operations.signum(splitStd.coefficient) > 0) {
-                //System.out.println("Extra digit");
-                meanDigits++;
-            }
-
-            //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
+            SplitNumber<N> splitStd = errorIndication ? SplitNumber.split(operations, uncertainty) : null;
 
 
-            // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
-            // match the exponent of mean.
-            splitStd.coefficient = operations.scaleByPowerOfTen(
-                splitStd.coefficient,
-                -1 * magnitudeDifference
-            );
-            splitStd.exponent += magnitudeDifference;
-
-
-            // For numbers close to 1, we don't use scientific notation.
-            if (splitMean.exponent != 0 // no useE anyways
-                && (
-                Math.abs(splitMean.exponent) < minimumExponent ||
-                // neither do we do that if the precision is so high, that we'd show the complete
-                // number anyway
-                    (meanDigits >= Math.abs(splitMean.exponent))
-            )
-            ) {
-
-                meanDigits -= splitMean.exponent;
-
-                splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
-                splitStd.coefficient = operations.scaleByPowerOfTen(splitStd.coefficient, splitMean.exponent);
-                splitMean.exponent = 0;
-
-            }
-
-            boolean useE = splitMean.exponent != 0;
-
-            meanDigits = Math.min(meanDigits, maximalPrecision);
+            boolean largeError = errorIndication && operations.gt(operations.abs(uncertainty), operations.abs(mean));
 
             NumberFormat format = numberFormatSupplier.get();
-            format.setMaximumFractionDigits(meanDigits);
-            format.setMinimumFractionDigits(meanDigits);
+
+            if (errorIndication) {
+                // use difference of order of magnitude of std to determine how mean digits of the mean are
+                // relevant
+                int magnitudeDifference = splitMean.exponent - splitStd.exponent;
+                //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
+
+                int meanDigits = magnitudeDifference; // at least one digit
+
+                assert operations.isNaN(splitMean.coefficient) || operations.lt(operations.abs(splitMean.coefficient), 10) : "unexpected coefficient " + splitMean.coefficient;
+
+                // for std starting with '1' we allow an extra digit.
+                if (operations.lt(splitStd.coefficient, 2) && operations.signum(splitStd.coefficient) > 0) {
+                    //System.out.println("Extra digit");
+                    meanDigits++;
+                }
+
+                //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
+
+
+                // The exponent of the mean is leading, so we simply justify the 'coefficient' of std to
+                // match the exponent of mean.
+                splitStd.coefficient = operations.scaleByPowerOfTen(
+                    splitStd.coefficient,
+                    -1 * magnitudeDifference
+                );
+                splitStd.exponent += magnitudeDifference;
+
+                // For numbers close to 1, we don't use scientific notation.
+                if (splitMean.exponent != 0 // no useE anyways
+                    && (
+                    Math.abs(splitMean.exponent) < minimumExponent ||
+                        // neither do we do that if the precision is so high, that we'd show the complete
+                        // number anyway
+                        (meanDigits >= Math.abs(splitMean.exponent))
+                )
+                ) {
+
+                    meanDigits -= splitMean.exponent;
+
+                    splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
+                    splitStd.coefficient = operations.scaleByPowerOfTen(splitStd.coefficient, splitMean.exponent);
+                    splitMean.exponent = 0;
+
+                }
+
+
+                meanDigits = Math.min(meanDigits, maximalPrecision);
+
+                format.setMaximumFractionDigits(meanDigits);
+                format.setMinimumFractionDigits(meanDigits);
+            }
+            boolean useE = splitMean.exponent != 0;
+
 
             final boolean useBrackets = useE && uncertaintyNotation == Notation.PLUS_MINUS;
             if (useBrackets) {
@@ -164,7 +169,7 @@ public class ScientificNotation<N extends Number> {
                 format,
                 position,
                 splitMean.coefficient,
-                splitStd.coefficient,
+                errorIndication ? splitStd.coefficient : null,
                 uncertaintyNotation
             );
 
@@ -178,24 +183,25 @@ public class ScientificNotation<N extends Number> {
         }
     }
 
-     /**
+    /**
      * Format the number without any error indication.
+     *
+     * @param uncertainty For correct rounding, the uncertainty is still important to know
      *
      * @since 0.19
      */
     protected void format(
-        N mean,
-        N uncertaintity,
+        @NonNull N mean,
+        @NonNull N uncertainty,
         StringBuffer buffer,
         FieldPosition position) {
-
-        formatWithUncertainty(mean, uncertaintity, buffer, position, Notation.ROUND_VALUE);
+        formatWithUncertainty(mean, uncertainty, buffer, position, Notation.ROUND_VALUE_AND_TRIM, false);
 
     }
 
 
     /**
-     * Wrapper for {@link #formatWithUncertainty(Number, Number, StringBuffer, FieldPosition, Notation)}
+     * Wrapper for {@link #formatWithUncertainty(Number, Number, StringBuffer, FieldPosition, Notation, boolean)}
      */
     public String formatWithUncertainty(
         N mean,
@@ -206,7 +212,8 @@ public class ScientificNotation<N extends Number> {
             uncertaintity,
             result,
             new FieldPosition(VALUE_FIELD),
-            uncertaintyNotationSupplier.get()
+            uncertaintyNotationSupplier.get(),
+            true
         );
         return result.toString();
     }

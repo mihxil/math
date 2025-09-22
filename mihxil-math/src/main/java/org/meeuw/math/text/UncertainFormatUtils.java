@@ -2,6 +2,7 @@ package org.meeuw.math.text;
 
 import java.text.*;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static java.lang.Character.isDigit;
@@ -112,12 +113,14 @@ public class UncertainFormatUtils {
         StringBuffer appendable,
         Format format,
         FieldPosition position,
-        Object value, Object error,
+        Object value,
+        @Nullable Object error,
         Notation uncertaintyNotation) {
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-            case ROUND_VALUE -> format.format(value, appendable, position);
+            case ROUND_VALUE ->
+                format.format(value, appendable, position);
             case ROUND_VALUE_AND_TRIM -> {
                 format.format(value, appendable, position);
                 trim(appendable, position);

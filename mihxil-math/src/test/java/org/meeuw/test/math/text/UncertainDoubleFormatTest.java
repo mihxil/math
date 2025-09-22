@@ -54,8 +54,6 @@ class UncertainDoubleFormatTest {
         ConfigurationService.resetToDefaultDefaults();
     }
 
-
-
     UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
 
@@ -202,7 +200,11 @@ class UncertainDoubleFormatTest {
         new Case(1000, 0,
             "1000",  "1000",  "1000",  "1000"),
         new Case(6.62607015E-34, 0,
-            "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴")
+            "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴"),
+        new Case(6.62607015E-34, 0.0005E-34,
+            "'6.6261·10⁻³⁴",                  "6.6261·10⁻³⁴", "(6.6261 ± 0.0005)·10⁻³⁴", "6.6261(5)·10⁻³⁴"),
+        new Case(1d, 0,
+            "1",                  "1", "1", "1")
     );
 
     public static Stream<Object[]> cases() {
@@ -246,7 +248,8 @@ class UncertainDoubleFormatTest {
         DoubleElement doubleElement = formatter.parseObject(toString, parsePosition);
         assertThat(parsePosition.getIndex()).isEqualTo(toString.length());
         log.info("%s -> %s -> %s -> %s".formatted( d, from, toString, doubleElement.toString()));
-        assertThat(doubleElement.eq(from)).isTrue();
+        assertThat(doubleElement.eq(from))
+            .withFailMessage(doubleElement + " !eq " + from).isTrue();
 
     }
 

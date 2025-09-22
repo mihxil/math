@@ -16,6 +16,7 @@
 package org.meeuw.math.text;
 
 
+import java.math.BigDecimal;
 import java.text.FieldPosition;
 
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
@@ -57,6 +58,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
         double value = scientific.fromString(valueStr);
         double uncertainty = scientific.fromString(uncertaintyStr);
         DoubleElement element = DoubleElement.of(value, uncertainty);
+        BigDecimal decimal = BigDecimal.valueOf(uncertainty);
         return (DoubleElement) factor.apply(element);
 
     }
@@ -83,7 +85,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
         if (uncertainNumber.isExact()) {
             scientific.format(
                 uncertainNumber.getValue(),
-                null,
+                uncertainNumber.getUncertainty(),
                 appendable, position);
         } else if (roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
             scientific.format(
