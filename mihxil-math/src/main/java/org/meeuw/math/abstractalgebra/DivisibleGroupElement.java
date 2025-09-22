@@ -45,7 +45,7 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
     /**
      * @since 0.19
      */
-    E dividedBy(BigInteger multiplier);
+    E dividedBy(@NotZero BigInteger multiplier);
 
     /**
      * Returns the result of multiplying this element by the given multiplier.

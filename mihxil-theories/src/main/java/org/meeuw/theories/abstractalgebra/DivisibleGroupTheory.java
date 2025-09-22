@@ -48,6 +48,16 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
         });
     }
 
+    @Property
+    default void scaleByPowerOf10(@ForAll(ELEMENTS) E v1) {
+        withLooseEquals(() -> {
+            E scaled = v1.scaleByPowerOfTen(2);
+            E unscaled = scaled.scaleByPowerOfTen(-2);
+            assertThat(unscaled).isEqTo(v1);
+        });
+
+    }
+
     @Provide
     default Arbitrary<Long> positiveLongs() {
         return Arbitraries.longs().between(1, 1_000_000);

@@ -248,7 +248,23 @@ public class RationalNumber extends Number
 
         }
     }
-
+    @Override
+    public RationalNumber scaleByPowerOfTen(int n) {
+        if (n == 0) {
+            return this;
+        }
+        if (n > 0) {
+            return new RationalNumber(
+                numerator.multiply(BigInteger.TEN.pow(n)),
+                denominator
+            );
+        } else {
+            return new RationalNumber(
+                numerator,
+                denominator.multiply(BigInteger.TEN.pow(-1 * n))
+            );
+        }
+     }
 
 
 
