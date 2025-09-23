@@ -16,6 +16,7 @@
 package org.meeuw.math.statistics;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -116,8 +117,25 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
+    public DoubleElement dividedBy(BigInteger divisor) {
+        double newValue = doubleValue() / divisor.doubleValue();
+        return new DoubleElement(
+            newValue,
+            Math.max(
+                doubleUncertainty() / divisor.doubleValue(),
+                DoubleUtils.uncertaintyForDouble(newValue)
+            )
+        );
+    }
+
+    @Override
     public DoubleElement times(long multiplier) {
         return immutableInstance(getValue() * multiplier, getUncertainty() * multiplier);
+    }
+
+    @Override
+    public DoubleElement times(BigInteger multiplier) {
+        return immutableInstance(getValue() * multiplier.doubleValue(), getUncertainty() * multiplier.doubleValue());
     }
 
 
