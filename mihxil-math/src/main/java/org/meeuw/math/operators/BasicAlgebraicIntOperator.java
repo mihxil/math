@@ -44,6 +44,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
 
     /**
      * Scale by power of 10, which is defined for all {@link MultiplicativeSemiGroupElement}s.
+     * @since 0.19
      */
     SCALE_BY_POWER_OF_10(
         getDeclaredMethod(DivisibleGroupElement.class, "scaleByPowerOfTen", int.class),
@@ -52,11 +53,12 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
 
     /**
      * Scale by  power of 2, which is defined for all {@link MultiplicativeSemiGroupElement}s.
+     * @since 0.19
      */
-       SCALB(
-           getDeclaredMethod(DivisibleGroupElement.class, "scalb", int.class),
+    SCALB(
+        getDeclaredMethod(DivisibleGroupElement.class, "scalb", int.class),
         (s, i) ->  withBracketsIfNeeded(s) + (TextUtils.TIMES + "2") + TextUtils.superscript(i)
-       ),
+    ),
 
     /**
      * Taking the n-th root of an element, which is defined for all {@link CompleteFieldElement}s.
