@@ -5,9 +5,8 @@ on:
   push:
     branches: [main]
     paths:
-      - '*-source.adoc'
-      - '*/*-source.adoc'
-      - '*/*-source-docinfo.html'
+      - '**-source.adoc'
+      - '**-source-docinfo.html'
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
       - 'mihxil-demo/sass/*'

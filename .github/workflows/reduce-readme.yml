@@ -9,11 +9,10 @@ jobs:
   asciidoctor:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v5
+    - uses: actions/checkout@v5
     - name: Install Asciidoctor Reducer
       run: sudo gem install asciidoctor-reducer coderay
-    - name: Reduce README
+    - name: Reduce README's
       run: |
         for source in README-source.adoc */README-source.adoc ; do
           dest="${source%-source.adoc}.adoc"
