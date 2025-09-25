@@ -7,7 +7,7 @@
   <version>0.19-SNAPSHOT</version>
 
   <description>Math related utilities. Algebraic interfaces, implementations thereof, physics, statistics, shapes</description>
-  <url>https://github.com/mihxil/math</url>
+  <url>https://github.com/mihxil/math/tree/main</url>
 
   <modules>
     <module>mihxil-bom</module>
