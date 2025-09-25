@@ -8,6 +8,7 @@ on:
       - '**-SNAPSHOT'
     paths-ignore:
       - 'README.adoc'
+      - '*/README.adoc'
       - 'docs/**'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
