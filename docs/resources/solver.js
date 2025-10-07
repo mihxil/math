@@ -55,6 +55,7 @@ export class SolverClass extends BaseClass {
         while(await stream.hasNext()) {
             const line = await stream.next();
             this.output.value += "\n" + await line.toString();
+            this.output.scrollTop = this.output.scrollHeight;
         }
         const matches = await (await solverResult.matches()).get();
         this.output.value += `\nFound: ${matches}`;
