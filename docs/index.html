@@ -82,7 +82,12 @@
 <li><a href="#_statistics_2">4. statistics</a>
 <ul class="sectlevel2">
 <li><a href="#_windowed_events">4.1. Windowed events</a></li>
-<li><a href="#_statistical_long">4.2. Statistical Long</a></li>
+<li><a href="#_statisticals">4.2. Statisticals</a>
+<ul class="sectlevel3">
+<li><a href="#_statistical_long">4.2.1. Statistical Long</a></li>
+<li><a href="#_statistical_double">4.2.2. Statistical Double</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#_physics">5. physics</a></li>
@@ -1140,7 +1145,18 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -&gt; e.withNo
 </div>
 </div>
 <div class="sect2">
-<h3 id="_statistical_long">4.2. Statistical Long</h3>
+<h3 id="_statisticals">4.2. Statisticals</h3>
+<div class="paragraph">
+<p>Just to keep track of averages and standard deviations of incoming data.</p>
+</div>
+<div class="sect3">
+<h4 id="_statistical_long">4.2.1. Statistical Long</h4>
+<div class="paragraph">
+<p>Allow to enter 'longs' and similar objects.</p>
+</div>
+<div class="paragraph">
+<p>Like durations</p>
+</div>
 <div class="listingblock">
 <div class="title">keeps tracks of durations (in nanoseconds)</div>
 <div class="content">
@@ -1156,6 +1172,11 @@ mes.enter(<span class="predefined-type">Duration</span>.ofMinutes(<span class="i
 
 assertThat(mes.optionalDurationValue()).contains(<span class="predefined-type">Duration</span>.parse(<span class="string"><span class="delimiter">&quot;</span><span class="content">PT1M40.00000001S</span><span class="delimiter">&quot;</span></span>));</code></pre>
 </div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statistical_double">4.2.2. Statistical Double</h4>
+
 </div>
 </div>
 </div>
