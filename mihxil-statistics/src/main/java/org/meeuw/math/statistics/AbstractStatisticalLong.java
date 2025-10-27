@@ -339,6 +339,19 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
         return (SELF) this;
     }
 
+    @Override
+    public SELF multiply(long d) {
+        sum *= d;
+
+        if (squareSum != SQUARE_SUM_FAILED) {
+            squareSum *= d * d;
+        }
+        guessedMean *= d;
+        max *= d;
+        min *= d;
+        return (SELF) this;
+    }
+
     public SELF add(long d) {
         return _add(d);
     }

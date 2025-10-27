@@ -82,6 +82,9 @@ public abstract class AbstractStatisticalDouble
      */
     public abstract SELF  multiply(double multiplier);
 
+    public abstract SELF  multiply(long multiplier);
+
+
 
     @Override
     public SELF times(double multiplier) {
@@ -105,32 +108,18 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public DoubleElement dividedBy(long divisor) {
-        double newValue = doubleValue() / divisor;
-        return new DoubleElement(
-            newValue,
-            Math.max(
-                doubleUncertainty() / divisor,
-                DoubleUtils.uncertaintyForDouble(newValue)
-            )
-        );
+    public SELF dividedBy(long divisor) {
+        return copy().divide(divisor);
     }
 
     @Override
-    public DoubleElement dividedBy(BigInteger divisor) {
-        double newValue = doubleValue() / divisor.doubleValue();
-        return new DoubleElement(
-            newValue,
-            Math.max(
-                doubleUncertainty() / divisor.doubleValue(),
-                DoubleUtils.uncertaintyForDouble(newValue)
-            )
-        );
+    public SELF dividedBy(BigInteger divisor) {
+        return copy().divide(divisor.doubleValue());
     }
 
     @Override
-    public DoubleElement times(long multiplier) {
-        return immutableInstance(getValue() * multiplier, getUncertainty() * multiplier);
+    public SELF times(long multiplier) {
+        return copy().multiply(multiplier);
     }
 
     @Override

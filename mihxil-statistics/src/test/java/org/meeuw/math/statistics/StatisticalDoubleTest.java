@@ -23,16 +23,17 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
-import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
-import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
+import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
 import static net.jqwik.api.RandomDistribution.uniform;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 import static org.meeuw.configuration.ConfigurationService.withAspect;
 
@@ -93,10 +94,15 @@ public class StatisticalDoubleTest implements
     @Test
     public void test10() {
         StatisticalDoubleImpl mes = new StatisticalDoubleImpl().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203);
-        assertThat(mes.toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
-        assertThat(mes.plus(1d).toString()).isEqualTo("1.0000002015"); // error disappear due to rounding
+        assertThat(mes.getUncertainty()).isCloseTo(0.011E-7, withPercentage(2));
 
-        assertThat(mes.dividedBy(2).toString()).isEqualTo("(1.008 ± 0.006)·10⁻⁷"); // error disappear due to rounding
+        assertThat(mes.toString()).isEqualTo("(2.015 ± 0.011)·10⁻⁷");
+        StatisticalDoubleImpl plusone = mes.plus(1d);
+        assertThat(plusone.getUncertainty()).isCloseTo(0.0000000011, withPercentage(2));
+        assertThat(plusone.toString()).isEqualTo("1.0000002015 ± 0.0000000011");
+
+        StatisticalDoubleImpl quotient = mes.dividedBy(2d);
+        assertThat(quotient.toString()).isEqualTo("(1.008 ± 0.006)·10⁻⁷");
 
     }
 

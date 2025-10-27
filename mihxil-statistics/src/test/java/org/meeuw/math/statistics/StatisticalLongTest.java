@@ -27,9 +27,8 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.exceptions.*;
-import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.time.UncertainJavaTime;
 import org.meeuw.time.text.TimeConfiguration;
@@ -202,7 +201,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
             StatisticalLong minusOne = new StatisticalLong();
             minusOne.accept(-1);
             minusOne.accept(-1L);
-            DoubleElement divided = minusOne.dividedBy(26904L);
+            RealNumber divided = minusOne.dividedBy(26904L);
             RealNumber multiplied = divided.times(26904L);
             assertThat(multiplied).isEqualTo(minusOne);
         });

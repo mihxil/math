@@ -21,8 +21,7 @@ import java.util.OptionalDouble;
 import java.util.function.DoubleConsumer;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.DoubleUtils;
-import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.reals.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
@@ -45,6 +44,13 @@ public class StatisticalDoubleImpl
     @Getter
     private double sumOfSquares = 0;
 
+    /**
+     * When just adding an (exact) number, we can preserve information by just shifting the entire thing.
+     */
+    private double offset = 0;
+
+
+
     @Getter
     private double min = Double.MAX_VALUE;
     @Getter
@@ -54,10 +60,11 @@ public class StatisticalDoubleImpl
 
     }
 
-    protected StatisticalDoubleImpl(double sum, double sumOfSquares, int count) {
+    protected StatisticalDoubleImpl(double sum, double sumOfSquares, int count, double offset) {
         super(count);
         this.sum = sum;
         this.sumOfSquares = sumOfSquares;
+        this.offset = offset;
     }
 
     @Override
@@ -67,7 +74,7 @@ public class StatisticalDoubleImpl
 
     @Override
     public StatisticalDoubleImpl copy() {
-        StatisticalDoubleImpl m = new StatisticalDoubleImpl(sum, sumOfSquares, count);
+        StatisticalDoubleImpl m = new StatisticalDoubleImpl(sum, sumOfSquares, count, offset);
         m.max = max;
         m.min = min;
         return m;
@@ -80,6 +87,7 @@ public class StatisticalDoubleImpl
      */
     public StatisticalDoubleImpl enter(double... ds) {
         for (double d : ds) {
+            d -= offset;
             sum += d;
             sumOfSquares += d * d;
             count++;
@@ -96,6 +104,10 @@ public class StatisticalDoubleImpl
      */
     @Override
     public StatisticalDoubleImpl enter(StatisticalDoubleImpl m) {
+        if (m.offset != offset) {
+            m = m.copy().normalize();
+            normalize();
+        }
         sum += m.sum;
         sumOfSquares += m.sumOfSquares;
         count += m.count;
@@ -109,17 +121,32 @@ public class StatisticalDoubleImpl
     public StatisticalDoubleImpl multiply(double d) {
         sum *= d;
         sumOfSquares *= d * d;
-        max = DoubleUtils.round(max * d);
-        min = DoubleUtils.round(min * d);
+        max *= d;
+        min *= d;
+        offset *= d;
         return this;
     }
+
+
+    @Override
+    public StatisticalDoubleImpl multiply(long d) {
+        sum *= d;
+        sumOfSquares *= d * d;
+        max *= d;
+        min *= d;
+        offset *= d;
+        return this;
+    }
+
+
+
 
     @Override
     public OptionalDouble optionalDoubleMean() {
         if (count == 0) {
             return OptionalDouble.empty();
         } else {
-            return OptionalDouble.of(sum / count);
+            return OptionalDouble.of(offset + sum / count);
         }
     }
 
@@ -155,24 +182,63 @@ public class StatisticalDoubleImpl
 
     @Override
     public double doubleStandardDeviation() {
-        double mean = getMean();
+        double mean = sum / count;
         if (count < 2) {
             return Double.NaN;
         }
-        return Math.sqrt(sumOfSquares / count - mean * mean);
+        return Math.max(
+            DoubleUtils.uncertaintyForDouble(mean),
+            Math.sqrt(sumOfSquares / count - mean * mean)
+        );
     }
 
     @Override
     public StatisticalDoubleImpl plus(double summand) {
-        return
-            new StatisticalDoubleImpl(
-                sum + summand * count,
-                sumOfSquares + summand * summand * count + 2 * sum * summand, count);
+        return new StatisticalDoubleImpl(
+              sum,
+                sumOfSquares,
+                count,
+                offset + summand);
+    }
+
+    @Override
+    public StatisticalDoubleImpl dividedBy(double divisor) {
+        return new StatisticalDoubleImpl(
+            sum / divisor,
+        sumOfSquares / (divisor * divisor),
+        count,
+        offset / divisor);
+    }
+     @Override
+    public StatisticalDoubleImpl dividedBy(long divisor) {
+        return new StatisticalDoubleImpl(
+            sum / divisor,
+        sumOfSquares / (divisor * divisor),
+        count,
+        offset / divisor);
+    }
+
+    @Override
+    public StatisticalDoubleImpl times(double multiplier) {
+        return new StatisticalDoubleImpl(
+            sum * multiplier,
+        sumOfSquares * multiplier * multiplier,
+            count,
+            offset * multiplier
+        );
+    }
+
+    protected StatisticalDoubleImpl normalize() {
+        double sum = this.sum;
+        this.sum +=  this.offset * count;
+        this.sumOfSquares += 2 * sum * this.offset + this.offset * this.offset * this.count;
+        this.offset = 0;
+        return this;
     }
 
     @Override
     public void accept(double value) {
-        enter(value);
+        enter(value - offset);
     }
 
     @Override
@@ -182,14 +248,25 @@ public class StatisticalDoubleImpl
         sumOfSquares = 0;
         max = Double.MIN_VALUE;
         min = Double.MAX_VALUE;
+        offset = 0;
     }
+
+     @Override
+     public int signum() {
+        return (int) Math.signum(offset + sum / count);
+     }
 
     @Override
     public StatisticalDoubleImpl abs() {
         if (isPositive()) {
             return this;
         } else {
-            return new StatisticalDoubleImpl(-1 * sum, sumOfSquares, count);
+            return new StatisticalDoubleImpl(
+                -1 * sum,
+                sumOfSquares,
+                count,
+                -1 * offset
+            );
         }
     }
 
