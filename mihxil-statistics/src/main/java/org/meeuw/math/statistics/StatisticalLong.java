@@ -58,6 +58,7 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
 
     public StatisticalLong() {
         this(null);
+
     }
 
     //@Deprecated
