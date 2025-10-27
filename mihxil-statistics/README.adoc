@@ -9,6 +9,8 @@ Implementations of `DoubleElement`, which are based on calculating standard devi
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
+== Windowed events
+
 .example of WindowedEventRate
 [source,java]
 ----
@@ -62,3 +64,36 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotat
         }
     });
 ----
+
+
+== Statisticals
+
+Just to keep track of averages and standard deviations of incoming data.
+
+
+=== Statistical Long
+
+Allow to enter 'longs' and similar objects.
+
+
+Like durations
+
+
+.keeps tracks of durations (in nanoseconds)
+[source,java]
+----
+StatisticalLong mes = new StatisticalLong(DURATION_NS);
+
+mes.enter(Duration.ofNanos(10), Duration.ofNanos(20));
+assertThat(mes.durationValue()).isEqualTo(Duration.ofNanos(15));
+assertThat(mes.optionalDurationValue()).contains(Duration.ofNanos(15));
+
+assertThat(mes.getStandardDeviation()).isEqualTo(5.0d); // 5 ns
+
+mes.enter(Duration.ofMinutes(5));
+
+assertThat(mes.optionalDurationValue()).contains(Duration.parse("PT1M40.00000001S"));
+
+----
+
+=== Statistical Double

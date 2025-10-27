@@ -177,7 +177,10 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
     public void nanoDurations() {
+
+        // tag::nanoduration[]
         StatisticalLong mes = new StatisticalLong(DURATION_NS);
+
         mes.enter(Duration.ofNanos(10), Duration.ofNanos(20));
         assertThat(mes.durationValue()).isEqualTo(Duration.ofNanos(15));
         assertThat(mes.optionalDurationValue()).contains(Duration.ofNanos(15));
@@ -187,6 +190,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
         mes.enter(Duration.ofMinutes(5));
 
         assertThat(mes.optionalDurationValue()).contains(Duration.parse("PT1M40.00000001S"));
+
+        // end::nanoduration[]
 
         assertThatThrownBy(mes::getStandardDeviation).isInstanceOf(OverflowException.class);
     }

@@ -8,6 +8,8 @@ Implementations of `DoubleElement`, which are based on calculating standard devi
 
 Also, it includes some classes to keep track of 'sliding window' values of averages.
 
+== Windowed events
+
 .example of WindowedEventRate
 [source,java]
 ----
@@ -32,3 +34,25 @@ include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=i
 
 include::src/test/java/org/meeuw/math/windowed/WindowedEventRateTest.java[tags=eventrate,indent=0]
 ----
+
+
+== Statisticals
+
+Just to keep track of averages and standard deviations of incoming data.
+
+
+=== Statistical Long
+
+Allow to enter 'longs' and similar objects.
+
+
+Like durations
+
+
+.keeps tracks of durations (in nanoseconds)
+[source,java]
+----
+include::src/test/java/org/meeuw/math/statistics/StatisticalLongTest.java[tags=nanoduration,indent=0]
+----
+
+=== Statistical Double

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.23">
+<meta name="generator" content="Asciidoctor 2.0.26">
 <meta name="author" content="Michiel Meeuwissen">
 <title>Algebraic interfaces for Java</title>
 <link rel="stylesheet" href="./index.css">
@@ -79,7 +79,17 @@
 </li>
 </ul>
 </li>
-<li><a href="#_statistics_2">4. statistics</a></li>
+<li><a href="#_statistics_2">4. statistics</a>
+<ul class="sectlevel2">
+<li><a href="#_windowed_events">4.1. Windowed events</a></li>
+<li><a href="#_statisticals">4.2. Statisticals</a>
+<ul class="sectlevel3">
+<li><a href="#_statistical_long">4.2.1. Statistical Long</a></li>
+<li><a href="#_statistical_double">4.2.2. Statistical Double</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li><a href="#_physics">5. physics</a></li>
 <li><a href="#_algebra">6. algebra</a>
 <ul class="sectlevel2">
@@ -1078,6 +1088,8 @@ Your browser does not support the video tag.
 <div class="paragraph">
 <p>Also, it includes some classes to keep track of 'sliding window' values of averages.</p>
 </div>
+<div class="sect2">
+<h3 id="_windowed_events">4.1. Windowed events</h3>
 <div class="listingblock">
 <div class="title">example of WindowedEventRate</div>
 <div class="content">
@@ -1129,6 +1141,42 @@ ConfigurationService.withAspect(UncertaintyConfiguration.class, e -&gt; e.withNo
             assertThat(rate.toString()).isEqualTo(<span class="string"><span class="delimiter">&quot;</span><span class="content">5.9(1.8) /s</span><span class="delimiter">&quot;</span></span>);
         }
     });</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_statisticals">4.2. Statisticals</h3>
+<div class="paragraph">
+<p>Just to keep track of averages and standard deviations of incoming data.</p>
+</div>
+<div class="sect3">
+<h4 id="_statistical_long">4.2.1. Statistical Long</h4>
+<div class="paragraph">
+<p>Allow to enter 'longs' and similar objects.</p>
+</div>
+<div class="paragraph">
+<p>Like durations</p>
+</div>
+<div class="listingblock">
+<div class="title">keeps tracks of durations (in nanoseconds)</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java">StatisticalLong mes = <span class="keyword">new</span> StatisticalLong(DURATION_NS);
+
+mes.enter(<span class="predefined-type">Duration</span>.ofNanos(<span class="integer">10</span>), <span class="predefined-type">Duration</span>.ofNanos(<span class="integer">20</span>));
+assertThat(mes.durationValue()).isEqualTo(<span class="predefined-type">Duration</span>.ofNanos(<span class="integer">15</span>));
+assertThat(mes.optionalDurationValue()).contains(<span class="predefined-type">Duration</span>.ofNanos(<span class="integer">15</span>));
+
+assertThat(mes.getStandardDeviation()).isEqualTo(<span class="float">5.0d</span>); <span class="comment">// 5 ns</span>
+
+mes.enter(<span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">5</span>));
+
+assertThat(mes.optionalDurationValue()).contains(<span class="predefined-type">Duration</span>.parse(<span class="string"><span class="delimiter">&quot;</span><span class="content">PT1M40.00000001S</span><span class="delimiter">&quot;</span></span>));</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_statistical_double">4.2.2. Statistical Double</h4>
+
 </div>
 </div>
 </div>
@@ -2762,6 +2810,6 @@ MathJax.Hub.Register.StartupHook("AsciiMath Jax Ready", function () {
   })
 })
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_HTMLorMML"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 </html>
