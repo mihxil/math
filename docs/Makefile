@@ -16,11 +16,11 @@ help:     ## Show this help.
 	@grep -E '^[/%a-zA-Z0-9._-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 
-index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg resources   resources/css/demo.css  ## create index.html
+index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebras.svg resources   resources/css/demo.css  resources   resources/css/calculator.css  ## create index.html
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
-DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources resources/css/demo.css
+DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources resources/css/demo.css  resources resources/css/calculator.css
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
 resources:  ## copy resources from ../mihxil-demo

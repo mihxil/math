@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra;
 
+import java.math.BigInteger;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.validation.NotZero;
@@ -36,13 +38,53 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
     /**
      * Returns the result of dividing this element by the given divisor.
      */
-    E dividedBy(@NotZero long divisor);
+    default E dividedBy(@NotZero long divisor) {
+        return dividedBy(BigInteger.valueOf(divisor));
+    }
+
+    /**
+     * @since 0.19
+     */
+    E dividedBy(@NotZero BigInteger multiplier);
 
     /**
      * Returns the result of multiplying this element by the given multiplier.
      */
-    E times(long multiplier);
+    default E times(long multiplier) {
+        return times(BigInteger.valueOf(multiplier));
+    }
 
+    /**
+     * @since 0.19
+     */
+    E times(BigInteger multiplier);
+
+
+    /**
+     *
+     * @since 0.19
+     */
+    default E scaleByPowerOfTen(int n) {
+        BigInteger factor = BigInteger.TEN.pow(Math.abs(n));
+        if (n > 0) {
+            return times(factor);
+        } else {
+            return dividedBy(factor);
+        }
+    }
+
+    /**
+     *
+     * @since 0.19
+     */
+    default E scalb(int n) {
+        BigInteger factor = BigInteger.TWO.pow(Math.abs(n));
+        if (n > 0) {
+            return times(factor);
+        } else {
+            return dividedBy(factor);
+        }
+    }
 
 
 }

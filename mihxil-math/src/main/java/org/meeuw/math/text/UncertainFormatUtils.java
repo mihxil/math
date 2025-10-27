@@ -2,6 +2,7 @@ package org.meeuw.math.text;
 
 import java.text.*;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 
 import static java.lang.Character.isDigit;
@@ -42,6 +43,7 @@ public class UncertainFormatUtils {
         appendable.append(' ');
         appendable.append(TextUtils.PLUSMIN);
         appendable.append(' ');
+
         final int before = appendable.length();
         format.format(error, appendable, position);
          // remove error indication again if it contains only zeros
@@ -96,6 +98,11 @@ public class UncertainFormatUtils {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS -> UncertainFormatUtils.valuePlusMinError(value, error);
             case ROUND_VALUE -> value;
+            case ROUND_VALUE_AND_TRIM -> {
+                StringBuffer buf = new StringBuffer(value);
+                trim(buf, new FieldPosition(-1));
+                yield buf.toString();
+            }
         };
     }
 
@@ -106,13 +113,31 @@ public class UncertainFormatUtils {
         StringBuffer appendable,
         Format format,
         FieldPosition position,
-        Object value, Object error,
+        Object value,
+        @Nullable Object error,
         Notation uncertaintyNotation) {
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-            case ROUND_VALUE -> format.format(value, appendable, position);
-            default -> throw new IllegalStateException("Unexpected value: " + uncertaintyNotation);
+            case ROUND_VALUE ->
+                format.format(value, appendable, position);
+            case ROUND_VALUE_AND_TRIM -> {
+                format.format(value, appendable, position);
+                trim(appendable, position);
+            }
+        }
+    }
+
+    public static void trim(StringBuffer appendable, FieldPosition position) {
+        int dot = appendable.lastIndexOf(".");
+        if (dot >= 0) {
+            int j = appendable.length();
+            while (j > dot && appendable.charAt(--j) == '0') {
+                appendable.deleteCharAt(j);
+            }
+            if (j == dot) {
+                appendable.deleteCharAt(dot);
+            }
         }
     }
 }

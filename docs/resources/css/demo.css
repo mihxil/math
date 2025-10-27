@@ -1,22 +1,22 @@
-form.demo {
+#demo_section div:is(.sect1, .sect2) form.demo {
   display: flex;
   flex-direction: column;
   gap: 0.5em;
 }
-form.demo.disabled {
+#demo_section div:is(.sect1, .sect2) form.demo.disabled {
   opacity: 0.5;
   pointer-events: none;
 }
-form.demo label {
+#demo_section div:is(.sect1, .sect2) form.demo label {
   margin-bottom: 0.2em;
 }
-form.demo input,
-form.demo output,
-form.demo button {
+#demo_section div:is(.sect1, .sect2) form.demo input,
+#demo_section div:is(.sect1, .sect2) form.demo output,
+#demo_section div:is(.sect1, .sect2) form.demo button {
   width: 100%;
   box-sizing: border-box;
 }
-form.demo output {
+#demo_section div:is(.sect1, .sect2) form.demo output {
   width: 100%;
   min-height: 3em;
   max-height: 20em;
@@ -28,76 +28,79 @@ form.demo output {
   white-space: pre-wrap;
   resize: vertical;
 }
-form.demo .help {
+#demo_section div:is(.sect1, .sect2) form.demo .help {
   opacity: 0.8;
   font-size: 80%;
   min-height: 0.8em;
   margin-bottom: 0;
 }
-form.demo span.element {
+#demo_section div:is(.sect1, .sect2) form.demo span.element {
   color: #009999;
 }
-form.demo span.element:not(:last-child)::after {
+#demo_section div:is(.sect1, .sect2) form.demo span.element:not(:last-child)::after {
   content: ", ";
 }
-
-input:focus.invalid,
-input.invalid {
+#demo_section div:is(.sect1, .sect2) form.demo input:focus.invalid,
+#demo_section div:is(.sect1, .sect2) form.demo input.invalid {
   border-color: red !important;
 }
-
-datalist {
+#demo_section div:is(.sect1, .sect2) form.demo datalist {
   display: block;
 }
-datalist::before {
+#demo_section div:is(.sect1, .sect2) form.demo datalist::before {
   content: "examples: ";
 }
-datalist option {
+#demo_section div:is(.sect1, .sect2) form.demo datalist option {
   color: #009999;
   display: inline-block;
 }
-datalist option::before {
+#demo_section div:is(.sect1, .sect2) form.demo datalist option::before {
   content: attr(value);
 }
-datalist option:not(:empty)::before {
+#demo_section div:is(.sect1, .sect2) form.demo datalist option:not(:empty)::before {
   content: attr(value) ": ";
 }
-datalist option:not(:last-child)::after {
+#demo_section div:is(.sect1, .sect2) form.demo datalist option:not(:last-child)::after {
   color: black;
   content: ", ";
 }
-
-div:is(.sect1, .sect2).tips-aside form {
+#demo_section div:is(.sect1, .sect2).tips-aside details {
+  clear: both;
+}
+#demo_section div:is(.sect1, .sect2).tips-aside form {
   display: block;
 }
-div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
+#demo_section div:is(.sect1, .sect2).tips-aside form input, #demo_section div:is(.sect1, .sect2).tips-aside form button, #demo_section div:is(.sect1, .sect2).tips-aside form output {
+  width: 50%;
+}
+#demo_section div:is(.sect1, .sect2).tips-aside .admonitionblock.tip {
   float: right;
   width: 50%;
   padding-left: 2ex;
   overflow-y: auto;
 }
-div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table {
+#demo_section div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table {
   border-collapse: collapse;
   width: 100%;
   background: none;
   box-shadow: none;
   border: none;
 }
-div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td,
-div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table th {
+#demo_section div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td,
+#demo_section div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table th {
   border: none;
   padding: 0.5em 0;
 }
-div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td.icon {
+#demo_section div:is(.sect1, .sect2).tips-aside .admonitionblock.tip table td.icon {
   display: none;
 }
-div:is(.sect1, .sect2).tips-aside dl {
+#demo_section div:is(.sect1, .sect2).tips-aside dl {
   position: relative;
 }
-div:is(.sect1, .sect2).tips-aside dl dd {
+#demo_section div:is(.sect1, .sect2).tips-aside dl dd {
   display: none;
 }
-div:is(.sect1, .sect2).tips-aside dl dt {
+#demo_section div:is(.sect1, .sect2).tips-aside dl dt {
   display: inline-block;
   margin: 0.1em;
   padding: 0.3em 0.6em;
@@ -109,19 +112,6 @@ div:is(.sect1, .sect2).tips-aside dl dt {
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
   transition: background 0.1s, box-shadow 0.1s;
-}
-
-div:is(.sect1, .sect2):has(> #demo_solver) .admonitionblock.tip {
-  max-height: 500px;
-}
-
-div.sect1:has(> #demo_calculator) .admonitionblock.tip table th {
-  border: none;
-  padding: 0.5em 0;
-}
-
-#demo_section .sect1 {
-  clear: both;
 }
 
 /*# sourceMappingURL=demo.css.map */

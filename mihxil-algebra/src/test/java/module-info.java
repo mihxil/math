@@ -22,6 +22,7 @@ open module org.meeuw.test {
     requires org.meeuw.configuration;
     requires jakarta.validation;
     requires org.hibernate.validator;
+    requires org.checkerframework.checker.qual;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;

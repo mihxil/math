@@ -21,7 +21,7 @@ jobs:
               exit 1
             fi
       - uses: actions/checkout@v5
-        if: ${{ env.valid_branch }} == 'true'
+        if: ${{ env.valid_branch == 'true' }}
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'

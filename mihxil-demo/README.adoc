@@ -20,8 +20,31 @@ This section is work in progress
 = Calculator
 
 
+++++
+<form id="calculator" class="demo">
+  <label for="calculator_field">Field:</label>
+  <select id="calculator_field"  >
+   <!-- filled by calculator.js -->
+  </select>
+  <div class="help"></div>
+
+++++
+
+
 [TIP]
 ====
+[#calculator_digits]
+0::
+1::
+2::
+3::
+4::
+5::
+6::
+7::
+8::
+9::
+
 [#calculator_operators]
 +:: for addition
 -:: for subtraction
@@ -41,21 +64,16 @@ This section is work in progress
 
 ====
 
+
 ++++
-<form id="calculator" class="demo">
+<div class="form">
   <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
-   <label for="calculator_field">Field:</label>
-   <select id="calculator_field"  >
-   <!-- filled by calculator.js -->
-   </select>
-   <div class="help"></div>
-   <br />
+  <button name="submit">=</button>
   <output id="calculator_output" for="calculator_toparse"> </output>
-  <br />
-  <button name="submit">go!</button>
+</div>
 </form>
 ++++
 
@@ -88,7 +106,7 @@ public  enum FieldInformation {
         "a * b * c * e",
         "a * b"
     ),
-    quaterniongroup(QuaternionGroup.INSTANCE, "i", "e" ),
+    quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i" ),
     dihedral3(DihedralGroup.D3,
         "r1 * r2",
         "s0 * r1 * s0"
@@ -96,6 +114,10 @@ public  enum FieldInformation {
     dihedral4(DihedralGroup.of(4),
         "r1 * r2",
         "s0 * r1 * s0 * s3"
+    ),
+    polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
+        "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\" ⋅ \"15·x² + 2·x³\"",
+        "\"x + 2x^2 + x^5\" + \"5 + 3/4x^2 - x^5\""
     )
     ;
 
@@ -131,7 +153,9 @@ public  enum FieldInformation {
     public static String[] elements(Magma<?> field) {
         Set<String> elements = new LinkedHashSet<>(field.getConstants().keySet());
         if (field.getCardinality().isCountable() && field instanceof  Streamable<?> streamable) {
-            streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+            try {
+                streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+            } catch (NotStreamable ignored) {}
         }
         return elements.toArray(new String[0]);
     }
@@ -147,7 +171,8 @@ public  enum FieldInformation {
 
 
 
-public static String eval(final String expression, final String field) {
+public static String eval(String input, final String field) {
+    final String expression = input.strip();
     try (var r = ConfigurationService.setConfiguration(cb -> cb
         .configure(UncertaintyConfiguration.class,
             (ub) -> ub.withNotation(ROUND_VALUE))
@@ -194,7 +219,36 @@ This is the source code for the above.
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(0, start) + string + value.slice(end);
-        input.setSelectionRange(start + string.length, start + string.length);
+        input.setSelectionRange(
+            start + string.length,
+            start + string.length
+        );
+        input.focus();
+    }
+
+    insertOperator(string) {
+        const needsBrackets = string.length > 1;
+        if (! needsBrackets) {
+            return this.insert(string);
+        }
+        const input = this.input;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const value = input.value;
+        if (start === end) {
+            input.value = string + "(" + value + ")";
+            input.setSelectionRange(
+                start + string.length + 1,
+                start + string.length + 1
+            );
+        } else {
+            input.value = value.slice(0, start) + string + "(" + value.slice(start, end) + ")" + value.slice(end);
+            input.setSelectionRange(
+                start,
+                end  + string.length + 2
+            );
+        }
+
         input.focus();
     }
 
@@ -223,59 +277,30 @@ This is the source code for the above.
     }
 
     async onInView(Calculator){
-
         await super.onInView(Calculator);
-        // using the field information to update the example per field
         if (this.information === null) {
-            this.information = {};
-            const fi = await (await BaseClass.cj)['org.meeuw.math.demo.Calculator$FieldInformation'];
-            const values = await fi.values();
-
-            for (let i = 0; i < values.length; i++) {
-                const value = await values[i];
-                const elements = await value.getElements();
-                let awaitedElements = null;
-                if (elements) {
-                    awaitedElements = [];
-                    for (let j = 0; j < elements.length; j++) {
-                        const span = document.createElement('span');
-                        span.classList.add('element');
-                        span.textContent = await elements[j];
-                        span.onclick = async e => {
-                            this.insert(e.target.textContent);
-                        };
-                        awaitedElements[j] = span;
-                    }
-                }
-                this.information[await values[i].name()] = {
-                    examples: await BaseClass.awaitedArray(value.getExamples()),
-                    elements: awaitedElements,
-                    binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
-                    unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
-                    finite: await value.isFinite(),
-                    description: await value.getDescription(),
-                    help: await value.getHelp()
-                };
-            }
-            console.log(JSON.stringify(this.information));
+            await this.loadInformation();
+            await this.updateFieldList();
+            await this.updateExamples();
+            await this.updateHelp();
+            await this.updateOperators();
+            await this.updateDigits();
         }
-        await this.updateFieldList();
+
         this.field.addEventListener('change', () => {
-            this.updateDataList();
+            this.updateExamples();
             this.updateHelp();
             this.updateOperators();
+            this.updateDigits();
 
         });
-        await this.updateDataList();
-        await this.updateHelp();
-        await this.updateOperators();
+
 
 
     }
 
     updateFieldList() {
         for (const [key, value] of Object.entries(this.information)) {
-
             const option = document.createElement('option');
             option.value = key;
             option.text = value.description;
@@ -283,7 +308,53 @@ This is the source code for the above.
         }
     }
 
-    async updateDataList() {
+    /**
+     * Load all information about the supported fields
+     */
+    async loadInformation() {
+        this.information = {};
+        const fi = await (await BaseClass.cj)['org.meeuw.math.demo.Calculator$FieldInformation'];
+        const values = await fi.values();
+
+        for (let i = 0; i < values.length; i++) {
+            const value = await values[i];
+            const elements = await BaseClass.awaitedArray(value.getElements());
+            let elementSpans = null;
+            if (elements) {
+                elementSpans = [];
+                for (let j = 0; j < elements.length; j++) {
+                    const span = document.createElement('span');
+                    span.classList.add('element');
+                    span.textContent = elements[j];
+                    span.onclick = async e => {
+                        this.insert(e.target.textContent);
+                    };
+                    elementSpans[j] = span;
+                }
+            }
+            this.information[await values[i].name()] = {
+                examples: await BaseClass.awaitedArray(value.getExamples()),
+                elements: elements,
+                elementsSpans: elementSpans,
+                binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
+                finite: await value.isFinite(),
+                description: await value.getDescription(),
+                help: await value.getHelp()
+            };
+        }
+        console.log("information", JSON.stringify(this.information,  (key, value) => {
+            if (key === 'elementsSpans') {
+                return undefined;
+            }
+            return value;
+        } , 1));
+    }
+
+    /**
+     *
+     */
+    async updateExamples() {
         const selectedField = this.field.value;
         const information = this.information[selectedField];
         if (information) {
@@ -293,7 +364,7 @@ This is the source code for the above.
                 option.value = example;
                 this.inputDataList.appendChild(option);
             }
-            console.log("Updated data list for", selectedField, information.examples);
+            console.log("Updated example li for", selectedField, information.examples);
         }
     }
     async updateHelp() {
@@ -304,7 +375,7 @@ This is the source code for the above.
         if (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = this.information[this.field.value].elements;
+        const elements = this.information[this.field.value].elementSpans;
         if (elements) {
             div.appendChild(document.createElement("br"));
             div.appendChild(document.createTextNode("elements: "));
@@ -317,33 +388,46 @@ This is the source code for the above.
         }
     }
     operatorDts(dl, operators) {
+        this.dts(dl, operators, async e => {
+            this.insertOperator(e.target.textContent);
+        });
+    }
+
+
+    dts(dl, items, onclick, limit=10000) {
         const list = dl.querySelectorAll("dt");
-        const symbolsInList = Array.from(list).map(e => e.textContent.trim());
-        const unmatchedOperators = operators.filter(op => !symbolsInList.includes(op));
-        unmatchedOperators.forEach(op => {
+
+        const currentlyInList = Array.from(list).map(e => e.textContent.trim());
+        const unmatchedItems = items.slice(0, limit).filter(op => !currentlyInList.includes(op));
+
+        // add the ones not yet in it.
+        unmatchedItems.forEach(op => {
             const dt = document.createElement("dt");
-            dt.classList.add('hdlist1');
+            //dt.classList.add('hdlist1');
             dt.textContent = op;
             dl.appendChild(dt);
             const dd = document.createElement("dd");
             dl.appendChild(dd);
         });
+        let count = 0;
         for (const e of dl.querySelectorAll("dt")) {
             const symbol = e.textContent.trim();
             const title = e.nextElementSibling.textContent;
             if (!e.hasAttribute("original-display")) {
                 e.setAttribute("original-display", window.getComputedStyle(e).display);
-                e.onclick = async e => {
-                    this.insert(e.target.textContent);
-                };
+                e.onclick =onclick;
             }
-            if (!operators.includes(symbol)) {
+            if (!items.includes(symbol)) {
                 e.style.display = 'none';
                 e.nextElementSibling.hidden = true;
             } else {
                 e.title = title;
                 e.style.display = e.getAttribute("original-display");
                 e.nextElementSibling.hidden = false;
+                count++;
+                if (count >= limit) {
+                    break;
+                }
             }
         }
     }
@@ -354,6 +438,16 @@ This is the source code for the above.
         this.operatorDts(document.querySelector("#calculator_operators dl"), operators);
         const unaryOperators = fieldInformation.unaryOperators;
         this.operatorDts(document.querySelector("#calculator_unary_operator dl"), unaryOperators);
+    }
+
+
+    async updateDigits() {
+        const fieldInformation =  this.information[this.field.value];
+        const elements = fieldInformation.elements;
+        this.dts(document.querySelector("#calculator_digits dl"), elements, async e => {
+            this.insert(e.target.textContent);
+        }, 10);
+
     }
 
     async onSubmit(Calculator) {
@@ -374,14 +468,13 @@ This is the source code for the above.
 :leveloffset: +1
 
 [#demo_solver]
-[.tips-aside]
 = Solver
 
 The same idea as my link:https://meeuw.org/flippo/flippo.html[very first applet]. Solving the '24 flippo game'.
 
 Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.
 
-[TIP]
+[NOTE]
 ====
 This combines several aspects of this project:
 
@@ -389,9 +482,8 @@ This combines several aspects of this project:
 - It uses the permutation group to permute all combinations of values
 - It uses the Abstract Syntax Tree feature to combine values and operators
 - It uses some features of the Field, e.g. to perform operators generically.
-- It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also suport for `RealField` (and for example also support the POW operator)
+- It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also support for `RealField` (and for example also support the POW operator)
 
-Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?
 ====
 
 ++++
@@ -612,16 +704,17 @@ This is the source code for the above.
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
-            );
-
-        const stream = await solverResult.stream();
-        const lines = await stream.toArray();
-        for (let i = 0; i < lines.length; i++) {
-            this.output.value += "\n" + await lines[i].toString();
+        );
+        // using iterator, because I can't figure out java lambda's here.
+        const stream = await (await solverResult.stream()).iterator();
+        while(await stream.hasNext()) {
+            const line = await stream.next();
+            this.output.value += "\n" + await line.toString();
+            this.output.scrollTop = this.output.scrollHeight;
         }
-        const tries = await (await solverResult.tries()).get();
         const matches = await (await solverResult.matches()).get();
         this.output.value += `\nFound: ${matches}`;
+        const tries = await (await solverResult.tries()).get();
         this.output.value += `\nTried: ${tries}`;
     }
 }
@@ -739,6 +832,8 @@ async onSubmit(DynamicDateTime){
         this.output.value = await parseResult.toString();
     } catch (error) {
         console.log(error);
+        this.output.value = await (await error.getMessage()).toString();
+
     }
 
 }

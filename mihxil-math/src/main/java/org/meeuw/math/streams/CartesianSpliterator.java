@@ -363,7 +363,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                 }
                 skips++;
             }
-            log.fine("Cannot shift. End of stream");
+            log.finer("Cannot shift. End of stream");
             return false;
         }
         /**
@@ -380,11 +380,11 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                 })) {
                     return true;
                 } else {
-                    log.fine("Empty iterator found");
+                    log.finer("Empty iterator found");
                     return false;
                 }
             } else {
-                log.fine(() -> "Couldn't initialize"); // this can only happen at the first few elements
+                log.finer(() -> "Couldn't initialize"); // this can only happen at the first few elements
                 return false;
             }
         }
@@ -423,14 +423,14 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                     }
                     )) {
                         // success, so ok
-                        log.fine(() -> "Advanced iterator at " + elementToAdvance + " " + current[elementToAdvance]);
+                        log.finer(() -> "Advanced iterator at " + elementToAdvance + " " + current[elementToAdvance]);
                         return true;
                     } else {
-                        log.fine(() -> "Element at " + elementToAdvance + " could not be advanced because the iterator is exhausted");
+                        log.finer(() -> "Element at " + elementToAdvance + " could not be advanced because the iterator is exhausted");
                         return carry(elementToAdvance);
                     }
                 } else {
-                    log.fine(() -> "Element at " + elementToAdvance + " could not be advanced because that would advance it after element limit " + elementLimit);
+                    log.finer(() -> "Element at " + elementToAdvance + " could not be advanced because that would advance it after element limit " + elementLimit);
                     return carry(elementToAdvance);
                 }
             } else {

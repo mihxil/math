@@ -59,11 +59,12 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     private static final AlgebraicUnaryOperator DERIVATIVE = new AlgebraicUnaryOperator() {
             final Method method = getDeclaredMethod(Polynomial.class, "derivative");
 
+            @SuppressWarnings("unchecked")
             @Override
             @SneakyThrows
-            public <E extends AlgebraicElement<E>> E apply(E e) {
+            public <V extends AlgebraicElement<V>> V apply(V e) {
                 try {
-                    return (E) method.invoke(e);
+                    return (V) method.invoke(e);
                 } catch (Exception ex) {
                     throw ex.getCause();
                 }
@@ -146,6 +147,11 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
         return new Polynomial<>(this, trimmed);
     }
 
+
+    @Override
+    public Polynomial<E> fromString(String input) {
+        return Parser.fromString(this, input);
+    }
 
     @Override
     public String toString() {

@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.meeuw.math.Example;
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
@@ -69,6 +70,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     private final Quaternion<E> j;
     private final Quaternion<E> k;
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Quaternions(ScalarField<E> elementStructure) {
         super((Class) Quaternion.class);
         this.elementStructure = elementStructure;
@@ -92,6 +94,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     }
 
     @Override
+    @Synonym("1")
     public Quaternion<E> one() {
         return one;
     }
@@ -118,6 +121,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         if (! (elementStructure instanceof Streamable<?>)) {
             throw new NotStreamable("Element structure " + elementStructure + " of " + this + " is not streamable");
         }
+        //noinspection unchecked
         return StreamUtils.nCartesianStream(4, () -> ((Streamable<E>) getElementStructure())
             .stream()
         ).map(earray -> new Quaternion<>(earray[0], earray[1], earray[2], earray[3]));

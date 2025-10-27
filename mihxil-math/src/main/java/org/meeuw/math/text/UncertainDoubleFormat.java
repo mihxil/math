@@ -16,6 +16,7 @@
 package org.meeuw.math.text;
 
 
+import java.math.BigDecimal;
 import java.text.FieldPosition;
 
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
@@ -46,18 +47,19 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     }
 
     @Override
-    DoubleElement of(String valueStr, Factor factor) {
+    DoubleElement exactly(String valueStr, Factor factor) {
         double value = scientific.fromString(valueStr);
-        return (DoubleElement) factor.apply(DoubleElement.of(value, considerRoundingErrorFactor * uncertaintyForDouble(value)));
-
+        DoubleElement parsed = DoubleElement.exactly(value);
+        return (DoubleElement) factor.apply(parsed);
     }
 
     @Override
     DoubleElement of(String valueStr, String uncertaintyStr, Factor factor) {
         double value = scientific.fromString(valueStr);
         double uncertainty = scientific.fromString(uncertaintyStr);
-
-        return (DoubleElement) factor.apply(DoubleElement.of(value, uncertainty));
+        DoubleElement element = DoubleElement.of(value, uncertainty);
+        BigDecimal decimal = BigDecimal.valueOf(uncertainty);
+        return (DoubleElement) factor.apply(element);
 
     }
 
@@ -72,13 +74,20 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     }
 
     @Override
-    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value) {
+    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value, boolean trim) {
         valueAndError(appendable, position, value);
-
+        if (trim) {
+            UncertainFormatUtils.trim(appendable, position);
+        }
     }
 
     protected void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
-        if (uncertainNumber.isExact() || roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
+        if (uncertainNumber.isExact()) {
+            scientific.format(
+                uncertainNumber.getValue(),
+                uncertainNumber.getUncertainty(),
+                appendable, position);
+        } else if (roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
             scientific.format(
                 uncertainNumber.getValue(),
                 uncertainNumber.getUncertainty(),

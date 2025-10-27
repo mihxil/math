@@ -174,7 +174,7 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public boolean isFinite(Double n1) {
-        return Double.isFinite(n1);
+        return n1 != null && Double.isFinite(n1);
     }
 
     @Override
@@ -225,6 +225,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     @Override
     public Double fromString(String s) {
         return Double.parseDouble(s.trim());
+    }
+
+    @Override
+    public Double zero() {
+        return 0.0d;
     }
 
     @Override

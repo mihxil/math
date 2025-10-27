@@ -12,7 +12,8 @@
 <meta name="keywords" content="open source, documentation" />
 
 <script src="https://cjrtnc.leaningtech.com/20250907_2731/loader.js"></script>
-<link rel="stylesheet" href="resources/demo.css" />
+<link rel="stylesheet" href="resources/css/demo.css" />
+<link rel="stylesheet" href="resources/css/calculator.css" />
 
 <script src="resources/demo.js" type="module" ></script>
 <script src="resources/calculator.js" type="module" ></script>
@@ -126,7 +127,7 @@
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://github.com/mihxil/math/actions/workflows/build.yml"><img src="https://github.com/mihxil/math/actions/workflows/build.yml/badge.svg?" alt="Build Status"></a></span>
 <span class="image"><a class="image" href="https://codecov.io/gh/mihxil/math"><img src="https://codecov.io/gh/mihxil/math/branch/main/graph/badge.svg" alt="codecov"></a></span>
-<span class="image"><a class="image" href="https://search.maven.org/search?q=g:%22org.meeuw.math%22"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg" alt="Maven Central"></a></span>
+<span class="image"><a class="image" href="https://central.sonatype.com/search?q=g%3Aorg.meeuw.math"><img src="https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg" alt="Maven Central"></a></span>
 <span class="image"><a class="image" href="https://www.javadoc.io/doc/org.meeuw.math"><img src="https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue" alt="javadoc"></a></span></p>
 </div>
 </div>
@@ -1017,6 +1018,8 @@ Your browser does not support the video tag.
         <span class="local-variable">this</span>.output.value = await parseResult.toString();
     } <span class="keyword">catch</span> (error) {
         console.log(error);
+        <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
+
     }
 
 }</code></pre>
@@ -1905,7 +1908,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b * c * e</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b</span><span class="delimiter">&quot;</span></span>
     ),
-    quaterniongroup(QuaternionGroup.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">e</span><span class="delimiter">&quot;</span></span> ),
+    quaterniongroup(QuaternionGroup.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">i * j</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">j * i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">e * k * i</span><span class="delimiter">&quot;</span></span> ),
     dihedral3(DihedralGroup.D3,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0</span><span class="delimiter">&quot;</span></span>
@@ -1913,6 +1916,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     dihedral4(DihedralGroup.of(<span class="integer">4</span>),
         <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0 * s3</span><span class="delimiter">&quot;</span></span>
+    ),
+    polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶</span><span class="char">\&quot;</span><span class="content"> ⋅ </span><span class="char">\&quot;</span><span class="content">15·x² + 2·x³</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">x + 2x^2 + x^5</span><span class="char">\&quot;</span><span class="content"> + </span><span class="char">\&quot;</span><span class="content">5 + 3/4x^2 - x^5</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>
     )
     ;
 
@@ -1948,7 +1955,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span><span class="type">[]</span> elements(Magma&lt;?&gt; field) {
         <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; elements = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;(field.getConstants().keySet());
         <span class="keyword">if</span> (field.getCardinality().isCountable() &amp;&amp; field <span class="keyword">instanceof</span>  Streamable&lt;?&gt; streamable) {
-            streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
+            <span class="keyword">try</span> {
+                streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
+            } <span class="keyword">catch</span> (NotStreamable ignored) {}
         }
         <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
     }
@@ -1964,7 +1973,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
 
 
-<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="directive">final</span> <span class="predefined-type">String</span> expression, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> input, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+    <span class="directive">final</span> <span class="predefined-type">String</span> expression = input.strip();
     <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
         .configure(UncertaintyConfiguration.class,
             (ub) -&gt; ub.withNotation(ROUND_VALUE))
@@ -2074,62 +2084,30 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     async onInView(Calculator){
-
         await <span class="reserved">super</span>.onInView(Calculator);
-        <span class="comment">// using the field information to update the example per field</span>
         <span class="keyword">if</span> (<span class="local-variable">this</span>.information === <span class="predefined-constant">null</span>) {
-            <span class="local-variable">this</span>.information = {};
-            const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.demo.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
-            const values = await fi.values();
-
-            <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
-                const value = await values[i];
-                const elements = await BaseClass.awaitedArray(value.getElements());
-                let elementSpans = <span class="predefined-constant">null</span>;
-                <span class="keyword">if</span> (elements) {
-                    elementSpans = [];
-                    <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
-                        const span = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
-                        span.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">element</span><span class="delimiter">'</span></span>);
-                        span.textContent = elements[j];
-                        span.onclick = async e =&gt; {
-                            <span class="local-variable">this</span>.insert(e.target.textContent);
-                        };
-                        elementSpans[j] = span;
-                    }
-                }
-                <span class="local-variable">this</span>.information[await values[i].name()] = {
-                    <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
-                    <span class="key">elements</span>: elements,
-                    <span class="key">elementsSpans</span>: elementSpans,
-                    <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
-                    <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
-                    <span class="key">finite</span>: await value.isFinite(),
-                    <span class="key">description</span>: await value.getDescription(),
-                    <span class="key">help</span>: await value.getHelp()
-                };
-            }
-            console.log(JSON.stringify(<span class="local-variable">this</span>.information));
+            await <span class="local-variable">this</span>.loadInformation();
+            await <span class="local-variable">this</span>.updateFieldList();
+            await <span class="local-variable">this</span>.updateExamples();
+            await <span class="local-variable">this</span>.updateHelp();
+            await <span class="local-variable">this</span>.updateOperators();
+            await <span class="local-variable">this</span>.updateDigits();
         }
-        await <span class="local-variable">this</span>.updateFieldList();
+
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
-            <span class="local-variable">this</span>.updateDataList();
+            <span class="local-variable">this</span>.updateExamples();
             <span class="local-variable">this</span>.updateHelp();
             <span class="local-variable">this</span>.updateOperators();
             <span class="local-variable">this</span>.updateDigits();
 
         });
-        await <span class="local-variable">this</span>.updateDataList();
-        await <span class="local-variable">this</span>.updateHelp();
-        await <span class="local-variable">this</span>.updateOperators();
-        await <span class="local-variable">this</span>.updateDigits();
+
 
 
     }
 
     updateFieldList() {
         <span class="keyword">for</span> (const [key, value] of Object.entries(<span class="local-variable">this</span>.information)) {
-
             const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
             option.value = key;
             option.text = value.description;
@@ -2137,7 +2115,53 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
 
-    async updateDataList() {
+    <span class="comment">/**
+     * Load all information about the supported fields
+     */</span>
+    async loadInformation() {
+        <span class="local-variable">this</span>.information = {};
+        const fi = await (await BaseClass.cj)[<span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.demo.Calculator$FieldInformation</span><span class="delimiter">'</span></span>];
+        const values = await fi.values();
+
+        <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
+            const value = await values[i];
+            const elements = await BaseClass.awaitedArray(value.getElements());
+            let elementSpans = <span class="predefined-constant">null</span>;
+            <span class="keyword">if</span> (elements) {
+                elementSpans = [];
+                <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
+                    const span = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
+                    span.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">element</span><span class="delimiter">'</span></span>);
+                    span.textContent = elements[j];
+                    span.onclick = async e =&gt; {
+                        <span class="local-variable">this</span>.insert(e.target.textContent);
+                    };
+                    elementSpans[j] = span;
+                }
+            }
+            <span class="local-variable">this</span>.information[await values[i].name()] = {
+                <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
+                <span class="key">elements</span>: elements,
+                <span class="key">elementsSpans</span>: elementSpans,
+                <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
+                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
+                <span class="key">finite</span>: await value.isFinite(),
+                <span class="key">description</span>: await value.getDescription(),
+                <span class="key">help</span>: await value.getHelp()
+            };
+        }
+        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">information</span><span class="delimiter">&quot;</span></span>, JSON.stringify(<span class="local-variable">this</span>.information,  (key, value) =&gt; {
+            <span class="keyword">if</span> (key === <span class="string"><span class="delimiter">'</span><span class="content">elementsSpans</span><span class="delimiter">'</span></span>) {
+                <span class="keyword">return</span> <span class="predefined-constant">undefined</span>;
+            }
+            <span class="keyword">return</span> value;
+        } , <span class="integer">1</span>));
+    }
+
+    <span class="comment">/**
+     *
+     */</span>
+    async updateExamples() {
         const selectedField = <span class="local-variable">this</span>.field.value;
         const information = <span class="local-variable">this</span>.information[selectedField];
         <span class="keyword">if</span> (information) {
@@ -2147,7 +2171,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 option.value = example;
                 <span class="local-variable">this</span>.inputDataList.appendChild(option);
             }
-            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated data list for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
+            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated example li for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
         }
     }
     async updateHelp() {
@@ -2175,24 +2199,24 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             <span class="local-variable">this</span>.insertOperator(e.target.textContent);
         });
     }
-    elementsDts(dl, operators) {
-        <span class="local-variable">this</span>.dts(dl, operators, async e =&gt; {
-            <span class="local-variable">this</span>.insert(e.target.textContent);
-        });
-    }
 
-    dts(dl, operators, onclick) {
+
+    dts(dl, items, onclick, limit=<span class="integer">10000</span>) {
         const list = dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
-        const symbolsInList = Array.from(list).map(e =&gt; e.textContent.trim());
-        const unmatchedOperators = operators.filter(op =&gt; !symbolsInList.includes(op));
-        unmatchedOperators.forEach(op =&gt; {
+
+        const currentlyInList = Array.from(list).map(e =&gt; e.textContent.trim());
+        const unmatchedItems = items.slice(<span class="integer">0</span>, limit).filter(op =&gt; !currentlyInList.includes(op));
+
+        <span class="comment">// add the ones not yet in it.</span>
+        unmatchedItems.forEach(op =&gt; {
             const dt = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
-            dt.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">hdlist1</span><span class="delimiter">'</span></span>);
+            <span class="comment">//dt.classList.add('hdlist1');</span>
             dt.textContent = op;
             dl.appendChild(dt);
             const dd = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dd</span><span class="delimiter">&quot;</span></span>);
             dl.appendChild(dd);
         });
+        let count = <span class="integer">0</span>;
         <span class="keyword">for</span> (const e of dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>)) {
             const symbol = e.textContent.trim();
             const title = e.nextElementSibling.textContent;
@@ -2200,13 +2224,17 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>, window.getComputedStyle(e).display);
                 e.onclick =onclick;
             }
-            <span class="keyword">if</span> (!operators.includes(symbol)) {
+            <span class="keyword">if</span> (!items.includes(symbol)) {
                 e.style.display = <span class="string"><span class="delimiter">'</span><span class="content">none</span><span class="delimiter">'</span></span>;
                 e.nextElementSibling.hidden = <span class="predefined-constant">true</span>;
             } <span class="keyword">else</span> {
                 e.title = title;
                 e.style.display = e.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>);
                 e.nextElementSibling.hidden = <span class="predefined-constant">false</span>;
+                count++;
+                <span class="keyword">if</span> (count &gt;= limit) {
+                    <span class="keyword">break</span>;
+                }
             }
         }
     }
@@ -2223,7 +2251,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     async updateDigits() {
         const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
         const elements = fieldInformation.elements;
-        <span class="local-variable">this</span>.elementsDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_digits dl</span><span class="delimiter">&quot;</span></span>), elements);
+        <span class="local-variable">this</span>.dts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_digits dl</span><span class="delimiter">&quot;</span></span>), elements, async e =&gt; {
+            <span class="local-variable">this</span>.insert(e.target.textContent);
+        }, <span class="integer">10</span>);
+
     }
 
     async onSubmit(Calculator) {
@@ -2241,7 +2272,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </details>
 </div>
-<div class="sect2 tips-aside">
+<div class="sect2">
 <h3 id="demo_solver">10.2. Solver</h3>
 <div class="paragraph">
 <p>The same idea as my <a href="https://meeuw.org/flippo/flippo.html">very first applet</a>. Solving the '24 flippo game'.</p>
@@ -2249,11 +2280,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="paragraph">
 <p>Give the desired outcome number, and a few input numbers, and it will find the possible ways to get it using those input numbers.</p>
 </div>
-<div class="admonitionblock tip">
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Tip</div>
+<div class="title">Note</div>
 </td>
 <td class="content">
 <div class="paragraph">
@@ -2274,12 +2305,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <p>It uses some features of the Field, e.g. to perform operators generically.</p>
 </li>
 <li>
-<p>It will currently use the field of <code>RationalNumbers</code> <em>or</em> <code>GaussianRationals</code> if the input contains a complex number. I might add also suport for <code>RealField</code> (and for example also support the POW operator)</p>
+<p>It will currently use the field of <code>RationalNumbers</code> <em>or</em> <code>GaussianRationals</code> if the input contains a complex number. I might add also support for <code>RealField</code> (and for example also support the POW operator)</p>
 </li>
 </ul>
-</div>
-<div class="paragraph">
-<p>Cheerpj still sometimes behaves a bit erraticly, I think something may be wrong with default methods?</p>
 </div>
 </td>
 </tr>
@@ -2506,16 +2534,17 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
         const solverResult = await Solver.solve(
             <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
-            );
-
-        const stream = await solverResult.stream();
-        const lines = await stream.toArray();
-        <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; lines.length; i++) {
-            <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await lines[i].toString();
+        );
+        <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
+        const stream = await (await solverResult.stream()).iterator();
+        <span class="keyword">while</span>(await stream.hasNext()) {
+            const line = await stream.next();
+            <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await line.toString();
+            <span class="local-variable">this</span>.output.scrollTop = <span class="local-variable">this</span>.output.scrollHeight;
         }
-        const tries = await (await solverResult.tries()).get();
         const matches = await (await solverResult.matches()).get();
         <span class="local-variable">this</span>.output.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
+        const tries = await (await solverResult.tries()).get();
         <span class="local-variable">this</span>.output.value += <span class="error">`</span><span class="error">\</span>nTried: <span class="predefined">$</span>{tries}<span class="error">`</span>;
     }
 }</code></pre>
@@ -2628,6 +2657,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.output.value = await parseResult.toString();
     } <span class="keyword">catch</span> (error) {
         console.log(error);
+        <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
+
     }
 
 }</code></pre>

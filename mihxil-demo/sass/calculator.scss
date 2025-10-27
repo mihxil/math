@@ -1,0 +1,10 @@
+
+div:is(.sect1, .sect2):has(>#demo_calculator)  {
+
+  .admonitionblock.tip table th {
+    background: red;
+    border: none;
+    padding: 0.5em 0;
+  }
+
+}

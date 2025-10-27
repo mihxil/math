@@ -282,6 +282,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     }
 
     @Override
+    public BigDecimal zero() {
+        return BigDecimal.ZERO;
+    }
+
+    @Override
     public BigDecimal roundingUncertainty(BigDecimal bigDecimal) {
         return BigDecimalUtils.uncertaintyForBigDecimal(bigDecimal, context());
     }

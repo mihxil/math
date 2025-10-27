@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
+import java.math.BigInteger;
+
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
@@ -44,9 +46,6 @@ public class DoubleElement
     public static final int EPSILON_FACTOR = 2;
     public static final double UNCERTAINTY_FOR_ONE = DoubleUtils.uncertaintyForDouble(1);
     public static final double UNCERTAINTY_FOR_ZERO = DoubleUtils.uncertaintyForDouble(0);
-
-
-
 
     public static final DoubleElement TWO = DoubleElement.exactly(2d);
 
@@ -158,6 +157,19 @@ public class DoubleElement
     }
 
     @Override
+    public DoubleElement dividedBy(BigInteger divisor) {
+        if (divisor.equals(BigInteger.ZERO)) {
+            throw new DivisionByZeroException("Divisor", this.toString());
+        } else if (divisor.equals(BigInteger.ONE)) {
+            return this;
+        }
+        double d =  value / divisor.doubleValue();
+        double result = value / d;
+        return new DoubleElement(result,
+            Math.max(Math.abs(uncertainty / d), uncertaintyForDouble(result)));
+    }
+
+    @Override
     public DoubleElement times(long multiplier) {
         if (multiplier == 0) {
             return DoubleElement.ZERO;
@@ -167,6 +179,34 @@ public class DoubleElement
         double result = value * multiplier;
         return new DoubleElement(result,
             Math.max(Math.abs(uncertainty * multiplier), uncertaintyForDouble(result)));
+    }
+
+    @Override
+    public DoubleElement times(BigInteger multiplier) {
+        if (multiplier.equals(BigInteger.ZERO)) {
+            return DoubleElement.ZERO;
+        } else if (multiplier.equals(BigInteger.ONE)) {
+            return this;
+        }
+        double d = multiplier.doubleValue();
+        double result = value * d;
+        return new DoubleElement(result,
+            Math.max(Math.abs(uncertainty * d), uncertaintyForDouble(result)));
+    }
+
+    @Override
+    public DoubleElement scaleByPowerOfTen(int exponent) {
+        double factor = Math.pow(10, exponent);
+        double result = value * factor;
+        double un  = uncertainty * factor;
+        return new DoubleElement(result, un);
+    }
+
+    @Override
+    public DoubleElement scalb(int exponent) {
+        double result = Math.scalb(value, exponent);
+        double un  = Math.scalb(uncertainty, exponent);
+        return new DoubleElement(result, un);
     }
 
     @Override

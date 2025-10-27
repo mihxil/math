@@ -69,10 +69,17 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         PARENTHESES,
 
         /**
-         * Just round the value.
+         * Just round the value, indicating like that the uncertaintity
          *
          * @since 0.19
          */
-        ROUND_VALUE
+        ROUND_VALUE,
+
+        /**
+         * Just round the value, stripping trailing zero's too
+         *
+         * @since 0.19
+         */
+        ROUND_VALUE_AND_TRIM
     }
 }

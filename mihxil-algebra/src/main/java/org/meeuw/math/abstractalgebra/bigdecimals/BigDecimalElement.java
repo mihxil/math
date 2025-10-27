@@ -217,6 +217,13 @@ public class BigDecimalElement implements
     }
 
     @Override
+    public BigDecimalElement scaleByPowerOfTen(int exponent) {
+        BigDecimal result = value.scaleByPowerOfTen(exponent);
+        BigDecimal un = uncertainty.scaleByPowerOfTen(exponent);
+        return new BigDecimalElement(result, un);
+    }
+
+    @Override
     public BigDecimal getValue() {
         return value;
     }
@@ -263,13 +270,15 @@ public class BigDecimalElement implements
         return BigDecimalField.INSTANCE;
     }
 
+
     @Override
-    public BigDecimalElement dividedBy(@NotZero long divisor) {
-        UncertainNumber<BigDecimal> newValue = operations().divide(value, BigDecimal.valueOf(divisor));
+    public BigDecimalElement dividedBy(@NotZero BigInteger divisor) {
+        BigDecimal bd = new BigDecimal(divisor);
+        UncertainNumber<BigDecimal> newValue = operations().divide(value, bd);
         UncertainNumber<BigDecimal> uncertaintyValue = uncertainty.equals(BigDecimal.ZERO) ?
             BigDecimalField.INSTANCE.zero() :
             operations().withUncertaintyContext(() ->
-                operations().divide(uncertainty, BigDecimal.valueOf(divisor))
+                operations().divide(uncertainty, bd)
             );
         return new BigDecimalElement(
             newValue.getValue(),
@@ -284,6 +293,15 @@ public class BigDecimalElement implements
          return new BigDecimalElement(
             value.multiply(BigDecimal.valueOf(multiplier)),
             uncertainty.multiply(BigDecimal.valueOf(multiplier))
+        );
+    }
+
+    @Override
+    public BigDecimalElement times(BigInteger multiplier) {
+        BigDecimal bd = new BigDecimal(multiplier);
+        return new BigDecimalElement(
+            value.multiply(bd),
+            uncertainty.multiply(bd)
         );
     }
 

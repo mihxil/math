@@ -130,10 +130,4 @@ public class RealField
             uncertaintyForDouble(value) // TODO
         );
     }
-
-
-
-
-
-
 }

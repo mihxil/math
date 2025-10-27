@@ -18,12 +18,14 @@ package org.meeuw.test.math.text;
 import lombok.extern.java.Log;
 
 import java.text.*;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.assertj.core.data.Offset;
 
@@ -33,6 +35,7 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.text.*;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,8 +53,6 @@ class UncertainDoubleFormatTest {
     public static void setup() {
         ConfigurationService.resetToDefaultDefaults();
     }
-
-
 
     UncertainDoubleFormat formatter = new UncertainDoubleFormat();
 
@@ -174,43 +175,66 @@ class UncertainDoubleFormatTest {
             -2.2967301287511077E-10,
             0.000005551115123125783E-10);
     }
-
-
-    @ParameterizedTest
-    @CsvSource(
-        textBlock = """
-            1,                       0.5,                         1.0,                   1.0 ± 0.5,                      1.0(5)
-            1,                       0.00001,                     1.000000,              1.000000 ± 0.000010,            1.000000(10)
-            1,                       0.20,                        1.0,                   1.0 ± 0.2,                      1.0(2)
-            -2.2967301287511077E-10, 0.000005551115123125783E-10, -2.296730·10⁻¹⁰,       (-2.296730 ± 0.000006)·10⁻¹⁰,  -2.296730(6)·10⁻¹⁰
-            """
-    )
-    public void notations(double value, double error, String rounded, String plusminus, String parentheses) {
-        var el = DoubleElement.of(value,error);
-
-        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(ROUND_VALUE))) {
-            testNotation(el, rounded);
-        }
-        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(PLUS_MINUS))) {
-            testNotation(el, plusminus);
-        }
-        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(PARENTHESES))) {
-            testNotation(el, parentheses);
-        }
+    public  record Case(
+        double value,
+        double uncertaintity,
+        String rounded,
+        String roundedAndTrim,
+        String plusminus,
+        String parenthesis
+    ) {
 
     }
-    private void testNotation(DoubleElement el, String expected) {
-        UncertaintyConfiguration.Notation notation = ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getNotation();
-        // note that we bypassed FormatterService, we need to configurer the formatter ourselves.
-        formatter.setUncertaintyNotation(notation);
-        String toString = formatter.format(el);
-        assertThat(toString)
-            .withFailMessage(() -> notation + ": toString of " + el.getValue() +"/" + el.getUncertainty() + " is " + toString + " but it should have been " + expected)
-            .isEqualTo(expected);
-        DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
-        assertThat(parsed.toString())
-            .withFailMessage(() -> notation+ ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is correct (" + toString + "), but parsing it again resulted "  + parsed.getValue() + "/" + parsed.getUncertainty())
-            .isEqualTo(expected);
+
+    private static final List<Case> cases = List.of(
+        new Case(1, 0.5,
+            "1.0",              "1",               "1.0 ± 0.5",                    "1.0(5)"),
+        new Case(1, 0.00001,
+            "1.000000",         "1",               "1.000000 ± 0.000010",          "1.000000(10)"),
+        new Case(1, 0.20,
+            "1.0",              "1",               "1.0 ± 0.2",                    "1.0(2)"),
+        new Case(1, 0.00001,
+            "1.000000",         "1",                "1.000000 ± 0.000010",          "1.000000(10)"),
+        new Case(-2.2967301287511077E-10, 0.000005551115123125783E-10,
+            "-2.296730·10⁻¹⁰",  "-2.29673·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰"),
+        new Case(1000, 0,
+            "1000",  "1000",  "1000",  "1000"),
+        new Case(6.62607015E-34, 0,
+            "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴"),
+        new Case(6.62607015E-34, 0.0005E-34,
+            "'6.6261·10⁻³⁴",                  "6.6261·10⁻³⁴", "(6.6261 ± 0.0005)·10⁻³⁴", "6.6261(5)·10⁻³⁴"),
+        new Case(1d, 0,
+            "1",                  "1", "1", "1")
+    );
+
+    public static Stream<Object[]> cases() {
+        return cases.stream().flatMap(c -> {
+            return Stream.of(
+                new Object[] {c.value, c.uncertaintity, ROUND_VALUE, c.rounded},
+                new Object[] {c.value, c.uncertaintity, ROUND_VALUE_AND_TRIM, c.roundedAndTrim},
+                new Object[] {c.value, c.uncertaintity, PLUS_MINUS, c.plusminus},
+                new Object[] {c.value, c.uncertaintity, PARENTHESES, c.parenthesis}
+            );
+        });
+    }
+
+    @ParameterizedTest
+    @MethodSource("cases")
+    public void notations(double value, double error, Notation notation, String expected) {
+        var el = DoubleElement.of(value,error);
+
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(notation))) {
+            // note that we bypassed FormatterService, we need to configurer the formatter ourselves.
+            formatter.setUncertaintyNotation(notation);
+            String toString = formatter.format(el);
+            assertThat(toString)
+                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is '" + toString + "' but it should have been '" + expected + "'")
+                .isEqualTo(expected);
+            DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
+            assertThat(parsed.eq(el))
+                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is correct (" + toString + "), but parsing it again resulted " + parsed.getValue() + "/" + parsed.getUncertainty())
+                .isTrue();
+        }
     }
 
     @ParameterizedTest
@@ -224,7 +248,8 @@ class UncertainDoubleFormatTest {
         DoubleElement doubleElement = formatter.parseObject(toString, parsePosition);
         assertThat(parsePosition.getIndex()).isEqualTo(toString.length());
         log.info("%s -> %s -> %s -> %s".formatted( d, from, toString, doubleElement.toString()));
-        assertThat(doubleElement.eq(from)).isTrue();
+        assertThat(doubleElement.eq(from))
+            .withFailMessage(doubleElement + " !eq " + from).isTrue();
 
     }
 

@@ -16,11 +16,13 @@ import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
+import org.meeuw.math.abstractalgebra.polynomial.PolynomialRing;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.arithmetic.ast.AST;
+import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
@@ -56,7 +58,7 @@ public class Calculator {
             "a * b * c * e",
             "a * b"
         ),
-        quaterniongroup(QuaternionGroup.INSTANCE, "i", "e" ),
+        quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i" ),
         dihedral3(DihedralGroup.D3,
             "r1 * r2",
             "s0 * r1 * s0"
@@ -64,6 +66,10 @@ public class Calculator {
         dihedral4(DihedralGroup.of(4),
             "r1 * r2",
             "s0 * r1 * s0 * s3"
+        ),
+        polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
+            "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\" ⋅ \"15·x² + 2·x³\"",
+            "\"x + 2x^2 + x^5\" + \"5 + 3/4x^2 - x^5\""
         )
         ;
 
@@ -99,7 +105,9 @@ public class Calculator {
         public static String[] elements(Magma<?> field) {
             Set<String> elements = new LinkedHashSet<>(field.getConstants().keySet());
             if (field.getCardinality().isCountable() && field instanceof  Streamable<?> streamable) {
-                streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+                try {
+                    streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
+                } catch (NotStreamable ignored) {}
             }
             return elements.toArray(new String[0]);
         }
@@ -115,7 +123,8 @@ public class Calculator {
 
 
 
-    public static String eval(final String expression, final String field) {
+    public static String eval(String input, final String field) {
+        final String expression = input.strip();
         try (var r = ConfigurationService.setConfiguration(cb -> cb
             .configure(UncertaintyConfiguration.class,
                 (ub) -> ub.withNotation(ROUND_VALUE))

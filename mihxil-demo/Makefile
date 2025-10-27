@@ -32,16 +32,19 @@ explore:
 	docker run  -$(HOME):/root:ro -it --entrypoint /bin/bash $(URL)
 
 run: index.html  ## run with cheerpj
-	npx serve -l 3001
+	npx serve -l 3000
 
 sass/%.css:
 
 resources/css/%.css: sass/%.scss
 	sass $< $@
 
+sasswatch:
+	sass --watch sass/:resources/css/
 
 
-index.html: README-source.adoc README-source-docinfo.html Makefile  resources/*  DEMO-*.adoc  resources/css/demo.css ## create index.html from README-source.adoc
+
+index.html: README-source.adoc README-source-docinfo.html Makefile  resources/css/demo.css  resources/css/calculator.css DEMO-*.adoc    ## create index.html from README-source.adoc
 	asciidoctor $< -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 

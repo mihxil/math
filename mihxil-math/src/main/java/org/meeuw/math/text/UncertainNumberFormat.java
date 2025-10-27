@@ -34,12 +34,12 @@ public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFo
     }
 
     @Override
-    DoubleElement of(String v, Factor factor) {
+    RealNumber exactly(String v, Factor factor) {
         throw new NotParsable.NotImplemented("Not supported yet. to parse number " + v + " (" + factor + ")");
     }
 
     @Override
-    DoubleElement of(String v, String uncertainty, Factor factor) {
+    RealNumber of(String v, String uncertainty, Factor factor) {
         return DoubleElement.of(Double.parseDouble(v), Double.parseDouble(uncertainty));
     }
 
@@ -54,8 +54,11 @@ public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFo
     }
 
     @Override
-    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
+    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value, boolean trim) {
         ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
+        if (trim) {
+            UncertainFormatUtils.trim(appendable, position);;
+        }
     }
 
 

@@ -106,22 +106,38 @@ public class Polynomial<E extends AbelianRingElement<E>> implements AbelianRingE
         StringBuilder b = new StringBuilder();
         for (int i = 0; i < coefficients.length; i++) {
             if (!coefficients[i].isZero()) {
-                if (!b.isEmpty()) {
-                    b.append(" + ");
+                String  s = coefficients[i].toString().trim();
+                boolean first = b.isEmpty();
+                if (s.startsWith("-")) {
+                    if (! first) {
+                        b.append(' ');
+                    }
+                    b.append("-");
+                    s = s.substring(1);
+                    if (! first) {
+                        b.append(' ');
+                    }
+                } else {
+                    if (s.startsWith("+")) {
+                        s = s.substring(1);
+                    }
+                    if (! first) {
+                        b.append(" + ");
+                    }
                 }
 
-                if (i != 0) {
-                    if (!coefficients[i].isOne()) {
-                        b.append(coefficients[i]);
+                if (s.isEmpty() || (! "1".equals(s) || i == 0)) {
+                    b.append(s);
+                    if (i > 0) {
+                        b.append(TextUtils.TIMES);
                     }
-                    b.append(TextUtils.TIMES);
+                }
+                if (i > 0) {
+
                     b.append(ring.getVariable());
                     if (i != 1) {
                         b.append(TextUtils.superscript(i));
                     }
-                } else {
-                    b.append(coefficients[i]);
-
                 }
             }
         }

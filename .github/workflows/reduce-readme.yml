@@ -2,23 +2,19 @@
 name: Reduce README
 on:
   push:
-    paths:
-    - README-source.adoc
-    - '*/README-source.adoc'
-    - '.github/workflows/reduce-readme.yml'
-    - '**/examples/**'
-    branches: ['**']
+    branches: ['main']
   workflow_dispatch:
 
 jobs:
   asciidoctor:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v5
+    - uses: actions/checkout@v5
     - name: Install Asciidoctor Reducer
       run: sudo gem install asciidoctor-reducer coderay
-    - name: Reduce README
+    - name: Reduce README's
       run: |
         for source in README-source.adoc */README-source.adoc ; do
           dest="${source%-source.adoc}.adoc"
@@ -29,4 +25,4 @@ jobs:
     - name: Commit and Push README
       uses: EndBug/add-and-commit@v9
       with:
-        add: '["README.adoc",  "mihxil-math/README.adoc", "mihxil-time/README.adoc", "mihxil-algebra/README.adoc", "mihxil-configuration/README.adoc", "mihxil-algebra/README.adoc", "mihxil-theories/README.adoc", "mihxil-shapes/README.adoc", "mihxil-statistics/README.adoc", "mihxil-demo/README.adoc", "mihxil-math-parser/README.adoc"]'
+        add: '["*README.adoc"]'

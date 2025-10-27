@@ -15,19 +15,18 @@
  */
 package org.meeuw.math.text;
 
-import static java.lang.Character.isDigit;
-import static java.lang.Character.isWhitespace;
-
-import java.text.ParsePosition;
-
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.text.ParsePosition;
 import java.util.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 import org.meeuw.math.numbers.Factor;
+
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isWhitespace;
 
 /**
  * @author Michiel Meeuwissen
@@ -50,10 +49,11 @@ public final class TextUtils {
     /**
      * @param i an integer
      * @since 0.19
+     * @return Number of digits appended
      */
     @SneakyThrows(IOException.class)
-    public static void superscript(Appendable a, long i)  {
-        script(a, i, SUPER_MINUS, SUPERSCRIPTS);
+    public static int superscript(Appendable a, long i)  {
+        return script(a, i, SUPER_MINUS, SUPERSCRIPTS);
     }
 
 
@@ -197,13 +197,16 @@ public final class TextUtils {
     /**
      * @since 0.19
      */
-    private static void script(Appendable bul, long i, char minusChar, char[] digits) throws IOException {
+    private static int script(Appendable bul, long i, char minusChar, char[] digits) throws IOException {
+        int count = 0;
         if (i < 0) {
             bul.append(minusChar);
+            count++;
             i = -1 * i;
         }
         if (i == 0) {
             bul.append(digits[0]);
+            count++;
         }
         char[] buf = new char[21];
         int pos = 0;
@@ -214,7 +217,9 @@ public final class TextUtils {
         }
         while (pos > 0) {
             bul.append(buf[--pos]);
+            count++;
         }
+        return count;
     }
 
     private static final char[] SUPERSCRIPTS = {

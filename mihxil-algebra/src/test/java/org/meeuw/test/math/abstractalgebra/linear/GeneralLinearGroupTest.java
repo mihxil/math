@@ -25,13 +25,15 @@ import org.meeuw.math.abstractalgebra.linear.InvertibleMatrix;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
-import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 import org.meeuw.math.abstractalgebra.vectorspace.NVector;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
+import org.meeuw.theories.abstractalgebra.WithScalarTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
 @Log
@@ -55,21 +57,23 @@ class GeneralLinearGroupTest {
 
     @Test
     void invalid() {
-        assertThatThrownBy(() -> {
-            // not square
-            InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
-                RealNumber.of(1), RealNumber.of(2),
-                RealNumber.of(3), RealNumber.of(4), RealNumber.of(5)
-            );
-        }).hasMessage("5 is not a square").isInstanceOf(InvalidElementCreationException.class);
+        try (var reset = withAspect(UncertaintyConfiguration.class, (c) -> c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM))) {
+            assertThatThrownBy(() -> {
+                // not square
+                InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
+                    RealNumber.of(1), RealNumber.of(2),
+                    RealNumber.of(3), RealNumber.of(4), RealNumber.of(5)
+                );
+            }).hasMessage("5 is not a square").isInstanceOf(InvalidElementCreationException.class);
 
-        assertThatThrownBy(() -> {
-            // not invertible
-            InvertibleMatrix.of(
-                RealNumber.of(1), RealNumber.of(2),
-                RealNumber.of(2), RealNumber.of(4)
-            );
-        }).hasMessage("The matrix ((1,2),(2,4)) is not invertible").isInstanceOf(InvalidElementCreationException.class);
+            assertThatThrownBy(() -> {
+                // not invertible
+                InvertibleMatrix.of(
+                    RealNumber.of(1), RealNumber.of(2),
+                    RealNumber.of(2), RealNumber.of(4)
+                );
+            }).hasMessage("The matrix ((1,2),(2,4)) is not invertible").isInstanceOf(InvalidElementCreationException.class);
+        }
     }
 
     @Test
