@@ -122,7 +122,7 @@ public class StatisticalDoubleTest implements
 
     @Test
     public void testWhenNoValues() {
-        StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
+        StatisticalDouble d1 = new StatisticalDoubleImpl();
         assertThatThrownBy(d1::getMean).isInstanceOf(DivisionByZeroException.class);
     }
 
