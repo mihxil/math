@@ -432,6 +432,13 @@ public class DoubleElement
         return FormatService.toString(this);
     }
 
+    /**
+     * For debugging this thing it is handier to just see the internal values exactly.
+     */
+    public String toDebugString() {
+        return value + " " + TextUtils.PLUSMIN + " " + uncertainty;
+    }
+
     @Override
     public long longValue() {
         return DoubleUtils.round(doubleValue());
