@@ -22,10 +22,14 @@ import org.meeuw.math.numbers.NumberOperations;
 import static org.meeuw.math.text.ScientificNotation.TIMES_10;
 
 /**
- * Split a double up in 2 numbers: a double approximately 1 (the 'coefficient'), and an integer
+ * The result of a split of number of type {@code N} in 2 parts: a number of (of type {@code N}) approximately 1 (the 'coefficient'), and an integer
  * indicating the order of magnitude (the 'exponent').
  * <p>
+ * It is e.g. used when constructing {@link ScientificNotation scientific notation}
+ * <p>
  * This is a protected utility. It's not a record, the fields are just access directly, and occasionally modified.
+ *
+ * @param <N> The type of the number. E.g. a {@link Double}
  */
 
 class SplitNumber<N extends Number> {
