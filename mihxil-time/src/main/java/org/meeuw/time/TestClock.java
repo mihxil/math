@@ -51,7 +51,7 @@ public class TestClock extends Clock implements Consumer<Duration> {
     }
 
     /**
-     * A test clock with fixed instant in 2020 (recent past)
+     * A test clock with fixed instant in 2020 (recent past), 2020-02-20T20:20, a thursday.
      */
     public static TestClock twentyTwenty() {
         ZoneId id = ZoneId.of("Europe/Amsterdam");
@@ -61,7 +61,7 @@ public class TestClock extends Clock implements Consumer<Duration> {
     }
 
      /**
-      * A test clock with fixed instant in 2200 (far future).
+      * A test clock with fixed instant in 2200 (far future). 2200-02-22T22:20, a thursday.
      */
     public static TestClock twentyTwo() {
         ZoneId id = ZoneId.of("Europe/Amsterdam");
