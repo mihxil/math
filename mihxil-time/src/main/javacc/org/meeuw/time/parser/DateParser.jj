@@ -60,6 +60,8 @@ class DateParser implements Supplier<ZonedDateTime> {
 
     private DynamicDateTime dynamicDateTime;
 
+    private boolean searchDown = true;
+
     protected void setDynamicDateTime(DynamicDateTime dynamicDateTime) {
         this.dynamicDateTime = dynamicDateTime;
         this.cal = getInstance();
@@ -414,6 +416,26 @@ void day_of_week() : {
 | "thursday" { setDayOfWeek(DayOfWeek.THURSDAY); }
 | "friday" {setDayOfWeek(DayOfWeek.FRIDAY);}
 | "saturday" { setDayOfWeek(DayOfWeek.SATURDAY); }
+| "business day" {
+    DayOfWeek currentDay = cal.getDayOfWeek();
+    DayOfWeek next;
+    if (searchDown) {
+
+        if (currentDay == DayOfWeek.MONDAY || currentDay == DayOfWeek.SUNDAY) {
+           next = DayOfWeek.FRIDAY;
+       } else {
+            next = currentDay.minus(1);
+       }
+    } else {
+       if (currentDay == DayOfWeek.FRIDAY || currentDay == DayOfWeek.SATURDAY) {
+          next = DayOfWeek.MONDAY;
+       } else {
+           next = currentDay.plus(1);
+       }
+    }
+    setDayOfWeek(next);
+}
+
 }
 void month_of_year() : {}
 {
@@ -433,9 +455,16 @@ void month_of_year() : {}
 
 void next() : {}
 {
-    <NEXT> { prev = cal; }
+    <NEXT> {
+    searchDown = false;
+    prev = cal;
+    }
 }
 void previous() : {}
 {
-    <PREVIOUS> { prev = cal; }
+    <PREVIOUS> {
+       searchDown = true;
+       prev = cal;
+
+    }
 }
