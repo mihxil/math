@@ -165,4 +165,5 @@ public interface NumberOperations<N extends Number> {
 
     N zero();
 
+    int precision(N coefficient);
 }
