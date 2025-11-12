@@ -103,13 +103,16 @@ class DynamicDateTimeTest {
 
     }
 
+    @Test
+    public void businessday() {
+        assertThat(dt.apply("next business day").toString()).isEqualTo("2020-02-21T00:00+01:00[Europe/Amsterdam]");
+        assertThat(dt.apply("previous business day").toString()).isEqualTo("2020-02-19T00:00+01:00[Europe/Amsterdam]");
 
-
+    }
 
     @Test
     @Disabled
     public void spring2005() {
-
         assertThat(dt.apply("2005-01-01 \"spring\"").toString()).isEqualTo("");
     }
 

@@ -2,14 +2,13 @@ package org.meeuw.time.parser;
 
 import lombok.Getter;
 import lombok.With;
+import lombok.extern.java.Log;
 
 import java.time.*;
 import java.time.chrono.Chronology;
 import java.time.temporal.WeekFields;
 import java.util.Locale;
 import java.util.Random;
-
-import lombok.extern.java.Log;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
