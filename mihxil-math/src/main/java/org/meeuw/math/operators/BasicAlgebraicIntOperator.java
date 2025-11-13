@@ -17,7 +17,6 @@ package org.meeuw.math.operators;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.Method;
 
@@ -31,7 +30,6 @@ import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
  * @author Michiel Meeuwissen
  * @since 0.14
  */
-@Log
 public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
 
     /**

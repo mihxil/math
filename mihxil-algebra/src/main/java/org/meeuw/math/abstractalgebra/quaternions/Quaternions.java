@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra.quaternions;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.util.Map;
 import java.util.Random;
@@ -33,6 +32,8 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.streams.StreamUtils;
 
+import static java.lang.System.Logger.Level.DEBUG;
+
 /**
  * The division ring of quaternions ℍ.
  * @author Michiel Meeuwissen
@@ -40,18 +41,18 @@ import org.meeuw.math.streams.StreamUtils;
  * @see org.meeuw.math.abstractalgebra.quaternions
  * @see Quaternion
  */
-@Log
 public class Quaternions<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<Quaternion<E>>
     implements DivisionRing<Quaternion<E>>, Streamable<Quaternion<E>> {
 
+    private static final System.Logger log = System.getLogger(Quaternions.class.getName());
     private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
     public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
         return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
             Quaternions<E> result = new Quaternions<>(numberFieldElement);
-            log.fine(() -> "Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
+            log.log(DEBUG, () -> "Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
             return result;
 
             }

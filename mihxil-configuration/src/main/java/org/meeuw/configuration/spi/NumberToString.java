@@ -1,8 +1,5 @@
 package org.meeuw.configuration.spi;
 
-import lombok.extern.java.Log;
-
-@Log
 public abstract class NumberToString<N extends Number> extends AbstractToString<N> {
 
     private final Class<?> primitiveType;

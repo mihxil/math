@@ -16,7 +16,6 @@
 package org.meeuw.math.streams;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -26,6 +25,7 @@ import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.text.TextUtils;
 
+import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.configuration.ReflectionUtils.commonSuperClass;
 
 /**
@@ -101,8 +101,10 @@ import static org.meeuw.configuration.ReflectionUtils.commonSuperClass;
  *
  *
  */
-@Log
 public class CartesianSpliterator<E> implements Spliterator<E[]> {
+
+    private static final System.Logger log = System.getLogger(CartesianSpliterator.class.getName());
+
 
     static final int maxSplit = 3;
 
@@ -137,7 +139,6 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
         this.initiallyRemaining = state.init();
     }
 
-    @SuppressWarnings("unchecked")
     private CartesianSpliterator(CartesianSpliterator<E> source) {
         this.generators = source.generators;
         this.size = source.size;
@@ -168,7 +169,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
             action.accept(state.copyOfCurrent());
             return true;
         } else {
-            log.fine("Reached end");
+            log.log(DEBUG, "Reached end");
             return false;
         }
     }
@@ -247,16 +248,14 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
             }
             result = (Class<E>) commonSuperClass (classes).getFirst();
         }
-        log.fine("Found common super class " + classes + " -> " + result.getCanonicalName());
+        log.log(DEBUG,"Found common super class " + classes + " -> " + result.getCanonicalName());
         return result;
     }
 
     @SuppressWarnings("unchecked")
     private static <E> Supplier<Spliterator<? extends E>>[] fill(Supplier<Spliterator<? extends E>> generator, int count) {
         Supplier<Spliterator<? extends E>>[] generators = new Supplier[count];
-        for (int i = 0; i < count; i++) {
-         generators[i] = generator;
-        }
+        Arrays.fill(generators, generator);
         return generators;
     }
 
@@ -363,7 +362,7 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                 }
                 skips++;
             }
-            log.finer("Cannot shift. End of stream");
+            log.log(DEBUG,"Cannot shift. End of stream");
             return false;
         }
         /**
@@ -380,11 +379,11 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                 })) {
                     return true;
                 } else {
-                    log.finer("Empty iterator found");
+                    log.log(DEBUG,"Empty iterator found");
                     return false;
                 }
             } else {
-                log.finer(() -> "Couldn't initialize"); // this can only happen at the first few elements
+                log.log(DEBUG,() -> "Couldn't initialize"); // this can only happen at the first few elements
                 return false;
             }
         }
@@ -423,14 +422,14 @@ public class CartesianSpliterator<E> implements Spliterator<E[]> {
                     }
                     )) {
                         // success, so ok
-                        log.finer(() -> "Advanced iterator at " + elementToAdvance + " " + current[elementToAdvance]);
+                        log.log(DEBUG,() -> "Advanced iterator at " + elementToAdvance + " " + current[elementToAdvance]);
                         return true;
                     } else {
-                        log.finer(() -> "Element at " + elementToAdvance + " could not be advanced because the iterator is exhausted");
+                        log.log(DEBUG,() -> "Element at " + elementToAdvance + " could not be advanced because the iterator is exhausted");
                         return carry(elementToAdvance);
                     }
                 } else {
-                    log.finer(() -> "Element at " + elementToAdvance + " could not be advanced because that would advance it after element limit " + elementLimit);
+                    log.log(DEBUG,() -> "Element at " + elementToAdvance + " could not be advanced because that would advance it after element limit " + elementLimit);
                     return carry(elementToAdvance);
                 }
             } else {

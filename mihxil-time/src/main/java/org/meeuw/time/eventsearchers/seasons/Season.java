@@ -1,7 +1,6 @@
 package org.meeuw.time.eventsearchers.seasons;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.time.Instant;
 import java.time.Year;
@@ -11,12 +10,13 @@ import java.util.function.Function;
 
 import org.meeuw.time.eventsearchers.impl.Event;
 
+import static java.lang.System.Logger.Level.DEBUG;
+
 
 /*
  * @author Michiel Meeuwissen
  * @since 0.19
  */
-@Log
 public enum Season implements Event, Function<Year, Instant> {
 
     /**
@@ -36,6 +36,8 @@ public enum Season implements Event, Function<Year, Instant> {
      */
     FALL("Autumnal Equinox");
 
+
+    private static final System.Logger log = System.getLogger(Season.class.getName());
 
     private static final Map<String, Season> lookup;
 
@@ -189,7 +191,7 @@ public enum Season implements Event, Function<Year, Instant> {
 
         if (year < 1000 || year > 3000) {
             // Meeus algorithm does not support years before 1000 or after 3000
-            log.fine(() -> "Year (%d) must be between 1000 and 3000. Result may be unprecise".formatted(year));
+            log.log(DEBUG, () -> "Year (%d) must be between 1000 and 3000. Result may be unprecise".formatted(year));
         }
 
 

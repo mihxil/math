@@ -1,14 +1,16 @@
 package org.meeuw.configuration;
 
-import lombok.extern.java.Log;
-
 import java.util.*;
 import java.util.stream.Stream;
 
 import org.meeuw.configuration.spi.ToStringProvider;
 
-@Log
+import static java.lang.System.Logger.Level.DEBUG;
+
 public class StringConversionService {
+
+    private static final System.Logger log = System.getLogger(StringConversionService.class.getName());
+
 
     private StringConversionService() {
 
@@ -20,7 +22,7 @@ public class StringConversionService {
             .map(tp -> {
                     String result = tp.toString(value).orElse(null);
                     if (result != null) {
-                        log.fine(() -> String.format("%s -> %s", tp, result));
+                        log.log(DEBUG, () -> String.format("%s -> %s", tp, result));
                     }
                     return result;
                 }

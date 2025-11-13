@@ -38,14 +38,20 @@ public class UncertainFormatUtils {
     /**
      * @since 0.19
      */
-    static void valuePlusMinError(StringBuffer appendable, Format format, FieldPosition position, Object value, Object error) {
+    static void valuePlusMinError(StringBuffer appendable, Format format, FieldPosition position, Object value, @Nullable Object error) {
         format.format(value, appendable, position);
         appendable.append(' ');
         appendable.append(TextUtils.PLUSMIN);
         appendable.append(' ');
 
         final int before = appendable.length();
-        format.format(error, appendable, position);
+        if (error != null) {
+            try {
+                format.format(error, appendable, position);
+            } catch (IllegalArgumentException iae) {
+                throw new IllegalArgumentException(error + ":" + iae.getMessage(), iae.getCause());
+            }
+        }
          // remove error indication again if it contains only zeros
         int i = before;
         while (i < appendable.length() && (appendable.charAt(i) == '0' || appendable.charAt(i) == '.')) {
@@ -70,14 +76,22 @@ public class UncertainFormatUtils {
     }
 
     /**
+     * Value with error indication notated with parentheses, no scientific notation
+
      * @since 0.19
      */
     static void valueParenthesesError(StringBuffer appendable, Format format, FieldPosition pos, Object value, Object error) {
         format.format(value, appendable, pos);
         appendable.append('(');
         final int before = appendable.length();
-        format.format(error, appendable, pos);
-        // remove error indication again if it contains only zerors
+        if (error != null) {
+            try {
+                format.format(error, appendable, pos);
+            } catch (IllegalArgumentException illegalArgumentException) {
+                throw new IllegalArgumentException(error + ":" + illegalArgumentException.getMessage(), illegalArgumentException.getCause());
+            }
+        }
+        // remove error indication again if it contains only zeros
         int i = before;
         while (i < appendable.length() && (appendable.charAt(i) == '0' || appendable.charAt(i) == '.')) {
             i++;

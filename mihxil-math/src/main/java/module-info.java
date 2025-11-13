@@ -39,8 +39,6 @@ module org.meeuw.math {
     requires static ch.obermuhlner.math.big;
     requires static jakarta.validation;
 
-    requires java.logging;
-
     requires org.meeuw.functional;
     requires org.meeuw.configuration;
 

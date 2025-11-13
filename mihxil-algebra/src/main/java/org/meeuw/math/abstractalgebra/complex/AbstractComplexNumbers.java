@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra.complex;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -36,7 +35,6 @@ import org.meeuw.math.abstractalgebra.*;
  * @param <E> type of real and imaginary fields
  * @see AbstractComplexNumber
  */
-@Log
 public abstract class AbstractComplexNumbers<
     S extends AbstractComplexNumber<S, E, ES>,
     E extends ScalarFieldElement<E>,

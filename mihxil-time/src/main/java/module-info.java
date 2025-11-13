@@ -33,7 +33,6 @@ module org.meeuw.time {
 
     requires static lombok;
     requires static org.checkerframework.checker.qual;
-    requires java.logging;
 
     requires org.meeuw.math;
     requires org.meeuw.configuration;

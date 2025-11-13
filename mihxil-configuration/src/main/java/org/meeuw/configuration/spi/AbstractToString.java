@@ -1,14 +1,16 @@
 package org.meeuw.configuration.spi;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-@Log
+import static java.lang.System.Logger.Level.WARNING;
+
 public abstract class AbstractToString<N> implements ToStringProvider<N> {
+
+    System.Logger log = System.getLogger(AbstractToString.class.getName());
 
     @Getter
     protected final Class<?> type;
@@ -40,7 +42,7 @@ public abstract class AbstractToString<N> implements ToStringProvider<N> {
                 try {
                     return valueOf(value);
                 } catch(RuntimeException iae) {
-                    log.warning(value + "->" + t + ":" + iae.getClass().getName() + ":" + iae.getMessage());
+                    log.log(WARNING, value + "->" + t + ":" + iae.getClass().getName() + ":" + iae.getMessage());
                     return null;
                 }
             });

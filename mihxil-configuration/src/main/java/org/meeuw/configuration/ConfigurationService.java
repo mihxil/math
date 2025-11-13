@@ -15,13 +15,12 @@
  */
 package org.meeuw.configuration;
 
-import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.function.*;
-import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 
+import static java.lang.System.Logger.Level.*;
 
 /**
  * A set of static methods to maintain a thread local {@link Configuration}. Every configuration has a set of {@link ConfigurationAspect} and values.
@@ -39,8 +38,9 @@ import java.util.prefs.BackingStoreException;
  * @since 0.7
  */
 
-@Log
 public class ConfigurationService {
+
+    private static final System.Logger log = System.getLogger(ConfigurationService.class.getName());
 
     private ConfigurationService() {
     }
@@ -61,7 +61,7 @@ public class ConfigurationService {
         readDefaults();
         ConfigurationPreferences.addPreferenceChangeListener(DEFAULT);
         storeDefaults();
-        log.info(() -> "Set up " + ConfigurationPreferences.getUserPreferences());
+        log.log(System.Logger.Level.INFO, () -> "Set up " + ConfigurationPreferences.getUserPreferences());
     }
 
     public static final ThreadLocal<Configuration> CONFIGURATION =
@@ -141,7 +141,7 @@ public class ConfigurationService {
             ConfigurationPreferences.sync();
             return true;
         } catch (BackingStoreException bs) {
-            log.warning(bs.getClass().getName() + ": " + bs.getMessage());
+            log.log(System.Logger.Level.WARNING, bs.getClass().getName() + ": " + bs.getMessage());
             return false;
         }
     }
@@ -271,12 +271,12 @@ public class ConfigurationService {
                     break;
                 }
                 ConfigurationAspect configurationAspect = iterator.next();
-                log.finer(() -> "Found " + configurationAspect.getClass().getCanonicalName());
+                log.log(DEBUG,() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
             } catch (ServiceConfigurationError se) {
-                log.log(Level.WARNING, se.getMessage(), se);
+                log.log(WARNING, se.getMessage(), se);
             } catch (Throwable e) {
-                log.log(Level.SEVERE, e.getMessage(), e);
+                log.log(ERROR, e.getMessage(), e);
             }
         }
         return new FixedSizeMap<>(m);

@@ -16,7 +16,6 @@
 package org.meeuw.math.text;
 
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.text.Format;
 import java.text.ParsePosition;
@@ -26,12 +25,14 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.configuration.*;
+import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.AlgebraicStructure;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
+import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.configuration.ConfigurationService.getConfiguration;
 
 /**
@@ -39,8 +40,10 @@ import static org.meeuw.configuration.ConfigurationService.getConfiguration;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log
 public final class FormatService {
+
+    private static final System.Logger log = System.getLogger(FormatService.class.getName());
+
 
     private static final ThreadLocal<AlgebraicStructure<?>> CURRENT_STRUCTURE = ThreadLocal.withInitial(() -> null);
 
@@ -92,11 +95,11 @@ public final class FormatService {
     public static String toString(@NonNull AlgebraicElement<?> object, Configuration configuration) {
         return getFormat(object, configuration)
             .map(f -> {
-                log.fine(() -> "" + f);
+                log.log(DEBUG, () -> "" + f);
                 try {
                     return f.format(object);
                 } catch (IllegalArgumentException iea) {
-                    log.fine(iea.getMessage());
+                    log.log(DEBUG,iea.getMessage());
                     return null;
                 }
             })
@@ -123,7 +126,7 @@ public final class FormatService {
                 ParsePosition pos = new ParsePosition(0);
                 E parsed =  (E) f.parseObject(source, pos);
                 if (pos.getErrorIndex() > 0 || pos.getIndex() != source.length()) {
-                    log.fine(() -> "Could not parse '" + source + "' with " + f);
+                    log.log(DEBUG,() -> "Could not parse '" + source + "' with " + f);
                     return null;
                 }
                 return parsed;

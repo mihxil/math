@@ -1,8 +1,5 @@
 package org.meeuw.configuration.spi;
 
-import lombok.extern.java.Log;
-
-@Log
 public class FloatToString extends NumberToString<Float> {
 
     public FloatToString() {

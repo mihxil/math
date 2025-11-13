@@ -15,12 +15,9 @@
  */
 package org.meeuw.math.text;
 
-import java.text.FieldPosition;
-
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.NotParsable;
-import org.meeuw.math.numbers.*;
+import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -34,32 +31,8 @@ public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFo
     }
 
     @Override
-    RealNumber exactly(String v, Factor factor) {
-        throw new NotParsable.NotImplemented("Not supported yet. to parse number " + v + " (" + factor + ")");
-    }
-
-    @Override
     RealNumber of(String v, String uncertainty, Factor factor) {
         return DoubleElement.of(Double.parseDouble(v), Double.parseDouble(uncertainty));
     }
-
-    @Override
-    protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
-        UncertainFormatUtils.valueParenthesesError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
-    }
-
-    @Override
-    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value) {
-        UncertainFormatUtils.valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
-    }
-
-    @Override
-    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainNumber<?> value, boolean trim) {
-        ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
-        if (trim) {
-            UncertainFormatUtils.trim(appendable, position);;
-        }
-    }
-
 
 }

@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
-import lombok.extern.java.Log;
-
 import org.meeuw.math.abstractalgebra.*;
 
 /**
@@ -26,7 +24,6 @@ import org.meeuw.math.abstractalgebra.*;
  * @param <S> structure element type
  * @param <E> type of real and imaginary fields
  */
-@Log
 public abstract class CompleteComplexNumbers<
     S extends CompleteComplexNumber<S, E, ES>,
     E extends CompleteScalarFieldElement<E>,

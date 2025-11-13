@@ -15,11 +15,8 @@
  */
 package org.meeuw.math.operators;
 
-import java.util.function.UnaryOperator;
-
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,7 +32,6 @@ import static org.meeuw.math.text.TextUtils.superscript;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log
 public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     /**

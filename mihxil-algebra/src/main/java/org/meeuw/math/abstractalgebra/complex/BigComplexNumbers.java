@@ -15,8 +15,6 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
-import lombok.extern.java.Log;
-
 import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteField;
@@ -30,7 +28,6 @@ import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
  * @author Michiel Meeuwissen
  * @since 0.8
  */
-@Log
 @Example(CompleteField.class)
 @Singleton
 public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, BigDecimalElement, BigDecimalField> {

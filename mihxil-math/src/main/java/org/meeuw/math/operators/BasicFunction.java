@@ -17,7 +17,6 @@ package org.meeuw.math.operators;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,9 +25,9 @@ import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.numbers.SizeableScalar;
 import org.meeuw.math.text.TextUtils;
 
+import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
-@Log
 public enum BasicFunction implements GenericFunction {
 
     /**
@@ -49,6 +48,7 @@ public enum BasicFunction implements GenericFunction {
      */
     INTEGER(getDeclaredMethod(SizeableScalar.class, "bigIntegerValue"), (s) -> "⌊" + s + "⌉");
 
+    private static final System.Logger log = System.getLogger(BasicFunction.class.getName());
     @Getter
     final Method method;
 
@@ -67,7 +67,7 @@ public enum BasicFunction implements GenericFunction {
             try {
                 return (R) method.invoke(t);
             } catch (IllegalArgumentException iae) {
-                log.fine(this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
+                log.log(DEBUG, this + " on " + t + " but " + t.getClass() + " not a " + method.getDeclaringClass());
                 return (R) t.getClass().getMethod(method.getName(), method.getParameterTypes()).invoke(t);
             }
         } catch (InvocationTargetException ex) {

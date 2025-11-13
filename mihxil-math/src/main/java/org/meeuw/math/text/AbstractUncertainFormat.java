@@ -25,16 +25,18 @@ import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PLUS_MINUS;
-import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.*;
 
 /**
+ * An abstract extension of {@link Format}, targeted at formatting (and parsing) 'uncertain' numbers.
+ * <p>
+ * Parsing is fully implemented here, formatting is done by extensions.
+ *
  * @author Michiel Meeuwissen
  * @since 0.19
  * @param <F> formattable
@@ -55,7 +57,7 @@ public abstract class AbstractUncertainFormat<
     /**
      * The minimum exponent defined how close a number must be to 1, to not use scientific notation
      * for it. Defaults to 4, which means that numbers between 0.0001 and 10000 (and -0.0001 and
-     * -10000) are presented without useage of scientific notation
+     * -10000) are presented without usage of scientific notation
      * <p>
      * This is used in {@link #toString()}
      */
@@ -65,23 +67,40 @@ public abstract class AbstractUncertainFormat<
 
     @Getter
     @Setter
-    protected Notation uncertaintyNotation = PLUS_MINUS;
+    protected Notation uncertaintyNotation = Notation.PLUS_MINUS;
 
     @Getter
     @Setter
     protected double considerRoundingErrorFactor = 1000d;
 
+    /**
+     * The amount of precision shown will be based on the uncertainty in the value,
+     * but if for instant the value happens to be not uncertain at all the number of
+     * shown digits can be limited with this.
+     * <p>
+     * Defaults to {@link Integer#MAX_VALUE}, which practicly amounts to no restrictions at all.
+     */
     @Getter
     @Setter
     protected int maximalPrecision = Integer.MAX_VALUE;
 
+    /**
+     * The basic {@link NumberFormat} to use. Decides things like the decimal separator to use,
+     * and whether, and which grouping separator.
+     */
     @Getter
     @Setter
     private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
+    /**
+     * The instance of {@link ScientificNotation} which will be used to perform scientific notation
+     */
     @Getter
     final ScientificNotation<N> scientific;
 
+    /**
+     * The class of the supported {@link UncertainNumber}.
+     */
     private final Class<? extends F> clazz;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -91,13 +110,13 @@ public abstract class AbstractUncertainFormat<
         ;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public final StringBuffer format(Object number, @lombok.NonNull StringBuffer toAppendTo, @lombok.NonNull FieldPosition pos) {
         if (clazz.isInstance(number)) {
             valueAndError(toAppendTo,
                 pos,
-                (F) number,
-                getUncertaintyNotation());
+                (F) number);
             return toAppendTo;
         } else {
             throw new IllegalArgumentException("Cannot format given Object " + number.getClass() + " as a Number");
@@ -109,7 +128,9 @@ public abstract class AbstractUncertainFormat<
      * Parses a value of the {@code P}
      * @param factor
      */
-    abstract P exactly(String v, Factor factor);
+    P exactly(String v, Factor factor) {
+        return of(v, "0", factor);
+    }
 
     abstract P of(String v, String uncertainty, Factor factor);
 
@@ -227,8 +248,6 @@ public abstract class AbstractUncertainFormat<
                 String uncertaintyStr = valueStr.substring(firstDigit, valueStr.length() - errorDigits.length()).replaceAll("\\d", "0") + errorDigits;
                 Factor factor = TextUtils.parsePower(source, pos);
                 return of(valueStr, uncertaintyStr,  factor);
-
-
             } else {
                 // Value and uncertainty
                 final String valueStr = source.substring(start, plusminIndex).trim();
@@ -275,19 +294,35 @@ public abstract class AbstractUncertainFormat<
     /**
      * Performs the switch on notation.
      */
-    protected void valueAndError(StringBuffer appendable, FieldPosition position, F value, UncertaintyConfiguration.Notation uncertaintyNotation) {
-        switch (uncertaintyNotation) {
-            case PARENTHESES -> valueParenthesesError(appendable, position, value);
-            case PLUS_MINUS -> valuePlusMinError(appendable,  position, value);
-            case ROUND_VALUE -> valueRound(appendable, position, value, false);
+    protected void valueAndError(StringBuffer appendable, FieldPosition position, F value) {
+        switch (getUncertaintyNotation()) {
+            case PARENTHESES ->
+                valueParenthesesError(appendable, position, value);
+            case PLUS_MINUS ->
+                valuePlusMinError(appendable,  position, value);
+            case ROUND_VALUE ->
+                valueRound(appendable, position, value, false);
             case ROUND_VALUE_AND_TRIM -> {
                 valueRound(appendable, position, value, true);
             }
         }
     }
-    protected abstract void valueParenthesesError(StringBuffer appendable, FieldPosition position, F value);
-    protected abstract void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value);
-    protected abstract void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim);
+
+    protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, F value) {
+        UncertainFormatUtils.valueParenthesesError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+    }
+
+
+    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value) {
+        UncertainFormatUtils.valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+    }
+
+    protected void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
+        ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
+        if (trim) {
+            UncertainFormatUtils.trim(appendable, position);;
+        }
+    }
 
 
 }

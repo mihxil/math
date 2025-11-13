@@ -16,7 +16,6 @@
 package org.meeuw.math.text;
 
 
-import java.math.BigDecimal;
 import java.text.FieldPosition;
 
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
@@ -32,7 +31,6 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @since 0.4
  */
 public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDouble<?>, DoubleElement, Double> {
-
 
 
     DoubleOperations ops;
@@ -58,10 +56,10 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
         double value = scientific.fromString(valueStr);
         double uncertainty = scientific.fromString(uncertaintyStr);
         DoubleElement element = DoubleElement.of(value, uncertainty);
-        BigDecimal decimal = BigDecimal.valueOf(uncertainty);
         return (DoubleElement) factor.apply(element);
 
     }
+
 
     @Override
     protected void valueParenthesesError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
@@ -81,17 +79,19 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
         }
     }
 
-    protected void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
+    protected final void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber)  {
         if (uncertainNumber.isExact()) {
             scientific.format(
                 uncertainNumber.getValue(),
                 uncertainNumber.getUncertainty(),
-                appendable, position);
+                appendable,
+                position);
         } else if (roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
             scientific.format(
                 uncertainNumber.getValue(),
                 uncertainNumber.getUncertainty(),
-                appendable, position);
+                appendable,
+                position);
         } else {
             scientific.formatWithUncertainty(
                 uncertainNumber.getValue(),
@@ -101,6 +101,22 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
             );
         }
     }
+
+
+    /*
+     protected final void valueAndError(StringBuffer appendable, FieldPosition position, F value) {
+        switch (getUncertaintyNotation()) {
+            case PARENTHESES ->
+                valueParenthesesError(appendable, position, value);
+            case PLUS_MINUS ->
+                valuePlusMinError(appendable,  position, value);
+            case ROUND_VALUE ->
+                valueRound(appendable, position, value, false);
+            case ROUND_VALUE_AND_TRIM -> {
+                valueRound(appendable, position, value, true);
+            }
+        }
+    }*/
 
 
 

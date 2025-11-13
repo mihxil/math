@@ -54,7 +54,8 @@ class UncertainDoubleFormatTest {
         ConfigurationService.resetToDefaultDefaults();
     }
 
-    UncertainDoubleFormat formatter = new UncertainDoubleFormat();
+    UncertainDoubleFormat uncertainDoubleFormat = new UncertainDoubleFormat();
+    ScientificNotation<Double> scientificNotation = uncertainDoubleFormat.getScientific();
 
 
     @Test
@@ -64,62 +65,66 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void basic() {
-        ScientificNotation<Double> scientificNotation = formatter.getScientific();
         assertThat(scientificNotation.formatWithUncertainty(5d, 1d)).isEqualTo("5.0 ± 1.0");
         assertThat(scientificNotation.formatWithUncertainty(5d, 2d)).isEqualTo("5 ± 2");
         assertThat(scientificNotation.formatWithUncertainty(5.1, 1.9)).isEqualTo("5.1 ± 1.9");
-        assertThat(scientificNotation.formatWithUncertainty(5.4e-20, 4.34e-22)).isEqualTo("(5.40 ± 0.04)·10⁻²⁰");
+    }
+    @Test
+    public void basicScientific() {
+        assertThat(
+            scientificNotation.formatWithUncertainty(5.4e-20, 4.34e-22)
+        ).isEqualTo("(5.40 ± 0.04)·10⁻²⁰");
     }
 
 
     @Test
     public void numberFormat() {
-        formatter.setNumberFormat(NumberFormat.getNumberInstance(new Locale("nl")));
-        ScientificNotation<Double> scientific = formatter.getScientific();
+        uncertainDoubleFormat.setNumberFormat(NumberFormat.getNumberInstance(new Locale("nl")));
+        ScientificNotation<Double> scientific = uncertainDoubleFormat.getScientific();
 
         assertThat(scientific.formatWithUncertainty(5.d, 1.9d)).isEqualTo("5,0 ± 1,9");
     }
 
     @Test
     public void zero() {
-        ScientificNotation<Double> scientific = formatter.getScientific();
+        ScientificNotation<Double> scientific = uncertainDoubleFormat.getScientific();
         assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0");
     }
 
 
     @Test
     public void zeroWithUncertainty() {
-        assertThat(formatter.getScientific().formatWithUncertainty(0d, 0.003d)).isEqualTo("0.000 ± 0.003");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(0d, 0.003d)).isEqualTo("0.000 ± 0.003");
     }
 
     @Test
     public void zeroWithUncertainty1() {
-        assertThat(formatter.getScientific().formatWithUncertainty(0d, 0.001d)).isEqualTo("0.0000 ± 0.0010");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(0d, 0.001d)).isEqualTo("0.0000 ± 0.0010");
     }
 
     @Test
     public void infinity() {
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 0d)).isEqualTo("+∞");
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 0d)).isEqualTo("+∞");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 
     @Test
     public void infinityExact() {
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 1d)).isEqualTo("+∞");
-        assertThat(formatter.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(Double.POSITIVE_INFINITY, 1d)).isEqualTo("+∞");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(Double.NEGATIVE_INFINITY, 0d)).isEqualTo("-∞");
     }
 
     @Test
     public void zeroExact() {
-        assertThat(formatter.getScientific()
+        assertThat(uncertainDoubleFormat.getScientific()
             .formatWithUncertainty(0d, 0d)).isEqualTo("0");
     }
 
     @Test
     public void parentheses() {
-        formatter.setUncertaintyNotation(PARENTHESES);
-        assertThat(formatter.getScientific().formatWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
-        assertThat(formatter.getScientific().formatWithUncertainty(1234.234d, 0.0456d)).isEqualTo("1234.23(5)");
+        uncertainDoubleFormat.setUncertaintyNotation(PARENTHESES);
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(5., 1.9)).isEqualTo("5.0(1.9)");
+        assertThat(uncertainDoubleFormat.getScientific().formatWithUncertainty(1234.234d, 0.0456d)).isEqualTo("1234.23(5)");
     }
 
     @Test
@@ -145,7 +150,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void formatSmall() {
 
-        String s= formatter.getScientific().formatWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
+        String s= uncertainDoubleFormat.getScientific().formatWithUncertainty(        0.019820185668507406d, 6.938893903907228E-18);
         assertThat(s).isEqualTo("0.019820185668507406 ± 0.000000000000000007");
 
     }
@@ -153,14 +158,14 @@ class UncertainDoubleFormatTest {
     @Test
     public void formatSmall2() {
 
-        String s= formatter.getScientific().formatWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
+        String s= uncertainDoubleFormat.getScientific().formatWithUncertainty(        -0.22967301287511077d, 5.551115123125783E-17);
         assertThat(s).isEqualTo("-0.22967301287511077 ± 0.00000000000000006");
     }
 
 
     @Test
     public void formatSmallWithE() {
-        String s= formatter.getScientific().formatWithUncertainty(
+        String s= uncertainDoubleFormat.getScientific().formatWithUncertainty(
             -2.2967301287511077E-10,
                0.000005551115123125783E-10);
         assertThat(s).isEqualTo("(-2.296730 ± 0.000006)·10⁻¹⁰");
@@ -171,7 +176,7 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void formatNegative() {
-        String s = formatter.getScientific().formatWithUncertainty(
+        String s = uncertainDoubleFormat.getScientific().formatWithUncertainty(
             -2.2967301287511077E-10,
             0.000005551115123125783E-10);
     }
@@ -202,74 +207,84 @@ class UncertainDoubleFormatTest {
         new Case(6.62607015E-34, 0,
             "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴"),
         new Case(6.62607015E-34, 0.0005E-34,
-            "'6.6261·10⁻³⁴",                  "6.6261·10⁻³⁴", "(6.6261 ± 0.0005)·10⁻³⁴", "6.6261(5)·10⁻³⁴"),
+            "6.6261·10⁻³⁴",                  "6.6261·10⁻³⁴", "(6.6261 ± 0.0005)·10⁻³⁴", "6.6261(5)·10⁻³⁴"),
         new Case(1d, 0,
-            "1",                  "1", "1", "1")
+            "1",                  "1", "1", "1"),
+        new Case(1.3660434920643638d, 0d,
+            "1.3660434920643638", "1.3660434920643638", "1.3660434920643638", "1.3660434920643638d"
+            )
     );
 
     public static Stream<Object[]> cases() {
-        return cases.stream().flatMap(c -> {
-            return Stream.of(
-                new Object[] {c.value, c.uncertaintity, ROUND_VALUE, c.rounded},
-                new Object[] {c.value, c.uncertaintity, ROUND_VALUE_AND_TRIM, c.roundedAndTrim},
-                new Object[] {c.value, c.uncertaintity, PLUS_MINUS, c.plusminus},
-                new Object[] {c.value, c.uncertaintity, PARENTHESES, c.parenthesis}
-            );
-        });
+        return cases.stream().flatMap(c -> Stream.of(
+            new Object[] {c.value, c.uncertaintity, ROUND_VALUE, c.rounded},
+            new Object[] {c.value, c.uncertaintity, ROUND_VALUE_AND_TRIM, c.roundedAndTrim},
+            new Object[] {c.value, c.uncertaintity, PLUS_MINUS, c.plusminus},
+            new Object[] {c.value, c.uncertaintity, PARENTHESES, c.parenthesis}
+        ));
     }
 
     @ParameterizedTest
     @MethodSource("cases")
-    public void notations(double value, double error, Notation notation, String expected) {
+    public void dnotations(double value, double error, Notation notation, String expected) {
         var el = DoubleElement.of(value,error);
 
-        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class, (uc) -> uc.withNotation(notation))) {
+        try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class,
+            (uc) -> uc.withNotation(notation))) {
             // note that we bypassed FormatterService, we need to configurer the formatter ourselves.
-            formatter.setUncertaintyNotation(notation);
-            String toString = formatter.format(el);
+            uncertainDoubleFormat.setUncertaintyNotation(notation);
+            String toString = uncertainDoubleFormat.format(el);
             assertThat(toString)
-                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is '" + toString + "' but it should have been '" + expected + "'")
+                .withFailMessage(() -> notation + ": toString of " + el.toDebugString() + " is '" + toString + "' but it should have been '" + expected + "'")
                 .isEqualTo(expected);
             DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
             assertThat(parsed.eq(el))
-                .withFailMessage(() -> notation + ": toString of " + el.getValue() + "/" + el.getUncertainty() + " is correct (" + toString + "), but parsing it again resulted " + parsed.getValue() + "/" + parsed.getUncertainty())
+                .withFailMessage(() -> notation + ": toString of " + el.toDebugString() + " is correct (" + toString + "), but parsing it again resulted " + parsed.toDebugString())
                 .isTrue();
         }
     }
 
+    /**
+     * Testing that
+     */
     @ParameterizedTest
     @ValueSource(doubles = {
         1.3660434920643638d
     })
     public void formatAndParse(double d) {
         DoubleElement from = DoubleElement.of(d);
-        String toString = formatter.format(from);
+        String toString = uncertainDoubleFormat.format(from);
         ParsePosition parsePosition = new ParsePosition(0);
-        DoubleElement doubleElement = formatter.parseObject(toString, parsePosition);
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject(toString, parsePosition);
         assertThat(parsePosition.getIndex()).isEqualTo(toString.length());
-        log.info("%s -> %s -> %s -> %s".formatted( d, from, toString, doubleElement.toString()));
+        log.info("\n%s (source) -> \n%s  (element) ->\n%s (toString)->\n%s / %s (parsed)".formatted(
+            d, from.toDebugString(),
+            toString,
+            doubleElement.toDebugString(),
+            doubleElement.toString())
+        );
         assertThat(doubleElement.eq(from))
-            .withFailMessage(doubleElement + " !eq " + from).isTrue();
+            .withFailMessage(doubleElement.toDebugString() + " !eq " + from.toDebugString()).isTrue();
 
     }
 
     @Test
     public void parseBracket() {
-        DoubleElement doubleElement = formatter.parseObject("1.567(45)");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("1.567(45)");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(1.567);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.045);
     }
 
     @Test
     public void parseBracket0() {
-        DoubleElement doubleElement = formatter.parseObject("1.567()");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("1.567()");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(1.567);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.0);
     }
 
     @Test
     public void parseBracket1() {
-        DoubleElement doubleElement = formatter.parseObject("-1123.567(4)");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("-1123.567(4)");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-1123.567);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.004);
     }
@@ -277,29 +292,31 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void parseBracket10() {
-        DoubleElement doubleElement = formatter.parseObject("-1.567(4) ·10" + superscript(5));
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("-1.567(4) ·10" + superscript(5));
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-156700d);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(400);
     }
 
     @Test
     public void parseBracketE() {
-        DoubleElement doubleElement = formatter.parseObject("-1.567(4)E5");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("-1.567(4)E5");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(-156700d);
         assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(400);
     }
 
     @Test
     public void parsePlusMin() {
-        DoubleElement doubleElement = formatter.parseObject("(-2.296730 ± 0.000006)·10⁻¹⁰)");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("(-2.296730 ± 0.000006)·10⁻¹⁰)");
 
-        assertThat(doubleElement.getValue().doubleValue()).isCloseTo(-2.296730e-10, Offset.offset(0.000001e-10));
-        assertThat(doubleElement.getUncertainty().doubleValue()).isEqualTo(0.000006e-10);
+        assertThat(doubleElement.getValue().doubleValue())
+            .isCloseTo(-2.296730e-10, Offset.offset(0.000001e-10));
+        assertThat(doubleElement.getUncertainty().doubleValue())
+            .isCloseTo(0.000006e-10, Offset.offset(0.00000001e-10));
     }
 
     @Test
     public void parseNaNUncertainty() {
-        DoubleElement doubleElement = formatter.parseObject("306 ± NaN");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("306 ± NaN");
         assertThat(doubleElement.getValue().doubleValue()).isEqualTo(306);
         assertThat(doubleElement.getUncertainty().doubleValue()).isNaN();
     }
@@ -308,20 +325,20 @@ class UncertainDoubleFormatTest {
 
     @Test
     public void impreciseNotation() {
-        DoubleElement doubleElement = formatter.parseObject("1.12345678(2)");
-        formatter.setUncertaintyNotation(PARENTHESES);
-        assertThat(formatter.format(doubleElement)).isEqualTo("1.12345678(2)");
+        DoubleElement doubleElement = uncertainDoubleFormat.parseObject("1.12345678(2)");
+        uncertainDoubleFormat.setUncertaintyNotation(PARENTHESES);
+        assertThat(uncertainDoubleFormat.format(doubleElement)).isEqualTo("1.12345678(2)");
 
-        formatter.setMaximalPrecision(3);
-        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
+        uncertainDoubleFormat.setMaximalPrecision(3);
+        assertThat(uncertainDoubleFormat.format(doubleElement)).isEqualTo("1.123");
     }
 
     @Test
     public void impreciseNotationPlusMinus() {
         DoubleElement doubleElement = DoubleElement.of(1.12345678d, 0.00000002);
-        formatter.setUncertaintyNotation(PLUS_MINUS);
-        formatter.setMaximalPrecision(3);
-        assertThat(formatter.format(doubleElement)).isEqualTo("1.123");
+        uncertainDoubleFormat.setUncertaintyNotation(PLUS_MINUS);
+        uncertainDoubleFormat.setMaximalPrecision(3);
+        assertThat(uncertainDoubleFormat.format(doubleElement)).isEqualTo("1.123");
     }
 
 

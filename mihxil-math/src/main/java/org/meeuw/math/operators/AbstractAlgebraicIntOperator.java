@@ -17,7 +17,6 @@ package org.meeuw.math.operators;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.Method;
 import java.util.function.BiFunction;
@@ -29,7 +28,6 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
  * @author Michiel Meeuwissen
  * @since 0.15
  */
-@Log
 public  class AbstractAlgebraicIntOperator implements AlgebraicIntOperator {
 
     @Getter

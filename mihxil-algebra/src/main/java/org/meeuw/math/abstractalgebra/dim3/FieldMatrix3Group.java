@@ -16,11 +16,12 @@
 package org.meeuw.math.abstractalgebra.dim3;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 
 import java.util.*;
 
 import org.meeuw.math.abstractalgebra.*;
+
+import static java.lang.System.Logger.Level.INFO;
 
 /**
  * A square 3x3 matrix of any {@link ScalarFieldElement ScalarFieldElements}.
@@ -28,10 +29,12 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Log
 public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
     extends AbstractAlgebraicStructure<FieldMatrix3<E>>
     implements MultiplicativeGroup<FieldMatrix3<E>> {
+
+    private static final System.Logger log = System.getLogger(FieldMatrix3Group.class.getName());
+
 
 
     public static final Map<ScalarField<?>, FieldMatrix3Group<?>> INSTANCES = new HashMap<>();
@@ -57,7 +60,7 @@ public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
             eOne, eZero, eZero,
             eZero, eOne, eZero,
             eZero, eZero, eOne);
-        log.info(() -> "Created " + this);
+        log.log(INFO, () -> "Created " + this);
     }
 
     @Override

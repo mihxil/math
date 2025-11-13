@@ -24,12 +24,12 @@ module org.meeuw.math.shapes {
     requires static org.checkerframework.checker.qual;
     requires static jakarta.validation;
 
-    requires java.logging;
     requires java.xml;
 
     requires org.meeuw.math;
     requires org.meeuw.math.algebras;
     requires jdk.xml.dom;
+    requires org.meeuw.configuration;
 
     exports org.meeuw.math.shapes.dim2;
     exports org.meeuw.math.shapes.dim3;

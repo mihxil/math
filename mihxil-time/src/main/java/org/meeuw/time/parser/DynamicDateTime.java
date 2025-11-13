@@ -2,7 +2,6 @@ package org.meeuw.time.parser;
 
 import lombok.Getter;
 import lombok.With;
-import lombok.extern.java.Log;
 
 import java.time.*;
 import java.time.chrono.Chronology;
@@ -17,6 +16,8 @@ import org.meeuw.functional.ThrowingSupplier;
 import org.meeuw.time.Range;
 import org.meeuw.time.eventsearchers.EventSearcherService;
 
+import static java.lang.System.Logger.Level.DEBUG;
+
 
 /**
  * A parser for dynamic date and time strings, which can be used to parse various date-time formats.
@@ -29,8 +30,9 @@ import org.meeuw.time.eventsearchers.EventSearcherService;
  * @see DateParser
  * @since 0.19
  */
-@Log
 public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, ParseException> {
+
+    private static final System.Logger log = System.getLogger(DynamicDateTime.class.getName());
 
     @With
     @NonNull
@@ -96,7 +98,7 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
             parser.start();
             return parser.get();
         } catch (ParseException e) {
-            log.fine(e.getMessage());
+            log.log(DEBUG, e.getMessage());
             throw e;
         }
     }

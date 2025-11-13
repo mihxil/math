@@ -434,6 +434,7 @@ public class DoubleElement
 
     /**
      * For debugging this thing it is handier to just see the internal values exactly.
+     * @since 0.19
      */
     public String toDebugString() {
         return value + " " + TextUtils.PLUSMIN + " " + uncertainty;

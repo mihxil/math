@@ -17,6 +17,8 @@ package org.meeuw.math.text;
 
 import lombok.With;
 
+import java.util.Optional;
+
 import org.meeuw.math.numbers.NumberOperations;
 
 import static org.meeuw.math.text.ScientificNotation.TIMES_10;
@@ -46,16 +48,22 @@ class SplitNumber<N extends Number> {
         return coefficient + TIMES_10 + TextUtils.superscript(exponent);
     }
 
-    static <N extends Number> SplitNumber<N> split(N in) {
+    static <N extends Number> Optional<SplitNumber<N>> split(N in) {
         NumberOperations<N> operations = NumberOperations.of(in);
         return split(operations, in);
     }
 
 
-    static <N extends Number> SplitNumber<N> split(NumberOperations<N> operations, N in) {
+
+    static <N extends Number> Optional<SplitNumber<N>> split(
+        NumberOperations<N> operations,
+        N in) {
 
         if (! operations.isFinite(in)) {
             throw new IllegalArgumentException("Not a finite number: " + in);
+        }
+        if (operations.isZero(in)) {
+            return Optional.empty();
         }
 
         boolean negative = operations.signum(in) < 0;
@@ -76,7 +84,7 @@ class SplitNumber<N extends Number> {
         if (negative) { // put sign back
             coefficient = operations.negate(coefficient);
         }
-        return new SplitNumber<>(coefficient, exponent);
+        return Optional.of(new SplitNumber<>(coefficient, exponent));
     }
 
 }

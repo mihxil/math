@@ -1,12 +1,9 @@
 package org.meeuw.configuration.spi;
 
-import lombok.extern.java.Log;
-
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-@Log
 public class BooleanToString extends AbstractToString<Boolean> {
 
     public BooleanToString() {

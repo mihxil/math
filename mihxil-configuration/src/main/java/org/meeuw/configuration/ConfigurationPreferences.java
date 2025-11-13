@@ -1,20 +1,19 @@
 package org.meeuw.configuration;
 
-import lombok.extern.java.Log;
-
 import java.io.*;
 import java.lang.reflect.*;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+
+import static java.lang.System.Logger.Level.*;
 
 
 /**
  * This ia a wrapper around {@link Preferences}
  */
-@Log
 class ConfigurationPreferences {
+    private static final System.Logger log = System.getLogger(ConfigurationPreferences.class.getName());
 
     private static final Preferences USER_PREFERENCES = createUserPreferences();
 
@@ -23,12 +22,12 @@ class ConfigurationPreferences {
     }
 
     private static synchronized Preferences createUserPreferences() {
-        log.finer("Creating user preferences");
+        log.log(DEBUG, "Creating user preferences");
         Preferences userPreferences = null;
         try {
             userPreferences = Preferences.userNodeForPackage(ConfigurationPreferences.class);
         } catch (Exception e) {
-            log.log(Level.WARNING, e, () -> "fooar:" +  e.getClass().getName() + ":" + e.getMessage());
+            log.log(WARNING, () -> "fooar:" +  e.getClass().getName() + ":" + e.getMessage(), e);
         }
         return userPreferences;
     }
@@ -65,12 +64,12 @@ class ConfigurationPreferences {
                             put(node, name, value);
                         } catch (IllegalAccessException | InvocationTargetException | IOException |
                                  IllegalStateException e) {
-                            log.warning(String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
+                            log.log(WARNING, String.format("%s for %s (%s): %s", m.getDeclaringClass(), m, aspect, e.getMessage()));
                         }
                     }
                 }
             }
-            log.finer(() -> "Stored " + USER_PREFERENCES);
+            log.log(DEBUG, () -> "Stored " + USER_PREFERENCES);
         }
     }
 
@@ -96,16 +95,16 @@ class ConfigurationPreferences {
 
                          as = (ConfigurationAspect) m.invoke(as, newValue);
                      } catch (NoSuchMethodException e) {
-                         log.log(Level.CONFIG, "No method " + methodName + " + for wither " + m + ". Ignored.");
+                         log.log(INFO, "No method " + methodName + " + for wither " + m + ". Ignored.");
                      } catch (IllegalAccessException | InvocationTargetException | IllegalArgumentException e) {
-                         log.log(Level.WARNING, "For " + as + "#" + m + "(" + (newValue == null ? "NULL" : (newValue.getClass() + " " + newValue)) + ")" + e.getClass() + " " + e.getMessage(), e);
+                         log.log(WARNING, "For " + as + "#" + m + "(" + (newValue == null ? "NULL" : (newValue.getClass() + " " + newValue)) + ")" + e.getClass() + " " + e.getMessage(), e);
                      }
                  }
              }
              configuration.aspectValue(as);
          }
 
-         log.fine(() -> "Read " + USER_PREFERENCES);
+         log.log(INFO, () -> "Read " + USER_PREFERENCES);
     }
 
     private static Preferences node(ConfigurationAspect aspect) {
@@ -142,7 +141,7 @@ class ConfigurationPreferences {
     static void putSerializable(Preferences pref, String key, Serializable paramValue) throws IOException {
         try (
             ByteArrayOutputStream bo = new ByteArrayOutputStream();
-            ObjectOutputStream so = new ObjectOutputStream(bo);) {
+            ObjectOutputStream so = new ObjectOutputStream(bo)) {
             so.writeObject(paramValue);
             pref.putByteArray(key, bo.toByteArray());
         }
@@ -158,7 +157,7 @@ class ConfigurationPreferences {
                 final ObjectInputStream si = new ObjectInputStream(bi)) {
                 return (C) si.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                log.log(Level.WARNING, "For byte array with length " + bytes.length + ":" + e.getClass().getName() + ": " + e.getMessage() + ", defaulting to "+ defaultValue, e);
+                log.log(WARNING, "For byte array with length " + bytes.length + ":" + e.getClass().getName() + ": " + e.getMessage() + ", defaulting to "+ defaultValue, e);
                 return defaultValue;
             }
         } else {

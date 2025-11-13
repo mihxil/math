@@ -1,7 +1,5 @@
 package org.meeuw.math.svg;
 
-import lombok.extern.java.Log;
-
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
@@ -10,9 +8,11 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@Log
+import static java.lang.System.Logger.Level.WARNING;
+
 public class SVG {
 
+    private static final System.Logger log = System.getLogger(SVG.class.getName());
 
     static final DocumentBuilder DOCUMENT_BUILDER;
 
@@ -26,7 +26,7 @@ public class SVG {
             proposal = documentBuilderFactory.newDocumentBuilder();
 
         } catch (ParserConfigurationException e) {
-            log.warning(e.getMessage());
+            log.log(WARNING, e.getMessage());
             proposal = null; // will fail later
         }
         DOCUMENT_BUILDER = proposal;
@@ -39,7 +39,7 @@ public class SVG {
             proposal.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             proposal.setOutputProperty(OutputKeys.INDENT, "yes");
         } catch (TransformerConfigurationException e) {
-            log.warning(e.getMessage());
+            log.log(WARNING, e.getMessage());
             proposal = null; // will fail later
         }
         TRANSFORMER = proposal;

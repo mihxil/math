@@ -24,8 +24,8 @@ module org.meeuw.configuration {
     requires static lombok;
     requires static org.checkerframework.checker.qual;
 
-    requires java.logging;
     requires java.prefs;
+    requires java.logging;
 
     exports org.meeuw.configuration;
     exports org.meeuw.configuration.spi;

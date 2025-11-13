@@ -17,7 +17,6 @@ package org.meeuw.configuration;
 
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.function.Function;
@@ -33,7 +32,6 @@ import static org.meeuw.configuration.ConfigurationService.newConfigurationMap;
  * @since 0.4
  */
 @EqualsAndHashCode
-@Log
 public class Configuration implements Iterable<ConfigurationAspect> {
 
     final Map<Class<? extends ConfigurationAspect>, ConfigurationAspect> map;

@@ -17,9 +17,9 @@ package org.meeuw.math.abstractalgebra.linear;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.extern.java.Log;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -31,10 +31,10 @@ import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.Square;
 
+import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.math.ArrayUtils.squareMatrix;
 import static org.meeuw.math.abstractalgebra.Cardinality.ALEPH_0;
 
-@Log
 public abstract class AbstractGeneralLinearGroup<
     M extends AbstractInvertibleMatrix<M, MS, E, ES>,
     MS extends AbstractGeneralLinearGroup<M, MS, E, ES>,
@@ -45,6 +45,8 @@ public abstract class AbstractGeneralLinearGroup<
     implements MultiplicativeGroup<M>,
     Streamable<M>
 {
+    private static final System.Logger log = System.getLogger(AbstractGeneralLinearGroup.class.getName());
+
 
     @Getter
     protected final int dimension;
@@ -73,7 +75,7 @@ public abstract class AbstractGeneralLinearGroup<
                     try {
                         return newElement(es);
                     } catch (InvalidElementCreationException ive) {
-                        log.fine(() -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
+                        log.log(DEBUG, () -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
                         return null;
                     }
                     }

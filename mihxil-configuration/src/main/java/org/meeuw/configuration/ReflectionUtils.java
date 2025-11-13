@@ -16,13 +16,11 @@
 package org.meeuw.configuration;
 
 import lombok.SneakyThrows;
-import lombok.extern.java.Log;
 
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
 
-@Log
 public class ReflectionUtils {
 
     private ReflectionUtils() {
