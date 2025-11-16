@@ -2,6 +2,15 @@ body {
   margin: 0;
   padding: 0;
 
+  #toc{
+
+    a.active {
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+
+  }
+
   #header {
     position: fixed;
     left: 0;
@@ -28,5 +37,22 @@ body {
     &:has(>h2:target) {
       display: block;
     }
+  }
+  #preamble {
+    font-family: sans-serif;
+    position: fixed;
+    left: 0;
+    padding: 20px;
+    top: 20em;
+    width: 250px;
+    .note {
+      display: none;
+    }
+
+  }
+  #footer {
+    position: fixed;
+    bottom: 0;
+    width: 250px;
   }
 }
