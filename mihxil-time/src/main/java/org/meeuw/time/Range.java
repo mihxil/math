@@ -12,7 +12,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Simple range implementation for Comparable types.
- * It always as a start. The end value can be null, which means it is unbounded.
+ * It always has a start. The end value can be null, which means it is unbounded.
  * <p>
  * The end value may also be less than the start value, which means it is a backward range.
  * <p>
