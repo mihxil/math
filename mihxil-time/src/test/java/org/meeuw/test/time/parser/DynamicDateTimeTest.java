@@ -83,9 +83,8 @@ class DynamicDateTimeTest {
     }
 
     @Test
-    @Disabled
     public void special_offset() {
-        assertThat(dt.apply("2025-08-30T12:00 teatime").toString()).isEqualTo("");
+        assertThat(dt.apply("2025-08-30 teatime").toString()).isEqualTo("2025-08-30T16:00+02:00[Europe/Amsterdam]");
     }
 
 
