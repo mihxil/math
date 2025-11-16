@@ -1,7 +1,8 @@
 package org.meeuw.test.time.eventsearchers.seasons;
 
-import java.time.Year;
-import java.time.ZoneId;
+import lombok.extern.java.Log;
+
+import java.time.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.meeuw.time.eventsearchers.seasons.Season.*;
 
 
+@Log
 public class SeasonsTest {
 
     static final Map<Integer, Map<Season, String>> EXPECTED;
@@ -49,6 +51,34 @@ public class SeasonsTest {
                     assertEquals(expected.get(SPRING), event.toString());
                 }
             });
-
     }
+
+    @Test
+    public void nextSpring() {
+        Instant nextSpring = EventSearcherService.INSTANCE.findNextEvents(
+            Instant.parse("2025-11-16T14:44:38Z"),
+            ZoneId.systemDefault(),
+            "spring"
+        ).findFirst().get();
+        assertThat(nextSpring).isEqualTo("2026-03-20T14:44:38Z");
+    }
+
+    @Test
+    public void previousSpring() {
+        Instant previousSpring = EventSearcherService.INSTANCE.findPreviousEvents(
+            Instant.parse("2025-11-16T14:44:38Z"),
+            ZoneId.systemDefault(),
+            "spring"
+        ).findFirst().get();
+        assertThat(previousSpring).isEqualTo("2025-03-20T09:00:42Z");
+    }
+
+    @Test
+    public void thisSpring() {
+        Instant thisSpring = EventSearcherService.INSTANCE.findEvents(Range.fromYear(2025),
+            ZoneId.systemDefault(),
+            "spring"
+        ).findFirst().get();
+        assertThat(thisSpring).isEqualTo("2025-03-20T09:00:42Z");
+     }
 }
