@@ -73,10 +73,23 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
     /**
      * Shortcut for calling the EventSearcherService. Used in the javacc-file.
      */
-    protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName) {
-        return EventSearcherService.INSTANCE.findEvents(Range.fromYear(cal.getYear()), cal.getZone(), eventName)
-            .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName))
-            .atZone(cal.getZone());
+    protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName, Boolean searchDown) {
+        if (searchDown == null) { // 'this'
+            return EventSearcherService.INSTANCE.findEvents(
+                    Range.fromYear(cal.getYear()), cal.getZone(), eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName))
+                .atZone(cal.getZone());
+        } else if (!searchDown) {
+            return EventSearcherService.INSTANCE.findNextEvents(
+                    cal,
+                    eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " after " + cal));
+        } else {
+            return EventSearcherService.INSTANCE.findPreviousEvents(
+                    cal,
+                    eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " before " + cal));
+        }
     }
 
     protected ZonedDateTime resetToEra() {

@@ -41,6 +41,38 @@ public class EventSearcherService implements EventSearcher<Temporal> {
             .map(Optional::get);
     }
 
+
+    public Stream<Instant> findPreviousEvents(Instant instant, ZoneId timeZone, String eventSummary) {
+        Range<Year> range = Range.untilYear(instant.atZone(timeZone).getYear());
+        return findEvents(range, eventSummary)
+            .map(t -> toInstant(t, timeZone))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(i -> i.isBefore(instant));
+    }
+
+    public Stream<Instant> findNextEvents(Instant instant, ZoneId timeZone, String eventSummary) {
+        Range<Year> range = Range.fromYear(instant.atZone(timeZone).getYear());
+        return findEvents(range, eventSummary)
+            .map(t -> toInstant(t, timeZone))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(i -> i.isAfter(instant));
+    }
+
+    public Stream<ZonedDateTime> findPreviousEvents(ZonedDateTime time,  String eventSummary) {
+       return findPreviousEvents(time.toInstant(), time.getZone(),eventSummary)
+            .map(i -> i.atZone(time.getZone()));
+    }
+
+    public Stream<ZonedDateTime> findNextEvents(ZonedDateTime time,  String eventSummary) {
+        return findNextEvents(time.toInstant(), time.getZone(),eventSummary)
+            .map(i -> i.atZone(time.getZone()));
+
+    }
+
+
+
     protected Optional<Instant> toInstant(Temporal date, ZoneId timeZone) {
         // this date is at the date of the holiday at 12 AM UTC
         if (date instanceof LocalDate) {

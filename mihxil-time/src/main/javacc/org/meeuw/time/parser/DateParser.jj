@@ -45,6 +45,11 @@ import org.meeuw.time.Range;
 
 class DateParser implements Supplier<ZonedDateTime> {
     private boolean dynamic = true;
+
+    /**
+    * A copy of the cal object. Can be set e.g. when setting using 'previous' and 'next'.
+    * The current cal is set to e.g. 'monday', but before that prev is set, so that it can easily be checked if a week or so must be added or substracted.
+    */
     private ZonedDateTime prev = null;
     private int amount = 0;
     private int factor = 1;
@@ -60,7 +65,7 @@ class DateParser implements Supplier<ZonedDateTime> {
 
     private DynamicDateTime dynamicDateTime;
 
-    private boolean searchDown = true;
+    private Boolean searchDown = null;
 
     protected void setDynamicDateTime(DynamicDateTime dynamicDateTime) {
         this.dynamicDateTime = dynamicDateTime;
@@ -136,7 +141,8 @@ TOKEN :
 | <POSITIVE: ["0"-"9"] (["0"-"9"])* >
 | <THOUSANDS: "." ["0"-"9"]["0"-"9"]["0"-"9"] >
 | <TIMEZONE: "TZ" ([" ", "\n", "\t", "\r"])* ["A"-"Z"] (["A"-"Z","a"-"z", "/", "_"])* (["-", "+"] <POSITIVE> (":" <POSITIVE>)?)?>
- | <EVENT: "\"" (["a"-"z", " "])+ "\"" >
+| <EVENT: ( "\"" (["a"-"z"," "])+ "\"" ) | ( "'" (["a"-"z"," "])+ "'" ) >
+
 
 
 }
@@ -201,7 +207,7 @@ void date() :  {}
            setDayOfWeek(DayOfWeek.FRIDAY);
     }
     | event() {
-        cal = dynamicDateTime.getForEvent(cal, eventName);
+        cal = dynamicDateTime.getForEvent(cal, eventName, null);
    }
 }
 
@@ -346,7 +352,9 @@ void increment() : {}
    | previous() month_of_year() { beginOfMonth(); if (cal.isAfter(prev)) {cal = cal.minusYears(1); } }
    | <THIS> month_of_year() { beginOfMonth(); }
    | <THIS> to_period()
-   | <THIS> to_event()
+   | _this() to_event()
+   | next() to_event()
+   | previous() to_event()
    | "ish"  {  cal = cal.plusNanos(1_000_000 * ((int) (dynamicDateTime.random.nextGaussian() * 1200000.0)/* 20 min */ + 300000 /* 5 minutes late on average*/)); dynamic = true;}
 }
 void decrement() : {}
@@ -365,10 +373,10 @@ void to_period() : {
 void to_event() : {
    }
 {
-   <EVENT> {eventName = token.image.substring(1, token.image.length() - 1).toLowerCase();
-       cal = dynamicDateTime.getForEvent(cal, eventName);
-
-      }
+   <EVENT> {
+       eventName = token.image.substring(1, token.image.length() - 1).toLowerCase();
+       cal = dynamicDateTime.getForEvent(cal, eventName, searchDown);
+   }
 }
 void inc_period() : {}
 {
@@ -465,6 +473,15 @@ void previous() : {}
     <PREVIOUS> {
        searchDown = true;
        prev = cal;
+
+    }
+}
+
+void _this() : {}
+{
+    <THIS> {
+       searchDown = null;
+       prev = null;
 
     }
 }

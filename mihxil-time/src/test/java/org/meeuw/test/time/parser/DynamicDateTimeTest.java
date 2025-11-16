@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -87,6 +86,23 @@ class DynamicDateTimeTest {
         assertThat(dt.apply("2025-08-30 teatime").toString()).isEqualTo("2025-08-30T16:00+02:00[Europe/Amsterdam]");
     }
 
+    @Test
+    public void nextSpring() {
+        assertThat(dt.apply("next 'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
+         assertThat(dt.apply("2025-04-20 next 'spring'").toString()).isEqualTo("2026-03-20T15:44:38+01:00[Europe/Amsterdam]");
+    }
+    @Test
+    public void thisSpring() {
+        assertThat(dt.apply("'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
+    }
+    @Test
+    public void thenSpring() {
+        assertThat(dt.apply("2025-04-20 this 'spring'").toString()).isEqualTo("2025-03-20T10:00:42+01:00[Europe/Amsterdam]");
+    }
+
+
+
+
 
 
     @Test
@@ -110,9 +126,8 @@ class DynamicDateTimeTest {
     }
 
     @Test
-    @Disabled
     public void spring2005() {
-        assertThat(dt.apply("2005-01-01 \"spring\"").toString()).isEqualTo("");
+        assertThat(dt.apply("2005-01-01 this \"spring\"").toString()).isEqualTo("2005-03-20T13:33:03+01:00[Europe/Amsterdam]");
     }
 
 
