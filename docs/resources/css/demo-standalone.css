@@ -1,0 +1,29 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+body #header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+  height: 100vh;
+  background: #f4f4f4;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+body #content {
+  margin-left: 270px;
+  width: auto;
+}
+body #toctitle {
+  display: none;
+}
+body .sect1 {
+  display: none;
+}
+body .sect1:has(> h2:target) {
+  display: block;
+}
+
+/*# sourceMappingURL=demo-standalone.css.map */
