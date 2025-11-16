@@ -15,7 +15,7 @@ target/mihxil-demo-$(VERSION).jar:
 docker: Dockerfile
 	docker build -t $(URL) --build-arg VERSION=$(VERSION) .
 
-localrun: target/math-test-$(VERSION).jar
+localrun: target/mihxil-demo-$(VERSION).jar
 	java -jar $< prefs
 
 
