@@ -1,0 +1,33 @@
+// DO NOT EDIT
+body {
+  margin: 0;
+  padding: 0;
+
+  #header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+    background: #f4f4f4;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+  }
+
+  #content {
+    margin-left: 270px;
+    width: auto;
+  }
+
+  #toctitle {
+    display: none;
+  }
+
+  .sect1 {
+    display: none;
+
+    &:has(>h2:target) {
+      display: block;
+    }
+  }
+}
