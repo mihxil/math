@@ -36,7 +36,7 @@ public class Calculator {
     // tag::eval[]
 
     @Getter
-    public  enum FieldInformation {
+    public enum FieldInformation {
         rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
         real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "sqr(𝜑) - 𝜑"),
         bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
@@ -58,7 +58,7 @@ public class Calculator {
             "a * b * c * e",
             "a * b"
         ),
-        quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i" ),
+        quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i"),
         dihedral3(DihedralGroup.D3,
             "r1 * r2",
             "s0 * r1 * s0"
@@ -70,8 +70,7 @@ public class Calculator {
         polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
             "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\" ⋅ \"15·x² + 2·x³\"",
             "\"x + 2x^2 + x^5\" + \"5 + 3/4x^2 - x^5\""
-        )
-        ;
+        );
 
         private final Magma<?> field;
         private final String[] examples;
@@ -104,10 +103,11 @@ public class Calculator {
 
         public static String[] elements(Magma<?> field) {
             Set<String> elements = new LinkedHashSet<>(field.getConstants().keySet());
-            if (field.getCardinality().isCountable() && field instanceof  Streamable<?> streamable) {
+            if (field.getCardinality().isCountable() && field instanceof Streamable<?> streamable) {
                 try {
                     streamable.stream().limit(100).map(Object::toString).forEach(elements::add);
-                } catch (NotStreamable ignored) {}
+                } catch (NotStreamable ignored) {
+                }
             }
             return elements.toArray(new String[0]);
         }
@@ -138,13 +138,14 @@ public class Calculator {
                 log.log(Level.SEVERE,  "Supported operators is empty for " + f);
             }
             var parsedExpression = AST.parse(expression, f);
-            log.fine(() -> "Parsed expression: %s".formatted( parsedExpression));
+            // This breaks cheerpj, it seems very unlikely
+            //log.fine("Parsed expression: " +  parsedExpression);
             var result = parsedExpression.eval();
             var resultAsString = result.toString();
             log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
             return resultAsString;
         } catch (Throwable ex) {
-            log.log(Level.SEVERE,  ex.getClass() + " " + ex.getMessage(), ex);
+            log.log(Level.SEVERE, ex.getClass() + " " + ex.getMessage(), ex);
             throw ex;
         } finally {
             log.finer("Ready evaluation");
