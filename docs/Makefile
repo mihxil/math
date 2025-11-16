@@ -20,7 +20,7 @@ index.html: ../README-source.adoc ../README-source-docinfo.html Makefile algebra
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
-DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources resources/css/demo.css  resources resources/css/calculator.css
+DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinfo.html resources resources/css/demo-standalone.css  resources/css/demo.css  resources resources/css/calculator.css
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
 resources:  ## copy resources from ../mihxil-demo
