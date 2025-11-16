@@ -2,6 +2,10 @@ body {
   margin: 0;
   padding: 0;
 }
+body #toc a.active {
+  font-weight: bold;
+  border-bottom: 1px solid #ddd;
+}
 body #header {
   position: fixed;
   left: 0;
@@ -24,6 +28,22 @@ body .sect1 {
 }
 body .sect1:has(> h2:target) {
   display: block;
+}
+body #preamble {
+  font-family: sans-serif;
+  position: fixed;
+  left: 0;
+  padding: 20px;
+  top: 20em;
+  width: 250px;
+}
+body #preamble .note {
+  display: none;
+}
+body #footer {
+  position: fixed;
+  bottom: 0;
+  width: 250px;
 }
 
 /*# sourceMappingURL=demo-standalone.css.map */

@@ -119,7 +119,7 @@
 </ul>
 </li>
 <li><a href="#configuration_service">9. ConfigurationService</a></li>
-<li><a href="#demo_section">10. Demo</a>
+<li><a href="#demo_section">10. Demos</a>
 <ul class="sectlevel2">
 <li><a href="#demo_calculator">10.1. Calculator</a></li>
 <li><a href="#demo_solver">10.2. Solver</a></li>
@@ -1808,10 +1808,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </div>
 </div>
 <div class="sect1">
-<h2 id="demo_section">10. Demo</h2>
+<h2 id="demo_section">10. Demos</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>These are a running <a href="https://webassembly.org/">webassembly</a> demos (using <a href="https://cheerpj.com/docs/getting-started/Java-library">cheerpj</a>).</p>
+<p>These are a running <a href="https://webassembly.org/">webassembly</a>  demos using  <span class="image"><a class="image" href="https://cheerpj.com/docs/getting-started/Java-library"><img src="resources/cheerpj.svg" alt="cheerpj"></a></span>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -1934,7 +1934,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Getter</span>
-<span class="directive">public</span>  <span class="type">enum</span> FieldInformation {
+<span class="directive">public</span> <span class="type">enum</span> FieldInformation {
     rational(RationalNumbers.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>),
     real(RealField.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sin(𝜋/2)</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sqr(𝜑) - 𝜑</span><span class="delimiter">&quot;</span></span>),
     bigdecimal(BigDecimalField.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 3/5</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">sin(𝜋/2)</span><span class="delimiter">&quot;</span></span>),
@@ -1956,7 +1956,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b * c * e</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b</span><span class="delimiter">&quot;</span></span>
     ),
-    quaterniongroup(QuaternionGroup.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">i * j</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">j * i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">e * k * i</span><span class="delimiter">&quot;</span></span> ),
+    quaterniongroup(QuaternionGroup.INSTANCE, <span class="string"><span class="delimiter">&quot;</span><span class="content">i * j</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">j * i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">e * k * i</span><span class="delimiter">&quot;</span></span>),
     dihedral3(DihedralGroup.D3,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">r1 * r2</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">s0 * r1 * s0</span><span class="delimiter">&quot;</span></span>
@@ -1968,8 +1968,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
         <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶</span><span class="char">\&quot;</span><span class="content"> ⋅ </span><span class="char">\&quot;</span><span class="content">15·x² + 2·x³</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="content">x + 2x^2 + x^5</span><span class="char">\&quot;</span><span class="content"> + </span><span class="char">\&quot;</span><span class="content">5 + 3/4x^2 - x^5</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>
-    )
-    ;
+    );
 
     <span class="directive">private</span> <span class="directive">final</span> Magma&lt;?&gt; field;
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> examples;
@@ -2002,10 +2001,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span><span class="type">[]</span> elements(Magma&lt;?&gt; field) {
         <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; elements = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;(field.getConstants().keySet());
-        <span class="keyword">if</span> (field.getCardinality().isCountable() &amp;&amp; field <span class="keyword">instanceof</span>  Streamable&lt;?&gt; streamable) {
+        <span class="keyword">if</span> (field.getCardinality().isCountable() &amp;&amp; field <span class="keyword">instanceof</span> Streamable&lt;?&gt; streamable) {
             <span class="keyword">try</span> {
                 streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(elements::add);
-            } <span class="keyword">catch</span> (NotStreamable ignored) {}
+            } <span class="keyword">catch</span> (NotStreamable ignored) {
+            }
         }
         <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
     }
@@ -2036,13 +2036,14 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
         }
         <span class="type">var</span> parsedExpression = AST.parse(expression, f);
-        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted( parsedExpression));
+        <span class="comment">// This breaks cheerpj, it seems very unlikely</span>
+        <span class="comment">//log.fine(&quot;Parsed expression: &quot; +  parsedExpression);</span>
         <span class="type">var</span> result = parsedExpression.eval();
         <span class="type">var</span> resultAsString = result.toString();
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
         <span class="keyword">return</span> resultAsString;
     } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
-        log.log(<span class="predefined-type">Level</span>.SEVERE,  ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
+        log.log(<span class="predefined-type">Level</span>.SEVERE, ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
         <span class="keyword">throw</span> ex;
     } <span class="keyword">finally</span> {
         log.finer(<span class="string"><span class="delimiter">&quot;</span><span class="content">Ready evaluation</span><span class="delimiter">&quot;</span></span>);
