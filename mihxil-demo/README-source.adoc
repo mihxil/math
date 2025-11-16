@@ -1,11 +1,10 @@
 [#demo_section]
-= Demo
+= Demos
 :docinfo: private
 :source-highlighter: coderay
 :toc:
 
-These are a running link:https://webassembly.org/[webassembly] demos (using link:https://cheerpj.com/docs/getting-started/Java-library[cheerpj]).
-
+These are a running https://webassembly.org/[webassembly]  demos using  image:resources/cheerpj.svg[link=https://cheerpj.com/docs/getting-started/Java-library].
 
 [NOTE]
 ====
