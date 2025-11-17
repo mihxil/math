@@ -318,6 +318,10 @@ image:https://www.javadoc.io/badge/org.meeuw/mihxil-time.svg?color=blue[javadoc,
 
 This collects some utility related to time (actually to Durations and Instants). The main purpose is to provide a way to represent uncertain values of time, but it also provides some utilities for working with `Clock`.
 
+== Uncertain `java.time` objects
+
+This module provides things like `org.meeuw.time.UcertainInstant` and `org.meeuw.time.UncertainDuration', which are very similar to their `java.time` equivalents, but implement also `UncertainNumber`, so basically represents temporary objects _with an uncertaintiy_ in their value.
+
 == Clocks
 
 Because some uncertain values may be related to event rates, you may also need some things related to clocks. Especially, in test cases.
