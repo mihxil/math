@@ -1,6 +1,6 @@
 import { BaseClass } from "./base.js";
 
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded',  () => {
     const tocLinks = Array.from(document.querySelectorAll('#toc a'));
 
     function updateActive() {
@@ -23,5 +23,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.addEventListener('hashchange', updateActive);
 
     updateActive();
-     const cjj = await BaseClass.getCheerpj();
+    BaseClass.getCheerpj();
 });

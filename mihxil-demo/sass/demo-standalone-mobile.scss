@@ -4,7 +4,7 @@ body {
 
   .note {
     display: none;
-   }
+  }
 
   #toc {
     position: fixed;
@@ -51,6 +51,7 @@ body {
     padding: 70px 15px 15px;
     border-right: none;
     background: transparent;
+
     h1 {
       display: none;
     }
@@ -73,6 +74,10 @@ body {
     &:has(>h2:target) {
       display: block;
     }
+
+    h2 {
+      display: none;
+    }
   }
 
   #preamble {
@@ -80,16 +85,11 @@ body {
   }
 
   #footer {
-    position: static;
+    display: none;/*
     width: 100%;
     background: #a0a0a0;
     padding: 15px;
-  }
-.sect1 {
-  h2 {
-    display: none;
-    }
-  }
+*/  }
   #dynamicdate_toparse-examples {
     display: none !important;
   }

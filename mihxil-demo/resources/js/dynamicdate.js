@@ -11,7 +11,6 @@ export class DynamicDate extends BaseClass {
     }
 
 // tag::dynamicdate[]
-
     async onSubmit(DynamicDateTime){
         try {
             const parser = await new DynamicDateTime();
@@ -22,11 +21,8 @@ export class DynamicDate extends BaseClass {
         } catch (error) {
             console.log(error);
             this.output.value = await (await error.getMessage()).toString();
-
         }
-
     }
-
 //end::dynamicdate[]
 }
 

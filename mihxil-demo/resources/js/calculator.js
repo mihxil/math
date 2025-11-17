@@ -165,6 +165,7 @@ export class CalculatorClass extends BaseClass {
             console.log("Updated example li for", selectedField, information.examples);
         }
     }
+
     async updateHelp() {
         const fieldInformation =  this.information[this.field.value];
         const div = this.field.parentNode.querySelector("div.help");
@@ -185,6 +186,7 @@ export class CalculatorClass extends BaseClass {
             }
         }
     }
+
     operatorDts(dl, operators) {
         this.dts(dl, operators, async e => {
             this.insertOperator(e.target.textContent);
@@ -245,7 +247,6 @@ export class CalculatorClass extends BaseClass {
         this.dts(document.querySelector("#calculator_digits dl"), elements, async e => {
             this.insert(e.target.textContent);
         }, 10);
-
     }
 
     async onSubmit(Calculator) {
@@ -256,8 +257,8 @@ export class CalculatorClass extends BaseClass {
             this.input.value, this.field.value
         );
     }
-
 }
+
 //end::calculator[]
 
 
