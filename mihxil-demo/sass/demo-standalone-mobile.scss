@@ -81,6 +81,10 @@ body {
     h2 {
       display: none;
     }
+
+    + .sect1 {
+      border-top: none !important;
+    }
   }
 
   #preamble {
