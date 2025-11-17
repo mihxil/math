@@ -182,7 +182,9 @@ This is the source code for the above.
 async onSubmit(DynamicDateTime){
     try {
         const parser = await new DynamicDateTime();
-        const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
+        const parseResult = await parser.applyWithException(
+            this.form.querySelector("#dynamicdate_toparse").value
+        );
         this.output.value = await parseResult.toString();
     } catch (error) {
         console.log(error);
