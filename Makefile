@@ -12,6 +12,7 @@ act:
 
 jars:  ## copy jars
 	cp -au mihxil-math/target/mihxil-math-0.19-SNAPSHOT.jar ./docs/resources/jars/
+	cp -au mihxil-configuration/target/mihxil-configuration-0.19-SNAPSHOT.jar ./docs/resources/jars/
 	cp -au mihxil-math-parser/target/mihxil-math-parser-0.19-SNAPSHOT.jar ./docs/resources/jars/
 	cp -au mihxil-algebra/target/mihxil-algebra-0.19-SNAPSHOT.jar ./docs/resources/jars/
 	cp -au mihxil-time/target/mihxil-time-0.19-SNAPSHOT.jar ./docs/resources/jars/
