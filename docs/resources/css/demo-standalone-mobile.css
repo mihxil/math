@@ -22,15 +22,15 @@ body #toc ul {
   padding: 0;
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 4px;
 }
 body #toc li {
   display: inline-block;
 }
 body #toc a {
   font-size: 0.85rem;
-  padding: 4px 8px;
+  padding: 2px 4px;
   display: inline-block;
 }
 body #toc a.active {
