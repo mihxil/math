@@ -2562,7 +2562,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, Ring&lt;?&gt; field) {
 
-
+        <span class="comment">/**
+         * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
+         */</span>
+        <span class="directive">public</span> <span class="predefined-type">Iterator</span>&lt;<span class="predefined-type">String</span>&gt; iterator() {
+            <span class="keyword">return</span> stream().iterator();
+        }
     }
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
@@ -2600,7 +2605,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         );
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
-        const stream = await (await solverResult.stream()).iterator();
+        const stream = await solverResult.iterator();
         <span class="keyword">while</span>(await stream.hasNext()) {
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">has next</span><span class="delimiter">&quot;</span></span>);
             const line = await stream.next();
