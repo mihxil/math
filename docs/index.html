@@ -2455,11 +2455,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             .map(permutation -&gt; permutation.permute(set))
             .map(<span class="predefined-type">List</span>::of)
             .distinct()
-            .flatMap(permuted -&gt;
-                AST.stream(
-                    permuted,
-                    OPERATORS
-                )
+            .flatMap(permuted -&gt; {
+                <span class="keyword">return</span> AST.stream(
+                        permuted,
+                        OPERATORS
+                    );
+                }
             )
             .map( e -&gt; e.canonize(structure))
             .distinct()
@@ -2470,7 +2471,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     <span class="annotation">@SafeVarargs</span>
     <span class="directive">public</span> <span class="directive">final</span> Stream&lt;EvaluatedExpression&lt;E&gt;&gt; evaledStream(E... set) {
-        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">evalling</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(set));
+        log.fine(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaling</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(set));
         <span class="keyword">return</span> stream(set)
             .map(e -&gt; {
                 <span class="keyword">try</span> {
@@ -2492,7 +2493,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         ParseResult&lt;E&gt; outcome = parseOutcome(structure, outcomeString);
         ParseResult&lt;E<span class="type">[]</span>&gt; input = parseInput(structure, inputStrings);
         <span class="keyword">if</span> (outcome.success() &amp;&amp; input.success()) {
-            <span class="keyword">return</span> solve(structure, outcome.result(), input.result());
+            SolverResult result = solve(structure, outcome.result(), input.result());
+            log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">solved</span><span class="delimiter">&quot;</span></span>);
+            <span class="keyword">return</span> result;
         } <span class="keyword">else</span> {
             <span class="keyword">throw</span> <span class="keyword">new</span> NotParsable(outcome.error() + <span class="string"><span class="delimiter">&quot;</span><span class="content">/</span><span class="delimiter">&quot;</span></span> + input.error());
         }
@@ -2503,7 +2506,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
         <span class="comment">//log.info(() -&gt; &quot;Solving input &quot; + List.of(input) + &quot; for &quot; + outcome + &quot; ( in field &quot; + structure + &quot;)&quot;);</span>
-        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">creates solver, not evalling stream</span><span class="delimiter">&quot;</span></span>);
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">creates solver, now evaluating stream</span><span class="delimiter">&quot;</span></span>);
 
         <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(
             solver.evaledStream(input)
@@ -2511,7 +2514,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 e.result().eq(outcome)
             ).peek(e -&gt; matches.getAndIncrement())
             .map(EvaluatedExpression::toString),
-            solver.tries, matches, structure);
+            solver.tries, matches, structure
+        );
     }
 
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
@@ -2588,14 +2592,19 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
+
+
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
         const solverResult = await Solver.solve(
             <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
         );
+        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
         const stream = await (await solverResult.stream()).iterator();
         <span class="keyword">while</span>(await stream.hasNext()) {
+            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">has next</span><span class="delimiter">&quot;</span></span>);
             const line = await stream.next();
+            console.log(line);
             <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await line.toString();
             <span class="local-variable">this</span>.output.scrollTop = <span class="local-variable">this</span>.output.scrollHeight;
         }
