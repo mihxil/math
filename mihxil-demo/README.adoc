@@ -683,7 +683,12 @@ public  class Solver<E extends RingElement<E>> {
 
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
 
-
+        /**
+         * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
+         */
+        public Iterator<String> iterator() {
+            return stream().iterator();
+        }
     }
 
     public static void main(String[] integers) {
@@ -718,7 +723,7 @@ This is the source code for the above.
         );
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
-        const stream = await (await solverResult.stream()).iterator();
+        const stream = await solverResult.iterator();
         while(await stream.hasNext()) {
             console.log("has next");
             const line = await stream.next();
