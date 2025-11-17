@@ -941,7 +941,9 @@
 <pre class="CodeRay highlight"><code data-lang="javascript">async onSubmit(DynamicDateTime){
     <span class="keyword">try</span> {
         const parser = await <span class="keyword">new</span> DynamicDateTime();
-        const parseResult = await parser.applyWithException(<span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value);
+        const parseResult = await parser.applyWithException(
+            <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#dynamicdate_toparse</span><span class="delimiter">&quot;</span></span>).value
+        );
         <span class="local-variable">this</span>.output.value = await parseResult.toString();
     } <span class="keyword">catch</span> (error) {
         console.log(error);
@@ -959,7 +961,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 15:30:10 UTC
+Last updated 2025-11-17 15:34:40 UTC
 </div>
 </div>
 </body>
