@@ -37,10 +37,9 @@ export class BaseClass {
                 "/app/math/resources/jars/" :
                 "/app/resources/jars/";
             const version = "0.19-SNAPSHOT";
-            BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.14.jar:${pref}big-math-2.3.2.jar`);
-            //BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-demo-${version}.jar`);
-            //console.log("cj -> ", await BaseClass.cj);
+            BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.15.jar:${pref}big-math-2.3.2.jar`);
         }
+
         return await BaseClass.cj;
     }
 
