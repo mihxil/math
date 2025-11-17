@@ -154,7 +154,12 @@ public  class Solver<E extends RingElement<E>> {
 
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
 
-
+        /**
+         * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
+         */
+        public Iterator<String> iterator() {
+            return stream().iterator();
+        }
     }
 
     public static void main(String[] integers) {

@@ -53,7 +53,7 @@ export class SolverClass extends BaseClass {
         );
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
-        const stream = await (await solverResult.stream()).iterator();
+        const stream = await solverResult.iterator();
         while(await stream.hasNext()) {
             console.log("has next");
             const line = await stream.next();
