@@ -15,7 +15,9 @@ export class DynamicDate extends BaseClass {
     async onSubmit(DynamicDateTime){
         try {
             const parser = await new DynamicDateTime();
-            const parseResult = await parser.applyWithException(this.form.querySelector("#dynamicdate_toparse").value);
+            const parseResult = await parser.applyWithException(
+                this.form.querySelector("#dynamicdate_toparse").value
+            );
             this.output.value = await parseResult.toString();
         } catch (error) {
             console.log(error);

@@ -47,6 +47,9 @@ body {
     padding: 70px 15px 15px;
     border-right: none;
     background: transparent;
+    h1 {
+      display: none;
+    }
   }
 
   #content {
@@ -69,14 +72,7 @@ body {
   }
 
   #preamble {
-    position: static;
-    width: auto;
-    padding: 15px;
-    font-family: sans-serif;
-
-    .note {
-      display: none;
-    }
+    display: none;
   }
 
   #footer {
