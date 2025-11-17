@@ -14,11 +14,13 @@
 <!--script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script-->
 
 <script src="resources/demo.js" type="module" ></script>
-<script src="resources/demo-standalone.js" type="module" ></script>
+<script src="resources/demo-standalone.js"
+        type="module" ></script>
 <script src="resources/calculator.js" type="module" ></script>
 <script src="resources/dynamicdate.js" type="module" ></script>
 <script src="resources/solver.js" type="module" ></script>
-<link rel="stylesheet" href="resources/css/demo-standalone.css" />
+<link rel="stylesheet" href="resources/css/demo-standalone.css" media="(min-width: 768px)" />
+<link rel="stylesheet" href="resources/css/demo-standalone-mobile.css" media="(max-width: 768px)" />
 <link rel="stylesheet" href="resources/css/demo.css" />
 <link rel="stylesheet" href="resources/css/calculator.css" />
 
@@ -919,7 +921,8 @@
     <option value="2005-01-01 this monday"></option>
     <option value="next year"></option>
     <option value="&quot;spring&quot;"></option>
-    <option value="next year &quot;spring&quot;"></option>
+    <option value="next 'spring'"></option>
+    <option value="2030-01-01 this 'spring'"></option>
     <option value="&quot;easter sunday&quot;"></option>
    </datalist>
    <br />
@@ -956,7 +959,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 15:26:01 UTC
+Last updated 2025-11-17 15:30:10 UTC
 </div>
 </div>
 </body>
