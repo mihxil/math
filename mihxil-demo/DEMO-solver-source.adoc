@@ -66,6 +66,6 @@ include::src/main/java/org/meeuw/math/demo/Solver.java[indent=-]
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/solver.js[indent=-,tag=solver]
+include::resources/js/solver.js[indent=-,tag=solver]
 ----
 ====

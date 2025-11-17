@@ -73,6 +73,6 @@ include::src/main/java/org/meeuw/math/demo/Calculator.java[indent=-,tag=eval]
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/calculator.js[indent=-,tag=calculator]
+include::resources/js/calculator.js[indent=-,tag=calculator]
 ----
 ====

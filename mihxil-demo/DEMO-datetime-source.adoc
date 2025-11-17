@@ -98,7 +98,7 @@ The link:https://github.com/mihxil/math/tree/main/mihxil-time[`mihxil-time`] mod
 This is the source code for the above.
 [source,javascript]
 ----
-include::resources/dynamicdate.js[indent=-,tag=dynamicdate]
+include::resources/js/dynamicdate.js[indent=-,tag=dynamicdate]
 ----
 ====
 

@@ -23,8 +23,8 @@ DEMO.html: ../mihxil-demo/README-source.adoc ../mihxil-demo/README-source-docinf
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
 
 resources:  ## copy resources from ../mihxil-demo
-	find ../mihxil-demo/resources -type f -name '*.js' -exec sh -c 'echo "/* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */" > resources/$$(basename $$1) ; cat $$1 >> resources/$$(basename $$1)' sh \{\} \;
-	find ../mihxil-demo/resources -type f -name '*.svg' -exec sh -c 'echo "<!-- DO NOT EDIT. Copied from ../mihxil-demo/resources/ -->" > resources/$$(basename $$1) ; cat $$1 >> resources/$$(basename $$1)' sh \{\} \;
+	find ../mihxil-demo/resources/js -type f -name '*.js' -exec sh -c 'echo "/* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */" > resources/js/$$(basename $$1) ; cat $$1 >> resources/js/$$(basename $$1)' sh \{\} \;
+	find ../mihxil-demo/resources/images -type f -name '*.svg' -exec sh -c 'echo "<!-- DO NOT EDIT. Copied from ../mihxil-demo/images/resources/ -->" > resources/images/$$(basename $$1) ; cat $$1 >> resources/images/$$(basename $$1)' sh \{\} \;
 
 sass/%.scss: ../mihxil-demo/sass/%.scss
 	echo '// DO NOT EDIT' > $@
