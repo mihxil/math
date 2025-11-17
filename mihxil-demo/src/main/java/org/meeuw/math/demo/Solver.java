@@ -60,10 +60,13 @@ public  class Solver<E extends RingElement<E>> {
 
 
 
-    public Stream<EvaluatedExpression<E>> evaledStream(E... set) {
+    @SafeVarargs
+    public final Stream<EvaluatedExpression<E>> evaledStream(E... set) {
+        log.info("evalling" + List.of(set));
         return stream(set)
             .map(e -> {
                 try {
+                    log.fine("Evaling" + e);
                     E evaled = e.eval();
                     return new EvaluatedExpression<>(e, evaled);
                 } catch (MathException ex) {
@@ -88,12 +91,14 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public  static <E extends RingElement<E>> SolverResult solve(Ring<E> structure, E outcome, E[] input) {
-
+        log.info("solving");
         Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
-        log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
+        //log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
+        log.info("creates solver, not evalling stream");
 
-        return new SolverResult(solver.evaledStream(input)
+        return new SolverResult(
+            solver.evaledStream(input)
             .filter(e ->
                 e.result().eq(outcome)
             ).peek(e -> matches.getAndIncrement())

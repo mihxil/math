@@ -1,0 +1,74 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+body #toc {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #f4f4f4;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  max-height: 60px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+body #toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+body #toc li {
+  display: inline-block;
+}
+body #toc a {
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  display: inline-block;
+}
+body #toc a.active {
+  font-weight: bold;
+  background: #ddd;
+  border-radius: 3px;
+}
+body #header {
+  position: static;
+  width: 100%;
+  height: auto;
+  padding: 70px 15px 15px;
+  border-right: none;
+  background: transparent;
+}
+body #header h1 {
+  display: none;
+}
+body #content {
+  margin-left: 0;
+  margin-top: 0;
+  padding: 70px 15px 15px;
+  width: auto;
+}
+body #toctitle {
+  display: none;
+}
+body .sect1 {
+  display: none;
+}
+body .sect1:has(> h2:target) {
+  display: block;
+}
+body #preamble {
+  display: none;
+}
+body #footer {
+  position: static;
+  width: 100%;
+  background: #a0a0a0;
+  padding: 15px;
+}
+
+/*# sourceMappingURL=demo-standalone-mobile.css.map */
