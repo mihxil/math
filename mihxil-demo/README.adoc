@@ -5,7 +5,7 @@
 :source-highlighter: coderay
 :toc:
 
-These are a running https://webassembly.org/[webassembly]  demos using  image:resources/images/cheerpj.svg[link=https://cheerpj.com/docs/getting-started/Java-library].
+These are a running https://webassembly.org/[webassembly]  demos using  image:resources/images/cheerpj.svg[width=150px, link=https://cheerpj.com/docs/getting-started/Java-library].
 
 [NOTE]
 ====
