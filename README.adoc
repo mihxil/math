@@ -473,7 +473,8 @@ Finally, then entire thing can be post fixed and prefixed by an explicit timezon
     <option value="2005-01-01 this monday"></option>
     <option value="next year"></option>
     <option value="&quot;spring&quot;"></option>
-    <option value="next year &quot;spring&quot;"></option>
+    <option value="next 'spring'"></option>
+    <option value="2030-01-01 this 'spring'"></option>
     <option value="&quot;easter sunday&quot;"></option>
    </datalist>
    <br />
