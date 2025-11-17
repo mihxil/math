@@ -1039,9 +1039,7 @@ Your browser does not support the video tag.
     } <span class="keyword">catch</span> (error) {
         console.log(error);
         <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
-
     }
-
 }</code></pre>
 </div>
 </div>
@@ -2233,6 +2231,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated example li for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
         }
     }
+
     async updateHelp() {
         const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
         const div = <span class="local-variable">this</span>.field.parentNode.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">div.help</span><span class="delimiter">&quot;</span></span>);
@@ -2253,6 +2252,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             }
         }
     }
+
     operatorDts(dl, operators) {
         <span class="local-variable">this</span>.dts(dl, operators, async e =&gt; {
             <span class="local-variable">this</span>.insertOperator(e.target.textContent);
@@ -2313,7 +2313,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="local-variable">this</span>.dts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_digits dl</span><span class="delimiter">&quot;</span></span>), elements, async e =&gt; {
             <span class="local-variable">this</span>.insert(e.target.textContent);
         }, <span class="integer">10</span>);
-
     }
 
     async onSubmit(Calculator) {
@@ -2324,7 +2323,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             <span class="local-variable">this</span>.input.value, <span class="local-variable">this</span>.field.value
         );
     }
-
 }</code></pre>
 </div>
 </div>
@@ -2604,8 +2602,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
-
-
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
         const solverResult = await Solver.solve(
             <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
@@ -2739,9 +2735,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     } <span class="keyword">catch</span> (error) {
         console.log(error);
         <span class="local-variable">this</span>.output.value = await (await error.getMessage()).toString();
-
     }
-
 }</code></pre>
 </div>
 </div>

@@ -43,11 +43,7 @@ export class SolverClass extends BaseClass {
     }
 
 // tag::solver[]
-
-
     async onSubmit(Solver) {
-
-
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
