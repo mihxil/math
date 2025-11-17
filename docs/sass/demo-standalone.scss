@@ -38,6 +38,9 @@ body {
     &:has(>h2:target) {
       display: block;
     }
+     + .sect1 {
+       border-top: none !important;
+     }
   }
   #preamble {
     font-family: sans-serif;

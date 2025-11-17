@@ -29,6 +29,9 @@ body .sect1 {
 body .sect1:has(> h2:target) {
   display: block;
 }
+body .sect1 + .sect1 {
+  border-top: none !important;
+}
 body #preamble {
   font-family: sans-serif;
   position: fixed;
