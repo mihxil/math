@@ -47,11 +47,12 @@ public  class Solver<E extends RingElement<E>> {
             .map(permutation -> permutation.permute(set))
             .map(List::of)
             .distinct()
-            .flatMap(permuted ->
-                AST.stream(
-                    permuted,
-                    OPERATORS
-                )
+            .flatMap(permuted -> {
+                return AST.stream(
+                        permuted,
+                        OPERATORS
+                    );
+                }
             )
             .map( e -> e.canonize(structure))
             .distinct()
@@ -62,7 +63,7 @@ public  class Solver<E extends RingElement<E>> {
 
     @SafeVarargs
     public final Stream<EvaluatedExpression<E>> evaledStream(E... set) {
-        log.info("evalling" + List.of(set));
+        log.fine("evaling" + List.of(set));
         return stream(set)
             .map(e -> {
                 try {
@@ -84,7 +85,9 @@ public  class Solver<E extends RingElement<E>> {
         ParseResult<E> outcome = parseOutcome(structure, outcomeString);
         ParseResult<E[]> input = parseInput(structure, inputStrings);
         if (outcome.success() && input.success()) {
-            return solve(structure, outcome.result(), input.result());
+            SolverResult result = solve(structure, outcome.result(), input.result());
+            log.info("solved");
+            return result;
         } else {
             throw new NotParsable(outcome.error() + "/" + input.error());
         }
@@ -95,7 +98,7 @@ public  class Solver<E extends RingElement<E>> {
         Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
         //log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
-        log.info("creates solver, not evalling stream");
+        log.info("creates solver, now evaluating stream");
 
         return new SolverResult(
             solver.evaledStream(input)
@@ -103,7 +106,8 @@ public  class Solver<E extends RingElement<E>> {
                 e.result().eq(outcome)
             ).peek(e -> matches.getAndIncrement())
             .map(EvaluatedExpression::toString),
-            solver.tries, matches, structure);
+            solver.tries, matches, structure
+        );
     }
 
     public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> field, String outcomeString) {

@@ -2,6 +2,9 @@ body {
   margin: 0;
   padding: 0;
 }
+body .note {
+  display: none;
+}
 body #toc {
   position: fixed;
   top: 0;
@@ -69,6 +72,12 @@ body #footer {
   width: 100%;
   background: #a0a0a0;
   padding: 15px;
+}
+body .sect1 h2 {
+  display: none;
+}
+body #dynamicdate_toparse-examples {
+  display: none !important;
 }
 
 /*# sourceMappingURL=demo-standalone-mobile.css.map */

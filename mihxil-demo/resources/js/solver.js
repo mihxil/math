@@ -45,14 +45,19 @@ export class SolverClass extends BaseClass {
 
 
     async onSubmit(Solver) {
+
+
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
         );
+        console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
         const stream = await (await solverResult.stream()).iterator();
         while(await stream.hasNext()) {
+            console.log("has next");
             const line = await stream.next();
+            console.log(line);
             this.output.value += "\n" + await line.toString();
             this.output.scrollTop = this.output.scrollHeight;
         }
