@@ -10,6 +10,8 @@ body #toc {
   top: 0;
   left: 0;
   width: 100%;
+  margin-top: 0px !important;
+  border-top: none !important;
   background: #f4f4f4;
   border-bottom: 1px solid #ddd;
   padding: 10px;
@@ -42,7 +44,8 @@ body #header {
   position: static;
   width: 100%;
   height: auto;
-  padding: 70px 15px 15px;
+  padding-left: 15px;
+  padding-right: 15px;
   border-right: none;
   background: transparent;
 }
@@ -64,17 +67,21 @@ body .sect1 {
 body .sect1:has(> h2:target) {
   display: block;
 }
+body .sect1 h2 {
+  display: none;
+}
+body .sect1 + .sect1 {
+  border-top: none !important;
+}
 body #preamble {
   display: none;
 }
 body #footer {
-  position: static;
-  width: 100%;
-  background: #a0a0a0;
-  padding: 15px;
-}
-body .sect1 h2 {
-  display: none;
+  display: none; /*
+    width: 100%;
+    background: #a0a0a0;
+    padding: 15px;
+*/
 }
 body #dynamicdate_toparse-examples {
   display: none !important;
