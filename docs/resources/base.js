@@ -47,7 +47,7 @@ export class BaseClass {
     static async loadClassesForForm(className, classNames) {
         const cjj = await BaseClass.getCheerpj();
 
-        await (await cjj['org.meeuw.math.demo.DemoUtils']).setupLogging('FINE');
+        await (await cjj['org.meeuw.math.demo.DemoUtils']).setupLogging('INFO');
         console.log(cjj, "setting up", className, classNames);
         for (const c of classNames) {
             await cjj[c]
@@ -134,7 +134,7 @@ export class BaseClass {
     }
 
     async onSubmit(Class) {
-
+        console.log("No override, this is abstract");
 
     }
 
@@ -152,7 +152,7 @@ export class BaseClass {
             this.button.textContent = "executing..";
             await this.onSubmit(this.Class);
         } catch (e) {
-            console.log(e);
+            console.log("exception", e, e.stack);
             this.output.value = e.stack ? e.stack : await e.toString();
         } finally {
             console.log("submit ready");
