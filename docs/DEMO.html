@@ -13,12 +13,12 @@
 <script src="https://cjrtnc.leaningtech.com/20251012_2759/loader.js" type="text/javascript"></script>
 <!--script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script-->
 
-<script src="resources/demo.js" type="module" ></script>
-<script src="resources/demo-standalone.js"
+<script src="resources/js/demo.js" type="module" ></script>
+<script src="resources/js/demo-standalone.js"
         type="module" ></script>
-<script src="resources/calculator.js" type="module" ></script>
-<script src="resources/dynamicdate.js" type="module" ></script>
-<script src="resources/solver.js" type="module" ></script>
+<script src="resources/js/calculator.js" type="module" ></script>
+<script src="resources/js/dynamicdate.js" type="module" ></script>
+<script src="resources/js/solver.js" type="module" ></script>
 <link rel="stylesheet" href="resources/css/demo-standalone.css" media="(min-width: 768px)" />
 <link rel="stylesheet" href="resources/css/demo-standalone-mobile.css" media="(max-width: 768px)" />
 <link rel="stylesheet" href="resources/css/demo.css" />
@@ -42,7 +42,7 @@
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>These are a running <a href="https://webassembly.org/">webassembly</a>  demos using  <span class="image"><a class="image" href="https://cheerpj.com/docs/getting-started/Java-library"><img src="resources/cheerpj.svg" alt="cheerpj"></a></span>.</p>
+<p>These are a running <a href="https://webassembly.org/">webassembly</a>  demos using  <span class="image"><a class="image" href="https://cheerpj.com/docs/getting-started/Java-library"><img src="resources/images/cheerpj.svg" alt="cheerpj"></a></span>.</p>
 </div>
 <div class="admonitionblock note">
 <table>
@@ -701,10 +701,13 @@
 
 
 
-    <span class="directive">public</span> Stream&lt;EvaluatedExpression&lt;E&gt;&gt; evaledStream(E... set) {
+    <span class="annotation">@SafeVarargs</span>
+    <span class="directive">public</span> <span class="directive">final</span> Stream&lt;EvaluatedExpression&lt;E&gt;&gt; evaledStream(E... set) {
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">evalling</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(set));
         <span class="keyword">return</span> stream(set)
             .map(e -&gt; {
                 <span class="keyword">try</span> {
+                    log.fine(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaling</span><span class="delimiter">&quot;</span></span> + e);
                     E evaled = e.eval();
                     <span class="keyword">return</span> <span class="keyword">new</span> EvaluatedExpression&lt;&gt;(e, evaled);
                 } <span class="keyword">catch</span> (MathException ex) {
@@ -729,12 +732,14 @@
     }
 
     <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; SolverResult solve(Ring&lt;E&gt; structure, E outcome, E<span class="type">[]</span> input) {
-
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">solving</span><span class="delimiter">&quot;</span></span>);
         Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Solving input </span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(input) + <span class="string"><span class="delimiter">&quot;</span><span class="content"> for </span><span class="delimiter">&quot;</span></span> + outcome + <span class="string"><span class="delimiter">&quot;</span><span class="content"> ( in field </span><span class="delimiter">&quot;</span></span> + structure + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>);
+        <span class="comment">//log.info(() -&gt; &quot;Solving input &quot; + List.of(input) + &quot; for &quot; + outcome + &quot; ( in field &quot; + structure + &quot;)&quot;);</span>
+        log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">creates solver, not evalling stream</span><span class="delimiter">&quot;</span></span>);
 
-        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(solver.evaledStream(input)
+        <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(
+            solver.evaledStream(input)
             .filter(e -&gt;
                 e.result().eq(outcome)
             ).peek(e -&gt; matches.getAndIncrement())
@@ -961,7 +966,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 15:46:17 UTC
+Last updated 2025-11-17 16:19:10 UTC
 </div>
 </div>
 </body>

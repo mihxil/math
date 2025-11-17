@@ -1,4 +1,4 @@
-/* DO NOT EDIT. Copied from ../mihxil-demo/resources/ */
+/* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */
 
 
 export class BaseClass {
