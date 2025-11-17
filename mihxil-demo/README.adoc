@@ -747,7 +747,7 @@ This is the source code for the above.
 [#demo_dynamicdate]
 = Dynamic date parsing
 
-The link:https://github.com/mihxil/math/tree/main/mihxil-time[`mihxil-time`] module contain a 'dynamic date parser. I dusted this of from old link:https://mmbase.org[mmbase] code.
+The link:https://github.com/mihxil/math/tree/main/mihxil-time[`mihxil-time`] module contain a 'dynamic date parser. I dusted this of from old link:https://www.mmbase.org[mmbase] code.
 
 // tag::body[]
 
