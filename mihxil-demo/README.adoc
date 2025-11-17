@@ -367,6 +367,7 @@ This is the source code for the above.
             console.log("Updated example li for", selectedField, information.examples);
         }
     }
+
     async updateHelp() {
         const fieldInformation =  this.information[this.field.value];
         const div = this.field.parentNode.querySelector("div.help");
@@ -387,6 +388,7 @@ This is the source code for the above.
             }
         }
     }
+
     operatorDts(dl, operators) {
         this.dts(dl, operators, async e => {
             this.insertOperator(e.target.textContent);
@@ -447,7 +449,6 @@ This is the source code for the above.
         this.dts(document.querySelector("#calculator_digits dl"), elements, async e => {
             this.insert(e.target.textContent);
         }, 10);
-
     }
 
     async onSubmit(Calculator) {
@@ -458,8 +459,8 @@ This is the source code for the above.
             this.input.value, this.field.value
         );
     }
-
 }
+
 ----
 ====
 
@@ -712,11 +713,7 @@ public  class Solver<E extends RingElement<E>> {
 This is the source code for the above.
 [source,javascript]
 ----
-
-
     async onSubmit(Solver) {
-
-
         this.output.value += "using: " + await (this.model.field).toString();
         const solverResult = await Solver.solve(
             this.model.field, this.outcome.value, this.input.value
@@ -844,7 +841,6 @@ The link:https://github.com/mihxil/math/tree/main/mihxil-time[`mihxil-time`] mod
 This is the source code for the above.
 [source,javascript]
 ----
-
 async onSubmit(DynamicDateTime){
     try {
         const parser = await new DynamicDateTime();
@@ -855,11 +851,8 @@ async onSubmit(DynamicDateTime){
     } catch (error) {
         console.log(error);
         this.output.value = await (await error.getMessage()).toString();
-
     }
-
 }
-
 ----
 ====
 

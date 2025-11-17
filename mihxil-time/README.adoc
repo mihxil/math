@@ -182,7 +182,6 @@ Finally, then entire thing can be post fixed and prefixed by an explicit timezon
 This is the source code for the above.
 [source,javascript]
 ----
-
 async onSubmit(DynamicDateTime){
     try {
         const parser = await new DynamicDateTime();
@@ -193,11 +192,8 @@ async onSubmit(DynamicDateTime){
     } catch (error) {
         console.log(error);
         this.output.value = await (await error.getMessage()).toString();
-
     }
-
 }
-
 ----
 ====
 
