@@ -11,16 +11,15 @@
 <meta name="keywords" content="open source, documentation" />
 <meta name="demo" content="demo" />
 <script src="https://cjrtnc.leaningtech.com/20251012_2759/loader.js" type="text/javascript"></script>
-
-
 <!--script src="https://cjrtnc.leaningtech.com/4.2/loader.js"></script-->
 
 <script src="resources/js/demo.js" type="module" ></script>
-<script src="resources/js/demo-standalone.js"
-        type="module" ></script>
+<script src="resources/js/demo-standalone.js" type="module" ></script>
+
 <script src="resources/js/calculator.js" type="module" ></script>
 <script src="resources/js/dynamicdate.js" type="module" ></script>
 <script src="resources/js/solver.js" type="module" ></script>
+
 <link rel="stylesheet" href="resources/css/demo-standalone.css" media="(min-width: 768px)" />
 <link rel="stylesheet" href="resources/css/demo-standalone-mobile.css" media="(max-width: 768px)" />
 <link rel="stylesheet" href="resources/css/demo.css" />
@@ -797,7 +796,12 @@
 
     <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, Ring&lt;?&gt; field) {
 
-
+        <span class="comment">/**
+         * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
+         */</span>
+        <span class="directive">public</span> <span class="predefined-type">Iterator</span>&lt;<span class="predefined-type">String</span>&gt; iterator() {
+            <span class="keyword">return</span> stream().iterator();
+        }
     }
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
@@ -835,7 +839,7 @@
         );
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
-        const stream = await (await solverResult.stream()).iterator();
+        const stream = await solverResult.iterator();
         <span class="keyword">while</span>(await stream.hasNext()) {
             console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">has next</span><span class="delimiter">&quot;</span></span>);
             const line = await stream.next();
@@ -977,7 +981,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-17 20:01:05 UTC
+Last updated 2025-11-17 20:16:56 UTC
 </div>
 </div>
 </body>
