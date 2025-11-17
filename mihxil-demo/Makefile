@@ -44,7 +44,7 @@ sasswatch:
 
 
 
-index.html: README-source.adoc README-source-docinfo.html Makefile resources/css/demo-standalone.css resources/css/demo.css  resources/css/calculator.css DEMO-*.adoc    ## create index.html from README-source.adoc
+index.html: README-source.adoc README-source-docinfo.html Makefile resources/css/demo-standalone.css resources/css/demo-standalone-mobile.css resources/css/demo.css  resources/css/calculator.css DEMO-*.adoc    ## create index.html from README-source.adoc
 	asciidoctor $< -a htmled=true -a docs=. -o $@
 	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
 
