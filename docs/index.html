@@ -2005,7 +2005,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="string"><span class="delimiter">&quot;</span><span class="content">10 - 4</span><span class="delimiter">&quot;</span></span>
     ),
     squares(Squares.INSTANCE,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">2 ⋅ 9</span><span class="delimiter">&quot;</span></span>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">4 ⋅ 9</span><span class="delimiter">&quot;</span></span>
     ),
     klein(KleinGroup.INSTANCE,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">a * b * c * e</span><span class="delimiter">&quot;</span></span>,
@@ -2468,6 +2468,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <span class="keyword">import</span> <span class="include">lombok.extern.java.Log</span>;
 
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.CancellationException</span>;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.function.Function</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Collectors</span>;
@@ -2510,6 +2511,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     <span class="directive">native</span> <span class="type">void</span> callBack(<span class="type">long</span> considered, <span class="type">long</span> tried, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression);
 
+    <span class="directive">native</span> <span class="type">boolean</span> cancelled();
+
     <span class="annotation">@SafeVarargs</span>
     <span class="directive">public</span> <span class="directive">final</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;E&gt;&gt; stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
@@ -2534,6 +2537,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                     OPERATORS
                 )
             )
+            .peek((p) -&gt; {
+                <span class="keyword">if</span> (cancelled()) {
+                    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="exception">CancellationException</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">cancelled</span><span class="delimiter">&quot;</span></span>);
+                }
+            })
             .map( e -&gt; e.canonize(structure))
             .peek(e -&gt; {
                 considered.incrementAndGet();
