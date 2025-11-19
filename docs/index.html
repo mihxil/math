@@ -2495,43 +2495,48 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     );
 
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">AtomicLong</span> tries = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
+    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">AtomicLong</span> considered = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
 
     <span class="annotation">@Getter</span>
     <span class="directive">private</span> <span class="directive">final</span> Ring&lt;E&gt; structure;
 
     <span class="directive">public</span> Solver(Ring&lt;E&gt; structure) {
         <span class="local-variable">this</span>.structure = structure;
+
     }
+
+    <span class="directive">native</span> <span class="type">void</span> callBack(<span class="type">long</span> current, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression);
 
     <span class="annotation">@SafeVarargs</span>
     <span class="directive">public</span> <span class="directive">final</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;E&gt;&gt; stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
-
+        <span class="type">long</span> total = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
         <span class="keyword">return</span> permutations.stream()
             .map(permutation -&gt; permutation.permute(set))
             .map(<span class="predefined-type">List</span>::of)
             .distinct()
-            .flatMap(permuted -&gt; {
-                <span class="keyword">return</span> AST.stream(
-                        permuted,
-                        OPERATORS
-                    );
-                }
+            .flatMap(permuted -&gt;
+                AST.stream(
+                    permuted,
+                    OPERATORS
+                )
             )
             .map( e -&gt; e.canonize(structure))
             .distinct()
-            .peek(e -&gt; tries.getAndIncrement());
+            .peek(e -&gt;
+                callBack(tries.getAndIncrement(), total, e)
+            );
     }
 
 
 
     <span class="annotation">@SafeVarargs</span>
     <span class="directive">public</span> <span class="directive">final</span> Stream&lt;EvaluatedExpression&lt;E&gt;&gt; evaledStream(E... set) {
-        log.fine(<span class="string"><span class="delimiter">&quot;</span><span class="content">evaling</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(set));
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">evaling</span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">List</span>.of(set));
         <span class="keyword">return</span> stream(set)
             .map(e -&gt; {
                 <span class="keyword">try</span> {
-                    log.fine(<span class="string"><span class="delimiter">&quot;</span><span class="content">Evaling</span><span class="delimiter">&quot;</span></span> + e);
+                    log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaling </span><span class="delimiter">&quot;</span></span> +  e);
                     E evaled = e.eval();
                     <span class="keyword">return</span> <span class="keyword">new</span> EvaluatedExpression&lt;&gt;(e, evaled);
                 } <span class="keyword">catch</span> (MathException ex) {
@@ -2544,12 +2549,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     <span class="comment">/**
      *
      */</span>
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; SolverResult solve(Ring&lt;E&gt; structure, <span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> inputStrings) {
+    <span class="directive">public</span> SolverResult solve(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> inputStrings) {
 
-        ParseResult&lt;E&gt; outcome = parseOutcome(structure, outcomeString);
-        ParseResult&lt;E<span class="type">[]</span>&gt; input = parseInput(structure, inputStrings);
+        ParseResult&lt;E&gt; outcome = parseOutcome(outcomeString);
+        ParseResult&lt;E<span class="type">[]</span>&gt; input = parseInput(inputStrings);
         <span class="keyword">if</span> (outcome.success() &amp;&amp; input.success()) {
-            SolverResult result = solve(structure, outcome.result(), input.result());
+            SolverResult result = solve(outcome.result(), input.result());
             log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">solved</span><span class="delimiter">&quot;</span></span>);
             <span class="keyword">return</span> result;
         } <span class="keyword">else</span> {
@@ -2557,52 +2562,61 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
 
-    <span class="directive">public</span>  <span class="directive">static</span> &lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; SolverResult solve(Ring&lt;E&gt; structure, E outcome, E<span class="type">[]</span> input) {
+
+    <span class="directive">public</span> SolverResult solve(E outcome, E<span class="type">[]</span> input) {
         log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">solving</span><span class="delimiter">&quot;</span></span>);
-        Solver&lt;E&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(structure);
         <span class="predefined-type">AtomicLong</span> matches = <span class="keyword">new</span> <span class="predefined-type">AtomicLong</span>();
         <span class="comment">//log.info(() -&gt; &quot;Solving input &quot; + List.of(input) + &quot; for &quot; + outcome + &quot; ( in field &quot; + structure + &quot;)&quot;);</span>
         log.info(<span class="string"><span class="delimiter">&quot;</span><span class="content">creates solver, now evaluating stream</span><span class="delimiter">&quot;</span></span>);
 
         <span class="keyword">return</span> <span class="keyword">new</span> SolverResult(
-            solver.evaledStream(input)
+            evaledStream(input)
             .filter(e -&gt;
                 e.result().eq(outcome)
             ).peek(e -&gt; matches.getAndIncrement())
-            .map(EvaluatedExpression::toString),
-            solver.tries, matches, structure
+                .map(EvaluatedExpression::toString),
+            tries, matches, structure
         );
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; field, <span class="predefined-type">String</span> outcomeString) {
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + field);
+
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; structure, <span class="predefined-type">String</span> outcomeString) {
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
 
         <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
         F result;
         <span class="keyword">try</span> {
-            result = field.fromString(outcomeString);
+            result = structure.fromString(outcomeString);
         } <span class="keyword">catch</span> (NotParsable pe) {
             result = <span class="predefined-constant">null</span>;
             resultError = pe.getMessage();
         }
-        <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;F&gt;(outcomeString, result, resultError);
+        <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;&gt;(outcomeString, result, resultError);
     }
-    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; field, <span class="predefined-type">String</span> inputStrings) {
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + inputStrings + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + field);
+    <span class="directive">public</span> ParseResult&lt;E&gt; parseOutcome(<span class="predefined-type">String</span> outcomeString) {
+        <span class="keyword">return</span> parseOutcome(<span class="local-variable">this</span>.structure, outcomeString);
+    }
+
+    <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; structure, <span class="predefined-type">String</span> inputStrings) {
+        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + inputStrings + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
 
         <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
 
         <span class="predefined-type">String</span><span class="type">[]</span> input = inputStrings.split(<span class="string"><span class="delimiter">&quot;</span><span class="char">\\</span><span class="content">s+</span><span class="delimiter">&quot;</span></span>);
-        F<span class="type">[]</span> set = field.newArray(input.length);
+        F<span class="type">[]</span> set = structure.newArray(input.length);
         <span class="keyword">try</span> {
             <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt; set.length; i++) {
-                set[i] = field.fromString(input[i]);
+                set[i] = structure.fromString(input[i]);
             }
         } <span class="keyword">catch</span> (NotParsable pe) {
             inputError = pe.getMessage();
         }
         <span class="keyword">return</span> <span class="keyword">new</span> ParseResult&lt;&gt;(inputStrings, set, inputError);
     }
+    <span class="directive">public</span> ParseResult&lt;E<span class="type">[]</span>&gt; parseInput(<span class="predefined-type">String</span> inputStrings) {
+        <span class="keyword">return</span> parseInput(<span class="local-variable">this</span>.structure, inputStrings);
+    }
+
 
     <span class="directive">public</span> <span class="directive">static</span> Ring&lt;?&gt; algebraicStructureFor(<span class="predefined-type">String</span> outcomeString, <span class="predefined-type">String</span> input) {
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Determining algebraic structure for outcome </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> and input </span><span class="delimiter">&quot;</span></span> + input);
@@ -2635,7 +2649,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="predefined-type">String</span> inputStrings = <span class="predefined-type">String</span>.join(<span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span>, <span class="predefined-type">Arrays</span>.copyOfRange(integers, <span class="integer">1</span>, integers.length));
 
         Ring&lt;?&gt; field = algebraicStructureFor(resultString, inputStrings);
-        SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
+
+        Solver&lt;?&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(field);
+        SolverResult solverResult = solver.solve(resultString, inputStrings);
         solverResult.stream().forEach(<span class="predefined-type">System</span>.out::println);
         <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + solverResult.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + solverResult.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + solverResult.field().toString());
     }
@@ -2654,16 +2670,16 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
-        const solverResult = await Solver.solve(
-            <span class="local-variable">this</span>.model.field, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
+        const solver = await <span class="keyword">new</span> Solver(<span class="local-variable">this</span>.model.field);
+        console.log(solver, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value);
+        const solverResult = await solver.solve(
+            <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
         );
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
         const stream = await solverResult.iterator();
         <span class="keyword">while</span>(await stream.hasNext()) {
-            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">has next</span><span class="delimiter">&quot;</span></span>);
             const line = await stream.next();
-            console.log(line);
             <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await line.toString();
             <span class="local-variable">this</span>.output.scrollTop = <span class="local-variable">this</span>.output.scrollHeight;
         }
