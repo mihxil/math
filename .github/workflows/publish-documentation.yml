@@ -10,7 +10,7 @@ on:
       - 'docs/Makefile'
       - 'docs/shapes/*.svg'
       - 'mihxil-demo/sass/*'
-      - 'mihxil-demo/resources/*'
+      - 'mihxil-demo/resources/**'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
 
