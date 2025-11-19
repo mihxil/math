@@ -1,10 +1,12 @@
 package org.meeuw.math.arithmetic.ast;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.infix.InfixParser;
 import org.meeuw.math.arithmetic.ast.infix.ParseException;
@@ -23,6 +25,11 @@ public class AST {
     }
 
 
+    public static BigInteger streamSize(int numberOfLeaves, int numberOfOperators) {
+
+        return IntegerUtils.catalan(numberOfLeaves - 1).multiply(BigInteger.valueOf(numberOfLeaves).pow(numberOfLeaves - 1));
+
+    }
     /**
      * Return a stream of all possible AST expression with given leaves and operators
      * @param leaves

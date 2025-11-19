@@ -98,9 +98,21 @@ class ASTTest {
 
     @Test
     public void stream() {
-        assertThat(AST.stream(List.of(INSTANCE.element(1), INSTANCE.element(2)),
+        assertThat(AST.stream(
+            List.of(INSTANCE.element(1),
+                INSTANCE.element(2)),
             List.of(
                 ADDITION,MULTIPLICATION)
         ).toList().toString()).isEqualTo("[(binary:(value:1) + (value:2)), (binary:(value:1) ⋅ (value:2))]");
+    }
+
+    @Test
+    public void streamSize() {
+        assertThat(AST.stream(
+            List.of(INSTANCE.element(1),
+                INSTANCE.element(2)),
+            List.of(
+                ADDITION,MULTIPLICATION)
+        ).toList()).hasSize(AST.streamSize(2, 2).intValue());
     }
 }
