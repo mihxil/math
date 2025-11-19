@@ -25,16 +25,19 @@ export class BaseClass {
             BaseClass.cjInit = "locked";
             const properties = [
                 `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
+            const buttons =  document.querySelectorAll('button.cheerpjprogress');
             function showPreloadProgress(preloadDone, preloadTotal) {
-                const percentage = (preloadDone * 100) / preloadTotal;
+                const percentage = Math.round((preloadDone * 100) / preloadTotal);
                 //console.log("Percentage loaded " + (preloadDone * 100) / preloadTotal);
                 // Update all loading buttons
                 console.log(percentage);
-
-                document.querySelectorAll('button.cheerpjprogress.loading').forEach(btn => {
-                    console.log(btn, percentage);
+                buttons.forEach(btn => {
                     btn.style.setProperty('--progress', `${percentage}%`);
+                    if (percentage === 100){
+                        btn.classList.remove('loading');
+                    }
                 });
+
             }
 
             const settings = {
