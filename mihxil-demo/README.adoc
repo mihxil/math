@@ -589,8 +589,11 @@ import lombok.extern.java.Log;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Ring;
 import org.meeuw.math.abstractalgebra.RingElement;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
@@ -625,12 +628,22 @@ public  class Solver<E extends RingElement<E>> {
 
     }
 
-    native void callBack(long current, long total, Expression<E> expression);
+    native void callBack(long considered, long tried, long total, Expression<E> expression);
 
     @SafeVarargs
     public final Stream<Expression<E>> stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
-        long total = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
+        long streamSize = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
+
+        long dividor = Arrays.stream(set)
+            .collect(Collectors.groupingBy(
+                Function.identity(),
+                Collectors.counting()
+            )).values().stream()
+             .map(count -> IntegerUtils.factorial(count.intValue()))
+            .reduce(1L, (a, b) -> a * b);
+        long total = streamSize / dividor;
+
         return permutations.stream()
             .map(permutation -> permutation.permute(set))
             .map(List::of)
@@ -642,9 +655,12 @@ public  class Solver<E extends RingElement<E>> {
                 )
             )
             .map( e -> e.canonize(structure))
+            .peek(e -> {
+                considered.incrementAndGet();
+            })
             .distinct()
             .peek(e ->
-                callBack(tries.getAndIncrement(), total, e)
+                callBack(considered.get(), tries.incrementAndGet(), total, e)
             );
     }
 
