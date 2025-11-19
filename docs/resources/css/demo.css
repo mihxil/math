@@ -4,7 +4,10 @@ button.cheerpjprogress {
   background-color: #f0f0f0;
 }
 button.cheerpjprogress.loading {
-  background: white;
+  color: inherit;
+  background: transparent;
+  position: relative;
+  z-index: 1;
 }
 button.cheerpjprogress.loading::before {
   position: absolute;
@@ -14,6 +17,8 @@ button.cheerpjprogress.loading::before {
   height: 100%;
   width: var(--progress, 0%);
   background: #f0f0f0;
+  z-index: -1;
+  transition: width 0.3s ease;
 }
 
 #demo_section div:is(.sect1, .sect2) form.demo {

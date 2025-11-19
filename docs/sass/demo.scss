@@ -11,7 +11,10 @@ button.cheerpjprogress {
   overflow: hidden;
   background-color: $button-color;
   &.loading {
-    background: white;
+    color: inherit;
+    background: transparent;
+    position: relative;
+    z-index: 1;
     &::before {
       position: absolute;
       left: 0;
@@ -20,6 +23,8 @@ button.cheerpjprogress {
       height: 100%;
       width: var(--progress, 0%);
       background: $button-color;
+      z-index: -1;
+      transition: width 0.3s ease;
     }
   }
 }
