@@ -64,7 +64,7 @@ export class SolverClass extends BaseClass {
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
         const stream = await solverResult.iterator();
-        while(await stream.hasNext()) {
+        while(await stream.hasNext() && ! this.cancelled) {
             const line = await stream.next();
             this.output.value += "\n" + await line.toString();
             this.output.scrollTop = this.output.scrollHeight;
@@ -73,6 +73,9 @@ export class SolverClass extends BaseClass {
         this.output.value += `\nFound: ${matches}`;
         const tries = await (await solverResult.tries()).get();
         this.output.value += `\nTried: ${tries}`;
+        if (this.cancelled) {
+            this.output.value += `\nAnd cancelled`;
+        }
     }
 }
 //end::solver[]
