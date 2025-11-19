@@ -16,6 +16,8 @@ export class BaseClass {
         this.output = this.form.querySelector('output');
         this.button = this.form.querySelector('button');
         this.ready = false;
+        this.running = false;
+        this.cancelled = false;
     }
 
 
@@ -166,7 +168,13 @@ export class BaseClass {
     }
 
     async handleSubmit() {
+        if (this.running) {
+            this.cancelled = true;
+            console.log("Cancelling");
+            return;
+        }
         try {
+            this.running = true;
             //console.log("submitting for",  this.Class.prototype);
             this.output.value = '';
             this.button.textContent = "executing..";
@@ -177,6 +185,9 @@ export class BaseClass {
         } finally {
             console.log("submit ready");
             await this.readyToGo();
+            this.running = false;
+            this.cancelled = false;
+
         }
     }
 
