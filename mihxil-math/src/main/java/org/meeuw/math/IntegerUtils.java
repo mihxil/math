@@ -487,5 +487,23 @@ public final class IntegerUtils {
         }
         return result;
     }
+    public static BigInteger catalan(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Catalan number undefined for negative n");
+        }
+        if (n <= 1) {
+            return BigInteger.ONE;
+        }
+
+        BigInteger numerator = BigInteger.ONE;
+        BigInteger denominator = BigInteger.ONE;
+
+        for (int i = 2; i <= n; i++) {
+            numerator = numerator.multiply(BigInteger.valueOf(n + i));
+            denominator = denominator.multiply(BigInteger.valueOf(i));
+        }
+
+        return numerator.divide(denominator);
+    }
 
 }
