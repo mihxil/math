@@ -2701,11 +2701,17 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         );
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
-        const stream = await solverResult.iterator();
-        <span class="keyword">while</span>(await stream.hasNext() &amp;&amp; ! <span class="local-variable">this</span>.cancelled) {
-            const line = await stream.next();
-            <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await line.toString();
-            <span class="local-variable">this</span>.output.scrollTop = <span class="local-variable">this</span>.output.scrollHeight;
+        <span class="keyword">try</span> {
+            const stream = await solverResult.iterator();
+            <span class="keyword">while</span>(await stream.hasNext() &amp;&amp; ! <span class="local-variable">this</span>.cancelled) {
+                const line = await stream.next();
+                <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="char">\n</span><span class="delimiter">&quot;</span></span> + await line.toString();
+                <span class="local-variable">this</span>.output.scrollTop = <span class="local-variable">this</span>.output.scrollHeight;
+            }
+        } <span class="keyword">catch</span> (e) {
+            <span class="keyword">if</span> (! <span class="local-variable">this</span>.cancelled) {
+                <span class="keyword">throw</span> e;
+            }
         }
         const matches = await (await solverResult.matches()).get();
         <span class="local-variable">this</span>.output.value += <span class="error">`</span><span class="error">\</span>nFound: <span class="predefined">$</span>{matches}<span class="error">`</span>;
