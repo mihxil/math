@@ -615,43 +615,48 @@ public  class Solver<E extends RingElement<E>> {
     );
 
     private final AtomicLong tries = new AtomicLong();
+    private final AtomicLong considered = new AtomicLong();
 
     @Getter
     private final Ring<E> structure;
 
     public Solver(Ring<E> structure) {
         this.structure = structure;
+
     }
+
+    native void callBack(long current, long total, Expression<E> expression);
 
     @SafeVarargs
     public final Stream<Expression<E>> stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
-
+        long total = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
         return permutations.stream()
             .map(permutation -> permutation.permute(set))
             .map(List::of)
             .distinct()
-            .flatMap(permuted -> {
-                return AST.stream(
-                        permuted,
-                        OPERATORS
-                    );
-                }
+            .flatMap(permuted ->
+                AST.stream(
+                    permuted,
+                    OPERATORS
+                )
             )
             .map( e -> e.canonize(structure))
             .distinct()
-            .peek(e -> tries.getAndIncrement());
+            .peek(e ->
+                callBack(tries.getAndIncrement(), total, e)
+            );
     }
 
 
 
     @SafeVarargs
     public final Stream<EvaluatedExpression<E>> evaledStream(E... set) {
-        log.fine("evaling" + List.of(set));
+        log.fine(() -> "evaling" + List.of(set));
         return stream(set)
             .map(e -> {
                 try {
-                    log.fine("Evaling" + e);
+                    log.fine(() -> "Evaling " +  e);
                     E evaled = e.eval();
                     return new EvaluatedExpression<>(e, evaled);
                 } catch (MathException ex) {
@@ -664,12 +669,12 @@ public  class Solver<E extends RingElement<E>> {
     /**
      *
      */
-    public  static <E extends RingElement<E>> SolverResult solve(Ring<E> structure, String outcomeString, String inputStrings) {
+    public SolverResult solve(String outcomeString, String inputStrings) {
 
-        ParseResult<E> outcome = parseOutcome(structure, outcomeString);
-        ParseResult<E[]> input = parseInput(structure, inputStrings);
+        ParseResult<E> outcome = parseOutcome(outcomeString);
+        ParseResult<E[]> input = parseInput(inputStrings);
         if (outcome.success() && input.success()) {
-            SolverResult result = solve(structure, outcome.result(), input.result());
+            SolverResult result = solve(outcome.result(), input.result());
             log.info("solved");
             return result;
         } else {
@@ -677,52 +682,61 @@ public  class Solver<E extends RingElement<E>> {
         }
     }
 
-    public  static <E extends RingElement<E>> SolverResult solve(Ring<E> structure, E outcome, E[] input) {
+
+    public SolverResult solve(E outcome, E[] input) {
         log.info("solving");
-        Solver<E> solver = new Solver<>(structure);
         AtomicLong matches = new AtomicLong();
         //log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
         log.info("creates solver, now evaluating stream");
 
         return new SolverResult(
-            solver.evaledStream(input)
+            evaledStream(input)
             .filter(e ->
                 e.result().eq(outcome)
             ).peek(e -> matches.getAndIncrement())
-            .map(EvaluatedExpression::toString),
-            solver.tries, matches, structure
+                .map(EvaluatedExpression::toString),
+            tries, matches, structure
         );
     }
 
-    public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> field, String outcomeString) {
-        log.info(() -> "Parsing input " + outcomeString + " in field " + field);
+
+    public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> structure, String outcomeString) {
+        log.info(() -> "Parsing input " + outcomeString + " in field " + structure);
 
         String resultError = null;
         F result;
         try {
-            result = field.fromString(outcomeString);
+            result = structure.fromString(outcomeString);
         } catch (NotParsable pe) {
             result = null;
             resultError = pe.getMessage();
         }
-        return new ParseResult<F>(outcomeString, result, resultError);
+        return new ParseResult<>(outcomeString, result, resultError);
     }
-    public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> field, String inputStrings) {
-        log.info(() -> "Parsing input " + inputStrings + " in field " + field);
+    public ParseResult<E> parseOutcome(String outcomeString) {
+        return parseOutcome(this.structure, outcomeString);
+    }
+
+    public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> structure, String inputStrings) {
+        log.info(() -> "Parsing input " + inputStrings + " in field " + structure);
 
         String inputError = null;
 
         String[] input = inputStrings.split("\\s+");
-        F[] set = field.newArray(input.length);
+        F[] set = structure.newArray(input.length);
         try {
             for (int i = 0; i < set.length; i++) {
-                set[i] = field.fromString(input[i]);
+                set[i] = structure.fromString(input[i]);
             }
         } catch (NotParsable pe) {
             inputError = pe.getMessage();
         }
         return new ParseResult<>(inputStrings, set, inputError);
     }
+    public ParseResult<E[]> parseInput(String inputStrings) {
+        return parseInput(this.structure, inputStrings);
+    }
+
 
     public static Ring<?> algebraicStructureFor(String outcomeString, String input) {
         log.info(() -> "Determining algebraic structure for outcome " + outcomeString + " and input " + input);
@@ -755,7 +769,9 @@ public  class Solver<E extends RingElement<E>> {
         String inputStrings = String.join(" ", Arrays.copyOfRange(integers, 1, integers.length));
 
         Ring<?> field = algebraicStructureFor(resultString, inputStrings);
-        SolverResult solverResult = Solver.solve(field, resultString, inputStrings);
+
+        Solver<?> solver = new Solver<>(field);
+        SolverResult solverResult = solver.solve(resultString, inputStrings);
         solverResult.stream().forEach(System.out::println);
         System.out.println("ready, found " + solverResult.matches().get() + ", tried " + solverResult.tries.get() + ", field " + solverResult.field().toString());
     }
@@ -769,16 +785,16 @@ This is the source code for the above.
 ----
     async onSubmit(Solver) {
         this.output.value += "using: " + await (this.model.field).toString();
-        const solverResult = await Solver.solve(
-            this.model.field, this.outcome.value, this.input.value
+        const solver = await new Solver(this.model.field);
+        console.log(solver, this.outcome.value, this.input.value);
+        const solverResult = await solver.solve(
+            this.outcome.value, this.input.value
         );
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
         const stream = await solverResult.iterator();
         while(await stream.hasNext()) {
-            console.log("has next");
             const line = await stream.next();
-            console.log(line);
             this.output.value += "\n" + await line.toString();
             this.output.scrollTop = this.output.scrollHeight;
         }
