@@ -39,6 +39,7 @@ import java.time.temporal.*;
 import java.time.chrono.*;
 import java.io.*;
 import java.util.*;
+import java.time.temporal.ChronoUnit;
 import java.util.function.Supplier;
 import org.meeuw.time.Range;
 
@@ -243,10 +244,11 @@ void seconds() : {}
 {
     integer() {
 
-      cal = dynamicDateTime.resetToEra();
-      cal = cal.plusNanos(1_000_000 * ((positive ? 1 : -1 ) * Long.parseLong(token.toString()) * 1000));
-      dynamic = false; positive = true;
-    }
+  cal = dynamicDateTime.resetToEra();
+  cal = cal.plus((positive ? 1 : -1 ) * Long.parseLong(token.toString()) * 1000, ChronoUnit.MILLIS);
+  dynamic = false;
+  positive = true;
+}
 }
 void year_number() : { }
 {
