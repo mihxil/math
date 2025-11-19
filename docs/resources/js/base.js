@@ -19,25 +19,42 @@ export class BaseClass {
 
 
     static async getCheerpj() {
+
         if (BaseClass.cjInit === null) {
+
             BaseClass.cjInit = "locked";
             const properties = [
                 `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
+            function showPreloadProgress(preloadDone, preloadTotal) {
+                const percentage = (preloadDone * 100) / preloadTotal;
+                //console.log("Percentage loaded " + (preloadDone * 100) / preloadTotal);
+                // Update all loading buttons
+                console.log(percentage);
+
+                document.querySelectorAll('button.cheerpjprogress.loading').forEach(btn => {
+                    console.log(btn, percentage);
+                    btn.style.setProperty('--progress', `${percentage}%`);
+                });
+            }
+
             const settings = {
                 version: 17,
                 enableDebug: false,
-                javaProperties: properties
+                javaProperties: properties,
+                preloadResources: JSON.parse('{"/lt/17/conf/logging.properties":[0,131072],"/lt/17/lib/modules":[0,131072,1179648,3801088,3932160,5242880,5373952,5898240,6029312,6291456,6422528,6553600,6684672,7077888,7864320,8126464,9568256,9699328,9830400,10092544,19005440,19136512,27787264,27918336,37486592,37617664,38010880,38141952],"/lt/17/conf/security/java.security":[0,131072],"/lt/17/jre/lib/cheerpj-jsobject.jar":[0,131072],"/lt/17/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/17/jre/lib/cheerpj-handlers.jar":[0,131072],"/lt/etc/users":[0,131072],"/lt/etc/localtime":[],"/lt/17/lib/tzdb.dat":[0,131072]}'),
+                preloadProgress: showPreloadProgress
             }
             console.log("init cheerpj", settings);
             BaseClass.cjInit = cheerpjInit(settings);
         }
         await BaseClass.cjInit;
         if (BaseClass.cj === null) {
+            const version = "0.19-SNAPSHOT";
             const pref = document.location.pathname.startsWith("/math") ?
                 "/app/math/resources/jars/" :
                 "/app/resources/jars/";
-            const version = "0.19-SNAPSHOT";
-            BaseClass.cj = cheerpjRunLibrary(`${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.15.jar:${pref}big-math-2.3.2.jar`);
+            const resources = `${pref}mihxil-math-${version}.jar:${pref}mihxil-math-parser-${version}.jar:${pref}mihxil-algebra-${version}.jar:${pref}mihxil-configuration-${version}.jar:${pref}mihxil-time-${version}.jar:${pref}original-mihxil-demo-${version}.jar:${pref}mihxil-functional-1.15.jar:${pref}big-math-2.3.2.jar`;
+            BaseClass.cj = cheerpjRunLibrary(resources);
         }
 
         return await BaseClass.cj;
@@ -75,6 +92,7 @@ export class BaseClass {
         this.button.textContent = this.button.getAttribute("data-original-text");
         this.button.disabled = false;
         this.form.classList.remove('disabled');
+        this.button.classList.remove('loading');
         this.ready = true;
     }
 
@@ -83,6 +101,7 @@ export class BaseClass {
         if (!this.Class) {
             this.button.disabled = true;
             this.form.classList.add('disabled'); // To gray out
+            this.button.classList.add('loading');
             this.button.textContent = "loading...";
             this.Class = "locked";
             this.Class = await BaseClass.loadClassesForForm(this.className, this.classNames);
