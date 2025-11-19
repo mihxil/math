@@ -20,7 +20,8 @@ class SolverTest {
     @Test
     void solve1() {
         Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
-            void callBack(long current, long total, Expression<RationalNumber> expression) {
+            @Override
+            void callBack(long considered, long current, long total, Expression<RationalNumber> expression) {
 
             }
         };
