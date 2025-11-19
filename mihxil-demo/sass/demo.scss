@@ -4,6 +4,24 @@ $tip-border: #bbb;
 $element-color: #009999;
 $output-core: aliceblue;
 
+button.cheerpjprogress {
+  position:relative;
+  overflow: hidden;
+  background-color: lightblue;
+  &.loading {
+    background: white;
+    &::before {
+      position: absolute;
+      left: 0;
+      top: 0;
+      content: '';
+      height: 100%;
+      width: var(--progress, 20%);
+      background: lightblue;
+    }
+  }
+}
+
 #demo_section {
   div:is(.sect1, .sect2) {
 

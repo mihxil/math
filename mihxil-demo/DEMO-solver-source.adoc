@@ -49,7 +49,7 @@ This combines several aspects of this project:
   <br />
   <output id="solver_output"  for="solver_result solver_numbers"> </output>
   <br />
-  <button name="submit">go!</button>
+  <button name="submit" class="cheerpjprogress">go!</button>
 </form>
 ++++
 

@@ -54,7 +54,7 @@
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
-  <button name="submit">=</button>
+  <button name="submit" class="cheerpjprogress">=</button>
   <output id="calculator_output" for="calculator_toparse"> </output>
 </div>
 </form>

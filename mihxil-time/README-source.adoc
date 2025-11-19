@@ -54,7 +54,6 @@ Like so
 
 Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.
 
-
 [options="header"]
 |===
 | Input | Output | remarks
@@ -63,7 +62,9 @@ Then zero or more 'modifications' or 'offset' can be given. Most basically with 
 | next week | 2021-08-03T20:01+02:00[Europe/Amsterdam |
 |===
 
-The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+There are also ways to set offsets which are not implicitly positive or negative. They just jump to some relevant time of some current period.
+
+The offset can for example be something like 'this month', 'this day', or 'today', which basically arranges rounding
 
 [options="header"]
 |===
@@ -72,9 +73,8 @@ The offset can also be something like 'this month', 'this day', or 'today', whic
 | 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
 |===
 
-There are also ways to set offsets which are not implicitely positive or negate. They just jump to some relevant time of some current period.
 
-The offset can also be something like 'this month', 'this day', or 'today', which basically arranges rounding
+
 
 |===
 | Input | Output | remarks

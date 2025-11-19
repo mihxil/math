@@ -89,7 +89,7 @@ The link:https://github.com/mihxil/math/tree/main/mihxil-time[`mihxil-time`] mod
    <br />
   <output id="dynamicdate_output" for="dynamicdate_toparse"> </output>
   <br />
-  <button name="submit">go!</button>
+  <button name="submit" class="cheerpjprogress">go!</button>
 </form>
 ++++
 
