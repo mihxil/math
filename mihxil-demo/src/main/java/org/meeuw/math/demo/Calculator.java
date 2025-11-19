@@ -37,28 +37,82 @@ public class Calculator {
 
     @Getter
     public enum FieldInformation {
-        rational(RationalNumbers.INSTANCE, "1 + 2", "1 + 3/5"),
-        real(RealField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "sqr(𝜑) - 𝜑"),
-        bigdecimal(BigDecimalField.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)"),
-        gaussian(GaussianRationals.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
-        complex(ComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "sin(𝜋/2)", "exp(-i ⋅ 𝜋)", "\"2 + 3i\" ⋅ i"),
-        bigcomplex(BigComplexNumbers.INSTANCE, "1 + 2", "1 + 3/5", "\"1 + 2i\" ⋅ 8i"),
+        rational(RationalNumbers.INSTANCE,
+            "1 + 2",
+            "1 + 3/5"
+        ),
+        real(RealField.INSTANCE,
+            "1 + 2",
+            "1 + 3/5",
+            "sin(𝜋/2)",
+            "sqr(𝜑) - 𝜑"
+        ),
+        bigdecimal(BigDecimalField.INSTANCE,
+            "1 + 2",
+            "1 + 3/5",
+            "sin(𝜋/2)"
+        ),
+        gaussian(GaussianRationals.INSTANCE,
+            "1 + 2",
+            "1 + 3/5",
+            "\"1 + 2i\" ⋅ 8i"
+        ),
+        complex(ComplexNumbers.INSTANCE,
+            "1 + 2",
+            "1 + 3/5",
+            "sin(𝜋/2)",
+            "exp(-i ⋅ 𝜋)",
+            "\"2 + 3i\" ⋅ i"
+        ),
+        bigcomplex(BigComplexNumbers.INSTANCE,
+            "1 + 2",
+            "1 + 3/5",
+            "\"1 + 2i\" ⋅ 8i"
+        ),
         quaternions(Quaternions.of(RationalNumbers.INSTANCE),
-            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
+            "1 + 2",
+            "1 + 3/5",
+            "\"1 + 2i + 3j + 4k\" ⋅ 8i"
+        ),
         quaternions_bigdecimal(Quaternions.of(BigDecimalField.INSTANCE),
-            "1 + 2", "1 + 3/5", "\"1 + 2i + 3j + 4k\" ⋅ 8i"),
-        integers(Integers.INSTANCE, "4 ⋅ 7", "9 - 3"),
-        modulo10(ModuloRing.of(10), "4 ⋅ 7", "9 - 3"),
-        modulo13(ModuloField.of(13), "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
-        natural(NaturalNumbers.INSTANCE, "10 ⋅ 7", "10 - 3", "12 ⋅ 6 / 4"),
-        even(EvenIntegers.INSTANCE, "10 ⋅ 8", "10 - 4"),
-        squares(Squares.INSTANCE, "2 ⋅ 9"),
-
+            "1 + 2",
+            "1 + 3/5",
+            "\"1 + 2i + 3j + 4k\" ⋅ 8i"
+        ),
+        integers(Integers.INSTANCE,
+            "4 ⋅ 7",
+            "9 - 3"
+        ),
+        modulo10(ModuloRing.of(10),
+            "4 ⋅ 7",
+            "9 - 3"
+        ),
+        modulo13(ModuloField.of(13),
+            "10 ⋅ 7",
+            "10 - 3",
+            "12 ⋅ 6 / 4"
+        ),
+        natural(NaturalNumbers.INSTANCE,
+            "10 ⋅ 7",
+            "10 - 3",
+            "12 ⋅ 6 / 4"
+        ),
+        even(EvenIntegers.INSTANCE,
+            "10 ⋅ 8",
+            "10 - 4"
+        ),
+        squares(Squares.INSTANCE,
+            "2 ⋅ 9"
+        ),
         klein(KleinGroup.INSTANCE,
             "a * b * c * e",
             "a * b"
         ),
-        quaterniongroup(QuaternionGroup.INSTANCE, "i * j", "j * i", "e * k * i"),
+        quaterniongroup(QuaternionGroup.INSTANCE,
+            "i * j",
+            "j * i",
+            "e * k * i"
+        ),
         dihedral3(DihedralGroup.D3,
             "r1 * r2",
             "s0 * r1 * s0"
