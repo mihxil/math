@@ -1,6 +1,13 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */
-import { BaseClass } from './base.js';
+import { BaseClass, NATIVES } from './base.js';
 
+let instant;
+
+NATIVES['Java_org_meeuw_math_demo_Solver_callBack'] = async function(lib, self, considered, tried, total, expression) {
+    instant.button.textContent = `executing.. ${considered}/${total}`;
+    //console.log(considered, tried, total, expression);
+    return considered;
+};
 
 
 export class SolverClass extends BaseClass {
@@ -9,7 +16,7 @@ export class SolverClass extends BaseClass {
         super("#solver", 'org.meeuw.math.demo.Solver');
         this.outcome = this.form.querySelector("#solver_outcome");
         this.input = this.form.querySelector("#solver_input");
-
+        instant = this;
 
         // model is used by BaseClass#setupValidation.
         this.model = {

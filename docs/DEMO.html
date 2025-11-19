@@ -701,8 +701,11 @@
 
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
+<span class="keyword">import</span> <span class="include">java.util.function.Function</span>;
+<span class="keyword">import</span> <span class="include">java.util.stream.Collectors</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
+<span class="keyword">import</span> <span class="include">org.meeuw.math.IntegerUtils</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.Ring</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.RingElement</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.complex.GaussianRationals</span>;
@@ -737,12 +740,22 @@
 
     }
 
-    <span class="directive">native</span> <span class="type">void</span> callBack(<span class="type">long</span> current, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression);
+    <span class="directive">native</span> <span class="type">void</span> callBack(<span class="type">long</span> considered, <span class="type">long</span> tried, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression);
 
     <span class="annotation">@SafeVarargs</span>
     <span class="directive">public</span> <span class="directive">final</span> Stream&lt;<span class="predefined-type">Expression</span>&lt;E&gt;&gt; stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
-        <span class="type">long</span> total = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
+        <span class="type">long</span> streamSize = permutations.getCardinality().getValue().longValue() * AST.streamSize(set.length, OPERATORS.size()).longValue();
+
+        <span class="type">long</span> dividor = <span class="predefined-type">Arrays</span>.stream(set)
+            .collect(Collectors.groupingBy(
+                Function.identity(),
+                Collectors.counting()
+            )).values().stream()
+             .map(count -&gt; IntegerUtils.factorial(count.intValue()))
+            .reduce(<span class="integer">1L</span>, (a, b) -&gt; a * b);
+        <span class="type">long</span> total = streamSize / dividor;
+
         <span class="keyword">return</span> permutations.stream()
             .map(permutation -&gt; permutation.permute(set))
             .map(<span class="predefined-type">List</span>::of)
@@ -754,9 +767,12 @@
                 )
             )
             .map( e -&gt; e.canonize(structure))
+            .peek(e -&gt; {
+                considered.incrementAndGet();
+            })
             .distinct()
             .peek(e -&gt;
-                callBack(tries.getAndIncrement(), total, e)
+                callBack(considered.get(), tries.incrementAndGet(), total, e)
             );
     }
 
@@ -1047,7 +1063,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2025-11-19 20:03:35 UTC
+Last updated 2025-11-17 21:19:31 +0100
 </div>
 </div>
 </body>

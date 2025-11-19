@@ -1,4 +1,5 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */
+export const NATIVES = {};
 
 
 export class BaseClass {
@@ -37,19 +38,13 @@ export class BaseClass {
                     }
                 });
             }
-
             const settings = {
                 version: 17,
                 enableDebug: false,
                 javaProperties: properties,
                 preloadResources: {"/lt/17/conf/logging.properties":[0,131072],"/lt/17/lib/modules":[0,131072,1179648,3801088,3932160,5242880,5373952,5898240,6029312,6291456,6422528,6553600,6684672,7077888,7864320,8126464,9568256,9699328,9830400,10092544,19005440,19136512,27787264,27918336,37486592,37617664,38010880,38141952],"/lt/17/conf/security/java.security":[0,131072],"/lt/17/jre/lib/cheerpj-jsobject.jar":[0,131072],"/lt/17/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/17/jre/lib/cheerpj-handlers.jar":[0,131072],"/lt/etc/users":[0,131072],"/lt/etc/localtime":[],"/lt/17/lib/tzdb.dat":[0,131072]},
                 preloadProgress: showPreloadProgress,
-                natives: {
-                    async Java_org_meeuw_math_demo_Solver_callBack(lib, self, current, total, expression) {
-                        console.log(current, total, expression);
-                        return current;
-                    }
-                }
+                natives: NATIVES
             }
             console.log("init cheerpj", settings);
             BaseClass.cjInit = cheerpjInit(settings);
