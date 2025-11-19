@@ -1,5 +1,7 @@
 import { BaseClass } from './base.js';
 
+
+
 export class SolverClass extends BaseClass {
 
     constructor() {
@@ -39,21 +41,23 @@ export class SolverClass extends BaseClass {
         this.outcome['model'] = this.model;
         this.input['model'] = this.model;
 
+
     }
+
 
 // tag::solver[]
     async onSubmit(Solver) {
         this.output.value += "using: " + await (this.model.field).toString();
-        const solverResult = await Solver.solve(
-            this.model.field, this.outcome.value, this.input.value
+        const solver = await new Solver(this.model.field);
+        console.log(solver, this.outcome.value, this.input.value);
+        const solverResult = await solver.solve(
+            this.outcome.value, this.input.value
         );
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
         const stream = await solverResult.iterator();
         while(await stream.hasNext()) {
-            console.log("has next");
             const line = await stream.next();
-            console.log(line);
             this.output.value += "\n" + await line.toString();
             this.output.scrollTop = this.output.scrollHeight;
         }
