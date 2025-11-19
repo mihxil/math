@@ -22,7 +22,10 @@ class SolverTest {
         Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
             @Override
             void callBack(long considered, long current, long total, Expression<RationalNumber> expression) {
-
+            }
+            @Override
+            boolean cancelled() {
+                return false;
             }
         };
         Solver.SolverResult solve = solver.solve("24", "8 8 3 3");

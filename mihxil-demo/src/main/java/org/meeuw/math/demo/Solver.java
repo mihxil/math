@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.java.Log;
 
 import java.util.*;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -46,6 +47,8 @@ public  class Solver<E extends RingElement<E>> {
 
     native void callBack(long considered, long tried, long total, Expression<E> expression);
 
+    native boolean cancelled();
+
     @SafeVarargs
     public final Stream<Expression<E>> stream(E... set) {
         PermutationGroup permutations = PermutationGroup.ofDegree(set.length);
@@ -70,6 +73,11 @@ public  class Solver<E extends RingElement<E>> {
                     OPERATORS
                 )
             )
+            .peek((p) -> {
+                if (cancelled()) {
+                    throw new CancellationException("cancelled");
+                }
+            })
             .map( e -> e.canonize(structure))
             .peek(e -> {
                 considered.incrementAndGet();

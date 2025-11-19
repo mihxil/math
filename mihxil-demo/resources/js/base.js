@@ -1,6 +1,5 @@
 export const NATIVES = {};
 
-
 export class BaseClass {
     static cj = null;
     static cjInit = null;
@@ -22,16 +21,14 @@ export class BaseClass {
 
     static async getCheerpj() {
         if (BaseClass.cjInit === null) {
-
             BaseClass.cjInit = "locked";
             const properties = [
                 `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
             const buttons =  document.querySelectorAll('button.cheerpjprogress');
             function showPreloadProgress(preloadDone, preloadTotal) {
                 const percentage = Math.round((preloadDone * 100) / preloadTotal);
-                //console.log("Percentage loaded " + (preloadDone * 100) / preloadTotal);
                 // Update all loading buttons
-                console.log(percentage + "%");
+                //console.log(percentage + "%");
                 buttons.forEach(btn => {
                     btn.style.setProperty('--progress', `${percentage}%`);
                     if (percentage === 100){
@@ -156,7 +153,6 @@ export class BaseClass {
 
     async onSubmit(Class) {
         console.log("No override, this is abstract");
-
     }
 
     async onInView() {
@@ -180,7 +176,9 @@ export class BaseClass {
             await this.onSubmit(this.Class);
         } catch (e) {
             console.log("exception", e, e.stack);
-            this.output.value = e.stack ? e.stack : await e.toString();
+            if (! this.cancelled) {
+                this.output.value += e.stack ? e.stack : await e.toString();
+            }
         } finally {
             console.log("submit ready");
             await this.readyToGo();
@@ -264,5 +262,3 @@ export class BaseClass {
         }
     }
 }
-
-

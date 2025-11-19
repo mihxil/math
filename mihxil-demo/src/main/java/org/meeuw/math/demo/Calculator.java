@@ -102,7 +102,7 @@ public class Calculator {
             "10 - 4"
         ),
         squares(Squares.INSTANCE,
-            "2 ⋅ 9"
+            "4 ⋅ 9"
         ),
         klein(KleinGroup.INSTANCE,
             "a * b * c * e",
