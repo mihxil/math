@@ -2722,7 +2722,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         const solverResult = await solver.solve(
             <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
         );
-        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, await (await solverResult.list()).toString());
+        <span class="comment">//console.log(&quot;solverResult&quot;, await (await solverResult.list()).toString());</span>
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
         <span class="keyword">try</span> {
             const stream = await solverResult.iterator();
