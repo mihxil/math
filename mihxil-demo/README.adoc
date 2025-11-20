@@ -699,7 +699,7 @@ public  class Solver<E extends RingElement<E>> {
         ParseResult<E[]> input = parseInput(inputStrings);
         if (outcome.success() && input.success()) {
             SolverResult result = solve(outcome.result(), input.result());
-            log.info("solved");
+            log.fine(() -> "solved: " + result);
             return result;
         } else {
             throw new NotParsable(outcome.error() + "/" + input.error());
@@ -708,10 +708,8 @@ public  class Solver<E extends RingElement<E>> {
 
 
     public SolverResult solve(E outcome, E[] input) {
-        log.info("solving");
         AtomicLong matches = new AtomicLong();
-        //log.info(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
-        log.info("creates solver, now evaluating stream");
+        log.fine(() -> "Solving input " + List.of(input) + " for " + outcome + " ( in field " + structure + ")");
 
         return new SolverResult(
             evaledStream(input)
