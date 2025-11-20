@@ -1,4 +1,9 @@
 ---
+# There are a bunch of README.adoc in this project. But we include:: to work.
+# Sadly not supported by github directly.
+# Place README-source.adoc instead. This action will find them, and 'reduce' them to have includes working.
+# And the result will be rendered correctly on github itself.
+# Sadly this can be a bit confusing, because readonly file not supportable.
 name: Reduce README
 on:
   push:
