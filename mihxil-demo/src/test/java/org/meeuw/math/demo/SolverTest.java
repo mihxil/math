@@ -5,6 +5,7 @@ import lombok.extern.java.Log;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +17,10 @@ import org.meeuw.time.UncertainJavaTime;
 
 @Log
 class SolverTest {
-
-    @Test
-    void solve1() {
-        Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
+    static {
+        DemoUtils.setupLogging(Level.FINE);
+    }
+    Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
             @Override
             void callBack(long considered, long current, long total, Expression<RationalNumber> expression) {
             }
@@ -28,6 +29,10 @@ class SolverTest {
                 return false;
             }
         };
+
+    @Test
+    void solve1() {
+
         Solver.SolverResult solve = solver.solve("24", "8 8 3 3");
         List<String> list = solve.stream().toList();
         log.info(() -> "Solved %s -> %s".formatted(solve, list));
@@ -35,8 +40,7 @@ class SolverTest {
 
     @Test
     void solve2() {
-        StatisticalLong duration =new StatisticalLong(UncertainJavaTime.Mode.DURATION);
-        Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE);
+        StatisticalLong duration = new StatisticalLong(UncertainJavaTime.Mode.DURATION);
         for (int i = 0; i < 100; i++) {
             Instant start = Instant.now();
             Solver.SolverResult solve = solver.solve("120", "4 7 7 7 8");
