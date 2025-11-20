@@ -818,7 +818,7 @@ This is the source code for the above.
         const solverResult = await solver.solve(
             this.outcome.value, this.input.value
         );
-        console.log("solverResult", await (await solverResult.list()).toString());
+        //console.log("solverResult", await (await solverResult.list()).toString());
         // using iterator, because I can't figure out java lambda's here.
         try {
             const stream = await solverResult.iterator();
