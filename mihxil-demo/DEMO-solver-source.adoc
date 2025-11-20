@@ -14,7 +14,11 @@ This combines several aspects of this project:
 - It uses the Abstract Syntax Tree feature to combine values and operators
 - It uses some features of the Field, e.g. to perform operators generically.
 - It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also support for `RealField` (and for example also support the POW operator)
+====
 
+[NOTE]
+====
+This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minute sin the browser. It runs in under 2 seconds in pure java.
 ====
 
 ++++

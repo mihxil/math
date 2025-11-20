@@ -22,7 +22,10 @@ class SolverTest {
     }
     Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
             @Override
-            void callBack(long considered, long current, long total, Expression<RationalNumber> expression) {
+            void callBack(long considered, long tried, long total, Expression<RationalNumber> expression) {
+                if (considered % 10000 == 0 || (considered < 10000 && considered % 100 == 0)) {
+                    log.info("Considered %d / %d , tried %d : %s".formatted(considered, total, tried, expression));
+                }
             }
             @Override
             boolean cancelled() {
@@ -41,14 +44,14 @@ class SolverTest {
     @Test
     void solve2() {
         StatisticalLong duration = new StatisticalLong(UncertainJavaTime.Mode.DURATION);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             Instant start = Instant.now();
             Solver.SolverResult solve = solver.solve("120", "4 7 7 7 8");
-            List<String> list = solve.stream().toList();
-            duration.enter(Duration.between(start, Instant.now()));
-            if (i == 0) {
-                log.info("Solved %s ->%s".formatted(solve, list));
-            }
+            List<String> list = solve.stream()
+                .toList();
+            Duration d = Duration.between(start, Instant.now());
+            duration.enter(d);
+            log.info("Solved %s ->%s (%s)".formatted(solve, list, d));
         }
         log.info("Solved: %s".formatted(duration.toString()));
     }

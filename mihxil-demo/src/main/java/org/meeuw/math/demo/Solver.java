@@ -139,7 +139,7 @@ public  class Solver<E extends RingElement<E>> {
 
 
     public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> structure, String outcomeString) {
-        log.info(() -> "Parsing input " + outcomeString + " in field " + structure);
+        log.fine(() -> "Parsing output " + outcomeString + " in field " + structure);
 
         String resultError = null;
         F result;
@@ -156,7 +156,7 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> structure, String inputStrings) {
-        log.info(() -> "Parsing input " + inputStrings + " in field " + structure);
+        log.fine(() -> "Parsing input " + inputStrings + " in field " + structure);
 
         String inputError = null;
 
@@ -187,14 +187,16 @@ public  class Solver<E extends RingElement<E>> {
         }
     }
 
-
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
-
         /**
          * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
          */
         public Iterator<String> iterator() {
             return stream().iterator();
+        }
+
+        public List<String> list() {
+            return stream().toList();
         }
     }
 
