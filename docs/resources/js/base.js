@@ -1,7 +1,9 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */
 export const NATIVES = {};
 
+
 export class BaseClass {
+    static instances = [];
     static cj = null;
     static cjInit = null;
 
@@ -17,6 +19,7 @@ export class BaseClass {
         this.ready = false;
         this.running = false;
         this.cancelled = false;
+        BaseClass.instances.push(this);
     }
 
 
@@ -207,12 +210,21 @@ export class BaseClass {
 
         const observer = new IntersectionObserver(async (entries) => {
             for (const entry of entries) {
+
                 if (entry.isIntersecting) {
                     console.log("intersecting", await entry.target, "setup form");
+                     for (const i of BaseClass.instances) {
+                        if (i !== this && i.running) {
+                            console.log("Cancelling", i);
+                            i.cancelled = true;
+                        }
+                    }
                     await this.onInView(this.Class);
                     //console.log("readyToGo", this.Class.prototype);
                     await this.readyToGo();
-                    await observer.disconnect();
+
+                } else {
+                    console.log("not intersecting, ", entry);
                 }
             }
         }, {threshold: 0.1});
