@@ -4,8 +4,10 @@ import { BaseClass, NATIVES } from './base.js';
 let instant;
 
 NATIVES['Java_org_meeuw_math_demo_Solver_callBack'] = async function(lib, self, considered, tried, total, expression) {
-    instant.button.textContent = `executing.. ${considered}/${total} (${tried})`;
+    if (considered % 10000n === 0n || (considered < 10000n && considered % 1000n === 0n) || (considered < 1000n && considered % 100n === 0n)) {
+        instant.button.textContent = `executing.. ${considered}/${total} (${tried})`;
     //console.log(considered, tried, total, expression);
+    }
     return considered;
 };
 
@@ -65,7 +67,7 @@ export class SolverClass extends BaseClass {
         const solverResult = await solver.solve(
             this.outcome.value, this.input.value
         );
-        console.log("solverResult", solverResult);
+        console.log("solverResult", await (await solverResult.list()).toString());
         // using iterator, because I can't figure out java lambda's here.
         try {
             const stream = await solverResult.iterator();

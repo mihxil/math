@@ -538,7 +538,11 @@ This combines several aspects of this project:
 - It uses the Abstract Syntax Tree feature to combine values and operators
 - It uses some features of the Field, e.g. to perform operators generically.
 - It will currently use the field of `RationalNumbers` _or_ `GaussianRationals` if the input contains a complex number. I might add also support for `RealField` (and for example also support the POW operator)
+====
 
+[NOTE]
+====
+This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minute sin the browser. It runs in under 2 seconds in pure java.
 ====
 
 ++++
@@ -723,7 +727,7 @@ public  class Solver<E extends RingElement<E>> {
 
 
     public static <F extends RingElement<F>> ParseResult<F> parseOutcome(Ring<F> structure, String outcomeString) {
-        log.info(() -> "Parsing input " + outcomeString + " in field " + structure);
+        log.fine(() -> "Parsing output " + outcomeString + " in field " + structure);
 
         String resultError = null;
         F result;
@@ -740,7 +744,7 @@ public  class Solver<E extends RingElement<E>> {
     }
 
     public static <F extends RingElement<F>> ParseResult<F[]> parseInput(Ring<F> structure, String inputStrings) {
-        log.info(() -> "Parsing input " + inputStrings + " in field " + structure);
+        log.fine(() -> "Parsing input " + inputStrings + " in field " + structure);
 
         String inputError = null;
 
@@ -771,14 +775,16 @@ public  class Solver<E extends RingElement<E>> {
         }
     }
 
-
     public record SolverResult(Stream<String> stream, AtomicLong tries, AtomicLong matches, Ring<?> field) {
-
         /**
          * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
          */
         public Iterator<String> iterator() {
             return stream().iterator();
+        }
+
+        public List<String> list() {
+            return stream().toList();
         }
     }
 
@@ -812,7 +818,7 @@ This is the source code for the above.
         const solverResult = await solver.solve(
             this.outcome.value, this.input.value
         );
-        console.log("solverResult", solverResult);
+        console.log("solverResult", await (await solverResult.list()).toString());
         // using iterator, because I can't figure out java lambda's here.
         try {
             const stream = await solverResult.iterator();

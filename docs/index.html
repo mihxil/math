@@ -2421,6 +2421,20 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </tr>
 </table>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minute sin the browser. It runs in under 2 seconds in pure java.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <form id="solver" class="demo">
   <label for="solver_outcome">Desired outcome:</label>
   <input type="text"
@@ -2603,7 +2617,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
 
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F&gt; parseOutcome(Ring&lt;F&gt; structure, <span class="predefined-type">String</span> outcomeString) {
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing output </span><span class="delimiter">&quot;</span></span> + outcomeString + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
 
         <span class="predefined-type">String</span> resultError = <span class="predefined-constant">null</span>;
         F result;
@@ -2620,7 +2634,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     <span class="directive">public</span> <span class="directive">static</span> &lt;F <span class="directive">extends</span> RingElement&lt;F&gt;&gt; ParseResult&lt;F<span class="type">[]</span>&gt; parseInput(Ring&lt;F&gt; structure, <span class="predefined-type">String</span> inputStrings) {
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + inputStrings + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsing input </span><span class="delimiter">&quot;</span></span> + inputStrings + <span class="string"><span class="delimiter">&quot;</span><span class="content"> in field </span><span class="delimiter">&quot;</span></span> + structure);
 
         <span class="predefined-type">String</span> inputError = <span class="predefined-constant">null</span>;
 
@@ -2651,14 +2665,16 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
 
-
     <span class="directive">public</span> record SolverResult(Stream&lt;<span class="predefined-type">String</span>&gt; stream, <span class="predefined-type">AtomicLong</span> tries, <span class="predefined-type">AtomicLong</span> matches, Ring&lt;?&gt; field) {
-
         <span class="comment">/**
          * Calling stream().iterator() in cheerpj doesn't seem to work. I don't get it either.
          */</span>
         <span class="directive">public</span> <span class="predefined-type">Iterator</span>&lt;<span class="predefined-type">String</span>&gt; iterator() {
             <span class="keyword">return</span> stream().iterator();
+        }
+
+        <span class="directive">public</span> <span class="predefined-type">List</span>&lt;<span class="predefined-type">String</span>&gt; list() {
+            <span class="keyword">return</span> stream().toList();
         }
     }
 
@@ -2697,7 +2713,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         const solverResult = await solver.solve(
             <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
         );
-        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, solverResult);
+        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">solverResult</span><span class="delimiter">&quot;</span></span>, await (await solverResult.list()).toString());
         <span class="comment">// using iterator, because I can't figure out java lambda's here.</span>
         <span class="keyword">try</span> {
             const stream = await solverResult.iterator();
