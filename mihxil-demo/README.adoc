@@ -816,11 +816,17 @@ This is the source code for the above.
         );
         console.log("solverResult", solverResult);
         // using iterator, because I can't figure out java lambda's here.
-        const stream = await solverResult.iterator();
-        while(await stream.hasNext() && ! this.cancelled) {
-            const line = await stream.next();
-            this.output.value += "\n" + await line.toString();
-            this.output.scrollTop = this.output.scrollHeight;
+        try {
+            const stream = await solverResult.iterator();
+            while(await stream.hasNext() && ! this.cancelled) {
+                const line = await stream.next();
+                this.output.value += "\n" + await line.toString();
+                this.output.scrollTop = this.output.scrollHeight;
+            }
+        } catch (e) {
+            if (! this.cancelled) {
+                throw e;
+            }
         }
         const matches = await (await solverResult.matches()).get();
         this.output.value += `\nFound: ${matches}`;
