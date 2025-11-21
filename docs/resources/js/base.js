@@ -178,12 +178,12 @@ export class BaseClass {
             this.button.textContent = "executing..";
             await this.onSubmit(this.Class);
         } catch (e) {
-            console.log("exception", e, e.stack);
             if (! this.cancelled) {
+                console.log("exception", e, e.stack);
                 this.output.value += e.stack ? e.stack : await e.toString();
             }
         } finally {
-            console.log("submit ready");
+            //console.log("submit ready");
             await this.readyToGo();
             this.running = false;
             this.cancelled = false;
