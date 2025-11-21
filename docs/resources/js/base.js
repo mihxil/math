@@ -109,7 +109,6 @@ export class BaseClass {
             this.button.textContent = "loading...";
             this.Class = "locked";
             this.Class = await BaseClass.loadClassesForForm(this.className, this.classNames);
-            console.log(this.Class.prototype, "set up");
         } else if (this.Class === "locked") {
             while (this.Class === "locked") {
                 await new Promise(resolve => setTimeout(resolve, 50)); // check every 50ms
@@ -204,7 +203,7 @@ export class BaseClass {
      */
     async setup() {
         this.button.disabled = true;
-        console.log("created", this.button);
+        //console.log("created", this.button);
         // enforce rendering
         await new Promise(resolve => setTimeout(resolve, 0));
 
@@ -212,8 +211,8 @@ export class BaseClass {
             for (const entry of entries) {
 
                 if (entry.isIntersecting) {
-                    console.log("intersecting", await entry.target, "setup form");
-                     for (const i of BaseClass.instances) {
+                    //console.log("intersecting", await entry.target, "setup form");
+                    for (const i of BaseClass.instances) {
                         if (i !== this && i.running) {
                             console.log("Cancelling", i);
                             i.cancelled = true;
@@ -224,7 +223,7 @@ export class BaseClass {
                     await this.readyToGo();
 
                 } else {
-                    console.log("not intersecting, ", entry);
+                    //console.log("not intersecting, ", entry);
                 }
             }
         }, {threshold: 0.1});

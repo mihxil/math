@@ -2717,7 +2717,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    async onSubmit(Solver) {
         <span class="local-variable">this</span>.output.value += <span class="string"><span class="delimiter">&quot;</span><span class="content">using: </span><span class="delimiter">&quot;</span></span> + await (<span class="local-variable">this</span>.model.field).toString();
-        const solver = await <span class="keyword">new</span> Solver(<span class="local-variable">this</span>.model.field);
+        const solver = await <span class="keyword">new</span> Solver(await <span class="local-variable">this</span>.model.field);
         console.log(solver, <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value);
         const solverResult = await solver.solve(
             <span class="local-variable">this</span>.outcome.value, <span class="local-variable">this</span>.input.value
