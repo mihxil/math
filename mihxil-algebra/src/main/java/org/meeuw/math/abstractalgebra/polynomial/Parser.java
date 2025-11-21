@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
 
 class Parser {
@@ -57,7 +58,7 @@ class Parser {
                 }
 
             } else {
-                throw new IllegalArgumentException("Cannot parse term: " + term);
+                throw new NotParsable("Cannot parse term: " + term);
             }
         }
         int maxExp = coeffs.keySet().stream().max(Integer::compareTo).orElse(0);

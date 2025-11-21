@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -94,7 +95,7 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
         String stripped = TextUtils.stripParentheses(s);
         String[] parts = stripped.split(",");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Cannot parse " + s + " as " + this);
+            throw new NotParsable("Cannot parse " + s + " as " + this);
         }
         return FieldVector2.of(
             getField().fromString(parts[0]),

@@ -101,10 +101,10 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
      * Parses the given string into a {@link ZonedDateTime}.
      * @param string The string to be parsed.
      * @return A ZonedDateTime object representing the parsed date and time
-     * @throws ParseException If the string could not be parsed
+     * @throws DateTimeNotParsable If the string could not be parsed
      */
     @Override
-    public ZonedDateTime applyWithException(String string) throws ParseException {
+    public ZonedDateTime applyWithException(String string) throws DateTimeNotParsable {
         try {
             DateParser parser = new DateParser(string);
             parser.setDynamicDateTime(this);
@@ -112,7 +112,9 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
             return parser.get();
         } catch (ParseException e) {
             log.log(DEBUG, e.getMessage());
-            throw e;
+            String [] lines = string.split("\n");
+            String value = lines[e.currentToken.beginLine -1] + "\n" + (" ".repeat(e.currentToken.beginColumn - 1)) + "^" + e.currentToken.image;
+            throw new DateTimeNotParsable(e.getMessage() + "\n" + value, e);
         }
     }
 
@@ -131,7 +133,7 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
         };
     }
 
-    public static void main(String[] argv) throws ParseException {
+    public static void main(String[] argv) throws DateTimeNotParsable {
         DynamicDateTime parser = new DynamicDateTime();
         System.out.println("" + parser.applyWithException(argv[1]));
     }

@@ -10,8 +10,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import org.meeuw.functional.ThrowingSupplier;
 import org.meeuw.time.TestClock;
-import org.meeuw.time.parser.DynamicDateTime;
-import org.meeuw.time.parser.ParseException;
+import org.meeuw.time.parser.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -49,10 +48,8 @@ class DynamicDateTimeTest {
 
     @ParameterizedTest
     @MethodSource("getDemo")
-    public void tryDemo(String demo) throws ParseException {
+    public void tryDemo(String demo) throws DateTimeNotParsable {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
-
-
         System.out.println(formatter.format(Date.from(dt.applyWithException(demo).toInstant())) + "\t" + demo);
     }
 
@@ -102,9 +99,6 @@ class DynamicDateTimeTest {
 
 
 
-
-
-
     @Test
     public void rounding() {
 
@@ -143,6 +137,12 @@ class DynamicDateTimeTest {
 
         assertThat(supplier.get().toString()).isEqualTo("2020-02-20T20:35+01:00[Europe/Amsterdam]");
 
+    }
+
+
+    @Test
+    public void outlyers() {
+        assertThat(dt.apply("0205-04-13T01:59:00+00:17:30")).isEqualTo("");
     }
 
 }

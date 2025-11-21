@@ -25,6 +25,10 @@ public class NotParsable extends IllegalArgumentException {
     public NotParsable(String message) {
         super(message);
     }
+
+    public NotParsable(String message, Throwable cause) {
+        super(message, cause);
+    }
     public NotParsable(NumberFormatException numberFormatException) {
         super(numberFormatException.getMessage(), numberFormatException);
     }

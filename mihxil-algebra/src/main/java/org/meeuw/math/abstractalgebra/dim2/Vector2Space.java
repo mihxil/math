@@ -22,6 +22,7 @@ import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
 
 /**
@@ -83,7 +84,7 @@ public class Vector2Space implements VectorSpace<RealNumber, Vector2>, AbelianRi
         String stripped = TextUtils.stripParentheses(s);
         String[] parts = stripped.split(",");
         if (parts.length != 2) {
-            throw new IllegalArgumentException("Cannot parse " + s + " as " + this);
+            throw new NotParsable("Cannot parse " + s + " as " + this);
         }
         return Vector2.of(
             getField().fromString(parts[0]).doubleValue(),
