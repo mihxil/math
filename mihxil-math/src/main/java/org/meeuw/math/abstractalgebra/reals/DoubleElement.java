@@ -163,10 +163,10 @@ public class DoubleElement
         } else if (divisor.equals(BigInteger.ONE)) {
             return this;
         }
-        double d =  value / divisor.doubleValue();
-        double result = value / d;
+        double result =  value / divisor.doubleValue();
+
         return new DoubleElement(result,
-            Math.max(Math.abs(uncertainty / d), uncertaintyForDouble(result)));
+            Math.max(Math.abs(uncertainty / result), uncertaintyForDouble(result)));
     }
 
     @Override
