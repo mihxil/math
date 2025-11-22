@@ -209,7 +209,7 @@ public class ScientificNotation<N extends Number> {
 
             splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
             splitStd.coefficient = operations.scaleByPowerOfTen(splitStd.coefficient, splitMean.exponent);
-                    splitMean.exponent = 0;
+            splitMean.exponent = 0;
 
         }
 
@@ -228,7 +228,7 @@ public class ScientificNotation<N extends Number> {
         int maximalPrecision
         ) {
 
-        if (Math.abs(splitMean.exponent) < minExponent) {
+        if (Math.abs(splitMean.exponent) <= minExponent) {
             splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
             splitMean.exponent = 0;
         }

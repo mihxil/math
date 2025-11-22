@@ -76,18 +76,11 @@ public class SplitNumber<N extends Number> {
 
         boolean negative = operations.signum(in) < 0;
         N coefficient = operations.abs(in);
+
         int exponent    = 0;
         if (!operations.isZero(coefficient)) {
-            // use operations.scaleByPowerOf10?
-            while (operations.gte(coefficient, 10)) {
-                coefficient = operations.scaleByPowerOfTenExact(coefficient, -1);
-                exponent++;
-            }
-
-            while (operations.lt(coefficient, 1)) {
-                coefficient = operations.scaleByPowerOfTenExact(coefficient, 1);
-                exponent--;
-            }
+            exponent = operations.orderOfMagnitude(coefficient).getAsInt();
+            coefficient = operations.scaleByPowerOfTenExact(coefficient, -1 * exponent);
         }
         if (negative) { // put sign back
             coefficient = operations.negate(coefficient);

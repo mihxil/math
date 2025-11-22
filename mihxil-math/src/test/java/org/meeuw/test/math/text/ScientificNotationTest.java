@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScientificNotationTest {
 
-    UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE;
+    UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM;
     int minimumExponent = 3;
 
     final ScientificNotation<Double> scientific = new ScientificNotation<>(
@@ -24,7 +24,8 @@ public class ScientificNotationTest {
 
     @Test
     public void notationRound() {
-        assertThat(scientific.formatWithUncertainty(1000.0d, 0d)).isEqualTo("1000");
+        assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
+            .isEqualTo("1000");
     }
 
     @Test
