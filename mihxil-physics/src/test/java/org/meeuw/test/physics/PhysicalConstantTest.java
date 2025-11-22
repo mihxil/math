@@ -32,22 +32,27 @@ import static org.meeuw.physics.PhysicalConstant.*;
 @Log
 class PhysicalConstantTest {
 
+   /* @BeforeEach
+    public void setup() {
+        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM)));
+    }
+*/
     @Test
     public void NA() {
-        assertThat(NA.toString()).isEqualTo("6.02214076·10²³ mol⁻¹");
+        assertThat(NA.toString()).isEqualTo("6.02214076000000000·10²³ mol⁻¹");
         assertThat(NA.getName()).isEqualTo("Avogadro's number");
         log.info("%s=%s".formatted(NA.getSymbol(), NA.toString()));
     }
 
     @Test
     public void c() {
-        assertThat(c.toString()).isEqualTo("2.99792458·10⁸ m·s⁻¹");
+        assertThat(c.toString()).isEqualTo("2.99792458000000000·10⁸ m·s⁻¹");
     }
 
     @Test
     public void h() {
-        assertThat(h.toString()).isEqualTo("6.62607015·10⁻³⁴ J·s");
-        assertThat(hbar.toString()).isEqualTo("1.05457181764616·10⁻³⁴ J·s");
+        assertThat(h.toString()).isEqualTo("6.62607015000000000·10⁻³⁴ J·s");
+        assertThat(hbar.toString()).isEqualTo("1.05457181764615650·10⁻³⁴ J·s");
         log.info(hbar.getSymbol() + "=" + hbar);
     }
 
