@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     container: asciidoctor/docker-asciidoctor:latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           set-safe-directory: true
       - name: Install needed tools
