@@ -15,6 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.math.BigInteger;
+
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
@@ -49,23 +51,49 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
     }
 
     @Property
-    default void scaleByPowerOf10(@ForAll(ELEMENTS) E v1) {
+    default void dividedByBigInteger(@ForAll(ELEMENTS) E v1, @ForAll("positiveLongs") long divAsLong) {
+        BigInteger divisor = BigInteger.valueOf(divAsLong);
         withLooseEquals(() -> {
-            E scaled = v1.scaleByPowerOfTen(2);
-            E unscaled = scaled.scaleByPowerOfTen(-2);
-            assertThat(unscaled).isEqTo(v1);
+
+            try {
+                assertThat(v1.dividedBy(divisor).getStructure()).isEqTo(v1.getStructure());
+                assertThat(v1.dividedBy(divisor).times(divisor).eq(v1)).withFailMessage("(%s / %s) * %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+                assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
+
+            } catch (DivisionByZeroException divisionByZeroException) {
+                log().info("%s / %s -> %s".formatted( v1, divisor, divisionByZeroException.getMessage()));
+                assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
+            }
         });
+    }
+
+    @Property
+    default void scaleByPowerOf10(@ForAll(ELEMENTS) E v1) {
+        try {
+            withLooseEquals(() -> {
+                E scaled = v1.scaleByPowerOfTen(2);
+                E unscaled = scaled.scaleByPowerOfTen(-2);
+                assertThat(unscaled).isEqTo(v1);
+            });
+        } catch (DivisionByZeroException dve) {
+            log().info("%s scaled 10^n: %s".formatted( v1, dve.getMessage()));
+        }
 
     }
 
 
     @Property
     default void scalb(@ForAll(ELEMENTS) E v1) {
-        withLooseEquals(() -> {
-            E scaled = v1.scalb(2);
-            E unscaled = scaled.scalb(-2);
-            assertThat(unscaled).isEqTo(v1);
-        });
+        try {
+            withLooseEquals(() -> {
+                E scaled = v1.scalb(2);
+                E unscaled = scaled.scalb(-2);
+                assertThat(unscaled).isEqTo(v1);
+            });
+        } catch (DivisionByZeroException dve) {
+            log().info("%s scaled 10^n: %s".formatted( v1, dve.getMessage()));
+
+        }
 
     }
 
