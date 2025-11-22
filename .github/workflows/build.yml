@@ -28,7 +28,7 @@ jobs:
         # also check (once) on latest
         include:
           - os: ubuntu-latest
-            java: 25-ea
+            java: 25
           - os: ubuntu-latest
             java: 21
           - os: ubuntu-latest
