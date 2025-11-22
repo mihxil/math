@@ -18,8 +18,10 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.OptionalInt;
 
 import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.exceptions.NotFiniteException;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -71,10 +73,71 @@ public interface NumberOperations<N extends Number> {
 
     N multiply(N n1, Factor factor);
 
-    N scaleByPowerOfTen(N n1, int n2);
+    default N scaleByPowerOfTen(N number, int exponent) {
+        return scaleByPowerOfTenExact(number, exponent);
+    }
+
+    N scaleByPowerOfTenExact(N number, int exponent);
 
 
-     N multiply(N n1, BigInteger n2);
+    default OptionalInt orderOfMagnitude(N in) {
+        if (! isFinite(in)) {
+            throw new NotFiniteException("not finite " + in);
+        }
+        if (isZero(in)) {
+            return OptionalInt.empty();
+        }
+
+        N coeff = abs(in);
+        int exponent = 0;
+
+        if (!isZero(coeff)) {
+            // coefficient >= 10: find minimal k so that coeff * 10^-k < 10
+            if (gte(coeff, 10)) {
+                int low = 0, high = 1;
+                N tmp = scaleByPowerOfTen(coeff, -high);
+                while (gte(tmp, 10)) {
+                    low = high;
+                    high <<= 1;
+                    tmp = scaleByPowerOfTen(coeff, -high);
+                }
+                while (high - low > 1) {
+                    int mid = low + ((high - low) >> 1);
+                    N midTmp = scaleByPowerOfTen(coeff, -mid);
+                    if (gte(midTmp, 10)) {
+                        low = mid;
+                    } else {
+                        high = mid;
+                    }
+                }
+                exponent += high;
+            }
+
+            // coefficient < 1: find minimal k so that coeff * 10^k >= 1
+            if (lt(coeff, 1)) {
+                int low = 0, high = 1;
+                N tmp = scaleByPowerOfTen(coeff, high);
+                while (lt(tmp, 1)) {
+                    low = high;
+                    high <<= 1;
+                    tmp = scaleByPowerOfTenExact(coeff, high);
+                }
+                while (high - low > 1) {
+                    int mid = low + ((high - low) >> 1);
+                    N midTmp = scaleByPowerOfTen(coeff, mid);
+                    if (lt(midTmp, 1)) {
+                        low = mid;
+                    } else {
+                        high = mid;
+                    }
+                }
+                exponent -= high;
+            }
+        }
+        return OptionalInt.of(exponent);
+    }
+
+    N multiply(N n1, BigInteger n2);
 
     default UncertainNumber<N> multiply(N n2, int n, int d) {
         return divide(multiply(n2, n), d);

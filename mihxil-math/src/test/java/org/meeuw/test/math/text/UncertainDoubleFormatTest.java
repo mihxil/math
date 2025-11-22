@@ -88,7 +88,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void zero() {
         ScientificNotation<Double> scientific = uncertainDoubleFormat.getScientific();
-        assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0");
+        assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0.00000000000000000");
     }
 
 
@@ -117,7 +117,7 @@ class UncertainDoubleFormatTest {
     @Test
     public void zeroExact() {
         assertThat(uncertainDoubleFormat.getScientific()
-            .formatWithUncertainty(0d, 0d)).isEqualTo("0");
+            .formatWithUncertainty(0d, 0d)).isEqualTo("0.00000000000000000");
     }
 
     @Test
@@ -192,6 +192,8 @@ class UncertainDoubleFormatTest {
     }
 
     private static final List<Case> cases = List.of(
+        new Case(0, 0.,
+            "0.00000000000000000",     "0", "0.00000000000000000",  "0.00000000000000000"),
         new Case(1, 0.5,
             "1.0",              "1",               "1.0 ± 0.5",                    "1.0(5)"),
         new Case(1, 0.00001,
@@ -203,15 +205,15 @@ class UncertainDoubleFormatTest {
         new Case(-2.2967301287511077E-10, 0.000005551115123125783E-10,
             "-2.296730·10⁻¹⁰",  "-2.29673·10⁻¹⁰",  "(-2.296730 ± 0.000006)·10⁻¹⁰",  "-2.296730(6)·10⁻¹⁰"),
         new Case(1000, 0,
-            "1000",  "1000",  "1000",  "1000"),
+            "1000.00000000000000000",  "1000",  "1000.00000000000000000",  "1000.00000000000000000"),
         new Case(6.62607015E-34, 0,
-            "6.62607015·10⁻³⁴",                  "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴", "6.62607015·10⁻³⁴"),
+            "6.62607015000000000·10⁻³⁴",  "6.62607015·10⁻³⁴", "6.62607015000000000·10⁻³⁴", "6.62607015000000000·10⁻³⁴"),
         new Case(6.62607015E-34, 0.0005E-34,
             "6.6261·10⁻³⁴",                  "6.6261·10⁻³⁴", "(6.6261 ± 0.0005)·10⁻³⁴", "6.6261(5)·10⁻³⁴"),
         new Case(1d, 0,
-            "1",                  "1", "1", "1"),
+            "1.00000000000000000",                  "1", "1.00000000000000000", "1.00000000000000000"),
         new Case(1.3660434920643638d, 0d,
-            "1.3660434920643638", "1.3660434920643638", "1.3660434920643638", "1.3660434920643638d"
+            "1.36604349206436380", "1.3660434920643638", "1.36604349206436380", "1.36604349206436380"
             )
     );
 

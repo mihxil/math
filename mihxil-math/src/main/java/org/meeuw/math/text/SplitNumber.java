@@ -19,6 +19,7 @@ import lombok.With;
 
 import java.util.Optional;
 
+import org.meeuw.math.exceptions.NotFiniteException;
 import org.meeuw.math.numbers.NumberOperations;
 
 import static org.meeuw.math.text.ScientificNotation.TIMES_10;
@@ -34,9 +35,9 @@ import static org.meeuw.math.text.ScientificNotation.TIMES_10;
  * @param <N> The type of the number. E.g. a {@link Double}
  */
 
-class SplitNumber<N extends Number> {
-    @With N coefficient;
-    @With int exponent;
+public class SplitNumber<N extends Number> {
+    public @With N coefficient;
+    public @With int exponent;
 
     SplitNumber(N coefficient, int exponent) {
         this.coefficient = coefficient;
@@ -48,19 +49,26 @@ class SplitNumber<N extends Number> {
         return coefficient + TIMES_10 + TextUtils.superscript(exponent);
     }
 
-    static <N extends Number> Optional<SplitNumber<N>> split(N in) {
+    public static <N extends Number> Optional<SplitNumber<N>> split(N in) {
         NumberOperations<N> operations = NumberOperations.of(in);
         return split(operations, in);
     }
 
 
+    /**
+     * Created {@link SplitNumber} from given {@link Number}
+     *
+     * @param operations To allow for generic operation specify the {@link NumberOperations} instance to use
+     * @throws NotFiniteException if the incoming number is not finite
+     * @return An optional of {@link SplitNumber}, empty if the incoming number is exactly {@link NumberOperations#isZero(Number) zero}
+     */
 
     static <N extends Number> Optional<SplitNumber<N>> split(
         NumberOperations<N> operations,
         N in) {
 
         if (! operations.isFinite(in)) {
-            throw new IllegalArgumentException("Not a finite number: " + in);
+            throw new NotFiniteException("Not a finite number: " + in);
         }
         if (operations.isZero(in)) {
             return Optional.empty();
@@ -72,12 +80,12 @@ class SplitNumber<N extends Number> {
         if (!operations.isZero(coefficient)) {
             // use operations.scaleByPowerOf10?
             while (operations.gte(coefficient, 10)) {
-                coefficient = operations.divideInt(coefficient, 10);
+                coefficient = operations.scaleByPowerOfTenExact(coefficient, -1);
                 exponent++;
             }
 
             while (operations.lt(coefficient, 1)) {
-                coefficient = operations.multiply(coefficient, 10);
+                coefficient = operations.scaleByPowerOfTenExact(coefficient, 1);
                 exponent--;
             }
         }

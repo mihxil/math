@@ -159,4 +159,27 @@ class DoubleOperationsTest {
     void min() {
         assertThat(INSTANCE.min(1d, 2d, 3d, 3d, 4d, 5d, -10d, -2d)).isEqualTo(-10d);
     }
+
+    @Test
+        void orderOfMagnitude() {
+        assertThat(INSTANCE.orderOfMagnitude(123456678d)).hasValue(8);
+
+       /* long nanos = System.nanoTime();
+        for (long i = 1; i < 1_000_000; i++) {
+            int r = INSTANCE.orderOfMagnitude((double) i).getAsInt();
+            if (i % 10_000 == 0) {
+                System.out.println(i + ":" + r);
+            }
+        }
+        System.out.println(Duration.ofNanos(System.nanoTime() - nanos));
+        nanos = System.nanoTime();
+        for (long i = 1; i < 1_000_000; i++) {
+            int r = (int) Math.floor(Math.log10((double) i));
+            if (i % 10_000 == 0) {
+                System.out.println(i + ":" + r);
+            }
+        }
+        System.out.println(Duration.ofNanos(System.nanoTime() - nanos));*/
+
+    }
 }

@@ -17,6 +17,7 @@ package org.meeuw.math.numbers;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.OptionalInt;
 import java.util.stream.Stream;
 
 import org.meeuw.math.DoubleUtils;
@@ -257,7 +258,30 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public Double scaleByPowerOfTen(Double n1, int n2) {
+        // This causes loss of precision
         return n1 * DoubleUtils.pow10(n2);
+    }
+    @Override
+    public OptionalInt orderOfMagnitude(Double in) {
+        if (in == null || in == 0) {
+            return OptionalInt.empty();
+        }
+        return OptionalInt.of((int) Math.floor(Math.log10(in)));
+    }
+
+
+    @Override
+    public Double scaleByPowerOfTenExact(Double n1, int n2) {
+
+        if (n1 == null) return null;
+        if (Double.isNaN(n1) || Double.isInfinite(n1) || n1 == 0d) {
+            return n1;
+        }
+        // This causes loss of precision
+        //return n1 * DoubleUtils.pow10(n2);
+
+        BigDecimal bd = BigDecimal.valueOf(n1).scaleByPowerOfTen(n2);
+        return bd.doubleValue();
     }
 
     @Override

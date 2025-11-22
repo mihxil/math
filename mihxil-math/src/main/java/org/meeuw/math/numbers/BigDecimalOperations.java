@@ -18,6 +18,7 @@ package org.meeuw.math.numbers;
 import ch.obermuhlner.math.big.BigDecimalMath;
 
 import java.math.*;
+import java.util.OptionalInt;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -36,6 +37,8 @@ import static org.meeuw.math.BigDecimalUtils.uncertaintyForBigDecimal;
  * @since 0.4
  */
 public class BigDecimalOperations implements UncertaintyNumberOperations<BigDecimal> {
+
+    private static final MathContext FLOOR1 = new MathContext(1, RoundingMode.FLOOR);
 
     public static final BigDecimalOperations INSTANCE = new BigDecimalOperations();
 
@@ -127,9 +130,18 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     }
 
     @Override
-    public BigDecimal scaleByPowerOfTen(BigDecimal n1, int n2) {
+    public BigDecimal scaleByPowerOfTenExact(BigDecimal n1, int n2) {
         return n1.scaleByPowerOfTen(n2);
     }
+
+    @Override
+    public OptionalInt orderOfMagnitude(BigDecimal in) {
+        if (in == null || isZero(in)) {
+            return OptionalInt.empty();
+        }
+        return OptionalInt.of(in.pow(10, FLOOR1).intValue());
+    }
+
 
     @Override
     public BigDecimal multiply(BigDecimal n1, BigInteger n2) {

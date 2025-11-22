@@ -111,7 +111,7 @@ public class ScientificNotation<N extends Number> {
                 );
 
             NumberFormat format = numberFormatSupplier.get();
-
+            final boolean useE;
             if (splitStd != null) {
                 arrangeError(
                     splitMean,
@@ -120,17 +120,20 @@ public class ScientificNotation<N extends Number> {
                     minimumExponent,
                     maximalPrecision
                 );
+                useE = splitMean.exponent != 0;
             } else {
                 arrangeErrorForExact(
                     splitMean,
                     format,
+                    minimumExponent,
                     operations.precision(splitMean.coefficient)
                 );
+                useE = Math.abs(splitMean.exponent) > minimumExponent;
             }
 
-            boolean useE = splitMean.exponent != 0;
 
-            final boolean useBrackets = useE && uncertaintyNotation == Notation.PLUS_MINUS;
+
+            final boolean useBrackets = useE && uncertaintyNotation == Notation.PLUS_MINUS && errorIndication;
             if (useBrackets) {
                 buffer.append('(');
             }
@@ -161,7 +164,10 @@ public class ScientificNotation<N extends Number> {
      */
     void arrangeError(
         SplitNumber<N> splitMean,
-        SplitNumber<N> splitStd, NumberFormat format, int minimumExponent, int maximalPrecision) {
+        SplitNumber<N> splitStd,
+        NumberFormat format,
+        int minimumExponent,
+        int maximalPrecision) {
         // use difference of order of magnitude of std to determine how mean digits of the mean are
         // relevant
         final int magnitudeDifference = splitMean.exponent - splitStd.exponent;
@@ -218,12 +224,19 @@ public class ScientificNotation<N extends Number> {
      void arrangeErrorForExact(
         SplitNumber<N> splitMean,
         NumberFormat format,
-        int maximalPrecision) {
+        int minExponent,
+        int maximalPrecision
+        ) {
 
+        if (Math.abs(splitMean.exponent) < minExponent) {
+            splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
+            splitMean.exponent = 0;
+        }
          // consider exact.
         // just pin the number of shown digits
         format.setMaximumFractionDigits(maximalPrecision);
         format.setMinimumFractionDigits(maximalPrecision);
+
     }
 
     /**
