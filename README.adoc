@@ -32,11 +32,35 @@ The core of this project is quite abstract and more or less theoretical. But her
 
 == statistics
 
-add a quick example here
+Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-time[`org.meeuw:mihxil-time`] and use things like
 
-== time
+[source, java]
+----
+import org.meeuw.math.windowed.*;
+void main() {
+    WindowedStatisticalLong windowed = WindowedStatisticalLong
+        .builder()
+        .build();
 
-quick explanation of parsing/clocks
+    windowed.accept(100, 101, 102);
+
+    System.out.println("" + windowed.get()); // prints 101.0 ± 0.8
+}
+
+----
+
+== date parsing
+Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-time[`org.meeuw:mihxil-time`] and use
+
+[source, java]
+----
+import org.meeuw.time.parser.DynamicDateTime;
+void main() {
+    DynamicDateTime dynamicDateTime = new DynamicDateTime();
+    System.out.println("" + dynamicDateTime.apply("today + 5 days").toLocalDate()); // Prints the date 5 days from now
+}
+
+----
 
 == theories
 
@@ -348,18 +372,21 @@ This section is work in progress
 The most basic idea is:
 [source]
 ----
-<base time>] [modifications]*
+[<base time>] [modifications]*
 ----
 So, it starts with specifying some absolute time, which can be dynamic (refer to the current clock).
 
 If no <base time> is specified, that implies 'now'.
 
-Like so
+Like so (where the current time is february 20, 2020)
 |===
 | Input | Output | remarks
 
 | now  | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
 | | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
+| today | 2020-02-20T00:00+01:00[Europe/Amsterdam]  | start with some rounded value
+| tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam]  | other unit than 'day' are possible too
+
 | 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
 | 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
 |===
@@ -381,22 +408,25 @@ The offset can for example be something like 'this month', 'this day', or 'today
 [options="header"]
 |===
 | Input | Output | remarks
-| now this day | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
-| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+| now this day | 2020-02-20T00:00+01:00[Europe/Amsterdam] |
+| now tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam] | 'to-' an alias for that too.
+| 2025-08-30 teatime | 2025-08-30T16:00+02:00[Europe/Amsterdam]
+| some other our indcation can be used too
 |===
 
+Finally, then entire thing can be post fixed and prefixed by an explicit timezone. The timezone defaults to `ZoneId#systemDefault`.
 
-
-
+[options="header"]
 |===
 | Input | Output | remarks
-| 2025-08-30T12:00 teatime | 2020-02-20T20:25+01:00[Europe/Amsterdam] |
-| 2021-08-05T20:00 + 1 minute - 2 days | 2021-08-03T20:01+02:00[Europe/Amsterdam |
+| TZUTC today | 2025-11-23T00:00Z[UTC] |
 |===
 
-Finally, then entire thing can be post fixed and prefixed by an explicit timezone.
 
 === demo
+
+Here is a (working) demo for this.
+
 :leveloffset: 2
 
 
@@ -510,6 +540,8 @@ async onSubmit(DynamicDateTime){
 
 
 :leveloffset: 1
+
+It is a bit more elaborated link:https://mihxil.github.io/math/DEMO.html#demo_dynamicdate[here]
 
 === Comparison to MMBase
 
