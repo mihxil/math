@@ -98,8 +98,7 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         if (mode != Mode.DURATION && mode != Mode.DURATION_NS) {
             throw new IllegalStateException();
         }
-        if (temporal instanceof StatisticalLong) {
-            StatisticalLong statisticalLong = (StatisticalLong) temporal;
+        if (temporal instanceof StatisticalLong statisticalLong) {
             return statisticalLong.plus(durationValue());
         }
         return durationValue().addTo(temporal);
@@ -125,8 +124,7 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
 
     @Override
     public UncertainDuration<Double> until(Temporal endExclusive) {
-        if (endExclusive instanceof UncertainDuration<?>) {
-            UncertainDuration<?> uncertainDuration = (UncertainDuration<?>) endExclusive;
+        if (endExclusive instanceof UncertainDuration<?> uncertainDuration) {
             return plus(uncertainDuration.durationValue());
         }
         long result = instantValue().until(endExclusive, ChronoUnit.MILLIS);
