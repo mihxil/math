@@ -5,11 +5,13 @@ I use https://asciidoc.org/[asciidoc] to write documentation for this.
 I think it is nicer than Markdown. Sadly, A few things don't work entirely when rendered by GitHub.
 
 - It seems to run in 'SECURE' mode, so includes are not working
-- It seems to also miss things like support for LaTeX formulas and embedding of YouTube videos.
-
+- It seems to also miss things like support
+  * for LaTeX formulas
+  * embedding of YouTube videos.
+  * adding docinfo, which is used here and there to add javascript and style for working demo's
 
 I worked around the first thing by a GitHub action 'reducing' the .adoc, which effectively resolves the includes (and produces the `README.adoc` files from the `README-source.adoc` files). This way some modules have their own documentation, which is then included as chapter of the overall documentation.  Also, includes are used to include example code from _actual_ code (like test cases). The README.adoc files then render directly 'mostly' as intended.
 
-The second thing (formula's and videos) could (I presume) only be worked around by transforming the entire thing to HTML, which happens in the `publish-documentation` action. The drawback is that the documentation is less tight to GitHub itself, and you need to access https://mihxil.github.io/math/[a different url], but every detail is working there.
+The other things (formula's, video's and docinfo) could (I presume) only be worked around by transforming the entire thing to HTML, which happens in the `publish-documentation` action. A drawback is that the documentation is less tight to GitHub itself, and you need to access https://mihxil.github.io/math/[a different url], but every detail should be working there.
 
 

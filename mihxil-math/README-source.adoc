@@ -240,7 +240,7 @@ This implementation then only advances streams, and needs no state otherwise.
 
 ifndef::htmled[]
 
-Some videos are available to show this, which are not working here. Visit this page on link:https://mihxil.github.io/math/#_cartesian_product_of_streams[github pages]
+NOTE: Some videos are available to show this, which are not working here. Visit this page on link:https://mihxil.github.io/math/#_cartesian_product_of_streams[github pages]
 
 endif::[]
 
