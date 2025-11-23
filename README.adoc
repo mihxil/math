@@ -22,7 +22,7 @@ image:https://img.shields.io/maven-central/v/org.meeuw.math/mihxil-math.svg[Mave
 image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw.math]
 
 
-[INFO]
+[NOTE]
 ====
 See link:https://mihxil.github.io/math/[this file in html] for proper display of the (few) mathematical equations and MP4-movies. This has some working demo's, but those are beter elaborated in this link:https://mihxil.github.io/math/DEMO.html[dedicated page for that]. This uses webassembly to run java in your browser.
 ====
