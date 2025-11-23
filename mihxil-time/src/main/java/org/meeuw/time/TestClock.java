@@ -51,7 +51,7 @@ public class TestClock extends Clock implements Consumer<Duration> {
     }
 
     /**
-     * A test clock with fixed instant in 2020 (recent past), 2020-02-20T20:20, a thursday.
+     * A test clock with fixed instant in 2020 (recent past), 2020-02-20T19:20Z (a thursday.
      */
     public static TestClock twentyTwenty() {
         ZoneId id = ZoneId.of("Europe/Amsterdam");
@@ -88,6 +88,16 @@ public class TestClock extends Clock implements Consumer<Duration> {
     public LocalDateTime localDateTime() {
         return LocalDateTime.ofInstant(instant(), zone);
     }
+    /**
+     * The current {@link ZonedDateTime} for the current test clock.
+     * <p>
+     * See also {@link LocalDateTime#now(Clock)},  which would actually be the same.
+     * @since 0.19
+     */
+    public ZonedDateTime zonedDateTime() {
+        return instant().atZone(zone);
+    }
+
 
     /**
      * Progresses the clock the given amount of time.
