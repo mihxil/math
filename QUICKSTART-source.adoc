@@ -19,6 +19,15 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-t
 include::mihxil-demo/src/main/java/QuickStartDateParser.java[]
 ----
 
+== algebraic structures
+A lot of 'algebraic structures' are implemented in link:https://central.sonatype.com/artifact/org.meeuw.math/mihxil-algebra[`org.meeuw.math:mihxil-algebra`].
+
+E.g. if you want to use the quaternions implementation:
+[source, java]
+----
+include::mihxil-demo/src/main/java/QuickStartQuaternions.java[]
+----
+
 == theories
 
 quick explanation of theories.
