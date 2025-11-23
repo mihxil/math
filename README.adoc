@@ -41,20 +41,19 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw.math/mih
 
 [source, java]
 ----
-import module org.meeuw.math.statistics;
+import org.meeuw.math.windowed.WindowedStatisticalLong;
 
 void main() {
+    // a sliding window of 5 minutes
     var windowed = WindowedStatisticalLong
         .builder()
-        .bucketDuration(Duration.ofMinutes(5))
+        .window(Duration.ofMinutes(5))
+        .bucketCount(10) // divided in 10 buckets
         .build();
 
     windowed.accept(100, 101, 102);
-
     IO.println(windowed.get()); // prints 101.0 ± 0.8
-
 }
-
 ----
 
 == date parsing
@@ -62,7 +61,7 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-t
 
 [source, java]
 ----
-import module org.meeuw.time;
+import org.meeuw.time.parser.DynamicDateTime;
 
 void main() {
     var dynamicDateTime = new DynamicDateTime();
@@ -71,7 +70,6 @@ void main() {
         dynamicDateTime.apply("today + 5 days").toLocalDate()
     );
 }
-
 ----
 
 == algebraic structures
@@ -88,7 +86,6 @@ void main() {
     var b = H_Q.fromString("2 - 2i + 3j - 4k");
     IO.println(a.times(b)); // prints 13 - 22i + 9j + 16k
 }
-
 ----
 
 == theories
