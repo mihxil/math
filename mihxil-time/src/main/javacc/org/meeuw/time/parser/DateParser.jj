@@ -354,6 +354,7 @@ void increment() : {}
    | previous() month_of_year() { beginOfMonth(); if (cal.isAfter(prev)) {cal = cal.minusYears(1); } }
    | <THIS> month_of_year() { beginOfMonth(); }
    | <THIS> to_period()
+   | <TO> to_period()
    | _this() to_event()
    | next() to_event()
    | previous() to_event()
