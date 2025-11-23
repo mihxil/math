@@ -1,4 +1,4 @@
-import module org.meeuw.time;
+import org.meeuw.time.parser.DynamicDateTime;
 
 void main() {
     var dynamicDateTime = new DynamicDateTime();
@@ -7,4 +7,3 @@ void main() {
         dynamicDateTime.apply("today + 5 days").toLocalDate()
     );
 }
-

@@ -10,7 +10,7 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw.math/mih
 
 [source, java]
 ----
-include::mihxil-demo/src/main/java/QuickStartWindowed.java[]
+include::mihxil-demo/src/quickstart/QuickStartWindowed.java[]
 ----
 
 == date parsing
@@ -18,7 +18,7 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-t
 
 [source, java]
 ----
-include::mihxil-demo/src/main/java/QuickStartDateParser.java[]
+include::mihxil-demo/src/quickstart/QuickStartDateParser.java[]
 ----
 
 == algebraic structures
@@ -27,7 +27,7 @@ A lot of 'algebraic structures' are implemented in link:https://central.sonatype
 E.g. if you want to use the quaternions implementation:
 [source, java]
 ----
-include::mihxil-demo/src/main/java/QuickStartQuaternions.java[]
+include::mihxil-demo/src/quickstart/QuickStartQuaternions.java[]
 ----
 
 == theories
