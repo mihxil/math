@@ -5,7 +5,7 @@
 image:https://img.shields.io/maven-central/v/org.meeuw/mihxil-time.svg[Maven Central,link=https://search.maven.org/artifact/org.meeuw/mihxil-time]
 image:https://www.javadoc.io/badge/org.meeuw/mihxil-time.svg?color=blue[javadoc,link=https://www.javadoc.io/doc/org.meeuw/mihxil-time]
 
-This collects some utility related to time (actually to Durations and Instants). The main purpose is to provide a way to represent uncertain values of time, but it also provides some utilities for working with `Clock`.
+This collects some utility related to time (actually to Durations and Instants). The main purpose is to provide a way to represent uncertain values of time, but it also provides some utilities for working with `Clock`, and a utility to parse 'relative' times.
 
 == Uncertain `java.time` objects
 
