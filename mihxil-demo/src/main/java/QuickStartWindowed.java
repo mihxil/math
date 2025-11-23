@@ -6,6 +6,6 @@ void main() {
         .build();
 
     windowed.accept(100, 101, 102);
-    System.out.println(windowed.get()); // prints 101.0 ± 0.8
+    IO.println(windowed.get()); // prints 101.0 ± 0.8
 }
 
