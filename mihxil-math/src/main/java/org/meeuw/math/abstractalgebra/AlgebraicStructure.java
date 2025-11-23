@@ -319,14 +319,18 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
 
 
     /**
-     * since 0.19
+     * Get a new element that is part of the structure 'by string'.
+     *
+     * @since 0.19
+     * @throws NotParsable If the string is not parsable to a valid element of this structure
      */
     default E fromString(String value) throws NotParsable {
         return FormatService.fromString(this, value, getElementClass());
     }
 
     /**
-     * 0.19
+     * Checks whether a certain string can be parsed by {@link #fromString(String)}
+     * @since 0.19
      */
     default boolean isValid(String value) {
         try {
@@ -338,14 +342,15 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * since 0.19
+     * Checks for this structure if given {@link AlgebraicBinaryOperator binary operator} is <em>commutative</em>
+     * @since 0.19
      */
     default boolean isCommutative(AlgebraicBinaryOperator op) {
         return defaultIsCommutative(op, this);
     }
 
     /**
-     * since 0.19
+     * @since 0.19
      */
     static <E extends AlgebraicElement<E>, S extends AlgebraicStructure<E>> boolean defaultIsCommutative(
         AlgebraicBinaryOperator  op,
