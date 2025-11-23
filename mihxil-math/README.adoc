@@ -239,6 +239,10 @@ The most generic implementation requires for every axis a supplier for the strea
 
 This implementation then only advances streams, and needs no state otherwise.
 
+
+NOTE: Some videos are available to show this, which are not working here. Visit this page on link:https://mihxil.github.io/math/#_cartesian_product_of_streams[github pages]
+
+
 .All combinations of 2 streams of positive integers.
 video::{docs}/positive-plane.mp4[{videooptions}]
 
