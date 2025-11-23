@@ -40,14 +40,14 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-t
 [source, java]
 ----
 import org.meeuw.math.windowed.*;
+@SuppressWarnings("resource")
 void main() {
     WindowedStatisticalLong windowed = WindowedStatisticalLong
         .builder()
         .build();
 
     windowed.accept(100, 101, 102);
-
-    System.out.println("" + windowed.get()); // prints 101.0 ± 0.8
+    System.out.println(windowed.get()); // prints 101.0 ± 0.8
 }
 
 ----
@@ -60,7 +60,28 @@ Take dependency on link:https://central.sonatype.com/artifact/org.meeuw/mihxil-t
 import org.meeuw.time.parser.DynamicDateTime;
 void main() {
     DynamicDateTime dynamicDateTime = new DynamicDateTime();
-    System.out.println("" + dynamicDateTime.apply("today + 5 days").toLocalDate()); // Prints the date 5 days from now
+    System.out.println(
+        // Prints the date 5 days from now
+        dynamicDateTime.apply("today + 5 days").toLocalDate()
+    );
+}
+
+----
+
+== algebraic structures
+A lot of 'algebraic structures' are implemented in link:https://central.sonatype.com/artifact/org.meeuw.math/mihxil-algebra[`org.meeuw.math:mihxil-algebra`].
+
+E.g. if you want to use the quaternions implementation:
+[source, java]
+----
+import static org.meeuw.math.abstractalgebra.quaternions.Quaternions.H_Q;
+
+
+void main() {
+    // Quaternions over rational numbers
+    var a = H_Q.fromString("1 + 2i + 3j + 4k");
+    var b = H_Q.fromString("2 - 2i + 3j - 4k");
+    System.out.println(a.times(b)); // prints 13 - 22i + 9j + 16k
 }
 
 ----

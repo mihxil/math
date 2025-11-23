@@ -43,8 +43,9 @@
 <ul class="sectlevel2">
 <li><a href="#_statistics">1.1. statistics</a></li>
 <li><a href="#_date_parsing">1.2. date parsing</a></li>
-<li><a href="#_theories">1.3. theories</a></li>
-<li><a href="#_configuration">1.4. configuration</a></li>
+<li><a href="#_algebraic_structures">1.3. algebraic structures</a></li>
+<li><a href="#_theories">1.4. theories</a></li>
+<li><a href="#_configuration">1.5. configuration</a></li>
 </ul>
 </li>
 <li><a href="#_math">2. math</a>
@@ -166,14 +167,14 @@
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.windowed</span>.*;
+<span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">resource</span><span class="delimiter">&quot;</span></span>)
 <span class="type">void</span> main() {
     WindowedStatisticalLong windowed = WindowedStatisticalLong
         .builder()
         .build();
 
     windowed.accept(<span class="integer">100</span>, <span class="integer">101</span>, <span class="integer">102</span>);
-
-    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + windowed.get()); <span class="comment">// prints 101.0 ± 0.8</span>
+    <span class="predefined-type">System</span>.out.println(windowed.get()); <span class="comment">// prints 101.0 ± 0.8</span>
 }</code></pre>
 </div>
 </div>
@@ -188,19 +189,44 @@
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.time.parser.DynamicDateTime</span>;
 <span class="type">void</span> main() {
     DynamicDateTime dynamicDateTime = <span class="keyword">new</span> DynamicDateTime();
-    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + dynamicDateTime.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">today + 5 days</span><span class="delimiter">&quot;</span></span>).toLocalDate()); <span class="comment">// Prints the date 5 days from now</span>
+    <span class="predefined-type">System</span>.out.println(
+        <span class="comment">// Prints the date 5 days from now</span>
+        dynamicDateTime.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">today + 5 days</span><span class="delimiter">&quot;</span></span>).toLocalDate()
+    );
 }</code></pre>
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_theories">1.3. theories</h3>
+<h3 id="_algebraic_structures">1.3. algebraic structures</h3>
+<div class="paragraph">
+<p>A lot of 'algebraic structures' are implemented in <a href="https://central.sonatype.com/artifact/org.meeuw.math/mihxil-algebra"><code>org.meeuw.math:mihxil-algebra</code></a>.</p>
+</div>
+<div class="paragraph">
+<p>E.g. if you want to use the quaternions implementation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.abstractalgebra.quaternions.Quaternions.H_Q</span>;
+
+
+<span class="type">void</span> main() {
+    <span class="comment">// Quaternions over rational numbers</span>
+    <span class="type">var</span> a = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2i + 3j + 4k</span><span class="delimiter">&quot;</span></span>);
+    <span class="type">var</span> b = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">2 - 2i + 3j - 4k</span><span class="delimiter">&quot;</span></span>);
+    <span class="predefined-type">System</span>.out.println(a.times(b)); <span class="comment">// prints 13 - 22i + 9j + 16k</span>
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_theories">1.4. theories</h3>
 <div class="paragraph">
 <p>quick explanation of theories.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_configuration">1.4. configuration</h3>
+<h3 id="_configuration">1.5. configuration</h3>
 
 </div>
 </div>
