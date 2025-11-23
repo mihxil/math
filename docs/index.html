@@ -42,7 +42,7 @@
 <li><a href="#_quickstart">1. quickstart</a>
 <ul class="sectlevel2">
 <li><a href="#_statistics">1.1. statistics</a></li>
-<li><a href="#_time">1.2. time</a></li>
+<li><a href="#_date_parsing">1.2. date parsing</a></li>
 <li><a href="#_theories">1.3. theories</a></li>
 <li><a href="#_configuration">1.4. configuration</a></li>
 </ul>
@@ -70,7 +70,7 @@
 </li>
 </ul>
 </li>
-<li><a href="#_time_2">3. time</a>
+<li><a href="#_time">3. time</a>
 <ul class="sectlevel2">
 <li><a href="#_uncertain_java_time_objects">3.1. Uncertain <code>java.time</code> objects</a></li>
 <li><a href="#_clocks">3.2. Clocks</a>
@@ -161,13 +161,36 @@
 <div class="sect2">
 <h3 id="_statistics">1.1. statistics</h3>
 <div class="paragraph">
-<p>add a quick example here</p>
+<p>Take dependency on <a href="https://central.sonatype.com/artifact/org.meeuw/mihxil-time"><code>org.meeuw:mihxil-time</code></a> and use things like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.windowed</span>.*;
+<span class="type">void</span> main() {
+    WindowedStatisticalLong windowed = WindowedStatisticalLong
+        .builder()
+        .build();
+
+    windowed.accept(<span class="integer">100</span>, <span class="integer">101</span>, <span class="integer">102</span>);
+
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + windowed.get()); <span class="comment">// prints 101.0 ± 0.8</span>
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_time">1.2. time</h3>
+<h3 id="_date_parsing">1.2. date parsing</h3>
 <div class="paragraph">
-<p>quick explanation of parsing/clocks</p>
+<p>Take dependency on <a href="https://central.sonatype.com/artifact/org.meeuw/mihxil-time"><code>org.meeuw:mihxil-time</code></a> and use</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.time.parser.DynamicDateTime</span>;
+<span class="type">void</span> main() {
+    DynamicDateTime dynamicDateTime = <span class="keyword">new</span> DynamicDateTime();
+    <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="delimiter">&quot;</span></span> + dynamicDateTime.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">today + 5 days</span><span class="delimiter">&quot;</span></span>).toLocalDate()); <span class="comment">// Prints the date 5 days from now</span>
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -739,7 +762,7 @@ Your browser does not support the video tag.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_time_2">3. time</h2>
+<h2 id="_time">3. time</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p><span class="image"><a class="image" href="https://search.maven.org/artifact/org.meeuw/mihxil-time"><img src="https://img.shields.io/maven-central/v/org.meeuw/mihxil-time.svg" alt="Maven Central"></a></span>
@@ -798,7 +821,7 @@ Your browser does not support the video tag.
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code>&lt;base time&gt;] [modifications]*</code></pre>
+<pre class="CodeRay highlight"><code>[&lt;base time&gt;] [modifications]*</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -808,7 +831,7 @@ Your browser does not support the video tag.
 <p>If no &lt;base time&gt; is specified, that implies 'now'.</p>
 </div>
 <div class="paragraph">
-<p>Like so</p>
+<p>Like so (where the current time is february 20, 2020)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -833,6 +856,16 @@ Your browser does not support the video tag.
 <td class="tableblock halign-left valign-top"></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:20+01:00[Europe/Amsterdam]</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">'now' is the default, so the empty string is valid too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">today</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T00:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">start with some rounded value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">tohour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">other unit than 'day' are possible too</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00</p></td>
@@ -902,46 +935,51 @@ Your browser does not support the video tag.
 <tbody>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">now this day</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T00:00+01:00[Europe/Amsterdam]</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
-<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">now tohour</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:00+01:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'to-' an alias for that too.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30 teatime</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T16:00+02:00[Europe/Amsterdam]</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">some other our indcation can be used too</p></td>
 </tr>
 </tbody>
 </table>
+<div class="paragraph">
+<p>Finally, then entire thing can be post fixed and prefixed by an explicit timezone. The timezone defaults to <code>ZoneId#systemDefault</code>.</p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Input</th>
+<th class="tableblock halign-left valign-top">Output</th>
+<th class="tableblock halign-left valign-top">remarks</th>
+</tr>
+</thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Input</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Output</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">remarks</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T12:00 teatime</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:25+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-05T20:00 + 1 minute - 2 days</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">2021-08-03T20:01+02:00[Europe/Amsterdam</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TZUTC today</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2025-11-23T00:00Z[UTC]</p></td>
 <td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
-<div class="paragraph">
-<p>Finally, then entire thing can be post fixed and prefixed by an explicit timezone.</p>
-</div>
 </div>
 <div class="sect3">
 <h4 id="_demo">3.3.2. demo</h4>
+<div class="paragraph">
+<p>Here is a (working) demo for this.</p>
+</div>
 <form id="dynamicdate" class="demo">
   <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
    <datalist id="dynamicdate_toparse-examples">
@@ -1051,6 +1089,9 @@ Your browser does not support the video tag.
 </div>
 </div>
 </details>
+<div class="paragraph">
+<p>It is a bit more elaborated <a href="https://mihxil.github.io/math/DEMO.html#demo_dynamicdate">here</a></p>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_comparison_to_mmbase">3.3.3. Comparison to MMBase</h4>
@@ -2753,7 +2794,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="demo_dynamicdate">10.3. Dynamic date parsing</h3>
 <div class="paragraph">
-<p>The <a href="https://github.com/mihxil/math/tree/main/mihxil-time"><code>mihxil-time</code></a> module contain a 'dynamic date parser. I dusted this of from old <a href="https://www.mmbase.org">mmbase</a> code.</p>
+<p>The <a href="https://mihxil.github.io/math/#_dynamic_date_time_parsing"><code>mihxil-time</code></a> module contain a 'dynamic date parser. I dusted this of from old <a href="https://www.mmbase.org">mmbase</a> code.</p>
 </div>
 <form id="dynamicdate" class="demo">
   <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
