@@ -59,6 +59,9 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         );
     }
 
+    /**
+     * Quaternions over {@link RationalNumbers#INSTANCE rational numbers}
+     */
     @Example(value = DivisionRing.class, prefix = "Quaternions ")
     public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
 
