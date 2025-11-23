@@ -159,6 +159,18 @@
 <div class="paragraph">
 <p>The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.</p>
 </div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/512">compact source files</a>
+</td>
+</tr>
+</table>
+</div>
 <div class="sect2">
 <h3 id="_statistics">1.1. statistics</h3>
 <div class="paragraph">
@@ -174,7 +186,7 @@
         .build();
 
     windowed.accept(<span class="integer">100</span>, <span class="integer">101</span>, <span class="integer">102</span>);
-    <span class="predefined-type">System</span>.out.println(windowed.get()); <span class="comment">// prints 101.0 ± 0.8</span>
+    IO.println(windowed.get()); <span class="comment">// prints 101.0 ± 0.8</span>
 }</code></pre>
 </div>
 </div>
@@ -189,7 +201,7 @@
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.time.parser.DynamicDateTime</span>;
 <span class="type">void</span> main() {
     DynamicDateTime dynamicDateTime = <span class="keyword">new</span> DynamicDateTime();
-    <span class="predefined-type">System</span>.out.println(
+    IO.println(
         <span class="comment">// Prints the date 5 days from now</span>
         dynamicDateTime.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">today + 5 days</span><span class="delimiter">&quot;</span></span>).toLocalDate()
     );
@@ -214,7 +226,7 @@
     <span class="comment">// Quaternions over rational numbers</span>
     <span class="type">var</span> a = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2i + 3j + 4k</span><span class="delimiter">&quot;</span></span>);
     <span class="type">var</span> b = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">2 - 2i + 3j - 4k</span><span class="delimiter">&quot;</span></span>);
-    <span class="predefined-type">System</span>.out.println(a.times(b)); <span class="comment">// prints 13 - 22i + 9j + 16k</span>
+    IO.println(a.times(b)); <span class="comment">// prints 13 - 22i + 9j + 16k</span>
 }</code></pre>
 </div>
 </div>
