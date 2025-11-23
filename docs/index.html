@@ -178,11 +178,14 @@ examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/5
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.windowed</span>.*;
-<span class="annotation">@SuppressWarnings</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">resource</span><span class="delimiter">&quot;</span></span>)
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.math.windowed.WindowedStatisticalLong</span>;
+
 <span class="type">void</span> main() {
-    WindowedStatisticalLong windowed = WindowedStatisticalLong
+    <span class="comment">// a sliding window of 5 minutes</span>
+    <span class="type">var</span> windowed = WindowedStatisticalLong
         .builder()
+        .window(<span class="predefined-type">Duration</span>.ofMinutes(<span class="integer">5</span>))
+        .bucketCount(<span class="integer">10</span>) <span class="comment">// divided in 10 buckets</span>
         .build();
 
     windowed.accept(<span class="integer">100</span>, <span class="integer">101</span>, <span class="integer">102</span>);
@@ -199,8 +202,9 @@ examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/5
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.time.parser.DynamicDateTime</span>;
+
 <span class="type">void</span> main() {
-    DynamicDateTime dynamicDateTime = <span class="keyword">new</span> DynamicDateTime();
+    <span class="type">var</span> dynamicDateTime = <span class="keyword">new</span> DynamicDateTime();
     IO.println(
         <span class="comment">// Prints the date 5 days from now</span>
         dynamicDateTime.apply(<span class="string"><span class="delimiter">&quot;</span><span class="content">today + 5 days</span><span class="delimiter">&quot;</span></span>).toLocalDate()
@@ -220,7 +224,6 @@ examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/5
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.abstractalgebra.quaternions.Quaternions.H_Q</span>;
-
 
 <span class="type">void</span> main() {
     <span class="comment">// Quaternions over rational numbers</span>
