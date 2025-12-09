@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.math.arithmetic.ast.Expression;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.time.UncertainJavaTime;
 
@@ -20,18 +19,7 @@ class SolverTest {
     static {
         DemoUtils.setupLogging(Level.FINE);
     }
-    Solver<RationalNumber> solver = new Solver<>(RationalNumbers.INSTANCE) {
-            @Override
-            void callBack(long considered, long tried, long total, Expression<RationalNumber> expression) {
-                if (considered % 10000 == 0 || (considered < 10000 && considered % 100 == 0)) {
-                    log.info("Considered %d / %d , tried %d : %s".formatted(considered, total, tried, expression));
-                }
-            }
-            @Override
-            boolean cancelled() {
-                return false;
-            }
-        };
+    Solver<RationalNumber> solver = new Solver.Impl<>(RationalNumbers.INSTANCE, Level.INFO);
 
     @Test
     void solve1() {

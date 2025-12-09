@@ -1,6 +1,7 @@
 
 URL:=mihxil/mihxil-demo:latest
 VERSION:=$(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+CP:=$(shell mvn dependency:build-classpath -DincludeScope=compile -Dmdep.outputFile=/dev/stdout -q)
 
 EXPR:=3 * sin (pi / 4)
 
@@ -42,6 +43,11 @@ resources/css/%.css: sass/%.scss
 sasswatch:
 	sass --watch sass/:resources/css/
 
+quickstart:
+	@java -cp $(CP) src/quickstart/QuickStartDateParser.java
+	@java -cp $(CP) src/quickstart/QuickStartQuaternions.java
+	@java -cp $(CP) src/quickstart/QuickStartWindowed.java
+
 
 
 index.html: README-source.adoc README-source-docinfo.html Makefile resources/css/demo-standalone.css resources/css/demo-standalone-mobile.css resources/css/demo.css  resources/css/calculator.css DEMO-*.adoc    ## create index.html from README-source.adoc
@@ -50,21 +56,25 @@ index.html: README-source.adoc README-source-docinfo.html Makefile resources/css
 
 
 test_big:  ## test real
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" bigdecimal
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" bigdecimal
 
 test_rational:
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" rational
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" rational
 
 test_complex:
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" complex
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" complex
 
 test_bigcomplex:
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" bigcomplex
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" bigcomplex
 
 
 test_real:  ## test real
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" real
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" real
 
 test_gaussian:
-	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.test.Calculator "$(EXPR)" gaussian
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Calculator "$(EXPR)" gaussian
+
+test_solver:
+	java -cp target/mihxil-demo-$(VERSION).jar org.meeuw.math.demo.Solver 24 8 8 4 4
+
 test: test_big test_rational test_complex test_real

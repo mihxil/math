@@ -3,10 +3,12 @@ package org.meeuw.math.demo;
 import lombok.Getter;
 import lombok.extern.java.Log;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -200,7 +202,33 @@ public  class Solver<E extends RingElement<E>> {
         }
     }
 
-    public static void main(String[] integers) {
+    /**
+     * The natives are meant to implement by CheerpJ
+     * This is a dummy implementation for use in main.
+     * @param <E>
+     */
+    static class Impl<E extends RingElement<E>> extends Solver<E> {
+
+        private final Level level;
+        public Impl(Ring<E> structure, Level level) {
+            super(structure);
+            this.level = level;
+        }
+
+        @Override
+        void callBack(long considered, long tried, long total, Expression<E> expression) {
+            if (considered % 10000 == 0 || (considered < 10000 && considered % 100 == 0)) {
+                log.log(level,"Considered %d / %d , tried %d : %s".formatted(considered, total, tried, expression));
+            }
+        }
+
+        @Override
+        boolean cancelled() {
+            return false;
+        }
+    }
+
+    static void main(String[] integers) {
         if (integers.length < 3) {
             System.out.println();
             System.exit(1);
@@ -210,9 +238,10 @@ public  class Solver<E extends RingElement<E>> {
 
         Ring<?> field = algebraicStructureFor(resultString, inputStrings);
 
-        Solver<?> solver = new Solver<>(field);
+        long start = System.nanoTime();
+        Solver<?> solver = new Impl<>(field, Level.FINE);
         SolverResult solverResult = solver.solve(resultString, inputStrings);
         solverResult.stream().forEach(System.out::println);
-        System.out.println("ready, found " + solverResult.matches().get() + ", tried " + solverResult.tries.get() + ", field " + solverResult.field().toString());
+        System.out.println("ready, found " + solverResult.matches().get() + ", tried " + solverResult.tries.get() + ", field " + solverResult.field().toString() + ", took " + Duration.ofNanos(System.nanoTime() - start));
     }
 }
