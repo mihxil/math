@@ -29,6 +29,7 @@ module org.meeuw.math.abstractalgebra.test {
     requires java.logging;
     requires jakarta.validation;
     requires org.hibernate.validator;
+    requires org.opentest4j;
 
     exports org.meeuw.theories;
     exports org.meeuw.theories.abstractalgebra;

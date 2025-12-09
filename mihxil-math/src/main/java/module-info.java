@@ -41,6 +41,7 @@ module org.meeuw.math {
 
     requires org.meeuw.functional;
     requires org.meeuw.configuration;
+    requires java.logging;
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;
