@@ -54,7 +54,6 @@ public class Quaternions<E extends ScalarFieldElement<E>>
             Quaternions<E> result = new Quaternions<>(numberFieldElement);
             log.log(DEBUG, () -> "Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
             return result;
-
             }
         );
     }
@@ -133,7 +132,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
 
     @Override
     public Quaternion<E> nextRandom(Random random) {
-        return new Quaternion<>(
+        return of(
             elementStructure.nextRandom(random),
             elementStructure.nextRandom(random),
             elementStructure.nextRandom(random),
@@ -171,9 +170,19 @@ public class Quaternions<E extends ScalarFieldElement<E>>
                 real = real.plus(parseCoefficient(term.trim(), factor));
             }
         }
+        return of(real, i, j, k);
+    }
+    public Quaternion<E> of(E real, E i, E j, E k) {
         return new Quaternion<>(real, i, j, k);
     }
-
+    public Quaternion<E> fromStrings(String real, String i, String j, String k) {
+        return of(
+            elementStructure.fromString(real),
+            elementStructure.fromString(i),
+            elementStructure.fromString(j),
+            elementStructure.fromString(k)
+        );
+    }
 
     private E parseCoefficient(String coeff, int factor) {
         if (coeff.isEmpty()) {
