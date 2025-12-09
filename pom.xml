@@ -37,7 +37,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.52.0</checkerframework.version>
+    <checkerframework.version>3.52.1</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
