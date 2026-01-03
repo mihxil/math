@@ -24,7 +24,9 @@ public class Value<E extends AlgebraicElement<E>> extends AbstractExpression<E> 
     @Override
     public String toString() {
         try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class,
-            (c) -> c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM))) {
+            (c) ->
+                c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE)
+                    .withStripZeros((n, v) -> true))) {
             return "(value:" + value.toString() + ")";
         }
     }
