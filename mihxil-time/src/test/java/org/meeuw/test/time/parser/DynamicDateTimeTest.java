@@ -51,7 +51,7 @@ class DynamicDateTimeTest {
     @MethodSource("getDemo")
     public void tryDemo(String demo) throws DateTimeNotParsable {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
-        System.out.println(formatter.format(Date.from(dt.applyWithException(demo).toInstant())) + "\t" + demo);
+        System.out.println(((TestClock) dt.getClock()).localDateTime() + "\t" + demo + "\t" + formatter.format(Date.from(dt.applyWithException(demo).toInstant())));
     }
 
     @Test
@@ -138,6 +138,16 @@ class DynamicDateTimeTest {
 
         assertThat(supplier.get().toString()).isEqualTo("2020-02-20T20:35+01:00[Europe/Amsterdam]");
 
+    }
+
+    @Test
+    public void toperiod() {
+        assertThat(dt.apply("today")).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
+
+        assertThat(dt.apply("now this day")).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
+
+        // new in 0.19, use 'to' as this.
+        assertThat(dt.apply("now today")).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
     }
 
 
