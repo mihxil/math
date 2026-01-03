@@ -70,11 +70,14 @@ public class ModuloFieldElement
 
     @Override
     public ModuloFieldElement dividedBy(@NotZero long divisor) {
-        return times(new ModuloFieldElement((int) divisor % structure.divisor, structure).reciprocal());
+        return dividedBy(new ModuloFieldElement((int) divisor % structure.divisor, structure));
     }
     @Override
     public ModuloFieldElement dividedBy(@NotZero BigInteger divisor) {
-        return times(new ModuloFieldElement( divisor.mod(BigInteger.valueOf(structure.divisor)).intValue(), structure).reciprocal());
+        return dividedBy(new ModuloFieldElement(
+            divisor.mod(BigInteger.valueOf(structure.divisor)).intValue(), structure
+            )
+        );
     }
 
     @Override

@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScientificNotationTest {
 
-    UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM;
+    UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE;
     int minimumExponent = 3;
 
     final ScientificNotation<Double> scientific = new ScientificNotation<>(

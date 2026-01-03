@@ -1,7 +1,10 @@
 package org.meeuw.test.physics;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,6 +16,12 @@ import static org.meeuw.physics.SI.octet;
 import static org.meeuw.physics.SIUnit.s;
 
 public class DigitalInformationTest {
+
+    @BeforeEach
+    public void setup() {
+        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)));
+    }
+
 
 
     @Test

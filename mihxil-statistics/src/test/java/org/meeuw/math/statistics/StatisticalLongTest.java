@@ -144,7 +144,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
         mes.enter(Duration.ofSeconds(100), Duration.ofSeconds(90), Duration.ofSeconds(110));
 
-        StatisticalLong mesTimes3 = mes.times(3.0);
+        StatisticalLong mesTimes3 = mes.times(3);
 
         assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofMinutes(5));
         assertThat(mesTimes3.optionalDurationValue()).contains(Duration.ofMinutes(5));
@@ -164,7 +164,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
         mes.enter(Duration.ofSeconds(90).plus(Duration.ofMillis(1)), Duration.ofSeconds(90), Duration.ofSeconds(90).minus(Duration.ofMillis(1)));
 
-        StatisticalLong mesTimes3 = mes.times(3.0);
+        StatisticalLong mesTimes3 = mes.times(3);
 
         assertThat(mesTimes3.durationValue()).isEqualTo(Duration.ofSeconds(90 * 3));
         assertThat(mesTimes3.optionalDurationValue()).contains(Duration.ofSeconds(90 * 3));

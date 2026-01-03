@@ -20,11 +20,14 @@ import lombok.extern.java.Log;
 import java.util.Random;
 
 import net.jqwik.api.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
@@ -45,6 +48,11 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<RealNumber>,
     CompleteScalarFieldTheory<RealNumber> {
+
+    @BeforeEach
+    public void setup() {
+        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withStripZeros((n, o) -> true)));
+    }
 
 
     @Test

@@ -2,8 +2,7 @@ package org.meeuw.math.text;
 
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.util.function.IntSupplier;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.numbers.NumberOperations;
@@ -39,7 +38,7 @@ public class ScientificNotation<N extends Number> {
              formatter::getMaximalPrecision,
              formatter::getUncertaintyNotation,
              () -> (NumberFormat) formatter.getNumberFormat().clone(),
-                operations
+             operations
          );
     }
 
@@ -48,6 +47,7 @@ public class ScientificNotation<N extends Number> {
         IntSupplier maximalPrecision,
         Supplier<Notation> uncertaintyNotation,
         Supplier<NumberFormat> numberFormat,
+
         NumberOperations<N> operations
         ) {
         this.minimumExponentSupplier = minimumExponent;
@@ -82,7 +82,8 @@ public class ScientificNotation<N extends Number> {
         N uncertaintity,
         StringBuffer buffer,
         FieldPosition position) {
-        formatWithUncertainty(mean, uncertaintity, buffer, position, uncertaintyNotationSupplier.get(), true);
+        Notation not = uncertaintyNotationSupplier.get();
+        formatWithUncertainty(mean, uncertaintity, buffer, position, not, true);
     }
 
     private void formatWithUncertainty(
@@ -133,7 +134,8 @@ public class ScientificNotation<N extends Number> {
 
 
 
-            final boolean useBrackets = useE && uncertaintyNotation == Notation.PLUS_MINUS && errorIndication;
+            final boolean useBrackets =
+                useE && uncertaintyNotation.useBrackets() && errorIndication;
             if (useBrackets) {
                 buffer.append('(');
             }
@@ -144,6 +146,7 @@ public class ScientificNotation<N extends Number> {
                 splitMean.coefficient,
                 errorIndication ? splitStd.coefficient : null,
                 uncertaintyNotation
+
             );
 
             if (useBrackets) {
