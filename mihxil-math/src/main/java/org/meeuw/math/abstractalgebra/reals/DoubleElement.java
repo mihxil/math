@@ -437,7 +437,7 @@ public class DoubleElement
      * @since 0.19
      */
     public String toDebugString() {
-        return value + " " + TextUtils.PLUSMIN + " " + uncertainty;
+        return value + " " + (isExact() ? " (exact)" :  (TextUtils.PLUSMIN + " " + uncertainty));
     }
 
     @Override
