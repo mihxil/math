@@ -57,7 +57,8 @@ class GeneralLinearGroupTest {
 
     @Test
     void invalid() {
-        try (var reset = withAspect(UncertaintyConfiguration.class, (c) -> c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM))) {
+        try (var reset = withAspect(UncertaintyConfiguration.class, (c) ->
+            c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE))) {
             assertThatThrownBy(() -> {
                 // not square
                 InvertibleMatrix<RealNumber> e = InvertibleMatrix.of(
