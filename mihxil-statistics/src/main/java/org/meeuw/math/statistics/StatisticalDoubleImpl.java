@@ -49,8 +49,6 @@ public class StatisticalDoubleImpl
      */
     private double offset = 0;
 
-
-
     @Getter
     private double min = Double.MAX_VALUE;
     @Getter
