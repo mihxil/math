@@ -198,7 +198,7 @@ public class BigDecimalElement implements
             asin.getValue(),
             uncertainty.max(asin.getUncertainty())
         );
-       }
+    }
 
 
     @Override
