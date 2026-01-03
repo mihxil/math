@@ -69,8 +69,8 @@ public abstract class AbstractStatisticalDouble
      * @param divisor divisor
      * @return this
      */
-    public SELF divide(double divisor) {
-        return multiply(1 / divisor);
+    public RealNumber divide(double divisor) {
+        return multiply(1d / divisor);
     }
 
     /**
@@ -80,7 +80,7 @@ public abstract class AbstractStatisticalDouble
      * @param multiplier multiplier
      * @return this
      */
-    public abstract SELF  multiply(double multiplier);
+    public abstract RealNumber  multiply(double multiplier);
 
     /**
      * Multiplies the current instant by a value, and returns {@code this}
@@ -89,16 +89,15 @@ public abstract class AbstractStatisticalDouble
      * @param multiplier multiplier
      * @return this
      */
-    public abstract SELF  multiply(long multiplier);
-
+    public abstract SELF multiply(long multiplier);
 
 
     @Override
-    public SELF times(double multiplier) {
+    public RealNumber times(double multiplier) {
         return copy().multiply(multiplier);
     }
     @Override
-    public SELF dividedBy(double divisor) {
+    public RealNumber dividedBy(double divisor) {
         return copy().divide(divisor);
     }
 
@@ -115,13 +114,13 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    public SELF dividedBy(long divisor) {
-        return copy().divide(divisor);
+    public RealNumber dividedBy(long divisor) {
+        return immutableInstance(getValue() / divisor, getUncertainty() / divisor);
     }
 
     @Override
-    public SELF dividedBy(BigInteger divisor) {
-        return copy().divide(divisor.doubleValue());
+    public RealNumber dividedBy(BigInteger divisor) {
+        return immutableInstance(getValue() / divisor.doubleValue(), getUncertainty() / divisor.doubleValue());
     }
 
     @Override

@@ -26,11 +26,10 @@ import java.util.OptionalDouble;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
-import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
-import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.statistics.time.StatisticalDuration;
 import org.meeuw.math.statistics.time.StatisticalInstant;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
@@ -40,7 +39,7 @@ import static java.lang.Math.*;
 /**
  * Keeps tracks the sum and sum of squares of a sequence of long values.
  * <p>
- * It can work in different {@link Mode}s, which indicates how the long value itself must be interpreted.
+ * It can work in different {@link org.meeuw.time.UncertainJavaTime.Mode}s, which indicates how the long value itself must be interpreted.
  * Therefore, this implements {@link TemporalAmount} and {@link Temporal}, but related methods only work in the corresponding mode.
  * This is considered deprecated, though. Use {@link StatisticalInstant}, {@link StatisticalDuration} if the value must be interpreted as such.
  * <p>
@@ -77,12 +76,11 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
 
     protected double doubleOffset = 0d;
 
-    public AbstractStatisticalLong() {
 
+    public AbstractStatisticalLong() {
     }
 
-
-    protected AbstractStatisticalLong(  long sum, long squareSum, int count, long guessedMean) {
+    protected AbstractStatisticalLong(long sum, long squareSum, int count, long guessedMean) {
         super(count);
 
         this.squareSum = squareSum;
@@ -215,21 +213,12 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
         }
     }
 
-
-
-
-
     /**
      * Rounds the underlying long to a multiple of 10, considering the current {@link #getStandardDeviation()}
      */
     protected long round(double in) {
         long orderOfMagnitude = IntegerUtils.positivePow10(DoubleUtils.log10(getStandardDeviation()));
         return DoubleUtils.round(in) / orderOfMagnitude * orderOfMagnitude;
-    }
-
-    @Override
-    public @NonNull RealField getStructure() {
-        return RealField.INSTANCE;
     }
 
     @Override
@@ -250,7 +239,6 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
         );
     }
 
-
     @Override
     public DoubleElement reciprocal() {
         UncertainNumber<Double> reciprocal = operations().reciprocal(getValue());
@@ -260,19 +248,14 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
             Math.max(reciprocal.getUncertainty(), getFractionalUncertainty() * v + DoubleUtils.uncertaintyForDouble(v)));
     }
 
-
     public static MathContext NANO_PRECISION = new MathContext(6, RoundingMode.HALF_UP);
     public static long NANOS_IN_MILLIS = 1_000_000;
     public static BigDecimal BIG_NANOS_IN_MILLIS = BigDecimal.valueOf(NANOS_IN_MILLIS);
-
-
 
     @Override
     public Double getValue() {
         return doubleValue();
     }
-
-
 
     /**
      * @throws OverflowException If the sum of square overflowed
@@ -327,7 +310,9 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
 
 
     @Override
-    public SELF multiply(double d) {
+    public RealNumber multiply(double d) {
+        throw new UnsupportedMathOperationException("statistical long is backed by integers, can cannot be multiplied by double");
+/*
         sum *= d;
 
         if (squareSum != SQUARE_SUM_FAILED) {
@@ -336,7 +321,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
         guessedMean *= d;
         max = DoubleUtils.round(max * d);
         min = DoubleUtils.round(min * d);
-        return (SELF) this;
+        return (SELF) this;*/
     }
 
     @Override
