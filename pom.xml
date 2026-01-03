@@ -46,7 +46,7 @@
     <assertj.version>3.27.6</assertj.version>
     <jqwik.version>1.9.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
-    <hibernate-validator.version>9.0.1.Final</hibernate-validator.version>
+    <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
 
     <javacc.version>8.0.1</javacc.version>
 
