@@ -22,14 +22,14 @@ import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.abstractalgebra.reals.DoubleElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.uncertainnumbers.*;
-import org.meeuw.math.abstractalgebra.reals.DoubleElement;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
 
@@ -74,7 +74,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     /**
-     * Multiplies the current instant by a value, and returns {@code this}
+     * Multiplies the current instant by a value, and returns an
      *
      * @see #times(double)
      * @param multiplier multiplier
@@ -82,6 +82,13 @@ public abstract class AbstractStatisticalDouble
      */
     public abstract SELF  multiply(double multiplier);
 
+    /**
+     * Multiplies the current instant by a value, and returns {@code this}
+     *
+     * @see #times(long)
+     * @param multiplier multiplier
+     * @return this
+     */
     public abstract SELF  multiply(long multiplier);
 
 
@@ -97,7 +104,7 @@ public abstract class AbstractStatisticalDouble
 
     @Override
     public SELF negation() {
-        return times(-1d);
+        return times(-1);
     }
 
     @Override
