@@ -19,18 +19,20 @@ package org.meeuw.math.text;
 import lombok.*;
 
 import java.text.*;
+import java.util.function.BiPredicate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.*;
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
 /**
  * An abstract extension of {@link Format}, targeted at formatting (and parsing) 'uncertain' numbers.
@@ -68,6 +70,10 @@ public abstract class AbstractUncertainFormat<
     @Getter
     @Setter
     protected Notation uncertaintyNotation = Notation.PLUS_MINUS;
+
+    @Getter
+    @Setter
+    protected BiPredicate<Notation, Object> stripZeros = UncertaintyConfiguration.DEFAULT_STRIP_ZEROS;
 
     @Getter
     @Setter
@@ -295,16 +301,12 @@ public abstract class AbstractUncertainFormat<
      * Performs the switch on notation.
      */
     protected void valueAndError(StringBuffer appendable, FieldPosition position, F value) {
-        switch (getUncertaintyNotation()) {
-            case PARENTHESES ->
-                valueParenthesesError(appendable, position, value);
-            case PLUS_MINUS ->
-                valuePlusMinError(appendable,  position, value);
-            case ROUND_VALUE ->
-                valueRound(appendable, position, value, false);
-            case ROUND_VALUE_AND_TRIM -> {
-                valueRound(appendable, position, value, true);
-            }
+        Notation notation = getUncertaintyNotation();
+        boolean stripZeros = getStripZeros().test(notation, value);
+        switch (notation) {
+            case PARENTHESES -> valueParenthesesError(appendable, position, value);
+            case PLUS_MINUS -> valuePlusMinError(appendable, position, value, stripZeros);
+            case ROUND_VALUE -> valueRound(appendable, position, value, stripZeros);
         }
     }
 
@@ -313,8 +315,17 @@ public abstract class AbstractUncertainFormat<
     }
 
 
-    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value) {
-        UncertainFormatUtils.valuePlusMinError(appendable, ToStringFormat.INSTANCE, position, value.getValue(), value.getUncertainty());
+    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
+        UncertainFormatUtils.valuePlusMinError(
+            appendable,
+            ToStringFormat.INSTANCE,
+            position,
+            value.getValue(),
+            value.getUncertainty()
+        );
+        if (value.isExact() && trim) {
+            UncertainFormatUtils.trim(appendable, position);;
+        }
     }
 
     protected void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
