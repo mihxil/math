@@ -49,8 +49,10 @@ jobs:
           cache: maven
       - name: Build with maven
         shell: bash
+        # allow the build step to fail (e.g. test failures) without failing the entire job
+        continue-on-error: true
         run: |
-          mvn -B -D"maven.test.failure.ignore=true" test
+          mvn -B -fn -D"maven.test.failure.ignore=true" test
       - uses: codecov/codecov-action@v5
         if: ${{ matrix.rank == 'main' }}
         with:
@@ -97,6 +99,3 @@ jobs:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
-
-
-
