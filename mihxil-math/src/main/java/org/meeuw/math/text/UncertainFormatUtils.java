@@ -106,17 +106,17 @@ public class UncertainFormatUtils {
     }
 
     public static String valueAndError(
-        String value, String error,
-        Notation uncertaintyNotation) {
+        String value,
+        String error,
+        Notation uncertaintyNotation,
+        boolean strip) {
+
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
-            case PLUS_MINUS -> UncertainFormatUtils.valuePlusMinError(value, error);
-            case ROUND_VALUE -> value;
-            case ROUND_VALUE_AND_TRIM -> {
-                StringBuffer buf = new StringBuffer(value);
-                trim(buf, new FieldPosition(-1));
-                yield buf.toString();
-            }
+            case PLUS_MINUS ->
+                trim(UncertainFormatUtils.valuePlusMinError(value, error), new FieldPosition(-1), strip);
+            case ROUND_VALUE ->
+                trim(value, new FieldPosition(-1), strip);
         };
     }
 
@@ -133,14 +133,21 @@ public class UncertainFormatUtils {
         switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(appendable, format, position, value, error);
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
-            case ROUND_VALUE ->
-                format.format(value, appendable, position);
-            case ROUND_VALUE_AND_TRIM -> {
-                format.format(value, appendable, position);
-                trim(appendable, position);
-            }
+            case ROUND_VALUE -> format.format(value, appendable, position);
+        }
+
+    }
+
+    public static String trim(String value, FieldPosition position, boolean trim) {
+        if (trim) {
+            StringBuffer buf = new StringBuffer(value);
+            trim(buf, position);
+            return buf.toString();
+        } else {
+            return value;
         }
     }
+
 
     public static void trim(StringBuffer appendable, FieldPosition position) {
         int dot = appendable.lastIndexOf(".");
