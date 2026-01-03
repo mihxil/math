@@ -16,12 +16,15 @@
 package org.meeuw.math.text.configuration;
 
 import lombok.*;
+import lombok.extern.java.Log;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiPredicate;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
  * This configuration aspect defines how uncertainties must be formatted
@@ -30,7 +33,25 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
  * @since 0.4
  */
 @ToString
+@Log
 public class UncertaintyConfiguration implements ConfigurationAspect {
+
+    public static BiPredicate<Notation, Object> DEFAULT_STRIP_ZEROS = new BiPredicate<Notation, Object>() {
+        @Override
+        public boolean test(Notation notation, Object object) {
+            if (object instanceof UncertainNumber<?> number) {
+                boolean strip = notation == Notation.ROUND_VALUE && number.isExact();
+                log.info(() ->  number.getValue() +  " -> " + strip);
+                return strip;
+            } else {
+                return false;
+            }
+        }
+        @Override
+        public String toString() {
+            return "if " + Notation.ROUND_VALUE + " and exact";
+        }
+    };
 
     /**
      * Uncertainties can be formatted in several ways, each labeled with the appropriate {@link Notation} enum value.
@@ -43,14 +64,25 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     @With
     private final double considerRoundingErrorFactor;
 
+    @Getter
+    @With
+    private final BiPredicate<Notation, Object> stripZeros;
+
+
     @lombok.Builder
-    private UncertaintyConfiguration(Notation notation,  double considerRoundingErrorFactor) {
+    private UncertaintyConfiguration(
+        Notation notation,
+        double considerRoundingErrorFactor,
+        BiPredicate<Notation, Object> stripZeros
+        ) {
         this.notation = notation;
         this.considerRoundingErrorFactor = considerRoundingErrorFactor;
+        this.stripZeros = stripZeros == null ?
+            DEFAULT_STRIP_ZEROS : stripZeros;
     }
 
     public UncertaintyConfiguration() {
-        this(Notation.PLUS_MINUS, 1000d);
+        this(Notation.PLUS_MINUS, 1000d, null);
     }
 
     @Override
@@ -62,24 +94,30 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         /**
          * Use a ± symbol between value and uncertainty
          */
-        PLUS_MINUS,
+        PLUS_MINUS(true),
+
+
         /**
          * User parentheses to indicate the uncertainty in the last displayed decimals.
          */
-        PARENTHESES,
+        PARENTHESES(false),
 
         /**
-         * Just round the value, indicating like that the uncertaintity
+         * Just round the value, indicating like that the uncertainty
          *
          * @since 0.19
          */
-        ROUND_VALUE,
+        ROUND_VALUE(false);
 
-        /**
-         * Just round the value, stripping trailing zero's too
-         *
-         * @since 0.19
-         */
-        ROUND_VALUE_AND_TRIM
+
+        private final boolean useBrackets;
+
+        Notation(boolean useBrackets) {
+            this.useBrackets = useBrackets;
+        }
+
+        public boolean useBrackets() {
+            return useBrackets;
+        }
     }
 }
