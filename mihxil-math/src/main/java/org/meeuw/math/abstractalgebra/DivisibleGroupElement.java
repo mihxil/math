@@ -37,6 +37,7 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
 
     /**
      * Returns the result of dividing this element by the given divisor.
+     * @since 0.19
      */
     default E dividedBy(@NotZero long divisor) {
         return dividedBy(BigInteger.valueOf(divisor));
@@ -49,6 +50,7 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
 
     /**
      * Returns the result of multiplying this element by the given multiplier.
+     * @since 0.19
      */
     default E times(long multiplier) {
         return times(BigInteger.valueOf(multiplier));
