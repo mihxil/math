@@ -67,8 +67,11 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     }
 
     @Override
-    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber) {
+    protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber, boolean trim) {
         valueAndError(appendable, position, uncertainNumber);
+        if (trim) {
+            UncertainFormatUtils.trim(appendable, position);
+        }
     }
 
     @Override
@@ -86,6 +89,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
                 uncertainNumber.getUncertainty(),
                 appendable,
                 position);
+
         } else if (roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
             scientific.format(
                 uncertainNumber.getValue(),
@@ -99,6 +103,9 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
                 appendable,
                 position
             );
+        }
+        if (stripZeros.test(uncertaintyNotation, uncertainNumber)) {
+            UncertainFormatUtils.trim(appendable, position);
         }
     }
 
