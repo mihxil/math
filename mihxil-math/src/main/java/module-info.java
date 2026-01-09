@@ -42,6 +42,7 @@ module org.meeuw.math {
     requires org.meeuw.functional;
     requires org.meeuw.configuration;
     requires java.logging;
+    requires ch.randelshofer.fastdoubleparser;
 
     exports org.meeuw.math;
     exports org.meeuw.math.abstractalgebra;

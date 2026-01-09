@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.numbers;
 
+import ch.randelshofer.fastdoubleparser.JavaDoubleParser;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.OptionalInt;
@@ -225,7 +227,7 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public Double fromString(String s) {
-        return Double.parseDouble(s.trim());
+        return JavaDoubleParser.parseDouble(s.trim());
     }
 
     @Override

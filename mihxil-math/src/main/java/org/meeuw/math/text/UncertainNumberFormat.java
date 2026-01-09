@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.text;
 
+import ch.randelshofer.fastdoubleparser.JavaDoubleParser;
+
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.numbers.Factor;
@@ -32,7 +34,10 @@ public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFo
 
     @Override
     RealNumber of(String v, String uncertainty, Factor factor) {
-        return DoubleElement.of(Double.parseDouble(v), Double.parseDouble(uncertainty));
+        return DoubleElement.of(
+            JavaDoubleParser.parseDouble(v),
+            JavaDoubleParser.parseDouble(uncertainty)
+        );
     }
 
 }
