@@ -228,8 +228,8 @@ examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/5
 <span class="type">void</span> main() {
     <span class="comment">// Quaternions over rational numbers</span>
     <span class="type">var</span> a = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">1 + 2i + 3j + 4k</span><span class="delimiter">&quot;</span></span>);
-    <span class="type">var</span> b = H_Q.fromString(<span class="string"><span class="delimiter">&quot;</span><span class="content">2 - 2i + 3j - 4k</span><span class="delimiter">&quot;</span></span>);
-    IO.println(a.times(b)); <span class="comment">// prints 13 - 22i + 9j + 16k</span>
+    <span class="type">var</span> b = H_Q.fromStrings(<span class="string"><span class="delimiter">&quot;</span><span class="content">1/2</span><span class="delimiter">&quot;</span></span>,  <span class="string"><span class="delimiter">&quot;</span><span class="content">-2</span><span class="delimiter">&quot;</span></span>,  <span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="delimiter">&quot;</span></span>,  <span class="string"><span class="delimiter">&quot;</span><span class="content">4</span><span class="delimiter">&quot;</span></span>);
+    IO.println(a.times(b)); <span class="comment">// prints -⁴¹⁄₂ - i - ²³⁄₂j + 18k</span>
 }</code></pre>
 </div>
 </div>
@@ -2572,10 +2572,12 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <span class="keyword">import</span> <span class="include">lombok.Getter</span>;
 <span class="keyword">import</span> <span class="include">lombok.extern.java.Log</span>;
 
+<span class="keyword">import</span> <span class="include">java.time.Duration</span>;
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.CancellationException</span>;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.atomic.AtomicLong</span>;
 <span class="keyword">import</span> <span class="include">java.util.function.Function</span>;
+<span class="keyword">import</span> <span class="include">java.util.logging.Level</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Collectors</span>;
 <span class="keyword">import</span> <span class="include">java.util.stream.Stream</span>;
 
@@ -2769,7 +2771,33 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
 
-    <span class="directive">public</span> <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
+    <span class="comment">/**
+     * The natives are meant to implement by CheerpJ
+     * This is a dummy implementation for use in main.
+     * @param &lt;E&gt;
+     */</span>
+    <span class="directive">static</span> <span class="type">class</span> <span class="class">Impl</span>&lt;E <span class="directive">extends</span> RingElement&lt;E&gt;&gt; <span class="directive">extends</span> Solver&lt;E&gt; {
+
+        <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">Level</span> level;
+        <span class="directive">public</span> Impl(Ring&lt;E&gt; structure, <span class="predefined-type">Level</span> level) {
+            <span class="local-variable">super</span>(structure);
+            <span class="local-variable">this</span>.level = level;
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="type">void</span> callBack(<span class="type">long</span> considered, <span class="type">long</span> tried, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression) {
+            <span class="keyword">if</span> (considered % <span class="integer">10000</span> == <span class="integer">0</span> || (considered &lt; <span class="integer">10000</span> &amp;&amp; considered % <span class="integer">100</span> == <span class="integer">0</span>)) {
+                log.log(level,<span class="string"><span class="delimiter">&quot;</span><span class="content">Considered %d / %d , tried %d : %s</span><span class="delimiter">&quot;</span></span>.formatted(considered, total, tried, expression));
+            }
+        }
+
+        <span class="annotation">@Override</span>
+        <span class="type">boolean</span> cancelled() {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+    }
+
+    <span class="directive">static</span> <span class="type">void</span> main(<span class="predefined-type">String</span><span class="type">[]</span> integers) {
         <span class="keyword">if</span> (integers.length &lt; <span class="integer">3</span>) {
             <span class="predefined-type">System</span>.out.println();
             <span class="predefined-type">System</span>.exit(<span class="integer">1</span>);
@@ -2779,10 +2807,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
         Ring&lt;?&gt; field = algebraicStructureFor(resultString, inputStrings);
 
-        Solver&lt;?&gt; solver = <span class="keyword">new</span> Solver&lt;&gt;(field);
+        <span class="type">long</span> start = <span class="predefined-type">System</span>.nanoTime();
+        Solver&lt;?&gt; solver = <span class="keyword">new</span> Impl&lt;&gt;(field, <span class="predefined-type">Level</span>.FINE);
         SolverResult solverResult = solver.solve(resultString, inputStrings);
         solverResult.stream().forEach(<span class="predefined-type">System</span>.out::println);
-        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + solverResult.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + solverResult.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + solverResult.field().toString());
+        <span class="predefined-type">System</span>.out.println(<span class="string"><span class="delimiter">&quot;</span><span class="content">ready, found </span><span class="delimiter">&quot;</span></span> + solverResult.matches().get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, tried </span><span class="delimiter">&quot;</span></span> + solverResult.tries.get() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, field </span><span class="delimiter">&quot;</span></span> + solverResult.field().toString() + <span class="string"><span class="delimiter">&quot;</span><span class="content">, took </span><span class="delimiter">&quot;</span></span> + <span class="predefined-type">Duration</span>.ofNanos(<span class="predefined-type">System</span>.nanoTime() - start));
     }
 }</code></pre>
 </div>
