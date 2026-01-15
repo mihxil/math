@@ -4,6 +4,8 @@ MVN=mvn
 .PRECIOUS: sass/%.scss
 .DEFAULT_GOAL := index.html
 
+FFMPEG4:=ffmpeg -f png_pipe -i pipe: -s:v 600x600  -pix_fmt yuv420p -vcodec libx264
+
 all: index.html positive-plane.mp4 diagonals-positive-plane.mp4 positive-3-plane.mp4  ## all
 
 
@@ -45,12 +47,13 @@ resources/css/%.css: sass/%.scss
 
 %-3-plane.mp4: %-3-plane.data 3-frame.gp Makefile
 	rm -f $@
-	for i in {1..999} ; do (echo "\$$data << EOD" ; head -$$i $< ; echo EOD ; echo "set view ,$$(($$i / 3 % 360))"; cat 3-frame.gp) | gnuplot ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
+	for i in {1..999} ; do (echo "\$$data << EOD" ; head -$$i $< ; echo EOD ; echo "set view ,$$(($$i / 3 % 360))"; cat 3-frame.gp) | gnuplot ; done | $(FFMPEG4)   $@
 
-
+#firefox for file:///Users/michiel/github/mihxil/math/docs/positive-plane.mp4
+#Details: auto mozilla::SupportChecker::AddMediaFormatChecker(const TrackInfo &)::(anonymous class)::operator()() const: Decoder may not have the capability to handle the requested video format with YUV444 chroma subsampling.
 %-plane.mp4: %-plane.data frame.gp Makefile
 	rm -f $@
-	for i in {1..999} ; do head -$$i $< | gnuplot frame.gp ; done | ffmpeg -f png_pipe -s:v 600x600 -i pipe: $@
+	for i in {1..999} ; do head -$$i $< | gnuplot frame.gp ; done | $(FFMPEG4)  $@
 
 
 clean: ## clean
