@@ -73,21 +73,21 @@
             <polygon fill="none" points="96.59258262890683,-25.881904510252074 96.59258262890683,25.881904510252074 70.71067811865476,70.71067811865474 25.881904510252074,96.59258262890683 -25.881904510252063,96.59258262890683 -70.71067811865471,70.71067811865478 -96.59258262890683,25.881904510252102 -96.59258262890684,-25.881904510252035 -70.71067811865478,-70.71067811865471 -25.881904510252063,-96.59258262890683 25.881904510252028,-96.59258262890684 70.71067811865474,-70.71067811865477" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="96.59258262890683" cy="-25.881904510252074" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {12}, size: 51.76380902050415-->
+            <!--Inscribed circle of {12}, size: 51.76-->
             <circle fill="none" r="96.59258262890683" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {12}, size: 51.76380902050415-->
+            <!--Circumscribed circle of {12}, size: 51.76-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {12}, size: 51.76380902050415-->
+            <!--Circumscribed rectangle of {12}, size: 51.76-->
             <rect fill="none" height="193.18516525781365" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="193.18516525781365" x="-96.59258262890683" y="-96.59258262890683"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{12}, size: 51.76380902050415</tspan>
-            <tspan dy="4.0" x="0">area: 3·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 621.1657082460498</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{193.18516525781365x193.18516525781365}</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
+            <tspan dy="4.0" x="0">{12}, size: 51.76</tspan>
+            <tspan dy="4.0" x="0">area: 30000.00</tspan>
+            <tspan dy="4.0" x="0">perimeter: 621.17</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{193.19x193.19}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
             <tspan dy="4.0" x="0"># edges: 12</tspan>
             <tspan dy="4.0" x="0"># vertices: 12</tspan>
         </text>

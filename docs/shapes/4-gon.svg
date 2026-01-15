@@ -73,21 +73,21 @@
             <polygon fill="none" points="70.71067811865474,-70.71067811865474 70.71067811865474,70.71067811865474 -70.71067811865474,70.71067811865474 -70.71067811865476,-70.71067811865474" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="70.71067811865474" cy="-70.71067811865474" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {4}, size: 141.42135623730948-->
+            <!--Inscribed circle of {4}, size: 141.42-->
             <circle fill="none" r="70.71067811865476" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {4}, size: 141.42135623730948-->
+            <!--Circumscribed circle of {4}, size: 141.42-->
             <circle fill="none" r="99.99999999999999" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {4}, size: 141.42135623730948-->
+            <!--Circumscribed rectangle of {4}, size: 141.42-->
             <rect fill="none" height="141.42135623730948" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="141.4213562373095" x="-70.71067811865476" y="-70.71067811865474"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{4}, size: 141.42135623730948</tspan>
-            <tspan dy="4.0" x="0">area: 2·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 565.6854249492379</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{141.4213562373095x141.42135623730948}</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{99.99999999999999}</tspan>
+            <tspan dy="4.0" x="0">{4}, size: 141.42</tspan>
+            <tspan dy="4.0" x="0">area: 20000.00</tspan>
+            <tspan dy="4.0" x="0">perimeter: 565.69</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{141.42x141.42}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
             <tspan dy="4.0" x="0"># edges: 4</tspan>
             <tspan dy="4.0" x="0"># vertices: 4</tspan>
         </text>

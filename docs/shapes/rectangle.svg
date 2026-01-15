@@ -82,10 +82,10 @@
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">Rectangle{100x170}</tspan>
-            <tspan dy="4.0" x="0">area: 1.7·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 540</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{128.00096550459895x184.78213577876835}</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{98.6154146165801}</tspan>
+            <tspan dy="4.0" x="0">area: 17000.00</tspan>
+            <tspan dy="4.0" x="0">perimeter: 540.00</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{128.00x184.78}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{98.62}</tspan>
             <tspan dy="4.0" x="0"># edges: 4</tspan>
             <tspan dy="4.0" x="0"># vertices: 4</tspan>
         </text>

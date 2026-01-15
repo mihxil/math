@@ -78,12 +78,12 @@
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">Circle{100}</tspan>
-            <tspan dy="4.0" x="0">area: 3.14159265358979·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 628.3185307179587</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{200x200}</tspan>
+            <tspan dy="4.0" x="0">area: 31415.93</tspan>
+            <tspan dy="4.0" x="0">perimeter: 628.32</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{200.00x200.00}</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0">radius: 100</tspan>
-            <tspan dy="4.0" x="0">diameter: 200</tspan>
+            <tspan dy="4.0" x="0">diameter: 200.00</tspan>
         </text>
     </g>
 </svg>

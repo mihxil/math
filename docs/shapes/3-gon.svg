@@ -73,21 +73,21 @@
             <polygon fill="none" points="6.123233995736767E-15,-100.00000000000001 86.60254037844388,49.99999999999999 -86.60254037844386,50.00000000000004" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="6.123233995736767E-15" cy="-100.00000000000001" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {3}, size: 173.20508075688772-->
+            <!--Inscribed circle of {3}, size: 173.21-->
             <circle fill="none" r="50.000000000000014" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {3}, size: 173.20508075688772-->
+            <!--Circumscribed circle of {3}, size: 173.21-->
             <circle fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {3}, size: 173.20508075688772-->
+            <!--Circumscribed rectangle of {3}, size: 173.21-->
             <rect fill="none" height="150.00000000000006" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="173.20508075688775" x="-86.60254037844388" y="-100.00000000000001"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{3}, size: 173.20508075688772</tspan>
-            <tspan dy="4.0" x="0">area: 1.29903810567666·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 519.6152422706632</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{173.20508075688775x150.00000000000006} at (7·10⁻¹⁵,-24.99999999999999)</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100.00000000000003}</tspan>
+            <tspan dy="4.0" x="0">{3}, size: 173.21</tspan>
+            <tspan dy="4.0" x="0">area: 12990.38</tspan>
+            <tspan dy="4.0" x="0">perimeter: 519.62</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{173.21x150.00} at (7·10⁻¹⁵,-25.00)</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
             <tspan dy="4.0" x="0"># edges: 3</tspan>
             <tspan dy="4.0" x="0"># vertices: 3</tspan>
         </text>

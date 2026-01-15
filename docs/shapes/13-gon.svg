@@ -73,21 +73,21 @@
             <polygon fill="none" points="6.123233995736766E-15,-100.0 46.472317204376864,-88.54560256532098 82.29838658936563,-56.80647467311558 99.2708874098054,-12.053668025532318 93.50162426854148,35.46048870425355 66.31226582407955,74.85107481711009 23.931566428755804,97.0941817426052 -23.931566428755747,97.09418174260522 -66.3122658240795,74.85107481711013 -93.50162426854148,35.460488704253585 -99.27088740980541,-12.053668025532238 -82.29838658936566,-56.80647467311556 -46.472317204376914,-88.54560256532096" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="6.123233995736766E-15" cy="-100.0" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {13}, size: 47.86313285751154-->
+            <!--Inscribed circle of {13}, size: 47.86-->
             <circle fill="none" r="97.09418174260519" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {13}, size: 47.86313285751154-->
+            <!--Circumscribed circle of {13}, size: 47.86-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {13}, size: 47.86313285751154-->
+            <!--Circumscribed rectangle of {13}, size: 47.86-->
             <rect fill="none" height="197.0941817426052" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="198.5417748196108" x="-99.2708874098054" y="-100.0"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{13}, size: 47.86313285751154</tspan>
-            <tspan dy="4.0" x="0">area: 3.02070061828449·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 622.2207271476501</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{198.54177481961082x197.0941817426052} at (-7·10⁻¹⁵,-1.45290912869739)</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
+            <tspan dy="4.0" x="0">{13}, size: 47.86</tspan>
+            <tspan dy="4.0" x="0">area: 30207.01</tspan>
+            <tspan dy="4.0" x="0">perimeter: 622.22</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{198.54x197.09} at (-7·10⁻¹⁵,-1.45)</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
             <tspan dy="4.0" x="0"># edges: 13</tspan>
             <tspan dy="4.0" x="0"># vertices: 13</tspan>
         </text>

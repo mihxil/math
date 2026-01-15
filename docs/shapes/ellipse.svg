@@ -82,15 +82,15 @@
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">Ellipse{100,80}</tspan>
-            <tspan dy="4.0" x="0">area: 2.51327412287183·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 567.2333577794859</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{181.10770276274835x181.10770276274835}</tspan>
+            <tspan dy="4.0" x="0">area: 25132.74</tspan>
+            <tspan dy="4.0" x="0">perimeter: 567.23</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{181.11x181.11}</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0">radiusx: 100</tspan>
             <tspan dy="4.0" x="0">radiusy: 80</tspan>
-            <tspan dy="4.0" x="0">angle: 0.78539816339745</tspan>
-            <tspan dy="4.0" x="0">linear eccentricity: 60</tspan>
-            <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
+            <tspan dy="4.0" x="0">angle: 0.7853981633974483</tspan>
+            <tspan dy="4.0" x="0">linear eccentricity: 60.00</tspan>
+            <tspan dy="4.0" x="0">eccentricity: 0.60</tspan>
         </text>
     </g>
 </svg>

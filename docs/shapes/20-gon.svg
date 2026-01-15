@@ -73,21 +73,21 @@
             <polygon fill="none" points="98.7688340595138,-15.643446504023089 98.7688340595138,15.643446504023089 89.1006524188368,45.39904997395469 70.71067811865477,70.71067811865476 45.39904997395469,89.10065241883679 15.643446504023094,98.7688340595138 -15.643446504023084,98.7688340595138 -45.39904997395468,89.1006524188368 -70.71067811865476,70.71067811865477 -89.10065241883679,45.39904997395469 -98.76883405951378,15.6434465040231 -98.7688340595138,-15.643446504023075 -89.1006524188368,-45.399049973954675 -70.71067811865478,-70.71067811865476 -45.399049973954696,-89.10065241883679 -15.643446504023105,-98.76883405951378 15.64344650402307,-98.7688340595138 45.39904997395467,-89.10065241883682 70.71067811865474,-70.71067811865478 89.10065241883679,-45.3990499739547" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="98.7688340595138" cy="-15.643446504023089" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {20}, size: 31.28689300804617-->
+            <!--Inscribed circle of {20}, size: 31.29-->
             <circle fill="none" r="98.76883405951378" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {20}, size: 31.28689300804617-->
+            <!--Circumscribed circle of {20}, size: 31.29-->
             <circle fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {20}, size: 31.28689300804617-->
+            <!--Circumscribed rectangle of {20}, size: 31.29-->
             <rect fill="none" height="197.5376681190276" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="197.5376681190276" x="-98.7688340595138" y="-98.7688340595138"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{20}, size: 31.28689300804617</tspan>
-            <tspan dy="4.0" x="0">area: 3.09016994374947·10⁴</tspan>
-            <tspan dy="4.0" x="0">perimeter: 625.7378601609234</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{197.5376681190276x197.5376681190276}</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100.00000000000003}</tspan>
+            <tspan dy="4.0" x="0">{20}, size: 31.29</tspan>
+            <tspan dy="4.0" x="0">area: 30901.70</tspan>
+            <tspan dy="4.0" x="0">perimeter: 625.74</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{197.54x197.54}</tspan>
+            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
             <tspan dy="4.0" x="0"># edges: 20</tspan>
             <tspan dy="4.0" x="0"># vertices: 20</tspan>
         </text>
