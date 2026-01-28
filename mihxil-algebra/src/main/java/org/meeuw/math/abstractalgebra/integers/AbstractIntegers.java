@@ -22,6 +22,7 @@ import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.operators.*;
 
@@ -103,7 +104,11 @@ public abstract class AbstractIntegers<
 
     @Override
     public E fromString(String string) {
-        return of(new BigInteger(string));
+        try {
+            return of(new BigInteger(string));
+        } catch (NumberFormatException e) {
+            throw new NotParsable(e);
+        }
     }
 
 }
