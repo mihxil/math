@@ -529,4 +529,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    @Property
+    default void unaryBySymbolGeneric(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
+        for (AlgebraicUnaryOperator operator : structure.getSupportedUnaryOperators()) {
+            String symbol = operator.getSymbol();
+            assertThat(structure.getUnaryOperationBySymbol(symbol)).contains(operator);
+            log().info("%s -> %s".formatted(symbol, structure.getUnaryOperationBySymbol(symbol).get()));
+        }
+    }
+
 }

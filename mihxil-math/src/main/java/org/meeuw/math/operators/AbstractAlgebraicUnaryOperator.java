@@ -27,7 +27,7 @@ public abstract class AbstractAlgebraicUnaryOperator implements AlgebraicUnaryOp
 
     @Override
     public String toString() {
-        return name();
+        return name().toUpperCase();
     }
 
 }

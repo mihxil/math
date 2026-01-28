@@ -20,6 +20,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.*;
 import org.meeuw.math.operators.*;
 
+@SuppressWarnings("Convert2Lambda")
 public class InfixParser<E extends AlgebraicElement<E>> {
 
     private AlgebraicStructure<E> structure;
@@ -58,8 +59,17 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         });
     }
 
+    AlgebraicUnaryOperator getUnaryOperationBySymbol(String placeHolder, Token  string) {
+            return structure.getUnaryOperationBySymbol(placeHolder + string.image).orElseThrow(
+                  new Supplier<IllegalArgumentException>() {
+              public IllegalArgumentException get() {
+                 return   new IllegalArgumentException("No such unary operator '" + string + "' in " + structure + " (" + structure.getSupportedUnaryOperators() + ")");
+              }
+            });
+        }
+
     private Supplier<IllegalArgumentException> illegalArgument(String type, Token illegalValue) {
-        return new Supplier<IllegalArgumentException>() {
+        return new Supplier<>() {
           public IllegalArgumentException get() {
              return   new IllegalArgumentException("No such " + type + " '" + illegalValue.image + "' in " + structure);
           }
@@ -83,6 +93,7 @@ TOKEN : {
 |   < LPAREN: "(" >
 |   < RPAREN: ")" >
 |   < FUNCTION: (["a"-"z"]) (["a"-"z", "0"-"9"])* >
+|   < UNARY_POSTFIX: ( "!" ) >
 |   < SYMBOLS: "𝜋" |  "𝜑"  >
 
 }
@@ -138,13 +149,27 @@ Expression<E> power() :
       Token op;
 }
 {
-    left = term()
+    left = factor()
      (
         op = <POW>
-        right = term()
+        right = factor()
         {left = new BinaryOperation<>(getOperationBySymbol(op), left, right);}
      )*
     { return left; }
+}
+
+Expression<E> factor() :
+{
+    Expression<E> base = null;
+    Token postfix;
+}
+{
+    base = term()
+    (
+        postfix = <UNARY_POSTFIX>
+        { base = new UnaryOperation<>(getUnaryOperationBySymbol("x", postfix), base); }
+    )*
+    { return base; }
 }
 
 Value<E> number() : {
@@ -188,11 +213,12 @@ UnaryOperation<E> function() :
 {
     functionName = <FUNCTION>
     "(" functionArgument = sum() ")"
-
    {
      return new UnaryOperation<>(getUnaryOperationBySymbol(functionName), functionArgument);
    }
 }
+
+
 
 Value<E> constant() :
 {
