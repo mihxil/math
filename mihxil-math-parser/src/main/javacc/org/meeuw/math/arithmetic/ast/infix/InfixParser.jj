@@ -39,7 +39,7 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         this.getConstant = getConstant;
     }
 
-    public AlgebraicBinaryOperator getOperationBySymbol(Token string) {
+    AlgebraicBinaryOperator getOperationBySymbol(Token string) {
         String token = string.image;
         return structure.getOperationBySymbol(token).orElseThrow(
               new Supplier<IllegalArgumentException>() {
@@ -49,7 +49,7 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         });
     }
 
-      public AlgebraicUnaryOperator getUnaryOperationBySymbol(Token  string) {
+    AlgebraicUnaryOperator getUnaryOperationBySymbol(Token  string) {
         return structure.getUnaryOperationBySymbol(string.image).orElseThrow(
               new Supplier<IllegalArgumentException>() {
           public IllegalArgumentException get() {
