@@ -28,7 +28,7 @@ import org.meeuw.math.abstractalgebra.AlgebraicElement;
  * @author Michiel Meeuwissen
  * @since 0.15
  */
-public  class AbstractAlgebraicIntOperator implements AlgebraicIntOperator {
+public class AbstractAlgebraicIntOperator implements AlgebraicIntOperator {
 
     @Getter
     final Method method;
@@ -57,5 +57,10 @@ public  class AbstractAlgebraicIntOperator implements AlgebraicIntOperator {
     @Override
     public String name() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return name();
     }
 }

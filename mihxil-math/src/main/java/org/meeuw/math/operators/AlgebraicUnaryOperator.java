@@ -46,7 +46,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
      */
     default AlgebraicUnaryOperator compose(AlgebraicUnaryOperator before) {
         Objects.requireNonNull(before);
-        return new AlgebraicUnaryOperator() {
+        return new AbstractAlgebraicUnaryOperator() {
             @Override
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return AlgebraicUnaryOperator.this.apply(before.apply(e));
@@ -79,7 +79,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
      */
     default AlgebraicUnaryOperator andThen(final AlgebraicUnaryOperator after) {
         Objects.requireNonNull(after);
-        return new AlgebraicUnaryOperator() {
+        return new AbstractAlgebraicUnaryOperator() {
             @Override
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return after.apply(AlgebraicUnaryOperator.this.apply(e));
@@ -107,6 +107,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
     default String getSymbol() {
         return stringify(TextUtils.PLACEHOLDER);
     }
+
     /**
      * Returns a function that always returns its input argument.
      *
@@ -114,7 +115,7 @@ public interface AlgebraicUnaryOperator extends OperatorInterface {
      * @see UnaryOperator#identity()
      */
     static AlgebraicUnaryOperator identity() {
-        return new AlgebraicUnaryOperator() {
+        return new AbstractAlgebraicUnaryOperator() {
             @Override
             public <E extends AlgebraicElement<E>> E apply(E e) {
                 return e;

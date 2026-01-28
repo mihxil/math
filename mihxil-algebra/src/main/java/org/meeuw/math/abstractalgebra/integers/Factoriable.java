@@ -24,6 +24,7 @@ import java.util.*;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
+import org.meeuw.math.operators.AbstractAlgebraicUnaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
@@ -36,7 +37,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
 
 
-    AlgebraicUnaryOperator FACT = new AlgebraicUnaryOperator() {
+    AlgebraicUnaryOperator FACT = new AbstractAlgebraicUnaryOperator() {
 
         final Method method = getDeclaredMethod(Factoriable.class, "factorial");
         @SuppressWarnings("unchecked")
@@ -61,7 +62,7 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
         }
     };
 
-    AlgebraicUnaryOperator SUB_FACTORIAL = new AlgebraicUnaryOperator() {
+    AlgebraicUnaryOperator SUB_FACTORIAL = new AbstractAlgebraicUnaryOperator() {
 
         final Method method = getDeclaredMethod(Factoriable.class, "subfactorial");
         @SuppressWarnings("unchecked")
@@ -87,7 +88,7 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
     }
     ;
 
-    AlgebraicUnaryOperator DOUBLE_FACTORIAL = new AlgebraicUnaryOperator() {
+    AlgebraicUnaryOperator DOUBLE_FACTORIAL = new AbstractAlgebraicUnaryOperator() {
 
         final Method method = getDeclaredMethod(Factoriable.class, "doubleFactorial");
         @SuppressWarnings("unchecked")
