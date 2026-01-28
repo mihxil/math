@@ -81,7 +81,8 @@ public class Calculator {
         ),
         integers(Integers.INSTANCE,
             "4 ⋅ 7",
-            "9 - 3"
+            "9 - 3",
+            "69!"
         ),
         modulo10(ModuloRing.of(10),
             "4 ⋅ 7",

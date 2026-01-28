@@ -16,7 +16,7 @@ import org.meeuw.math.arithmetic.ast.infix.InfixParser;
 import org.meeuw.math.arithmetic.ast.infix.ParseException;
 
 public class InfixParserTest {
-    Random random = new Random();
+    final Random random = new Random();
 
     @ParameterizedTest
     @ValueSource(strings = {
