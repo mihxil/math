@@ -16,6 +16,7 @@ import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
+import org.meeuw.math.operators.AbstractAlgebraicUnaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
@@ -56,7 +57,7 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     @Example(AbelianRing.class)
     public static final PolynomialRing<IntegerElement> INTEGER_POLYNOMIALS = of(Integers.INSTANCE);
 
-    private static final AlgebraicUnaryOperator DERIVATIVE = new AlgebraicUnaryOperator() {
+    private static final AlgebraicUnaryOperator DERIVATIVE = new AbstractAlgebraicUnaryOperator() {
             final Method method = getDeclaredMethod(Polynomial.class, "derivative");
 
             @SuppressWarnings("unchecked")
