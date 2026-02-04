@@ -114,9 +114,9 @@ public class UncertainFormatUtils {
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS ->
-                trim(UncertainFormatUtils.valuePlusMinError(value, error), new FieldPosition(-1), strip);
+                strip(UncertainFormatUtils.valuePlusMinError(value, error), new FieldPosition(-1), strip);
             case ROUND_VALUE ->
-                trim(value, new FieldPosition(-1), strip);
+                strip(value, new FieldPosition(-1), strip);
         };
     }
 
@@ -135,13 +135,12 @@ public class UncertainFormatUtils {
             case PLUS_MINUS -> valuePlusMinError(appendable, format, position, value, error);
             case ROUND_VALUE -> format.format(value, appendable, position);
         }
-
     }
 
-    public static String trim(String value, FieldPosition position, boolean trim) {
+    public static String strip(String value, FieldPosition position, boolean trim) {
         if (trim) {
             StringBuffer buf = new StringBuffer(value);
-            trim(buf, position);
+            strip(buf, position);
             return buf.toString();
         } else {
             return value;
@@ -149,7 +148,7 @@ public class UncertainFormatUtils {
     }
 
 
-    public static void trim(StringBuffer appendable, FieldPosition position) {
+    public static void strip(StringBuffer appendable, FieldPosition position) {
         int dot = appendable.lastIndexOf(".");
         if (dot >= 0) {
             int j = appendable.length();

@@ -20,6 +20,7 @@ import ch.randelshofer.fastdoubleparser.JavaDoubleParser;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.numbers.Factor;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -29,7 +30,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
 public class UncertainNumberFormat<N extends Number> extends AbstractUncertainFormat<UncertainNumber<?>, RealNumber, N> {
 
     public UncertainNumberFormat() {
-        super(UncertainNumber.class, null);
+        super(UncertainNumber.class, null, UncertaintyConfiguration.DEFAULT_STRIP_ZEROS);
     }
 
     @Override

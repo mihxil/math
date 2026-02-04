@@ -31,14 +31,17 @@ public class ScientificNotation<N extends Number> {
 
     protected final Supplier<NumberFormat> numberFormatSupplier;
 
+    protected final BiPredicate<Notation, Object> stripTrailingZerosSupplier;
+
     protected final NumberOperations<N> operations;
 
 
-    public ScientificNotation(AbstractUncertainFormat<?, ?, N> formatter, NumberOperations<N> operations) {
+    public ScientificNotation(AbstractUncertainFormat<?, ?, N> formatter, NumberOperations<N> operations, BiPredicate<Notation, Object> stripTrailingZerosSupplier) {
          this(
              formatter::getMinimumExponent,
              formatter::getMaximalPrecision,
              formatter::getUncertaintyNotation,
+             stripTrailingZerosSupplier,
              () -> (NumberFormat) formatter.getNumberFormat().clone(),
              operations
          );
@@ -48,6 +51,7 @@ public class ScientificNotation<N extends Number> {
         IntSupplier minimumExponent,
         IntSupplier maximalPrecision,
         Supplier<Notation> uncertaintyNotation,
+        BiPredicate<Notation, Object> stripTrailingZeros,
         Supplier<NumberFormat> numberFormat,
         NumberOperations<N> operations
         ) {
@@ -55,6 +59,7 @@ public class ScientificNotation<N extends Number> {
         this.maximalPrecisionSupplier = maximalPrecision;
         this.uncertaintyNotationSupplier = uncertaintyNotation;
         this.numberFormatSupplier = numberFormat;
+        this.stripTrailingZerosSupplier = stripTrailingZeros;
         this.operations = operations;
     }
 
@@ -123,11 +128,13 @@ public class ScientificNotation<N extends Number> {
                 );
                 useE = splitMean.exponent != 0;
             } else {
+                boolean stripTrailingZeros = stripTrailingZerosSupplier.test(uncertaintyNotation, mean);
                 arrangeErrorForExact(
                     splitMean,
                     format,
                     minimumExponent,
-                    operations.precision(splitMean.coefficient)
+                    operations.precision(splitMean.coefficient),
+                    stripTrailingZeros
                 );
                 useE = Math.abs(splitMean.exponent) > minimumExponent;
             }
@@ -228,7 +235,8 @@ public class ScientificNotation<N extends Number> {
          SplitNumber<N> splitMean,
          NumberFormat format,
          int minExponent,
-         int maximalPrecision
+         int maximalPrecision,
+         boolean stripTrailingZeros
      ) {
 
         if (Math.abs(splitMean.exponent) <= minExponent) {
@@ -237,9 +245,12 @@ public class ScientificNotation<N extends Number> {
         }
          // consider exact.
          // just pin the number of shown digits
+         if (stripTrailingZeros) {
+             format.setMinimumFractionDigits(0);
+         } else {
+             format.setMinimumFractionDigits(maximalPrecision);
+         }
          format.setMaximumFractionDigits(maximalPrecision);
-         format.setMinimumFractionDigits(maximalPrecision);
-
 
     }
 

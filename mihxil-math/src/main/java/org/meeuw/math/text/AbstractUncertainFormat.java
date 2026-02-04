@@ -98,6 +98,8 @@ public abstract class AbstractUncertainFormat<
     @Setter
     private NumberFormat numberFormat = NumberConfiguration.getDefaultNumberFormat();
 
+
+
     /**
      * The instance of {@link ScientificNotation} which will be used to perform scientific notation
      */
@@ -110,9 +112,9 @@ public abstract class AbstractUncertainFormat<
     private final Class<? extends F> clazz;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    protected AbstractUncertainFormat(Class clazz, NumberOperations<N> operations) {
+    protected AbstractUncertainFormat(Class clazz, NumberOperations<N> operations, BiPredicate<Notation, Object> stripZeros) {
         this.clazz = clazz;
-        this.scientific = new ScientificNotation<>(this, operations);
+        this.scientific = new ScientificNotation<>(this, operations, stripZeros);
         ;
     }
 
@@ -324,14 +326,14 @@ public abstract class AbstractUncertainFormat<
             value.getUncertainty()
         );
         if (value.isExact() && trim) {
-            UncertainFormatUtils.trim(appendable, position);;
+            UncertainFormatUtils.strip(appendable, position);;
         }
     }
 
     protected void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
         ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
         if (trim) {
-            UncertainFormatUtils.trim(appendable, position);;
+            UncertainFormatUtils.strip(appendable, position);;
         }
     }
 

@@ -16,12 +16,14 @@ public class ScientificNotationTest {
      */
     UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE;
     int minimumExponent = 3;
+    boolean stripZeros = false;
 
     // here it is:
     final ScientificNotation<Double> scientific = new ScientificNotation<>(
         () -> minimumExponent,
         () -> 6,
         () -> notation,
+        (n, o) -> stripZeros,
         NumberConfiguration::getDefaultNumberFormat,
         DoubleOperations.INSTANCE
     );
@@ -36,6 +38,14 @@ public class ScientificNotationTest {
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
             .isEqualTo("1000.00000000000000000");
     }
+
+    @Test
+    public void notationRoundAndStrip() {
+        stripZeros = true;
+        assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
+            .isEqualTo("1000");
+    }
+
 
 
     @Test

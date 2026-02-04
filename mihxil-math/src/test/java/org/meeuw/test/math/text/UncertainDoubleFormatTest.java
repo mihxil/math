@@ -185,7 +185,7 @@ class UncertainDoubleFormatTest {
         double value,
         double uncertainty,
         String rounded,
-        String roundedAndTrim,
+        String roundedAndStripped,
         String plusminus,
         String parenthesis
     ) implements UncertainNumber<Double> {
@@ -240,8 +240,8 @@ class UncertainDoubleFormatTest {
             log.info("For case " + c + ", default strip zeros is " + defaultStrip);
             return Stream.of(
                 new Object[]{c.value, c.uncertainty, ROUND_VALUE, false, c.rounded},
-                new Object[]{c.value, c.uncertainty, ROUND_VALUE, true, c.roundedAndTrim},
-                new Object[]{c.value, c.uncertainty, ROUND_VALUE, null, defaultStrip ? c.roundedAndTrim : c.rounded},
+                new Object[]{c.value, c.uncertainty, ROUND_VALUE, true, c.roundedAndStripped},
+                new Object[]{c.value, c.uncertainty, ROUND_VALUE, null, defaultStrip ? c.roundedAndStripped : c.rounded},
                 new Object[]{c.value, c.uncertainty, PLUS_MINUS, false, c.plusminus},
                 new Object[]{c.value, c.uncertainty, PARENTHESES, false, c.parenthesis}
             );
@@ -250,18 +250,17 @@ class UncertainDoubleFormatTest {
 
     @ParameterizedTest
     @MethodSource("cases")
-    public void notations(double value, double error, Notation notation, Boolean trimZeros, String expected) {
+    public void notations(double value, double error, Notation notation, Boolean stripZeros, String expected) {
         var el = DoubleElement.of(value,error);
-
 
         // note that we bypassed FormatterService, we need to configurer the formatter ourselves.
         // This test is more low level.
         uncertainDoubleFormat.setUncertaintyNotation(notation);
-        uncertainDoubleFormat.setStripZeros(trimZeros == null ? UncertaintyConfiguration.DEFAULT_STRIP_ZEROS : (n, v) -> trimZeros);
-        boolean defaultStrip = UncertaintyConfiguration.DEFAULT_STRIP_ZEROS.test(notation, el);
+        uncertainDoubleFormat.setStripZeros(stripZeros == null ? UncertaintyConfiguration.DEFAULT_STRIP_ZEROS : (n, v) -> stripZeros);
+        //boolean defaultStrip = UncertaintyConfiguration.DEFAULT_STRIP_ZEROS.test(notation, el);
         String toString = uncertainDoubleFormat.format(el);
         assertThat(toString)
-            .withFailMessage(() -> notation + (trimZeros != null && trimZeros ? " (and trim)" : "") + " of " + el.toDebugString() + " is '" + toString + "' but it should have been '" + expected + "'")
+            .withFailMessage(() -> notation + (stripZeros != null && stripZeros ? " (and trim)" : "") + " of " + el.toDebugString() + " is '" + toString + "' but it should have been '" + expected + "'")
             .isEqualTo(expected);
         DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
         assertThat(parsed.eq(el))

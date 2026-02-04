@@ -41,8 +41,10 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         public boolean test(Notation notation, Object object) {
             if (object instanceof UncertainNumber<?> number) {
                 boolean strip = notation == Notation.ROUND_VALUE && number.isExact();
-                log.info(() ->  number.getValue() +  " -> " + strip);
+                log.info(() -> number.getValue() + " -> " + strip);
                 return strip;
+            } else if (object instanceof Number number) {
+                return notation == Notation.ROUND_VALUE;
             } else {
                 return false;
             }

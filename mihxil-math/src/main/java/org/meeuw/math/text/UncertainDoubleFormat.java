@@ -18,9 +18,11 @@ package org.meeuw.math.text;
 
 import java.text.FieldPosition;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.Factor;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -32,12 +34,10 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  */
 public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDouble<?>, DoubleElement, Double> {
 
-
-    DoubleOperations ops;
-
-
     public UncertainDoubleFormat() {
-        super(UncertainDouble.class, DoubleOperations.INSTANCE);
+        super(UncertainDouble.class, DoubleOperations.INSTANCE, (n, o) ->
+            ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getStripZeros().test(n, o)
+        );
     }
 
     private boolean roundingErrorsOnly(double value, double uncertainty) {
@@ -70,7 +70,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber, boolean trim) {
         valueAndError(appendable, position, uncertainNumber);
         if (trim) {
-            UncertainFormatUtils.trim(appendable, position);
+            UncertainFormatUtils.strip(appendable, position);
         }
     }
 
@@ -78,7 +78,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value, boolean trim) {
         valueAndError(appendable, position, value);
         if (trim) {
-            UncertainFormatUtils.trim(appendable, position);
+            UncertainFormatUtils.strip(appendable, position);
         }
     }
 
@@ -105,7 +105,7 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
             );
         }
         if (stripZeros.test(uncertaintyNotation, uncertainNumber)) {
-            UncertainFormatUtils.trim(appendable, position);
+            UncertainFormatUtils.strip(appendable, position);
         }
     }
 
