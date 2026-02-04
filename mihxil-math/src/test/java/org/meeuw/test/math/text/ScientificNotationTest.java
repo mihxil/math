@@ -27,13 +27,16 @@ public class ScientificNotationTest {
     );
 
     /**
-     * An exact value which is required to be rounded doesn't give an uncertainty indication
+     * An exact value just rounds to uncertaintiy in double.
+     * @see UncertaintyConfiguration#getStripZeros() To strip trailing zero's.
+     *
      */
     @Test
     public void notationRound() {
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
-            .isEqualTo("1000");
+            .isEqualTo("1000.00000000000000000");
     }
+
 
     @Test
     public void notationParen() {

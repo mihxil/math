@@ -124,7 +124,6 @@ public class ScientificNotation<N extends Number> {
                 useE = splitMean.exponent != 0;
             } else {
                 arrangeErrorForExact(
-                    uncertaintyNotation,
                     splitMean,
                     format,
                     minimumExponent,
@@ -226,7 +225,6 @@ public class ScientificNotation<N extends Number> {
     }
 
      void arrangeErrorForExact(
-         UncertaintyConfiguration.Notation uncertaintyNotation,
          SplitNumber<N> splitMean,
          NumberFormat format,
          int minExponent,
@@ -238,13 +236,10 @@ public class ScientificNotation<N extends Number> {
             splitMean.exponent = 0;
         }
          // consider exact.
-        // just pin the number of shown digits
-        format.setMaximumFractionDigits(maximalPrecision);
-        if (uncertaintyNotation == Notation.ROUND_VALUE) {
-            format.setMinimumFractionDigits(0);
-        } else {
-            format.setMinimumFractionDigits(maximalPrecision);
-        }
+         // just pin the number of shown digits
+         format.setMaximumFractionDigits(maximalPrecision);
+         format.setMinimumFractionDigits(maximalPrecision);
+
 
     }
 
