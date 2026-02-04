@@ -77,8 +77,7 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         ) {
         this.notation = notation;
         this.considerRoundingErrorFactor = considerRoundingErrorFactor;
-        this.stripZeros = stripZeros == null ?
-            DEFAULT_STRIP_ZEROS : stripZeros;
+        this.stripZeros = stripZeros == null ? DEFAULT_STRIP_ZEROS : stripZeros;
     }
 
     public UncertaintyConfiguration() {
@@ -106,6 +105,7 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
          * Just round the value, indicating like that the uncertainty
          *
          * @since 0.19
+         * @see UncertaintyConfiguration#getStripZeros()
          */
         ROUND_VALUE(false);
 
