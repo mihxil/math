@@ -15,6 +15,8 @@ import static org.meeuw.math.text.AbstractUncertainFormat.VALUE_FIELD;
  *  Utilities to deal with 'scientific notation', and {@link org.meeuw.math.uncertainnumbers.UncertainNumber uncertaintity}
  *  <p>
  *  For scientific notation {@link #TIMES_10} is used (rather than the 'e' notation).
+ *  <p>
+ *  This is in instantiatable class, which contains a few settings.
  * @since 0.19
  */
 public class ScientificNotation<N extends Number> {
@@ -47,7 +49,6 @@ public class ScientificNotation<N extends Number> {
         IntSupplier maximalPrecision,
         Supplier<Notation> uncertaintyNotation,
         Supplier<NumberFormat> numberFormat,
-
         NumberOperations<N> operations
         ) {
         this.minimumExponentSupplier = minimumExponent;
@@ -69,8 +70,7 @@ public class ScientificNotation<N extends Number> {
      * The value of the standard deviation is used to determine how many digits can sensibly be shown.
      * <p>
      * If the string will not be less concise without using scientific notation, it may do that. E.g. if the value is very precise, you can just as wel just state all known digits, and the string-notation will not be less consise or suggesting more precision than it has.
-     * <p>
-
+     *
      * @since 0.19
      * @param mean The value to represent
      * @param uncertaintity The uncertaintity in that value
@@ -124,6 +124,7 @@ public class ScientificNotation<N extends Number> {
                 useE = splitMean.exponent != 0;
             } else {
                 arrangeErrorForExact(
+                    uncertaintyNotation,
                     splitMean,
                     format,
                     minimumExponent,
@@ -225,11 +226,12 @@ public class ScientificNotation<N extends Number> {
     }
 
      void arrangeErrorForExact(
-        SplitNumber<N> splitMean,
-        NumberFormat format,
-        int minExponent,
-        int maximalPrecision
-        ) {
+         UncertaintyConfiguration.Notation uncertaintyNotation,
+         SplitNumber<N> splitMean,
+         NumberFormat format,
+         int minExponent,
+         int maximalPrecision
+     ) {
 
         if (Math.abs(splitMean.exponent) <= minExponent) {
             splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, splitMean.exponent);
@@ -238,7 +240,11 @@ public class ScientificNotation<N extends Number> {
          // consider exact.
         // just pin the number of shown digits
         format.setMaximumFractionDigits(maximalPrecision);
-        format.setMinimumFractionDigits(maximalPrecision);
+        if (uncertaintyNotation == Notation.ROUND_VALUE) {
+            format.setMinimumFractionDigits(0);
+        } else {
+            format.setMinimumFractionDigits(maximalPrecision);
+        }
 
     }
 

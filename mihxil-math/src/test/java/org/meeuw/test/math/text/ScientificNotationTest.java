@@ -11,9 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScientificNotationTest {
 
+    /**
+     * Non-final settings. Are fed to our instance via suppliers
+     */
     UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE;
     int minimumExponent = 3;
 
+    // here it is:
     final ScientificNotation<Double> scientific = new ScientificNotation<>(
         () -> minimumExponent,
         () -> 6,
@@ -22,6 +26,9 @@ public class ScientificNotationTest {
         DoubleOperations.INSTANCE
     );
 
+    /**
+     * An exact value which is required to be rounded doesn't give an uncertainty indication
+     */
     @Test
     public void notationRound() {
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
