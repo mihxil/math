@@ -91,8 +91,6 @@ public enum SIUnit implements BaseUnit {
     }
 
 
-
-
     private static DimensionalAnalysis getDimensions(int ord) {
         int[] exponents = new int[7];
         exponents[ord] = 1;

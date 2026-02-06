@@ -31,6 +31,7 @@ import static org.meeuw.physics.Dimension.L;
 import static org.meeuw.physics.Dimension.T;
 import static org.meeuw.physics.Quantity.ENERGY;
 import static org.meeuw.physics.Quantity.LUMINOUS_INTENSITY;
+import static org.meeuw.physics.SI.BinaryPrefix.Ki;
 import static org.meeuw.physics.SI.DecimalPrefix.*;
 import static org.meeuw.physics.SI.INSTANCE;
 import static org.meeuw.physics.SI.J;
@@ -170,6 +171,14 @@ class SITest {
             String s = i.toString();
             log.info("" + INSTANCE.unitsOf(s));
         });
+
+    }
+
+    @Test
+    public void factorsExact(){
+        Unit kB = SI.bit.withPrefix(Ki);
+        assertThat(kB.getSIFactor().isExact()).isTrue();
+        assertThat(kB.getSIFactor().doubleValue()).isEqualTo(1024d);
 
     }
 

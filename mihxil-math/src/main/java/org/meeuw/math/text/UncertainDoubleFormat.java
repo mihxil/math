@@ -75,9 +75,9 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
     }
 
     @Override
-    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value, boolean trim) {
+    protected void valueRound(StringBuffer appendable, FieldPosition position, UncertainDouble<?> value, boolean strip) {
         valueAndError(appendable, position, value);
-        if (trim) {
+        if (strip) {
             UncertainFormatUtils.strip(appendable, position);
         }
     }

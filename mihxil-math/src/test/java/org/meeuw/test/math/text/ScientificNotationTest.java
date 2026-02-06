@@ -30,7 +30,7 @@ public class ScientificNotationTest {
 
     /**
      * An exact value just rounds to uncertaintiy in double.
-     * @see UncertaintyConfiguration#getStripZeros() To strip trailing zero's.
+     * @see UncertaintyConfiguration#withStripZerosPredicate() To strip trailing zero's.
      *
      */
     @Test

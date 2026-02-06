@@ -19,7 +19,10 @@ public class DigitalInformationTest {
 
     @BeforeEach
     public void setup() {
-        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)));
+        ConfigurationService.setConfiguration(builder ->
+            builder.configure(UncertaintyConfiguration.class,
+                uc -> uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+        );
     }
 
 
@@ -30,10 +33,13 @@ public class DigitalInformationTest {
         Unit kB = SI.bit.withPrefix(Ki);
 
         PhysicalNumber thousandKiB = measurement(exactly(1000), kB);
+        assertThat(thousandKiB.isExact()).isTrue();
+        assertThat(octet.getSIFactor().isExact()).isTrue();
 
         assertThat(thousandKiB.toString()).isEqualTo("1000 Kibit");
 
         PhysicalNumber inBytes = thousandKiB.toUnits(octet.withPrefix(Ki));
+        assertThat(inBytes.isExact()).isTrue();
         assertThat(inBytes.toString()).isEqualTo("125 KiByte");
 
         PhysicalNumber speed = thousandKiB.dividedBy(measurement(2d, 0.1d, s));

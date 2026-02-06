@@ -311,7 +311,9 @@ public class SI implements SystemOfMeasurements {
     /**
      * 8 bits. Often also simply called 'byte' (but that traditionally was architecture dependent).
      */
-    public static final DerivedUnit octet = bit.times(8).withName("Byte").withDescription("8 bit octet");
+    public static final DerivedUnit octet =
+        bit.times(8)
+            .withName("Byte").withDescription("8 bit octet");
 
 
 }

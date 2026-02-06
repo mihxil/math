@@ -104,7 +104,7 @@ public interface Units extends
 
     default RealNumber conversionFactor(Units units) {
         if (! Units.dimensionEquals(this, units)) {
-            throw new DimensionsMismatchException("" + this + " cannot be converted to " + units);
+            throw new DimensionsMismatchException(this + " cannot be converted to " + units);
         }
         return getSIFactor().dividedBy(units.getSIFactor());
     }

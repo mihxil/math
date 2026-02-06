@@ -114,7 +114,8 @@ public abstract class AbstractUncertainFormat<
     @SuppressWarnings({"unchecked", "rawtypes"})
     protected AbstractUncertainFormat(Class clazz, NumberOperations<N> operations, BiPredicate<Notation, Object> stripZeros) {
         this.clazz = clazz;
-        this.scientific = new ScientificNotation<>(this, operations, stripZeros);
+        this.stripZeros = stripZeros;
+        this.scientific = new ScientificNotation<>(this, operations, (n, o) -> this.stripZeros.test(n, o));
         ;
     }
 

@@ -41,11 +41,11 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         public boolean test(Notation notation, Object object) {
             if (object instanceof UncertainNumber<?> number) {
                 boolean strip = notation == Notation.ROUND_VALUE && number.isExact();
-                log.info(() -> number.getValue() + " -> " + strip);
+                log.fine(() -> number.getValue() + " -> " + strip);
                 return strip;
-            } else if (object instanceof Number number) {
-                return notation == Notation.ROUND_VALUE;
-            } else {
+            } else if (object instanceof Number number) { // no error indication, presumed exact
+                return true;
+            } else { // not a number, nothing to do.
                 return false;
             }
         }
@@ -69,6 +69,11 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     @Getter
     @With
     private final BiPredicate<Notation, Object> stripZeros;
+
+
+    public UncertaintyConfiguration withExplicitStripZeros(boolean stripZeros) {
+        return withStripZeros((n, o) -> stripZeros);
+    }
 
 
     @lombok.Builder
@@ -107,7 +112,7 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
          * Just round the value, indicating like that the uncertainty
          *
          * @since 0.19
-         * @see UncertaintyConfiguration#getStripZeros()
+         * @see UncertaintyConfiguration#withStripZeros(BiPredicate)()
          */
         ROUND_VALUE(false);
 

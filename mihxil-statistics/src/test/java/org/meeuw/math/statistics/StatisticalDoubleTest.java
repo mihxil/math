@@ -51,7 +51,7 @@ public class StatisticalDoubleTest implements
 
     @BeforeEach
     public void setup() {
-        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withStripZeros((n, o) -> true)));
+        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withStripZerosPredicate((n, o) -> true)));
     }
 
 

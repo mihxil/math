@@ -17,6 +17,7 @@ package org.meeuw.test.physics;
 
 import lombok.extern.java.Log;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
@@ -32,11 +33,15 @@ import static org.meeuw.physics.PhysicalConstant.*;
 @Log
 class PhysicalConstantTest {
 
-   /* @BeforeEach
+   @BeforeEach
     public void setup() {
-        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE_AND_TRIM)));
+        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc ->
+            uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)
+                .withExplicitStripZeros(false)
+            )
+        );
     }
-*/
+
     @Test
     public void NA() {
         assertThat(NA.toString()).isEqualTo("6.02214076000000000·10²³ mol⁻¹");

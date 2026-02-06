@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
@@ -163,10 +164,13 @@ public class DoubleElement
         } else if (divisor.equals(BigInteger.ONE)) {
             return this;
         }
-        double result =  value / divisor.doubleValue();
+        double d = divisor.doubleValue();
+        double result =  value / d;
 
         return new DoubleElement(result,
-            Math.max(Math.abs(uncertainty / result), uncertaintyForDouble(result)));
+            Math.max(Math.abs(uncertainty / d),
+                uncertaintyForDouble(result))
+        );
     }
 
     @Override
@@ -177,8 +181,27 @@ public class DoubleElement
             return this;
         }
         double result = value * multiplier;
+
+        double scaledUncertainty = Math.abs(uncertainty * multiplier);
+        double repUncertainty = uncertaintyForDouble(result);
+
+        // If this value was exact, check whether the mathematical product is exactly representable
+        // as a double. If so, keep uncertainty zero.
+        if (isExact()) {
+            try {
+                BigDecimal bdProd = BigDecimal.valueOf(value).multiply(BigDecimal.valueOf(multiplier));
+                double dblFromBd = bdProd.doubleValue();
+                if (!Double.isInfinite(dblFromBd) && BigDecimal.valueOf(dblFromBd).compareTo(bdProd) == 0) {
+                    return new DoubleElement(result, EXACT);
+                }
+            } catch (ArithmeticException ignored) {
+                // Fall through and use the conservative uncertainty
+            }
+        }
+
         return new DoubleElement(result,
-            Math.max(Math.abs(uncertainty * multiplier), uncertaintyForDouble(result)));
+            Math.max(scaledUncertainty, repUncertainty)
+        );
     }
 
     @Override
@@ -190,8 +213,24 @@ public class DoubleElement
         }
         double d = multiplier.doubleValue();
         double result = value * d;
+
+        double scaledUncertainty = Math.abs(uncertainty * d);
+        double repUncertainty = uncertaintyForDouble(result);
+
+        if (isExact()) {
+            try {
+                BigDecimal bdProd = BigDecimal.valueOf(value).multiply(new BigDecimal(multiplier));
+                double dblFromBd = bdProd.doubleValue();
+                if (!Double.isInfinite(dblFromBd) && BigDecimal.valueOf(dblFromBd).compareTo(bdProd) == 0) {
+                    return new DoubleElement(result, EXACT);
+                }
+            } catch (ArithmeticException ignored) {
+                // Fall through
+            }
+        }
+
         return new DoubleElement(result,
-            Math.max(Math.abs(uncertainty * d), uncertaintyForDouble(result)));
+            Math.max(scaledUncertainty, repUncertainty));
     }
 
     @Override

@@ -58,7 +58,6 @@ class UncertainDoubleFormatTest {
     UncertainDoubleFormat uncertainDoubleFormat = new UncertainDoubleFormat();
     ScientificNotation<Double> scientificNotation = uncertainDoubleFormat.getScientific();
 
-
     @Test
     public void weight() {
         assertThat(FormatService.getFormat(DoubleElement.class, ConfigurationService.getConfiguration()).findFirst()).containsInstanceOf(UncertainDoubleFormat.class);
@@ -87,11 +86,10 @@ class UncertainDoubleFormatTest {
     }
 
     @Test
-    public void zero() {
+    public void zeroStrip() { // No explicit stripping specified, so exact values are on default stripped.
         ScientificNotation<Double> scientific = uncertainDoubleFormat.getScientific();
-        assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0.00000000000000000");
+        assertThat(scientific.formatWithUncertainty(0d, 0d)).isEqualTo("0");
     }
-
 
     @Test
     public void zeroWithUncertainty() {
@@ -116,9 +114,17 @@ class UncertainDoubleFormatTest {
     }
 
     @Test
-    public void zeroExact() {
+    public void zeroExactDefaultStrip() {
         assertThat(uncertainDoubleFormat.getScientific()
-            .formatWithUncertainty(0d, 0d)).isEqualTo("0.00000000000000000");
+            .formatWithUncertainty(0d, 0d)).isEqualTo("0");
+    }
+
+    @Test
+    public void zeroExactWithoutStrip() {
+        ConfigurationService.withAspect(UncertaintyConfiguration.class, (c) -> c.withExplicitStripZeros(false), () -> {
+            assertThat(uncertainDoubleFormat.getScientific()
+                .formatWithUncertainty(0d, 0d)).isEqualTo("0.00000000000000000");
+        });
     }
 
     @Test
@@ -257,10 +263,10 @@ class UncertainDoubleFormatTest {
         // This test is more low level.
         uncertainDoubleFormat.setUncertaintyNotation(notation);
         uncertainDoubleFormat.setStripZeros(stripZeros == null ? UncertaintyConfiguration.DEFAULT_STRIP_ZEROS : (n, v) -> stripZeros);
-        //boolean defaultStrip = UncertaintyConfiguration.DEFAULT_STRIP_ZEROS.test(notation, el);
+        boolean defaultStrip = UncertaintyConfiguration.DEFAULT_STRIP_ZEROS.test(notation, el);
         String toString = uncertainDoubleFormat.format(el);
         assertThat(toString)
-            .withFailMessage(() -> notation + (stripZeros != null && stripZeros ? " (and trim)" : "") + " of " + el.toDebugString() + " is '" + toString + "' but it should have been '" + expected + "'")
+            .withFailMessage(() -> notation + (stripZeros != null && stripZeros ? " (and strip)" : (defaultStrip ? " (implicit strip)" : "")) + " of " + el.toDebugString() + " is '" + toString + "' but it should have been '" + expected + "'")
             .isEqualTo(expected);
         DoubleElement parsed = (DoubleElement) RealField.INSTANCE.fromString(toString);
         assertThat(parsed.eq(el))
