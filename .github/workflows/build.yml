@@ -36,7 +36,7 @@ jobs:
             rank: main
     runs-on: ${{ matrix.os }}
     env:
-      MAVEN_ARGS: '--no-transfer-progress'
+      MAVEN_ARGS: '--no-transfer-progress --color always'
     steps:
       - uses: actions/checkout@v6
         with:
