@@ -68,11 +68,6 @@ jobs:
         with:
           coverage: false
           determine_version: false
-      - name: Use variable
-        run: |
-           echo "The value is ${{ steps.after_maven.outputs.MAVEN_TESTS_FAILED}}"
-           echo "The values are ${{ toJson(steps.after_maven.outputs) }}"
-        if: always()
 
 
   deploy:
