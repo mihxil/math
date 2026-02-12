@@ -36,6 +36,11 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
         assertThat(rectangle.aspectRatio()).isEqualTo("16:9");
     }
 
+    @Test
+    public void aspectRational() {
+        assertThat(rectangle.aspectRational().toString()).isEqualTo("¹⁶⁄₉");
+    }
+
 
 
     @Test

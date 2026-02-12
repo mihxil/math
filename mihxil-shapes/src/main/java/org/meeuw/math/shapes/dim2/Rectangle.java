@@ -11,6 +11,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 
@@ -181,6 +182,17 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         long gcd = IntegerUtils.gcd(width.longValue(), height.longValue());
         return String.format("%s:%s", width.dividedBy(gcd), height.dividedBy(gcd));
     }
+
+    /**
+     * Returns the aspect ratio of the rectangle in the format "width:height".
+     * The values are reduced to their simplest form using the greatest common divisor ({@link org.meeuw.math.IntegerUtils#gcd(int, int) GCD}).
+     *
+     * @return a string representing the aspect ratio
+     */
+    public RationalNumber aspectRational() {
+        return RationalNumber.of(width.bigIntegerValue(), height.bigIntegerValue());
+    }
+
 
     @Override
     public String toString() {
