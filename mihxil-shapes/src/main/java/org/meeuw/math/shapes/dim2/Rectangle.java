@@ -188,6 +188,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      * The values are reduced to their simplest form using the greatest common divisor ({@link org.meeuw.math.IntegerUtils#gcd(int, int) GCD}).
      *
      * @return a string representing the aspect ratio
+     * @since 0.19
      */
     public RationalNumber aspectRational() {
         return RationalNumber.of(width.bigIntegerValue(), height.bigIntegerValue());
