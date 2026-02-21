@@ -1,4 +1,7 @@
 package org.meeuw.math;
+
+import java.math.BigInteger;
+
 /**
  * @since 0.9
  */
@@ -130,5 +133,141 @@ public final class DoubleUtils {
             throw new IllegalArgumentException("Cannot round " + value + " to a long");
         }
         return Math.round(value);
+    }
+
+    /**
+     * Fast bit-level check whether the mathematical product of two (finite) doubles is exactly representable as a double.
+     * This works by decomposing each double into an integer significand and a binary exponent (so the value = significand * 2^exponent),
+     * computing the exact integer product of the significands and combined exponent, and comparing that exact value with the
+     * actual double product's decomposition. Uses purely integer operations (BigInteger) and avoids BigDecimal.
+     *
+     * Note: returns false for NaN or infinite products; returns true for exact zero products.
+     */
+    public static boolean isExactProduct(double a, double b) {
+        if (Double.isNaN(a) || Double.isNaN(b)) return false;
+        if (Double.isInfinite(a) || Double.isInfinite(b)) return false;
+        // zero product is exactly representable
+        if (a == 0.0 || b == 0.0) return true;
+
+        double prod = a * b;
+        if (Double.isInfinite(prod) || Double.isNaN(prod)) return false;
+
+        // sign check
+        boolean signAB = ((Double.doubleToLongBits(a) ^ Double.doubleToLongBits(b)) & 0x8000000000000000L) != 0;
+        boolean signProd = (Double.doubleToLongBits(prod) & 0x8000000000000000L) != 0;
+        if (signAB != signProd) {
+            return false;
+        }
+
+        // decompose a
+        long bitsA = Double.doubleToLongBits(a);
+        int expA = (int) ((bitsA & 0x7ff0000000000000L) >> 52);
+        long manA = bitsA & 0x000fffffffffffffL;
+        BigInteger mA;
+        int eA;
+        if (expA == 0) {
+            // subnormal
+            mA = BigInteger.valueOf(manA);
+            eA = 1 - 1023 - 52; // -1074
+        } else {
+            mA = BigInteger.valueOf((1L << 52) | manA);
+            eA = expA - 1023 - 52;
+        }
+
+        // decompose b
+        long bitsB = Double.doubleToLongBits(b);
+        int expB = (int) ((bitsB & 0x7ff0000000000000L) >> 52);
+        long manB = bitsB & 0x000fffffffffffffL;
+        BigInteger mB;
+        int eB;
+        if (expB == 0) {
+            mB = BigInteger.valueOf(manB);
+            eB = 1 - 1023 - 52;
+        } else {
+            mB = BigInteger.valueOf((1L << 52) | manB);
+            eB = expB - 1023 - 52;
+        }
+
+        BigInteger mP = mA.multiply(mB);
+        int eP = eA + eB;
+
+        // decompose actual product
+        long bitsP = Double.doubleToLongBits(prod);
+        int expP = (int) ((bitsP & 0x7ff0000000000000L) >> 52);
+        long manP = bitsP & 0x000fffffffffffffL;
+        BigInteger mProd;
+        int eProd;
+        if (expP == 0) {
+            mProd = BigInteger.valueOf(manP);
+            eProd = 1 - 1023 - 52;
+        } else {
+            mProd = BigInteger.valueOf((1L << 52) | manP);
+            eProd = expP - 1023 - 52;
+        }
+
+        int delta = eP - eProd;
+        if (delta >= 0) {
+            return mP.shiftLeft(delta).equals(mProd);
+        } else {
+            return mP.equals(mProd.shiftLeft(-delta));
+        }
+    }
+
+    /**
+     * Variant to check whether a double times a (possibly large) integer {@link BigInteger} is exactly representable as a double.
+     */
+    public static boolean isExactProduct(double a, BigInteger multiplier) {
+        if (Double.isNaN(a) || multiplier == null) return false;
+        if (Double.isInfinite(a)) return false;
+        if (a == 0.0 || multiplier.signum() == 0) return true;
+
+        double dMultiplier = multiplier.doubleValue();
+        double prod = a * dMultiplier;
+        if (Double.isInfinite(prod) || Double.isNaN(prod)) return false;
+
+        // sign check
+        boolean signAB = ((Double.doubleToLongBits(a) & 0x8000000000000000L) != 0) ^ (multiplier.signum() < 0);
+        boolean signProd = (Double.doubleToLongBits(prod) & 0x8000000000000000L) != 0;
+        if (signAB != signProd) {
+            return false;
+        }
+
+        // decompose a
+        long bitsA = Double.doubleToLongBits(a);
+        int expA = (int) ((bitsA & 0x7ff0000000000000L) >> 52);
+        long manA = bitsA & 0x000fffffffffffffL;
+        BigInteger mA;
+        int eA;
+        if (expA == 0) {
+            mA = BigInteger.valueOf(manA);
+            eA = 1 - 1023 - 52; // -1074
+        } else {
+            mA = BigInteger.valueOf((1L << 52) | manA);
+            eA = expA - 1023 - 52;
+        }
+
+        BigInteger mP = mA.multiply(multiplier.abs());
+        int eP = eA;
+
+        // decompose actual product
+        long bitsP = Double.doubleToLongBits(prod);
+        int expP = (int) ((bitsP & 0x7ff0000000000000L) >> 52);
+        long manP = bitsP & 0x000fffffffffffffL;
+        BigInteger mProd;
+        int eProd;
+        if (expP == 0) {
+            mProd = BigInteger.valueOf(manP);
+            eProd = 1 - 1023 - 52;
+        } else {
+            mProd = BigInteger.valueOf((1L << 52) | manP);
+            eProd = expP - 1023 - 52;
+        }
+
+        int delta = eP - eProd;
+        if (delta >= 0) {
+            return mP.shiftLeft(delta).equals(mProd);
+        } else {
+            return mP.equals(mProd.shiftLeft(-delta));
+        }
     }
 }
