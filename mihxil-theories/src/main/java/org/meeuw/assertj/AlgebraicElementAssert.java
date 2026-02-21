@@ -1,10 +1,9 @@
 package org.meeuw.assertj;
 
-import java.util.Optional;
-
 import org.assertj.core.api.AbstractObjectAssert;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends AbstractObjectAssert<AlgebraicElementAssert<E>, E> {
 
@@ -39,6 +38,16 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     public AlgebraicElementAssert<E> isNotEqTo(E other) {
         if (actual.eq(other)) {
             assertionError("%s %s≈ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(other), expectedDescription));
+        }
+        return myself;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public AlgebraicElementAssert<E> isExact() {
+        if (actual instanceof UncertainNumber<?> uncertain) {
+            if (! uncertain.isExact()) {
+                assertionError("%s is not exact. It has an error of %s".formatted(toString(actual), uncertain.getUncertainty()));
+            }
         }
         return myself;
     }
