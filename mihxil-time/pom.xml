@@ -60,13 +60,6 @@
       <groupId>org.meeuw.configuration</groupId>
       <artifactId>mihxil-configuration</artifactId>
     </dependency>
-  <!--  <dependency>
-      &lt;!&ndash; this dependency is not needed &ndash;&gt;
-      &lt;!&ndash; See https://github.com/javacc/javacc-maven-plugin/issues/4 &ndash;&gt;
-      <groupId>org.meeuw.math</groupId>
-      <artifactId>mihxil-math-parser</artifactId>
-      <scope>provided</scope>
-    </dependency>-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
