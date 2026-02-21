@@ -64,9 +64,7 @@ public class BigDecimalField
 
     @Override
     public Set<AlgebraicStructure<?>> getSuperGroups() {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            BigComplexNumbers.INSTANCE
-        )));
+        return Set.of(BigComplexNumbers.INSTANCE);
     }
 
     public MathContext getMathContext() {
