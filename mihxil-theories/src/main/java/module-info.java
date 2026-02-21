@@ -30,6 +30,8 @@ module org.meeuw.math.abstractalgebra.test {
     requires jakarta.validation;
     requires org.hibernate.validator;
     requires org.opentest4j;
+    requires org.junit.platform.launcher;
+    requires org.junit.platform.engine;
 
     exports org.meeuw.theories;
     exports org.meeuw.theories.abstractalgebra;
