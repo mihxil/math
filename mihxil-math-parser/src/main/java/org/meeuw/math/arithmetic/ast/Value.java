@@ -26,7 +26,7 @@ public class Value<E extends AlgebraicElement<E>> extends AbstractExpression<E> 
         try (var reset = ConfigurationService.withAspect(UncertaintyConfiguration.class,
             (c) ->
                 c.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE)
-                    .withStripZerosPredicate((n, v) -> true))) {
+                    .withStripZeros((n, v) -> true))) {
             return "(value:" + value.toString() + ")";
         }
     }
