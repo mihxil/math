@@ -37,11 +37,11 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.52.1</checkerframework.version>
+    <checkerframework.version>3.53.1</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>6.0.1</junit.version>
+    <junit.version>6.0.3</junit.version>
     <jacoco.version>0.8.13</jacoco.version>
     <assertj.version>3.27.7</assertj.version>
     <jqwik.version>1.9.3</jqwik.version>
