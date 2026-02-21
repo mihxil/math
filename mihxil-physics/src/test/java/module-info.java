@@ -22,6 +22,7 @@ open module org.meeuw.test.physics {
     requires jakarta.validation;
     requires org.hibernate.validator;
     requires org.meeuw.physics;
+    requires org.meeuw.functional;
 
     uses ConfigurationAspect;
     uses AlgebraicElementFormatProvider;
