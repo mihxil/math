@@ -20,8 +20,7 @@ import java.math.BigInteger;
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
-import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.UnsupportedMathOperationException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.meeuw.assertj.Assertions.assertThat;
@@ -48,7 +47,9 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
                 log().info(unsupportedMathOperationException.getMessage());
 
                 //throw new Te("Unsupported");
-
+            } catch (InverseException unsupportedMathOperationException) {
+                log().info("%s / %s -> %s".formatted( v1, divisor, unsupportedMathOperationException.getMessage()));
+                assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
             }
         });
     }
