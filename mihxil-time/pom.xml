@@ -24,7 +24,7 @@
 
         <groupId>org.javacc.plugin</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
-        <version>3.0.3</version>
+        <version>3.8.0</version>
         <executions>
           <execution>
             <id>javacc</id>
@@ -60,13 +60,13 @@
       <groupId>org.meeuw.configuration</groupId>
       <artifactId>mihxil-configuration</artifactId>
     </dependency>
-    <dependency>
-      <!-- this dependency is not needed -->
-      <!-- See https://github.com/javacc/javacc-maven-plugin/issues/4 -->
+  <!--  <dependency>
+      &lt;!&ndash; this dependency is not needed &ndash;&gt;
+      &lt;!&ndash; See https://github.com/javacc/javacc-maven-plugin/issues/4 &ndash;&gt;
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-math-parser</artifactId>
       <scope>provided</scope>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
