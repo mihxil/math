@@ -164,6 +164,13 @@
       <artifactId>assertj-core</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>nl.mmprogrami</groupId>
+      <artifactId>setup-log4j2</artifactId>
+      <version>1.0</version>
+      <scope>test</scope>
+      <classifier>test</classifier>
+    </dependency>
   </dependencies>
 
   <scm>
