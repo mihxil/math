@@ -1,13 +1,14 @@
 package org.meeuw.test.physics;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
+import static org.meeuw.functional.Predicates.biAlwaysTrue;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.BinaryPrefix.Ki;
@@ -21,7 +22,10 @@ public class DigitalInformationTest {
     public void setup() {
         ConfigurationService.setConfiguration(builder ->
             builder.configure(UncertaintyConfiguration.class,
-                uc -> uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS))
+                uc -> uc
+                    .withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)
+                    .withStripZeros(biAlwaysTrue())
+            )
         );
     }
 
@@ -39,7 +43,7 @@ public class DigitalInformationTest {
         assertThat(thousandKiB.toString()).isEqualTo("1000 Kibit");
 
         PhysicalNumber inBytes = thousandKiB.toUnits(octet.withPrefix(Ki));
-        assertThat(inBytes.isExact()).isTrue();
+        assertThatAlgebraically(inBytes).isExact();
         assertThat(inBytes.toString()).isEqualTo("125 KiByte");
 
         PhysicalNumber speed = thousandKiB.dividedBy(measurement(2d, 0.1d, s));
