@@ -22,6 +22,8 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
@@ -32,10 +34,10 @@ import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.time.TestClock;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
+import org.meeuw.time.TestClock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
@@ -103,23 +105,40 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
             .bucketCount(5)
             .window(Duration.ofSeconds(5))
             .clock(clock)
-            .reporter((we) -> {
-                log.info("%s: for window %s (%s)".formatted(we.getRate(), we.getWindowValue(), we.getTotalCount()));
-                synchronized (consumer) {
-                    consumer.add(we.getRate(Duration.ofSeconds(1)));
-                    if (consumer.size() == 2) {
-                        throw new RuntimeException("exception from reporter");
-                    }
-                    consumer.notifyAll();
+            .reporter(new Consumer<WindowedEventRate>() {
+                @Override
+                public void accept(WindowedEventRate we) {
 
+                    log.info("%s: for window %s (%s)".formatted(we.getRate(), we.getWindowValue(), we.getTotalCount()));
+                    synchronized (consumer) {
+                        consumer.add(we.getRate(Duration.ofSeconds(1)));
+                        if (consumer.size() == 2) {
+                            throw new RuntimeException("exception from reporter");
+                        }
+                        consumer.notifyAll();
+
+                    }
+                }
+                @Override
+                public String toString() {
+                    return "test reporter";
                 }
 
             })
-            .eventListeners((event, atomicLongWindowed) -> {
-                log.fine("%s/%s".formatted(event, atomicLongWindowed));
-                eventListeners.add(event);
-                if (eventListeners.size() % 3 == 0) {
-                    throw new RuntimeException("foo bar");
+            .eventListeners(new BiConsumer<>() {
+                @Override
+                public void accept(Windowed.Event event, Windowed<AtomicLong> atomicLongWindowed) {
+
+                    log.fine("%s/%s".formatted(event, atomicLongWindowed));
+                    eventListeners.add(event);
+                    if (eventListeners.size() % 3 == 0) {
+                        throw new RuntimeException("foo bar");
+                    }
+                }
+
+                @Override
+                public String toString() {
+                    return "test event listener";
                 }
             })
 

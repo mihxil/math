@@ -131,7 +131,7 @@ public abstract class Windowed<T> {
                     try {
                         el.accept(e, w);
                     } catch (Throwable t) {
-                        log.log(Level.WARNING, t.getMessage());
+                        log.log(Level.WARNING, el + ":" + t.getClass().getName() + ":" + t.getMessage());
                     }
                 }
             }

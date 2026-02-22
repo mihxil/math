@@ -274,7 +274,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
     @Override
     public String toString() {
-        return "" + getUncertainRate() + " " + getUnitsAsString() + (isWarmingUp() ? " (warming up)" : "");
+        return getUncertainRate() + " " + getUnitsAsString() + (isWarmingUp() ? " (warming up)" : "");
     }
 
     public static class Builder {
