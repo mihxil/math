@@ -51,6 +51,7 @@
 
     <delombok.output>target/delombok</delombok.output>
     <argLine />
+    <log4j2.root.level>warn</log4j2.root.level>
   </properties>
 
 
@@ -254,6 +255,7 @@
             </includes>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
             <systemPropertyVariables>
+              <log4j2.root.level>${log4j2.root.level}</log4j2.root.level>
               <log4j2.pattern>%d{ISO8601}&#x09;%highlight{%5.5p}&#x09;%c{1}&#x09;%m%n</log4j2.pattern>
             </systemPropertyVariables>
             <properties>
@@ -300,6 +302,9 @@
       A few extra modules are build during test, but these modules need not be deployed.
       -->
       <id>no-deploy</id>
+      <properties>
+        <log4j2.root.level>info</log4j2.root.level>
+      </properties>
       <build>
         <defaultGoal>clean test install</defaultGoal>
         <plugins>
