@@ -44,7 +44,7 @@ public class SeasonsTest {
         SeasonsEventSearcher seasonsEventSearcher = EventSearcherService.INSTANCE.getEventSearcher(SeasonsEventSearcher.class);
         seasonsEventSearcher.findEvents(Range.ofYears(1900, 2100), SPRING.getDescription())
             .forEach(event -> {
-                System.out.println(SPRING + ": " +event);
+                log.info(SPRING + ": " +event);
                 int year = event.atZone(ZoneId.of("UTC")).getYear();
                 Map<Season, String> expected = EXPECTED.get(year);
                 if (expected != null) {

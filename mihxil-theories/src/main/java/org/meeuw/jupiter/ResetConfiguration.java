@@ -11,6 +11,11 @@ import org.meeuw.configuration.ConfigurationService;
 public class ResetConfiguration implements TestExecutionListener {
 
     @Override
+    public void testPlanExecutionStarted(TestPlan testPlan) {
+        log.info("" + testPlan);
+    }
+
+    @Override
     public void testPlanExecutionFinished(TestPlan testPlan) {
         log.info("Resetting configuration to defaults");
         ConfigurationService.resetToDefaults();

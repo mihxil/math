@@ -62,6 +62,7 @@ public class DocumentationTest {
     @Test
     public void dot() throws IOException {
         File dest = new File(System.getProperty("user.dir"), "../docs/algebras.dot.m4");
+        log.warning("Generating dot file " + dest);
         try (OutputStream outputStream = new FileOutputStream(dest)) {
             dot(outputStream);
         }

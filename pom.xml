@@ -47,9 +47,7 @@
     <jqwik.version>1.9.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
-
     <javacc.version>8.1.0</javacc.version>
-
 
     <delombok.output>target/delombok</delombok.output>
     <argLine />
@@ -167,7 +165,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.0</version>
+      <version>1.1-SNAPSHOT</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
@@ -243,7 +241,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.5.3</version>
+          <version>3.5.5</version>
           <configuration>
             <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory" />
             <useModulePath>false</useModulePath>
@@ -254,10 +252,6 @@
               <include>**/*Test.java</include>
               <include>%regex[.*Test[\$\.].*]</include>
             </includes>
-            <systemPropertyVariables>
-              <java.util.logging.config.file>${project.basedir}/src/test/resources/logging.properties</java.util.logging.config.file>
-              <java.util.logging.manager>java.util.logging.LogManager</java.util.logging.manager>
-            </systemPropertyVariables>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
             <properties>
               <configurationParameters>
@@ -271,7 +265,6 @@
                 jqwik.shrinking.default=OFF
               </configurationParameters>
             </properties>
-            <redirectTestOutputToFile>true</redirectTestOutputToFile>
           </configuration>
           <dependencies>
             <dependency>

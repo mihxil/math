@@ -16,7 +16,6 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import java.math.BigInteger;
-import java.math.BigDecimal;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.DoubleUtils;
@@ -189,9 +188,7 @@ public class DoubleElement
         // as a double. If so, keep uncertainty zero.
         if (isExact()) {
             try {
-                BigDecimal bdProd = BigDecimal.valueOf(value).multiply(BigDecimal.valueOf(multiplier));
-                double dblFromBd = bdProd.doubleValue();
-                if (!Double.isInfinite(dblFromBd) && BigDecimal.valueOf(dblFromBd).compareTo(bdProd) == 0) {
+                if (org.meeuw.math.DoubleUtils.isExactProduct(value, (double) multiplier)) {
                     return new DoubleElement(result, EXACT);
                 }
             } catch (ArithmeticException ignored) {
@@ -219,9 +216,7 @@ public class DoubleElement
 
         if (isExact()) {
             try {
-                BigDecimal bdProd = BigDecimal.valueOf(value).multiply(new BigDecimal(multiplier));
-                double dblFromBd = bdProd.doubleValue();
-                if (!Double.isInfinite(dblFromBd) && BigDecimal.valueOf(dblFromBd).compareTo(bdProd) == 0) {
+                if (org.meeuw.math.DoubleUtils.isExactProduct(value, multiplier)) {
                     return new DoubleElement(result, EXACT);
                 }
             } catch (ArithmeticException ignored) {
@@ -500,14 +495,19 @@ public class DoubleElement
         } else {
             double value1 = Math.max(Math.abs(r1.value), r1.uncertainty);
             double value2 = Math.max(Math.abs(r2.value), r2.uncertainty);
-            double newValueForUncertaintiy = value1 * value2;
-            return new DoubleElement(newValue,
-                newValueForUncertaintiy * (
-                    r1.uncertainty / value1 +
-                        r2.uncertainty / value2
-                ) + uncertaintyForDouble(newValue)
+            boolean isExact = r1.isExact() && r2.isExact() && DoubleUtils.isExactProduct(value1, value2);
+            if (isExact) {
+                return new DoubleElement(newValue, EXACT);
+            } else {
+                double newValueForUncertaintiy = value1 * value2;
+                return new DoubleElement(newValue,
+                    newValueForUncertaintiy * (
+                        r1.uncertainty / value1 +
+                            r2.uncertainty / value2
+                    ) + uncertaintyForDouble(newValue)
 
-            );
+                );
+            }
         }
     }
 

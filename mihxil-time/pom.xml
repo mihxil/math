@@ -32,7 +32,6 @@
                <goal>javacc</goal>
              </goals>
             <configuration>
-              <codeGenerator>java</codeGenerator>
             </configuration>
           </execution>
         </executions>

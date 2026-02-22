@@ -1,5 +1,7 @@
 package org.meeuw.test.time.eventsearchers.wellknown;
 
+import lombok.extern.java.Log;
+
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
@@ -12,6 +14,7 @@ import org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHoliday;
 import org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHolidaySearcher;
 
 
+@Log
 public class WellknownIrregularHolidaySearcherTest  {
 
 
@@ -23,9 +26,8 @@ public class WellknownIrregularHolidaySearcherTest  {
             if (apply.isEmpty()) {
                 continue;
             }
-            System.out.println("inauguration: " + apply);
+            log.info("inauguration: " + apply);
         }
-
     }
 
 
@@ -34,19 +36,13 @@ public class WellknownIrregularHolidaySearcherTest  {
         WellknownIrregularHolidaySearcher searcher = new WellknownIrregularHolidaySearcher();
 
         searcher.findEvents(Range.ofYears(1750, 2080), "inauguration day")
-            .forEach(System.out::println);
-
-
+            .forEach(e -> log.info(e.toString()));
     }
 
     @Test
     public void service() {
-
-
         EventSearcherService.INSTANCE.findEvents(Range.ofYears(2025, 1750), "inauguration day")
-            .forEach(System.out::println);
-
-
+            .forEach(e -> log.info(e.toString()));
   }
 
 }

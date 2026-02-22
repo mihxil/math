@@ -1,16 +1,19 @@
 package org.meeuw.test.time.eventsearchers.wellknown;
 
+import lombok.extern.java.Log;
+
 import java.time.Year;
 import java.util.*;
 import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.time.eventsearchers.wellknown.us.WellknownHoliday;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+
+@Log
 public class WellknownHolidaysTest {
 
     @Test

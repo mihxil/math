@@ -1,5 +1,7 @@
 package org.meeuw.test.time.parser;
 
+import lombok.extern.java.Log;
+
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -15,6 +17,7 @@ import org.meeuw.time.parser.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Log
 class DynamicDateTimeTest {
 
     TestClock clock = TestClock.twentyTwenty();
@@ -51,7 +54,7 @@ class DynamicDateTimeTest {
     @MethodSource("getDemo")
     public void tryDemo(String demo) throws DateTimeNotParsable {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
-        System.out.println(((TestClock) dt.getClock()).localDateTime() + "\t" + demo + "\t" + formatter.format(Date.from(dt.applyWithException(demo).toInstant())));
+        log.info(((TestClock) dt.getClock()).localDateTime() + "\t" + demo + "\t" + formatter.format(Date.from(dt.applyWithException(demo).toInstant())));
     }
 
     @Test
@@ -87,12 +90,14 @@ class DynamicDateTimeTest {
     @Test
     public void nextSpring() {
         assertThat(dt.apply("next 'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
-         assertThat(dt.apply("2025-04-20 next 'spring'").toString()).isEqualTo("2026-03-20T15:44:38+01:00[Europe/Amsterdam]");
+        assertThat(dt.apply("2025-04-20 next 'spring'").toString()).isEqualTo("2026-03-20T15:44:38+01:00[Europe/Amsterdam]");
     }
+
     @Test
     public void thisSpring() {
         assertThat(dt.apply("'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
     }
+
     @Test
     public void thenSpring() {
         assertThat(dt.apply("2025-04-20 this 'spring'").toString()).isEqualTo("2025-03-20T10:00:42+01:00[Europe/Amsterdam]");

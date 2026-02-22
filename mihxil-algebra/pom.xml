@@ -43,6 +43,13 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <!-- used by Reflections? -->
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.17</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <optional>true</optional>
