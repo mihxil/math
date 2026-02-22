@@ -87,7 +87,9 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
                         uncertaintyForDouble(pow.doubleValue()),
                         uncertaintyForDouble(expected)))
                 );
-        } catch (OverflowException illegalPowerException) {
+        } catch (IllegalPowerException illegalPowerException) {
+            log().info(() -> "%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+        } catch (OverflowException illegalPowerException ) {
             log().warning("%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
         }
     }

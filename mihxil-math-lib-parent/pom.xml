@@ -10,11 +10,8 @@
   <packaging>pom</packaging>
   <name>Math - lib-parent</name>
 
-
-
   <description>Serves as a parent for the modules that are distributed as a library</description>
   <url>https://github.com/mihxil/math</url>
-
   <properties>
     <java.version>17</java.version>
   </properties>
