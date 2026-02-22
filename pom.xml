@@ -165,7 +165,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.1</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
@@ -253,7 +253,11 @@
               <include>%regex[.*Test[\$\.].*]</include>
             </includes>
             <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
+            <systemPropertyVariables>
+              <log4j2.pattern>%d{ISO8601}&#x09;%highlight{%5.5p}&#x09;%c{1}&#x09;%m%n</log4j2.pattern>
+            </systemPropertyVariables>
             <properties>
+
               <configurationParameters>
                 jqwik.database=jqwik-database
                 jqwik.tries.default=200
