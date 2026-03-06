@@ -180,7 +180,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      */
     public String aspectRatio() {
         long gcd = IntegerUtils.gcd(width.longValue(), height.longValue());
-        return String.format("%s:%s", width.dividedBy(gcd), height.dividedBy(gcd));
+        return String.format("%s:%s", width.dividedBy(gcd).longValue(), height.dividedBy(gcd).longValue());
     }
 
     /**

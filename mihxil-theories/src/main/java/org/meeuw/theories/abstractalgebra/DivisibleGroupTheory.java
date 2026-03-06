@@ -22,6 +22,7 @@ import net.jqwik.api.*;
 import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
@@ -78,10 +79,21 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
             try {
                 E unscaled = scaled.scaleByPowerOfTen(-2);
                 assertThat(unscaled).isEqTo(v1);
-                log().info("%s * 10^2 -> %s, %s * 10^-2 -> %s (==%s)".formatted(v1, scaled, scaled, unscaled, v1));
+                log().info("%s * 10%s -> %s, %s * 10%s -> %s (==%s)".formatted(
+                    v1,
+                    TextUtils.superscript(2),
+                    scaled,
+                    scaled,
+                    TextUtils.superscript(-2),
+                    unscaled, v1));
             } catch (DivisionByZeroException divisionByZeroException) {
-                log().warning("%s * 10^2 -> %s, %s * 10^-2 -> %s".formatted(
-                    v1, scaled, scaled, divisionByZeroException.getMessage()));
+                log().warning("%s * 10%s -> %s, %s * 10%s -> %s".formatted(
+                    v1,
+                    scaled,
+                    TextUtils.superscript(2),
+                    scaled,
+                    TextUtils.superscript(-2),
+                    divisionByZeroException.getMessage()));
             }
         });
 
@@ -95,10 +107,21 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
             try {
                 E unscaled = scaled.scalb(-2);
                 assertThat(unscaled).isEqTo(v1);
-                log().info("%s * 10^2 -> %s, %s * 10^-2 -> %s (==%s)".formatted(v1, scaled, scaled, unscaled, v1));
+                log().info("%s * 2%s -> %s, %s * 2%s -> %s (==%s)".formatted(
+                    v1,
+                    TextUtils.superscript(2),
+                    scaled,
+                    scaled,
+                    TextUtils.superscript(-2),
+                    unscaled, v1));
             } catch (DivisionByZeroException divisionByZeroException) {
-                log().warning("%s * 10^2 -> %s, %s * 10^-2 -> %s".formatted(
-                    v1, scaled, scaled, divisionByZeroException.getMessage()));
+                log().warning("%s * 2%s -> %s, %s * 2%s -> %s".formatted(
+                    v1,
+                    scaled,
+                    TextUtils.superscript(2),
+                    scaled,
+                    TextUtils.superscript(-2),
+                    divisionByZeroException.getMessage()));
             }
         });
     }
