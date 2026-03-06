@@ -6,6 +6,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralSymmetry;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 @Log
+@Rounding
 public class DihedralGroupTest { // GroupTest is done in subclasses
 
     @Test

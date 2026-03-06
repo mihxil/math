@@ -13,6 +13,9 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
+
+import org.meeuw.jupiter.impl.ConfigurationExtension;
+
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -38,6 +41,9 @@ module org.meeuw.math.abstractalgebra.test {
     exports org.meeuw.theories.numbers;
 
     exports org.meeuw.assertj;
+    exports org.meeuw.jupiter;
+
+    provides org.junit.jupiter.api.extension.Extension with ConfigurationExtension;
 
 
 }
