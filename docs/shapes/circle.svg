@@ -80,10 +80,10 @@
             <tspan dy="4.0" x="0">Circle{100}</tspan>
             <tspan dy="4.0" x="0">area: 31415.93</tspan>
             <tspan dy="4.0" x="0">perimeter: 628.32</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{200.00x200.00}</tspan>
+            <tspan dy="4.0" x="0">⬚: Rectangle{200x200}</tspan>
             <tspan dy="4.0" x="0">◌: Circle{100}</tspan>
             <tspan dy="4.0" x="0">radius: 100</tspan>
-            <tspan dy="4.0" x="0">diameter: 200.00</tspan>
+            <tspan dy="4.0" x="0">diameter: 200</tspan>
         </text>
     </g>
 </svg>

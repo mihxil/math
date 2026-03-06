@@ -82,7 +82,7 @@
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
             <tspan dy="4.0" x="0">Rectangle{100x170}</tspan>
-            <tspan dy="4.0" x="0">area: 17000.00</tspan>
+            <tspan dy="4.0" x="0">area: 17000</tspan>
             <tspan dy="4.0" x="0">perimeter: 540.00</tspan>
             <tspan dy="4.0" x="0">⬚: Rectangle{128.00x184.78}</tspan>
             <tspan dy="4.0" x="0">◌: Circle{98.62}</tspan>
