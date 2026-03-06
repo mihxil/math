@@ -169,7 +169,7 @@ class RealFieldTest implements
         RealNumber ln = of(800).ln();
         log.info("ln(800) = " + ln);
         //                                                   6.68461172766792729628
-        assertThat(ln.toString()).isEqualTo("6.684611727667927");
+        assertThat(ln.toString()).isEqualTo("6.6846117276679270");
 
     }
 

@@ -7,12 +7,13 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.shapes.dim2.Rectangle;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -106,17 +107,17 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
     }
 
     @Test
-    public void notequals() {
+    public void notEquals() {
         assertThat(rectangle.equals(intrectangle)).isFalse();
     }
 
     @Test
+    @Rounding
     public void vertices() {
         assertThat(rectangle.vertices()
-            .map(FieldVector2::toString)
-            .collect(Collectors.joining(" "))
+                .map(FieldVector2::toString)
+                .collect(Collectors.joining(" "))
         ).isEqualTo("(-512,-288) (512,-288) (512,288) (-512,288)");
-
         assertThat(intrectangle.numberOfEdges()).isEqualTo(4);
     }
 

@@ -1,4 +1,4 @@
-package org.meeuw.jupiter;
+package org.meeuw.jupiter.impl;
 
 import lombok.extern.java.Log;
 
@@ -13,6 +13,7 @@ public class ResetConfiguration implements TestExecutionListener {
     @Override
     public void testPlanExecutionStarted(TestPlan testPlan) {
         log.info("" + testPlan);
+
     }
 
     @Override

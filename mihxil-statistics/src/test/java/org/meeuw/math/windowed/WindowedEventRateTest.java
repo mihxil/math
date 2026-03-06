@@ -105,7 +105,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
             .bucketCount(5)
             .window(Duration.ofSeconds(5))
             .clock(clock)
-            .reporter(new Consumer<WindowedEventRate>() {
+            .reporter(new Consumer<>() {
                 @Override
                 public void accept(WindowedEventRate we) {
 
@@ -119,6 +119,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
 
                     }
                 }
+
                 @Override
                 public String toString() {
                     return "test reporter";
