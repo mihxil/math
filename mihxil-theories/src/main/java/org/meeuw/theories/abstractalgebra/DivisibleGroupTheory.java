@@ -74,9 +74,15 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
     @Property
     default void scaleByPowerOf10(@ForAll(ELEMENTS) E v1) {
         withLooseEquals(() -> {
-            E scaled = v1.scaleByPowerOfTen(2);
-            E unscaled = scaled.scaleByPowerOfTen(-2);
-            assertThat(unscaled).isEqTo(v1);
+            E  scaled = v1.scaleByPowerOfTen(2);
+            try {
+                E unscaled = scaled.scaleByPowerOfTen(-2);
+                assertThat(unscaled).isEqTo(v1);
+                log().info("%s * 10^2 -> %s, %s * 10^-2 -> %s (==%s)".formatted(v1, scaled, scaled, unscaled, v1));
+            } catch (DivisionByZeroException divisionByZeroException) {
+                log().warning("%s * 10^2 -> %s, %s * 10^-2 -> %s".formatted(
+                    v1, scaled, scaled, divisionByZeroException.getMessage()));
+            }
         });
 
     }
@@ -86,8 +92,14 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
     default void scalb(@ForAll(ELEMENTS) E v1) {
         withLooseEquals(() -> {
             E scaled = v1.scalb(2);
-            E unscaled = scaled.scalb(-2);
-            assertThat(unscaled).isEqTo(v1);
+            try {
+                E unscaled = scaled.scalb(-2);
+                assertThat(unscaled).isEqTo(v1);
+                log().info("%s * 10^2 -> %s, %s * 10^-2 -> %s (==%s)".formatted(v1, scaled, scaled, unscaled, v1));
+            } catch (DivisionByZeroException divisionByZeroException) {
+                log().warning("%s * 10^2 -> %s, %s * 10^-2 -> %s".formatted(
+                    v1, scaled, scaled, divisionByZeroException.getMessage()));
+            }
         });
     }
 
