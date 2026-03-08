@@ -114,7 +114,7 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
             log.log(DEBUG, e.getMessage());
             String [] lines = string.split("\n");
             String value = lines[e.currentToken.beginLine -1] + "\n" + (" ".repeat(e.currentToken.beginColumn - 1)) + "^" + e.currentToken.image;
-            throw new DateTimeNotParsable(e.getMessage() + "\n" + value, e);
+            throw new DateTimeNotParsable(e.getMessage() + "\n" + value, e, string);
         }
     }
 

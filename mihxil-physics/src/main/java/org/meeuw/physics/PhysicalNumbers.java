@@ -68,7 +68,7 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
 
     @Override
     public PhysicalNumber fromString(String s) {
-        throw new NotParsable.NotImplemented("not implemented");
+        throw new NotParsable.NotImplemented("Not implemented parsing to a PhysicalNumber", s);
     }
 
 }

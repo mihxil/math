@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.exceptions;
 
+import lombok.Getter;
+
 import java.text.ParsePosition;
 
 /**
@@ -22,25 +24,38 @@ import java.text.ParsePosition;
  */
 public class NotParsable extends IllegalArgumentException {
 
-    public NotParsable(String message) {
+    @Getter
+    private final String value;
+
+
+    public NotParsable(String value) {
+        super("Could not parse");
+        this.value = value;
+    }
+    public NotParsable(String message, String value) {
         super(message);
+        this.value = value;
     }
 
-    public NotParsable(String message, Throwable cause) {
+    public NotParsable(String message, Throwable cause, String value) {
         super(message, cause);
+        this.value = value;
     }
-    public NotParsable(NumberFormatException numberFormatException) {
+    public NotParsable(NumberFormatException numberFormatException, String value) {
         super(numberFormatException.getMessage(), numberFormatException);
+        this.value = value;
     }
 
-    public NotParsable(ParsePosition parsePosition, NumberFormatException numberFormatException) {
+    public NotParsable(ParsePosition parsePosition, NumberFormatException numberFormatException, String value) {
         super(numberFormatException.getMessage(), numberFormatException);
+        this.value = value;
     }
 
     public static class  NotImplemented extends NotParsable {
 
-        public NotImplemented(String message) {
-            super(message);
+
+        public NotImplemented(String message, String value) {
+            super(message, value);
         }
     }
 }

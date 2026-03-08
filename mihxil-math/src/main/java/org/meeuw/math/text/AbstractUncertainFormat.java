@@ -242,7 +242,7 @@ public abstract class AbstractUncertainFormat<
                 if (bracketFound) {
                     if (source.charAt(j) != ')') {
                         pos.setErrorIndex(j);
-                        throw new NotParsable("No closing bracket");
+                        throw new NotParsable("No closing bracket", source);
                     }
                     j++;
                 }
@@ -285,7 +285,7 @@ public abstract class AbstractUncertainFormat<
                 if (bracketFound) {
                     if (source.charAt(j) != ')') {
                         pos.setErrorIndex(j);
-                        throw new NotParsable("No closing bracket found in " + source + " at postion " + pos.getIndex());
+                        throw new NotParsable("No closing bracket found in " + source + " at position " + pos.getIndex(), source);
                     }
                     j++;
                 }
@@ -295,7 +295,7 @@ public abstract class AbstractUncertainFormat<
             }
         } catch (NumberFormatException e) {
             pos.setErrorIndex(pos.getIndex());
-            throw new NotParsable( pos, e);
+            throw new NotParsable(pos, e, source);
         }
     }
 

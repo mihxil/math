@@ -107,7 +107,7 @@ public abstract class AbstractIntegers<
         try {
             return of(new BigInteger(string));
         } catch (NumberFormatException e) {
-            throw new NotParsable(e);
+            throw new NotParsable(e.getMessage(), e,  string);
         }
     }
 

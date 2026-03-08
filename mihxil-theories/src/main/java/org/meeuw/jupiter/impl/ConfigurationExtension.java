@@ -1,5 +1,6 @@
 package org.meeuw.jupiter.impl;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 
 import org.junit.jupiter.api.extension.*;
@@ -48,7 +49,7 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
     }
 
     private void setRounding(AnnotatedElement annotatedElement, ExtensionContext context) {
-        Rounding rounding = annotatedElement.getAnnotation(Rounding.class);
+        Rounding rounding = getAnnotation(annotatedElement);
         if (rounding != null) {
             context.getStore(ns).put("reset", ConfigurationService.setConfiguration(builder -> {
                 builder.configure(UncertaintyConfiguration.class, config -> {
@@ -56,5 +57,19 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
                 });
             }));
         }
+    }
+
+    private static Rounding getAnnotation(AnnotatedElement annotatedElement) {
+        Rounding rounding = annotatedElement.getAnnotation(Rounding.class);
+        if (rounding != null) {
+            return rounding;
+        }
+        for (Annotation parent : annotatedElement.getAnnotations()) {
+            rounding = getAnnotation(parent.getClass());
+            if (rounding != null) {
+                return rounding;
+            }
+        }
+        return null;
     }
 }
