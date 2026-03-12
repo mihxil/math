@@ -261,7 +261,7 @@ public class ScientificNotation<N extends Number> {
      *
      * @since 0.19
      */
-    protected void format(
+    protected void formatWithoutError(
         @NonNull N mean,
         @NonNull N uncertainty,
         StringBuffer buffer,
@@ -300,11 +300,11 @@ public class ScientificNotation<N extends Number> {
 
     /**
      * Format the number without any error indication.
-     * Wrapper for {@link #format(Number, Number, StringBuffer, FieldPosition)}
+     * Wrapper for {@link #formatWithoutError(Number, Number, StringBuffer, FieldPosition)}
      */
     public String format(N mean, N uncertainity) {
         StringBuffer  result = new StringBuffer();
-        format(
+        formatWithoutError(
             mean,
             uncertainity,
             result,

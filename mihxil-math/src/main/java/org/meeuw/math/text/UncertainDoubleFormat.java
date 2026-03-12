@@ -84,14 +84,14 @@ public class UncertainDoubleFormat extends AbstractUncertainFormat<UncertainDoub
 
     protected final void valueAndError(StringBuffer appendable, FieldPosition position, UncertainDouble<?> uncertainNumber)  {
         if (uncertainNumber.isExact()) {
-            scientific.format(
+            scientific.formatWithoutError(
                 uncertainNumber.getValue(),
                 uncertainNumber.getUncertainty(),
                 appendable,
                 position);
 
         } else if (roundingErrorsOnly(uncertainNumber.doubleValue(), uncertainNumber.doubleUncertainty())) {
-            scientific.format(
+            scientific.formatWithoutError(
                 uncertainNumber.getValue(),
                 uncertainNumber.getUncertainty(),
                 appendable,
