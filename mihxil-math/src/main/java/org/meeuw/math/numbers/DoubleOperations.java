@@ -17,8 +17,7 @@ package org.meeuw.math.numbers;
 
 import ch.randelshofer.fastdoubleparser.JavaDoubleParser;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.math.*;
 import java.util.OptionalInt;
 import java.util.stream.Stream;
 
@@ -284,6 +283,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
         BigDecimal bd = BigDecimal.valueOf(n1).scaleByPowerOfTen(n2);
         return bd.doubleValue();
+    }
+
+    @Override
+    public Double round(Double number, MathContext mathContext) {
+        return BigDecimal.valueOf(number).round(mathContext).doubleValue();
     }
 
     @Override

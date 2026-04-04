@@ -89,9 +89,11 @@ class RealFieldTest implements
     }
     @Test
     public void stringOfExact() {
-        double val = 0.1482401572043123_1;
+        double val = 0.1482401572043123_52345;
         RealNumber rn = RealNumber.of(val);
-        assertThat(rn.toString()).isEqualTo("" + val);
+        assertThat(rn.toString())
+            .isEqualTo("" + val)
+            .isEqualTo("0.1482401572043124");
     }
 
     @Test

@@ -15,8 +15,7 @@
  */
 package org.meeuw.math.numbers;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.math.*;
 import java.util.Arrays;
 import java.util.OptionalInt;
 
@@ -78,6 +77,8 @@ public interface NumberOperations<N extends Number> {
     }
 
     N scaleByPowerOfTenExact(N number, int exponent);
+
+    N round(N number, MathContext mathContext);
 
 
     default OptionalInt orderOfMagnitude(N in) {

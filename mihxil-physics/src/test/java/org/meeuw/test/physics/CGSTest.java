@@ -39,7 +39,7 @@ class CGSTest {
         assertThat(slow.toString()).isEqualTo("2.00 ± 0.10 cm·s⁻¹");
 
         PhysicalNumber inSI = slow.toUnits(SI.INSTANCE);
-        assertThat(inSI.toString()).isEqualTo("0.0200 ± 0.0010 m·s⁻¹");
+        assertThat(inSI.toString()).isEqualTo("0.0200 ± 0.0011 m·s⁻¹");
     }
 
     @Test
@@ -54,7 +54,7 @@ class CGSTest {
         assertThat(mPerS2.equals(gal)).isFalse();
 
         assertThat(mPerS2).isEqualTo(m.per(s.sqr()));
-        assertThat(acc.toUnits(mPerS2).toString()).isEqualTo("0.0100 ± 0.0010 m·s⁻²");
+        assertThat(acc.toUnits(mPerS2).toString()).isEqualTo("0.0100 ± 0.0011 m·s⁻²");
 
     }
 

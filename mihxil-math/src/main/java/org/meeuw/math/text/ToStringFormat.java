@@ -5,6 +5,7 @@ import java.text.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
+ * Just calling {@link #toString}'
  * @since 0.19
  */
 class ToStringFormat extends Format {

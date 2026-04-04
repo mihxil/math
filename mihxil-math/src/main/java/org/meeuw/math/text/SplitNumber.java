@@ -17,6 +17,7 @@ package org.meeuw.math.text;
 
 import lombok.With;
 
+import java.math.MathContext;
 import java.util.Optional;
 
 import org.meeuw.math.exceptions.NotFiniteException;
@@ -86,6 +87,14 @@ public class SplitNumber<N extends Number> {
             coefficient = operations.negate(coefficient);
         }
         return Optional.of(new SplitNumber<>(coefficient, exponent));
+    }
+
+    public SplitNumber<N> round(NumberOperations<N> operations,
+                                                   MathContext mathContext) {
+        return new SplitNumber<>(
+            operations.round(coefficient, mathContext),
+            exponent
+        );
     }
 
 }

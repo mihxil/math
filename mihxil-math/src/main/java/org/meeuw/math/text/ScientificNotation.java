@@ -1,5 +1,7 @@
 package org.meeuw.math.text;
 
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
 import java.util.function.*;
@@ -20,6 +22,7 @@ import static org.meeuw.math.text.AbstractUncertainFormat.VALUE_FIELD;
  * @since 0.19
  */
 public class ScientificNotation<N extends Number> {
+    public static MathContext UC_MATHCONTEXT = new MathContext(2, RoundingMode.CEILING);
 
     public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
 
@@ -106,7 +109,9 @@ public class ScientificNotation<N extends Number> {
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
 
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean).orElse(new SplitNumber<>(mean, 0));
-            SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty).orElse(null);
+            SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty)
+                .map(uc -> uc.round(operations, UC_MATHCONTEXT)).orElse(null);
+
 
             errorIndication &= splitStd != null;
 

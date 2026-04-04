@@ -135,6 +135,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     }
 
     @Override
+    public BigDecimal round(BigDecimal number, MathContext mathContext) {
+        return number.round(mathContext);
+    }
+
+    @Override
     public OptionalInt orderOfMagnitude(BigDecimal in) {
         if (in == null || isZero(in)) {
             return OptionalInt.empty();
