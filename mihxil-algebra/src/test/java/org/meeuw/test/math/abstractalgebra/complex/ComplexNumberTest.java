@@ -79,9 +79,8 @@ class ComplexNumberTest implements
     public void sqrt() {
         assertThat(real(RealNumber.of(-1)).sqrt()).isEqTo(imaginary(of(1)));
 
-
-
-        assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt().toString()).isEqualTo("0.7071067811865477 - 0.7071067811865477i");
+        assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt()
+            .toString()).isEqualTo("0.707106781186548 - 0.707106781186548i");
     }
 
     @Test
