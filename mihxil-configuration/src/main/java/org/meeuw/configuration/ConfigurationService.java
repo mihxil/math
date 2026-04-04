@@ -123,8 +123,15 @@ public class ConfigurationService {
     /**
      * Unsets the configuration thread local, effectively resetting it the default settings.
      */
-    public static void resetToDefaults() {
-        CONFIGURATION.remove();
+    public static boolean resetToDefaults() {
+        Configuration newDefaultConfiguration = DEFAULT.build();
+        if (! CONFIGURATION.get().equals(newDefaultConfiguration)) {
+            log.log(INFO, "Removing " + CONFIGURATION.get());
+            CONFIGURATION.set(newDefaultConfiguration);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -1,7 +1,6 @@
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +8,7 @@ import java.util.List;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
 
+@ToString
 public class CompareConfiguration implements ConfigurationAspect {
 
     @With

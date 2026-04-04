@@ -72,7 +72,7 @@ class PhysicalNumberTest implements
 
         PhysicalNumber inLightYear = two_kpc.toUnits(Units.of(ly));
         assertThat(inLightYear.doubleValue()).isEqualTo(6523.1275543348665);
-        assertThat(inLightYear.toString()).isEqualTo("6523 ± 326 ly");
+        assertThat(inLightYear.toString()).isEqualTo("6523 ± 327 ly");
 
         assertThat(inLightYear.toUnits(SI.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10¹⁹ m");
         assertThat(inLightYear.toUnits(CGS.INSTANCE).toString()).isEqualTo("(6.2 ± 0.3)·10²¹ cm");

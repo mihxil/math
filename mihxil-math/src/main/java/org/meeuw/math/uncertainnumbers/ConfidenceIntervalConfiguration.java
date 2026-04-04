@@ -15,14 +15,14 @@
  */
 package org.meeuw.math.uncertainnumbers;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.meeuw.configuration.ConfigurationAspect;
 
+@ToString
 public class ConfidenceIntervalConfiguration implements ConfigurationAspect {
 
     @With

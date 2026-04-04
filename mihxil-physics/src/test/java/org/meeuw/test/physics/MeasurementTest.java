@@ -48,7 +48,8 @@ class MeasurementTest  {
         Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
         assertThat(area.toString()).isEqualTo("630 ± 27 m²"); // or should that be 27?
-        ConfigurationService.withAspect(UncertaintyConfiguration.class, (ub) -> ub.withNotation(PARENTHESES),
+        ConfigurationService.withAspect(UncertaintyConfiguration.class,
+            (ub) -> ub.withNotation(PARENTHESES),
             () -> assertThat(area.toString()).isEqualTo("630(27) m²")
         );
     }

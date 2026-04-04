@@ -17,8 +17,7 @@ package org.meeuw.test.physics;
 
 import lombok.extern.java.Log;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
@@ -34,7 +33,7 @@ import static org.meeuw.physics.PhysicalConstant.*;
 class PhysicalConstantTest {
 
    @BeforeEach
-    public void setup() {
+   public void setup() {
         ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc ->
             uc.withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)
                 .withExplicitStripZeros(false)

@@ -253,7 +253,7 @@
               <include>**/*Test.java</include>
               <include>%regex[.*Test[\$\.].*]</include>
             </includes>
-            <argLine>@{argLine} -Dfile.encoding=UTF-8</argLine> <!-- argline required by jacoco -->
+            <argLine>@{argLine} -Dfile.encoding=UTF-8 -ea</argLine> <!-- argline required by jacoco -->
             <systemPropertyVariables>
               <log4j2.root.level>${log4j2.root.level}</log4j2.root.level>
               <log4j2.pattern>%d{HH:mm:ss.SS} %highlight{%5.5p}  %c{1}&#x09;%m%n</log4j2.pattern>

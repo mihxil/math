@@ -35,6 +35,7 @@ module org.meeuw.math.abstractalgebra.test {
     requires org.opentest4j;
     requires org.junit.platform.launcher;
     requires org.junit.platform.engine;
+    requires org.meeuw.functional;
 
     exports org.meeuw.theories;
     exports org.meeuw.theories.abstractalgebra;

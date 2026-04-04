@@ -109,6 +109,10 @@ public class Configuration implements Iterable<ConfigurationAspect> {
     }
 
 
+    @Override
+    public String toString() {
+        return Configuration.class.getSimpleName() + ":" + map.toString();
+    }
     /**
      * Builder pattern for {@link Configuration}.
      */

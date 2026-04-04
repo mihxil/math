@@ -1,5 +1,7 @@
 package org.meeuw.jupiter.impl;
 
+import lombok.extern.java.Log;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.util.HashSet;
@@ -13,6 +15,7 @@ import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
+@Log
 public class ConfigurationExtension implements AfterTestExecutionCallback, BeforeTestExecutionCallback, BeforeAllCallback,
     AfterAllCallback {
 
@@ -23,7 +26,6 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
 
     @Override
     public void afterAll(ExtensionContext context) {
-
     }
 
     @Override
@@ -32,6 +34,7 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
         for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
             Object reset = context.getStore(ns).remove(key);
             if (reset != null) {
+                log.info(key + " -> " + reset);
                 if (reset instanceof AutoCloseable) {
                     ((AutoCloseable) reset).close();
                 } else if (reset instanceof Runnable) {
@@ -61,23 +64,27 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
     private void setUncertaintyConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
         SetUncertaintyConfiguration rounding = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
         if (rounding != null) {
-            context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION, ConfigurationService.setConfiguration(builder -> {
-                builder.configure(UncertaintyConfiguration.class, config ->
-                    config
-                        .withExplicitStripZeros(rounding.stripZeros())
-                        .withNotation(rounding.notation()));
-            }));
+            log.info("applying " + rounding);
+            context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
+                ConfigurationService.setConfiguration(builder -> {
+                    builder.configure(UncertaintyConfiguration.class, config ->
+                        config
+                            .withExplicitStripZeros(rounding.stripZeros())
+                            .withNotation(rounding.notation()));
+                }));
         }
     }
     private void setNumberConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
-        SetNumberConfiguration rounding = getAnnotation(annotatedElement, SetNumberConfiguration.class);
-        if (rounding != null) {
+        SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
+            SetNumberConfiguration.class);
+        if (numberConfiguration != null) {
+            log.info("applying " + numberConfiguration);
             context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
                 ConfigurationService.setConfiguration(builder -> {
-                builder.configure(NumberConfiguration.class, config ->
+                    builder.configure(NumberConfiguration.class, config ->
                     config
-                        .withMaximalPrecision(rounding.maxPrecision()));
-            }));
+                        .withMaximalPrecision(numberConfiguration.maxPrecision()));
+                }));
         }
     }
 
