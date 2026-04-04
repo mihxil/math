@@ -16,7 +16,7 @@ public enum OddEven  implements AbelianRingElement<OddEven>, Serializable {
 
     @Override
     public @NonNull AbelianRing<OddEven> getStructure() {
-        return OddEventRing.INSTANCE;
+        return OddEvenRing.INSTANCE;
     }
 
     @Override

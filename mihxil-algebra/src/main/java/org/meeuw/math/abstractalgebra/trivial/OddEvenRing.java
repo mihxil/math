@@ -9,11 +9,11 @@ import org.meeuw.math.abstractalgebra.*;
 
 @Example(AbelianRing.class)
 @Singleton
-public class OddEventRing implements AbelianRing<OddEven>, Streamable<OddEven> {
+public class OddEvenRing implements AbelianRing<OddEven>, Streamable<OddEven> {
 
-    public static final OddEventRing INSTANCE = new OddEventRing();
+    public static final OddEvenRing INSTANCE = new OddEvenRing();
 
-    private OddEventRing() {
+    private OddEvenRing() {
         // singleton
     }
 
@@ -40,5 +40,9 @@ public class OddEventRing implements AbelianRing<OddEven>, Streamable<OddEven> {
     @Override
     public Stream<OddEven> stream() {
         return Arrays.stream(OddEven.values());
+    }
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
     }
 }
