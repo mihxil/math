@@ -33,16 +33,16 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- compile time -->
-    <lombok.version>1.18.42</lombok.version>
+    <lombok.version>1.18.44</lombok.version>
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.54.0</checkerframework.version>
+    <checkerframework.version>3.55.1</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
     <junit.version>6.0.3</junit.version>
-    <jacoco.version>0.8.13</jacoco.version>
+    <jacoco.version>0.8.14</jacoco.version>
     <assertj.version>3.27.7</assertj.version>
     <jqwik.version>1.9.3</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
@@ -166,7 +166,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
@@ -224,7 +224,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.18.0</version>
+        <version>2.21.0</version>
         <configuration>
           <rulesUri>file:///${maven.multiModuleProjectDirectory}/rules.xml</rulesUri>
         </configuration>
