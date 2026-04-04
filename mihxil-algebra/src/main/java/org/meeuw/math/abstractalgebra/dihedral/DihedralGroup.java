@@ -17,6 +17,7 @@ import org.meeuw.math.text.TextUtils;
 import static org.meeuw.math.text.TextUtils.subscript;
 
 /**
+ * A group of {@link DihedralSymmetry symmetries}
  * @since 0.14
  * @see org.meeuw.math.abstractalgebra.dihedral
  */

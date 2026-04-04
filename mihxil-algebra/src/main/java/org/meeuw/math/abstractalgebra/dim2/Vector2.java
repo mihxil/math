@@ -132,6 +132,11 @@ public class Vector2 implements
         return of(-1 * x, -1 * y);
     }
 
+    /**
+     * Gets x,y (as a {@link RealNumber}), depending on the index.
+     * @param i
+     * @return
+     */
     @Override
     public RealNumber get(int i) {
         return switch (i) {
@@ -147,7 +152,8 @@ public class Vector2 implements
     }
 
     @Override
-    public Iterator<RealNumber> iterator() {
+    @NonNull
+    public Iterator<@NonNull RealNumber> iterator() {
         return Stream.of(x, y)
             .map(RealNumber::of)
             .iterator();

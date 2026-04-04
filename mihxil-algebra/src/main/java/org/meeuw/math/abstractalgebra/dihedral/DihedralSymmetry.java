@@ -15,6 +15,7 @@ import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.r;
 import static org.meeuw.math.abstractalgebra.dihedral.Symmetry.s;
 
 /**
+ * An element of a {@link DihedralGroup dihedral symmetry group}.
  * @since 0.14
  * see org.meeuw.math.abstractalgebra.dihedral
  */

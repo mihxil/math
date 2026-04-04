@@ -108,6 +108,11 @@ public class DoubleElement
         return new DoubleElement(value, uncertainty);
     }
 
+    /**
+     * Defaulting version of {@link #of(double, double)}, where the uncertainty is just {@link DoubleUtils#uncertaintyForDouble(double)}
+     * @param value
+     * @return
+     */
     public static DoubleElement of(double value) {
         return of(
             value,

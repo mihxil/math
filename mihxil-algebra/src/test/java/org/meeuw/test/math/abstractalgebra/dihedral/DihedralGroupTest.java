@@ -17,14 +17,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
+/**
+ * Ad hoc tests for {@link DihedralGroup} and {@link DihedralSymmetry}.
+ * @see D1Test
+ * @see D2Test
+ * @see TriangleSymmetryTest
+ * @see SquareSymmetryTest
+ * @see HeptagonSymmetryTests
+ */
 @Log
 @Rounding
-public class DihedralGroupTest { // GroupTest is done in subclasses
+public class DihedralGroupTest { // Group theory  is done in subclasses
 
     @Test
     public void apply() {
         DihedralSymmetry r1 = DihedralSymmetry.r(1, 4);
         Vector2 v2 = r1.apply(Vector2.of(0.1, 1));
+
+        // shows that it works, and that the toString is reasonable (not showing rounding errors
         assertThat(v2.toString()).isEqualTo("(-1, 0.1)");
     }
 
@@ -48,7 +58,6 @@ public class DihedralGroupTest { // GroupTest is done in subclasses
         assertThatThrownBy(() ->
             group.r(-1)
         ).isInstanceOf(InvalidElementCreationException.class);
-
     }
 
 

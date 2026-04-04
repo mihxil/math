@@ -8,29 +8,35 @@ import java.util.Set;
 import org.junit.jupiter.api.extension.*;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 public class ConfigurationExtension implements AfterTestExecutionCallback, BeforeTestExecutionCallback, BeforeAllCallback,
     AfterAllCallback {
 
     private static  final ExtensionContext.Namespace ns = ExtensionContext.Namespace.create(ConfigurationExtension.class);
+    private static final String RESET_UNCERTAINTY_CONFIGURATION = "resetUncertaintyConfiguration";
+    private static final String RESET_NUMBER_CONFIGURATION = "resetNumberConfiguration";
 
 
     @Override
-    public void afterAll(ExtensionContext context) throws Exception {
+    public void afterAll(ExtensionContext context) {
 
     }
 
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
         // Restore configuration if a reset handle was stored during beforeTestExecution
-        Object reset = context.getStore(ns).remove("reset");
-        if (reset != null) {
-            if (reset instanceof AutoCloseable) {
-                ((AutoCloseable) reset).close();
-            } else if (reset instanceof Runnable) {
-                ((Runnable) reset).run();
+        for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
+            Object reset = context.getStore(ns).remove(key);
+            if (reset != null) {
+                if (reset instanceof AutoCloseable) {
+                    ((AutoCloseable) reset).close();
+                } else if (reset instanceof Runnable) {
+                    ((Runnable) reset).run();
+                }
             }
         }
     }
@@ -44,19 +50,33 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
     public void beforeTestExecution(ExtensionContext context) {
         context.getTestClass().ifPresent(testCass -> {
             setUncertaintyConfiguration(testCass, context);
+            setNumberConfiguration(testCass, context);
         });
         context.getTestMethod().ifPresent(testMethod -> {
             setUncertaintyConfiguration(testMethod, context);
+            setNumberConfiguration(testMethod, context);
         });
     }
 
     private void setUncertaintyConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
         SetUncertaintyConfiguration rounding = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
         if (rounding != null) {
-            context.getStore(ns).put("reset", ConfigurationService.setConfiguration(builder -> {
+            context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION, ConfigurationService.setConfiguration(builder -> {
                 builder.configure(UncertaintyConfiguration.class, config ->
-                    config.withExplicitStripZeros(rounding.stripZeros())
+                    config
+                        .withExplicitStripZeros(rounding.stripZeros())
                         .withNotation(rounding.notation()));
+            }));
+        }
+    }
+    private void setNumberConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
+        SetNumberConfiguration rounding = getAnnotation(annotatedElement, SetNumberConfiguration.class);
+        if (rounding != null) {
+            context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
+                ConfigurationService.setConfiguration(builder -> {
+                builder.configure(NumberConfiguration.class, config ->
+                    config
+                        .withMaximalPrecision(rounding.maxPrecision()));
             }));
         }
     }

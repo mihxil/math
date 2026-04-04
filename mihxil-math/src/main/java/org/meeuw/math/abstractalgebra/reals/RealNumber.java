@@ -80,6 +80,11 @@ public interface RealNumber
     };
 
 
+    /**
+     * Wraps a double to a {@link RealNumber}. (actually link {@link DoubleElement#of DoubleElement})
+     * @param value
+     * @return
+     */
     static RealNumber of(double value) {
         assert ! Double.isNaN(value);
         return DoubleElement.of(value);
