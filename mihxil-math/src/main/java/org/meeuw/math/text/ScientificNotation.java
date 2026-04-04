@@ -22,7 +22,7 @@ import static org.meeuw.math.text.AbstractUncertainFormat.VALUE_FIELD;
  * @since 0.19
  */
 public class ScientificNotation<N extends Number> {
-    public static MathContext UC_MATHCONTEXT = new MathContext(2, RoundingMode.CEILING);
+    public static MathContext UC_MATHCONTEXT = new MathContext(3, RoundingMode.CEILING);
 
     public static final String TIMES_10 = TextUtils.TIMES + "10";  /* "·10' */
 

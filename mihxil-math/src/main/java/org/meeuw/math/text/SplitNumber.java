@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.text;
 
+import jakarta.validation.constraints.*;
 import lombok.With;
 
 import java.math.MathContext;
@@ -26,7 +27,7 @@ import org.meeuw.math.numbers.NumberOperations;
 import static org.meeuw.math.text.ScientificNotation.TIMES_10;
 
 /**
- * The result of a split of number of type {@code N} in 2 parts: a number of (of type {@code N}) approximately 1 (the 'coefficient'), and an integer
+ * The result of a split of number of type {@code N} in 2 parts: a number of (of type {@code N}) between 1 (the 'coefficient') and 10, and an integer
  * indicating the order of magnitude (the 'exponent').
  * <p>
  * It is e.g. used when constructing {@link ScientificNotation scientific notation}
@@ -37,7 +38,7 @@ import static org.meeuw.math.text.ScientificNotation.TIMES_10;
  */
 
 public class SplitNumber<N extends Number> {
-    public @With N coefficient;
+    public @With @DecimalMin(value = "1") @DecimalMax(value = "10", inclusive = false) N coefficient;
     public @With int exponent;
 
     SplitNumber(N coefficient, int exponent) {
