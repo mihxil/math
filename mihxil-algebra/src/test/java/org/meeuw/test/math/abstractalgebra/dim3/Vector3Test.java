@@ -20,6 +20,7 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.dim3.Matrix3Group;
 import org.meeuw.math.abstractalgebra.dim3.Vector3;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -84,6 +85,7 @@ class Vector3Test implements
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
+    @Rounding
     public void stringEqualsHashCode() {
         Vector3 example = of(1, 2, 3);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
