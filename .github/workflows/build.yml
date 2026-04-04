@@ -59,7 +59,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - name: Commit generated graphviz file if it changed
         if: ${{ matrix.rank == 'main' }}
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v10
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
