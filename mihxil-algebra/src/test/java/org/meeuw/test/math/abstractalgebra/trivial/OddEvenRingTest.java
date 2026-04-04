@@ -21,7 +21,7 @@ import net.jqwik.api.Arbitrary;
 import org.meeuw.math.abstractalgebra.trivial.OddEven;
 import org.meeuw.theories.abstractalgebra.RingTheory;
 
-public class OddEventRingTest implements RingTheory<OddEven> {
+public class OddEvenRingTest implements RingTheory<OddEven> {
     @Override
     public Arbitrary<OddEven> elements() {
         return Arbitraries.of(OddEven.values());
