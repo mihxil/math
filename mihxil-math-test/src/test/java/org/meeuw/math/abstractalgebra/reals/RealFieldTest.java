@@ -81,18 +81,19 @@ class RealFieldTest implements
 
     @Test
     public void string() {
-        assertThat(DoubleElement.of(1).toString()).isEqualTo("1.0000000000000000");
+        assertThat(DoubleElement.of(1).toString()).isEqualTo("1.000000000000000");
         RealNumber half  = of(1).dividedBy(of(2));
         assertThat(half.doubleUncertainty()).isEqualTo(6.661338147750939E-16);
-        assertThat(half.toString()).isEqualTo("0.5000000000000000"); // rounding errors only
+        assertThat(half.toString()).isEqualTo("0.500000000000000"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
     @Test
     public void stringOfExact() {
+        //                              these digits are too exact
         double val = 0.1482401572043123_52345;
         RealNumber rn = RealNumber.of(val);
         assertThat(rn.toString())
-            .isEqualTo("" + val)
+            //.isEqualTo("" + val)
             .isEqualTo("0.1482401572043124");
     }
 
@@ -179,7 +180,7 @@ class RealFieldTest implements
         RealNumber ln = of(800).ln();
         log.info("ln(800) = " + ln);
         //                                                   6.68461172766792729628
-        assertThat(ln.toString()).isEqualTo("6.6846117276679270");
+        assertThat(ln.toString()).isEqualTo("6.684611727667927");
 
     }
 

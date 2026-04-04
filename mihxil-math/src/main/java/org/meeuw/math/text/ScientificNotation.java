@@ -111,7 +111,10 @@ public class ScientificNotation<N extends Number> {
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean).orElse(new SplitNumber<>(mean, 0));
             SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty)
                 .map(uc -> uc.round(operations, UC_MATHCONTEXT)).orElse(null);
-
+            if (!errorIndication && splitStd != null) {
+                // the error itself will not be show, so overstate it a bit, so the digit with the error in it, will be rounded away
+                 splitStd.exponent += 1;
+            }
 
             errorIndication &= splitStd != null;
 
