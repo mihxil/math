@@ -1,6 +1,8 @@
 package org.meeuw.test.math.arithmetic.ast.infix;
 
 
+import lombok.extern.java.Log;
+
 import java.util.Optional;
 import java.util.Random;
 
@@ -15,6 +17,7 @@ import org.meeuw.math.arithmetic.ast.Expression;
 import org.meeuw.math.arithmetic.ast.infix.InfixParser;
 import org.meeuw.math.arithmetic.ast.infix.ParseException;
 
+@Log
 public class InfixParserTest {
     final Random random = new Random();
 
@@ -28,7 +31,7 @@ public class InfixParserTest {
     public void terms(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.term();
-        System.out.print("parsed: " + expression);
+        log.info("parsed: " + expression);
     }
 
     @ParameterizedTest
@@ -46,7 +49,7 @@ public class InfixParserTest {
     public void parse(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.parse();
-        System.out.println("parsed: " + expression + " -> " + expression.eval());
+        log.info("parsed: " + expression + " -> " + expression.eval());
 
     }
 
@@ -61,7 +64,7 @@ public class InfixParserTest {
     public void parseInteger(String string) throws ParseException {
         InfixParser<IntegerElement> parser = new InfixParser<>(string, Integers.INSTANCE, this::getIntConstant);
         Expression<IntegerElement> expression = parser.parse();
-        System.out.println("parsed: " + expression + " -> " + expression.eval());
+        log.info("parsed: " + expression + " -> " + expression.eval());
 
     }
 

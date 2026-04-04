@@ -1,5 +1,7 @@
 package org.meeuw.test.math.arithmetic.ast;
 
+import lombok.extern.java.Log;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -13,6 +15,7 @@ import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
+@Log
 class ASTTest {
 
     @Test
@@ -41,10 +44,10 @@ class ASTTest {
         var prod1 = sub.times( new Value<>(exactly(3)));
         var prod2 = prod1.reverse();
 
-        System.out.println(AST.toInfix(prod2.canonize(INSTANCE)));
-        System.out.println(AST.toInfix(prod2));
-        System.out.println(AST.toInfix(prod2.reverse()));
-        System.out.println(AST.toInfix(prod2.reverse().canonize(INSTANCE)));
+        log.info(AST.toInfix(prod2.canonize(INSTANCE)));
+        log.info(AST.toInfix(prod2));
+        log.info(AST.toInfix(prod2.reverse()));
+        log.info(AST.toInfix(prod2.reverse().canonize(INSTANCE)));
 
         assertThat(
             prod2.canonize(INSTANCE))
@@ -78,9 +81,9 @@ class ASTTest {
     @Test
     public void parseInfix() {
         Expression<RealNumber> exp = AST.parse("(3 * (8 - 3)) + 8", INSTANCE);
-        System.out.println(AST.toInfix(exp.canonize(INSTANCE)));
+        log.info(AST.toInfix(exp.canonize(INSTANCE)));
         Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
-        System.out.println(AST.toInfix(exp2.canonize(INSTANCE)));
+        log.info(AST.toInfix(exp2.canonize(INSTANCE)));
     }
     @Test
     public void parseInfix1(){
