@@ -21,7 +21,12 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E expected) {
         if (!actual.eq(expected)) {
-            assertionError("%s %s≉ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription));
+            assertionError(
+                "%s %s≉ %s (%s)".formatted(
+                    toString(actual),
+                    valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription
+                )
+            );
         }
         return myself;
     }
