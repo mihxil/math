@@ -29,6 +29,7 @@ import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.DoubleOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
 import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.configuration.ConfigurationService.getConfigurationAspect;
@@ -230,7 +231,7 @@ public abstract class AbstractStatisticalDouble
             return ((StatisticalNumber<?, ?, ?>) o).getCount() == 0;
         }
         return eq(o,
-            getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
+            getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval()
         );
     }
 

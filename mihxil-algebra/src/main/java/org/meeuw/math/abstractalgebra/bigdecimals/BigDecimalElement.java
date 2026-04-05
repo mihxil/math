@@ -26,6 +26,7 @@ import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.validation.NotZero;
 
@@ -375,7 +376,7 @@ public class BigDecimalElement implements
 
     @Override
     public boolean eq(BigDecimalElement that) {
-        return eq(that, Math.round( getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds() + 0.5f));
+        return eq(that, Math.round( getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval() + 0.5f));
     }
 
     @Override

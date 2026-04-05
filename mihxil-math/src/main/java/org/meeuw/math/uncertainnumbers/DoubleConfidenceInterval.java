@@ -30,6 +30,7 @@ import org.meeuw.math.numbers.DoubleOperations;
 public class DoubleConfidenceInterval implements Predicate<Double> {
 
     private final double low;
+    private final double value;
     private final double high;
 
     /**
@@ -39,25 +40,26 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
         if (Double.isInfinite(value)) {
             if (Double.isFinite(uncertainty)) {
                 // infinite value, finite uncertainty. So, we just require the value to be infinite too.
-                return new DoubleConfidenceInterval(value, value);
+                return new DoubleConfidenceInterval(value,  value, value);
             } else {
                 // uncertainty is infinite too?
                 // everything goes then
-                return new DoubleConfidenceInterval(Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+                return new DoubleConfidenceInterval(Double.NEGATIVE_INFINITY, 0, Double.POSITIVE_INFINITY);
             }
         }
         double halfRange = Double.isNaN(uncertainty) ?
             Math.abs(value) : uncertainty * interval;
-        return new DoubleConfidenceInterval(value - halfRange, value + halfRange);
+        return new DoubleConfidenceInterval(value - halfRange, value, value + halfRange);
     }
 
-    public DoubleConfidenceInterval(double low, double high) {
+    public DoubleConfidenceInterval(double low, double value,  double high) {
         this.low = low;
+        this.value = value;
         this.high = high;
     }
 
     public ConfidenceInterval<Double> asConfidenceInterval() {
-        return new ConfidenceInterval<>(DoubleOperations.INSTANCE, low, high);
+        return new ConfidenceInterval<>(DoubleOperations.INSTANCE, low,  value, high);
     }
     public boolean contains(double value) {
         boolean r = this.low <= value && value <= this.high;
@@ -71,6 +73,11 @@ public class DoubleConfidenceInterval implements Predicate<Double> {
 
     @Override
     public String toString() {
-        return "[" + low + "," + high + "]";
+        if (low == high) {
+            return "[=" + low + ']';
+        } else {
+            //return "[" + low + "," + value + "," +  high + "]";
+            return "[" + low + ',' +  high + ']';
+        }
     }
 }

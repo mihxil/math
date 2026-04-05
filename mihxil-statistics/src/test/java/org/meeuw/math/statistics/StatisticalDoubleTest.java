@@ -20,16 +20,15 @@ import lombok.extern.java.Log;
 import java.util.Random;
 
 import net.jqwik.api.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
-import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
+
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
@@ -44,15 +43,12 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
 /**
  * @author Michiel Meeuwissen
  */
+@Rounding
 @Log
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<RealNumber>,
     CompleteScalarFieldTheory<RealNumber> {
 
-    @BeforeEach
-    public void setup() {
-        ConfigurationService.setConfiguration(builder -> builder.configure(UncertaintyConfiguration.class, uc -> uc.withStripZeros((n, o) -> true)));
-    }
 
 
     @Test
@@ -161,7 +157,7 @@ public class StatisticalDoubleTest implements
     @Test
     public void intransitiveEq() {
 
-        log.info("SDS: " + getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        log.info("SDS: " + getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         d1.enter(0, 5, 10);
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();

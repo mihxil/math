@@ -37,6 +37,8 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
     @NonNull
     private final N low;
     @NonNull
+    private final N value;
+    @NonNull
     private final N high;
     @NonNull
     private final Predicate<N> predicate;
@@ -52,12 +54,14 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
         final N halfRange = operations.abs(operations.multiplyPrimitiveDouble(uncertainty, intervalSize).getValue());
         return new ConfidenceInterval<>(operations,
             operations.minus(value, halfRange),
+            value,
             operations.add(value, halfRange)
         );
     }
 
-    ConfidenceInterval(NumberOperations<N> op, N low, N high) {
+    ConfidenceInterval(NumberOperations<N> op, @NonNull N low, @NonNull N value, @NonNull N high) {
         this.low = low;
+        this.value = value;
         this.high = high;
         this.predicate = (v) -> (op.isNaN(low) || op.gte(v, low))
             && (op.isNaN(high) || op.lte(v, high));
@@ -74,7 +78,12 @@ public class ConfidenceInterval<N extends Number> implements Predicate<N> {
 
     @Override
     public String toString() {
-        return "[" + low + ',' + high + ']';
+        if (low.equals(high)) {
+            return "[=" + low + ']';
+        } else {
+            //return "[" + low + ',' + value + "," + high + ']';
+            return "[" + low +  ',' + high + ']';
+        }
     }
 
 }

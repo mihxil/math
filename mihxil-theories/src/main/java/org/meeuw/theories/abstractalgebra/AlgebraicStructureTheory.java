@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 
+import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
@@ -43,9 +44,6 @@ import static org.meeuw.math.operators.BasicComparisonOperator.*;
  * @since 0.4
  */
 public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extends ElementTheory<E> {
-
-
-
 
     String STRUCTURE = "structure";
 
@@ -468,14 +466,15 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
 
     @Property
+    @SetUncertaintyConfiguration(widthOfConfidenceInterval = 10)
     default void fromString(@ForAll(ELEMENTS) E  element) {
         AlgebraicStructure<E> structure = element.getStructure();
         if (structure.isValid(element.toString())) {
             String value = element.toString();
             E fromString = structure.fromString(value);
-            log().info("fromString(%s) = %s".formatted(value, fromString));
+            log().info("fromString(%s.toString()) = %s".formatted(value, fromString));
             assertThatAlgebraically(fromString)
-                .withValueDescription("fromString(toString())")
+                .describedAs("fromString(toString())")
                 .isEqTo(element);
         } else {
             assertThatThrownBy(() -> structure.fromString(element.toString())).isInstanceOf(NotParsable.class);
@@ -491,12 +490,19 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
+    @SetUncertaintyConfiguration(widthOfConfidenceInterval = 10)
     default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
         AlgebraicStructure<E> structure = element.getStructure();
         String s = element.toString();
         try {
             structure.fromString(s);
-            assertThatAlgebraically(structure.getConstant(element.toString())).containsEq(element);
+            Optional<E> constant = structure.getConstant(element.toString());
+            assertThatAlgebraically(
+                constant)
+                .describedAs("fromString(toString())")
+                .containsEq(
+                element
+            );
         } catch (NotParsable.NotImplemented notImplemented) {
             log().info("NotParsable: %s".formatted(notImplemented.getMessage()));
         }

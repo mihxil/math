@@ -27,6 +27,7 @@ import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.math.operators.BasicAlgebraicUnaryOperator;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -432,7 +433,7 @@ public class DoubleElement
     @Override
     public boolean eq(RealNumber other) {
         return eq(other,
-            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+            ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
     }
 
     @Override

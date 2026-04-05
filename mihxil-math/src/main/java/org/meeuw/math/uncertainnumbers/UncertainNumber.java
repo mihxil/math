@@ -22,6 +22,7 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.numbers.NumberOperations;
 import org.meeuw.math.numbers.UncertaintyNumberOperations;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 /**
  * The interface representing an uncertain number. It makes no
@@ -181,7 +182,7 @@ public interface UncertainNumber<N extends Number>
 
     default boolean eq(UncertainNumber<N> o) {
          return eq(o,
-            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+            ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
     }
 
     default BigDecimal bigDecimalValue() {
@@ -196,7 +197,7 @@ public interface UncertainNumber<N extends Number>
         return ConfidenceInterval.of(
             getValue(),
             getUncertainty(),
-            ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds()
+            ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval()
         );
     }
 

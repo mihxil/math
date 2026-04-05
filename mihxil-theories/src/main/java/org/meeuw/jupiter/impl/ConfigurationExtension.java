@@ -17,27 +17,17 @@ import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
-import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 @Log
 public class ConfigurationExtension implements
     AfterTestExecutionCallback,
     BeforeTestExecutionCallback,
-    BeforeAllCallback,
-    AfterAllCallback,
     AroundPropertyHook
 {
 
     private static  final ExtensionContext.Namespace ns = ExtensionContext.Namespace.create(ConfigurationExtension.class);
     private static final String RESET_UNCERTAINTY_CONFIGURATION = "resetUncertaintyConfiguration";
     private static final String RESET_NUMBER_CONFIGURATION = "resetNumberConfiguration";
-
-
-    @Override
-    public void afterAll(ExtensionContext context) {
-    }
-
-
 
 
     @Override
@@ -57,10 +47,7 @@ public class ConfigurationExtension implements
         }
     }
 
-    @Override
-    public void beforeAll(ExtensionContext context) {
 
-    }
 
     @Override
     public void beforeTestExecution(ExtensionContext context) {
@@ -82,29 +69,26 @@ public class ConfigurationExtension implements
 
 
     @Override
-    public PropertyExecutionResult aroundProperty(PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
+    @NonNull
+    public PropertyExecutionResult aroundProperty(@NonNull PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
         try (AutoCloseable resetUncertainty =
                  setUncertaintyConfiguration(context.targetMethod(), context.containerClass())) {
             return property.execute();
         }
     }
 
-
     private ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
             if (setUncertaintyConfiguration != null) {
                 log.info("applying " + setUncertaintyConfiguration);
-                return
-                    ConfigurationService.setConfiguration(builder -> {
-                        builder.configure(UncertaintyConfiguration.class, config ->
-                            config
-                                .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
-                                .withNotation(setUncertaintyConfiguration.notation()));
-                        builder.configure(ConfidenceIntervalConfiguration.class, config ->
-                            config
-                                .withSds(setUncertaintyConfiguration.sds()));
-                    });
+                return  ConfigurationService.setConfiguration(builder -> {
+                    builder.configure(UncertaintyConfiguration.class, config ->
+                        config
+                            .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
+                            .withNotation(setUncertaintyConfiguration.notation())
+                            .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval()));
+                });
             }
         }
         return null;

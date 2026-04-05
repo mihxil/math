@@ -32,6 +32,7 @@ import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
@@ -250,7 +251,7 @@ public abstract class PhysicalNumber
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);
-        return get().eq(sameUnits.get(), ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
+        return get().eq(sameUnits.get(), ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
     }
 
     @Override

@@ -16,7 +16,7 @@ public @interface SetUncertaintyConfiguration {
 
      boolean stripZeros() default true;
 
-     float sds() default 2;
+     float widthOfConfidenceInterval() default 2;
 
      UncertaintyConfiguration.Notation notation() default UncertaintyConfiguration.Notation.ROUND_VALUE;
 }

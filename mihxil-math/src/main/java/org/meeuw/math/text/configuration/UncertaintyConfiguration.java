@@ -27,7 +27,12 @@ import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
- * This configuration aspect defines how uncertainties must be formatted
+ * This configuration aspect defines some setting related to how uncertain values.
+ * Like
+ * <ol>
+ *     <li>How they must be formatted</li>
+ *     <li>The (default) width of the confidence interval to be used in {@link UncertainNumber#eq(UncertainNumber)}</li>
+ * </ol>
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -71,6 +76,13 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     private final BiPredicate<Notation, Object> stripZeros;
 
 
+
+
+    @With
+    @Getter
+    private final float widthOfConfidenceInterval;
+
+
     public UncertaintyConfiguration withExplicitStripZeros(boolean stripZeros) {
         return withStripZeros((n, o) -> stripZeros);
     }
@@ -80,15 +92,17 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     private UncertaintyConfiguration(
         Notation notation,
         double considerRoundingErrorFactor,
-        BiPredicate<Notation, Object> stripZeros
+        BiPredicate<Notation, Object> stripZeros,
+        float widthOfConfidenceInterval
         ) {
         this.notation = notation;
         this.considerRoundingErrorFactor = considerRoundingErrorFactor;
         this.stripZeros = stripZeros == null ? DEFAULT_STRIP_ZEROS : stripZeros;
+        this.widthOfConfidenceInterval = widthOfConfidenceInterval;
     }
 
     public UncertaintyConfiguration() {
-        this(Notation.PLUS_MINUS, 1000d, null);
+        this(Notation.PLUS_MINUS, 1000d, null, 2f);
     }
 
     @Override
