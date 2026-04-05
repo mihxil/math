@@ -25,59 +25,63 @@ public class ConfigurationExtension implements
     AroundPropertyHook
 {
 
+    // JUNIT
+
     private static  final ExtensionContext.Namespace ns = ExtensionContext.Namespace.create(ConfigurationExtension.class);
     private static final String RESET_UNCERTAINTY_CONFIGURATION = "resetUncertaintyConfiguration";
     private static final String RESET_NUMBER_CONFIGURATION = "resetNumberConfiguration";
 
 
     @Override
-    public void afterTestExecution(ExtensionContext context) throws Exception {
-        // Restore configuration if a reset handle was stored during beforeTestExecution
-        log.fine("afterTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
-        for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
-            Object reset = context.getStore(ns).remove(key);
-            if (reset != null) {
-                log.info(key + " -> " + reset);
-                if (reset instanceof AutoCloseable) {
-                    ((AutoCloseable) reset).close();
-                } else if (reset instanceof Runnable) {
-                    ((Runnable) reset).run();
-                }
-            }
-        }
-    }
-
-
-
-    @Override
     public void beforeTestExecution(ExtensionContext context) {
         log.fine("beforeTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
-
-
         Method m = context.getTestMethod().orElse(null);
         Class<?> clazz = context.getTestClass().orElse(null);
-
         context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
             setUncertaintyConfiguration(m, clazz)
         );
         context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
             setNumberConfiguration(m, clazz)
         );
+    }
 
+    @Override
+    public void afterTestExecution(ExtensionContext context) throws Exception {
+        // Restore configuration if a reset handle was stored during beforeTestExecution
+        log.fine("afterTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
+        for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
+            AutoCloseable reset = (AutoCloseable) context.getStore(ns).remove(key);
+            if (reset != null) {
+                log.info(key + " -> " + reset);
+                reset.close();
+            }
+        }
     }
 
 
 
+    // JQWIK
     @Override
     @NonNull
     public PropertyExecutionResult aroundProperty(@NonNull PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
         try (AutoCloseable resetUncertainty =
-                 setUncertaintyConfiguration(context.targetMethod(), context.containerClass())) {
+                 setUncertaintyConfiguration(context.targetMethod(), context.containerClass());
+             AutoCloseable resetNumber =
+                 setNumberConfiguration(context.targetMethod(), context.containerClass());
+        ) {
             return property.execute();
         }
     }
+    @Override
+    @NonNull
+    public PropagationMode propagateTo() {
+        return PropagationMode.ALL_DESCENDANTS;
+    }
 
-    private ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
+
+    // IMPLEMENTATION
+
+    private static ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
             if (setUncertaintyConfiguration != null) {
@@ -94,7 +98,7 @@ public class ConfigurationExtension implements
         return null;
     }
 
-    private ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
+    private static ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
 
             SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
@@ -142,11 +146,6 @@ public class ConfigurationExtension implements
         }
 
         return null;
-    }
-    @Override
-    @NonNull
-    public PropagationMode propagateTo() {
-        return PropagationMode.ALL_DESCENDANTS;
     }
 
 
