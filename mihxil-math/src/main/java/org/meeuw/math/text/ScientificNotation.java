@@ -109,6 +109,9 @@ public class ScientificNotation<N extends Number> {
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
 
             SplitNumber<N> splitMean = SplitNumber.split(operations, mean).orElse(new SplitNumber<>(mean, 0));
+
+            assert operations.isNaN(splitMean.coefficient) || operations.lt(operations.abs(splitMean.coefficient), 10) : mean + ": unexpected coefficient  (should be >=1, < 10): " + splitMean;
+
             SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty)
                 .map(uc -> uc.round(operations, UC_MATHCONTEXT)).orElse(null);
             if (!errorIndication && splitStd != null) {
@@ -127,6 +130,7 @@ public class ScientificNotation<N extends Number> {
             NumberFormat format = numberFormatSupplier.get();
             final boolean useE;
             if (splitStd != null) {
+
                 arrangeError(
                     splitMean,
                     splitStd,
@@ -192,8 +196,6 @@ public class ScientificNotation<N extends Number> {
         //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
 
         int meanDigits =  magnitudeDifference; // at least one digit
-
-        assert operations.isNaN(splitMean.coefficient) || operations.lt(operations.abs(splitMean.coefficient), 10) : "unexpected coefficient " + splitMean.coefficient;
 
         // for std starting with '1' we allow an extra digit.
         if (operations.lt(splitStd.coefficient, 2) &&
