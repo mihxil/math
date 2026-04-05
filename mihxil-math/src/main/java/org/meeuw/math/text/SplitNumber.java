@@ -38,10 +38,13 @@ import static org.meeuw.math.text.ScientificNotation.TIMES_10;
  */
 
 public class SplitNumber<N extends Number> {
+
+    private final NumberOperations<N> operations;
     public @With @DecimalMin(value = "1") @DecimalMax(value = "10", inclusive = false) N coefficient;
     public @With int exponent;
 
-    SplitNumber(N coefficient, int exponent) {
+    public SplitNumber(NumberOperations<N> operations, N coefficient, int exponent) {
+        this.operations = operations;
         this.coefficient = coefficient;
         this.exponent = exponent;
     }
@@ -87,15 +90,18 @@ public class SplitNumber<N extends Number> {
         if (negative) { // put sign back
             coefficient = operations.negate(coefficient);
         }
-        return Optional.of(new SplitNumber<>(coefficient, exponent));
+        return Optional.of(new SplitNumber<>(operations, coefficient, exponent));
     }
 
-    public SplitNumber<N> round(NumberOperations<N> operations,
-                                                   MathContext mathContext) {
+    public SplitNumber<N> round(MathContext mathContext) {
         return new SplitNumber<>(
+            operations,
             operations.round(coefficient, mathContext),
             exponent
         );
     }
 
+    public boolean isZero() {
+        return operations.isZero(coefficient);
+    }
 }

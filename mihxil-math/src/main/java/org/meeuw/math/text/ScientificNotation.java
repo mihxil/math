@@ -108,12 +108,12 @@ public class ScientificNotation<N extends Number> {
             int minimumExponent  = minimumExponentSupplier.getAsInt();
             int maximalPrecision = maximalPrecisionSupplier.getAsInt();
 
-            SplitNumber<N> splitMean = SplitNumber.split(operations, mean).orElse(new SplitNumber<>(mean, 0));
+            SplitNumber<N> splitMean = SplitNumber.split(operations, mean).orElse(new SplitNumber<>(operations, mean, 1));
 
-            assert operations.isNaN(splitMean.coefficient) || operations.lt(operations.abs(splitMean.coefficient), 10) : mean + ": unexpected coefficient  (should be >=1, < 10): " + splitMean;
+            assert operations.isNaN(splitMean.coefficient) || splitMean.isZero() || operations.lt(operations.abs(splitMean.coefficient), 10) : mean + ": unexpected coefficient  (should be >=1, < 10): " + splitMean;
 
             SplitNumber<N> splitStd = SplitNumber.split(operations, uncertainty)
-                .map(uc -> uc.round(operations, UC_MATHCONTEXT)).orElse(null);
+                .map(uc -> uc.round( UC_MATHCONTEXT)).orElse(null);
             if (!errorIndication && splitStd != null) {
                 // the error itself will not be show, so overstate it a bit, so the digit with the error in it, will be rounded away
                  splitStd.exponent += 1;
