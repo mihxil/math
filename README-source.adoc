@@ -29,7 +29,7 @@ See link:https://mihxil.github.io/math/[this file in html] for proper display of
 ====
 endif::[]
 
-include::QUICKSTART-source.adoc[leveloffset=1]
+include::docs/QUICKSTART-source.adoc[leveloffset=1]
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
 
