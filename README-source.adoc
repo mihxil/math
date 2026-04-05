@@ -1,4 +1,5 @@
 = Algebraic interfaces for Java
+algebraic structures, physics, statistics, time, shapes and theories
 Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :book:
 :sectnums:
