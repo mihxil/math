@@ -22,10 +22,13 @@ import java.util.Iterator;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.*;
+import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 
@@ -46,7 +49,6 @@ public class Vector2 implements
     @With
     @Getter
     final double y;
-
 
 
     public static Vector2 of(double x, double y) {
@@ -71,12 +73,13 @@ public class Vector2 implements
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Vector2 vector3 = (Vector2) o;
+        Vector2 vector2 = (Vector2) o;
 
-        if (Math.abs(vector3.x - x) > 2 * uncertaintyForDouble(x)) {
+        float width = ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval();
+        if (Math.abs(vector2.x - x) > width * uncertaintyForDouble(x)) {
             return false;
         }
-        return !(Math.abs(vector3.y - y) > 2 * uncertaintyForDouble(y));
+        return !(Math.abs(vector2.y - y) > width * uncertaintyForDouble(y));
     }
 
     @Override
