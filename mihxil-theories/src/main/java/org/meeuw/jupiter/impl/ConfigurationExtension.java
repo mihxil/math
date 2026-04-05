@@ -4,20 +4,29 @@ import lombok.extern.java.Log;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.jqwik.api.lifecycle.*;
 import org.junit.jupiter.api.extension.*;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.uncertainnumbers.ConfidenceIntervalConfiguration;
 
 @Log
-public class ConfigurationExtension implements AfterTestExecutionCallback, BeforeTestExecutionCallback, BeforeAllCallback,
-    AfterAllCallback {
+public class ConfigurationExtension implements
+    AfterTestExecutionCallback,
+    BeforeTestExecutionCallback,
+    BeforeAllCallback,
+    AfterAllCallback,
+    AroundPropertyHook
+{
 
     private static  final ExtensionContext.Namespace ns = ExtensionContext.Namespace.create(ConfigurationExtension.class);
     private static final String RESET_UNCERTAINTY_CONFIGURATION = "resetUncertaintyConfiguration";
@@ -28,9 +37,13 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
     public void afterAll(ExtensionContext context) {
     }
 
+
+
+
     @Override
     public void afterTestExecution(ExtensionContext context) throws Exception {
         // Restore configuration if a reset handle was stored during beforeTestExecution
+        log.fine("afterTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
         for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
             Object reset = context.getStore(ns).remove(key);
             if (reset != null) {
@@ -51,41 +64,68 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
 
     @Override
     public void beforeTestExecution(ExtensionContext context) {
-        context.getTestClass().ifPresent(testCass -> {
-            setUncertaintyConfiguration(testCass, context);
-            setNumberConfiguration(testCass, context);
-        });
-        context.getTestMethod().ifPresent(testMethod -> {
-            setUncertaintyConfiguration(testMethod, context);
-            setNumberConfiguration(testMethod, context);
-        });
+        log.fine("beforeTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
+
+
+        Method m = context.getTestMethod().orElse(null);
+        Class<?> clazz = context.getTestClass().orElse(null);
+
+        context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
+            setUncertaintyConfiguration(m, clazz)
+        );
+        context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
+            setNumberConfiguration(m, clazz)
+        );
+
     }
 
-    private void setUncertaintyConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
-        SetUncertaintyConfiguration rounding = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
-        if (rounding != null) {
-            log.info("applying " + rounding);
-            context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
-                ConfigurationService.setConfiguration(builder -> {
-                    builder.configure(UncertaintyConfiguration.class, config ->
-                        config
-                            .withExplicitStripZeros(rounding.stripZeros())
-                            .withNotation(rounding.notation()));
-                }));
+
+
+    @Override
+    public PropertyExecutionResult aroundProperty(PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
+        try (AutoCloseable resetUncertainty =
+                 setUncertaintyConfiguration(context.targetMethod(), context.containerClass())) {
+            return property.execute();
         }
     }
-    private void setNumberConfiguration(AnnotatedElement annotatedElement, ExtensionContext context) {
-        SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
-            SetNumberConfiguration.class);
-        if (numberConfiguration != null) {
-            log.info("applying " + numberConfiguration);
-            context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
-                ConfigurationService.setConfiguration(builder -> {
-                    builder.configure(NumberConfiguration.class, config ->
-                    config
-                        .withMaximalPrecision(numberConfiguration.maxPrecision()));
-                }));
+
+
+    private ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
+        for (AnnotatedElement annotatedElement : annotatedElements) {
+            SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
+            if (setUncertaintyConfiguration != null) {
+                log.info("applying " + setUncertaintyConfiguration);
+                return
+                    ConfigurationService.setConfiguration(builder -> {
+                        builder.configure(UncertaintyConfiguration.class, config ->
+                            config
+                                .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
+                                .withNotation(setUncertaintyConfiguration.notation()));
+                        builder.configure(ConfidenceIntervalConfiguration.class, config ->
+                            config
+                                .withSds(setUncertaintyConfiguration.sds()));
+                    });
+            }
         }
+        return null;
+    }
+
+    private ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
+        for (AnnotatedElement annotatedElement : annotatedElements) {
+
+            SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
+                SetNumberConfiguration.class);
+            if (numberConfiguration != null) {
+                log.info("applying " + numberConfiguration);
+                return
+                    ConfigurationService.setConfiguration(builder -> {
+                        builder.configure(NumberConfiguration.class, config ->
+                            config
+                                .withMaximalPrecision(numberConfiguration.maxPrecision()));
+                    });
+            }
+        }
+        return null;
     }
 
     private static <A extends Annotation> A getAnnotation(AnnotatedElement annotatedElement, Class<A> annotation) {
@@ -119,4 +159,11 @@ public class ConfigurationExtension implements AfterTestExecutionCallback, Befor
 
         return null;
     }
+    @Override
+    @NonNull
+    public PropagationMode propagateTo() {
+        return PropagationMode.ALL_DESCENDANTS;
+    }
+
+
 }
