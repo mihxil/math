@@ -11,7 +11,7 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
 
     protected String expectedDescription = "expected";
 
-    protected String valueDescription = "";
+    protected String actualDescription = "";
 
 
     protected AlgebraicElementAssert(E o) {
@@ -21,20 +21,24 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E expected) {
         if (!actual.eq(expected)) {
-            assertionError(
-                "%s %s≉ %s (%s)".formatted(
-                    toString(actual),
-                    valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription
-                )
-            );
-        }
-        return myself;
-    }
+            if (actual instanceof UncertainNumber<?> uncertainActual) {
+                assertionError(
+                    "%s %s ≉ %s (%s)".formatted(
+                        toString(actual) + " " + uncertainActual.getConfidenceInterval(),
+                        info.hasDescription() ?  "(" + info.descriptionText() + ") " : "",
+                        toString(expected) + " " + (expected instanceof UncertainNumber<?> uncertainExpected ? uncertainExpected.getConfidenceInterval() : ""),
+                        expectedDescription
+                    ));
+            } else {
+                assertionError(
+                    "%s %s ≉ %s (%s)".formatted(
+                        toString(actual),
+                        info.hasDescription() ?  "(" + info.descriptionText() + ") " : "",
+                        toString(expected),
+                        expectedDescription
+                    ));
+            }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public AlgebraicElementAssert<E> containsEq(E expected) {
-        if (!actual.eq(expected)) {
-            assertionError("%s %s≉ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(expected), expectedDescription));
         }
         return myself;
     }
@@ -42,7 +46,7 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isNotEqTo(E other) {
         if (actual.eq(other)) {
-            assertionError("%s %s≈ %s (%s)".formatted(toString(actual), valueDescription.isEmpty() ? "" : " (" + valueDescription + ") ", toString(other), expectedDescription));
+            assertionError("%s %s≈ %s (%s)".formatted(toString(actual), actualDescription.isEmpty() ? "" : " (" + actualDescription + ") ", toString(other), expectedDescription));
         }
         return myself;
     }
@@ -80,8 +84,8 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     /**
      * @since 0.19
      */
-    public AlgebraicElementAssert<E> withValueDescription(String s) {
-         valueDescription = s;
+    public AlgebraicElementAssert<E> withActualDescription(String s) {
+         actualDescription = s;
          return myself;
     }
 
