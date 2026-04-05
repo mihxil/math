@@ -45,6 +45,7 @@ module org.meeuw.math.abstractalgebra.test {
     exports org.meeuw.jupiter;
 
     provides org.junit.jupiter.api.extension.Extension with ConfigurationExtension;
+    provides net.jqwik.api.lifecycle.LifecycleHook with ConfigurationExtension;
 
 
 }
