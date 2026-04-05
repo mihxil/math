@@ -32,7 +32,9 @@ include::../mihxil-demo/src/quickstart/QuickStartQuaternions.java[]
 
 == theories
 
-quick explanation of theories.
+This is based on https://jqwik.net/[jqwik]. This module provides sophisticated tests for algebraic structures, but also more straight forward things, like testing the contract of `Comparable`
+
+Start with adding this dependency (this is maven syntax):
 [source, xml]
 ----
 <dependency>
@@ -41,10 +43,13 @@ quick explanation of theories.
   <scope>test</scope>
 </dependency>
 ----
+Your test implements the `-Theory` interface and provides the datapoints.
+
 [source, java]
 ----
 include::../mihxil-demo/src/test/java/org/meeuw/math/demo/QuickStartTheoryTest.java[]
 ----
+That's all, you can run in your IDE or with `mvn test`
 
 image::quicktheory.png[QuickStartTheoryTest]
 
