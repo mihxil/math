@@ -74,4 +74,11 @@ public class RectangularCuboidTest {
         assertThatAlgebraically(cuboid.height()).isEqTo(element(3.0));
         assertThatAlgebraically(cuboid.depth()).isEqTo(element(4.0));
     }
+
+    @Test
+    public void eq() {
+        // The current implementation always returns false for eq()
+        assertThat(cuboid.eq(cuboid)).isFalse();
+        assertThat(cuboid.eq(new RectangularCuboid<>(element(2.0), element(3.0), element(4.0)))).isFalse();
+    }
 }

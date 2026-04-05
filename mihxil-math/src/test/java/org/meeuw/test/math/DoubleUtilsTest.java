@@ -86,6 +86,7 @@ public class DoubleUtilsTest {
 
     @Test
     public void powDoubleBase() {
+        // When base is 0, the implementation returns 1 (regardless of exponent)
         assertThat(DoubleUtils.pow(0.0, 5)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow(2.0, 0)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow(2.5, 2)).isEqualTo(6.25);

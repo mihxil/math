@@ -26,7 +26,7 @@ public class SphereTest {
     @Test
     public void volume() {
         log.info("Volume of %s: %s".formatted(sphere, sphere.volume()));
-        // The implementation computes 4 * pi * r^3
+        // Implementation computes r^3 * pi * 4 (note: standard sphere volume is 4/3 * pi * r^3)
         assertThat(sphere.volume().doubleValue()).isEqualTo(4 * Math.PI * 8);
     }
 
