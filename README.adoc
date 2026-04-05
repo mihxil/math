@@ -91,7 +91,9 @@ void main() {
 
 == theories
 
-quick explanation of theories.
+This is based on https://jqwik.net/[jqwik]. This module provides sophisticated tests for algebraic structures, but also more straight forward things, like testing the contract of `Comparable`
+
+Start with adding this dependency (this is maven syntax):
 [source, xml]
 ----
 <dependency>
@@ -100,27 +102,41 @@ quick explanation of theories.
   <scope>test</scope>
 </dependency>
 ----
+Your test implements the `-Theory` interface and provides the datapoints.
+
 [source, java]
 ----
 package org.meeuw.math.demo;
 
 import lombok.extern.java.Log;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import net.jqwik.api.*;
+import org.junit.jupiter.api.Test;
 
 import org.meeuw.theories.ComparableTheory;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Log
 public class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
 
 
     @Override
+    @Provide
     public Arbitrary<MyComparable> datapoints() {
         return Arbitraries.integers().between(-10, 10).map(MyComparable::new);
     }
+
+    /**
+     * Other (junit) tests can just be added in the same class too.
+     */
+    @Test
+    public void otherTest() {
+        assertEquals("MyComparable{value=1}", new MyComparable(1).toString());
+    }
 }
 ----
+That's all, you can run in your IDE or with `mvn test`
 
 image::quicktheory.png[QuickStartTheoryTest]
 
