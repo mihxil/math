@@ -31,6 +31,8 @@ import org.junit.jupiter.api.*;
 
 // tag::imports[]
 
+import org.junit.jupiter.api.parallel.Isolated;
+
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -51,6 +53,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  */
 @SuppressWarnings("resource")
 @Log
+@Isolated
 @Timeout(value = 1, unit = TimeUnit.MINUTES)
 public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> {
 
@@ -96,9 +99,11 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
+    @Timeout(value = 10, unit = TimeUnit.SECONDS)
+
     public void test() throws InterruptedException {
         final List<Double> consumer = new ArrayList<>();
-        final List<Windowed.Event> eventListeners = new ArrayList<>();
+        final List<Windowed.Event> events = new ArrayList<>();
         final TestClock clock = new TestClock();
 
         WindowedEventRate rate = WindowedEventRate.builder()
@@ -131,9 +136,9 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
                 public void accept(Windowed.Event event, Windowed<AtomicLong> atomicLongWindowed) {
 
                     log.fine("%s/%s".formatted(event, atomicLongWindowed));
-                    eventListeners.add(event);
-                    if (eventListeners.size() % 3 == 0) {
-                        throw new RuntimeException("foo bar");
+                    events.add(event);
+                    if (events.size() % 3 == 0) {
+                        throw new RuntimeException("foo bar " + events.size());
                     }
                 }
 
@@ -164,7 +169,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
         assertThat(rate.isWarmingUp()).isFalse();
         log.info("ranges: " + rate.getRanges());
 
-        log.info("events: " +  eventListeners);
+        log.info("events: " +  events);
         synchronized (consumer) {
             while (consumer.size() < 5) {
                 log.info("consumers: " + consumer);
