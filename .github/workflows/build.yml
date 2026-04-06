@@ -52,6 +52,7 @@ jobs:
         shell: bash
         # allow the build step to fail (e.g. test failures) without failing the entire job
         continue-on-error: true
+        timeout-minutes: 15
         run: |
           mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
       - uses: codecov/codecov-action@v5
