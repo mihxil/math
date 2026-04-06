@@ -564,6 +564,8 @@ log.info("Measured rate: {}", rate); // toString
 [source,java]
 ----
 
+import org.junit.jupiter.api.parallel.Isolated;
+
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
