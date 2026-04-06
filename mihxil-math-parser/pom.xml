@@ -38,8 +38,10 @@
               <goal>javacc</goal>
             </goals>
             <configuration>
-              <codeGenerator>java</codeGenerator>
-              <supportClassVisibilityPublic>false</supportClassVisibilityPublic>
+              <!-- https://javacc.github.io/javacc-8/documentation/cli.html -->
+              <javaccCmdLineArgs>
+                <arg>-CODE_GENERATOR=Java</arg>
+              </javaccCmdLineArgs>
             </configuration>
           </execution>
         </executions>
