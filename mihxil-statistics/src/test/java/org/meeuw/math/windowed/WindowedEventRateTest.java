@@ -20,6 +20,7 @@ import lombok.extern.java.Log;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
@@ -29,9 +30,9 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.*;
 
-// tag::imports[]
-
 import org.junit.jupiter.api.parallel.Isolated;
+
+// tag::imports[]
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
@@ -43,6 +44,8 @@ import org.meeuw.time.TestClock;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
+
+// tag::imports[]
 
 
 // end::imports[]
@@ -100,10 +103,9 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
 
     @Test
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
-
     public void test() throws InterruptedException {
         final List<Double> consumer = new ArrayList<>();
-        final List<Windowed.Event> events = new ArrayList<>();
+        final List<Windowed.Event> events = new CopyOnWriteArrayList<>();
         final TestClock clock = new TestClock();
 
         WindowedEventRate rate = WindowedEventRate.builder()
@@ -137,8 +139,9 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
 
                     log.fine("%s/%s".formatted(event, atomicLongWindowed));
                     events.add(event);
-                    if (events.size() % 3 == 0) {
-                        throw new RuntimeException("foo bar " + events.size());
+                    int size = events.size();
+                    if (size % 3 == 0) {
+                        throw new RuntimeException("foo bar " + size);
                     }
                 }
 
