@@ -1,11 +1,11 @@
 options {
-    LOOKAHEAD = 3;
+    LOOKAHEAD = 2;
     STATIC = false;
     FORCE_LA_CHECK = true;
     IGNORE_CASE = true;
     CHOICE_AMBIGUITY_CHECK = 2;
-    GENERATE_GENERICS = true;
-    GENERATE_STRING_BUILDER	= true;
+    //GENERATE_GENERICS = true;
+    //GENERATE_STRING_BUILDER	= true;
     JAVA_TEMPLATE_TYPE = "modern";
     UNICODE_INPUT = true;
 }
