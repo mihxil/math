@@ -27,8 +27,7 @@ import java.util.function.Consumer;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 // tag::imports[]
 
@@ -52,6 +51,7 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
  */
 @SuppressWarnings("resource")
 @Log
+@Timeout(value = 1, unit = TimeUnit.MINUTES)
 public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> {
 
     @AfterAll
