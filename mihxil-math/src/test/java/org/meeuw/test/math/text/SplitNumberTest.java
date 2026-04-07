@@ -20,14 +20,14 @@ class SplitNumberTest {
     @Test
     public void splitSmallNumber() {
         SplitNumber<Double> split = INSTANCE.split(6.62607015E-34).orElseThrow();
-        assertThat(split.coefficient).isEqualTo(6.626070150000002d);
+        assertThat(split.coefficient).isEqualTo(6.62607015);
         assertThat(split.exponent).isEqualTo(-34);
     }
     @Test
     public void splitVerySmallNumber() {
         SplitNumber<Double> split = INSTANCE.split(1.0E-323).orElseThrow();
-        assertThat(split.coefficient).isEqualTo(9.881312916824932);
-        assertThat(split.exponent).isEqualTo(-324);
+        assertThat(split.coefficient).isEqualTo(1.0);
+        assertThat(split.exponent).isEqualTo(-323);
     }
 
     @Test

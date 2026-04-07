@@ -106,6 +106,7 @@ public interface NumberOperations<N extends Number> {
         if (negative) { // put sign back
             coefficient = negate(coefficient);
         }
+
         return Optional.of(new SplitNumber<>(this, coefficient, exponent));
     }
 
