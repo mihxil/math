@@ -106,6 +106,11 @@ public interface NumberOperations<N extends Number> {
         if (negative) { // put sign back
             coefficient = negate(coefficient);
         }
+        // This is kind of a hack. Perhaps the whole thing must be redone.
+        while(coefficient.intValue() >= 10) {
+            coefficient = scaleByPowerOfTenExact(coefficient, -1);
+            exponent++;
+        }
 
         return Optional.of(new SplitNumber<>(this, coefficient, exponent));
     }
