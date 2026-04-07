@@ -14,6 +14,7 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :myleveloffset: 2
 
 
+
 :gh: https://github.com/mihxil/math/
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
@@ -28,9 +29,14 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 See link:https://mihxil.github.io/math/[this file in HTML] for proper display of the (few) mathematical equations and MP4-movies. This has some working demo's, but those are beter elaborated in this link:https://mihxil.github.io/math/DEMO.html[dedicated page for that]. This uses webassembly to run java in your browser.
 ====
 
+:docs-dir: docs
+
 :leveloffset: 1
 
 = quickstart
+
+:docs-dir: .
+
 
 The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
 
@@ -93,13 +99,13 @@ void main() {
 
 This is based on https://jqwik.net/[jqwik]. This module provides sophisticated tests for algebraic structures, but also more straight forward things, like testing the contract of `Comparable`
 
-Start with adding this dependency (this is maven syntax):
+Start with adding  link:https://central.sonatype.com/artifact/org.meeuw.math/mihxil-theories[`org.meeuw.math:mihxil-theories`] as a dependency. This would be the maven syntax):
 [source, xml]
 ----
 <dependency>
  <groupId>org.meeuw.math</groupId>
  <artifactId>mihxil-theories</artifactId>
-  <scope>test</scope>
+ <scope>test</scope>
 </dependency>
 ----
 Your test implements the `-Theory` interface and provides the datapoints.
@@ -138,7 +144,7 @@ public class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
 ----
 That's all, you can run in your IDE or with `mvn test`
 
-image::quicktheory.png[QuickStartTheoryTest]
+image::{docs-dir}/quicktheory.png[QuickStartTheoryTest]
 
 
 //== configuration
@@ -148,6 +154,7 @@ image::quicktheory.png[QuickStartTheoryTest]
 
 
 :leveloffset!:
+
 
 :leveloffset: 1
 
