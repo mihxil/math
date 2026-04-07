@@ -15,13 +15,8 @@
  */
 package org.meeuw.math.text;
 
-import jakarta.validation.constraints.*;
-import lombok.With;
-
 import java.math.MathContext;
-import java.util.Optional;
 
-import org.meeuw.math.exceptions.NotFiniteException;
 import org.meeuw.math.numbers.NumberOperations;
 
 import static org.meeuw.math.text.ScientificNotation.TIMES_10;
@@ -39,9 +34,9 @@ import static org.meeuw.math.text.ScientificNotation.TIMES_10;
 
 public class SplitNumber<N extends Number> {
 
-    private final NumberOperations<N> operations;
-    public @With @DecimalMin(value = "1") @DecimalMax(value = "10", inclusive = false) N coefficient;
-    public @With int exponent;
+    final NumberOperations<N> operations;
+    public N coefficient;
+    public int exponent;
 
     public SplitNumber(NumberOperations<N> operations, N coefficient, int exponent) {
         this.operations = operations;
@@ -52,45 +47,6 @@ public class SplitNumber<N extends Number> {
     @Override
     public String toString() {
         return coefficient + TIMES_10 + TextUtils.superscript(exponent);
-    }
-
-    public static <N extends Number> Optional<SplitNumber<N>> split(N in) {
-        NumberOperations<N> operations = NumberOperations.of(in);
-        return split(operations, in);
-    }
-
-
-    /**
-     * Created {@link SplitNumber} from given {@link Number}
-     *
-     * @param operations To allow for generic operation specify the {@link NumberOperations} instance to use
-     * @throws NotFiniteException if the incoming number is not finite
-     * @return An optional of {@link SplitNumber}, empty if the incoming number is exactly {@link NumberOperations#isZero(Number) zero}
-     */
-
-    static <N extends Number> Optional<SplitNumber<N>> split(
-        NumberOperations<N> operations,
-        N in) {
-
-        if (! operations.isFinite(in)) {
-            throw new NotFiniteException("Not a finite number: " + in);
-        }
-        if (operations.isZero(in)) {
-            return Optional.empty();
-        }
-
-        boolean negative = operations.signum(in) < 0;
-        N coefficient = operations.abs(in);
-
-        int exponent    = 0;
-        if (!operations.isZero(coefficient)) {
-            exponent = operations.orderOfMagnitude(coefficient).getAsInt();
-            coefficient = operations.scaleByPowerOfTenExact(coefficient, -1 * exponent);
-        }
-        if (negative) { // put sign back
-            coefficient = operations.negate(coefficient);
-        }
-        return Optional.of(new SplitNumber<>(operations, coefficient, exponent));
     }
 
     public SplitNumber<N> round(MathContext mathContext) {

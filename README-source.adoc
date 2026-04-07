@@ -13,6 +13,7 @@ Michiel Meeuwissen <michiel.meeuwissen@gmail.com>
 :myleveloffset: 2
 
 
+
 :gh: https://github.com/mihxil/math/
 
 image:{gh}actions/workflows/build.yml/badge.svg?[Build Status,link={gh}actions/workflows/build.yml]
@@ -29,7 +30,10 @@ See link:https://mihxil.github.io/math/[this file in HTML] for proper display of
 ====
 endif::[]
 
+:docs-dir: docs
+
 include::docs/QUICKSTART-source.adoc[leveloffset=1]
+
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
 

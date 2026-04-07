@@ -16,11 +16,11 @@
 package org.meeuw.math.numbers;
 
 import java.math.*;
-import java.util.Arrays;
-import java.util.OptionalInt;
+import java.util.*;
 
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.exceptions.NotFiniteException;
+import org.meeuw.math.text.SplitNumber;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 /**
@@ -72,14 +72,44 @@ public interface NumberOperations<N extends Number> {
 
     N multiply(N n1, Factor factor);
 
+    N round(N number, MathContext mathContext);
+
+
     default N scaleByPowerOfTen(N number, int exponent) {
         return scaleByPowerOfTenExact(number, exponent);
     }
 
+
+    default Optional<SplitNumber<N>> split(N number) {
+
+        if (number == null) {
+            return Optional.empty();
+        }
+        if (!isFinite(number)) {
+            throw new org.meeuw.math.exceptions.NotFiniteException("Not a finite number: " + number);
+        }
+        if (! isFinite(number)) {
+            throw new org.meeuw.math.exceptions.NotFiniteException("Not a finite number: " + number);
+        }
+        if (isZero(number)) {
+            return Optional.empty();
+        }
+
+        boolean negative = signum( number) < 0;
+        N coefficient = abs(number);
+
+        int exponent    = 0;
+        if (!isZero(coefficient)) {
+            exponent = orderOfMagnitude(coefficient).getAsInt();
+            coefficient = scaleByPowerOfTenExact(coefficient, -1 * exponent);
+        }
+        if (negative) { // put sign back
+            coefficient = negate(coefficient);
+        }
+        return Optional.of(new SplitNumber<>(this, coefficient, exponent));
+    }
+
     N scaleByPowerOfTenExact(N number, int exponent);
-
-    N round(N number, MathContext mathContext);
-
 
     default OptionalInt orderOfMagnitude(N in) {
         if (! isFinite(in)) {
@@ -233,4 +263,6 @@ public interface NumberOperations<N extends Number> {
      * @since 0.19
      */
     int precision(N coefficient);
+
+
 }

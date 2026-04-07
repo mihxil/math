@@ -129,6 +129,22 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         throw new UnsupportedOperationException();
     }
 
+
+    /*
+    @Override
+    public Optional<SplitNumber<BigDecimal>> split(BigDecimal number) {
+        BigDecimal stripped = number.stripTrailingZeros();
+        BigInteger unscaled = stripped.unscaledValue().abs();
+        int digits = unscaled.toString().length();
+        int scale = stripped.scale();
+        int exponent = digits - scale - 1;
+
+        BigDecimal coefficient = number.scaleByPowerOfTen(-exponent);
+        return Optional.of(new SplitNumber<>(this, coefficient, exponent));
+    }
+    */
+
+
     @Override
     public BigDecimal scaleByPowerOfTenExact(BigDecimal n1, int n2) {
         return n1.scaleByPowerOfTen(n2);
@@ -144,7 +160,7 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         if (in == null || isZero(in)) {
             return OptionalInt.empty();
         }
-        return OptionalInt.of(in.pow(10, FLOOR1).intValue());
+        return OptionalInt.of(BigDecimalMath.log10(in, FLOOR1).intValue());
     }
 
 

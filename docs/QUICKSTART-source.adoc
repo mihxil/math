@@ -1,5 +1,8 @@
 = quickstart
 
+:docs-dir: .
+
+
 The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
 
 NOTE: examples in this section use java 25's link:https://openjdk.org/jeps/512[compact source files]
@@ -34,13 +37,13 @@ include::../mihxil-demo/src/quickstart/QuickStartQuaternions.java[]
 
 This is based on https://jqwik.net/[jqwik]. This module provides sophisticated tests for algebraic structures, but also more straight forward things, like testing the contract of `Comparable`
 
-Start with adding this dependency (this is maven syntax):
+Start with adding  link:https://central.sonatype.com/artifact/org.meeuw.math/mihxil-theories[`org.meeuw.math:mihxil-theories`] as a dependency. This would be the maven syntax):
 [source, xml]
 ----
 <dependency>
  <groupId>org.meeuw.math</groupId>
  <artifactId>mihxil-theories</artifactId>
-  <scope>test</scope>
+ <scope>test</scope>
 </dependency>
 ----
 Your test implements the `-Theory` interface and provides the datapoints.
@@ -51,7 +54,7 @@ include::../mihxil-demo/src/test/java/org/meeuw/math/demo/QuickStartTheoryTest.j
 ----
 That's all, you can run in your IDE or with `mvn test`
 
-image::quicktheory.png[QuickStartTheoryTest]
+image::{docs-dir}/quicktheory.png[QuickStartTheoryTest]
 
 
 //== configuration

@@ -262,6 +262,8 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
         // This causes loss of precision
         return n1 * DoubleUtils.pow10(n2);
     }
+
+
     @Override
     public OptionalInt orderOfMagnitude(Double in) {
         if (in == null || in == 0) {
@@ -278,9 +280,16 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
         if (Double.isNaN(n1) || Double.isInfinite(n1) || n1 == 0d) {
             return n1;
         }
-        // This causes loss of precision
-        //return n1 * DoubleUtils.pow10(n2);
-
+       /* while (n2 > 0) {
+            n1 *= 10;
+            n2--;
+        }
+        while (n2 <0) {
+            n1 /= 10;
+            n2++;
+        }
+        return n1;
+*/
         BigDecimal bd = BigDecimal.valueOf(n1).scaleByPowerOfTen(n2);
         return bd.doubleValue();
     }

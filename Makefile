@@ -18,4 +18,8 @@ jars:  ## copy jars
 	cp -au mihxil-time/target/mihxil-time-0.19-SNAPSHOT.jar ./docs/resources/jars/
 	cp -au mihxil-demo/target/original-mihxil-demo-0.19-SNAPSHOT.jar ./docs/resources/jars/
 
+index.html: ./README-source.adoc ./README-source-docinfo.html
+	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
+	#asciidoctor --trace -r asciidoctor-multipage -b multipage_html5   -D pages $<
+
 
