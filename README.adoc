@@ -143,7 +143,7 @@ public class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
 ----
 That's all, you can run in your IDE or with `mvn test`
 
-image::{docs}/quicktheory.png[QuickStartTheoryTest]
+image::{docs}/quicktheory.png[title=QuickStartTheoryTest]
 
 
 //== configuration
