@@ -1,6 +1,7 @@
 = quickstart
 
-:docs-dir: .
+:ghraw: https://raw.githubusercontent.com/mihxil/math/main/
+:docs: {ghraw}docs
 
 
 The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
@@ -54,7 +55,7 @@ include::../mihxil-demo/src/test/java/org/meeuw/math/demo/QuickStartTheoryTest.j
 ----
 That's all, you can run in your IDE or with `mvn test`
 
-image::{docs-dir}/quicktheory.png[QuickStartTheoryTest]
+image::{docs}/quicktheory.png[QuickStartTheoryTest]
 
 
 //== configuration

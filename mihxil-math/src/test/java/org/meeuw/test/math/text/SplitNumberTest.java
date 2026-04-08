@@ -27,7 +27,7 @@ class SplitNumberTest {
     public void splitVerySmallNumber() {
         SplitNumber<Double> split = INSTANCE.split(1.0E-323).orElseThrow();
 
-        // there seems to be a dependency on the java version here, but it doesn't really matter.
+        // TODO: there seems to be a difference here between java versions, but it doesn't really matter for now
         assertThat(split.coefficient).isIn(1.0, 9.9); // java 17, java >=21
         assertThat(split.exponent).isIn(-323, -324); // java 17, java >= 21
     }

@@ -30,10 +30,7 @@ See link:https://mihxil.github.io/math/[this file in HTML] for proper display of
 ====
 endif::[]
 
-:docs-dir: docs
-
 include::docs/QUICKSTART-source.adoc[leveloffset=1]
-
 
 include::mihxil-math/README-source.adoc[leveloffset=1]
 

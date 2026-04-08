@@ -45,9 +45,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PARENTHESES;
 
-// tag::imports[]
-
-
 // end::imports[]
 
 /**
