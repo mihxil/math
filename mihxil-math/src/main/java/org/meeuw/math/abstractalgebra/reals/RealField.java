@@ -113,6 +113,11 @@ public class RealField
     }
 
     @Override
+    public RealNumber gamma() {
+        return DoubleElement.of(Utils.MATH_gamma, DoubleUtils.uncertaintyForDouble(Utils.MATH_gamma));
+    }
+
+    @Override
     public RealNumber 𝜑() {
         double phi = (1d + Math.sqrt(5)) / 2;
         return DoubleElement.of(phi, DoubleUtils.uncertaintyForDouble(phi));

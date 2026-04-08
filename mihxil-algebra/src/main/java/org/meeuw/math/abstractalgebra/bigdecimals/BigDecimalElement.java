@@ -67,6 +67,13 @@ public class BigDecimalElement implements
         new BigDecimal(Utils.e), new BigDecimal("1e-" +  (Utils.e.length() - 1)));
 
 
+    /**
+     * gamma as a {@link BigDecimalElement}
+     * @see Utils#gamma
+     */
+    public static final BigDecimalElement gamma = new BigDecimalElement(
+        new BigDecimal(Utils.gamma), new BigDecimal("1e-" +  (Utils.gamma.length() - 1)));
+
 
     private final BigDecimal value;
     private final BigDecimal uncertainty;

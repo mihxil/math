@@ -91,6 +91,11 @@ public class BigDecimalField
     public BigDecimalElement e() {
         return BigDecimalElement.e;
     }
+
+    @Override
+    public BigDecimalElement gamma() {
+        return BigDecimalElement.gamma;
+    }
     @Override
     public BigDecimalElement nextRandom(Random random) {
         return BigDecimalElement.of(BigDecimal.valueOf(random.nextDouble()));

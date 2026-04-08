@@ -54,7 +54,21 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
      */
     E e();
 
+    /**
+     * Euler-Mascheroni Constant, approximately 0.57721.
+     * @since 0.19
+     */
+    @Synonym("γ")
+    E gamma();
 
+    /**
+     * @see #gamma()
+     * @since 0.19
+     */
+    @Synonym(value = "gamma", preferred = true)
+    default E γ() {
+        return gamma();
+    }
     /**
      * @see #pi()
      */

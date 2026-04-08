@@ -50,6 +50,11 @@ public abstract class CompleteComplexNumbers<
     }
 
     @Override
+    public S gamma() {
+        return of(getElementStructure().gamma());
+    }
+
+    @Override
     public S 𝜑() {
         return of(getElementStructure().𝜑());
     }
