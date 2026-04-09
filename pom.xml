@@ -37,7 +37,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>3.55.1</checkerframework.version>
+    <checkerframework.version>4.0.0</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
@@ -166,7 +166,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.2</version>
+      <version>1.3</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
