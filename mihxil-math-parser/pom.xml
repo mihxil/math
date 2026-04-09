@@ -10,9 +10,8 @@
   <artifactId>mihxil-math-parser</artifactId>
   <name>Math - parser</name>
   <packaging>jar</packaging>
-  <description>
+  <description>Generic parser for mathematical expressions</description>
 
-  </description>
 
   <dependencies>
     <dependency>

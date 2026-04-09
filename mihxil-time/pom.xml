@@ -11,8 +11,7 @@
   <artifactId>mihxil-time</artifactId>
   <name>Math - time</name>
   <packaging>jar</packaging>
-  <description>
-  </description>
+  <description>Clocks, parsing, uncertain time objects</description>
   <url>https://github.com/mihxil/math/tree/main/mihxil-time</url>
 
   <properties>
