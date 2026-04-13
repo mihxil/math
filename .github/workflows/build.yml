@@ -65,6 +65,7 @@ jobs:
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
+          pull: '--rebase --autostash'
       - uses: MMProgrami/after-maven-action@v2
         id: after_maven
         with:
