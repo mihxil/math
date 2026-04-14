@@ -21,6 +21,7 @@ import org.meeuw.time.eventsearchers.EventSearcher;
 import org.meeuw.time.eventsearchers.christian.ChristianHolidaySearcher;
 import org.meeuw.time.eventsearchers.seasons.SeasonsEventSearcher;
 import org.meeuw.time.eventsearchers.wellknown.us.WellknownHolidaySearcher;
+import org.meeuw.time.eventsearchers.wellknown.us.WellknownIrregularHolidaySearcher;
 import org.meeuw.time.text.TimeConfiguration;
 import org.meeuw.time.text.spi.UncertainTemporalFormatProvider;
 import org.meeuw.time.text.spi.ZoneIdToString;
@@ -53,7 +54,9 @@ module org.meeuw.time {
     provides EventSearcher with
         SeasonsEventSearcher,
         ChristianHolidaySearcher,
-        WellknownHolidaySearcher;
+        WellknownHolidaySearcher,
+        WellknownIrregularHolidaySearcher
+        ;
 
     provides AlgebraicElementFormatProvider with
         UncertainTemporalFormatProvider;
