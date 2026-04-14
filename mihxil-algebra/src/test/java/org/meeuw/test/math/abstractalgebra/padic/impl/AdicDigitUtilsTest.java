@@ -2,7 +2,6 @@ package org.meeuw.test.math.abstractalgebra.padic.impl;
 
 import lombok.extern.java.Log;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
@@ -188,7 +187,6 @@ public class AdicDigitUtilsTest {
 
 
     @Test
-    @Disabled("Failing")
     public void multiplyWithOne() {
         AdicDigits a = AdicDigits.of("010", "4");
         AdicDigits one = AdicDigits.of( 1);
