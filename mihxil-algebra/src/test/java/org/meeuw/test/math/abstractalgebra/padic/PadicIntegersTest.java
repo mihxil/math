@@ -20,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Log
 @Timeout(unit = TimeUnit.SECONDS, value = 10)
-@Disabled("WIP")
-@net.jqwik.api.Disabled("WIP")
 class PadicIntegersTest {
 
     PAdicIntegers p5 = PAdicIntegers.of(5);
@@ -92,8 +90,44 @@ class PadicIntegersTest {
 
     }
 
-    @Disabled("WIP")
-    @net.jqwik.api.Disabled("WIP")
+    @Test
+    public void reciprocalOfTwo() {
+        // In 5-adic integers, 1/2 should satisfy 2 * (1/2) = 1
+        PAdicInteger two = p5.of(new int[]{2});
+        PAdicInteger reciprocal = two.reciprocal();
+        log.info("1/2 in 5-adic = " + reciprocal);
+
+        PAdicInteger product = two.times(reciprocal);
+        log.info("2 * (1/2) = " + product);
+
+        assertThat(product).isEqualTo(p5.one());
+    }
+
+    @Test
+    public void reciprocalOfThree() {
+        // In 5-adic integers, 1/3 should satisfy 3 * (1/3) = 1
+        PAdicInteger three = p5.of(new int[]{3});
+        PAdicInteger reciprocal = three.reciprocal();
+        log.info("1/3 in 5-adic = " + reciprocal);
+
+        PAdicInteger product = three.times(reciprocal);
+        log.info("3 * (1/3) = " + product);
+
+        assertThat(product).isEqualTo(p5.one());
+    }
+
+    @Test
+    public void dividedByTwo() {
+        // Test that 4 / 2 = 2
+        PAdicInteger four = p5.of(new int[]{4});
+        PAdicInteger two = p5.of(new int[]{2});
+        PAdicInteger result = four.dividedBy(two);
+        log.info("4 / 2 = " + result);
+
+        assertThat(result).isEqualTo(two);
+    }
+
+
     public static class PAdic5Test implements FieldTheory<PAdicInteger> {
 
         PAdicIntegers p5 = PAdicIntegers.of(5);
