@@ -458,6 +458,8 @@ The most basic idea is:
 ----
 [<base time>] [modifications]*
 ----
+
+==== base time
 So, it starts with specifying some absolute time, which can be dynamic (refer to the current clock).
 
 If no <base time> is specified, that implies 'now'.
@@ -469,11 +471,13 @@ Like so (where the current time is february 20, 2020)
 | now  | 2020-02-20T20:20+01:00[Europe/Amsterdam] |
 | | 2020-02-20T20:20+01:00[Europe/Amsterdam] | 'now' is the default, so the empty string is valid too.
 | today | 2020-02-20T00:00+01:00[Europe/Amsterdam]  | start with some rounded value
-| tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam]  | other unit than 'day' are possible too
+| tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam]  | other units than 'day' are possible too
 
-| 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO foramt
+| 1973-03-05T06:00 | 1973-03-05T06:00+01:00[Europe/Amsterdam] | just state it in ISO format
 | 1973-03-05 | 1973-03-05T00:00+01:00[Europe/Amsterdam] | time is optional
 |===
+
+==== modifications
 
 Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.
 
@@ -493,12 +497,28 @@ The offset can for example be something like 'this month', 'this day', or 'today
 |===
 | Input | Output | remarks
 | now this day | 2020-02-20T00:00+01:00[Europe/Amsterdam] |
-| now tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam] | 'to-' an alias for that too.
+| now tohour | 2020-02-20T20:00+01:00[Europe/Amsterdam] | 'to-' is an alias for that too.
 | 2025-08-30 teatime | 2025-08-30T16:00+02:00[Europe/Amsterdam]
-| some other our indcation can be used too
+| some other our indication can be used too
 |===
 
-Finally, then entire thing can be post fixed and prefixed by an explicit timezone. The timezone defaults to `ZoneId#systemDefault`.
+==== event searchers
+
+Expression in quotes are 'event searchers'. They are basically a way to jump to occurrence of some registered event. For example, 'next "spring"' jumps to the next occurrence of the 'spring' equinox
+
+`org.meeuw.time.eventsearchers.EventSearcher` is the Service loader interface that is used for that, and currently the following implementations are provided:
+
+SeasonsEventSearcher:: Astronomical equinoxes and solstices 'spring', 'summer', 'fall' and 'winter'.
+ChristianHolidaySearcher:: "Christmas Day", "Easter Sunday", "Easter Monday", "Ascension Day", "Pentecost Sunday" and "Pentecost Monday"
+WellknownHolidaySearcher:: Well known (american) holidays like "New Year's Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".
+WellknownIrregularHolidaySearcher:: Some (amarican) events that do not occur every year, like "Election day"
+
+This is a bit US-centric because this was borrowed from natty, but it is possible to add your own event searchers by implementing the `EventSearcher` interface and registering it as a service provider.
+
+
+==== Time zone
+
+Finally, then entire thing can be postfixed and prefixed by an explicit timezone. The timezone defaults to `ZoneId#systemDefault`.
 
 [options="header"]
 |===

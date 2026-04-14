@@ -917,6 +917,8 @@ Your browser does not support the video tag.
 <pre class="CodeRay highlight"><code>[&lt;base time&gt;] [modifications]*</code></pre>
 </div>
 </div>
+<div class="sect4">
+<h5 id="_base_time">base time</h5>
 <div class="paragraph">
 <p>So, it starts with specifying some absolute time, which can be dynamic (refer to the current clock).</p>
 </div>
@@ -958,12 +960,12 @@ Your browser does not support the video tag.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">tohour</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:00+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">other unit than 'day' are possible too</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">other units than 'day' are possible too</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05T06:00+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">just state it in ISO foramt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">just state it in ISO format</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1973-03-05</p></td>
@@ -972,6 +974,9 @@ Your browser does not support the video tag.
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect4">
+<h5 id="_modifications">modifications</h5>
 <div class="paragraph">
 <p>Then zero or more 'modifications' or 'offset' can be given. Most basically with + and -.</p>
 </div>
@@ -1034,17 +1039,52 @@ Your browser does not support the video tag.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">now tohour</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2020-02-20T20:00+01:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">'to-' an alias for that too.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">'to-' is an alias for that too.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30 teatime</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2025-08-30T16:00+02:00[Europe/Amsterdam]</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">some other our indcation can be used too</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">some other our indication can be used too</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="sect4">
+<h5 id="_event_searchers">event searchers</h5>
 <div class="paragraph">
-<p>Finally, then entire thing can be post fixed and prefixed by an explicit timezone. The timezone defaults to <code>ZoneId#systemDefault</code>.</p>
+<p>Expression in quotes are 'event searchers'. They are basically a way to jump to occurrence of some registered event. For example, 'next "spring"' jumps to the next occurrence of the 'spring' equinox</p>
+</div>
+<div class="paragraph">
+<p><code>org.meeuw.time.eventsearchers.EventSearcher</code> is the Service loader interface that is used for that, and currently the following implementations are provided:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">SeasonsEventSearcher</dt>
+<dd>
+<p>Astronomical equinoxes and solstices 'spring', 'summer', 'fall' and 'winter'.</p>
+</dd>
+<dt class="hdlist1">ChristianHolidaySearcher</dt>
+<dd>
+<p>"Christmas Day", "Easter Sunday", "Easter Monday", "Ascension Day", "Pentecost Sunday" and "Pentecost Monday"</p>
+</dd>
+<dt class="hdlist1">WellknownHolidaySearcher</dt>
+<dd>
+<p>Well known (american) holidays like "New Year&#8217;s Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".</p>
+</dd>
+<dt class="hdlist1">WellknownIrregularHolidaySearcher</dt>
+<dd>
+<p>Some (amarican) events that do not occur every year, like "Election day"</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>This is a bit US-centric because this was borrowed from natty, but it is possible to add your own event searchers by implementing the <code>EventSearcher</code> interface and registering it as a service provider.</p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_time_zone">Time zone</h5>
+<div class="paragraph">
+<p>Finally, then entire thing can be postfixed and prefixed by an explicit timezone. The timezone defaults to <code>ZoneId#systemDefault</code>.</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1067,6 +1107,7 @@ Your browser does not support the video tag.
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_demo">3.3.2. demo</h4>
