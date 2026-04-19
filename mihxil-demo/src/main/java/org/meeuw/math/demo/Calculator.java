@@ -95,12 +95,16 @@ public class Calculator {
         ),
         natural(NaturalNumbers.INSTANCE,
             "10 ⋅ 7",
-            "10 - 3",
-            "12 ⋅ 6 / 4"
+            "10 + 3",
+            "12 ⋅ 6 + 0"
         ),
         even(EvenIntegers.INSTANCE,
             "10 ⋅ 8",
             "10 - 4"
+        ),
+        odd(OddIntegers.INSTANCE,
+            "1 ⋅ 9",
+            "13 ⋅ 5"
         ),
         squares(Squares.INSTANCE,
             "4 ⋅ 9"
