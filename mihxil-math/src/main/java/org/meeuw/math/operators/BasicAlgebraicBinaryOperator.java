@@ -112,7 +112,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
 
 
-    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
+    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, @Nullable BasicAlgebraicUnaryOperator inverse, int precedence) {
         this.wrapped = new SimpleAlgebraicBinaryOperator(
             method,
             symbol,

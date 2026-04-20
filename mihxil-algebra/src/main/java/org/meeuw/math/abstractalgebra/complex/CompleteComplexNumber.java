@@ -114,6 +114,16 @@ public abstract class CompleteComplexNumber<
         );
     }
 
+    /**
+     * See <a href="https://arxiv.org/abs/2603.21852">All elementary functions from a single binary operator</a></a>
+     * @param y
+     * @since 0.20
+     */
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logarithm of zero")
+    public S eml(S y) {
+        return exp().minus(y.ln());
+    }
+
 
     @Override
     public E distanceTo(S otherElement) {

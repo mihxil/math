@@ -15,7 +15,14 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.util.NavigableSet;
+
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.SimpleAlgebraicBinaryOperator;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  *
@@ -32,9 +39,23 @@ public abstract class CompleteComplexNumbers<
     implements CompleteField<S> ,
     MetricSpace<S, E> {
 
+    static AlgebraicBinaryOperator EML = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(CompleteComplexNumber.class, "eml"),
+        "eml",
+        3,
+        "eml"
+    );
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(CompleteField.OPERATORS, EML);
+
+
 
     CompleteComplexNumbers(Class<S> elem, ES elementStructure) {
         super(elem, elementStructure);
+    }
+
+    @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
     }
 
     abstract E atan2(E imaginary, E real);
@@ -58,18 +79,6 @@ public abstract class CompleteComplexNumbers<
     public S 𝜑() {
         return of(getElementStructure().𝜑());
     }
-
-    /**
-     * See <a href="https://arxiv.org/abs/2603.21852">All elementary functions from a single binary operator</a></a>
-     * @param x
-     * @param y
-     * @since 0.20
-     */
-    public ComplexNumber eml(ComplexNumber x, ComplexNumber y) {
-        return x.exp().minus(y.ln());
-    }
-
-
 
 
 }

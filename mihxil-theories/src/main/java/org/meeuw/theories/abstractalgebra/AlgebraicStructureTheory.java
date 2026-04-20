@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 
 import net.jqwik.api.*;
 
+import org.assertj.core.api.Assumptions;
+
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
@@ -157,6 +159,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 } else {
                     log().fine(o.stringify(e1, e2) + " = " + result);
                 }
+            } catch (IllegalLogarithmException ile) {
+                Assumptions.assumeThat(ile.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
             } catch (OperationException ae) {
                 if (error.incrementAndGet() < 3L) {
                     log().info(o.stringify(e1, e2) + " -> " + ae.getMessage());

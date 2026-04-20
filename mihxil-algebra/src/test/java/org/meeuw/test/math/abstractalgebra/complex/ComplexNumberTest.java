@@ -130,8 +130,10 @@ class ComplexNumberTest implements
         try (ConfigurationService.Reset res = setConfiguration(builder ->
             builder.configure(MathContextConfiguration.class,
                 (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))))) {
-            assertThat(s.eml(x, s.one())).isEqTo(x.exp());
-            assertThat(s.eml(s.one(), s.eml(s.eml(s.one(), x), s.one()))).isEqTo(x.ln());
+            assertThat(x.eml(s.one())).isEqTo(x.exp());
+
+            //ln(x)=eml(1,eml(eml(1,x),1)),
+            assertThat(s.one().eml(s.one().eml(x).eml(s.one()))).isEqTo(x.ln());
             log.info("eml " + x);
         } catch (IllegalLogarithmException illegalLogarithmException) {
             Assumptions.assumeThat(illegalLogarithmException.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
