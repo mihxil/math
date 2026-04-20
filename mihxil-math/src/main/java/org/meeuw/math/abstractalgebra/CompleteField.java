@@ -102,6 +102,7 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     }
 
 
+
     @Override
     default E determinant(E[][] source) {
         // we have comparison and abs, we could use Gaussion elimination with partial pivoting

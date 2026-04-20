@@ -137,6 +137,8 @@ public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
      */
     E ln() throws IllegalLogarithmException;
 
+
+
      /**
      * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SINH
      */

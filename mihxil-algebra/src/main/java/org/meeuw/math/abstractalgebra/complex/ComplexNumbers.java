@@ -40,7 +40,7 @@ public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNu
     }
 
     @Override
-    ComplexNumber of(RealNumber real, RealNumber imaginary) {
+    public ComplexNumber of(RealNumber real, RealNumber imaginary) {
         return new ComplexNumber(real, imaginary);
     }
 
@@ -50,7 +50,10 @@ public class ComplexNumbers extends CompleteComplexNumbers<ComplexNumber, RealNu
     }
 
     @Override
-    RealNumber atan2(RealNumber imaginary, RealNumber real) {
+    public RealNumber atan2(RealNumber imaginary, RealNumber real) {
         return RealField.INSTANCE.atan2(imaginary, real);
     }
+
+
+
 }

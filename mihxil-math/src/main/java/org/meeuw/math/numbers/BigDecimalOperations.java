@@ -115,7 +115,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         try {
             return uncertain(BigDecimalMath.log(bigDecimal, context()));
         } catch(ArithmeticException a) {
-            throw new IllegalLogarithmException(a, "ln(" + bigDecimal + ")");
+            if (bigDecimal.signum() == 0) {
+                throw new IllegalLogarithmException(IllegalLogarithmException.Reason.ZERO, a, "ln(" + bigDecimal + ")");
+            } else {
+                throw new IllegalLogarithmException(IllegalLogarithmException.Reason.NEGATIVE, a, "ln(" + bigDecimal + ")");
+            }
         }
     }
 

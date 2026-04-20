@@ -59,6 +59,16 @@ public abstract class CompleteComplexNumbers<
         return of(getElementStructure().𝜑());
     }
 
+    /**
+     * See <a href="https://arxiv.org/abs/2603.21852">All elementary functions from a single binary operator</a></a>
+     * @param x
+     * @param y
+     * @since 0.20
+     */
+    public ComplexNumber eml(ComplexNumber x, ComplexNumber y) {
+        return x.exp().minus(y.ln());
+    }
+
 
 
 
