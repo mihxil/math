@@ -15,12 +15,12 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
-import java.math.BigInteger;
-
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
+import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -43,6 +43,7 @@ public abstract class AbstractComplexNumber<
     implements
     FieldElement<S>,
     WithScalarOperations<S, E>,
+    WithDoubleOperations<S>,
     Serializable {
 
     private static final long serialVersionUID = 0L;
