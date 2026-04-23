@@ -56,6 +56,7 @@ module org.meeuw.math.algebras {
     opens org.meeuw.math.abstractalgebra.strings to org.hibernate.validator;
     opens org.meeuw.math.abstractalgebra.linear to org.hibernate.validator;
     opens org.meeuw.math.abstractalgebra.rationalnumbers to org.hibernate.validator;
+    exports org.meeuw.math.abstractalgebra.bool;
 
 
     uses AlgebraicElementFormatProvider;
