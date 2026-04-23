@@ -15,17 +15,15 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.With;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
-import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.MultiplicativeMonoidElement;
-import org.meeuw.math.operators.AbstractAlgebraicUnaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
+import org.meeuw.math.operators.SimpleAlgebraicUnaryOperator;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -36,84 +34,24 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  */
 public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
 
+    AlgebraicUnaryOperator FACT = new SimpleAlgebraicUnaryOperator(
+        getDeclaredMethod(Factoriable.class, "factorial"),
+        element  -> element + "!",
+        "factorial"
+    );
 
-    AlgebraicUnaryOperator FACT = new AbstractAlgebraicUnaryOperator() {
+    AlgebraicUnaryOperator SUB_FACTORIAL = new SimpleAlgebraicUnaryOperator(
+        getDeclaredMethod(Factoriable.class, "subfactorial"),
+        element -> "!" + element,
+        "subfactorial"
+    );
 
-        final Method method = getDeclaredMethod(Factoriable.class, "factorial");
-        @SuppressWarnings("unchecked")
-        @SneakyThrows
-        @Override
-        public <E extends AlgebraicElement<E>> E apply(E e) {
-            try {
-                return (E) method.invoke(e);
-            } catch (InvocationTargetException ita) {
-                throw ita.getCause();
-            }
-        }
-
-        @Override
-        public String stringify(String element) {
-            return element + "!";
-        }
-
-        @Override
-        public String name() {
-            return "factorial";
-        }
-    };
-
-    AlgebraicUnaryOperator SUB_FACTORIAL = new AbstractAlgebraicUnaryOperator() {
-
-        final Method method = getDeclaredMethod(Factoriable.class, "subfactorial");
-        @SuppressWarnings("unchecked")
-        @SneakyThrows
-        @Override
-        public <E extends AlgebraicElement<E>> E apply(E e) {
-            try {
-                return (E) method.invoke(e);
-            } catch (InvocationTargetException ita) {
-                throw ita.getCause();
-            }
-        }
-
-        @Override
-        public String stringify(String element) {
-            return "!" + element;
-        }
-
-        @Override
-        public String name() {
-            return "subfactorial";
-        }
-    }
-    ;
-
-    AlgebraicUnaryOperator DOUBLE_FACTORIAL = new AbstractAlgebraicUnaryOperator() {
-
-        final Method method = getDeclaredMethod(Factoriable.class, "doubleFactorial");
-        @SuppressWarnings("unchecked")
-        @SneakyThrows
-        @Override
-        public <E extends AlgebraicElement<E>> E apply(E e) {
-            try {
-                return (E) method.invoke(e);
-            } catch (InvocationTargetException ita) {
-                throw ita.getCause();
-            }
-        }
-
-        @Override
-        public String stringify(String element) {
-            return element + "!!";
-        }
-
-        @Override
-        public String name() {
-            return "double factorial";
-        }
-    }
-    ;
-
+    AlgebraicUnaryOperator DOUBLE_FACTORIAL = new SimpleAlgebraicUnaryOperator(
+        getDeclaredMethod(Factoriable.class, "doubleFactorial"),
+            element -> element + "!!",
+        "double factorial"
+    );
+            ;
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
         FACT,
         SUB_FACTORIAL,

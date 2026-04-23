@@ -49,6 +49,10 @@ import org.meeuw.math.exceptions.InvalidAlgebraicResult;
         this(method, symbol,  (a) -> symbol + a, name);
     }
 
+    public SimpleAlgebraicUnaryOperator(Method method,  UnaryOperator<CharSequence> stringify, String name) {
+        this(method, stringify.apply("x").toString(), stringify, name);
+    }
+
     public SimpleAlgebraicUnaryOperator(Method method, String symbol, UnaryOperator<CharSequence> stringify, String name) {
         this.method = method;
         this.symbol = symbol;
