@@ -31,7 +31,7 @@ import org.meeuw.math.exceptions.InvalidAlgebraicResult;
  * @author Michiel Meeuwissen
  * @since 0.20
  */
- public class SimpleAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
+ public class SimpleAlgebraicUnaryOperator extends AbstractAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
     @Getter
     final Method method;
@@ -91,11 +91,6 @@ import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 
     @Override
     public String name() {
-        return name;
-    }
-
-    @Override
-    public String toString() {
         return name;
     }
 
