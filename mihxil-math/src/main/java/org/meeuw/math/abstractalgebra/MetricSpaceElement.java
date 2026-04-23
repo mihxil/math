@@ -42,6 +42,11 @@ public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extend
      */
     S distanceTo(E otherElement);
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For a metric space element this is equivalent to the {@link #distanceTo(MetricSpaceElement) distance to} {@link MetricSpace#zero()}.
+     */
     @Override
     @NonAlgebraic
     default S abs() {

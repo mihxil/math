@@ -28,5 +28,11 @@ import org.meeuw.math.abstractalgebra.MetricSpaceElement;
  */
 public interface Sizeable<E extends Scalar<E>> {
 
+    /**
+     * Returns the absolute value of this element, so the size of this element.
+     * for {@link Scalar}s itself this just drops the minus sign, for more complex things like some {@link org.meeuw.math.abstractalgebra.Vector},
+     * it returns the length of the vector.
+     *
+     */
     E abs();
 }
