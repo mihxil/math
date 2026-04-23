@@ -57,6 +57,12 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
         return new GaussianRational(real, imaginary);
     }
 
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For this (singleton) class it is 𝐐(i)
+     */
     @Override
     public String toString() {
         return "\uD835\uDC10(i)";

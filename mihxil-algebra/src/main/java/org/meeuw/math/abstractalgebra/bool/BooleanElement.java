@@ -50,13 +50,6 @@ public enum BooleanElement implements AbelianRingElement<BooleanElement>, Boolea
     }
 
     @Override
-    public BooleanElement inverse() {
-        return this == TRUE ? TRUE : FALSE;
-    }
-
-
-
-    @Override
     public BooleanElement negation() {
         return this;
     }
@@ -68,6 +61,10 @@ public enum BooleanElement implements AbelianRingElement<BooleanElement>, Boolea
 
     public BooleanElement and(BooleanElement multiplier) {
         return of(getAsBoolean() && multiplier.getAsBoolean());
+    }
+
+    public BooleanElement or(BooleanElement multiplier) {
+        return of(getAsBoolean() || multiplier.getAsBoolean());
     }
 
     @Override
@@ -96,5 +93,10 @@ public enum BooleanElement implements AbelianRingElement<BooleanElement>, Boolea
     @Override
     public int getAsInt() {
         return this == TRUE ? 1 : 0;
+    }
+
+    @Override
+    public String toString() {
+        return getAsBoolean() ? "⊤" : "⊥";
     }
 }

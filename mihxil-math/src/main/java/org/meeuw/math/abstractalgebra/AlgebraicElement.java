@@ -140,4 +140,12 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
         throw new NotASubGroup(this, clazz);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For algebraic elements this should be consistent with {@link AlgebraicStructure#fromString(String)}
+     */
+    String toString();
+
+
 }

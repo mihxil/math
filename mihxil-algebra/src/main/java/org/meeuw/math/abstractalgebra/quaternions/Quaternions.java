@@ -114,6 +114,11 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         return k;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For Quaternions, it is ℍ(&lt;Field&gt;)
+     */
     @Override
     public String toString() {
         return "ℍ(" + elementStructure + ")";

@@ -362,4 +362,13 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         return false;
     }
 
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For algebraic structures this should normally be the most common mathematical symbol
+     */
+    String toString();
+
+
 }

@@ -79,7 +79,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     @Override
     public Set<AlgebraicStructure<?>> getSuperGroups() {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+        return Collections.unmodifiableSet(new HashSet<AlgebraicStructure<?>>(Arrays.asList(
             BigDecimalField.INSTANCE,
             RealField.INSTANCE,
             GaussianRationals.INSTANCE

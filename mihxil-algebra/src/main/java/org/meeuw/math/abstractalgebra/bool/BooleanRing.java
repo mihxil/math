@@ -1,10 +1,16 @@
 package org.meeuw.math.abstractalgebra.bool;
 
+import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import org.meeuw.math.CollectionUtils;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.*;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 
 /**
  * The booleans form a <a href="https://en.wikipedia.org/wiki/Boolean_ring">Ring</a>
@@ -15,7 +21,40 @@ public class BooleanRing implements AbelianRing<BooleanElement>, Streamable<Bool
 
     public static final BooleanRing INSTANCE = new BooleanRing();
 
-    private BooleanRing() {
+    SimpleAlgebraicBinaryOperator AND = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(BooleanElement.class, "and"),
+        "∧",
+        2,
+        "conjunction"
+    );
+
+    SimpleAlgebraicBinaryOperator XOR = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(BooleanElement.class, "xor"),
+        "⊕",
+        2,
+        "exclusive disjunction"
+    );
+
+    SimpleAlgebraicBinaryOperator OR = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(BooleanElement.class, "or"),
+        "∨",
+        2,
+        "disjunction"
+    );
+
+    AlgebraicUnaryOperator NOT = new SimpleAlgebraicUnaryOperator(
+        getDeclaredMethod(BooleanElement.class, "not"),
+        "¬",
+        "negation"
+    );
+
+
+    private BooleanRing()  {
+    }
+
+    @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return CollectionUtils.navigableSet(AbelianRing.super.getSupportedOperators(), AND, OR, XOR);
     }
 
     @Override
@@ -62,5 +101,10 @@ public class BooleanRing implements AbelianRing<BooleanElement>, Streamable<Bool
 
     public BooleanElement exclusiveDisjunction(BooleanElement a, BooleanElement b) {
         return a.xor(b);
+    }
+
+    @Override
+    public String toString() {
+        return "R";
     }
 }
