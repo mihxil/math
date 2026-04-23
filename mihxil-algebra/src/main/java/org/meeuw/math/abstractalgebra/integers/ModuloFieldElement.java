@@ -17,13 +17,8 @@ package org.meeuw.math.abstractalgebra.integers;
 
 import java.math.BigInteger;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.NonAlgebraic;
-import org.meeuw.math.NonExact;
-import org.meeuw.math.abstractalgebra.Ordered;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.exceptions.DivisionByZeroException;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.validation.NotZero;
 
 /**
@@ -33,7 +28,7 @@ import org.meeuw.math.validation.NotZero;
  */
 public class ModuloFieldElement
     extends ModuloElement<ModuloFieldElement, ModuloField>
-    implements ScalarFieldElement<ModuloFieldElement>, Ordered<ModuloFieldElement> {
+    implements FieldElement<ModuloFieldElement> {
 
     ModuloFieldElement(long value, ModuloField structure) {
         super(value, structure);
@@ -90,59 +85,4 @@ public class ModuloFieldElement
         return new ModuloFieldElement(BigInteger.valueOf(value).multiply( multiplier).mod(BigInteger.valueOf(getStructure().divisor)).intValue(), structure);
     }
 
-    @Override
-    @NonExact
-    public ModuloFieldElement times(double multiplier) {
-        if (multiplier > 20) {
-            return times(Math.round(multiplier));
-        } else {
-            return times(Math.round(multiplier * 1000)).dividedBy(1000);
-        }
-
-    }
-
-    @Override
-    public int compareTo(@NonNull ModuloFieldElement o) {
-        return Long.compare(value, o.value);
-    }
-
-    @Override
-    public double doubleValue() {
-        return (double) value;
-    }
-
-    @Override
-    public ModuloFieldElement abs() {
-        return this;
-    }
-
-    @Override
-    @NonAlgebraic
-    public ModuloFieldElement sin() {
-        throw new FieldIncompleteException("Sine not implemented for " + getStructure());
-    }
-
-    @Override
-    @NonAlgebraic
-    public ModuloFieldElement asin() {
-        throw new FieldIncompleteException("Arcsine not implemented for " + getStructure());
-    }
-
-    @Override
-    @NonAlgebraic
-    public ModuloFieldElement cos() {
-        throw new FieldIncompleteException("Cosine not implemented for " + getStructure());
-    }
-
-    @Override
-    @NonAlgebraic
-    public ModuloFieldElement tan() {
-        throw new FieldIncompleteException("Tangent not implemented for " + getStructure());
-    }
-
-    @Override
-    @NonAlgebraic
-    public ModuloFieldElement sqrt() {
-        throw new FieldIncompleteException("sqrt not implemented for " + getStructure());
-    }
 }
