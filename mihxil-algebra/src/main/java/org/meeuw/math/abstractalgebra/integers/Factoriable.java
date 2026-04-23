@@ -121,17 +121,18 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
     );
 
     /**
-     * The number of possible permutations with this many elements.
+     * The number of possible permutations with this many elements. {@code n * n -1 * n -2 ... * 1}
      */
     F factorial();
 
     /**
      * The number of possible <a href="https://en.wikipedia.org/wiki/Derangement">derangements</a> with this many elements.
+     * {@code !n = (n-1)(! (n-1) + ! (n -2 )}
      */
     F subfactorial();
 
     /***
-     * https://en.wikipedia.org/wiki/Double_factorial
+     * <a href="https://en.wikipedia.org/wiki/Double_factorial">The double factorial</a>. {@code n!! = n * (n - 2) * (n - 4) .. [1 | 2]}
      */
     F doubleFactorial();
 
