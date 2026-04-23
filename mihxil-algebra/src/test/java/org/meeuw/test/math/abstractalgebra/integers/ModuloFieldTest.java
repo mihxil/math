@@ -20,7 +20,8 @@ import lombok.extern.java.Log;
 import java.util.Random;
 
 import net.jqwik.api.*;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
@@ -30,7 +31,6 @@ import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
-import org.meeuw.theories.abstractalgebra.ScalarFieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,7 +40,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * @since 0.4
  */
 @Log
-class ModuloFieldTest implements ScalarFieldTheory<ModuloFieldElement> {
+class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
 
     @Test
     public void illegal() {
