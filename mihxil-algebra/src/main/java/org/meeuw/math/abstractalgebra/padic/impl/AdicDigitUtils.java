@@ -63,16 +63,25 @@ public class AdicDigitUtils {
                 //if (i > 100) {
                     //System.out.println(sum + "\nAlready saw " + l);
 
-                    // so we know the length of the repetitive bit.
-                    byte[] repetitive = new byte[indexOf + 1];
+                    // The cycle length is indexOf + 1
+                    int cycleLength = indexOf + 1;
 
-                    arraycopy(sum.digits ,  sum.digits.length - repetitive.length, repetitive, 0,  repetitive.length);
+                    // At position i, we've computed positions 0 through i-1
+                    // The cycle covers the last cycleLength positions: i-cycleLength to i-1
+                    // Non-repetitive part: positions 0 to i-1-cycleLength
+                    int nonRepetitiveLength = i - cycleLength;
+                    int repetitiveStart = nonRepetitiveLength;
 
-                    // what remains are the normal digits.
-                    int digitLength = sum.digits.length - repetitive.length;
+                    byte[] repetitive = new byte[cycleLength];
+                    for (int j = 0; j < cycleLength; j++) {
+                        repetitive[j] = sum.get(repetitiveStart + j).value;
+                    }
 
-                    byte[] digits = new byte[digitLength];
-                    arraycopy(sum.digits, 0, digits, 0, digits.length);
+                    byte[] digits = new byte[nonRepetitiveLength];
+                    for (int j = 0; j < nonRepetitiveLength; j++) {
+                        digits[j] = sum.get(j).value;
+                    }
+
                     return AdicDigits.create(repetitive, digits);
                 } else {
                     //System.out.println(i + " new " + l + " (" +sum + "->" + sum + ")");
@@ -183,7 +192,14 @@ public class AdicDigitUtils {
                     AdicDigits.NOT_REPETITIVE,
                     resultDigits);
             } else {
-                return new AdicDigits(AdicDigits.NOT_REPETITIVE, resultDigits);
+                // Only strip the carry byte at the end if it's zero
+                byte[] digits;
+                if (originalCarry == 0 && resultDigits.length > 0) {
+                    digits = Arrays.copyOf(resultDigits, resultDigits.length - 1);
+                } else {
+                    digits = resultDigits;
+                }
+                return new AdicDigits(AdicDigits.NOT_REPETITIVE, digits);
             }
         }
         int carry = originalCarry;
