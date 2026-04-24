@@ -4,8 +4,7 @@ import java.util.NavigableSet;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import org.meeuw.math.CollectionUtils;
-import org.meeuw.math.Singleton;
+import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.operators.*;
 
@@ -17,7 +16,9 @@ import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
  * @since 0.20
  */
 @Singleton
+@Example(AbelianRing.class)
 public class BooleanRing implements AbelianRing<BooleanElement>, Streamable<BooleanElement> {
+
 
     public static final BooleanRing INSTANCE = new BooleanRing();
 
