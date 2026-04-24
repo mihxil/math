@@ -30,6 +30,9 @@ public interface OperatorInterface {
         .comparing(OperatorInterface::ordinal)
         .thenComparing(OperatorInterface::name);
 
+    /**
+     * Every operator has a name, which can be used to refer to it.
+     */
     String name();
 
     default int ordinal() {
@@ -44,13 +47,25 @@ public interface OperatorInterface {
         throw new UnsupportedOperationException();
     }
 
-    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
-        return ! getNonAlgebraic(e).isPresent();
+    default boolean isAlgebraic() {
+        return getMethod().getAnnotation(NonAlgebraic.class) == null;
     }
+
+    default <E extends AlgebraicElement<E>> boolean isAlgebraicFor(E e) {
+        return getNonAlgebraic(e).isEmpty();
+    }
+
+    /**
+     * Whether for the
+     * @param <E>
+     */
     default <E extends AlgebraicElement<E>> Optional<NonAlgebraic> getNonAlgebraic(E e) {
         return Optional.ofNullable(getMethodFor(e).getAnnotation(NonAlgebraic.class));
     }
 
+    /**
+     * With every operator is assocaited a {@link Method} in the {@link AlgebraicElement}
+     */
     @SneakyThrows
     default <E extends AlgebraicElement<E>> Method getMethodFor(E e) {
         return e.getClass().getMethod(getMethod().getName(), getMethod().getParameterTypes());
