@@ -58,7 +58,7 @@ public abstract class CompleteComplexNumbers<
         return OPERATORS;
     }
 
-    abstract E atan2(E imaginary, E real);
+    public abstract E atan2(E imaginary, E real);
 
     @Override
     public S pi() {

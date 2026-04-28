@@ -52,7 +52,7 @@ public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, 
     }
 
     @Override
-    BigDecimalElement atan2(BigDecimalElement imaginary, BigDecimalElement real) {
+    public BigDecimalElement atan2(BigDecimalElement imaginary, BigDecimalElement real) {
         return BigDecimalField.INSTANCE.atan2(imaginary, real);
     }
 
