@@ -55,7 +55,7 @@ jobs:
         timeout-minutes: 15
         run: |
           mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         if: ${{ matrix.rank == 'main' }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
