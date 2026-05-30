@@ -33,18 +33,18 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
     <!-- compile time -->
-    <lombok.version>1.18.44</lombok.version>
+    <lombok.version>1.18.46</lombok.version>
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>4.0.0</checkerframework.version>
+    <checkerframework.version>4.1.0</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>6.0.3</junit.version>
+    <junit.version>6.1.0</junit.version>
     <jacoco.version>0.8.14</jacoco.version>
     <assertj.version>3.27.7</assertj.version>
-    <jqwik.version>1.9.3</jqwik.version>
+    <jqwik.version>1.10.1</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
     <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
     <javacc.version>8.1.0</javacc.version>
