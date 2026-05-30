@@ -16,6 +16,7 @@
 package org.meeuw.math.numbers;
 
 import java.math.*;
+
 import java.util.*;
 
 import org.meeuw.math.exceptions.IllegalLogarithmException;
@@ -52,7 +53,10 @@ public interface NumberOperations<N extends Number> {
 
     UncertainNumber<N> sqrt(N radicand);
 
-    UncertainNumber<N> root(N radicand, int i);
+    /**
+     * Calculates the n'th root of radicant.
+     */
+    UncertainNumber<N> root(N radicand, int n);
 
 
     N abs(N v);
