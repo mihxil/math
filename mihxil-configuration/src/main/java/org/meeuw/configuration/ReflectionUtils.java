@@ -52,14 +52,18 @@ public class ReflectionUtils {
         try {
             return clazz.getDeclaredMethod(name, params);
         } catch (NoSuchMethodException e) {
-            log.severe("Could not find method " + name + " in class " + clazz.getName());
+            log.severe("Could not find method " + name + " " + List.of(params) + " in class " + clazz.getName());
             throw e;
 
         }
     }
 
     public static Method getDeclaredBinaryMethod(Class<?> clazz, String name) {
-        return getDeclaredMethod(clazz, name, clazz);
+        return getDeclaredBinaryMethod(clazz, name, clazz);
+    }
+
+    public static Method getDeclaredBinaryMethod(Class<?> clazz, String name, Class<?> param) {
+        return getDeclaredMethod(clazz, name, param);
     }
 
     /**

@@ -10,12 +10,11 @@ import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.TextUtils;
 
 class Parser {
-
-
+    
     static <E extends AbelianRingElement<E>> Polynomial<E> fromString(PolynomialRing<E> ring, String input) {
         input = input
             .replaceAll("\\s+", "")
-            .replaceAll("-", "+-");
+            .replace("-", "+-");
         input = TextUtils.unsuperscript(input);
         if (input.startsWith("+")) {
             input = input.substring(1);

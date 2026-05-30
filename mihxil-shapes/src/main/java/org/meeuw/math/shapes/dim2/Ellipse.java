@@ -10,6 +10,7 @@ import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.FieldIncompleteException;
+import org.meeuw.math.numbers.ElementaryNumber;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
@@ -22,7 +23,7 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
  */
 @Getter
-public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellipse<F>>, Uncertain {
+public class Ellipse <F extends ScalarFieldElement<F> & ElementaryNumber<F, F>> implements Shape<F, Ellipse<F>>, Uncertain {
 
 
     private final F radiusx;
@@ -104,7 +105,6 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
         return field.pi().times(radiusx).times(radiusy);
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
     public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
 

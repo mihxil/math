@@ -32,7 +32,7 @@ import org.meeuw.math.numbers.Sizeable;
  * @author Michiel Meeuwissen
  * @since 0.4
  * @see org.meeuw.math.abstractalgebra.quaternions
- * @param <E> The type of the 4 {@link ScalarFieldElement}'s {@link #a}, {@link #b}, {@link #c} and {@link #d}.
+ * @param <E> The type of the 4 {@link ScalarFieldElement}'s {@link #a}, {@link #b}, {@link #c} and {@link #d} that constitute the Quarternion.
  */
 @Getter
 @EqualsAndHashCode

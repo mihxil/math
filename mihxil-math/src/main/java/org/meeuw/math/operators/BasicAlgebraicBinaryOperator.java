@@ -26,6 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
+import org.meeuw.math.numbers.ElementaryNumber;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
@@ -90,10 +91,10 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     ),
 
     /**
-     * @see CompleteFieldElement#pow(CompleteFieldElement)
+     * @see ElementaryNumber#pow(FieldElement)
      */
     POWER(
-        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"),
+        getDeclaredBinaryMethod(ElementaryNumber.class, "pow", FieldElement.class),
         "^",
         MULTIPLICATION.unity,
         null,

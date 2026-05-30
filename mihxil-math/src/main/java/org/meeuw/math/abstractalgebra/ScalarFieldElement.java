@@ -39,30 +39,6 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
         return FieldElement.super.isZero();
     }
 
-    /**
-     * Returns the sine of this element
-     *
-     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SIN
-     */
-    @NonExact
-    E sin();
-
-    @NonAlgebraic("Only calculable for numbers between -1 and 1")
-    E asin();
-
-    /**
-     * Returns the cosine of this element
-     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS
-     */
-    @NonExact
-    E cos();
-
-    @NonAlgebraic("Not calculable for certain value.")
-    E tan();
-
-
-    @NonAlgebraic("Cannot be calculated for negative values")
-    E sqrt();
 
 
 }

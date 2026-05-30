@@ -9,11 +9,11 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.abstractalgebra.integers.ModuloField;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
+
+import org.meeuw.math.numbers.ElementaryNumber;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
@@ -57,11 +57,9 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         return new Rectangle<>(RealNumber.of(width), RealNumber.of(height), RealNumber.ZERO);
     }
 
-    public static Rectangle<ModuloFieldElement> of(int width, int height) {
-        ModuloField field = ModuloField.of(IntegerUtils.nextPrime((long) width * height));
-
-        return new Rectangle<>(field.element(width), field.element(height), field.zero());
-      }
+    public static Rectangle<RationalNumber> of(int width, int height) {
+        return new Rectangle<>(RationalNumber.of(width), RationalNumber.of(height), RationalNumber.ZERO);
+    }
 
     public E width() {
         return width;
@@ -89,15 +87,15 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      *
      * @return a new Rectangle object with the rotated dimensions
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"rawtypes"})
     @Override
     public LocatedShape<E, Rectangle<E>> circumscribedRectangle() {
 
         if (angle.isZero()) {
             return atOrigin(this);
         }
-        if (angle instanceof CompleteScalarFieldElement<?>) {
-            CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
+        if (angle instanceof ElementaryNumber<?>) {
+            ElementaryNumber<?> completeAngle = (ElementaryNumber) angle;
             E sin = (E) completeAngle.sin();
             E cos = (E) completeAngle.cos();
             return atOrigin(new Rectangle<>(
@@ -160,7 +158,13 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      */
     @NonExact(value = "Diagonal can only be computed well for complete scalar fields", strategy = NonExact.Strategy.EXCEPTION)
     public E diagonal() {
-        return width.sqr().plus(height.sqr()).sqrt();
+
+        E sqrsum = width.sqr().plus(height.sqr());
+        if (sqrsum instanceof ElementaryNumber<?>) {
+            return (E) ((ElementaryNumber<?>) sqrsum).sqrt();
+        } else {
+            throw new FieldIncompleteException("Field of " + this + " is not complete, so sqrt cannot be computed (try using double argument angle");
+        }
     }
 
     /**

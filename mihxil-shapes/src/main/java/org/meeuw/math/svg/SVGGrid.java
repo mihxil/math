@@ -4,7 +4,7 @@ package org.meeuw.math.svg;
 import java.util.Arrays;
 
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,17 +15,17 @@ import static org.meeuw.math.svg.SVG.createElement;
 public class SVGGrid implements SVGGroup {
 
     @lombok.Builder.Default
-    private  final Rectangle<ModuloFieldElement> spacing = Rectangle.of(10, 10);
+    private  final Rectangle<RationalNumber> spacing = Rectangle.of(10, 10);
 
     @lombok.Builder
-    private SVGGrid(Rectangle<ModuloFieldElement> spacing) {
+    private SVGGrid(Rectangle<RationalNumber> spacing) {
         this.spacing = spacing;
 
     }
 
     @Override
     public void fill(SVGDocument svg, Element g) {
-        Rectangle<ModuloFieldElement> gridSize = svg.size();
+        Rectangle<RationalNumber> gridSize = svg.size();
         g.setAttribute("id", "grid");
         Document doc = g.getOwnerDocument();
         g.appendChild(doc.createComment("Grid"));

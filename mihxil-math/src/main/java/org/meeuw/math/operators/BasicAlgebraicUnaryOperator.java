@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
+import org.meeuw.math.numbers.ElementaryNumber;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.text.TextUtils.superscript;
@@ -81,64 +82,64 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
 
     /**
-     * @see CompleteFieldElement#sqrt()
+     * @see ElementaryNumber#sqrt()
      */
     SQRT(
-        getDeclaredMethod(CompleteFieldElement.class, "sqrt"),
+        getDeclaredMethod(ElementaryNumber.class, "sqrt"),
         (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s),
         "sqrt"
     ),
 
     /**
-     * @see CompleteFieldElement#sin()
+     * @see ElementaryNumber#sin()
      */
     SIN(
-        getDeclaredMethod(CompleteFieldElement.class, "sin"),
+        getDeclaredMethod(ElementaryNumber.class, "sin"),
         (s) -> "sin(" + s + ")",
         "sin"
     ),
 
     /**
-     * @see CompleteFieldElement#cos()
+     * @see ElementaryNumber#cos()
      */
     COS(
-        getDeclaredMethod(CompleteFieldElement.class, "cos"),
+        getDeclaredMethod(ElementaryNumber.class, "cos"),
         (s) -> "cos(" + s + ")",
         "cos"
     ),
 
     /**
-     * @see CompleteFieldElement#exp()
+     * @see ElementaryNumber#exp()
      */
     EXP(
-        getDeclaredMethod(CompleteFieldElement.class, "exp"),
+        getDeclaredMethod(ElementaryNumber.class, "exp"),
         (s) -> "exp(" + s + ")",
         "exp"
     ),
 
     /**
-     * @see CompleteFieldElement#ln()
+     * @see ElementaryNumber#ln()
      */
     LN(
-        getDeclaredMethod(CompleteFieldElement.class, "ln"),
+        getDeclaredMethod(ElementaryNumber.class, "ln"),
         (s) -> "ln(" + s + ")",
         "ln"
     ),
 
     /**
-     * @see CompleteFieldElement#sinh()
+     * @see ElementaryNumber#sinh()
      */
     SINH(
-        getDeclaredMethod(CompleteFieldElement.class, "sinh"),
+        getDeclaredMethod(ElementaryNumber.class, "sinh"),
         (s) -> "sinh(" + s + ")",
         "sinh"
     ),
 
      /**
-     * @see CompleteFieldElement#cosh()
+     * @see ElementaryNumber#cosh()
      */
     COSH(
-        getDeclaredMethod(CompleteFieldElement.class, "cosh"),
+        getDeclaredMethod(ElementaryNumber.class, "cosh"),
         (s) -> "cosh(" + s + ")",
          "cosh"
      )

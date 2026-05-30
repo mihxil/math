@@ -4,9 +4,10 @@ import lombok.Getter;
 
 import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.numbers.ElementaryNumber;
 
 @Getter
-public class PlatonicSolid<F extends ScalarFieldElement<F>> implements Polyhedron<F, PlatonicSolid<F>> {
+public class PlatonicSolid<F extends ScalarFieldElement<F> & ElementaryNumber<F, F>> implements Polyhedron<F, PlatonicSolid<F>> {
 
     private final PlatonicSolidEnum platonicSolidEnum;
 

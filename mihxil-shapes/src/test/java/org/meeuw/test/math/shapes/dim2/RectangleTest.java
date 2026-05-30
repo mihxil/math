@@ -10,7 +10,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.shapes.dim2.Rectangle;
@@ -29,8 +29,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
 
     ModuloField field = ModuloField.of(2002927);
 
-    Rectangle<ModuloFieldElement> intrectangle = new Rectangle<>(
-        field.element(1024), field.element(576));
+    Rectangle<RationalNumber> rationalRectangle = Rectangle.of(1024, 576);
 
     @Test
     public void aspectRatio() {
@@ -42,15 +41,13 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
         assertThat(rectangle.aspectRational().toString()).isEqualTo("¹⁶⁄₉");
     }
 
-
-
     @Test
     public void times() {
         assertThat(rectangle.times(2).toString()).isEqualTo("Rectangle{2048x1152}");
         assertThat(rectangle.times(exactly(2)).toString()).isEqualTo("Rectangle{2048x1152}");
         assertThat(rectangle.times(2.5).toString()).isEqualTo("Rectangle{2560x1440}");
-        assertThat(intrectangle.times(2).toString()).isEqualTo("Rectangle{2048x1152}");
-        assertThat(intrectangle.times(2.5).toString()).isEqualTo("Rectangle{2560x1440}");
+        assertThat(rationalRectangle.times(2).toString()).isEqualTo("Rectangle{2048x1152}");
+        assertThat(rationalRectangle.times(2.5).toString()).isEqualTo("Rectangle{2560x1440}");
     }
 
     @Test
@@ -65,7 +62,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
     public void circumscribedRectangleDegrees() {
         assertThat(rectangle.rotate( exactly(Math.toRadians(90))).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
 
-        assertThat(intrectangle.circumscribedRectangle(Math.toRadians(90)).shape().aspectRatio()).isEqualTo("9:16");
+        assertThat(rationalRectangle.circumscribedRectangle(Math.toRadians(90)).shape().aspectRatio()).isEqualTo("9:16");
     }
 
 
@@ -76,7 +73,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
 
     @Test
     public void intarea() {
-        assertThatAlgebraically(intrectangle.area()).isEqTo(field.element(589824));
+        assertThatAlgebraically(rationalRectangle.area()).isEqTo(RationalNumber.of(589824));
     }
 
     @Test
@@ -92,8 +89,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
     @Test
     public void diagonal() {
         assertThat(rectangle.diagonal().eq(element(1174.8838240438924))).isTrue();
-
-        assertThatThrownBy(() -> intrectangle.diagonal()).isInstanceOf(FieldIncompleteException.class);
+        assertThatThrownBy(() -> rationalRectangle.diagonal()).isInstanceOf(FieldIncompleteException.class);
     }
 
     @Test
@@ -108,7 +104,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
 
     @Test
     public void notEquals() {
-        assertThat(rectangle.equals(intrectangle)).isFalse();
+        assertThat(rectangle.equals(rationalRectangle)).isFalse();
     }
 
     @Test
@@ -118,7 +114,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
                 .map(FieldVector2::toString)
                 .collect(Collectors.joining(" "))
         ).isEqualTo("(-512,-288) (512,-288) (512,288) (-512,288)");
-        assertThat(intrectangle.numberOfEdges()).isEqualTo(4);
+        assertThat(rationalRectangle.numberOfEdges()).isEqualTo(4);
     }
 
     @Override

@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 // tag::imports[]
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
@@ -31,8 +31,8 @@ import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 @Log
 public class SVGTest {
 
-    Rectangle<ModuloFieldElement> size = Rectangle.of(205, 205);
-    Rectangle<ModuloFieldElement> spacing = Rectangle.of(10, 10);
+    Rectangle<RationalNumber> size = Rectangle.of(205, 205);
+    Rectangle<RationalNumber> spacing = Rectangle.of(10, 10);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
 
     @BeforeEach
