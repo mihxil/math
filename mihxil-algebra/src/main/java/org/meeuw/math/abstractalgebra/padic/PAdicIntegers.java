@@ -10,6 +10,7 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.Randomizable;
 import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.Field;
+import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.AbstractAlgebraicIntOperator;
@@ -20,6 +21,17 @@ import org.meeuw.math.validation.Prime;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.CollectionUtils.navigableSet;
 
+
+/**
+ *
+ * P-adic integers are decimal numbers with an infinite amount of digits <em>before</em> the decimal separator. This implementation
+ * will implement that by splitting up every number in two groups of digits, both of arbitrary length. One group is implicitely 'repeated', and on group
+ * defines the remaining 'least significant' digits (This is delegated to {@link AdicDigits} and {@link AdicDigitUtils}.
+ * <p>
+ * Normal integers are a subset of this, which a {@link AdicDigits#repetend} of just a zero.
+ *
+ * @see AdicDigits
+ */
 @EqualsAndHashCode
 public class PAdicIntegers implements Field<PAdicInteger>, Randomizable<PAdicInteger> {
 

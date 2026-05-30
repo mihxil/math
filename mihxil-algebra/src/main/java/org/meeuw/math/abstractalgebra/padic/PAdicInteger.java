@@ -16,6 +16,7 @@ import static org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils.*;
 
 /**
  * WIP
+ * @see PAdicIntegers
  */
 @EqualsAndHashCode
 public class PAdicInteger implements FieldElement<PAdicInteger> {
