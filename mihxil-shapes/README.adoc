@@ -19,7 +19,7 @@ The `shapes` modules contains implementations for several 2 and 3-dimensional sh
 ----
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
