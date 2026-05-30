@@ -17,6 +17,7 @@ import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.NotZero;
 
 /**
+ * Utils related to integer arithmetic.
  * @since 0.9
  */
 public final class IntegerUtils {
