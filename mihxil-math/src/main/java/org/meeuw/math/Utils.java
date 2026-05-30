@@ -16,7 +16,15 @@
 package org.meeuw.math;
 
 /**
+ * Currently just contains some mathematical constants
  * @author Michiel Meeuwissen
+ * @see IntegerUtils
+ * @see DoubleUtils
+ * @see CollectionUtils
+ * @see BigDecimalUtils
+ * @see ArrayUtils
+ * @see ComparableUtils
+ * @see DigitUtils
  */
 public final class Utils {
 
