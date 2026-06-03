@@ -110,8 +110,6 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
         return Field.super.determinant(source);
     }
 
-
-
     /**
      * Static version of {@link CompleteFieldElement#sin()}, for a more natural syntax in expressions (e.g. {@code sin(angle)}, rather than {@code angle.sin()}).
      * @see CompleteFieldElement#sin()
