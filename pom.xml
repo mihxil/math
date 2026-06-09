@@ -37,7 +37,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>4.1.0</checkerframework.version>
+    <checkerframework.version>4.2.0</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
@@ -51,7 +51,7 @@
 
     <delombok.output>target/delombok</delombok.output>
     <argLine />
-    <log4j2.root.level>warn</log4j2.root.level>
+    <log4j2.stdout.level>warn</log4j2.stdout.level>
   </properties>
 
 
@@ -166,7 +166,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.3</version>
+      <version>1.5</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
@@ -255,12 +255,12 @@
             </includes>
             <argLine>@{argLine} -Dfile.encoding=UTF-8 -ea</argLine> <!-- argline required by jacoco -->
             <systemPropertyVariables>
-              <log4j2.root.level>${log4j2.root.level}</log4j2.root.level>
+              <log4j2.stdout.level>${log4j2.stdout.level}</log4j2.stdout.level>
               <log4j2.pattern>%d{HH:mm:ss.SS} %highlight{%5.5p}  %c{1}.%M	%m%n</log4j2.pattern>
             </systemPropertyVariables>
             <properties>
-
               <configurationParameters>
+                jqwik.hideAntiAiClause=true
                 jqwik.database=jqwik-database
                 jqwik.tries.default=200
                 jqwik.maxdiscardratio.default=5
