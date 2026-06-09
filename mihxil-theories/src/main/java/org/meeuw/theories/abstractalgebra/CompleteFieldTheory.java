@@ -26,11 +26,11 @@ import org.meeuw.configuration.ConfigurationService.Reset;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
-import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
@@ -71,35 +71,67 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
     }
+    @Property
+    default void sqrt(@ForAll(ELEMENTS) E e) {
+        E sqr = e.sqr();
+        E sqrSrt = sqr.sqrt();
+        assertThat(sqrSrt).isEqIn(e, e.negation());
+    }
+
+    @Property
+    default void sin(@ForAll(ELEMENTS) E e) {
+        E sin = e.sin();
+        E sinAsin = sin.asin();
+        assertThat(sinAsin.sin()).isEqTo(sin);
+    }
+
+    @Property
+    default void cos(@ForAll(ELEMENTS) E e) {
+        E cos = e.cos();
+        E cosAcos = cos.acos();
+        assertThat(cosAcos.cos()).isEqTo(cos);
+    }
+
+    @Property
+    default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
+        try {
+            E pow = e.pow(exponent);
+            log().info("%s = %s".formatted(POWER.stringify(e, exponent), pow));
+        } catch (IllegalPowerException illegalPowerException) {
+            log().info(() -> "%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+        } catch (OverflowException illegalPowerException ) {
+            log().warning("%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+        }
+    }
 
     @Property
     default void ePowZero(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.e().pow(struct.zero())).isEqTo(struct.one());
+        assertThatAlgebraically(struct.e().pow(struct.zero())).isEqTo(struct.one());
     }
 
     @Property
     default void sinPi(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.pi().sin()).isEqTo(struct.zero());
+        assertThatAlgebraically(struct.pi().sin()).isEqTo(struct.zero());
     }
 
     @Property
     default void asin0(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.zero().asin()).isEqTo(struct.zero());
+        assertThatAlgebraically(struct.zero().asin()).isEqTo(struct.zero());
 
     }
     @Property
     default void asin1(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
+        assertThatAlgebraically(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
     }
     @Property
     default void asinminus1(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
+        assertThatAlgebraically(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
     }
 
 
     @Property
     default void cosPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
-        assertThat(struct.pi().cos()).isEqTo(struct.one().negation());
+        assertThatAlgebraically(struct.pi().cos()).isEqTo(struct.one().negation());
     }
 
     @Property
@@ -117,7 +149,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
          try (Reset res = setConfiguration(builder ->
                  builder.configure(MathContextConfiguration.class,
                      (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))))) {
-              assertThat(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
+             assertThatAlgebraically(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
 
