@@ -21,6 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3;
 import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3Group;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -39,8 +40,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  */
 @PropertyDefaults(tries = 100)
 @Log
-class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber>> {
-
+class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber, BigDecimalElement>> {
 
     @Test
     public void illegal() {
@@ -51,7 +51,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
                 of(0), of(0), of(0)
             );
         }).isInstanceOf(InvalidElementCreationException.class);
-        FieldMatrix3<RationalNumber> iml = new FieldMatrix3<>(
+        FieldMatrix3<RationalNumber, BigDecimalElement> iml = new FieldMatrix3<>(
             new RationalNumber[][]{
                 new RationalNumber[]{of(3), of(0), of(2)},
                 new RationalNumber[]{of(2), of(0), of(-2)},
@@ -65,7 +65,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
 
     @Test
     public void adjugate() {
-        FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(
+        FieldMatrix3<RationalNumber, BigDecimalElement> fm = FieldMatrix3.of(
             of(3), of(0), of(2),
             of(2), of(0), of(-2),
             of(0), of(1), of(1)
@@ -81,7 +81,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
 
     @Test
     public void determinant() {
-        FieldMatrix3<RationalNumber> fm = FieldMatrix3.of(
+        FieldMatrix3<RationalNumber, BigDecimalElement> fm = FieldMatrix3.of(
             of(2), of(-3), of(1),
             of(2), of(0), of(-1),
             of(1), of(4), of(5)
@@ -94,7 +94,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     @Test
     public void illegalReciprocal() {
 
-        FieldMatrix3<RationalNumber> fm = new FieldMatrix3<>(
+        FieldMatrix3<RationalNumber, BigDecimalElement> fm = new FieldMatrix3<>(
             new RationalNumber[][]{
                 new RationalNumber[]{of(2), of(0), of(-1)},
                 new RationalNumber[]{of(2), of(0), of(-1)},
@@ -112,7 +112,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Override
-    public Arbitrary<FieldMatrix3<RationalNumber>> elements() {
+    public Arbitrary<FieldMatrix3<RationalNumber, BigDecimalElement>> elements() {
         return
             Arbitraries.randoms().map(RationalNumbers.INSTANCE::nextRandom).list().ofSize(9)
                 .map( l -> FieldMatrix3.of(

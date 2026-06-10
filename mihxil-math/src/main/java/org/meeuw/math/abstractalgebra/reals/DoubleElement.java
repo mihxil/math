@@ -290,7 +290,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public DoubleElement reciprocal() throws DivisionByZeroException {
         if (isExactlyZero()) {
             throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
@@ -313,7 +313,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="square root of negative numbers is not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="square root of negative numbers is not possible")
     public DoubleElement sqrt() {
         if (value < 0) {
             throw new IllegalSqrtException("Cannot take square root of negative number", Double.toString(value));
@@ -323,7 +323,7 @@ public class DoubleElement
 
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value=" of negative numbers is not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value=" of negative numbers is not possible")
     public DoubleElement root(int i) {
         double result = Math.pow(value, 1d/i);
         if (Double.isNaN(result)) {
@@ -351,13 +351,19 @@ public class DoubleElement
     }
 
     @Override
+    public DoubleElement acos() {
+        UncertainNumber<Double> acos = operations().acos(value);
+        return of(acos.getValue(), Math.max(uncertainty, acos.getUncertainty()));
+    }
+
+    @Override
     public DoubleElement tan() {
         UncertainNumber<Double> tan = operations().tan(value);
         return of(tan.getValue(), Math.max(uncertainty, tan.getUncertainty()));
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="non integer powers of negative numbers are not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="non integer powers of negative numbers are not possible")
     public RealNumber pow(RealNumber exponent) throws OverflowException, IllegalPowerException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {
@@ -401,7 +407,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public DoubleElement pow(int exponent) {
         double v = this.doubleValue();
         if (v == 0  && uncertainty != 0) {

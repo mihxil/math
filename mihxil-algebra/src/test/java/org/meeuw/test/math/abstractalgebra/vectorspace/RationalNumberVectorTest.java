@@ -21,6 +21,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.theories.abstractalgebra.VectorSpaceTheory;
 import org.meeuw.theories.abstractalgebra.WithScalarTheory;
@@ -35,7 +36,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @since 0.4
  */
 class RationalNumberVectorTest implements
-    VectorSpaceTheory<NVector<RationalNumber>, RationalNumber>,
+    VectorSpaceTheory<NVector<RationalNumber>, RationalNumber, BigDecimalElement>,
     WithScalarTheory<NVector<RationalNumber>, RationalNumber>
 {
 

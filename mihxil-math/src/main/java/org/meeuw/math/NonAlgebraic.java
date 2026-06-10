@@ -21,7 +21,7 @@ import java.lang.annotation.*;
  * Marker for operator methods, to indicate that they are supported but non algebraically. I.e. they may not always be
  * allowed (e.g. you cannot add any two physical numbers) or they result an object not from the same algebra (e.g. the absolute value from the algebra of 'negative numbers' can be taken, but is not a negative number.
  * <p>
- * If an operation is only not possible for certain special values (like {@link org.meeuw.math.abstractalgebra.AdditiveMonoid#zero zero}), this would not make it entirely {@code NonAlgebraic}, and the {@link #reason() reason} could be indicated as {@link Reason#SOME}.
+ * If an operation is only not possible for certain special values (like {@link org.meeuw.math.abstractalgebra.AdditiveMonoid#zero zero}), this would not make it entirely {@code NonAlgebraic}, and the {@link #reason() reason} could be indicated as {@link Reason#NON_ALL_ELEMENTS}.
  *
  * @since 0.8
  */
@@ -42,9 +42,9 @@ public @interface NonAlgebraic {
      * Sometimes an operation is entirely impossible, sometimes
      * {@link Reason#TYPE it is in some way possible but not inside the algebra} (e.g. the absolute value inside the algebra of negative integers).
      * <p>
-     * Sometimes an operation is {@link Reason#ELEMENTS not possible for many of the elements} (e.g. the square root of real numbers is only possible for positive value)
+     * Sometimes an operation is {@link Reason#MANY_ELEMENTS not possible for many of the elements} (e.g. the square root of real numbers is only possible for positive value)
      * <p>
-     *  And sometimes the operation is only not possible {@link Reason#SOME for one or a few special elements} (e.g. the reciprocal {@link org.meeuw.math.abstractalgebra.AdditiveMonoid#zero zero}).
+     *  And sometimes the operation is only not possible {@link Reason#NON_ALL_ELEMENTS for one or a few special elements} (e.g. the reciprocal {@link org.meeuw.math.abstractalgebra.AdditiveMonoid#zero zero}).
      */
     Reason reason() default Reason.TYPE;
 
@@ -60,13 +60,13 @@ public @interface NonAlgebraic {
         /**
          * Not algebraic because the operations is not possible for many elements.
          */
-        ELEMENTS,
+        MANY_ELEMENTS,
 
         /**
          * Not completely algebraic because the operation is not possible for all elements.
          * <p>
          * A marked exception like {@link org.meeuw.math.exceptions.DivisionByZeroException} is expected
          */
-        SOME
+        NON_ALL_ELEMENTS
     }
 }

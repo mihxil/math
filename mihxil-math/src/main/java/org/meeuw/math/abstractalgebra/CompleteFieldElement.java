@@ -16,7 +16,7 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.numbers.ElementaryNumber;
+import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 
 /**
  * Elements of a {@link CompleteField}.
@@ -29,7 +29,7 @@ import org.meeuw.math.numbers.ElementaryNumber;
 public interface CompleteFieldElement<E extends CompleteFieldElement<E>>
     extends
     FieldElement<E>,
-    ElementaryNumber<E, CompleteField<E>, E> {
+    TranscendentalFunctionsNumber<E, E> {
 
     @Override
     @NonNull

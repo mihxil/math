@@ -1,5 +1,10 @@
 package org.meeuw.math.shapes.dim3;
 
+
+/**
+ * There exist exactly five convex regular polyhedra, known as the Platonic solids.
+ * @see PlatonicSolid
+ */
 public enum PlatonicSolidEnum {
     TETRAHEDRON(3, 3),
     CUBE(4, 3),

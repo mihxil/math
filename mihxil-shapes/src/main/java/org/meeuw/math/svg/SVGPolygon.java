@@ -3,13 +3,14 @@ package org.meeuw.math.svg;
 import java.util.function.Consumer;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.dim2.Polygon;
 import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> extends SVGShape<S> {
+public class SVGPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C, S>> extends SVGShape<S> {
 
     @lombok.Builder
     protected SVGPolygon(S polygon, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
@@ -37,7 +38,7 @@ public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polyg
         {
             g.appendChild(g.getOwnerDocument().createComment("Dot showing the first vertex"));
 
-            FieldVector2<?> firstPoint = shape.vertices().findFirst().get();
+            FieldVector2<?, ?> firstPoint = shape.vertices().findFirst().get();
 
             Element dot = createElement(g.getOwnerDocument(), "circle");
             dot.setAttribute("cx", String.valueOf(firstPoint.getX().doubleValue()));
@@ -50,9 +51,9 @@ public class SVGPolygon<F extends CompleteScalarFieldElement<F>, S extends Polyg
             //g.appendChild(circumscribedCircle(doc, polygon));
         }
     }
-    public static class Builder<F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>>  {
+    public static class Builder<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C, S>>  {
 
-        public Builder<F, S> polygon(S polygon) {
+        public Builder<E, C, S> polygon(S polygon) {
             this.polygon = polygon;
             return this;
         }

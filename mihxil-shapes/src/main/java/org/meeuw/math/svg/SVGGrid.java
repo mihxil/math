@@ -3,6 +3,7 @@ package org.meeuw.math.svg;
 
 import java.util.Arrays;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim2.Rectangle;
@@ -15,17 +16,17 @@ import static org.meeuw.math.svg.SVG.createElement;
 public class SVGGrid implements SVGGroup {
 
     @lombok.Builder.Default
-    private  final Rectangle<RationalNumber> spacing = Rectangle.of(10, 10);
+    private  final Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 10);
 
     @lombok.Builder
-    private SVGGrid(Rectangle<RationalNumber> spacing) {
+    private SVGGrid(Rectangle<RationalNumber, BigDecimalElement> spacing) {
         this.spacing = spacing;
 
     }
 
     @Override
     public void fill(SVGDocument svg, Element g) {
-        Rectangle<RationalNumber> gridSize = svg.size();
+        Rectangle<RationalNumber, BigDecimalElement> gridSize = svg.size();
         g.setAttribute("id", "grid");
         Document doc = g.getOwnerDocument();
         g.appendChild(doc.createComment("Grid"));

@@ -17,14 +17,14 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  * @since 0.15
  */
 
-public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<F>> {
+public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScalarFieldElement<C>> implements Shape<E, C, Circle<E, C>> {
 
-    private final F radius;
-    private final ScalarField<F> field;
+    private final E radius;
+    private final ScalarField<E, C> field;
 
     /**
      */
-    public Circle(@Min(0) F radius) {
+    public Circle(@Min(0) E radius) {
         this.radius = radius;
         this.field = radius.getStructure();
     }
@@ -41,32 +41,38 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
     }
 
     @Override
-    public Circle<F> times(F multiplier) {
+    public Circle<E, C> times(E multiplier) {
         return new Circle<>(radius.times(multiplier));
     }
     @Override
-    public Circle<F> times(int multiplier) {
-        return new Circle<>(radius.times(multiplier));
-    }
-
-    @Override
-    public Circle<F> times(double multiplier) {
+    public Circle<E, C> times(int multiplier) {
         return new Circle<>(radius.times(multiplier));
     }
 
     @Override
-    public Circle<F> rotate(F angle) {
+    public Circle<E, C> times(double multiplier) {
+        return new Circle<>(radius.times(multiplier));
+    }
+
+    @Override
+    public Circle<E, C> rotate(E angle) {
         return this; // a circle is invariant under rotation
     }
 
-    public F radius() {
+    public E radius() {
         return radius;
     }
 
     @Override
     @NonExact("Area can only be computed well for complete scalar fields")
-    public F area() {
-        return field.pi().times(radius.sqr());
+    public C area() {
+        return field.pi().times(radius.sqr().complete());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Circle<C, C> complete() {
+        return new Circle<>(radius.complete());
     }
 
     /**
@@ -75,10 +81,10 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
      * For a circle, the circumscribed rectangle is a square with the diameter as side length, at the origin.
      */
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
-        F diameter = diameter();
+    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+        C diameter = diameter().complete();
         return atOrigin(
-            new Rectangle<>(diameter, diameter, field.zero())
+            new Rectangle<>(diameter, diameter, field.completedField().zero())
         );
     }
 
@@ -88,29 +94,26 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
      * For a circle, the circumscribed circle is the circle itself, at the origin.
      */
     @Override
-    public LocatedShape<F, Circle<F>> circumscribedCircle() {
-        return atOrigin(this);
+    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+        return atOrigin(new Circle<>(radius.complete()));
+    }
+
+    public LocatedShape<E, C, Circle<E, C>> exactCircumscribedCircle() {
+        return atOrigin(new Circle<>(radius));
     }
 
     @Override
-    public ScalarField<F> field() {
+    public ScalarField<E, C> field() {
         return field;
     }
 
-    public F diameter() {
+    public E diameter() {
         return radius.times(2);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    @NonExact("Perimeter can only be computed well for complete scalar fields")
-    public F perimeter() {
-         if (field instanceof CompleteScalarField) {
-             CompleteScalarField<?> completeField = (CompleteScalarField) field;
-             return radius.times(2).times((F) completeField.pi());
-         } else {
-             return radius.times(2).times(Math.PI);
-         }
+    public C perimeter() {
+        return field.pi().times(radius.times(2).complete());
     }
 
 
@@ -129,7 +132,7 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
     }
 
     @Override
-    public boolean eq(Circle<F> other) {
+    public boolean eq(Circle<E, C> other) {
         return  this.radius.eq(other.radius);
     }
 
@@ -137,12 +140,11 @@ public class Circle<F extends ScalarFieldElement<F>> implements Shape<F, Circle<
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Circle)) return false;
-        Circle<?> circle = (Circle<?>) o;
+        if (!(o instanceof Circle<?, ?> circle)) return false;
         if (!circle.field.equals(field)) {
             return false;
         }
-        return eq((Circle<F>) circle);
+        return eq((Circle<E, C>) circle);
     }
 
     @Override

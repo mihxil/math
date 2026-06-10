@@ -91,7 +91,7 @@ public abstract class AbstractIntegerElement<
      * @param divisor integer divisor
      * @return this / divisor
      */
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public E dividedByEuclidean(E divisor) throws DivisionByZeroException {
         if (divisor.value.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException(this, divisor);
@@ -104,7 +104,7 @@ public abstract class AbstractIntegerElement<
      * @param divisor integer divisor
      * @return this % divisor
      */
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public E mod(E divisor) throws DivisionByZeroException {
         if (divisor.value.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException(this, divisor);

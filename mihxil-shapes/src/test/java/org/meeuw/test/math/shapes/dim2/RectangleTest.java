@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.jupiter.Rounding;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -22,14 +23,14 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumber>> {
+public class RectangleTest implements ShapeTheory<RealNumber, RealNumber, Rectangle<RealNumber, RealNumber>> {
 
-    Rectangle<RealNumber> rectangle = new Rectangle<>(
+    Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));
 
     ModuloField field = ModuloField.of(2002927);
 
-    Rectangle<RationalNumber> rationalRectangle = Rectangle.of(1024, 576);
+    Rectangle<RationalNumber, BigDecimalElement> rationalRectangle = Rectangle.of(1024, 576);
 
     @Test
     public void aspectRatio() {
@@ -73,7 +74,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
 
     @Test
     public void intarea() {
-        assertThatAlgebraically(rationalRectangle.area()).isEqTo(RationalNumber.of(589824));
+        assertThatAlgebraically(rationalRectangle.exactArea()).isEqTo(RationalNumber.of(589824));
     }
 
     @Test
@@ -118,7 +119,7 @@ public class RectangleTest implements ShapeTheory<RealNumber, Rectangle<RealNumb
     }
 
     @Override
-    public Arbitrary<@NonNull Rectangle<RealNumber>> datapoints() {
+    public Arbitrary<@NonNull Rectangle<RealNumber, RealNumber>> datapoints() {
         return Arbitraries.doubles().ofScale(3).between(0.001, 1000)
             .flatMap(width -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(height -> new Rectangle<>(element(width), element(height))));

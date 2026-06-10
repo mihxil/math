@@ -3,12 +3,11 @@ package org.meeuw.math.shapes.dim2;
 import java.util.Iterator;
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.ScalarField;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.Info;
 
-public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, SELF>> extends Shape<F, SELF>   {
+public interface Polygon<F extends ScalarFieldElement<F, C>,  C extends CompleteScalarFieldElement<C>, SELF extends Shape<F, C, SELF>> extends Shape<F, C, SELF>   {
 
     int numberOfEdges();
 
@@ -26,25 +25,25 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
         );
     }
 
-    Stream<FieldVector2<F>> vertices();
+    Stream<FieldVector2<C, C>> vertices();
 
     /**
      * {@inheritDoc}
      * <p>
      * The default implementation of a polygon is based on {@link #vertices()}, and just finding the minimum and maximum x and y coordinates of those.
      */
-    default LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
-        ScalarField<F> field = field();
-        Iterator<FieldVector2<F>> vertices = vertices().iterator();
-        FieldVector2<F> first = vertices.next();
-        F minX  = first.getX();
-        F maxX  = first.getX();
-        F minY  = first.getY();
-        F maxY  = first.getY();
+    default LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+        ScalarField<F, C> field = field();
+        Iterator<FieldVector2<C, C>> vertices = vertices().iterator();
+        FieldVector2<C, C> first = vertices.next();
+        C minX  = first.getX();
+        C maxX  = first.getX();
+        C minY  = first.getY();
+        C maxY  = first.getY();
         while(vertices.hasNext()) {
-            FieldVector2<F> v = vertices.next();
-            F x = v.getX();
-            F y = v.getY();
+            FieldVector2<C, C> v = vertices.next();
+            C x = v.getX();
+            C y = v.getY();
             if (x.compareTo(minX) < 0) {
                 minX = x;
             } else if (x.compareTo(maxX) > 0) {
@@ -56,12 +55,13 @@ public interface Polygon<F extends ScalarFieldElement<F>, SELF extends Shape<F, 
                 maxY = y;
             }
         }
-        F centerX = minX.plus(maxX).dividedBy(2);
-        F centerY = minY.plus(maxY).dividedBy(2);
-        FieldVector2<F> center = FieldVector2.of(centerX, centerY);
+        C centerX = minX.plus(maxX).dividedBy(2);
+        C centerY = minY.plus(maxY).dividedBy(2);
+        FieldVector2<C, C> center = FieldVector2.of(centerX, centerY);
         return new LocatedShape<>(new Rectangle<>(
             maxX.minus(minX),
-            maxY.minus(minY), field.zero()),
+            maxY.minus(minY),
+            field.zero().complete()),
             center
         );
     }

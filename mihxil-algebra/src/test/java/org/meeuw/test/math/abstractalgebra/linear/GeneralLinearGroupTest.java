@@ -118,13 +118,13 @@ class GeneralLinearGroupTest {
     @Test
     public void stream() {
         GeneralLinearGroup<RationalNumber> e = GeneralLinearGroup.of(3, RationalNumbers.INSTANCE);
-        e.stream().limit(100).forEach(m -> {
-            assertThat(m.determinant()).isNotEqualTo(RationalNumber.ZERO);
-        });
+        e.stream().limit(100).forEach(m ->
+            assertThat(m.determinant()).isNotEqualTo(RationalNumber.ZERO)
+        );
     }
 
 
-    public static class RationalNumberTest implements
+    public static class RationalNumberMatrixTest implements
         MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
         WithScalarTheory<InvertibleMatrix<RationalNumber>, RationalNumber> {
 

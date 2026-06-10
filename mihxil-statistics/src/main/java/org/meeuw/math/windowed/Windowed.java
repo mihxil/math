@@ -29,6 +29,8 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.Interval;
 
+import static org.meeuw.math.ArrayUtils.firstNonNull;
+
 
 /**
  * Some metrics can be aggregated per unit of time. A 'Windowed' instance targets to accommodate that.
@@ -96,6 +98,7 @@ public abstract class Windowed<T> {
         @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
         @NonNull BiConsumer<Event, Windowed<T>>@Nullable[] eventListeners,
+        @Nullable Level eventListenersExceptionLevel,
         @Nullable Clock clock
         ) {
         if (bucketCount == null) {
@@ -127,11 +130,12 @@ public abstract class Windowed<T> {
         }
         this.eventListeners = (e, w) -> {
             if (eventListeners != null) {
+                Level level = firstNonNull(eventListenersExceptionLevel, Level.WARNING);
                 for (BiConsumer<Event, Windowed<T>> el : eventListeners) {
                     try {
                         el.accept(e, w);
                     } catch (Throwable t) {
-                        log.log(Level.WARNING, el + ":" + t.getClass().getName() + ":" + t.getMessage());
+                        log.log(level, el + ":" + t.getClass().getName() + ":" + t.getMessage());
                     }
                 }
             }
@@ -267,16 +271,17 @@ public abstract class Windowed<T> {
         long afterBucketBegin = currentTime - currentBucketTime;
         int i = 0;
         while (afterBucketBegin > bucketDuration && (i++) < buckets.length) {
-            eventListeners.accept(Event.SHIFT, this);
             currentBucketIndex = (currentBucketIndex + 1) % buckets.length;
-            if (currentBucketIndex == 0) {
-                eventListeners.accept(Event.WINDOW_COMPLETED, this);
-            }
+
             if (!resetValue(buckets[currentBucketIndex])) {
                 buckets[currentBucketIndex] = initialValue();
             }
             afterBucketBegin -= bucketDuration;
             currentBucketTime += bucketDuration;
+            eventListeners.accept(Event.SHIFT, this);
+            if (currentBucketIndex == 0) {
+                eventListeners.accept(Event.WINDOW_COMPLETED, this);
+            }
         }
     }
 
@@ -315,5 +320,7 @@ public abstract class Windowed<T> {
         SHIFT,
         WINDOW_COMPLETED
     }
+
+
 
 }

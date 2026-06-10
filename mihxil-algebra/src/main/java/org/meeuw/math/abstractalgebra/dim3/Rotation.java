@@ -28,7 +28,7 @@ import org.meeuw.math.validation.Square;
  */
 public class Rotation implements
     MultiplicativeGroupElement<Rotation>,
-    UnaryOperator<FieldVector3<RealNumber>> {
+    UnaryOperator<CompleteFieldVector3<RealNumber>> {
 
     private static final RealNumber U = RealNumber.ONE;
     private static final RealNumber Z = RealNumber.ZERO;
@@ -40,7 +40,7 @@ public class Rotation implements
     });
 
 
-    final FieldMatrix3<RealNumber> rot;
+    final FieldMatrix3<RealNumber, RealNumber> rot;
 
     private Rotation(@Square(3) RealNumber[][] values) {
         rot = FieldMatrix3.of(
@@ -49,7 +49,7 @@ public class Rotation implements
             values[2][0], values[2][1],values[2][2]
         );
     }
-    private Rotation(FieldMatrix3<RealNumber> rot) {
+    private Rotation(FieldMatrix3<RealNumber, RealNumber> rot) {
         this.rot = rot;
     }
 
@@ -96,16 +96,16 @@ public class Rotation implements
         );
     }
 
-    protected FieldVector3<RealNumber> rotate(FieldVector3<RealNumber> in) {
+    protected CompleteFieldVector3<RealNumber> rotate(CompleteFieldVector3<RealNumber> in) {
         return in.times(rot);
     }
 
-    public FieldMatrix3<RealNumber> asMatrix() {
+    public FieldMatrix3<RealNumber, RealNumber> asMatrix() {
         return rot;
     }
 
     @Override
-    public FieldVector3<RealNumber> apply(FieldVector3<RealNumber> in) {
+    public CompleteFieldVector3< RealNumber> apply(CompleteFieldVector3<RealNumber> in) {
         return rotate(in);
     }
 

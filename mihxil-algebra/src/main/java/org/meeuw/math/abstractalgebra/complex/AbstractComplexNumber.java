@@ -36,9 +36,10 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
  */
 @Getter
 public abstract class AbstractComplexNumber<
-    S extends AbstractComplexNumber<S, E, ES>,
-    E extends ScalarFieldElement<E>,
-    ES extends ScalarField<E>
+    S extends AbstractComplexNumber<S, E, ES, C>,
+    E extends ScalarFieldElement<E, C>,
+    ES extends ScalarField<E, C>,
+    C extends CompleteScalarFieldElement<C>
     >
     implements
     FieldElement<S>,
@@ -147,7 +148,7 @@ public abstract class AbstractComplexNumber<
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractComplexNumber<?, ?, ?> that = (AbstractComplexNumber) o;
+        AbstractComplexNumber<?, ?, ?, ?> that = (AbstractComplexNumber) o;
         return real.equals(that.real) && imaginary.equals(that.imaginary);
     }
 

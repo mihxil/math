@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim2.*;
@@ -20,7 +22,7 @@ public class SVGDocument {
     @Getter
     @lombok.Builder.Default
     @With
-    private final Rectangle<RationalNumber> size = Rectangle.of(200, 200);
+    private final Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(200, 200);
 
     @With
     private final Vector2 origin;
@@ -40,17 +42,17 @@ public class SVGDocument {
 
     @Getter
     @lombok.Builder.Default
-    private final List<Shape<?, ?>> shapes = new ArrayList<>();
+    private final List<Shape<?, ?, ?>> shapes = new ArrayList<>();
 
 
     @lombok.Builder
     private SVGDocument(
-        Rectangle<RationalNumber> size,
+        Rectangle<RationalNumber, BigDecimalElement> size,
         Vector2 origin,
         String stroke,
         float textSize,
         List<SVGGroup> groups,
-        List<Shape<?, ?>> shapes
+        List<Shape<?, ?, ?>> shapes
         ) {
         this.size = size;
         this.origin = origin;
@@ -87,7 +89,7 @@ public class SVGDocument {
         return document;
     }
 
-    protected void add(Shape<?, ?> shape, SVGGroup svgGroup) {
+    protected void add(Shape<?, ?, ?> shape, SVGGroup svgGroup) {
         groups.add(svgGroup);
         if (shape != null) {
             shapes.add(shape);
@@ -104,49 +106,48 @@ public class SVGDocument {
     public SVGDocument addGrid() {
         return addGrid((builder) -> {});
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo(Consumer<SVGInfo.Builder> infoConsumer) {
+    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, F, S>> SVGDocument addInfo(Consumer<SVGInfo.Builder> infoConsumer) {
         SVGInfo.Builder infoBuilder = SVGInfo.builder();
         infoConsumer.accept(infoBuilder);
         add(null, infoBuilder.build());
         return this;
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, S>> SVGDocument addInfo() {
+    public  <F extends CompleteScalarFieldElement<F>, S extends Shape<F, F, S>> SVGDocument addInfo() {
         return addInfo((builder) -> {});
     }
 
-    public <F extends CompleteScalarFieldElement<F>, S extends Polygon<F, S>> SVGDocument addPolygon(S polygon, Consumer<SVGPolygon.Builder<F, S>> polygonConsumer) {
-        SVGPolygon.Builder<F, S> polygonBuilder = (SVGPolygon.Builder<F, S>) SVGPolygon.builder();
+    public <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C, S>> SVGDocument addPolygon(S polygon, Consumer<SVGPolygon.Builder<E, C, S>> polygonConsumer) {
+        SVGPolygon.Builder<E, C, S> polygonBuilder = SVGPolygon.<E, C, S>builder();
         polygonBuilder.polygon(polygon);
         polygonConsumer.accept(polygonBuilder);
         add(polygon, polygonBuilder.build());
         return this;
     }
-    public  <F extends CompleteScalarFieldElement<F>, S extends RegularPolygon<F>> SVGDocument addRegularPolygon(S polygon, Consumer<SVGRegularPolygon.Builder<F, S>> polygonConsumer) {
+    public  <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends RegularPolygon<E, C>> SVGDocument addRegularPolygon(S polygon, Consumer<SVGRegularPolygon.Builder<E, C, S>> polygonConsumer) {
 
-        SVGRegularPolygon.Builder<F, S> polygonBuilder = (SVGRegularPolygon.Builder<F, S>) SVGRegularPolygon
-            .regularPolygonBuilder();
+        SVGRegularPolygon.Builder<E, C, S> polygonBuilder = SVGRegularPolygon.<E, C, S>regularPolygonBuilder();
         polygonBuilder.polygon(polygon);
         polygonConsumer.accept(polygonBuilder);
         add(polygon, polygonBuilder.build());
         return this;
     }
 
-    public <F extends CompleteScalarFieldElement<F>> SVGDocument addCircle(Circle<F> circle) {
+    public <F extends CompleteScalarFieldElement<F>> SVGDocument addCircle(Circle<F, F> circle) {
         return addCircle(circle, (builder) -> {
         });
     }
 
 
-    public <F extends CompleteScalarFieldElement<F>> SVGDocument addCircle(Circle<F> circle, Consumer<SVGCircle.Builder<F>> circleConsumer) {
-        SVGCircle.Builder<F> builder = (SVGCircle.Builder<F>) SVGCircle.builder();
+    public <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> SVGDocument addCircle(Circle<E, C> circle, Consumer<SVGCircle.Builder<E, C>> circleConsumer) {
+        SVGCircle.Builder<E, C> builder = SVGCircle.<E, C>builder();
         builder.circle(circle);
         circleConsumer.accept(builder);
         add(circle, builder.build());
         return this;
     }
 
-    public <F extends CompleteScalarFieldElement<F>> SVGDocument addEllipse(Ellipse<F> ellipse, Consumer<SVGEllipse.Builder<?>> ellipseConsumer) {
-        SVGEllipse.Builder<F> ellipseBuilder = (SVGEllipse.Builder<F>) SVGEllipse.builder();
+    public <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> SVGDocument addEllipse(Ellipse<E, C> ellipse, Consumer<SVGEllipse.Builder<E, C>> ellipseConsumer) {
+        SVGEllipse.Builder<E, C> ellipseBuilder = SVGEllipse.<E, C>builder();
         ellipseBuilder.ellipse(ellipse);
         ellipseConsumer.accept(ellipseBuilder);
         add(ellipse, ellipseBuilder.build());

@@ -15,6 +15,7 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.theories.numbers.ScalarTheory;
 
@@ -22,7 +23,7 @@ import org.meeuw.theories.numbers.ScalarTheory;
  * @author Michiel Meeuwissen
  * @since 0.16
  */
-public interface ScalarFieldTheory<E extends ScalarFieldElement<E>> extends
+public interface ScalarFieldTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends
     FieldTheory<E>, ScalarTheory<E> {
 
 }

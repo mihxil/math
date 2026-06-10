@@ -348,15 +348,18 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
         try {
             Method method = structure.getElementClass().getMethod(o.getMethod().getName(), o.getMethod().getParameterTypes());
-
-            if (!structure.getSupportedUnaryOperators().contains(o)) {
-                if (method.getAnnotation(NonAlgebraic.class) == null) {
-                    fail("Not supported operation %s  is on %s", o, structure.getElementClass());
+            if (structure.getElementClass().isAssignableFrom(method.getReturnType())) {
+                if (!structure.getSupportedUnaryOperators().contains(o)) {
+                    if (method.getAnnotation(NonAlgebraic.class) == null) {
+                        fail("Not supported operation %s  is on %s", o, structure.getElementClass());
+                    } else {
+                        log().info("Not supported operation %s is on %s, but it is marked non algebraic".formatted(o, structure.getElementClass()));
+                    }
                 } else {
-                    log().info("Not supported operation %s is on %s, but it is marked non algebraic".formatted(o, structure.getElementClass()));
+                    log().info("Ok %s on %s".formatted(o, structure.getElementClass()));
                 }
             } else {
-                log().info("Ok %s on %s".formatted(o, structure.getElementClass()));
+                log().info("Method %s on %s does not return %s, so it is not a proper unary operator".formatted(o.getMethod().getName(), structure.getElementClass(), structure.getElementClass()));
             }
         } catch (NoSuchMethodException e) {
             if (structure.getSupportedUnaryOperators().contains(o)) {

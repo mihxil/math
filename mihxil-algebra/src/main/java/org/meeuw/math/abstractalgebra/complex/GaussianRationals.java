@@ -21,6 +21,7 @@ import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.Streamable;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.streams.StreamUtils;
@@ -34,7 +35,7 @@ import org.meeuw.math.streams.StreamUtils;
  */
 @Example(Field.class)
 @Singleton
-public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber, RationalNumbers>
+public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, RationalNumber, RationalNumbers, BigDecimalElement>
     implements Field<GaussianRational>, Streamable<GaussianRational> {
 
     public static final GaussianRationals INSTANCE = new GaussianRationals();

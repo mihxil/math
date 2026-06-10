@@ -35,7 +35,7 @@ public abstract class CompleteComplexNumbers<
     S extends CompleteComplexNumber<S, E, ES>,
     E extends CompleteScalarFieldElement<E>,
     ES extends CompleteScalarField<E>>
-    extends AbstractComplexNumbers<S, E, ES>
+    extends AbstractComplexNumbers<S, E, ES, E>
     implements CompleteField<S> ,
     MetricSpace<S, E> {
 

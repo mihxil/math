@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -43,7 +44,7 @@ import static java.math.BigInteger.ONE;
 @Example(ScalarField.class)
 @Singleton
 public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
-    implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
+    implements ScalarField<RationalNumber, BigDecimalElement>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
@@ -71,11 +72,20 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     }
 
     @Override
-    @NonExact
-    @Synonym("𝜋")
-    public RationalNumber pi() {
-        return APPROX_PI;
+    public CompleteScalarField<BigDecimalElement> completedField() {
+        return BigDecimalField.INSTANCE;
     }
+
+    @Override
+    public RationalNumber approx(BigDecimalElement bigDecimalElement) {
+        return null;
+    }
+
+    @Override
+    public BigDecimalElement complete(RationalNumber rationalNumber) {
+        return null;
+    }
+
 
     @Override
     public Set<AlgebraicStructure<?>> getSuperGroups() {

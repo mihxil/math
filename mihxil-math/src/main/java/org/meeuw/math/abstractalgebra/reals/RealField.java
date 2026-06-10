@@ -44,7 +44,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @see DoubleElement
  * @since 0.4
  */
-@Example(CompleteScalarField.class)
+@Example(CompleteField.class)
 @Singleton
 public class RealField
     extends AbstractAlgebraicStructure<RealNumber>

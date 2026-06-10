@@ -321,7 +321,20 @@ public final class ArrayUtils {
             array[i] = ((Number) boxedArray[i]).intValue();
         }
         return array;
-  }
+    }
+
+
+    @SafeVarargs
+    public static <T> T firstNonNull(T... level) {
+        for (T l : level) {
+            if (l != null) {
+                return l;
+            }
+        }
+        throw new IllegalArgumentException("At least one level should be non null");
+    }
+
+
 
 
 }

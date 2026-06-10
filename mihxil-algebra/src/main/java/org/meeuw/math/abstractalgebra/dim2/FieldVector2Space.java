@@ -26,20 +26,20 @@ import org.meeuw.math.text.TextUtils;
 /**
  * @author Michiel Meeuwissen
  */
-public class FieldVector2Space<E extends ScalarFieldElement<E>>
-    implements VectorSpace<E, FieldVector2<E>> {
+public class FieldVector2Space<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    implements VectorSpace<E, FieldVector2<E, C>> {
 
-    private static final Map<ScalarField<?>, FieldVector2Space<?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<ScalarField<?, ?>, FieldVector2Space<?, ?>> INSTANCES = new ConcurrentHashMap<>();
 
-    final ScalarField<E> scalarField;
+    final ScalarField<E, C> scalarField;
 
-    public FieldVector2Space(ScalarField<E> scalarField) {
+    public FieldVector2Space(ScalarField<E, C> scalarField) {
         this.scalarField = scalarField;
     }
 
     @SuppressWarnings("unchecked")
-    public static <F extends ScalarFieldElement<F>> FieldVector2Space<F> of(ScalarField<F> field) {
-        return (FieldVector2Space<F>) INSTANCES.computeIfAbsent(field, k -> new FieldVector2Space<>(field));
+    public static <F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> FieldVector2Space<F, C> of(ScalarField<F, C> field) {
+        return (FieldVector2Space<F, C>) INSTANCES.computeIfAbsent(field, k -> new FieldVector2Space<>(field));
     }
 
     @Override
@@ -48,16 +48,16 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldVector2<E> zero() {
+    public FieldVector2<E, C> zero() {
         return FieldVector2.of(scalarField.zero(), scalarField.zero());
     }
     @Override
-    public FieldVector2<E> nextRandom(Random random) {
+    public FieldVector2<E, C> nextRandom(Random random) {
         return FieldVector2.of(scalarField.nextRandom(random), scalarField.nextRandom(random));
     }
 
     @Override
-    public ScalarField<E> getField() {
+    public ScalarField<E, C> getField() {
         return scalarField;
     }
 
@@ -66,7 +66,7 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldVector2Space<?> that = (FieldVector2Space<?>) o;
+        FieldVector2Space<?, ?> that = (FieldVector2Space<?, ?>) o;
 
         return scalarField.equals(that.scalarField);
     }
@@ -77,7 +77,7 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldVector2<E> one() {
+    public FieldVector2<E, C> one() {
         return FieldVector2.of(scalarField.one(), scalarField.one());
     }
 
@@ -87,11 +87,12 @@ public class FieldVector2Space<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Class<FieldVector2<E>> getElementClass() {
-        return (Class<FieldVector2<E>>) zero().getClass();
+    public Class<FieldVector2<E, C>> getElementClass() {
+        return (Class<FieldVector2<E, C>>) zero().getClass();
     }
+
     @Override
-    public FieldVector2<E> fromString(String s) {
+    public FieldVector2<E, C> fromString(String s) {
         String stripped = TextUtils.stripParentheses(s);
         String[] parts = stripped.split(",");
         if (parts.length != 2) {

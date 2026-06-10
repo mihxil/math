@@ -22,6 +22,9 @@ import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalLogarithmException;
 
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.LN;
+import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQRT;
+
 /**
  * Implementation of the {@link CompleteFieldElement} methods for rational numbers.
  * @author Michiel Meeuwissen
@@ -33,7 +36,7 @@ public abstract class CompleteComplexNumber<
     S extends CompleteComplexNumber<S, E, ES>,
     E extends CompleteScalarFieldElement<E>,
     ES extends CompleteScalarField<E>>
-    extends AbstractComplexNumber<S, E, ES>
+    extends AbstractComplexNumber<S, E, ES, E>
     implements
     CompleteFieldElement<S>,
     MetricSpaceElement<S, E>,
@@ -52,10 +55,11 @@ public abstract class CompleteComplexNumber<
     @Override
     public S sqrt() {
         if (imaginary.isZero()) {
+            E z = getStructure().getElementStructure().zero();
             if (real.isPositive() || real.isZero()) {
-                return _of(real.sqrt(), getStructure().getElementStructure().zero());
+                return _of(real.sqrt(), z);
             } else {
-                return _of(getStructure().getElementStructure().zero(), real.abs().sqrt());
+                return _of(z, real.abs().sqrt());
             }
         }
         E abs = abs();
@@ -81,16 +85,27 @@ public abstract class CompleteComplexNumber<
     @Override
     public S asin() {
         var i = getStructure().i();
-        var o = getStructure().one();
-        return (this.times(i).plus(o.minus(this.sqr()).sqrt())).ln().dividedBy(i);
+        var one = getStructure().one();
+        return LN(
+            this.x(i).p(SQRT(one.minus(this.sqr())))
+        ).dividedBy(i);
     }
 
     @Override
     public S cos() {
         return _of(
             real.cos().times(imaginary.cosh()),
-            real.sin().times(imaginary.sinh())
+            real.sin().times(imaginary.sinh().negation())
         );
+    }
+
+    @Override
+    public S acos() {
+        var i = getStructure().i();
+        var o = getStructure().one();
+        return LN(
+            this.plus(SQRT(this.sqr().minus(o)))
+        ).times(i.negation());
     }
 
     @Override
@@ -106,10 +121,11 @@ public abstract class CompleteComplexNumber<
      * Principal value logarithm
      */
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logarithm of zero")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Cannot take logarithm of zero")
     public S ln() throws IllegalLogarithmException {
+        E abs = abs();
         return _of(
-            abs().ln(),
+            LN(abs),
             getStructure().atan2(imaginary, real)
         );
     }
@@ -119,7 +135,7 @@ public abstract class CompleteComplexNumber<
      * @param y
      * @since 0.20
      */
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot take logarithm of zero")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Cannot take logarithm of zero")
     public S eml(S y) {
         return exp().minus(y.ln());
     }

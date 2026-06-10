@@ -1,5 +1,5 @@
 /*
- *  Copyright 2022 Michiel Meeuwissen
+ *  Copyright 2026 Michiel Meeuwissen
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -24,20 +24,21 @@ import org.meeuw.math.abstractalgebra.*;
 /**
  * @author Michiel Meeuwissen
  */
-public class FieldVector3Space<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
-    implements VectorSpace<E, FieldVector3<E, C>> {
+public class CompleteFieldVector3Space<E  extends CompleteScalarFieldElement<E>>
+    implements VectorSpace<E, CompleteFieldVector3<E>> {
 
-    private static final Map<ScalarField<?, ?>, FieldVector3Space<?, ?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<ScalarField<?, ?>, CompleteFieldVector3Space<?>> INSTANCES = new ConcurrentHashMap<>();
 
-    final ScalarField<E, C> scalarField;
+    final CompleteScalarField<E> scalarField;
 
-    public FieldVector3Space(ScalarField<E, C> scalarField) {
+    public CompleteFieldVector3Space(CompleteScalarField<E
+        > scalarField) {
         this.scalarField = scalarField;
     }
 
     @SuppressWarnings("unchecked")
-    public static <F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> FieldVector3Space<F, C> of(ScalarField<F, C> field) {
-        return (FieldVector3Space<F, C>) INSTANCES.computeIfAbsent(field, k -> new FieldVector3Space<>(field));
+    public static <C extends CompleteScalarFieldElement<C>> CompleteFieldVector3Space<C> of(CompleteScalarField<C> field) {
+        return (CompleteFieldVector3Space<C>) INSTANCES.computeIfAbsent(field, k -> new CompleteFieldVector3Space<>(field));
     }
 
     @Override
@@ -46,17 +47,17 @@ public class FieldVector3Space<E extends ScalarFieldElement<E, C>, C extends Com
     }
 
     @Override
-    public FieldVector3<E, C> zero() {
-        return FieldVector3.of(scalarField.zero(), scalarField.zero(), scalarField.zero());
+    public CompleteFieldVector3<E> zero() {
+        return CompleteFieldVector3.of(scalarField.zero(), scalarField.zero(), scalarField.zero());
     }
 
     @Override
-    public FieldVector3<E, C> nextRandom(Random random) {
-        return FieldVector3.of(scalarField.nextRandom(random), scalarField.nextRandom(random), scalarField.nextRandom(random));
+    public CompleteFieldVector3<E> nextRandom(Random random) {
+        return CompleteFieldVector3.of(scalarField.nextRandom(random), scalarField.nextRandom(random), scalarField.nextRandom(random));
     }
 
     @Override
-    public ScalarField<E, C> getField() {
+    public CompleteScalarField<E> getField() {
         return scalarField;
     }
 
@@ -65,7 +66,7 @@ public class FieldVector3Space<E extends ScalarFieldElement<E, C>, C extends Com
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldVector3Space<?, ?> that = (FieldVector3Space<?, ?>) o;
+        CompleteFieldVector3Space<?> that = (CompleteFieldVector3Space<?>) o;
 
         return scalarField.equals(that.scalarField);
     }
@@ -76,8 +77,8 @@ public class FieldVector3Space<E extends ScalarFieldElement<E, C>, C extends Com
     }
 
     @Override
-    public FieldVector3<E, C> one() {
-        return FieldVector3.of(scalarField.one(), scalarField.one(), scalarField.one());
+    public CompleteFieldVector3<E> one() {
+        return CompleteFieldVector3.of(scalarField.one(), scalarField.one(), scalarField.one());
     }
 
     @Override
@@ -86,7 +87,7 @@ public class FieldVector3Space<E extends ScalarFieldElement<E, C>, C extends Com
     }
 
     @Override
-    public Class<FieldVector3<E,C >> getElementClass() {
-        return (Class<FieldVector3<E, C>>) zero().getClass();
+    public Class<CompleteFieldVector3<E>> getElementClass() {
+        return (Class<CompleteFieldVector3<E>>) zero().getClass();
     }
 }

@@ -136,7 +136,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public BigDecimalElement dividedBy(BigDecimalElement n) throws DivisionByZeroException {
         UncertainNumber<BigDecimal> newValue = operations().divide(value, n.value);
         return new BigDecimalElement(newValue.getValue(),
@@ -165,7 +165,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value = "Not possible for negative arguments")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value = "Not possible for negative arguments")
     public BigDecimalElement pow(BigDecimalElement bigDecimalElement) throws IllegalPowerException {
         UncertainNumber<BigDecimal> pow = operations().pow(value, bigDecimalElement.value);
         return new BigDecimalElement(pow.getValue(), uncertainty.max(pow.getUncertainty()));
@@ -214,6 +214,15 @@ public class BigDecimalElement implements
         UncertainNumber<BigDecimal> cos = operations().cos(value);
         return new BigDecimalElement(cos.getValue(),
             uncertainty.max(cos.getUncertainty())
+        );
+    }
+
+    @Override
+    public BigDecimalElement acos() {
+        UncertainNumber<BigDecimal> acos = operations().acos(value);
+        return new BigDecimalElement(
+            acos.getValue(),
+            uncertainty.max(acos.getUncertainty())
         );
     }
 

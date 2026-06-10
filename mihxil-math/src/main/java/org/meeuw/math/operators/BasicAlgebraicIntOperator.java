@@ -21,7 +21,7 @@ import lombok.SneakyThrows;
 import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.numbers.ElementaryNumber;
+import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 import org.meeuw.math.text.TextUtils;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
@@ -63,7 +63,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
      * Taking the n-th root of an element, which is defined for all {@link CompleteFieldElement}s.
      */
     ROOT(
-        getDeclaredMethod(ElementaryNumber.class, "root", int.class),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "root", int.class),
         (s, i) ->  TextUtils.superscript(i) + "√" + withBracketsIfNeeded(s)
     ),
 
@@ -71,7 +71,7 @@ public enum BasicAlgebraicIntOperator implements AlgebraicIntOperator {
      * Taking the n-th tetration of an element.
      */
     TETRATION(
-        getDeclaredMethod(ElementaryNumber.class, "tetration", int.class),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "tetration", int.class),
         (s, i) -> TextUtils.superscript(i) + withBracketsIfNeeded(s)
     )
     ;

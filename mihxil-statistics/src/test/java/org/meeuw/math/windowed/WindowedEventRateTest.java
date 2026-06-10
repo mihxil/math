@@ -25,15 +25,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.*;
-
 import org.junit.jupiter.api.parallel.Isolated;
 
 // tag::imports[]
-
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -109,6 +108,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
             .bucketCount(5)
             .window(Duration.ofSeconds(5))
             .clock(clock)
+            .reporterExceptionLevel(Level.INFO)
             .reporter(new Consumer<>() {
                 @Override
                 public void accept(WindowedEventRate we) {

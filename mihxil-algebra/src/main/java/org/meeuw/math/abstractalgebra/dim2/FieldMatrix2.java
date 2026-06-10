@@ -30,30 +30,28 @@ import org.meeuw.math.validation.Square;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix2<E extends ScalarFieldElement<E>>
-    implements MultiplicativeGroupElement<FieldMatrix2<E>>,
-    WithScalarOperations<FieldMatrix2<E>, E>
+public class FieldMatrix2<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    implements MultiplicativeGroupElement<FieldMatrix2<E, C>>,
+    WithScalarOperations<FieldMatrix2<E, C>, E>
 {
 
     @Square(2)
     final E[][] values;
 
-    final ScalarField<E> elementStructure;
+    final ScalarField<E, C> elementStructure;
 
     final E zero;
 
-    public static <E extends ScalarFieldElement<E>> FieldMatrix2<E> of(
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix2<E, C> of(
         E v00, E v01,
         E v10, E v11) {
         return of(v00.getStructure().getElementClass(),
             v00, v01,
             v10, v11);
-
     }
 
-
     @SuppressWarnings("unchecked")
-    static <E extends ScalarFieldElement<E>> FieldMatrix2<E> of(
+    static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix2<E, C> of(
         Class<E> clazz,
         E v00, E v01,
         E v10, E v11
@@ -64,7 +62,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
 
         fs[1][0]  = v10;
         fs[1][1]  = v11;
-        FieldMatrix2<E> fm =  new FieldMatrix2<>(fs);
+        FieldMatrix2<E, C> fm =  new FieldMatrix2<>(fs);
         if (fm.determinant().isZero()) {
             throw new NotInvertibleException("Determinant is zero, so this is not invertible " + fm);
         }
@@ -79,12 +77,12 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix2<E> times(FieldMatrix2<E> multiplier) {
+    public FieldMatrix2<E, C> times(FieldMatrix2<E, C> multiplier) {
         return new FieldMatrix2<>(timesMatrix(multiplier.values));
     }
 
     @Override
-    public FieldMatrix2<E> times(E multiplier) {
+    public FieldMatrix2<E, C> times(E multiplier) {
         E[][] result = empty();
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
@@ -95,13 +93,13 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix2<E> dividedBy(E divisor) {
+    public FieldMatrix2<E, C> dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }
 
     @SuppressWarnings({"unchecked"})
-    public FieldVector2<E>[] asVectors() {
-        FieldVector2<E>[] result = (FieldVector2<E>[]) new FieldVector2[2];
+    public FieldVector2<E, C>[] asVectors() {
+        FieldVector2<E, C>[] result = (FieldVector2<E, C>[]) new FieldVector2[2];
         result[0] = FieldVector2.of(values[0][0], values[0][1]);
         result[1] = FieldVector2.of(values[1][0], values[1][1]);
         return result;
@@ -109,7 +107,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
 
     @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
-    public FieldMatrix2<E> reciprocal() throws ReciprocalException {
+    public FieldMatrix2<E, C> reciprocal() throws ReciprocalException {
         try {
             E det = determinant();
             if (det.isZero()) {
@@ -122,7 +120,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         }
     }
 
-    public FieldMatrix2<E> adjugate() {
+    public FieldMatrix2<E, C> adjugate() {
         return new FieldMatrix2<>(adjugateMatrix());
     }
 
@@ -156,7 +154,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public @NonNull FieldMatrix2Group<E> getStructure() {
+    public @NonNull FieldMatrix2Group<E, C> getStructure() {
         return FieldMatrix2Group.of(elementStructure);
     }
 
@@ -182,7 +180,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         return determinant2x2(a, b, c, d);
     }
 
-    public static <E extends ScalarFieldElement<E>> E determinant2x2(E a, E b, E c, E d) {
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> E determinant2x2(E a, E b, E c, E d) {
         return a.times(d).minus(b.times(c));
     }
 
@@ -199,7 +197,7 @@ public class FieldMatrix2<E extends ScalarFieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldMatrix2<E> that = (FieldMatrix2<E>) o;
+        FieldMatrix2<E, C> that = (FieldMatrix2<E, C>) o;
         Equivalence<E> equivalence = elementStructure.getEquivalence();
         boolean result = true;
         for (int i = 0; i < 2; i++) {

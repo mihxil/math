@@ -11,8 +11,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
-import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.RegularPolygon;
+import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
 import static org.meeuw.assertj.Assertions.assertThat;
@@ -21,13 +20,13 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 @Log
-public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygon<RealNumber>> {
-    static RegularPolygon<RealNumber> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
-    static RegularPolygon<RealNumber> square = new RegularPolygon<>(4, element(1.0));
-    static RegularPolygon<RealNumber> pentagon = new RegularPolygon<>(5, element(1.0));
+public class RegularPolygonTest implements ShapeTheory<RealNumber, RealNumber, RegularPolygon<RealNumber, RealNumber>> {
+    static RegularPolygon<RealNumber, RealNumber> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
+    static RegularPolygon<RealNumber, RealNumber> square = new RegularPolygon<>(4, element(1.0));
+    static RegularPolygon<RealNumber, RealNumber> pentagon = new RegularPolygon<>(5, element(1.0));
 
-    static RegularPolygon<RealNumber> hexagon = new RegularPolygon<>(6, element(1.0));
-    static RegularPolygon<RealNumber> heptagon = new RegularPolygon<>(7, element(1.0));
+    static RegularPolygon<RealNumber, RealNumber> hexagon = new RegularPolygon<>(6, element(1.0));
+    static RegularPolygon<RealNumber, RealNumber> heptagon = new RegularPolygon<>(7, element(1.0));
 
 
 
@@ -57,7 +56,7 @@ public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygo
     }
 
 
-    public static List<RegularPolygon<RealNumber>> nGons() {
+    public static List<RegularPolygon<RealNumber, RealNumber>> nGons() {
         return List.of(triangle, square, pentagon, hexagon,
             heptagon,
             new RegularPolygon<>(8, element(1.0)),
@@ -70,7 +69,7 @@ public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygo
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<RealNumber> nGon) {
+    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
 
         RealNumber ratio = nGon.circumscribedRadius().sqr().minus(nGon.inscribedRadius().sqr());
         assertThatAlgebraically(ratio).isEqTo(element(0.25));
@@ -78,14 +77,14 @@ public class RegularPolygonTest implements ShapeTheory<RealNumber, RegularPolygo
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void vertices(@ForAll("nGons") RegularPolygon<RealNumber> nGon) {
+    public void vertices(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
         nGon.vertices().forEach(fv -> {
             log.info(fv.toString());
         });
     }
 
     @Override
-    public Arbitrary<@NonNull RegularPolygon<RealNumber>> datapoints() {
+    public Arbitrary<@NonNull RegularPolygon<RealNumber, RealNumber>> datapoints() {
         return Arbitraries.integers().between(3, 20)
             .flatMap(n -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(size -> new RegularPolygon<>(n, element(size))));

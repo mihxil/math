@@ -210,6 +210,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
     }
 
     @Override
+    public UncertainNumber<Double> acos(Double aDouble) {
+        return uncertain(Math.acos(aDouble));
+    }
+
+    @Override
     public UncertainNumber<Double> tan(Double aDouble) {
         return uncertain(Math.tan(aDouble));
     }

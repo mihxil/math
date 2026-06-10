@@ -44,10 +44,9 @@ import org.meeuw.math.validation.NotZero;
 @Getter
 public class RationalNumber extends Number
     implements
-    ScalarFieldElement<RationalNumber>,
+    ScalarFieldElement<RationalNumber, BigDecimalElement>,
     SignedNumber<RationalNumber>,
-    Ordered<RationalNumber>,
-    ElementaryNumber<BigDecimalElement, BigDecimalField, RationalNumber> {
+    Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
@@ -111,7 +110,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public RationalNumber reciprocal() throws ReciprocalException {
         if (numerator.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException("Denominator cannot be zero", "reciprocal(" + this + ")");
@@ -165,6 +164,11 @@ public class RationalNumber extends Number
     }
 
     @Override
+    public BigDecimalElement acos() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.acos(bigDecimalValue()).getValue());
+    }
+
+    @Override
     @NonExact
     @NonAlgebraic
     public BigDecimalElement tan() {
@@ -198,7 +202,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public RationalNumber dividedBy(@NotZero RationalNumber divisor) throws DivisionByZeroException {
         if (divisor.isZero()) {
             throw new DivisionByZeroException(this, divisor);

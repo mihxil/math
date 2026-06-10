@@ -288,7 +288,7 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         return uncertain(BigDecimalMath.sin(bigDecimal, context()));
     }
 
-      @Override
+    @Override
     public UncertainNumber<BigDecimal> asin(BigDecimal bigDecimal) {
           return uncertain(BigDecimalMath.asin(bigDecimal, context()));
     }
@@ -296,6 +296,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     @Override
     public UncertainNumber<BigDecimal> cos(BigDecimal bigDecimal) {
         return uncertain(BigDecimalMath.cos(bigDecimal, context()));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> acos(BigDecimal bigDecimal) {
+        return uncertain(BigDecimalMath.acos(bigDecimal, context()));
     }
 
     @Override

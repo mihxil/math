@@ -2,43 +2,40 @@ package org.meeuw.math.shapes.dim3;
 
 import lombok.Getter;
 
-import org.meeuw.math.abstractalgebra.ScalarField;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.numbers.ElementaryNumber;
+import org.meeuw.math.abstractalgebra.*;
 
 @Getter
-public class PlatonicSolid<F extends ScalarFieldElement<F> & ElementaryNumber<F, F>> implements Polyhedron<F, PlatonicSolid<F>> {
+public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<E, C, PlatonicSolid<E, C>> {
 
-    private final PlatonicSolidEnum platonicSolidEnum;
+    private final PlatonicSolidEnum type;
+    private final ScalarField<E, C> field;
+    private final E size;
 
-    private final ScalarField<F> field;
-    private final F size;
 
-
-    public PlatonicSolid(PlatonicSolidEnum platonicSolidEnum, F size) {
-        this.platonicSolidEnum = platonicSolidEnum;
+    public PlatonicSolid(PlatonicSolidEnum type, E size) {
+        this.type = type;
         this.size = size;
         this.field = size.getStructure();
     }
 
     @Override
     public int vertices() {
-        return platonicSolidEnum.vertices();
+        return type.vertices();
     }
 
     @Override
     public int edges() {
-        return platonicSolidEnum.edges();
+        return type.edges();
     }
 
     @Override
     public int faces() {
-        return platonicSolidEnum.faces();
+        return type.faces();
     }
 
-    public F dihedralAngle() {
-        var p = platonicSolidEnum.p();
-        var q = platonicSolidEnum.q();
+    public C dihedralAngle() {
+        var p = type.p();
+        var q = type.q();
         return
             ((field.pi().dividedBy(q)).cos())
                 .dividedBy(
@@ -46,46 +43,42 @@ public class PlatonicSolid<F extends ScalarFieldElement<F> & ElementaryNumber<F,
                 ).asin().times(2);
     }
 
-    public F inradius() {
+    public C inradius() {
         var theta = dihedralAngle();
-        return size().dividedBy(2).dividedBy(
-            field.pi().dividedBy(platonicSolidEnum.p()).tan()
+        return field.complete(size()).dividedBy(2).dividedBy(
+            field.pi().dividedBy(type.p()).tan()
         ).times(theta.dividedBy(2).tan());
     }
 
-    public F circumradius() {
+    public C circumradius() {
         var theta = dihedralAngle();
-        return size().dividedBy(2).times(
-            field.pi().dividedBy(platonicSolidEnum.q()).tan()
+        return size().complete().dividedBy(2).times(
+            field.pi().dividedBy(type.q()).tan()
         ).times(theta.dividedBy(2).tan());
     }
 
     @Override
-    public F volume() {
+    public C volume() {
         return inradius().times(surfaceArea()).dividedBy(3);
     }
 
-
-
     @Override
-    public F surfaceArea() {
-        return size().dividedBy(2).sqr().times((long) faces() * platonicSolidEnum.p())
-            .dividedBy(field.pi().dividedBy(platonicSolidEnum.p()).tan());
+    public C surfaceArea() {
+        return size().complete().dividedBy(2).sqr().times((long) faces() * type.p())
+            .dividedBy(field.pi().dividedBy(type.p()).tan());
     }
 
-
-
     @Override
-    public boolean eq(PlatonicSolid<F> other) {
+    public boolean eq(PlatonicSolid<E, C> other) {
         return false;
     }
 
-    public Sphere<F> circumscribedSphere() {
-        throw new UnsupportedOperationException("Circumscribed sphere not implemented for " + platonicSolidEnum);
+    public Sphere<E, C> circumscribedSphere() {
+        throw new UnsupportedOperationException("Circumscribed sphere not implemented for " + type);
     }
 
     @Override
     public String toString() {
-        return String.format("%s, edge size: %s", platonicSolidEnum.name(), size);
+        return String.format("%s, edge size: %s", type.name(), size);
     }
 }

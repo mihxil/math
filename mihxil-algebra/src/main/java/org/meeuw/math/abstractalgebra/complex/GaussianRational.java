@@ -16,6 +16,7 @@
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 
@@ -26,7 +27,7 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
  * @since 0.4
  */
 @Singleton
-public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber, RationalNumbers> {
+public class GaussianRational extends AbstractComplexNumber<GaussianRational, RationalNumber, RationalNumbers, BigDecimalElement> {
 
     public static GaussianRational of(RationalNumber real, RationalNumber imaginary) {
         return new GaussianRational(real, imaginary);

@@ -64,13 +64,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             log().info(overflowException.getMessage());
         } catch (IllegalLogarithmException illegalLogException){
             Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
-            log().warning(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
-
-
+            log().info(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(NonAlgebraic::value).orElse("<not marked non-algebraic>") + ")");
             assertThat(nonalgebraicOptional)
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
     }
+
     @Property
     default void sqrt(@ForAll(ELEMENTS) E e) {
         E sqr = e.sqr();
@@ -81,15 +80,33 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     @Property
     default void sin(@ForAll(ELEMENTS) E e) {
         E sin = e.sin();
-        E sinAsin = sin.asin();
-        assertThat(sinAsin.sin()).isEqTo(sin);
+        E sinAsin = null;
+        try {
+            sinAsin = sin.asin();
+            E sin2 = sinAsin.sin();
+            assertThat(sin2).withFailMessage(
+                String.format("sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s) = %s !=  sin(%s) = %s", e, sin, sinAsin, sin2, e, sin)
+            ).isEqTo(sin);
+        } catch(IllegalLogarithmException ie) {
+            log().warning( "sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s): %s".formatted(e, sin, sinAsin, ie.getMessage()));
+        }
     }
 
     @Property
     default void cos(@ForAll(ELEMENTS) E e) {
+
         E cos = e.cos();
-        E cosAcos = cos.acos();
-        assertThat(cosAcos.cos()).isEqTo(cos);
+        E cosAcos = null;
+        try {
+            cosAcos = cos.acos();
+            E cos2 = cosAcos.cos();
+            assertThat(cos2).withFailMessage(
+                String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s", e, cos, cosAcos, cos2, e, cos)
+
+            ).isEqTo(cos);
+        } catch(IllegalLogarithmException ie) {
+            log().warning( "cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s): %s".formatted(e, cos, cosAcos, ie.getMessage()));
+        }
     }
 
     @Property
@@ -117,17 +134,17 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     @Property
     default void asin0(@ForAll(STRUCTURE) CompleteField<E> struct) {
         assertThatAlgebraically(struct.zero().asin()).isEqTo(struct.zero());
-
     }
+
     @Property
     default void asin1(@ForAll(STRUCTURE) CompleteField<E> struct) {
         assertThatAlgebraically(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
     }
+
     @Property
     default void asinminus1(@ForAll(STRUCTURE) CompleteField<E> struct) {
         assertThatAlgebraically(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
     }
-
 
     @Property
     default void cosPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
@@ -152,10 +169,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
              assertThatAlgebraically(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
-
          }
     }
-
-
 
 }

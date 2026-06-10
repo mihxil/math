@@ -37,12 +37,14 @@ import static java.math.BigDecimal.ZERO;
  * A 2-dimensional vector on a {@link ScalarField}.
  *
  * @author Michiel Meeuwissen
+ * @param <E> type of the both elements of the vector
+ * @param <C> type of completion
  */
-public class FieldVector2<E extends ScalarFieldElement<E>>
+public class FieldVector2<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     implements
     Sizeable<E>,
-    Vector<FieldVector2<E>, E>,
-    WithScalarOperations<FieldVector2<E>, E> {
+    Vector<FieldVector2<E, C>, E>,
+    WithScalarOperations<FieldVector2<E, C>, E> {
 
     @With
     @Getter
@@ -52,19 +54,19 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     final E y;
 
 
-    public static <E extends ScalarFieldElement<E>> FieldVector2<E> of(E x, E y) {
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldVector2<E, C> of(E x, E y) {
         return new FieldVector2<>(x, y);
     }
 
-    public static <E extends ScalarFieldElement<E>> FieldVector2<E> origin(ScalarField<E> field) {
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldVector2<E, C> origin(ScalarField<E, C> field) {
         return new FieldVector2<>(field.zero(), field.zero());
     }
 
-    public static FieldVector2<RealNumber> of(double x, double y) {
+    public static FieldVector2<RealNumber, RealNumber> of(double x, double y) {
         return new FieldVector2<>(RealNumber.of(x), RealNumber.of(y));
     }
 
-    public static FieldVector2<BigDecimalElement> of(BigDecimal x, BigDecimal y) {
+    public static FieldVector2<BigDecimalElement, BigDecimalElement> of(BigDecimal x, BigDecimal y) {
         return of(new BigDecimalElement(x, ZERO), new BigDecimalElement(y, ZERO));
     }
 
@@ -73,7 +75,7 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
         this.y = y;
     }
 
-    public FieldVector2<E> times(FieldMatrix2<E> matrix2) {
+    public FieldVector2<E, C> times(FieldMatrix2<E, C> matrix2) {
         return of(
             matrix2.values[0][0].times(x).plus(matrix2.values[0][1].times(y)),
             matrix2.values[1][0].times(x).plus(matrix2.values[1][1].times(y))
@@ -84,20 +86,20 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     @NonAlgebraic
     public E abs() {
         E result  = (x.sqr().plus(y.sqr()));
-        if (result instanceof CompleteFieldElement) {
-            return (E) ((CompleteFieldElement<?>) result).sqrt();
+        if (result instanceof CompleteScalarFieldElement) {
+            return (E) ((CompleteScalarFieldElement<?>) result).sqrt();
         } else {
             throw new FieldIncompleteException("Field of " + this + " is not complete");
         }
     }
 
     @Override
-    public FieldVector2<E> times(E multiplier) {
+    public FieldVector2<E, C> times(E multiplier) {
         return of(x.times(multiplier), y.times(multiplier));
     }
 
     @Override
-    public FieldVector2<E> plus(FieldVector2<E> summand) {
+    public FieldVector2<E, C> plus(FieldVector2<E, C> summand) {
         return of(
             x.plus(summand.x),
             y.plus(summand.y)
@@ -105,12 +107,12 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public E dot(FieldVector2<E> multiplier) {
+    public E dot(FieldVector2<E, C> multiplier) {
         return (x.times(multiplier.x)).plus(y.times(multiplier.y));
     }
 
     @Override
-    public FieldVector2<E> negation() {
+    public FieldVector2<E, C> negation() {
         return of(x.negation(), y.negation());
     }
 
@@ -124,12 +126,12 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public VectorSpace<E, FieldVector2<E>> getSpace() {
+    public VectorSpace<E, FieldVector2<E, C>> getSpace() {
         return FieldVector2Space.of(x.getStructure());
     }
 
     @Override
-    public FieldVector2<E> dividedBy(E divisor) {
+    public FieldVector2<E, C> dividedBy(E divisor) {
         return new FieldVector2<>(x.dividedBy(divisor), y.dividedBy(divisor));
     }
 
@@ -145,14 +147,14 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldVector2<?> vector3 = (FieldVector2) o;
+        FieldVector2<?, ?> vector3 = (FieldVector2) o;
 
         return x.equals(vector3.x) &&
             y.equals(vector3.y);
     }
 
     @Override
-    public boolean eq(FieldVector2<E> o) {
+    public boolean eq(FieldVector2<E, C> o) {
         if (this == o) return true;
 
         return x.eq(o.x) &&
@@ -172,12 +174,16 @@ public class FieldVector2<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public @NonNull AbelianRing<FieldVector2<E>> getStructure() {
+    public @NonNull AbelianRing<FieldVector2<E, C>> getStructure() {
         return getSpace();
     }
 
     @Override
-    public FieldVector2<E> times(FieldVector2<E> multiplier) {
+    public FieldVector2<E, C> times(FieldVector2<E, C> multiplier) {
         return new FieldVector2<>(x.times(multiplier.x), y.times(multiplier.y));
+    }
+
+    public FieldVector2<C, C> complete() {
+        return new FieldVector2<>(x.complete(), y.complete());
     }
 }

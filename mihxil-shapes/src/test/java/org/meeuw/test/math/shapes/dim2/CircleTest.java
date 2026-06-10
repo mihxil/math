@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.Circle;
@@ -21,22 +22,21 @@ public class CircleTest {
 
     @Nested
     @Group
-    public  class RationalCircleTest implements ShapeTheory<RationalNumber, Circle<RationalNumber>> {
+    public  class RationalCircleTest implements ShapeTheory<RationalNumber, BigDecimalElement, Circle<RationalNumber, BigDecimalElement>> {
 
         @Override
-        public Arbitrary<@NonNull Circle<RationalNumber>> datapoints() {
+        public Arbitrary<@NonNull Circle<RationalNumber, BigDecimalElement>> datapoints() {
             return Arbitraries
                 .randomValue(INSTANCE::nextRandom)
                 .map(Circle::new);
         }
-
     }
 
     @Nested
     @Group
-    public class RealCircleTest implements ShapeTheory<RealNumber, Circle<RealNumber>> {
+    public class RealCircleTest implements ShapeTheory<RealNumber, RealNumber, Circle<RealNumber, RealNumber>> {
 
-        public static Circle<RealNumber> circle = new Circle<>(exactly(1)).times(exactly(2));
+        public static Circle<RealNumber, RealNumber> circle = new Circle<>(exactly(1)).times(exactly(2));
 
         @Test
         public void area() {
@@ -57,7 +57,7 @@ public class CircleTest {
         }
 
         @Override
-        public Arbitrary<@NonNull Circle<RealNumber>> datapoints() {
+        public Arbitrary<@NonNull Circle<RealNumber, RealNumber>> datapoints() {
             return Arbitraries.doubles().ofScale(3).between(0.001, 1000)
                 .map(d -> new Circle<>(element(d)));
         }

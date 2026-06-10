@@ -21,6 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldMatrix2;
 import org.meeuw.math.abstractalgebra.dim2.FieldMatrix2Group;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -39,7 +40,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  */
 @PropertyDefaults(tries = 100)
 @Log
-class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<RationalNumber>> {
+class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<RationalNumber, BigDecimalElement>> {
 
 
     @Test
@@ -51,7 +52,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
             );
         }).isInstanceOf(InvalidElementCreationException.class);
 
-        FieldMatrix2<RationalNumber> iml = new FieldMatrix2<>(
+        FieldMatrix2<RationalNumber, BigDecimalElement> iml = new FieldMatrix2<>(
             new RationalNumber[][]{
                 new RationalNumber[]{of(3), of(0)},
                 new RationalNumber[]{of(2), of(0)}
@@ -64,7 +65,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
 
     @Test
     public void adjugate() {
-        FieldMatrix2<RationalNumber> fm = FieldMatrix2.of(
+        FieldMatrix2<RationalNumber, BigDecimalElement> fm = FieldMatrix2.of(
             of(3), of(0),
             of(2), of(1)
 
@@ -79,7 +80,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
 
     @Test
     public void determinant() {
-        FieldMatrix2<RationalNumber> fm = FieldMatrix2.of(
+        FieldMatrix2<RationalNumber, BigDecimalElement> fm = FieldMatrix2.of(
             of(2), of(-3),
             of(2), of(0)
         );
@@ -91,7 +92,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     @Test
     public void illegalReciprocal() {
 
-        FieldMatrix2<RationalNumber> fm = new FieldMatrix2<>(
+        FieldMatrix2<RationalNumber, BigDecimalElement> fm = new FieldMatrix2<>(
             new RationalNumber[][]{
                 new RationalNumber[]{of(2), of(0)},
                 new RationalNumber[]{of(1), of(0)}
@@ -108,7 +109,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     }
 
     @Override
-    public Arbitrary<FieldMatrix2<RationalNumber>> elements() {
+    public Arbitrary<FieldMatrix2<RationalNumber, BigDecimalElement>> elements() {
         return
             Arbitraries.randoms().map(RationalNumbers.INSTANCE::nextRandom).list().ofSize(4)
                 .map( l -> FieldMatrix2.of(

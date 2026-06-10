@@ -32,18 +32,18 @@ import static org.meeuw.math.abstractalgebra.dim2.FieldMatrix2.determinant2x2;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix3<E extends ScalarFieldElement<E>>
-    implements MultiplicativeGroupElement<FieldMatrix3<E>>,
-    WithScalarOperations<FieldMatrix3<E>, E>
+public class FieldMatrix3<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    implements MultiplicativeGroupElement<FieldMatrix3<E, C>>,
+    WithScalarOperations<FieldMatrix3<E, C>, E>
 {
 
     @Square(3)
     final E[][] values;
 
-    final ScalarField<E> elementStructure;
+    final ScalarField<E, C> elementStructure;
 
 
-    public static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix3<E, C> of(
         E v00, E v01, E v02,
         E v10, E v11, E v12,
         E v20, E v21, E v22) {
@@ -51,13 +51,10 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
             v00, v01, v02,
             v10, v11, v12,
             v20, v21, v22);
-
     }
 
-
-
     @SuppressWarnings("unchecked")
-    static <E extends ScalarFieldElement<E>> FieldMatrix3<E> of(
+    static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix3<E, C> of(
         Class<E> clazz,
         E v00, E v01, E v02,
         E v10, E v11, E v12,
@@ -75,7 +72,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         fs[2][0]  = v20;
         fs[2][1]  = v21;
         fs[2][2]  = v22;
-        FieldMatrix3<E> fm =  new FieldMatrix3<>(fs);
+        FieldMatrix3<E, C> fm =  new FieldMatrix3<>(fs);
         if (fm.determinant().isZero()) {
             throw new NotInvertibleException("Determinant is zero, so this is not invertible " + fm);
         }
@@ -89,12 +86,12 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3<E> times(FieldMatrix3<E> multiplier) {
+    public FieldMatrix3<E, C> times(FieldMatrix3<E, C> multiplier) {
         return new FieldMatrix3<>(timesMatrix(multiplier.values));
     }
 
     @Override
-    public FieldMatrix3<E> times(E multiplier) {
+    public FieldMatrix3<E, C> times(E multiplier) {
         E[][] result = empty();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -105,13 +102,13 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3<E> dividedBy(E divisor) {
+    public FieldMatrix3<E, C> dividedBy(E divisor) {
         return times(divisor.reciprocal());
     }
 
     @SuppressWarnings({"unchecked"})
-    public FieldVector3<E>[] asVectors() {
-        FieldVector3<E>[] result = (FieldVector3<E>[]) new FieldVector3[3];
+    public FieldVector3<E, C>[] asVectors() {
+        FieldVector3<E, C>[] result = (FieldVector3<E, C>[]) new FieldVector3[3];
         result[0] = FieldVector3.of(values[0][0], values[0][1], values[0][2]);
         result[1] = FieldVector3.of(values[1][0], values[1][1], values[1][2]);
         result[2] = FieldVector3.of(values[2][0], values[2][1], values[2][2]);
@@ -120,7 +117,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
 
     @Override
     // https://www.mathsisfun.com/algebra/matrix-inverse-minors-cofactors-adjugate.html
-    public FieldMatrix3<E> reciprocal() throws ReciprocalException {
+    public FieldMatrix3<E, C> reciprocal() throws ReciprocalException {
         try {
             E det = determinant();
             if (det.isZero()) {
@@ -133,7 +130,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         }
     }
 
-    public FieldMatrix3<E> adjugate() {
+    public FieldMatrix3<E, C> adjugate() {
         return new FieldMatrix3<>(adjugateMatrix());
     }
 
@@ -174,7 +171,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public @NonNull FieldMatrix3Group<E> getStructure() {
+    public @NonNull FieldMatrix3Group<E, C> getStructure() {
         return FieldMatrix3Group.of(elementStructure);
     }
 
@@ -224,7 +221,7 @@ public class FieldMatrix3<E extends ScalarFieldElement<E>>
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FieldMatrix3<E> that = (FieldMatrix3<E>) o;
+        FieldMatrix3<E, C> that = (FieldMatrix3<E, C>) o;
         Equivalence<E> equivalence = elementStructure.getEquivalence();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {

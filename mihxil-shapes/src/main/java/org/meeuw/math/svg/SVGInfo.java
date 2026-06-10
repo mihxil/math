@@ -30,14 +30,14 @@ public class SVGInfo implements SVGGroup {
         info.setAttribute("y", String.valueOf(0));
         info.setAttribute("font-size", svgDocument.textSize() +"");
         info.setAttribute("fill", "blue");
-        for (Shape<?, ?> shape : svgDocument.shapes()) {
+        for (Shape<?, ?, ?> shape : svgDocument.shapes()) {
             fill(shape, svgDocument, info);
         }
         g.appendChild(info);
 
     }
 
-    private void fill(Shape<?, ?> shape, SVGDocument svgDocument, Element info) {
+    private void fill(Shape<?, ?, ?> shape, SVGDocument svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());
         shape.info().filter(filter).forEach(e ->
             tspan(svgDocument, info, e.key() + ": " + e.descriptionString())

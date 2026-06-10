@@ -6,8 +6,7 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.units.qual.radians;
-import org.meeuw.math.abstractalgebra.CompleteScalarField;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
@@ -18,76 +17,86 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 /**
  * Regular polygon with n sides, all of equal length.
  */
-public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements Polygon<F, RegularPolygon<F>> {
+public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C,  RegularPolygon<E, C>> {
 
     private final int n;
-    private final F size;
-    private final F angle;
-    private final CompleteScalarField<F> field;
+    private final E size;
+    private final E angle;
+    private final ScalarField<E, C> field;
 
-    public RegularPolygon(@Min(3) int n, F size, @radians F angle) {
+    public RegularPolygon(@Min(3) int n, E size, @radians E angle) {
         this.n = n;
         this.size = size;
         this.angle = angle;
         this.field = size.getStructure();
     }
-    public RegularPolygon(@Min(3) int n, F size) {
+    public RegularPolygon(@Min(3) int n, E size) {
         this(n, size, size.getStructure().zero());
     }
 
 
-    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> withCircumScribedRadius(int n, F radius) {
-        return new RegularPolygon<>(n, radius.times(2).times(radius.getStructure().pi().dividedBy(n).sin()));
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> RegularPolygon<C, C> withCircumScribedRadius(int n, E radius) {
+        return new RegularPolygon<>(n, radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()), radius.getStructure().zero().complete());
     }
 
-    public F size() {
+    public E size() {
         return size;
     }
     public int n() {
         return n;
     }
     @Override
-    public F perimeter() {
+    public C perimeter() {
+        return exactPerimeter().complete();
+    }
+
+    public E exactPerimeter() {
         return size.times(n);
     }
 
     @Override
-    public F area() {
+    public C area() {
         return field.pi().dividedBy(n).cot()
-            .times(size.sqr()).times(n).dividedBy(4);
+            .times(size.sqr().complete()).times(n).dividedBy(4);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public RegularPolygon<C, C> complete() {
+        return new RegularPolygon<>(n, size.complete(), angle.complete());
     }
 
     public DihedralGroup dihedralGroup() {
         return DihedralGroup.of(n);
     }
-    public static <F extends CompleteScalarFieldElement<F>> RegularPolygon<F> of(DihedralGroup group, F size) {
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> RegularPolygon<E, C> of(DihedralGroup group, E size) {
         return new RegularPolygon<>(group.getN(), size);
     }
 
     @Override
-    public LocatedShape<F, Circle<F>> circumscribedCircle() {
+    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
         return atOrigin(new Circle<>(circumscribedRadius()));
     }
 
     @Override
-    public CompleteScalarField<F> field() {
+    public ScalarField<E, C> field() {
         return field;
     }
 
-    public F interiorAngle() {
+    public C interiorAngle() {
         return field.pi().times(n - 2).dividedBy(n);
     }
 
-    public F inscribedRadius() {
-        return field.pi().dividedBy(n).cot().times(size).dividedBy(2);
+    public C inscribedRadius() {
+        return field.pi().dividedBy(n).cot().times(size.complete()).dividedBy(2);
     }
 
-    public Circle<F> inscribedCircle() {
+    public Circle<C, C> inscribedCircle() {
         return new Circle<>(inscribedRadius());
     }
 
-    public F circumscribedRadius() {
-        return size.dividedBy(field.pi().dividedBy(n).sin().times(2));
+    public C circumscribedRadius() {
+        return size.complete().dividedBy(field.pi().dividedBy(n).sin().times(2));
     }
 
     /**
@@ -103,27 +112,28 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
-    public boolean eq(RegularPolygon<F> other) {
+    public boolean eq(RegularPolygon<E, C> other) {
         return  this.size.eq(other.size) && this.n == other.n;
     }
 
     @Override
-    public RegularPolygon<F> times(F multiplier) {
-        return new RegularPolygon<>(n, size.times(multiplier));
+    public RegularPolygon<E, C> times(E multiplier) {
+        E newSize = size.times(multiplier);
+        return new RegularPolygon<>(n, newSize, angle);
     }
 
     @Override
-    public RegularPolygon<F> times(int multiplier) {
-        return new RegularPolygon<>(n, size.times(multiplier));
+    public RegularPolygon<E, C> times(int multiplier) {
+        return new RegularPolygon<>(n, size.times(multiplier), angle);
     }
 
     @Override
-    public RegularPolygon<F> times(double multiplier) {
-        return new RegularPolygon<>(n, size.times(multiplier));
+    public RegularPolygon<E, C> times(double multiplier) {
+        return new RegularPolygon<>(n, size.times(multiplier), angle);
     }
 
     @Override
-    public RegularPolygon<F> rotate(F angle) {
+    public RegularPolygon<E, C> rotate(E angle) {
         return new RegularPolygon<>(n, size, this.angle.plus(angle));
     }
 
@@ -131,11 +141,11 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RegularPolygon<?> ngon)) return false;
+        if (!(o instanceof RegularPolygon<?, ?> ngon)) return false;
         if (!ngon.field.equals(field)) {
             return false;
         }
-        return eq((RegularPolygon<F>) ngon);
+        return eq((RegularPolygon<E, C>) ngon);
     }
 
     @Override
@@ -149,20 +159,20 @@ public  class RegularPolygon<F extends CompleteScalarFieldElement<F>> implements
     }
 
     @Override
-    public Stream<FieldVector2<F>> vertices() {
-        F radius = circumscribedRadius();
-        F step = field.pi().times(2).dividedBy(n);
-        F offset;
+    public Stream<FieldVector2<C, C>> vertices() {
+        C radius = circumscribedRadius();
+        C step = field.pi().times(2).dividedBy(n);
+        C offset;
         if (n % 2 == 1) {
             offset = field.pi().dividedBy(2).negation();
         } else if (n % 4 == 0) {
             offset = field.pi().dividedBy(n).negation();
         } else {
-            offset = field.zero();
+            offset = field.zero().complete();
         }
         return IntStream.range(0, n)
             .mapToObj(i -> {
-                @radians F angle = offset.plus(step.times(i)).plus(this.angle);
+                @radians C angle = offset.plus(step.times(i)).plus(this.angle.complete());
                 return FieldVector2.of(
                     angle.cos().times(radius), angle.sin().times(radius)
                 );

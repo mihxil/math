@@ -32,7 +32,6 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.statistics.time.StatisticalDuration;
 import org.meeuw.math.statistics.time.StatisticalInstant;
-import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 import static java.lang.Math.*;
 
@@ -227,9 +226,9 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="Can't be taken of negative values")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="Can't be taken of non positive values")
     public RealNumber ln() throws IllegalLogarithmException {
-        UncertainNumber<Double> ln = operations().ln(getValue());
+        var ln = operations().ln(getValue());
         return immutableInstance(
             ln.getValue(),
             Math.max(
@@ -241,7 +240,7 @@ public abstract class AbstractStatisticalLong<SELF extends AbstractStatisticalLo
 
     @Override
     public DoubleElement reciprocal() {
-        UncertainNumber<Double> reciprocal = operations().reciprocal(getValue());
+        var reciprocal = operations().reciprocal(getValue());
         double v = 1d / getValue();
         return immutableInstance(
             reciprocal.getValue(),

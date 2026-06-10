@@ -21,7 +21,6 @@ import java.math.MathContext;
 
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assumptions;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
@@ -33,6 +32,7 @@ import org.meeuw.math.exceptions.IllegalLogarithmException;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.theories.abstractalgebra.*;
 
+import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.imaginary;
@@ -136,7 +136,7 @@ class ComplexNumberTest implements
             assertThat(s.one().eml(s.one().eml(x).eml(s.one()))).isEqTo(x.ln());
             log.info("eml " + x);
         } catch (IllegalLogarithmException illegalLogarithmException) {
-            Assumptions.assumeThat(illegalLogarithmException.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
+            assumeThat(illegalLogarithmException.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
         } finally {
             ConfigurationService.resetToDefaults();
 

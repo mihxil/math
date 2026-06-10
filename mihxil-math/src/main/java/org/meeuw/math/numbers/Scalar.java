@@ -29,7 +29,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @since 0.4
  * @param <SELF> self reference
  * @see org.meeuw.math.abstractalgebra.ScalarFieldElement
- * @see org.meeuw.math.abstractalgebra.CompleteScalarFieldElement
  */
 public interface Scalar<SELF extends Scalar<SELF>>
     extends SizeableScalar<SELF, SELF> {

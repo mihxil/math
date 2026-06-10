@@ -18,6 +18,8 @@ package org.meeuw.math.abstractalgebra;
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
+ * @param <E> The type of the elements of the vectors in this space
+ * @param <V> The type of the vectors itself.
  */
 public interface VectorSpace<E extends FieldElement<E>, V extends Vector<V, E>> extends AbelianRing<V> {
 

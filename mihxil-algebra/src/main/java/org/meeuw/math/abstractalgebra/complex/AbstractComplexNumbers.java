@@ -36,9 +36,10 @@ import org.meeuw.math.abstractalgebra.*;
  * @see AbstractComplexNumber
  */
 public abstract class AbstractComplexNumbers<
-    S extends AbstractComplexNumber<S, E, ES>,
-    E extends ScalarFieldElement<E>,
-    ES extends ScalarField<E>
+    S extends AbstractComplexNumber<S, E, ES, C>,
+    E extends ScalarFieldElement<E, C>,
+    ES extends ScalarField<E, C>,
+    C extends CompleteScalarFieldElement<C>
     >
     extends AbstractAlgebraicStructure<S>
     implements Field<S> {
