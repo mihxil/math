@@ -29,7 +29,6 @@ log.info("Measured rate: {}", rate); // toString
 .another example of WindowedEventRate
 [source,java]
 ----
-
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Interval;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
