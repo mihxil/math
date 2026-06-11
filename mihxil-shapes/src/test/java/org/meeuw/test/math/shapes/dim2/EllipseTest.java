@@ -26,17 +26,15 @@ class EllipseTest  {
             return Arbitraries
                 .randomValue(INSTANCE::nextRandom)
                 .tuple2()
-                .map((t) -> new Ellipse<>(t.get1(), t.get2()));
+                .map((t) ->
+                    new Ellipse<>(t.get1().abs(), t.get2().abs()));
         }
-
     }
-
 
 
     @Nested
     @Group
     public  class RealEllipseTest implements ShapeTheory<RealNumber, RealNumber, Ellipse<RealNumber, RealNumber>> {
-
 
         @Override
         public Arbitrary<@NonNull Ellipse<RealNumber, RealNumber>> datapoints() {

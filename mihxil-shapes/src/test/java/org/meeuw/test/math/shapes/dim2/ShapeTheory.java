@@ -31,7 +31,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E, C>, C extends Compl
 
     @Property
     default void timesRandom(@ForAll(DATAPOINTS) S x, @ForAll(RANDOMS) Random random) {
-        E multiplier = x.field().nextRandom(random);
+        E multiplier = x.field().nextRandom(random).abs();
         S multiplied = x.times(multiplier);
         log().info("%s x %s = %s".formatted(x, multiplier, multiplied));
         assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);

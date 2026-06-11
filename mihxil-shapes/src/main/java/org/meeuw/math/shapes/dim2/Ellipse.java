@@ -35,6 +35,8 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
         this.radiusy = radiusy;
         this.angle = angle;
         this.field = radiusx.getStructure();
+        assert ! this.radiusx.isNegative();
+        assert ! this.radiusy.isNegative();
     }
 
     public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy) {
