@@ -128,9 +128,8 @@ class GeneralLinearGroupTest {
         MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
         WithScalarTheory<InvertibleMatrix<RationalNumber>, RationalNumber> {
 
-
         @Property
-        void det(@ForAll(ELEMENTS) InvertibleMatrix<RationalNumber> matrix) {
+        void determinant(@ForAll(ELEMENTS) InvertibleMatrix<RationalNumber> matrix) {
             assertThat(matrix.determinant().isZero()).isFalse();
         }
 

@@ -329,7 +329,6 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
         log.info("" + rate.getTotalCount());
     }
 
-
     @Override
     public Arbitrary<RealNumber> elements() {
         final TestClock clock = new TestClock();

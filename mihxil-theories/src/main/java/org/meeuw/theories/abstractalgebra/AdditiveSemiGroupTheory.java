@@ -44,6 +44,7 @@ public interface AdditiveSemiGroupTheory<E extends AdditiveSemiGroupElement<E>>
         assertThat((v1.plus(v2)).plus(v3))
             .isEqTo(v1.plus((v2.plus(v3))));
     }
+
     @Property
     default void additionCommutativity(@ForAll(STRUCTURE) AdditiveSemiGroup<E> s) {
         if (s.additionIsCommutative()) {

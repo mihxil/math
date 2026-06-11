@@ -52,10 +52,11 @@ public interface SignedNumberTheory<E extends SignedNumber<E>> extends ElementTh
     @Property
     default void signumOfZero(@ForAll(ELEMENTS) E e) {
         if (e instanceof AdditiveMonoidElement){
-            assertThat(((SignedNumber) ((AdditiveMonoidElement<?>) e).getStructure().zero()).signum()).isEqualTo(0);
+            assertThat(((SignedNumber<?>) ((AdditiveMonoidElement<?>) e).getStructure().zero()).signum()).isEqualTo(0);
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Property
     default void compareToConsistentWithSignum(@ForAll(ELEMENTS) E e) {
         if (e instanceof AdditiveMonoidElement) {

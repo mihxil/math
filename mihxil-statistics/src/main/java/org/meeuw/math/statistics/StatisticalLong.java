@@ -84,14 +84,11 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         return null;
     }
 
-
     @Override
     protected StatisticalLong _copy() {
         StatisticalLong c = new StatisticalLong(mode, sum, squareSum, count, guessedMean);
         return c;
     }
-
-
 
     @Override
     public Temporal addTo(Temporal temporal) {
@@ -149,7 +146,6 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
             });
     }
 
-
     @Override
     public Optional<Duration> optionalDurationValue() {
         return getOptionalBigMean()
@@ -200,13 +196,10 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
         return _add(d);
     }
 
-
     @Override
     public StatisticalLong plus(TemporalAmount d) {
         return copy()._add(d);
     }
-
-
 
     public void enter(Instant... instants) {
         if (mode != Mode.INSTANT) {
@@ -217,6 +210,7 @@ public class StatisticalLong extends AbstractStatisticalLong<StatisticalLong> im
             accept(d);
         }
     }
+
     public void enter(Duration... duration) {
         if (! durationMode()) {
             throw new IllegalStateException();

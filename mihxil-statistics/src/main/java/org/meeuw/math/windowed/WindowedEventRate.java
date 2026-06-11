@@ -56,7 +56,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     IntConsumer,
     org.meeuw.math.uncertainnumbers.UncertainDouble<RealNumber>, WithUnits {
 
-
     private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
     private static ScheduledExecutorService backgroundExecutor;
 
@@ -260,10 +259,9 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (!(o instanceof WindowedEventRate)) {
+        if (!(o instanceof WindowedEventRate other)) {
             return false;
         }
-        WindowedEventRate other = (WindowedEventRate) o;
         return getRate() == other.getRate();
     }
 

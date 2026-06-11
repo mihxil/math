@@ -29,6 +29,7 @@ import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@SuppressWarnings("DataFlowIssue")
 public interface MultiplicativeSemiGroupTheory<E extends MultiplicativeSemiGroupElement<E>>
     extends MagmaTheory<E> {
 

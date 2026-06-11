@@ -43,7 +43,6 @@ public interface MagmaTheory<E extends MagmaElement<E>>
         E m1m2 = m1.operate(m2);
         E m2m1 = m2.operate(m1);
         String s =
-
             OPERATION.stringify(m1, m2)  + " = " + m1m2 + "  %s " +
             OPERATION.stringify(m2, m1) + " = " + m2m1;
 
@@ -64,4 +63,5 @@ public interface MagmaTheory<E extends MagmaElement<E>>
                 throw new TestAbortedException(ae.getMessage());
             }
         }
-    }}
+    }
+}

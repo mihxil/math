@@ -34,6 +34,7 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@SuppressWarnings("NonAsciiCharacters")
 public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<E> {
 
     NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);

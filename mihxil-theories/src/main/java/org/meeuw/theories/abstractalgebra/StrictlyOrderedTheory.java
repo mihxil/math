@@ -19,14 +19,15 @@ import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 import org.meeuw.math.exceptions.NotComparableException;
+import org.meeuw.theories.ComparableTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import org.meeuw.theories.ComparableTheory;
 
 /**
  * @author Michiel Meeuwissen
  * @since 0.7
  */
+@SuppressWarnings("DataFlowIssue")
 public interface StrictlyOrderedTheory<E extends StrictlyOrdered<E>> extends ElementTheory<E>, ComparableTheory<E> {
 
     @Property

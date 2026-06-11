@@ -83,6 +83,7 @@ public interface GroupTheory<E extends GroupElement<E>>
 
     class UnknownGroupElement implements GroupElement<UnknownGroupElement> {
 
+        @SuppressWarnings("DataFlowIssue")
         @Override
         public @NonNull UnknownGroup getStructure() {
             return null;

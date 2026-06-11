@@ -31,8 +31,6 @@ import java.util.logging.Level;
  */
 public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics> implements IntConsumer {
 
-
-
     @lombok.Builder
     protected WindowedIntSummaryStatistics(
         Duration window,

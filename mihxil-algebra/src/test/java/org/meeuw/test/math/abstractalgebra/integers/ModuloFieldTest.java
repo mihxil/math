@@ -126,6 +126,7 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
         }
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public  static class Modulo13Test extends AbstractTest {
 
         protected Modulo13Test() {

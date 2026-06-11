@@ -44,6 +44,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @see DoubleElement
  * @since 0.4
  */
+@SuppressWarnings("NonAsciiCharacters")
 @Example(CompleteField.class)
 @Singleton
 public class RealField

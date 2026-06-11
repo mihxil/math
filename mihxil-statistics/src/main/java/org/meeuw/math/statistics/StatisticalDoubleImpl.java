@@ -114,7 +114,6 @@ public class StatisticalDoubleImpl
         return this;
     }
 
-
     @Override
     public StatisticalDoubleImpl multiply(double d) {
         sum *= d;
@@ -125,7 +124,6 @@ public class StatisticalDoubleImpl
         return this;
     }
 
-
     @Override
     public StatisticalDoubleImpl multiply(long d) {
         sum *= d;
@@ -135,9 +133,6 @@ public class StatisticalDoubleImpl
         offset *= d;
         return this;
     }
-
-
-
 
     @Override
     public OptionalDouble optionalDoubleMean() {
@@ -153,7 +148,6 @@ public class StatisticalDoubleImpl
         return RealField.INSTANCE;
     }
 
-
     @Override
     public RealNumber exp() {
         double value = Math.exp(getValue());
@@ -167,7 +161,6 @@ public class StatisticalDoubleImpl
         return new DoubleElement(value.getValue(), value.getUncertainty());
     }
 
-
     @Override
     public DoubleElement reciprocal() {
         if (getValue() == 0d) {
@@ -176,7 +169,6 @@ public class StatisticalDoubleImpl
         double value = 1d / getValue();
         return new DoubleElement(value, Math.abs(value) * getFractionalUncertainty() + DoubleUtils.uncertaintyForDouble(value));
     }
-
 
     @Override
     public double doubleStandardDeviation() {
@@ -207,7 +199,8 @@ public class StatisticalDoubleImpl
         count,
         offset / divisor);
     }
-     @Override
+
+    @Override
     public StatisticalDoubleImpl dividedBy(long divisor) {
         return new StatisticalDoubleImpl(
             sum / divisor,
@@ -249,10 +242,10 @@ public class StatisticalDoubleImpl
         offset = 0;
     }
 
-     @Override
-     public int signum() {
+    @Override
+    public int signum() {
         return (int) Math.signum(offset + sum / count);
-     }
+    }
 
     @Override
     public StatisticalDoubleImpl abs() {
@@ -267,8 +260,6 @@ public class StatisticalDoubleImpl
             );
         }
     }
-
-
 
 }
 

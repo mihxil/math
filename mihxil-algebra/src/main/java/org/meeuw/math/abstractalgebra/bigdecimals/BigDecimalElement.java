@@ -76,6 +76,7 @@ public class BigDecimalElement implements
 
 
     private final BigDecimal value;
+
     private final BigDecimal uncertainty;
 
     public static BigDecimalElement of(double doubleValue){
@@ -98,11 +99,11 @@ public class BigDecimalElement implements
         this.value = value;
         this.uncertainty = uncertainty;
     }
+
     public BigDecimalElement(UncertainNumber<BigDecimal> value) {
         this.value = value.getValue();
         this.uncertainty = value.getUncertainty();
     }
-
 
     @Override
     public BigDecimalElement plus(BigDecimalElement summand) {
@@ -146,7 +147,6 @@ public class BigDecimalElement implements
                 n.getFractionalUncertainty()
             ).max(newValue.getUncertainty())
         );
-
     }
 
     @Override
@@ -156,6 +156,7 @@ public class BigDecimalElement implements
             operations().sqrt(uncertainty).getValue().max(sqrt.getUncertainty())
         );
     }
+
     @Override
     public BigDecimalElement root(int i) {
         UncertainNumber<BigDecimal> sqrt = operations().root(value,  i);
@@ -208,7 +209,6 @@ public class BigDecimalElement implements
         );
     }
 
-
     @Override
     public BigDecimalElement cos() {
         UncertainNumber<BigDecimal> cos = operations().cos(value);
@@ -250,7 +250,6 @@ public class BigDecimalElement implements
         return uncertainty.round(UNCERTAINTY_MATH_CONTEXT);
     }
 
-
     @Override
     public BigDecimalOperations operations() {
         return BigDecimalOperations.INSTANCE;
@@ -286,7 +285,6 @@ public class BigDecimalElement implements
     public @NonNull BigDecimalField getStructure() {
         return BigDecimalField.INSTANCE;
     }
-
 
     @Override
     public BigDecimalElement dividedBy(@NotZero BigInteger divisor) {
@@ -342,7 +340,6 @@ public class BigDecimalElement implements
         return value.longValue();
     }
 
-
     @Override
     public float floatValue() {
         return value.floatValue();
@@ -379,7 +376,6 @@ public class BigDecimalElement implements
             getValue().subtract(otherElement.getValue()).abs(), getUncertainty());
     }
 
-
     @SuppressWarnings("unchecked")
     @Override
     public <F extends AlgebraicElement<F>> Optional<F> castDirectly(Class<F> clazz) {
@@ -388,7 +384,6 @@ public class BigDecimalElement implements
         }
         return Optional.empty();
     }
-
 
     @Override
     public boolean eq(BigDecimalElement that) {
@@ -401,6 +396,7 @@ public class BigDecimalElement implements
         if (o == null || getClass() != o.getClass()) return false;
         return getValue().equals(((BigDecimalElement) o).getValue());
     }
+
     @Override
     public boolean equals(Object o) {
         if (getConfigurationAspect(CompareConfiguration.class).isEqualsIsStrict()) {
@@ -420,7 +416,5 @@ public class BigDecimalElement implements
         // TODO
         return value.toString();
     }
-
-
 
 }

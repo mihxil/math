@@ -23,7 +23,6 @@ package org.meeuw.math.abstractalgebra;
 public interface AdditiveAbelianSemiGroup<E extends AdditiveSemiGroupElement<E>>
     extends AdditiveSemiGroup<E> {
 
-
     @Override
     default boolean additionIsCommutative() {
         return true;

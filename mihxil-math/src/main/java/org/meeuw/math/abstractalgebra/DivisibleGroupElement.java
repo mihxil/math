@@ -59,7 +59,6 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
      */
     E times(BigInteger multiplier);
 
-
     /**
      *
      * @since 0.19

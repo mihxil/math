@@ -47,7 +47,6 @@ public class CategoryOfGroups extends AbstractAlgebraicStructure<Group<?>>
         return "GRP";
     }
 
-
     @Override
     public Stream<Group<?>> stream() {
         throw new NotStreamable("I suppose the number of possible groups is countable, but I wouldn't know how...");

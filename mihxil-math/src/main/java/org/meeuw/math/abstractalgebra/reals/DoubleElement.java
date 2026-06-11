@@ -75,8 +75,6 @@ public class DoubleElement
         return new DoubleElement(value, EXACT);
     }
 
-
-
     public static DoubleElement[] exactly(double[] value) {
         DoubleElement[] result = new DoubleElement[value.length];
         for (int i = 0; i < value.length; i++) {
@@ -120,7 +118,6 @@ public class DoubleElement
             uncertaintyForDouble(value)
         );
     }
-
 
     /**
      * Just a shortcut to {@link #DoubleElement(double, double)}, which can be statically imported.
@@ -385,7 +382,6 @@ public class DoubleElement
                 )
             ));
     }
-
 
     @Override
     public RealNumber exp() {

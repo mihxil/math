@@ -46,6 +46,7 @@ public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrd
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     default void orderedTransitiveImpl(E a, E b, E c) {
         try {
             if (a.lte(b)) {

@@ -96,9 +96,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
                     divisionByZeroException.getMessage()));
             }
         });
-
     }
-
 
     @Property
     default void scalb(@ForAll(ELEMENTS) E v1) {

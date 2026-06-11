@@ -65,9 +65,8 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         Assume.that(! e.isNegative());
         if (e.isExactlyZero()) {
             if (exponent.isNegative()) {
-                assertThatThrownBy(() -> {
-                    log().info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)));
-                    }
+                assertThatThrownBy(() ->
+                    log().info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)))
                 ).isInstanceOfAny(
                     OverflowException.class,
                     IllegalPowerException.class

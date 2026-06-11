@@ -47,6 +47,5 @@ public interface FieldElement<E extends FieldElement<E>> extends
     E reciprocal() throws ReciprocalException;
 
 
-
 }
 

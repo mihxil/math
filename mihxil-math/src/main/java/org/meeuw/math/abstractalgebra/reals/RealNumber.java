@@ -82,7 +82,7 @@ public interface RealNumber
     /**
      * Wraps a double to a {@link RealNumber}. (actually link {@link DoubleElement#of DoubleElement})
      * @param value
-     * @return
+     * @return new {@link DoubleElement}
      */
     static RealNumber of(double value) {
         assert ! Double.isNaN(value);
@@ -133,7 +133,6 @@ public interface RealNumber
     default @NonNull RealField getStructure() {
         return RealField.INSTANCE;
     }
-
 
     /**
      * For uncertain elements, an element is only one if its value is {@link #isExact()}

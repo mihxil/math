@@ -134,7 +134,6 @@ public abstract class AbstractStatisticalDouble
         return immutableInstance(getValue() * multiplier.doubleValue(), getUncertainty() * multiplier.doubleValue());
     }
 
-
     @Override
     public DoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
         return new DoubleElement(value, uncertainty);
@@ -168,7 +167,6 @@ public abstract class AbstractStatisticalDouble
         UncertainNumber<Double> asin = operations.asin(doubleValue());
         return immutableInstance(asin.getValue(), Math.max(doubleUncertainty(), asin.getValue()));
     }
-
 
     @Override
     public RealNumber cos() {

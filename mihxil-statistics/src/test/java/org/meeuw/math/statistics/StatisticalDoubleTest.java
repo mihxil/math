@@ -88,6 +88,7 @@ public class StatisticalDoubleTest implements
     public void test8() {
         assertThat(new StatisticalDoubleImpl().enter(20000, 20100, 20200, 20300).toString()).isEqualTo("(2.015 ± 0.011)·10⁴");
     }
+
     @Test
     public void test9 () {
         assertThat(new StatisticalDoubleImpl().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).toString()).isEqualTo("(2.15 ± 0.11)·10⁻⁶");

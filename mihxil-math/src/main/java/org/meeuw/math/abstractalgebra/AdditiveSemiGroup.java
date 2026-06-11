@@ -49,6 +49,7 @@ public interface AdditiveSemiGroup<E extends AdditiveSemiGroupElement<E>> extend
     default boolean operationIsCommutative() {
         return additionIsCommutative();
     }
+
     @Override
     default boolean isCommutative(AlgebraicBinaryOperator operator) {
         if (operator.equals(ADDITION)) {

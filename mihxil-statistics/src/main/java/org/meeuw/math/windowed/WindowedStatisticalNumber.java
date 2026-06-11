@@ -33,10 +33,8 @@ import org.meeuw.math.statistics.StatisticalNumber;
  * @since 0.4
  */
 public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N, RealNumber>>
-
     extends Windowed<T>
     implements Supplier<RealNumber> {
-
 
     protected WindowedStatisticalNumber(
         @NonNull Class<T> bucketClass,

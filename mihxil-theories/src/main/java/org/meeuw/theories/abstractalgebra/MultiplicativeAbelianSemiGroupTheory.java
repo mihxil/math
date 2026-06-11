@@ -18,11 +18,11 @@ package org.meeuw.theories.abstractalgebra;
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup;
+import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
 
 /**
  * @author Michiel Meeuwissen
@@ -49,7 +49,6 @@ public interface MultiplicativeAbelianSemiGroupTheory<E extends MultiplicativeSe
         @ForAll(STRUCTURE) MultiplicativeSemiGroup<E> group) {
         assertThat(group.multiplicationIsCommutative()).isTrue();
         assertThat(group.isCommutative(BasicAlgebraicBinaryOperator.MULTIPLICATION)).isTrue();
-
     }
 
 }

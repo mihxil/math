@@ -126,12 +126,12 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
         try {
             Method m = getClass().getMethod(symbol);
             return Optional.of((E) m.invoke(this));
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException ignored) {
 
         }
         try {
             return Optional.of(fromString(symbol));
-        } catch (NotParsable notParsable) {
+        } catch (NotParsable ignored) {
 
         }
         return Optional.empty();
