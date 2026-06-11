@@ -227,7 +227,7 @@ public class BigDecimalElement implements
     }
 
     @Override
-    public BigDecimalElement times(BigDecimalElement multiplier) {
+    public BigDecimalElement times(@NonNull BigDecimalElement multiplier) {
         return new BigDecimalElement(
             UncertainNumber.super.times(multiplier)
         );

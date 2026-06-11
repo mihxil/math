@@ -15,19 +15,20 @@
  */
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.GaussianRational;
-import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
@@ -51,7 +52,9 @@ public class RationalNumber extends Number
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
+    @Getter
     private final @NotNull BigInteger numerator;
+    @Getter
     private final @NotNull @Positive BigInteger denominator;
 
     public static RationalNumber of(long numerator, @NotZero long denominator) {
@@ -243,7 +246,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public int compareTo(@org.checkerframework.checker.nullness.qual.NonNull RationalNumber compare) {
+    public int compareTo(@NonNull RationalNumber compare) {
         return numerator.multiply(compare.denominator)
             .compareTo(compare.numerator.multiply(denominator));
     }

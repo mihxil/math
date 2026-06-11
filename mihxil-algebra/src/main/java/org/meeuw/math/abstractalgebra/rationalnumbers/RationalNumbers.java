@@ -15,12 +15,14 @@
  */
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
@@ -28,6 +30,7 @@ import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.exceptions.NotParsable;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
@@ -83,7 +86,10 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     @Override
     public BigDecimalElement complete(RationalNumber rationalNumber) {
-        return null;
+        return BigDecimalElement.of(new BigDecimal(
+            rationalNumber.getNumerator()).divide(new BigDecimal(rationalNumber.getDenominator()),
+            ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getContext()
+            ));
     }
 
 
