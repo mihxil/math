@@ -1691,7 +1691,8 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.integers.ModuloFieldElement</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealNumber</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
@@ -1710,7 +1711,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="annotation">@ValueSource</span>(ints = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>, <span class="integer">20</span>})
 <span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
-    RegularPolygon&lt;RealNumber&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
+    RegularPolygon&lt;RealNumber, RealNumber&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
@@ -1761,7 +1762,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;RealNumber&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
+    <span class="predefined-type">Rectangle</span>&lt;RealNumber, RealNumber&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
 
     SVGDocument svg = defaultSVG()
         .withSize(size)
@@ -1799,7 +1800,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;RealNumber&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
+    Ellipse&lt;RealNumber, RealNumber&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
 
     SVGDocument document = defaultSVG()
         .withSize(size)
@@ -2181,12 +2182,16 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     ),
     natural(NaturalNumbers.INSTANCE,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">10 ⋅ 7</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">10 - 3</span><span class="delimiter">&quot;</span></span>,
-        <span class="string"><span class="delimiter">&quot;</span><span class="content">12 ⋅ 6 / 4</span><span class="delimiter">&quot;</span></span>
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">10 + 3</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">12 ⋅ 6 + 0</span><span class="delimiter">&quot;</span></span>
     ),
     even(EvenIntegers.INSTANCE,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">10 ⋅ 8</span><span class="delimiter">&quot;</span></span>,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">10 - 4</span><span class="delimiter">&quot;</span></span>
+    ),
+    odd(OddIntegers.INSTANCE,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">1 ⋅ 9</span><span class="delimiter">&quot;</span></span>,
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">13 ⋅ 5</span><span class="delimiter">&quot;</span></span>
     ),
     squares(Squares.INSTANCE,
         <span class="string"><span class="delimiter">&quot;</span><span class="content">4 ⋅ 9</span><span class="delimiter">&quot;</span></span>
