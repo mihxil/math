@@ -25,6 +25,15 @@ public interface Polygon<F extends ScalarFieldElement<F, C>,  C extends Complete
         );
     }
 
+    /**
+     * TODO?
+     * @return
+     */
+    @Override
+    default String toStringWithUncertainty() {
+        return toString();
+    }
+
     Stream<FieldVector2<C, C>> vertices();
 
     /**
