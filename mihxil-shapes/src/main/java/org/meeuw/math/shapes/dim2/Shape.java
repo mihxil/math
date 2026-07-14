@@ -51,4 +51,14 @@ public interface Shape<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     SELF rotate(E angle);
 
+    /**
+     * TODO?
+     * @return
+     */
+    @Override
+    default String toStringWithUncertainty() {
+        return toString();
+    }
+
+
 }
