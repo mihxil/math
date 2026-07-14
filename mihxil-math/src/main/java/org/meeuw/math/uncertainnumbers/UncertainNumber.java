@@ -201,4 +201,9 @@ public interface UncertainNumber<N extends Number>
         );
     }
 
+    @Override
+    default String toStringWithUncertainty() {
+        return getValue() + getConfidenceInterval().toString();
+    }
+
 }

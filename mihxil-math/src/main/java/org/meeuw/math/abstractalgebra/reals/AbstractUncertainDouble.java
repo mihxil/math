@@ -58,4 +58,6 @@ public abstract class AbstractUncertainDouble
         return BigDecimal.valueOf(doubleValue());
     }
 
+
+
 }

@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.data.Offset;
+import org.meeuw.math.DoubleUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -144,11 +145,45 @@ class DoubleOperationsTest {
     @Test
     void sin() {
         assertThat(INSTANCE.sin(Math.PI).getValue()).isCloseTo(0, Offset.offset(0.0001));
+        double input = 1d;
+        double expectedUncertainty = Math.hypot(
+            DoubleUtils.uncertaintyForDouble(Math.sin(input)),
+            Math.abs(Math.cos(input)) * DoubleUtils.uncertaintyForDouble(input)
+        );
+        assertThat(INSTANCE.sin(input).getUncertainty()).isEqualTo(expectedUncertainty);
     }
 
     @Test
     void cos() {
         assertThat(INSTANCE.cos(Math.PI).getValue()).isCloseTo(-1, Offset.offset(0.0001));
+        double input = 1d;
+        double expectedUncertainty = Math.hypot(
+            DoubleUtils.uncertaintyForDouble(Math.cos(input)),
+            Math.abs(Math.sin(input)) * DoubleUtils.uncertaintyForDouble(input)
+        );
+        assertThat(INSTANCE.cos(input).getUncertainty()).isEqualTo(expectedUncertainty);
+    }
+
+    @Test
+    void asin() {
+        double input = 0.5d;
+        double derivative = Math.abs(1d / Math.sqrt(1d - (input * input)));
+        double expectedUncertainty = Math.hypot(
+            DoubleUtils.uncertaintyForDouble(Math.asin(input)),
+            derivative * DoubleUtils.uncertaintyForDouble(input)
+        );
+        assertThat(INSTANCE.asin(input).getUncertainty()).isEqualTo(expectedUncertainty);
+    }
+
+    @Test
+    void acos() {
+        double input = 0.5d;
+        double derivative = Math.abs(1d / Math.sqrt(1d - (input * input)));
+        double expectedUncertainty = Math.hypot(
+            DoubleUtils.uncertaintyForDouble(Math.acos(input)),
+            derivative * DoubleUtils.uncertaintyForDouble(input)
+        );
+        assertThat(INSTANCE.acos(input).getUncertainty()).isEqualTo(expectedUncertainty);
     }
 
     @Test

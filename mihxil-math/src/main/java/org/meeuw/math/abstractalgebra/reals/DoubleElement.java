@@ -332,7 +332,9 @@ public class DoubleElement
     @Override
     public DoubleElement sin() {
         UncertainNumber<Double> sin = operations().sin(value);
-        return of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
+        return of(sin.getValue(),
+            Math.max(uncertainty, sin.getUncertainty())
+        );
     }
 
     @Override
@@ -385,9 +387,15 @@ public class DoubleElement
 
     @Override
     public RealNumber exp() {
+        double result = Math.exp(this.doubleValue());
+        double inputUncertainty = Math.max(doubleUncertainty(), uncertaintyForDouble(this.doubleValue()));
         return of(
-            Math.exp(this.doubleValue()),
-            doubleUncertainty() // TODO
+            result,
+            operations.expUncertainty(
+                this.doubleValue(),
+                inputUncertainty,
+                result
+            )
         );
     }
 
@@ -445,6 +453,7 @@ public class DoubleElement
         }
         return value == uncertainDoubleElement.value;
     }
+
 
     @Override
     public boolean equals(Object o) {

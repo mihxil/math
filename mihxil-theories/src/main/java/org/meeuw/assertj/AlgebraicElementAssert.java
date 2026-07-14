@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.AbstractObjectAssert;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends AbstractObjectAssert<AlgebraicElementAssert<E>, E> {
@@ -24,12 +25,12 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E expected) {
         if (!actual.eq(expected)) {
-            if (actual instanceof UncertainNumber<?> uncertainActual) {
+            if (actual instanceof Uncertain uncertain) {
                 assertionError(
                     "\n%s %s\n≉\n%s (%s)".formatted(
-                        toString(actual) + " " + uncertainActual.getConfidenceInterval(),
+                        toStringWithUncertainty(uncertain),
                         info.hasDescription() ?  "(" + info.descriptionText() + ") " : "",
-                        toString(expected) + " " + (expected instanceof UncertainNumber<?> uncertainExpected ? uncertainExpected.getConfidenceInterval() : ""),
+                            toStringWithUncertainty((Uncertain) expected),
                         expectedDescription
                     ));
             } else {
@@ -78,6 +79,10 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
 
     protected String toString(E element) {
         return (includeClassNames ? element.getClass().getSimpleName() + " " : "" ) + element.toString();
+    }
+
+    protected String toStringWithUncertainty(Uncertain element) {
+        return (includeClassNames ? element.getClass().getSimpleName() + " " : "" ) + element.toStringWithUncertainty();
     }
 
     @SafeVarargs

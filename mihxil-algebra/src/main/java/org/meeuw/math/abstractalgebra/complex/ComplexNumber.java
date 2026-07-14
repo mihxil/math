@@ -19,6 +19,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
 
@@ -27,7 +28,7 @@ import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
  * @since 0.4
  */
 @Singleton
-public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> {
+public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> implements Uncertain {
 
     private static final long serialVersionUID = 0L;
 
@@ -57,6 +58,25 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
 
     public static ComplexNumber imaginary(RealNumber imaginary) {
         return new ComplexNumber(INSTANCE.getElementStructure().zero(), imaginary);
+    }
+
+    @Override
+    public boolean isExact() {
+        return real.isExact() && imaginary.isExact();
+    }
+
+    @Override
+    public boolean strictlyEquals(Object o) {
+        if (o instanceof ComplexNumber cn) {
+            return real.strictlyEquals(cn.real) && imaginary.strictlyEquals((cn.imaginary));
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String toStringWithUncertainty() {
+        return real.toStringWithUncertainty() + " + (" + imaginary.toStringWithUncertainty() + ")i";
     }
 
 

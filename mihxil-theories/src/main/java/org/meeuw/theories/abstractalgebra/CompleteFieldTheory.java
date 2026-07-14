@@ -85,7 +85,8 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             sinAsin = sin.asin();
             E sin2 = sinAsin.sin();
             assertThat(sin2).withFailMessage(
-                String.format("sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s) = %s !=  sin(%s) = %s", e, sin, sinAsin, sin2, e, sin)
+                String.format("sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s) = %s !=  sin(%s) = %s",
+                    e, sin, sinAsin, sin2, e, sin)
             ).isEqTo(sin);
         } catch(IllegalLogarithmException ie) {
             log().warning( "sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s): %s".formatted(e, sin, sinAsin, ie.getMessage()));
