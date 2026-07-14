@@ -37,16 +37,16 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>4.2.0</checkerframework.version>
+    <checkerframework.version>4.2.1</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
-    <junit.version>6.1.0</junit.version>
+    <junit.version>6.1.2</junit.version>
     <jacoco.version>0.8.14</jacoco.version>
     <assertj.version>3.27.7</assertj.version>
     <jqwik.version>1.10.1</jqwik.version>
     <reflections.version>0.10.2</reflections.version>
-    <hibernate-validator.version>9.1.0.Final</hibernate-validator.version>
+    <hibernate-validator.version>9.1.2.Final</hibernate-validator.version>
     <javacc.version>8.1.0</javacc.version>
 
     <delombok.output>target/delombok</delombok.output>
