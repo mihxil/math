@@ -20,7 +20,7 @@ on:
 
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event.inputs.skip_tests == 'true' && 'no-tests' || 'with-tests' }}
   cancel-in-progress: true
 
 
