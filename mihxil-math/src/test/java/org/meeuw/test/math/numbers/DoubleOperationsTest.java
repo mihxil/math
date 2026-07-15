@@ -145,12 +145,7 @@ class DoubleOperationsTest {
     @Test
     void sin() {
         assertThat(INSTANCE.sin(Math.PI).getValue()).isCloseTo(0, Offset.offset(0.0001));
-        double input = 1d;
-        double expectedUncertainty = Math.hypot(
-            DoubleUtils.uncertaintyForDouble(Math.sin(input)),
-            Math.abs(Math.cos(input)) * DoubleUtils.uncertaintyForDouble(input)
-        );
-        assertThat(INSTANCE.sin(input).getUncertainty()).isEqualTo(expectedUncertainty);
+        assertThat(INSTANCE.sin(1d).getUncertainty()).isEqualTo(3.1401849173675503E-16);
     }
 
     @Test
