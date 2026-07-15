@@ -26,6 +26,7 @@ concurrency:
 
 jobs:
   build:
+    name: build (${{ matrix.os }}, java-${{ matrix.java }}${{ github.event.inputs.skip_tests == 'true' && ', no tests' || '' }})
     strategy:
       fail-fast: false
       matrix:
