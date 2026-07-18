@@ -134,16 +134,12 @@ public class Vector3 implements
 
     @Override
     public RealNumber get(int i) {
-        switch(i) {
-            case 0:
-                return RealNumber.of(x);
-            case 1:
-                return RealNumber.of(y);
-            case 2:
-                return RealNumber.of(z);
-            default:
-                throw new ArrayIndexOutOfBoundsException();
-        }
+        return switch (i) {
+            case 0 -> RealNumber.of(x);
+            case 1 -> RealNumber.of(y);
+            case 2 -> RealNumber.of(z);
+            default -> throw new ArrayIndexOutOfBoundsException();
+        };
     }
 
     @Override

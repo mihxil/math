@@ -34,7 +34,14 @@ public interface Uncertain {
      */
     boolean strictlyEquals(Object o);
 
-    String toStringWithUncertainty();
+
+    /**
+     *
+     * @return
+     */
+    default String toStringWithUncertainty() {
+        return toString();
+    }
 
 
 
