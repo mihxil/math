@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra.quaternions;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -43,6 +44,7 @@ public class Quaternion<E extends ScalarFieldElement<E, C>, C extends CompleteSc
     Serializable,
     WithScalarOperations<Quaternion<E, C>, E> {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     final E a;

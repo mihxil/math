@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -42,6 +43,7 @@ public abstract class CompleteComplexNumber<
     MetricSpaceElement<S, E>,
     Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     public CompleteComplexNumber(E real, E imaginary) {

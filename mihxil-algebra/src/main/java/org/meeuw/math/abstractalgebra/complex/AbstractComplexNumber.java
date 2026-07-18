@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.complex;
 
 import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -47,6 +48,7 @@ public abstract class AbstractComplexNumber<
     WithDoubleOperations<S>,
     Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     final E real;

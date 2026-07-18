@@ -18,13 +18,13 @@ package org.meeuw.math.abstractalgebra.integers;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 import static org.meeuw.math.IntegerUtils.modPow;
-
-import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 /**
  * @author Michiel Meeuwissen
@@ -34,7 +34,7 @@ import org.meeuw.math.abstractalgebra.AbelianRingElement;
 public abstract class ModuloElement<E extends ModuloElement<E, S>, S extends ModuloStructure<E, S>>
     implements AbelianRingElement<E>, Serializable {
 
-    //@Serial
+    @Serial
     private static final long serialVersionUID = 0L;
 
     @Getter

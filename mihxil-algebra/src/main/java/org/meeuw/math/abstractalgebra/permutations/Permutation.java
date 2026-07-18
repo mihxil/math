@@ -15,6 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.permutations;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 import java.util.function.UnaryOperator;
@@ -40,6 +41,7 @@ public class Permutation  implements
     UnaryOperator<Object[]>,
     Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     final int[] value;

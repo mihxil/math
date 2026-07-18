@@ -18,8 +18,10 @@ package org.meeuw.math.abstractalgebra.product;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -35,6 +37,7 @@ import org.meeuw.math.exceptions.AlgebraicStructureException;
 @EqualsAndHashCode
 public class ProductElement implements GroupElement<ProductElement>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     @Getter

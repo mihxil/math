@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.io.Serial;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.reals.RealField;
@@ -30,6 +32,7 @@ import static org.meeuw.math.abstractalgebra.complex.ComplexNumbers.INSTANCE;
 @Singleton
 public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumber, RealField> implements Uncertain {
 
+    @Serial
     private static final long serialVersionUID = 0L;
 
     public ComplexNumber(RealNumber real, RealNumber imaginary) {
