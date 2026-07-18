@@ -1,7 +1,11 @@
 package org.meeuw.math.shapes.dim3;
 
-import org.meeuw.math.abstractalgebra.*;
+import lombok.Getter;
 
+import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.uncertainnumbers.UncertainUtils;
+
+@Getter
 public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Solid<F, C, Sphere<F, C>> {
 
     private final F radius;
@@ -60,7 +64,7 @@ public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalar
 
     @Override
     public boolean strictlyEquals(Object o) {
-        return false;
+        return UncertainUtils.strictlyEqual(this, o, Sphere::radius);
     }
 
 }
