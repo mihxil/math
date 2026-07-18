@@ -16,11 +16,13 @@
 package org.meeuw.configuration;
 
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
 import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.Consumer;
 
+@Log
 public class ReflectionUtils {
 
     private ReflectionUtils() {
@@ -47,11 +49,21 @@ public class ReflectionUtils {
 
     @SneakyThrows
     public static Method getDeclaredMethod(Class<?> clazz, String name, Class<?>... params) {
-        return clazz.getDeclaredMethod(name, params);
+        try {
+            return clazz.getDeclaredMethod(name, params);
+        } catch (NoSuchMethodException e) {
+            log.severe("Could not find method " + name + " " + List.of(params) + " in class " + clazz.getName());
+            throw e;
+
+        }
     }
 
     public static Method getDeclaredBinaryMethod(Class<?> clazz, String name) {
-        return getDeclaredMethod(clazz, name, clazz);
+        return getDeclaredBinaryMethod(clazz, name, clazz);
+    }
+
+    public static Method getDeclaredBinaryMethod(Class<?> clazz, String name, Class<?> param) {
+        return getDeclaredMethod(clazz, name, param);
     }
 
     /**

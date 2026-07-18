@@ -27,25 +27,25 @@ import org.meeuw.math.abstractalgebra.*;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix2Group<E extends ScalarFieldElement<E>>
-    extends AbstractAlgebraicStructure<FieldMatrix2<E>>
-    implements MultiplicativeGroup<FieldMatrix2<E>> {
+public class FieldMatrix2Group<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    extends AbstractAlgebraicStructure<FieldMatrix2<E, C>>
+    implements MultiplicativeGroup<FieldMatrix2<E, C>> {
 
 
-    public static final Map<ScalarField<?>, FieldMatrix2Group<?>> INSTANCES = new HashMap<>();
+    public static final Map<ScalarField<?, ?>, FieldMatrix2Group<?, ?>> INSTANCES = new HashMap<>();
 
     @Getter
-    private final ScalarField<E> elementStructure;
+    private final ScalarField<E, C> elementStructure;
 
-    private final FieldMatrix2<E> one;
+    private final FieldMatrix2<E, C> one;
 
     @SuppressWarnings("unchecked")
-    public static <E extends ScalarFieldElement<E>> FieldMatrix2Group<E> of(ScalarField<E> elementStructure) {
-        return (FieldMatrix2Group<E>) INSTANCES.computeIfAbsent(elementStructure, FieldMatrix2Group::new);
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix2Group<E, C> of(ScalarField<E, C> elementStructure) {
+        return (FieldMatrix2Group<E, C>) INSTANCES.computeIfAbsent(elementStructure, (e) -> new FieldMatrix2Group<>((ScalarField<E, C>)e));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private FieldMatrix2Group(ScalarField<E> elementStructure) {
+    private FieldMatrix2Group(ScalarField<E, C> elementStructure) {
         super((Class) FieldMatrix2.class);
         this.elementStructure = elementStructure;
         E eOne = elementStructure.one();
@@ -57,13 +57,12 @@ public class FieldMatrix2Group<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix2<E> one() {
+    public FieldMatrix2<E, C> one() {
         return one;
     }
 
-
     @Override
-    public FieldMatrix2<E> nextRandom(Random r) {
+    public FieldMatrix2<E, C> nextRandom(Random r) {
         return FieldMatrix2.of(
             elementStructure.getElementClass(),
             elementStructure.nextRandom(r), elementStructure.nextRandom(r),

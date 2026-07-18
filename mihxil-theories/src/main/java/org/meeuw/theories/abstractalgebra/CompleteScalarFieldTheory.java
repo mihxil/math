@@ -17,8 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.CompleteField;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.OverflowException;
 import org.meeuw.theories.numbers.ScalarTheory;
@@ -37,7 +36,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
     extends CompleteFieldTheory<E>, ScalarTheory<E> {
 
     @Property
-    default void sqrt(@ForAll(ELEMENTS) E e) {
+    default void scalarSqrt(@ForAll(ELEMENTS) E e) {
         Assume.that(! e.isNegative());
         E sqrt = e.sqrt();
         assertThat(sqrt.doubleValue())
@@ -46,7 +45,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
     }
 
     @Property
-    default void sin(@ForAll(ELEMENTS) E e) {
+    default void scalarSin(@ForAll(ELEMENTS) E e) {
         E sin = e.sin();
         assertThat(sin.doubleValue()).isCloseTo(
             Math.sin(e.doubleValue()), offset(0.01)
@@ -54,7 +53,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
     }
 
     @Property
-    default void cos(@ForAll(ELEMENTS) E e) {
+    default void scalarCos(@ForAll(ELEMENTS) E e) {
         E cos = CompleteField.cos(e);
         assertThat(cos.doubleValue()).isCloseTo(
             Math.cos(e.doubleValue()), offset(0.01)
@@ -62,13 +61,12 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
     }
 
     @Property
-    default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
+    default void scalarPow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
         Assume.that(! e.isNegative());
         if (e.isExactlyZero()) {
             if (exponent.isNegative()) {
-                assertThatThrownBy(() -> {
-                    log().info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)));
-                    }
+                assertThatThrownBy(() ->
+                    log().info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)))
                 ).isInstanceOfAny(
                     OverflowException.class,
                     IllegalPowerException.class

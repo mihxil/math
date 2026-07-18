@@ -45,7 +45,6 @@ public interface AdditiveGroupTheory<E extends AdditiveGroupElement<E>>
             .isEqualTo(v1.plus(v2.negation()));
     }
 
-
     @Property
     default void repeatedPlusZeroTimes(
             @ForAll(ELEMENTS) E v1

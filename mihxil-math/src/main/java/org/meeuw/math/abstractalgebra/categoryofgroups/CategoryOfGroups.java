@@ -21,7 +21,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NotStreamable;
 
 /**
- * All groups themselves form the 'category of groups'. I.e, structures are elements of this thing.
+ * All groups themselves form the 'category of groups'. I.e, all structures are themselves elements of this thing.
  * <p>
  * For now, we just made it a {@link MultiplicativeSemiGroup}. Groups can be 'multiplied' to form
  * {@link org.meeuw.math.abstractalgebra.product.ProductGroup}
@@ -46,7 +46,6 @@ public class CategoryOfGroups extends AbstractAlgebraicStructure<Group<?>>
     public String toString() {
         return "GRP";
     }
-
 
     @Override
     public Stream<Group<?>> stream() {

@@ -29,10 +29,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.WithUnits;
-import org.meeuw.math.statistics.StatisticalLong;
-import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 import org.meeuw.math.abstractalgebra.reals.DoubleElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.statistics.StatisticalLong;
+import org.meeuw.math.uncertainnumbers.CompareConfiguration;
+
+import static org.meeuw.math.ArrayUtils.firstNonNull;
 
 
 /**
@@ -53,7 +55,6 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     AutoCloseable,
     IntConsumer,
     org.meeuw.math.uncertainnumbers.UncertainDouble<RealNumber>, WithUnits {
-
 
     private static final ThreadGroup THREAD_GROUP = new ThreadGroup("mihxil-statistics");
     private static ScheduledExecutorService backgroundExecutor;
@@ -94,22 +95,29 @@ public class WindowedEventRate extends Windowed<AtomicLong>
         @Nullable Consumer<WindowedEventRate> reporter,
         @Nullable ScheduledExecutorService executor,
         @NonNull BiConsumer<Event, Windowed<AtomicLong>>@Nullable[] eventListenersArray,
-        @Nullable Clock clock
+        @Nullable Clock clock,
+        @Nullable Level reporterExceptionLevel,
+        @Nullable Level eventListenersExceptionLevel
         ) {
-        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
+        super(AtomicLong.class, window, bucketDuration, bucketCount, eventListenersArray,
+            firstNonNull(eventListenersExceptionLevel, reporterExceptionLevel, Level.WARNING),
+            clock);
         if (reporter != null) {
+            final Level level = firstNonNull(reporterExceptionLevel, eventListenersExceptionLevel, Level.WARNING);
             scheduledReporter = (executor == null ? getBackgroundExecutor() : executor).scheduleAtFixedRate(
                 () -> {
                     try {
                         reporter.accept(WindowedEventRate.this);
                     } catch (Throwable t) {
-                        Logger.getLogger(WindowedEventRate.class.getName()).log(Level.WARNING, t.getMessage(), t);
+                        Logger.getLogger(WindowedEventRate.class.getName()).log(level, t.getMessage(), t);
                     }
                 }, 0, this.bucketDuration, TimeUnit.MILLISECONDS);
         } else {
             scheduledReporter = null;
         }
     }
+
+
 
     /**
      * @return rate in /s (See {@link #getRate()}
@@ -174,7 +182,7 @@ public class WindowedEventRate extends Windowed<AtomicLong>
     public WindowedEventRate(int unit, TimeUnit timeUnit, int bucketCount) {
         this(Duration.ofMillis(
             TimeUnit.MILLISECONDS.convert(unit, timeUnit) * bucketCount),
-            null, bucketCount, null, null,  null, null);
+            null, bucketCount, null, null, null,  null, null, null);
     }
     public WindowedEventRate(int unit, TimeUnit timeUnit) {
         this(unit, timeUnit, 100);
@@ -251,10 +259,9 @@ public class WindowedEventRate extends Windowed<AtomicLong>
 
     @Override
     public boolean strictlyEquals(Object o) {
-        if (!(o instanceof WindowedEventRate)) {
+        if (!(o instanceof WindowedEventRate other)) {
             return false;
         }
-        WindowedEventRate other = (WindowedEventRate) o;
         return getRate() == other.getRate();
     }
 

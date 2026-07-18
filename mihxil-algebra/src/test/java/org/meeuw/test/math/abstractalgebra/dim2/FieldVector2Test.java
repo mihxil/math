@@ -40,46 +40,46 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.4
  */
 class FieldVector2Test implements
-    WithScalarTheory<FieldVector2<RealNumber>, RealNumber>,
-    VectorSpaceTheory<FieldVector2<RealNumber>, RealNumber>,
-    ElementTheory<FieldVector2<RealNumber>> {
+    WithScalarTheory<FieldVector2<RealNumber, RealNumber>, RealNumber>,
+    VectorSpaceTheory<FieldVector2<RealNumber, RealNumber>, RealNumber, RealNumber>,
+    ElementTheory<FieldVector2<RealNumber, RealNumber>> {
 
     @Test
     public void abs() {
-        FieldVector2<RealNumber> v = FieldVector2.of(3, -4);
+        FieldVector2<RealNumber, RealNumber> v = FieldVector2.of(3, -4);
         assertThat(v.abs()).isEqualTo(new DoubleElement(5, 0));
     }
 
     @Test
     public void absOfRational() {
-        FieldVector2<RationalNumber> v = FieldVector2.of(RationalNumber.of(3), RationalNumber.of(-4));
+        FieldVector2<RationalNumber, BigDecimalElement> v = FieldVector2.of(RationalNumber.of(3), RationalNumber.of(-4));
         assertThatThrownBy(v::abs).isInstanceOf(FieldIncompleteException.class);
     }
 
     @Test
     public void times() {
-        FieldVector2<RationalNumber> v = FieldVector2.of(RationalNumber.of(3), RationalNumber.of(-4));
+        FieldVector2<RationalNumber, BigDecimalElement> v = FieldVector2.of(RationalNumber.of(3), RationalNumber.of(-4));
         assertThat(v.times(RationalNumber.of(3, 2))).isEqualTo(FieldVector2.of(RationalNumber.of(9, 2), RationalNumber.of(-6)));
     }
 
     @Test
     public void dividedBy() {
         withLooseEquals(() -> {
-            FieldVector2<BigDecimalElement> v = FieldVector2.of(valueOf(3), valueOf(-4));
+            FieldVector2<BigDecimalElement, BigDecimalElement> v = FieldVector2.of(valueOf(3), valueOf(-4));
             assertThat(v.dividedBy(of(-2))).isEqualTo(FieldVector2.of(of(-1.5), of(2)));
         });
     }
 
     @Test
     public void string() {
-        FieldVector2<BigDecimalElement> v = FieldVector2.of(of(3), of(-4));
+        FieldVector2<BigDecimalElement, BigDecimalElement> v = FieldVector2.of(of(3), of(-4));
         assertThat(v.toString()).isEqualTo("(3.0,-4.0)");
     }
 
     @Test
     public void testEquals() {
-        FieldVector2<BigDecimalElement> v1 = FieldVector2.of(of(3), of(-4));
-        FieldVector2<BigDecimalElement> v2 = FieldVector2.of(of(3), of(-4));
+        FieldVector2<BigDecimalElement, BigDecimalElement> v1 = FieldVector2.of(of(3), of(-4));
+        FieldVector2<BigDecimalElement, BigDecimalElement> v2 = FieldVector2.of(of(3), of(-4));
         assertThat(v1).isEqualTo(v2);
         v2 = v2.withY(of(-3));
         assertThat(v1).isNotEqualTo(v2);
@@ -111,7 +111,7 @@ class FieldVector2Test implements
     }
 
     @Override
-    public Arbitrary<FieldVector2<RealNumber>> elements() {
+    public Arbitrary<FieldVector2<RealNumber, RealNumber>> elements() {
         return Arbitraries.doubles()
             .between(-100, 100)
             .tuple2()

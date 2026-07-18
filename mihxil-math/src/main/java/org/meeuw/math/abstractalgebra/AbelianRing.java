@@ -45,6 +45,7 @@ public interface AbelianRing<E extends AbelianRingElement<E>>
     default boolean multiplicationIsCommutative() {
         return true;
     }
+
     @Override
     default boolean isCommutative(AlgebraicBinaryOperator operator) {
         if (operator.equals(MULTIPLICATION)) {

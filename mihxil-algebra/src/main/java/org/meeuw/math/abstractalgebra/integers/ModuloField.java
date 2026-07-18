@@ -23,7 +23,6 @@ import org.meeuw.math.Example;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.ScalarField;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.validation.Prime;
@@ -37,9 +36,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  */
 @Example(value = Field.class, string = "ℤ/pℤ")
 public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField>
-    implements ScalarField<ModuloFieldElement> {
-
-
+    implements Field<ModuloFieldElement> {
 
 
     private static final Map<Long, ModuloField> INSTANCES = new ConcurrentHashMap<>();
@@ -64,7 +61,6 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     );
 
 
-
     @Override
     public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
         return OPERATORS;
@@ -75,8 +71,4 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         return new ModuloFieldElement(v, this);
     }
 
-    @Override
-    public ModuloFieldElement pi() {
-        throw new FieldIncompleteException("pi cannot be approximated in a modulo field");
-    }
 }

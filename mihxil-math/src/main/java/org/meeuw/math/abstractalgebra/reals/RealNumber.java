@@ -16,8 +16,7 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.abstractalgebra.MetricSpaceElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.uncertainnumbers.UncertainDouble;
@@ -83,7 +82,7 @@ public interface RealNumber
     /**
      * Wraps a double to a {@link RealNumber}. (actually link {@link DoubleElement#of DoubleElement})
      * @param value
-     * @return
+     * @return new {@link DoubleElement}
      */
     static RealNumber of(double value) {
         assert ! Double.isNaN(value);
@@ -134,7 +133,6 @@ public interface RealNumber
     default @NonNull RealField getStructure() {
         return RealField.INSTANCE;
     }
-
 
     /**
      * For uncertain elements, an element is only one if its value is {@link #isExact()}

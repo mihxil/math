@@ -37,15 +37,14 @@ public interface FieldElement<E extends FieldElement<E>> extends
     Field<E> getStructure();
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Cannot divide be zero")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Cannot divide be zero")
     default E dividedBy(E divisor) throws ReciprocalException {
         return DivisionRingElement.super.dividedBy(divisor);
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Zero has no reciprocal")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Zero has no reciprocal")
     E reciprocal() throws ReciprocalException;
-
 
 
 }

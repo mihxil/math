@@ -23,6 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
 
+import java.util.logging.Level;
+
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.statistics.StatisticalLong;
@@ -88,9 +90,10 @@ public class WindowedStatisticalLong
         @Nullable Integer bucketCount,
         UncertainJavaTime.@Nullable Mode mode,
         @NonNull BiConsumer<Event, Windowed<StatisticalLong>>@Nullable[] eventListenersArray,
+        @Nullable Level eventListenersExceptionLevel,
         @Nullable Clock clock
     ) {
-        super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
+        super(StatisticalLong.class, window, bucketDuration, bucketCount, eventListenersArray, eventListenersExceptionLevel, clock);
         this.mode = mode == null ? UncertainJavaTime.Mode.LONG : mode;
     }
 

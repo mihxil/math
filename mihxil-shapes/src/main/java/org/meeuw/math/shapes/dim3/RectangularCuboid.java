@@ -3,6 +3,7 @@ package org.meeuw.math.shapes.dim3;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;
 
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
 /**
@@ -13,7 +14,7 @@ import org.meeuw.math.abstractalgebra.ScalarFieldElement;
  * @since 0.15
  */
 @Getter
-public class RectangularCuboid<F extends ScalarFieldElement<F>> implements Polyhedron<F, RectangularCuboid<F>> {
+public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<F, C, RectangularCuboid<F, C>> {
 
     private final F width;
     private final F height;
@@ -43,15 +44,24 @@ public class RectangularCuboid<F extends ScalarFieldElement<F>> implements Polyh
 
 
     @Override
-    public F volume() {
+    public C volume() {
+        return exactVolume().complete();
+    }
+
+    public F exactVolume() {
         return  width.times(height).times(depth);
     }
 
     @Override
-    public F surfaceArea() {
+    public C surfaceArea() {
+        return exactSurfaceArea().complete();
+    }
+
+    public F exactSurfaceArea() {
         return width.times(height).times(2)
             .plus(width.times(depth).times(2))
-            .plus(height.times(depth).times(2));
+            .plus(height.times(depth).times(2))
+            ;
     }
 
     @Override
@@ -71,7 +81,7 @@ public class RectangularCuboid<F extends ScalarFieldElement<F>> implements Polyh
 
 
     @Override
-    public boolean eq(RectangularCuboid<F> other) {
+    public boolean eq(RectangularCuboid<F, C> other) {
         return false;
     }
 

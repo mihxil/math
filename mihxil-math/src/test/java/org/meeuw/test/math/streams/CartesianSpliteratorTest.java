@@ -213,7 +213,7 @@ class CartesianSpliteratorTest {
         CartesianSpliterator<Integer> cartesianSpliterator =
             new CartesianSpliterator<>(Integer.class, values::spliterator,  values::spliterator, values::spliterator);
         StreamSupport.stream(cartesianSpliterator, parallel).forEach(e -> {
-            log.info("%s (%s)".formatted( e, Thread.currentThread().getName()));
+            log.info("%s (%s)".formatted( Arrays.asList(e), Thread.currentThread().getName()));
             size.incrementAndGet();
             }
         );

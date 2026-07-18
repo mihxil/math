@@ -18,6 +18,7 @@ package org.meeuw.math.abstractalgebra;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.numbers.Scalar;
+import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 
 /**
  * A {@link FieldElement field element} that is also a {@link Scalar scalar}, e.g. it is very much like a 'number'.
@@ -25,44 +26,24 @@ import org.meeuw.math.numbers.Scalar;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface ScalarFieldElement<E extends ScalarFieldElement<E>> extends
+public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends
     FieldElement<E>,
     Scalar<E>,
+    TranscendentalFunctionsNumber<E, C>,
     WithDoubleOperations<E> {
 
     @Override
     @NonNull
-    ScalarField<E> getStructure();
+    ScalarField<E, C> getStructure();
 
     @Override
     default boolean isZero() {
         return FieldElement.super.isZero();
     }
 
-    /**
-     * Returns the sine of this element
-     *
-     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#SIN
-     */
-    @NonExact
-    E sin();
-
-    @NonAlgebraic("Only calculable for numbers between -1 and 1")
-    E asin();
-
-    /**
-     * Returns the cosine of this element
-     * @see org.meeuw.math.operators.BasicAlgebraicUnaryOperator#COS
-     */
-    @NonExact
-    E cos();
-
-    @NonAlgebraic("Not calculable for certain value.")
-    E tan();
-
-
-    @NonAlgebraic("Cannot be calculated for negative values")
-    E sqrt();
-
+    @SuppressWarnings("unchecked")
+    default C complete() {
+        return getStructure().complete((E) this);
+    }
 
 }

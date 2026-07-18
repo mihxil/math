@@ -18,6 +18,8 @@ package org.meeuw.math.numbers;
 import java.math.BigDecimal;
 import java.util.function.Supplier;
 
+import org.meeuw.math.uncertainnumbers.UncertainNumber;
+
 /**
  *  See <a href="https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Linear_combinations">propagation of uncertainty</a>
 
@@ -109,8 +111,24 @@ public interface UncertaintyNumberOperations<N extends Number> extends NumberOpe
         final N argumentUncertainty,
         final N result
     ) {
-        return withUncertaintyContext(() -> multiply(abs(result),argumentUncertainty));
+        return withUncertaintyContext(() ->
+            max(roundingUncertainty(result),
+                multiply(abs(result),argumentUncertainty)
+            )
+        );
     }
+
+    UncertainNumber<N> sin(N n, N dN);
+
+    UncertainNumber<N> asin(N n, N dn);
+
+    UncertainNumber<N> cos(N n, N dn);
+
+    UncertainNumber<N> acos(N n, N dn);
+
+    UncertainNumber<N> tan(N n, N dn);
+
+    UncertainNumber<N> atan2(N y, N dy, N x, N dx);
 
     /**
      * Runs some code in a context for calculating uncertainties.

@@ -17,18 +17,24 @@ package org.meeuw.test.math.abstractalgebra.complex;
 
 import lombok.extern.java.Log;
 
-import net.jqwik.api.Arbitraries;
-import net.jqwik.api.Arbitrary;
+import java.math.MathContext;
+
+import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.theories.abstractalgebra.*;
 
+import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.imaginary;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.real;
 import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
@@ -116,4 +122,25 @@ class ComplexNumberTest implements
         log.info("" +  i8.sqrt().plus(minusi8.sqrt()));
         log.info("" + ComplexNumbers.INSTANCE.i().sqrt());
     }
+
+
+    @Property
+    public void eml(@ForAll(ELEMENTS) ComplexNumber x) {
+        ComplexNumbers s = x.getStructure();
+        try (ConfigurationService.Reset res = setConfiguration(builder ->
+            builder.configure(MathContextConfiguration.class,
+                (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))))) {
+            assertThat(x.eml(s.one())).isEqTo(x.exp());
+
+            //ln(x)=eml(1,eml(eml(1,x),1)),
+            assertThat(s.one().eml(s.one().eml(x).eml(s.one()))).isEqTo(x.ln());
+            log.info("eml " + x);
+        } catch (IllegalLogarithmException illegalLogarithmException) {
+            assumeThat(illegalLogarithmException.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
+        } finally {
+            ConfigurationService.resetToDefaults();
+
+        }
+    }
+
 }

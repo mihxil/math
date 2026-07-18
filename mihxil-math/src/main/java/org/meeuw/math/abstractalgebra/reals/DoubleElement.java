@@ -75,8 +75,6 @@ public class DoubleElement
         return new DoubleElement(value, EXACT);
     }
 
-
-
     public static DoubleElement[] exactly(double[] value) {
         DoubleElement[] result = new DoubleElement[value.length];
         for (int i = 0; i < value.length; i++) {
@@ -120,7 +118,6 @@ public class DoubleElement
             uncertaintyForDouble(value)
         );
     }
-
 
     /**
      * Just a shortcut to {@link #DoubleElement(double, double)}, which can be statically imported.
@@ -290,7 +287,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public DoubleElement reciprocal() throws DivisionByZeroException {
         if (isExactlyZero()) {
             throw new DivisionByZeroException("Reciprocal of zero", BasicAlgebraicUnaryOperator.RECIPROCAL.stringify(toString()));
@@ -313,7 +310,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="square root of negative numbers is not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="square root of negative numbers is not possible")
     public DoubleElement sqrt() {
         if (value < 0) {
             throw new IllegalSqrtException("Cannot take square root of negative number", Double.toString(value));
@@ -323,7 +320,7 @@ public class DoubleElement
 
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value=" of negative numbers is not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value=" of negative numbers is not possible")
     public DoubleElement root(int i) {
         double result = Math.pow(value, 1d/i);
         if (Double.isNaN(result)) {
@@ -335,7 +332,9 @@ public class DoubleElement
     @Override
     public DoubleElement sin() {
         UncertainNumber<Double> sin = operations().sin(value);
-        return of(sin.getValue(), Math.max(uncertainty, sin.getUncertainty()));
+        return of(sin.getValue(),
+            Math.max(uncertainty, sin.getUncertainty())
+        );
     }
 
     @Override
@@ -351,13 +350,19 @@ public class DoubleElement
     }
 
     @Override
+    public DoubleElement acos() {
+        UncertainNumber<Double> acos = operations().acos(value);
+        return of(acos.getValue(), Math.max(uncertainty, acos.getUncertainty()));
+    }
+
+    @Override
     public DoubleElement tan() {
         UncertainNumber<Double> tan = operations().tan(value);
         return of(tan.getValue(), Math.max(uncertainty, tan.getUncertainty()));
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="non integer powers of negative numbers are not possible")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="non integer powers of negative numbers are not possible")
     public RealNumber pow(RealNumber exponent) throws OverflowException, IllegalPowerException {
         double result = Math.pow(value, exponent.doubleValue());
         if (Double.isInfinite(result)) {
@@ -380,12 +385,17 @@ public class DoubleElement
             ));
     }
 
-
     @Override
     public RealNumber exp() {
+        double result = Math.exp(this.doubleValue());
+        double inputUncertainty = Math.max(doubleUncertainty(), uncertaintyForDouble(this.doubleValue()));
         return of(
-            Math.exp(this.doubleValue()),
-            doubleUncertainty() // TODO
+            result,
+            operations.expUncertainty(
+                this.doubleValue(),
+                inputUncertainty,
+                result
+            )
         );
     }
 
@@ -401,7 +411,7 @@ public class DoubleElement
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public DoubleElement pow(int exponent) {
         double v = this.doubleValue();
         if (v == 0  && uncertainty != 0) {
@@ -443,6 +453,7 @@ public class DoubleElement
         }
         return value == uncertainDoubleElement.value;
     }
+
 
     @Override
     public boolean equals(Object o) {

@@ -30,7 +30,7 @@ public class NotZeroValidator implements ConstraintValidator<NotZero, Object> {
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        if (value instanceof ScalarFieldElement<?> number) {
+        if (value instanceof ScalarFieldElement<?, ?> number) {
             return ! number.isZero();
         }
         if (value instanceof Number number) {

@@ -35,6 +35,7 @@ import static org.assertj.core.data.Percentage.withPercentage;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@SuppressWarnings("DataFlowIssue")
 public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE extends Scalar<SIZE>>
     extends ElementTheory<S>, OrderedTheory<S>, SizeableTheory<S, SIZE> {
 

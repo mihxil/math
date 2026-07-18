@@ -135,7 +135,7 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public PhysicalNumber dividedBy(PhysicalNumber  divisor) throws ReciprocalException {
         return times(divisor.reciprocal());
     }
@@ -155,7 +155,7 @@ public abstract class PhysicalNumber
      * @return  a new physical number which is the sum of this one and another one.
      */
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="dimensions must match")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="dimensions must match")
     public PhysicalNumber plus(PhysicalNumber summand) throws DimensionsMismatchException {
         summand = summand.toUnits(this.getUnits());
         return copy(get().plus(summand.get()), Units.forAddition(units, summand.getUnits()));
@@ -202,7 +202,7 @@ public abstract class PhysicalNumber
      * @param subtrahend to physical number to subtract from this one
      * @return the current number minus the subtrahend
      */
-    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="dimensions must match")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="dimensions must match")
     public PhysicalNumber minus(PhysicalNumber subtrahend) throws DimensionsMismatchException {
         return plus(subtrahend.negation());
     }

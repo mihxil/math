@@ -15,7 +15,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 // tag::imports[]
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
@@ -31,8 +32,8 @@ import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 @Log
 public class SVGTest {
 
-    Rectangle<ModuloFieldElement> size = Rectangle.of(205, 205);
-    Rectangle<ModuloFieldElement> spacing = Rectangle.of(10, 10);
+    Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(205, 205);
+    Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 0);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
 
     @BeforeEach
@@ -51,7 +52,7 @@ public class SVGTest {
     @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
     public void regularPolygons(int n ) throws Exception {
 
-        RegularPolygon<RealNumber> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
+        RegularPolygon<RealNumber, RealNumber> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
 
         SVGDocument document = defaultSVG()
             .withSize(size)
@@ -92,7 +93,7 @@ public class SVGTest {
     // tag::otherShapes[]
     @Test
     public void rectangle() throws Exception {
-        Rectangle<RealNumber> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
+        Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
 
         SVGDocument svg = defaultSVG()
             .withSize(size)
@@ -130,7 +131,7 @@ public class SVGTest {
 
     @Test
     public void ellipse() throws Exception {
-        Ellipse<RealNumber> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
+        Ellipse<RealNumber, RealNumber> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
 
         SVGDocument document = defaultSVG()
             .withSize(size)

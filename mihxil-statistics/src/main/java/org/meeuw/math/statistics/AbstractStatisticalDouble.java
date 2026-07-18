@@ -134,7 +134,6 @@ public abstract class AbstractStatisticalDouble
         return immutableInstance(getValue() * multiplier.doubleValue(), getUncertainty() * multiplier.doubleValue());
     }
 
-
     @Override
     public DoubleElement immutableInstanceOfPrimitives(double value, double uncertainty) {
         return new DoubleElement(value, uncertainty);
@@ -169,12 +168,18 @@ public abstract class AbstractStatisticalDouble
         return immutableInstance(asin.getValue(), Math.max(doubleUncertainty(), asin.getValue()));
     }
 
-
     @Override
     public RealNumber cos() {
         UncertainNumber<Double> cos = operations.cos(doubleValue());
         return immutableInstance(cos.getValue(), Math.max(doubleUncertainty(), cos.getValue()));
     }
+
+    @Override
+    public RealNumber acos() {
+        UncertainNumber<Double> acos = operations.acos(doubleValue());
+        return immutableInstance(acos.getValue(), Math.max(doubleUncertainty(), acos.getValue()));
+    }
+
     @Override
     public RealNumber tan() {
         UncertainNumber<Double> tan = operations.tan(doubleValue());
@@ -182,7 +187,7 @@ public abstract class AbstractStatisticalDouble
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Can't be taken of 0 for negative arguments")
     public RealNumber pow(RealNumber exponent) throws IllegalPowerException {
         UncertainNumber<Double> result = operations.pow(doubleValue(), exponent.doubleValue());
         return immutableInstance(

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.IntConsumer;
+import java.util.logging.Level;
 
 /**
  * {@link IntSummaryStatistics} can be aggregated, and therefore {@link Windowed}.
@@ -30,17 +31,16 @@ import java.util.function.IntConsumer;
  */
 public class WindowedIntSummaryStatistics extends Windowed<IntSummaryStatistics> implements IntConsumer {
 
-
-
     @lombok.Builder
     protected WindowedIntSummaryStatistics(
         Duration window,
         Duration bucketDuration,
         Integer bucketCount,
         BiConsumer<Event, Windowed<IntSummaryStatistics>>[] eventListeners,
+        Level eventListenersExceptionLevel,
         Clock clock
         ) {
-        super(IntSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, clock);
+        super(IntSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, eventListenersExceptionLevel, clock);
     }
 
     @Override

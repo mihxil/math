@@ -88,7 +88,6 @@ class WindowedStatisticalLongTest {
 
     }
 
-
     @Test
     public void testNormal() {
         final int bucketCount = 20;
@@ -141,6 +140,6 @@ class WindowedStatisticalLongTest {
             assertThat(impl.getWindowValue().durationValue()).isEqualTo(Duration.ofMillis(20));
             assertThat(impl.getRunningDurations()).hasSize(0);
         }
-
     }
+
 }

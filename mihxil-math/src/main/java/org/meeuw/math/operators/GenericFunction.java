@@ -22,6 +22,8 @@ import org.meeuw.math.text.TextUtils;
 
 /**
  * Like a {@link java.util.function.Function} but not generic itself, but the {@link #apply(Object)} method is.
+ * <p>
+ * Also it has some meta-information about the function like {@link #getSymbol()}.
  *
  * @author Michiel Meeuwissen
  * @since 0.8

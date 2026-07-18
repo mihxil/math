@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.LongSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.LongConsumer;
+import java.util.logging.Level;
 
 /**
  * {@link LongSummaryStatistics} can be aggregated, and therefore {@link Windowed}.
@@ -39,9 +40,10 @@ public class WindowedLongSummaryStatistics extends Windowed<LongSummaryStatistic
         Duration bucketDuration,
         Integer bucketCount,
         BiConsumer<Event, Windowed<LongSummaryStatistics>>[] eventListeners,
+        Level eventListenersExceptionLevel,
         Clock clock
         ) {
-        super(LongSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, clock);
+        super(LongSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, eventListenersExceptionLevel, clock);
     }
 
     @Override

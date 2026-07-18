@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.jupiter.Rounding;
+import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.theories.abstractalgebra.*;
 
@@ -30,6 +31,7 @@ import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
+import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.*;
 import static org.meeuw.math.abstractalgebra.reals.RealField.INSTANCE;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
@@ -182,6 +184,36 @@ class RealFieldTest implements
         //                                                   6.68461172766792729628
         assertThat(ln.toString()).isEqualTo("6.684611727667927");
 
+    }
+
+    @Test
+    public void expUncertainty() {
+        DoubleElement input = of(2d, 0.1d);
+        RealNumber exp = input.exp();
+        double result = Math.exp(2d);
+        double expected = DoubleUtils.max(
+            uncertaintyForDouble(result),
+            result * Math.max(input.doubleUncertainty(), uncertaintyForDouble(2d))
+        );
+        assertThat(exp.doubleUncertainty()).isEqualTo(expected);
+    }
+
+    @Test
+    public void cosUncertainty() {
+        DoubleElement input = of(2d, 0.1d);
+        RealNumber cos = input.cos();
+        double result = Math.cos(2d);
+        double expected = DoubleUtils.max(
+            uncertaintyForDouble(result),
+            result * Math.max(input.doubleUncertainty(), uncertaintyForDouble(2d))
+        );
+        assertThat(cos.doubleUncertainty()).isEqualTo(expected);
+    }
+
+    @Test
+    public void expExactStillHasRoundingUncertainty() {
+        RealNumber exp = exactly(0d).exp();
+        assertThat(exp.doubleUncertainty()).isEqualTo(uncertaintyForDouble(1d));
     }
 
     @Test

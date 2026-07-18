@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
+import java.util.logging.Level;
 
 /**
  * {@link DoubleSummaryStatistics} can be aggregated, and therefore {@link Windowed}.
@@ -38,9 +39,10 @@ public class WindowedDoubleSummaryStatistics extends Windowed<DoubleSummaryStati
         Duration bucketDuration,
         Integer bucketCount,
         BiConsumer<Event, Windowed<DoubleSummaryStatistics>>[] eventListeners,
+        Level eventListenersExceptionLevel,
         Clock clock
         ) {
-        super(DoubleSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, clock);
+        super(DoubleSummaryStatistics.class, window, bucketDuration, bucketCount, eventListeners, eventListenersExceptionLevel, clock);
     }
 
     @Override

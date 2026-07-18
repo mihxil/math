@@ -37,7 +37,7 @@ import static org.meeuw.math.abstractalgebra.dim3.Vector3.of;
  */
 class Vector3Test implements
     ElementTheory<Vector3>,
-    VectorSpaceTheory<Vector3, RealNumber>,
+    VectorSpaceTheory<Vector3, RealNumber, RealNumber>,
     WithScalarTheory<Vector3, RealNumber> {
 
     @Override

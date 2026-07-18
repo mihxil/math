@@ -6,14 +6,11 @@ import java.util.stream.Stream;
 
 import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.IntegerUtils;
-import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.abstractalgebra.integers.ModuloField;
-import org.meeuw.math.abstractalgebra.integers.ModuloFieldElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 
 import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
@@ -26,13 +23,13 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *
  * @since 0.15
  */
-public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Rectangle<E>> {
+public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C, Rectangle<E, C>> {
 
     private final E width;
     private final E height;
     private final E angle ;
 
-    private final ScalarField<E> field;
+    private final ScalarField<E, C> field;
 
 
     /**
@@ -53,15 +50,13 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
         this.angle = field.zero();
     }
 
-    public static Rectangle<RealNumber> of(double width, double height) {
+    public static Rectangle<RealNumber, RealNumber> of(double width, double height) {
         return new Rectangle<>(RealNumber.of(width), RealNumber.of(height), RealNumber.ZERO);
     }
 
-    public static Rectangle<ModuloFieldElement> of(int width, int height) {
-        ModuloField field = ModuloField.of(IntegerUtils.nextPrime((long) width * height));
-
-        return new Rectangle<>(field.element(width), field.element(height), field.zero());
-      }
+    public static Rectangle<RationalNumber, BigDecimalElement> of(int width, int height) {
+        return new Rectangle<>(RationalNumber.of(width), RationalNumber.of(height), RationalNumber.ZERO);
+    }
 
     public E width() {
         return width;
@@ -89,28 +84,29 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      *
      * @return a new Rectangle object with the rotated dimensions
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
-    public LocatedShape<E, Rectangle<E>> circumscribedRectangle() {
-
-        if (angle.isZero()) {
-            return atOrigin(this);
-        }
-        if (angle instanceof CompleteScalarFieldElement<?>) {
-            CompleteScalarFieldElement<?> completeAngle = (CompleteScalarFieldElement) angle;
-            E sin = (E) completeAngle.sin();
-            E cos = (E) completeAngle.cos();
-            return atOrigin(new Rectangle<>(
-                width.times(cos).abs().plus(height.times(sin).abs()),
-                width.times(sin).abs().plus(height.times(cos).abs()),
-                field.zero()
-            ));
-        } else {
-            throw new FieldIncompleteException("Field of " + this + " is not complete, so sin/cos cannot be computed (try using double argument angle");
-        }
+    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+        return exactCircumscribedRectangle().complete();
     }
 
-    public LocatedShape<E, Rectangle<E>> circumscribedRectangle(@radians double angle) {
+    public LocatedShape<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
+
+        if (angle.isZero()) {
+            return atOrigin(this
+            );
+        }
+
+        E sin = field.approx(angle.sin());
+        E cos = field.approx(angle.cos());
+        return atOrigin(new Rectangle<>(
+            width.times(cos).abs().plus(height.times(sin).abs()),
+            width.times(sin).abs().plus(height.times(cos).abs()),
+            field.zero()
+        ));
+
+    }
+
+    public LocatedShape<E, C, Rectangle<E, C>> circumscribedRectangle(@radians double angle) {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
@@ -122,13 +118,14 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
-    public LocatedShape<E, Circle<E>> circumscribedCircle() {
-        E radius = diagonal().dividedBy(2);
-        return atOrigin(new Circle<>(radius));
+    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+        C radius = diagonal().dividedBy(2);
+        Circle<C, C> circle = new Circle<>(radius);
+        return atOrigin(circle);
     }
 
     @Override
-    public ScalarField<E> field() {
+    public ScalarField<E, C> field() {
         return field;
     }
 
@@ -138,8 +135,18 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      * Calculates the area of the rectangle by multiplying its width and height.
      */
     @Override
-    public E area() {
+    public C area() {
+        return exactArea().complete();
+    }
+
+    public E exactArea() {
         return  width.times(height);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Rectangle<C, C>  complete() {
+        return new Rectangle<>(width.complete(), height.complete(), angle.complete());
     }
 
     /**
@@ -149,18 +156,22 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
      * @return the perimeter of the rectangle
      */
     @Override
-    public E perimeter() {
+    public C perimeter() {
+        return exactPerimeter().complete();
+    }
+
+    public E exactPerimeter() {
         return width.times(2).plus(height.times(2));
     }
+
     /**
      * Calculates the diagonal length of the rectangle using the Pythagorean theorem.
      * The diagonal is computed as the square root of the sum of the squares of the width and height.
      *
      * @return the length of the diagonal
      */
-    @NonExact(value = "Diagonal can only be computed well for complete scalar fields", strategy = NonExact.Strategy.EXCEPTION)
-    public E diagonal() {
-        return width.sqr().plus(height.sqr()).sqrt();
+    public C diagonal() {
+        return  width.sqr().plus(height.sqr()).sqrt();
     }
 
     /**
@@ -202,12 +213,12 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
 
 
      @Override
-    public boolean eq(Rectangle<E> other) {
+    public boolean eq(Rectangle<E, C> other) {
         return  this.width.eq(other.width) && this.height.eq(other.height);
     }
 
     @Override
-    public Rectangle<E> times(E multiplier) {
+    public Rectangle<E, C> times(E multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
             height.times(multiplier),
@@ -216,7 +227,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
-    public Rectangle<E> times(int multiplier) {
+    public Rectangle<E, C> times(int multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
             height.times(multiplier),
@@ -225,7 +236,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
-    public Rectangle<E> times(double multiplier) {
+    public Rectangle<E, C> times(double multiplier) {
          return new Rectangle<>(
             width.times(multiplier),
             height.times(multiplier),
@@ -234,7 +245,7 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
-    public Rectangle<E> rotate(E angle) {
+    public Rectangle<E, C> rotate(E angle) {
         return new Rectangle<>(
             width,
             height,
@@ -246,11 +257,11 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rectangle<?> rectangle)) return false;
+        if (!(o instanceof Rectangle<?, ?> rectangle)) return false;
         if (!rectangle.field.equals(field)) {
             return false;
         }
-        return eq((Rectangle<E>) rectangle);
+        return eq((Rectangle<E, C>) rectangle);
     }
 
     @Override
@@ -264,7 +275,11 @@ public class Rectangle<E extends ScalarFieldElement<E>> implements Polygon<E, Re
     }
 
     @Override
-    public Stream<FieldVector2<E>> vertices() {
+    public Stream<FieldVector2<C, C>> vertices() {
+        return exactVertices().map(FieldVector2::complete);
+    }
+
+    public Stream<FieldVector2<E, C>> exactVertices() {
         E halfWidth = width.dividedBy(2);
         E halfHeight = height.dividedBy(2);
         return Stream.of(

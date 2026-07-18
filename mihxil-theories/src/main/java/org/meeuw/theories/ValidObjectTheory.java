@@ -13,9 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
- * {@inheritDoc}
- *
- * All datapoints are required to be valid according to the Jakarta Bean Validation API, too.
+ * Extension of {@link BasicObjectTheory} that additionally verifies that all datapoints
+ * are valid according to the Jakarta Bean Validation API.
  *
  * @author Michiel Meeuwissen
  * @since 0.18

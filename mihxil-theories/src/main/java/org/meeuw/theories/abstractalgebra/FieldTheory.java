@@ -15,7 +15,14 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import net.jqwik.api.ForAll;
+import net.jqwik.api.Property;
+
+import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.FieldElement;
+import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author Michiel Meeuwissen
@@ -25,6 +32,15 @@ public interface FieldTheory<E extends FieldElement<E>> extends
     DivisibleGroupTheory<E>,
     DivisionRingTheory<E>,
     GroupTheory<E> {
+
+    @Property
+    default void fieldOperators(@ForAll(STRUCTURE) Field<E> s) {
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION);
+        assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION);
+        log().info(s + " supports " + s.getSupportedOperators());
+        log().info(s + " group operator  " + s.groupOperator() + " with " + s.unity());
+    }
 
 
 }

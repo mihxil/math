@@ -18,7 +18,8 @@ package org.meeuw.math.abstractalgebra.dim2;
 import java.util.function.UnaryOperator;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.validation.Square;
 
 /**
@@ -27,9 +28,9 @@ import org.meeuw.math.validation.Square;
  */
 public class Rotation2<E extends CompleteScalarFieldElement<E>> implements
     MultiplicativeGroupElement<Rotation2<E>>,
-    UnaryOperator<FieldVector2<E>> {
+    UnaryOperator<FieldVector2<E, E>> {
 
-    final FieldMatrix2<E> rot;
+    final FieldMatrix2<E, E> rot;
     final Rotation2Group<E> structure;
 
     private Rotation2(@Square(2) E[][] values) {
@@ -39,7 +40,7 @@ public class Rotation2<E extends CompleteScalarFieldElement<E>> implements
         );
         this.structure = Rotation2Group.of(values[0][0].getStructure());
     }
-    Rotation2(FieldMatrix2<E> rot, Rotation2Group<E> rotGroup) {
+    Rotation2(FieldMatrix2<E, E> rot, Rotation2Group<E> rotGroup) {
         this.rot = rot;
         this.structure = rotGroup;
     }
@@ -59,16 +60,16 @@ public class Rotation2<E extends CompleteScalarFieldElement<E>> implements
         );
     }
 
-    protected FieldVector2<E> rotate(FieldVector2<E> in) {
+    protected FieldVector2<E, E> rotate(FieldVector2<E, E> in) {
         return in.times(rot);
     }
 
-    public FieldMatrix2<E> asMatrix() {
+    public FieldMatrix2<E, E> asMatrix() {
         return rot;
     }
 
     @Override
-    public FieldVector2<E> apply(FieldVector2<E> in) {
+    public FieldVector2<E, E> apply(FieldVector2<E, E> in) {
         return rotate(in);
     }
 

@@ -1,8 +1,9 @@
 package org.meeuw.math.shapes.dim3;
 
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 
-public interface Polyhedron<F extends ScalarFieldElement<F>, SELF extends Polyhedron<F, SELF>> extends Volume<F, SELF> {
+public interface Polyhedron<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>,  SELF extends Polyhedron<F, C, SELF>> extends Solid<F, C, SELF> {
 
     /**
      * Returns the number of vertices of this polyhedron.

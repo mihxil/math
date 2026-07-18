@@ -20,6 +20,8 @@ import java.time.Duration;
 import java.util.function.BiConsumer;
 import java.util.function.DoubleConsumer;
 
+import java.util.logging.Level;
+
 import org.meeuw.math.statistics.StatisticalDouble;
 import org.meeuw.math.statistics.StatisticalDoubleImpl;
 
@@ -39,9 +41,10 @@ public class WindowedStatisticalDouble extends
         Duration bucketDuration,
         Integer bucketCount,
         BiConsumer<Event, Windowed<StatisticalDoubleImpl>>[] eventListenersArray,
+        Level eventListenersExceptionLevel,
         Clock clock
     ) {
-        super(StatisticalDoubleImpl.class, window, bucketDuration, bucketCount, eventListenersArray, clock);
+        super(StatisticalDoubleImpl.class, window, bucketDuration, bucketCount, eventListenersArray, eventListenersExceptionLevel, clock);
     }
 
     @Override

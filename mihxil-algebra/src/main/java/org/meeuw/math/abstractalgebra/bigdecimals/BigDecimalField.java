@@ -31,7 +31,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Example(CompleteScalarField.class)
+@Example(CompleteField.class)
 @Singleton
 public class BigDecimalField
     extends AbstractAlgebraicStructure<BigDecimalElement>
@@ -96,6 +96,7 @@ public class BigDecimalField
     public BigDecimalElement gamma() {
         return BigDecimalElement.gamma;
     }
+
     @Override
     public BigDecimalElement nextRandom(Random random) {
         return BigDecimalElement.of(BigDecimal.valueOf(random.nextDouble()));
@@ -109,6 +110,15 @@ public class BigDecimalField
     @Override
     public BigDecimalElement fromString(String s) {
         return BigDecimalElement.of(s);
+    }
 
+    @Override
+    public CompleteScalarField<BigDecimalElement> completedField() {
+        return BigDecimalField.INSTANCE;
+    }
+
+    @Override
+    public BigDecimalElement approx(BigDecimalElement bigDecimalElement) {
+        return null;
     }
 }

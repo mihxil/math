@@ -29,28 +29,27 @@ import static java.lang.System.Logger.Level.INFO;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
-    extends AbstractAlgebraicStructure<FieldMatrix3<E>>
-    implements MultiplicativeGroup<FieldMatrix3<E>> {
+public class FieldMatrix3Group<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    extends AbstractAlgebraicStructure<FieldMatrix3<E, C>>
+    implements MultiplicativeGroup<FieldMatrix3<E, C>> {
 
     private static final System.Logger log = System.getLogger(FieldMatrix3Group.class.getName());
 
-
-
-    public static final Map<ScalarField<?>, FieldMatrix3Group<?>> INSTANCES = new HashMap<>();
+    public static final Map<ScalarField<?, ?>, FieldMatrix3Group<?, ?>> INSTANCES = new HashMap<>();
 
     @Getter
-    private final ScalarField<E> elementStructure;
+    private final ScalarField<E, C> elementStructure;
 
-    private final FieldMatrix3<E> one;
+    private final FieldMatrix3<E, C> one;
+
 
     @SuppressWarnings("unchecked")
-    public static <E extends ScalarFieldElement<E>> FieldMatrix3Group<E> of(ScalarField<E> elementStructure) {
-        return (FieldMatrix3Group<E>) INSTANCES.computeIfAbsent(elementStructure, FieldMatrix3Group::new);
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> FieldMatrix3Group<E, C> of(ScalarField<E, C> elementStructure) {
+        return (FieldMatrix3Group<E, C>) INSTANCES.computeIfAbsent(elementStructure, (e) -> new FieldMatrix3Group<>(elementStructure));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private  FieldMatrix3Group(ScalarField<E> elementStructure) {
+    private  FieldMatrix3Group(ScalarField<E, C> elementStructure) {
         super((Class) FieldMatrix3.class);
         this.elementStructure = elementStructure;
         E eOne = elementStructure.one();
@@ -64,12 +63,12 @@ public class FieldMatrix3Group<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public FieldMatrix3<E> one() {
+    public FieldMatrix3<E, C> one() {
         return one;
     }
 
     @Override
-    public FieldMatrix3<E> nextRandom(Random r) {
+    public FieldMatrix3<E, C> nextRandom(Random r) {
         return FieldMatrix3.of(
             elementStructure.getElementClass(),
             elementStructure.nextRandom(r), elementStructure.nextRandom(r), elementStructure.nextRandom(r),

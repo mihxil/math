@@ -17,7 +17,7 @@ package org.meeuw.math.abstractalgebra;
 
 /**
  *
- *  {@link #lte} and {@link #gte} are transitive too.
+ *  Like {@link StrictlyOrdered} but {@link #lte} and {@link #gte} are transitive too.
  *
  * @author Michiel Meeuwissen
  * @since 0.7

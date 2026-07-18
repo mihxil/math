@@ -26,11 +26,11 @@ import org.meeuw.configuration.ConfigurationService.Reset;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
-import org.meeuw.math.exceptions.OverflowException;
+import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.POWER;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
@@ -64,42 +64,92 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             log().info(overflowException.getMessage());
         } catch (IllegalLogarithmException illegalLogException){
             Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
-            log().warning(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(Object::toString).orElse("<not marked non-algebraic>") + ")");
-
-
+            log().info(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(NonAlgebraic::value).orElse("<not marked non-algebraic>") + ")");
             assertThat(nonalgebraicOptional)
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
     }
 
     @Property
+    default void sqrt(@ForAll(ELEMENTS) E e) {
+        E sqr = e.sqr();
+        E sqrSrt = sqr.sqrt();
+        assertThat(sqrSrt).isEqIn(e, e.negation());
+    }
+
+    @Property
+    default void sin(@ForAll(ELEMENTS) E e) {
+        E sin = e.sin();
+        E sinAsin = null;
+        try {
+            sinAsin = sin.asin();
+            E sin2 = sinAsin.sin();
+            assertThat(sin2).withFailMessage(
+                String.format("sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s) = %s !=  sin(%s) = %s",
+                    e, sin, sinAsin, sin2, e, sin)
+            ).isEqTo(sin);
+        } catch(IllegalLogarithmException ie) {
+            log().warning( "sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s): %s".formatted(e, sin, sinAsin, ie.getMessage()));
+        }
+    }
+
+    @Property
+    default void cos(@ForAll(ELEMENTS) E e) {
+
+        E cos = e.cos();
+        E cosAcos = null;
+        try {
+            cosAcos = cos.acos();
+            E cos2 = cosAcos.cos();
+            assertThat(cos2).withFailMessage(
+                String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s", e, cos, cosAcos, cos2, e, cos)
+
+            ).isEqTo(cos);
+        } catch(IllegalLogarithmException ie) {
+            log().warning( "cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s): %s".formatted(e, cos, cosAcos, ie.getMessage()));
+        }
+    }
+
+    @Property
+    default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
+        try {
+            E pow = e.pow(exponent);
+            log().info("%s = %s".formatted(POWER.stringify(e, exponent), pow));
+        } catch (IllegalPowerException illegalPowerException) {
+            log().info(() -> "%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+        } catch (OverflowException illegalPowerException ) {
+            log().warning("%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+        }
+    }
+
+    @Property
     default void ePowZero(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.e().pow(struct.zero())).isEqTo(struct.one());
+        assertThatAlgebraically(struct.e().pow(struct.zero())).isEqTo(struct.one());
     }
 
     @Property
     default void sinPi(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.pi().sin()).isEqTo(struct.zero());
+        assertThatAlgebraically(struct.pi().sin()).isEqTo(struct.zero());
     }
 
     @Property
     default void asin0(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.zero().asin()).isEqTo(struct.zero());
-
+        assertThatAlgebraically(struct.zero().asin()).isEqTo(struct.zero());
     }
+
     @Property
     default void asin1(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
-    }
-    @Property
-    default void asinminus1(@ForAll(STRUCTURE) CompleteField<E> struct) {
-        assertThat(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
+        assertThatAlgebraically(struct.one().asin()).isEqTo(struct.pi().dividedBy(2));
     }
 
+    @Property
+    default void asinminus1(@ForAll(STRUCTURE) CompleteField<E> struct) {
+        assertThatAlgebraically(struct.one().negation().asin()).isEqTo(struct.pi().dividedBy(-2));
+    }
 
     @Property
     default void cosPi(@ForAll(STRUCTURE) CompleteField<E>  struct) {
-        assertThat(struct.pi().cos()).isEqTo(struct.one().negation());
+        assertThatAlgebraically(struct.pi().cos()).isEqTo(struct.one().negation());
     }
 
     @Property
@@ -117,13 +167,10 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
          try (Reset res = setConfiguration(builder ->
                  builder.configure(MathContextConfiguration.class,
                      (mathContextConfiguration) -> mathContextConfiguration.withContext(new MathContext(4))))) {
-              assertThat(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
+             assertThatAlgebraically(struct.𝜑().sqr()).isEqTo(struct.𝜑().plus(struct.one()));
          } finally {
              ConfigurationService.resetToDefaults();
-
          }
     }
-
-
 
 }

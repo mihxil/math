@@ -15,7 +15,14 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.util.NavigableSet;
+
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.operators.AlgebraicBinaryOperator;
+import org.meeuw.math.operators.SimpleAlgebraicBinaryOperator;
+
+import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
+import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  *
@@ -28,16 +35,30 @@ public abstract class CompleteComplexNumbers<
     S extends CompleteComplexNumber<S, E, ES>,
     E extends CompleteScalarFieldElement<E>,
     ES extends CompleteScalarField<E>>
-    extends AbstractComplexNumbers<S, E, ES>
+    extends AbstractComplexNumbers<S, E, ES, E>
     implements CompleteField<S> ,
     MetricSpace<S, E> {
+
+    static AlgebraicBinaryOperator EML = new SimpleAlgebraicBinaryOperator(
+        getDeclaredBinaryMethod(CompleteComplexNumber.class, "eml"),
+        "eml",
+        3,
+        "eml"
+    );
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(CompleteField.OPERATORS, EML);
+
 
 
     CompleteComplexNumbers(Class<S> elem, ES elementStructure) {
         super(elem, elementStructure);
     }
 
-    abstract E atan2(E imaginary, E real);
+    @Override
+    public NavigableSet<AlgebraicBinaryOperator> getSupportedOperators() {
+        return OPERATORS;
+    }
+
+    public abstract E atan2(E imaginary, E real);
 
     @Override
     public S pi() {
@@ -58,8 +79,6 @@ public abstract class CompleteComplexNumbers<
     public S 𝜑() {
         return of(getElementStructure().𝜑());
     }
-
-
 
 
 }

@@ -17,7 +17,6 @@ package org.meeuw.math.abstractalgebra;
 
 import java.util.NavigableSet;
 
-import org.meeuw.math.Synonym;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
@@ -28,28 +27,37 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface CompleteScalarField<E extends CompleteScalarFieldElement<E>> extends CompleteField<E>, ScalarField<E> {
+public interface CompleteScalarField<E extends CompleteScalarFieldElement<E>> extends CompleteField<E>, ScalarField<E, E> {
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(CompleteField.UNARY_OPERATORS, ScalarField.UNARY_OPERATORS);
 
+
+    @Override
+    E pi();
+
+    @Override
+    default E element(long n) {
+        return CompleteField.super.element(n);
+    }
 
     @Override
     default NavigableSet<AlgebraicUnaryOperator> getSupportedUnaryOperators() {
         return UNARY_OPERATORS;
     }
 
-
     @Override
-    @Synonym("𝜋")
-    E pi();
-
-    @Override
-    default E 𝜋() {
-        return pi();
+    default E approx(E e) {
+        return e;
     }
 
+    @Override
+    default E complete(E e) {
+        return e;
+    }
 
-
-
+    @Override
+    default CompleteScalarField<E> completedField() {
+        return this;
+    }
 
 }

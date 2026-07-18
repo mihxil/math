@@ -13,19 +13,26 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.meeuw.math;
+package org.meeuw.test.math.abstractalgebra.bool;
 
-import java.lang.annotation.*;
+import lombok.extern.java.Log;
 
-/**
- * Sometimes I had to override a method without a clear reason.
- * Mainly to help cheerpj for the online demo.
- *
- */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
-@Documented
-public @interface DubiousOverride {
+import net.jqwik.api.Arbitraries;
+import net.jqwik.api.Arbitrary;
 
-    String value() default "";
+import org.meeuw.math.abstractalgebra.bool.BooleanElement;
+import org.meeuw.theories.abstractalgebra.AbelianRingTheory;
+
+@Log
+public class BooleanRingTest implements AbelianRingTheory<BooleanElement> {
+
+
+    @Override
+    public Arbitrary<BooleanElement> elements() {
+        return Arbitraries.of(BooleanElement.values());
+    }
+
+
+
+
 }

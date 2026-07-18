@@ -26,6 +26,7 @@ import org.meeuw.math.exceptions.NotComparableException;
  * <p>
  * This implies {@link Comparable}
  *
+ * @see Ordered
  * @author Michiel Meeuwissen
  * @since 0.7
  * @param <E> Self reference

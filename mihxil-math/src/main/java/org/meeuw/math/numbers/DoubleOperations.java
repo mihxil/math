@@ -196,17 +196,69 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public UncertainNumber<Double> sin(Double aDouble) {
-        return uncertain(Math.sin(aDouble));
+        return sin(aDouble, uncertaintyForDouble(aDouble));
+    }
+
+    @Override
+    public UncertainNumber<Double> sin(Double aDouble, Double dN) {
+        final double value = Math.sin(aDouble);
+        final double delta = Math.abs(dN);
+        if (!Double.isFinite(aDouble) || !Double.isFinite(value) || !Double.isFinite(delta)) {
+            return uncertain(value, 1d + Math.abs(value));
+        }
+        if (delta == 0d) {
+            return uncertain(value, 0d);
+        }
+        if (delta >= 2d * Math.PI) {
+            return uncertain(value, 1d + Math.abs(value));
+        }
+        final double lower = aDouble - delta;
+        final double upper = aDouble + delta;
+
+        double minSin = Math.min(Math.sin(lower), Math.sin(upper));
+        double maxSin = Math.max(Math.sin(lower), Math.sin(upper));
+
+        final double piHalf = Math.PI / 2d;
+        final double twoPi = 2d * Math.PI;
+
+        final long firstMax = (long) Math.ceil((lower - piHalf) / twoPi);
+        final long lastMax = (long) Math.floor((upper - piHalf) / twoPi);
+        if (firstMax <= lastMax) {
+            maxSin = 1d;
+        }
+
+        final long firstMin = (long) Math.ceil((lower + piHalf) / twoPi);
+        final long lastMin = (long) Math.floor((upper + piHalf) / twoPi);
+        if (firstMin <= lastMin) {
+            minSin = -1d;
+        }
+
+        final double propagated = Math.max(Math.abs(maxSin - value), Math.abs(value - minSin));
+        return uncertain(value, Math.min(propagated, 1d + Math.abs(value)));
     }
 
     @Override
     public UncertainNumber<Double> asin(Double aDouble) {
-        return uncertain(Math.asin(aDouble));
+        double value = Math.asin(aDouble);
+        double denominator = Math.sqrt(1d - (aDouble * aDouble));
+        double derivative = Math.abs(1d / denominator);
+        return uncertain(value, propagatedUncertainty(aDouble, derivative, value));
     }
 
     @Override
     public UncertainNumber<Double> cos(Double aDouble) {
-        return uncertain(Math.cos(aDouble));
+        double value = Math.cos(aDouble);
+        return uncertain(value,
+            propagatedUncertainty(aDouble, Math.abs(Math.sin(aDouble)), value)
+        );
+    }
+
+    @Override
+    public UncertainNumber<Double> acos(Double aDouble) {
+        double value = Math.acos(aDouble);
+        double denominator = Math.sqrt(1d - (aDouble * aDouble));
+        double derivative = Math.abs(1d / denominator);
+        return uncertain(value, propagatedUncertainty(aDouble, derivative, value));
     }
 
     @Override
@@ -241,8 +293,11 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public UncertainNumber<Double> ln(Double v) throws IllegalLogarithmException {
-        if (v <= 0) {
-            throw new IllegalLogarithmException("Can't take logarithm of negative", "ln(" + v + ")");
+        if (v == 0) {
+            throw new IllegalLogarithmException(IllegalLogarithmException.Reason.ZERO, "Can't take logarithm of zero", "ln(" + v + ")");
+        }
+        if (v < 0) {
+            throw new IllegalLogarithmException(IllegalLogarithmException.Reason.NEGATIVE, "Can't take logarithm of negative", "ln(" + v + ")");
         }
         return uncertain(Math.log(v));
     }
@@ -311,8 +366,48 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
             () -> uncertaintyForDouble(newValue));
     }
 
+    protected UncertainNumber<Double> uncertain(Double newValue, double propagatedUncertainty) {
+        return ImmutableUncertainNumber.of(
+            newValue,
+            () -> Math.hypot(uncertaintyForDouble(newValue), propagatedUncertainty));
+    }
+
+    protected double propagatedUncertainty(Double argument, double absoluteDerivative, double result) {
+        if (!Double.isFinite(argument) || !Double.isFinite(result)) {
+            return 0d;
+        }
+        return Math.abs(absoluteDerivative) * uncertaintyForDouble(argument);
+    }
+
     @Override
     public Double roundingUncertainty(Double aDouble) {
-        return DoubleUtils.uncertaintyForDouble(aDouble);
+        return uncertaintyForDouble(aDouble);
+    }
+
+
+
+    @Override
+    public UncertainNumber<Double> asin(Double aDouble, Double dn) {
+        return null;
+    }
+
+    @Override
+    public UncertainNumber<Double> cos(Double aDouble, Double dn) {
+        return null;
+    }
+
+    @Override
+    public UncertainNumber<Double> acos(Double aDouble, Double dn) {
+        return null;
+    }
+
+    @Override
+    public UncertainNumber<Double> tan(Double aDouble, Double dn) {
+        return null;
+    }
+
+    @Override
+    public UncertainNumber<Double> atan2(Double y, Double dy, Double x, Double dx) {
+        return null;
     }
 }

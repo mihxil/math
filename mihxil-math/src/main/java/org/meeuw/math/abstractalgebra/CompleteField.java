@@ -29,10 +29,12 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 
 /**
  *  A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
- *  * {@link CompleteFieldElement#sqrt()} and trigonometric operations like {@link CompleteFieldElement#sin()} are possible.
+ *  {@link CompleteFieldElement#sqrt()} and trigonometric operations like {@link CompleteFieldElement#sin()} are possible.
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@SuppressWarnings("NonAsciiCharacters")
 public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<E> {
 
     NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);
@@ -102,13 +104,12 @@ public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<
     }
 
 
+
     @Override
     default E determinant(E[][] source) {
         // we have comparison and abs, we could use Gaussion elimination with partial pivoting
         return Field.super.determinant(source);
     }
-
-
 
     /**
      * Static version of {@link CompleteFieldElement#sin()}, for a more natural syntax in expressions (e.g. {@code sin(angle)}, rather than {@code angle.sin()}).

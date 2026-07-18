@@ -68,6 +68,4 @@ class WindowedStatisticalDoubleTest {
         assertThat(windowValue.getCount()).isEqualTo(8);
     }
 
-
-
 }

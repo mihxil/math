@@ -18,13 +18,11 @@ package org.meeuw.math.abstractalgebra.quaternions.q8;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.abstractalgebra.GroupElement;
-import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 
 /**
- * Element of the Klein-group.
+ * Element of the Quaternion Group
  * @since 0.19
- * @see org.meeuw.math.abstractalgebra.klein
- * @see KleinGroup
+ * @see QuaternionGroup
  */
 public enum QuaternionElement implements GroupElement<QuaternionElement> {
 

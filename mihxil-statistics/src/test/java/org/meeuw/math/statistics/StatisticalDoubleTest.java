@@ -22,13 +22,13 @@ import java.util.Random;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.jupiter.Rounding;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
-
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.theories.abstractalgebra.UncertainDoubleTheory;
 
@@ -48,8 +48,6 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<RealNumber>,
     CompleteScalarFieldTheory<RealNumber> {
-
-
 
     @Test
     public void test1() {
@@ -90,6 +88,7 @@ public class StatisticalDoubleTest implements
     public void test8() {
         assertThat(new StatisticalDoubleImpl().enter(20000, 20100, 20200, 20300).toString()).isEqualTo("(2.015 ± 0.011)·10⁴");
     }
+
     @Test
     public void test9 () {
         assertThat(new StatisticalDoubleImpl().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).toString()).isEqualTo("(2.15 ± 0.11)·10⁻⁶");
@@ -107,7 +106,6 @@ public class StatisticalDoubleTest implements
 
         StatisticalDoubleImpl quotient = mes.dividedBy(2d);
         assertThat(quotient.toString()).isEqualTo("(1.008 ± 0.006)·10⁻⁷");
-
     }
 
     @Test
@@ -117,7 +115,6 @@ public class StatisticalDoubleTest implements
         assertThat(d1).isEqualTo(d2);
 
         assertThat(d1.eq(d2)).isTrue();
-
     }
 
     @Test
@@ -132,7 +129,7 @@ public class StatisticalDoubleTest implements
 
     @Test
     public void testWhenNoValues() {
-        StatisticalDouble d1 = new StatisticalDoubleImpl();
+        StatisticalDouble<?> d1 = new StatisticalDoubleImpl();
         assertThatThrownBy(d1::getMean).isInstanceOf(DivisionByZeroException.class);
     }
 
@@ -204,21 +201,18 @@ public class StatisticalDoubleTest implements
         instance.eq(instance);
         RealNumber uncertainDoubleElement = instance.immutableCopy();
         instance.eq(uncertainDoubleElement);
-
-
-
     }
 
     @Override
     public Arbitrary<RealNumber> elements() {
-        Arbitrary<Integer> amounts = Arbitraries.integers()
+        Arbitrary<@NonNull Integer> amounts = Arbitraries.integers()
             .between(1, 100)
             .shrinkTowards(2)
             .withDistribution(uniform());
-        Arbitrary<Double> averages = Arbitraries
+        Arbitrary<@NonNull Double> averages = Arbitraries
             .doubles()
             .between(-1000d, 1000d);
-        Arbitrary<Random> randoms = Arbitraries.randoms();
+        Arbitrary<@NonNull Random> randoms = Arbitraries.randoms();
         return Combinators.combine(amounts, averages, randoms)
             .flatAs((am, av, r) -> {
                 StatisticalDoubleImpl sd = new StatisticalDoubleImpl();

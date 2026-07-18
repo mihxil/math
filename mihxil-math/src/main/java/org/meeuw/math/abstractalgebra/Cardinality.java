@@ -39,7 +39,6 @@ public class Cardinality implements Comparable<Cardinality>, MultiplicativeSemiG
 
     public static final Cardinality ONE = new Cardinality(1);
 
-
     /**
      * The cardinality of natural numbers. 'Countably infinite'
      */

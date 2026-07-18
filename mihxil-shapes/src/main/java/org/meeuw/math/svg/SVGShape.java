@@ -9,10 +9,9 @@ import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public abstract class SVGShape<S extends Shape<?, S>> implements SVGGroup {
+public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
 
     protected final S shape;
-
 
     private final boolean circumscribedCircle;
     private final boolean circumscribedRectangle;
@@ -51,13 +50,13 @@ public abstract class SVGShape<S extends Shape<?, S>> implements SVGGroup {
 
     abstract void fillShape(SVGDocument svgDocument, Element g);
 
-    protected Element circumscribedCircle(Document doc,SVGDocument svgDocument,  Shape<?, ?> shape) {
+    protected Element circumscribedCircle(Document doc,SVGDocument svgDocument,  Shape<?, ?, ?> shape) {
 
-        LocatedShape<?, ? extends Circle<?>> circleLocatedShape = shape.circumscribedCircle();
+        var circleLocatedShape = shape.circumscribedCircle();
 
         StringBuilder points = new StringBuilder();
-        Circle<?> circle = circleLocatedShape.shape();
-        FieldVector2<?> offset = circleLocatedShape.location();
+        Circle<?, ?> circle = circleLocatedShape.shape();
+        FieldVector2<?, ?> offset = circleLocatedShape.location();
         Element circumscribed = createElement(doc, "circle");
         circumscribed.setAttribute("r", "" + circle.radius().doubleValue());
         circumscribed.setAttribute("stroke", svgDocument.stroke());
@@ -70,13 +69,13 @@ public abstract class SVGShape<S extends Shape<?, S>> implements SVGGroup {
         return circumscribed;
     }
 
-     protected Element circumscribedRectangle(Document doc,SVGDocument svgDocument,  Shape<?, ?> shape) {
+     protected Element circumscribedRectangle(Document doc,SVGDocument svgDocument,  Shape<?, ?, ?> shape) {
 
-        LocatedShape<?, ? extends Rectangle<?>> circumscribedRectangle = shape.circumscribedRectangle();
+        var circumscribedRectangle = shape.circumscribedRectangle();
 
         StringBuilder points = new StringBuilder();
-        Rectangle<?> rect = circumscribedRectangle.shape();
-        FieldVector2<?> offset = circumscribedRectangle.location();
+        Rectangle<?, ?> rect = circumscribedRectangle.shape();
+        FieldVector2<?, ?> offset = circumscribedRectangle.location();
         Element circumscribed = createElement(doc, "rect");
         circumscribed.setAttribute("x", "" + (rect.width().doubleValue() / -2 + offset.getX().doubleValue()));
         circumscribed.setAttribute("y", "" + (rect.height().doubleValue() / -2 + offset.getY().doubleValue()));

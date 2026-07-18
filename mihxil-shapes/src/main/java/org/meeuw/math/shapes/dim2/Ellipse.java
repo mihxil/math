@@ -9,7 +9,6 @@ import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
@@ -22,24 +21,25 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
  */
 @Getter
-public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellipse<F>>, Uncertain {
+public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Shape<E, C, Ellipse<E, C>>, Uncertain {
 
-
-    private final F radiusx;
-    private final F radiusy;
-    private final F angle;
-    private final ScalarField<F> field;
+    private final E radiusx;
+    private final E radiusy;
+    private final E angle;
+    private final ScalarField<E, C> field;
 
     /**
      */
-    public Ellipse(@Min(0) F radiusx, @Min(0) F radiusy, @radians F angle) {
+    public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy, @radians E angle) {
         this.radiusx = radiusx;
         this.radiusy = radiusy;
         this.angle = angle;
         this.field = radiusx.getStructure();
+        assert ! this.radiusx.isNegative();
+        assert ! this.radiusy.isNegative();
     }
 
-    public Ellipse(@Min(0) F radiusx, @Min(0) F radiusy) {
+    public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy) {
         this(radiusx, radiusy, radiusx.getStructure().zero());
     }
 
@@ -57,104 +57,88 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
     @Override
-    public Ellipse<F> times(F multiplier) {
+    public Ellipse<E, C> times(E multiplier) {
         return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
     @Override
-    public Ellipse<F> times(int multiplier) {
-        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
-    }
-
-    @Override
-    public Ellipse<F> times(double multiplier) {
+    public Ellipse<E, C> times(int multiplier) {
         return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
 
     @Override
-    public Ellipse<F> rotate(F angle) {
+    public Ellipse<E, C> times(double multiplier) {
+        return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
+    }
+
+    @Override
+    public Ellipse<E, C> rotate(E angle) {
         return new Ellipse<>(radiusx, radiusy, this.angle.plus(angle));
     }
 
-    @SuppressWarnings("unchecked")
-    public F linearEccentricity() { // linear eccentricity is the distance from the center to a focus
-        if (field instanceof CompleteScalarField) {
-            F maxRadius = ComparableUtils.max(radiusx, radiusy);
-            F minRadius = maxRadius == radiusx ? radiusy : radiusx;
-            return (F) ((CompleteFieldElement<?>) maxRadius.sqr().minus(minRadius.sqr())).sqrt();
-        } else {
-            throw new FieldIncompleteException("linearEccentricity can only be computed well for complete scalar fields");
-        }
+    public C linearEccentricity() { // linear eccentricity is the distance from the center to a focus
+        E maxRadius = ComparableUtils.max(radiusx, radiusy);
+        E minRadius = maxRadius == radiusx ? radiusy : radiusx;
+        return  maxRadius.sqr().minus(minRadius.sqr()).sqrt();
     }
 
-
-    @SuppressWarnings("unchecked")
-    public F eccentricity() {
-        if (field instanceof CompleteScalarField) {
-            F maxRadius = ComparableUtils.max(radiusx, radiusy);
-            F minRadius = maxRadius == radiusx ? radiusy : radiusx;
-            return (F) ((CompleteFieldElement<?>) minRadius.dividedBy(maxRadius).sqr().negation().plus(field.one())).sqrt();
-        } else {
-            throw new FieldIncompleteException("eccentricity can only be computed well for complete scalar fields");
-        }
+    public C eccentricity() {
+        E maxRadius = ComparableUtils.max(radiusx, radiusy);
+        E minRadius = maxRadius == radiusx ? radiusy : radiusx;
+        return  minRadius.dividedBy(maxRadius).sqr().negation().plus(field.one()).sqrt();
     }
 
     @Override
     @NonExact("Area can only be computed well for complete scalar fields")
-    public F area() {
-        return field.pi().times(radiusx).times(radiusy);
+    public C area() {
+        return field.pi().times(radiusx.complete()).times(radiusy.complete());
     }
 
-    @SuppressWarnings({"rawtypes", "unchecked"})
     @Override
-    public LocatedShape<F, Rectangle<F>> circumscribedRectangle() {
+    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
 
         if (angle.isZero()) {
             return atOrigin(
-                new Rectangle<>(radiusx.times(2), radiusy.times(2), field.zero())
+                new Rectangle<>(radiusx.complete().times(2), radiusy.complete().times(2), field.zero().complete())
             );
         } else {
-            F sin2 = angle.sin().sqr();
-            F cos2 = angle.cos().sqr();
-            F height = radiusx.sqr().times(sin2).plus(radiusy.sqr().times(cos2)).sqrt().times(2);
-            F width = radiusx.sqr().times(cos2).plus(radiusy.sqr().times(sin2)).sqrt().times(2);
+            C sin2 = angle.sin().sqr();
+            C cos2 = angle.cos().sqr();
+            C height = radiusx.complete().sqr().times(sin2).plus(radiusy.sqr().complete().times(cos2)).sqrt().times(2);
+            C width = radiusx.complete().sqr().times(cos2).plus(radiusy.sqr().complete().times(sin2)).sqrt().times(2);
 
             return atOrigin(
                 new Rectangle<>(
                     width,
                     height,
-                    field.zero()
+                    field.completedField().zero()
                 )
             );
-
         }
     }
 
     @Override
-    public LocatedShape<F, Circle<F>> circumscribedCircle() {
+    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
         return atOrigin(
-            new Circle<>(ComparableUtils.max(radiusx, radiusy))
+            new Circle<>(ComparableUtils.max(radiusx, radiusy).complete())
         );
     }
 
     @Override
-    public ScalarField<F> field() {
+    public ScalarField<E, C> field() {
         return field;
     }
 
-
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     @NonExact("Integration needs to be done, currently only Ramanujan's approximation is implemented")
-    public F perimeter() {
-        if (field instanceof CompleteScalarField) {
-            return (F) perimeterRamanujan((CompleteScalarFieldElement) radiusx, (CompleteScalarFieldElement) radiusy);
-        } else {
-            throw new FieldIncompleteException("Perimeter can only be computed well for complete scalar fields");
-        }
-
+    public C perimeter() {
+        return perimeterRamanujan(radiusx, radiusy);
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Ellipse<C, C> complete() {
+        return new Ellipse<>(radiusx.complete(), radiusy.complete(), angle.complete());
+    }
 
     public String toString() {
         return "Ellipse{" + radiusx + ',' + radiusy + '}';
@@ -171,21 +155,20 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
     }
 
     @Override
-    public boolean eq(Ellipse<F> other) {
+    public boolean eq(Ellipse<E, C> other) {
         return  this.radiusx.eq(other.radiusx) && this.radiusy.eq(other.radiusy);
     }
-
 
     @SuppressWarnings({"unchecked"})
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Ellipse)) return false;
-        Ellipse<?> ellipse = (Ellipse<?>) o;
+        Ellipse<?, ?> ellipse = (Ellipse<?, ?>) o;
         if (!ellipse.field.equals(field)) {
             return false;
         }
-        return eq((Ellipse<F>) ellipse);
+        return eq((Ellipse<E, C>) ellipse);
     }
 
     @Override
@@ -202,16 +185,16 @@ public class Ellipse <F extends ScalarFieldElement<F>> implements Shape<F, Ellip
      */
 
     @NonExact
-    public static <E extends  CompleteScalarFieldElement<E>> E perimeterRamanujan(E radiusx, E radiusy) {
+    public static <E extends  ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> C perimeterRamanujan(E radiusx, E radiusy) {
         E sum = radiusx.plus(radiusy);
-        E h = radiusx.minus(radiusy).sqr().dividedBy(sum.sqr());
-        E pi = radiusx.getStructure().pi();
-        E one = radiusx.getStructure().one();
-        E ten = radiusx.getStructure().element(10);
-        E four = radiusx.getStructure().element(4);
+        C h = radiusx.minus(radiusy).sqr().dividedBy(sum.sqr()).complete();
+        C pi = radiusx.getStructure().pi();
+        C one = radiusx.getStructure().one().complete();
+        C ten = radiusx.getStructure().element(10).complete();
+        C four = radiusx.getStructure().element(4).complete();
         // Ramanujan's (second) approximation:
 
-        return pi.times(sum).times(
+        return pi.times(sum.complete()).times(
             one.plus(
                 h.times(3).dividedBy(
                     ten.plus(

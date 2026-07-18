@@ -26,6 +26,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.InvalidAlgebraicResult;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
+import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredBinaryMethod;
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
@@ -90,10 +91,10 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
     ),
 
     /**
-     * @see CompleteFieldElement#pow(CompleteFieldElement)
+     * @see TranscendentalFunctionsNumber#pow(CompleteFieldElement)
      */
     POWER(
-        getDeclaredBinaryMethod(CompleteFieldElement.class, "pow"),
+        getDeclaredBinaryMethod(TranscendentalFunctionsNumber.class, "pow", CompleteFieldElement.class),
         "^",
         MULTIPLICATION.unity,
         null,
@@ -112,7 +113,7 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
 
 
 
-    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, BasicAlgebraicUnaryOperator inverse, int precedence) {
+    BasicAlgebraicBinaryOperator(Method method, String symbol, Method unity, @Nullable BasicAlgebraicUnaryOperator inverse, int precedence) {
         this.wrapped = new SimpleAlgebraicBinaryOperator(
             method,
             symbol,

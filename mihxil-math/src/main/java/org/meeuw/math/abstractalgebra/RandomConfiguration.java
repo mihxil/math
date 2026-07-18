@@ -23,14 +23,30 @@ import java.util.*;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
 
+/**
+ * The configuration aspect related to how random elements must be generated.
+ */
+
 public class RandomConfiguration implements ConfigurationAspect {
 
+    /**
+     * A utility to create a random long value, takes into account the {@link #getSetSize() set size} where the numbers must be drawn from.
+     *
+     * @param random The generator to use
+     * @return A random long between {@code -1 * setSize /2} and {@code setSize / 2}
+     */
 
     public static long nextLong(Random random) {
         int setSize = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize();
         return random.nextInt(setSize) - setSize / 2;
     }
 
+    /**
+     * A utility to create a random non-negative long value
+     *
+     * @param random The generator to use
+     * @return A random long between {@code 0} and {@code setSize}
+     */
     public static long nextNonNegativeLong(Random random) {
         int setSize = ConfigurationService.getConfigurationAspect(RandomConfiguration.class).getSetSize();
         return random.nextInt(setSize);

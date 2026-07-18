@@ -40,25 +40,28 @@ public interface MagmaTheory<E extends MagmaElement<E>>
     @Property
     default void operatorAndCommutativity(@ForAll(ELEMENTS) E m1, @ForAll(ELEMENTS) E m2) {
         boolean isCommutative = m1.getStructure().operationIsCommutative();
+        E m1m2 = m1.operate(m2);
+        E m2m1 = m2.operate(m1);
+        String s =
+            OPERATION.stringify(m1, m2)  + " = " + m1m2 + "  %s " +
+            OPERATION.stringify(m2, m1) + " = " + m2m1;
+
         if (isCommutative) {
-            String s = OPERATION.stringify(m1, m2)  + " %s" +
-                    OPERATION.stringify(m2, m1);
-            assertThat(m1.operate(m2)).withFailMessage(
+
+            assertThat(m1m2).withFailMessage(
                 String.format(s, "should be")
-            ).isEqTo(m2.operate(m1));
+            ).isEqTo(m2m1);
             log().fine(String.format(s, "is"));
         } else {
-            String s = OPERATION.stringify(m1, m2) + " %s " +
-                OPERATION.stringify(m2, m1);
-            E e3 = m1.operate(m2);
             try {
-                assertThat(e3).withFailMessage(
+                assertThat(m1m2).withFailMessage(
                     String.format(s, "should not be")
-                ).isNotEqTo(m2.operate(m1));
+                ).isNotEqTo(m2m1);
                 log().fine(String.format(s, "is not "));
             } catch (AssertionError ae) {
-                log().info(String.format(s, "is (!) ") + " (" + e3 + ")");
+                log().info(String.format(s, "is (!) ") + " (" + m1m2 + ")");
                 throw new TestAbortedException(ae.getMessage());
             }
         }
-    }}
+    }
+}

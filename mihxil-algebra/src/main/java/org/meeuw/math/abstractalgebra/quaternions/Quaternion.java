@@ -32,16 +32,16 @@ import org.meeuw.math.numbers.Sizeable;
  * @author Michiel Meeuwissen
  * @since 0.4
  * @see org.meeuw.math.abstractalgebra.quaternions
- * @param <E> The type of the 4 {@link ScalarFieldElement}'s {@link #a}, {@link #b}, {@link #c} and {@link #d}.
+ * @param <E> The type of the 4 {@link ScalarFieldElement}'s {@link #a}, {@link #b}, {@link #c} and {@link #d} that constitute the Quarternion.
  */
 @Getter
 @EqualsAndHashCode
-public class Quaternion<E extends ScalarFieldElement<E>>
+public class Quaternion<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     implements
-    DivisionRingElement<Quaternion<E>>,
+    DivisionRingElement<Quaternion<E, C>>,
     Sizeable<E>,
     Serializable,
-    WithScalarOperations<Quaternion<E>, E> {
+    WithScalarOperations<Quaternion<E, C>, E> {
 
     private static final long serialVersionUID = 0L;
 
@@ -58,7 +58,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public @NonNull Quaternions<E> getStructure() {
+    public @NonNull Quaternions<E, C> getStructure() {
         return Quaternions.of(a.getStructure());
     }
 
@@ -66,7 +66,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
      * Hamilton product
      */
     @Override
-    public Quaternion<E> times(Quaternion<E> multiplier) {
+    public Quaternion<E, C> times(Quaternion<E, C> multiplier) {
         return new Quaternion<>(
             a.times(multiplier.a).minus(b.times(multiplier.b)).minus(c.times(multiplier.c)).minus(d.times(multiplier.d)),
             a.times(multiplier.b).plus(b.times(multiplier.a)).plus(c.times(multiplier.d)).minus(d.times(multiplier.c)),
@@ -76,7 +76,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> times(E multiplier) {
+    public Quaternion<E, C> times(E multiplier) {
         return new Quaternion<>(
             a.times(multiplier),
             b.times(multiplier),
@@ -86,14 +86,14 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
-    public Quaternion<E> dividedBy(Quaternion<E> divisor) throws DivisionByZeroException {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
+    public Quaternion<E, C> dividedBy(Quaternion<E, C> divisor) throws DivisionByZeroException {
         return DivisionRingElement.super.dividedBy(divisor);
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
-    public Quaternion<E> dividedBy(E divisor) {
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
+    public Quaternion<E, C> dividedBy(E divisor) {
         return new Quaternion<>(
             a.dividedBy(divisor),
             b.dividedBy(divisor),
@@ -103,7 +103,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> reciprocal() {
+    public Quaternion<E, C> reciprocal() {
         E divisor = a.sqr().plus(b.sqr()).plus(c.sqr()).plus(d.sqr());
         return new Quaternion<>(
             a.dividedBy(divisor),
@@ -114,7 +114,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> plus(Quaternion<E> summand) {
+    public Quaternion<E, C> plus(Quaternion<E, C> summand) {
          return new Quaternion<>(
              a.plus(summand.a),
              b.plus(summand.b),
@@ -124,7 +124,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> negation() {
+    public Quaternion<E, C> negation() {
         return new Quaternion<>(
             a.negation(),
             b.negation(),
@@ -133,7 +133,7 @@ public class Quaternion<E extends ScalarFieldElement<E>>
         );
     }
 
-    public Quaternion<E> conjugate() {
+    public Quaternion<E, C> conjugate() {
         return new Quaternion<>(
             a,
             b.negation(),

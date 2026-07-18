@@ -34,7 +34,7 @@ import static org.meeuw.math.abstractalgebra.dim2.Vector2.of;
  */
 class Vector2Test implements
     ElementTheory<Vector2>,
-    VectorSpaceTheory<Vector2, RealNumber>,
+    VectorSpaceTheory<Vector2, RealNumber, RealNumber>,
     WithScalarTheory<Vector2, RealNumber> {
 
     @Override

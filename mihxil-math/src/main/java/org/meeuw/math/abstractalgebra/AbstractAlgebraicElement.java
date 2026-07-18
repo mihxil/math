@@ -24,6 +24,10 @@ public abstract class AbstractAlgebraicElement<
     S extends AlgebraicStructure<E>
     > implements AlgebraicElement<E> {
 
+
+    /**
+     * Every element has a reference to the {@link AlgebraicStructure algebraic structure} it belongs to.
+     */
     @Getter
     @NonNull
     protected final S structure;

@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.NoSuchOperatorException;
+import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 
 import static org.meeuw.configuration.ReflectionUtils.getDeclaredMethod;
 import static org.meeuw.math.text.TextUtils.superscript;
@@ -81,64 +82,64 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
 
 
     /**
-     * @see CompleteFieldElement#sqrt()
+     * @see TranscendentalFunctionsNumber#sqrt()
      */
     SQRT(
-        getDeclaredMethod(CompleteFieldElement.class, "sqrt"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "sqrt"),
         (s) -> "√" + (s.length() > 1 ?"(" + s + ")" : s),
         "sqrt"
     ),
 
     /**
-     * @see CompleteFieldElement#sin()
+     * @see TranscendentalFunctionsNumber#sin()
      */
     SIN(
-        getDeclaredMethod(CompleteFieldElement.class, "sin"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "sin"),
         (s) -> "sin(" + s + ")",
         "sin"
     ),
 
     /**
-     * @see CompleteFieldElement#cos()
+     * @see TranscendentalFunctionsNumber#cos()
      */
     COS(
-        getDeclaredMethod(CompleteFieldElement.class, "cos"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "cos"),
         (s) -> "cos(" + s + ")",
         "cos"
     ),
 
     /**
-     * @see CompleteFieldElement#exp()
+     * @see TranscendentalFunctionsNumber#exp()
      */
     EXP(
-        getDeclaredMethod(CompleteFieldElement.class, "exp"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "exp"),
         (s) -> "exp(" + s + ")",
         "exp"
     ),
 
     /**
-     * @see CompleteFieldElement#ln()
+     * @see TranscendentalFunctionsNumber#ln()
      */
     LN(
-        getDeclaredMethod(CompleteFieldElement.class, "ln"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "ln"),
         (s) -> "ln(" + s + ")",
         "ln"
     ),
 
     /**
-     * @see CompleteFieldElement#sinh()
+     * @see TranscendentalFunctionsNumber#sinh()
      */
     SINH(
-        getDeclaredMethod(CompleteFieldElement.class, "sinh"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "sinh"),
         (s) -> "sinh(" + s + ")",
         "sinh"
     ),
 
      /**
-     * @see CompleteFieldElement#cosh()
+     * @see TranscendentalFunctionsNumber#cosh()
      */
     COSH(
-        getDeclaredMethod(CompleteFieldElement.class, "cosh"),
+        getDeclaredMethod(TranscendentalFunctionsNumber.class, "cosh"),
         (s) -> "cosh(" + s + ")",
          "cosh"
      )
@@ -183,4 +184,23 @@ public enum BasicAlgebraicUnaryOperator implements AlgebraicUnaryOperator {
         return stringify.apply(element1).toString();
     }
 
+    public static <E extends MultiplicativeGroupElement<E>> E SQR(E e) {
+        return e.sqr();
+    }
+
+    public static <E extends TranscendentalFunctionsNumber<E, C>, C extends CompleteFieldElement<C>> C SQRT(E e) {
+        return e.sqrt();
+    }
+
+    public static <E extends TranscendentalFunctionsNumber<E, C>, C extends CompleteFieldElement<C>> C SIN(E e) {
+        return e.sin();
+    }
+
+    public static <E extends TranscendentalFunctionsNumber<E, C>, C extends CompleteFieldElement<C>> C COS(E e) {
+        return e.cos();
+    }
+
+    public static <E extends TranscendentalFunctionsNumber<E, C>, C extends CompleteFieldElement<C>> C LN(E e) {
+        return e.ln();
+    }
 }

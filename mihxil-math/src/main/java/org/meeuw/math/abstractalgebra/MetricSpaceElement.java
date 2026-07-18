@@ -20,12 +20,12 @@ import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.Sizeable;
 
 /**
- * Elements of a metric space define a {@link #distanceTo(MetricSpaceElement)} other elements in the same {@link MetricSpace}
+ * Elements of a metric space define a {@link #distanceTo(MetricSpaceElement) distance to} other elements in the same {@link MetricSpace}
  * <p>
- * This is like {@link Sizeable}, but it can also determin {@link #distanceTo(MetricSpaceElement)}, and more importantly
- * it has a link to its {@link MetricSpace structure}.
+ * This is a related to {@link Sizeable}, where the {@link Sizeable#abs() absolute value} is just the distance to {@link MetricSpace#zero()}. There is also a {@link #getStructure() reference} to its {@link MetricSpace structure},
+ * very similarly to {@link AbstractAlgebraicElement#getStructure()}.
  * <p>
- * A metric space element can be called a 'point'.
+ * A metric space element can be called a 'point' in the space.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -35,6 +35,11 @@ import org.meeuw.math.numbers.Sizeable;
 public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extends Scalar<S>>
     extends Sizeable<S> {
 
+    /**
+     * Every point has a reference to the {@link MetricSpace metric space} it belongs to.
+     *
+     * @see AbstractAlgebraicElement#getStructure()
+     */
     MetricSpace<E, S> getStructure();
 
     /**
@@ -42,6 +47,11 @@ public interface MetricSpaceElement<E extends MetricSpaceElement<E, S>, S extend
      */
     S distanceTo(E otherElement);
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For a metric space element this is equivalent to the {@link #distanceTo(MetricSpaceElement) distance to} {@link MetricSpace#zero()}.
+     */
     @Override
     @NonAlgebraic
     default S abs() {

@@ -39,6 +39,7 @@ public interface GroupTheory<E extends GroupElement<E>>
     @Property
     default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
+        log().info(s + " supports " + s.getSupportedOperators());
     }
 
     @Property
@@ -61,7 +62,7 @@ public interface GroupTheory<E extends GroupElement<E>>
     default void unity(
         @ForAll(ELEMENTS) E v) {
         assertThat(v.operate(v.getStructure().unity()).eq(v))
-            .withFailMessage(String.format("Unity(%s) = %s", v, v.self()))
+            .withFailMessage(String.format("%s . UNITY == %s != %s ", v, v.operate(v.getStructure().unity()), v.self()))
             .isTrue();
     }
 
@@ -82,6 +83,7 @@ public interface GroupTheory<E extends GroupElement<E>>
 
     class UnknownGroupElement implements GroupElement<UnknownGroupElement> {
 
+        @SuppressWarnings("DataFlowIssue")
         @Override
         public @NonNull UnknownGroup getStructure() {
             return null;

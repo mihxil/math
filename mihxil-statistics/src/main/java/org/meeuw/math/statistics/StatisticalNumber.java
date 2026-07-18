@@ -72,6 +72,7 @@ public interface StatisticalNumber<SELF extends StatisticalNumber<SELF, N, E>, N
      * Loosely equals, coincides with {@link org.meeuw.math.abstractalgebra.AlgebraicElement#eq(AlgebraicElement)}
      */
     boolean eq(E o);
+
     /**
      * Return copy of this object as {@link E}
      */

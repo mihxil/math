@@ -19,8 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
-import org.meeuw.math.abstractalgebra.Vector;
+import org.meeuw.math.abstractalgebra.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,7 +30,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.4
  */
 public interface VectorSpaceTheory<
-    V extends Vector<V, S>, S extends ScalarFieldElement<S>
+    V extends Vector<V, S>, S extends ScalarFieldElement<S, C>, C extends CompleteScalarFieldElement<C>
     >
     extends AbelianRingTheory<V> {
 
@@ -78,14 +77,13 @@ public interface VectorSpaceTheory<
 
     @Property
     default void associativity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(ELEMENTS) V v3) {
-        withLooseEquals(() -> {
-
+        withLooseEquals(() ->
             assertThat(
                 v1.plus(v2.plus(v3))
             ).isEqualTo(
                 (v1.plus(v2)).plus(v3)
-            );
-        });
+            )
+        );
     }
 
     @Property
@@ -100,13 +98,13 @@ public interface VectorSpaceTheory<
 
     @Property
     default void compatibility(@ForAll(ELEMENTS) V v, @ForAll(WithScalarTheory.SCALARS) S a, @ForAll(WithScalarTheory.SCALARS) S b) {
-        withLooseEquals(() -> {
+        withLooseEquals(() ->
             assertThat(
                 (v.times(a)).times(b)
             ).isEqualTo(
                 v.times(a.times(b))
-            );
-        });
+            )
+        );
     }
 
     @Property
@@ -116,28 +114,26 @@ public interface VectorSpaceTheory<
 
     @Property
     default void vectorDistributivity(@ForAll(ELEMENTS) V v1, @ForAll(ELEMENTS) V v2, @ForAll(WithScalarTheory.SCALARS) S e) {
-        withLooseEquals(() -> {
-
+        withLooseEquals(() ->
             assertThat(
                 (v1.plus(v2)).times(e)
             ).isEqualTo(
                 (v1.times(e)).plus(v2.times(e))
-            );
-        });
+            )
+        );
     }
 
     @Property
     default void scalarDistributivity(
         @ForAll(ELEMENTS) V v,
         @ForAll(WithScalarTheory.SCALARS) S e1, @ForAll(WithScalarTheory.SCALARS) S e2) {
-        withLooseEquals(() -> {
-
+        withLooseEquals(() ->
             assertThat(
                 v.times(e1.plus(e2))
             ).isEqualTo(
                 (v.times(e1)).plus(v.times(e2))
-            );
-        });
+            )
+        );
     }
 
     @Property
@@ -153,10 +149,10 @@ public interface VectorSpaceTheory<
         @ForAll(ELEMENTS) V b,
         @ForAll(ELEMENTS) V c
         ) {
-        withLooseEquals(() -> {
+        withLooseEquals(() ->
             assertThat(a.dot(b.plus(c)))
-                .isEqualTo((a.dot(b)).plus(a.dot(c)));
-        });
+                .isEqualTo((a.dot(b)).plus(a.dot(c)))
+        );
     }
 
     @Provide

@@ -20,11 +20,6 @@ public class ResetConfiguration implements TestExecutionListener {
     }
 
     @Override
-    public void testPlanExecutionFinished(TestPlan testPlan) {
-
-    }
-
-    @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         if (ConfigurationService.resetToDefaults()) {
             log.info("Resetting configuration to defaults " + testIdentifier);

@@ -115,7 +115,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         try {
             return uncertain(BigDecimalMath.log(bigDecimal, context()));
         } catch(ArithmeticException a) {
-            throw new IllegalLogarithmException(a, "ln(" + bigDecimal + ")");
+            if (bigDecimal.signum() == 0) {
+                throw new IllegalLogarithmException(IllegalLogarithmException.Reason.ZERO, a, "ln(" + bigDecimal + ")");
+            } else {
+                throw new IllegalLogarithmException(IllegalLogarithmException.Reason.NEGATIVE, a, "ln(" + bigDecimal + ")");
+            }
         }
     }
 
@@ -197,6 +201,27 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         return ImmutableUncertainNumber.of(
             newValue,
             () -> uncertaintyForBigDecimal(newValue, context())
+        );
+    }
+
+    protected UncertainNumber<BigDecimal> uncertain(BigDecimal newValue, BigDecimal propagatedUncertainty) {
+        return ImmutableUncertainNumber.of(
+            newValue,
+            () -> withUncertaintyContext(() -> {
+                BigDecimal rounding = uncertaintyForBigDecimal(newValue, context());
+                BigDecimal sumSquares = rounding.multiply(rounding, uncertaintyContext())
+                    .add(
+                        propagatedUncertainty.abs().multiply(propagatedUncertainty.abs(), uncertaintyContext()),
+                        uncertaintyContext()
+                    );
+                return BigDecimalMath.sqrt(sumSquares, uncertaintyContext());
+            })
+        );
+    }
+
+    protected BigDecimal propagatedUncertainty(BigDecimal argumentUncertainty, BigDecimal absoluteDerivative) {
+        return withUncertaintyContext(() ->
+            absoluteDerivative.abs().multiply(argumentUncertainty.abs(), uncertaintyContext())
         );
     }
 
@@ -284,7 +309,7 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         return uncertain(BigDecimalMath.sin(bigDecimal, context()));
     }
 
-      @Override
+    @Override
     public UncertainNumber<BigDecimal> asin(BigDecimal bigDecimal) {
           return uncertain(BigDecimalMath.asin(bigDecimal, context()));
     }
@@ -292,6 +317,11 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     @Override
     public UncertainNumber<BigDecimal> cos(BigDecimal bigDecimal) {
         return uncertain(BigDecimalMath.cos(bigDecimal, context()));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> acos(BigDecimal bigDecimal) {
+        return uncertain(BigDecimalMath.acos(bigDecimal, context()));
     }
 
     @Override
@@ -330,6 +360,71 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
     @Override
     public BigDecimal roundingUncertainty(BigDecimal bigDecimal) {
         return BigDecimalUtils.uncertaintyForBigDecimal(bigDecimal, context());
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> sin(BigDecimal bigDecimal, BigDecimal dN) {
+        BigDecimal value = BigDecimalMath.sin(bigDecimal, context());
+        BigDecimal derivative = BigDecimalMath.cos(bigDecimal, context()).abs();
+        return uncertain(value, propagatedUncertainty(dN, derivative));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> asin(BigDecimal bigDecimal, BigDecimal dn) {
+        BigDecimal value = BigDecimalMath.asin(bigDecimal, context());
+        BigDecimal denominator = BigDecimalMath.sqrt(
+            BigDecimal.ONE.subtract(bigDecimal.multiply(bigDecimal, context()), context()),
+            context()
+        );
+        BigDecimal derivative = BigDecimal.ONE.divide(denominator, context()).abs();
+        return uncertain(value, propagatedUncertainty(dn, derivative));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> cos(BigDecimal bigDecimal, BigDecimal dn) {
+        BigDecimal value = BigDecimalMath.cos(bigDecimal, context());
+        BigDecimal derivative = BigDecimalMath.sin(bigDecimal, context()).abs();
+        return uncertain(value, propagatedUncertainty(dn, derivative));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> acos(BigDecimal bigDecimal, BigDecimal dn) {
+        BigDecimal value = BigDecimalMath.acos(bigDecimal, context());
+        BigDecimal denominator = BigDecimalMath.sqrt(
+            BigDecimal.ONE.subtract(bigDecimal.multiply(bigDecimal, context()), context()),
+            context()
+        );
+        BigDecimal derivative = BigDecimal.ONE.divide(denominator, context()).abs();
+        return uncertain(value, propagatedUncertainty(dn, derivative));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> tan(BigDecimal bigDecimal, BigDecimal dn) {
+        BigDecimal value = BigDecimalMath.tan(bigDecimal, context());
+        BigDecimal cosine = BigDecimalMath.cos(bigDecimal, context());
+        BigDecimal derivative = BigDecimal.ONE.divide(cosine.multiply(cosine, context()), context()).abs();
+        return uncertain(value, propagatedUncertainty(dn, derivative));
+    }
+
+    @Override
+    public UncertainNumber<BigDecimal> atan2(BigDecimal y, BigDecimal dy, BigDecimal x, BigDecimal dx) {
+        BigDecimal value = BigDecimalMath.atan2(y, x, context());
+        BigDecimal denominator = x.multiply(x, context()).add(y.multiply(y, context()), context());
+        if (denominator.signum() == 0) {
+            return uncertain(value, BigDecimal.ONE.add(value.abs()));
+        }
+        BigDecimal dfdx = y.negate().divide(denominator, context()).abs();
+        BigDecimal dfdy = x.divide(denominator, context()).abs();
+        BigDecimal propagatedX = propagatedUncertainty(dx, dfdx);
+        BigDecimal propagatedY = propagatedUncertainty(dy, dfdy);
+        BigDecimal propagated = withUncertaintyContext(() ->
+            BigDecimalMath.sqrt(
+                propagatedX.multiply(propagatedX, uncertaintyContext())
+                    .add(propagatedY.multiply(propagatedY, uncertaintyContext()), uncertaintyContext()),
+                uncertaintyContext()
+            )
+        );
+        return uncertain(value, propagated);
     }
 
     @Override

@@ -143,7 +143,7 @@ public interface UncertainNumber<N extends Number>
         );
     }
 
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME, value="Can't be taken of 0 for negative arguments")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Can't be taken of 0 for negative arguments")
     default UncertainNumber<N> pow(int exponent) {
         NumberOperations<N> o = operations();
 
@@ -199,6 +199,11 @@ public interface UncertainNumber<N extends Number>
             getUncertainty(),
             ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval()
         );
+    }
+
+    @Override
+    default String toStringWithUncertainty() {
+        return getValue() + getConfidenceInterval().toString();
     }
 
 }

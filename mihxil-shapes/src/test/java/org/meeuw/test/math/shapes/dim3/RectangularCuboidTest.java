@@ -14,10 +14,10 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 @Log
 public class RectangularCuboidTest {
 
-    final RectangularCuboid<RealNumber> cuboid = new RectangularCuboid<>(
+    final RectangularCuboid<RealNumber, RealNumber> cuboid = new RectangularCuboid<>(
         element(2.0), element(3.0), element(4.0));
 
-    final RectangularCuboid<RealNumber> cube = new RectangularCuboid<>(
+    final RectangularCuboid<RealNumber, RealNumber> cube = new RectangularCuboid<>(
         element(3.0), element(3.0), element(3.0));
 
     @Test

@@ -11,12 +11,13 @@ import static java.lang.System.arraycopy;
 import static org.meeuw.math.ArrayUtils.*;
 
 /**
- * Utilities related to dealing with integer that are represented an array of digits.
+ * Utilities related to dealing with integers that are represented an array of digits.
  * A digit is normally represented by a {@code byte}
  * <p>
  * This is targeted e.g. at an implementation of p-adic numbers.
  *
  * @see java.math.BigInteger
+ * @see IntegerUtils
  * @since 0.14
  */
 public final class DigitUtils {

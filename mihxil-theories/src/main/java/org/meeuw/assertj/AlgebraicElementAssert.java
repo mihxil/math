@@ -1,8 +1,12 @@
 package org.meeuw.assertj;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.assertj.core.api.AbstractObjectAssert;
 
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
 public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends AbstractObjectAssert<AlgebraicElementAssert<E>, E> {
@@ -21,17 +25,17 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isEqTo(E expected) {
         if (!actual.eq(expected)) {
-            if (actual instanceof UncertainNumber<?> uncertainActual) {
+            if (actual instanceof Uncertain uncertain) {
                 assertionError(
-                    "%s %s ≉ %s (%s)".formatted(
-                        toString(actual) + " " + uncertainActual.getConfidenceInterval(),
+                    "\n%s %s\n≉\n%s (%s)".formatted(
+                        toStringWithUncertainty(uncertain),
                         info.hasDescription() ?  "(" + info.descriptionText() + ") " : "",
-                        toString(expected) + " " + (expected instanceof UncertainNumber<?> uncertainExpected ? uncertainExpected.getConfidenceInterval() : ""),
+                            toStringWithUncertainty((Uncertain) expected),
                         expectedDescription
                     ));
             } else {
                 assertionError(
-                    "%s %s ≉ %s (%s)".formatted(
+                    "\n%s %s\n≉\n%s (%s)".formatted(
                         toString(actual),
                         info.hasDescription() ?  "(" + info.descriptionText() + ") " : "",
                         toString(expected),
@@ -51,6 +55,18 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
         return myself;
     }
 
+    @SafeVarargs
+    @SuppressWarnings("UnusedReturnValue")
+    public final AlgebraicElementAssert<E> isEqIn(E... expecteds) {
+        for(E expected : expecteds) {
+             if (actual.eq(expected)) {
+                 return myself;
+             }
+        }
+         assertionError("%s %s ≉ any of %s (%s)".formatted(toString(actual), info.hasDescription() ?  "(" + info.descriptionText() + ") " : "", toString(expecteds), expectedDescription));
+         return myself;
+    }
+
     @SuppressWarnings("UnusedReturnValue")
     public AlgebraicElementAssert<E> isExact() {
         if (actual instanceof UncertainNumber<?> uncertain) {
@@ -63,6 +79,15 @@ public class AlgebraicElementAssert<E extends AlgebraicElement<E>> extends Abstr
 
     protected String toString(E element) {
         return (includeClassNames ? element.getClass().getSimpleName() + " " : "" ) + element.toString();
+    }
+
+    protected String toStringWithUncertainty(Uncertain element) {
+        return (includeClassNames ? element.getClass().getSimpleName() + " " : "" ) + element.toStringWithUncertainty();
+    }
+
+    @SafeVarargs
+    protected final String toString(E... element) {
+        return Stream.of(element).map(this::toString).collect(Collectors.joining(","));
     }
 
     /**

@@ -8,6 +8,7 @@ import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
 
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.theories.BasicObjectTheory;
@@ -15,7 +16,7 @@ import org.meeuw.theories.BasicObjectTheory;
 import static org.meeuw.assertj.Assertions.assertThat;
 
 
-public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E, S>> extends BasicObjectTheory<S> {
+public interface ShapeTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>,  S extends Shape<E, C, S>> extends BasicObjectTheory<S> {
 
 
      /**
@@ -30,7 +31,7 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
 
     @Property
     default void timesRandom(@ForAll(DATAPOINTS) S x, @ForAll(RANDOMS) Random random) {
-        E multiplier = x.field().nextRandom(random);
+        E multiplier = x.field().nextRandom(random).abs();
         S multiplied = x.times(multiplier);
         log().info("%s x %s = %s".formatted(x, multiplier, multiplied));
         assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);
@@ -46,12 +47,12 @@ public interface ShapeTheory<E extends ScalarFieldElement<E>, S extends Shape<E,
 
     @Property
     default void showCircumscribedCircle(@ForAll(DATAPOINTS) S x) {
-        LocatedShape<E, Circle<E>> circumscribed = x.circumscribedCircle();
+        LocatedShape<C ,C,  Circle<C, C>> circumscribed = x.circumscribedCircle();
         log().info("Circumscribed of %s is %s".formatted(x, circumscribed));
     }
     @Property
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) S x) {
-        LocatedShape<E, Rectangle<E>> circumscribed = x.circumscribedRectangle();
+        LocatedShape<C, C, Rectangle<C, C>> circumscribed = x.circumscribedRectangle();
         log().info("Circumscribed rectangle of %s is %s".formatted(x, circumscribed));
     }
 

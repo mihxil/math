@@ -21,7 +21,7 @@ import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.abstractalgebra.StrictlyOrdered;
 
 /**
- * A sizeable is a {@link Scalar},  but it adds methods related to {@link Sizeable}, {@link SignedNumber} and {@link StrictlyOrdered}
+ * A {@code SizeableScalar} is a {@link Scalar},  but it adds methods related to {@link Sizeable}, {@link SignedNumber} and {@link StrictlyOrdered}
  *
  * @author Michiel Meeuwissen
  * @since 0.8

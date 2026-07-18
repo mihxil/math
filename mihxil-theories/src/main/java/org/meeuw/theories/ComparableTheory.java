@@ -3,7 +3,6 @@ package org.meeuw.theories;
 import lombok.NonNull;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
@@ -125,7 +124,7 @@ public interface ComparableTheory<E extends Comparable<E>> extends BasicObjectTh
             .injectDuplicates(0.5)
             .sampleStream()
             .limit(5000)
-            .collect(Collectors.toList());
+            .toList();
         final List<E> check = new ArrayList<>();
         final List<Tuple2<E, E>> set2ToReturn = new ArrayList<>();
         final List<Tuple3<E, E, E>> setToReturn = new ArrayList<>();

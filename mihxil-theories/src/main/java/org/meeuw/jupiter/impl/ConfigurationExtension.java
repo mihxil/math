@@ -67,7 +67,7 @@ public class ConfigurationExtension implements
         try (AutoCloseable resetUncertainty =
                  setUncertaintyConfiguration(context.targetMethod(), context.containerClass());
              AutoCloseable resetNumber =
-                 setNumberConfiguration(context.targetMethod(), context.containerClass());
+                 setNumberConfiguration(context.targetMethod(), context.containerClass())
         ) {
             return property.execute();
         }
@@ -86,13 +86,12 @@ public class ConfigurationExtension implements
             SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
             if (setUncertaintyConfiguration != null) {
                 log.info("applying " + setUncertaintyConfiguration);
-                return  ConfigurationService.setConfiguration(builder -> {
+                return  ConfigurationService.setConfiguration(builder ->
                     builder.configure(UncertaintyConfiguration.class, config ->
                         config
                             .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
                             .withNotation(setUncertaintyConfiguration.notation())
-                            .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval()));
-                });
+                            .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval())));
             }
         }
         return null;
@@ -106,11 +105,9 @@ public class ConfigurationExtension implements
             if (numberConfiguration != null) {
                 log.info("applying " + numberConfiguration);
                 return
-                    ConfigurationService.setConfiguration(builder -> {
-                        builder.configure(NumberConfiguration.class, config ->
-                            config
-                                .withMaximalPrecision(numberConfiguration.maxPrecision()));
-                    });
+                    ConfigurationService.setConfiguration(builder -> builder.configure(NumberConfiguration.class, config ->
+                        config
+                            .withMaximalPrecision(numberConfiguration.maxPrecision())));
             }
         }
         return null;

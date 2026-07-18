@@ -19,11 +19,12 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.meeuw.math.statistics.StatisticalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.statistics.StatisticalNumber;
 
 /**
  * {@link StatisticalNumber}s can be aggregated, and therefore be {@link Windowed}.
@@ -32,10 +33,8 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  * @since 0.4
  */
 public abstract class WindowedStatisticalNumber<N extends Number, T extends StatisticalNumber<T, N, RealNumber>>
-
     extends Windowed<T>
     implements Supplier<RealNumber> {
-
 
     protected WindowedStatisticalNumber(
         @NonNull Class<T> bucketClass,
@@ -43,9 +42,11 @@ public abstract class WindowedStatisticalNumber<N extends Number, T extends Stat
         @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
         @NonNull BiConsumer<Event, Windowed<T>>@Nullable[] eventListeners,
+        @Nullable Level eventListenersExceptionLevel,
         @Nullable Clock clock
+
     ) {
-        super(bucketClass, window, bucketDuration, bucketCount, eventListeners, clock);
+        super(bucketClass, window, bucketDuration, bucketCount, eventListeners, eventListenersExceptionLevel, clock);
     }
 
     @Override

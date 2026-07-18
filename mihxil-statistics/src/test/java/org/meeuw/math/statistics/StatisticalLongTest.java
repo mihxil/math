@@ -26,6 +26,7 @@ import java.util.Random;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
@@ -42,6 +43,7 @@ import static org.meeuw.time.UncertainJavaTime.Mode.*;
  * @author Michiel Meeuwissen
  * @since 0.3
  */
+@SuppressWarnings("DuplicateExpressions")
 @Log
 class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
@@ -239,13 +241,12 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Override
     public Arbitrary<RealNumber> elements() {
-
-        Arbitrary<Integer> amounts = Arbitraries.integers()
+        Arbitrary<@NonNull Integer> amounts = Arbitraries.integers()
             .between(2, 100)
             .shrinkTowards(2)
             .withDistribution(RandomDistribution.uniform());
-        Arbitrary<Long> averages = Arbitraries.longs().between(-1000, 1000);
-        Arbitrary<Random> random = Arbitraries.randoms();
+        Arbitrary<@NonNull Long> averages = Arbitraries.longs().between(-1000, 1000);
+        Arbitrary<@NonNull Random> random = Arbitraries.randoms();
         return Combinators.combine(amounts, averages, random)
             .flatAs((am, av, r) -> {
                 StatisticalLong sd = new StatisticalLong();

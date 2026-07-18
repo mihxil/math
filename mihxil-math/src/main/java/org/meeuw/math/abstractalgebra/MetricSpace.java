@@ -20,13 +20,14 @@ import java.util.function.BiFunction;
 import org.meeuw.math.numbers.Scalar;
 
 /**
- * A <a href="https://en.wikipedia.org/wiki/Metric_space">metric space</a> is a set of elements, where each two elements have a {@link MetricSpaceElement#distanceTo(MetricSpaceElement)} between each other.
+ * A <a href="https://en.wikipedia.org/wiki/Metric_space">metric space</a> is a set of elements, where each two elements have a {@link MetricSpaceElement#distanceTo(MetricSpaceElement) distance} between each other.
  * <p>
  * As a 'binary' function this is called the {@link #metric(MetricSpaceElement, MetricSpaceElement) metric} of the metric space
+ *
  * @author Michiel Meeuwissen
  * @since 0.4
- * @param <E> self reference
- * @param <S> the type of the distance
+ * @param <E> the type of the points in this space
+ * @param <S> the type of the distance between 2 points in this space
  */
 public interface MetricSpace<E extends MetricSpaceElement<E, S>, S extends Scalar<S>> extends BiFunction<E, E, S> {
 
@@ -38,6 +39,7 @@ public interface MetricSpace<E extends MetricSpaceElement<E, S>, S extends Scala
     default S metric(E e1, E e2) {
         return e1.distanceTo(e2);
     }
+
 
     @Override
     default S apply(E e1, E e2) {

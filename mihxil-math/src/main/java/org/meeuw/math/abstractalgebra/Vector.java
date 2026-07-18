@@ -20,29 +20,29 @@ import org.meeuw.math.WithScalarOperations;
 /**
  * @author Michiel Meeuwissen
  * @since 0.4
- * @param <V> self
- * @param <S> {@link FieldElement type} of the elements of the vector, mu
+ * @param <SELF> self
+ * @param <E> {@link FieldElement type} of the elements of the vector.
  */
-public interface Vector<V extends Vector<V, S>, S extends FieldElement<S>>
-    extends Iterable<S>,
-    AbelianRingElement<V>,
-    WithScalarOperations<V, S> {
+public interface Vector<SELF extends Vector<SELF, E>, E extends FieldElement<E>>
+    extends Iterable<E>,
+    AbelianRingElement<SELF>,
+    WithScalarOperations<SELF, E> {
 
     @Override
-    V times(S multiplier);
+    SELF times(E multiplier);
 
     @Override
-    V plus(V summand);
+    SELF plus(SELF summand);
 
-    S dot(V multiplier);
+    E dot(SELF multiplier);
 
     //V cross(V multiplier);
 
     @Override
-    V negation();
+    SELF negation();
 
-    S get(int i) throws ArrayIndexOutOfBoundsException;
+    E get(int i) throws ArrayIndexOutOfBoundsException;
 
-    VectorSpace<S, V> getSpace();
+    VectorSpace<E, SELF> getSpace();
 
 }

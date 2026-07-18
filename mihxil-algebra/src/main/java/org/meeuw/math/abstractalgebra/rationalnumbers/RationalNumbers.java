@@ -15,18 +15,22 @@
  */
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.GaussianRationals;
 import org.meeuw.math.abstractalgebra.reals.RealField;
 import org.meeuw.math.exceptions.NotParsable;
+import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
@@ -43,7 +47,7 @@ import static java.math.BigInteger.ONE;
 @Example(ScalarField.class)
 @Singleton
 public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
-    implements ScalarField<RationalNumber>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
+    implements ScalarField<RationalNumber, BigDecimalElement>, Streamable<RationalNumber>, Randomizable<RationalNumber> {
 
     public static final RationalNumbers INSTANCE = new RationalNumbers();
 
@@ -71,15 +75,27 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     }
 
     @Override
-    @NonExact
-    @Synonym("𝜋")
-    public RationalNumber pi() {
-        return APPROX_PI;
+    public CompleteScalarField<BigDecimalElement> completedField() {
+        return BigDecimalField.INSTANCE;
     }
 
     @Override
+    public RationalNumber approx(BigDecimalElement bigDecimalElement) {
+        return null;
+    }
+
+    @Override
+    public BigDecimalElement complete(RationalNumber rationalNumber) {
+        return BigDecimalElement.of(new BigDecimal(
+            rationalNumber.getNumerator()).divide(new BigDecimal(rationalNumber.getDenominator()),
+            ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getContext()
+            ));
+    }
+
+
+    @Override
     public Set<AlgebraicStructure<?>> getSuperGroups() {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+        return Collections.unmodifiableSet(new HashSet<AlgebraicStructure<?>>(Arrays.asList(
             BigDecimalField.INSTANCE,
             RealField.INSTANCE,
             GaussianRationals.INSTANCE

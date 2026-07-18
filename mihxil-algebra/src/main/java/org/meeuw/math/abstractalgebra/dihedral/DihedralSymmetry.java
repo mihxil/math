@@ -116,7 +116,7 @@ public class DihedralSymmetry implements GroupElement<DihedralSymmetry>, UnaryOp
         return asMatrix;
     }
 
-    public <E extends CompleteScalarFieldElement<E>> FieldMatrix2<E> asFieldMatrix2(CompleteScalarField<E> field) {
+    public <E extends CompleteScalarFieldElement<E>> FieldMatrix2<E, E> asFieldMatrix2(CompleteField<E> field) {
         E phi = field.pi().times(2).times(k).dividedBy(group.n);
         E cos = phi.cos();
         E sin = phi.sin();

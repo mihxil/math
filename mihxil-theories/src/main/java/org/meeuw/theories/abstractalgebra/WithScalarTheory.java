@@ -30,7 +30,6 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
 public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
     S> extends ElementTheory<E> {
 
-
     String SCALARS = "scalars";
 
     @Property
@@ -58,7 +57,6 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
 
     @Provide
     Arbitrary<S> scalars();
-
 
 
 }

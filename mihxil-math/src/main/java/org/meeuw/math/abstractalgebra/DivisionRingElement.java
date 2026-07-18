@@ -45,6 +45,7 @@ public interface DivisionRingElement<E extends DivisionRingElement<E>> extends
     default E operate(E operand) {
         return getStructure().groupOperator().apply(self(), operand);
     }
+
     @Override
     @NonAlgebraic
     default E inverse() {

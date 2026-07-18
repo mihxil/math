@@ -18,7 +18,6 @@ package org.meeuw.math.abstractalgebra;
 import java.math.BigInteger;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.validation.NotZero;
 
 /**
@@ -28,8 +27,7 @@ import org.meeuw.math.validation.NotZero;
  * @since 0.8
  */
 public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
-    extends MultiplicativeGroupElement<E>,
-    WithDoubleOperations<E> {
+    extends MultiplicativeGroupElement<E> {
 
     @Override
     @NonNull
@@ -60,7 +58,6 @@ public interface DivisibleGroupElement<E extends DivisibleGroupElement<E>>
      * @since 0.19
      */
     E times(BigInteger multiplier);
-
 
     /**
      *

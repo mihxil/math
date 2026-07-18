@@ -25,7 +25,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
  * A field with {@link ScalarFieldElement}s.
- *
+ * <p>
  * Elements of such a fields can be converted to {@link Number}. Two basic operators are in place.
  *
  * <ul>
@@ -35,8 +35,9 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.4
  * @param <E> The type of the elements of this field
+ * @param <C> The type of the 'values in the 'completed' field (i.e. the result of some of the {@link org.meeuw.math.numbers.TranscendentalFunctionsNumber transedental functions}).
  */
-public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
+public interface ScalarField<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends Field<E> {
 
     NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Field.FUNCTIONS, BasicFunction.ABS, BasicFunction.DECIMAL, BasicFunction.INTEGER);
 
@@ -55,18 +56,18 @@ public interface ScalarField<E extends ScalarFieldElement<E>> extends Field<E> {
         return true;
     }
 
-    /**
-     * 𝜋, the ratio of the circumference of a circle to its diameter, approximately 3.14159.
-     * This probably is an approximation, as the value of π is not known exactly for most field implementations.
-     * @throws org.meeuw.math.exceptions.FieldIncompleteException if the field does not support this value, not even approximately.
-     */
-    E pi();
+    CompleteScalarField<C> completedField();
 
-    default E 𝜋() {
-        return pi();
+    E approx(C c);
+
+    C complete(E e);
+
+    @Synonym("𝜋")
+    default C pi() {
+        return completedField().pi();
     }
 
-
-
-
+    default E element(long n) {
+        return one().times(n);
+    }
 }

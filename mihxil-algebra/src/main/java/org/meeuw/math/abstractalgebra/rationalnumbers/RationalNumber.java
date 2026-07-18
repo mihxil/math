@@ -15,18 +15,20 @@
  */
 package org.meeuw.math.abstractalgebra.rationalnumbers;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
+import org.meeuw.math.abstractalgebra.complex.GaussianRational;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
@@ -43,14 +45,16 @@ import org.meeuw.math.validation.NotZero;
 @Getter
 public class RationalNumber extends Number
     implements
-    ScalarFieldElement<RationalNumber>,
+    ScalarFieldElement<RationalNumber, BigDecimalElement>,
     SignedNumber<RationalNumber>,
     Ordered<RationalNumber> {
 
     public static final RationalNumber ONE = new RationalNumber(BigInteger.ONE, BigInteger.ONE);
     public static final RationalNumber ZERO = new RationalNumber(BigInteger.ZERO, BigInteger.ONE);
 
+    @Getter
     private final @NotNull BigInteger numerator;
+    @Getter
     private final @NotNull @Positive BigInteger denominator;
 
     public static RationalNumber of(long numerator, @NotZero long denominator) {
@@ -97,15 +101,19 @@ public class RationalNumber extends Number
     }
 
     @Override
+    public BigDecimalField getStructureOfElementaryFunctions() {
+        return BigDecimalField.INSTANCE;
+    }
+
+    @Override
     public RationalNumber dividedBy(@NotZero BigInteger divisor) throws DivisionByZeroException {
         return new RationalNumber(
             numerator,
             denominator.multiply(divisor));
     }
 
-
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public RationalNumber reciprocal() throws ReciprocalException {
         if (numerator.equals(BigInteger.ZERO)) {
             throw new DivisionByZeroException("Denominator cannot be zero", "reciprocal(" + this + ")");
@@ -140,34 +148,55 @@ public class RationalNumber extends Number
     @Override
     @NonExact
     @NonAlgebraic
-    public RationalNumber sin() {
-        return of(BigDecimalOperations.INSTANCE.sin(bigDecimalValue()).getValue());
+    public BigDecimalElement sin() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.sin(bigDecimalValue()).getValue());
     }
 
     @Override
     @NonExact
     @NonAlgebraic
-    public RationalNumber asin() {
-        return of(BigDecimalOperations.INSTANCE.asin(bigDecimalValue()).getValue());
+    public BigDecimalElement asin() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.asin(bigDecimalValue()).getValue());
     }
 
     @Override
     @NonExact
     @NonAlgebraic
-    public RationalNumber cos() {
-        return of(BigDecimalOperations.INSTANCE.cos(bigDecimalValue()).getValue());
+    public BigDecimalElement cos() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.cos(bigDecimalValue()).getValue());
     }
 
     @Override
-    @NonAlgebraic
-    public RationalNumber tan() {
-        return of(BigDecimalOperations.INSTANCE.tan(bigDecimalValue()).getValue());
+    public BigDecimalElement acos() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.acos(bigDecimalValue()).getValue());
     }
 
     @Override
+    @NonExact
     @NonAlgebraic
-    public RationalNumber sqrt() {
-        return of(BigDecimalOperations.INSTANCE.sqrt(bigDecimalValue()).getValue());
+    public BigDecimalElement tan() {
+        return  BigDecimalElement.of(BigDecimalOperations.INSTANCE.tan(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public BigDecimalElement sqrt() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.sqrt(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public BigDecimalElement exp() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.exp(bigDecimalValue()).getValue());
+    }
+
+    @Override
+    @NonExact
+    @NonAlgebraic
+    public BigDecimalElement ln() {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.ln(bigDecimalValue()).getValue());
     }
 
     @Override
@@ -176,7 +205,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     public RationalNumber dividedBy(@NotZero RationalNumber divisor) throws DivisionByZeroException {
         if (divisor.isZero()) {
             throw new DivisionByZeroException(this, divisor);
@@ -202,6 +231,12 @@ public class RationalNumber extends Number
     }
 
     @Override
+    @NonExact
+    public BigDecimalElement root(int n) {
+        return BigDecimalElement.of(BigDecimalOperations.INSTANCE.root(bigDecimalValue(), n).getValue());
+    }
+
+    @Override
     public RationalNumber minus(RationalNumber subtrahend) {
         return plus(subtrahend.times(-1));
     }
@@ -211,7 +246,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public int compareTo(@org.checkerframework.checker.nullness.qual.NonNull RationalNumber compare) {
+    public int compareTo(@NonNull RationalNumber compare) {
         return numerator.multiply(compare.denominator)
             .compareTo(compare.numerator.multiply(denominator));
     }

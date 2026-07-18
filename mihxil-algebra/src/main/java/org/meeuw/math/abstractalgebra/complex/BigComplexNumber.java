@@ -78,7 +78,6 @@ public class BigComplexNumber extends CompleteComplexNumber<BigComplexNumber, Bi
         }
     }
 
-
     @Override
     protected BigComplexNumber _of(BigDecimalElement real, BigDecimalElement imaginary) {
         return new BigComplexNumber(real, imaginary);

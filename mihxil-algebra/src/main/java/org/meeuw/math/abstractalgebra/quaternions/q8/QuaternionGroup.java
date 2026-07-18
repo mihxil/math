@@ -54,7 +54,7 @@ public class QuaternionGroup implements Group<QuaternionElement>, Streamable<Qua
 
     @Override
     public QuaternionElement fromString(String q) {
-        q = q.replaceAll("1", "e").toLowerCase();
+        q = q.replace("1", "e").toLowerCase();
         for (QuaternionElement e : QuaternionElement.values()) {
             if (e.name().equals(q)) {
                 return e;

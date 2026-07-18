@@ -27,6 +27,7 @@ public interface AdditiveMonoidElement<E extends AdditiveMonoidElement<E>> exten
     @NonNull
     AdditiveMonoid<E> getStructure();
 
+    @SuppressWarnings("unchecked")
     default boolean isZero() {
         return getStructure().zero().eq((E) this);
     }

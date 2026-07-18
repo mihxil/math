@@ -43,8 +43,6 @@ public interface ElementTheory<E>  extends ValidObjectTheory<E> {
     @Provide
     Arbitrary<E> elements();
 
-
-
     @Override
     default Arbitrary<E> datapoints() {
         return elements();

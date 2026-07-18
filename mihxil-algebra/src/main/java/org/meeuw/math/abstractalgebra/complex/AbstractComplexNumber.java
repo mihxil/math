@@ -15,12 +15,12 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
-import java.math.BigInteger;
-
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
+import org.meeuw.math.WithDoubleOperations;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -36,13 +36,15 @@ import org.meeuw.math.exceptions.DivisionByZeroException;
  */
 @Getter
 public abstract class AbstractComplexNumber<
-    S extends AbstractComplexNumber<S, E, ES>,
-    E extends ScalarFieldElement<E>,
-    ES extends ScalarField<E>
+    S extends AbstractComplexNumber<S, E, ES, C>,
+    E extends ScalarFieldElement<E, C>,
+    ES extends ScalarField<E, C>,
+    C extends CompleteScalarFieldElement<C>
     >
     implements
     FieldElement<S>,
     WithScalarOperations<S, E>,
+    WithDoubleOperations<S>,
     Serializable {
 
     private static final long serialVersionUID = 0L;
@@ -146,7 +148,7 @@ public abstract class AbstractComplexNumber<
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AbstractComplexNumber<?, ?, ?> that = (AbstractComplexNumber) o;
+        AbstractComplexNumber<?, ?, ?, ?> that = (AbstractComplexNumber) o;
         return real.equals(that.real) && imaginary.equals(that.imaginary);
     }
 

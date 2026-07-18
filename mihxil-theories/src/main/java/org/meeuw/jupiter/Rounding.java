@@ -3,12 +3,13 @@ package org.meeuw.jupiter;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 /**
  * Configures {@link org.meeuw.math.text.configuration.UncertaintyConfiguration} to use
  * the {@link org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation#ROUND_VALUE} notation, and to explicitly strip zeros.
- * Also,  the {@link org.meeuw.math.text.configuration.NumberConfiguration#maximalPrecision maximal precision} will be set to
+ * Also,  the {@link NumberConfiguration#getMaximalPrecision()  maximal precision} will be set to
  * <p>
  * This is convenient for testing, as it makes the output more compact, and more resistent to rounding errors (which should be tested separately)
  * @since 0.19

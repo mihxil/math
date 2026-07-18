@@ -15,17 +15,30 @@
  */
 package org.meeuw.math.exceptions;
 
+import lombok.Getter;
+
 /**
  * Gets thrown if trying to take an impossible logarithm.
  * @since 0.9
  */
 public class IllegalLogarithmException extends OperationException {
 
-    public IllegalLogarithmException(ArithmeticException s, String operationAsString) {
+    @Getter
+    private final Reason reason;
+
+    public IllegalLogarithmException(Reason reason, ArithmeticException s, String operationAsString) {
         super(s, operationAsString);
+        this.reason = reason;
     }
 
-    public IllegalLogarithmException(String message, String operationAsString) {
+    public IllegalLogarithmException(Reason reason, String message, String operationAsString) {
         super(message, operationAsString);
+        this.reason = reason;
+    }
+
+    public enum Reason {
+        NEGATIVE,
+        ZERO,
+        OTHER
     }
 }

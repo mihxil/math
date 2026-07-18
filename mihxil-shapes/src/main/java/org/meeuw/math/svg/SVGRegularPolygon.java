@@ -3,19 +3,25 @@ package org.meeuw.math.svg;
 import java.util.function.Consumer;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.RegularPolygon;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.shapes.dim2.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public class SVGRegularPolygon<F extends CompleteScalarFieldElement<F>, S extends RegularPolygon<F>> extends SVGPolygon<F, RegularPolygon<F>> {
+public class SVGRegularPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends RegularPolygon<E, C>> extends SVGPolygon<E, C, RegularPolygon<E, C>> {
 
     private final boolean inscribedCircle;
 
     @lombok.Builder(builderMethodName = "regularPolygonBuilder")
-    private SVGRegularPolygon(S polygon, boolean circumscribedCircle, boolean inscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
+    private SVGRegularPolygon(
+        S polygon,
+        boolean circumscribedCircle,
+        boolean inscribedCircle,
+        boolean circumscribedRectangle,
+        Consumer<Element> circumscribedCircleAttributes,
+        Consumer<Element> circumscribedRectangleAttributes) {
         super(polygon, circumscribedCircle, circumscribedRectangle, circumscribedCircleAttributes, circumscribedRectangleAttributes);
         this.inscribedCircle = inscribedCircle;
     }
@@ -30,8 +36,8 @@ public class SVGRegularPolygon<F extends CompleteScalarFieldElement<F>, S extend
         }
     }
 
-    protected static Element inscribedCircle(Document doc, SVGDocument svgDocument, RegularPolygon<?> shape) {
-        Circle<?> circle = shape.inscribedCircle();
+    protected static Element inscribedCircle(Document doc, SVGDocument svgDocument, RegularPolygon<?, ?> shape) {
+        Circle<?, ?> circle = shape.inscribedCircle();
         Element inscribed = createElement(doc, "circle");
         inscribed.setAttribute("r", "" + circle.radius().doubleValue());
         inscribed.setAttribute("stroke", svgDocument.stroke());

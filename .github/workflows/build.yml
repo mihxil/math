@@ -11,15 +11,22 @@ on:
       - 'docs/**'
       - '.github/workflows/publish-documentation.yml'
   workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: Skip tests
+        type: boolean
+        required: false
+        default: false
 
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event.inputs.skip_tests == 'true' && 'no-tests' || 'with-tests' }}
   cancel-in-progress: true
 
 
 jobs:
   build:
+    name: build (${{ matrix.os }}, java-${{ matrix.java }}${{ github.event.inputs.skip_tests == 'true' && ', no tests' || '' }})
     strategy:
       fail-fast: false
       matrix:
@@ -39,7 +46,7 @@ jobs:
       MAVEN_ARGS: '--no-transfer-progress --color always'
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
@@ -54,9 +61,13 @@ jobs:
         continue-on-error: true
         timeout-minutes: 15
         run: |
-          mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
-      - uses: codecov/codecov-action@v5
-        if: ${{ matrix.rank == 'main' }}
+          if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
+            mvn -B -fn -DskipTests -Dlog4j2.stdout.level=warn test
+          else
+            mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
+          fi
+      - uses: codecov/codecov-action@v7
+        if: ${{ matrix.rank == 'main' && !(github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true') }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - name: Commit generated graphviz file if it changed
@@ -78,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'

@@ -4,17 +4,16 @@ import lombok.extern.java.Log;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim3.Sphere;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
-import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 @Log
 public class SphereTest {
 
-    final Sphere<RealNumber> sphere = new Sphere<>(RealNumber.of(2.0));
+    final Sphere<RationalNumber, BigDecimalElement> sphere = new Sphere<>(RationalNumber.of(2));
 
     @Test
     public void area() {
@@ -32,8 +31,8 @@ public class SphereTest {
 
     @Test
     public void eq() {
-        Sphere<RealNumber> same = new Sphere<>(element(2.0));
-        Sphere<RealNumber> different = new Sphere<>(element(3.0));
+        Sphere<RationalNumber, BigDecimalElement> same = new Sphere<>(RationalNumber.of(2));
+        Sphere<RationalNumber, BigDecimalElement> different = new Sphere<>(RationalNumber.of(3));
         assertThat(sphere.eq(same)).isTrue();
         assertThat(sphere.eq(different)).isFalse();
     }

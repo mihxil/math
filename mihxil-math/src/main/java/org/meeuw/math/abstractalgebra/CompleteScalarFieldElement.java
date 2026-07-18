@@ -29,15 +29,11 @@ public interface CompleteScalarFieldElement
     <E extends CompleteScalarFieldElement<E>>
     extends
     CompleteFieldElement<E>,
-    ScalarFieldElement<E> {
+    ScalarFieldElement<E, E> {
 
     @Override
     @NonNull
     CompleteScalarField<E> getStructure();
 
-    @Override
-    default E tan() {
-        return CompleteFieldElement.super.tan();
-    }
 
 }

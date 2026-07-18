@@ -18,6 +18,7 @@ package org.meeuw.test.math.abstractalgebra.quaternions;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternion;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -36,10 +37,10 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  * @since 0.4
  */
 class QuaternionTest implements
-    DivisionRingTheory<Quaternion<RationalNumber>>,
-    WithScalarTheory<Quaternion<RationalNumber>, RationalNumber> {
+    DivisionRingTheory<Quaternion<RationalNumber, BigDecimalElement>>,
+    WithScalarTheory<Quaternion<RationalNumber, BigDecimalElement>, RationalNumber> {
 
-    static final Quaternions<RationalNumber> structure = Quaternions.of(RationalNumbers.INSTANCE);
+    static final Quaternions<RationalNumber, BigDecimalElement> structure = Quaternions.of(RationalNumbers.INSTANCE);
 
     @Test
     public void ijksqr() {
@@ -65,18 +66,18 @@ class QuaternionTest implements
     }
 
     @Property
-    public void conjugateOfConjugateIsSelf(@ForAll(ELEMENTS) Quaternion<RationalNumber> e) {
+    public void conjugateOfConjugateIsSelf(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
         assertThat(e.conjugate().conjugate()).isEqualTo(e);
     }
 
     @Property
-    public void conjugateOfProductIsProductOfConjugates(@ForAll(ELEMENTS) Quaternion<RationalNumber> e1,
-                                                        @ForAll(ELEMENTS) Quaternion<RationalNumber> e2) {
+    public void conjugateOfProductIsProductOfConjugates(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e1,
+                                                        @ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e2) {
         assertThat(e1.times(e2).conjugate()).isEqualTo(e2.conjugate().times(e1.conjugate()));
     }
 
     @Property
-    public void elementClass(@ForAll(ELEMENTS) Quaternion<RationalNumber> e) {
+    public void elementClass(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getA().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getB().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getC().getStructure());
@@ -84,7 +85,7 @@ class QuaternionTest implements
     }
 
     @Override
-    public Arbitrary<Quaternion<RationalNumber>> elements() {
+    public Arbitrary<Quaternion<RationalNumber, BigDecimalElement>> elements() {
         return Arbitraries.randoms().map(r ->
             new Quaternion<>(
                 RationalNumbers.INSTANCE.nextRandom(r),

@@ -32,7 +32,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 public interface ScalarTheory<S extends Scalar<S>>
     extends SizeableScalarTheory<S, S> {
 
-
     @Property
     default void implementsScalar(@ForAll(ELEMENTS) S e1) {
         assertThat(e1).isInstanceOf(Scalar.class);

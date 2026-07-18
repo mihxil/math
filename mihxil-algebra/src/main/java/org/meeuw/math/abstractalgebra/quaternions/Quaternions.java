@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 import org.meeuw.math.Example;
 import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotStreamable;
@@ -41,17 +42,17 @@ import static java.lang.System.Logger.Level.DEBUG;
  * @see org.meeuw.math.abstractalgebra.quaternions
  * @see Quaternion
  */
-public class Quaternions<E extends ScalarFieldElement<E>>
-    extends AbstractAlgebraicStructure<Quaternion<E>>
-    implements DivisionRing<Quaternion<E>>, Streamable<Quaternion<E>> {
+public class Quaternions<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    extends AbstractAlgebraicStructure<Quaternion<E, C>>
+    implements DivisionRing<Quaternion<E, C>>, Streamable<Quaternion<E, C>> {
 
     private static final System.Logger log = System.getLogger(Quaternions.class.getName());
-    private static final Map<ScalarField<?>, Quaternions<?>> INSTANCES = new ConcurrentHashMap<>();
+    private static final Map<ScalarField<?, ?>, Quaternions<?, ?>> INSTANCES = new ConcurrentHashMap<>();
 
     @SuppressWarnings("unchecked")
-    public static <E extends ScalarFieldElement<E>> Quaternions<E> of(ScalarField<E> numberFieldElement) {
-        return (Quaternions<E>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
-            Quaternions<E> result = new Quaternions<>(numberFieldElement);
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> Quaternions<E, C> of(ScalarField<E, C> numberFieldElement) {
+        return (Quaternions<E, C>) INSTANCES.computeIfAbsent(numberFieldElement, k -> {
+            Quaternions<E, C> result = new Quaternions<>(numberFieldElement);
             log.log(DEBUG, () -> "Created new Quaternions instance (for %s): %s".formatted(numberFieldElement, result));
             return result;
             }
@@ -62,19 +63,19 @@ public class Quaternions<E extends ScalarFieldElement<E>>
      * Quaternions over {@link RationalNumbers#INSTANCE rational numbers}
      */
     @Example(value = DivisionRing.class, prefix = "Quaternions ")
-    public static final Quaternions<RationalNumber> H_Q = of(RationalNumbers.INSTANCE);
+    public static final Quaternions<RationalNumber, BigDecimalElement> H_Q = of(RationalNumbers.INSTANCE);
 
     @Getter
-    private final ScalarField<E> elementStructure;
+    private final ScalarField<E, C> elementStructure;
 
-    private final Quaternion<E> zero;
-    private final Quaternion<E> one;
-    private final Quaternion<E> i;
-    private final Quaternion<E> j;
-    private final Quaternion<E> k;
+    private final Quaternion<E, C> zero;
+    private final Quaternion<E, C> one;
+    private final Quaternion<E, C> i;
+    private final Quaternion<E, C> j;
+    private final Quaternion<E, C> k;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private Quaternions(ScalarField<E> elementStructure) {
+    private Quaternions(ScalarField<E, C> elementStructure) {
         super((Class) Quaternion.class);
         this.elementStructure = elementStructure;
         E z = this.elementStructure.zero();
@@ -92,35 +93,40 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> zero() {
+    public Quaternion<E, C> zero() {
         return zero;
     }
 
     @Override
     @Synonym("1")
-    public Quaternion<E> one() {
+    public Quaternion<E, C> one() {
         return one;
     }
 
-    public Quaternion<E> i() {
+    public Quaternion<E, C> i() {
         return i;
     }
 
-    public Quaternion<E> j() {
+    public Quaternion<E, C> j() {
         return j;
     }
 
-    public Quaternion<E> k() {
+    public Quaternion<E, C> k() {
         return k;
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * For Quaternions, it is ℍ(&lt;Field&gt;)
+     */
     @Override
     public String toString() {
         return "ℍ(" + elementStructure + ")";
     }
 
     @Override
-    public Stream<Quaternion<E>> stream() {
+    public Stream<Quaternion<E, C>> stream() {
         if (! (elementStructure instanceof Streamable<?>)) {
             throw new NotStreamable("Element structure " + elementStructure + " of " + this + " is not streamable");
         }
@@ -131,7 +137,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
     }
 
     @Override
-    public Quaternion<E> nextRandom(Random random) {
+    public Quaternion<E, C> nextRandom(Random random) {
         return of(
             elementStructure.nextRandom(random),
             elementStructure.nextRandom(random),
@@ -143,7 +149,7 @@ public class Quaternions<E extends ScalarFieldElement<E>>
       static Pattern SPLIT_PATTERN = Pattern.compile("([+-]?)\\s*([^+-]+)");
 
     @Override
-    public Quaternion<E> fromString(String s) {
+    public Quaternion<E,C> fromString(String s) {
         Matcher matcher = SPLIT_PATTERN.matcher(s.trim());
 
         E real = elementStructure.zero();
@@ -172,10 +178,10 @@ public class Quaternions<E extends ScalarFieldElement<E>>
         }
         return of(real, i, j, k);
     }
-    public Quaternion<E> of(E real, E i, E j, E k) {
+    public Quaternion<E, C> of(E real, E i, E j, E k) {
         return new Quaternion<>(real, i, j, k);
     }
-    public Quaternion<E> fromStrings(String real, String i, String j, String k) {
+    public Quaternion<E, C> fromStrings(String real, String i, String j, String k) {
         return of(
             elementStructure.fromString(real),
             elementStructure.fromString(i),
