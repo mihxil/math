@@ -7,7 +7,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.Info;
 
-public interface Polygon<F extends ScalarFieldElement<F, C>,  C extends CompleteScalarFieldElement<C>, SELF extends Shape<F, C, SELF>> extends Shape<F, C, SELF>   {
+public interface Polygon<F extends ScalarFieldElement<F, C>,  C extends CompleteScalarFieldElement<C>, SELF extends Figure<F, C, SELF>> extends Figure<F, C, SELF> {
 
     int numberOfEdges();
 
@@ -17,7 +17,7 @@ public interface Polygon<F extends ScalarFieldElement<F, C>,  C extends Complete
 
     default Stream<Info> info() {
         return Stream.concat(
-            Shape.super.info(),
+            Figure.super.info(),
             Stream.of(
                 new Info(Info.Key.EDGES, this::numberOfEdges),
                 new Info(Info.Key.VERTICES, this::numberOfVertices)

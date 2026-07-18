@@ -22,7 +22,7 @@ public class CircleTest {
 
     @Nested
     @Group
-    public  class RationalCircleTest implements ShapeTheory<RationalNumber, BigDecimalElement, Circle<RationalNumber, BigDecimalElement>> {
+    public  class RationalCircleTest implements FigureTheory<RationalNumber, BigDecimalElement, Circle<RationalNumber, BigDecimalElement>> {
 
         @Override
         public Arbitrary<@NonNull Circle<RationalNumber, BigDecimalElement>> datapoints() {
@@ -34,7 +34,7 @@ public class CircleTest {
 
     @Nested
     @Group
-    public class RealCircleTest implements ShapeTheory<RealNumber, RealNumber, Circle<RealNumber, RealNumber>> {
+    public class RealCircleTest implements FigureTheory<RealNumber, RealNumber, Circle<RealNumber, RealNumber>> {
 
         public static Circle<RealNumber, RealNumber> circle = new Circle<>(exactly(1)).times(exactly(2));
 

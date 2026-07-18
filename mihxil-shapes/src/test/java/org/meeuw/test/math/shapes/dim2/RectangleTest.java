@@ -23,7 +23,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-public class RectangleTest implements ShapeTheory<RealNumber, RealNumber, Rectangle<RealNumber, RealNumber>> {
+public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rectangle<RealNumber, RealNumber>> {
 
     Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));

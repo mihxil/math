@@ -21,7 +21,7 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
  */
 @Getter
-public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Shape<E, C, Ellipse<E, C>>, Uncertain {
+public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Figure<E, C, Ellipse<E, C>>, Uncertain {
 
     private final E radiusx;
     private final E radiusy;
@@ -45,7 +45,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
 
     public Stream<Info> info() {
         return Stream.concat(
-            Shape.super.info(),
+            Figure.super.info(),
             Stream.of(
                 new Info(RADIUSX, this::radiusx),
                 new Info(RADIUSY, this::radiusy),
@@ -146,7 +146,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
 
     @Override
     public boolean isExact() {
-        return Shape.super.isExact() || areExact(radiusx, radiusy, angle);
+        return Figure.super.isExact() || areExact(radiusx, radiusy, angle);
     }
 
     @Override

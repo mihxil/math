@@ -24,12 +24,6 @@ public interface Polyhedron<F extends ScalarFieldElement<F, C>, C extends Comple
         return vertices() - edges() + faces();
     }
 
-    /**
-     * Returns the number of holes in this polyhedron.
-     */
-    default int holes() {
-        return 0;
-    }
 
     @Override
     boolean eq(SELF other);

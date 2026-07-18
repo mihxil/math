@@ -35,5 +35,7 @@ module org.meeuw.math.shapes {
     exports org.meeuw.math.shapes.dim3;
     exports org.meeuw.math.svg;
     exports org.meeuw.math.shapes;
+    exports org.meeuw.math.svg.dim3;
+    exports org.meeuw.math.svg.dim2;
 
 }

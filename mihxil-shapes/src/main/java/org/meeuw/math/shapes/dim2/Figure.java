@@ -4,20 +4,19 @@ import java.util.stream.Stream;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.shapes.Info;
-import org.meeuw.math.uncertainnumbers.Uncertain;
+import org.meeuw.math.shapes.Shape;
 
-public interface Shape<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, SELF extends Shape<E, C, SELF>> extends Uncertain {
+/**
+ * A 2 dimensional {@link Shape}
+ * @param <E>
+ * @param <C>
+ * @param <SELF>
+ */
+public interface Figure<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, SELF extends Figure<E, C, SELF>> extends Shape<E, C, SELF> {
 
     C perimeter();
 
     C area();
-
-    <S extends Shape<C, C, S>> S complete();
-
-    @Override
-    default boolean isExact() {
-        return ! field().elementsAreUncertain();
-    }
 
 
     default Stream<Info> info() {
@@ -39,15 +38,6 @@ public interface Shape<E extends ScalarFieldElement<E, C>, C extends CompleteSca
      */
     LocatedShape<C, C, Circle<C, C>> circumscribedCircle();
 
-    ScalarField<E, C> field();
-
-    boolean eq(SELF other);
-
-    SELF times(E multiplier);
-
-    SELF times(int multiplier);
-
-    SELF times(double multiplier);
 
     SELF rotate(E angle);
 

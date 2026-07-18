@@ -13,11 +13,11 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
- * A circle in a two-dimensional shape, defined by its radius only.
+ * A circle as a two-dimensional shape, defined by its radius only.
  * @since 0.15
  */
 
-public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScalarFieldElement<C>> implements Shape<E, C, Circle<E, C>> {
+public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScalarFieldElement<C>> implements Figure<E, C, Circle<E, C>> {
 
     private final E radius;
     private final ScalarField<E, C> field;
@@ -32,7 +32,7 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
     @Override
     public Stream<Info> info() {
         return Stream.concat(
-            Shape.super.info(),
+            Figure.super.info(),
             Stream.of(
                 new Info(Info.Key.RADIUS, this::radius),
                 new Info(Info.Key.DIAMETER, this::diameter)
@@ -123,7 +123,7 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
 
     @Override
     public boolean isExact() {
-        return Shape.super.isExact() || areExact(radius);
+        return Figure.super.isExact() || areExact(radius);
     }
 
     @Override

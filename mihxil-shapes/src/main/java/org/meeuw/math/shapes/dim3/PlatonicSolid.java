@@ -3,6 +3,7 @@ package org.meeuw.math.shapes.dim3;
 import lombok.Getter;
 
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.shapes.Shape;
 
 @Getter
 public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<E, C, PlatonicSolid<E, C>> {
@@ -69,8 +70,28 @@ public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends Complet
     }
 
     @Override
+    public <S extends Shape<C, C, S>> S complete() {
+        return null;
+    }
+
+    @Override
     public boolean eq(PlatonicSolid<E, C> other) {
         return false;
+    }
+
+    @Override
+    public PlatonicSolid<E, C> times(E multiplier) {
+        return null;
+    }
+
+    @Override
+    public PlatonicSolid<E, C> times(int multiplier) {
+        return null;
+    }
+
+    @Override
+    public PlatonicSolid<E, C> times(double multiplier) {
+        return null;
     }
 
     public Sphere<E, C> circumscribedSphere() {
@@ -80,5 +101,10 @@ public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends Complet
     @Override
     public String toString() {
         return String.format("%s, edge size: %s", type.name(), size);
+    }
+
+    @Override
+    public boolean strictlyEquals(Object o) {
+        return false;
     }
 }

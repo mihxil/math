@@ -16,7 +16,7 @@ import org.meeuw.theories.BasicObjectTheory;
 import static org.meeuw.assertj.Assertions.assertThat;
 
 
-public interface ShapeTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>,  S extends Shape<E, C, S>> extends BasicObjectTheory<S> {
+public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>,  S extends Figure<E, C, S>> extends BasicObjectTheory<S> {
 
 
      /**

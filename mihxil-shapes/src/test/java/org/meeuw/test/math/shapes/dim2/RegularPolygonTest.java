@@ -20,7 +20,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 
 @Log
-public class RegularPolygonTest implements ShapeTheory<RealNumber, RealNumber, RegularPolygon<RealNumber, RealNumber>> {
+public class RegularPolygonTest implements FigureTheory<RealNumber, RealNumber, RegularPolygon<RealNumber, RealNumber>> {
     static RegularPolygon<RealNumber, RealNumber> triangle = RegularPolygon.of(DihedralGroup.of(3), element(1.0));
     static RegularPolygon<RealNumber, RealNumber> square = new RegularPolygon<>(4, element(1.0));
     static RegularPolygon<RealNumber, RealNumber> pentagon = new RegularPolygon<>(5, element(1.0));

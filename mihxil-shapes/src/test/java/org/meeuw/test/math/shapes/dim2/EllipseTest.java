@@ -19,7 +19,7 @@ class EllipseTest  {
 
     @Nested
     @Group
-    public  class RationalEllipseTest implements ShapeTheory<RationalNumber, BigDecimalElement,  Ellipse<RationalNumber, BigDecimalElement>> {
+    public  class RationalEllipseTest implements FigureTheory<RationalNumber, BigDecimalElement,  Ellipse<RationalNumber, BigDecimalElement>> {
 
         @Override
         public Arbitrary<@NonNull Ellipse<RationalNumber, BigDecimalElement>> datapoints() {
@@ -34,7 +34,7 @@ class EllipseTest  {
 
     @Nested
     @Group
-    public  class RealEllipseTest implements ShapeTheory<RealNumber, RealNumber, Ellipse<RealNumber, RealNumber>> {
+    public  class RealEllipseTest implements FigureTheory<RealNumber, RealNumber, Ellipse<RealNumber, RealNumber>> {
 
         @Override
         public Arbitrary<@NonNull Ellipse<RealNumber, RealNumber>> datapoints() {
