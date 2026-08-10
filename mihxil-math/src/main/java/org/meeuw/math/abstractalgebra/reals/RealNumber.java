@@ -16,6 +16,7 @@
 package org.meeuw.math.abstractalgebra.reals;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.text.TextUtils;
@@ -87,6 +88,10 @@ public interface RealNumber
     static RealNumber of(double value) {
         assert ! Double.isNaN(value);
         return DoubleElement.of(value);
+    }
+    @Synonym("of")
+    static RealNumber real(double value) {
+        return of(value);
     }
 
     @Override

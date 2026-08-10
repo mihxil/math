@@ -36,8 +36,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.configuration.ConfigurationService.setConfiguration;
 import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.imaginary;
-import static org.meeuw.math.abstractalgebra.complex.ComplexNumber.real;
-import static org.meeuw.math.abstractalgebra.reals.RealNumber.of;
+import static org.meeuw.math.abstractalgebra.reals.RealNumber.real;
 
 /**
  * @author Michiel Meeuwissen
@@ -53,7 +52,7 @@ class ComplexNumberTest implements
 
     @Test
     public void isMultiplicativeSemiGroupElement() {
-        ComplexNumber cn = ComplexNumber.of(of(1), of(1));
+        ComplexNumber cn = ComplexNumber.of(real(1), real(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
 
@@ -63,8 +62,8 @@ class ComplexNumberTest implements
         return Arbitraries.randomValue(
             (random) ->
                 ComplexNumber.of(
-                    of(200 * random.nextDouble() - 100),
-                    of(200 * random.nextDouble() - 100)))
+                    real(200 * random.nextDouble() - 100),
+                    real(200 * random.nextDouble() - 100)))
             .injectDuplicates(0.1)
             .dontShrink()
             .edgeCases(config -> {
@@ -83,9 +82,9 @@ class ComplexNumberTest implements
 
     @Test
     public void sqrt() {
-        assertThat(real(RealNumber.of(-1)).sqrt()).isEqTo(imaginary(of(1)));
+        assertThat(ComplexNumber.real(real(-1)).sqrt()).isEqTo(imaginary(real(1)));
 
-        assertThat(ComplexNumber.of(RealNumber.of(0), RealNumber.of(-1)).sqrt()
+        assertThat(ComplexNumber.of(real(0), real(-1)).sqrt()
             .toString()).isEqualTo("0.707106781186548 - 0.707106781186548i");
     }
 
@@ -109,10 +108,10 @@ class ComplexNumberTest implements
     @Test
     public void euler() {
         assertThat(
-            real(RealField.INSTANCE.e())
+            ComplexNumber.real(RealField.INSTANCE.e())
                 .pow(
                     ComplexNumbers.INSTANCE.i().times(RealField.INSTANCE.pi()))
-        ).isEqTo(real(-1));
+        ).isEqTo(ComplexNumber.real(-1));
     }
 
     @Test

@@ -3,6 +3,7 @@ package org.meeuw.math.svg;
 import java.util.function.Consumer;
 
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.shapes.Shape;
 import org.meeuw.math.shapes.dim2.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,22 +36,24 @@ public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
     @Override
     public final void fill(SVGDocument svgDocument, Element g) {
         fillShape(svgDocument, g);
-        if (circumscribedCircle) {
-            g.appendChild(g.getOwnerDocument().createComment("Circumscribed circle of " + shape));
-            Element circumscribed = circumscribedCircle( g.getOwnerDocument(), svgDocument, shape);
-            g.appendChild(circumscribed);
-        }
-        if (circumscribedRectangle) {
-            g.appendChild(g.getOwnerDocument().createComment("Circumscribed rectangle of " + shape));
-            Element circumscribed = circumscribedRectangle( g.getOwnerDocument(), svgDocument, shape);
-            g.appendChild(circumscribed);
+        if (shape instanceof Figure<?,?,?> figure) {
+            if (circumscribedCircle) {
+                g.appendChild(g.getOwnerDocument().createComment("Circumscribed circle of " + figure));
+                Element circumscribed = circumscribedCircle(g.getOwnerDocument(), svgDocument, figure);
+                g.appendChild(circumscribed);
+            }
+            if (circumscribedRectangle) {
+                g.appendChild(g.getOwnerDocument().createComment("Circumscribed rectangle of " + figure));
+                Element circumscribed = circumscribedRectangle(g.getOwnerDocument(), svgDocument, figure);
+                g.appendChild(circumscribed);
+            }
         }
 
     }
 
     abstract void fillShape(SVGDocument svgDocument, Element g);
 
-    protected Element circumscribedCircle(Document doc,SVGDocument svgDocument,  Shape<?, ?, ?> shape) {
+    protected Element circumscribedCircle(Document doc,SVGDocument svgDocument,  Figure<?, ?, ?> shape) {
 
         var circleLocatedShape = shape.circumscribedCircle();
 
@@ -69,7 +72,7 @@ public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
         return circumscribed;
     }
 
-     protected Element circumscribedRectangle(Document doc,SVGDocument svgDocument,  Shape<?, ?, ?> shape) {
+     protected Element circumscribedRectangle(Document doc,SVGDocument svgDocument,  Figure<?, ?, ?> shape) {
 
         var circumscribedRectangle = shape.circumscribedRectangle();
 
