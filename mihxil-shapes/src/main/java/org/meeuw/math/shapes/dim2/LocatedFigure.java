@@ -15,12 +15,12 @@ import static org.meeuw.math.abstractalgebra.dim2.FieldVector2.origin;
  * This, for example, is also needed by calls like {@link Figure#circumscribedRectangle()} which returns a rectangle that may not be exactly centered at the origin.
  */
 @EqualsAndHashCode
-public class LocatedShape<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>, S extends Figure<F, C, S>> {
+public class LocatedFigure<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>, S extends Figure<F, C>> {
 
     private final S shape;
     private final FieldVector2<F, C> location;
 
-    public LocatedShape(S shape, FieldVector2<F, C> location) {
+    public LocatedFigure(S shape, FieldVector2<F, C> location) {
         this.shape = shape;
         this.location = location;
     }
@@ -28,24 +28,24 @@ public class LocatedShape<F extends ScalarFieldElement<F, C>, C extends Complete
     /**
      * A located shape with the origin as location.
      */
-    private LocatedShape(S shape) {
+    private LocatedFigure(S shape) {
         this(shape, origin(shape.field()));
     }
 
     public static <
         F extends ScalarFieldElement<F, C>,
         C extends CompleteScalarFieldElement<C>,
-        S extends Figure<F, C, S>> LocatedShape<F, C, S> atOrigin(S shape) {
-        return new LocatedShape<>(shape);
+        S extends Figure<F, C>> LocatedFigure<F, C, S> atOrigin(S shape) {
+        return new LocatedFigure<>(shape);
     }
 
     public S shape() {
         return shape;
     }
 
-    public <S2 extends Figure<C, C, S2>> LocatedShape<C, C, S2> complete() {
-        S2 complete = shape().complete();
-        return new LocatedShape<C, C, S2>(complete, location.complete());
+    public <S2 extends Figure<C, C>> LocatedFigure<C, C, S2> complete() {
+        S2 complete = (S2) shape().complete();
+        return new LocatedFigure<C, C, S2>(complete, location.complete());
     }
 
 

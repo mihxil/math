@@ -8,16 +8,17 @@ import org.meeuw.math.shapes.Shape;
 
 /**
  * A 2 dimensional {@link Shape}
- * @param <E>
- * @param <C>
- * @param <SELF>
+ * @param <E> type of the {@link ScalarFieldElement} used for the coordinates
+ * @param <C> completion of that type (needed for trigonometry)
  */
-public interface Figure<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, SELF extends Figure<E, C, SELF>> extends Shape<E, C, SELF> {
+public interface Figure<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>>
+    extends Shape<E, C, Figure<E, C>, Figure<C, C>> {
 
     C perimeter();
 
     C area();
-
 
     default Stream<Info> info() {
         return Stream.of(
@@ -29,17 +30,16 @@ public interface Figure<E extends ScalarFieldElement<E, C>, C extends CompleteSc
     }
 
     /**
-     * Returns a {@link LocatedShape located} (unrotated) rectangle that precisely contains this shape (after rotation by the given angle (in radians)).
+     * Returns a {@link LocatedFigure located} (unrotated) rectangle that precisely contains this shape (after rotation by the given angle (in radians)).
      */
-    LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle();
+    LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle();
 
     /**
-     * Returns a {@link LocatedShape located} circle that precisely contains this shape.
+     * Returns a {@link LocatedFigure located} circle that precisely contains this shape.
      */
-    LocatedShape<C, C, Circle<C, C>> circumscribedCircle();
+    LocatedFigure<C, C, Circle<C, C>> circumscribedCircle();
 
-
-    SELF rotate(E angle);
+    Figure<E, C> rotate(E angle);
 
     /**
      * TODO?

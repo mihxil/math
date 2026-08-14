@@ -6,7 +6,7 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.UncertainUtils;
 
 @Getter
-public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Solid<F, C, Sphere<F, C>> {
+public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Solid<F, C> {
 
     private final F radius;
     private final ScalarField<F, C> field;
@@ -26,7 +26,6 @@ public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalar
         return radius.sqr().complete().times(field.pi()).times(4);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Sphere<C, C> complete() {
         return new Sphere<>(radius.complete());
@@ -38,8 +37,11 @@ public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalar
     }
 
     @Override
-    public boolean eq(Sphere<F, C> other) {
-        return this.radius.eq(other.radius);
+    public boolean eq(Solid<F, C> other) {
+        if (!(other instanceof Sphere<F, C> o)) {
+            return false;
+        }
+        return this.radius.eq(o.radius);
     }
 
     @Override

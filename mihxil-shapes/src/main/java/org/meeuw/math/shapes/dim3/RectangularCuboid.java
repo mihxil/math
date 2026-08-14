@@ -17,7 +17,7 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  * @since 0.15
  */
 @Getter
-public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<F, C, RectangularCuboid<F, C>> {
+public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<F, C> {
 
     private final F width;
     private final F height;
@@ -99,8 +99,12 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
     }
 
     @Override
-    public boolean eq(RectangularCuboid<F, C> other) {
-        return width.eq(other.width) && height.eq(other.height) && depth.eq(other.depth);
+    public boolean eq(Solid<F, C> other) {
+        if (!(other instanceof RectangularCuboid)) {
+            return false;
+        }
+        RectangularCuboid<F, C> o = (RectangularCuboid<F, C>) other;
+        return width.eq(o.width) && height.eq(o.height) && depth.eq(o.depth);
     }
     @Override
     public boolean strictlyEquals(Object o) {

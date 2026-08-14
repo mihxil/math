@@ -8,7 +8,7 @@ import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.shapes.Info;
 
-import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
@@ -17,7 +17,9 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  * @since 0.15
  */
 
-public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScalarFieldElement<C>> implements Figure<E, C, Circle<E, C>> {
+public class Circle<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>> implements Figure<E, C> {
 
     private final E radius;
     private final ScalarField<E, C> field;
@@ -69,7 +71,6 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
         return field.pi().times(radius.sqr().complete());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Circle<C, C> complete() {
         return new Circle<>(radius.complete());
@@ -81,7 +82,7 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
      * For a circle, the circumscribed rectangle is a square with the diameter as side length, at the origin.
      */
     @Override
-    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+    public LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
         C diameter = diameter().complete();
         return atOrigin(
             new Rectangle<>(diameter, diameter, field.completedField().zero())
@@ -94,11 +95,11 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
      * For a circle, the circumscribed circle is the circle itself, at the origin.
      */
     @Override
-    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+    public LocatedFigure<C, C, Circle<C, C>> circumscribedCircle() {
         return atOrigin(new Circle<>(radius.complete()));
     }
 
-    public LocatedShape<E, C, Circle<E, C>> exactCircumscribedCircle() {
+    public LocatedFigure<E, C, Circle<E, C>> exactCircumscribedCircle() {
         return atOrigin(new Circle<>(radius));
     }
 
@@ -132,8 +133,11 @@ public class Circle<E extends ScalarFieldElement<E, C>,  C extends CompleteScala
     }
 
     @Override
-    public boolean eq(Circle<E, C> other) {
-        return  this.radius.eq(other.radius);
+    public boolean eq(Figure<E, C> other) {
+        if (!(other instanceof Circle<E, C> circle)) {
+            return false;
+        }
+        return  this.radius.eq(circle.radius);
     }
 
 

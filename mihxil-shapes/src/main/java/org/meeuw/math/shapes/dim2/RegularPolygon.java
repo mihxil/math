@@ -10,14 +10,14 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
-import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
  * Regular polygon with n sides, all of equal length.
  */
-public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C,  RegularPolygon<E, C>> {
+public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C> {
 
     private final int n;
     private final E size;
@@ -74,7 +74,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
     }
 
     @Override
-    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+    public LocatedFigure<C, C, Circle<C, C>> circumscribedCircle() {
         return atOrigin(new Circle<>(circumscribedRadius()));
     }
 
@@ -112,8 +112,11 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
     }
 
     @Override
-    public boolean eq(RegularPolygon<E, C> other) {
-        return  this.size.eq(other.size) && this.n == other.n;
+    public boolean eq(Figure<E, C> other) {
+        if (!(other instanceof RegularPolygon<E, C> ngon)) {
+            return false;
+        }
+        return  this.size.eq(ngon.size) && this.n == ngon.n;
     }
 
     @Override

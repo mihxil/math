@@ -8,9 +8,11 @@ import org.meeuw.math.shapes.Shape;
  * A 3 dimensional {@link Shape}
  * @param <F> Type of the coordinates
  * @param <C> Completion of that type
- * @param <SELF> Type of the solid itself
+
  */
-public interface Solid<F extends ScalarFieldElement<F, C>, C extends CompleteScalarFieldElement<C>, SELF extends Solid<F, C, SELF>>  extends Shape<F, C, SELF> {
+public interface Solid<
+    F extends ScalarFieldElement<F, C>,
+    C extends CompleteScalarFieldElement<C>>  extends Shape<F, C, Solid<F, C>, Solid<C, C>> {
 
     /**
      * @return volume of the solid. If calculation doesn't involve things like pi, there may also be a method {@code F exactVolume()}
@@ -30,5 +32,5 @@ public interface Solid<F extends ScalarFieldElement<F, C>, C extends CompleteSca
     }
 
 
-    boolean eq(SELF other);
+    boolean eq(Solid<F, C> other);
 }

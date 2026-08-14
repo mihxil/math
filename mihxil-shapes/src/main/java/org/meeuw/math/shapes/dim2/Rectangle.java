@@ -12,7 +12,7 @@ import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
-import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
@@ -23,7 +23,7 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *
  * @since 0.15
  */
-public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C, Rectangle<E, C>> {
+public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C> {
 
     private final E width;
     private final E height;
@@ -85,11 +85,11 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
      * @return a new Rectangle object with the rotated dimensions
      */
     @Override
-    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+    public LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
         return exactCircumscribedRectangle().complete();
     }
 
-    public LocatedShape<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
+    public LocatedFigure<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
 
         if (angle.isZero()) {
             return atOrigin(this
@@ -106,7 +106,7 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     }
 
-    public LocatedShape<E, C, Rectangle<E, C>> circumscribedRectangle(@radians double angle) {
+    public LocatedFigure<E, C, Rectangle<E, C>> circumscribedRectangle(@radians double angle) {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
@@ -118,7 +118,7 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     }
 
     @Override
-    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+    public LocatedFigure<C, C, Circle<C, C>> circumscribedCircle() {
         C radius = diagonal().dividedBy(2);
         Circle<C, C> circle = new Circle<>(radius);
         return atOrigin(circle);
@@ -212,9 +212,12 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     }
 
 
-     @Override
-    public boolean eq(Rectangle<E, C> other) {
-        return  this.width.eq(other.width) && this.height.eq(other.height);
+    @Override
+    public boolean eq(Figure<E, C> other) {
+        if (!(other instanceof Rectangle<E, C> rectangle)) {
+            return false;
+        }
+        return  this.width.eq(rectangle.width) && this.height.eq(rectangle.height);
     }
 
     @Override

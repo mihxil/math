@@ -13,7 +13,7 @@ import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.meeuw.math.shapes.Info.Key.*;
-import static org.meeuw.math.shapes.dim2.LocatedShape.atOrigin;
+import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
@@ -21,7 +21,7 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *  An ellipse in a two-dimensional shape, defined by 2 radii, and an angle.
  */
 @Getter
-public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Figure<E, C, Ellipse<E, C>>, Uncertain {
+public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Figure<E, C>, Uncertain {
 
     private final E radiusx;
     private final E radiusy;
@@ -94,7 +94,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     }
 
     @Override
-    public LocatedShape<C, C, Rectangle<C, C>> circumscribedRectangle() {
+    public LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
 
         if (angle.isZero()) {
             return atOrigin(
@@ -117,7 +117,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     }
 
     @Override
-    public LocatedShape<C, C, Circle<C, C>> circumscribedCircle() {
+    public LocatedFigure<C, C, Circle<C, C>> circumscribedCircle() {
         return atOrigin(
             new Circle<>(ComparableUtils.max(radiusx, radiusy).complete())
         );
@@ -155,8 +155,11 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     }
 
     @Override
-    public boolean eq(Ellipse<E, C> other) {
-        return  this.radiusx.eq(other.radiusx) && this.radiusy.eq(other.radiusy);
+    public boolean eq(Figure<E, C> other) {
+        if (!(other instanceof Ellipse<E, C> ellipse)) {
+            return false;
+        }
+        return  this.radiusx.eq(ellipse.radiusx) && this.radiusy.eq(ellipse.radiusy);
     }
 
     @SuppressWarnings({"unchecked"})

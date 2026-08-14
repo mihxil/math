@@ -6,7 +6,9 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.uncertainnumbers.UncertainUtils;
 
 @Getter
-public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polyhedron<E, C, PlatonicSolid<E, C>> {
+public class PlatonicSolid<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>> implements Polyhedron<E, C> {
 
     private final PlatonicSolidEnum type;
     private final ScalarField<E, C> field;
@@ -75,7 +77,7 @@ public class PlatonicSolid<E extends ScalarFieldElement<E, C>, C extends Complet
     }
 
     @Override
-    public boolean eq(PlatonicSolid<E, C> other) {
+    public boolean eq(Solid<E, C> other) {
         return false;
     }
 

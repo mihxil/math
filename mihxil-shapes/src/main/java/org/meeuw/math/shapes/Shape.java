@@ -8,23 +8,30 @@ import org.meeuw.math.uncertainnumbers.Uncertain;
 /**
  * @param <E> Type of the coordinates
  * @param <C> Completion of that type
- * @param <SELF> Type of the solid itself
+ * @param <SELF> Type of the shape itself
+ * @param <CSELF> Type of the completed shape itself
  */
 public interface Shape<
     E extends ScalarFieldElement<E, C>,
-    C extends CompleteScalarFieldElement<C>, SELF extends Shape<E, C, SELF>>  extends Uncertain {
+    C extends CompleteScalarFieldElement<C>,
+    SELF extends Shape<E, C, SELF, CSELF>,
+    CSELF extends Shape<C, C, CSELF, CSELF>>  extends Uncertain {
 
     /**
      * A completion of the shape itself.
-     * @param <S> Type of the completed shape
      */
-    <S extends Shape<C, C, S>> S complete();
+    CSELF complete();
 
     ScalarField<E, C> field();
 
     boolean eq(SELF other);
 
     SELF times(E multiplier);
+
+    default CSELF timesc(C multiplier) {
+        return complete().times(multiplier);
+    }
+
 
     SELF times(int multiplier);
 
@@ -36,6 +43,6 @@ public interface Shape<
     }
 
     default Stream<Info> info() {
-        return  Stream.empty();
+        return Stream.empty();
     }
 }
