@@ -61,12 +61,13 @@ abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends
         return of(x.times(multiplier), y.times(multiplier), z.times(multiplier));
     }*/
 
+    @SuppressWarnings("unchecked")
     @Override
     @NonAlgebraic
     public E abs() {
         E result  = (x.sqr().plus(y.sqr()).plus(z.sqr()));
-        if (result instanceof CompleteScalarFieldElement) {
-            return (E) ((CompleteScalarFieldElement<?>) result).sqrt();
+        if (result instanceof CompleteScalarFieldElement<?> c) {
+            return (E) c.sqrt();
         } else {
             throw new FieldIncompleteException("Field of " + this + " is not complete");
         }
@@ -117,6 +118,7 @@ abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends
         return Arrays.asList(x, y, z).iterator();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

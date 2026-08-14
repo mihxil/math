@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.Circle;
-import org.meeuw.math.shapes.dim2.LocatedShape;
+import org.meeuw.math.shapes.dim2.LocatedFigure;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
@@ -19,19 +19,19 @@ public class LocatedShapeTest {
 
     @Test
     public void atOriginShape() {
-        var located = LocatedShape.atOrigin(circle);
+        var located = LocatedFigure.atOrigin(circle);
         assertThat(located.shape()).isSameAs(circle);
     }
 
     @Test
     public void atOriginLocation() {
-        var located = LocatedShape.atOrigin(circle);
+        var located = LocatedFigure.atOrigin(circle);
         assertThat(located.location().isZero()).isTrue();
     }
 
     @Test
     public void atOriginToString() {
-        var located = LocatedShape.atOrigin(circle);
+        var located = LocatedFigure.atOrigin(circle);
         log.info("Located shape: " + located);
         // At origin, no " at " suffix
         assertThat(located.toString()).doesNotContain(" at ");
@@ -40,15 +40,15 @@ public class LocatedShapeTest {
     @Test
     public void withLocationToString() {
         var location = FieldVector2.of(element(1.0), element(2.0));
-        var located = new LocatedShape<>(circle, location);
+        var located = new LocatedFigure<>(circle, location);
         log.info("Located shape at offset: " + located);
         assertThat(located.toString()).contains(" at ");
     }
 
     @Test
     public void equalsAndHashCode() {
-        var a = LocatedShape.atOrigin(circle);
-        var b = LocatedShape.atOrigin(circle);
+        var a = LocatedFigure.atOrigin(circle);
+        var b = LocatedFigure.atOrigin(circle);
         assertThat(a).isEqualTo(b);
         assertThat(a.hashCode()).isEqualTo(b.hashCode());
     }

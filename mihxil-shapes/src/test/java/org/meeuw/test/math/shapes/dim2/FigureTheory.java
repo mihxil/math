@@ -16,7 +16,7 @@ import org.meeuw.theories.BasicObjectTheory;
 import static org.meeuw.assertj.Assertions.assertThat;
 
 
-public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>,  S extends Figure<E, C, S>> extends BasicObjectTheory<S> {
+public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>,  F extends Figure<E, C>> extends BasicObjectTheory<F> {
 
 
      /**
@@ -24,40 +24,40 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
      * should return true if and only if y.equals(x) returns true.
      */
     @Property
-    default void timesTwoAndTimesAHalf(@ForAll(DATAPOINTS) S x) {
+    default void timesTwoAndTimesAHalf(@ForAll(DATAPOINTS) F x) {
         assertThat(x.times(2).times(0.5)).isEqualTo(x);
         assertThat(x.times(2).times(0.5).eq(x)).isTrue();
     }
 
     @Property
-    default void timesRandom(@ForAll(DATAPOINTS) S x, @ForAll(RANDOMS) Random random) {
+    default void timesRandom(@ForAll(DATAPOINTS) F x, @ForAll(RANDOMS) Random random) {
         E multiplier = x.field().nextRandom(random).abs();
-        S multiplied = x.times(multiplier);
+        Figure<E, C> multiplied = x.times(multiplier);
         log().info("%s x %s = %s".formatted(x, multiplier, multiplied));
         assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);
     }
 
 
     @Property
-    default void info(@ForAll(DATAPOINTS) S x) {
+    default void info(@ForAll(DATAPOINTS) F x) {
         Logger log = log();
         x.info().forEach(e -> log.info(e.key() + ": " + e.descriptionString()));
     }
 
 
     @Property
-    default void showCircumscribedCircle(@ForAll(DATAPOINTS) S x) {
-        LocatedShape<C ,C,  Circle<C, C>> circumscribed = x.circumscribedCircle();
+    default void showCircumscribedCircle(@ForAll(DATAPOINTS) F x) {
+        LocatedFigure<C ,C,  Circle<C, C>> circumscribed = x.circumscribedCircle();
         log().info("Circumscribed of %s is %s".formatted(x, circumscribed));
     }
     @Property
-    default void showCircumscribedRectangle(@ForAll(DATAPOINTS) S x) {
-        LocatedShape<C, C, Rectangle<C, C>> circumscribed = x.circumscribedRectangle();
+    default void showCircumscribedRectangle(@ForAll(DATAPOINTS) F x) {
+        LocatedFigure<C, C, Rectangle<C, C>> circumscribed = x.circumscribedRectangle();
         log().info("Circumscribed rectangle of %s is %s".formatted(x, circumscribed));
     }
 
     @Property
-    default void isExact(@ForAll(DATAPOINTS) S x) {
+    default void isExact(@ForAll(DATAPOINTS) F x) {
         log().info(() -> "%s is exact: %s".formatted(x, x.isExact()));
         if (! x.field().elementsAreUncertain()) {
             assertThat(x.isExact()).isTrue();
