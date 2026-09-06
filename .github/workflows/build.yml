@@ -50,7 +50,7 @@ jobs:
         with:
           # Use personal token for the commit at the end. otherwise publish-documentation action is not triggered
           token: ${{ secrets.PERSONAL_GITHUB_TOKEN }}
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
@@ -72,12 +72,12 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # required
       - name: Commit generated graphviz file if it changed
         if: ${{ matrix.rank == 'main' }}
-        uses: EndBug/add-and-commit@v10
+        uses: EndBug/add-and-commit@v11
         with:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
           pull: '--rebase --autostash'
-      - uses: MMProgrami/after-maven-action@v2
+      - uses: MMProgrami/after-maven-action@main
         id: after_maven
         with:
           coverage: false
@@ -90,14 +90,14 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-java@v5
+      - uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
           java-version: 17
           cache: maven
           server-id: central
-          server-username: CENTRAL_USERNAME
-          server-password: CENTRAL_PASSWORD
+          server-username-env-var: CENTRAL_USERNAME
+          server-password-env-var: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Deploy to central
         # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
@@ -107,4 +107,4 @@ jobs:
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
