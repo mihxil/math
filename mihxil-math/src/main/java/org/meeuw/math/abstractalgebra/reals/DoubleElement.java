@@ -345,8 +345,11 @@ public class DoubleElement
 
     @Override
     public DoubleElement cos() {
-        UncertainNumber<Double> cos = operations().cos(value);
-        return of(cos.getValue(), Math.max(uncertainty, cos.getUncertainty()));
+        UncertainNumber<Double> cos = operations().cos(
+            value,
+            Math.max(uncertainty, uncertaintyForDouble(value))
+        );
+        return of(cos.getValue(), cos.getUncertainty());
     }
 
     @Override
