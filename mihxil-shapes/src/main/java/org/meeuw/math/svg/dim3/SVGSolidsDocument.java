@@ -1,39 +1,38 @@
 package org.meeuw.math.svg.dim3;
 
 import lombok.Getter;
-import lombok.With;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
+import org.meeuw.math.shapes.Shape;
 import org.meeuw.math.shapes.dim3.RectangularCuboid;
 import org.meeuw.math.shapes.dim3.Solid;
 import org.meeuw.math.svg.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@lombok.Builder
+@SuperBuilder
 public class SVGSolidsDocument<
     E extends ScalarFieldElement<E, C>,
     C extends CompleteScalarFieldElement<C>
     > extends SVGDocument<E, C> {
 
     @Getter
-    @With
     private final RectangularCuboid<E, C> size;
 
     @Getter
-    @With
     private final FieldVector3<E, C> origin;
 
 
     private SVGSolidsDocument(
         String stroke,
         float textSize,
-        List<SVGGroup<E, C>> groups,
-        List<Solid<E, C>> shapes,
+        List<? extends SVGGroup<E, C>> groups,
+        List<? extends Shape<E, C, ?, ?>> shapes,
         RectangularCuboid<E, C> size,
         FieldVector3<E, C>  origin
         ) {
@@ -41,6 +40,14 @@ public class SVGSolidsDocument<
         this.size = size;
         this.origin = origin == null ?  size.asVector().dividedBy(2) :origin;
 
+    }
+
+    public SVGSolidsDocument<E, C> withSize(RectangularCuboid<E, C> size) {
+        return new SVGSolidsDocument<>(stroke, textSize, groups, shapes, size, origin);
+    }
+
+    public SVGSolidsDocument<E, C> withOrigin(FieldVector3<E, C> origin) {
+        return new SVGSolidsDocument<>(stroke, textSize, groups, shapes, size, origin);
     }
     /**
      * Creates a DOM Document with the SVG root element and all groups added to this document.

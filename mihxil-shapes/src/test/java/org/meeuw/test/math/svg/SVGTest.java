@@ -4,6 +4,7 @@ import lombok.extern.java.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 
 import javax.xml.transform.stream.StreamResult;
 
@@ -12,19 +13,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-// tag::imports[]
-
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.svg.SVGDocument.default2DDocument;
 
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+// tag::imports[]
 
 
 // end::imports[]
@@ -35,6 +34,10 @@ public class SVGTest {
     Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(205, 205);
     Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 0);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
+
+    private static RationalNumber element(double value) {
+        return RationalNumber.of(BigDecimal.valueOf(value));
+    }
 
     @BeforeEach
     public void setUp() {
@@ -52,9 +55,8 @@ public class SVGTest {
     @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
     public void regularPolygons(int n ) throws Exception {
 
-        RegularPolygon<BigDecimalElement, BigDecimalElement> polygon = RegularPolygon.<RationalNumber, BigDecimalElement>
-            withCircumScribedRadius(n,
-            RationalNumber.of(100));
+        RegularPolygon<RationalNumber, BigDecimalElement> polygon =
+            new RegularPolygon<>(n, RationalNumber.of(100));
 
         var document = default2DDocument()
             .withSize(size)
@@ -80,8 +82,7 @@ public class SVGTest {
                 .addGrid(b -> b.spacing(spacing))
                 .addInfo()
                 .addRegularPolygon(
-                    RegularPolygon
-                        .withCircumScribedRadius(3, element(size.width().doubleValue() / 2))
+                    new RegularPolygon<>(3, element(size.width().doubleValue() / 2))
                         .rotate(element(Math.toRadians(10.0))),
                     s -> s
                         .circumscribedCircle(true)
@@ -140,7 +141,7 @@ public class SVGTest {
     public void ellipse() throws Exception {
         Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
             RationalNumber.of(100),RationalNumber.of (80),
-            RationalNumber.of(Math.toRadians(45.0)));
+            element(Math.toRadians(45.0)));
 
         var document = default2DDocument()
             .withSize(size)

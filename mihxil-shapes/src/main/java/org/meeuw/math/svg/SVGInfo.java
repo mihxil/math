@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public abstract class SVGInfo<
+public class SVGInfo<
     E extends ScalarFieldElement<E, C>,
     C extends CompleteScalarFieldElement<C>>
     implements SVGGroup<E, C> {

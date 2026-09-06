@@ -1,46 +1,51 @@
 package org.meeuw.math.svg.dim2;
 
 import lombok.Getter;
-import lombok.With;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.shapes.Shape;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-@lombok.Builder
+@SuperBuilder
 public class SVGFiguresDocument <
     E extends ScalarFieldElement<E, C>,
     C extends CompleteScalarFieldElement<C>>
     extends SVGDocument<E, C> {
 
     @Getter
-    @With
     private final Rectangle<E, C> size;
 
-    @With
     @Getter
     private final FieldVector2<E, C> origin;
 
     private SVGFiguresDocument(
-        Rectangle<E, C> size,
-        FieldVector2<E, C> origin,
         String stroke,
         float textSize,
-        List<SVG2DGroup<E, C>> groups,
-        List<Figure<E, C>> shapes
+        Rectangle<E, C> size,
+        FieldVector2<E, C> origin,
+        List<? extends SVGGroup<E, C>> groups,
+        List<? extends Shape<E, C, ?, ?>> shapes
         ) {
         super(stroke, textSize, groups, shapes);
         this.size = size;
         this.origin = origin;
     }
 
+    public SVGFiguresDocument<E, C> withSize(Rectangle<E, C> size) {
+        return new SVGFiguresDocument<>(stroke, textSize, size, origin, groups, shapes);
+    }
 
+    public SVGFiguresDocument<E, C> withOrigin(FieldVector2<E, C> origin) {
+        return new SVGFiguresDocument<>(stroke, textSize, size, origin, groups, shapes);
+    }
 
     /**
      * Creates a DOM Document with the SVG root element and all groups added to this document.

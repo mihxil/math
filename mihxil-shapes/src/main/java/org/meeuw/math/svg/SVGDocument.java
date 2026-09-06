@@ -1,6 +1,7 @@
 package org.meeuw.math.svg;
 
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import org.meeuw.math.svg.dim2.SVGFiguresDocument;
 import org.meeuw.math.svg.dim3.SVGSolidsDocument;
 import org.w3c.dom.Document;
 
-@lombok.Builder
+@SuperBuilder
 public abstract class SVGDocument<
     E extends ScalarFieldElement<E, C>,
     C extends CompleteScalarFieldElement<C>> {
