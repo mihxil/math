@@ -11,7 +11,7 @@ C extends CompleteScalarFieldElement<C>> extends SVGGroup<E, C> {
 
     default void fill(SVGDocument<E, C> svgDocument, Element g) {
         if (svgDocument instanceof SVGFiguresDocument<E, C> figuresDocument) {
-            fill(svgDocument, g);
+            fill(figuresDocument, g);
         } else {
 
         }

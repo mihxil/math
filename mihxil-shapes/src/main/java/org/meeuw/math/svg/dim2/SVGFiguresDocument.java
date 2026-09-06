@@ -58,7 +58,9 @@ public class SVGFiguresDocument <
         root.setAttribute("height", String.valueOf(size.height().doubleValue()));
         document.appendChild(root);
         Element parentG = SVG.createElement(document, "g");
-        parentG.setAttribute("transform",  "translate(" + origin.getX() + "," + origin.getY() + ")");
+        if (origin != null) {
+            parentG.setAttribute("transform", "translate(" + origin.getX() + "," + origin.getY() + ")");
+        }
         document.getDocumentElement().appendChild(parentG);
         for (SVGGroup<E, C> group : groups) {
             group.accept(this, parentG);
