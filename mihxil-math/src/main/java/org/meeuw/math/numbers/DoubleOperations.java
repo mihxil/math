@@ -393,7 +393,10 @@ public class DoubleOperations implements UncertaintyNumberOperations<Double> {
 
     @Override
     public UncertainNumber<Double> cos(Double aDouble, Double dn) {
-        return null;
+        double value = Math.cos(aDouble);
+        return uncertain(value,
+            Math.abs(Math.sin(aDouble)) * Math.abs(dn)
+        );
     }
 
     @Override
