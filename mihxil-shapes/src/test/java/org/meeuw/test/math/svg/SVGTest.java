@@ -32,7 +32,7 @@ import static org.meeuw.math.svg.SVGDocument.default2DDocument;
 public class SVGTest {
 
     Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(205, 205);
-    Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 0);
+    Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 10);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
 
     private static RationalNumber element(double value) {

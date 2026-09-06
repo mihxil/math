@@ -81,7 +81,7 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
 
     @Override
     public RationalNumber approx(BigDecimalElement bigDecimalElement) {
-        return null;
+        return RationalNumber.of(bigDecimalElement.getValue());
     }
 
     @Override

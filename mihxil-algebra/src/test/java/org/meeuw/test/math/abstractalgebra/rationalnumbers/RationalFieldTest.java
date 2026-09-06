@@ -17,9 +17,12 @@ package org.meeuw.test.math.abstractalgebra.rationalnumbers;
 
 import lombok.extern.java.Log;
 
+import java.math.BigDecimal;
+
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
 
@@ -43,6 +46,12 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
     @Test
     public void minus() {
         assertThat(of(1).minus(of(0))).isEqualTo(of(1));
+    }
+
+    @Test
+    public void approx() {
+        assertThat(INSTANCE.approx(BigDecimalElement.of(new BigDecimal("1.25"))))
+            .isEqualTo(of(5, 4));
     }
 
     @Test

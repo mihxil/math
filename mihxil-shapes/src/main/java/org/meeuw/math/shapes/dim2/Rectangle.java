@@ -92,12 +92,13 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     public LocatedFigure<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
 
         if (angle.isZero()) {
-            return atOrigin(this
-            );
+            return atOrigin(this);
         }
 
         E sin = field.approx(angle.sin());
+        assert sin != null;
         E cos = field.approx(angle.cos());
+        assert cos != null;
         return atOrigin(new Rectangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
             width.times(sin).abs().plus(height.times(cos).abs()),
