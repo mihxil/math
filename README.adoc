@@ -871,12 +871,12 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
-import org.meeuw.math.svg.SVGDocument;
+
+import static org.meeuw.math.svg.SVGDocument.default2DDocument;
+
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
-import static org.meeuw.math.abstractalgebra.reals.RealField.element;
-import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 
 
 ....
@@ -886,9 +886,11 @@ import static org.meeuw.math.svg.SVGDocument.defaultSVG;
 @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
 public void regularPolygons(int n ) throws Exception {
 
-    RegularPolygon<RealNumber, RealNumber> polygon = RegularPolygon.withCircumScribedRadius(n, element(100.0));
+    RegularPolygon<BigDecimalElement, BigDecimalElement> polygon = RegularPolygon.<RationalNumber, BigDecimalElement>
+        withCircumScribedRadius(n,
+        RationalNumber.of(100));
 
-    SVGDocument document = defaultSVG()
+    var document = default2DDocument()
         .withSize(size)
         .addGrid(b -> b.spacing(spacing))
         .addInfo()
@@ -907,12 +909,14 @@ public void regularPolygons(int n ) throws Exception {
 @Test
 public void rotatedPolygon() throws Exception {
     try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
-        SVG.marshal(defaultSVG()
+        SVG.marshal(default2DDocument()
             .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo()
             .addRegularPolygon(
-                RegularPolygon.withCircumScribedRadius(3, element(size.width().doubleValue() / 2)).rotate(element(Math.toRadians(10.0))),
+                RegularPolygon
+                    .withCircumScribedRadius(3, element(size.width().doubleValue() / 2))
+                    .rotate(element(Math.toRadians(10.0))),
                 s -> s
                     .circumscribedCircle(true)
                     .circumscribedRectangle(true)
@@ -936,9 +940,12 @@ image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon", link="{docs}/shap
 ----
 @Test
 public void rectangle() throws Exception {
-    Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(element(100.0), element(170.0)).rotate(element(Math.toRadians(10.0)));
+    Rectangle<RationalNumber, BigDecimalElement> rectangle = new Rectangle<>(
+        RationalNumber.of(100),
+        RationalNumber.of(170))
+        .rotate(element(Math.toRadians(10.0)));
 
-    SVGDocument svg = defaultSVG()
+    var svg = default2DDocument()
         .withSize(size)
         .addGrid(b -> b.spacing( spacing))
         .addInfo()
@@ -955,11 +962,11 @@ public void rectangle() throws Exception {
 @Test
 public void circle() throws Exception {
     try (FileOutputStream fos = new FileOutputStream(new File(dest,  "circle.svg"))) {
-        SVG.marshal(defaultSVG()
+        SVG.marshal(default2DDocument()
             .withSize(size)
             .addGrid(b -> b.spacing(spacing))
             .addInfo()
-            .addCircle(new Circle<>(element(100.0)), s -> s
+            .addCircle(new Circle<>(RationalNumber.of(100)), s -> s
                 .circumscribedRectangle(true)
                 .circumscribedRectangleAttributes(e -> {
                     e.setAttribute("stroke", "red");
@@ -974,12 +981,14 @@ public void circle() throws Exception {
 
 @Test
 public void ellipse() throws Exception {
-    Ellipse<RealNumber, RealNumber> ellipse = new Ellipse<>(element(100.0), element(80.0), element(Math.toRadians(45.0)));
+    Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
+        RationalNumber.of(100),RationalNumber.of (80),
+        RationalNumber.of(Math.toRadians(45.0)));
 
-    SVGDocument document = defaultSVG()
+    var document = default2DDocument()
         .withSize(size)
         .addGrid(b -> b.spacing(spacing))
-        .addInfo()
+        //.addInfo()
         .addEllipse(ellipse, s -> s
             .circumscribedCircle(true)
             .circumscribedRectangle(true)
