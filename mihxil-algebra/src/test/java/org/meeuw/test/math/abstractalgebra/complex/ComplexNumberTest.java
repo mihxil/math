@@ -122,6 +122,33 @@ class ComplexNumberTest implements
         log.info("" + ComplexNumbers.INSTANCE.i().sqrt());
     }
 
+    @Test
+    void cosOfBig() {
+        var e = ComplexNumber.of(-65.7229978396012, 14.10973179331796);
+
+        ComplexNumber cos = e.cos();
+        assertThat(cos.asin().sin()).isEqTo(cos);
+        ComplexNumber   cosAcos = cos.acos();
+        ComplexNumber cos2 = cosAcos.cos();
+        assertThat(cos2).withFailMessage(
+            String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s", e, cos, cosAcos, cos2, e, cos)
+
+        ).isEqTo(cos);
+
+    }
+
+    @Test
+    void sinOfBig() {
+        var e = ComplexNumber.of(-15.70774780923645,  - 75.6674698917352);
+
+        var sin = e.sin();
+        var sinAsin = sin.asin();
+        var sin2 = sinAsin.sin();
+        assertThat(sin2).withFailMessage(
+            String.format("sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s) = %s !=  sin(%s) = %s",
+                e, sin, sinAsin, sin2, e, sin)
+        ).isEqTo(sin);
+    }
 
     @Property
     public void eml(@ForAll(ELEMENTS) ComplexNumber x) {

@@ -409,7 +409,10 @@ public class DoubleElement
 
         return of(
             ln.getValue(),
-            ln.getUncertainty()
+            Math.max(
+                ln.getUncertainty(),
+                operations().lnUncertainty(value, uncertainty)
+            )
         );
     }
 

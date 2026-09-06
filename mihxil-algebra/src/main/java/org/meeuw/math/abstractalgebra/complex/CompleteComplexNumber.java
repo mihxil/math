@@ -30,7 +30,7 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQRT;
  * Implementation of the {@link CompleteFieldElement} methods for rational numbers.
  * @author Michiel Meeuwissen
  * @since 0.8
- * @param <S> self reference
+ * @param <S> self-reference
  * @param <E> type of real and imaginary parts
  */
 public abstract class CompleteComplexNumber<
@@ -88,9 +88,20 @@ public abstract class CompleteComplexNumber<
     public S asin() {
         var i = getStructure().i();
         var one = getStructure().one();
-        return LN(
-            this.x(i).p(SQRT(one.minus(this.sqr())))
-        ).dividedBy(i);
+        S squareRoot = SQRT(one.minus(this.sqr()));
+        S iz = this.times(i);
+        S plus = iz.plus(squareRoot);
+        S minus = iz.minus(squareRoot);
+        if (plus.abs().doubleValue() < minus.abs().doubleValue()) {
+            // (iz + sqrt(1 - z²))(iz - sqrt(1 - z²)) = -1
+            S logarithm = LN(minus).times(i);
+            S positive = getStructure().pi().plus(logarithm);
+            S negative = getStructure().pi().negation().plus(logarithm);
+            return Math.abs(positive.real.doubleValue()) < Math.abs(negative.real.doubleValue())
+                ? positive
+                : negative;
+        }
+        return LN(plus).times(i.negation());
     }
 
     @Override
@@ -105,9 +116,14 @@ public abstract class CompleteComplexNumber<
     public S acos() {
         var i = getStructure().i();
         var o = getStructure().one();
-        return LN(
-            this.plus(SQRT(this.sqr().minus(o)))
-        ).times(i.negation());
+        S squareRoot = SQRT(this.sqr().minus(o));
+        S plus = this.plus(squareRoot);
+        S minus = this.minus(squareRoot);
+        if (plus.abs().doubleValue() < minus.abs().doubleValue()) {
+            // (z + sqrt(z² - 1))(z - sqrt(z² - 1)) = 1
+            return LN(minus).times(i);
+        }
+        return LN(plus).times(i.negation());
     }
 
     @Override
