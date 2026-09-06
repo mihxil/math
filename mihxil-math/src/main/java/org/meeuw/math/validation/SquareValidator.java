@@ -39,8 +39,8 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
 
     @Override
     public void initialize(Square constraintAnnotation) {
-        setDimension(constraintAnnotation.value());
-        setInvertible(constraintAnnotation.invertible());
+        dimension = constraintAnnotation.value();
+        invertible = constraintAnnotation.invertible();
     }
 
     @Override
@@ -84,19 +84,18 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
     @SuppressWarnings("rawtypes")
     static long toLong(Object value) {
         long toValidate;
-         if (value instanceof SizeableScalar) {
-             toValidate = ((SizeableScalar) value).longValue();
-         } else if (value instanceof Byte) {
-            toValidate = Byte.toUnsignedLong((Byte) value);
-         } else if (value instanceof Integer) {
-            toValidate = Integer.toUnsignedLong((Integer) value);
-        } else if (value instanceof Number) {
-            toValidate = ((Number) value).longValue();
+         if (value instanceof SizeableScalar sizeableScalar) {
+             toValidate = sizeableScalar.longValue();
+         } else if (value instanceof Byte b) {
+            toValidate = Byte.toUnsignedLong(b);
+         } else if (value instanceof Integer integer) {
+            toValidate = Integer.toUnsignedLong(integer);
+        } else if (value instanceof Number number) {
+            toValidate = number.longValue();
         } else if (value.getClass().isArray()) {
             Class<?> aClass = value.getClass().getComponentType();
             final Object[] arrayValue = (Object[]) value;
             if (aClass.isArray()) {
-
                 toValidate = 0;
                 for (Object sv : arrayValue) {
                     var length = Array.getLength(sv);
@@ -106,10 +105,10 @@ public class SquareValidator implements ConstraintValidator<Square, Object> {
                     toValidate += length;
                 }
             } else {
-                toValidate = ((Object[]) value).length;
+                toValidate = arrayValue.length;
             }
-        } else if (value instanceof Collection<?>) {
-            toValidate = ((Collection) value).size();
+        } else if (value instanceof Collection<?> col) {
+            toValidate = col.size();
         } else {
             throw new IllegalArgumentException();
         }
