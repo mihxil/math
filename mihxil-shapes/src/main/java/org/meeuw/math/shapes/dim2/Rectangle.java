@@ -33,8 +33,8 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
 
     /**
-     *  @param width  the width of the rectangle, must be non-negative
-     *  @param height the height of the rectangle, must be non-negative
+     *  @param width  the width of the rectangle, it must be non-negative
+     *  @param height the height of the rectangle, it must be non-negative
      */
     public Rectangle(@Min(0) E width, @Min(0) E height, @radians E angle) {
         this.width = width;

@@ -7,9 +7,14 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.Info;
 
+/**
+ *
+ * @param <E> The type to define this polygon.
+ * @param <C> The completion of the field of <E>
+ */
 public interface Polygon<
-    F extends ScalarFieldElement<F, C>,
-    C extends CompleteScalarFieldElement<C>> extends Figure<F, C> {
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>> extends Figure<E, C> {
 
     int numberOfEdges();
 
@@ -36,7 +41,7 @@ public interface Polygon<
      * The default implementation of a polygon is based on {@link #vertices()}, and just finding the minimum and maximum x and y coordinates of those.
      */
     default LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
-        ScalarField<F, C> field = field();
+        ScalarField<E, C> field = field();
         Iterator<FieldVector2<C, C>> vertices = vertices().iterator();
         FieldVector2<C, C> first = vertices.next();
         C minX  = first.getX();

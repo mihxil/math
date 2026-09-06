@@ -43,8 +43,8 @@ jobs:
             rank: main
     runs-on: ${{ matrix.os }}
     env:
-      MAVEN_ARGS: '--no-transfer-progress --color always'
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      MAVEN_ARGS: '--no-transfer-progress --color=always'
+      #FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v7
         with:
