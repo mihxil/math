@@ -141,8 +141,6 @@ public final class IntegerUtils {
             throw new IllegalSqrtException("Cannot take square root of negative number", "" + radicand);
         }
         return BigInteger.valueOf(radicand).sqrt().longValueExact();
-
-
     }
 
     /**
@@ -152,11 +150,11 @@ public final class IntegerUtils {
      */
     @NonNegative
     public static long sqrt(@NonNegative final long radicand) throws NotASquareException {
-        long proposal = floorSqrt(radicand);
-        if (proposal * proposal < radicand) {
+        BigInteger[] sqrtAndRemainder = BigInteger.valueOf(radicand).sqrtAndRemainder();
+        if (! sqrtAndRemainder[1].equals(BigInteger.ZERO)) {
             throw new NotASquareException(radicand + " is not a square");
         }
-        return proposal;
+        return sqrtAndRemainder[0].longValueExact();
     }
 
      public static boolean isSquare(final long radicand) {
@@ -169,6 +167,7 @@ public final class IntegerUtils {
         }
         return true;
     }
+
     public static boolean isSquare(@NonNull final BigInteger radicand) {
         if (radicand.signum() < 0) {
             return false;

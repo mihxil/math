@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.dim3;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -22,7 +24,6 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
 /**
@@ -32,12 +33,15 @@ import org.meeuw.math.numbers.Sizeable;
  */
 abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends CompleteScalarFieldElement<C>, SELF extends AbstractFieldVector3<E, C, SELF>>
     implements
-    Sizeable<E>,
+    Sizeable<C>,
     Vector<SELF, E>,
     WithScalarOperations<SELF, E> {
 
+    @Getter
     final E x;
+    @Getter
     final E y;
+    @Getter
     final E z;
 
     public AbstractFieldVector3(E x, E y, E z) {
@@ -61,16 +65,16 @@ abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends
         return of(x.times(multiplier), y.times(multiplier), z.times(multiplier));
     }*/
 
-    @SuppressWarnings("unchecked")
     @Override
     @NonAlgebraic
-    public E abs() {
-        E result  = (x.sqr().plus(y.sqr()).plus(z.sqr()));
-        if (result instanceof CompleteScalarFieldElement<?> c) {
-            return (E) c.sqrt();
-        } else {
-            throw new FieldIncompleteException("Field of " + this + " is not complete");
-        }
+    public C abs() {
+        C result  = (x.sqr().plus(y.sqr()).plus(z.sqr())).complete();
+        return result.sqrt();
+    }
+
+    @Override
+    public SELF normalize() {
+        return dividedBy(abs().approx( getElementStructure()));
     }
 
     @Override
@@ -111,6 +115,12 @@ abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends
     public SELF dividedBy(E divisor) {
         return _of(x.dividedBy(divisor), y.dividedBy(divisor), z.dividedBy(divisor));
     }
+
+
+    public SELF dividedBy(int divisor) {
+        return _of(x.dividedBy(divisor), y.dividedBy(divisor), z.dividedBy(divisor));
+    }
+
 
     @Override
     @lombok.NonNull
@@ -156,6 +166,9 @@ abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends
     @Override
     public @NonNull AbelianRing<SELF> getStructure() {
         return getSpace();
+    }
+    public @NonNull ScalarField<E, C> getElementStructure() {
+        return x.getStructure();
     }
 
     @Override

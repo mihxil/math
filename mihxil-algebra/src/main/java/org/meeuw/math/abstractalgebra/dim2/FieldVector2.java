@@ -28,7 +28,6 @@ import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.math.numbers.Sizeable;
 
 import static java.math.BigDecimal.ZERO;
@@ -42,7 +41,7 @@ import static java.math.BigDecimal.ZERO;
  */
 public class FieldVector2<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     implements
-    Sizeable<E>,
+    Sizeable<C>,
     Vector<FieldVector2<E, C>, E>,
     WithScalarOperations<FieldVector2<E, C>, E> {
 
@@ -84,14 +83,16 @@ public class FieldVector2<E extends ScalarFieldElement<E, C>, C extends Complete
 
     @Override
     @NonAlgebraic
-    public E abs() {
+    public C abs() {
         E result  = (x.sqr().plus(y.sqr()));
-        if (result instanceof CompleteScalarFieldElement) {
-            return (E) ((CompleteScalarFieldElement<?>) result).sqrt();
-        } else {
-            throw new FieldIncompleteException("Field of " + this + " is not complete");
-        }
+        return result.complete().sqrt();
     }
+
+    @Override
+    public FieldVector2<E, C> normalize() {
+        return dividedBy(abs().approx( x.getStructure()));
+    }
+
 
     @Override
     public FieldVector2<E, C> times(E multiplier) {
@@ -118,12 +119,14 @@ public class FieldVector2<E extends ScalarFieldElement<E, C>, C extends Complete
 
     @Override
     public E get(int i) {
-        switch(i) {
-            case 0: return x;
-            case 1: return y;
-            default: throw new ArrayIndexOutOfBoundsException();
-        }
+        return switch (i) {
+            case 0 -> x;
+            case 1 -> y;
+            default -> throw new ArrayIndexOutOfBoundsException();
+        };
     }
+
+
 
     @Override
     public VectorSpace<E, FieldVector2<E, C>> getSpace() {

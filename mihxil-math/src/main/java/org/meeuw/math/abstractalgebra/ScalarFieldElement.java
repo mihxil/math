@@ -46,4 +46,8 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extend
         return getStructure().complete((E) this);
     }
 
+    default <A extends ScalarFieldElement<A, C>> A approx(ScalarField<A, C> field) {
+        return field.approx(complete());
+    }
+
 }

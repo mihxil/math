@@ -14,7 +14,7 @@ public class SVG {
 
     private static final System.Logger log = System.getLogger(SVG.class.getName());
 
-    static final DocumentBuilder DOCUMENT_BUILDER;
+    public static final DocumentBuilder DOCUMENT_BUILDER;
 
     static final Transformer TRANSFORMER;
 
@@ -52,17 +52,22 @@ public class SVG {
     private SVG() {
         // utility class
     }
-    static  Element createElement(Document document, String name) {
+
+    public static  Element createElement(Document document, String name) {
         return document.createElementNS(SVG_NAMESPACE, name);
     }
 
 
-    public static void marshal(Document document, StreamResult result) throws TransformerException {
+    public static void marshal(
+        Document document, StreamResult result) throws TransformerException {
         TRANSFORMER.transform(new DOMSource(document), result);
     }
 
-    public static void marshal(SVGDocument document, StreamResult result) throws TransformerException {
-        marshal(document.buildDocument(), result);
+    public static void marshal(SVGDocument<?, ?> document, StreamResult result) throws TransformerException {
+        marshal(
+            document.buildDocument(),
+            result
+        );
     }
 
 

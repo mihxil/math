@@ -1,4 +1,4 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 import java.util.function.Consumer;
 
@@ -10,13 +10,15 @@ import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public class SVGRegularPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends RegularPolygon<E, C>> extends SVGPolygon<E, C, RegularPolygon<E, C>> {
+public class SVGRegularPolygon<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>> extends SVGPolygon<E, C, RegularPolygon<E, C>> {
 
     private final boolean inscribedCircle;
 
-    @lombok.Builder(builderMethodName = "regularPolygonBuilder")
+    @lombok.Builder(builderMethodName = "regularPolygonBuilder", builderClassName = "RegularPolygonBuilder")
     private SVGRegularPolygon(
-        S polygon,
+        RegularPolygon<E, C> polygon,
         boolean circumscribedCircle,
         boolean inscribedCircle,
         boolean circumscribedRectangle,
@@ -27,7 +29,7 @@ public class SVGRegularPolygon<E extends ScalarFieldElement<E, C>, C extends Com
     }
 
     @Override
-    public void fillShape(SVGDocument svgDocument, org.w3c.dom.Element g) {
+    public void fillShape(SVGFiguresDocument<E, C> svgDocument, org.w3c.dom.Element g) {
         super.fillShape(svgDocument, g);
         if (inscribedCircle) {
             g.appendChild(g.getOwnerDocument().createComment("Inscribed circle of " + shape));
@@ -36,7 +38,7 @@ public class SVGRegularPolygon<E extends ScalarFieldElement<E, C>, C extends Com
         }
     }
 
-    protected static Element inscribedCircle(Document doc, SVGDocument svgDocument, RegularPolygon<?, ?> shape) {
+    protected static Element inscribedCircle(Document doc, SVGFiguresDocument<?, ?> svgDocument, RegularPolygon<?, ?> shape) {
         Circle<?, ?> circle = shape.inscribedCircle();
         Element inscribed = createElement(doc, "circle");
         inscribed.setAttribute("r", "" + circle.radius().doubleValue());

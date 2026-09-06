@@ -5,12 +5,13 @@ import lombok.Getter;
 
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
+import org.meeuw.math.abstractalgebra.dim3.FieldVector3;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 
 /**
- * Represents a rectangle defined by its width and height, both of which must be non-negative scalara.
+ * Represents a cuboid  defined by its width and height and depth, both of which must be non-negative scalara.
  * This class provides methods to perform various geometric calculations such as rotation, area, perimeter,
  * diagonal length, and aspect ratio.
  *
@@ -49,6 +50,9 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
         return depth;
     }
 
+    public FieldVector3<F, C> asVector() {
+        return new FieldVector3<>(width, height, depth);
+    }
 
     @Override
     public C volume() {

@@ -1,18 +1,23 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 import java.util.function.Consumer;
 
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
-import org.meeuw.math.shapes.Shape;
 import org.meeuw.math.shapes.dim2.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
+public abstract class SVGFigure<
+   E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>,
+    F extends Figure<E, C>>
+    implements SVG2DGroup<E, C> {
 
-    protected final S shape;
+    protected final F shape;
 
     private final boolean circumscribedCircle;
     private final boolean circumscribedRectangle;
@@ -23,7 +28,7 @@ public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
     private final Consumer<Element> circumscribedRectangleAttributes;
 
 
-    protected SVGShape(S shape, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes,  Consumer<Element> circumscribedRectangleAttributes) {
+    protected SVGFigure(F shape, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes,  Consumer<Element> circumscribedRectangleAttributes) {
         this.shape = shape;
         this.circumscribedCircle = circumscribedCircle;
         this.circumscribedRectangle = circumscribedRectangle;
@@ -34,26 +39,24 @@ public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
 
 
     @Override
-    public final void fill(SVGDocument svgDocument, Element g) {
+    public final void fill(SVGFiguresDocument<E, C> svgDocument, Element g) {
         fillShape(svgDocument, g);
-        if (shape instanceof Figure<?,?,?> figure) {
-            if (circumscribedCircle) {
-                g.appendChild(g.getOwnerDocument().createComment("Circumscribed circle of " + figure));
-                Element circumscribed = circumscribedCircle(g.getOwnerDocument(), svgDocument, figure);
-                g.appendChild(circumscribed);
-            }
-            if (circumscribedRectangle) {
-                g.appendChild(g.getOwnerDocument().createComment("Circumscribed rectangle of " + figure));
-                Element circumscribed = circumscribedRectangle(g.getOwnerDocument(), svgDocument, figure);
-                g.appendChild(circumscribed);
-            }
+        if (circumscribedCircle) {
+            g.appendChild(g.getOwnerDocument().createComment("Circumscribed circle of " + shape));
+            Element circumscribed = circumscribedCircle( g.getOwnerDocument(), svgDocument, shape);
+            g.appendChild(circumscribed);
+        }
+        if (circumscribedRectangle) {
+            g.appendChild(g.getOwnerDocument().createComment("Circumscribed rectangle of " + shape));
+            Element circumscribed = circumscribedRectangle( g.getOwnerDocument(), svgDocument, shape);
+            g.appendChild(circumscribed);
         }
 
     }
 
-    abstract void fillShape(SVGDocument svgDocument, Element g);
+    abstract void fillShape(SVGFiguresDocument<E, C>  svgDocument, Element g);
 
-    protected Element circumscribedCircle(Document doc,SVGDocument svgDocument,  Figure<?, ?, ?> shape) {
+    protected Element circumscribedCircle(Document doc, SVGFiguresDocument<E, C>  svgDocument,  Figure<E, C> shape) {
 
         var circleLocatedShape = shape.circumscribedCircle();
 
@@ -72,7 +75,7 @@ public abstract class SVGShape<S extends Shape<?, ?, S>> implements SVGGroup {
         return circumscribed;
     }
 
-     protected Element circumscribedRectangle(Document doc,SVGDocument svgDocument,  Figure<?, ?, ?> shape) {
+     protected Element circumscribedRectangle(Document doc, SVGFiguresDocument<E, C> svgDocument, Figure<E, C> shape) {
 
         var circumscribedRectangle = shape.circumscribedRectangle();
 

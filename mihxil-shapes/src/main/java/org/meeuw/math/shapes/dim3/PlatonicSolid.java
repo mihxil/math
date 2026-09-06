@@ -78,7 +78,7 @@ public class PlatonicSolid<
 
     @Override
     public boolean eq(Solid<E, C> other) {
-        return false;
+        return other instanceof PlatonicSolid<E, C> solid && type == solid.type && size.eq(solid.size);
     }
 
     @Override
@@ -107,6 +107,6 @@ public class PlatonicSolid<
 
     @Override
     public boolean strictlyEquals(Object o) {
-        return UncertainUtils.strictlyEqual(this, o, PlatonicSolid::size);
+        return UncertainUtils.strictlyEqual(this, o, PlatonicSolid::type, PlatonicSolid::size);
     }
 }

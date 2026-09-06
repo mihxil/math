@@ -1,4 +1,4 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 import java.util.function.Consumer;
 
@@ -10,7 +10,10 @@ import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public class SVGPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C, S>> extends SVGShape<S> {
+public class SVGPolygon<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>,
+    S extends Polygon<E, C>> extends SVGFigure<E, C, S> {
 
     @lombok.Builder
     protected SVGPolygon(S polygon, boolean circumscribedCircle, boolean circumscribedRectangle, Consumer<Element> circumscribedCircleAttributes, Consumer<Element> circumscribedRectangleAttributes) {
@@ -18,14 +21,14 @@ public class SVGPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteSc
     }
 
     @Override
-    void fillShape(SVGDocument svgDocument, Element g) {
+    void fillShape(SVGFiguresDocument<E, C> svgDocument, Element g) {
 
         Element element = createElement(g.getOwnerDocument(), "polygon");
         g.appendChild(element);
 
         StringBuilder points = new StringBuilder();
         shape.vertices().forEach(v -> {
-            if (points.length() > 0) {
+            if (!points.isEmpty()) {
                 points.append(" ");
             }
             points.append(v.getX().doubleValue()).append(",").append(v.getY().doubleValue());
@@ -51,7 +54,9 @@ public class SVGPolygon<E extends ScalarFieldElement<E, C>, C extends CompleteSc
             //g.appendChild(circumscribedCircle(doc, polygon));
         }
     }
-    public static class Builder<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C, S>>  {
+    public static class Builder<
+        E extends ScalarFieldElement<E, C>,
+        C extends CompleteScalarFieldElement<C>, S extends Polygon<E, C>>  {
 
         public Builder<E, C, S> polygon(S polygon) {
             this.polygon = polygon;

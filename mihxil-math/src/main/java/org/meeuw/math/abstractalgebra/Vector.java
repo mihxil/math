@@ -43,6 +43,8 @@ public interface Vector<SELF extends Vector<SELF, E>, E extends FieldElement<E>>
 
     E get(int i) throws ArrayIndexOutOfBoundsException;
 
+    SELF normalize();
+
     VectorSpace<E, SELF> getSpace();
 
 }

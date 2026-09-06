@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.Vector;
+import org.meeuw.math.exceptions.FieldIncompleteException;
 
 /**
  * An {@code n}-dimensional {@link Vector}.
@@ -96,6 +97,11 @@ public class NVector<E extends FieldElement<E>> implements
     }
 
     @Override
+    public NVector<E> normalize() {
+        return dividedBy(abs());
+    }
+
+    @Override
     public NVectorSpace<E> getSpace() {
         return NVectorSpace.of(values.length, values[0].getStructure());
     }
@@ -153,5 +159,19 @@ public class NVector<E extends FieldElement<E>> implements
             copy[i] =  copy[i].times(multiplier.values[i]);
         }
         return new NVector<>(copy);
+    }
+
+    public E abs() {
+        E sqrSum = values[0].sqr();
+
+        for (int i = 1; i < values.length; i++) {
+            sqrSum = sqrSum.plus(values[i].sqr());
+        }
+        if (sqrSum instanceof ScalarFieldElement<?, ?> scalar) {
+            //CompleteScalarField<?> com = (CompleteScalarField<?>) scalar.complete().sqrt();
+            //return (E) com..approx(scalar.getStructure())
+        }
+        throw new FieldIncompleteException("");
+
     }
 }

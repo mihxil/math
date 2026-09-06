@@ -1,11 +1,11 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 
 import java.util.Arrays;
 
-import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.dim2.Vector2;
-import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -13,25 +13,25 @@ import org.w3c.dom.Element;
 import static org.meeuw.math.svg.SVG.createElement;
 
 @lombok.Builder
-public class SVGGrid implements SVGGroup {
+public class SVGGrid<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>>
+    implements SVG2DGroup<E, C> {
 
-    @lombok.Builder.Default
-    private  final Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 10);
+    private  final Rectangle<E, C> spacing;
 
     @lombok.Builder
-    private SVGGrid(Rectangle<RationalNumber, BigDecimalElement> spacing) {
+    private SVGGrid(Rectangle<E, C> spacing) {
         this.spacing = spacing;
-
     }
 
     @Override
-    public void fill(SVGDocument svg, Element g) {
-        Rectangle<RationalNumber, BigDecimalElement> gridSize = svg.size();
+    public void fill(SVGFiguresDocument<E, C> svg, Element g) {
+        Rectangle<E, C> gridSize = svg.size();
         g.setAttribute("id", "grid");
         Document doc = g.getOwnerDocument();
         g.appendChild(doc.createComment("Grid"));
-        Vector2 origin = svg.origin();
-
+        FieldVector2<E, C> origin = svg.origin();
 
         {
             String minusY = String.valueOf(gridSize.height().doubleValue() / -2);

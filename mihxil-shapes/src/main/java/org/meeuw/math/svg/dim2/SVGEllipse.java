@@ -1,4 +1,4 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 import java.util.function.Consumer;
 
@@ -9,7 +9,11 @@ import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
 
-public class SVGEllipse<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends SVGShape<Ellipse<E, C>> {
+public class SVGEllipse<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>>
+    extends SVGFigure<E, C, Ellipse<E, C>> {
+
 
     private final boolean subscribedCircle;
 
@@ -20,7 +24,7 @@ public class SVGEllipse<E extends ScalarFieldElement<E, C>, C extends CompleteSc
     }
 
     @Override
-    public void fillShape(SVGDocument svgDocument, Element g) {
+    public void fillShape(SVGFiguresDocument<E, C> svgDocument, Element g) {
         Element element = createElement(g.getOwnerDocument(), "ellipse");
         element.setAttribute("stroke", svgDocument.stroke());
         element.setAttribute("stroke-width", "1");

@@ -28,6 +28,7 @@ import org.meeuw.math.WithScalarOperations;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
+import org.meeuw.math.numbers.Sizeable;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
@@ -39,6 +40,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  */
 public class Vector2 implements
     Vector<Vector2, RealNumber>,
+    Sizeable<RealNumber>,
     WithScalarOperations<Vector2, RealNumber>,
     WithDoubleOperations<Vector2> {
 
@@ -150,6 +152,11 @@ public class Vector2 implements
     }
 
     @Override
+    public Vector2 normalize() {
+        return dividedBy(abs());
+    }
+
+    @Override
     public VectorSpace<RealNumber, Vector2> getSpace() {
         return Vector2Space.INSTANCE;
     }
@@ -170,5 +177,10 @@ public class Vector2 implements
     @Override
     public Vector2 times(Vector2 multiplier) {
         return of(x * multiplier.x, y * multiplier.y);
+    }
+
+    @Override
+    public RealNumber abs() {
+        return RealNumber.of(x * x + y * y).sqrt();
     }
 }

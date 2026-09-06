@@ -1,4 +1,4 @@
-package org.meeuw.math.svg;
+package org.meeuw.math.svg.dim2;
 
 import java.util.function.Consumer;
 
@@ -10,7 +10,10 @@ import org.w3c.dom.Element;
 import static org.meeuw.math.svg.SVG.createElement;
 
 
-public class SVGCircle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends SVGShape<Circle<E, C>> {
+public class SVGCircle<
+    E extends ScalarFieldElement<E, C>,
+    C extends CompleteScalarFieldElement<C>>
+    extends SVGFigure<E, C, Circle<E, C>> {
 
 
     @lombok.Builder
@@ -19,7 +22,7 @@ public class SVGCircle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     }
 
     @Override
-    public void fillShape(SVGDocument svgDocument, Element g) {
+    public void fillShape(SVGFiguresDocument<E, C> svgDocument, Element g) {
         Element circleElement = createElement(g.getOwnerDocument(), "circle");
         circleElement.setAttribute("stroke", svgDocument.stroke());
         circleElement.setAttribute("stroke-width", "1");
