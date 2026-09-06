@@ -203,9 +203,13 @@ class RealFieldTest implements
         DoubleElement input = of(2d, 0.1d);
         RealNumber cos = input.cos();
         double result = Math.cos(2d);
-        double expected = DoubleUtils.max(
+        double propagated = Math.abs(Math.sin(2d)) * Math.max(
+            input.doubleUncertainty(),
+            uncertaintyForDouble(2d)
+        );
+        double expected = Math.hypot(
             uncertaintyForDouble(result),
-            result * Math.max(input.doubleUncertainty(), uncertaintyForDouble(2d))
+            propagated
         );
         assertThat(cos.doubleUncertainty()).isEqualTo(expected);
     }
