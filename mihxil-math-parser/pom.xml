@@ -12,6 +12,9 @@
   <packaging>jar</packaging>
   <description>Generic parser for mathematical expressions</description>
 
+  <properties>
+    <javadoc.sourcepath>${delombok.output}${path.separator}${project.build.directory}/generated-sources/javacc</javadoc.sourcepath>
+  </properties>
 
   <dependencies>
     <dependency>

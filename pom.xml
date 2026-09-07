@@ -50,6 +50,7 @@
     <javacc.version>8.1.0</javacc.version>
 
     <delombok.output>target/delombok</delombok.output>
+    <javadoc.sourcepath>${delombok.output}</javadoc.sourcepath>
     <argLine />
     <log4j2.stdout.level>info</log4j2.stdout.level>
   </properties>
@@ -487,7 +488,7 @@
               <additionalJOption>-Xdoclint:all</additionalJOption>
               <additionalJOption>-Xdoclint:-missing</additionalJOption>
                <sourcepath>
-                ${delombok.output}
+               ${javadoc.sourcepath}
               </sourcepath>
             </configuration>
           </plugin>
