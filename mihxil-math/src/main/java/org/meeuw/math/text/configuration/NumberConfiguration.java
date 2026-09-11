@@ -50,7 +50,7 @@ public class NumberConfiguration implements ConfigurationAspect {
     }
 
     /**
-     * If the absolute value of the exponent would be bigger than this, then
+     * If the absolute value of the exponent is bigger than this, then
      * scientific notation will be used. Otherwise, no.
      * <p>
      * This defaults to 4.
@@ -85,11 +85,15 @@ public class NumberConfiguration implements ConfigurationAspect {
         this.numberFormat = numberFormat;
         this.groupingSeparator = groupingSeparator;
         this.maximalPrecision = maximalPrecision;
+        this.numberFormat.setGroupingUsed(groupingSeparator != NONE);
+        this.numberFormat.setMaximumFractionDigits(maximalPrecision);
     }
 
     public NumberConfiguration() {
         this(4, NONE, getDefaultNumberFormat(), Integer.MAX_VALUE);
     }
+
+
 
     @Override
     public List<Class<?>> associatedWith() {
