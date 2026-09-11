@@ -6,6 +6,7 @@ import lombok.Getter;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.units.qual.radians;
+import org.meeuw.functional.Suppliers;
 import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
@@ -43,15 +44,16 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
         this(radiusx, radiusy, radiusx.getStructure().zero());
     }
 
+    @Override
     public Stream<Info> info() {
         return Stream.concat(
             Figure.super.info(),
             Stream.of(
-                new Info(RADIUSX, this::radiusx),
-                new Info(RADIUSY, this::radiusy),
-                new Info(ANGLE, this::angle),
-                new Info(LINEAR_ECCENTRICITY, this::linearEccentricity),
-                new Info(ECCENTRICITY, this::eccentricity)
+                new Info(RADIUSX, Suppliers.wrap(this::radiusx)),
+                new Info(RADIUSY, Suppliers.wrap(this::radiusy)),
+                new Info(ANGLE, Suppliers.wrap(this::angle)),
+                new Info(LINEAR_ECCENTRICITY, Suppliers.wrap(this::linearEccentricity)),
+                new Info(ECCENTRICITY, Suppliers.wrap(this::eccentricity))
             )
         );
     }
@@ -60,8 +62,14 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     public Ellipse<E, C> times(E multiplier) {
         return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
+
     @Override
-    public Ellipse<E, C> times(int multiplier) {
+    public Figure<E, C> dividedBy(long divisor) {
+        return new Ellipse<>(radiusx.dividedBy(divisor), radiusy.dividedBy(divisor), angle);
+    }
+
+    @Override
+    public Ellipse<E, C> times(long multiplier) {
         return new Ellipse<>(radiusx.times(multiplier), radiusy.times(multiplier), angle);
     }
 
@@ -98,7 +106,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
 
         if (angle.isZero()) {
             return atOrigin(
-                new Rectangle<>(radiusx.complete().times(2), radiusy.complete().times(2), field.zero().complete())
+                new Rectangle<>(radiusx.complete().times(2), radiusy.complete().times(2))
             );
         } else {
             C sin2 = angle.sin().sqr();
@@ -109,8 +117,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
             return atOrigin(
                 new Rectangle<>(
                     width,
-                    height,
-                    field.completedField().zero()
+                    height
                 )
             );
         }
@@ -134,14 +141,19 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
         return perimeterRamanujan(radiusx, radiusy);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Ellipse<C, C> complete() {
         return new Ellipse<>(radiusx.complete(), radiusy.complete(), angle.complete());
     }
 
+    @Override
     public String toString() {
-        return "Ellipse{" + radiusx + ',' + radiusy + '}';
+        return "Ellipse{" + parametersString() + '}';
+    }
+
+    @Override
+    public String parametersString() {
+            return radiusx + "," + radiusy;
     }
 
     @Override
