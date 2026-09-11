@@ -114,7 +114,7 @@ public class UncertainFormatUtils {
         return switch (uncertaintyNotation) {
             case PARENTHESES -> valueParenthesesError(value, error);
             case PLUS_MINUS ->
-                strip(UncertainFormatUtils.valuePlusMinError(value, error), new FieldPosition(-1), strip);
+                strip(valuePlusMinError(value, error), new FieldPosition(-1), strip);
             case ROUND_VALUE ->
                 strip(value, new FieldPosition(-1), strip);
         };
