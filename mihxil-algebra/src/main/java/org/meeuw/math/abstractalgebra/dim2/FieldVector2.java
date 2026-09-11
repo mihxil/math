@@ -138,6 +138,11 @@ public class FieldVector2<E extends ScalarFieldElement<E, C>, C extends Complete
         return new FieldVector2<>(x.dividedBy(divisor), y.dividedBy(divisor));
     }
 
+    public FieldVector2<E, C> dividedBy(long divisor) {
+        return new FieldVector2<>(x.dividedBy(divisor), y.dividedBy(divisor));
+    }
+
+
     @Override
     @lombok.NonNull
     public Iterator<E> iterator() {
