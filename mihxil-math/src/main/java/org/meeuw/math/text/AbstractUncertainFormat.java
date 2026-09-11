@@ -22,6 +22,7 @@ import java.text.*;
 import java.util.function.BiPredicate;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.numbers.Factor;
 import org.meeuw.math.numbers.NumberOperations;
@@ -81,10 +82,10 @@ public abstract class AbstractUncertainFormat<
 
     /**
      * The amount of precision shown will be based on the uncertainty in the value,
-     * but if for instant the value happens to be not uncertain at all the number of
+     * but if, for example, the value happens to be not uncertain at all, the number of
      * shown digits can be limited with this.
      * <p>
-     * Defaults to {@link Integer#MAX_VALUE}, which practicly amounts to no restrictions at all.
+     * Defaults to {@link Integer#MAX_VALUE}, which practically amounts to no restrictions at all.
      */
     @Getter
     @Setter
@@ -319,9 +320,10 @@ public abstract class AbstractUncertainFormat<
 
 
     protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
+        DecimalFormat decimalFormat = ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getNumberFormat();
         UncertainFormatUtils.valuePlusMinError(
             appendable,
-            ToStringFormat.INSTANCE,
+            decimalFormat,
             position,
             value.getValue(),
             value.getUncertainty()
@@ -331,8 +333,11 @@ public abstract class AbstractUncertainFormat<
         }
     }
 
+
+
     protected void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
-        ToStringFormat.INSTANCE.format(value.getValue(), appendable, position);
+        DecimalFormat decimalFormat = ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getNumberFormat();
+        decimalFormat.format(value.getValue(), appendable, position);
         if (trim) {
             UncertainFormatUtils.strip(appendable, position);;
         }
