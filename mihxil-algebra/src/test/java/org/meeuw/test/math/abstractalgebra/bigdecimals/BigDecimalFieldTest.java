@@ -26,12 +26,16 @@ import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
-import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
-import org.meeuw.theories.abstractalgebra.MetricSpaceTheory;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
+import org.meeuw.math.text.FormatService;
+import org.meeuw.math.text.UncertainNumberFormat;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
+import org.meeuw.theories.abstractalgebra.MetricSpaceTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.configuration.ConfigurationService.withAspect;
 import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
 import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField.INSTANCE;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
@@ -90,7 +94,7 @@ class BigDecimalFieldTest implements
 
     @Test
     public void divisionUncertaintyConfiguredLessPrecise() {
-        ConfigurationService.withAspect(MathContextConfiguration.class, mc ->
+        withAspect(MathContextConfiguration.class, mc ->
             mc.withContext(new MathContext(2)), () -> {
             BigDecimalElement half = of("1").dividedBy(of("2"));
             assertThat(half.getUncertainty()).isEqualTo("0.01"); //
@@ -172,5 +176,30 @@ class BigDecimalFieldTest implements
                 config.add(BigDecimalElement.ONE.negation());
             })
             ;
+    }
+
+    @Test
+    public void simpleToString() {
+        assertThat(of("1234").toString()).isEqualTo("1234");
+        assertThat(of("1234.5678901234556890").toString()).isEqualTo("1234.5678901234556890");
+    }
+
+    @Test
+    public void stringMaxPrecision() {
+        withAspect(NumberConfiguration.class, (nc) -> {
+            return nc.withMaximalPrecision(2);
+        }, () -> {
+            var e = of("1234.5678901234556890");
+            UncertainNumberFormat<?> format = FormatService.getFormat(e, ConfigurationService.getConfiguration())
+                .filter(f -> f instanceof UncertainNumberFormat<?>)
+                .map(f -> (UncertainNumberFormat<?>) f)
+                .findFirst()
+                .get();
+            assertThat(format.getMaximalPrecision()).isEqualTo(2);
+            assertThat(format.format(e)).isEqualTo("1234.57");
+            assertThat(e.toString()).isEqualTo("1234.57");
+            assertThat(of("1234").toString()).isEqualTo("1234");
+        });
+
     }
 }
