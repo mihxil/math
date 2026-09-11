@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
+// tag::imports[]
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -23,15 +24,13 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.svg.SVGDocument.default2DDocument;
 
-// tag::imports[]
-
 
 // end::imports[]
 
 @Log
 public class SVGTest {
 
-    Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(205, 205);
+    Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(206, 206);
     Rectangle<RationalNumber, BigDecimalElement> spacing = Rectangle.of(10, 10);
     File dest = new File(System.getProperty("user.dir"), "../docs/shapes");
 
@@ -98,7 +97,7 @@ public class SVGTest {
     // tag::otherShapes[]
     @Test
     public void rectangle() throws Exception {
-        Rectangle<RationalNumber, BigDecimalElement> rectangle = new Rectangle<>(
+        RotatedRectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
             RationalNumber.of(100),
             RationalNumber.of(170))
             .rotate(element(Math.toRadians(10.0)));
@@ -146,7 +145,7 @@ public class SVGTest {
         var document = default2DDocument()
             .withSize(size)
             .addGrid(b -> b.spacing(spacing))
-            //.addInfo()
+            .addInfo()
             .addEllipse(ellipse, s -> s
                 .circumscribedCircle(true)
                 .circumscribedRectangle(true)

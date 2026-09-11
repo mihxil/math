@@ -50,7 +50,14 @@ public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalar
     }
 
     @Override
-    public Sphere<F, C> times(int multiplier) {
+    public Sphere<F, C> dividedBy(long divisor) {
+        return new Sphere<>(radius.dividedBy(divisor));
+    }
+
+
+
+    @Override
+    public Sphere<F, C> times(long multiplier) {
         return new Sphere<>(radius.times(multiplier));
     }
 
@@ -61,7 +68,12 @@ public class Sphere<F extends ScalarFieldElement<F, C>, C extends CompleteScalar
 
     @Override
     public String toString() {
-        return "Sphere{radius=" + radius + '}';
+        return "Sphere{radius=" + parametersString() + '}';
+    }
+
+    @Override
+    public String parametersString() {
+        return radius.toString();
     }
 
     @Override

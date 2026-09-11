@@ -14,7 +14,8 @@ import org.meeuw.math.shapes.Info;
  */
 public interface Polygon<
     E extends ScalarFieldElement<E, C>,
-    C extends CompleteScalarFieldElement<C>> extends Figure<E, C> {
+    C extends CompleteScalarFieldElement<C>>
+    extends Figure<E, C> {
 
     int numberOfEdges();
 
@@ -66,7 +67,7 @@ public interface Polygon<
         C centerX = minX.plus(maxX).dividedBy(2);
         C centerY = minY.plus(maxY).dividedBy(2);
         FieldVector2<C, C> center = FieldVector2.of(centerX, centerY);
-        return new LocatedFigure<>(new Rectangle<>(
+        return new LocatedFigure<>(new RotatedRectangle<>(
             maxX.minus(minX),
             maxY.minus(minY),
             field.zero().complete()),

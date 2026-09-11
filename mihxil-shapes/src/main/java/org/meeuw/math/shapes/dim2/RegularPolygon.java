@@ -24,12 +24,21 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
     private final E angle;
     private final ScalarField<E, C> field;
 
+
+    /**
+     *
+     * @param n Number of sides
+     * @param size Length of each side
+     * @param angle TODO, move to RotatedRegularPolygon
+     */
     public RegularPolygon(@Min(3) int n, E size, @radians E angle) {
         this.n = n;
         this.size = size;
         this.angle = angle;
         this.field = size.getStructure();
     }
+
+
     public RegularPolygon(@Min(3) int n, E size) {
         this(n, size, size.getStructure().zero());
     }
@@ -60,7 +69,6 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
             .times(size.sqr().complete()).times(n).dividedBy(4);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public RegularPolygon<C, C> complete() {
         return new RegularPolygon<>(n, size.complete(), angle.complete());
@@ -99,24 +107,31 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
         return size.complete().dividedBy(field.pi().dividedBy(n).sin().times(2));
     }
 
+
+    @Override
+    public String toString() {
+        if (size.isOne()) {
+            return parametersString();
+        } else {
+            return parametersString() + ", size: %s".formatted(size);
+        }
+    }
+
     /**
      * Schläfli symbol
      */
     @Override
-    public String toString() {
-        if (size.isOne()) {
-            return String.format("{%d}", n);
-        } else {
-            return String.format("{%d}, size: %s", n, size);
-        }
+    public String parametersString() {
+        return String.format("{%d}", n);
     }
+
 
     @Override
     public boolean eq(Figure<E, C> other) {
         if (!(other instanceof RegularPolygon<E, C> ngon)) {
             return false;
         }
-        return  this.size.eq(ngon.size) && this.n == ngon.n;
+        return this.size.eq(ngon.size) && this.n == ngon.n;
     }
 
     @Override
@@ -126,7 +141,13 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
     }
 
     @Override
-    public RegularPolygon<E, C> times(int multiplier) {
+    public RegularPolygon<E, C> dividedBy(long divisor) {
+        E newSize = size.dividedBy(divisor);
+        return new RegularPolygon<>(n, newSize, angle);
+    }
+
+    @Override
+    public RegularPolygon<E, C> times(long multiplier) {
         return new RegularPolygon<>(n, size.times(multiplier), angle);
     }
 

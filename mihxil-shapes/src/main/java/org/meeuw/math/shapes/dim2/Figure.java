@@ -2,7 +2,9 @@ package org.meeuw.math.shapes.dim2;
 
 import java.util.stream.Stream;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.functional.Suppliers;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.shapes.Shape;
 
@@ -22,10 +24,10 @@ public interface Figure<
 
     default Stream<Info> info() {
         return Stream.of(
-            new Info(Info.Key.AREA, this::area),
-            new Info(Info.Key.PERIMETER, this::perimeter),
-            new Info(Info.Key.CIRCUMSCRIBED_RECTANGLE, this::circumscribedRectangle),
-            new Info(Info.Key.CIRCUMSCRIBED_CIRCLE, this::circumscribedCircle)
+            new Info(Info.Key.AREA, Suppliers.wrap(this::area)),
+            new Info(Info.Key.PERIMETER, Suppliers.wrap(this::perimeter)),
+            new Info(Info.Key.CIRCUMSCRIBED_RECTANGLE, Suppliers.wrap(() -> circumscribedRectangle().shape().parametersString())),
+            new Info(Info.Key.CIRCUMSCRIBED_CIRCLE, Suppliers.wrap(() -> circumscribedCircle().shape().parametersString()))
         );
     }
 

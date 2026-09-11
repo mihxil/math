@@ -91,7 +91,6 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public  RectangularCuboid<C, C> complete() {
         return new RectangularCuboid<>(width.complete(), height.complete(), depth.complete());
@@ -121,7 +120,13 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
     }
 
     @Override
-    public RectangularCuboid<F, C> times(int multiplier) {
+    public RectangularCuboid<F, C> dividedBy(long divisor) {
+        return new RectangularCuboid<>(width.dividedBy(divisor), height.dividedBy(divisor), depth.times(divisor));
+    }
+
+
+    @Override
+    public RectangularCuboid<F, C> times(long multiplier) {
         return new RectangularCuboid<>(width.times(multiplier), height.times(multiplier), depth.times(multiplier));
     }
 
@@ -131,9 +136,13 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
     }
 
 
+    @Override
     public String toString() {
-        return "RectangularCuboid{" + width() + "x" +  height() + "x" + depth() + '}';
+        return "RectangularCuboid{" + parametersString() + '}';
     }
 
+    public String parametersString() {
+        return width() + "x" +  height() + "x" + depth();
+    }
 
 }

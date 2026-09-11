@@ -25,37 +25,29 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  */
 public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> implements Polygon<E, C> {
 
-    private final E width;
-    private final E height;
-    private final E angle ;
+    protected final E width;
+    protected final E height;
 
-    private final ScalarField<E, C> field;
+    protected final ScalarField<E, C> field;
 
 
     /**
      *  @param width  the width of the rectangle, it must be non-negative
      *  @param height the height of the rectangle, it must be non-negative
      */
-    public Rectangle(@Min(0) E width, @Min(0) E height, @radians E angle) {
-        this.width = width;
-        this.height = height;
-        this.angle = angle;
-        this.field = width.getStructure();
-    }
-
     public Rectangle(@Min(0) E width, @Min(0) E height) {
         this.width = width;
         this.height = height;
         this.field = width.getStructure();
-        this.angle = field.zero();
     }
+
 
     public static Rectangle<RealNumber, RealNumber> of(double width, double height) {
-        return new Rectangle<>(RealNumber.of(width), RealNumber.of(height), RealNumber.ZERO);
+        return new Rectangle<>(RealNumber.of(width), RealNumber.of(height));
     }
 
-    public static Rectangle<RationalNumber, BigDecimalElement> of(int width, int height) {
-        return new Rectangle<>(RationalNumber.of(width), RationalNumber.of(height), RationalNumber.ZERO);
+    public static Rectangle<RationalNumber, BigDecimalElement> of(long width, long height) {
+        return new Rectangle<>(RationalNumber.of(width), RationalNumber.of(height));
     }
 
     public E width() {
@@ -66,9 +58,6 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
         return height;
     }
 
-    public E angle() {
-        return angle;
-    }
 
     /**
      * Checks if the rectangle is vertical, meaning its width is smaller than its height.
@@ -86,36 +75,22 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
      */
     @Override
     public LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
-        return exactCircumscribedRectangle().complete();
+        return LocatedFigure.atOrigin(this.complete());
     }
 
     public LocatedFigure<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
-
-        if (angle.isZero()) {
-            return atOrigin(this);
-        }
-
-        E sin = field.approx(angle.sin());
-        assert sin != null;
-        E cos = field.approx(angle.cos());
-        assert cos != null;
-        return atOrigin(new Rectangle<>(
-            width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs()),
-            field.zero()
-        ));
-
+        return LocatedFigure.atOrigin(this);
     }
 
-    public LocatedFigure<E, C, Rectangle<E, C>> circumscribedRectangle(@radians double angle) {
+    public LocatedFigure<E, C, RotatedRectangle<E, C>> circumscribedRectangle(@radians double angle) {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
-        return atOrigin(new Rectangle<>(
+        return atOrigin(new RotatedRectangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs()),
-            field().zero()
-        ));
+            width.times(sin).abs().plus(height.times(cos).abs())
+            )
+        );
     }
 
     @Override
@@ -130,7 +105,6 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
         return field;
     }
 
-
     /**
      *
      * Calculates the area of the rectangle by multiplying its width and height.
@@ -144,10 +118,9 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
         return  width.times(height);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Rectangle<C, C>  complete() {
-        return new Rectangle<>(width.complete(), height.complete(), angle.complete());
+    public Rectangle<C, C> complete() {
+        return new Rectangle<>(width.complete(), height.complete());
     }
 
     /**
@@ -186,7 +159,7 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     /**
      * Returns the aspect ratio of the rectangle in the format "width:height".
-     * The values are reduced to their simplest form using the greatest common divisor ({@link org.meeuw.math.IntegerUtils#gcd(int, int) GCD}).
+     * The values are reduced to their simplest form using the greatest common divisor ({@link IntegerUtils#gcd(int, int) GCD}).
      *
      * @return a string representing the aspect ratio
      */
@@ -197,7 +170,7 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     /**
      * Returns the aspect ratio of the rectangle in the format "width:height".
-     * The values are reduced to their simplest form using the greatest common divisor ({@link org.meeuw.math.IntegerUtils#gcd(int, int) GCD}).
+     * The values are reduced to their simplest form using the greatest common divisor ({@link IntegerUtils#gcd(int, int) GCD}).
      *
      * @return a string representing the aspect ratio
      * @since 0.19
@@ -209,9 +182,13 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     @Override
     public String toString() {
-        return "Rectangle{" + width() + "x" +  height() + '}';
+        return "Rectangle{" + parametersString() + '}';
     }
 
+    @Override
+    public String parametersString() {
+        return width() + "x" +  height();
+    }
 
     @Override
     public boolean eq(Figure<E, C> other) {
@@ -225,17 +202,23 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     public Rectangle<E, C> times(E multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier),
-            angle
+            height.times(multiplier)
         );
     }
 
     @Override
-    public Rectangle<E, C> times(int multiplier) {
+    public Rectangle<E, C> dividedBy(long divisor) {
+        return new Rectangle<>(
+            width.dividedBy(divisor),
+            height.dividedBy(divisor)
+        );
+    }
+
+    @Override
+    public Rectangle<E, C> times(long multiplier) {
         return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier),
-            angle
+            height.times(multiplier)
         );
     }
 
@@ -243,17 +226,16 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     public Rectangle<E, C> times(double multiplier) {
          return new Rectangle<>(
             width.times(multiplier),
-            height.times(multiplier),
-             angle
+            height.times(multiplier)
         );
     }
 
     @Override
-    public Rectangle<E, C> rotate(E angle) {
-        return new Rectangle<>(
+    public RotatedRectangle<E, C> rotate(E angle) {
+        return new RotatedRectangle<>(
             width,
             height,
-            this.angle.plus(angle)
+            angle
         );
     }
 
@@ -294,14 +276,20 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
         );
     }
 
-    @Override
-    public boolean isExact() {
-        return Polygon.super.isExact() || areExact(width, height, angle);
+    public FieldVector2<E, C> asVector() {
+        return FieldVector2.of(width, height);
     }
 
     @Override
+    public boolean isExact() {
+        return Polygon.super.isExact() || areExact(width, height);
+    }
+
+
+
+    @Override
     public boolean strictlyEquals(Object o) {
-        return strictlyEqual(this, o, Rectangle::width,Rectangle::height, Rectangle::angle);
+        return strictlyEqual(this, o, Rectangle::width, Rectangle::height);
     }
 
 

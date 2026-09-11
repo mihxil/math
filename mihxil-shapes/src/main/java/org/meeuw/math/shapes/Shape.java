@@ -28,12 +28,19 @@ public interface Shape<
 
     SELF times(E multiplier);
 
+    default SELF dividedBy(E divisor) {
+        return times(divisor.inverse());
+    }
+
+    SELF dividedBy(long divisor);
+
+
     default CSELF timesc(C multiplier) {
         return complete().times(multiplier);
     }
 
 
-    SELF times(int multiplier);
+    SELF times(long multiplier);
 
     SELF times(double multiplier);
 
@@ -45,4 +52,7 @@ public interface Shape<
     default Stream<Info> info() {
         return Stream.empty();
     }
+
+    String parametersString();
+
 }

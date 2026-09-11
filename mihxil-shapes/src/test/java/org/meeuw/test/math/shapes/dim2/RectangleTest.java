@@ -14,7 +14,7 @@ import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.FieldIncompleteException;
-import org.meeuw.math.shapes.dim2.Rectangle;
+import org.meeuw.math.shapes.dim2.RotatedRectangle;
 
 import static java.lang.Math.PI;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -23,14 +23,14 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rectangle<RealNumber, RealNumber>> {
+public class RectangleTest implements FigureTheory<RealNumber, RealNumber, RotatedRectangle<RealNumber, RealNumber>> {
 
-    Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
+    RotatedRectangle<RealNumber, RealNumber> rectangle = new RotatedRectangle<>(
         exactly(1024d), exactly(576d));
 
     ModuloField field = ModuloField.of(2002927);
 
-    Rectangle<RationalNumber, BigDecimalElement> rationalRectangle = Rectangle.of(1024, 576);
+    RotatedRectangle<RationalNumber, BigDecimalElement> rationalRectangle = RotatedRectangle.of(1024, 576);
 
     @Test
     public void aspectRatio() {
@@ -119,9 +119,9 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Recta
     }
 
     @Override
-    public Arbitrary<@NonNull Rectangle<RealNumber, RealNumber>> datapoints() {
+    public Arbitrary<@NonNull RotatedRectangle<RealNumber, RealNumber>> datapoints() {
         return Arbitraries.doubles().ofScale(3).between(0.001, 1000)
             .flatMap(width -> Arbitraries.doubles().ofScale(3).between(0.001, 1000)
-                .map(height -> new Rectangle<>(element(width), element(height))));
+                .map(height -> new RotatedRectangle<>(element(width), element(height))));
     }
 }

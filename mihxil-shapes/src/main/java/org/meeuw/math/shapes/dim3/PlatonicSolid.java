@@ -87,7 +87,12 @@ public class PlatonicSolid<
     }
 
     @Override
-    public PlatonicSolid<E, C> times(int multiplier) {
+    public PlatonicSolid<E, C> dividedBy(long divisor) {
+        return new PlatonicSolid<>(type, size.dividedBy(divisor));
+    }
+
+    @Override
+    public PlatonicSolid<E, C> times(long multiplier) {
         return new PlatonicSolid<>(type, size.times(multiplier));
     }
 
@@ -103,6 +108,11 @@ public class PlatonicSolid<
     @Override
     public String toString() {
         return String.format("%s, edge size: %s", type.name(), size);
+    }
+
+    @Override
+    public String parametersString() {
+        return type.name();
     }
 
     @Override

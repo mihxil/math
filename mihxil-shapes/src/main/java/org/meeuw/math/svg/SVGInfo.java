@@ -2,10 +2,12 @@ package org.meeuw.math.svg;
 
 import java.util.function.Predicate;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.shapes.Shape;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.w3c.dom.Element;
 
 import static org.meeuw.math.svg.SVG.createElement;
@@ -35,17 +37,17 @@ public class SVGInfo<
         info.setAttribute("y", String.valueOf(0));
         info.setAttribute("font-size", svgDocument.textSize() +"");
         info.setAttribute("fill", "blue");
-        for (Shape<E, C, ?, ?> shape : svgDocument.shapes) {
-            fill(shape, svgDocument, info);
+        try (var reset = ConfigurationService.withAspect(NumberConfiguration.class, (nc) -> {
+            return nc.withMaximalPrecision(1);
+        })) {
+            for (Shape<E, C, ?, ?> shape : svgDocument.shapes) {
+                fill(shape, svgDocument, info);
+            }
         }
         g.appendChild(info);
 
     }
 
-    @Override
-    public void accept(SVGDocument<E, C> svgDocument, Element element) {
-
-    }
 
     private void fill(Shape<E, C, ?, ?> shape, SVGDocument<E, C> svgDocument, Element info) {
         tspan(svgDocument, info, shape.toString());

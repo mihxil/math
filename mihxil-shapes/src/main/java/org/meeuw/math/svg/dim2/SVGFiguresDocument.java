@@ -36,7 +36,7 @@ public class SVGFiguresDocument <
         ) {
         super(stroke, textSize, groups, shapes);
         this.size = size;
-        this.origin = origin;
+        this.origin = origin == null ? size.asVector().dividedBy(2L) : origin;
     }
 
     public SVGFiguresDocument<E, C> withSize(Rectangle<E, C> size) {
@@ -54,8 +54,8 @@ public class SVGFiguresDocument <
     public Document buildDocument() {
         Document document = SVG.DOCUMENT_BUILDER.newDocument();
         Element root = document.createElementNS(SVG.SVG_NAMESPACE, "svg");
-        root.setAttribute("width", String.valueOf(size.width().doubleValue()));
-        root.setAttribute("height", String.valueOf(size.height().doubleValue()));
+        root.setAttribute("width", String.valueOf(size.width().longValue()));
+        root.setAttribute("height", size.height().toString());
         document.appendChild(root);
         Element parentG = SVG.createElement(document, "g");
         if (origin != null) {
@@ -92,8 +92,6 @@ public class SVGFiguresDocument <
         return addInfo((builder) -> {});
     }
 
-
-
     public  SVGFiguresDocument<E, C> addPolygon(Polygon<E, C> polygon, Consumer<SVGPolygon.Builder<E, C, ?>> polygonConsumer) {
         SVGPolygon.Builder<E, C, Polygon<E, C>> polygonBuilder = SVGPolygon.<E, C, Polygon<E, C>>builder();
         polygonBuilder.polygon(polygon);
@@ -101,6 +99,7 @@ public class SVGFiguresDocument <
         add(polygon, polygonBuilder.build());
         return this;
     }
+
     public SVGFiguresDocument<E, C> addRegularPolygon(RegularPolygon<E, C> polygon, Consumer<SVGRegularPolygon.RegularPolygonBuilder<E, C>> polygonConsumer) {
 
         SVGRegularPolygon.RegularPolygonBuilder<E, C> polygonBuilder = SVGRegularPolygon.<E, C>regularPolygonBuilder();
@@ -115,10 +114,9 @@ public class SVGFiguresDocument <
         });
     }
 
-
     public  SVGFiguresDocument<E, C> addCircle(Circle<E, C> circle, Consumer<SVGCircle.Builder<E, C>> circleConsumer) {
-        SVGCircle.Builder<E, C> builder = SVGCircle.<E, C>builder();
-        builder.circle(circle);
+        SVGCircle.Builder<E, C> builder = SVGCircle.<E, C>builder()
+            .circle(circle);
         circleConsumer.accept(builder);
         add(circle, builder.build());
         return this;
@@ -131,6 +129,5 @@ public class SVGFiguresDocument <
         add(ellipse, ellipseBuilder.build());
         return this;
     }
-
 
 }

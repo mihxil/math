@@ -30,6 +30,7 @@ module org.meeuw.math.shapes {
     requires org.meeuw.math.algebras;
     requires jdk.xml.dom;
     requires org.meeuw.configuration;
+    requires org.meeuw.functional;
 
     exports org.meeuw.math.shapes.dim2;
     exports org.meeuw.math.shapes.dim3;
