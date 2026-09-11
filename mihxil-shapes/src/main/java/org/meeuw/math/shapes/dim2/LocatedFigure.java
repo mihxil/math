@@ -53,6 +53,10 @@ public class LocatedFigure<F extends ScalarFieldElement<F, C>, C extends Complet
         return location;
     }
 
+    public String parametersString() {
+        return shape.parametersString() + "," + location;
+    }
+
     @Override
     public String toString() {
         return shape() + (location.isZero() ? "" : (" at " + location()));
