@@ -96,7 +96,7 @@ public class RationalNumber extends Number
     }
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.NonNull RationalNumbers getStructure() {
+    public @NonNull RationalNumbers getStructure() {
         return RationalNumbers.INSTANCE;
     }
 
