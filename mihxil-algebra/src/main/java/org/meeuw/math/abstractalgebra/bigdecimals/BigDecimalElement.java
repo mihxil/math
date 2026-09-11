@@ -26,6 +26,7 @@ import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
 import org.meeuw.math.validation.NotZero;
@@ -413,8 +414,7 @@ public class BigDecimalElement implements
 
     @Override
     public String toString() {
-        // TODO
-        return value.toString();
+        return FormatService.toString(this);
     }
 
 }
