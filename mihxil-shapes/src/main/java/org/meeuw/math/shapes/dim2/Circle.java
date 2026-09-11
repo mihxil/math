@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Min;
 
 import java.util.stream.Stream;
 
+import org.meeuw.functional.Suppliers;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.shapes.Info;
@@ -36,18 +37,24 @@ public class Circle<
         return Stream.concat(
             Figure.super.info(),
             Stream.of(
-                new Info(Info.Key.RADIUS, this::radius),
-                new Info(Info.Key.DIAMETER, this::diameter)
+                new Info(Info.Key.RADIUS, Suppliers.wrap(this::radius)),
+                new Info(Info.Key.DIAMETER, Suppliers.wrap(this::diameter))
             )
         );
     }
+
 
     @Override
     public Circle<E, C> times(E multiplier) {
         return new Circle<>(radius.times(multiplier));
     }
     @Override
-    public Circle<E, C> times(int multiplier) {
+    public Circle<E, C> dividedBy(long divisor) {
+        return new Circle<>(radius.dividedBy(divisor));
+    }
+
+    @Override
+    public Circle<E, C> times(long multiplier) {
         return new Circle<>(radius.times(multiplier));
     }
 
@@ -85,7 +92,7 @@ public class Circle<
     public LocatedFigure<C, C, Rectangle<C, C>> circumscribedRectangle() {
         C diameter = diameter().complete();
         return atOrigin(
-            new Rectangle<>(diameter, diameter, field.completedField().zero())
+            new Rectangle<>(diameter, diameter)
         );
     }
 
@@ -118,8 +125,14 @@ public class Circle<
     }
 
 
+    @Override
     public String toString() {
-        return "Circle{" + radius + '}';
+        return "Circle{" + parametersString() + '}';
+    }
+
+    @Override
+    public String parametersString() {
+        return radius.toString();
     }
 
     @Override
