@@ -28,12 +28,13 @@ import static org.meeuw.configuration.ConfigurationService.getConfigurationAspec
  * @author Michiel Meeuwissen
  * @since 0.9
  */
-public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvider<UncertainNumberFormat> {
+public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvider<UncertainNumberFormat<Number>> {
 
     @Override
-    public UncertainNumberFormat getInstance(Configuration configuration) {
-        UncertainNumberFormat format = new UncertainNumberFormat();
-        format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());
+    public UncertainNumberFormat<Number> getInstance(Configuration configuration) {
+        UncertainNumberFormat<Number> format = new UncertainNumberFormat<Number>();
+        UncertaintyConfiguration uncertaintyConfiguration = getConfigurationAspect(UncertaintyConfiguration.class);
+        format.setUncertaintyNotation(uncertaintyConfiguration.getNotation());
         format.setMaximalPrecision(getConfigurationAspect(NumberConfiguration.class).getMaximalPrecision());
 
         return format;
