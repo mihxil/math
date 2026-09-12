@@ -17,6 +17,8 @@ import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.abstractalgebra.integers.Factoriable.Configuration;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration;
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationFormatProvider;
+import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration;
+import org.meeuw.math.abstractalgebra.rationalnumbers.text.spi.RationalNumberFormatProvider;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
@@ -57,13 +59,14 @@ module org.meeuw.math.algebras {
     opens org.meeuw.math.abstractalgebra.linear to org.hibernate.validator;
     opens org.meeuw.math.abstractalgebra.rationalnumbers to org.hibernate.validator;
     exports org.meeuw.math.abstractalgebra.bool;
+    exports org.meeuw.math.abstractalgebra.rationalnumbers.text;
 
 
     uses AlgebraicElementFormatProvider;
 
-    provides AlgebraicElementFormatProvider with PermutationFormatProvider;
+    provides AlgebraicElementFormatProvider with PermutationFormatProvider, RationalNumberFormatProvider;
 
-    provides ConfigurationAspect with PermutationConfiguration, Configuration;
+    provides ConfigurationAspect with PermutationConfiguration, Configuration, RationalNumberConfiguration;
 
 }
 

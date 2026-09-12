@@ -33,7 +33,7 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.operators.BasicAlgebraicIntOperator;
-import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.FormatService;
 import org.meeuw.math.validation.NotZero;
 
 /**
@@ -377,11 +377,9 @@ public class RationalNumber extends Number
 
     @Override
     public String toString() {
-        if (denominator.equals(BigInteger.ONE)) {
-            return numerator.toString();
-        } else {
-            return (isNegative() ? "-" : "") + TextUtils.superscript(numerator.abs().toString()) + TextUtils.FRACTION_SLASH + TextUtils.subscript(denominator.toString());
-        }
+        return FormatService.toString(this);
+
+
     }
 
 
