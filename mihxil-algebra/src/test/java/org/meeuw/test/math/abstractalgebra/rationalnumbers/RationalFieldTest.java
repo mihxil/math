@@ -22,11 +22,17 @@ import java.math.BigDecimal;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
+import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
+import org.meeuw.theories.numbers.ScalarTheory;
 
+import static java.math.BigInteger.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.*;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INSTANCE;
 
@@ -34,28 +40,34 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @author Michiel Meeuwissen
  */
 @Log
-class RationalFieldTest implements FieldTheory<RationalNumber> {
+@SetUncertaintyConfiguration
+class RationalFieldTest implements FieldTheory<RationalNumber>,
+    ScalarTheory<RationalNumber>,
+    SignedNumberTheory<RationalNumber> {
+
+
+
 
     @Test
-    public void string() {
+    void string() {
         assertThat(of(1).toString()).isEqualTo("1");
         RationalNumber half  = of(1).dividedBy(of(2));
         assertThat(half.toString()).isEqualTo("¹⁄₂");
     }
 
     @Test
-    public void minus() {
+    void minus() {
         assertThat(of(1).minus(of(0))).isEqualTo(of(1));
     }
 
     @Test
-    public void approx() {
+    void approx() {
         assertThat(INSTANCE.approx(BigDecimalElement.of(new BigDecimal("1.25"))))
             .isEqualTo(of(5, 4));
     }
 
     @Test
-    public void adjugate() {
+    void adjugate() {
         RationalNumber[][] realNumbers = new RationalNumber[][] {
             new RationalNumber[]{of(-3), of(2), of(-5)},
             new RationalNumber[]{of(-1), of(0), of(-2)},
@@ -71,9 +83,8 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
         );
     }
 
-
     @Test
-    public void determinant() {
+    void determinant() {
         // https://planetcalc.com/8351/
         RationalNumber[][] realNumbers = new RationalNumber[][] {
             new RationalNumber[]{of(-3), of(2), of(-5)},
@@ -83,8 +94,9 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
 
         assertThat(INSTANCE.determinant(realNumbers)).isEqualTo(of(-10));
     }
+
     @Test
-    public void determinant2() {
+    void determinant2() {
         RationalNumber[][] realNumbers = new RationalNumber[][] {
             new RationalNumber[]{of(1), of(2)},
             new RationalNumber[]{of(3), of(4)},
@@ -93,6 +105,80 @@ class RationalFieldTest implements FieldTheory<RationalNumber> {
         assertThat(INSTANCE.determinant(realNumbers)).isEqualTo(of(-2));
     }
 
+    @Test
+    void test() {
+        assertThatThrownBy(() -> RationalNumber.of(null, valueOf(1))).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> RationalNumber.of(valueOf(1L), null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> RationalNumber.of(valueOf(1L), valueOf(0))).isInstanceOf(InvalidElementCreationException.class);
+        assertThat(of(valueOf(1L), valueOf(4L))
+            .times(of(1, 2))).isEqualTo(of(1, 8));
+
+        assertThat(of(2, 5).times(of(1, 2))).isEqualTo(of(1, 5));
+
+        assertThat(of(3, 7).reciprocal()).isEqualTo(of(7, 3));
+        assertThat(of(3, 7).reciprocal().times(of(3, 7))).isEqualTo(INSTANCE.one());
+
+        assertThat(of(3, 7).plus(INSTANCE.zero())).isEqualTo(of(6, 14));
+
+        assertThat(of(10).dividedBy(of(3))).isEqualTo(of(10, 3));
+        assertThat(of(1).dividedBy(of(3))).isEqualTo(of(1, 3));
+
+        assertThatThrownBy(() -> of(10, 0)).isInstanceOf(InvalidElementCreationException.class);
+    }
+
+
+
+    @Test
+    void stream() {
+        assertThat(INSTANCE
+            .stream()
+            .limit(30)
+            .map(RationalNumber::toString))
+            .containsExactly(
+                "0",
+                "1",
+                "-1",
+                "2",
+                "-2",
+                "¹⁄₂",
+                "-¹⁄₂",
+                "3",
+                "-3",
+                "¹⁄₃",
+                "-¹⁄₃",
+                "4",
+                "-4",
+                "³⁄₂",
+                "-³⁄₂",
+                "²⁄₃",
+                "-²⁄₃",
+                "¹⁄₄",
+                "-¹⁄₄",
+                "5",
+                "-5",
+                "¹⁄₅",
+                "-¹⁄₅",
+                "6",
+                "-6",
+                "⁵⁄₂",
+                "-⁵⁄₂",
+                "⁴⁄₃",
+                "-⁴⁄₃",
+                "³⁄₄"
+            );
+    }
+    @Test
+    void reverseStream() {
+        assertThat(INSTANCE.reverseStream(10)).map(RationalNumber::toString).containsExactly(
+            "¹⁄₃", "-3", "3", "-¹⁄₂", "¹⁄₂", "-2", "2", "-1", "1", "0"
+        );
+    }
+    @Test
+    void all() {
+        INSTANCE.stream().limit(100).forEach(i -> {
+            log.info(i.toString() + ":" + i.bigDecimalValue());
+        });
+    }
 
 
     @Override
