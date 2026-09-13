@@ -56,7 +56,7 @@ public class RationalNumberFormat extends Format {
                         }
                         toAppendTo.append(TextUtils.superscript(rationalNumber.getNumerator().abs().toString()))
                             .append(TextUtils.FRACTION_SLASH)
-                            .append(rationalNumber.getDenominator().toString());
+                            .append(TextUtils.subscript(rationalNumber.getDenominator().toString()));
                     }
                     break;
                 case INTEGER_AND_FRACTION:

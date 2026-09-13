@@ -17,6 +17,7 @@ package org.meeuw.math.abstractalgebra.rationalnumbers.text.spi;
 
 import org.meeuw.configuration.Configuration;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberFormat;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
@@ -41,6 +42,6 @@ public class RationalNumberFormatProvider extends AlgebraicElementFormatProvider
      */
     @Override
     public int weight(Class<? extends AlgebraicElement<?>> element) {
-        return RationalNumberFormat.class.isAssignableFrom(element) ? 2 : -1;
+        return RationalNumber.class.isAssignableFrom(element) ? 2 : -1;
     }
 }

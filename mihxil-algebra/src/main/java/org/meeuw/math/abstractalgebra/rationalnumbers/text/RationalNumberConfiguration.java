@@ -15,8 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra.rationalnumbers.text;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.*;
 
@@ -34,6 +33,7 @@ public class RationalNumberConfiguration implements ConfigurationAspect {
 
 
     @Getter
+    @With
     Mode mode = Mode.FRACTION;
 
 
