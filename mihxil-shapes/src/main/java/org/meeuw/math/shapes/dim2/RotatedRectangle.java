@@ -5,11 +5,13 @@ import jakarta.validation.constraints.Min;
 import java.util.stream.Stream;
 
 import org.checkerframework.checker.units.qual.radians;
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
+import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.text.configuration.AngleConfiguration;
 
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
@@ -22,9 +24,11 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
  *
  * @since 0.15
  */
-public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends Rectangle<E, C> {
+public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
+    extends Rectangle<E, C> {
 
 
+    @radians
     private final E angle ;
 
     /**
@@ -108,20 +112,6 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
         return atOrigin(circle);
     }
 
-    @Override
-    public ScalarField<E, C> field() {
-        return field;
-    }
-
-
-    /**
-     *
-     * Calculates the area of the rectangle by multiplying its width and height.
-     */
-    @Override
-    public C area() {
-        return exactArea().complete();
-    }
 
 
     @Override
@@ -134,7 +124,9 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
 
     @Override
     public String toString() {
-        return "RotatedAngle{" + width() + "x" +  height() + ' ' + angle() + '}';
+        return "RotatedRectangle{" + width() + "x" +  height() + ' ' +
+            AngleConfiguration.string(angle()) +
+            '}';
     }
 
 
