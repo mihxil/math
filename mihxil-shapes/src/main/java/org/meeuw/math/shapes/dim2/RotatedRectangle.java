@@ -8,7 +8,7 @@ import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
-import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
+import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.text.configuration.AngleConfiguration;
@@ -105,21 +105,11 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
         ));
     }
 
-    @Override
-    public LocatedFigure<C, C, Circle<C, C>> circumscribedCircle() {
-        C radius = diagonal().dividedBy(2);
-        Circle<C, C> circle = new Circle<>(radius);
-        return atOrigin(circle);
-    }
-
-
 
     @Override
     public RotatedRectangle<C, C> complete() {
         return new RotatedRectangle<>(width.complete(), height.complete(), angle.complete());
     }
-
-
 
 
     @Override
@@ -128,6 +118,8 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
             AngleConfiguration.string(angle()) +
             '}';
     }
+
+
 
 
     @Override
@@ -202,18 +194,21 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
 
     @Override
     public Stream<FieldVector2<C, C>> vertices() {
-        return exactVertices().map(FieldVector2::complete);
-    }
-
-    public Stream<FieldVector2<E, C>> exactVertices() {
-        E halfWidth = width.dividedBy(2);
-        E halfHeight = height.dividedBy(2);
+        C halfWidth = width.dividedBy(2).complete();
+        C halfHeight = height.dividedBy(2).complete();
+        Rotation2<C> rotation = Rotation2Group.of(field.completedField()).rotation(angle.complete());
         return Stream.of(
             FieldVector2.of(halfWidth.negation(), halfHeight.negation()),
             FieldVector2.of(halfWidth, halfHeight.negation()),
             FieldVector2.of(halfWidth, halfHeight),
             FieldVector2.of(halfWidth.negation(), halfHeight)
-        );
+        ).map(rotation);
+    }
+
+    @Override
+    public Stream<FieldVector2<E, C>> exactVertices() {
+        throw new UnsupportedOperationException();
+
     }
 
     @Override
