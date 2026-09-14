@@ -1711,7 +1711,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
     RegularPolygon&lt;RationalNumber, BigDecimalElement&gt; polygon =
-        <span class="keyword">new</span> RegularPolygon&lt;&gt;(n, RationalNumber.of(<span class="integer">100</span>));
+        RegularPolygon.withCircumScribedRadiusFloor(n, RationalNumber.of(<span class="integer">100</span>));
 
     <span class="type">var</span> document = default2DDocument()
         .withSize(size)
