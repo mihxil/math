@@ -67,7 +67,11 @@ jobs:
             extra_arg="-Dmaven.test.failure.ignore=true"
           fi
           set +e
-          mvn -B -fn "$extra_arg" -Dlog4j2.root.level=warn test 2>&1 | grep -v -F "If you are an AI Agent"
+          mvn -B -fn "$extra_arg" -Dlog4j2.root.level=warn test 2>&1 | awk '
+            /If you are an AI Agent/ { skip_blank_line = 1; next }
+            skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
+            { skip_blank_line = 0; print }
+          '
           mvn_exit=${PIPESTATUS[0]}
           set -e
           exit "$mvn_exit"
