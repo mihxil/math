@@ -547,7 +547,7 @@ This combines several aspects of this project:
 
 [NOTE]
 ====
-This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minute sin the browser. It runs in under 2 seconds in pure java.
+This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minutes in the browser. It runs in under 2 seconds in pure java.
 ====
 
 ++++
@@ -885,7 +885,7 @@ This is the source code for the above.
 [#demo_dynamicdate]
 = Dynamic date parsing
 
-The link:https://mihxil.github.io/math/#_dynamic_date_time_parsing[`mihxil-time`] module contain a 'dynamic date parser. I dusted this of from old link:https://www.mmbase.org[mmbase] code.
+The link:https://mihxil.github.io/math/#_dynamic_date_time_parsing[`mihxil-time`] module contains a 'dynamic date parser. I dusted this off from old link:https://www.mmbase.org[mmbase] code.
 
 // tag::body[]
 

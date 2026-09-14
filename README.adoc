@@ -26,7 +26,7 @@ image:https://www.javadoc.io/badge/org.meeuw.math/mihxil-math.svg?color=blue[jav
 
 [NOTE]
 ====
-See link:https://mihxil.github.io/math/[this file in HTML] for proper display of the (few) mathematical equations and MP4-movies. This has some working demo's, but those are beter elaborated in this link:https://mihxil.github.io/math/DEMO.html[dedicated page for that]. This uses webassembly to run java in your browser.
+See link:https://mihxil.github.io/math/[this file in HTML] for proper display of the (few) mathematical equations and MP4-movies. This has some working demo's, but those are better elaborated in this link:https://mihxil.github.io/math/DEMO.html[dedicated page for that]. This uses webassembly to run java in your browser.
 ====
 
 :leveloffset: 1
@@ -428,7 +428,7 @@ This collects some utility related to time (actually to Durations and Instants).
 
 == Uncertain `java.time` objects
 
-This module provides things like `org.meeuw.time.UcertainInstant` and `org.meeuw.time.UncertainDuration', which are very similar to their `java.time` equivalents, but implement also `UncertainNumber`, so basically represents temporary objects _with an uncertaintiy_ in their value.
+This module provides things like `org.meeuw.time.UcertainInstant` and `org.meeuw.time.UncertainDuration', which are very similar to their `java.time` equivalents, but implement also `UncertainNumber`, so basically represents temporary objects _with an uncertainty_ in their value.
 
 == Clocks
 
@@ -464,7 +464,7 @@ So, it starts with specifying some absolute time, which can be dynamic (refer to
 
 If no <base time> is specified, that implies 'now'.
 
-Like so (where the current time is february 20, 2020)
+Like so (where the current time is February 20, 2020)
 |===
 | Input | Output | remarks
 
@@ -510,8 +510,8 @@ Expression in quotes are 'event searchers'. They are basically a way to jump to 
 
 SeasonsEventSearcher:: Astronomical equinoxes and solstices 'spring', 'summer', 'fall' and 'winter'.
 ChristianHolidaySearcher:: "Christmas Day", "Easter Sunday", "Easter Monday", "Ascension Day", "Pentecost Sunday" and "Pentecost Monday"
-WellknownHolidaySearcher:: Well known (american) holidays like "New Year's Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".
-WellknownIrregularHolidaySearcher:: Some (amarican) events that do not occur every year, like "Election day"
+WellknownHolidaySearcher:: Well known (American) holidays like "New Year's Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".
+WellknownIrregularHolidaySearcher:: Some (American) events that do not occur every year, like "Election day"
 
 This is a bit US-centric because this was borrowed from natty, but it is possible to add your own event searchers by implementing the `EventSearcher` interface and registering it as a service provider.
 
@@ -547,7 +547,7 @@ Also, inspired by natty, the 'event searchers' are added so the parser can also 
 I always thought that for the use cases I saw natty was not a very good fit, and my own, old, mmbase utility was nicer.
 
 - natty parses entire sentences, and tries to find all date-like strings in it, therefore, also it returns a complicated DateGroup object as a parse result
-- DynamicDateTime always parses to one ZonedDateTime, or gives an exeption
+- DynamicDateTime always parses to one ZonedDateTime, or gives an exception
 
 The idea is that this can be used in configurations or requests that are dependent on the current time. E.g., 'give me all objects created between 2 weeks ago' and 'now'.  Using the parser, it can support this for you. It'll parse ISO dates, but also 'now' and similar things.
 
@@ -1017,7 +1017,7 @@ Package structure was changed in `0.12.0`.
 
 For testing the structures and object of link:{gh}[mihxil-math], this provides 'property-based' testing, based on link:https://jqwik.net/[jqwik].
 
-This is provided as a set of interfaces named `...Theory`. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.
+This is provided as a set of interfaces named `...Theory`. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of data points or 'elements'.
 
 == Non math related theories
 
@@ -1025,6 +1025,7 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 
 
 |===
+
 |class | goal | (example) methods
 
 |link:{ght}org/meeuw/theories/BasicObjectTheory.java[BasicObjectTheory]
@@ -1047,7 +1048,6 @@ See link:{ght}org/meeuw/theories[`org.meeuw.theories`] for theories not directly
 | `charAtIsConsistentWithToStringCharAt`
   `subSequenceIsConsistent`
 |===
-
 
 :leveloffset!:
 
@@ -1166,7 +1166,7 @@ I'm maintaining this mainly as a hobby project.
 
 | 1.0
 | ?
-| Refactory physical units, to be agnostic about axes.
+| Refactor physical units, to be agnostic about axes.
 
 
 | 0.19
