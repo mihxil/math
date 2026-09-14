@@ -20,8 +20,7 @@ import org.meeuw.math.abstractalgebra.GenericGroupConfiguration;
 import org.meeuw.math.abstractalgebra.RandomConfiguration;
 import org.meeuw.math.numbers.*;
 import org.meeuw.math.streams.StreamUtils;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.*;
 import org.meeuw.math.text.spi.*;
 import org.meeuw.math.uncertainnumbers.CompareConfiguration;
 
@@ -76,7 +75,8 @@ module org.meeuw.math {
         MathContextConfiguration,
         RandomConfiguration,
         GenericGroupConfiguration,
-        CompareConfiguration
+        CompareConfiguration,
+        AngleConfiguration
         ;
     provides ToStringProvider with
         DecimalFormatToString,
