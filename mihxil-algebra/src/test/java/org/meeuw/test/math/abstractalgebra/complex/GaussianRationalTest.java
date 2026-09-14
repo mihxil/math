@@ -39,7 +39,7 @@ class GaussianRationalTest implements
     static final GaussianRationals structure = GaussianRationals.INSTANCE;
 
     @Test
-    public void string() {
+    void string() {
         assertThat(structure.zero().toString()).isEqualTo("0");
         assertThat(structure.one().toString()).isEqualTo("1");
         assertThat(structure.one().negation().toString()).isEqualTo("-1");
@@ -52,19 +52,19 @@ class GaussianRationalTest implements
     }
 
     @Test
-    public void isqr() {
+    void isqr() {
         assertThat(structure.i().sqr()).isEqualTo(structure.one().negation());
     }
 
     @Test
-    public void pow3Example() {
+    void pow3Example() {
         GaussianRational gaussian = GaussianRational.of(RationalNumber.of(-77, 100),
             RationalNumber.of(-75, 64));
         assertThat(gaussian.pow(-3).toString()).isEqualTo("⁴⁵⁵⁶³⁰⁴⁷²⁴⁷⁸⁷²⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉ + ⁷⁹⁷⁰⁶⁶⁴⁹⁶⁰⁰⁰⁰⁰⁰⁰⁰⁰⁰⁄₁₂₇₅₂₅₄₉₄₉₅₇₉₄₇₀₁₇₈₄₉i");
     }
 
     @Test
-    public void stream() {
+    void stream() {
         assertThat(structure.stream().limit(20)).map(AbstractComplexNumber::toString).containsExactly(
             "0",
             "1",
@@ -118,14 +118,12 @@ class GaussianRationalTest implements
     }
 
     @Test
-    public void parse() {
+    void parse() {
         assertThat(structure.fromString("i")).isEqualTo(structure.i());
         assertThat(structure.fromString("2i")).isEqualTo(structure.i().times(2));
         assertThat(structure.fromString("1 - 2i")).isEqualTo(structure.one().minus(structure.i().times(2)));
         assertThat(structure.fromString("1/2 - 2i")).isEqualTo(structure.one().dividedBy(2).minus(structure.i().times(2)));
 
         assertThat(structure.fromString("1 1/2 - 2i")).isEqualTo(structure.one().times(3).dividedBy(2).minus(structure.i().times(2)));
-
-
     }
 }
