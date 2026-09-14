@@ -8,7 +8,7 @@ I'm maintaining this mainly as a hobby project.
 
 | 1.0
 | ?
-| Refactory physical units, to be agnostic about axes.
+| Refactor physical units, to be agnostic about axes.
 
 
 | 0.19
