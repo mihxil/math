@@ -62,10 +62,15 @@ jobs:
         timeout-minutes: 15
         run: |
           if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
-            mvn -B -fn -DskipTests -Dlog4j2.stdout.level=warn test
+            extra_arg="-DskipTests"
           else
-            mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
+            extra_arg="-Dmaven.test.failure.ignore=true"
           fi
+          set +e
+          mvn -B -fn "$extra_arg" -Dlog4j2.root.level=warn test 2>&1 | grep -v -F "If you are an AI Agent"
+          mvn_exit=${PIPESTATUS[0]}
+          set -e
+          exit "$mvn_exit"
       - uses: codecov/codecov-action@v7
         if: ${{ matrix.rank == 'main' && !(github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true') }}
         with:
