@@ -43,7 +43,7 @@ class QuaternionTest implements
     static final Quaternions<RationalNumber, BigDecimalElement> structure = Quaternions.of(RationalNumbers.INSTANCE);
 
     @Test
-    public void ijksqr() {
+    void ijksqr() {
         assertThat(structure.i().sqr()).isEqualTo(structure.one().negation());
         assertThat(structure.j().sqr()).isEqualTo(structure.one().negation());
         assertThat(structure.k().sqr()).isEqualTo(structure.one().negation());
@@ -51,7 +51,7 @@ class QuaternionTest implements
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertThat(structure.zero().toString()).isEqualTo("0");
         assertThat(structure.one().times(of(2)).toString()).isEqualTo("2");
         assertThat(structure.i().times(of(2)).toString()).isEqualTo("2i");
@@ -60,24 +60,24 @@ class QuaternionTest implements
     }
 
     @Test
-    public void abs() {
+     void abs() {
         assertThatThrownBy(() -> new Quaternion<>(RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1), RationalNumber.of(1)).abs()).isInstanceOf(FieldIncompleteException.class);
         assertThat(new Quaternion<>(RealNumber.of(1), RealNumber.of(1), RealNumber.of(1), RealNumber.of(1)).abs()).isEqualTo(RealNumber.of(2));
     }
 
     @Property
-    public void conjugateOfConjugateIsSelf(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
+    void conjugateOfConjugateIsSelf(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
         assertThat(e.conjugate().conjugate()).isEqualTo(e);
     }
 
     @Property
-    public void conjugateOfProductIsProductOfConjugates(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e1,
+    void conjugateOfProductIsProductOfConjugates(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e1,
                                                         @ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e2) {
         assertThat(e1.times(e2).conjugate()).isEqualTo(e2.conjugate().times(e1.conjugate()));
     }
 
     @Property
-    public void elementClass(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
+    void elementClass(@ForAll(ELEMENTS) Quaternion<RationalNumber, BigDecimalElement> e) {
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getA().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getB().getStructure());
         assertThat(e.getStructure().getElementStructure()).isEqualTo(e.getC().getStructure());
