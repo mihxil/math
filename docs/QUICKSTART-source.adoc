@@ -6,7 +6,7 @@
 
 The core of this project is quite abstract and more or less theoretical. But here are some handy things in this.
 
-NOTE: examples in this section use java 25's link:https://openjdk.org/jeps/512[compact source files]
+NOTE: examples in this section use java 25's link:https://openjdk.org/jeps/512[compact source files]. The library itself is still compatible with java 17.
 
 == statistics
 
