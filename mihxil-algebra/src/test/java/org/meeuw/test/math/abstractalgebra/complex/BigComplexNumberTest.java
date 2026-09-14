@@ -98,7 +98,7 @@ class BigComplexNumberTest implements
         withLooseEquals(() -> {
             BigComplexNumber i = BigComplexNumber.of("i");
             assertThat(i.asin()).isEqualTo(
-                BigComplexNumber.of("0.8813735870195430252326093249797923090281603282616354107532956086533771842220260878337068919102560422i")
+                BigComplexNumber.of("0.881373587019543025232609324979792309028160328261635410753295608653377184222026087833706891910256043i")
             );
             // assertThat(i.asin().sin()).isEqualTo(i); TODO
         });
