@@ -50,8 +50,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
 public class RealField
     extends AbstractAlgebraicStructure<RealNumber>
     implements CompleteScalarField<RealNumber>,
-    MetricSpace<RealNumber, RealNumber>
-   {
+    MetricSpace<RealNumber, RealNumber> {
 
     public static final RealField INSTANCE = new RealField();
 

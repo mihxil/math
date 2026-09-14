@@ -45,7 +45,17 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
 
 
     public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> RegularPolygon<C, C> withCircumScribedRadius(int n, E radius) {
-        return new RegularPolygon<>(n, radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()), radius.getStructure().zero().complete());
+        return new RegularPolygon<>(n,
+            radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()), radius.getStructure().zero().complete()
+        );
+    }
+
+    public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> RegularPolygon<E, C> withCircumScribedRadiusFloor(int n, E radius) {
+
+        return new RegularPolygon<>(n,
+            radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()).floor().approx(radius.getStructure()),
+            radius.getStructure().zero()
+        );
     }
 
     public E size() {

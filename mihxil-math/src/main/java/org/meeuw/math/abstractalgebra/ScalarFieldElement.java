@@ -43,8 +43,15 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extend
 
     @SuppressWarnings("unchecked")
     default C complete() {
+        Math.floor(1);
         return getStructure().complete((E) this);
     }
+
+
+    /**
+     * the largest (closest to positive infinity) value that less than or equal and is equal to a mathematical integer.
+     */
+    E floor();
 
     default <A extends ScalarFieldElement<A, C>> A approx(ScalarField<A, C> field) {
         return field.approx(complete());

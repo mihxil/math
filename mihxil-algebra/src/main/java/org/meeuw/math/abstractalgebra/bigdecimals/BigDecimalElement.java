@@ -288,6 +288,11 @@ public class BigDecimalElement implements
     }
 
     @Override
+    public BigDecimalElement floor() {
+        return BigDecimalElement.of(value.setScale(0, RoundingMode.FLOOR));
+    }
+
+    @Override
     public BigDecimalElement dividedBy(@NotZero BigInteger divisor) {
         BigDecimal bd = new BigDecimal(divisor);
         UncertainNumber<BigDecimal> newValue = operations().divide(value, bd);

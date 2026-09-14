@@ -46,8 +46,6 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
     SignedNumberTheory<RationalNumber> {
 
 
-
-
     @Test
     void string() {
         assertThat(of(1).toString()).isEqualTo("1");
@@ -64,7 +62,16 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
     void approx() {
         assertThat(INSTANCE.approx(BigDecimalElement.of(new BigDecimal("1.25"))))
             .isEqualTo(of(5, 4));
+        assertThat(INSTANCE.approx(BigDecimalElement.of(new BigDecimal("100.0"))))
+            .isEqualTo(of(100));
     }
+
+    @Test
+    void floor() {
+        assertThat(RationalNumber.of(5, 4).floor()).isEqualTo(RationalNumber.of(1));
+        assertThat(RationalNumber.of(-5, 4).floor()).isEqualTo(RationalNumber.of(0));
+    }
+
 
     @Test
     void adjugate() {

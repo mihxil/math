@@ -534,4 +534,8 @@ public class DoubleElement
         }
     }
 
+    @Override
+    public DoubleElement floor() {
+        return DoubleElement.of(Math.floor(doubleValue()));
+    }
 }

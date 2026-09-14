@@ -102,6 +102,13 @@ public abstract class AbstractStatisticalDouble
         return copy().divide(divisor);
     }
 
+
+    @Override
+    public RealNumber floor() {
+        return copy().floor();
+    }
+
+
     @Override
     public SELF negation() {
         return times(-1);

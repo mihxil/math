@@ -77,8 +77,10 @@ public class RationalNumber extends Number
 
     public static RationalNumber of(BigDecimal bigDecimal) {
         bigDecimal = bigDecimal.stripTrailingZeros();
-        BigInteger denominator = BigInteger.TEN.pow(bigDecimal.scale());
-        return of(bigDecimal.scaleByPowerOfTen(bigDecimal.scale()).toBigIntegerExact(),  denominator);
+        if (bigDecimal.scale() < 0) {
+            return of(bigDecimal.unscaledValue().multiply(BigInteger.TEN.pow(-bigDecimal.scale())));
+        }
+        return of(bigDecimal.unscaledValue(), BigInteger.TEN.pow(bigDecimal.scale()));
     }
 
     RationalNumber(@NonNull BigInteger numerator, @NonNull @NotZero BigInteger denominator) throws InvalidElementCreationException {
@@ -143,6 +145,11 @@ public class RationalNumber extends Number
     @Override
     public boolean isZero() {
         return numerator.equals(BigInteger.ZERO);
+    }
+
+    @Override
+    public RationalNumber floor() {
+        return RationalNumber.of(numerator.divide(denominator));
     }
 
     @Override

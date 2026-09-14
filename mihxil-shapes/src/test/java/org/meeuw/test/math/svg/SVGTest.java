@@ -57,7 +57,7 @@ public class SVGTest {
     public void regularPolygons(int n ) throws Exception {
 
         RegularPolygon<RationalNumber, BigDecimalElement> polygon =
-            new RegularPolygon<>(n, RationalNumber.of(100));
+            RegularPolygon.withCircumScribedRadiusFloor(n, RationalNumber.of(100));
 
         var document = default2DDocument()
             .withSize(size)
