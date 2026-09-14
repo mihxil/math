@@ -1,93 +1,93 @@
-<svg height="205.0" width="205.0" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(102.5,102.5)">
+<svg height="206" width="206" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(103,103)">
         <g id="grid">
             <!--Grid-->
-            <line stroke="#00ff00" stroke-width="0.2" x1="0" x2="0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="10.0" x2="10.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-10.0" x2="-10.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="20.0" x2="20.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-20.0" x2="-20.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="30.0" x2="30.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-30.0" x2="-30.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="40.0" x2="40.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-40.0" x2="-40.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="50.0" x2="50.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-50.0" x2="-50.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="60.0" x2="60.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-60.0" x2="-60.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="70.0" x2="70.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-70.0" x2="-70.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="80.0" x2="80.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-80.0" x2="-80.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="90.0" x2="90.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-90.0" x2="-90.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="100.0" x2="100.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-100.0" x2="-100.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="110.0" x2="110.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-110.0" x2="-110.0" y1="-102.5" y2="102.5"/>
-            <line stroke="#00ff00" stroke-width="0.2" x1="-102.5" x2="102.5" y1="0" y2="0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="10.0" y2="10.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-10.0" y2="-10.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="20.0" y2="20.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-20.0" y2="-20.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="30.0" y2="30.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-30.0" y2="-30.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="40.0" y2="40.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-40.0" y2="-40.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="50.0" y2="50.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-50.0" y2="-50.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="60.0" y2="60.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-60.0" y2="-60.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="70.0" y2="70.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-70.0" y2="-70.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="80.0" y2="80.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-80.0" y2="-80.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="90.0" y2="90.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-90.0" y2="-90.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="100.0" y2="100.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-100.0" y2="-100.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="110.0" y2="110.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-110.0" y2="-110.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="120.0" y2="120.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-120.0" y2="-120.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="130.0" y2="130.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-130.0" y2="-130.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="140.0" y2="140.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-140.0" y2="-140.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="150.0" y2="150.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-150.0" y2="-150.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="160.0" y2="160.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-160.0" y2="-160.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="170.0" y2="170.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-170.0" y2="-170.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="180.0" y2="180.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-180.0" y2="-180.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="190.0" y2="190.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-190.0" y2="-190.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="200.0" y2="200.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-200.0" y2="-200.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="210.0" y2="210.0"/>
-            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-102.5" x2="102.5" y1="-210.0" y2="-210.0"/>
+            <line stroke="#00ff00" stroke-width="0.2" x1="0" x2="0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="10.0" x2="10.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-10.0" x2="-10.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="20.0" x2="20.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-20.0" x2="-20.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="30.0" x2="30.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-30.0" x2="-30.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="40.0" x2="40.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-40.0" x2="-40.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="50.0" x2="50.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-50.0" x2="-50.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="60.0" x2="60.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-60.0" x2="-60.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="70.0" x2="70.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-70.0" x2="-70.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="80.0" x2="80.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-80.0" x2="-80.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="90.0" x2="90.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-90.0" x2="-90.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="100.0" x2="100.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-100.0" x2="-100.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="110.0" x2="110.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-110.0" x2="-110.0" y1="-103.0" y2="103.0"/>
+            <line stroke="#00ff00" stroke-width="0.2" x1="-103.0" x2="103.0" y1="0" y2="0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="10.0" y2="10.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-10.0" y2="-10.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="20.0" y2="20.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-20.0" y2="-20.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="30.0" y2="30.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-30.0" y2="-30.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="40.0" y2="40.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-40.0" y2="-40.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="50.0" y2="50.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-50.0" y2="-50.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="60.0" y2="60.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-60.0" y2="-60.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="70.0" y2="70.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-70.0" y2="-70.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="80.0" y2="80.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-80.0" y2="-80.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="90.0" y2="90.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-90.0" y2="-90.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="100.0" y2="100.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-100.0" y2="-100.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="110.0" y2="110.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-110.0" y2="-110.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="120.0" y2="120.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-120.0" y2="-120.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="130.0" y2="130.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-130.0" y2="-130.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="140.0" y2="140.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-140.0" y2="-140.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="150.0" y2="150.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-150.0" y2="-150.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="160.0" y2="160.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-160.0" y2="-160.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="170.0" y2="170.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-170.0" y2="-170.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="180.0" y2="180.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-180.0" y2="-180.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="190.0" y2="190.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-190.0" y2="-190.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="200.0" y2="200.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-200.0" y2="-200.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="210.0" y2="210.0"/>
+            <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-210.0" y2="-210.0"/>
         </g>
         <g>
-            <polygon fill="none" points="6.123233995736767E-15,-100.00000000000001 86.60254037844388,49.99999999999999 -86.60254037844386,50.00000000000004" stroke="black" stroke-width="1"/>
+            <polygon fill="none" points="-8.915354559766114E-100,-99.88159656980525 86.5,49.94079828490263 -86.5,49.94079828490263" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
-            <circle cx="6.123233995736767E-15" cy="-100.00000000000001" fill="#ff0000" r="1.1"/>
-            <!--Inscribed circle of {3}, size: 173.21-->
-            <circle fill="none" r="50.000000000000014" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed circle of {3}, size: 173.21-->
-            <circle fill="none" r="100.00000000000001" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
-            <!--Circumscribed rectangle of {3}, size: 173.21-->
-            <rect fill="none" height="150.00000000000006" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="173.20508075688775" x="-86.60254037844388" y="-100.00000000000001"/>
+            <circle cx="-8.915354559766114E-100" cy="-99.88159656980525" fill="#ff0000" r="1.1"/>
+            <!--Inscribed circle of {3}, size: 173-->
+            <circle fill="none" r="49.94079828490263" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <!--Circumscribed circle of {3}, size: 173-->
+            <circle fill="none" r="99.88159656980525" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
+            <!--Circumscribed rectangle of {3}, size: 173-->
+            <rect fill="none" height="149.82239485470788" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="173.0" x="-86.5" y="-99.88159656980525"/>
         </g>
     </g>
     <g>
         <text fill="blue" font-size="4.0" id="info" x="0" y="0">
-            <tspan dy="4.0" x="0">{3}, size: 173.21</tspan>
-            <tspan dy="4.0" x="0">area: 12990.38</tspan>
-            <tspan dy="4.0" x="0">perimeter: 519.62</tspan>
-            <tspan dy="4.0" x="0">⬚: Rectangle{173.21x150.00} at (7·10⁻¹⁵,-25.00)</tspan>
-            <tspan dy="4.0" x="0">◌: Circle{100.00}</tspan>
+            <tspan dy="4.0" x="0">{3}, size: 173</tspan>
+            <tspan dy="4.0" x="0">area: 12959.6</tspan>
+            <tspan dy="4.0" x="0">perimeter: 519</tspan>
+            <tspan dy="4.0" x="0">⬚: 173x149.8</tspan>
+            <tspan dy="4.0" x="0">◌: 99.9</tspan>
             <tspan dy="4.0" x="0"># edges: 3</tspan>
             <tspan dy="4.0" x="0"># vertices: 3</tspan>
         </text>
