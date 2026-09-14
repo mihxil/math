@@ -867,7 +867,7 @@ Your browser does not support the video tag.
 <div class="sect2">
 <h3 id="_uncertain_java_time_objects">3.1. Uncertain <code>java.time</code> objects</h3>
 <div class="paragraph">
-<p>This module provides things like <code>org.meeuw.time.UcertainInstant</code> and <code>org.meeuw.time.UncertainDuration', which are very similar to their `java.time</code> equivalents, but implement also <code>UncertainNumber</code>, so basically represents temporary objects <em>with an uncertaintiy</em> in their value.</p>
+<p>This module provides things like <code>org.meeuw.time.UcertainInstant</code> and <code>org.meeuw.time.UncertainDuration', which are very similar to their `java.time</code> equivalents, but implement also <code>UncertainNumber</code>, so basically represents temporary objects <em>with an uncertainty</em> in their value.</p>
 </div>
 </div>
 <div class="sect2">
@@ -926,7 +926,7 @@ Your browser does not support the video tag.
 <p>If no &lt;base time&gt; is specified, that implies 'now'.</p>
 </div>
 <div class="paragraph">
-<p>Like so (where the current time is february 20, 2020)</p>
+<p>Like so (where the current time is February 20, 2020)</p>
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
@@ -1069,11 +1069,11 @@ Your browser does not support the video tag.
 </dd>
 <dt class="hdlist1">WellknownHolidaySearcher</dt>
 <dd>
-<p>Well known (american) holidays like "New Year&#8217;s Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".</p>
+<p>Well known (American) holidays like "New Year&#8217;s Day", "Independence Day", "Labor Day", "Columbus Day", "Veterans Day" and "Thanksgiving".</p>
 </dd>
 <dt class="hdlist1">WellknownIrregularHolidaySearcher</dt>
 <dd>
-<p>Some (amarican) events that do not occur every year, like "Election day"</p>
+<p>Some (American) events that do not occur every year, like "Election day"</p>
 </dd>
 </dl>
 </div>
@@ -1250,7 +1250,7 @@ Your browser does not support the video tag.
 <p>natty parses entire sentences, and tries to find all date-like strings in it, therefore, also it returns a complicated DateGroup object as a parse result</p>
 </li>
 <li>
-<p>DynamicDateTime always parses to one ZonedDateTime, or gives an exeption</p>
+<p>DynamicDateTime always parses to one ZonedDateTime, or gives an exception</p>
 </li>
 </ul>
 </div>
@@ -1848,7 +1848,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <p>For testing the structures and object of <a href="https://github.com/mihxil/math/">mihxil-math</a>, this provides 'property-based' testing, based on <a href="https://jqwik.net/">jqwik</a>.</p>
 </div>
 <div class="paragraph">
-<p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of datapoints ore 'elements'.</p>
+<p>This is provided as a set of interfaces named <code>&#8230;&#8203;Theory</code>. Tests can implement these interfaces, and all contracts are tested. This normally requires the tests to implement a set of data points or 'elements'.</p>
 </div>
 <div class="sect2">
 <h3 id="_non_math_related_theories">8.1. Non math related theories</h3>
@@ -1861,14 +1861,12 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <col style="width: 33.3333%;">
 <col style="width: 33.3334%;">
 </colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">class</th>
-<th class="tableblock halign-left valign-top">goal</th>
-<th class="tableblock halign-left valign-top">(example) methods</th>
-</tr>
-</thead>
 <tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">goal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(example) methods</p></td>
+</tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><a href="https://github.com/mihxil/math/blob/main/mihxil-theories/src/main/java/org/meeuw/theories/BasicObjectTheory.java">BasicObjectTheory</a></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Tests basic properties of any java object, mainly consistency of <code>equals</code> and <code>hashCode</code></p></td>
@@ -2624,7 +2622,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 </td>
 <td class="content">
 <div class="paragraph">
-<p>This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minute sin the browser. It runs in under 2 seconds in pure java.</p>
+<p>This runs webassembly, so it is considerably slower than a pure java version. It is still fast enough for demo purposes. But e.g. the 175000 considerations to be made for 5 numbers '4 7 7 7 8' will cost several minutes in the browser. It runs in under 2 seconds in pure java.</p>
 </div>
 </td>
 </tr>
@@ -2968,7 +2966,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="sect2">
 <h3 id="demo_dynamicdate">10.3. Dynamic date parsing</h3>
 <div class="paragraph">
-<p>The <a href="https://mihxil.github.io/math/#_dynamic_date_time_parsing"><code>mihxil-time</code></a> module contain a 'dynamic date parser. I dusted this of from old <a href="https://www.mmbase.org">mmbase</a> code.</p>
+<p>The <a href="https://mihxil.github.io/math/#_dynamic_date_time_parsing"><code>mihxil-time</code></a> module contains a 'dynamic date parser. I dusted this off from old <a href="https://www.mmbase.org">mmbase</a> code.</p>
 </div>
 <form id="dynamicdate" class="demo">
   <label for="dynamicdate_toparse">String to parse:</label> <input type="text" id="dynamicdate_toparse"  list="dynamicdate_toparse-examples" value="" />
@@ -3113,7 +3111,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">1.0</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Refactory physical units, to be agnostic about axes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Refactor physical units, to be agnostic about axes.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">0.19</p></td>
