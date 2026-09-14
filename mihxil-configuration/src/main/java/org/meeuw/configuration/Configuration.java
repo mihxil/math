@@ -17,10 +17,14 @@ package org.meeuw.configuration;
 
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
+import lombok.extern.java.Log;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static org.meeuw.configuration.ConfigurationService.newConfigurationMap;
@@ -79,6 +83,12 @@ public class Configuration implements Iterable<ConfigurationAspect> {
         ).build();
     }
 
+    /**
+     * Returns the configuration aspects associated with the given type.
+     *
+     * @param clazz the type for which to find associated aspects
+     * @return the associated configuration aspects
+     */
     public List<ConfigurationAspect> getConfigurationAspectsAssociatedWith(Class<?> clazz) {
         return map.values().stream()
             .filter(aspect -> aspect.associatedWith().stream().anyMatch(clazz::isAssignableFrom))
@@ -117,9 +127,15 @@ public class Configuration implements Iterable<ConfigurationAspect> {
      * Builder pattern for {@link Configuration}.
      */
     @SuppressWarnings("UnusedReturnValue")
+    @Log
     public static class Builder {
         private final FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration;
 
+        /**
+         * Creates a builder backed by the given configuration map.
+         *
+         * @param configuration the configuration aspects to initialize the builder with
+         */
         public Builder(FixedSizeMap<Class<? extends ConfigurationAspect>, ConfigurationAspect> configuration) {
             this.configuration = configuration;
         }
@@ -141,11 +157,69 @@ public class Configuration implements Iterable<ConfigurationAspect> {
             return this;
         }
 
+        /**
+         * Configures an aspect by invoking one of its single-argument wither methods. This makes it possible
+         * to (optionally) configure an aspect without the dependency. Used in {code org.meeuw.jupiter.SetNumberConfiguration}
+         * to configure aspects which may be available, but not necessarily.
+         *
+         * @param aspectClass the fully qualified name of the configuration aspect class
+         * @param method the wither method to invoke
+         * @param value the value to pass to the method
+         * @return this builder
+         */
+        public Builder configure(String aspectClass, String method, Object value) {
+            try {
+                Class<ConfigurationAspect> configurationAspectClass = (Class<ConfigurationAspect>) Class.forName(aspectClass);
+                var unary = new UnaryOperator<ConfigurationAspect>() {
+                    @Override
+                    public ConfigurationAspect apply(ConfigurationAspect configurationAspect) {
+                        Method[] methods = configurationAspectClass.getDeclaredMethods();
+                        ConfigurationAspect e = configurationAspect;
+                        Object effectiveValue = value;
+                        for (Method m : methods) {
+                            if (m.getName().equals(method) && m.getParameterCount() == 1 && m.getReturnType().equals(e.getClass())) {
+                                try {
+                                    if (Enum.class.isAssignableFrom(m.getParameterTypes()[0]) && value instanceof CharSequence) {
+                                        effectiveValue = Enum.valueOf((Class<Enum>)m.getParameterTypes()[0], value.toString());
+                                    }
+                                    e = (ConfigurationAspect) m.invoke(configurationAspect, effectiveValue);
+                                    break;
+                                } catch (IllegalAccessException | InvocationTargetException ex) {
+                                    log.log(Level.WARNING, ex.getMessage(), ex);
+                                }
+                            }
+                        }
+                        return e;
+
+                    }
+                };
+                configure(configurationAspectClass, unary);
+            } catch (ClassNotFoundException e) {
+                log.log(Level.WARNING, e.getMessage(), e);
+
+            }
+            return this;
+        }
+
+        /**
+         * Replaces a configuration aspect with the given value.
+         *
+         * @param <E> the type of the configuration aspect
+         * @param value the replacement aspect value
+         * @return this builder
+         */
         public <E extends ConfigurationAspect> Builder aspectValue(E value) {
             configuration.put(value.getClass(), value);
             return this;
         }
 
+        /**
+         * Replaces a configuration aspect with a newly constructed default instance.
+         *
+         * @param <E> the type of the configuration aspect
+         * @param clazz the class of the aspect to reset
+         * @return this builder
+         */
         @SneakyThrows
         public <E extends ConfigurationAspect> Builder aspectDefault(Class<E> clazz) {
             configuration.put(clazz, clazz.getDeclaredConstructor().newInstance());
@@ -153,6 +227,11 @@ public class Configuration implements Iterable<ConfigurationAspect> {
         }
 
 
+        /**
+         * Resets every configured aspect to its default instance.
+         *
+         * @return this builder
+         */
         public Builder defaults() {
             for (Class<? extends ConfigurationAspect> c : configuration.keySet()) {
                 aspectDefault(c);
@@ -160,6 +239,11 @@ public class Configuration implements Iterable<ConfigurationAspect> {
             return this;
         }
 
+        /**
+         * Creates an immutable configuration from the currently configured aspects.
+         *
+         * @return the assembled configuration
+         */
         public Configuration build() {
             return new Configuration(configuration);
         }

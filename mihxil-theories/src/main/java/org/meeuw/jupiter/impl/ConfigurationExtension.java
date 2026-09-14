@@ -15,8 +15,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.*;
 
 @Log
 public class ConfigurationExtension implements
@@ -99,15 +98,17 @@ public class ConfigurationExtension implements
 
     private static ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
-
             SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
                 SetNumberConfiguration.class);
             if (numberConfiguration != null) {
                 log.info("applying " + numberConfiguration);
                 return
-                    ConfigurationService.setConfiguration(builder -> builder.configure(NumberConfiguration.class, config ->
-                        config
-                            .withMaximalPrecision(numberConfiguration.maxPrecision())));
+                    ConfigurationService.setConfiguration(builder ->
+                        builder.configure(NumberConfiguration.class,
+                            config ->
+                                config.withMaximalPrecision(numberConfiguration.maxPrecision()))
+                            .configure("org.meeuw.math.text.configuration.AngleConfiguration", "withUnit", numberConfiguration.angles())
+                    );
             }
         }
         return null;
