@@ -1691,17 +1691,16 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.jupiter.SetNumberConfiguration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealNumber</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVGDocument</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.UncertaintyConfiguration</span>;
 
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.abstractalgebra.reals.RealField.element</span>;
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.defaultSVG</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.math.svg.SVGDocument.default2DDocument</span>;
+
 
 
 ....
@@ -1711,9 +1710,10 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="annotation">@ValueSource</span>(ints = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>, <span class="integer">20</span>})
 <span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
-    RegularPolygon&lt;RealNumber, RealNumber&gt; polygon = RegularPolygon.withCircumScribedRadius(n, element(<span class="float">100.0</span>));
+    RegularPolygon&lt;RationalNumber, BigDecimalElement&gt; polygon =
+        <span class="keyword">new</span> RegularPolygon&lt;&gt;(n, RationalNumber.of(<span class="integer">100</span>));
 
-    SVGDocument document = defaultSVG()
+    <span class="type">var</span> document = default2DDocument()
         .withSize(size)
         .addGrid(b -&gt; b.spacing(spacing))
         .addInfo()
@@ -1732,12 +1732,13 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rotatedPolygon() <span class="directive">throws</span> <span class="exception">Exception</span> {
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,   <span class="string"><span class="delimiter">&quot;</span><span class="content">rotated-3-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(defaultSVG()
+        SVG.marshal(default2DDocument()
             .withSize(size)
             .addGrid(b -&gt; b.spacing(spacing))
             .addInfo()
             .addRegularPolygon(
-                RegularPolygon.withCircumScribedRadius(<span class="integer">3</span>, element(size.width().doubleValue() / <span class="integer">2</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>))),
+                <span class="keyword">new</span> RegularPolygon&lt;&gt;(<span class="integer">3</span>, element(size.width().doubleValue() / <span class="integer">2</span>))
+                    .rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>))),
                 s -&gt; s
                     .circumscribedCircle(<span class="predefined-constant">true</span>)
                     .circumscribedRectangle(<span class="predefined-constant">true</span>)
@@ -1762,9 +1763,12 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    <span class="predefined-type">Rectangle</span>&lt;RealNumber, RealNumber&gt; rectangle = <span class="keyword">new</span> <span class="predefined-type">Rectangle</span>&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">170.0</span>)).rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
+    RotatedRectangle&lt;RationalNumber, BigDecimalElement&gt; rectangle = <span class="keyword">new</span> RotatedRectangle&lt;&gt;(
+        RationalNumber.of(<span class="integer">100</span>),
+        RationalNumber.of(<span class="integer">170</span>))
+        .rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
 
-    SVGDocument svg = defaultSVG()
+    <span class="type">var</span> svg = default2DDocument()
         .withSize(size)
         .addGrid(b -&gt; b.spacing( spacing))
         .addInfo()
@@ -1781,11 +1785,11 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
-        SVG.marshal(defaultSVG()
+        SVG.marshal(default2DDocument()
             .withSize(size)
             .addGrid(b -&gt; b.spacing(spacing))
             .addInfo()
-            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(element(<span class="float">100.0</span>)), s -&gt; s
+            .addCircle(<span class="keyword">new</span> Circle&lt;&gt;(RationalNumber.of(<span class="integer">100</span>)), s -&gt; s
                 .circumscribedRectangle(<span class="predefined-constant">true</span>)
                 .circumscribedRectangleAttributes(e -&gt; {
                     e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">stroke</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">red</span><span class="delimiter">&quot;</span></span>);
@@ -1800,9 +1804,11 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@Test</span>
 <span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    Ellipse&lt;RealNumber, RealNumber&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(element(<span class="float">100.0</span>), element(<span class="float">80.0</span>), element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
+    Ellipse&lt;RationalNumber, BigDecimalElement&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(
+        RationalNumber.of(<span class="integer">100</span>),RationalNumber.of (<span class="integer">80</span>),
+        element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
 
-    SVGDocument document = defaultSVG()
+    <span class="type">var</span> document = default2DDocument()
         .withSize(size)
         .addGrid(b -&gt; b.spacing(spacing))
         .addInfo()
