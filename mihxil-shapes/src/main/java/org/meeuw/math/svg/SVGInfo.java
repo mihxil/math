@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.shapes.Shape;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -37,9 +38,13 @@ public class SVGInfo<
         info.setAttribute("y", String.valueOf(0));
         info.setAttribute("font-size", svgDocument.textSize() +"");
         info.setAttribute("fill", "blue");
-        try (var reset = ConfigurationService.withAspect(NumberConfiguration.class, (nc) -> {
-            return nc.withMaximalPrecision(1);
-        })) {
+        try (var reset = ConfigurationService.setConfiguration((b) -> b
+            .configure(NumberConfiguration.class, (nc) ->
+                nc.withMaximalPrecision(1))
+            .configure(RationalNumberConfiguration.class, rc ->
+                rc.withMode(RationalNumberConfiguration.Mode.DECIMAL_WITH_REPEAT)
+            )
+        )) {
             for (Shape<E, C, ?, ?> shape : svgDocument.shapes) {
                 fill(shape, svgDocument, info);
             }

@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 // tag::imports[]
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.shapes.dim2.*;
@@ -28,6 +29,7 @@ import static org.meeuw.math.svg.SVGDocument.default2DDocument;
 // end::imports[]
 
 @Log
+@SetNumberConfiguration
 public class SVGTest {
 
     Rectangle<RationalNumber, BigDecimalElement> size = Rectangle.of(206, 206);
