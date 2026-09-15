@@ -122,6 +122,8 @@ public abstract class PhysicalNumber
         return copy(get().times(multiplier), units);
     }
 
+
+
     @Override
     public PhysicalNumber times(PhysicalNumber multiplier) {
         return copy(
@@ -305,6 +307,11 @@ public abstract class PhysicalNumber
     @Override
     public String getUnitsAsString() {
         return FormatService.toString(units);
+    }
+
+    @Override
+    public String toDebugString() {
+        return toString();
     }
 
 }
