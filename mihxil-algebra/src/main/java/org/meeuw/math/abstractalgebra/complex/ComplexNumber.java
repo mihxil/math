@@ -93,4 +93,9 @@ public class ComplexNumber extends CompleteComplexNumber<ComplexNumber, RealNumb
         return INSTANCE;
     }
 
+    @Override
+    public String toDebugString() {
+        return Uncertain.super.toDebugString();
+    }
+
 }

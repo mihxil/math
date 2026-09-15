@@ -206,4 +206,10 @@ public interface UncertainNumber<N extends Number>
         return getValue() + getConfidenceInterval().toString();
     }
 
+    /**
+     */
+    default String toDebugString() {
+        return toStringWithUncertainty();
+    }
+
 }

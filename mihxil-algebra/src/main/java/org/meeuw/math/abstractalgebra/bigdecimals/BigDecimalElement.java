@@ -421,5 +421,9 @@ public class BigDecimalElement implements
     public String toString() {
         return FormatService.toString(this);
     }
+    @Override
+    public String toDebugString() {
+        return UncertainNumber.super.toDebugString();
+    }
 
 }

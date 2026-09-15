@@ -493,6 +493,7 @@ public class DoubleElement
      * For debugging this thing it is handier to just see the internal values exactly.
      * @since 0.19
      */
+    @Override
     public String toDebugString() {
         return value + " " + (isExact() ? " (exact)" :  (TextUtils.PLUSMIN + " " + uncertainty));
     }

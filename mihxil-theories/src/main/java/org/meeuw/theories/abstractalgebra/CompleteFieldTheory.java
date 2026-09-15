@@ -102,7 +102,8 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             cosAcos = cos.acos();
             E cos2 = cosAcos.cos();
             assertThat(cos2).withFailMessage(
-                String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s", e, cos, cosAcos, cos2, e, cos)
+                String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s",
+                    e.toDebugString(), cos.toDebugString(), cosAcos.toDebugString(), cos2.toDebugString(), e.toDebugString(), cos.toDebugString())
 
             ).isEqTo(cos);
         } catch(IllegalLogarithmException ie) {
