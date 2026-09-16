@@ -51,8 +51,35 @@ public class BigDecimalOperations implements UncertaintyNumberOperations<BigDeci
         if (uncertainty.signum() == 0) {
             return BigDecimal.ZERO;
         }
-        return uncertainty.divide(value.abs().add(uncertainty), uncertaintyContext()).stripTrailingZeros();
+        BigDecimal absoluteValue = value.abs();
+        if (absoluteValue.signum() == 0) {
+            return BigDecimal.ONE;
+        }
+        long valueMagnitude = (long) absoluteValue.precision() - absoluteValue.scale();
+        long uncertaintyMagnitude = (long) uncertainty.precision() - uncertainty.scale();
+        int precision = uncertaintyContext().getPrecision();
 
+        if (valueMagnitude - uncertaintyMagnitude > precision + 1L) {
+            return fractionalUncertaintyWhenValueDominates(absoluteValue, uncertainty);
+        }
+        if (uncertaintyMagnitude - valueMagnitude > precision + 1L) {
+            return BigDecimal.ONE;
+        }
+        return uncertainty.divide(absoluteValue.add(uncertainty), uncertaintyContext()).stripTrailingZeros();
+    }
+
+    private BigDecimal fractionalUncertaintyWhenValueDominates(
+        BigDecimal absoluteValue,
+        BigDecimal uncertainty
+    ) {
+        BigDecimal significand = new BigDecimal(uncertainty.unscaledValue())
+            .divide(new BigDecimal(absoluteValue.unscaledValue()), uncertaintyContext());
+        long power = (long) absoluteValue.scale() - uncertainty.scale();
+        long scale = (long) significand.scale() - power;
+        if (scale > Integer.MAX_VALUE || scale < Integer.MIN_VALUE) {
+            return BigDecimal.ZERO;
+        }
+        return significand.scaleByPowerOfTen((int) power).stripTrailingZeros();
     }
 
     @Override
