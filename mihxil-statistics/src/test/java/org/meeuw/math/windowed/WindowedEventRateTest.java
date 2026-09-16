@@ -57,12 +57,12 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> {
 
     @AfterAll
-    public static void shutdown() {
+    static void shutdown() {
         WindowedEventRate.shutdown();
     }
 
     @Test
-    public void testBuckets() {
+    void buckets() {
         final TestClock clock = new TestClock();
         WindowedEventRate rate = WindowedEventRate.builder()
             .bucketCount(5)
@@ -99,7 +99,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
 
     @Test
     @Timeout(value = 10, unit = TimeUnit.SECONDS)
-    public void test() throws InterruptedException {
+    void test() throws InterruptedException {
         final List<Double> consumer = new ArrayList<>();
         final List<Windowed.Event> events = new CopyOnWriteArrayList<>();
         final TestClock clock = new TestClock();
@@ -179,7 +179,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void testAccuracyDuringWarmup() {
+    void accuracyDuringWarmup() {
 
         final TestClock clock = new TestClock();
 
@@ -222,7 +222,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void builder() {
+    void builder() {
 
         WindowedEventRate rate = WindowedEventRate.builder()
             .window(Duration.ofMinutes(5))
@@ -232,7 +232,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void builder2() {
+    void builder2() {
         WindowedEventRate rate = WindowedEventRate.builder()
             .window(Duration.ofMinutes(5))
             .build();
@@ -241,7 +241,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void constructor() {
+    void constructor() {
         try (WindowedEventRate rate = new WindowedEventRate(TimeUnit.MINUTES)) {
             assertThat(rate.getBucketCount()).isEqualTo(100);
             assertThat(rate.getTotalDuration()).isEqualTo(Duration.ofMinutes(100));
@@ -249,7 +249,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void string() {
+    void string() {
         // tag::eventrate[]
         ConfigurationService.withAspect(UncertaintyConfiguration.class, e -> e.withNotation(PARENTHESES),
             () -> {
@@ -274,7 +274,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void reset() {
+    void reset() {
         TestClock clock = new TestClock();
         try (WindowedEventRate rate = WindowedEventRate.builder()
             .window(Duration.ofSeconds(100))
@@ -348,5 +348,3 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
         });
     }
 }
-
-
