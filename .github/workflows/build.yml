@@ -17,6 +17,18 @@ on:
         type: boolean
         required: false
         default: false
+      log_level:
+        description: Log level
+        type: choice
+        options:
+          - TRACE
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+        required: false
+        default: 'WARN' # the logging is quite verbose, and the default level makes the githyb action output unwieldy
+
 
 
 concurrency:
@@ -78,7 +90,8 @@ jobs:
           else
             extra_arg="-Dmaven.test.failure.ignore=true"
           fi
-          maven_args=(-B "$extra_arg")
+          log_level="${{ github.event.inputs.log_level || 'WARN' }}"
+          maven_args=(-B "$extra_arg" "-Dlog4j2.root.level=$log_level")
           if [[ "${{ matrix.rank }}" == "main" && "${{ github.ref }}" == "refs/heads/main" ]]; then
             maven_args+=(-Pdeploy deploy)
           else
