@@ -8,29 +8,30 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.jupiter.Rounding;
+import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.exceptions.FieldIncompleteException;
+import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.shapes.dim2.RotatedRectangle;
 
 import static java.lang.Math.PI;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
+@SetNumberConfiguration
 public class RectangleTest implements FigureTheory<RealNumber, RealNumber, RotatedRectangle<RealNumber, RealNumber>> {
 
-    RotatedRectangle<RealNumber, RealNumber> rectangle = new RotatedRectangle<>(
+    Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
         exactly(1024d), exactly(576d));
 
     ModuloField field = ModuloField.of(2002927);
 
-    RotatedRectangle<RationalNumber, BigDecimalElement> rationalRectangle = RotatedRectangle.of(1024, 576);
+    Rectangle<RationalNumber, BigDecimalElement> rationalRectangle = Rectangle.of(1024, 576);
 
     @Test
     public void aspectRatio() {
@@ -57,13 +58,13 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
         assertThat(rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle(
         ).shape().aspectRatio()).isEqualTo("9:16");
 
+        assertThat( rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle().shape()).hasToString("Rectangle{576.000000000000x1024.000000000000}");
+
     }
 
     @Test
     public void circumscribedRectangleDegrees() {
         assertThat(rectangle.rotate( exactly(Math.toRadians(90))).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
-
-        assertThat(rationalRectangle.circumscribedRectangle(Math.toRadians(90)).shape().aspectRatio()).isEqualTo("9:16");
     }
 
 
@@ -89,8 +90,8 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
 
     @Test
     public void diagonal() {
-        assertThat(rectangle.diagonal().eq(element(1174.8838240438924))).isTrue();
-        assertThatThrownBy(() -> rationalRectangle.diagonal()).isInstanceOf(FieldIncompleteException.class);
+        assertThatAlgebraically(rectangle.diagonal()).isEqTo(element(1174.8838240438924));
+        assertThatAlgebraically(rationalRectangle.diagonal()).isEqTo(BigDecimalElement.of("1174.883824043892435103470049197259043278656528446924789769363975841904927049450497573774326053702080"));
     }
 
     @Test

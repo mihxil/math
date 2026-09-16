@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Min;
 
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
@@ -80,17 +79,6 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
 
     public LocatedFigure<E, C, Rectangle<E, C>> exactCircumscribedRectangle() {
         return LocatedFigure.atOrigin(this);
-    }
-
-    public LocatedFigure<E, C, RotatedRectangle<E, C>> circumscribedRectangle(@radians double angle) {
-
-        double sin = Math.sin(angle);
-        double cos = Math.cos(angle);
-        return atOrigin(new RotatedRectangle<>(
-            width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs())
-            )
-        );
     }
 
     @Override

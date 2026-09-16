@@ -86,25 +86,12 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
         assert sin != null;
         E cos = field.approx(angle.cos());
         assert cos != null;
-        return atOrigin(new RotatedRectangle<>(
+        return atOrigin(new Rectangle<>(
             width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs()),
-            field.zero()
+            width.times(sin).abs().plus(height.times(cos).abs())
         ));
 
     }
-
-    public LocatedFigure<E, C, RotatedRectangle<E, C>> circumscribedRectangle(@radians double angle) {
-
-        double sin = Math.sin(angle);
-        double cos = Math.cos(angle);
-        return atOrigin(new RotatedRectangle<>(
-            width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs()),
-            field().zero()
-        ));
-    }
-
 
     @Override
     public RotatedRectangle<C, C> complete() {
