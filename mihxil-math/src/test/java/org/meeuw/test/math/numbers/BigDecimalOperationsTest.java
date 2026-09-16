@@ -21,7 +21,7 @@ class BigDecimalOperationsTest {
 
     BigDecimalOperations operations = BigDecimalOperations.INSTANCE;
     @Test
-    public void uncertaintyContextTest() {
+    void uncertaintyContextTest() {
         operations.withUncertaintyContext(() -> {
             MathContext mc = MathContextConfiguration.get().getContext();
             assertThat(mc).isSameAs(MathContextConfiguration.get().getUncertaintyContext());
@@ -36,7 +36,7 @@ class BigDecimalOperationsTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"-200", "-150.5", "-2", "-0.5", "0", "0.5", "2", "150.5", "200"})
-    public void pow(String exp) {
+    void pow(String exp) {
         final BigDecimal value = new BigDecimal("200");
         final BigDecimal exponent = new BigDecimal(exp);
         final MathContext context = new MathContext(6);
@@ -62,21 +62,27 @@ class BigDecimalOperationsTest {
 
 
     @Test
-    public void testPowLargeNegative() {
+    void testPowLargeNegative() {
         BigDecimal pow = BigDecimalMath.pow(new BigDecimal("200"), new BigDecimal("-200"), new MathContext(6));
 
         assertThat(pow).isEqualTo("6.22302E-461");
-
-
     }
 
     @Test
-    public void testSqrt() {
+    void testSqrt() {
         BigDecimal sqrt = BigDecimalMath.sqrt(new BigDecimal("1.23e-160"), new MathContext(6));
 
         assertThat(sqrt).isEqualTo("1.10905E-80");
+    }
 
+    @Test
+    void fractionalUncertaintyWithExtremeScaleDifference() {
+        BigDecimal enormous = BigDecimal.ONE.scaleByPowerOfTen(2_000_000_000);
 
+        assertThat(operations.getFractionalUncertainty(enormous, BigDecimal.ONE))
+            .isEqualTo(BigDecimal.ONE.scaleByPowerOfTen(-2_000_000_000));
+        assertThat(operations.getFractionalUncertainty(BigDecimal.ONE, enormous))
+            .isEqualTo(BigDecimal.ONE);
     }
 
 

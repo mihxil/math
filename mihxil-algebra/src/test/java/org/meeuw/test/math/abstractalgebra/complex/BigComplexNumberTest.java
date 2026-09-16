@@ -48,17 +48,17 @@ class BigComplexNumberTest implements
     static final BigComplexNumbers structure = BigComplexNumbers.INSTANCE;
 
     @Test
-    public void isMultiplicativeSemiGroupElement() {
+    void isMultiplicativeSemiGroupElement() {
         BigComplexNumber cn = BigComplexNumber.of(of(1), of(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
     @Test
-    public void testOf() {
+    void testOf() {
         assertThat(BigComplexNumber.of(BigDecimalElement.ONE)).isEqualTo(BigComplexNumber.of(BigDecimalElement.ONE, BigDecimalElement.ZERO));
     }
 
     @Test
-    public void sqrt() {
+    void sqrt() {
         BigComplexNumber a = BigComplexNumber.of("0.93 - 0.24i");
         BigComplexNumber s = a.sqrt();
         log.info(SQRT.stringify(a) +  "=" + s);
@@ -68,7 +68,7 @@ class BigComplexNumberTest implements
     }
 
     @Test
-    public void tetration() {
+    void tetration() {
         withLooseEquals(() -> {
             BigComplexNumber i = BigComplexNumber.of( "i");
             assertThat(i.tetration(1)).isEqualTo(i);
@@ -96,7 +96,7 @@ class BigComplexNumberTest implements
     }
 
     @Test
-    public void asini() {
+    void asini() {
         withLooseEquals(() -> {
             BigComplexNumber i = BigComplexNumber.of("i");
             assertThat(i.asin()).isEqualTo(
@@ -107,7 +107,7 @@ class BigComplexNumberTest implements
     }
 
     @Test
-    public void asinexample() {
+    void asinexample() {
         withLooseEquals(() -> {
             BigComplexNumber ex = BigComplexNumber.of("0.4 + 0.3i");
             assertThat(ex.asin()).isEqualTo(
@@ -118,7 +118,7 @@ class BigComplexNumberTest implements
     }
 
     @Test
-    public void asinreal() {
+    void asinreal() {
         withLooseEquals(() -> {
             BigComplexNumber ex = BigComplexNumber.of("1");
             assertThat(ex.asin()).isEqualTo(
