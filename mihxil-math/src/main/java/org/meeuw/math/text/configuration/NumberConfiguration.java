@@ -102,9 +102,11 @@ public class NumberConfiguration implements ConfigurationAspect {
 
     @Override
     public String toString() {
+        String format = new DecimalFormatToString().toString(this.numberFormat)
+            .orElseGet(() -> "DecimalFormat(maximumFractionDigits=" + numberFormat.getMaximumFractionDigits() + ")");
         return new StringJoiner(", ", NumberConfiguration.class.getSimpleName() + "(", ")")
             .add("minimalExponent=" + minimalExponent)
-            .add("numberFormat=" + new DecimalFormatToString().toString(this.numberFormat).orElse(numberFormat.toString()))
+            .add("numberFormat=" + format)
             .toString();
     }
 }
