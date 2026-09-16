@@ -133,7 +133,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
     }
 
     @Property
-    default void one(@ForAll(STRUCTURE) MultiplicativeGroup<E> structure) {
+    default void oneIsSameAsUnity(@ForAll(STRUCTURE) MultiplicativeGroup<E> structure) {
         assertThat(structure.one()).isSameAs(structure.unity());
     }
 }

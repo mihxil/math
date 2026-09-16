@@ -27,10 +27,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  */
 @Log
 @Rounding
-public class DihedralGroupTest { // Group theory  is done in subclasses
+class DihedralGroupTest { // Group theory  is done in subclasses
 
     @Test
-    public void apply() {
+    void apply() {
         DihedralSymmetry r1 = DihedralSymmetry.r(1, 4);
         Vector2 v2 = r1.apply(Vector2.of(0.1, 1));
 
@@ -39,15 +39,15 @@ public class DihedralGroupTest { // Group theory  is done in subclasses
     }
 
     @Test
-    public void s() {
+    void s() {
         DihedralSymmetry s1 = DihedralSymmetry.s(1, 4);
         Vector2 v2 = s1.apply(Vector2.of(0.1, 1));
         log.info("" + v2);
         assertThat(v2.toString()).isEqualTo("(1, 0.1)");
-
     }
+
     @Test
-    public void illegal() {
+    void illegal() {
         DihedralGroup group = DihedralGroup.of(4);
         assertThatThrownBy(() ->
             group.s(4)
@@ -59,8 +59,6 @@ public class DihedralGroupTest { // Group theory  is done in subclasses
             group.r(-1)
         ).isInstanceOf(InvalidElementCreationException.class);
     }
-
-
 
 
     public static class D1Test implements GroupTheory<DihedralSymmetry> {
@@ -91,7 +89,6 @@ public class DihedralGroupTest { // Group theory  is done in subclasses
             return Arbitraries.of(DihedralGroup.of(4).stream().toList());
         }
     }
-
 
     public static class HeptagonSymmetryTests implements GroupTheory<DihedralSymmetry> {
         @Override

@@ -12,6 +12,7 @@ import net.jqwik.api.lifecycle.*;
 import org.junit.jupiter.api.extension.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
@@ -87,39 +88,50 @@ public class ConfigurationExtension implements
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
             log.fine(() -> "applying " + setUncertaintyConfiguration);
-            return  ConfigurationService.setConfiguration(builder ->
-                builder.configure(UncertaintyConfiguration.class, config ->
-                    config
-                        .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
-                        .withNotation(setUncertaintyConfiguration.notation())
-                        .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval())));
+            if (setUncertaintyConfiguration != null) {
+                return setUncertaintyConfiguration(setUncertaintyConfiguration);
+            }
         }
-        return null;
+        return setUncertaintyConfiguration(getAnnotation(ConfigurationExtension.class, SetUncertaintyConfiguration.class));
+    }
+
+    private static ConfigurationService.Reset setUncertaintyConfiguration(SetUncertaintyConfiguration setUncertaintyConfiguration) {
+        return ConfigurationService.setConfiguration(builder ->
+            builder.configure(UncertaintyConfiguration.class, config ->
+                config
+                    .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
+                    .withNotation(setUncertaintyConfiguration.notation())
+                    .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval())));
     }
 
     private static ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
                 SetNumberConfiguration.class);
-
-            return
-                ConfigurationService.setConfiguration(builder ->
-                        builder
-                            .configure(NumberConfiguration.class,
-                                config ->
-                                    config.withMaximalPrecision(numberConfiguration.maxPrecision()))
-                            .configure("org.meeuw.math.text.configuration.AngleConfiguration", "withUnit", numberConfiguration.angles())
-                            .configure("org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration", "withMode", numberConfiguration.rationals())
-                );
+            if (numberConfiguration != null) {
+                return setNumberConfiguration(numberConfiguration);
+            }
         }
-        return null;
+        return setNumberConfiguration(getAnnotation(Configuration.class, SetNumberConfiguration.class));
+    }
+
+    private static ConfigurationService.Reset setNumberConfiguration(SetNumberConfiguration numberConfiguration) {
+        return
+            ConfigurationService.setConfiguration(builder ->
+                builder
+                    .configure(NumberConfiguration.class,
+                        config ->
+                            config.withMaximalPrecision(numberConfiguration.maxPrecision()))
+                    .configure("org.meeuw.math.text.configuration.AngleConfiguration", "withUnit", numberConfiguration.angles())
+                    .configure("org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration", "withMode", numberConfiguration.rationals())
+            );
     }
 
     private static <A extends Annotation> A getAnnotation(AnnotatedElement annotatedElement, Class<A> annotation) {
         // Delegate to recursive implementation with a visited set to avoid cycles in meta-annotations
         A a = getAnnotation(annotatedElement, annotation, new HashSet<>());
         if (a == null) {
-            a = getAnnotation(ConfigurationExtension.class, annotation);
+            //a = getAnnotation(ConfigurationExtension.class, annotation);
             log.fine("applying default " + a);
         }
         return a;

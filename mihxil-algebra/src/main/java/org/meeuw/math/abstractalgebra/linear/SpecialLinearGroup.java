@@ -97,7 +97,6 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
         return super.stream();
     }
 
-
     @Override
     public SpecialLinearMatrix<E> nextRandom(Random random) {
         E[][] matrix = ArrayUtils.newSquareMatrix(elementStructure.getElementClass(), dimension);

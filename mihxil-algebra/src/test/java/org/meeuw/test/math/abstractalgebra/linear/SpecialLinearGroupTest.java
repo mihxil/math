@@ -31,6 +31,8 @@ import org.meeuw.math.abstractalgebra.integers.IntegerElement;
 import org.meeuw.math.abstractalgebra.integers.Integers;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearGroup;
 import org.meeuw.math.abstractalgebra.linear.SpecialLinearMatrix;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.NotASquareException;
@@ -87,7 +89,18 @@ public class SpecialLinearGroupTest {
     }
 
     @Test
-    public void stream() {
+    void parsesMatrixToStringUsingElementStructure() {
+        SpecialLinearGroup<RationalNumber> group = SpecialLinearGroup.of(2, RationalNumbers.INSTANCE);
+        SpecialLinearMatrix<RationalNumber> matrix = group.newElement(
+            RationalNumber.of(1, 2), RationalNumber.of(-3, 4),
+            RationalNumber.of(2, 3), RationalNumber.ONE
+        );
+
+        assertThat(group.fromString(matrix.toString())).isEqualTo(matrix);
+    }
+
+    @Test
+    void stream() {
         SpecialLinearGroup<IntegerElement> e = SpecialLinearGroup.of(3, Integers.INSTANCE);
         Set<SpecialLinearMatrix<IntegerElement>> collect = new HashSet<>();
         int limit = 100_000;
@@ -106,7 +119,7 @@ public class SpecialLinearGroupTest {
     }
 
     @Test
-    public void validation() throws NoSuchMethodException {
+    void validation() throws NoSuchMethodException {
 
         try (ValidatorFactory factory = Validation
             .byDefaultProvider()

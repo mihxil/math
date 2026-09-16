@@ -143,6 +143,13 @@ public abstract class AbstractGeneralLinearGroup<
         return "GL" + TextUtils.subscript(dimension) + "(" + elementStructure.toString() + ")";
     }
 
+    @Override
+    public M fromString(String value) {
+        E[][] matrix = elementStructure.newMatrix(dimension, dimension);
+        ArrayUtils.fromString(value, matrix, elementStructure::fromString);
+        return of(matrix);
+    }
+
     protected static <E extends RingElement<E>> E[][] one(Ring<E> elementStructure, int dimension) {
         E[][] values = elementStructure.newMatrix(dimension, dimension);
         for (int i = 0; i < dimension; i++){
