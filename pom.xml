@@ -394,7 +394,7 @@
                 </goals>
                 <configuration>
                   <target>
-                    <move file="${basedir}/src/main/java/module-info.java" preservelastmodified="true" failonerror="false" tofile="${basedir}/target/module-info.ignore" />
+                    <move file="${basedir}/src/main/java/module-info.java" preservelastmodified="true" failonerror="false" quiet="true" tofile="${basedir}/target/module-info.ignore" />
                   </target>
                 </configuration>
               </execution>
@@ -406,7 +406,7 @@
                 </goals>
                 <configuration>
                   <target>
-                    <move file="${basedir}/target/module-info.ignore" preservelastmodified="true" failonerror="false" tofile="${basedir}/src/main/java/module-info.java" />
+                    <move file="${basedir}/target/module-info.ignore" preservelastmodified="true" failonerror="false" quiet="true" tofile="${basedir}/src/main/java/module-info.java" />
                   </target>
                 </configuration>
               </execution>
@@ -418,7 +418,7 @@
                 </goals>
                 <configuration>
                   <target>
-                     <copy file="${basedir}/src/main/java/module-info.java" preservelastmodified="true" failonerror="false" todir="${delombok.output}" />
+                     <copy file="${basedir}/src/main/java/module-info.java" preservelastmodified="true" failonerror="false" quiet="true" todir="${delombok.output}" />
                   </target>
                 </configuration>
               </execution>
