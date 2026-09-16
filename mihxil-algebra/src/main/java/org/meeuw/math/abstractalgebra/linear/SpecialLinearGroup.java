@@ -80,6 +80,12 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
         return m;
     }
 
+    @Override
+    protected boolean isElement(SpecialLinearMatrix<E> matrix) {
+        E determinant = matrix.determinant();
+        return determinant.eq(elementStructure.one()) || determinant.eq(elementStructure.one().negation());
+    }
+
 
     @Override
     public String toString() {
@@ -115,4 +121,3 @@ public class SpecialLinearGroup<E extends RingElement<E>> extends
         return of(matrix);
     }
 }
-
