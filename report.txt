@@ -1,0 +1,5 @@
+::error file=org.meeuw.physics.UnitedStatesCustomaryUnitsTest::failures: 1	errors: 0	org.meeuw.physics.UnitedStatesCustomaryUnitsTest
+::error file=org.meeuw.physics.UnitsTest::failures: 5	errors: 0	org.meeuw.physics.UnitsTest
+::error file=org.meeuw.math.uncertainnumbers.UncertainNumberTest::failures: 2	errors: 0	org.meeuw.math.uncertainnumbers.UncertainNumberTest
+::error file=org.meeuw.math.statistics.StatisticalDoubleTest::failures: 1	errors: 0	org.meeuw.math.statistics.StatisticalDoubleTest
+::error file=org.meeuw.math.statistics.StatisticalLongTest::failures: 1	errors: 0	org.meeuw.math.statistics.StatisticalLongTest
