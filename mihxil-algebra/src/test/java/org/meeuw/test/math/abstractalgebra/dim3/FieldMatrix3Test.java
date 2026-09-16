@@ -26,9 +26,9 @@ import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3;
 import org.meeuw.math.abstractalgebra.dim3.FieldMatrix3Group;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
-import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.ReciprocalException;
+import org.meeuw.theories.abstractalgebra.MultiplicativeGroupTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -43,7 +43,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<RationalNumber, BigDecimalElement>> {
 
     @Test
-    public void illegal() {
+    void illegal() {
         Assertions.assertThatThrownBy(() -> {
             FieldMatrix3.of(
                 of(3), of(0), of(2),
@@ -64,7 +64,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Test
-    public void adjugate() {
+    void adjugate() {
         FieldMatrix3<RationalNumber, BigDecimalElement> fm = FieldMatrix3.of(
             of(3), of(0), of(2),
             of(2), of(0), of(-2),
@@ -80,7 +80,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Test
-    public void determinant() {
+    void determinant() {
         FieldMatrix3<RationalNumber, BigDecimalElement> fm = FieldMatrix3.of(
             of(2), of(-3), of(1),
             of(2), of(0), of(-1),
@@ -92,7 +92,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Test
-    public void illegalReciprocal() {
+    void illegalReciprocal() {
 
         FieldMatrix3<RationalNumber, BigDecimalElement> fm = new FieldMatrix3<>(
             new RationalNumber[][]{
@@ -106,7 +106,7 @@ class FieldMatrix3Test implements MultiplicativeGroupTheory<FieldMatrix3<Rationa
     }
 
     @Test
-    public void determinantOfIdentity() {
+    void determinantOfIdentity() {
         Assertions.assertThat(FieldMatrix3Group.of(RationalNumbers.INSTANCE).one()
             .determinant()).isEqualTo(of(1));
     }

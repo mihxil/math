@@ -504,7 +504,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 element
             );
         } catch (NotParsable.NotImplemented notImplemented) {
-            log().info("NotParsable: %s".formatted(notImplemented.getMessage()));
+            log().info("NotParsable: %s: '%s'".formatted(notImplemented.getMessage(), notImplemented.getValue()));
         }
     }
 

@@ -133,9 +133,11 @@ public final class FormatService {
             })
             .filter(Objects::nonNull)
             .findFirst()
-            .orElseThrow(() ->
-                new NotParsable.NotImplemented("Could not parse to " + clazz
-                    + " (with " + getFormat(clazz, configuration).toList() + ")", source)
+            .orElseThrow(() -> {
+                List<Format> list = getFormat(clazz, configuration).toList();
+                return new NotParsable.NotImplemented("Could not parse to " + clazz
+                    +  (!list.isEmpty() ? " (with  " + list + ")" : ""), source);
+                }
             );
     }
 

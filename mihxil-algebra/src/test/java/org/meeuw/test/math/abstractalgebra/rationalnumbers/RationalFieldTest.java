@@ -41,6 +41,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  */
 @Log
 @SetUncertaintyConfiguration
+//@SetNumberConfiguration
 class RationalFieldTest implements FieldTheory<RationalNumber>,
     ScalarTheory<RationalNumber>,
     SignedNumberTheory<RationalNumber> {
