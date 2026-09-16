@@ -32,9 +32,8 @@ import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.SignedNumber;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.math.uncertainnumbers.*;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
 
 /**
  * <p>
@@ -63,18 +62,18 @@ public abstract class PhysicalNumber
     Comparable<PhysicalNumber>,
     SignedNumber<PhysicalNumber>,
     WithUnits,
-    Supplier<RealNumber> {
+    Supplier<UncertainReal> {
 
-    protected final Supplier<RealNumber> wrapped;
+    protected final Supplier<UncertainReal> wrapped;
 
     @Getter
     protected final Units units;
 
-    PhysicalNumber(@NonNull RealNumber wrapped, @NonNull Units units) {
+    PhysicalNumber(@NonNull UncertainReal wrapped, @NonNull Units units) {
         this(() -> wrapped, units);
     }
 
-    PhysicalNumber(@NonNull Supplier<RealNumber> wrapped, @NonNull Units units) {
+    PhysicalNumber(@NonNull Supplier<UncertainReal> wrapped, @NonNull Units units) {
         this.units = units;
         this.wrapped = wrapped;
     }
@@ -122,8 +121,6 @@ public abstract class PhysicalNumber
         return copy(get().times(multiplier), units);
     }
 
-
-
     @Override
     public PhysicalNumber times(PhysicalNumber multiplier) {
         return copy(
@@ -132,12 +129,12 @@ public abstract class PhysicalNumber
         );
     }
 
-    public PhysicalNumber times(RealNumber multiplier) {
+    public PhysicalNumber times(UncertainReal multiplier) {
         return copy(get().times(multiplier), units);
     }
 
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
+    @NonAlgebraic(reason = NonAlgebraic.Reason.SOME)
     public PhysicalNumber dividedBy(PhysicalNumber  divisor) throws ReciprocalException {
         return times(divisor.reciprocal());
     }
@@ -157,7 +154,7 @@ public abstract class PhysicalNumber
      * @return  a new physical number which is the sum of this one and another one.
      */
     @Override
-    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="dimensions must match")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="dimensions must match")
     public PhysicalNumber plus(PhysicalNumber summand) throws DimensionsMismatchException {
         summand = summand.toUnits(this.getUnits());
         return copy(get().plus(summand.get()), Units.forAddition(units, summand.getUnits()));
@@ -183,7 +180,7 @@ public abstract class PhysicalNumber
         if (getUnits().equals(target)) {
             return this;
         }
-        RealNumber factor = getUnits().conversionFactor(target);
+        UncertainReal factor = getUnits().conversionFactor(target);
         return copy(get().times(factor), target);
     }
 
@@ -204,7 +201,7 @@ public abstract class PhysicalNumber
      * @param subtrahend to physical number to subtract from this one
      * @return the current number minus the subtrahend
      */
-    @NonAlgebraic(reason = NonAlgebraic.Reason.MANY_ELEMENTS, value="dimensions must match")
+    @NonAlgebraic(reason = NonAlgebraic.Reason.ELEMENTS, value="dimensions must match")
     public PhysicalNumber minus(PhysicalNumber subtrahend) throws DimensionsMismatchException {
         return plus(subtrahend.negation());
     }
@@ -214,10 +211,10 @@ public abstract class PhysicalNumber
         return copy(get().plus(summand), units);
     }
 
-    protected abstract PhysicalNumber copy(RealNumber wrapped, Units units);
+    protected abstract PhysicalNumber copy(UncertainReal wrapped, Units units);
 
     @Override
-    public @org.checkerframework.checker.nullness.qual.NonNull PhysicalNumbers getStructure() {
+    public PhysicalNumbers getStructure() {
         return PhysicalNumbers.INSTANCE;
     }
 
@@ -253,7 +250,7 @@ public abstract class PhysicalNumber
             return  false;
         }
         PhysicalNumber sameUnits = of.toUnits(units);
-        return get().eq(sameUnits.get(), ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
+        return get().eq(sameUnits.get(), ConfigurationService.getConfigurationAspect(ConfidenceIntervalConfiguration.class).getSds());
     }
 
     @Override
@@ -277,7 +274,7 @@ public abstract class PhysicalNumber
     }
 
     @Override
-    public RealNumber get() {
+    public UncertainReal get() {
         return wrapped.get();
     }
 
@@ -307,11 +304,6 @@ public abstract class PhysicalNumber
     @Override
     public String getUnitsAsString() {
         return FormatService.toString(units);
-    }
-
-    @Override
-    public String toDebugString() {
-        return toString();
     }
 
 }

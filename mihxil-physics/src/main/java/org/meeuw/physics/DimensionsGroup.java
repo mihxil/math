@@ -27,12 +27,13 @@ import org.meeuw.math.abstractalgebra.*;
  */
 @Example(MultiplicativeAbelianGroup.class)
 @Singleton
-public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnalysis>
+public class DimensionsGroup<D extends Dimension>
+    extends AbstractAlgebraicStructure<DimensionalAnalysis<D>>
     implements
-    MultiplicativeAbelianGroup<DimensionalAnalysis>,
-    Streamable<DimensionalAnalysis> {
+    MultiplicativeAbelianGroup<DimensionalAnalysis<D>>,
+    Streamable<DimensionalAnalysis<?>> {
 
-    private static final DimensionalAnalysis ONE = new DimensionalAnalysis();
+    private static final DimensionalAnalysis<D> ONE = new DimensionalAnalysis();
 
     public static final DimensionsGroup INSTANCE = new DimensionsGroup();
 
@@ -41,7 +42,7 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnaly
     }
 
     @Override
-    public DimensionalAnalysis one() {
+    public DimensionalAnalysis<D> one() {
         return ONE;
     }
 
@@ -51,8 +52,8 @@ public class DimensionsGroup extends AbstractAlgebraicStructure<DimensionalAnaly
     }
 
     @Override
-    public Stream<DimensionalAnalysis> stream() {
-        return StreamUtils.allIntArrayStream(Dimension.values().length)
+    public Stream<DimensionalAnalysis<?>> stream() {
+        return StreamUtils.allIntArrayStream(SIDimension.values().length)
             .map(
                 DimensionalAnalysis::new
             );
