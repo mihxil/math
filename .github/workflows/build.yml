@@ -75,13 +75,14 @@ jobs:
           else
             extra_arg="-Dmaven.test.failure.ignore=true"
           fi
+          maven_args=(-B "$extra_arg")
           if [[ "${{ matrix.rank }}" == "main" && "${{ github.ref }}" == "refs/heads/main" ]]; then
-            target_arg="-Pdeploy deploy"
+            maven_args+=(-Pdeploy deploy)
           else
-            target_arg="test"
+            maven_args+=(test)
           fi
           set +e
-          mvn -B -fn "$extra_arg" "$target_arg"  2>&1 | awk '
+          mvn "${maven_args[@]}" 2>&1 | awk '
             /If you are an AI Agent/ { skip_blank_line = 1; next }
             skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
             { skip_blank_line = 0; print }
