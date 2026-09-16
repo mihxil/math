@@ -30,7 +30,7 @@ import static org.meeuw.math.ArrayUtils.rotate;
 public class ArrayUtilsTest {
 
     @Test
-    public void minorOfSquare() {
+    void minorOfSquare() {
         String[][] matrix = new String[][] {
             new String[] {"a", "b", "c"},
             new String[] {"d", "e", "f"},
@@ -53,7 +53,7 @@ public class ArrayUtilsTest {
 
 
     @Test
-    public void minorOfNonSquare() {
+    void minorOfNonSquare() {
         String[][] matrix = new String[][] {
             new String[] {"a", "b", "c"},
             new String[] {"d", "e", "f"}
@@ -67,7 +67,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void invalidMinor() {
+    void invalidMinor() {
         String[][] matrix = new String[][] {
             new String[] {"a", "b", "c"},
             new String[] {"d", "e", "f"},
@@ -80,7 +80,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void rotate1() {
+    void rotate1() {
         byte[] a = new byte[] {(byte) 1, (byte) 2, 3};
         byte[] b = rotate(a, 1);
         assertThat(b).containsExactly(3, 1, 2);
@@ -92,7 +92,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void byteEquals() {
+    void byteEquals() {
         assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -2})).isTrue();
         assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -3})).isFalse();
         assertThat(ArrayUtils.equals(new byte[] {1, 2, -2}, new byte[]{1, 2, -2, -3})).isFalse();
@@ -102,7 +102,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void removeTrailingZeros() {
+    void removeTrailingZeros() {
         assertThat(ArrayUtils.removeTrailingZeros(new byte[] {1, 2, 0, 0})).containsExactly(1, 2);
         assertThat(ArrayUtils.removeTrailingZeros(new byte[] {1, 2, 3})).containsExactly(1, 2, 3);
         assertThat(ArrayUtils.removeTrailingZeros(new byte[] {0, 0, 0})).isEmpty();
@@ -112,7 +112,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void removeTrailingIf() {
+    void removeTrailingIf() {
         Integer[] arr = {1, 2, 0, 0};
         assertThat(ArrayUtils.removeTrailingIf(i -> i == 0, Integer.class, arr)).containsExactly(1, 2);
         Integer[] noTrail = {1, 2, 3};
@@ -122,21 +122,21 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void allEqualTo() {
+    void allEqualTo() {
         assertThat(ArrayUtils.allEqualTo(new byte[] {5, 5, 5}, (byte) 5)).isTrue();
         assertThat(ArrayUtils.allEqualTo(new byte[] {5, 5, 4}, (byte) 5)).isFalse();
         assertThat(ArrayUtils.allEqualTo(new byte[] {}, (byte) 5)).isTrue();
     }
 
     @Test
-    public void determinant2x2() {
+    void determinant2x2() {
         assertThat(ArrayUtils.determinant2x2(1, 2, 3, 4)).isEqualTo(1 * 4 - 2 * 3);
         assertThat(ArrayUtils.determinant2x2(2, 0, 0, 3)).isEqualTo(6.0);
         assertThat(ArrayUtils.determinant2x2(1, 1, 1, 1)).isEqualTo(0.0);
     }
 
     @Test
-    public void adjugate2x2() {
+    void adjugate2x2() {
         double[][] m = {{1, 2}, {3, 4}};
         double[][] adj = ArrayUtils.adjugate2x2(m);
         assertThat(adj[0][0]).isEqualTo(4.0);
@@ -146,7 +146,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void cloneMatrix() {
+    void cloneMatrix() {
         String[][] original = {{"a", "b"}, {"c", "d"}};
         String[][] clone = ArrayUtils.cloneMatrix(String.class, original);
         assertThat(clone).isNotSameAs(original);
@@ -156,7 +156,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void squareMatrix() {
+    void squareMatrix() {
         String[][] m = ArrayUtils.squareMatrix(String.class, "a", "b", "c", "d");
         assertThat(m).hasDimensions(2, 2);
         assertThat(m[0]).containsExactly("a", "b");
@@ -164,31 +164,40 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void toInverseByteArray() {
+    void toInverseByteArray() {
         int[] input = {1, 2, 3};
         byte[] result = ArrayUtils.toInverseByteArray(input);
         assertThat(result).containsExactly((byte) 3, (byte) 2, (byte) 1);
     }
 
     @Test
-    public void toArray() {
+    void toArray() {
         List<Integer> list = Arrays.asList(10, 20, 30);
         int[] result = ArrayUtils.toArray(list);
         assertThat(result).containsExactly(10, 20, 30);
     }
 
     @Test
-    public void rotate0() {
+    void rotate0() {
         byte[] a = new byte[] {1, 2, 3};
         assertThat(ArrayUtils.rotate(a, 0)).isSameAs(a);
         assertThat(ArrayUtils.rotate(a, 3)).isSameAs(a);
     }
 
     @Test
-    public void shuffleChangesOrder() {
+    void shuffleChangesOrder() {
         Integer[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
         Integer[] copy = arr.clone();
         ArrayUtils.shuffle(new Random(42), arr);
         assertThat(arr).containsExactlyInAnyOrder(copy);
+    }
+
+    @Test
+    void fromString() {
+        Integer[][] target = new Integer[3][3];
+        ArrayUtils.fromString("((1,2,3),(4,5,6),(7,8,9))", target, Integer::parseInt);
+        assertThat(target[0]).containsExactly(1,2,3);
+        assertThat(target[1]).containsExactly(4,5,6);
+        assertThat(target[2]).containsExactly(7,8,9);
     }
 }
