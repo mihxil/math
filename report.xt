@@ -1,0 +1,5 @@
+failures: 1	errors: 0	org.meeuw.physics.UnitedStatesCustomaryUnitsTest
+failures: 5	errors: 0	org.meeuw.physics.UnitsTest
+failures: 2	errors: 0	org.meeuw.math.uncertainnumbers.UncertainNumberTest
+failures: 1	errors: 0	org.meeuw.math.statistics.StatisticalDoubleTest
+failures: 1	errors: 0	org.meeuw.math.statistics.StatisticalLongTest
