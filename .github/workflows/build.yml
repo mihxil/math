@@ -57,6 +57,7 @@ jobs:
           cache: maven
       - name: Build with maven
         shell: bash
+        id: maven
         # allow the build step to fail (e.g. test failures) without failing the entire job
         continue-on-error: true
         timeout-minutes: 15
@@ -91,6 +92,7 @@ jobs:
         with:
           coverage: false
           determine_version: false
+          maven_outcome: ${{ steps.maven.outcome }}
 
 
   deploy:
