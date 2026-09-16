@@ -279,8 +279,8 @@
             <systemPropertyVariables>
               <log4j2.stdout.level>${log4j2.stdout.level}</log4j2.stdout.level>
               <log4j2.pattern>%d{HH:mm:ss.SS} %highlight{%5.5p}  %c{1}.%M	%m%n</log4j2.pattern>
-              <log4j2.jqwik.configuration>INFO</log4j2.jqwik.configuration>
-              <log4j2.jqwik.discovery>INFO</log4j2.jqwik.discovery>
+              <log4j2.jqwik.configuration>WARN</log4j2.jqwik.configuration>
+              <log4j2.jqwik.discovery>ERROR</log4j2.jqwik.discovery>
             </systemPropertyVariables>
             <properties>
               <configurationParameters>
