@@ -8,6 +8,8 @@ import org.meeuw.configuration.spi.AbstractToString;
 
 public class DecimalFormatToString extends AbstractToString<DecimalFormat> {
 
+    private static final int MAXIMUM_PATTERN_FRACTION_DIGITS = 10_000;
+
     public DecimalFormatToString() {
         super(DecimalFormat.class);
     }
@@ -16,7 +18,9 @@ public class DecimalFormatToString extends AbstractToString<DecimalFormat> {
     public Optional<String> toString(@Nullable Object value) {
         return Optional.ofNullable(value)
             .filter(v -> v instanceof DecimalFormat)
-            .map(o -> ((DecimalFormat)o ).toPattern());
+            .map(DecimalFormat.class::cast)
+            .filter(format -> format.getMaximumFractionDigits() <= MAXIMUM_PATTERN_FRACTION_DIGITS)
+            .map(DecimalFormat::toPattern);
     }
 
     @Override

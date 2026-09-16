@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.StringConversionService;
+import org.meeuw.math.numbers.DecimalFormatToString;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,5 +30,15 @@ public class ToStringTest {
         assertThat(StringConversionService.fromString("#0.#", DecimalFormat.class)).contains(new DecimalFormat("##.#"));
 
         assertThat(StringConversionService.fromString("#..#", DecimalFormat.class)).isEmpty();
+    }
+
+    @Test
+    public void decimalFormatWithUnboundedFractionDigits() {
+        DecimalFormat format = new DecimalFormat();
+        format.setMaximumFractionDigits(Integer.MAX_VALUE);
+
+        assertThat(new DecimalFormatToString().toString(format)).isEmpty();
+        assertThat(new NumberConfiguration().toString())
+            .contains("DecimalFormat(maximumFractionDigits=2147483647)");
     }
 }
