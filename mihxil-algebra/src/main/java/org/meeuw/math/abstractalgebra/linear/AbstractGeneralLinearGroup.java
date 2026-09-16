@@ -18,7 +18,6 @@ package org.meeuw.math.abstractalgebra.linear;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -31,7 +30,6 @@ import org.meeuw.math.streams.StreamUtils;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.validation.Square;
 
-import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.math.ArrayUtils.squareMatrix;
 import static org.meeuw.math.abstractalgebra.Cardinality.ALEPH_0;
 
@@ -45,9 +43,6 @@ public abstract class AbstractGeneralLinearGroup<
     implements MultiplicativeGroup<M>,
     Streamable<M>
 {
-    private static final System.Logger log = System.getLogger(AbstractGeneralLinearGroup.class.getName());
-
-
     @Getter
     protected final int dimension;
 
@@ -71,16 +66,8 @@ public abstract class AbstractGeneralLinearGroup<
     public Stream<M> stream() {
         if (elementStructure.getCardinality().isCountable()) {
             return StreamUtils.nCartesianStream(dimension * dimension, () -> ((Streamable<E>) elementStructure).stream())
-                .map(es -> {
-                    try {
-                        return newElement(es);
-                    } catch (InvalidElementCreationException ive) {
-                        log.log(DEBUG, () -> "Skipped " + ArrayUtils.toString(es) + ": " + ive.getMessage());
-                        return null;
-                    }
-                    }
-                )
-                .filter(Objects::nonNull);
+                .map(elements -> of(squareMatrix(elementStructure.getElementClass(), elements)))
+                .filter(this::isElement);
         } else {
             throw new NotStreamable("No streamable because cardinality of " + elementStructure + " > " + ALEPH_0);
         }
@@ -102,6 +89,10 @@ public abstract class AbstractGeneralLinearGroup<
             throw new InvalidElementCreationException("The matrix " + m + " is not invertible. Its determinant is zero");
         }
         return m;
+    }
+
+    protected boolean isElement(M matrix) {
+        return !matrix.determinant().eq(elementStructure.zero());
     }
 
     @Override
