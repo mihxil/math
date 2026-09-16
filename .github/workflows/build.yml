@@ -90,8 +90,8 @@ jobs:
       - uses: MMProgrami/after-maven-action@main
         id: after_maven
         with:
-          coverage: false
-          determine_version: false
+          coverage: true
+          determine_version: true
           maven_outcome: ${{ steps.maven.outcome }}
 
 
