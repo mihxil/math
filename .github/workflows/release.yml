@@ -36,13 +36,9 @@ jobs:
         run: |
           git config --global user.name 'github actions'
           git config --global user.email 'github@meeuw.org'
-          # Pass the same quoted arguments to both prepare and perform so the
-          # 'deploy' property is set for the underlying build. Keep -Ddeploy
-          # (property activation) as the workflow's comment indicates.
-          mvn --batch-mode -Darguments="-DskipTests -Ddeploy" -DpushChanges=false release:prepare
+          mvn --batch-mode -Darguments="-DskipTests -Pdeploy" -DpushChanges=false release:prepare
           git push --atomic -v --follow-tags
-          mvn --batch-mode -Darguments="-DskipTests -Ddeploy" release:perform
-        # use -D rather than -P because the 'no-deploy' profile is activated on !deploy
+          mvn --batch-mode -Darguments="-DskipTests -Pdeploy" release:perform
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
