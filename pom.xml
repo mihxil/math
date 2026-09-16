@@ -316,6 +316,10 @@
           <artifactId>maven-site-plugin</artifactId>
           <version>3.22.0</version>
         </plugin>
+        <plugin>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>3.2.8</version>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -328,7 +332,6 @@
         <plugins>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.2.8</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
