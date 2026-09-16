@@ -12,7 +12,6 @@ import net.jqwik.api.lifecycle.*;
 import org.junit.jupiter.api.extension.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
@@ -41,10 +40,10 @@ public class ConfigurationExtension implements
         Method m = context.getTestMethod().orElse(null);
         Class<?> clazz = context.getTestClass().orElse(null);
         context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
-            setUncertaintyConfiguration(m, clazz)
+            setUncertaintyConfiguration(m, clazz, ConfigurationExtension.class)
         );
         context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
-            setNumberConfiguration(m, clazz)
+            setNumberConfiguration(m, clazz, ConfigurationExtension.class)
         );
     }
 
@@ -92,7 +91,7 @@ public class ConfigurationExtension implements
                 return setUncertaintyConfiguration(setUncertaintyConfiguration);
             }
         }
-        return setUncertaintyConfiguration(getAnnotation(ConfigurationExtension.class, SetUncertaintyConfiguration.class));
+        return null;
     }
 
     private static ConfigurationService.Reset setUncertaintyConfiguration(SetUncertaintyConfiguration setUncertaintyConfiguration) {
@@ -112,7 +111,7 @@ public class ConfigurationExtension implements
                 return setNumberConfiguration(numberConfiguration);
             }
         }
-        return setNumberConfiguration(getAnnotation(Configuration.class, SetNumberConfiguration.class));
+        return null;
     }
 
     private static ConfigurationService.Reset setNumberConfiguration(SetNumberConfiguration numberConfiguration) {
