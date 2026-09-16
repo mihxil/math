@@ -76,14 +76,12 @@ jobs:
             extra_arg="-Dmaven.test.failure.ignore=true"
           fi
           if [[ "${{ matrix.rank }}" == "main" && "${{ github.ref }}" == "refs/heads/main" ]]; then
-            deploy_arg="-Ddeploy"
-            target="deploy"
+            target_arg="-Pdeploy deploy"
           else
-            deploy_arg=""
-            target="test"
+            target_arg="test"
           fi
           set +e
-          mvn -B -fn "$extra_arg" "$deploy_arg" -Dlog4j2.root.level=warn "$target" 2>&1 | awk '
+          mvn -B -fn "$extra_arg" "$target_arg"  2>&1 | awk '
             /If you are an AI Agent/ { skip_blank_line = 1; next }
             skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
             { skip_blank_line = 0; print }

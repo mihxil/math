@@ -25,6 +25,9 @@
     <module>mihxil-algebra</module>
     <module>mihxil-shapes</module>
     <module>mihxil-math-parser</module>
+    <module>mihxil-math-test</module>
+    <module>mihxil-demo</module>
+    <module>report-aggregation</module>
 
   </modules>
 
@@ -222,6 +225,29 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>agent</id>
+            <phase>test-compile</phase>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <append>true</append>
+            </configuration>
+          </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
         <version>2.21.0</version>
@@ -235,10 +261,6 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.16.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.4</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -300,59 +322,7 @@
 
   <profiles>
     <profile>
-      <!-- This profile is automatically activated when there is no 'deploy' property
-      A few extra modules are build during test, but these modules need not be deployed.
-      -->
-      <id>no-deploy</id>
-      <properties>
-        <log4j2.root.level>info</log4j2.root.level>
-      </properties>
-      <build>
-        <defaultGoal>clean test install</defaultGoal>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>agent</id>
-                <phase>test-compile</phase>
-                <goals>
-                  <goal>prepare-agent</goal>
-                </goals>
-                <configuration>
-                  <append>true</append>
-                </configuration>
-              </execution>
-              <execution>
-                <id>post-unit-test</id>
-                <phase>test</phase>
-                <goals>
-                  <goal>report</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-      <activation>
-        <property>
-          <name>!deploy</name>
-        </property>
-      </activation>
-      <modules>
-        <module>mihxil-math-test</module>
-        <module>mihxil-demo</module>
-        <module>report-aggregation</module>
-      </modules>
-    </profile>
-    <profile>
       <id>deploy</id>
-      <activation>
-        <property>
-          <name>deploy</name>
-        </property>
-      </activation>
       <build>
         <defaultGoal>deploy</defaultGoal>
         <plugins>
