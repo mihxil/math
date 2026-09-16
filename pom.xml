@@ -167,7 +167,7 @@
     <dependency>
       <groupId>nl.mmprogrami</groupId>
       <artifactId>setup-log4j2</artifactId>
-      <version>1.7</version>
+      <version>1.8-SNAPSHOT</version>
       <scope>test</scope>
       <classifier>test</classifier>
     </dependency>
@@ -257,6 +257,8 @@
             <systemPropertyVariables>
               <log4j2.stdout.level>${log4j2.stdout.level}</log4j2.stdout.level>
               <log4j2.pattern>%d{HH:mm:ss.SS} %highlight{%5.5p}  %c{1}.%M	%m%n</log4j2.pattern>
+              <log4j2.jqwik.configuration>INFO</log4j2.jqwik.configuration>
+              <log4j2.jqwik.discovery>INFO</log4j2.jqwik.discovery>
             </systemPropertyVariables>
             <properties>
               <configurationParameters>
