@@ -22,6 +22,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.meeuw.math.exceptions.InvalidElementException;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.validation.Square;
 
 import static java.lang.System.arraycopy;
@@ -332,6 +333,81 @@ public final class ArrayUtils {
             }
         }
         throw new IllegalArgumentException("At least one level should be non null");
+    }
+
+
+    public static <E> void fromString(String source, E[][] matrix, Function<String, E> elementFromString) {
+        List<String> rows = splitTopLevel(parenthesizedContent(source), source);
+        int dimension = matrix.length;
+        if (rows.size() != dimension) {
+            throw new NotParsable("Expected " + dimension + " rows", source);
+        }
+        for (int row = 0; row < dimension; row++) {
+            List<String> elements = splitTopLevel(parenthesizedContent(rows.get(row)), source);
+            if (elements.size() != dimension) {
+                throw new NotParsable("Expected " + dimension + " elements in row " + row, source);
+            }
+            for (int column = 0; column < dimension; column++) {
+                matrix[row][column] = elementFromString.apply(elements.get(column));
+            }
+        }
+    }
+
+    private static String parenthesizedContent(String value) {
+        if (value == null) {
+            throw new NotParsable("Expected a parenthesized matrix", null);
+        }
+        String trimmed = value.trim();
+        if (trimmed.length() < 2 || trimmed.charAt(0) != '(' || trimmed.charAt(trimmed.length() - 1) != ')') {
+            throw new NotParsable("Expected a parenthesized matrix", value);
+        }
+        int depth = 0;
+        for (int index = 0; index < trimmed.length(); index++) {
+            char character = trimmed.charAt(index);
+            if (character == '(') {
+                depth++;
+            } else if (character == ')') {
+                if (--depth < 0 || (depth == 0 && index != trimmed.length() - 1)) {
+                    throw new NotParsable("Unbalanced parentheses", value);
+                }
+            }
+        }
+        if (depth != 0) {
+            throw new NotParsable("Unbalanced parentheses", value);
+        }
+        return trimmed.substring(1, trimmed.length() - 1);
+    }
+
+    private static List<String> splitTopLevel(String value, String source) {
+        List<String> result = new ArrayList<>();
+        int depth = 0;
+        int start = 0;
+        for (int index = 0; index < value.length(); index++) {
+            char character = value.charAt(index);
+            if (character == '(') {
+                depth++;
+            } else if (character == ')') {
+                if (--depth < 0) {
+                    throw new NotParsable("Unbalanced parentheses", source);
+                }
+            } else if (character == ',' && depth == 0) {
+                addElement(result, value.substring(start, index), source);
+                start = index + 1;
+            }
+        }
+        if (depth != 0) {
+            throw new NotParsable("Unbalanced parentheses", source);
+        }
+        addElement(result, value.substring(start), source);
+        return result;
+    }
+
+    private static void addElement(List<String> elements, String value, String source) {
+        String trimmed = value.trim();
+        if (trimmed.isEmpty()) {
+            throw new NotParsable("Missing matrix element", source);
+        }
+        elements.add(trimmed);
     }
 
 
