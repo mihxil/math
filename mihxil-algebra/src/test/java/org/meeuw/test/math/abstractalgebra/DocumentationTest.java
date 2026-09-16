@@ -356,7 +356,9 @@ public class DocumentationTest {
     }
 
     protected void appendSpecials(List<String> builder, Class<?> target) {
-         for (Method m : target.getDeclaredMethods()) {
+         for (Method m : Arrays.stream(target.getDeclaredMethods())
+             .sorted(Comparator.comparing(Method::getName))
+             .toList()) {
              if (m.getParameterTypes().length == 0) {
                  if (AlgebraicElement.class.isAssignableFrom(m.getReturnType()) && ! AlgebraicStructure.class.isAssignableFrom(m.getReturnType())) {
                      String name = specialSpecials.getOrDefault(m.getName(), m.getName());
@@ -371,7 +373,9 @@ public class DocumentationTest {
          if (target.getSuperclass() != null) {
              appendSpecials(builder, target.getSuperclass());
          }
-         for (Class<?> i : target.getInterfaces()) {
+         for (Class<?> i : Arrays.stream(target.getInterfaces())
+             .sorted(Comparator.comparing(Class::getName))
+             .toList()) {
              if (! GroupAsElement.class.equals(i)) {
                  appendSpecials(builder, i);
              }
@@ -553,5 +557,4 @@ public class DocumentationTest {
         writer.write("}\n");
     }
 }
-
 
