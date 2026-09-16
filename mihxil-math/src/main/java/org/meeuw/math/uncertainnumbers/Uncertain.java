@@ -43,6 +43,12 @@ public interface Uncertain {
         return toString();
     }
 
+    /**
+     */
+    default String toDebugString() {
+        return toStringWithUncertainty();
+    }
+
 
 
 

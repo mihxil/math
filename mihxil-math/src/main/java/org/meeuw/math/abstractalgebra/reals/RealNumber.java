@@ -20,8 +20,7 @@ import org.meeuw.math.Synonym;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.text.TextUtils;
-import org.meeuw.math.uncertainnumbers.UncertainDouble;
-import org.meeuw.math.uncertainnumbers.UncertainScalar;
+import org.meeuw.math.uncertainnumbers.*;
 
 /**
  * An element of the {@link RealField}.
@@ -148,4 +147,8 @@ public interface RealNumber
         return isExact() && CompleteScalarFieldElement.super.isOne();
     }
 
+    @Override
+    default String toDebugString() {
+       return UncertainDouble.super.toDebugString();
+    }
 }

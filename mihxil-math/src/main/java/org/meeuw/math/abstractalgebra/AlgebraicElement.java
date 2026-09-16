@@ -148,4 +148,12 @@ public interface AlgebraicElement<E extends AlgebraicElement<E>> extends Seriali
     String toString();
 
 
+    /**
+     */
+    default String toDebugString() {
+        return toString();
+    }
+
+
+
 }
