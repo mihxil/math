@@ -18,4 +18,6 @@ public @interface SetNumberConfiguration {
 
     String angles() default "DEGREES";
 
+    String rationals() default "INTEGER_AND_FRACTION";
+    
 }

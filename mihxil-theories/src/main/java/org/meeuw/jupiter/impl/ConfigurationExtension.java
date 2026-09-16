@@ -15,9 +15,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.SetNumberConfiguration;
 import org.meeuw.jupiter.SetUncertaintyConfiguration;
-import org.meeuw.math.text.configuration.*;
+import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 @Log
+@SetNumberConfiguration // Serves as default
+@SetUncertaintyConfiguration
 public class ConfigurationExtension implements
     AfterTestExecutionCallback,
     BeforeTestExecutionCallback,
@@ -83,15 +86,13 @@ public class ConfigurationExtension implements
     private static ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
-            if (setUncertaintyConfiguration != null) {
-                log.info("applying " + setUncertaintyConfiguration);
-                return  ConfigurationService.setConfiguration(builder ->
-                    builder.configure(UncertaintyConfiguration.class, config ->
-                        config
-                            .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
-                            .withNotation(setUncertaintyConfiguration.notation())
-                            .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval())));
-            }
+            log.fine(() -> "applying " + setUncertaintyConfiguration);
+            return  ConfigurationService.setConfiguration(builder ->
+                builder.configure(UncertaintyConfiguration.class, config ->
+                    config
+                        .withExplicitStripZeros(setUncertaintyConfiguration.stripZeros())
+                        .withNotation(setUncertaintyConfiguration.notation())
+                        .withWidthOfConfidenceInterval(setUncertaintyConfiguration.widthOfConfidenceInterval())));
         }
         return null;
     }
@@ -100,23 +101,28 @@ public class ConfigurationExtension implements
         for (AnnotatedElement annotatedElement : annotatedElements) {
             SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
                 SetNumberConfiguration.class);
-            if (numberConfiguration != null) {
-                log.info("applying " + numberConfiguration);
-                return
-                    ConfigurationService.setConfiguration(builder ->
-                        builder.configure(NumberConfiguration.class,
-                            config ->
-                                config.withMaximalPrecision(numberConfiguration.maxPrecision()))
+
+            return
+                ConfigurationService.setConfiguration(builder ->
+                        builder
+                            .configure(NumberConfiguration.class,
+                                config ->
+                                    config.withMaximalPrecision(numberConfiguration.maxPrecision()))
                             .configure("org.meeuw.math.text.configuration.AngleConfiguration", "withUnit", numberConfiguration.angles())
-                    );
-            }
+                            .configure("org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration", "withMode", numberConfiguration.rationals())
+                );
         }
         return null;
     }
 
     private static <A extends Annotation> A getAnnotation(AnnotatedElement annotatedElement, Class<A> annotation) {
         // Delegate to recursive implementation with a visited set to avoid cycles in meta-annotations
-        return getAnnotation(annotatedElement, annotation, new HashSet<>());
+        A a = getAnnotation(annotatedElement, annotation, new HashSet<>());
+        if (a == null) {
+            a = getAnnotation(ConfigurationExtension.class, annotation);
+            log.fine("applying default " + a);
+        }
+        return a;
     }
 
     // Recursive helper that tracks visited AnnotatedElements to prevent infinite loops

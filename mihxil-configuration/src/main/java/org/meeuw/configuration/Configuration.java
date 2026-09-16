@@ -195,7 +195,7 @@ public class Configuration implements Iterable<ConfigurationAspect> {
                 };
                 configure(configurationAspectClass, unary);
             } catch (ClassNotFoundException e) {
-                log.log(Level.WARNING, e.getMessage(), e);
+                log.log(Level.FINE, e.getMessage());
 
             }
             return this;
