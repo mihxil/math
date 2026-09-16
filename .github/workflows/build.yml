@@ -59,6 +59,9 @@ jobs:
           server-username-env-var: CENTRAL_USERNAME
           server-password-env-var: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+      - name: Suppress Java 25 Lombok Unsafe warning
+        if: ${{ matrix.java == 25 }}
+        run: echo "MAVEN_OPTS=--sun-misc-unsafe-memory-access=allow" >> "$GITHUB_ENV"
       - name: Build with maven
         shell: bash
         id: maven
