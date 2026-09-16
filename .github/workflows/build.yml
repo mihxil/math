@@ -55,20 +55,35 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: maven
+          server-id: central
+          server-username-env-var: CENTRAL_USERNAME
+          server-password-env-var: CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
       - name: Build with maven
         shell: bash
         id: maven
         # allow the build step to fail (e.g. test failures) without failing the entire job
         continue-on-error: true
         timeout-minutes: 15
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
         run: |
           if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
             extra_arg="-DskipTests"
           else
             extra_arg="-Dmaven.test.failure.ignore=true"
           fi
+          if [[ "${{ matrix.rank }}" == "main" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            deploy_arg="-Ddeploy"
+            target="deploy"
+          else
+            deploy_arg=""
+            target="test"
+          fi
           set +e
-          mvn -B -fn "$extra_arg" -Dlog4j2.root.level=warn test 2>&1 | awk '
+          mvn -B -fn "$extra_arg" "$deploy_arg" -Dlog4j2.root.level=warn "$target" 2>&1 | awk '
             /If you are an AI Agent/ { skip_blank_line = 1; next }
             skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
             { skip_blank_line = 0; print }
@@ -93,29 +108,3 @@ jobs:
           coverage: true
           determine_version: true
           maven_outcome: ${{ steps.maven.outcome }}
-
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
-        with:
-          distribution: 'temurin'
-          java-version: 17
-          cache: maven
-          server-id: central
-          server-username-env-var: CENTRAL_USERNAME
-          server-password-env-var: CENTRAL_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Deploy to central
-        # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
-        # It also sets the default target to deploy
-        timeout-minutes: 10
-        run: mvn -B -DskipTests -Ddeploy deploy
-        env:
-          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
