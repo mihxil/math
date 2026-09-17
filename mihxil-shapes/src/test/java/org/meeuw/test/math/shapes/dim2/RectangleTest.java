@@ -23,7 +23,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-@WithNumberConfiguration
+@WithNumberConfiguration(rationals = "FRACTION")
 public class RectangleTest implements FigureTheory<RealNumber, RealNumber, RotatedRectangle<RealNumber, RealNumber>> {
 
     Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
@@ -58,7 +58,7 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
         assertThat(rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle(
         ).shape().aspectRatio()).isEqualTo("9:16");
 
-        assertThat( rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle().shape()).hasToString("Rectangle{576.000000000000x1024.000000000000}");
+        assertThat( rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle().shape()).hasToString("Rectangle{576x1024}");
 
     }
 

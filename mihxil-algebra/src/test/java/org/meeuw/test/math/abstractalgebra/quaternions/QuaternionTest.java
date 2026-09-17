@@ -56,7 +56,7 @@ class QuaternionTest implements
         assertThat(structure.one().times(of(2)).toString()).isEqualTo("2");
         assertThat(structure.i().times(of(2)).toString()).isEqualTo("2i");
         assertThat(structure.j().times(of(2)).toString()).isEqualTo("2j");
-        assertThat(new Quaternion<>(of(0), of(1), of(-2), of(3)).dividedBy(of(2)).toString()).isEqualTo("¹⁄₂i - j + ³⁄₂k");
+        assertThat(new Quaternion<>(of(0), of(1), of(-2), of(3)).dividedBy(of(2)).toString()).isEqualTo("¹⁄₂i - j + 1¹⁄₂k");
     }
 
     @Test
