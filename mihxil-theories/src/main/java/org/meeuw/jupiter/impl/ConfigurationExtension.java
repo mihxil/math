@@ -38,11 +38,12 @@ public class ConfigurationExtension implements
         log.fine("beforeTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
         Method m = context.getTestMethod().orElse(null);
         Class<?> clazz = context.getTestClass().orElse(null);
+        Package pack = clazz == null ? null : clazz.getPackage();
         context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
-            setUncertaintyConfiguration(m, clazz, ConfigurationExtension.class)
+            setUncertaintyConfiguration(m, clazz, pack, ConfigurationExtension.class)
         );
         context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
-            setNumberConfiguration(m, clazz, ConfigurationExtension.class)
+            setNumberConfiguration(m, clazz, pack, ConfigurationExtension.class)
         );
     }
 
