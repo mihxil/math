@@ -22,7 +22,7 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
     }
 
     @Test
-    public void basicTest() {
+    void basicTest() {
         Polynomial<IntegerElement> fivex = INTEGER_POLYNOMIALS.newElement(INSTANCE.newElement(0), INSTANCE.newElement(5));
         assertThat(fivex.toString()).isEqualTo("5·x");
 
@@ -37,7 +37,7 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
     }
 
     @Test
-    public void derivativeTest() {
+    void derivativeTest() {
         Polynomial<IntegerElement> fivex = INTEGER_POLYNOMIALS.newElement(
             INSTANCE.newElement(0),
             INSTANCE.newElement(5)
@@ -52,13 +52,13 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
     }
 
     @Test
-    public void fromStringTestAscii() {
+    void fromStringTestAscii() {
          Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("1 - 60x + 7x^2");
          assertThat(pol.toString()).isEqualTo("1 - 60·x + 7·x²");
      }
 
     @Test
-    public void fromStringX() {
+    void fromStringX() {
          Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("x");
          assertThat(pol.toString()).isEqualTo("x");
 
@@ -68,7 +68,7 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
      }
 
     @Test
-    public void fromString0() {
+    void fromString0() {
          Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("0");
          assertThat(pol.toString()).isEqualTo("0");
          assertThat(pol).isEqualTo(INTEGER_POLYNOMIALS.zero());
@@ -77,7 +77,7 @@ public class PolynomialTest implements RingTheory<Polynomial<IntegerElement>> {
 
 
     @Test
-    public void fromStringTest() {
+    void fromStringTest() {
         Polynomial<IntegerElement> pol = INTEGER_POLYNOMIALS.fromString("7·x² + 1 - 60·x + 2·x²");
         assertThat(pol.toString()).isEqualTo("1 - 60·x + 9·x²");
 

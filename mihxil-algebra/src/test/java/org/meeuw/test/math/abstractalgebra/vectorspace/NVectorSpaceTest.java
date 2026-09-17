@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class NVectorSpaceTest {
 
     @Test
-    public void nonstreamable() {
+    void nonstreamable() {
         NVectorSpace<RealNumber> realSpace = NVectorSpace.of(3, RealField.INSTANCE);
         assertThatThrownBy(realSpace::stream).isInstanceOf(NotStreamable.class);
     }

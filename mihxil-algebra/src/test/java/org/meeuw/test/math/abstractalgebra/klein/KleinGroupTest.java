@@ -32,7 +32,7 @@ public class KleinGroupTest implements GroupTheory<KleinElement> {
     }
 
     @Test
-    public void operators() {
+    void operators() {
         assertThat(KleinGroup.INSTANCE.getSupportedOperators().toString()).isEqualTo("[OPERATION]");
     }
 

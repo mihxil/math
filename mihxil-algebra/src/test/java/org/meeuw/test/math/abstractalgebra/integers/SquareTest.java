@@ -43,12 +43,12 @@ class SquareTest implements
 
 
     @Test
-    public void zero() {
+    void zero() {
         assertThat(Squares.INSTANCE.zero().times(Squares.INSTANCE.one()).longValue()).isEqualTo(Squares.INSTANCE.zero().longValue());
     }
 
     @Property
-    public void resultIsSquare(@ForAll("elements") Square square, @ForAll("elements") Square other) {
+    void resultIsSquare(@ForAll("elements") Square square, @ForAll("elements") Square other) {
         assertThat(square.times(other).bigIntegerValue()).isEqualTo(square.bigIntegerValue().multiply(other.bigIntegerValue())
             );
         assertThat(IntegerUtils.isSquare(square.times(other).bigIntegerValue())).isTrue();

@@ -39,19 +39,19 @@ public class CircleTest {
         public static Circle<RealNumber, RealNumber> circle = new Circle<>(exactly(1)).times(exactly(2));
 
         @Test
-        public void area() {
+        void area() {
             assertThatAlgebraically(circle.area())
                 .isEqTo(exactly(4 * Math.PI));
         }
 
         @Test
-        public void perimeter() {
+        void perimeter() {
             assertThatAlgebraically(circle.perimeter())
                 .isEqTo(exactly(4 * Math.PI));
         }
 
         @Test
-        public void diameter() {
+        void diameter() {
             assertThatAlgebraically(circle.diameter())
                 .isEqTo(circle.radius().times(2));
         }

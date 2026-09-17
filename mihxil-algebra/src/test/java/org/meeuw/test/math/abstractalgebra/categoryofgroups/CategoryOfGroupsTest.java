@@ -21,7 +21,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
 
 
     @Test
-    public void basic() {
+    void basic() {
         ProductGroup times = KleinGroup.INSTANCE.times(ModuloRing.of(5));
         times.stream().forEach(ge -> {
             log.info("" + ge);
@@ -29,7 +29,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
     }
 
     @Test
-    public void infiniteStream() {
+    void infiniteStream() {
         ProductGroup times = EvenIntegers.INSTANCE.times(Quaternions.of(RationalNumbers.INSTANCE));
         times.stream().limit(10).forEach(ge -> {
             log.info("" + ge);
@@ -37,7 +37,7 @@ public class CategoryOfGroupsTest implements MultiplicativeSemiGroupTheory<Group
     }
 
     @Test
-    public void random() {
+    void random() {
         Random random = new Random(1);
         ProductGroup times = Quaternions.of(RationalNumbers.INSTANCE).times(ModuloField.of(13));
         for (int i = 0; i < 100; i++) {

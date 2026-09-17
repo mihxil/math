@@ -51,7 +51,7 @@ class ComplexNumberTest implements
     static final ComplexNumbers structure = ComplexNumbers.INSTANCE;
 
     @Test
-    public void isMultiplicativeSemiGroupElement() {
+    void isMultiplicativeSemiGroupElement() {
         ComplexNumber cn = ComplexNumber.of(real(1), real(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
@@ -81,7 +81,7 @@ class ComplexNumberTest implements
     }
 
     @Test
-    public void sqrt() {
+    void sqrt() {
         assertThat(ComplexNumber.real(real(-1)).sqrt()).isEqTo(imaginary(real(1)));
 
         assertThat(ComplexNumber.of(real(0), real(-1)).sqrt()
@@ -89,7 +89,7 @@ class ComplexNumberTest implements
     }
 
     @Test
-    public void veryLarge() {
+    void veryLarge() {
         ComplexNumber base1 = ComplexNumber.of(-705.6, -13);
         ComplexNumber exponent1 = ComplexNumber.of(198.8,-100);
 
@@ -106,7 +106,7 @@ class ComplexNumberTest implements
     }
 
     @Test
-    public void euler() {
+    void euler() {
         assertThat(
             ComplexNumber.real(RealField.INSTANCE.e())
                 .pow(
@@ -115,7 +115,7 @@ class ComplexNumberTest implements
     }
 
     @Test
-    public void i8() {
+    void i8() {
         var i8 = ComplexNumber.of(0, 8);
         var minusi8 = i8.negation();
         log.info("" +  i8.sqrt().plus(minusi8.sqrt()));
@@ -151,7 +151,7 @@ class ComplexNumberTest implements
     }
 
     @Property
-    public void eml(@ForAll(ELEMENTS) ComplexNumber x) {
+    void eml(@ForAll(ELEMENTS) ComplexNumber x) {
         ComplexNumbers s = x.getStructure();
         try (ConfigurationService.Reset res = setConfiguration(builder ->
             builder.configure(MathContextConfiguration.class,

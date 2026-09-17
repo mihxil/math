@@ -83,7 +83,7 @@ class Vector2Test implements
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
     @WithRounding
-    public void stringEqualsHashCode() {
+    void stringEqualsHashCode() {
         Vector2 example = of(1, 2);
         assertThat(example.toString()).isEqualTo("(1, 2)");
 

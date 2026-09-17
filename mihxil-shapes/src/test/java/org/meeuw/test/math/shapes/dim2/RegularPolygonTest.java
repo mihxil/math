@@ -32,7 +32,7 @@ public class RegularPolygonTest implements FigureTheory<RealNumber, RealNumber, 
 
 
     @Test
-    public void triangle() {
+    void triangle() {
         assertThat(triangle.n()).isEqualTo(3);
         assertThat(triangle.numberOfEdges()).isEqualTo(3);
         assertThatAlgebraically(triangle.size()).isEqualTo(element(1));
@@ -46,7 +46,7 @@ public class RegularPolygonTest implements FigureTheory<RealNumber, RealNumber, 
     }
 
     @Test
-    public void square() {
+    void square() {
         assertThat(square.n()).isEqualTo(4);
         assertThatAlgebraically(square.area()).isEqTo(element(1.0));
         assertThatAlgebraically(square.perimeter()).isEqTo(element(4.0));
@@ -69,7 +69,7 @@ public class RegularPolygonTest implements FigureTheory<RealNumber, RealNumber, 
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
+    void areaIsSizeTimesInscribedRadiusTimesCircumscribedRadius(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
 
         RealNumber ratio = nGon.circumscribedRadius().sqr().minus(nGon.inscribedRadius().sqr());
         assertThatAlgebraically(ratio).isEqTo(element(0.25));
@@ -77,7 +77,7 @@ public class RegularPolygonTest implements FigureTheory<RealNumber, RealNumber, 
 
     @ParameterizedTest
     @MethodSource("nGons")
-    public void vertices(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
+    void vertices(@ForAll("nGons") RegularPolygon<RealNumber, RealNumber> nGon) {
         nGon.vertices().forEach(fv -> {
             log.info(fv.toString());
         });

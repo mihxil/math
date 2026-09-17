@@ -87,7 +87,7 @@ public class ArrayUtilsTest {
     }
 
     @Test
-    public void tostring() {
+    void tostring() {
         assertThat(ArrayUtils.toString(new int[] {1, 2, -2})).isEqualTo("(1,2,-2)");
     }
 

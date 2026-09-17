@@ -9,7 +9,7 @@ import org.meeuw.math.text.configuration.NumberConfiguration;
 class UncertainFormatUtilsTest {
 
     @Test
-    public void valueAndError() {
+    void valueAndError() {
         StringBuffer buffer = new StringBuffer();
         ///SplitNumber<Double> splitMean = new  SplitNumber<>(1000d, 0);
         DecimalFormat defaultNumberFormat = (DecimalFormat) NumberConfiguration.getDefaultNumberFormat().clone();

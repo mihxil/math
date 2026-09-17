@@ -34,17 +34,17 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
     Rectangle<RationalNumber, BigDecimalElement> rationalRectangle = Rectangle.of(1024, 576);
 
     @Test
-    public void aspectRatio() {
+    void aspectRatio() {
         assertThat(rectangle.aspectRatio()).isEqualTo("16:9");
     }
 
     @Test
-    public void aspectRational() {
+    void aspectRational() {
         assertThat(rectangle.aspectRational().toString()).isEqualTo("¹⁶⁄₉");
     }
 
     @Test
-    public void times() {
+    void times() {
         assertThat(rectangle.times(2).toString()).isEqualTo("Rectangle{2048x1152}");
         assertThat(rectangle.times(exactly(2)).toString()).isEqualTo("Rectangle{2048x1152}");
         assertThat(rectangle.times(2.5).toString()).isEqualTo("Rectangle{2560x1440}");
@@ -53,7 +53,7 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
     }
 
     @Test
-    public void circumscribedRectangle() {
+    void circumscribedRectangle() {
         // 90 degrees
         assertThat(rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle(
         ).shape().aspectRatio()).isEqualTo("9:16");
@@ -63,55 +63,55 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
     }
 
     @Test
-    public void circumscribedRectangleDegrees() {
+    void circumscribedRectangleDegrees() {
         assertThat(rectangle.rotate( exactly(Math.toRadians(90))).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
     }
 
 
     @Test
-    public void area() {
+    void area() {
         assertThatAlgebraically(rectangle.area()).isEqTo(element(589824d));
     }
 
     @Test
-    public void intarea() {
+    void intarea() {
         assertThatAlgebraically(rationalRectangle.exactArea()).isEqTo(RationalNumber.of(589824));
     }
 
     @Test
-    public void isSquare() {
+    void isSquare() {
         assertThat(rectangle.isSquare()).isFalse();
     }
 
     @Test
-    public void perimeter() {
+    void perimeter() {
         assertThat(rectangle.perimeter().eq(element(3200))).isTrue();
     }
 
     @Test
-    public void diagonal() {
+    void diagonal() {
         assertThatAlgebraically(rectangle.diagonal()).isEqTo(element(1174.8838240438924));
         assertThatAlgebraically(rationalRectangle.diagonal()).isEqTo(BigDecimalElement.of("1174.883824043892435103470049197259043278656528446924789769363975841904927049450497573774326053702080"));
     }
 
     @Test
-    public void vertical() {
+    void vertical() {
         assertThat(rectangle.vertical()).isFalse();
     }
 
     @Test
-    public void string() {
+    void string() {
         assertThat(rectangle.toString()).isEqualTo("Rectangle{1024x576}");
     }
 
     @Test
-    public void notEquals() {
+    void notEquals() {
         assertThat(rectangle.equals(rationalRectangle)).isFalse();
     }
 
     @Test
     @WithRounding
-    public void vertices() {
+    void vertices() {
         assertThat(rectangle.vertices()
                 .map(FieldVector2::toString)
                 .collect(Collectors.joining(" "))

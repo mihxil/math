@@ -50,7 +50,7 @@ class PhysicalNumberTest implements
     ScalarTheory<PhysicalNumber> {
 
     @Test
-    public void add() {
+    void add() {
         // tag::add[]
         PhysicalNumber twoLightYear = new Measurement(2, 0.1, ly);        //
         PhysicalNumber oneParsec = measurement(1, 0.1, pc); // using the static import as a shortcut
@@ -64,7 +64,7 @@ class PhysicalNumberTest implements
     }
 
     @Test
-    public void toUnits() {
+    void toUnits() {
         Units kpc = SI.pc.withPrefix(k);
         PhysicalNumber two_kpc = measurement(2, 0.1, kpc);
 
@@ -78,7 +78,7 @@ class PhysicalNumberTest implements
     }
 
     @Test
-    public void prefix() {
+    void prefix() {
         Unit km = m.withPrefix(k);
 
         Measurement measurementInKm = measurement(1, 0.1, km);
@@ -94,7 +94,7 @@ class PhysicalNumberTest implements
     }
 
     @Test
-    public void kilogramPrefix() {
+    void kilogramPrefix() {
 
         Measurement measurementInKg = measurement(1, 0.1, kg);
 
@@ -110,20 +110,20 @@ class PhysicalNumberTest implements
     }
 
     @Test
-    public void lt() {
+    void lt() {
         PhysicalNumber two_lightyear = measurement(2, 0.1, ly);
         PhysicalNumber three_km = measurement(3, 0.1, m);
         assertThat(three_km.lt(two_lightyear)).isTrue();
     }
 
     @Test
-    public void equals() {
+    void equals() {
         PhysicalNumber two_lightyear = measurement(2, 0.1, ly);
         PhysicalNumber inm = measurement(3, 0.1, m);
     }
 
     @Test
-    public void zeroWithError() {
+    void zeroWithError() {
         PhysicalNumber ph = measurement(0, 0.001, mPerS);
         assertThat(ph.toString()).isEqualTo("0.0000 ± 0.0010 m·s⁻¹");
         PhysicalNumber rec = ph.reciprocal();

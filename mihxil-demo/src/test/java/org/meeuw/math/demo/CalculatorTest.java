@@ -15,7 +15,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void gaussian() {
+    void gaussian() {
         String result = Calculator.eval("""
            "i"  * "1 + 3i"
            """, "gaussian");
@@ -23,21 +23,21 @@ public class CalculatorTest {
     }
 
     @Test
-    public void quaternions() {
+    void quaternions() {
         DemoUtils.setupLogging("FINE");
         String result = Calculator.eval("-i * i", Calculator.FieldInformation.quaterniongroup.name());
         assertThat(result).isEqualTo("e");
     }
 
     @Test
-    public void natural() {
+    void natural() {
         DemoUtils.setupLogging("FINE");
         String result = Calculator.eval("2 ^ 10", Calculator.FieldInformation.natural.name());
         assertThat(result).isEqualTo("1024");
     }
 
     @Test
-    public void modulo() {
+    void modulo() {
         DemoUtils.setupLogging("FINE");
         String result = Calculator.eval("2 ^ 11", Calculator.FieldInformation.modulo13.name());
         assertThat(result).isEqualTo("7");
@@ -45,7 +45,7 @@ public class CalculatorTest {
 
 
     @Test
-    public void integers() {
+    void integers() {
         log.fine("test");
         {
             String result = Calculator.eval("11 \\ 3", Calculator.FieldInformation.integers.name());
@@ -59,7 +59,7 @@ public class CalculatorTest {
 
 
     @Test
-    public void polynomials() {
+    void polynomials() {
         log.fine("test");
         {
             String result = Calculator.eval("""

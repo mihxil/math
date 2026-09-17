@@ -14,7 +14,7 @@ import org.meeuw.time.eventsearchers.christian.ChristianHoliday;
 public class ChristianHolidaysTest  {
 
   @Test
-  public void testChristianHolidays() {
+  void testChristianHolidays() {
 
     Stream.of(ChristianHoliday.values()).forEach(holiday -> {
       log.info(holiday.getDescription() + " on " + holiday.apply(Year.of(2025)));

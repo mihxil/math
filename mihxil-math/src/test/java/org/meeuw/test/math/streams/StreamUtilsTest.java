@@ -59,14 +59,14 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void bigIntegerStream() {
+    void bigIntegerStream() {
         Stream<BigInteger> stream = StreamUtils.bigIntegerStream(true);
         assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
             0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5
         );
     }
     @Test
-    public void reverseBigIntegerStream() {
+    void reverseBigIntegerStream() {
         Stream<BigInteger> stream = StreamUtils.reverseBigIntegerStream(BigInteger.valueOf(5), true);
         assertThat(stream.limit(11).mapToInt(BigInteger::intValue)).containsExactly(
             -5, 5, -4, 4, -3, 3, -2, 2, -1, 1, 0
@@ -74,7 +74,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void spliterator() {
+    void spliterator() {
         BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
         Spliterator<BigInteger> negatives = i.trySplit();
 
@@ -82,7 +82,7 @@ class StreamUtilsTest {
         assertThat(StreamSupport.stream(negatives, false).limit(10).map(BigInteger::intValue)).containsExactly(-1, -2, -3, -4, -5, -6, -7, -8, -9, -10);
     }
     @Test
-    public void spliterator2() {
+    void spliterator2() {
         BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
         Spliterator<BigInteger> negatives = i.trySplit();
         Spliterator<BigInteger> negativeEvens = negatives.trySplit();
@@ -96,7 +96,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void spliterator3() {
+    void spliterator3() {
         ConfigurationService.withAspect(StreamUtils.Configuration.class,
             ca -> ca.withMaxThreads(5), () -> {
                 BigIntegerSpliterator i = new BigIntegerSpliterator(BigInteger.valueOf(0), true, BigInteger.ONE);
@@ -114,7 +114,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void trySplit() throws InterruptedException {
+    void trySplit() throws InterruptedException {
         // https://michaelbespalov.medium.com/parallel-stream-pitfalls-and-how-to-avoid-them-91f11808a16c
         final Set<BigInteger> needed = Stream.concat(Stream.of(ZERO), Stream.iterate(ONE, i -> i.add(ONE)).flatMap(i -> Stream.of(i, i.negate()))).limit(100).collect(Collectors.toCollection(CopyOnWriteArraySet::new));
 
@@ -140,7 +140,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void bigPositiveIntegerStream() {
+    void bigPositiveIntegerStream() {
         Stream<BigInteger> stream = StreamUtils.bigIntegerStream(false);
         assertThat(stream.limit(20).mapToInt(BigInteger::intValue)).containsExactly(
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19
@@ -148,7 +148,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void diagonalStream() {
+    void diagonalStream() {
         Stream<A> aStream = StreamUtils.diagonalStream(
             () -> StreamUtils.bigIntegerStream(false),
             () -> StreamUtils.bigIntegerStream(false), A::new);
@@ -177,7 +177,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void diagonalStreamFile() throws FileNotFoundException {
+    void diagonalStreamFile() throws FileNotFoundException {
         File dest = new File(System.getProperty("user.dir"), "../docs/diagonals-positive-plane.data");
 
         Stream<A> aStream = StreamUtils.diagonalStream(
@@ -193,7 +193,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void incForStream() {
+    void incForStream() {
         int[] counters = {0, 0};
         int max = 0;
         max = StreamUtils.inc(counters, max);
@@ -217,7 +217,7 @@ class StreamUtilsTest {
     }
 
     @Test
-    public void allIntArrayStream() {
+    void allIntArrayStream() {
         assertThat(
             StreamUtils.allIntArrayStream(2).limit(10)
                 .map((i) -> Arrays.stream(i).mapToObj(String::valueOf).collect(Collectors.joining(", ")))).containsExactly(
@@ -239,7 +239,7 @@ class StreamUtilsTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public  void cartesianStream() {
+    void cartesianStream() {
         Stream<Number[]> cartesianStream = StreamUtils.cartesianStream(
             () -> Stream.iterate(0, i -> i + 1),
             () -> Stream.iterate(1d, d -> d * 2)

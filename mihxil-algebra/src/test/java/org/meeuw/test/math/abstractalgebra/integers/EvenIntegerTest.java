@@ -43,12 +43,12 @@ class EvenIntegerTest implements
     SignedNumberTheory<EvenInteger> {
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         PositiveIntegerTest.setup();
     }
 
     @Test
-    public void test() {
+    void test() {
         assertThatThrownBy(() -> of(1)).isInstanceOf(InvalidElementCreationException.class);
 
         assertThat(of(2).times(of(4))).isEqualTo(of(8));
@@ -61,7 +61,7 @@ class EvenIntegerTest implements
     }
 
     @Test
-    public void compareTo() {
+    void compareTo() {
         //assertThat(new EvenIntegerElement(-2019178024101599495L).compareTo(
         //new BigDecimal(-2019178024101599496L))).isGreaterThan(0);
     }

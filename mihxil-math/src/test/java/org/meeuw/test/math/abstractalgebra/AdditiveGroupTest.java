@@ -29,13 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class AdditiveGroupTest {
 
     @Test
-    public void additiveGroupOperators() {
+    void additiveGroupOperators() {
         assertThat(new SampleStructure().getSupportedOperators())
             .contains(BasicAlgebraicBinaryOperator.ADDITION, BasicAlgebraicBinaryOperator.SUBTRACTION);
 
     }
     @Test
-    public void additiveGroupUnaryOperators() {
+    void additiveGroupUnaryOperators() {
         assertThat(new SampleStructure().getSupportedUnaryOperators())
             .contains(BasicAlgebraicUnaryOperator.NEGATION);
     }

@@ -53,7 +53,7 @@ class AlgebraicStructureTest {
     private final S s = new S();
 
     @Test
-    public void test() {
+    void test() {
         assertThat(s.getSupportedOperators()).isEmpty();
         assertThat(s.getSupportedUnaryOperators()).containsExactly(BasicAlgebraicUnaryOperator.IDENTIFY);
         assertThat(s.getDescription()).isEmpty();

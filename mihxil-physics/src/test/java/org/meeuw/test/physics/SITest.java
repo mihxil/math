@@ -21,7 +21,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.physics.*;
 import org.meeuw.physics.SI.DecimalPrefix;
 
@@ -43,16 +45,17 @@ import static org.meeuw.physics.SIUnit.m;
  * @since 0.4
  */
 @Log
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS, stripZeros = true)
 class SITest {
 
     @Test
-    public void ly() {
+    void ly() {
         assertThat(SI.ly.toString()).isEqualTo("ly");
         assertThat(SI.ly.asSIConstant().toString()).isEqualTo("9.4607304725808·10¹⁵ m");
     }
 
     @Test
-    public void litre() {
+    void litre() {
         assertThat(SI.litre.toString()).isEqualTo("l");
         assertThat(SI.litre.asSIConstant().toString()).isEqualTo("0.001 m³");
 
@@ -62,16 +65,16 @@ class SITest {
     }
 
     @Test
-    public void prefixes() {
+    void prefixes() {
         prefixes(DecimalPrefix.none);
     }
 
     @Test
-    public void binaryPrefixes() {
+    void binaryPrefixes() {
          prefixes(SI.BinaryPrefix.none);
     }
 
-    public void prefixes(Prefix startPoint) {
+    void prefixes(Prefix startPoint) {
         Optional<? extends Prefix> prefix = startPoint.inc();
         while (prefix.isPresent()) {
             Prefix p = prefix.get();
@@ -93,19 +96,19 @@ class SITest {
     }
 
     @Test
-    public void forDimension() {
+    void forDimension() {
         assertThat((Object) INSTANCE.forDimension(T)).isEqualTo(s);
     }
 
     @Test
-    public void forDimensions() {
+    void forDimensions() {
         assertThat(INSTANCE.forDimensions(L, T.with(-1)).toString()).isEqualTo("m·s⁻¹");
         assertThat(INSTANCE.forQuantity(Quantity.FORCE).toString()).isEqualTo("N");
     }
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     @Test
-    public void prefix() {
+    void prefix() {
         Units kmPerS = m.withPrefix(k).per(s);
         assertThat(kmPerS.toString()).isEqualTo("km·s⁻¹");
         assertThat(kmPerS.getSIFactor().doubleValue()).isEqualTo(1000d);
@@ -123,12 +126,12 @@ class SITest {
     }
 
     @Test
-    public void getBaseUnits() {
+    void getBaseUnits() {
         assertThat(INSTANCE.getBaseUnits().toString()).isEqualTo("[m, kg, s, A, K, mol, cd]");
     }
 
     @Test
-    public void getUnits() {
+    void getUnits() {
         assertThat(INSTANCE.getUnits().stream().map(u -> u.toString() + "\t" + u.getDescription() + "\t" + u.getClass().getSimpleName() )).containsExactly(
             "m	meter	SIUnit",
             "kg	kilogram	SIUnit",
@@ -160,27 +163,24 @@ class SITest {
     }
 
     @Test
-    public  void getForQuantity() {
+    void getForQuantity() {
         assertThat(INSTANCE.forQuantity(LUMINOUS_INTENSITY)).isEqualTo(cd);
         assertThat(INSTANCE.forQuantity(ENERGY)).isEqualTo(J);
     }
 
     @Test
-    public void unitsOf() {
+    void unitsOf() {
         INSTANCE.getUnits().forEach(i -> {
             String s = i.toString();
             log.info("" + INSTANCE.unitsOf(s));
         });
-
     }
 
     @Test
-    public void factorsExact(){
+    void factorsExact(){
         Unit kB = SI.bit.withPrefix(Ki);
         assertThat(kB.getSIFactor().isExact()).isTrue();
         assertThat(kB.getSIFactor().doubleValue()).isEqualTo(1024d);
-
     }
-
 
 }

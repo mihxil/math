@@ -41,7 +41,7 @@ class CartesianSpliteratorTest {
      *
      */
     @Test
-    public void zero() {
+    void zero() {
          CartesianSpliterator<String> cartesianSpliterator =
             new CartesianSpliterator<>(String.class);
 
@@ -57,7 +57,7 @@ class CartesianSpliteratorTest {
      * This should simply be exactly like this iterator itself.
      */
     @Test
-    public void one() {
+    void one() {
         final List<String> values = Arrays.asList("a", "b", "c");
 
         CartesianSpliterator<String> cartesianSpliterator =
@@ -73,7 +73,7 @@ class CartesianSpliteratorTest {
 
 
     @Test
-    public void twoWithEmpty() {
+    void twoWithEmpty() {
         final List<String> values1 = Arrays.asList("a", "b", "c");
         final List<String> values2 = Collections.emptyList();
 
@@ -85,7 +85,7 @@ class CartesianSpliteratorTest {
     }
 
     @Test
-    public void two() {
+    void two() {
         final List<String> values = Arrays.asList("a", "b", "c");
 
         CartesianSpliterator<String> cartesianSpliterator =
@@ -132,7 +132,7 @@ class CartesianSpliteratorTest {
 
 
     @Test
-    public void twoDifferentSizesAndTypes() {
+    void twoDifferentSizesAndTypes() {
         final List<String> values1 = Arrays.asList("a", "b", "c");
         final List<Integer> values2 = Arrays.asList(1, 2);
 
@@ -154,7 +154,7 @@ class CartesianSpliteratorTest {
     }
 
     @Test
-    public void three() {
+    void three() {
         final List<Integer> values = Arrays.asList(1, 2, 3);
 
         CartesianSpliterator<Integer> cartesianSpliterator =
@@ -207,7 +207,7 @@ class CartesianSpliteratorTest {
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    public void threeSplit(boolean parallel) {
+    void threeSplit(boolean parallel) {
         final List<Integer> values = Arrays.asList(1, 2, 3);
         AtomicLong size = new AtomicLong(0);
         CartesianSpliterator<Integer> cartesianSpliterator =
@@ -222,7 +222,7 @@ class CartesianSpliteratorTest {
 
     @ParameterizedTest()
     @ValueSource(ints = {2, 3, 4})
-    public void infiniteStreams(int dim) {
+    void infiniteStreams(int dim) {
         // just streams of odd integers.
         Supplier<Spliterator<? extends Integer>> iterate =
             () -> Stream.iterate(1, i -> i + 2).spliterator();
@@ -240,7 +240,7 @@ class CartesianSpliteratorTest {
 
     @ParameterizedTest()
     @ValueSource(ints = {2, 3, 4})
-    public void infiniteStreamSplit(int dim) {
+    void infiniteStreamSplit(int dim) {
         // just streams of odd integers.
         Supplier<Spliterator<? extends Integer>> iterate =
             () -> Stream.iterate(1, i -> i + 2).spliterator();
@@ -257,7 +257,7 @@ class CartesianSpliteratorTest {
     }
 
     @Test
-    public void infiniteStreams2() throws IOException {
+    void infiniteStreams2() throws IOException {
 
         File dest = new File(System.getProperty("user.dir"), "../docs/positive-plane.data");
         try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {
@@ -275,7 +275,7 @@ class CartesianSpliteratorTest {
 
 
     @Test
-    public void infiniteStreams3() throws IOException {
+    void infiniteStreams3() throws IOException {
 
         File dest = new File(System.getProperty("user.dir"), "../docs/positive-3-plane.data");
         try (PrintWriter printer = new PrintWriter(new FileOutputStream(dest))) {

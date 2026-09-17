@@ -38,21 +38,21 @@ class StringMonoidTest implements
     CharSequenceTheory<StringElement> {
 
     @Test
-    public void stream1() {
+    void stream1() {
         Assertions.assertThat(INSTANCE.stream(new StringMonoid.State('a', 'x')).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "ax", "ay", "az", "a ", "aª", "aµ", "aº", "aÀ", "aÁ", "aÂ"
             );
     }
     @Test
-    public void stream2() {
+    void stream2() {
         assertThat(INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "a鼻", "a𪘀", "b ", "b0", "b1", "b2", "b3", "b4", "b5", "b6"
             );
     }
     @Test
-    public void stream3() {
+    void stream3() {
         assertThat(INSTANCE.stream(new StringMonoid.State('a', StringMonoid.LAST_CHAR, StringMonoid.LAST_CHAR - 1)).limit(10)).map(StringElement::toString)
             .containsExactly(
                 "a𪘀鼻",

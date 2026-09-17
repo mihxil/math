@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ToStringTest {
 
     @Test
-    public void mathContext() {
+    void mathContext() {
         assertThat(StringConversionService.toString(new MathContext(1, RoundingMode.CEILING))).contains("precision=1 roundingMode=CEILING");
 
         assertThat(StringConversionService.fromString("precision=1 roundingMode=CEILING", MathContext.class)).contains(new MathContext(1, RoundingMode.CEILING));
@@ -24,7 +24,7 @@ public class ToStringTest {
     }
 
     @Test
-    public void decimalFormat() {
+    void decimalFormat() {
         assertThat(StringConversionService.toString(new DecimalFormat("##.#"))).contains("#0.#");
 
         assertThat(StringConversionService.fromString("#0.#", DecimalFormat.class)).contains(new DecimalFormat("##.#"));
@@ -33,7 +33,7 @@ public class ToStringTest {
     }
 
     @Test
-    public void decimalFormatWithUnboundedFractionDigits() {
+    void decimalFormatWithUnboundedFractionDigits() {
         DecimalFormat format = new DecimalFormat();
         format.setMaximumFractionDigits(Integer.MAX_VALUE);
 

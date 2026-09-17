@@ -47,7 +47,7 @@ class IntegerElementTest implements
     SignedNumberTheory<IntegerElement> {
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         PositiveIntegerTest.setup();
     }
 

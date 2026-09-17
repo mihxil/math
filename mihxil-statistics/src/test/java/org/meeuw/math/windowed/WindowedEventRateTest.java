@@ -311,7 +311,7 @@ public class WindowedEventRateTest implements UncertainDoubleTheory<RealNumber> 
     }
 
     @Test
-    public void testLong() {
+    void testLong() {
         TestClock clock = new TestClock();
         WindowedEventRate rate = WindowedEventRate.builder()
             .window(Duration.ofSeconds(100))

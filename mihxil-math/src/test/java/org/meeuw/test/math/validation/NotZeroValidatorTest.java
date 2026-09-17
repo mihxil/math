@@ -61,7 +61,7 @@ class NotZeroValidatorTest {
 
 
     @Test
-    public void validate() {
+    void validate() {
         assertThat(factory.getValidator().validate(new A(16))).isEmpty();
         assertThat(factory.getValidator().validate(new A(0))).hasSize(1);
 
@@ -71,7 +71,7 @@ class NotZeroValidatorTest {
 
 
     @Test
-    public void isValid() {
+    void isValid() {
         NotZeroValidator validator = new NotZeroValidator();
         assertThat(validator.isValid(0, null)).isFalse();
         assertThat(validator.isValid(0d, null)).isFalse();

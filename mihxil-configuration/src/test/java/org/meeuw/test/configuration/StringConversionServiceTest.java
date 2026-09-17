@@ -11,7 +11,7 @@ public class StringConversionServiceTest {
 
 
     @Test
-    public void intToString() {
+    void intToString() {
         assertThat(StringConversionService.toString(1)).contains("1");
 
         assertThat(StringConversionService.fromString("1", Integer.TYPE)).contains(1);
@@ -20,12 +20,12 @@ public class StringConversionServiceTest {
 
     }
     @Test
-    public void fromInteger() {
+    void fromInteger() {
         assertThat(StringConversionService.fromString("1", Integer.class)).contains(1);
     }
 
     @Test
-    public void longToString() {
+    void longToString() {
         assertThat(StringConversionService.toString(2L)).contains("2");
 
         assertThat(StringConversionService.fromString("2", Long.TYPE)).contains(2L);
@@ -33,7 +33,7 @@ public class StringConversionServiceTest {
     }
 
     @Test
-    public void floatToString() {
+    void floatToString() {
         assertThat(StringConversionService.toString(1.0f)).contains("1.0");
 
         assertThat(StringConversionService.fromString("1.0", Float.TYPE)).contains(1.0f);
@@ -41,7 +41,7 @@ public class StringConversionServiceTest {
     }
 
     @Test
-    public void doubleToString() {
+    void doubleToString() {
         assertThat(StringConversionService.toString(1.0d)).contains("1.0");
 
         assertThat(StringConversionService.fromString("1.0", Double.TYPE)).contains(1.0d);
@@ -49,7 +49,7 @@ public class StringConversionServiceTest {
     }
 
     @Test
-     public void booleanToString() {
+     void booleanToString() {
         assertThat(StringConversionService.toString(true)).contains("true");
 
         assertThat(StringConversionService.fromString("true", Boolean.TYPE)).contains(Boolean.TRUE);
@@ -59,7 +59,7 @@ public class StringConversionServiceTest {
     }
 
     @Test
-    public void enumToString() {
+    void enumToString() {
         assertThat(StringConversionService.toString(A.x)).contains("x");
 
         assertThat(StringConversionService.fromString("y", A.class)).contains(A.y);
@@ -67,7 +67,7 @@ public class StringConversionServiceTest {
     }
 
     @Test
-    public void someSerializable() {
+    void someSerializable() {
         assertThat(StringConversionService.toString(new TestConfigurationAspect.SomeSerializable(1, "b"))).isEmpty();
     }
 

@@ -47,7 +47,7 @@ class PositiveIntegerTest implements
     ScalarTheory<PositiveInteger> {
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         ConfigurationService.defaultConfiguration((con) ->
             con.configure(Factoriable.Configuration.class, c -> c.withMaxArgument(1000L))
         );
@@ -55,14 +55,14 @@ class PositiveIntegerTest implements
 
 
     @Test
-    public void test() {
+    void test() {
         assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(InvalidElementCreationException.class);
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {1, 10, 2000, 10000, 50000})
-    public void fact(int value) {
+    void fact(int value) {
         ConfigurationService.withAspect(Factoriable.Configuration.class, c -> c.withMaxArgument(2001L), () -> {
             try {
                 log.info("%s! = %s".formatted(value, of(value).factorial()));

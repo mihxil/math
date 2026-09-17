@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class CardinalityTest {
 
     @Test
-    public void alephs() {
+    void alephs() {
         assertThat(Cardinality.ALEPH_0).isGreaterThan(Cardinality.of(Long.MAX_VALUE));
         assertThat(Cardinality.ALEPH_0).isEqualTo(Cardinality.ALEPH_0.times(Cardinality.of(3)));
         assertThat(Cardinality.ALEPH_0).isEqualTo(Cardinality.ALEPH_0.pow(3));
@@ -48,7 +48,7 @@ class CardinalityTest {
         assertThatThrownBy(Cardinality.C::getValue).isInstanceOf(CardinalityNotFiniteException.class);
     }
     @Test
-    public void test() {
+    void test() {
         assertThat(Cardinality.of(10)).isGreaterThan(Cardinality.of(9));
         assertThat(Cardinality.of(9)).isLessThan( Cardinality.of(10));
         assertThat(Cardinality.of(9)).isLessThan(Cardinality.ALEPH_0);
@@ -63,7 +63,7 @@ class CardinalityTest {
     }
 
     @Property
-    public void hash(@ForAll("cardinalities") Cardinality c1, @ForAll("cardinalities") Cardinality c2) {
+    void hash(@ForAll("cardinalities") Cardinality c1, @ForAll("cardinalities") Cardinality c2) {
         if (c1.equals(c2)) {
             assertThat(c2).isEqualTo(c1);
             assertThat(c1.hashCode()).isEqualTo(c2.hashCode());
@@ -72,7 +72,7 @@ class CardinalityTest {
     }
 
     @Property
-    public void moreEquals(@ForAll("cardinalities") Cardinality c1) {
+    void moreEquals(@ForAll("cardinalities") Cardinality c1) {
         assertThat(c1).isNotEqualTo(null);
         assertThat(c1).isNotEqualTo(new Object());
     }

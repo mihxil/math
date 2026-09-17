@@ -116,7 +116,7 @@ class GeneralLinearGroupTest {
     }
 
     @Test
-    public void stream() {
+    void stream() {
         GeneralLinearGroup<RationalNumber> e = GeneralLinearGroup.of(3, RationalNumbers.INSTANCE);
         e.stream().limit(100).forEach(m ->
             assertThat(m.determinant()).isNotEqualTo(RationalNumber.ZERO)

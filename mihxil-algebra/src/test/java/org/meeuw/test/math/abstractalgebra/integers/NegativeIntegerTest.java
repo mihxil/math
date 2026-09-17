@@ -39,7 +39,7 @@ class NegativeIntegerTest implements
     SignedNumberTheory<NegativeInteger> {
 
     @Test
-    public void test() {
+    void test() {
         assertThatThrownBy(() -> of(1)).isInstanceOf(InvalidElementCreationException.class);
         assertThat(of(-5).plus(of(-7))).isEqualTo(of(-12));
     }

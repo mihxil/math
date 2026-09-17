@@ -21,62 +21,62 @@ public class RectangularCuboidTest {
         element(3.0), element(3.0), element(3.0));
 
     @Test
-    public void volume() {
+    void volume() {
         assertThatAlgebraically(cuboid.volume()).isEqTo(element(24.0));
     }
 
     @Test
-    public void cubeVolume() {
+    void cubeVolume() {
         assertThatAlgebraically(cube.volume()).isEqTo(element(27.0));
     }
 
     @Test
-    public void surfaceArea() {
+    void surfaceArea() {
         // 2*(w*h + w*d + h*d) = 2*(6 + 8 + 12) = 52
         assertThatAlgebraically(cuboid.surfaceArea()).isEqTo(element(52.0));
     }
 
     @Test
-    public void cubeSurfaceArea() {
+    void cubeSurfaceArea() {
         // 6 * s^2 = 6 * 9 = 54
         assertThatAlgebraically(cube.surfaceArea()).isEqTo(element(54.0));
     }
 
     @Test
-    public void vertices() {
+    void vertices() {
         assertThat(cuboid.vertices()).isEqualTo(8);
     }
 
     @Test
-    public void edges() {
+    void edges() {
         assertThat(cuboid.edges()).isEqualTo(12);
     }
 
     @Test
-    public void faces() {
+    void faces() {
         assertThat(cuboid.faces()).isEqualTo(6);
     }
 
     @Test
-    public void eulerCharacteristic() {
+    void eulerCharacteristic() {
         assertThat(cuboid.eulerCharacteristic()).isEqualTo(2);
     }
 
     @Test
-    public void tostring() {
+    void tostring() {
         log.info("Cuboid: " + cuboid);
         assertThat(cuboid.toString()).contains("2").contains("3").contains("4");
     }
 
     @Test
-    public void widthHeightDepth() {
+    void widthHeightDepth() {
         assertThatAlgebraically(cuboid.width()).isEqTo(element(2.0));
         assertThatAlgebraically(cuboid.height()).isEqTo(element(3.0));
         assertThatAlgebraically(cuboid.depth()).isEqTo(element(4.0));
     }
 
     @Test
-    public void eq() {
+    void eq() {
         // The current implementation always returns false for eq()
         assertThat(cuboid.eq(cuboid)).isFalse();
         assertThat(cuboid.eq(new RectangularCuboid<>(element(2.0), element(3.0), element(4.0)))).isFalse();

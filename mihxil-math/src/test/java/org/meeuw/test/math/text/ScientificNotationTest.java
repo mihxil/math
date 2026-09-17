@@ -34,13 +34,13 @@ public class ScientificNotationTest {
      *
      */
     @Test
-    public void notationRound() {
+    void notationRound() {
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
             .isEqualTo("1000.00000000000000000");
     }
 
     @Test
-    public void notationRoundAndStrip() {
+    void notationRoundAndStrip() {
         stripZeros = true;
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
             .isEqualTo("1000");
@@ -49,13 +49,13 @@ public class ScientificNotationTest {
 
 
     @Test
-    public void notationParen() {
+    void notationParen() {
         notation = UncertaintyConfiguration.Notation.PARENTHESES;
         assertThat(scientific. formatWithUncertainty(1000.0d, 5d)).isEqualTo("1000(5)");
     }
 
     @Test
-    public void notationParen0() {
+    void notationParen0() {
         notation = UncertaintyConfiguration.Notation.PARENTHESES;
         minimumExponent = 0;
         assertThat(scientific. formatWithUncertainty(1000.0d, 5d)).isEqualTo("1000(5)");

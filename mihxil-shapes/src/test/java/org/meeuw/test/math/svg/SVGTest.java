@@ -41,7 +41,7 @@ public class SVGTest {
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         ConfigurationService.defaultConfiguration(c -> {
             c.configure(UncertaintyConfiguration.class, ac -> {
                 return ac.withNotation(UncertaintyConfiguration.Notation.ROUND_VALUE);
@@ -54,7 +54,7 @@ public class SVGTest {
     // tag::regularPolygons[]
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
-    public void regularPolygons(int n ) throws Exception {
+    void regularPolygons(int n ) throws Exception {
 
         RegularPolygon<RationalNumber, BigDecimalElement> polygon =
             RegularPolygon.withCircumScribedRadiusFloor(n, RationalNumber.of(100));
@@ -76,7 +76,7 @@ public class SVGTest {
     }
 
     @Test
-    public void rotatedPolygon() throws Exception {
+    void rotatedPolygon() throws Exception {
         try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
             SVG.marshal(default2DDocument()
                 .withSize(size)
@@ -98,7 +98,7 @@ public class SVGTest {
 
     // tag::otherShapes[]
     @Test
-    public void rectangle() throws Exception {
+    void rectangle() throws Exception {
         RotatedRectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
             RationalNumber.of(100),
             RationalNumber.of(170))
@@ -119,7 +119,7 @@ public class SVGTest {
     }
 
     @Test
-    public void circle() throws Exception {
+    void circle() throws Exception {
         try (FileOutputStream fos = new FileOutputStream(new File(dest,  "circle.svg"))) {
             SVG.marshal(default2DDocument()
                 .withSize(size)
@@ -139,7 +139,7 @@ public class SVGTest {
     }
 
     @Test
-    public void ellipse() throws Exception {
+    void ellipse() throws Exception {
         Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
             RationalNumber.of(100),RationalNumber.of (80),
             element(Math.toRadians(45.0)));

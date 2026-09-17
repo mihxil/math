@@ -17,14 +17,17 @@ package org.meeuw.test.physics;
 
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS, stripZeros = true)
 class PlanckTest {
 
     @Test
-    public void c() {
+    void c() {
         assertThat(Planck.c.toString()).isEqualTo("1 ℓₚ·tₚ⁻¹");
         Units units = Planck.c.getUnits();
         assertThat(units.toString()).isEqualTo("ℓₚ·tₚ⁻¹");
@@ -36,7 +39,7 @@ class PlanckTest {
     }
 
     @Test
-    public void BoltzmannConstant() {
+    void BoltzmannConstant() {
         assertThat(Planck.kB.toString()).isEqualTo("1 ℓₚ·tₚ⁻¹");
     }
 

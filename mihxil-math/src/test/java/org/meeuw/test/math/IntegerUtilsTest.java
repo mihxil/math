@@ -23,7 +23,7 @@ class IntegerUtilsTest {
 
 
     @Test
-    public void checkPower() {
+    void checkPower() {
         assertThat(IntegerUtils.checkPower(128, 2)).isEqualTo(7);
         assertThat(IntegerUtils.checkPower(127, 2)).isEqualTo(-1);
         assertThat(IntegerUtils.checkPower(128)).containsExactly(2, 7);
@@ -32,7 +32,7 @@ class IntegerUtilsTest {
     }
 
     @Test
-    public void checkPower2() {
+    void checkPower2() {
         assertThat(IntegerUtils.checkPower(4)).containsExactly(2, 2);
     }
 
@@ -49,7 +49,7 @@ class IntegerUtilsTest {
 
 
     @Test
-    public void digits() {
+    void digits() {
         assertThat(DigitUtils.fromDigits(1, 2, 3)).isEqualTo(123);
 
         assertThatThrownBy(() -> DigitUtils.fromDigitsInBase(4, 1, 2, 4)).isInstanceOf(IllegalArgumentException.class);
@@ -60,18 +60,18 @@ class IntegerUtilsTest {
 
     @ParameterizedTest
     @ValueSource(ints = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199})
-    public void isPrime(int prime) {
+    void isPrime(int prime) {
         assertThat(IntegerUtils.isPrime(prime)).isTrue();
     }
     @ParameterizedTest
     @ValueSource(ints = {-1, 0, 1, 4, 6, 8, 9, 10, 12, 14, 15, 16, 18, 20, 21, 22, 24, 25, 26, 27, 28, 30, 32, 33, 34, 35, 36, 38, 39, 40, 42, 44, 45, 46, 48, 49, 50, 51, 52, 54, 55, 56, 57, 58, 60, 62, 63, 64, 65, 66, 68, 69, 70, 72, 74, 75, 76, 77, 78, 80, 81,82, 84, 85, 86, 87, 88, 90, 91, 92, 93, 94, 95, 96, 98, 99, 100})
-    public void isNotPrime(int composite) {
+    void isNotPrime(int composite) {
         assertThat(IntegerUtils.isPrime(composite)).isFalse();
     }
 
 
     @Test
-    public void factorization() {
+    void factorization() {
         assertThat(IntegerUtils.primeFactorization(25)).containsExactly(5L, 5L);
         assertThat(IntegerUtils.primeFactorization(13)).containsExactly(13L);
         assertThat(IntegerUtils.primeFactorization(64)).containsExactly(2L, 2L, 2L, 2L, 2L, 2L);
@@ -82,17 +82,17 @@ class IntegerUtilsTest {
     }
 
     @Test
-    public void isNotPrimePower() {
+    void isNotPrimePower() {
         assertThat(IntegerUtils.isPrimePower(13 * 13 * 2 * 2)).isFalse();
     }
     @Test
-    public void isPrimePower() {
+    void isPrimePower() {
         assertThat(IntegerUtils.isPrimePower(13 * 13)).isTrue();
     }
 
 
     @Test
-    public void nextPrime() {
+    void nextPrime() {
         assertThat(IntegerUtils.nextPrime(1)).isEqualTo(2);
         assertThat(IntegerUtils.nextPrime(13)).isEqualTo(17);
         assertThat(IntegerUtils.nextPrime(22)).isEqualTo(23);
@@ -102,19 +102,19 @@ class IntegerUtilsTest {
 
 
     @Test
-    public void positivePower10() {
+    void positivePower10() {
         assertThatThrownBy(() -> IntegerUtils.positivePow10(-1)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow10(2)).isEqualTo(100);
     }
 
     @Test
-    public void positivePower10TooBig() {
+    void positivePower10TooBig() {
         assertThatThrownBy(() -> IntegerUtils.positivePow10(19)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow10(18)).isEqualTo(1000000000000000000L);
     }
 
     @Test
-    public void positivePowerTooBig() {
+    void positivePowerTooBig() {
         assertThat(IntegerUtils.positivePow(11, 18)).isEqualTo(5_559_917_313_492_231_481L);
         assertThatThrownBy( () -> IntegerUtils.positivePow(11, 19)).isInstanceOf(IllegalPowerException.class);
 
@@ -122,13 +122,13 @@ class IntegerUtilsTest {
 
 
     @Test
-    public void positivePower() {
+    void positivePower() {
         assertThatThrownBy(() -> IntegerUtils.positivePow(BigInteger.TEN, -1)).isInstanceOf(IllegalPowerException.class);
         assertThat(IntegerUtils.positivePow(BigInteger.TEN, 2)).isEqualTo(BigInteger.valueOf(100));
     }
 
     @Test
-    public void pow() {
+    void pow() {
         assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.ZERO)).isEqualTo(BigInteger.ONE);
         assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.ONE)).isEqualTo(BigInteger.ZERO);
         assertThat(IntegerUtils.pow(BigInteger.ZERO, BigInteger.TWO)).isEqualTo(BigInteger.ZERO);
@@ -138,7 +138,7 @@ class IntegerUtilsTest {
     }
 
     @Property
-    public void factorization(@ForAll("positiveLongs") long random) {
+    void factorization(@ForAll("positiveLongs") long random) {
         StringBuilder builder = new StringBuilder();
 
         assertThat(IntegerUtils.primeFactorization(random)
@@ -154,22 +154,22 @@ class IntegerUtilsTest {
 
 
    @Test
-   public void sqrt() {
+   void sqrt() {
        assertThat(IntegerUtils.sqrt(4)).isEqualTo(2);
        assertThatThrownBy(() -> IntegerUtils.sqrt(5)).isInstanceOf(MathException.class);
    }
    @ParameterizedTest
    @ValueSource(longs = {0, 5, 2564287193236147620L, 9223372036854775806L, Long.MAX_VALUE })
-   public void floorSqrt(long value) {
+   void floorSqrt(long value) {
        assertThat(IntegerUtils.floorSqrt(value)).isEqualTo(BigInteger.valueOf(value).sqrt().longValue());
    }
    @Test
-   public void floorSqrtNegative() {
+   void floorSqrtNegative() {
        assertThatThrownBy(() -> IntegerUtils.floorSqrt(-1)).isInstanceOf(IllegalSqrtException.class);
    }
 
    @Test
-   public void timeTest() {
+   void timeTest() {
        {// warm up
            for (int i = 0; i < 10000000; i++) {
                BigInteger.valueOf(9223372036854775806L - i).sqrt().longValueExact();
@@ -195,21 +195,21 @@ class IntegerUtilsTest {
    }
 
     @Test
-    public void factorial() {
+    void factorial() {
         assertThat(IntegerUtils.factorial(4)).isEqualTo(24);
         assertThat(IntegerUtils.factorial(0)).isEqualTo(1);
         assertThatThrownBy(() -> IntegerUtils.factorial(-1)).isInstanceOf(InvalidFactorial.class);
     }
 
     @Test
-    public void bigfactorial() {
+    void bigfactorial() {
         assertThat(IntegerUtils.bigIntegerFactorial(BigInteger.valueOf(4L))).isEqualTo(24);
         assertThat(IntegerUtils.bigIntegerFactorial(BigInteger.ZERO)).isEqualTo(1);
         assertThatThrownBy(() -> IntegerUtils.bigIntegerFactorial(MINUS_ONE)).isInstanceOf(InvalidFactorial.class);
     }
 
     @Test
-    public void subfactorial() {
+    void subfactorial() {
         assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.valueOf(4L))).isEqualTo(9);
         assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.valueOf(9L))).isEqualTo(133_496L);
         assertThat(IntegerUtils.bigIntegerSubfactorial(BigInteger.ZERO)).isEqualTo(1);
@@ -217,7 +217,7 @@ class IntegerUtilsTest {
     }
 
     @Test
-    public void doubleFactorial() {
+    void doubleFactorial() {
         assertThat(IntegerUtils.bigIntegerDoubleFactorial(BigInteger.valueOf(9L))).isEqualTo(945);
         assertThat(IntegerUtils.bigIntegerDoubleFactorial(BigInteger.valueOf(8L))).isEqualTo(384);
 
@@ -227,7 +227,7 @@ class IntegerUtilsTest {
 
 
     @Test
-    public void log10() {
+    void log10() {
         long start = System.currentTimeMillis();
         int d = 0;
         for (int i = 0; i < 1000000L; i++) {
@@ -240,7 +240,7 @@ class IntegerUtilsTest {
     }
 
     @Test
-    public void max() {
+    void max() {
         assertThat(IntegerUtils.max(1, 2, 3)).isEqualTo(3);
         assertThat(IntegerUtils.max(1, 2, 3, 4, 5)).isEqualTo(5);
         assertThat(IntegerUtils.max(1, 2, -3)).isEqualTo(2);
@@ -250,13 +250,13 @@ class IntegerUtilsTest {
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 4, 9, 16, 25})
-    public void isSquare(int i) {
+    void isSquare(int i) {
         assertThat(IntegerUtils.isSquare(i)).isTrue();
         assertThat(IntegerUtils.isSquare(BigInteger.valueOf(i))).isTrue();
     }
     @ParameterizedTest
     @ValueSource(ints = {-25, -24, 27, 27})
-    public void isNotSquare(int i) {
+    void isNotSquare(int i) {
         assertThat(IntegerUtils.isSquare(i)).isFalse();
         assertThat(IntegerUtils.isSquare(BigInteger.valueOf(i))).isFalse();
     }

@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BasicAlgebraicComparisonOperatorTest {
 
     @Test
-    public void test() {
+    void test() {
         SampleElement e1 = new SampleElement();
         SampleElement e2 = new SampleElement();
         assertThat(BasicComparisonOperator.EQ.test(e1, e2)).isFalse();

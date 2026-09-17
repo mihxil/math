@@ -41,7 +41,7 @@ import static org.meeuw.math.windowed.Windowed.Event.WINDOW_COMPLETED;
 class WindowedStatisticalLongTest {
 
     @Test
-    public void test() {
+    void test() {
         TestClock clock = new TestClock(ZoneId.of("Europe/Amsterdam"), Instant.parse("2022-10-23T09:00:00Z"));
         final List<Event> events = new ArrayList<>();
         BiConsumer<Event, Windowed<StatisticalLong>> listener = (e, l) -> {
@@ -89,7 +89,7 @@ class WindowedStatisticalLongTest {
     }
 
     @Test
-    public void testNormal() {
+    void testNormal() {
         final int bucketCount = 20;
         final int bucketDuration = 10; // ms
         TestClock clock = new TestClock();
@@ -113,7 +113,7 @@ class WindowedStatisticalLongTest {
     }
 
     @Test
-    public void testDuration() {
+    void testDuration() {
         TestClock clock = new TestClock();
 
         try (WindowedStatisticalLong impl = WindowedStatisticalLong

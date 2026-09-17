@@ -18,7 +18,7 @@ public class BigDecimalUtilsTest {
 
 
     @Test
-    public void pow() {
+    void pow() {
         Assertions.assertThatThrownBy(()-> {
             BigDecimalUtils.pow(BigDecimal.ZERO, -1, MathContext.DECIMAL128);
         }).isInstanceOf(IllegalPowerException.class);
@@ -27,7 +27,7 @@ public class BigDecimalUtilsTest {
 
 
     @Test
-    public void uncertaintyForBigDecimal() {
+    void uncertaintyForBigDecimal() {
         assertThat(BigDecimalUtils.uncertaintyForBigDecimal(BigDecimal.TEN, MathContext.DECIMAL128)).isEqualTo(BigDecimal.ZERO);
         assertThat(BigDecimalUtils.uncertaintyForBigDecimal(new BigDecimal("0.123"), MathContext.DECIMAL32)).isEqualTo(new BigDecimal("1E-7"));
 

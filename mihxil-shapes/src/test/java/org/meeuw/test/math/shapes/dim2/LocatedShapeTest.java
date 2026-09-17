@@ -18,19 +18,19 @@ public class LocatedShapeTest {
     final Circle<RealNumber, RealNumber> circle = new Circle<>(element(5.0));
 
     @Test
-    public void atOriginShape() {
+    void atOriginShape() {
         var located = LocatedFigure.atOrigin(circle);
         assertThat(located.shape()).isSameAs(circle);
     }
 
     @Test
-    public void atOriginLocation() {
+    void atOriginLocation() {
         var located = LocatedFigure.atOrigin(circle);
         assertThat(located.location().isZero()).isTrue();
     }
 
     @Test
-    public void atOriginToString() {
+    void atOriginToString() {
         var located = LocatedFigure.atOrigin(circle);
         log.info("Located shape: " + located);
         // At origin, no " at " suffix
@@ -38,7 +38,7 @@ public class LocatedShapeTest {
     }
 
     @Test
-    public void withLocationToString() {
+    void withLocationToString() {
         var location = FieldVector2.of(element(1.0), element(2.0));
         var located = new LocatedFigure<>(circle, location);
         log.info("Located shape at offset: " + located);
@@ -46,7 +46,7 @@ public class LocatedShapeTest {
     }
 
     @Test
-    public void equalsAndHashCode() {
+    void equalsAndHashCode() {
         var a = LocatedFigure.atOrigin(circle);
         var b = LocatedFigure.atOrigin(circle);
         assertThat(a).isEqualTo(b);

@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ImmutableUncertainNumberTest {
 
     @Test
-    public void tString() {
+    void tString() {
         ImmutableUncertainNumber<Long> t = ImmutableUncertainNumber.<Long>of(5L, () -> 3L);
         assertThat(t.toString()).isEqualTo("5 ± 3");
         ImmutableUncertainNumber<Long> withUnits = t.withUnitsAsString("m");
@@ -17,7 +17,7 @@ class ImmutableUncertainNumberTest {
     }
 
      @Test
-    public void eq() {
+    void eq() {
         ImmutableUncertainNumber<Double> t1 = ImmutableUncertainNumber.<Double>of(5d, () -> 3d);
         ImmutableUncertainNumber<Double> t2 = ImmutableUncertainNumber.<Double>of(4d, () -> 3d);
 

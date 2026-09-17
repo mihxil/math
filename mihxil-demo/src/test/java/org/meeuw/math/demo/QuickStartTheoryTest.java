@@ -23,7 +23,7 @@ public class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
      * Other (junit) tests can just be added in the same class too.
      */
     @Test
-    public void otherTest() {
+    void otherTest() {
         assertEquals("MyComparable{value=1}", new MyComparable(1).toString());
     }
 }

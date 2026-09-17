@@ -147,7 +147,7 @@ public class SpecialLinearGroupTest {
         MultiplicativeGroupTheory<SpecialLinearMatrix<IntegerElement>> {
 
         @Property
-        public void determinant(@ForAll(ELEMENTS) SpecialLinearMatrix<IntegerElement> matrix) {
+        void determinant(@ForAll(ELEMENTS) SpecialLinearMatrix<IntegerElement> matrix) {
             log.info("det(%s) = %s".formatted(matrix, matrix.determinant()));
             assertThat(matrix.determinant()).isIn(IntegerElement.ONE, IntegerElement.ONE.negation());
 

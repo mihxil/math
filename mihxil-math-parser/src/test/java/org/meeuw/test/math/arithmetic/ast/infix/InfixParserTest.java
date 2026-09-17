@@ -28,7 +28,7 @@ public class InfixParserTest {
         "sin(4)",
         "\"-1\""
     })
-    public void terms(String string) throws ParseException {
+    void terms(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.term();
         log.info("parsed: " + expression);
@@ -46,7 +46,7 @@ public class InfixParserTest {
         "r4 + r5",
         "-pi"
     })
-    public void parse(String string) throws ParseException {
+    void parse(String string) throws ParseException {
         InfixParser<RealNumber> parser = new InfixParser<>(string, RealField.INSTANCE, this::getConstant);
         Expression<RealNumber> expression = parser.parse();
         log.info("parsed: " + expression + " -> " + expression.eval());
@@ -61,7 +61,7 @@ public class InfixParserTest {
         "r4 + r5",
         "2 + 3!"
     })
-    public void parseInteger(String string) throws ParseException {
+    void parseInteger(String string) throws ParseException {
         InfixParser<IntegerElement> parser = new InfixParser<>(string, Integers.INSTANCE, this::getIntConstant);
         Expression<IntegerElement> expression = parser.parse();
         log.info("parsed: " + expression + " -> " + expression.eval());

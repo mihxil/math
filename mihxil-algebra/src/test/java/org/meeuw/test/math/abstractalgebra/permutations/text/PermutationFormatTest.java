@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class PermutationFormatTest {
 
     @Test
-    public void aspect() {
+    void aspect() {
         List<ConfigurationAspect> check = ConfigurationService.getConfiguration()
             .getConfigurationAspectsAssociatedWith(PermutationFormatProvider.class);
 
@@ -48,7 +48,7 @@ class PermutationFormatTest {
     }
 
     @Test
-    public void format() {
+    void format() {
 
         final PermutationFormat format = new PermutationFormat(Notation.LIST, Offset.ONE);
         assertThatThrownBy(() -> format.format(new Object())).isInstanceOf(IllegalArgumentException.class);

@@ -74,7 +74,7 @@ class RealFieldComparedWithBigDecimalFieldTest {
 
 
     @Property
-    public void errorPropagation(
+    void errorPropagation(
         @ForAll("bigdecimals") final BigDecimal r1,
         @ForAll("bigdecimals") final BigDecimal r2,
         @ForAll("operators") final AlgebraicBinaryOperator operator) {

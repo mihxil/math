@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class AlgebraicUnaryOperatorTest {
 
     @Test
-    public void identity() {
+    void identity() {
         SampleElement in = new SampleElement();
         SampleElement out = AlgebraicUnaryOperator.identity().apply(in);
 
@@ -39,14 +39,14 @@ public class AlgebraicUnaryOperatorTest {
     }
 
     @Test
-    public void andThen() {
+    void andThen() {
         assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).stringify("x")).isEqualTo("-self(x)");
 
         assertThat(AlgebraicUnaryOperator.identity().andThen(BasicAlgebraicUnaryOperator.NEGATION).name()).isEqualTo("identity and then NEGATION");
     }
 
     @Test
-    public void compose() {
+    void compose() {
         AlgebraicUnaryOperator compose = AlgebraicUnaryOperator.identity().compose(BasicAlgebraicUnaryOperator.NEGATION);
         assertThat(compose.stringify("x")).isEqualTo("self(-x)");
 

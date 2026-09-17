@@ -16,21 +16,21 @@ public class SphereTest {
     final Sphere<RationalNumber, BigDecimalElement> sphere = new Sphere<>(RationalNumber.of(2));
 
     @Test
-    public void area() {
+    void area() {
         log.info("Area of %s: %s".formatted(sphere, sphere.surfaceArea()));
         // 4 * pi * r^2 = 4 * pi * 4
         assertThat(sphere.surfaceArea().doubleValue()).isEqualTo(4 * Math.PI * 4);
     }
 
     @Test
-    public void volume() {
+    void volume() {
         log.info("Volume of %s: %s".formatted(sphere, sphere.volume()));
         // Implementation computes r^3 * pi * 4 (note: standard sphere volume is 4/3 * pi * r^3)
         assertThat(sphere.volume().doubleValue()).isEqualTo(4 * Math.PI * 8);
     }
 
     @Test
-    public void eq() {
+    void eq() {
         Sphere<RationalNumber, BigDecimalElement> same = new Sphere<>(RationalNumber.of(2));
         Sphere<RationalNumber, BigDecimalElement> different = new Sphere<>(RationalNumber.of(3));
         assertThat(sphere.eq(same)).isTrue();
@@ -38,7 +38,7 @@ public class SphereTest {
     }
 
     @Test
-    public void tostring() {
+    void tostring() {
         assertThat(sphere.toString()).contains("2");
     }
 }

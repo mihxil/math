@@ -62,7 +62,7 @@ public class BasicFunctionTest {
     }
 
     @Test
-    public void abs() {
+    void abs() {
         assertThatThrownBy(() -> {
             BasicFunction.ABS.apply("tests");
         }).isInstanceOf(NoSuchMethodException.class);
@@ -79,7 +79,7 @@ public class BasicFunctionTest {
     }
 
     @Test
-    public void andThen() {
+    void andThen() {
         assertThat(BasicFunction.ABS.andThen(new Function<A, String>() {
             @Override
             public String apply(A a) {
@@ -89,7 +89,7 @@ public class BasicFunctionTest {
     }
 
     @Test
-    public void compose() {
+    void compose() {
         assertThat(BasicFunction.ABS.compose(new Function<String, A>() {
             @Override
             public A apply(String a) {

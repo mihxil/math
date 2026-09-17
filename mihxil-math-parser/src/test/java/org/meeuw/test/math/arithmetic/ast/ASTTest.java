@@ -19,7 +19,7 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 class ASTTest {
 
     @Test
-    public void test() {
+    void test() {
         BinaryOperation<RealNumber> op = new Value<>(exactly(2d)).times(
             new UnaryOperation<>(BasicAlgebraicUnaryOperator.SQR,
                 new BinaryOperation<>(ADDITION,
@@ -31,7 +31,7 @@ class ASTTest {
     }
 
     @Test
-    public void canonize() {
+    void canonize() {
         assertThat(
             new Value<>(exactly(3d))
                 .plus(new Value<>(exactly(2d))
@@ -58,7 +58,7 @@ class ASTTest {
 
 
     @Test
-    public void equivalence() {
+    void equivalence() {
         assertThat(new Value<>(exactly(2d)).canonize(INSTANCE)).isEqualTo(new Value<>(exactly(2d)));
 
         assertThat(new BinaryOperation<>(MULTIPLICATION,
@@ -79,28 +79,28 @@ class ASTTest {
     }
 
     @Test
-    public void parseInfix() {
+    void parseInfix() {
         Expression<RealNumber> exp = AST.parse("(3 * (8 - 3)) + 8", INSTANCE);
         log.info(AST.toInfix(exp.canonize(INSTANCE)));
         Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
         log.info(AST.toInfix(exp2.canonize(INSTANCE)));
     }
     @Test
-    public void parseInfix1(){
+    void parseInfix1(){
         String s = "(1 + 2) + 200";
         Expression<?> parse = AST.parse(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 
     @Test
-    public void parseInfix2(){
+    void parseInfix2(){
         String s = "1 + -1";
         Expression<RealNumber> parse = AST.parse(s, INSTANCE);
         assertThat(parse).isInstanceOf(BinaryOperation.class);
     }
 
     @Test
-    public void stream() {
+    void stream() {
         assertThat(AST.stream(
             List.of(INSTANCE.element(1),
                 INSTANCE.element(2)),
@@ -110,7 +110,7 @@ class ASTTest {
     }
 
     @Test
-    public void streamSize() {
+    void streamSize() {
         assertThat(AST.stream(
             List.of(INSTANCE.element(1),
                 INSTANCE.element(2)),

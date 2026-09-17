@@ -46,7 +46,7 @@ class ReflectionUtilsTest {
     }
 
     @Test
-    public void forConstants() {
+    void forConstants() {
         List<A> result = new ArrayList<>();
         ReflectionUtils.forConstants(A.class, result::add);
         assertThat(result).hasSize(1);
@@ -54,7 +54,7 @@ class ReflectionUtilsTest {
     }
 
     @Test
-    public void getBinary() {
+    void getBinary() {
         Method algebraic = getDeclaredBinaryMethod(A.class, "algebraic");
         assertThat(algebraic).isNotNull();
 

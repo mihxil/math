@@ -46,13 +46,13 @@ class EllipseTest  {
         }
 
         @Test
-        public void perimeter1() {
+        void perimeter1() {
             Ellipse<RealNumber, RealNumber> ellipse = new Ellipse<>(element(1.0), element(1.0));
             assertThatAlgebraically(ellipse.perimeter()).isEqTo(element(2 * Math.PI)); // approximation, not exact
         }
 
         @Test
-        public void perimeter2() {
+        void perimeter2() {
             Ellipse<RealNumber, RealNumber> ellipse = new Ellipse<>(element(10.0), element(8.0));
             assertThatAlgebraically(ellipse.perimeter()).isEqTo(element(
                     56.72333577794859 // https://circumferencecalculator.net/ellipse-perimeter-calculator

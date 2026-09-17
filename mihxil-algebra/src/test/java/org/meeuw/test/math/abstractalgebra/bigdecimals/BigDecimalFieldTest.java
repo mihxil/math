@@ -49,7 +49,7 @@ class BigDecimalFieldTest implements
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {
 
     @Test
-    public void test() {
+    void test() {
         withLooseEquals(() -> {
             assertThat(
                 of(5d).times(2).times(of(6d))
@@ -58,7 +58,7 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void uncertaintyOfDoubles() {
+    void uncertaintyOfDoubles() {
 
         // uncertainty in the double
         assertThat(of(5).getUncertainty()).isEqualTo("1.8E-15");
@@ -70,12 +70,12 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void uncertaintyOfBigDecimal() {
+    void uncertaintyOfBigDecimal() {
         // BigDecimals intrinsically know their uncertainty, and can be exact.
         assertThat(of("5").getUncertainty()).isEqualTo("0");
     }
     @Test
-    public void uncertaintyPropagation() {
+    void uncertaintyPropagation() {
         assertThat(
             of(4_503_599_627_370_497d)
                 .minus(
@@ -85,7 +85,7 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void divisionUncertainty() {
+    void divisionUncertainty() {
         // by division, exactness gets lost
         BigDecimalElement half = of("1").dividedBy(of("2"));
         assertThat(half.getUncertainty()).isEqualTo("1e-" + BigDecimalOperations.INSTANCE.context().getPrecision()); //
@@ -93,7 +93,7 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void divisionUncertaintyConfiguredLessPrecise() {
+    void divisionUncertaintyConfiguredLessPrecise() {
         withAspect(MathContextConfiguration.class, mc ->
             mc.withContext(new MathContext(2)), () -> {
             BigDecimalElement half = of("1").dividedBy(of("2"));
@@ -103,14 +103,14 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void basic() {
+    void basic() {
         assertThat(of(5).minus(of(4))).isEqualTo(of(1));
         assertThat(of(5).p(INSTANCE.zero())).isEqualTo(of(5));
         assertThat(of("-539.4562718339926").plus(INSTANCE.zero())).isEqualTo(of("-539.4562718339926"));
     }
 
     @Test
-    public void reciprocalExample() {
+    void reciprocalExample() {
         BigDecimalElement e = of(-859.3420301563415);
         BigDecimalElement reciprocal = e.reciprocal();
         BigDecimalElement timesItself = reciprocal.times(e);
@@ -120,14 +120,14 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void pow() {
+    void pow() {
         BigDecimalElement base = of(300);
         BigDecimalElement exponent = of(-30.1);
         assertThat(base.pow(exponent).doubleValue()).isNotEqualTo(0d);
     }
 
     @Test
-    public void tetration() {
+    void tetration() {
 
         BigDecimalElement two = of(2);
 
@@ -152,7 +152,7 @@ class BigDecimalFieldTest implements
 
 
     @Property
-    public void timesDouble(
+    void timesDouble(
         @ForAll(ELEMENTS) BigDecimalElement e,
         @ForAll("doubles") Double multiplier) {
         assertThat(e.times(multiplier).getValue().doubleValue())
@@ -179,13 +179,13 @@ class BigDecimalFieldTest implements
     }
 
     @Test
-    public void simpleToString() {
+    void simpleToString() {
         assertThat(of("1234").toString()).isEqualTo("1234");
         assertThat(of("1234.5678901234556890").toString()).isEqualTo("1234.5678901234556890");
     }
 
     @Test
-    public void stringMaxPrecision() {
+    void stringMaxPrecision() {
         withAspect(NumberConfiguration.class, (nc) -> {
             return nc.withMaximalPrecision(2);
         }, () -> {

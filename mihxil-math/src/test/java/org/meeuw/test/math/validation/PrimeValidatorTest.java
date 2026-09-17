@@ -51,13 +51,13 @@ class PrimeValidatorTest {
             .buildValidatorFactory();
 
     @Test
-    public void  test() {
+    void  test() {
         assertThat(factory.getValidator().validate(new A(3))).isEmpty();
         assertThat(factory.getValidator().validate(new A(4))).hasSize(1);
     }
 
     @Test
-    public void  testPower() {
+    void  testPower() {
         assertThat(factory.getValidator().validate(new A1(3))).isEmpty();
         assertThat(factory.getValidator().validate(new A1(4))).isEmpty();
         assertThat(factory.getValidator().validate(new A1(13 * 13 * 13))).isEmpty();

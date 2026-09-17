@@ -26,7 +26,7 @@ class PadicIntegersTest {
     PAdicIntegers p5 = PAdicIntegers.of(5);
 
     @Test
-    public void simple() {
+    void simple() {
         PAdicInteger a = p5.of("0", "234");
         PAdicInteger b = p5.of("0", "340");
 
@@ -42,7 +42,7 @@ class PadicIntegersTest {
     }
 
     @Test
-    public void negationOfOne() {
+    void negationOfOne() {
         PAdicInteger minusOne = p5.one().negation();
         assertThat(minusOne.toString()).isEqualTo("...4 ₅");
 
@@ -52,7 +52,7 @@ class PadicIntegersTest {
 
 
     @Test
-    public void negationOfMinusOne() {
+    void negationOfMinusOne() {
         PAdicInteger minusOne = p5.of("4", "");
         assertThat(minusOne.negation()).isEqualTo(p5.one());
     }
@@ -61,7 +61,7 @@ class PadicIntegersTest {
         "040, 4233301",
         "0430, 123031240"
     })
-    public void timesOne(String repetend, String digits) {
+    void timesOne(String repetend, String digits) {
         PAdicInteger sample = p5.of(repetend, digits);
         PAdicInteger timesOne = sample.times(p5.one());
         log.info("%s x %s = %s".formatted(sample, p5.one(), timesOne));
@@ -69,13 +69,13 @@ class PadicIntegersTest {
     }
 
     @Test
-    public void negation() {
+    void negation() {
         PAdicInteger minusOne = p5.one().negation();
         assertThat(minusOne.toString()).isEqualTo("...4 ₅");
     }
 
     @Test
-    public void random() {
+    void random() {
         Random r = new Random(1);
         PAdicInteger random = p5.nextRandom(r);
         assertThat(random.toString()).isEqualTo("...120444 44133432324221₅");
@@ -85,14 +85,14 @@ class PadicIntegersTest {
     }
 
     @Test
-    public void withRepetitive() {
+    void withRepetitive() {
         PAdicInteger a = p5.of("0", "234");
         PAdicInteger b = a.withRepetend(1, 3);
 
     }
 
     @Test
-    public void reciprocalOfTwo() {
+    void reciprocalOfTwo() {
         // In 5-adic integers, 1/2 should satisfy 2 * (1/2) = 1
         PAdicInteger two = p5.of(new int[]{2});
         PAdicInteger reciprocal = two.reciprocal();
@@ -105,7 +105,7 @@ class PadicIntegersTest {
     }
 
     @Test
-    public void reciprocalOfThree() {
+    void reciprocalOfThree() {
         // In 5-adic integers, 1/3 should satisfy 3 * (1/3) = 1
         PAdicInteger three = p5.of(new int[]{3});
         PAdicInteger reciprocal = three.reciprocal();
@@ -118,7 +118,7 @@ class PadicIntegersTest {
     }
 
     @Test
-    public void dividedByTwo() {
+    void dividedByTwo() {
         // Test that 4 / 2 = 2
         PAdicInteger four = p5.of(new int[]{4});
         PAdicInteger two = p5.of(new int[]{2});

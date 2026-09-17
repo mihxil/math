@@ -32,7 +32,7 @@ public class SeasonsTest {
         EXPECTED = Map.of(2025, Collections.unmodifiableMap(seasons2025));
     }
     @Test
-    public void seasons() {
+    void seasons() {
 
         Stream.of(Season.values()).forEach(season -> {
             assertThat( season.apply(Year.of(2025)).toString()).isEqualTo(EXPECTED.get(2025).get(season));
@@ -40,7 +40,7 @@ public class SeasonsTest {
     }
 
     @Test
-    public void service() {
+    void service() {
         SeasonsEventSearcher seasonsEventSearcher = EventSearcherService.INSTANCE.getEventSearcher(SeasonsEventSearcher.class);
         seasonsEventSearcher.findEvents(Range.ofYears(1900, 2100), SPRING.getDescription())
             .forEach(event -> {
@@ -54,7 +54,7 @@ public class SeasonsTest {
     }
 
     @Test
-    public void nextSpring() {
+    void nextSpring() {
         Instant nextSpring = EventSearcherService.INSTANCE.findNextEvents(
             Instant.parse("2025-11-16T14:44:38Z"),
             ZoneId.systemDefault(),
@@ -64,7 +64,7 @@ public class SeasonsTest {
     }
 
     @Test
-    public void previousSpring() {
+    void previousSpring() {
         Instant previousSpring = EventSearcherService.INSTANCE.findPreviousEvents(
             Instant.parse("2025-11-16T14:44:38Z"),
             ZoneId.systemDefault(),
@@ -74,7 +74,7 @@ public class SeasonsTest {
     }
 
     @Test
-    public void thisSpring() {
+    void thisSpring() {
         Instant thisSpring = EventSearcherService.INSTANCE.findEvents(Range.fromYear(2025),
             ZoneId.systemDefault(),
             "spring"

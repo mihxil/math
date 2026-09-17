@@ -42,12 +42,12 @@ class NDivisibleIntegerTest implements
     SignedNumberTheory<NDivisibleInteger> {
 
     @Test
-    public void invalid() {
+    void invalid() {
         assertThatThrownBy(() -> of(3, 1)).isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Test
-    public void test() {
+    void test() {
         NDivisibleInteger six =  of(3, 6);
         NDivisibleIntegers structure = six.getStructure();
         assertThat(structure.getDivisor()).isEqualTo(3);

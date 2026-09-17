@@ -42,7 +42,7 @@ class RationalNumberVectorTest implements
 
 
     @Test
-    public void space() {
+    void space() {
         NVectorSpace<RationalNumber> space4 = NVectorSpace.of(4, INSTANCE);
         NVectorSpace<RationalNumber> space3 = NVectorSpace.of(3, INSTANCE);
         assertThat(space3.equals(space4)).isFalse();
@@ -54,7 +54,7 @@ class RationalNumberVectorTest implements
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
-    public void stringEqualsHashCode() {
+    void stringEqualsHashCode() {
         NVector<RationalNumber> example = of(1, 2, 3);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
         assertThat(example.getSpace().toString()).isEqualTo("ℚ³");

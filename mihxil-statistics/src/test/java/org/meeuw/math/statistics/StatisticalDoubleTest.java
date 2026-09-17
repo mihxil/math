@@ -50,52 +50,52 @@ public class StatisticalDoubleTest implements
     CompleteScalarFieldTheory<RealNumber> {
 
     @Test
-    public void test1() {
+    void test1() {
         assertThat(new StatisticalDoubleImpl().enter(-10, 20).toString()).isEqualTo("5 ± 15");
     }
 
     @Test
-    public void test2() {
+    void test2() {
         assertThat(new StatisticalDoubleImpl().enter(0, 0).toString()).isEqualTo("0");
     }
 
     @Test
-    public void test3() {
+    void test3() {
         assertThat(new StatisticalDoubleImpl().enter(0, 1).toString()).isEqualTo("0.5 ± 0.5");
     }
 
     @Test
-    public void test4() {
+    void test4() {
         assertThat(new StatisticalDoubleImpl().enter(-0.001, -0.002).toString()).isEqualTo("-0.0015 ± 0.0005");
     }
 
     @Test
-    public void test5() {
+    void test5() {
         assertThat(new StatisticalDoubleImpl().enter(0.5, 1.5).toString()).isEqualTo("1.0 ± 0.5");
     }
 
     @Test
-    public void test6() {
+    void test6() {
         assertThat(new StatisticalDoubleImpl().enter(20000, 20001, 20002, 20003).toString()).isEqualTo("20001.5 ± 1.1");
     }
 
     @Test
-    public void test7() {
+    void test7() {
         assertThat(new StatisticalDoubleImpl().enter(20000, 20010, 20020, 20030).toString()).isEqualTo("20015 ± 11");
     }
 
     @Test
-    public void test8() {
+    void test8() {
         assertThat(new StatisticalDoubleImpl().enter(20000, 20100, 20200, 20300).toString()).isEqualTo("(2.015 ± 0.011)·10⁴");
     }
 
     @Test
-    public void test9 () {
+    void test9 () {
         assertThat(new StatisticalDoubleImpl().enter(0.000002, 0.0000021, 0.0000022, 0.0000023).toString()).isEqualTo("(2.15 ± 0.11)·10⁻⁶");
     }
 
     @Test
-    public void test10() {
+    void test10() {
         StatisticalDoubleImpl mes = new StatisticalDoubleImpl().enter(0.0000002, 0.000000201, 0.000000202, 0.000000203);
         assertThat(mes.getUncertainty()).isCloseTo(0.011E-7, withPercentage(2));
 
@@ -109,7 +109,7 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void testEqualsWhenNoValues() {
+    void testEqualsWhenNoValues() {
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
         assertThat(d1).isEqualTo(d2);
@@ -118,7 +118,7 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void testEqualsWhenOnlyOne() {
+    void testEqualsWhenOnlyOne() {
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
         StatisticalDoubleImpl d2 = new StatisticalDoubleImpl();
         d1.enter(0.5);
@@ -128,13 +128,13 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void testWhenNoValues() {
+    void testWhenNoValues() {
         StatisticalDouble<?> d1 = new StatisticalDoubleImpl();
         assertThatThrownBy(d1::getMean).isInstanceOf(DivisionByZeroException.class);
     }
 
     @Test
-    public void reset() {
+    void reset() {
         StatisticalDoubleImpl d = new StatisticalDoubleImpl();
         d.enter(1, 2, 3);
         d.reset();
@@ -146,13 +146,13 @@ public class StatisticalDoubleTest implements
     }
 
     @Property
-    public void testString(@ForAll(ELEMENTS) AlgebraicElement<?> e) {
+    void testString(@ForAll(ELEMENTS) AlgebraicElement<?> e) {
         StatisticalDoubleImpl casted = (StatisticalDoubleImpl) e;
         log.info(casted.getCount() + " " + e);
     }
 
     @Test
-    public void intransitiveEq() {
+    void intransitiveEq() {
 
         log.info("SDS: " + getConfigurationAspect(UncertaintyConfiguration.class).getWidthOfConfidenceInterval());
         StatisticalDoubleImpl d1 = new StatisticalDoubleImpl();
@@ -180,7 +180,7 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void anotherZero () {
+    void anotherZero () {
         StatisticalDoubleImpl zero = new StatisticalDoubleImpl();
         zero.enter(0d, 0d, 0d, 0d, 0d, 0d, 0d);
         assertThat(zero.getStructure().zero().eq(zero)).isTrue();
@@ -195,7 +195,7 @@ public class StatisticalDoubleTest implements
     }
 
     @Test
-    public void multipleEq() {
+    void multipleEq() {
         StatisticalDoubleImpl instance = new StatisticalDoubleImpl();
         instance.enter(1d, 2d, 1d, 2d, 1d, 1d, 1d);
         instance.eq(instance);

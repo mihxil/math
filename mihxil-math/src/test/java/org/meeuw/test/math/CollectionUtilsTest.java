@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class CollectionUtilsTest {
 
     @Test
-    public void memoize() throws ExecutionException, InterruptedException {
+    void memoize() throws ExecutionException, InterruptedException {
         Supplier<Integer> sup = new Supplier<Integer>() {
             AtomicInteger i = new AtomicInteger(0);
             @SneakyThrows

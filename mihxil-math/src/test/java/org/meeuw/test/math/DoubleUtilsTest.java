@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class DoubleUtilsTest {
 
     @Test
-    public void uncertaintyForDouble() {
+    void uncertaintyForDouble() {
         assertThat(DoubleUtils.uncertaintyForDouble(0)).isEqualTo(4.9E-324);
         assertThat(DoubleUtils.uncertaintyForDouble(1e-300)).isEqualTo(3.31561842E-316);
         assertThat(DoubleUtils.uncertaintyForDouble(1e-100)).isEqualTo(2.5379418373156492E-116);
@@ -26,7 +26,7 @@ public class DoubleUtilsTest {
 
 
     @Test
-    public void round() {
+    void round() {
         assertThat(DoubleUtils.round(1.2)).isEqualTo(1);
         assertThat(DoubleUtils.round(1.5)).isEqualTo(2);
         assertThat(DoubleUtils.round(-1.5)).isEqualTo(-1);
@@ -38,7 +38,7 @@ public class DoubleUtilsTest {
 
 
     @Test
-    public void log10() {
+    void log10() {
         long start = System.currentTimeMillis();
         int d = 0;
         for (int i = 0; i < 1000000L; i++) {
@@ -51,14 +51,14 @@ public class DoubleUtilsTest {
 
 
     @Test
-    public void implicitUncertainty() {
+    void implicitUncertainty() {
         assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1")).isEqualTo(0.5d);
         assertThat(DoubleUtils.implicitUncertaintyForDouble(1, "1.00")).isEqualTo(0.005d);
         assertThat(DoubleUtils.implicitUncertaintyForDouble(0.1, "0.01")).isEqualTo(0.005d);
     }
 
     @Test
-    public void pow10() {
+    void pow10() {
         assertThat(DoubleUtils.pow10(0)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow10(1)).isEqualTo(10.0);
         assertThat(DoubleUtils.pow10(3)).isEqualTo(1000.0);
@@ -67,7 +67,7 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void pow2() {
+    void pow2() {
         assertThat(DoubleUtils.pow2(0)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow2(1)).isEqualTo(2.0);
         assertThat(DoubleUtils.pow2(10)).isEqualTo(1024.0);
@@ -76,7 +76,7 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void powIntBase() {
+    void powIntBase() {
         assertThat(DoubleUtils.pow(3, 0)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow(3, 1)).isEqualTo(3.0);
         assertThat(DoubleUtils.pow(3, 3)).isEqualTo(27.0);
@@ -85,7 +85,7 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void powDoubleBase() {
+    void powDoubleBase() {
         // When base is 0, the implementation returns 1 (regardless of exponent)
         assertThat(DoubleUtils.pow(0.0, 5)).isEqualTo(1.0);
         assertThat(DoubleUtils.pow(2.0, 0)).isEqualTo(1.0);
@@ -94,7 +94,7 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void max() {
+    void max() {
         assertThat(DoubleUtils.max(1.0, 3.0, 2.0)).isEqualTo(3.0);
         assertThat(DoubleUtils.max(-5.0, -1.0, -3.0)).isEqualTo(-1.0);
         assertThat(DoubleUtils.max(Double.NEGATIVE_INFINITY, 0.0)).isEqualTo(0.0);
@@ -103,14 +103,14 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void leastSignificantBit() {
+    void leastSignificantBit() {
         assertThat(DoubleUtils.leastSignificantBit(1.0)).isEqualTo(-51);
         assertThat(DoubleUtils.leastSignificantBit(2.0)).isEqualTo(-50);
         assertThat(DoubleUtils.leastSignificantBit(-1.0)).isEqualTo(-51);
     }
 
     @Test
-    public void isExactProductDoubles() {
+    void isExactProductDoubles() {
         assertThat(DoubleUtils.isExactProduct(2.0, 3.0)).isTrue();
         assertThat(DoubleUtils.isExactProduct(0.5, 4.0)).isTrue();
         assertThat(DoubleUtils.isExactProduct(0.0, 999.0)).isTrue();
@@ -126,7 +126,7 @@ public class DoubleUtilsTest {
     }
 
     @Test
-    public void isExactProductBigInteger() {
+    void isExactProductBigInteger() {
         assertThat(DoubleUtils.isExactProduct(2.0, BigInteger.valueOf(3))).isTrue();
         assertThat(DoubleUtils.isExactProduct(0.5, BigInteger.valueOf(4))).isTrue();
         assertThat(DoubleUtils.isExactProduct(0.0, BigInteger.valueOf(999))).isTrue();

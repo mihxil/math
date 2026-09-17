@@ -13,7 +13,7 @@ public class ParserTest {
 
     Parser<RealNumber, RealField> parser = new Parser<>(RealField.INSTANCE);
     @Test
-    public void test() {
+    void test() {
         assertThat(parser.parse("2 * (3 + 5)").eval().getValue()).isEqualTo(2 * (3 + 5));
 
         assertThat(parser.parse("2 * (3 - 5)").eval().getValue()).isEqualTo(2 * (3 - 5));

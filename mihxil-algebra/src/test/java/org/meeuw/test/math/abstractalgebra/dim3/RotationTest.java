@@ -47,7 +47,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     }
 
     @Test
-    public void rotx() {
+    void rotx() {
         withLooseEquals(() -> {
             Rotation half = Rx(PI);
 
@@ -70,7 +70,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     }
 
     @Test
-    public void roty() {
+    void roty() {
         withLooseEquals(() -> {
             Rotation y = Ry(PI);
             CompleteFieldVector3<RealNumber> v = of(1, 0, 0);
@@ -80,7 +80,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     }
 
     @Test
-    public void rotz() {
+    void rotz() {
         withLooseEquals(() -> {
             Rotation z = Rotation.Rz(PI);
             CompleteFieldVector3<RealNumber> v = of(0, 1, 0);
@@ -90,7 +90,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
     }
 
     @Property
-    public void determinantShouldBeOne(@ForAll(ELEMENTS) Rotation r) {
+    void determinantShouldBeOne(@ForAll(ELEMENTS) Rotation r) {
         RealNumber determinant = r.asMatrix().determinant();
         assertThat(determinant.eq(RealNumber.ONE))
             .withFailMessage("det(" + r.asMatrix() + ") = " + determinant + " " + TextUtils.NOT_EQUALS + " 1").isTrue();
@@ -113,7 +113,7 @@ class RotationTest implements MultiplicativeGroupTheory<Rotation> {
      * C case that used to fila
      */
     @Test
-    public void reciprocalCase() {
+    void reciprocalCase() {
         withLooseEquals(() -> {
             Rotation rotation = Rx(5.956901712986539).times(Ry(1.1e-19)).times(Rz(4.108345485500838));
             Rotation reciprocal = rotation.reciprocal();

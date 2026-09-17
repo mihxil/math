@@ -39,7 +39,7 @@ import static org.meeuw.math.abstractalgebra.integers.ModuloField.Z3Z;
 public class ProductGroupTest implements GroupTheory<ProductElement> {
 
     @Test
-    public void test() {
+    void test() {
         KleinElement a1 = KleinElement.a;
         ModuloFieldElement b1 = Z3Z.element(2);
         ProductElement e1 = ProductElement.of(a1, b1);
@@ -56,7 +56,7 @@ public class ProductGroupTest implements GroupTheory<ProductElement> {
     }
 
     @Test
-    public void incompatible() {
+    void incompatible() {
         ProductElement e1 = ProductElement.of(KleinElement.a, Z3Z.element(2));
         ProductElement e2 = ProductElement.of(KleinElement.b, ModuloField.of(13).element(2));
 

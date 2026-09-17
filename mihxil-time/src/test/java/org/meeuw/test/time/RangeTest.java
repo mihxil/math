@@ -84,7 +84,7 @@ class RangeTest {
     }
 
     @Test
-    public void illegal() {
+    void illegal() {
         assertThatThrownBy(() -> new Range<>(null, 2020)).isInstanceOf(IllegalArgumentException.class);
     }
 

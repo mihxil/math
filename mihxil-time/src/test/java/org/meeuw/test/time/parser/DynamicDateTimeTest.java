@@ -52,26 +52,26 @@ class DynamicDateTimeTest {
 
     @ParameterizedTest
     @MethodSource("getDemo")
-    public void tryDemo(String demo) throws DateTimeNotParsable {
+    void tryDemo(String demo) throws DateTimeNotParsable {
         java.text.DateFormat formatter = new java.text.SimpleDateFormat("GGGG yyyy-MM-dd HH:mm:ss.SSS zzz E");
         log.info(((TestClock) dt.getClock()).localDateTime() + "\t" + demo + "\t" + formatter.format(Date.from(dt.applyWithException(demo).toInstant())));
     }
 
     @Test
-    public  void now() {
+    void now() {
         assertThat(dt.apply("now").toString()).isEqualTo("2020-02-20T20:20+01:00[Europe/Amsterdam]");
         assertThat(dt.apply("").toString()).isEqualTo("2020-02-20T20:20+01:00[Europe/Amsterdam]");
     }
 
     @Test
-    public  void absolute() {
+    void absolute() {
         assertThat(dt.apply("1973-03-05").toString()).isEqualTo("1973-03-05T00:00+01:00[Europe/Amsterdam]");
 
         assertThat(dt.apply("1973-03-05T06:00").toString()).isEqualTo("1973-03-05T06:00+01:00[Europe/Amsterdam]");
     }
 
     @Test
-    public void offset() {
+    void offset() {
 
         assertThat(dt.apply("now + 5 minute").toString()).isEqualTo("2020-02-20T20:25+01:00[Europe/Amsterdam]");
         assertThat(dt.apply("now + 5 minute").toString()).isEqualTo("2020-02-20T20:25+01:00[Europe/Amsterdam]");
@@ -83,30 +83,30 @@ class DynamicDateTimeTest {
     }
 
     @Test
-    public void special_offset() {
+    void special_offset() {
         assertThat(dt.apply("2025-08-30 teatime").toString()).isEqualTo("2025-08-30T16:00+02:00[Europe/Amsterdam]");
     }
 
     @Test
-    public void nextSpring() {
+    void nextSpring() {
         assertThat(dt.apply("next 'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
         assertThat(dt.apply("2025-04-20 next 'spring'").toString()).isEqualTo("2026-03-20T15:44:38+01:00[Europe/Amsterdam]");
     }
 
     @Test
-    public void thisSpring() {
+    void thisSpring() {
         assertThat(dt.apply("'spring'").toString()).isEqualTo("2020-03-20T04:49:08+01:00[Europe/Amsterdam]");
     }
 
     @Test
-    public void thenSpring() {
+    void thenSpring() {
         assertThat(dt.apply("2025-04-20 this 'spring'").toString()).isEqualTo("2025-03-20T10:00:42+01:00[Europe/Amsterdam]");
     }
 
 
 
     @Test
-    public void rounding() {
+    void rounding() {
 
         assertThat(dt.apply("now this day").toString()).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
 
@@ -119,20 +119,20 @@ class DynamicDateTimeTest {
     }
 
     @Test
-    public void businessday() {
+    void businessday() {
         assertThat(dt.apply("next business day").toString()).isEqualTo("2020-02-21T00:00+01:00[Europe/Amsterdam]");
         assertThat(dt.apply("previous business day").toString()).isEqualTo("2020-02-19T00:00+01:00[Europe/Amsterdam]");
 
     }
 
     @Test
-    public void spring2005() {
+    void spring2005() {
         assertThat(dt.apply("2005-01-01 this \"spring\"").toString()).isEqualTo("2005-03-20T13:33:03+01:00[Europe/Amsterdam]");
     }
 
 
     @Test
-    public void supplier() {
+    void supplier() {
 
         ThrowingSupplier<ZonedDateTime, ParseException> supplier = dt.supplier("now + 10 minute");
 
@@ -146,7 +146,7 @@ class DynamicDateTimeTest {
     }
 
     @Test
-    public void toperiod() {
+    void toperiod() {
         assertThat(dt.apply("today")).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
 
         assertThat(dt.apply("now this day")).isEqualTo("2020-02-20T00:00+01:00[Europe/Amsterdam]");
@@ -158,7 +158,7 @@ class DynamicDateTimeTest {
 
     @Test
     @Disabled("fails, and perhaps just is a failable thing")
-    public void outlyers() {
+    void outlyers() {
         assertThat(dt.apply("0205-04-13T01:59:00+00:17:30")).isEqualTo("");
     }
 

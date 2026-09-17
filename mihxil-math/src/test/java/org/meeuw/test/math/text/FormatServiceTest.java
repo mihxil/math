@@ -33,13 +33,13 @@ import static org.meeuw.math.text.FormatService.getProviders;
 class FormatServiceTest {
 
     @BeforeEach
-    public void restoreDefaults() {
+    void restoreDefaults() {
         ConfigurationService.resetToDefaultDefaults();
         ConfigurationService.resetToDefaults();
     }
 
     @Test
-    public void getFormat() throws InterruptedException {
+    void getFormat() throws InterruptedException {
         assertThat(getProviders()
             .map(AlgebraicElementFormatProvider::toString))
             .contains(

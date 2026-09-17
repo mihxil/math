@@ -60,7 +60,7 @@ public class DocumentationTest {
 
 
     @Test
-    public void dot() throws IOException {
+    void dot() throws IOException {
         File dest = new File(System.getProperty("user.dir"), "../docs/algebras.dot.m4");
         log.warning("Generating dot file " + dest);
         try (OutputStream outputStream = new FileOutputStream(dest)) {
@@ -70,7 +70,7 @@ public class DocumentationTest {
 
     @SuppressWarnings("rawtypes")
     @Test
-    public void showAll() {
+    void showAll() {
         Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
 
         subTypes.forEach(c -> {

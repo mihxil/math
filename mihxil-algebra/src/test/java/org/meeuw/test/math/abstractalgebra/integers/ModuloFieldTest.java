@@ -43,21 +43,21 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
 
     @Test
-    public void illegal() {
+    void illegal() {
         assertThatThrownBy(() ->
             ModuloField.of(12) // must be (power of a) prime
         ).isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Test
-    public void illegalNegative() {
+    void illegalNegative() {
         assertThatThrownBy(() ->
             ModuloField.of(-3) // must be (power of a) prime
         ).isInstanceOf(InvalidStructureCreationException.class).hasMessage("Divisor of modulo structure must be > 0");
     }
 
     @Test
-    public void illegal0() {
+    void illegal0() {
         Assertions.setMaxStackTraceElementsDisplayed(20);
         assertThatThrownBy(() ->
             ModuloField.of(0) //
@@ -65,7 +65,7 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
     }
 
     @RepeatedTest(20)
-    public void nextRandom() {
+    void nextRandom() {
         ModuloField modulo23 = ModuloField.of(23);
         ModuloFieldElement moduloFieldElement = modulo23.nextRandom(new Random());
         log.info(moduloFieldElement.toString());
@@ -81,14 +81,14 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
     }
 
     @Test
-    public void dividedByLong() {
+    void dividedByLong() {
         ModuloFieldElement ten = ModuloField.of(23).element(10);
         assertThat(ten.dividedBy(5).getValue()).isEqualTo(2);
         assertThat(ten.dividedBy(9).getValue()).isEqualTo(19);
     }
 
     @Test
-    public void fromString() {
+    void fromString() {
         ModuloField f = ModuloField.of(23);
         ModuloFieldElement ten = f.fromString("10");
         assertThat(ten.getValue()).isEqualTo(10);
@@ -108,7 +108,7 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
         }
 
         @Test
-        public void multiplicationTable() {
+        void multiplicationTable() {
             structure.multiplicationTable().forEach(log::info);
         }
 
@@ -134,7 +134,7 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
         }
 
         @Test
-        public void moduloPower() {
+        void moduloPower() {
             var ten = structure.element(11);
             var big = 100_00_000_001L;
             var pow100million = ten.pow(big);
@@ -142,7 +142,7 @@ class ModuloFieldTest implements FieldTheory<ModuloFieldElement> {
 
         }
         @Test
-        public void simple() {
+        void simple() {
             AlgebraicBinaryOperator operationBySymbol = structure.getOperationBySymbol("*").get();
             assertThat(operationBySymbol.apply(structure.element(4), structure.element(7)).toString()).isEqualTo("2");
             assertThat(structure.fromString("4").times(structure.fromString("7")).toString()).isEqualTo("2");

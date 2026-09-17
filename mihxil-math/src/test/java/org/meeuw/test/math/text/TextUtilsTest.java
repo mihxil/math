@@ -19,40 +19,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TextUtilsTest  {
 
     @Test
-    public void subscript() {
+    void subscript() {
         Assertions.assertThat(TextUtils.subscript("-1234567890 P")).isEqualTo("₋₁₂₃₄₅₆₇₈₉₀ ₚ");
         assertThat(TextUtils.subscript(-123)).isEqualTo("₋₁₂₃");
         assertThat(TextUtils.subscript(0)).isEqualTo("₀");
     }
 
     @Test
-    public void superscript() {
+    void superscript() {
         assertThat("+" + TextUtils.superscript("+-1234567890 P=(n)")).isEqualTo("+⁺⁻¹²³⁴⁵⁶⁷⁸⁹⁰ ᴾ⁼⁽ⁿ⁾");
         assertThat(TextUtils.superscript(-123)).isEqualTo("⁻¹²³");
     }
 
     @Test
-    public void underLine() {
+    void underLine() {
         assertThat(TextUtils.underLine("foo bar 123")).isEqualTo("f̲o̲o̲ ̲b̲a̲r̲ ̲1̲2̲3̲");
     }
 
     @Test
-    public void underLineDouble() {
+    void underLineDouble() {
         assertThat(TextUtils.underLineDouble("foo bar 123")).isEqualTo("f̳o̳o̳ ̳b̳a̳r̳ ̳1̳2̳3̳");
     }
 
     @Test
-    public void overLine() {
+    void overLine() {
         assertThat(TextUtils.overLine("foo bar 123eijk")).isEqualTo("f̅o̅o̅ ̅b̅a̅r̅ ̅1̅2̅3̅e̅i̅j̅k̅");
     }
 
     @Test
-    public void overLineDouble() {
+    void overLineDouble() {
         assertThat(TextUtils.overLineDouble("foo bar 123")).isEqualTo("f̿o̿o̿ ̿b̿a̿r̿ ̿1̿2̿3̿");
     }
 
     @Test
-    public void controlNull() {
+    void controlNull() {
         assertThat(TextUtils.controlEach(null, '\u033f')).isNull();
     }
 

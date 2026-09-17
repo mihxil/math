@@ -63,7 +63,7 @@ public class TimeUtilsTest {
     }
 
     @Test
-    public void instant() {
+    void instant() {
         assertThat(TimeUtils.format(Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).startsWith("2021-08");
 
         assertThat(TimeUtils.format(ZoneId.of("Europe/Amsterdam"), Instant.parse("2021-08-22T20:00:14Z"), ChronoUnit.DAYS)).isEqualTo("2021-08-22");

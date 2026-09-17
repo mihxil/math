@@ -34,7 +34,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class WindowedLongSummaryStatisticsTest {
 
     @Test
-    public void test() {
+    void test() {
         TestClock clock = new TestClock();
 
         WindowedLongSummaryStatistics instance =

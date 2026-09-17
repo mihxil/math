@@ -9,7 +9,7 @@ import org.meeuw.configuration.spi.ToStringProvider;
 public class ToStringProviderTest {
 
     @Test
-    public void testInt() {
+    void testInt() {
         ServiceLoader.load(ToStringProvider.class);
     }
 }

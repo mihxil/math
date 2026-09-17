@@ -41,12 +41,12 @@ class NaturalNumberTest implements
     ScalarTheory<NaturalNumber> {
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         PositiveIntegerTest.setup();
     }
 
     @Test
-    public void test() {
+    void test() {
         assertThatThrownBy(() -> of(1).times(of(-1))).isInstanceOf(InvalidElementCreationException.class);
         assertThat(of(5).plus(of(7))).isEqualTo(of(12));
     }

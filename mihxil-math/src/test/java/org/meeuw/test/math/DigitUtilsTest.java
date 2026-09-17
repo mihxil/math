@@ -17,7 +17,7 @@ public class DigitUtilsTest {
 
 
     @Test
-    public void sumInverseDigits() {
+    void sumInverseDigits() {
         byte[] a = new byte[] {6, 7, 8}; // 876
         byte[] b = new byte[] {5, 4, 7, 3}; // 3745
 
@@ -26,14 +26,14 @@ public class DigitUtilsTest {
     }
 
     @Test
-    public void sumInverseDigits2() {
+    void sumInverseDigits2() {
         byte[] a1 = new byte[] {9, 9, 9, 9};
         byte[] sum = DigitUtils.sumInverseDigits((byte) 10, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1, a1);
         assertThat(fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(16 * 9999L);
     }
 
     @Test
-    public void multiplyInverseDigitsWithDigit() {
+    void multiplyInverseDigitsWithDigit() {
         byte[] a1 = new byte[] {9, 9, 9, 9};
         byte[] sum = DigitUtils.multiplyInverseDigits((byte) 10, (byte) 9, a1);
         assertThat(fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9 * 9999L);
@@ -41,7 +41,7 @@ public class DigitUtilsTest {
 
 
     @Test
-    public void multiplyInverseDigits() {
+    void multiplyInverseDigits() {
         byte[] a1 = new byte[] {9, 9, 9, 9};
         byte[] sum = DigitUtils.multiplyInverseDigits((byte) 10, a1, a1);
         assertThat(fromInverseDigitsInBase((byte)  10, sum)).isEqualTo(9999L * 9999L);
@@ -50,7 +50,7 @@ public class DigitUtilsTest {
 
 
     @Test
-    public void basic() {
+    void basic() {
         byte a = (byte) 200;
         byte b = (byte) 201;
 
@@ -66,7 +66,7 @@ public class DigitUtilsTest {
         "20,k",
         "200,ğ"
     })
-    public void digitToString(int digit, String s) {
+    void digitToString(int digit, String s) {
         assertThat(DigitUtils.digitToString((byte) digit)).isEqualTo(s);
         assertThat(DigitUtils.stringToInverseDigits(s)).containsExactly((byte) digit);
 

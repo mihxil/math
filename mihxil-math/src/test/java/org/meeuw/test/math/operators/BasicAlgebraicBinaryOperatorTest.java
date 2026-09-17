@@ -44,7 +44,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     }
 
     @Test
-    public void powInverse() {
+    void powInverse() {
         assertThatThrownBy(() ->
             POWER.inverse(new SampleElement())
         ).isInstanceOf(NoSuchOperatorException.class);
@@ -52,7 +52,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     }
 
     @Test
-    public void addInverse() {
+    void addInverse() {
         assertThatThrownBy(() ->
             ADDITION.inverse(new SampleElement())
         ).isInstanceOf(InvalidAlgebraicResult.class);
@@ -60,7 +60,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     }
 
     @Test
-    public void throwsException() {
+    void throwsException() {
         SampleElement.PLUS.set((a, b) -> { throw new NullPointerException();});
         assertThatThrownBy(() -> {
             ADDITION.apply(new SampleElement(), new SampleElement());
@@ -69,7 +69,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     }
 
     @Test
-    public void returnsNull() {
+    void returnsNull() {
         SampleElement.PLUS.set((a, b) -> null);
         assertThatThrownBy(() -> {
             ADDITION.apply(new SampleElement(), new SampleElement());
@@ -78,7 +78,7 @@ public class BasicAlgebraicBinaryOperatorTest {
     }
 
     @Test
-    public void callNonExisting() {
+    void callNonExisting() {
         assertThatThrownBy(() -> {
             MULTIPLICATION.apply(new SampleElement(), new SampleElement());
         }).isInstanceOf(NoSuchOperatorException.class);
@@ -88,52 +88,52 @@ public class BasicAlgebraicBinaryOperatorTest {
 
 
     @Test
-    public void add() {
+    void add() {
         Assertions.assertThat(ADDITION.apply(new SampleElement(), new SampleElement())).isInstanceOf(SampleElement.class);
     }
 
     @Test
-    public void stringify() {
+    void stringify() {
         assertThat(ADDITION.stringify(new SampleElement(), new SampleElement())).isEqualTo("sampleelement + sampleelement");
         assertThat(ADDITION.getStringify().apply("x", "y")).isEqualTo("x + y");
     }
 
     @Test
-    public void symbol() {
+    void symbol() {
         assertThat(ADDITION.getSymbol()).isEqualTo("+");
         assertThat(SampleBinaryOperator.INSTANCE.getSymbol()).isEqualTo("FIRST x, x");
     }
 
     @Test
-    public void andThen() {
+    void andThen() {
         AlgebraicBinaryOperator andThen = ADDITION.andThen(AlgebraicUnaryOperator.identity());
         assertThat(andThen.stringify("a", "b")).isEqualTo("self(a + b)");
         assertThat(andThen.name()).isEqualTo("ADDITION and then identity");
     }
 
     @Test
-    public void invalidResult() {
+    void invalidResult() {
         assertThatThrownBy(() ->
             ADDITION.apply(new SampleElement((a, b) -> null), new SampleElement())
         ).isInstanceOf(InvalidAlgebraicResult.class);
     }
 
     @Test
-    public void myException() {
+    void myException() {
         assertThatThrownBy(() ->
             ADDITION.apply(new SampleElement((a, b) -> {throw new MyException("foo bar");}), new SampleElement())
         ).isInstanceOf(MyException.class).hasMessage("foo bar");
     }
 
     @Test
-    public void wrongArgument() {
+    void wrongArgument() {
         assertThatThrownBy(() ->
             MULTIPLICATION.apply(new SampleElement(), new SampleElement())
         ).isInstanceOf(NoSuchOperatorException.class).hasMessage("SampleElement sampleelement has no operator 'times'");
     }
 
     @Test
-    public void illegalArgument() {
+    void illegalArgument() {
         assertThatThrownBy(() ->
             BasicAlgebraicBinaryOperator.DIVISION.apply(new SampleElement(), new SampleElement())
         ).isInstanceOf(NoSuchOperatorException.class).hasMessage("SampleElement sampleelement has no operator 'dividedBy'");

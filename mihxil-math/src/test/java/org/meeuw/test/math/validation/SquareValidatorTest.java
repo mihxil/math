@@ -62,7 +62,7 @@ class SquareValidatorTest {
 
 
     @Test
-    public void  test() {
+    void  test() {
         SquareValidator validator = new SquareValidator();
         assertThat(validator.isValid(new String[]{"a", "b", "c", "d"}, null)).isTrue();
 
@@ -84,7 +84,7 @@ class SquareValidatorTest {
     }
 
     @Test
-    public void testInvertible() {
+    void testInvertible() {
         SquareValidator validator = new SquareValidator();
         validator.setInvertible(true);
 
@@ -92,14 +92,14 @@ class SquareValidatorTest {
     }
 
     @Test
-    public void validate() {
+    void validate() {
         assertThat(factory.getValidator().validate(new A(16))).isEmpty();
         assertThat(factory.getValidator().validate(new A(9))).hasSize(1);
     }
 
 
     @Test
-    public void invertible() {
+    void invertible() {
         Validator validator = factory.getValidator();
         assertThat(factory.getValidator().validate(
             new A1(new double[][]{{1, 2}, {3, 4}}))).isEmpty();

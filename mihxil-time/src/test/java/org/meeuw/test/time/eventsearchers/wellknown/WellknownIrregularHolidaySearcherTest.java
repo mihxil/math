@@ -19,7 +19,7 @@ public class WellknownIrregularHolidaySearcherTest  {
 
 
     @Test
-    public void inaugurations() {
+    void inaugurations() {
 
         for (int year = 1750; year <= 2080; year++) {
             List<LocalDate> apply = WellknownIrregularHoliday.INAUGURATION_DAY.apply(Year.of(year));
@@ -32,7 +32,7 @@ public class WellknownIrregularHolidaySearcherTest  {
 
 
     @Test
-    public void searcher() {
+    void searcher() {
         WellknownIrregularHolidaySearcher searcher = new WellknownIrregularHolidaySearcher();
 
         searcher.findEvents(Range.ofYears(1750, 2080), "inauguration day")
@@ -40,7 +40,7 @@ public class WellknownIrregularHolidaySearcherTest  {
     }
 
     @Test
-    public void service() {
+    void service() {
         EventSearcherService.INSTANCE.findEvents(Range.ofYears(2025, 1750), "inauguration day")
             .forEach(e -> log.info(e.toString()));
   }

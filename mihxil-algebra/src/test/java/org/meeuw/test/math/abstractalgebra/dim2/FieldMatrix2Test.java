@@ -44,7 +44,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
 
 
     @Test
-    public void illegal() {
+    void illegal() {
         Assertions.assertThatThrownBy(() -> {
             FieldMatrix2.of(
                 of(3), of(0),
@@ -64,7 +64,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     }
 
     @Test
-    public void adjugate() {
+    void adjugate() {
         FieldMatrix2<RationalNumber, BigDecimalElement> fm = FieldMatrix2.of(
             of(3), of(0),
             of(2), of(1)
@@ -79,7 +79,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     }
 
     @Test
-    public void determinant() {
+    void determinant() {
         FieldMatrix2<RationalNumber, BigDecimalElement> fm = FieldMatrix2.of(
             of(2), of(-3),
             of(2), of(0)
@@ -90,7 +90,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     }
 
     @Test
-    public void illegalReciprocal() {
+    void illegalReciprocal() {
 
         FieldMatrix2<RationalNumber, BigDecimalElement> fm = new FieldMatrix2<>(
             new RationalNumber[][]{
@@ -103,7 +103,7 @@ class FieldMatrix2Test implements MultiplicativeGroupTheory<FieldMatrix2<Rationa
     }
 
     @Test
-    public void determinantOfIdentity() {
+    void determinantOfIdentity() {
         Assertions.assertThat(FieldMatrix2Group.of(RationalNumbers.INSTANCE).one()
             .determinant()).isEqualTo(of(1));
     }

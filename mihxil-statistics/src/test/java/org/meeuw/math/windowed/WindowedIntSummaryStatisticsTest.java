@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WindowedIntSummaryStatisticsTest {
 
     @Test
-    public void test() {
+    void test() {
         TestClock clock = new TestClock();
         WindowedIntSummaryStatistics instance =
             WindowedIntSummaryStatistics.builder()

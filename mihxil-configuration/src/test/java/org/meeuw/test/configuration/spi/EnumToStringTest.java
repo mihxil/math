@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EnumToStringTest {
 
     @Test
-    public void invalid() {
+    void invalid() {
         assertThat(new EnumToString().fromString(A.class, "z")).isEmpty();
     }
 }

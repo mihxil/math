@@ -86,7 +86,7 @@ class Vector3Test implements
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
     @WithRounding
-    public void stringEqualsHashCode() {
+    void stringEqualsHashCode() {
         Vector3 example = of(1, 2, 3);
         assertThat(example.toString()).isEqualTo("(1, 2, 3)");
 

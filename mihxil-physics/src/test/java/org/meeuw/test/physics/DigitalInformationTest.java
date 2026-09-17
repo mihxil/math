@@ -1,14 +1,13 @@
 package org.meeuw.test.physics;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 
-import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.physics.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
-import static org.meeuw.functional.Predicates.biAlwaysTrue;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.physics.Measurement.measurement;
 import static org.meeuw.physics.SI.BinaryPrefix.Ki;
@@ -16,23 +15,12 @@ import static org.meeuw.physics.SI.hour;
 import static org.meeuw.physics.SI.octet;
 import static org.meeuw.physics.SIUnit.s;
 
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS, stripZeros = true)
 public class DigitalInformationTest {
-
-    @BeforeEach
-    public void setup() {
-        ConfigurationService.setConfiguration(builder ->
-            builder.configure(UncertaintyConfiguration.class,
-                uc -> uc
-                    .withNotation(UncertaintyConfiguration.Notation.PLUS_MINUS)
-                    .withStripZeros(biAlwaysTrue())
-            )
-        );
-    }
-
 
 
     @Test
-    public void kB() {
+    void kB() {
         assertThat(SI.bit.getSIFactor()).isEqualTo(exactly(1));
         Unit kB = SI.bit.withPrefix(Ki);
 

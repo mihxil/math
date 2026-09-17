@@ -36,18 +36,18 @@ import static org.meeuw.configuration.ConfigurationService.*;
 public class ConfigurationServiceTest {
 
     @BeforeAll
-    public static void setup() {
+    static void setup() {
         ConfigurationService.setupUserPreferences();
         ConfigurationService.resetToDefaultDefaults();
     }
 
     @Test
-    public void invalidConfigurationAspect() {
+    void invalidConfigurationAspect() {
         assertThatThrownBy(() -> getConfiguration().getAspect(Unregistered.class)).isInstanceOf(ConfigurationException.class);
     }
 
     @Test
-    public void store() {
+    void store() {
         long previous = getConfigurationAspect(TestConfigurationAspect.class).getSomeLong();
         log.info("previous " + Instant.ofEpochMilli(previous));
         defaultConfiguration((builder) ->
@@ -61,7 +61,7 @@ public class ConfigurationServiceTest {
 
     @SuppressWarnings("unused")
     @Test
-    public void getAndSetConfiguration() {
+    void getAndSetConfiguration() {
         Configuration configuration = getConfiguration();
         TestConfigurationAspect aspect = configuration.getAspect(TestConfigurationAspect.class);
         int someInt = aspect.getSomeInt();
@@ -85,7 +85,7 @@ public class ConfigurationServiceTest {
 
 
     @Test
-    public void testConfigurationAspects() {
+    void testConfigurationAspects() {
         defaultConfiguration((con) -> con
             .configure(TestConfigurationAspect.class,
                 c -> c
@@ -144,7 +144,7 @@ public class ConfigurationServiceTest {
     }
 
     @Test
-    public void testWithAspect() {
+    void testWithAspect() {
         assertThat(getConfigurationAspect(TestConfigurationAspect.class).getSomeInt()).isEqualTo(-1);
         try (Reset reset = withAspect(TestConfigurationAspect.class,
             (b) -> b.withSomeInt(4))) {
@@ -157,7 +157,7 @@ public class ConfigurationServiceTest {
 
 
     @Test
-    public void invalid() {
+    void invalid() {
         assertThatThrownBy(() ->
             getConfiguration().toBuilder().aspectDefault(InvalidConfigurationAspect.class)
         ).isInstanceOf(InvocationTargetException.class);
@@ -165,7 +165,7 @@ public class ConfigurationServiceTest {
 
 
     @Test
-    public void associatedWith() {
+    void associatedWith() {
         List<ConfigurationAspect> configurationAspectsAssociatedWith = getConfiguration().getConfigurationAspectsAssociatedWith(TestProvider.class);
         assertThat(configurationAspectsAssociatedWith).hasSize(1);
         assertThat(configurationAspectsAssociatedWith.get(0)).isInstanceOf(TestConfigurationAspect.class);

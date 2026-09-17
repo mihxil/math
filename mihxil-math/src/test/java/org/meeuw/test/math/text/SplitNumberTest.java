@@ -18,13 +18,13 @@ import static org.meeuw.math.numbers.DoubleOperations.INSTANCE;
 class SplitNumberTest {
 
     @Test
-    public void splitSmallNumber() {
+    void splitSmallNumber() {
         SplitNumber<Double> split = INSTANCE.split(6.62607015E-34).orElseThrow();
         assertThat(split.coefficient).isEqualTo(6.62607015);
         assertThat(split.exponent).isEqualTo(-34);
     }
     @Test
-    public void splitVerySmallNumber() {
+    void splitVerySmallNumber() {
         SplitNumber<Double> split = INSTANCE.split(1.0E-323).orElseThrow();
 
         // TODO: there seems to be a difference here between java versions, but it doesn't really matter for now
@@ -33,14 +33,14 @@ class SplitNumberTest {
     }
 
     @Test
-    public void splitCloseToOne() {
+    void splitCloseToOne() {
         SplitNumber<Double> split = INSTANCE.split(1.6260701).orElseThrow();
         assertThat(split.coefficient).isEqualTo(1.6260701);
         assertThat(split.exponent).isEqualTo(0);
     }
 
     @Property
-    public void validate(@ForAll() double value) {
+    void validate(@ForAll() double value) {
         Optional<SplitNumber<Double>> split = INSTANCE.split(value);
 
 

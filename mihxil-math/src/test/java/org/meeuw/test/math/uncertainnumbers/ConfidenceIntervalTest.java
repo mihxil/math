@@ -30,7 +30,7 @@ class ConfidenceIntervalTest {
     }
 
     @Test
-    public void test() {
+    void test() {
         ConfidenceInterval<Double> of = ConfidenceInterval.of(10d, 2d, 2);
         assertThat(of.test(11d)).isTrue();
         assertThat(of.test(14d)).isTrue();

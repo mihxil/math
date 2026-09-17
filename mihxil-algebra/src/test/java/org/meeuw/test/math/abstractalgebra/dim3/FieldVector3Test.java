@@ -45,25 +45,25 @@ class FieldVector3Test  implements
     ElementTheory<FieldVector3<RealNumber, RealNumber>> {
 
     @Test
-    public void abs() {
+    void abs() {
         FieldVector3<RealNumber, RealNumber> v = FieldVector3.of(3, -4, 0);
         assertThat(v.abs()).isEqualTo(DoubleElement.of(5, 0));
     }
 
     @Test
-    public void absOfRational() {
+    void absOfRational() {
         FieldVector3<RationalNumber, BigDecimalElement> v = FieldVector3.of(RationalNumber.of(3), RationalNumber.of(-4), RationalNumber.of(0));
         assertThatThrownBy(v::abs).isInstanceOf(FieldIncompleteException.class);
     }
 
     @Test
-    public void times() {
+    void times() {
         FieldVector3<RationalNumber, BigDecimalElement> v = FieldVector3.of(RationalNumber.of(3), RationalNumber.of(-4), RationalNumber.of(0));
         assertThat(v.times(RationalNumber.of(3, 2))).isEqualTo(FieldVector3.of(RationalNumber.of(9, 2), RationalNumber.of(-6), RationalNumber.ZERO));
     }
 
     @Test
-    public void dividedBy() {
+    void dividedBy() {
         withLooseEquals(() -> {
             FieldVector3<BigDecimalElement, BigDecimalElement> v = FieldVector3.of(valueOf(3), valueOf(-4), valueOf(0));
             assertThat(v.dividedBy(of(-2))).isEqualTo(FieldVector3.of(of(-1.5), of(2), of(0)));
@@ -71,13 +71,13 @@ class FieldVector3Test  implements
     }
 
     @Test
-    public void string() {
+    void string() {
         FieldVector3<BigDecimalElement, BigDecimalElement> v = FieldVector3.of(of(3), of(-4), of(0));
         assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         var v1 = FieldVector3.of(of(3), of(-4), of(0));
         FieldVector3<BigDecimalElement, BigDecimalElement> v2 = FieldVector3.of(of(3), of(-4), of(0));
         assertThat(v1).isEqualTo(v2);
@@ -93,7 +93,7 @@ class FieldVector3Test  implements
 
     @SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
     @Test
-    public void spaceEquals() {
+    void spaceEquals() {
         Assertions.assertThat(new FieldVector3Space<>(RealField.INSTANCE).equals(new FieldVector3Space<>(RealField.INSTANCE))).isTrue();
         assertThat(new FieldVector3Space<>(RealField.INSTANCE).hashCode()).isEqualTo(new FieldVector3Space<>(RealField.INSTANCE).hashCode());
         assertThat(new FieldVector3Space<>(RealField.INSTANCE).equals(null)).isFalse();

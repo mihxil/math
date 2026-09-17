@@ -1,6 +1,6 @@
 package org.meeuw.math.demo;
 
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -14,11 +14,9 @@ import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.statistics.StatisticalLong;
 import org.meeuw.time.UncertainJavaTime;
 
-@Log
+@Log4j2
 class SolverTest {
-    static {
-        DemoUtils.setupLogging(Level.FINE);
-    }
+
     Solver<RationalNumber> solver = new Solver.Impl<>(RationalNumbers.INSTANCE, Level.INFO);
 
     @Test

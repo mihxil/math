@@ -34,7 +34,7 @@ class MeasurementTest  {
     Units LENGTH = SI.INSTANCE.forQuantity(Quantity.LENGTH);
 
     @Test
-    public void add() {
+    void add() {
         Measurement door = new Measurement(2.00, 0.03, DISTANCE);
         assertThat(door.toString()).isEqualTo("2.00 ± 0.03 m");
         Measurement knob = new Measurement(0.88, 0.04, DISTANCE);
@@ -43,7 +43,7 @@ class MeasurementTest  {
     }
 
     @Test
-    public void area() {
+    void area() {
         Measurement height = new Measurement(21, 0.2, LENGTH);
         Measurement width = new Measurement(30, 1, LENGTH);
         PhysicalNumber area =  height.times(width);
@@ -55,7 +55,7 @@ class MeasurementTest  {
     }
 
     @Test
-    public void illegalAdd() {
+    void illegalAdd() {
         assertThatThrownBy(() -> {
             Measurement door = new Measurement(2.00, 0.03, SIUnit.m);
             Measurement knob = new Measurement(0.88, 0.04, SIUnit.mol);
@@ -64,7 +64,7 @@ class MeasurementTest  {
     }
 
     @Test
-    public void divide() {
+    void divide() {
         Measurement speed = new Measurement(6.0, 0.4, SI.INSTANCE.forQuantity(Quantity.VELOCITY));
         assertThat(speed.toString()).isEqualTo("6.0 ± 0.4 m·s⁻¹");
         assertThat(speed.getUnits().getDimensions().toString()).isEqualTo("LT⁻¹");
@@ -75,7 +75,7 @@ class MeasurementTest  {
     }
 
     @Test
-    public void testStructure() {
+    void testStructure() {
         Measurement a = new Measurement(6.0, 0.4, SI.mPerS);
         assertThat(a.plus(a.getUnits().zero())).isEqualTo(a);
         assertThat(a.times(a.getStructure().one())).isEqualTo(a);

@@ -26,7 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ScalarTest {
 
     @Test
-    public void number() {
+    void number() {
         Scalar<?> d = Scalar.ofNumber(10.234);
         assertThat(d.signum()).isEqualTo(1);
         assertThat(d.doubleValue()).isEqualTo(10.234d);

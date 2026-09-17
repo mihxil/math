@@ -45,12 +45,12 @@ class OddIntegerTest implements
 
     @BeforeAll
     @BeforeContainer
-    public static void setup() {
+    static void setup() {
         PositiveIntegerTest.setup();
     }
 
     @Test
-    public void test() {
+    void test() {
         assertThatThrownBy(() -> of(0)).isInstanceOf(InvalidElementCreationException.class);
 
         assertThat(of(3).times(of(5))).isEqualTo(of(15));

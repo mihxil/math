@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WellknownHolidaysTest {
 
     @Test
-    public void testWellknownHolidays() {
+    void testWellknownHolidays() {
 
         List<String> strings = new ArrayList<>();
         Stream.of(WellknownHoliday.values()).forEach(holiday -> {

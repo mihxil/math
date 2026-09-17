@@ -35,7 +35,7 @@ import static org.meeuw.physics.Dimension.*;
 class DimensionalAnalysisTest implements MultiplicativeAbelianGroupTheory<DimensionalAnalysis> {
 
     @Test
-    public void string() {
+    void string() {
         DimensionalAnalysis of = DimensionalAnalysis.of(I, I);
         assertThat(of.toString()).isEqualTo("I²");
         assertThat(of.dividedBy(of).toString()).isEqualTo("1");

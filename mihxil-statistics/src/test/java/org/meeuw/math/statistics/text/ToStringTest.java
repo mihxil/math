@@ -8,7 +8,7 @@ import org.meeuw.configuration.StringConversionService;
 public class ToStringTest {
 
     @Test
-    public void zoneId() {
+    void zoneId() {
         assertThat(StringConversionService.toString(ZoneId.of("Europe/Amsterdam"))).contains("Europe/Amsterdam");
 
         assertThat(StringConversionService.fromString("Europe/Amsterdam", ZoneId.class)).contains(ZoneId.of("Europe/Amsterdam"));

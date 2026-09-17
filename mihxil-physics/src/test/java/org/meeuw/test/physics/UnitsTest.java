@@ -48,14 +48,14 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
 
     @Test
-    public void N() {
+    void N() {
         assertThat(SI.N.toString()).isEqualTo("N");
         assertThat(SI.N.getDescription()).isEqualTo("Newton");
         assertThat(SI.N.getDimensions().toString()).isEqualTo("LMT⁻²");
     }
 
     @Test
-    public void eV() {
+    void eV() {
         assertThat(SI.eV.toString()).isEqualTo("eV");
         assertThat(SI.eV.getDescription()).isEqualTo("electron-volt");
         assertThat(SI.eV.getDimensions().toString()).isEqualTo("L²MT⁻²");
@@ -63,7 +63,7 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
     }
 
     @Test
-    public void kmph() {
+    void kmph() {
         Units km =   SIUnit.m.withPrefix(k);
         assertThat(km.toString()).isEqualTo("km");
         assertThat(km.getSIFactor().doubleValue()).isEqualTo(1000);
@@ -96,14 +96,14 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
     }
 
     @Test
-    public void distanceAndTime() {
+    void distanceAndTime() {
         assertThat(DISTANCE).isEqualTo(SIUnit.m);
         assertThat(TIME).isEqualTo(SIUnit.s);
     }
 
 
     @Test
-    public void reciprocal() {
+    void reciprocal() {
         Units perKm = UnitsGroup.INSTANCE.one().dividedBy(m.withPrefix(k));
         assertThat(perKm.reciprocal()).isEqualTo(km);
         assertThat(km.pow(-1)).isEqualTo(perKm);
@@ -112,21 +112,21 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
     }
 
     @Test
-    public void forDivision() {
+    void forDivision() {
         assertThat(Units.forDivision(DISTANCE, TIME).toString()).isEqualTo("m·s⁻¹");
         assertThat(Units.forDivision(null, TIME)).isNull();
         assertThat(Units.forDivision(DISTANCE, null)).isNull();
     }
 
     @Test
-    public void forMultiplication() {
+    void forMultiplication() {
         assertThat(Units.forMultiplication(DISTANCE, TIME)).isEqualTo(Units.of(m, s));
         assertThat(Units.forMultiplication(null, TIME)).isNull();
         assertThat(Units.forMultiplication(DISTANCE, null)).isNull();
     }
 
     @Test
-    public void forAddition() {
+    void forAddition() {
         assertThatThrownBy(() -> Units.forAddition(DISTANCE, TIME)).isInstanceOf(IllegalArgumentException.class)
             .hasMessage("Cannot add [L] to [T]");
         assertThatThrownBy(() -> Units.forAddition(null, TIME)).isInstanceOf(IllegalArgumentException.class);
@@ -135,19 +135,19 @@ class UnitsTest implements MultiplicativeAbelianGroupTheory<Units> {
 
 
     @Test
-    public void forExponentiation() {
+    void forExponentiation() {
         assertThat(Units.forExponentiation(DISTANCE, 2)).isEqualTo(Units.of(m, m));
         assertThat(Units.forExponentiation(null, 2)).isNull();
     }
 
     @Test
-    public void forInversion() {
+    void forInversion() {
         assertThat(Units.forInversion(DISTANCE).toString()).isEqualTo("m⁻¹");
         assertThat(Units.forInversion(null)).isNull();
     }
 
     @Test
-    public void parse() {
+    void parse() {
         assertThat(FormatService.fromString("/s", Units.class)).isEqualTo(Units.of(SIUnit.s).reciprocal());
         assertThat(FormatService.fromString("", Units.class)).isEqualTo(Units.DIMENSIONLESS);
     }

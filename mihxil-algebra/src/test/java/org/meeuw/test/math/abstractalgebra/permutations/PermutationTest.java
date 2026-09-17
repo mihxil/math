@@ -43,12 +43,12 @@ import static org.meeuw.math.abstractalgebra.permutations.text.Offset.ZERO;
 class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @Test
-    public void invalid() {
+    void invalid() {
         assertThatThrownBy(() ->  Permutation.of(1, 5, 8)).isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Permutation permutation = Permutation.of(2, 3, 1, 5, 4);
         assertThat(permutation.toString()).isEqualTo("(123)(45)");
         ConfigurationService.withAspect(PermutationConfiguration.class, b -> b.withNotation(LIST), () ->
@@ -68,7 +68,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @SuppressWarnings("PointlessArithmeticExpression")
     @Test
-    public void permute() {
+    void permute() {
         String[] values = { "a", "b", "c"};
 
         final Permutation permutation = Permutation.of(2, 3, 1);
@@ -97,7 +97,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
     @Test
-    public void permuteWithDuplicates() {
+    void permuteWithDuplicates() {
         String[] values = {"a", "b", "b"};
         List<String> test = new ArrayList<>();
         PermutationGroup.ofDegree(3).stream()
@@ -116,14 +116,14 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     }
 
     @Test
-    public void permuteInts() {
+    void permuteInts() {
         final Permutation permutation = Permutation.of(2, 3, 1);
         int[] permute = permutation.permuteInts( 10, 12, 14);
         assertThat(permute).containsExactly(14, 10, 12);
     }
 
     @Test
-    public void permuteSmall() {
+    void permuteSmall() {
         String[] values = { "a", "b", "c"};
 
         Permutation permutation = Permutation.of(1);
@@ -139,7 +139,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
     @SuppressWarnings({"ConstantConditions", "EqualsWithItself"})
     @Test
-    public void cycles() {
+    void cycles() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
         assertThat(q.getCycles().toString()).isEqualTo("[(15), (24), (3)]");
 
@@ -168,7 +168,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
     }
 
     @Test
-    public void cycleNotation() {
+    void cycleNotation() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
         assertThat(q.cycleNotation(1)).isEqualTo("(15)(24)");
 
@@ -184,7 +184,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
     @Test
-    public void times() {
+    void times() {
         Permutation q = Permutation.of(5, 4, 3, 2, 1);
         String[] values = {"a", "b", "c", "d", "e"};
         Permutation p = Permutation.of(2, 4, 1, 3, 5);
@@ -205,7 +205,7 @@ class PermutationTest implements MultiplicativeGroupTheory<Permutation> {
 
 
     @Property
-    public void fromListNotation(@ForAll(ELEMENTS) Permutation  element) {
+    void fromListNotation(@ForAll(ELEMENTS) Permutation  element) {
         ConfigurationService.withAspect(PermutationConfiguration.class, configuration -> {
             return configuration.withNotation(LIST);
         }, () -> {
