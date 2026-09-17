@@ -110,6 +110,10 @@ jobs:
         if: ${{ matrix.rank == 'main' && !(github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true') }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
+          # Only the aggregated report; it is the only one that also credits
+          # coverage of a module's classes by tests in _other_ modules.
+          files: report-aggregation/target/site/jacoco-aggregate/jacoco.xml
+          disable_search: true
       - name: Commit generated graphviz file if it changed
         if: ${{ matrix.rank == 'main' }}
         uses: EndBug/add-and-commit@v11

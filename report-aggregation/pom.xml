@@ -43,6 +43,19 @@
       <groupId>org.meeuw.math</groupId>
       <artifactId>mihxil-shapes</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.meeuw</groupId>
+      <artifactId>mihxil-time</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.meeuw.math</groupId>
+      <artifactId>mihxil-math-parser</artifactId>
+    </dependency>
+    <!--
+      Deliberately not aggregated:
+       - mihxil-theories: test support code, it has no tests of its own.
+       - mihxil-demo: just a demo application, its coverage is not meaningful.
+    -->
   </dependencies>
   <build>
     <plugins>
