@@ -30,15 +30,15 @@ class SolverTest {
     @Test
     void solve2() {
         StatisticalLong duration = new StatisticalLong(UncertainJavaTime.Mode.DURATION);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             Instant start = Instant.now();
             Solver.SolverResult solve = solver.solve("120", "4 7 7 7 8");
             List<String> list = solve.stream()
                 .toList();
             Duration d = Duration.between(start, Instant.now());
             duration.enter(d);
-            log.info("Solved %s ->%s (%s)".formatted(solve, list, d));
+            log.info(() -> "Solved %s ->%s (%s)".formatted(solve, list, d));
         }
-        log.info("Solved: %s".formatted(duration.toString()));
+        log.info(() -> "Solved: %s".formatted(duration.toString()));
     }
 }
