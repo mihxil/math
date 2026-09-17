@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class FixedSizeMapTest {
 
     @Test
-    public void test() {
+    void test() {
         Map<String, Integer> test = new LinkedHashMap<>();
         test.put("a", 1);
         test.put("b", 1);
@@ -49,7 +49,7 @@ class FixedSizeMapTest {
     }
 
     @Test
-    public void testWithKeys() {
+    void testWithKeys() {
 
         FixedSizeMap<String, Integer> fixed = new FixedSizeMap<>("a", "b");
         fixed.put("a", 1);
@@ -67,7 +67,7 @@ class FixedSizeMapTest {
 
 
     @Test
-    public void testOf() {
+    void testOf() {
 
         FixedSizeMap<String, Integer> fixed = FixedSizeMap.of("a", 1,  "b", 1);
         fixed.put("a", 3);
