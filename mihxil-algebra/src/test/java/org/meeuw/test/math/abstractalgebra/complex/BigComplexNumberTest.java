@@ -20,7 +20,7 @@ import lombok.extern.java.Log;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.jupiter.SetNumberConfiguration;
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
@@ -39,7 +39,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.8
  */
 @Log
-@SetNumberConfiguration
+@WithNumberConfiguration
 class BigComplexNumberTest implements
     CompleteFieldTheory<BigComplexNumber>,
     MetricSpaceTheory<BigComplexNumber, BigDecimalElement>,

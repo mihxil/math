@@ -12,12 +12,12 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
  * @since 0.19
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SetNumberConfiguration {
+public @interface WithNumberConfiguration {
 
     int maxPrecision() default Integer.MAX_VALUE;
 
     String angles() default "DEGREES";
 
     String rationals() default "INTEGER_AND_FRACTION";
-    
+
 }

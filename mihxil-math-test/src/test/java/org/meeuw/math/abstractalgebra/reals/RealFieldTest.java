@@ -21,7 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import org.meeuw.jupiter.Rounding;
+import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
 import org.meeuw.theories.abstractalgebra.*;
@@ -62,7 +62,7 @@ class RealFieldTest implements
     }
 
     @Test
-    @Rounding
+    @WithRounding
     public void testRoundedToString() {
         DoubleElement uncertainDouble = DoubleElement.of(0.09999999999999995);
         assertThat(uncertainDouble.toString()).isEqualTo("0.1");

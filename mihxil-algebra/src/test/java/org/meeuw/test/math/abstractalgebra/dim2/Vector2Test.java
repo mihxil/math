@@ -19,7 +19,7 @@ import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.jupiter.Rounding;
+import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.abstractalgebra.dim2.Matrix2Group;
 import org.meeuw.math.abstractalgebra.dim2.Vector2;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -82,7 +82,7 @@ class Vector2Test implements
 
     @SuppressWarnings({"EqualsWithItself", "EqualsBetweenInconvertibleTypes"})
     @Test
-    @Rounding
+    @WithRounding
     public void stringEqualsHashCode() {
         Vector2 example = of(1, 2);
         assertThat(example.toString()).isEqualTo("(1, 2)");

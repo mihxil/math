@@ -12,7 +12,7 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
  * @since 0.19
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface SetUncertaintyConfiguration {
+public @interface WithUncertaintyConfiguration {
 
      boolean stripZeros() default true;
 

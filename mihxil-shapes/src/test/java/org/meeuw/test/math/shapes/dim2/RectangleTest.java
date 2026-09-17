@@ -7,8 +7,8 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.jupiter.Rounding;
-import org.meeuw.jupiter.SetNumberConfiguration;
+import org.meeuw.jupiter.WithRounding;
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
@@ -23,7 +23,7 @@ import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
-@SetNumberConfiguration
+@WithNumberConfiguration
 public class RectangleTest implements FigureTheory<RealNumber, RealNumber, RotatedRectangle<RealNumber, RealNumber>> {
 
     Rectangle<RealNumber, RealNumber> rectangle = new Rectangle<>(
@@ -110,7 +110,7 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
     }
 
     @Test
-    @Rounding
+    @WithRounding
     public void vertices() {
         assertThat(rectangle.vertices()
                 .map(FieldVector2::toString)

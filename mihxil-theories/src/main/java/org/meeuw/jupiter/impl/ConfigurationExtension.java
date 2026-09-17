@@ -13,14 +13,13 @@ import org.junit.jupiter.api.extension.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.jupiter.SetNumberConfiguration;
-import org.meeuw.jupiter.SetUncertaintyConfiguration;
+import org.meeuw.jupiter.*;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 @Log
-@SetNumberConfiguration // Serves as default
-@SetUncertaintyConfiguration
+@WithNumberConfiguration // Serves as default
+@WithUncertaintyConfiguration
 public class ConfigurationExtension implements
     AfterTestExecutionCallback,
     BeforeTestExecutionCallback,
@@ -85,7 +84,7 @@ public class ConfigurationExtension implements
 
     private static ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
-            SetUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, SetUncertaintyConfiguration.class);
+            WithUncertaintyConfiguration setUncertaintyConfiguration = getAnnotation(annotatedElement, WithUncertaintyConfiguration.class);
             log.fine(() -> "applying " + setUncertaintyConfiguration);
             if (setUncertaintyConfiguration != null) {
                 return setUncertaintyConfiguration(setUncertaintyConfiguration);
@@ -94,7 +93,7 @@ public class ConfigurationExtension implements
         return null;
     }
 
-    private static ConfigurationService.Reset setUncertaintyConfiguration(SetUncertaintyConfiguration setUncertaintyConfiguration) {
+    private static ConfigurationService.Reset setUncertaintyConfiguration(WithUncertaintyConfiguration setUncertaintyConfiguration) {
         return ConfigurationService.setConfiguration(builder ->
             builder.configure(UncertaintyConfiguration.class, config ->
                 config
@@ -105,8 +104,8 @@ public class ConfigurationExtension implements
 
     private static ConfigurationService.Reset setNumberConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {
-            SetNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
-                SetNumberConfiguration.class);
+            WithNumberConfiguration numberConfiguration = getAnnotation(annotatedElement,
+                WithNumberConfiguration.class);
             if (numberConfiguration != null) {
                 return setNumberConfiguration(numberConfiguration);
             }
@@ -114,7 +113,7 @@ public class ConfigurationExtension implements
         return null;
     }
 
-    private static ConfigurationService.Reset setNumberConfiguration(SetNumberConfiguration numberConfiguration) {
+    private static ConfigurationService.Reset setNumberConfiguration(WithNumberConfiguration numberConfiguration) {
         return
             ConfigurationService.setConfiguration(builder ->
                 builder

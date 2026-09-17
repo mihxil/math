@@ -23,7 +23,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.jupiter.Rounding;
+import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.abstractalgebra.AlgebraicElement;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.DivisionByZeroException;
@@ -43,7 +43,7 @@ import static org.meeuw.configuration.ConfigurationService.withAspect;
 /**
  * @author Michiel Meeuwissen
  */
-@Rounding
+@WithRounding
 @Log
 public class StatisticalDoubleTest implements
     UncertainDoubleTheory<RealNumber>,

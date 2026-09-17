@@ -26,7 +26,7 @@ import java.util.logging.Logger;
 import net.jqwik.api.*;
 import org.assertj.core.api.Assumptions;
 
-import org.meeuw.jupiter.SetUncertaintyConfiguration;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.*;
 import org.meeuw.math.Example;
 import org.meeuw.math.abstractalgebra.*;
@@ -466,7 +466,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    @SetUncertaintyConfiguration(widthOfConfidenceInterval = 10)
+    @WithUncertaintyConfiguration(widthOfConfidenceInterval = 10)
     default void fromString(@ForAll(ELEMENTS) E  element) {
         AlgebraicStructure<E> structure = element.getStructure();
         if (structure.isValid(element.toString())) {
@@ -490,7 +490,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     }
 
     @Property
-    @SetUncertaintyConfiguration(widthOfConfidenceInterval = 10)
+    @WithUncertaintyConfiguration(widthOfConfidenceInterval = 10)
     default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
         AlgebraicStructure<E> structure = element.getStructure();
         String s = element.toString();

@@ -15,8 +15,8 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
  * @since 0.19
  */
 @Retention(RetentionPolicy.RUNTIME)
-@SetUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
-@SetNumberConfiguration(maxPrecision = 10)
-public @interface Rounding {
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
+@WithNumberConfiguration(maxPrecision = 10)
+public @interface WithRounding {
 
 }

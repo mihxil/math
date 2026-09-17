@@ -20,7 +20,7 @@ import lombok.extern.java.Log;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.jupiter.Rounding;
+import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.abstractalgebra.linear.GeneralLinearGroup;
 import org.meeuw.math.abstractalgebra.linear.InvertibleMatrix;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -55,7 +55,7 @@ class GeneralLinearGroupTest {
     }
 
     @Test
-    @Rounding
+    @WithRounding
     void invalid() {
 
         assertThatThrownBy(() -> {

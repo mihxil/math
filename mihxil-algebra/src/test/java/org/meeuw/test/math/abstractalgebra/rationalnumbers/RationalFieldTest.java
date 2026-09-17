@@ -22,7 +22,7 @@ import java.math.BigDecimal;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.jupiter.SetUncertaintyConfiguration;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
@@ -40,7 +40,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @author Michiel Meeuwissen
  */
 @Log
-@SetUncertaintyConfiguration
+@WithUncertaintyConfiguration
 //@SetNumberConfiguration
 class RationalFieldTest implements FieldTheory<RationalNumber>,
     ScalarTheory<RationalNumber>,
