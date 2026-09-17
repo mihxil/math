@@ -3,7 +3,6 @@
 export const JARS = [
     "big-math-2.3.2.jar",
     "fastdoubleparser-2.0.1.jar",
-    "jakarta.validation-api-3.1.1.jar",
     "mihxil-algebra-0.21-SNAPSHOT.jar",
     "mihxil-configuration-0.21-SNAPSHOT.jar",
     "mihxil-functional-1.21.jar",

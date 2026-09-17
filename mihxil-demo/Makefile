@@ -20,6 +20,7 @@ target/mihxil-demo-$(VERSION).jar:
 jars: target/mihxil-demo-$(VERSION).jar  ## update the jars in resources/jars (the cheerpj classpath), and regenerate $(JARS_JS)
 	rm -rf $(JARS_STAGE)
 	mvn -q dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=$(CURDIR)/$(JARS_STAGE)
+	rm $(CURDIR)/$(JARS_STAGE)/jakarta.validation-api-*
 	cp target/original-mihxil-demo-$(VERSION).jar $(JARS_STAGE)/
 	mkdir -p $(JARS_DIR)
 	rm -f $(JARS_DIR)/*.jar
