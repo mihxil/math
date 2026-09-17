@@ -13,7 +13,7 @@ public class DemoUtils {
 
 
         try (InputStream is = Application.class.getClassLoader().
-            getResourceAsStream("logging.properties")) {
+            getResourceAsStream("demo-logging.properties")) {
             LogManager.getLogManager().readConfiguration(is);
 
             Logger rootLogger = Logger.getLogger("org.meeuw");
