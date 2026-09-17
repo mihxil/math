@@ -26,12 +26,10 @@ import org.meeuw.math.abstractalgebra.dim3.FieldVector3Space;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
@@ -53,7 +51,8 @@ class FieldVector3Test  implements
     @Test
     void absOfRational() {
         FieldVector3<RationalNumber, BigDecimalElement> v = FieldVector3.of(RationalNumber.of(3), RationalNumber.of(-4), RationalNumber.of(0));
-        assertThatThrownBy(v::abs).isInstanceOf(FieldIncompleteException.class);
+        BigDecimalElement abs = v.abs();
+        assertThat(abs).isEqualTo(BigDecimalElement.of(5));
     }
 
     @Test
@@ -73,7 +72,7 @@ class FieldVector3Test  implements
     @Test
     void string() {
         FieldVector3<BigDecimalElement, BigDecimalElement> v = FieldVector3.of(of(3), of(-4), of(0));
-        assertThat(v.toString()).isEqualTo("(3.0,-4.0,0.0)");
+        assertThat(v.toString()).isEqualTo("(3,-4,0)");
     }
 
     @Test

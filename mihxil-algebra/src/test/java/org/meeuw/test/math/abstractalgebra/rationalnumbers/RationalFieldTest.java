@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -41,7 +42,6 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  */
 @Log
 @WithUncertaintyConfiguration
-//@SetNumberConfiguration
 class RationalFieldTest implements FieldTheory<RationalNumber>,
     ScalarTheory<RationalNumber>,
     SignedNumberTheory<RationalNumber> {
@@ -137,6 +137,7 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
 
 
     @Test
+    @WithNumberConfiguration(rationals = "FRACTION")
     void stream() {
         assertThat(INSTANCE
             .stream()
