@@ -281,7 +281,7 @@ public class ConfigurationService {
                 log.log(DEBUG,() -> "Found " + configurationAspect.getClass().getCanonicalName());
                 m.put(configurationAspect.getClass(), configurationAspect);
             } catch (ServiceConfigurationError se) {
-                log.log(WARNING, se.getMessage(), se);
+                log.log(WARNING, se.getMessage() + ":" + se.getCause().getClass().getName() + ":" + se.getCause().getMessage());
             } catch (Throwable e) {
                 log.log(ERROR, e.getMessage(), e);
             }
