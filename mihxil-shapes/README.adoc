@@ -35,7 +35,7 @@ import static org.meeuw.math.svg.SVGDocument.default2DDocument;
 
 @ParameterizedTest
 @ValueSource(ints = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20})
-public void regularPolygons(int n ) throws Exception {
+void regularPolygons(int n ) throws Exception {
 
     RegularPolygon<RationalNumber, BigDecimalElement> polygon =
         RegularPolygon.withCircumScribedRadiusFloor(n, RationalNumber.of(100));
@@ -57,7 +57,7 @@ public void regularPolygons(int n ) throws Exception {
 }
 
 @Test
-public void rotatedPolygon() throws Exception {
+void rotatedPolygon() throws Exception {
     try (FileOutputStream fos = new FileOutputStream(new File(dest,   "rotated-3-gon.svg"))) {
         SVG.marshal(default2DDocument()
             .withSize(size)
@@ -88,7 +88,7 @@ image:{docs}/shapes/10-gon.svg[width={iwidth},title="decagon", link="{docs}/shap
 [source,java]
 ----
 @Test
-public void rectangle() throws Exception {
+void rectangle() throws Exception {
     RotatedRectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
         RationalNumber.of(100),
         RationalNumber.of(170))
@@ -109,7 +109,7 @@ public void rectangle() throws Exception {
 }
 
 @Test
-public void circle() throws Exception {
+void circle() throws Exception {
     try (FileOutputStream fos = new FileOutputStream(new File(dest,  "circle.svg"))) {
         SVG.marshal(default2DDocument()
             .withSize(size)
@@ -129,7 +129,7 @@ public void circle() throws Exception {
 }
 
 @Test
-public void ellipse() throws Exception {
+void ellipse() throws Exception {
     Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
         RationalNumber.of(100),RationalNumber.of (80),
         element(Math.toRadians(45.0)));
