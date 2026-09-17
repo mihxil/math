@@ -22,9 +22,11 @@ import java.util.function.BiConsumer;
 
 import org.junit.jupiter.api.Test;
 
-import org.meeuw.math.statistics.StatisticalDoubleImpl;
-import org.meeuw.time.TestClock;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.statistics.StatisticalDoubleImpl;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.time.TestClock;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,7 +37,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class WindowedStatisticalDoubleTest {
 
     @Test
-    public void test() {
+    @WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
+    void test() {
         TestClock clock = new TestClock();
 
         BiConsumer<Windowed.Event, Windowed<StatisticalDoubleImpl>> listener =
