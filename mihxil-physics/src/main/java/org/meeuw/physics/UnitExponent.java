@@ -25,32 +25,32 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class UnitExponent implements Comparable<UnitExponent> {
+public class UnitExponent<D extends Dimension> implements Comparable<UnitExponent<D>> {
 
     @Getter
     final int exponent;
 
     @Getter
-    final Unit unit;
+    final Unit<D> unit;
 
-    public UnitExponent(Unit unit, int exponent) {
+    public UnitExponent(Unit<D> unit, int exponent) {
         this.exponent = exponent;
         this.unit = unit;
     }
 
-    public static UnitExponent of(Unit u, int exponent) {
-        return new UnitExponent(u, exponent);
+    public static <D extends Dimension> UnitExponent<D> of(Unit<D> u, int exponent) {
+        return new UnitExponent<>(u, exponent);
     }
 
-    public DimensionalAnalysis getDimensions() {
+    public DimensionalAnalysis<D> getDimensions() {
         return unit.getDimensions().pow(exponent);
     }
 
-    public UnitExponent pow(int d) {
+    public UnitExponent<D> pow(int d) {
         return of(unit, d * exponent);
     }
 
-    public UnitExponent times(UnitExponent u) {
+    public UnitExponent<D> times(UnitExponent<D> u) {
         if (!unit.equals(u.unit)) {
             throw new IllegalArgumentException();
         }

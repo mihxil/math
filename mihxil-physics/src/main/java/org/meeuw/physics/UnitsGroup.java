@@ -74,12 +74,12 @@ public class UnitsGroup extends AbstractAlgebraicStructure<Units> implements
 
     @Override
     public Units nextRandom(Random random) {
-        UnitExponent[] units = new UnitExponent[SIUnit.values().length];
+        UnitExponent<SIDimension>[] units = new UnitExponent[SIUnit.values().length];
 
         for (int i = 0; i < units.length; i++) {
-            units[i] = new UnitExponent(SIUnit.values()[i],  (int) (random.nextGaussian() * 3));
+            units[i] = new UnitExponent<>(SIUnit.values()[i],  (int) (random.nextGaussian() * 3));
         }
-        return new CompositeUnits(exactly(1), units);
+        return new CompositeUnits<>(exactly(1), units);
 
     }
 }

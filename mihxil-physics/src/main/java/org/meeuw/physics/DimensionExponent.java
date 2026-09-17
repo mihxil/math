@@ -23,40 +23,36 @@ import org.meeuw.math.text.TextUtils;
 /**
  * Bundles a {@link Dimension} with an exponent.
  */
-public interface DimensionExponent {
+public interface DimensionExponent<D extends Dimension> {
 
-    Dimension getDimension();
+    D getDimension();
 
     int getExponent();
 
-    static DimensionExponent of(Dimension e, int exponent) {
-        if (exponent == 1) {
-            return e;
-        } else {
-            return new Impl(e, exponent);
-        }
+    static <D extends Dimension> DimensionExponent<D> of(D e, int exponent) {
+        return new Impl<D>(e, exponent);
     }
 
-    default DimensionExponent with(int i) {
+    default DimensionExponent<D> with(int i) {
         return of(getDimension(), i);
     }
 
-    default DimensionExponent reciprocal() {
+    default DimensionExponent<D> reciprocal() {
         return of(getDimension(), getExponent() * - 1);
     }
 
-    default UnitExponent toUnitExponent(SystemOfMeasurements systemOfMeasurements) {
+    default UnitExponent toUnitExponent(SystemOfMeasurements<D> systemOfMeasurements) {
         return UnitExponent.of(systemOfMeasurements.forDimension(getDimension()), getExponent());
     }
 
     @Data
-    class Impl implements DimensionExponent {
-        final Dimension dimension;
+    class Impl<D extends Dimension> implements DimensionExponent<D> {
+        final D dimension;
         final int exponent;
 
         @Override
         public String toString() {
-            return TextUtils.toString(new Dimension[] {dimension}, new int[] {exponent});
+            return TextUtils.toString(new Object[] {dimension}, new int[] {exponent});
         }
     }
 }
