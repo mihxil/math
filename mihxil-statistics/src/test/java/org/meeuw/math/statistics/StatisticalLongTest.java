@@ -28,8 +28,10 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.time.UncertainJavaTime;
 import org.meeuw.time.text.TimeConfiguration;
@@ -45,6 +47,7 @@ import static org.meeuw.time.UncertainJavaTime.Mode.*;
  */
 @SuppressWarnings("DuplicateExpressions")
 @Log
+@SetUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
 class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
     @Test
