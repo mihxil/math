@@ -27,7 +27,7 @@
     <module>mihxil-math-parser</module>
     <module>mihxil-math-test</module>
     <module>mihxil-demo</module>
-    <!--module>report-aggregation</module-->
+    <module>report-aggregation</module>
 
   </modules>
 
