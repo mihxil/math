@@ -27,7 +27,7 @@ on:
           - WARN
           - ERROR
         required: false
-        default: 'WARN' # the logging is quite verbose, and the default level makes the githyb action output unwieldy
+        default: 'WARN' # the logging is quite verbose, and the default level makes the GitHub Action output unwieldy
 
 
 
