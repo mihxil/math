@@ -123,13 +123,14 @@ import org.meeuw.theories.ComparableTheory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Log
-public class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
-
+class QuickStartTheoryTest implements ComparableTheory<MyComparable>{
 
     @Override
     @Provide
     public Arbitrary<MyComparable> datapoints() {
-        return Arbitraries.integers().between(-10, 10).map(MyComparable::new);
+        return Arbitraries.integers()
+            .between(-10, 10)
+            .map(MyComparable::new);
     }
 
     /**
