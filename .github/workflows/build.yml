@@ -92,7 +92,7 @@ jobs:
           fi
           log_level="${{ github.event.inputs.log_level || 'WARN' }}"
           maven_args=(-B "$extra_arg" "-Dlog4j2.root.level=$log_level")
-          if [[ "${{ matrix.rank }}" == "main" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
             maven_args+=(-Pdeploy deploy)
           else
             maven_args+=(test)
@@ -121,7 +121,7 @@ jobs:
           message: Automated update of dot.m4
           add: docs/algebras.dot.m4
           pull: '--rebase --autostash'
-      - uses: MMProgrami/after-maven-action@main
+      - uses: MMProgrami/after-maven-action@v2
         id: after_maven
         with:
           coverage: true
