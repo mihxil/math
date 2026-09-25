@@ -17,6 +17,18 @@ on:
         type: boolean
         required: false
         default: false
+      log_level:
+        description: Log level
+        type: choice
+        options:
+          - TRACE
+          - DEBUG
+          - INFO
+          - WARN
+          - ERROR
+        required: false
+        default: 'WARN' # the logging is quite verbose, and the default level makes the githyb action output unwieldy
+
 
 
 concurrency:
@@ -55,21 +67,53 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java }}
           cache: maven
+          server-id: central
+          server-username-env-var: CENTRAL_USERNAME
+          server-password-env-var: CENTRAL_PASSWORD
+          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+      - name: Suppress Java 25 Lombok Unsafe warning
+        if: ${{ matrix.java == 25 }}
+        run: echo "MAVEN_OPTS=--sun-misc-unsafe-memory-access=allow" >> "$GITHUB_ENV"
       - name: Build with maven
         shell: bash
+        id: maven
         # allow the build step to fail (e.g. test failures) without failing the entire job
         continue-on-error: true
         timeout-minutes: 15
+        env:
+          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
+          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
         run: |
           if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
-            mvn -B -fn -DskipTests -Dlog4j2.stdout.level=warn test
+            extra_arg="-DskipTests"
           else
-            mvn -B -fn -D"maven.test.failure.ignore=true" -Dlog4j2.root.level=warn test
+            extra_arg="-Dmaven.test.failure.ignore=true"
           fi
+          log_level="${{ github.event.inputs.log_level || 'WARN' }}"
+          maven_args=(-B "$extra_arg" "-Dlog4j2.root.level=$log_level")
+          if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
+            maven_args+=(-Pdeploy deploy)
+          else
+            maven_args+=(test)
+          fi
+          set +e
+          mvn "${maven_args[@]}" 2>&1 | awk '
+            /If you are an AI Agent/ { skip_blank_line = 1; next }
+            skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
+            { skip_blank_line = 0; print; fflush() }
+          '
+          mvn_exit=${PIPESTATUS[0]}
+          set -e
+          exit "$mvn_exit"
       - uses: codecov/codecov-action@v7
         if: ${{ matrix.rank == 'main' && !(github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true') }}
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # required
+          # Only the aggregated report; it is the only one that also credits
+          # coverage of a module's classes by tests in _other_ modules.
+          files: report-aggregation/target/site/jacoco-aggregate/jacoco.xml
+          disable_search: true
       - name: Commit generated graphviz file if it changed
         if: ${{ matrix.rank == 'main' }}
         uses: EndBug/add-and-commit@v11
@@ -80,31 +124,6 @@ jobs:
       - uses: MMProgrami/after-maven-action@v2
         id: after_maven
         with:
-          coverage: false
-          determine_version: false
-
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-java@v6
-        with:
-          distribution: 'temurin'
-          java-version: 17
-          cache: maven
-          server-id: central
-          server-username-env-var: CENTRAL_USERNAME
-          server-password-env-var: CENTRAL_PASSWORD
-          gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Deploy to central
-        # We deploy with the -D setting. This way the 'no-deploy' profile is deactivated, arranging that the modules in that are not deployed
-        # It also sets the default target to deploy
-        timeout-minutes: 10
-        run: mvn -B -DskipTests -Ddeploy deploy
-        env:
-          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
+          coverage: true
+          determine_version: true
+          maven_outcome: ${{ steps.maven.outcome }}
