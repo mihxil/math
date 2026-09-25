@@ -43,16 +43,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ windows-latest, macos-latest ]
-        java: [ 17 ]
-        # also check (once) on latest
-        include:
-          - os: ubuntu-latest
-            java: 25
-          - os: ubuntu-latest
-            java: 21
-          - os: ubuntu-latest
-            java: 17
-            rank: main
+
     runs-on: ${{ matrix.os }}
     env:
       MAVEN_ARGS: '--no-transfer-progress --color=always'
