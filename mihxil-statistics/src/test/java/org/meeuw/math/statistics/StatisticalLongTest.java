@@ -28,8 +28,10 @@ import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.SetUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.time.UncertainJavaTime;
 import org.meeuw.time.text.TimeConfiguration;
@@ -45,10 +47,13 @@ import static org.meeuw.time.UncertainJavaTime.Mode.*;
  */
 @SuppressWarnings("DuplicateExpressions")
 @Log
+@SetUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
 class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
+
+
     @Test
-    public void instants() {
+    void instants() {
         ConfigurationService.withAspect(TimeConfiguration.class, tz -> tz.withZoneId(ZoneId.of("Europe/Amsterdam")), () -> {
             Instant now = Instant.ofEpochMilli(1593070087406L);
 
@@ -75,7 +80,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void longs() {
+    void longs() {
         StatisticalLong mes = new StatisticalLong();
         mes.enter(0, 1, 2, 3, 4, 5, 6, 7);
         assertThat(mes.getGuessedMean()).isEqualTo(0);
@@ -103,7 +108,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void combine() {
+    void combine() {
         StatisticalLong stat1 = new StatisticalLong(LONG);
         stat1.enter(0, 2, 4, 6);
         StatisticalLong stat2  = new StatisticalLong();
@@ -138,8 +143,8 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void timesAndPlus() {
-         StatisticalLong mes = new StatisticalLong(DURATION);
+    void timesAndPlus() {
+        StatisticalLong mes = new StatisticalLong(DURATION);
 
         assertThat(mes.optionalDurationValue()).isNotPresent();
         assertThat(mes.getStandardDeviation()).isNaN();
@@ -158,7 +163,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
 
 
     @Test
-    public void timesAndPlusMs() {
+    void timesAndPlusMs() {
         StatisticalLong mes = new StatisticalLong(DURATION_NS);
 
         assertThat(mes.optionalDurationValue()).isNotPresent();
@@ -177,7 +182,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void nanoDurations() {
+    void nanoDurations() {
 
         // tag::nanoduration[]
         StatisticalLong mes = new StatisticalLong(DURATION_NS);
@@ -198,7 +203,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void dividedOne() {
+    void dividedOne() {
         withLooseEquals(() -> {
             StatisticalLong minusOne = new StatisticalLong();
             minusOne.accept(-1);
@@ -210,7 +215,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void plusDouble() {
+    void plusDouble() {
         StatisticalLong mes = new StatisticalLong();
         mes.enter(1, 2);
         StatisticalLong offsetted = mes.plus(3.1);
@@ -218,7 +223,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void negativePowerOfZero() {
+    void negativePowerOfZero() {
         StatisticalLong mes = new StatisticalLong();
         mes.enter(-1, 1);
         assertThatThrownBy(() -> {
@@ -231,7 +236,7 @@ class StatisticalLongTest implements CompleteScalarFieldTheory<RealNumber> {
     }
 
     @Test
-    public void zero() {
+    void zero() {
         StatisticalLong statisticalLong = new StatisticalLong();
         statisticalLong.enter(0L, 0L, 0L, 0L);
         assertThat(statisticalLong.isZero()).isTrue();
