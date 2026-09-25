@@ -99,10 +99,10 @@ public class SVGTest {
     // tag::otherShapes[]
     @Test
     void rectangle() throws Exception {
-        RotatedRectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
+        Rectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
             RationalNumber.of(100),
             RationalNumber.of(170))
-            .rotate(element(Math.toRadians(10.0)));
+            .rotateDegrees(10);
 
         var svg = default2DDocument()
             .withSize(size)

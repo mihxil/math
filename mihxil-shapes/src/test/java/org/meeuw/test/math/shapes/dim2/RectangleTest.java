@@ -59,7 +59,6 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
         ).shape().aspectRatio()).isEqualTo("9:16");
 
         assertThat( rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle().shape()).hasToString("Rectangle{576x1024}");
-
     }
 
     @Test
@@ -118,6 +117,19 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
         ).isEqualTo("(-512,-288) (512,-288) (512,288) (-512,288)");
         assertThat(rationalRectangle.numberOfEdges()).isEqualTo(4);
     }
+
+    @Test
+    void rotated90() {
+        assertThat(rectangle.rotateDegrees(90).toString()).isEqualTo("Rectangle{576x1024}");
+    }
+
+    @Test
+    @WithNumberConfiguration(maxPrecision = 0)
+    void rotated45() {
+        assertThat(rectangle.rotateDegrees(45).toString()).isEqualTo("RotatedRectangle{1024x576 45°}");
+        assertThat(rectangle.rotateDegrees(50).circumscribedRectangle().shape().toString()).isEqualTo("Rectangle{1099x1155}");
+    }
+
 
     @Override
     public Arbitrary<@NonNull RotatedRectangle<RealNumber, RealNumber>> datapoints() {

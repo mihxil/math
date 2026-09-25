@@ -44,12 +44,12 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
         x.info().forEach(e -> log.info(e.key() + ": " + e.descriptionString()));
     }
 
-
     @Property
     default void showCircumscribedCircle(@ForAll(DATAPOINTS) F x) {
         LocatedFigure<C ,C,  Circle<C, C>> circumscribed = x.circumscribedCircle();
         log().info("Circumscribed of %s is %s".formatted(x, circumscribed));
     }
+
     @Property
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) F x) {
         LocatedFigure<C, C, Rectangle<C, C>> circumscribed = x.circumscribedRectangle();
@@ -63,6 +63,12 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
             assertThat(x.isExact()).isTrue();
         }
     }
+
+    @Property
+    default void rotateDegrees(@ForAll(DATAPOINTS) F x) {
+        assertThat(x.rotateDegrees(360)).isEqualTo(x);
+    }
+
 
 
 

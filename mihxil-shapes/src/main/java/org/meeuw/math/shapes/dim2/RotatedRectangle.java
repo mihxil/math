@@ -82,13 +82,15 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
             return atOrigin(this);
         }
 
-        E sin = field.approx(angle.sin());
+        C sin = angle.sin();
         assert sin != null;
-        E cos = field.approx(angle.cos());
+        C cos = angle.cos();
         assert cos != null;
+        C cWidth = width.complete();
+        C cHeight = height.complete();
         return atOrigin(new Rectangle<>(
-            width.times(cos).abs().plus(height.times(sin).abs()),
-            width.times(sin).abs().plus(height.times(cos).abs())
+            field.approx(cWidth.times(cos).abs().plus(cHeight.times(sin).abs())),
+            field.approx(cWidth.times(sin).abs().plus(cHeight.times(cos).abs()))
         ));
 
     }

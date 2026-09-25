@@ -227,6 +227,24 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
         );
     }
 
+
+    @Override
+    public Rectangle<E, C> rotateDegrees(int angle) {
+        angle %= 180;
+        if (angle == 0) {
+            return this;
+        }
+        if (angle == 90) {
+            return new Rectangle<>(
+              height,
+                width
+            );
+        }
+        return (Rectangle<E, C>) Polygon.super.rotateDegrees(angle);
+
+    }
+
+
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object o) {

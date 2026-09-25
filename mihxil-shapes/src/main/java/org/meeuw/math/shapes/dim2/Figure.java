@@ -3,8 +3,7 @@ package org.meeuw.math.shapes.dim2;
 import java.util.stream.Stream;
 
 import org.meeuw.functional.Suppliers;
-import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
-import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.shapes.Shape;
 
@@ -42,6 +41,14 @@ public interface Figure<
     LocatedFigure<C, C, Circle<C, C>> circumscribedCircle();
 
     Figure<E, C> rotate(E angle);
+
+    default Figure<E, C> rotateDegrees(int angle) {
+        ScalarField<E, C> field = field();
+        return rotate(
+            field.approx(field.one().complete().times(angle).times(field.pi()).dividedBy(180))
+        );
+    }
+
 
     /**
      * TODO?
