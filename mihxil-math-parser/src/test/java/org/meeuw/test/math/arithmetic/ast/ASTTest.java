@@ -85,6 +85,7 @@ class ASTTest {
         Expression<RealNumber> exp2 = AST.parse("((8 - 3) * 3) + 8", INSTANCE);
         log.info(AST.toInfix(exp2.canonize(INSTANCE)));
     }
+
     @Test
     public void parseInfix1(){
         String s = "(1 + 2) + 200";

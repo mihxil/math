@@ -56,6 +56,11 @@ class ComplexNumberTest implements
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
 
+    @Test
+    void parseReal() {
+        assertThat(structure.fromString("1")).hasToString("1");
+    }
+
 
     @Override
     public Arbitrary<ComplexNumber> elements() {

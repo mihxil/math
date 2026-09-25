@@ -169,11 +169,15 @@ public abstract class AbstractComplexNumber<
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        boolean hasReal = ! real.isZero();
+        String realString = real.toString();
+        boolean hasReal = ! "0".equals(realString);
         if (hasReal) {
             result.append(real);
         }
-        if (!imaginary.isZero()) {
+        E abs = imaginary.abs();
+        String imString = abs.toString();
+        boolean hasImaginary =  ! "0".equals(imString);
+        if (hasImaginary) {
             if (hasReal) {
                 result.append(' ');
             }
@@ -187,7 +191,7 @@ public abstract class AbstractComplexNumber<
             if (hasReal) {
                 result.append(' ');
             }
-            E abs = imaginary.abs();
+
             if (! abs.isOne()) {
                 result.append(abs);
             }

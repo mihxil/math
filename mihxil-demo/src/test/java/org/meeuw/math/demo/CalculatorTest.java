@@ -7,9 +7,10 @@ import java.util.logging.Level;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.meeuw.math.demo.Calculator.FieldInformation.*;
 
 @Log
-public class CalculatorTest {
+class CalculatorTest {
     static {
         DemoUtils.setupLogging(Level.FINE);
     }
@@ -23,24 +24,27 @@ public class CalculatorTest {
     }
 
     @Test
-    public void quaternions() {
-        DemoUtils.setupLogging("FINE");
-        String result = Calculator.eval("-i * i", Calculator.FieldInformation.quaterniongroup.name());
+    void quaternions() {
+        String result = Calculator.eval("-i * i", quaterniongroup.name());
         assertThat(result).isEqualTo("e");
     }
 
     @Test
-    public void natural() {
-        DemoUtils.setupLogging("FINE");
-        String result = Calculator.eval("2 ^ 10", Calculator.FieldInformation.natural.name());
+    void natural() {
+        String result = Calculator.eval("2 ^ 10", natural.name());
         assertThat(result).isEqualTo("1024");
     }
 
     @Test
-    public void modulo() {
-        DemoUtils.setupLogging("FINE");
-        String result = Calculator.eval("2 ^ 11", Calculator.FieldInformation.modulo13.name());
+    void modulo() {
+        String result = Calculator.eval("2 ^ 11", modulo13.name());
         assertThat(result).isEqualTo("7");
+    }
+
+    @Test
+    void complex() {
+        String result = Calculator.eval("1 + 2", complex.name());
+        assertThat(result).isEqualTo("3");
     }
 
 
@@ -48,15 +52,14 @@ public class CalculatorTest {
     public void integers() {
         log.fine("test");
         {
-            String result = Calculator.eval("11 \\ 3", Calculator.FieldInformation.integers.name());
+            String result = Calculator.eval("11 \\ 3", integers.name());
             assertThat(result).isEqualTo("3");
         }
          {
-            String result = Calculator.eval("11 % 3", Calculator.FieldInformation.integers.name());
+            String result = Calculator.eval("11 % 3", integers.name());
             assertThat(result).isEqualTo("2");
         }
     }
-
 
     @Test
     public void polynomials() {
@@ -64,7 +67,7 @@ public class CalculatorTest {
         {
             String result = Calculator.eval("""
             "x + 2x^2 + x^5" * "7 + x"
-            """, Calculator.FieldInformation.polynomials.name());
+            """, polynomials.name());
             assertThat(result).isEqualTo("7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶");
         }
 

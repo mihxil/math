@@ -197,8 +197,7 @@ public class Calculator {
                 log.log(Level.SEVERE,  "Supported operators is empty for " + f);
             }
             var parsedExpression = AST.parse(expression, f);
-            // This breaks cheerpj, it seems very unlikely
-            //log.fine("Parsed expression: " +  parsedExpression);
+            log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
             var result = parsedExpression.eval();
             var resultAsString = result.toString();
             log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
