@@ -15,14 +15,16 @@
  */
 package org.meeuw.math.exceptions;
 
+import org.meeuw.math.abstractalgebra.AlgebraicElement;
+
 /**
  * Division by zero is mostly impossible. It's like multiplying by the reciprocal of {@link org.meeuw.math.abstractalgebra.AdditiveGroup#zero}
  * @author Michiel Meeuwissen
  */
 public class DivisionByZeroException extends ReciprocalException {
 
-    public DivisionByZeroException(String s, String value) {
-        super(s, value + "/0");
+    public DivisionByZeroException(String message, String value) {
+        super(message, value + "/0");
     }
 
     public DivisionByZeroException(Throwable cause, String value) {
@@ -30,12 +32,12 @@ public class DivisionByZeroException extends ReciprocalException {
         initCause(cause);
     }
 
-    public DivisionByZeroException(Object e, Object divisor) {
-        super("Division by zero exception",   e + "/" + divisor);
+    public DivisionByZeroException(AlgebraicElement<?> value, Object divisor) {
+        super("Division by zero exception",   value + "/" + divisor);
     }
 
-    public DivisionByZeroException(Object e, Object divisor, Throwable cause) {
-        super("Division exception: " + cause.getMessage(), e + "/" + divisor);
+    public DivisionByZeroException(Object value, Object divisor, Throwable cause) {
+        super("Division exception: " + cause.getMessage(), value + "/" + divisor);
         initCause(cause);
     }
 }

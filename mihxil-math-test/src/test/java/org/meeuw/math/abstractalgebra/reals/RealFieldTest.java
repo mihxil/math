@@ -43,7 +43,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
 
  */
 @Log
-@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS, stripZeros = false)
 class RealFieldTest implements
     CompleteScalarFieldTheory<RealNumber>,
     MetricSpaceTheory<RealNumber, RealNumber>,
@@ -91,6 +91,7 @@ class RealFieldTest implements
         assertThat(half.toString()).isEqualTo("0.500000000000000"); // rounding errors only
         assertThat(new DoubleElement(5, 0.1).toString()).isEqualTo("5.00 ± 0.10");
     }
+
     @Test
     void stringOfExact() {
         //                              these digits are too exact

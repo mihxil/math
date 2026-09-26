@@ -23,9 +23,9 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.jupiter.WithNumberConfiguration;
-import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
 import org.meeuw.theories.abstractalgebra.SignedNumberTheory;
@@ -41,7 +41,8 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers.INS
  * @author Michiel Meeuwissen
  */
 @Log
-@WithUncertaintyConfiguration
+
+@WithNumberConfiguration(rationals = "FRACTION")
 class RationalFieldTest implements FieldTheory<RationalNumber>,
     ScalarTheory<RationalNumber>,
     SignedNumberTheory<RationalNumber> {
@@ -80,7 +81,7 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
         assertThat(of(-5, 4).mod(of(1, 2))).isEqualTo(of(1, 4));
         assertThat(of(-1).mod(ONE)).isEqualTo(ZERO);
         assertThatThrownBy(() -> of(1, 4).mod(ZERO))
-            .isInstanceOf(IllegalArgumentException.class)
+            .isInstanceOf(DivisionByZeroException.class)
             .hasMessage("Modulus must be non-zero");
         assertThat(of(1, 4).mod(of(-1))).isEqualTo(of(1, 4));
     }
@@ -147,9 +148,7 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
     }
 
 
-
     @Test
-    @WithNumberConfiguration(rationals = "FRACTION")
     void stream() {
         assertThat(INSTANCE
             .stream()

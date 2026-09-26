@@ -58,7 +58,7 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extend
     @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
     default E mod(@NotZero E divisor) throws DivisionByZeroException {
         if (divisor.signum() == 0) {
-            throw new DivisionByZeroException("Modulus must be non-zero", this);
+            throw new DivisionByZeroException("Modulus must be non-zero", this.toString());
         }
         divisor = divisor.abs();
         return minus(dividedBy(divisor).floor().times(divisor));

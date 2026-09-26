@@ -143,7 +143,6 @@ class BigDecimalFieldTest implements
 
         });
 
-
         BigDecimalElement three = of(3);
 
         withLooseEquals(() -> {
@@ -184,7 +183,9 @@ class BigDecimalFieldTest implements
     @Test
     void simpleToString() {
         assertThat(of("1234").toString()).isEqualTo("1234");
-        assertThat(of("1234.5678901234556890").toString()).isEqualTo("1234.5678901234556890");
+        BigDecimalElement parsed = of("1234.5678901234556890");
+
+        assertThat(parsed.toString()).isEqualTo("1234.5678901234556890");
     }
 
     @Test

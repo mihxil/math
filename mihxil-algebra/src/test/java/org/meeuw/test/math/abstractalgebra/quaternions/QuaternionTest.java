@@ -53,6 +53,7 @@ class QuaternionTest implements
     }
 
     @Test
+    @WithNumberConfiguration
     void testToString() {
         assertThat(structure.zero().toString()).isEqualTo("0");
         assertThat(structure.one().times(of(2)).toString()).isEqualTo("2");
