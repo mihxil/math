@@ -18,20 +18,18 @@ package org.meeuw.test.math.abstractalgebra.dim2;
 import net.jqwik.api.Arbitraries;
 import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
-import org.assertj.core.api.Assertions;
 
+import org.meeuw.assertj.Assertions;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2Space;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.abstractalgebra.reals.*;
-import org.meeuw.math.exceptions.FieldIncompleteException;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement.of;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
 
@@ -53,7 +51,7 @@ class FieldVector2Test implements
     @Test
     void absOfRational() {
         FieldVector2<RationalNumber, BigDecimalElement> v = FieldVector2.of(RationalNumber.of(3), RationalNumber.of(-4));
-        assertThatThrownBy(v::abs).isInstanceOf(FieldIncompleteException.class);
+        Assertions.assertThatAlgebraically(v.abs()).isEqTo(BigDecimalElement.of(5));
     }
 
     @Test
@@ -73,7 +71,7 @@ class FieldVector2Test implements
     @Test
     void string() {
         FieldVector2<BigDecimalElement, BigDecimalElement> v = FieldVector2.of(of(3), of(-4));
-        assertThat(v.toString()).isEqualTo("(3.0,-4.0)");
+        assertThat(v.toString()).isEqualTo("(3,-4)");
     }
 
     @Test
@@ -87,10 +85,10 @@ class FieldVector2Test implements
         assertThat(v1).isEqualTo(v2);
     }
 
-    @SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes"})
+    @SuppressWarnings({"ConstantConditions", "EqualsBetweenInconvertibleTypes", "EqualsWithItself"})
     @Test
     void spaceEquals() {
-        Assertions.assertThat(new FieldVector2Space<>(RealField.INSTANCE).equals(new FieldVector2Space<>(RealField.INSTANCE))).isTrue();
+        assertThat(new FieldVector2Space<>(RealField.INSTANCE)).isEqualTo(new FieldVector2Space<>(RealField.INSTANCE));
         assertThat(new FieldVector2Space<>(RealField.INSTANCE).hashCode()).isEqualTo(new FieldVector2Space<>(RealField.INSTANCE).hashCode());
         assertThat(new FieldVector2Space<>(RealField.INSTANCE).equals(null)).isFalse();
         assertThat(new FieldVector2Space<>(RationalNumbers.INSTANCE).equals(new FieldVector2Space<>(RealField.INSTANCE))).isFalse();
@@ -115,9 +113,7 @@ class FieldVector2Test implements
         return Arbitraries.doubles()
             .between(-100, 100)
             .tuple2()
-            .map((t) -> {
-                return FieldVector2.of(t.get1(), t.get2());
-            })
+            .map((t) -> FieldVector2.of(t.get1(), t.get2()))
             .injectDuplicates(0.5)
             ;
     }

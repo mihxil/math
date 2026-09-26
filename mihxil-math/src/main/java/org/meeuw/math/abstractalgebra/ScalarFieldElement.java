@@ -16,7 +16,9 @@
 package org.meeuw.math.abstractalgebra;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.*;
+import org.meeuw.math.NonAlgebraic;
+import org.meeuw.math.WithDoubleOperations;
+import org.meeuw.math.exceptions.DivisionByZeroException;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
 import org.meeuw.math.validation.NotZero;
@@ -54,9 +56,9 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extend
      * @return a scalar greater than or equal to zero and smaller than {@code abs(divisor)}
      */
     @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
-    default E mod(@NotZero E divisor) {
+    default E mod(@NotZero E divisor) throws DivisionByZeroException {
         if (divisor.signum() == 0) {
-            throw new IllegalArgumentException("Modulus must be non-zero");
+            throw new DivisionByZeroException("Modulus must be non-zero", this);
         }
         divisor = divisor.abs();
         return minus(dividedBy(divisor).floor().times(divisor));

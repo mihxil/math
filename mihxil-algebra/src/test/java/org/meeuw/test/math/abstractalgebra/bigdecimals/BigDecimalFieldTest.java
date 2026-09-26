@@ -25,12 +25,14 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.text.FormatService;
 import org.meeuw.math.text.UncertainNumberFormat;
 import org.meeuw.math.text.configuration.NumberConfiguration;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.theories.abstractalgebra.CompleteScalarFieldTheory;
 import org.meeuw.theories.abstractalgebra.MetricSpaceTheory;
 
@@ -44,6 +46,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.ROUND_VALUE, stripZeros = false)
 class BigDecimalFieldTest implements
     CompleteScalarFieldTheory<BigDecimalElement>,
     MetricSpaceTheory<BigDecimalElement, BigDecimalElement> {

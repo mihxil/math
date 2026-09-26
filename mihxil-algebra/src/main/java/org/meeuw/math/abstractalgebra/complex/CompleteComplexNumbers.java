@@ -45,7 +45,10 @@ public abstract class CompleteComplexNumbers<
         3,
         "eml"
     );
-    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(CompleteField.OPERATORS, EML);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        CompleteField.OPERATORS,
+        EML
+    );
 
 
 

@@ -77,8 +77,8 @@ public class RectangularCuboidTest {
 
     @Test
     void eq() {
-        // The current implementation always returns false for eq()
-        assertThat(cuboid.eq(cuboid)).isFalse();
-        assertThat(cuboid.eq(new RectangularCuboid<>(element(2.0), element(3.0), element(4.0)))).isFalse();
+        assertThat(cuboid.eq(
+            new RectangularCuboid<>(element(2.0), element(3.0), element(4.0)))
+        ).isTrue();
     }
 }

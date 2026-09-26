@@ -14,9 +14,7 @@ import org.meeuw.theories.abstractalgebra.AdditiveGroupTheory;
 
 @Log
 @WithNumberConfiguration
-public class CircleGroupTest {
-
-
+class CircleGroupTest {
 
 
     static class AngleTest implements AdditiveGroupTheory<CircleElement<RationalNumber, BigDecimalElement>> {

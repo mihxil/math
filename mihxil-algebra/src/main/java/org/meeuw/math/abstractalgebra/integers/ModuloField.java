@@ -22,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.meeuw.math.Example;
 import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.Field;
-import org.meeuw.math.abstractalgebra.ScalarField;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.validation.Prime;
@@ -56,7 +55,7 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
     }
 
     private static final NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
-        ScalarField.OPERATORS,
+        Field.OPERATORS,
         MODULO_POWER
     );
 

@@ -109,6 +109,7 @@ public class RectangularCuboid<F extends ScalarFieldElement<F, C>, C extends Com
         RectangularCuboid<F, C> o = (RectangularCuboid<F, C>) other;
         return width.eq(o.width) && height.eq(o.height) && depth.eq(o.depth);
     }
+
     @Override
     public boolean strictlyEquals(Object o) {
         return strictlyEqual(this, o, RectangularCuboid::width, RectangularCuboid::height, RectangularCuboid::depth);

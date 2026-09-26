@@ -21,9 +21,10 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.Assertions;
 
-import org.meeuw.jupiter.WithRounding;
+import org.meeuw.jupiter.*;
 import org.meeuw.math.DoubleUtils;
 import org.meeuw.math.exceptions.InvalidUncertaintyException;
+import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import org.meeuw.theories.abstractalgebra.*;
 
 import static java.lang.Double.NaN;
@@ -42,6 +43,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
 
  */
 @Log
+@WithUncertaintyConfiguration(notation = UncertaintyConfiguration.Notation.PLUS_MINUS)
 class RealFieldTest implements
     CompleteScalarFieldTheory<RealNumber>,
     MetricSpaceTheory<RealNumber, RealNumber>,

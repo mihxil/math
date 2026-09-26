@@ -18,6 +18,7 @@ package org.meeuw.test.math.abstractalgebra.quaternions;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternion;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
@@ -36,6 +37,7 @@ import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@WithNumberConfiguration(rationals = "FRACTION")
 class QuaternionTest implements
     DivisionRingTheory<Quaternion<RationalNumber, BigDecimalElement>>,
     WithScalarTheory<Quaternion<RationalNumber, BigDecimalElement>, RationalNumber> {

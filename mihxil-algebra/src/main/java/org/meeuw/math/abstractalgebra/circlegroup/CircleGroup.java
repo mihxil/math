@@ -42,7 +42,7 @@ import org.meeuw.math.exceptions.NotStreamable;
 public class CircleGroup<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     extends AbstractAlgebraicStructure<CircleElement<E, C>>
     implements
-    AdditiveGroup<CircleElement<E, C>>, Streamable<CircleElement<E, C>> {
+    AdditiveAbelianGroup<CircleElement<E, C>>, Streamable<CircleElement<E, C>> {
 
     final ScalarField<E, C> field;
     final E  lower;

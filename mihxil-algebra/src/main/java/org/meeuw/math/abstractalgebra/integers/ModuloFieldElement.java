@@ -67,6 +67,7 @@ public class ModuloFieldElement
     public ModuloFieldElement dividedBy(@NotZero long divisor) {
         return dividedBy(new ModuloFieldElement((int) divisor % structure.divisor, structure));
     }
+
     @Override
     public ModuloFieldElement dividedBy(@NotZero BigInteger divisor) {
         return dividedBy(new ModuloFieldElement(

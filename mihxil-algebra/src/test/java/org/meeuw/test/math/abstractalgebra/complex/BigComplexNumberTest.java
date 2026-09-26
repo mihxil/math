@@ -52,6 +52,7 @@ class BigComplexNumberTest implements
         BigComplexNumber cn = BigComplexNumber.of(of(1), of(1));
         assertThat(cn).isInstanceOf(MultiplicativeSemiGroupElement.class);
     }
+
     @Test
     void testOf() {
         assertThat(BigComplexNumber.of(BigDecimalElement.ONE)).isEqualTo(BigComplexNumber.of(BigDecimalElement.ONE, BigDecimalElement.ZERO));
@@ -126,7 +127,6 @@ class BigComplexNumberTest implements
             );
         });
     }
-
 
     @Override
     public Arbitrary<BigComplexNumber> elements() {

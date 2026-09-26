@@ -37,11 +37,21 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.*;
 @SuppressWarnings("NonAsciiCharacters")
 public interface CompleteField<E extends CompleteFieldElement<E>> extends Field<E> {
 
-    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(ScalarField.OPERATORS, POWER);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        Field.OPERATORS,
+        POWER
+    );
 
-    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(ScalarField.UNARY_OPERATORS, SQRT, SIN, COS, EXP, LN, SINH, COSH);
+    NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(
+        ScalarField.UNARY_OPERATORS,
+        SQRT, SIN, COS, EXP, LN, SINH, COSH
+    );
 
-    NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(MultiplicativeSemiGroup.INT_OPERATORS, ROOT, TETRATION);
+    NavigableSet<AlgebraicIntOperator> INT_OPERATORS = navigableSet(
+        MultiplicativeSemiGroup.INT_OPERATORS,
+        ROOT,
+        TETRATION
+    );
 
 
     /**
