@@ -338,8 +338,7 @@
             log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
         }
         <span class="type">var</span> parsedExpression = AST.parse(expression, f);
-        <span class="comment">// This breaks cheerpj, it seems very unlikely</span>
-        <span class="comment">//log.fine(&quot;Parsed expression: &quot; +  parsedExpression);</span>
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted(parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
         <span class="type">var</span> resultAsString = result.toString();
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
@@ -1136,7 +1135,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-09-17 11:28:21 UTC
+Last updated 2026-09-26 13:30:59 UTC
 </div>
 </div>
 </body>
