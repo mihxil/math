@@ -70,7 +70,7 @@
             <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-210.0" y2="-210.0"/>
         </g>
         <g>
-            <ellipse fill="none" rx="100.0" ry="80.0" stroke="black" stroke-width="1" transform="rotate(45.0)"/>
+            <ellipse fill="none" rx="100.0" ry="80.0" stroke="black" stroke-width="1" transform="rotate(45)"/>
             <!--Circumscribed circle of Ellipse{100,80}-->
             <circle fill="none" r="100.0" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed circle of Ellipse{100,80}-->
@@ -88,7 +88,7 @@
             <tspan dy="4.0" x="0">◌: 100</tspan>
             <tspan dy="4.0" x="0">radiusx: 100</tspan>
             <tspan dy="4.0" x="0">radiusy: 80</tspan>
-            <tspan dy="4.0" x="0">angle: 0.7853981633974483</tspan>
+            <tspan dy="4.0" x="0">angle: 0.125</tspan>
             <tspan dy="4.0" x="0">linear eccentricity: 60</tspan>
             <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
         </text>

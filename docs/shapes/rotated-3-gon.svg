@@ -70,7 +70,7 @@
             <line stroke="#00ff00" stroke-dasharray="1,1" stroke-width="0.2" x1="-103.0" x2="103.0" y1="-210.0" y2="-210.0"/>
         </g>
         <g>
-            <polygon fill="none" points="10.32634967838989,-58.56363919406777 45.55442444093377,38.2247007468808 -55.88077411932366,20.338938447186973" stroke="black" stroke-width="1"/>
+            <polygon fill="none" points="10.32634967838989,-58.56363919406777 45.55442444093377,38.2247007468808 -55.88077411932366,20.33893844718697" stroke="black" stroke-width="1"/>
             <!--Dot showing the first vertex-->
             <circle cx="10.32634967838989" cy="-58.56363919406777" fill="#ff0000" r="1.1"/>
             <!--Inscribed circle of {3}, size: 103-->
@@ -78,7 +78,7 @@
             <!--Circumscribed circle of {3}, size: 103-->
             <circle fill="none" r="59.46707772653146" stroke="black" stroke-dasharray="1,1" stroke-opacity="0.3" stroke-width="0.2"/>
             <!--Circumscribed rectangle of {3}, size: 103-->
-            <rect fill="none" height="96.78833994094856" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="101.43519856025743" x="-55.88077411932366" y="-58.56363919406777"/>
+            <rect fill="none" height="96.78833994094856" stroke="blue" stroke-dasharray="2,1" stroke-opacity="0.3" stroke-width="0.6" width="101.43519856025743" x="-55.88077411932366" y="-58.56363919406776"/>
         </g>
     </g>
     <g>
