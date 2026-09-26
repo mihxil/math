@@ -90,6 +90,18 @@ public enum BasicAlgebraicBinaryOperator implements AlgebraicBinaryOperator {
         3
     ),
 
+
+    /**
+
+     * @since 0.21
+     */
+    MODULUS(
+        getDeclaredBinaryMethod(ScalarFieldElement.class, "mod"), "⋅",
+        getDeclaredMethod(MultiplicativeMonoid.class, "one"),
+        null,
+        3
+    ),
+
     /**
      * @see TranscendentalFunctionsNumber#pow(CompleteFieldElement)
      */

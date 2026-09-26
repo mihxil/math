@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import org.meeuw.functional.Suppliers;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.shapes.Angle;
 import org.meeuw.math.shapes.Info;
 
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
@@ -64,7 +65,7 @@ public class Circle<
     }
 
     @Override
-    public Circle<E, C> rotate(E angle) {
+    public Circle<E, C> rotate(Angle angle) {
         return this; // a circle is invariant under rotation
     }
 

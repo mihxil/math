@@ -5,15 +5,15 @@ import lombok.extern.java.Log;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import net.jqwik.api.lifecycle.*;
 import org.junit.jupiter.api.extension.*;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.jupiter.*;
+import org.meeuw.jupiter.WithNumberConfiguration;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
@@ -66,10 +66,20 @@ public class ConfigurationExtension implements
     @Override
     @NonNull
     public PropertyExecutionResult aroundProperty(@NonNull PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
+        List<AnnotatedElement> annotatedElements = new ArrayList<>();
+        annotatedElements.add(context.targetMethod());
+        annotatedElements.add(context.containerClass());
+        Class<?> enclosing = context.containerClass().getEnclosingClass();
+        while (enclosing != null) {
+            annotatedElements.add(enclosing);
+            enclosing = enclosing.getEnclosingClass();
+        }
+        annotatedElements.add(ConfigurationExtension.class);
+        AnnotatedElement[] annotatedArray = annotatedElements.toArray(new AnnotatedElement[0]);
         try (AutoCloseable resetUncertainty =
-                 setUncertaintyConfiguration(context.targetMethod(), context.containerClass());
+                 setUncertaintyConfiguration(annotatedArray);
              AutoCloseable resetNumber =
-                 setNumberConfiguration(context.targetMethod(), context.containerClass())
+                 setNumberConfiguration(annotatedArray)
         ) {
             return property.execute();
         }
@@ -128,7 +138,10 @@ public class ConfigurationExtension implements
 
     private static <A extends Annotation> A getAnnotation(AnnotatedElement annotatedElement, Class<A> annotation) {
         // Delegate to recursive implementation with a visited set to avoid cycles in meta-annotations
-        A a = getAnnotation(annotatedElement, annotation, new HashSet<>());
+        A a = getAnnotation(
+            annotatedElement,
+            annotation,
+            new HashSet<>());
         if (a == null) {
             //a = getAnnotation(ConfigurationExtension.class, annotation);
             log.fine("applying default " + a);

@@ -5,11 +5,11 @@ import lombok.Getter;
 
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.functional.Suppliers;
 import org.meeuw.math.ComparableUtils;
 import org.meeuw.math.NonExact;
 import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.shapes.Angle;
 import org.meeuw.math.shapes.Info;
 import org.meeuw.math.uncertainnumbers.Uncertain;
 
@@ -26,12 +26,12 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
 
     private final E radiusx;
     private final E radiusy;
-    private final E angle;
+    private final Angle angle;
     private final ScalarField<E, C> field;
 
     /**
      */
-    public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy, @radians E angle) {
+    public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy, Angle angle) {
         this.radiusx = radiusx;
         this.radiusy = radiusy;
         this.angle = angle;
@@ -41,7 +41,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     }
 
     public Ellipse(@Min(0) E radiusx, @Min(0) E radiusy) {
-        this(radiusx, radiusy, radiusx.getStructure().zero());
+        this(radiusx, radiusy, Angle.ZERO);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
     }
 
     @Override
-    public Ellipse<E, C> rotate(E angle) {
+    public Ellipse<E, C> rotate(Angle angle) {
         return new Ellipse<>(radiusx, radiusy, this.angle.plus(angle));
     }
 
@@ -109,8 +109,9 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
                 new Rectangle<>(radiusx.complete().times(2), radiusy.complete().times(2))
             );
         } else {
-            C sin2 = angle.sin().sqr();
-            C cos2 = angle.cos().sqr();
+            C a = angle.radians(field().completedField());
+            C sin2 = a.sin().sqr();
+            C cos2 = a.cos().sqr();
             C height = radiusx.complete().sqr().times(sin2).plus(radiusy.sqr().complete().times(cos2)).sqrt().times(2);
             C width = radiusx.complete().sqr().times(cos2).plus(radiusy.sqr().complete().times(sin2)).sqrt().times(2);
 
@@ -143,7 +144,7 @@ public class Ellipse <E extends ScalarFieldElement<E, C>, C extends CompleteScal
 
     @Override
     public Ellipse<C, C> complete() {
-        return new Ellipse<>(radiusx.complete(), radiusy.complete(), angle.complete());
+        return new Ellipse<>(radiusx.complete(), radiusy.complete(), angle);
     }
 
     @Override

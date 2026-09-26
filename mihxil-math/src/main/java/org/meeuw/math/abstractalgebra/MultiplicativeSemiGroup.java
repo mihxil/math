@@ -32,7 +32,10 @@ import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 public interface MultiplicativeSemiGroup<E extends MultiplicativeSemiGroupElement<E>>
     extends Magma<E> {
 
-    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(Magma.OPERATORS, MULTIPLICATION);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        Magma.OPERATORS,
+        MULTIPLICATION
+    );
 
     NavigableSet<AlgebraicUnaryOperator> UNARY_OPERATORS = navigableSet(Magma.UNARY_OPERATORS, SQR);
 

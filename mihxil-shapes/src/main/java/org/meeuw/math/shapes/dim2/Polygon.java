@@ -67,10 +67,9 @@ public interface Polygon<
         C centerX = minX.plus(maxX).dividedBy(2);
         C centerY = minY.plus(maxY).dividedBy(2);
         FieldVector2<C, C> center = FieldVector2.of(centerX, centerY);
-        return new LocatedFigure<>(new RotatedRectangle<>(
+        return new LocatedFigure<>(new Rectangle<>(
             maxX.minus(minX),
-            maxY.minus(minY),
-            field.zero().complete()),
+            maxY.minus(minY)),
             center
         );
     }

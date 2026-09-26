@@ -4,13 +4,13 @@ import jakarta.validation.constraints.Min;
 
 import java.util.stream.Stream;
 
-import org.checkerframework.checker.units.qual.radians;
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
+import org.meeuw.math.shapes.Angle;
 import org.meeuw.math.text.configuration.AngleConfiguration;
 
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
@@ -27,33 +27,31 @@ import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
 public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     extends Rectangle<E, C> {
 
-
-    @radians
-    private final E angle ;
+    private final Angle angle ;
 
     /**
      *  @param width  the width of the rectangle, it must be non-negative
      *  @param height the height of the rectangle, it must be non-negative
      */
-    public RotatedRectangle(@Min(0) E width, @Min(0) E height, @radians E angle) {
+    public RotatedRectangle(@Min(0) E width, @Min(0) E height, Angle angle) {
         super(width, height);
         this.angle = angle;
     }
 
     public RotatedRectangle(@Min(0) E width, @Min(0) E height) {
-        this(width, height, height.getStructure().zero());
+        this(width, height, Angle.ZERO);
 
     }
 
     public static RotatedRectangle<RealNumber, RealNumber> of(double width, double height) {
-        return new RotatedRectangle<>(RealNumber.of(width), RealNumber.of(height), RealNumber.ZERO);
+        return new RotatedRectangle<>(RealNumber.of(width), RealNumber.of(height), Angle.ZERO);
     }
 
     public static RotatedRectangle<RationalNumber, BigDecimalElement> of(long width, long height) {
-        return new RotatedRectangle<>(RationalNumber.of(width), RationalNumber.of(height), RationalNumber.ZERO);
+        return new RotatedRectangle<>(RationalNumber.of(width), RationalNumber.of(height), Angle.ZERO);
     }
 
-    public E angle() {
+    public Angle angle() {
         return angle;
     }
 
@@ -81,10 +79,10 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
         if (angle.isZero()) {
             return atOrigin(this);
         }
-
-        C sin = angle.sin();
+        C a = angle.radians(field().completedField());
+        C sin = a.sin();
         assert sin != null;
-        C cos = angle.cos();
+        C cos = a.cos();
         assert cos != null;
         C cWidth = width.complete();
         C cHeight = height.complete();
@@ -97,14 +95,14 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
 
     @Override
     public RotatedRectangle<C, C> complete() {
-        return new RotatedRectangle<>(width.complete(), height.complete(), angle.complete());
+        return new RotatedRectangle<>(width.complete(), height.complete(), angle);
     }
 
 
     @Override
     public String toString() {
         return "RotatedRectangle{" + width() + "x" +  height() + ' ' +
-            AngleConfiguration.string(angle()) +
+            AngleConfiguration.string(angle().radians(field().completedField())) +
             '}';
     }
 
@@ -156,7 +154,7 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
     }
 
     @Override
-    public RotatedRectangle<E, C> rotate(E angle) {
+    public RotatedRectangle<E, C> rotate(Angle angle) {
         return new RotatedRectangle<>(
             width,
             height,
@@ -185,7 +183,7 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
     public Stream<FieldVector2<C, C>> vertices() {
         C halfWidth = width.dividedBy(2).complete();
         C halfHeight = height.dividedBy(2).complete();
-        Rotation2<C> rotation = Rotation2Group.of(field.completedField()).rotation(angle.complete());
+        Rotation2<C> rotation = Rotation2Group.of(field.completedField()).rotation(angle.radians(field.completedField()));
         return Stream.of(
             FieldVector2.of(halfWidth.negation(), halfHeight.negation()),
             FieldVector2.of(halfWidth, halfHeight.negation()),

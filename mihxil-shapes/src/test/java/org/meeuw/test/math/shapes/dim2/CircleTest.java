@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
@@ -18,10 +19,13 @@ import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
 
 @Log
+@WithNumberConfiguration
 public class CircleTest {
 
     @Nested
     @Group
+    @WithNumberConfiguration
+
     public  class RationalCircleTest implements FigureTheory<RationalNumber, BigDecimalElement, Circle<RationalNumber, BigDecimalElement>> {
 
         @Override

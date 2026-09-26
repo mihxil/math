@@ -60,6 +60,7 @@ module org.meeuw.math.algebras {
     opens org.meeuw.math.abstractalgebra.rationalnumbers to org.hibernate.validator;
     exports org.meeuw.math.abstractalgebra.bool;
     exports org.meeuw.math.abstractalgebra.rationalnumbers.text;
+    exports org.meeuw.math.abstractalgebra.circlegroup;
 
 
     uses AlgebraicElementFormatProvider;

@@ -4,8 +4,7 @@ import java.util.stream.Stream;
 
 import org.meeuw.functional.Suppliers;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.shapes.Info;
-import org.meeuw.math.shapes.Shape;
+import org.meeuw.math.shapes.*;
 
 /**
  * A 2 dimensional {@link Shape}
@@ -40,14 +39,8 @@ public interface Figure<
      */
     LocatedFigure<C, C, Circle<C, C>> circumscribedCircle();
 
-    Figure<E, C> rotate(E angle);
+    Figure<E, C> rotate(Angle angle);
 
-    default Figure<E, C> rotateDegrees(int angle) {
-        ScalarField<E, C> field = field();
-        return rotate(
-            field.approx(field.one().complete().times(angle).times(field.pi()).dividedBy(180))
-        );
-    }
 
 
     /**

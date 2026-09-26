@@ -32,8 +32,8 @@ public class SVGEllipse<
 
         element.setAttribute("rx", String.valueOf(shape.radiusx().doubleValue()));
         element.setAttribute("ry", String.valueOf(shape.radiusy().doubleValue()));
-        if (shape.angle().doubleValue() != 0) {
-            element.setAttribute("transform", "rotate(" + Math.toDegrees(shape.angle().doubleValue()) + ")");
+        if (! shape.angle().isZero()) {
+            element.setAttribute("transform", "rotate(" + shape.angle().degrees() + ")");
         }
 
         g.appendChild(element);

@@ -18,6 +18,7 @@ import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.shapes.Angle;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.math.svg.SVG;
 import org.meeuw.math.text.configuration.NumberConfiguration;
@@ -84,7 +85,7 @@ public class SVGTest {
                 .addInfo()
                 .addRegularPolygon(
                     new RegularPolygon<>(3, element(size.width().doubleValue() / 2))
-                        .rotate(element(Math.toRadians(10.0))),
+                        .rotate(Angle.degrees(10)),
                     s -> s
                         .circumscribedCircle(true)
                         .circumscribedRectangle(true)
@@ -102,7 +103,7 @@ public class SVGTest {
         Rectangle<RationalNumber, BigDecimalElement> rectangle = new RotatedRectangle<>(
             RationalNumber.of(100),
             RationalNumber.of(170))
-            .rotateDegrees(10);
+            .rotate(Angle.degrees(10));
 
         var svg = default2DDocument()
             .withSize(size)
@@ -142,7 +143,8 @@ public class SVGTest {
     void ellipse() throws Exception {
         Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
             RationalNumber.of(100),RationalNumber.of (80),
-            element(Math.toRadians(45.0)));
+
+            Angle.degrees(45));
 
         var document = default2DDocument()
             .withSize(size)

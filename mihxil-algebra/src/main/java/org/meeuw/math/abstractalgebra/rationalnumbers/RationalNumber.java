@@ -149,7 +149,11 @@ public class RationalNumber extends Number
 
     @Override
     public RationalNumber floor() {
-        return RationalNumber.of(numerator.divide(denominator));
+        BigInteger[] division = numerator.divideAndRemainder(denominator);
+        if (numerator.signum() < 0 && division[1].signum() != 0) {
+            return RationalNumber.of(division[0].subtract(BigInteger.ONE));
+        }
+        return RationalNumber.of(division[0]);
     }
 
     @Override

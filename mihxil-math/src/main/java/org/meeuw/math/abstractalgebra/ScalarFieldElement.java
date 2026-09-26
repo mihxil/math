@@ -19,6 +19,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.*;
 import org.meeuw.math.numbers.Scalar;
 import org.meeuw.math.numbers.TranscendentalFunctionsNumber;
+import org.meeuw.math.validation.NotZero;
 
 /**
  * A {@link FieldElement field element} that is also a {@link Scalar scalar}, e.g. it is very much like a 'number'.
@@ -43,8 +44,22 @@ public interface ScalarFieldElement<E extends ScalarFieldElement<E, C>, C extend
 
     @SuppressWarnings("unchecked")
     default C complete() {
-        Math.floor(1);
         return getStructure().complete((E) this);
+    }
+
+    /**
+     * Returns the non-negative remainder after division by a non-zero scalar.
+     *
+     * @param divisor the non-zero divisor
+     * @return a scalar greater than or equal to zero and smaller than {@code abs(divisor)}
+     */
+    @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS)
+    default E mod(@NotZero E divisor) {
+        if (divisor.signum() == 0) {
+            throw new IllegalArgumentException("Modulus must be non-zero");
+        }
+        divisor = divisor.abs();
+        return minus(dividedBy(divisor).floor().times(divisor));
     }
 
 

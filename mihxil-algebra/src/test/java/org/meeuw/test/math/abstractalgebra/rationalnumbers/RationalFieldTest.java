@@ -70,7 +70,19 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
     @Test
     void floor() {
         assertThat(RationalNumber.of(5, 4).floor()).isEqualTo(RationalNumber.of(1));
-        assertThat(RationalNumber.of(-5, 4).floor()).isEqualTo(RationalNumber.of(0));
+        assertThat(RationalNumber.of(-5, 4).floor()).isEqualTo(RationalNumber.of(-2));
+    }
+
+    @Test
+    void mod() {
+        assertThat(of(5, 4).mod(ONE)).isEqualTo(of(1, 4));
+        assertThat(of(-1, 4).mod(ONE)).isEqualTo(of(3, 4));
+        assertThat(of(-5, 4).mod(of(1, 2))).isEqualTo(of(1, 4));
+        assertThat(of(-1).mod(ONE)).isEqualTo(ZERO);
+        assertThatThrownBy(() -> of(1, 4).mod(ZERO))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("Modulus must be non-zero");
+        assertThat(of(1, 4).mod(of(-1))).isEqualTo(of(1, 4));
     }
 
 

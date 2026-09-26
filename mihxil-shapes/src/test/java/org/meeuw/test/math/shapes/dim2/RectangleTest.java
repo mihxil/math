@@ -7,8 +7,8 @@ import net.jqwik.api.Arbitrary;
 import org.junit.jupiter.api.Test;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.jupiter.WithRounding;
 import org.meeuw.jupiter.WithNumberConfiguration;
+import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.integers.ModuloField;
@@ -17,11 +17,11 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.dim2.Rectangle;
 import org.meeuw.math.shapes.dim2.RotatedRectangle;
 
-import static java.lang.Math.PI;
 import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
 import static org.meeuw.math.abstractalgebra.reals.RealField.element;
+import static org.meeuw.math.shapes.Angle.degrees;
 
 @WithNumberConfiguration(rationals = "FRACTION")
 public class RectangleTest implements FigureTheory<RealNumber, RealNumber, RotatedRectangle<RealNumber, RealNumber>> {
@@ -55,15 +55,15 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
     @Test
     void circumscribedRectangle() {
         // 90 degrees
-        assertThat(rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle(
+        assertThat(rectangle.rotate(degrees(90)).circumscribedRectangle(
         ).shape().aspectRatio()).isEqualTo("9:16");
 
-        assertThat( rectangle.rotate(exactly(PI / 2d)).circumscribedRectangle().shape()).hasToString("Rectangle{576x1024}");
+        assertThat( rectangle.rotate(degrees(90)).circumscribedRectangle().shape()).hasToString("Rectangle{576x1024}");
     }
 
     @Test
     void circumscribedRectangleDegrees() {
-        assertThat(rectangle.rotate( exactly(Math.toRadians(90))).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
+        assertThat(rectangle.rotate( degrees(90)).circumscribedRectangle().shape().aspectRatio()).isEqualTo("9:16");
     }
 
 
@@ -120,14 +120,14 @@ public class RectangleTest implements FigureTheory<RealNumber, RealNumber, Rotat
 
     @Test
     void rotated90() {
-        assertThat(rectangle.rotateDegrees(90).toString()).isEqualTo("Rectangle{576x1024}");
+        assertThat(rectangle.rotate(degrees(90)).toString()).isEqualTo("Rectangle{576x1024}");
     }
 
     @Test
     @WithNumberConfiguration(maxPrecision = 0)
     void rotated45() {
-        assertThat(rectangle.rotateDegrees(45).toString()).isEqualTo("RotatedRectangle{1024x576 45°}");
-        assertThat(rectangle.rotateDegrees(50).circumscribedRectangle().shape().toString()).isEqualTo("Rectangle{1099x1155}");
+        assertThat(rectangle.rotate(degrees(45)).toString()).isEqualTo("RotatedRectangle{1024x576 45°}");
+        assertThat(rectangle.rotate(degrees(50)).circumscribedRectangle().shape().toString()).isEqualTo("Rectangle{1099x1155}");
     }
 
 

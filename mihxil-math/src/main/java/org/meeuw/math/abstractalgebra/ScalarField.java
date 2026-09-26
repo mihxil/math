@@ -40,6 +40,10 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 public interface ScalarField<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> extends Field<E> {
 
     NavigableSet<GenericFunction> FUNCTIONS = navigableSet(Field.FUNCTIONS, BasicFunction.ABS, BasicFunction.DECIMAL, BasicFunction.INTEGER);
+    NavigableSet<AlgebraicBinaryOperator> OPERATORS = navigableSet(
+        Field.OPERATORS,
+        BasicAlgebraicBinaryOperator.MODULUS
+    );
 
     @Override
     default NavigableSet<GenericFunction> getSupportedFunctions() {

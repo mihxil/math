@@ -11,6 +11,8 @@ import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 
+import org.meeuw.math.shapes.Angle;
+
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
@@ -56,7 +58,6 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     public E height() {
         return height;
     }
-
 
     /**
      * Checks if the rectangle is vertical, meaning its width is smaller than its height.
@@ -219,29 +220,18 @@ public class Rectangle<E extends ScalarFieldElement<E, C>, C extends CompleteSca
     }
 
     @Override
-    public RotatedRectangle<E, C> rotate(E angle) {
+    public Rectangle<E, C> rotate(Angle angle) {
+        if (angle.isZero() || angle.isStraight()) {
+            return this;
+        }
+        if (angle.isRight()) {
+            return new Rectangle<>(height, width);
+        }
         return new RotatedRectangle<>(
             width,
             height,
             angle
         );
-    }
-
-
-    @Override
-    public Rectangle<E, C> rotateDegrees(int angle) {
-        angle %= 180;
-        if (angle == 0) {
-            return this;
-        }
-        if (angle == 90) {
-            return new Rectangle<>(
-              height,
-                width
-            );
-        }
-        return (Rectangle<E, C>) Polygon.super.rotateDegrees(angle);
-
     }
 
 

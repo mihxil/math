@@ -149,7 +149,7 @@ public abstract class CompleteComplexNumber<
     }
 
     /**
-     * See <a href="https://arxiv.org/abs/2603.21852">All elementary functions from a single binary operator</a></a>
+     * See <a href="https://arxiv.org/abs/2603.21852">All elementary functions from a single binary operator</a>
      * @param y
      * @since 0.20
      */

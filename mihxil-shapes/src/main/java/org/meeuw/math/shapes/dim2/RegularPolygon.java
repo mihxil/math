@@ -10,6 +10,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.dim2.FieldVector2;
 
+import org.meeuw.math.shapes.Angle;
+
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.strictlyEqual;
@@ -21,7 +23,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
 
     private final int n;
     private final E size;
-    private final E angle;
+    private final Angle angle;
     private final ScalarField<E, C> field;
 
 
@@ -31,7 +33,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
      * @param size Length of each side
      * @param angle TODO, move to RotatedRegularPolygon
      */
-    public RegularPolygon(@Min(3) int n, E size, @radians E angle) {
+    public RegularPolygon(@Min(3) int n, E size, Angle angle) {
         this.n = n;
         this.size = size;
         this.angle = angle;
@@ -40,13 +42,13 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
 
 
     public RegularPolygon(@Min(3) int n, E size) {
-        this(n, size, size.getStructure().zero());
+        this(n, size, Angle.ZERO);
     }
 
 
     public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> RegularPolygon<C, C> withCircumScribedRadius(int n, E radius) {
         return new RegularPolygon<>(n,
-            radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()), radius.getStructure().zero().complete()
+            radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()), Angle.ZERO
         );
     }
 
@@ -54,7 +56,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
 
         return new RegularPolygon<>(n,
             radius.complete().times(2).times(radius.getStructure().pi().dividedBy(n).sin()).floor().approx(radius.getStructure()),
-            radius.getStructure().zero()
+            Angle.ZERO
         );
     }
 
@@ -81,7 +83,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
 
     @Override
     public RegularPolygon<C, C> complete() {
-        return new RegularPolygon<>(n, size.complete(), angle.complete());
+        return new RegularPolygon<>(n, size.complete(), angle);
     }
 
     public DihedralGroup dihedralGroup() {
@@ -167,7 +169,7 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
     }
 
     @Override
-    public RegularPolygon<E, C> rotate(E angle) {
+    public RegularPolygon<E, C> rotate(Angle angle) {
         return new RegularPolygon<>(n, size, this.angle.plus(angle));
     }
 
@@ -204,9 +206,10 @@ public  class RegularPolygon<E extends ScalarFieldElement<E, C>, C extends Compl
         } else {
             offset = field.zero().complete();
         }
+        C baseAngle = this.angle.radians(field().completedField());
         return IntStream.range(0, n)
             .mapToObj(i -> {
-                @radians C angle = offset.plus(step.times(i)).plus(this.angle.complete());
+                @radians C angle = offset.plus(step.times(i)).plus(baseAngle);
                 return FieldVector2.of(
                     angle.cos().times(radius), angle.sin().times(radius)
                 );

@@ -298,7 +298,8 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void examples(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-        Example[] annotation = struct.getClass().getAnnotationsByType(Example.class);
+        Example[] annotation = struct.getClass()
+            .getAnnotationsByType(Example.class);
         for (Example example : annotation) {
             assertThat(example.value()).isAssignableFrom(struct.getClass());
         }

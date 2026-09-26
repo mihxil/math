@@ -10,6 +10,7 @@ import net.jqwik.api.Property;
 
 import org.meeuw.math.abstractalgebra.CompleteScalarFieldElement;
 import org.meeuw.math.abstractalgebra.ScalarFieldElement;
+import org.meeuw.math.shapes.Angle;
 import org.meeuw.math.shapes.dim2.*;
 import org.meeuw.theories.BasicObjectTheory;
 
@@ -66,7 +67,7 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
 
     @Property
     default void rotateDegrees(@ForAll(DATAPOINTS) F x) {
-        assertThat(x.rotateDegrees(360)).isEqualTo(x);
+        assertThat(x.rotate(Angle.degrees(360))).isEqualTo(x);
     }
 
 
