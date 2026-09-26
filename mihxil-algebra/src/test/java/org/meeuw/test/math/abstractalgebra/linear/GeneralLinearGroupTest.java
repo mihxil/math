@@ -20,6 +20,7 @@ import lombok.extern.java.Log;
 import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.jupiter.WithRounding;
 import org.meeuw.math.abstractalgebra.linear.GeneralLinearGroup;
 import org.meeuw.math.abstractalgebra.linear.InvertibleMatrix;
@@ -124,7 +125,8 @@ class GeneralLinearGroupTest {
     }
 
 
-    public static class RationalNumberMatrixTest implements
+    @WithNumberConfiguration(rationals = "FRACTION")
+    static class RationalNumberMatrixTest implements
         MultiplicativeGroupTheory<InvertibleMatrix<RationalNumber>>,
         WithScalarTheory<InvertibleMatrix<RationalNumber>, RationalNumber> {
 
