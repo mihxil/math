@@ -267,20 +267,21 @@ examples in this section use java 25&#8217;s <a href="https://openjdk.org/jeps/5
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
 
 <span class="annotation">@Log</span>
-<span class="directive">public</span> <span class="type">class</span> <span class="class">QuickStartTheoryTest</span> <span class="directive">implements</span> ComparableTheory&lt;MyComparable&gt;{
-
+<span class="type">class</span> <span class="class">QuickStartTheoryTest</span> <span class="directive">implements</span> ComparableTheory&lt;MyComparable&gt;{
 
     <span class="annotation">@Override</span>
     <span class="annotation">@Provide</span>
     <span class="directive">public</span> Arbitrary&lt;MyComparable&gt; datapoints() {
-        <span class="keyword">return</span> Arbitraries.integers().between(-<span class="integer">10</span>, <span class="integer">10</span>).map(MyComparable::<span class="keyword">new</span>);
+        <span class="keyword">return</span> Arbitraries.integers()
+            .between(-<span class="integer">10</span>, <span class="integer">10</span>)
+            .map(MyComparable::<span class="keyword">new</span>);
     }
 
     <span class="comment">/**
      * Other (junit) tests can just be added in the same class too.
      */</span>
     <span class="annotation">@Test</span>
-    <span class="directive">public</span> <span class="type">void</span> otherTest() {
+    <span class="type">void</span> otherTest() {
         assertEquals(<span class="string"><span class="delimiter">&quot;</span><span class="content">MyComparable{value=1}</span><span class="delimiter">&quot;</span></span>, <span class="keyword">new</span> MyComparable(<span class="integer">1</span>).toString());
     }
 }</code></pre>
@@ -1391,7 +1392,6 @@ assertThat(mes.optionalDurationValue()).contains(<span class="predefined-type">D
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SI</span>.*;
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.kg</span>;
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.meeuw.physics.SIUnit.m</span>;
-
 ...
 PhysicalNumber twoLightYear = <span class="keyword">new</span> Measurement(<span class="integer">2</span>, <span class="float">0.1</span>, ly);        <span class="comment">//</span>
 PhysicalNumber oneParsec = measurement(<span class="integer">1</span>, <span class="float">0.1</span>, pc); <span class="comment">// using the static import as a shortcut</span>
@@ -1691,9 +1691,10 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">import</span> <span class="include">org.meeuw.configuration.ConfigurationService</span>;
-<span class="keyword">import</span> <span class="include">org.meeuw.jupiter.SetNumberConfiguration</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.jupiter.WithNumberConfiguration</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber</span>;
+<span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.Angle</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.shapes.dim2</span>.*;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.svg.SVG</span>;
 <span class="keyword">import</span> <span class="include">org.meeuw.math.text.configuration.NumberConfiguration</span>;
@@ -1708,7 +1709,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 
 <span class="annotation">@ParameterizedTest</span>
 <span class="annotation">@ValueSource</span>(ints = {<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, <span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>, <span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>, <span class="integer">10</span>, <span class="integer">11</span>, <span class="integer">12</span>, <span class="integer">13</span>, <span class="integer">14</span>, <span class="integer">15</span>, <span class="integer">16</span>, <span class="integer">17</span>, <span class="integer">18</span>, <span class="integer">19</span>, <span class="integer">20</span>})
-<span class="directive">public</span> <span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
+<span class="type">void</span> regularPolygons(<span class="type">int</span> n ) <span class="directive">throws</span> <span class="exception">Exception</span> {
 
     RegularPolygon&lt;RationalNumber, BigDecimalElement&gt; polygon =
         RegularPolygon.withCircumScribedRadiusFloor(n, RationalNumber.of(<span class="integer">100</span>));
@@ -1730,7 +1731,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 }
 
 <span class="annotation">@Test</span>
-<span class="directive">public</span> <span class="type">void</span> rotatedPolygon() <span class="directive">throws</span> <span class="exception">Exception</span> {
+<span class="type">void</span> rotatedPolygon() <span class="directive">throws</span> <span class="exception">Exception</span> {
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,   <span class="string"><span class="delimiter">&quot;</span><span class="content">rotated-3-gon.svg</span><span class="delimiter">&quot;</span></span>))) {
         SVG.marshal(default2DDocument()
             .withSize(size)
@@ -1738,7 +1739,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
             .addInfo()
             .addRegularPolygon(
                 <span class="keyword">new</span> RegularPolygon&lt;&gt;(<span class="integer">3</span>, element(size.width().doubleValue() / <span class="integer">2</span>))
-                    .rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>))),
+                    .rotate(Angle.degrees(<span class="integer">10</span>)),
                 s -&gt; s
                     .circumscribedCircle(<span class="predefined-constant">true</span>)
                     .circumscribedRectangle(<span class="predefined-constant">true</span>)
@@ -1762,11 +1763,11 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 <div class="listingblock">
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@Test</span>
-<span class="directive">public</span> <span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
-    RotatedRectangle&lt;RationalNumber, BigDecimalElement&gt; rectangle = <span class="keyword">new</span> RotatedRectangle&lt;&gt;(
+<span class="type">void</span> rectangle() <span class="directive">throws</span> <span class="exception">Exception</span> {
+    <span class="predefined-type">Rectangle</span>&lt;RationalNumber, BigDecimalElement&gt; rectangle = <span class="keyword">new</span> RotatedRectangle&lt;&gt;(
         RationalNumber.of(<span class="integer">100</span>),
         RationalNumber.of(<span class="integer">170</span>))
-        .rotate(element(<span class="predefined-type">Math</span>.toRadians(<span class="float">10.0</span>)));
+        .rotate(Angle.degrees(<span class="integer">10</span>));
 
     <span class="type">var</span> svg = default2DDocument()
         .withSize(size)
@@ -1783,7 +1784,7 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 }
 
 <span class="annotation">@Test</span>
-<span class="directive">public</span> <span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
+<span class="type">void</span> circle() <span class="directive">throws</span> <span class="exception">Exception</span> {
     <span class="keyword">try</span> (<span class="predefined-type">FileOutputStream</span> fos = <span class="keyword">new</span> <span class="predefined-type">FileOutputStream</span>(<span class="keyword">new</span> <span class="predefined-type">File</span>(dest,  <span class="string"><span class="delimiter">&quot;</span><span class="content">circle.svg</span><span class="delimiter">&quot;</span></span>))) {
         SVG.marshal(default2DDocument()
             .withSize(size)
@@ -1803,10 +1804,11 @@ is not <em>exact</em> this still is uncertain, and rounding errors are propagate
 }
 
 <span class="annotation">@Test</span>
-<span class="directive">public</span> <span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
+<span class="type">void</span> ellipse() <span class="directive">throws</span> <span class="exception">Exception</span> {
     Ellipse&lt;RationalNumber, BigDecimalElement&gt; ellipse = <span class="keyword">new</span> Ellipse&lt;&gt;(
         RationalNumber.of(<span class="integer">100</span>),RationalNumber.of (<span class="integer">80</span>),
-        element(<span class="predefined-type">Math</span>.toRadians(<span class="float">45.0</span>)));
+
+        Angle.degrees(<span class="integer">45</span>));
 
     <span class="type">var</span> document = default2DDocument()
         .withSize(size)
@@ -2288,8 +2290,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
         }
         <span class="type">var</span> parsedExpression = AST.parse(expression, f);
-        <span class="comment">// This breaks cheerpj, it seems very unlikely</span>
-        <span class="comment">//log.fine(&quot;Parsed expression: &quot; +  parsedExpression);</span>
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted(parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
         <span class="type">var</span> resultAsString = result.toString();
         log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
