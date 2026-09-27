@@ -187,7 +187,7 @@ class BigDecimalFieldTest implements
 
     @Test
     @WithUncertaintyConfiguration(stripZeros = false)
-    @WithNumberConfiguration(maxPrecision = Integer.MAX_VALUE)
+    @WithNumberConfiguration(maxPrecision = 10000)
     void simpleToStringKeepZeros() {
         BigDecimalElement parsed = of("1234.5678901234556890");
         assertThat(parsed.toString()).isEqualTo("1234.5678901234556890");

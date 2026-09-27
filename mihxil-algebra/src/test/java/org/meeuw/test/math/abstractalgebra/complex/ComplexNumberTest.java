@@ -23,6 +23,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.configuration.ConfigurationService;
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumber;
 import org.meeuw.math.abstractalgebra.complex.ComplexNumbers;
@@ -43,6 +44,7 @@ import static org.meeuw.math.abstractalgebra.reals.RealNumber.real;
  * @since 0.4
  */
 @Log
+@WithNumberConfiguration(maxPrecision = 100)
 class ComplexNumberTest implements
     CompleteFieldTheory<ComplexNumber>,
     MetricSpaceTheory<ComplexNumber, RealNumber>,

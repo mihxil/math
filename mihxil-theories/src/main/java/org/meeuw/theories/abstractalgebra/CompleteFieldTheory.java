@@ -23,6 +23,7 @@ import net.jqwik.api.Property;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.configuration.ConfigurationService.Reset;
+import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.CompleteField;
 import org.meeuw.math.abstractalgebra.CompleteFieldElement;
@@ -78,6 +79,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     }
 
     @Property
+    @WithNumberConfiguration(maxPrecision = 1000)
     default void sin(@ForAll(ELEMENTS) E e) {
         E sin = e.sin();
         E sinAsin = null;

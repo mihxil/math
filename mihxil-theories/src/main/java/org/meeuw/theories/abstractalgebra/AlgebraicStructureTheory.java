@@ -469,7 +469,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     @WithUncertaintyConfiguration(widthOfConfidenceInterval = 10)
-    @WithNumberConfiguration(rationals = "FRACTION") // TODO: without this failure
+    @WithNumberConfiguration(rationals = "FRACTION", maxPrecision = 100) // TODO: without this failure
     default void fromString(@ForAll(ELEMENTS) E  element) {
         AlgebraicStructure<E> structure = element.getStructure();
         if (structure.isValid(element.toString())) {
@@ -494,7 +494,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     @WithUncertaintyConfiguration(widthOfConfidenceInterval = 10)
-    @WithNumberConfiguration(rationals = "FRACTION") // TODO: without this failure
+    @WithNumberConfiguration(maxPrecision = 100, rationals = "FRACTION") // TODO: without this failure
     default void elementsViaConstant(@ForAll(ELEMENTS) E element) {
         AlgebraicStructure<E> structure = element.getStructure();
         String s = element.toString();

@@ -14,7 +14,7 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WithNumberConfiguration {
 
-    int maxPrecision() default 1000;
+    int maxPrecision() default 50;
 
     String angles() default "DEGREES";
 
