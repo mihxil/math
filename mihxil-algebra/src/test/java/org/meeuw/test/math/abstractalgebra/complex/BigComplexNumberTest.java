@@ -40,7 +40,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  * @since 0.8
  */
 @Log
-@WithNumberConfiguration
+@WithNumberConfiguration(maxPrecision = 5)
 @WithUncertaintyConfiguration(stripZeros = true)
 class BigComplexNumberTest implements
     CompleteFieldTheory<BigComplexNumber>,
