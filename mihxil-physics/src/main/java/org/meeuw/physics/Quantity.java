@@ -23,7 +23,7 @@ import java.util.*;
 
 import org.meeuw.configuration.ReflectionUtils;
 
-import static org.meeuw.physics.Dimension.*;
+import static org.meeuw.physics.SIDimension.*;
 import static org.meeuw.physics.DimensionalAnalysis.of;
 
 /**

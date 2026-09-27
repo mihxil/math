@@ -31,11 +31,9 @@ import static org.meeuw.math.abstractalgebra.reals.DoubleElement.exactly;
  * @since 0.4
  */
 public interface Units extends
-    Iterable<UnitExponent>,
     MultiplicativeGroupElement<Units> {
 
     Units DIMENSIONLESS = of(exactly(1));
-
 
     default String name() {
         return null;
@@ -49,20 +47,21 @@ public interface Units extends
         return UnitsGroup.INSTANCE;
     }
 
-    static CompositeUnits of(RealNumber siFactor, Unit... units) {
-        return new CompositeUnits(siFactor, units);
+    @SafeVarargs
+    static <D extends Dimension> CompositeUnits<D> of(RealNumber siFactor, Unit<D>... units) {
+        return new CompositeUnits<D>(siFactor, units);
     }
 
-    static CompositeUnits of(Unit... units) {
+    @SafeVarargs
+    static <D extends Dimension> CompositeUnits<D> of(Unit<D>... units) {
         RealNumber factor = RealField.INSTANCE.one();
-        for (Unit u : units) {
+        for (Unit<D> u : units) {
             factor = factor.times(u.getSIFactor());
         }
-        return new CompositeUnits(factor, units);
+        return new CompositeUnits<>(factor, units);
     }
 
-    DimensionalAnalysis getDimensions();
-
+    DimensionalAnalysis<?> getDimensions();
 
     /**
      * A description for this {@link Units}
@@ -86,7 +85,7 @@ public interface Units extends
     RealNumber getSIFactor();
 
     default Units withQuantity(Quantity... quantity) {
-        return new CompositeUnits(
+        return new CompositeUnits<>(
             this.getSIFactor(),
             this.getCanonicalExponents()).withQuantity(quantity);
     }
@@ -99,7 +98,7 @@ public interface Units extends
     List<Quantity> getQuantities();
 
     default Units withName(String name) {
-        return new DerivedUnit(this, name, null);
+        return new DerivedUnit<>(this, name, null);
     }
 
     default RealNumber conversionFactor(Units units) {
