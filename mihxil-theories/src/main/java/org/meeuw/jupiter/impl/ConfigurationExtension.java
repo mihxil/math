@@ -14,8 +14,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.jupiter.WithUncertaintyConfiguration;
-import org.meeuw.math.text.configuration.NumberConfiguration;
-import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.math.text.configuration.*;
 
 
 /**
@@ -149,9 +148,9 @@ public class ConfigurationExtension implements
             ConfigurationService.setConfiguration(builder ->
                 builder
                     .configure(NumberConfiguration.class,
-                        config ->
-                            config.withMaximalPrecision(numberConfiguration.maxPrecision()))
-                    .configure("org.meeuw.math.text.configuration.AngleConfiguration", "withUnit", numberConfiguration.angles())
+                        config -> config.withMaximalPrecision(numberConfiguration.maxPrecision()))
+                    .configure(AngleConfiguration.class,
+                        ac -> ac.withUnit(numberConfiguration.angles()))
                     .configure("org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration", "withMode", numberConfiguration.rationals())
             );
     }
