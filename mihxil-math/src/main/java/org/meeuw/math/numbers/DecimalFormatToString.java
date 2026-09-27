@@ -8,7 +8,7 @@ import org.meeuw.configuration.spi.AbstractToString;
 
 public class DecimalFormatToString extends AbstractToString<DecimalFormat> {
 
-    private static final int MAXIMUM_PATTERN_FRACTION_DIGITS = 10_000;
+    private static final int MAXIMUM_PATTERN_FRACTION_DIGITS = 100;
 
     public DecimalFormatToString() {
         super(DecimalFormat.class);

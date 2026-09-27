@@ -21,6 +21,7 @@ import net.jqwik.api.*;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.jupiter.WithNumberConfiguration;
+import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.MultiplicativeSemiGroupElement;
 import org.meeuw.math.abstractalgebra.complex.BigComplexNumber;
@@ -40,6 +41,7 @@ import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEqua
  */
 @Log
 @WithNumberConfiguration
+@WithUncertaintyConfiguration(stripZeros = true)
 class BigComplexNumberTest implements
     CompleteFieldTheory<BigComplexNumber>,
     MetricSpaceTheory<BigComplexNumber, BigDecimalElement>,

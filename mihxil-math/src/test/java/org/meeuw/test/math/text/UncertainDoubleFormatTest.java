@@ -138,14 +138,14 @@ class UncertainDoubleFormatTest {
     void grouping() {
         ConfigurationService.withAspect(NumberConfiguration.class, nc -> {
 
-            DecimalFormat nf = nc.getNumberFormat();
+            DecimalFormat nf = nc.getDecimalFormat();
             nf.setGroupingUsed(true);
             nf.setGroupingSize(4);
             DecimalFormatSymbols dfs = DecimalFormatSymbols.getInstance(Locale.US);
             dfs.setGroupingSeparator('_');
             nf.setDecimalFormatSymbols(dfs);
 
-            return nc.withNumberFormat(nf);
+            return nc.withDecimalFormat(nf);
         }, () -> {
             UncertainDoubleFormat formatter = FormatService.getFormat(UncertainDoubleFormatProvider.class);
 

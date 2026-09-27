@@ -17,6 +17,11 @@ import org.meeuw.jupiter.WithUncertaintyConfiguration;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
+
+/**
+ * Jupiter extension to set some configuratin aspect for junit tests.
+ *
+ */
 @Log
 @WithNumberConfiguration // Serves as default
 @WithUncertaintyConfiguration
@@ -36,14 +41,15 @@ public class ConfigurationExtension implements
     @Override
     public void beforeTestExecution(ExtensionContext context) {
         log.fine("beforeTestExecution called for: " + context.getDisplayName() + " element=" + context.getElement().map(Object::toString).orElse("<none>"));
-        Method m = context.getTestMethod().orElse(null);
-        Class<?> clazz = context.getTestClass().orElse(null);
-        Package pack = clazz == null ? null : clazz.getPackage();
+        AnnotatedElement[] annotatedArray = relevantAnnotatedElements(
+            context.getTestMethod().orElse(null),
+            context.getTestClass().orElse(null));
+
         context.getStore(ns).put(RESET_UNCERTAINTY_CONFIGURATION,
-            setUncertaintyConfiguration(m, clazz, pack, ConfigurationExtension.class)
+            setUncertaintyConfiguration(annotatedArray)
         );
         context.getStore(ns).put(RESET_NUMBER_CONFIGURATION,
-            setNumberConfiguration(m, clazz, pack, ConfigurationExtension.class)
+            setNumberConfiguration(annotatedArray)
         );
     }
 
@@ -61,21 +67,11 @@ public class ConfigurationExtension implements
     }
 
 
-
     // JQWIK
     @Override
     @NonNull
     public PropertyExecutionResult aroundProperty(@NonNull PropertyLifecycleContext context, PropertyExecutor property) throws Throwable {
-        List<AnnotatedElement> annotatedElements = new ArrayList<>();
-        annotatedElements.add(context.targetMethod());
-        annotatedElements.add(context.containerClass());
-        Class<?> enclosing = context.containerClass().getEnclosingClass();
-        while (enclosing != null) {
-            annotatedElements.add(enclosing);
-            enclosing = enclosing.getEnclosingClass();
-        }
-        annotatedElements.add(ConfigurationExtension.class);
-        AnnotatedElement[] annotatedArray = annotatedElements.toArray(new AnnotatedElement[0]);
+        AnnotatedElement[] annotatedArray = relevantAnnotatedElements(context.targetMethod(), context.containerClass());
         try (AutoCloseable resetUncertainty =
                  setUncertaintyConfiguration(annotatedArray);
              AutoCloseable resetNumber =
@@ -84,6 +80,7 @@ public class ConfigurationExtension implements
             return property.execute();
         }
     }
+
     @Override
     @NonNull
     public PropagationMode propagateTo() {
@@ -92,6 +89,29 @@ public class ConfigurationExtension implements
 
 
     // IMPLEMENTATION
+
+
+    /**
+     * method, class, enclosing class(es), package, ConfigurationExtension.class
+     * @param m
+     * @param containerClass
+     * @return
+     */
+
+    static AnnotatedElement[] relevantAnnotatedElements(Method m, Class<?> containerClass) {
+        List<AnnotatedElement> annotatedElements = new ArrayList<>();
+        annotatedElements.add(m);
+        Class<?> enclosing = containerClass;
+        while (enclosing != null) {
+            annotatedElements.add(enclosing);
+            enclosing = enclosing.getEnclosingClass();
+        }
+        if (containerClass != null) {
+            annotatedElements.add(containerClass.getPackage());
+        }
+        annotatedElements.add(ConfigurationExtension.class);
+        return annotatedElements.toArray(new AnnotatedElement[0]);
+    }
 
     private static ConfigurationService.Reset setUncertaintyConfiguration(AnnotatedElement... annotatedElements) {
         for (AnnotatedElement annotatedElement : annotatedElements) {

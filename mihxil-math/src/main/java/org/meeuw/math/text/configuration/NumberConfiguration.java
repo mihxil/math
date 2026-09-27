@@ -17,13 +17,15 @@ package org.meeuw.math.text.configuration;
 
 import lombok.*;
 
-import java.text.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.math.numbers.DecimalFormatToString;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
+import org.meeuw.math.text.spi.UncertainNumberFormatProvider;
 
 import static org.meeuw.math.text.configuration.GroupingSeparator.NONE;
 
@@ -39,9 +41,6 @@ public class NumberConfiguration implements ConfigurationAspect {
     private static final DecimalFormat DEFAULT = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
     static {
         DEFAULT.getDecimalFormatSymbols().setInfinity(TextUtils.INFINITY);
-
-    }
-    static {
         DEFAULT.setGroupingUsed(false);
     }
 
@@ -65,8 +64,7 @@ public class NumberConfiguration implements ConfigurationAspect {
 
     @Getter
     @With
-    private final DecimalFormat numberFormat;
-
+    private final DecimalFormat decimalFormat;
 
     @Getter
     @With
@@ -78,32 +76,30 @@ public class NumberConfiguration implements ConfigurationAspect {
     private NumberConfiguration(
         int minimalExponent,
         GroupingSeparator groupingSeparator,
-        DecimalFormat numberFormat,
+        DecimalFormat decimalFormat,
         int maximalPrecision
        ) {
         this.minimalExponent = minimalExponent;
-        this.numberFormat = numberFormat;
+        this.decimalFormat = (DecimalFormat) decimalFormat.clone();
         this.groupingSeparator = groupingSeparator;
         this.maximalPrecision = maximalPrecision;
-        this.numberFormat.setGroupingUsed(groupingSeparator != NONE);
-        this.numberFormat.setMaximumFractionDigits(maximalPrecision);
+        this.decimalFormat.setGroupingUsed(groupingSeparator != NONE);
+        this.decimalFormat.setMaximumFractionDigits(maximalPrecision);
     }
 
     public NumberConfiguration() {
-        this(4, NONE, getDefaultNumberFormat(), Integer.MAX_VALUE);
+        this(4, NONE, getDefaultNumberFormat(), 1000);
     }
-
-
 
     @Override
     public List<Class<?>> associatedWith() {
-        return Collections.singletonList(UncertainDoubleFormatProvider.class);
+        return List.of(UncertainDoubleFormatProvider.class, UncertainNumberFormatProvider.class);
     }
 
     @Override
     public String toString() {
-        String format = new DecimalFormatToString().toString(this.numberFormat)
-            .orElseGet(() -> "DecimalFormat(maximumFractionDigits=" + numberFormat.getMaximumFractionDigits() + ")");
+        String format = new DecimalFormatToString().toString(this.decimalFormat)
+            .orElseGet(() -> "DecimalFormat(maximumFractionDigits=" + decimalFormat.getMaximumFractionDigits() + ")");
         return new StringJoiner(", ", NumberConfiguration.class.getSimpleName() + "(", ")")
             .add("minimalExponent=" + minimalExponent)
             .add("numberFormat=" + format)

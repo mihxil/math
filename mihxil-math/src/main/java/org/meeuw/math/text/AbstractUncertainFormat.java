@@ -18,6 +18,7 @@ package org.meeuw.math.text;
 
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.text.*;
 import java.util.function.BiPredicate;
 
@@ -320,7 +321,7 @@ public abstract class AbstractUncertainFormat<
 
 
     protected void valuePlusMinError(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
-        DecimalFormat decimalFormat = ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getNumberFormat();
+        DecimalFormat decimalFormat = decimalFormat(value, trim);
         UncertainFormatUtils.valuePlusMinError(
             appendable,
             decimalFormat,
@@ -336,11 +337,24 @@ public abstract class AbstractUncertainFormat<
 
 
     protected void valueRound(StringBuffer appendable, FieldPosition position, F value, boolean trim) {
-        DecimalFormat decimalFormat = ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getNumberFormat();
+        DecimalFormat decimalFormat = decimalFormat(value, trim);
         decimalFormat.format(value.getValue(), appendable, position);
         if (trim) {
             UncertainFormatUtils.strip(appendable, position);;
         }
+    }
+
+    private DecimalFormat decimalFormat(F value, boolean trim) {
+        DecimalFormat decimalFormat = (DecimalFormat) ConfigurationService
+            .getConfigurationAspect(NumberConfiguration.class)
+            .getDecimalFormat()
+            .clone();
+        if (!trim && value.isExact() && value.getValue() instanceof BigDecimal bigDecimal) {
+            decimalFormat.setMinimumFractionDigits(
+                Math.min(Math.max(bigDecimal.scale(), 0), decimalFormat.getMaximumFractionDigits())
+            );
+        }
+        return decimalFormat;
     }
 
 

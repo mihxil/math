@@ -35,8 +35,8 @@ public class UncertainNumberFormatProvider extends AlgebraicElementFormatProvide
         UncertainNumberFormat<Number> format = new UncertainNumberFormat<Number>();
         UncertaintyConfiguration uncertaintyConfiguration = getConfigurationAspect(UncertaintyConfiguration.class);
         format.setUncertaintyNotation(uncertaintyConfiguration.getNotation());
+        format.setStripZeros(uncertaintyConfiguration.getStripZeros());
         format.setMaximalPrecision(getConfigurationAspect(NumberConfiguration.class).getMaximalPrecision());
-
         return format;
     }
 

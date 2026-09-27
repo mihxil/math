@@ -75,9 +75,6 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     @With
     private final BiPredicate<Notation, Object> stripZeros;
 
-
-
-
     @With
     @Getter
     private final float widthOfConfidenceInterval;
@@ -108,6 +105,10 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
     @Override
     public List<Class<?>> associatedWith() {
         return Collections.singletonList(UncertainDoubleFormatProvider.class);
+    }
+
+    public <U> boolean isSkipZeros(U value) {
+        return this.stripZeros.test(this.notation, value);
     }
 
     public enum Notation {

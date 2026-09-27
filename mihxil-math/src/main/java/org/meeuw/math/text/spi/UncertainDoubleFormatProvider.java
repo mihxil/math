@@ -39,7 +39,7 @@ public class UncertainDoubleFormatProvider extends AlgebraicElementFormatProvide
         UncertainDoubleFormat format = new UncertainDoubleFormat();
         NumberConfiguration numberConfiguration = getConfigurationAspect(NumberConfiguration.class);
         format.setMinimumExponent(numberConfiguration.getMinimalExponent());
-        format.setNumberFormat(numberConfiguration.getNumberFormat());
+        format.setNumberFormat(numberConfiguration.getDecimalFormat());
         format.setMaximalPrecision(numberConfiguration.getMaximalPrecision());
 
         format.setUncertaintyNotation(getConfigurationAspect(UncertaintyConfiguration.class).getNotation());

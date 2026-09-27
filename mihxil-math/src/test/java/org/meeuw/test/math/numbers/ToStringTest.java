@@ -36,9 +36,8 @@ public class ToStringTest {
     void decimalFormatWithUnboundedFractionDigits() {
         DecimalFormat format = new DecimalFormat();
         format.setMaximumFractionDigits(Integer.MAX_VALUE);
-
         assertThat(new DecimalFormatToString().toString(format)).isEmpty();
         assertThat(new NumberConfiguration().toString())
-            .contains("DecimalFormat(maximumFractionDigits=2147483647)");
+            .contains("DecimalFormat(maximumFractionDigits=1000)");
     }
 }
