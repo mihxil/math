@@ -11,7 +11,6 @@ import org.meeuw.math.abstractalgebra.dim2.*;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.reals.RealNumber;
 import org.meeuw.math.shapes.Angle;
-import org.meeuw.math.text.configuration.AngleConfiguration;
 
 import static org.meeuw.math.shapes.dim2.LocatedFigure.atOrigin;
 import static org.meeuw.math.uncertainnumbers.UncertainUtils.areExact;
@@ -102,7 +101,7 @@ public class RotatedRectangle<E extends ScalarFieldElement<E, C>, C extends Comp
     @Override
     public String toString() {
         return "RotatedRectangle{" + width() + "x" +  height() + ' ' +
-            AngleConfiguration.string(angle().radians(field().completedField())) +
+            angle.toString() +
             '}';
     }
 

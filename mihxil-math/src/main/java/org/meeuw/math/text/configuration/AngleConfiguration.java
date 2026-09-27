@@ -36,13 +36,17 @@ public class AngleConfiguration implements ConfigurationAspect {
 
     public enum Unit {
         RADIANS,
-        DEGREES
+        DEGREES,
+        TURNS
     }
 
     public static <E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>> String string(ScalarFieldElement<E, C> radians){
         return switch (ConfigurationService.getConfigurationAspect(AngleConfiguration.class).getUnit()) {
             case RADIANS -> "" + radians;
+            case TURNS -> radians.complete().dividedBy(radians.getStructure().pi()).dividedBy(2) + " turns";
             case DEGREES -> radians.times(180L).complete().dividedBy(radians.getStructure().pi()) + "°";
         };
     }
+
+
 }

@@ -1,10 +1,12 @@
 package org.meeuw.math.shapes;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.circlegroup.CircleElement;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.text.configuration.AngleConfiguration;
 
 /**
  * An orientation represented as an exact fraction of one complete turn.
@@ -75,6 +77,16 @@ public class Angle extends CircleElement<RationalNumber, BigDecimalElement>  {
     public BigDecimalElement radians() {
         return radians(BigDecimalField.INSTANCE);
     }
+
+    @Override
+    public String toString() {
+        return switch (ConfigurationService.getConfigurationAspect(AngleConfiguration.class).getUnit()) {
+            case RADIANS -> "" + radians();
+            case TURNS -> turns() + " turns";
+            case DEGREES -> degrees() + "°";
+        };
+    }
+
 
     /**
      * Returns this angle in radians in the supplied complete field.
