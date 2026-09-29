@@ -21,6 +21,7 @@ import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.IntConsumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.jqwik.api.*;
@@ -152,11 +153,10 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ", " + e2 + ") resulted null").isNotNull();
                 assertThat(result.getStructure()).isSameAs(s);
-                if (count.incrementAndGet() < (size * 3L)) { // show three example of every operator
-                    log().info(o.stringify(e1, e2) + " = " + result);
-                } else {
-                    log().fine(o.stringify(e1, e2) + " = " + result);
-                }
+                log().log(count.incrementAndGet() < (size * 3L) ? Level.INFO : Level.FINE,
+                    o.stringify(e1, e2) + " = " + result + " (" + o.name() + ")"
+                );
+
             } catch (IllegalLogarithmException ile) {
                 Assumptions.assumeThat(ile.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
             } catch (OperationException ae) {

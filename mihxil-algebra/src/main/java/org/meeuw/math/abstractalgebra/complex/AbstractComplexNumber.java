@@ -174,8 +174,8 @@ public abstract class AbstractComplexNumber<
         if (hasReal) {
             result.append(real);
         }
-        E abs = imaginary.abs();
-        String imString = abs.toString();
+        final E imAbs = imaginary.abs();
+        String imString = imAbs.toString();
         boolean hasImaginary =  ! "0".equals(imString);
         if (hasImaginary) {
             if (hasReal) {
@@ -192,8 +192,8 @@ public abstract class AbstractComplexNumber<
                 result.append(' ');
             }
 
-            if (! abs.isOne()) {
-                result.append(abs);
+            if (! imAbs.isOne()) {
+                result.append(imString);
             }
             result.append("i");
         }

@@ -1,5 +1,5 @@
 
-VERSION=0.19.0
+VERSION=0.21.0
 M2_REPO=~/.m2/repository
 GROUP_PATH=org/meeuw/math
 GROUP_PATH_CONFIG=org/meeuw/configuration

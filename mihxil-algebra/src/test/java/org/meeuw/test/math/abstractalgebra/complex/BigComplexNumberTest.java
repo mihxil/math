@@ -153,7 +153,9 @@ class BigComplexNumberTest implements
     public Arbitrary<BigDecimalElement> scalars() {
         return Arbitraries.of(
             of(0),
-            of(1), of(2), of(-1)
+            of(1),
+            of(2),
+            of(-1)
         );
     }
 
