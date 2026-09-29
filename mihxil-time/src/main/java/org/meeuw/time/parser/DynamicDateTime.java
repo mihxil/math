@@ -28,11 +28,14 @@ import static java.lang.System.Logger.Level.DEBUG;
  * <p>
  * It is implemented as a {@link java.util.function.Function} (actually a {@link ThrowingFunction}) that takes a string as input and returns a {@link ZonedDateTime} object.
  * @see DateParser
+ * @see <a href="https://mihxil.github.io/math/DEMO.html#demo_dynamicdate">Live demo</a>
  * @since 0.19
  */
 public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, ParseException> {
 
     private static final System.Logger log = System.getLogger(DynamicDateTime.class.getName());
+
+    public static DynamicDateTime DEFAULT = new DynamicDateTime();;
 
     @With
     @NonNull
