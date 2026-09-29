@@ -35,7 +35,7 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
 
     private static final System.Logger log = System.getLogger(DynamicDateTime.class.getName());
 
-    public static DynamicDateTime DEFAULT = new DynamicDateTime();;
+    public static final DynamicDateTime DEFAULT = new DynamicDateTime();;
 
     @With
     @NonNull
@@ -60,45 +60,6 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
         this.locale = locale == null ? Locale.getDefault() : locale;
     }
 
-    protected DayOfWeek getFirstDayOfWeek() {
-        return WeekFields.of(locale).getFirstDayOfWeek();
-    }
-    protected Chronology getChronology() {
-        return Chronology.ofLocale(locale);
-    }
-    protected ZonedDateTime getInstance() {
-        return ZonedDateTime.now(clock);
-    }
-    protected void setZoneId(@NonNull ZoneId timeZone) {
-        clock = clock.withZone(timeZone);
-    }
-
-    /**
-     * Shortcut for calling the EventSearcherService. Used in the javacc-file.
-     */
-    protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName, Boolean searchDown) {
-        if (searchDown == null) { // 'this'
-            return EventSearcherService.INSTANCE.findEvents(
-                    Range.fromYear(cal.getYear()), cal.getZone(), eventName)
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName))
-                .atZone(cal.getZone());
-        } else if (!searchDown) {
-            return EventSearcherService.INSTANCE.findNextEvents(
-                    cal,
-                    eventName)
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " after " + cal));
-        } else {
-            return EventSearcherService.INSTANCE.findPreviousEvents(
-                    cal,
-                    eventName)
-                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " before " + cal));
-        }
-    }
-
-    protected ZonedDateTime resetToEra() {
-        clock = clock.withZone(ZoneId.of("UTC"));
-        return Instant.ofEpochMilli(0).atZone(clock.getZone());
-    }
 
     /**
      * Parses the given string into a {@link ZonedDateTime}.
@@ -136,9 +97,57 @@ public class DynamicDateTime implements ThrowingFunction<String, ZonedDateTime, 
         };
     }
 
+    public static ZonedDateTime parse(String string, ZoneId zoneId) {
+        return new DynamicDateTime().setZoneId(zoneId).applyWithException(string);
+    }
+
+
     public static void main(String[] argv) throws DateTimeNotParsable {
         DynamicDateTime parser = new DynamicDateTime();
         System.out.println("" + parser.applyWithException(argv[1]));
+    }
+
+
+
+    protected DayOfWeek getFirstDayOfWeek() {
+        return WeekFields.of(locale).getFirstDayOfWeek();
+    }
+    protected Chronology getChronology() {
+        return Chronology.ofLocale(locale);
+    }
+    protected ZonedDateTime getInstance() {
+        return ZonedDateTime.now(clock);
+    }
+    protected DynamicDateTime setZoneId(@NonNull ZoneId timeZone) {
+        clock = clock.withZone(timeZone);
+        return this;
+    }
+
+    /**
+     * Shortcut for calling the EventSearcherService. Used in the javacc-file.
+     */
+    protected ZonedDateTime getForEvent(ZonedDateTime cal, String eventName, Boolean searchDown) {
+        if (searchDown == null) { // 'this'
+            return EventSearcherService.INSTANCE.findEvents(
+                    Range.fromYear(cal.getYear()), cal.getZone(), eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName))
+                .atZone(cal.getZone());
+        } else if (!searchDown) {
+            return EventSearcherService.INSTANCE.findNextEvents(
+                    cal,
+                    eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " after " + cal));
+        } else {
+            return EventSearcherService.INSTANCE.findPreviousEvents(
+                    cal,
+                    eventName)
+                .findFirst().orElseThrow(() -> new IllegalArgumentException("No such event " + eventName + " before " + cal));
+        }
+    }
+
+    protected ZonedDateTime resetToEra() {
+        clock = clock.withZone(ZoneId.of("UTC"));
+        return Instant.ofEpochMilli(0).atZone(clock.getZone());
     }
 
 }
