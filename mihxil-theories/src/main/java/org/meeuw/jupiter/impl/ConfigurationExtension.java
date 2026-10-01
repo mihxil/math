@@ -148,7 +148,9 @@ public class ConfigurationExtension implements
             ConfigurationService.setConfiguration(builder ->
                 builder
                     .configure(NumberConfiguration.class,
-                        config -> config.withMaximalPrecision(numberConfiguration.maxPrecision()))
+                        config -> config
+                            .withMaximalScale(numberConfiguration.maxScale())
+                            .withMaximalPrecision(numberConfiguration.maxPrecision()))
                     .configure(AngleConfiguration.class,
                         ac -> ac.withUnit(numberConfiguration.angles()))
                     .configure("org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration", "withMode", numberConfiguration.rationals())

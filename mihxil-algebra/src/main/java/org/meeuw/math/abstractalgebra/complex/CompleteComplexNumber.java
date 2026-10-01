@@ -19,9 +19,11 @@ import java.io.Serial;
 import java.io.Serializable;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.NonAlgebraic;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.IllegalLogarithmException;
+import org.meeuw.math.exceptions.*;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.LN;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQRT;
@@ -127,7 +129,10 @@ public abstract class CompleteComplexNumber<
     }
 
     @Override
-    public S exp() {
+    public S exp() throws OverflowException {
+        if (real.intValue() > ConfigurationService.getConfigurationAspect(NumberConfiguration.class).getMaximalScale()) {
+            throw new OverflowException(this.toString(), "too big for exp()");
+        }
         E pref = real.exp();
         return _of(
             pref.times(imaginary.cos()),
@@ -154,7 +159,7 @@ public abstract class CompleteComplexNumber<
      * @since 0.20
      */
     @NonAlgebraic(reason = NonAlgebraic.Reason.NON_ALL_ELEMENTS, value="Cannot take logarithm of zero")
-    public S eml(S y) {
+    public S eml(S y) throws OverflowException {
         return exp().minus(y.ln());
     }
 

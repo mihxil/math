@@ -70,6 +70,10 @@ public class NumberConfiguration implements ConfigurationAspect {
     @With
     private final int maximalPrecision;
 
+    @Getter
+    @With
+    private final int maximalScale;
+
 
 
     @lombok.Builder
@@ -77,7 +81,8 @@ public class NumberConfiguration implements ConfigurationAspect {
         int minimalExponent,
         GroupingSeparator groupingSeparator,
         DecimalFormat decimalFormat,
-        int maximalPrecision
+        int maximalPrecision,
+        int maximalScale
        ) {
         this.minimalExponent = minimalExponent;
         this.decimalFormat = (DecimalFormat) decimalFormat.clone();
@@ -85,10 +90,11 @@ public class NumberConfiguration implements ConfigurationAspect {
         this.maximalPrecision = maximalPrecision;
         this.decimalFormat.setGroupingUsed(groupingSeparator != NONE);
         this.decimalFormat.setMaximumFractionDigits(maximalPrecision);
+        this.maximalScale = maximalScale;
     }
 
     public NumberConfiguration() {
-        this(4, NONE, getDefaultNumberFormat(), 1000);
+        this(4, NONE, getDefaultNumberFormat(), 1000, 1_000_000);
     }
 
     @Override

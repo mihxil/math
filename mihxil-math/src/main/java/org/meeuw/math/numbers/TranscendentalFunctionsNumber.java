@@ -155,7 +155,8 @@ public interface TranscendentalFunctionsNumber<
         if (height == 0) {
             return getStructureOfElementaryFunctions().one();
         }
-        return pow(tetration(height - 1));
+        C result = tetration(height - 1);
+        return pow(result);
     }
 
 }

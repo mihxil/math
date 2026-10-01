@@ -16,6 +16,9 @@ public @interface WithNumberConfiguration {
 
     int maxPrecision() default 50;
 
+    int maxScale() default 10_000;
+
+
     AngleConfiguration.Unit angles() default AngleConfiguration.Unit.DEGREES;
 
     /**
