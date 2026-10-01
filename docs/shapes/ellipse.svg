@@ -88,7 +88,7 @@
             <tspan dy="4.0" x="0">◌: 100</tspan>
             <tspan dy="4.0" x="0">radiusx: 100</tspan>
             <tspan dy="4.0" x="0">radiusy: 80</tspan>
-            <tspan dy="4.0" x="0">angle: 0.125</tspan>
+            <tspan dy="4.0" x="0">angle: 45°</tspan>
             <tspan dy="4.0" x="0">linear eccentricity: 60</tspan>
             <tspan dy="4.0" x="0">eccentricity: 0.6</tspan>
         </text>
