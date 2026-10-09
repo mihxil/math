@@ -16,7 +16,6 @@
 package org.meeuw.math.text.configuration;
 
 import lombok.*;
-import lombok.extern.java.Log;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +37,7 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @since 0.4
  */
 @ToString
-@Log
+//@Log Look out with logging in stuff that is likely to be used _in logging_.
 public class UncertaintyConfiguration implements ConfigurationAspect {
 
     public static BiPredicate<Notation, Object> DEFAULT_STRIP_ZEROS = new BiPredicate<Notation, Object>() {
@@ -46,7 +45,7 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
         public boolean test(Notation notation, Object object) {
             if (object instanceof UncertainNumber<?> number) {
                 boolean strip = notation == Notation.ROUND_VALUE && number.isExact();
-                log.fine(() -> number.getValue() + " -> " + strip);
+                //log.fine(() -> number.getValue() + " -> " + strip);
                 return strip;
             } else if (object instanceof Number number) { // no error indication, presumed exact
                 return true;
