@@ -15,8 +15,7 @@
  */
 package org.meeuw.time.text;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.time.ZoneId;
 import java.util.Collections;
@@ -31,6 +30,8 @@ import org.meeuw.configuration.ConfigurationAspect;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
+@ToString
+@EqualsAndHashCode
 public class TimeConfiguration implements ConfigurationAspect {
 
     /**

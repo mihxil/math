@@ -15,8 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.util.*;
 
@@ -27,6 +26,8 @@ import org.meeuw.configuration.ConfigurationService;
  * The configuration aspect related to how random elements must be generated.
  */
 
+@ToString
+@EqualsAndHashCode
 public class RandomConfiguration implements ConfigurationAspect {
 
     /**

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.function.BiPredicate;
 
 import org.meeuw.configuration.ConfigurationAspect;
+import org.meeuw.functional.Predicates;
 import org.meeuw.math.text.spi.UncertainDoubleFormatProvider;
 import org.meeuw.math.uncertainnumbers.UncertainNumber;
 
@@ -37,10 +38,11 @@ import org.meeuw.math.uncertainnumbers.UncertainNumber;
  * @since 0.4
  */
 @ToString
+@EqualsAndHashCode
 //@Log Look out with logging in stuff that is likely to be used _in logging_.
 public class UncertaintyConfiguration implements ConfigurationAspect {
 
-    public static BiPredicate<Notation, Object> DEFAULT_STRIP_ZEROS = new BiPredicate<Notation, Object>() {
+    public static BiPredicate<Notation, Object> DEFAULT_STRIP_ZEROS =  new BiPredicate<Notation, Object>() {
         @Override
         public boolean test(Notation notation, Object object) {
             if (object instanceof UncertainNumber<?> number) {
@@ -80,7 +82,7 @@ public class UncertaintyConfiguration implements ConfigurationAspect {
 
 
     public UncertaintyConfiguration withExplicitStripZeros(boolean stripZeros) {
-        return withStripZeros((n, o) -> stripZeros);
+        return withStripZeros(Predicates.biAlways(stripZeros));
     }
 
 

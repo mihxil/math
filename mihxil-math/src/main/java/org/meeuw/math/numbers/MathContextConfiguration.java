@@ -15,8 +15,7 @@
  */
 package org.meeuw.math.numbers;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -26,6 +25,8 @@ import java.util.List;
 import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
 
+@ToString
+@EqualsAndHashCode
 public class MathContextConfiguration implements ConfigurationAspect {
 
     /**

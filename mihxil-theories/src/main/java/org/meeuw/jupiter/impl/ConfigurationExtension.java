@@ -59,7 +59,7 @@ public class ConfigurationExtension implements
         for (String key : new String[]{RESET_UNCERTAINTY_CONFIGURATION, RESET_NUMBER_CONFIGURATION}) {
             AutoCloseable reset = (AutoCloseable) context.getStore(ns).remove(key);
             if (reset != null) {
-                log.info(key + " -> " + reset);
+                log.fine(key + " -> " + reset);
                 reset.close();
             }
         }

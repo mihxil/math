@@ -22,7 +22,7 @@ public class ResetConfiguration implements TestExecutionListener {
     @Override
     public void executionFinished(TestIdentifier testIdentifier, TestExecutionResult testExecutionResult) {
         if (ConfigurationService.resetToDefaults()) {
-            log.info("Resetting configuration to defaults " + testIdentifier);
+            log.fine("Resetting configuration to defaults " + testIdentifier);
         }
 
         assert !ConfigurationService.getConfigurationAspect(UncertaintyConfiguration.class).getStripZeros().equals(biAlwaysTrue());

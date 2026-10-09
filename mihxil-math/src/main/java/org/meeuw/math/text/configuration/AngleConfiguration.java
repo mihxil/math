@@ -1,7 +1,6 @@
 package org.meeuw.math.text.configuration;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,6 +11,8 @@ import org.meeuw.math.abstractalgebra.ScalarFieldElement;
 import org.meeuw.math.numbers.Scalar;
 
 @lombok.Builder
+@ToString
+@EqualsAndHashCode
 public class AngleConfiguration implements ConfigurationAspect {
 
     @lombok.Builder.Default

@@ -126,7 +126,7 @@ public class ConfigurationService {
     public static boolean resetToDefaults() {
         Configuration newDefaultConfiguration = DEFAULT.build();
         if (! CONFIGURATION.get().equals(newDefaultConfiguration)) {
-            log.log(INFO, "Removing " + CONFIGURATION.get());
+            log.log(DEBUG, () -> "Removing " + CONFIGURATION.get().diff(newDefaultConfiguration));
             CONFIGURATION.set(newDefaultConfiguration);
             return true;
         } else {
@@ -318,6 +318,11 @@ public class ConfigurationService {
             } else {
                 ConfigurationService.resetToDefaults();
             }
+        }
+
+        @Override
+        public String toString() {
+            return "reset to " +  configuration;
         }
     }
 }

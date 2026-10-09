@@ -121,8 +121,20 @@ public class Configuration implements Iterable<ConfigurationAspect> {
 
     @Override
     public String toString() {
-        return Configuration.class.getSimpleName() + ":" + map.toString();
+        return Configuration.class.getSimpleName() + ":" + map.values();
     }
+
+    public Map<String, String> diff(Configuration configuration) {
+        Map<String, String> result = new LinkedHashMap<>();
+        for (Map.Entry<Class<? extends ConfigurationAspect>, ConfigurationAspect> aspect : map.entrySet()) {
+            ConfigurationAspect configurationAspect = configuration.getAspect(aspect.getKey());
+            if (!aspect.getValue().equals(configurationAspect)) {
+                result.put(aspect.getKey().getSimpleName(), aspect.getValue() + " != " + configurationAspect);
+            }
+        }
+        return result;
+    }
+
     /**
      * Builder pattern for {@link Configuration}.
      */

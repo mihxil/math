@@ -15,8 +15,7 @@
  */
 package org.meeuw.math.abstractalgebra;
 
-import lombok.Getter;
-import lombok.With;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +28,8 @@ import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
  * <p>
  * Some groups support more than one binary operator (e.g. both addition and multiplication), and in that case we can configure which of those should be associated with the generic {@link BasicAlgebraicBinaryOperator#OPERATION}
  */
+@ToString
+@EqualsAndHashCode
 public class GenericGroupConfiguration implements ConfigurationAspect {
 
 
