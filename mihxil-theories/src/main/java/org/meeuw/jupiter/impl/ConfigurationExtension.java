@@ -18,7 +18,7 @@ import org.meeuw.math.text.configuration.*;
 
 
 /**
- * Jupiter extension to set some configuratin aspect for junit tests.
+ * Jupiter extension to set some configuration aspect for junit tests.
  *
  */
 @Log

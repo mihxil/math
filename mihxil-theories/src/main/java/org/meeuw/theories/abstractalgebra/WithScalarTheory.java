@@ -24,7 +24,6 @@ import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
-import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
