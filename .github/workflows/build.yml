@@ -82,6 +82,8 @@ jobs:
           test -n "$CENTRAL_USERNAME" || { echo "::error::CENTRAL_USERNAME is empty"; exit 1; }
           test -n "$CENTRAL_PASSWORD" || { echo "::error::CENTRAL_PASSWORD is empty"; exit 1; }
           echo "Central credentials are present."
+          credential_fingerprint="$(printf '%s:%s' "$CENTRAL_USERNAME" "$CENTRAL_PASSWORD" | sha256sum | cut -c1-16)"
+          echo "Central credential fingerprint: $credential_fingerprint"
 
           settings_file="$HOME/.m2/settings.xml"
           test -f "$settings_file" || { echo "::error::Maven settings.xml was not generated"; exit 1; }
