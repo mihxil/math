@@ -73,7 +73,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 }
                 streamAble.stream().limit(1000).forEach(e -> {
                     if (count.incrementAndGet() < 20) {
-                        log.info(e::toString);
+                        log.info(() -> safeForLog(e));
                     }
                     }
                 );
@@ -85,7 +85,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                                 log.fine("Skipping to " + skip);
                             }
                             count.incrementAndGet();
-                            log.info(e::toString);
+                            log.info(() -> safeForLog(e));
                         }
                     );
                 };
@@ -105,13 +105,17 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
+    private static String safeForLog(Object value) {
+        return String.valueOf(value).replaceAll("\\p{Cntrl}", "?");
+    }
+
     @Property
     default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {
         Random random = new Random();
         try {
             for (int i = 0; i < 10; i++) {
                 E e = s.nextRandom(random);
-                log().info("randomvalue %s: %s".formatted(i, e));
+                log().info("randomvalue %s: %s".formatted(i, safeForLog(e)));
                 assertThat(FACTORY.getValidator().validate(e)).isEmpty();
             }
         } catch (UnsupportedOperationException use) {
