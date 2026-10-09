@@ -92,18 +92,22 @@ jobs:
           status="$(curl --silent --show-error --output /dev/null \
             --write-out '%{http_code}' \
             --user "$CENTRAL_USERNAME:$CENTRAL_PASSWORD" \
-            https://central.sonatype.com/repository/maven-snapshots/)"
+            https://central.sonatype.com/api/v1/publisher/deployments)"
           case "$status" in
             401)
               echo "::error::Central rejected CENTRAL_USERNAME/CENTRAL_PASSWORD with HTTP 401"
               exit 1
               ;;
             403)
-              echo "::error::Central recognized the request but denied access with HTTP 403"
+              echo "::error::Central recognized the credentials but denied Publisher API access with HTTP 403"
               exit 1
               ;;
+            200)
+              echo "Central Publisher API authentication succeeded."
+              ;;
             *)
-              echo "Central credential check returned HTTP $status."
+              echo "::error::Central Publisher API returned unexpected HTTP $status"
+              exit 1
               ;;
           esac
       - name: Suppress Java 25 Lombok Unsafe warning
