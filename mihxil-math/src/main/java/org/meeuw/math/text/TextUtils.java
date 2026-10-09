@@ -146,7 +146,13 @@ public final class TextUtils {
             return s.substring(1, s.length() - 1);
         }
         return s;
+    }
 
+    public static boolean isBlank(CharSequence s) {
+        if (s == null) {
+            return true;
+        }
+        return s.toString().isBlank();
     }
 
     private static String script(long i, char minusChar, char[] digits) {
