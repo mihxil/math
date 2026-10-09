@@ -12,6 +12,7 @@ module org.meeuw.time.test {
     requires org.meeuw.math.abstractalgebra.test;
     requires org.checkerframework.checker.qual;
     requires static lombok;
+    requires org.meeuw.configuration;
 
     opens org.meeuw.test.time.parser;
     opens org.meeuw.test.time;

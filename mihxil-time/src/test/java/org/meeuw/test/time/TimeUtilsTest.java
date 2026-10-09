@@ -22,17 +22,17 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.parallel.Isolated;
 import org.assertj.core.api.Assertions;
 
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.time.TimeUtils;
+import org.meeuw.time.text.TimeConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @Log4j2
-@Isolated // Sensitive to configuration, so look out
 class TimeUtilsTest {
 
 
@@ -91,13 +91,18 @@ class TimeUtilsTest {
 
     @Test
     void parseMillis() {
-        assertThat(TimeUtils.parseZoned("1474643244279").get()).isEqualTo(ZonedDateTime.of(LocalDate.of(2016, 9, 23), LocalTime.of(17, 7, 24, 279000000), TimeUtils.zoneId()));
+        try (var reset = ConfigurationService.withAspect(TimeConfiguration.class, c -> c.withZoneId(id))) {
+            assertThat(TimeUtils.parseZoned("1474643244279").get()).isEqualTo(ZonedDateTime.of(LocalDate.of(2016, 9, 23), LocalTime.of(17, 7, 24, 279000000), TimeUtils.zoneId()));
+        }
     }
 
     @Test
     void parse() {
-        assertThat(TimeUtils.parse("2000-07-11T14:00:33.556+02:00").get())
-            .isEqualTo(ZonedDateTime.of(LocalDate.of(2000, 7, 11), LocalTime.of(14, 0, 33, 556000000), TimeUtils.zoneId()).toInstant());
+        try (var reset = ConfigurationService.withAspect(TimeConfiguration.class, c -> c.withZoneId(id))) {
+
+            assertThat(TimeUtils.parse("2000-07-11T14:00:33.556+02:00").get())
+                .isEqualTo(ZonedDateTime.of(LocalDate.of(2000, 7, 11), LocalTime.of(14, 0, 33, 556000000), TimeUtils.zoneId()).toInstant());
+        }
     }
 
     @Test
