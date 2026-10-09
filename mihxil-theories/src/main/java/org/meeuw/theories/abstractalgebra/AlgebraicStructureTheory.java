@@ -39,7 +39,6 @@ import org.meeuw.math.uncertainnumbers.Uncertain;
 import static org.assertj.core.api.Assertions.*;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.operators.BasicComparisonOperator.*;
-import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
@@ -59,9 +58,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void cardinalityAndStreaming(
         @ForAll(STRUCTURE) AlgebraicStructure<E> s) {
 
-        Logger log = log();
-
-        log.info("Testing %s (%s)".formatted(s.toString(), s.getDescription()));
+        info("Testing %s (%s)".formatted(s.toString(), s.getDescription()));
         AtomicLong count = new AtomicLong(0);
         if (s.getCardinality().compareTo(Cardinality.ALEPH_1) < 0) {
             assertThat(s).isInstanceOf(Streamable.class);
@@ -74,7 +71,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 }
                 streamAble.stream().limit(1000).forEach(e -> {
                     if (count.incrementAndGet() < 20) {
-                        log.info(() -> safeForLog(e));
+                        info(() -> safeForLog(e));
                     }
                     }
                 );
@@ -83,10 +80,10 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     streamAble.stream().skip(skip).limit(20).forEach(e -> {
                             if (count.get() < skip) {
                                 count.set(skip);
-                                log.fine("Skipping to " + skip);
+                                log(Level.FINE, "Skipping to " + skip);
                             }
                             count.incrementAndGet();
-                            log.info(() -> safeForLog(e));
+                            info(() -> e);
                         }
                     );
                 };
@@ -95,12 +92,12 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 skipAndStream.accept(500_000);
 
             } catch (NotStreamable ns) {
-                log.warning(ns.getMessage());
+                log().warning(ns.getMessage());
             }
         } else {
             assertThat(s).isNotInstanceOf(Streamable.class);
         }
-        log.info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
+        info(() -> ("Cardinality of " + s  + ":" + s.getCardinality()));
         if (count.get() <= 1_000 && count.get() > 0) {
             assertThat(s.getCardinality().getValue().intValue()).isEqualTo(count.get());
         }
@@ -113,11 +110,11 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         try {
             for (int i = 0; i < 10; i++) {
                 E e = s.nextRandom(random);
-                log().info("randomvalue %s: %s".formatted(i, safeForLog(e)));
+                info("randomvalue %s: %s", i, e);
                 assertThat(FACTORY.getValidator().validate(e)).isEmpty();
             }
         } catch (UnsupportedOperationException use) {
-            log().info(use.getMessage());
+            info(use.getMessage());
         }
     }
 
@@ -155,18 +152,14 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ", " + e2 + ") resulted null").isNotNull();
                 assertThat(result.getStructure()).isSameAs(s);
-                log().log(count.incrementAndGet() < (size * 3L) ? Level.INFO : Level.FINE,
+                log(count.incrementAndGet() < (size * 3L) ? Level.INFO : Level.FINE,
                     o.stringify(e1, e2) + " = " + result + " (" + o.name() + ")"
                 );
 
             } catch (IllegalLogarithmException ile) {
                 Assumptions.assumeThat(ile.getReason()).isEqualTo(IllegalLogarithmException.Reason.ZERO);
             } catch (OperationException ae) {
-                if (error.incrementAndGet() < 3L) {
-                    log().info(o.stringify(e1, e2) + " -> " + ae.getMessage());
-                } else {
-                    log().fine(o.stringify(e1, e2) + " -> " + ae.getMessage());
-                }
+                log(error.incrementAndGet() < 3L ? Level.INFO : Level.FINE, o.stringify(e1, e2) + " -> " + ae.getMessage());
                 if (! (ae instanceof OverflowException)) {
                     assertThat(o.isAlgebraicFor(e1))
                         .withFailMessage(ae.getClass().getName() + ":" + ae.getMessage() + " but %s is algebraic for %s %s", o, e1.getClass().getSimpleName(), e1).isFalse();
@@ -202,20 +195,12 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
                 assertThat(result.getStructure()).withFailMessage("Result of operator " + o + " (" + e1 + ") has structure " + result.getClass() + " " + result.getStructure() + " which is not " + s).isSameAs(s);
-                if (count.incrementAndGet() < (size * 3L)) { // show three example of every operator
-                    log().info(o.stringify(e1) + " = " + result);
-                } else {
-                    log().fine(o.stringify(e1) + " = " + result);
-                }
+                log(count.incrementAndGet() < (size * 3L) ? Level.INFO : Level.FINE, o.stringify(e1) + " = " + result);
             } catch (OperationException ae) {
                 //Assume.that(! o.isAlgebraicFor(e1));
-                if (countError.incrementAndGet() < 3L) {
-                    log().info(o.stringify(e1) + " -> " + ae.getMessage());
-                } else {
-                    log().fine(o.stringify(e1) + " -> " + ae.getMessage());
-                }
+                log(countError.incrementAndGet() < 3L ? Level.INFO : Level.FINE, o.stringify(e1) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
-                log().info(o.stringify(e1) + " -> " + ae.getMessage());
+                info(o.stringify(e1) + " -> " + ae.getMessage());
                 if (ae.getCause() != null) {
                     throw ae.getCause();
                 } else {
@@ -243,17 +228,17 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     assertThat(result)
                         .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
                     assertThat(result.getStructure()).withFailMessage("Result of operator " + o + " (" + e1 + ") has structure " + result.getClass() + " " + result.getStructure() + " which is not " + s).isSameAs(s);
-                    log().log(currentCount < (size * 3L) ? Level.INFO  : Level.FINE,   () -> o.stringify(e1, fi) + " = " + result + " (" + o.name() + ")");
+                    log(currentCount < (size * 3L) ? Level.INFO  : Level.FINE,   () -> o.stringify(e1, fi) + " = " + result + " (" + o.name() + ")");
 
                 } catch (OperationException  ae) {
                     //Assume.that(! o.isAlgebraicFor(e1));
-                    log().log(countError.incrementAndGet() < 3L ? Level.INFO: Level.FINE,
+                    log(countError.incrementAndGet() < 3L ? Level.INFO: Level.FINE,
                         o.stringify(e1, i) + " -> " + ae.getMessage()
                     );
 
 
                 } catch (Throwable ae) {
-                    log().info(o.stringify(e1, i) + " -> " + ae.getMessage());
+                    info(o.stringify(e1, i) + " -> " + ae.getMessage());
                     if (ae.getCause() != null) {
                         throw ae.getCause();
                     } else {
@@ -272,13 +257,13 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         for (GenericFunction o : s.getSupportedFunctions()) {
             try {
                 Object result = o.apply(e1);
-                log().info(o.stringify(e1) + " = " + result);
+                info(o.stringify(e1) + " = " + result);
                 assertThat(result)
                     .withFailMessage("operator " + o + "(" + e1 + ") resulted null").isNotNull();
             } catch (OperationException ae) {
-                log().info(o.stringify(e1) + " -> " + ae.getMessage());
+                info(o.stringify(e1) + " -> " + ae.getMessage());
             } catch (Throwable ae) {
-                log().info(o.stringify(e1) + " -> " + ae.getMessage());
+                info(o.stringify(e1) + " -> " + ae.getMessage());
                 if (ae.getCause() != null) {
                     throw ae.getCause();
                 } else {
@@ -308,7 +293,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
 
     @Property
     default void toStringForStructure(@ForAll(STRUCTURE) AlgebraicStructure<?> struct) {
-        log().info(struct.getClass().getSimpleName() + " -> " + struct);
+        info(struct.getClass().getSimpleName() + " -> " + struct);
     }
 
     @Property
@@ -322,17 +307,17 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 if (method.getAnnotation(NonAlgebraic.class) == null) {
                     fail("Not supported operation %s  is on %s", o, structure.getElementClass());
                 } else {
-                    log().info("Not supported operation %s is on %s, but it is marked non algebraic".formatted(o, structure.getElementClass()));
+                    info("Not supported operation %s is on %s, but it is marked non algebraic", o, structure.getElementClass());
 
                 }
             } else {
-                log().info("Ok %s on %s".formatted(o, structure.getElementClass()));
+                info("Ok %s on %s", o, structure.getElementClass());
             }
         } catch (NoSuchMethodException e) {
             if (structure.getSupportedOperators().contains(o)) {
                 fail("Supported operation %s not on %s", o, structure.getElementClass());
             } else {
-                log().info("Ok %s: %s".formatted(o, e.getMessage()));
+                info("Ok %s: %s", o, e.getMessage());
             }
         }
     }
@@ -349,19 +334,19 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                     if (method.getAnnotation(NonAlgebraic.class) == null) {
                         fail("Not supported operation %s  is on %s", o, structure.getElementClass());
                     } else {
-                        log().info("Not supported operation %s is on %s, but it is marked non algebraic".formatted(o, structure.getElementClass()));
+                        info("Not supported operation %s is on %s, but it is marked non algebraic", o, structure.getElementClass());
                     }
                 } else {
-                    log().info("Ok %s on %s".formatted(o, structure.getElementClass()));
+                    info("Ok %s on %s", o, structure.getElementClass());
                 }
             } else {
-                log().info("Method %s on %s does not return %s, so it is not a proper unary operator".formatted(o.getMethod().getName(), structure.getElementClass(), structure.getElementClass()));
+                info("Method %s on %s does not return %s, so it is not a proper unary operator", o.getMethod().getName(), structure.getElementClass(), structure.getElementClass());
             }
         } catch (NoSuchMethodException e) {
             if (structure.getSupportedUnaryOperators().contains(o)) {
                 fail("Supported operation %s not on %s", o, structure.getElementClass());
             } else {
-                log().info("Ok %s: No such method %s".formatted(o, e.getMessage()));
+                info("Ok %s: No such method %s", o, e.getMessage());
             }
         }
     }
@@ -371,7 +356,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         for (AlgebraicStructure<? extends AlgebraicElement<?>> c : v.getStructure().getSuperGroups()) {
             Optional<? extends AlgebraicElement<?>> casted = v.castDirectly(c.getElementClass());
             assertThat(casted).isPresent();
-            log().info("%s -%s-> %s".formatted(v, c, casted.get()));
+            info("%s -%s-> %s", v, c, casted.get());
         }
     }
 
@@ -379,7 +364,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void cast(@ForAll(ELEMENTS) E v) {
         for (AlgebraicStructure<? extends AlgebraicElement<?>> c : v.getStructure().getAncestorGroups()) {
             AlgebraicElement<?> casted = v.cast(c.getElementClass());
-            log().info("%s -%s-> %s".formatted(v, c, casted));
+            info("%s -%s-> %s", v, c, casted);
         }
     }
 
@@ -394,9 +379,9 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
         assertThat(eqMethods).hasSizeGreaterThanOrEqualTo(1);
         if (eqMethods.size() > 1) {
-            log().info("Eq methods for " + element);
+            info("Eq methods for " + element);
             for (Method m : eqMethods) {
-                log().info(m::toString);
+                info(m::toString);
             }
         }
     }
@@ -410,18 +395,17 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
      */
     @Property
     default void cayleyTables(@ForAll(STRUCTURE) AlgebraicStructure<E> structure) {
-        Logger logger = log();
         if (structure.isFinite()) {
 
             for (AlgebraicBinaryOperator op : structure.getSupportedOperators()) {
-                logger.info("CayleyTable for %s and operation %s (%s)".formatted( structure, op, op.getSymbol()));
+                info("CayleyTable for %s and operation %s (%s)".formatted( structure, op, op.getSymbol()));
 
                 structure.cayleyTable(op, (line) ->
-                    logger.info(String.join("\t", line))
+                    info(String.join("\t", line))
                 );
             }
         } else {
-            logger.info("%s is not finite. Cayley tables cannot be produced".formatted(structure));
+            info("%s is not finite. Cayley tables cannot be produced".formatted(structure));
             for (AlgebraicBinaryOperator op : structure.getSupportedOperators()) {
                 assertThatThrownBy(() -> structure.cayleyTable(op, (r) -> {})).isInstanceOf(NotFiniteException.class);
             }
@@ -475,7 +459,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         if (structure.isValid(element.toString())) {
             String value = element.toString();
             E fromString = structure.fromString(value);
-            log().info("fromString(%s.toString()) = %s".formatted(value, fromString));
+            info("fromString(%s.toString()) = %s".formatted(value, fromString));
             assertThatAlgebraically(fromString)
                 .describedAs("fromString(toString())")
                 .isEqTo(element);
@@ -487,7 +471,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     @Property
     default void constants(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
         for (Map.Entry<String, E> entry : structure.getConstants().entrySet()) {
-            log().info("%s=%s".formatted(entry.getKey(), entry.getValue()));
+            info("%s=%s", entry.getKey(), entry.getValue());
             structure.getConstant(entry.getKey());
         }
     }
@@ -508,7 +492,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 element
             );
         } catch (NotParsable.NotImplemented notImplemented) {
-            log().info("NotParsable: %s: '%s'".formatted(notImplemented.getMessage(), notImplemented.getValue()));
+            info("NotParsable: %s: '%s'".formatted(notImplemented.getMessage(), notImplemented.getValue()));
         }
     }
 
@@ -516,11 +500,11 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void isCommutative(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
         for (BasicAlgebraicBinaryOperator operator : BasicAlgebraicBinaryOperator.values()) {
             if (! structure.getSupportedOperators().contains(operator)) {
-                log().info("%s does not support %s".formatted(structure, operator));
+                info("%s does not support %s", structure, operator);
                 assertThatThrownBy(() -> structure.isCommutative(operator))
                     .isInstanceOf(NoSuchOperatorException.class);
             } else {
-                log().info("%s -> %s".formatted(operator, structure.isCommutative(operator) ? "is commutative" : "is not commutative"));
+                info("%s -> %s", operator, structure.isCommutative(operator) ? "is commutative" : "is not commutative");
             }
         }
     }
@@ -529,7 +513,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
     default void unaryBySymbol(@ForAll(STRUCTURE) AlgebraicStructure<E>  structure) {
         for (BasicAlgebraicUnaryOperator operator : BasicAlgebraicUnaryOperator.values()) {
             if (! structure.getSupportedUnaryOperators().contains(operator)) {
-                log().info("%s does not support %s".formatted(structure, operator));
+                info("%s does not support %s",structure, operator);
                 assertThat(structure.getUnaryOperationBySymbol(operator.getSymbol())).isEmpty();
             } else {
                 assertThat(structure.getUnaryOperationBySymbol(operator.getSymbol())).contains(operator);
@@ -542,7 +526,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         for (AlgebraicUnaryOperator operator : structure.getSupportedUnaryOperators()) {
             String symbol = operator.getSymbol();
             assertThat(structure.getUnaryOperationBySymbol(symbol)).contains(operator);
-            log().info("%s -> %s".formatted(symbol, structure.getUnaryOperationBySymbol(symbol).orElseThrow()));
+            info("%s -> %s", symbol, structure.getUnaryOperationBySymbol(symbol).orElseThrow());
         }
     }
 

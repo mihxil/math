@@ -38,8 +38,8 @@ public interface FieldTheory<E extends FieldElement<E>> extends
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.MULTIPLICATION);
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.ADDITION);
-        log().info(s + " supports " + s.getSupportedOperators());
-        log().info(s + " group operator  " + s.groupOperator() + " with " + s.unity());
+        info(s + " supports " + s.getSupportedOperators());
+        info(s + " group operator  " + s.groupOperator() + " with " + s.unity());
     }
 
 

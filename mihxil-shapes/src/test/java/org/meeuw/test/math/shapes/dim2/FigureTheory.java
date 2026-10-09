@@ -34,7 +34,7 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
     default void timesRandom(@ForAll(DATAPOINTS) F x, @ForAll(RANDOMS) Random random) {
         E multiplier = x.field().nextRandom(random).abs();
         Figure<E, C> multiplied = x.times(multiplier);
-        log().info("%s x %s = %s".formatted(x, multiplier, multiplied));
+        info("%s x %s = %s", x, multiplier, multiplied);
         assertThat(multiplied.times(multiplier.inverse())).isEqualTo(x);
     }
 
@@ -48,18 +48,18 @@ public interface FigureTheory<E extends ScalarFieldElement<E, C>, C extends Comp
     @Property
     default void showCircumscribedCircle(@ForAll(DATAPOINTS) F x) {
         LocatedFigure<C ,C,  Circle<C, C>> circumscribed = x.circumscribedCircle();
-        log().info("Circumscribed of %s is %s".formatted(x, circumscribed));
+        info("Circumscribed of %s is %s", x, circumscribed);
     }
 
     @Property
     default void showCircumscribedRectangle(@ForAll(DATAPOINTS) F x) {
         LocatedFigure<C, C, Rectangle<C, C>> circumscribed = x.circumscribedRectangle();
-        log().info("Circumscribed rectangle of %s is %s".formatted(x, circumscribed));
+        info("Circumscribed rectangle of %s is %s", x, circumscribed);
     }
 
     @Property
     default void isExact(@ForAll(DATAPOINTS) F x) {
-        log().info(() -> "%s is exact: %s".formatted(x, x.isExact()));
+        info("%s is exact: %s", x, x.isExact());
         if (! x.field().elementsAreUncertain()) {
             assertThat(x.isExact()).isTrue();
         }

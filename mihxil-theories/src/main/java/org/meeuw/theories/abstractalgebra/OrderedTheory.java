@@ -41,7 +41,7 @@ public interface OrderedTheory<E extends StrictlyOrdered<E>> extends StrictlyOrd
             try {
                 orderedTransitiveImpl(a, b, c);
             } catch (AssertionFailedError afe) {
-                log().info(afe.getMessage());
+                info(afe.getMessage());
             }
         }
     }

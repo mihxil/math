@@ -15,6 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.*;
 
 import org.meeuw.math.WithScalarOperations;
@@ -41,7 +43,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
             try {
                 assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
             } catch (ReciprocalException ae) {
-                log().fine(safeForLog("%s * %s / %s -> %s".formatted(e, scalar, scalar, ae.getMessage())));
+                log(Level.FINE, "%s * %s / %s -> %s",e, scalar, scalar, ae.getMessage());
             }
             //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
         });

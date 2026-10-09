@@ -27,7 +27,6 @@ import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import static org.meeuw.math.text.TextUtils.superscript;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
-import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
@@ -53,7 +52,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
                 String.format("%s / %s = %s != %s · %s ^ -1  = %s", v1, v2, quotient, v1, v2, withReciprocal)
             ).isTrue();
         } catch (ReciprocalException ae) {
-            log().info(safeForLog(v1 + " / " + v2 + ": " + ae.getMessage()));
+            info(v1 + " / " + v2 + ": " + ae.getMessage());
             assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).withFailMessage(ae.getClass().getName() + " " + ae.getMessage()).isFalse();
         }
     }
@@ -67,9 +66,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         try {
             assertThat(v1.pow(-1).eq(v1.reciprocal())).isTrue();
         } catch (IllegalPowerException ae) {
-            log().info("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
+            info("Negative power of " + v1 + superscript(-1) + ": " + ae.getMessage());
         } catch (ReciprocalException ae) {
-            log().info(v1 + superscript(-1) + ": " + ae.getMessage());
+            info(v1 + superscript(-1) + ": " + ae.getMessage());
         }
     }
 
@@ -84,9 +83,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
             E oneDividedBySqr = v1.getStructure().one().dividedBy(v1.times(v1));
             assertThat(powMinus2).usingComparator(eqComparator()).isEqualTo(oneDividedBySqr);
         } catch (IllegalPowerException ae) {
-            log().info("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
+            info("Negative power of " + v1 + superscript(-2) + ": " + ae.getMessage());
          } catch (ReciprocalException ae) {
-            log().info(v1 + superscript(-2) + ": " + ae.getMessage());
+            info(v1 + superscript(-2) + ": " + ae.getMessage());
         }
     }
 
@@ -99,9 +98,9 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
         try {
             assertThat(v1.pow(-3)).usingComparator(eqComparator()).isEqualTo(v1.getStructure().one().dividedBy(v1.times(v1).times(v1)));
         } catch (IllegalPowerException ae) {
-            log().info("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
+            info("Negative power of " + v1 + superscript(-3) + ": " + ae.getMessage());
         } catch (ReciprocalException ae) {
-            log().info(v1 + superscript(-3) + ": " + ae.getMessage());
+            info(v1 + superscript(-3) + ": " + ae.getMessage());
         }
     }
 
@@ -120,7 +119,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
                     .isTrue();
             } catch (ReciprocalException | IllegalPowerException ae) {
                 // The element may be zero
-                log().info("%s: %s = zero?".formatted( ae.getMessage(), e));
+                info("%s: %s = zero?".formatted( ae.getMessage(), e));
             }
         });
     }

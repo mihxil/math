@@ -17,6 +17,8 @@ package org.meeuw.theories.numbers;
 
 import java.math.BigDecimal;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.*;
 import org.assertj.core.data.Offset;
 
@@ -152,7 +154,7 @@ public interface SizeableScalarTheory<S extends SizeableScalar<S, SIZE>, SIZE ex
         }
         //assertThat(e1.compareTo(e1.bigDecimalValue())).withFailMessage("Not equal to its bigDecimal value %s != %s", e1, e1.bigDecimalValue()).isEqualTo(0);
         BigDecimal offset = BigDecimal.ONE;
-        log().fine("Offset for %s %s".formatted(e1.bigDecimalValue(), offset));
+        log(Level.FINE, "Offset for %s %s", e1.bigDecimalValue(), offset);
         BigDecimal plus  = e1.bigDecimalValue().add(offset);
         BigDecimal minus  = e1.bigDecimalValue().add(offset.negate());
         //assertThat(e1.compareTo(plus)).withFailMessage("%s %s", e1, plus).isLessThan(0);

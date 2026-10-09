@@ -17,6 +17,8 @@ package org.meeuw.theories.abstractalgebra;
 
 import java.math.BigInteger;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.DivisibleGroupElement;
@@ -45,11 +47,11 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
                 assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
 
             } catch (UnsupportedMathOperationException unsupportedMathOperationException) {
-                log().info(unsupportedMathOperationException.getMessage());
+                info(unsupportedMathOperationException.getMessage());
 
                 //throw new Te("Unsupported");
             } catch (InverseException unsupportedMathOperationException) {
-                log().info("%s / %s -> %s".formatted( v1, divisor, unsupportedMathOperationException.getMessage()));
+                info("%s / %s -> %s", v1, divisor, unsupportedMathOperationException.getMessage());
                 assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
             }
         });
@@ -66,7 +68,7 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
                 assertThat(v1.times(divisor).dividedBy(divisor).eq(v1)).withFailMessage("(%s * %s) / %s = %s != %s", v1, divisor, divisor, v1.dividedBy(divisor).times(divisor), v1).isTrue();
 
             } catch (DivisionByZeroException divisionByZeroException) {
-                log().info("%s / %s -> %s".formatted( v1, divisor, divisionByZeroException.getMessage()));
+                info("%s / %s -> %s", v1, divisor, divisionByZeroException.getMessage());
                 assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).isFalse();
             }
         });
@@ -79,21 +81,21 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
             try {
                 E unscaled = scaled.scaleByPowerOfTen(-2);
                 assertThat(unscaled).isEqTo(v1);
-                log().info("%s * 10%s -> %s, %s * 10%s -> %s (==%s)".formatted(
+                info("%s * 10%s -> %s, %s * 10%s -> %s (==%s)",
                     v1,
                     TextUtils.superscript(2),
                     scaled,
                     scaled,
                     TextUtils.superscript(-2),
-                    unscaled, v1));
+                    unscaled, v1);
             } catch (DivisionByZeroException divisionByZeroException) {
-                log().warning("%s * 10%s -> %s, %s * 10%s -> %s".formatted(
+                log(Level.WARNING, "%s * 10%s -> %s, %s * 10%s -> %s",
                     v1,
                     scaled,
                     TextUtils.superscript(2),
                     scaled,
                     TextUtils.superscript(-2),
-                    divisionByZeroException.getMessage()));
+                    divisionByZeroException.getMessage());
             }
         });
     }
@@ -105,21 +107,21 @@ public interface DivisibleGroupTheory<E extends DivisibleGroupElement<E>>
             try {
                 E unscaled = scaled.scalb(-2);
                 assertThat(unscaled).isEqTo(v1);
-                log().info("%s * 2%s -> %s, %s * 2%s -> %s (==%s)".formatted(
+                info("%s * 2%s -> %s, %s * 2%s -> %s (==%s)",
                     v1,
                     TextUtils.superscript(2),
                     scaled,
                     scaled,
                     TextUtils.superscript(-2),
-                    unscaled, v1));
+                    unscaled, v1);
             } catch (DivisionByZeroException divisionByZeroException) {
-                log().warning("%s * 2%s -> %s, %s * 2%s -> %s".formatted(
+                log(Level.WARNING,"%s * 2%s -> %s, %s * 2%s -> %s",
                     v1,
                     scaled,
                     TextUtils.superscript(2),
                     scaled,
                     TextUtils.superscript(-2),
-                    divisionByZeroException.getMessage()));
+                    divisionByZeroException.getMessage());
             }
         });
     }

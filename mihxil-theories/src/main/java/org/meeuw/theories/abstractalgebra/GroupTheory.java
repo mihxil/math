@@ -39,7 +39,7 @@ public interface GroupTheory<E extends GroupElement<E>>
     @Property
     default void groupOperators(@ForAll(STRUCTURE) Group<E> s) {
         assertThat(s.getSupportedOperators()).contains(BasicAlgebraicBinaryOperator.OPERATION);
-        log().info(s + " supports " + s.getSupportedOperators());
+        info(s + " supports " + s.getSupportedOperators());
     }
 
     @Property
@@ -76,7 +76,7 @@ public interface GroupTheory<E extends GroupElement<E>>
                     .withFailMessage(() -> v.getClass().getSimpleName() + " "+ "inverse " + v.inverse() + " · " + v + " != " + v.getStructure().unity() + " (but " + inverse + ")").isTrue();
             } catch (InverseException | IllegalPowerException ie) {
                 Assume.that(!BasicAlgebraicUnaryOperator.INVERSION.isAlgebraicFor(v));
-                log().info(ie.getMessage());
+                info(ie.getMessage());
             }
         });
     }

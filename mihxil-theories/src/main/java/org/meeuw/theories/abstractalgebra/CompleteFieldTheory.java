@@ -18,6 +18,8 @@ package org.meeuw.theories.abstractalgebra;
 import java.math.MathContext;
 import java.util.Optional;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
@@ -62,10 +64,10 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                 .withFailMessage(POWER.stringify(a, b) + " = " + pow + " ≠ " + expectedPow
                 ).isTrue();
         } catch (OverflowException overflowException) {
-            log().info(overflowException.getMessage());
+            info(overflowException.getMessage());
         } catch (IllegalLogarithmException illegalLogException){
             Optional<NonAlgebraic> nonalgebraicOptional = LN.getNonAlgebraic(a);
-            log().info(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(NonAlgebraic::value).orElse("<not marked non-algebraic>") + ")");
+            info(illegalLogException.getMessage() + " (" + nonalgebraicOptional.map(NonAlgebraic::value).orElse("<not marked non-algebraic>") + ")");
             assertThat(nonalgebraicOptional)
                 .withFailMessage(illegalLogException.getMessage() + ". %s non algebraic for %s %s (%s)", LN, a.getClass().getSimpleName(), a, nonalgebraicOptional.get().value()).isPresent();
         }
@@ -91,7 +93,7 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
                     e, sin, sinAsin, sin2, e, sin)
             ).isEqTo(sin);
         } catch(IllegalLogarithmException ie) {
-            log().warning( "sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s): %s".formatted(e, sin, sinAsin, ie.getMessage()));
+            log(Level.WARNING,  "sin(asin(sin(%s))) = sin(asin(%s)) = sin(%s): %s",e, sin, sinAsin, ie.getMessage());
         }
     }
 
@@ -104,12 +106,12 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
             cosAcos = cos.acos();
             E cos2 = cosAcos.cos();
             assertThat(cos2).withFailMessage(
-                String.format("cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s",
+                "cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s) = %s !=  cos(%s) = %s".formatted(
                     e.toDebugString(), cos.toDebugString(), cosAcos.toDebugString(), cos2.toDebugString(), e.toDebugString(), cos.toDebugString())
 
             ).isEqTo(cos);
         } catch(IllegalLogarithmException ie) {
-            log().warning( "cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s): %s".formatted(e, cos, cosAcos, ie.getMessage()));
+            log(Level.WARNING,  "cos(acos(cos(%s))) = cos(acos(%s)) = cos(%s): %s",e, cos, cosAcos, ie.getMessage());
         }
     }
 
@@ -117,11 +119,11 @@ public interface CompleteFieldTheory<E extends CompleteFieldElement<E>> extends
     default void pow(@ForAll(ELEMENTS) E e, @ForAll(ELEMENTS) E  exponent) {
         try {
             E pow = e.pow(exponent);
-            log().info("%s = %s".formatted(POWER.stringify(e, exponent), pow));
+            info("%s = %s", POWER.stringify(e, exponent), pow);
         } catch (IllegalPowerException illegalPowerException) {
-            log().info(() -> "%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+            info("%s = %s", POWER.stringify(e, exponent), illegalPowerException.getMessage());
         } catch (OverflowException illegalPowerException ) {
-            log().warning("%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+            log(Level.WARNING, "%s = %s",POWER.stringify(e, exponent), illegalPowerException.getMessage());
         }
     }
 

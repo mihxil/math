@@ -15,6 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
@@ -51,15 +53,15 @@ public interface MagmaTheory<E extends MagmaElement<E>>
             assertThat(m1m2).withFailMessage(
                 String.format(s, "should be")
             ).isEqTo(m2m1);
-            log().fine(String.format(s, "is"));
+            log(Level.FINE, s, "is");
         } else {
             try {
                 assertThat(m1m2).withFailMessage(
                     String.format(s, "should not be")
                 ).isNotEqTo(m2m1);
-                log().fine(String.format(s, "is not "));
+                log(Level.FINE, s, "is not ");
             } catch (AssertionError ae) {
-                log().info(String.format(s, "is (!) ") + " (" + m1m2 + ")");
+                info(String.format(s, "is (!) ") + " (" + m1m2 + ")");
                 throw new TestAbortedException(ae.getMessage());
             }
         }

@@ -25,8 +25,6 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.opentest4j.TestAbortedException;
 
 import static org.meeuw.assertj.Assertions.assertThat;
-import static org.meeuw.theories.BasicObjectTheory.safeForLog;
-
 
 public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
     extends ElementTheory<E> {
@@ -44,7 +42,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         @ForAll(ELEMENTS) E e2)  {
         try {
             E sum = e1.plus(e2);
-            log().info(safeForLog("%s + %s = %s".formatted(e1, e2, sum)));
+            info("%s + %s = %s", e1, e2, sum);
             assertThat(sum.doubleValue()).isEqualTo(e1.doubleValue() + e2.doubleValue());
 
         } catch(NotComparableException notComparableException) {
@@ -58,7 +56,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         @ForAll(ELEMENTS) E e2)  {
         try {
             E combined = e1.weightedAverage(e2);
-            log().info("%s combined with %s = %s (%s)".formatted( e1, e2, combined, combined.doubleValue()));
+            info("%s combined with %s = %s (%s)", e1, e2, combined, combined.doubleValue());
             if (e1.doubleValue() < e2.doubleValue()) {
                 assertThat(combined.doubleValue()).isBetween(e1.doubleValue() - e1.getOptionalUncertainty().orElse(0d), e2.doubleValue() + e2.getOptionalUncertainty().orElse(0));
             } else {

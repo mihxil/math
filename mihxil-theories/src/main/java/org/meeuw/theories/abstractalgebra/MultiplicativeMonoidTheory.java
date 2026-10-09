@@ -15,6 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.ForAll;
 import net.jqwik.api.Property;
 
@@ -50,7 +52,7 @@ public interface MultiplicativeMonoidTheory<E extends MultiplicativeMonoidElemen
                 .usingComparator(AlgebraicElement.eqComparator())
                 .isEqualTo(v1.getStructure().one());
         } catch (DivisionByZeroException ae){
-            log().warning( v1 + superscript(0) + ": " + ae.getMessage());
+            log(Level.WARNING,  v1 + superscript(0) + ": " + ae.getMessage());
         }
     }
 

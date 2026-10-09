@@ -2,6 +2,8 @@ package org.meeuw.theories;
 
 
 import java.util.*;
+import java.util.function.Supplier;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.jqwik.api.*;
@@ -188,19 +190,20 @@ public interface BasicObjectTheory<E> {
     }
 
 
-    public static String safeForLog(Object value) {
+    private static String safeForLog(Object value) {
         return String.valueOf(value).replaceAll("\\p{Cntrl}", "?");
     }
 
     default Logger log() {
         return Logger.getLogger(this.getClass().getName());
     }
-    @Deprecated
-    default Logger getLogger() {
-        return log();
+    default void info(CharSequence s, Object... args) {
+        log().info(() -> safeForLog(s.toString().formatted(args)));
     }
-
-
-
-
+    default void info(Supplier<Object> s) {
+        log().info(() -> safeForLog(s.get()));
+    }
+    default void log(Level level, String message, Object... args) {
+        log().log(level, safeForLog(message.formatted(args)));
+    }
 }

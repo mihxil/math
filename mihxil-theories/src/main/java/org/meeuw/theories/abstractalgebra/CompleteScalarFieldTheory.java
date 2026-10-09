@@ -15,6 +15,8 @@
  */
 package org.meeuw.theories.abstractalgebra;
 
+import java.util.logging.Level;
+
 import net.jqwik.api.*;
 
 import org.meeuw.math.abstractalgebra.*;
@@ -66,7 +68,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         if (e.isExactlyZero()) {
             if (exponent.isNegative()) {
                 assertThatThrownBy(() ->
-                    log().info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)))
+                    info("%s^%s = %s (expected exception)".formatted(e, exponent, e.pow(exponent)))
                 ).isInstanceOfAny(
                     OverflowException.class,
                     IllegalPowerException.class
@@ -76,7 +78,7 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
         }
         try {
             E pow = e.pow(exponent);
-            log().info("%s = %s".formatted(POWER.stringify(e, exponent), pow));
+            info("%s = %s", POWER.stringify(e, exponent), pow);
             double expected = Math.pow(e.doubleValue(), exponent.doubleValue());
             assertThat(pow.doubleValue())
                 //.withFailMessage("%s ^ %s = %s != %s", e, exponent, pow, expected)
@@ -86,9 +88,9 @@ public interface CompleteScalarFieldTheory<E extends CompleteScalarFieldElement<
                         uncertaintyForDouble(expected)))
                 );
         } catch (IllegalPowerException illegalPowerException) {
-            log().info(() -> "%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+            info("%s = %s", POWER.stringify(e, exponent), illegalPowerException.getMessage());
         } catch (OverflowException illegalPowerException ) {
-            log().warning("%s = %s".formatted(POWER.stringify(e, exponent), illegalPowerException.getMessage()));
+            log(Level.WARNING, "%s = %s", POWER.stringify(e, exponent), illegalPowerException.getMessage());
         }
     }
 }
