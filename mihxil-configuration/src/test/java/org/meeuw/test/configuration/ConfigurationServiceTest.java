@@ -20,6 +20,7 @@ import lombok.extern.java.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -169,6 +170,30 @@ public class ConfigurationServiceTest {
         List<ConfigurationAspect> configurationAspectsAssociatedWith = getConfiguration().getConfigurationAspectsAssociatedWith(TestProvider.class);
         assertThat(configurationAspectsAssociatedWith).hasSize(1);
         assertThat(configurationAspectsAssociatedWith.get(0)).isInstanceOf(TestConfigurationAspect.class);
+    }
+
+    @Test
+    void equals() {
+        assertThat(CONFIGURATION.get()).isEqualTo(CONFIGURATION.get());
+
+        assertThat(CONFIGURATION.get().with(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(10))).isNotEqualTo(CONFIGURATION.get());
+
+    }
+
+    @Test
+    void diff() {
+
+        Configuration before = CONFIGURATION.get();
+        Configuration changed = before.with(TestConfigurationAspect.class, (tc) -> tc.withSomeInt(10));
+        TestConfigurationAspect beforeAspect = before.getAspect(TestConfigurationAspect.class);
+        TestConfigurationAspect changedAspect = changed.getAspect(TestConfigurationAspect.class);
+
+        assertThat(changed.diffString(before))
+            .containsExactly(Map.entry(
+                TestConfigurationAspect.class.getSimpleName(),
+                changedAspect.toString() + " != " + beforeAspect.toString()
+            ));
+
     }
 
 }

@@ -28,6 +28,8 @@ import org.meeuw.test.configuration.A;
 /**
  * @author Michiel Meeuwissen
  */
+@ToString
+@EqualsAndHashCode
 public class TestConfigurationAspect implements ConfigurationAspect {
 
     @With
@@ -118,10 +120,6 @@ public class TestConfigurationAspect implements ConfigurationAspect {
         return Collections.singletonList(TestProvider.class);
     }
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName();
-    }
 
     @ToString
     public static class SomeSerializable implements Serializable {

@@ -22,8 +22,7 @@ import lombok.extern.java.Log;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
+import java.util.function.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -124,15 +123,25 @@ public class Configuration implements Iterable<ConfigurationAspect> {
         return Configuration.class.getSimpleName() + ":" + map.values();
     }
 
-    public Map<String, String> diff(Configuration configuration) {
-        Map<String, String> result = new LinkedHashMap<>();
+    public Map<Class<? extends ConfigurationAspect>, AspectDiff> diff(Configuration configuration) {
+        Map<Class<? extends ConfigurationAspect>, AspectDiff> result = new LinkedHashMap<>();
         for (Map.Entry<Class<? extends ConfigurationAspect>, ConfigurationAspect> aspect : map.entrySet()) {
             ConfigurationAspect configurationAspect = configuration.getAspect(aspect.getKey());
             if (!aspect.getValue().equals(configurationAspect)) {
-                result.put(aspect.getKey().getSimpleName(), aspect.getValue() + " != " + configurationAspect);
+                result.put(aspect.getKey(), new AspectDiff(aspect.getValue(), configurationAspect));
             }
         }
         return result;
+    }
+
+    public Map<String, String> diffString(Configuration configuration) {
+        return diff(configuration).entrySet().stream()
+            .collect(Collectors.toMap(
+                entry -> entry.getKey().getSimpleName(),
+                entry -> entry.getValue().original().toString() + " != " + entry.getValue().modified().toString(),
+                (first, second) -> first,
+                LinkedHashMap::new
+            ));
     }
 
     /**
