@@ -95,13 +95,24 @@ jobs:
           log_level="${{ github.event.inputs.log_level || 'WARN' }}"
           maven_args=(-B "$extra_arg" "-Dlog4j2.root.level=$log_level")
           if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
-            maven_args+=(-Pdeploy deploy)
+            maven_args+=(-Pdeploy)
           else
             maven_args+=(test)
           fi
           set +e
-          mvn -X "${maven_args[@]}"
-          mvn_exit=${PIPESTATUS[0]}
+          if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
+            # Build the coverage aggregation, but do not include non-publishable modules in the Central deploy reactor.
+            mvn -X "${maven_args[@]}" verify
+            mvn_exit=$?
+            if [[ "$mvn_exit" -eq 0 ]]; then
+              mvn -X -B -DskipTests "-Dlog4j2.root.level=$log_level" -Pdeploy deploy \
+                -pl '!mihxil-math-test,!mihxil-demo,!report-aggregation'
+              mvn_exit=$?
+            fi
+          else
+            mvn -X "${maven_args[@]}"
+            mvn_exit=$?
+          fi
           set -e
           exit "$mvn_exit"
       - uses: codecov/codecov-action@v7
