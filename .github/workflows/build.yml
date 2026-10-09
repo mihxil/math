@@ -71,47 +71,6 @@ jobs:
           server-username-env-var: CENTRAL_USERNAME
           server-password-env-var: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
-      - name: Validate Central publishing credentials
-        shell: bash
-        env:
-          CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
-          CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-        run: |
-          set -euo pipefail
-
-          test -n "$CENTRAL_USERNAME" || { echo "::error::CENTRAL_USERNAME is empty"; exit 1; }
-          test -n "$CENTRAL_PASSWORD" || { echo "::error::CENTRAL_PASSWORD is empty"; exit 1; }
-          echo "Central credentials are present."
-          credential_fingerprint="$(printf '%s:%s' "$CENTRAL_USERNAME" "$CENTRAL_PASSWORD" | sha256sum | cut -c1-16)"
-          echo "Central credential fingerprint: $credential_fingerprint"
-
-          settings_file="$HOME/.m2/settings.xml"
-          test -f "$settings_file" || { echo "::error::Maven settings.xml was not generated"; exit 1; }
-          grep -q '<id>central</id>' "$settings_file" \
-            || { echo "::error::Maven settings.xml has no server with id central"; exit 1; }
-          echo "Maven settings.xml contains the central server entry."
-
-          status="$(curl --silent --show-error --output /dev/null \
-            --write-out '%{http_code}' \
-            --user "$CENTRAL_USERNAME:$CENTRAL_PASSWORD" \
-            https://central.sonatype.com/api/v1/publisher/deployments)"
-          case "$status" in
-            401)
-              echo "::error::Central rejected CENTRAL_USERNAME/CENTRAL_PASSWORD with HTTP 401"
-              exit 1
-              ;;
-            403)
-              echo "::error::Central recognized the credentials but denied Publisher API access with HTTP 403"
-              exit 1
-              ;;
-            200)
-              echo "Central Publisher API authentication succeeded."
-              ;;
-            *)
-              echo "::error::Central Publisher API returned unexpected HTTP $status"
-              exit 1
-              ;;
-          esac
       - name: Suppress Java 25 Lombok Unsafe warning
         if: ${{ matrix.java == 25 }}
         run: echo "MAVEN_OPTS=--sun-misc-unsafe-memory-access=allow" >> "$GITHUB_ENV"
@@ -126,6 +85,7 @@ jobs:
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
         run: |
+          cat ~/.m2/settings.xml
           if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
             extra_arg="-DskipTests"
           else
