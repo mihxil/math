@@ -33,7 +33,6 @@ import org.meeuw.math.abstractalgebra.AlgebraicStructure;
 import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
-import static java.lang.System.Logger.Level.DEBUG;
 import static org.meeuw.configuration.ConfigurationService.getConfiguration;
 
 /**
@@ -43,7 +42,10 @@ import static org.meeuw.configuration.ConfigurationService.getConfiguration;
  */
 public final class FormatService {
 
-    private static final System.Logger log = System.getLogger(FormatService.class.getName());
+    // Note that it is better to have no logging in this class.
+    // FormatService is used to implement all kind of toString implementations and is likely
+    // used in all kind of log messages, and you don't want logging to be recursively called
+    //private static final System.Logger log = System.getLogger(FormatService.class.getName());
 
 
     private static final ThreadLocal<AlgebraicStructure<?>> CURRENT_STRUCTURE = ThreadLocal.withInitial(() -> null);
@@ -144,11 +146,11 @@ public final class FormatService {
     public static String toString(@NonNull AlgebraicElement<?> object, Configuration configuration) {
         return getFormat(object, configuration)
             .map(f -> {
-                log.log(DEBUG, () -> "" + f);
+                //log.log(DEBUG, () -> "" + f);
                 try {
-                    return f.format(object);
+                     return f.format(object);
                 } catch (IllegalArgumentException iea) {
-                    log.log(DEBUG,iea.getMessage());
+                    //log.log(DEBUG,iea.getMessage());
                     return null;
                 }
             })
@@ -175,7 +177,7 @@ public final class FormatService {
                 ParsePosition pos = new ParsePosition(0);
                 E parsed =  (E) f.parseObject(source, pos);
                 if (pos.getErrorIndex() > 0 || pos.getIndex() != source.length()) {
-                    log.log(DEBUG,() -> "Could not parse '" + source + "' with " + f);
+                    //log.log(DEBUG,() -> "Could not parse '" + source + "' with " + f);
                     return null;
                 }
                 return parsed;
