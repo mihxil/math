@@ -241,7 +241,7 @@ public final class TimeUtils {
 
 
     private static final Pattern WEEKS = Pattern.compile("^P(\\d+)W$");
-    private static final Pattern COMPLETE_FORMAT = Pattern.compile("^(P(?:\\d+Y)?(?:\\d+M)?(?:\\d+D)?)(T(?:\\d+H)?(?:\\d+M)?(?:[\\d.]+S)?)$");
+    private static final Pattern COMPLETE_FORMAT = Pattern.compile("^(P(?:\\d+Y)?(?:\\d+M)?(?:\\d+D)?)(T(?:\\d+H)?(?:\\d+M)?(?:[\\d.]+S)?)?$");
 
     private static Optional<Duration> parseDuration(DateTimeParseException original, CharSequence d, @Nullable ZonedDateTime at) {
         if (isBlank(d)) {
@@ -275,12 +275,18 @@ public final class TimeUtils {
                 // ignore
             }
             if (!ds.startsWith("P")) {
-                return parseDuration(dtp, "P" + ds, at);
+                if (ds.contains("T")) {
+                    return parseDuration(dtp, "P" + ds, at);
+                } else {
+                    return parseDuration(dtp, "PT" + ds, at);
+                }
             } else {
                 Matcher completeMatcher = COMPLETE_FORMAT.matcher(ds);
                 if (completeMatcher.matches()) {
                     Period p = Period.parse(completeMatcher.group(1));
-                    Duration time = Duration.parse("P" + completeMatcher.group(2));
+                    Duration time = completeMatcher.group(2) == null
+                        ? Duration.ZERO
+                        : Duration.parse("P" + completeMatcher.group(2));
                     if (at == null) {
                         ZonedDateTime le = localEpoch();
                         at = le;

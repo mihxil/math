@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @Log4j2
-public class TimeUtilsTest {
+class TimeUtilsTest {
 
 
     ZoneId id = ZoneId.of("Europe/Amsterdam");
@@ -128,6 +128,7 @@ public class TimeUtilsTest {
         assertThat(TimeUtils.parseDuration("P10D").get()).isEqualTo(Duration.ofHours(240));
 
 
+
         assertThat(TimeUtils.parseDuration("").orElse(null)).isNull();
 
 
@@ -137,8 +138,14 @@ public class TimeUtilsTest {
             .matches((dtm) -> {
                 return ((DateTimeParseException) dtm).getParsedString().equals("can'tbeparsed");
             }, "doest match");
+    }
 
-
+    @Test
+    void dontConfuseMonthWithMinutes() {
+        assertThat(TimeUtils.parseDuration("PT1M").get()).isEqualTo(Duration.ofMinutes(1));
+        ZonedDateTime now = ZonedDateTime.parse("2026-10-11T11:00:00+02:00");
+        assertThat(TimeUtils.parseDuration("P1MT1M", now).get()).isEqualTo(Duration.ofHours(744).plusMinutes(1));
+        assertThat(TimeUtils.parseDuration("P1M", now).get()).isEqualTo(Duration.ofHours(744));
     }
 
     @Test
