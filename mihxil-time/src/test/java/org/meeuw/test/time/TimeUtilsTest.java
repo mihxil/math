@@ -22,6 +22,7 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 import org.assertj.core.api.Assertions;
 
 import org.meeuw.time.TimeUtils;
@@ -31,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 @Log4j2
+@Isolated // Sensitive to configuration, so look out
 class TimeUtilsTest {
 
 
