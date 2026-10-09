@@ -132,8 +132,8 @@ void circle() throws Exception {
 @Test
 void ellipse() throws Exception {
     Ellipse<RationalNumber, BigDecimalElement> ellipse = new Ellipse<>(
-        RationalNumber.of(100),RationalNumber.of (80),
-
+        RationalNumber.of(100),
+        RationalNumber.of (80),
         Angle.degrees(45));
 
     var document = default2DDocument()
