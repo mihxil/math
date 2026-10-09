@@ -22,6 +22,7 @@ import org.meeuw.math.exceptions.ReciprocalException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
+import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
@@ -40,7 +41,7 @@ public interface WithScalarTheory<E extends WithScalarOperations<E, S>,
             try {
                 assertThat(e.times(scalar).dividedBy(scalar)).isEqualTo(e);
             } catch (ReciprocalException ae) {
-                log().fine("%s * %s / %s -> %s".formatted(e, scalar, scalar, ae.getMessage()));
+                log().fine(safeForLog("%s * %s / %s -> %s".formatted(e, scalar, scalar, ae.getMessage())));
             }
             //assertThat(e.times(scalar.sqr())).isEqualTo(e.times(scalar).times(scalar));
         });

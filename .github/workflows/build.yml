@@ -100,7 +100,7 @@ jobs:
             maven_args+=(test)
           fi
           set +e
-          mvn "${maven_args[@]}"
+          mvn -X "${maven_args[@]}"
           mvn_exit=${PIPESTATUS[0]}
           set -e
           exit "$mvn_exit"

@@ -17,7 +17,8 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
-import org.meeuw.math.abstractalgebra.*;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroup;
+import org.meeuw.math.abstractalgebra.MultiplicativeGroupElement;
 import org.meeuw.math.exceptions.IllegalPowerException;
 import org.meeuw.math.exceptions.ReciprocalException;
 import org.meeuw.math.operators.BasicAlgebraicBinaryOperator;
@@ -26,6 +27,7 @@ import static org.meeuw.assertj.Assertions.assertThat;
 import static org.meeuw.math.abstractalgebra.AlgebraicElement.eqComparator;
 import static org.meeuw.math.text.TextUtils.superscript;
 import static org.meeuw.math.uncertainnumbers.CompareConfiguration.withLooseEquals;
+import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
@@ -51,7 +53,7 @@ public interface MultiplicativeGroupTheory<E extends MultiplicativeGroupElement<
                 String.format("%s / %s = %s != %s · %s ^ -1  = %s", v1, v2, quotient, v1, v2, withReciprocal)
             ).isTrue();
         } catch (ReciprocalException ae) {
-            log().info(v1 + " / " + v2 + ": " + ae.getMessage());
+            log().info(safeForLog(v1 + " / " + v2 + ": " + ae.getMessage()));
             assertThat(BasicAlgebraicBinaryOperator.DIVISION.isAlgebraicFor(v1)).withFailMessage(ae.getClass().getName() + " " + ae.getMessage()).isFalse();
         }
     }

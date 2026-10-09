@@ -39,6 +39,7 @@ import org.meeuw.math.uncertainnumbers.Uncertain;
 import static org.assertj.core.api.Assertions.*;
 import static org.meeuw.assertj.Assertions.assertThatAlgebraically;
 import static org.meeuw.math.operators.BasicComparisonOperator.*;
+import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 /**
  * @author Michiel Meeuwissen
@@ -105,9 +106,6 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
         }
     }
 
-    private static String safeForLog(Object value) {
-        return String.valueOf(value).replaceAll("\\p{Cntrl}", "?");
-    }
 
     @Property
     default void nextRandom(@ForAll(STRUCTURE) AlgebraicStructure<E> s) {

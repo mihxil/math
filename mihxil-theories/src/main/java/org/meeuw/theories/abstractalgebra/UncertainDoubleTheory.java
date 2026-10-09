@@ -25,6 +25,7 @@ import org.meeuw.math.uncertainnumbers.UncertainDouble;
 import org.opentest4j.TestAbortedException;
 
 import static org.meeuw.assertj.Assertions.assertThat;
+import static org.meeuw.theories.BasicObjectTheory.safeForLog;
 
 
 public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
@@ -43,7 +44,7 @@ public interface UncertainDoubleTheory<E extends UncertainDouble<E>>
         @ForAll(ELEMENTS) E e2)  {
         try {
             E sum = e1.plus(e2);
-            log().info("%s + %s = %s".formatted(e1, e2, sum));
+            log().info(safeForLog("%s + %s = %s".formatted(e1, e2, sum)));
             assertThat(sum.doubleValue()).isEqualTo(e1.doubleValue() + e2.doubleValue());
 
         } catch(NotComparableException notComparableException) {

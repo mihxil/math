@@ -2,7 +2,6 @@ package org.meeuw.theories;
 
 
 import java.util.*;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import net.jqwik.api.*;
@@ -186,6 +185,11 @@ public interface BasicObjectTheory<E> {
     @Provide
     default Arbitrary<Random> randoms() {
         return Arbitraries.randoms();
+    }
+
+
+    public static String safeForLog(Object value) {
+        return String.valueOf(value).replaceAll("\\p{Cntrl}", "?");
     }
 
     default Logger log() {
