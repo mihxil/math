@@ -22,7 +22,6 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.IntConsumer;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.jqwik.api.*;
 import org.assertj.core.api.Assumptions;
@@ -71,7 +70,7 @@ public interface AlgebraicStructureTheory<E extends AlgebraicElement<E>>  extend
                 }
                 streamAble.stream().limit(1000).forEach(e -> {
                     if (count.incrementAndGet() < 20) {
-                        info(() -> safeForLog(e));
+                        info(() -> e);
                     }
                     }
                 );

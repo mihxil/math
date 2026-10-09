@@ -204,6 +204,10 @@ public interface BasicObjectTheory<E> {
         log().info(() -> safeForLog(s.get()));
     }
     default void log(Level level, String message, Object... args) {
-        log().log(level, safeForLog(message.formatted(args)));
+        log().log(level, () -> safeForLog(message.formatted(args)));
+    }
+
+    default void log(Level level, Supplier<String> message, Object... args) {
+        log().log(level, () -> safeForLog(message.get().formatted(args)));
     }
 }
