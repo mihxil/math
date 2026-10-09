@@ -259,6 +259,13 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.12.0</version>
+          <configuration>
+            <additionalJOption combine.self="override">-Xdoclint:all,-missing,-html</additionalJOption>
+          </configuration>
+        </plugin>
+        <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.16.0</version>
         </plugin>
