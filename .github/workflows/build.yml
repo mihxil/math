@@ -71,6 +71,10 @@ jobs:
           server-username-env-var: CENTRAL_USERNAME
           server-password-env-var: CENTRAL_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SECRET_KEY }}
+      - uses: stCarolas/setup-maven@v5
+        # https://github.com/mavenplugins/central-publishing-maven-plugin/issues/78
+        with:
+          maven-version: 3.9.16
       - name: Suppress Java 25 Lombok Unsafe warning
         if: ${{ matrix.java == 25 }}
         run: echo "MAVEN_OPTS=--sun-misc-unsafe-memory-access=allow" >> "$GITHUB_ENV"
@@ -85,8 +89,6 @@ jobs:
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
           GPG_PASSPHRASE: ${{ secrets.GPG_SECRET_KEY_PASSPHRASE }}
         run: |
-          mvn help:effective-settings
-
           if [[ "${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_tests == 'true' }}" == "true" ]]; then
             extra_arg="-DskipTests"
           else
@@ -95,24 +97,17 @@ jobs:
           log_level="${{ github.event.inputs.log_level || 'WARN' }}"
           maven_args=(-B "$extra_arg" "-Dlog4j2.root.level=$log_level")
           if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
-            maven_args+=(-Pdeploy)
+            maven_args+=(-Pdeploy deploy)
           else
             maven_args+=(test)
           fi
           set +e
-          if [[ "${{ matrix.rank }}" == "main" && ( "${{ github.ref }}" == "refs/heads/main" || "${{ github.ref }}" == *-SNAPSHOT ) ]]; then
-            # Build the coverage aggregation, but do not include non-publishable modules in the Central deploy reactor.
-            mvn -X "${maven_args[@]}" verify
-            mvn_exit=$?
-            if [[ "$mvn_exit" -eq 0 ]]; then
-              mvn -X -B -DskipTests "-Dlog4j2.root.level=$log_level" -Pdeploy deploy \
-                -pl '!mihxil-math-test,!mihxil-demo,!report-aggregation'
-              mvn_exit=$?
-            fi
-          else
-            mvn -X "${maven_args[@]}"
-            mvn_exit=$?
-          fi
+          mvn "${maven_args[@]}" 2>&1 | awk '
+            /If you are an AI Agent/ { skip_blank_line = 1; next }
+            skip_blank_line && /^[[:space:]]*$/ { skip_blank_line = 0; next }
+            { skip_blank_line = 0; print; fflush() }
+          '
+          mvn_exit=${PIPESTATUS[0]}
           set -e
           exit "$mvn_exit"
       - uses: codecov/codecov-action@v7
