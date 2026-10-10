@@ -227,9 +227,10 @@ public enum FieldInformation {
     }
 }
 
+private final Magma<?> field;
 
 
-public static String eval(String input, final String field) {
+public String eval(String input) {
     final String expression = input.strip();
     try (var r = ConfigurationService.setConfiguration(cb -> cb
         .configure(UncertaintyConfiguration.class,
@@ -237,13 +238,12 @@ public static String eval(String input, final String field) {
         .configure(MathContextConfiguration.class,
             (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
     )) {
-        var f = FieldInformation.valueOf(field).getField();
 
-        log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-        if (f.getSupportedOperators().isEmpty()) {
-            log.log(Level.SEVERE,  "Supported operators is empty for " + f);
+        log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
+        if (field.getSupportedOperators().isEmpty()) {
+            log.log(Level.SEVERE,  "Supported operators is empty for " + field);
         }
-        var parsedExpression = AST.parse(expression, f);
+        var parsedExpression = AST.parse(expression, field);
         log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
         var result = parsedExpression.eval();
         var resultAsString = result.toString();
@@ -320,17 +320,17 @@ This is the source code for the above.
                 e.stopImmediatePropagation();
                 await this.handleSubmit();
             }
-             if (e.data === '*') {
-                 this.form.querySelector("span.help").innerHTML = "to type * use ;";
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 this.insert('⋅')
-             }
+            if (e.data === '*') {
+                this.form.querySelector("span.help").innerHTML = "to type * use ;";
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                this.insert('⋅')
+            }
             if (e.data === ';') {
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 this.insert('*')
-             }
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                this.insert('*')
+            }
         });
     }
 
@@ -513,9 +513,8 @@ This is the source code for the above.
         this.output.value = '';
         this.textContent = "executing..";
         //console.log("evaluating", this.input.value, "for", this.field.value);
-        this.output.value = await Calculator.eval(
-            this.input.value, this.field.value
-        );
+        const calculator = await new Calculator(this.information[this.field.value]);
+        this.output.value = await calculator.eval(this.input.value);
     }
 }
 
