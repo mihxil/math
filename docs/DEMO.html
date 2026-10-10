@@ -321,9 +321,10 @@
     }
 }
 
+<span class="directive">private</span> <span class="directive">final</span> Magma&lt;?&gt; field;
 
 
-<span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> input, <span class="directive">final</span> <span class="predefined-type">String</span> field) {
+<span class="directive">public</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> input) {
     <span class="directive">final</span> <span class="predefined-type">String</span> expression = input.strip();
     <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
         .configure(UncertaintyConfiguration.class,
@@ -331,13 +332,12 @@
         .configure(MathContextConfiguration.class,
             (mc) -&gt; mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
     )) {
-        <span class="type">var</span> f = FieldInformation.valueOf(field).getField();
 
-        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-        <span class="keyword">if</span> (f.getSupportedOperators().isEmpty()) {
-            log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + f);
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
+        <span class="keyword">if</span> (field.getSupportedOperators().isEmpty()) {
+            log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + field);
         }
-        <span class="type">var</span> parsedExpression = AST.parse(expression, f);
+        <span class="type">var</span> parsedExpression = AST.parse(expression, field);
         log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted(parsedExpression));
         <span class="type">var</span> result = parsedExpression.eval();
         <span class="type">var</span> resultAsString = result.toString();
@@ -419,17 +419,17 @@
                 e.stopImmediatePropagation();
                 await <span class="local-variable">this</span>.handleSubmit();
             }
-             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) {
-                 <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use ;</span><span class="delimiter">&quot;</span></span>;
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>)
-             }
+            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) {
+                <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use ;</span><span class="delimiter">&quot;</span></span>;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>)
+            }
             <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>) {
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>)
-             }
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>)
+            }
         });
     }
 
@@ -612,9 +612,8 @@
         <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, this.field.value);</span>
-        <span class="local-variable">this</span>.output.value = await Calculator.eval(
-            <span class="local-variable">this</span>.input.value, <span class="local-variable">this</span>.field.value
-        );
+        const calculator = await <span class="keyword">new</span> Calculator(<span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value]);
+        <span class="local-variable">this</span>.output.value = await calculator.eval(<span class="local-variable">this</span>.input.value);
     }
 }</code></pre>
 </div>
@@ -1135,7 +1134,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-10-01 20:50:14 UTC
+Last updated 2026-10-10 20:21:50 UTC
 </div>
 </div>
 </body>
