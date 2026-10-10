@@ -15,7 +15,6 @@ public class ParserTest {
     @Test
     void test() {
         assertThat(parser.parse("2 * (3 + 5)").eval().getValue()).isEqualTo(2 * (3 + 5));
-
         assertThat(parser.parse("2 * (3 - 5)").eval().getValue()).isEqualTo(2 * (3 - 5));
 
     }

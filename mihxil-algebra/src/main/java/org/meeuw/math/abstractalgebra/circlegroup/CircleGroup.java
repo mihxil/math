@@ -45,8 +45,8 @@ public class CircleGroup<E extends ScalarFieldElement<E, C>, C extends CompleteS
     AdditiveAbelianGroup<CircleElement<E, C>>, Streamable<CircleElement<E, C>> {
 
     final ScalarField<E, C> field;
-    final E  lower;
-    final E  higher;
+    final E lower;
+    final E higher;
     final E width;
 
     private final CircleElement<E, C> zero;
