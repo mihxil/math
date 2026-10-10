@@ -1,6 +1,7 @@
 package org.meeuw.math.demo;
 
 import lombok.Getter;
+import lombok.ToString;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
@@ -31,7 +32,12 @@ import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
 @Log
+@ToString
 public class Calculator {
+
+    public Calculator(FieldInformation fi) {
+        this.field = fi.getField();
+    }
 
     // tag::eval[]
 
@@ -180,9 +186,10 @@ public class Calculator {
         }
     }
 
+    private final Magma<?> field;
 
 
-    public static String eval(String input, final String field) {
+    public String eval(String input) {
         final String expression = input.strip();
         try (var r = ConfigurationService.setConfiguration(cb -> cb
             .configure(UncertaintyConfiguration.class,
@@ -190,13 +197,12 @@ public class Calculator {
             .configure(MathContextConfiguration.class,
                 (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
         )) {
-            var f = FieldInformation.valueOf(field).getField();
 
-            log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(f, expression, f.getSupportedOperators(), f.getSupportedUnaryOperators()));
-            if (f.getSupportedOperators().isEmpty()) {
-                log.log(Level.SEVERE,  "Supported operators is empty for " + f);
+            log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
+            if (field.getSupportedOperators().isEmpty()) {
+                log.log(Level.SEVERE,  "Supported operators is empty for " + field);
             }
-            var parsedExpression = AST.parse(expression, f);
+            var parsedExpression = AST.parse(expression, field);
             log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
             var result = parsedExpression.eval();
             var resultAsString = result.toString();
@@ -214,6 +220,7 @@ public class Calculator {
     public static void main(String[] argv) {
         String arg = argv[0];
         String f = argv.length > 1 ? argv[1] : "rational";
-        System.out.println(arg + " = " + eval(arg, f));
+        Calculator calculator = new Calculator(FieldInformation.valueOf(f));
+        System.out.println(arg + " = " + calculator.eval(arg));
     }
 }
