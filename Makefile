@@ -1,5 +1,5 @@
 
-VERSION=0.21.0
+VERSION=0.23-SNAPSHOT
 M2_REPO=~/.m2/repository
 GROUP_PATH=org/meeuw/math
 GROUP_PATH_CONFIG=org/meeuw/configuration
@@ -21,7 +21,7 @@ jars:  ## copy jars
 	cp -au $(M2_REPO)/$(GROUP_PATH)/mihxil-math-parser/$(VERSION)/mihxil-math-parser-$(VERSION).jar ./docs/resources/jars/
 	cp -au $(M2_REPO)/$(GROUP_PATH)/mihxil-algebra/$(VERSION)/mihxil-algebra-$(VERSION).jar ./docs/resources/jars/
 	cp -au $(M2_REPO)/$(GROUP_PATH_TIME)/mihxil-time/$(VERSION)/mihxil-time-$(VERSION).jar ./docs/resources/jars/
-	cp -au mihxil-demo/target/original-mihxil-demo-0.20-SNAPSHOT.jar ./docs/resources/jars/
+	cp -au mihxil-demo/target/original-mihxil-demo-$(VERSION).jar ./docs/resources/jars/
 
 index.html: ./README-source.adoc ./README-source-docinfo.html
 	asciidoctor $< -a linkcss -a stylesheet=index.css -a htmled=true -a docs=. -o $@
