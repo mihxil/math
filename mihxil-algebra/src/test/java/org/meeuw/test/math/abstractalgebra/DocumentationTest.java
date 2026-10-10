@@ -34,8 +34,8 @@ import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.categoryofgroups.GroupAsElement;
 import org.meeuw.math.operators.*;
 import org.meeuw.math.text.TextUtils;
-import org.reflections.Reflections;
 
+import static org.meeuw.configuration.ReflectionUtils.getSubTypesOf;
 import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 
 
@@ -46,8 +46,6 @@ import static org.meeuw.math.operators.BasicAlgebraicBinaryOperator.*;
 @SuppressWarnings({"TextBlockMigration", "unchecked"})
 @Log
 public class DocumentationTest {
-    final Reflections reflections = new Reflections(AlgebraicStructure.class.getPackageName());
-
     public static final String ALGEBRA_URL = "ALGEBRA_URL";
     public static final String MATH_URL    = "MATH_URL";
 
@@ -71,7 +69,7 @@ public class DocumentationTest {
     @SuppressWarnings("rawtypes")
     @Test
     void showAll() {
-        Set<Class<? extends AlgebraicStructure>> subTypes = reflections.getSubTypesOf(AlgebraicStructure.class);
+        Set<Class<? extends AlgebraicStructure>> subTypes = getSubTypesOf(AlgebraicStructure.class);
 
         subTypes.forEach(c -> {
             if ((c.getModifiers() & Modifier.PUBLIC) != 0 && !c.isInterface() && (c.getModifiers() & Modifier.ABSTRACT) == 0) {
@@ -84,7 +82,7 @@ public class DocumentationTest {
     @SuppressWarnings("rawtypes")
     public void dot(OutputStream out) {
         Set<Class<? extends AlgebraicStructure>> subTypes =
-            reflections.getSubTypesOf(AlgebraicStructure.class);
+            getSubTypesOf(AlgebraicStructure.class);
         subTypes.add(AlgebraicStructure.class);
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
         digraph(writer, (w) ->
@@ -102,11 +100,6 @@ public class DocumentationTest {
         writer.close();
     }
 
-    String getModule(Class<?> c) {
-        URL location = c.getResource('/' + c.getName().replace('.', '/') + ".class");
-        assert location != null;
-        return Arrays.stream(location.toString().split("/")).filter(s -> s.matches("mihxil-[a-z]*")).findFirst().orElse(null);
-    }
 
     @SuppressWarnings("unchecked")
     protected <C> C proxy(Class<C> interfac) {
@@ -126,7 +119,7 @@ public class DocumentationTest {
 
     }
     protected <C> Stream<Class<? extends C>> getExamplesClasses(Class<C> interfac) {
-        return reflections.getSubTypesOf(interfac).stream()
+        return getSubTypesOf(interfac).stream()
             .filter(
                 c -> Arrays.stream(c.getAnnotationsByType(Example.class))
                     .anyMatch(e ->
@@ -135,7 +128,7 @@ public class DocumentationTest {
             );
     }
     protected <C> Stream<C> getExamplesConstants(Class<C> interfac) {
-        return reflections.getSubTypesOf(interfac).stream()
+        return getSubTypesOf(interfac).stream()
             .flatMap(
                 c -> Arrays.stream(c.getDeclaredFields())
                     .filter(f -> Arrays.stream(f.getAnnotationsByType(Example.class)).anyMatch(e -> e.value().equals(interfac)))
@@ -450,6 +443,14 @@ public class DocumentationTest {
         return baseurl + "/" + c.getName().replace(".", "/") + ".html";
      }
 
+
+    String getModule(Class<?> c) {
+        URL location = c.getResource('/' + c.getName().replace('.', '/') + ".class");
+        assert location != null;
+        return Arrays.stream(location.toString().split("/")).filter(s -> s.matches("mihxil-[a-z]*")).findFirst().orElse(null);
+    }
+
+
     static class Super {
         final String name;
         final boolean pseudo;
@@ -557,4 +558,3 @@ public class DocumentationTest {
         writer.write("}\n");
     }
 }
-

@@ -18,9 +18,16 @@ package org.meeuw.configuration;
 import lombok.SneakyThrows;
 import lombok.extern.java.Log;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.*;
+import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.jar.JarFile;
+import java.util.stream.Stream;
 
 @Log
 public class ReflectionUtils {
@@ -78,6 +85,56 @@ public class ReflectionUtils {
         // intersect with next
         iterator.forEachRemaining(c -> rollingIntersect.retainAll(getClassesBfs(c)));
         return new LinkedList<>(rollingIntersect);
+    }
+
+
+    public static  <C> Set<Class<? extends C>> getSubTypesOf(Class<C> type) {
+        Set<Class<? extends C>> result = new HashSet<>();
+        String packageName = type.getPackageName();
+        String packagePath = packageName.replace('.', '/');
+        try {
+            Enumeration<URL> resources = ReflectionUtils.class.getClassLoader().getResources(packagePath);
+            while (resources.hasMoreElements()) {
+                URL resource = resources.nextElement();
+                if ("file".equals(resource.getProtocol())) {
+                    Path root = Path.of(resource.toURI());
+                    try (Stream<Path> paths = Files.walk(root)) {
+                        paths.filter(path -> path.toString().endsWith(".class"))
+                            .map(path -> root.relativize(path).toString())
+                            .map(path -> packageName + '.' + path
+                                .substring(0, path.length() - ".class".length())
+                                .replace(File.separatorChar, '.'))
+                            .forEach(name -> loadSubtype(type, name, result));
+                    }
+                } else if ("jar".equals(resource.getProtocol())) {
+                    JarURLConnection connection = (JarURLConnection) resource.openConnection();
+                    try (JarFile jar = connection.getJarFile()) {
+                        jar.stream()
+                            .map(entry -> entry.getName())
+                            .filter(name -> name.startsWith(packagePath + "/") && name.endsWith(".class"))
+                            .map(name -> name.substring(0, name.length() - ".class".length()).replace('/', '.'))
+                            .forEach(name -> loadSubtype(type, name, result));
+                    }
+                }
+            }
+        } catch (IOException | URISyntaxException e) {
+            throw new IllegalStateException("Could not scan " + packageName, e);
+        }
+        return result;
+    }
+
+    private static <C> void loadSubtype(Class<C> type, String name, Set<Class<? extends C>> result) {
+        if (name.endsWith("module-info") || name.endsWith("package-info")) {
+            return;
+        }
+        try {
+            Class<?> candidate = Class.forName(name, false, ReflectionUtils.class.getClassLoader());
+            if (candidate != type && type.isAssignableFrom(candidate)) {
+                result.add(candidate.asSubclass(type));
+            }
+        } catch (ClassNotFoundException | LinkageError ignored) {
+            // A class on the test classpath may have optional dependencies.
+        }
     }
 
     private static Set<Class<?>> getClassesBfs(Class<?> clazz) {

@@ -16,7 +16,7 @@ open module org.meeuw.test {
 
     requires org.meeuw.math;
     requires lombok;
-    requires org.reflections;
+
     requires org.meeuw.math.algebras;
     requires org.meeuw.math.abstractalgebra.test;
     requires org.meeuw.configuration;
