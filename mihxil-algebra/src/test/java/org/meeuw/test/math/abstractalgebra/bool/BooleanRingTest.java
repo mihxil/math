@@ -32,7 +32,4 @@ public class BooleanRingTest implements AbelianRingTheory<BooleanElement> {
         return Arbitraries.of(BooleanElement.values());
     }
 
-
-
-
 }
