@@ -26,10 +26,10 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 /**
  * The most simple groupoid. Just defining one generic operation 'operate'.
  *
- * @see AdditiveSemiGroup        Where the operation is 'addition'
- * @see MultiplicativeSemiGroup  Where the operation is 'multiplication'
+ * @see AdditiveSemiGroup
+ * @see MultiplicativeSemiGroup
  * @since 0.8
- * @param <E> Type of the elements ({@link MagmaElement}) of this Magma..
+ * @param <E> Type of the elements ({@link MagmaElement}) of this Magma.
  */
 public interface Magma<E extends MagmaElement<E>> extends AlgebraicStructure<E> {
 
