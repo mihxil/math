@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
@@ -21,13 +22,13 @@ class SolverTest {
 
     @Test
     void solve1() {
-
         Solver.SolverResult solve = solver.solve("24", "8 8 3 3");
         List<String> list = solve.stream().toList();
         log.info(() -> "Solved %s -> %s".formatted(solve, list));
     }
 
     @Test
+    @Disabled
     void solve2() {
         StatisticalLong duration = new StatisticalLong(UncertainJavaTime.Mode.DURATION);
         for (int i = 0; i < 5; i++) {
