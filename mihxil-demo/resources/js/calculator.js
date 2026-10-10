@@ -60,17 +60,17 @@ export class CalculatorClass extends BaseClass {
                 e.stopImmediatePropagation();
                 await this.handleSubmit();
             }
-             if (e.data === '*') {
-                 this.form.querySelector("span.help").innerHTML = "to type * use ;";
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 this.insert('⋅')
-             }
+            if (e.data === '*') {
+                this.form.querySelector("span.help").innerHTML = "to type * use ;";
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                this.insert('⋅')
+            }
             if (e.data === ';') {
-                 e.preventDefault();
-                 e.stopImmediatePropagation();
-                 this.insert('*')
-             }
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                this.insert('*')
+            }
         });
     }
 
@@ -253,9 +253,8 @@ export class CalculatorClass extends BaseClass {
         this.output.value = '';
         this.textContent = "executing..";
         //console.log("evaluating", this.input.value, "for", this.field.value);
-        this.output.value = await Calculator.eval(
-            this.input.value, this.field.value
-        );
+        const calculator = await new Calculator(this.information[this.field.value]);
+        this.output.value = await calculator.eval(this.input.value);
     }
 }
 
