@@ -22,7 +22,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.meeuw.math.abstractalgebra.AbelianRingElement;
 
 /**
- * Element of the Boolean-group.
+ * Element of the {@link BooleanRing}
  * @since 0.20
  */
 public enum BooleanElement implements AbelianRingElement<BooleanElement>, BooleanSupplier, IntSupplier {

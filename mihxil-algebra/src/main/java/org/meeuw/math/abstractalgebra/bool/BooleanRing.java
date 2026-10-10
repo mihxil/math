@@ -70,7 +70,7 @@ public class BooleanRing implements AbelianRing<BooleanElement>, Streamable<Bool
     /**
      * {@inheritDoc}
      * <p>
-     * A AND true == A => multiplicative identify = true
+     * For booleans: A AND true == A hence multiplicative identify = true
      */
     @Override
     public BooleanElement one() {
