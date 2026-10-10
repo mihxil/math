@@ -105,7 +105,7 @@ class BigComplexNumberTest implements
             assertThat(i.asin()).isEqualTo(
                 BigComplexNumber.of("0.881373587019543025232609324979792309028160328261635410753295608653377184222026087833706891910256043i")
             );
-            // assertThat(i.asin().sin()).isEqualTo(i); TODO
+            assertThat(i.asin().sin()).isEqualTo(i);
         });
     }
 
