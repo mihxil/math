@@ -63,7 +63,6 @@ class ComplexNumberTest implements
         assertThat(structure.fromString("1")).hasToString("1");
     }
 
-
     @Override
     public Arbitrary<ComplexNumber> elements() {
         return Arbitraries.randomValue(
@@ -174,6 +173,12 @@ class ComplexNumberTest implements
             ConfigurationService.resetToDefaults();
 
         }
+    }
+
+    @Test
+    void mult() {
+        var a = ComplexNumbers.INSTANCE.fromString("2 + 3i");
+        assertThat(a.times(ComplexNumbers.INSTANCE.i()).toString()).isEqualTo("-3 + 2i");
     }
 
 }
