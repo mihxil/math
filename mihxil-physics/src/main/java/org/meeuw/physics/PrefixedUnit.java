@@ -26,20 +26,20 @@ import org.meeuw.math.abstractalgebra.reals.RealNumber;
 /**
  * A unit wrapping another {@link Unit} with a {@link Prefix}, and it is therefore just a multiple of that unit.
  */
-public class PrefixedUnit implements Unit {
+public class PrefixedUnit<D extends Dimension> implements Unit<D> {
 
-    private final Unit wrapped;
+    private final Unit<D> wrapped;
 
     @Getter
     private final Prefix prefix;
 
-    public PrefixedUnit(Unit wrapped, Prefix prefix) {
+    public PrefixedUnit(Unit<D> wrapped, Prefix prefix) {
         this.wrapped = wrapped;
         this.prefix = prefix;
     }
 
     @Override
-    public DimensionalAnalysis getDimensions() {
+    public DimensionalAnalysis<D> getDimensions() {
         return wrapped.getDimensions();
     }
 
@@ -67,13 +67,13 @@ public class PrefixedUnit implements Unit {
     }
 
     @Override
-    public Unit withQuantity(Quantity... quantity) {
-        return new PrefixedUnit(wrapped.withQuantity(quantity), prefix);
+    public Unit<D> withQuantity(Quantity... quantity) {
+        return new PrefixedUnit<D>(wrapped.withQuantity(quantity), prefix);
     }
 
     @Override
-    public Units reciprocal() {
-        return new CompositeUnits(getSIFactor().reciprocal(), new UnitExponent(this, -1));
+    public Units<D> reciprocal() {
+        return new CompositeUnits<D>(getSIFactor().reciprocal(), new UnitExponent(this, -1));
     }
 
     @Override

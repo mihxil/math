@@ -20,8 +20,8 @@ import lombok.Getter;
 import java.util.function.BiFunction;
 
 import org.checkerframework.checker.units.qual.*;
-import org.meeuw.math.abstractalgebra.reals.RealNumber;
-import org.meeuw.math.abstractalgebra.reals.RealField;
+import org.meeuw.math.uncertainnumbers.field.UncertainReal;
+import org.meeuw.math.uncertainnumbers.field.UncertainRealField;
 
 import static org.meeuw.physics.Dimension.*;
 

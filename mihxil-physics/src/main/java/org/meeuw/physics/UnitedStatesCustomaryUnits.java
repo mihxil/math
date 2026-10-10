@@ -30,7 +30,7 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
     public static final UnitedStatesCustomaryUnits INSTANCE = new UnitedStatesCustomaryUnits();
 
     @Override
-    public @NonNull Unit forDimension(Dimension dimension) {
+    public @NonNull Unit forDimension(SIDimension dimension) {
         return switch (dimension) {
             case L -> US.yd;
             case M -> US.lb;
@@ -43,10 +43,10 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
 
 
     public enum US implements BaseUnit {
-        yd(Dimension.L, "yard", exactly(0.9144)),
-        lb(Dimension.M, "pound", exactly(0.45359237))
+        yd(SIDimension.L, "yard", exactly(0.9144)),
+        lb(SIDimension.M, "pound", exactly(0.45359237))
         ;
-        US(Dimension dimension, String description, RealNumber siFactor) {
+        US(SIDimension dimension, String description, RealNumber siFactor) {
             this.dimension = dimension;
             this.description = description;
             this.SIFactor = siFactor;
@@ -57,7 +57,7 @@ public class UnitedStatesCustomaryUnits implements SystemOfMeasurements {
         }
 
         @Getter
-        private final Dimension dimension;
+        private final SIDimension dimension;
 
         @Getter
         private final RealNumber SIFactor;
