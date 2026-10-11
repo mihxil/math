@@ -255,7 +255,7 @@ export class CalculatorClass extends BaseClass {
         this.textContent = "executing..";
         const fieldInformation = this.information[this.field.value].value;
         //console.log("evaluating", this.input.value, "for", fieldInformation, Calculator);
-        const calculator = await new (await Calculator)(fieldInformation);
+        const calculator = await new  Calculator(fieldInformation);
         this.output.value = await calculator.eval(this.input.value);
     }
 }
