@@ -2449,7 +2449,8 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
                 <span class="key">finite</span>: await value.isFinite(),
                 <span class="key">description</span>: await value.getDescription(),
-                <span class="key">help</span>: await value.getHelp()
+                <span class="key">help</span>: await value.getHelp(),
+                <span class="key">value</span>: value,
             };
         }
         console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">information</span><span class="delimiter">&quot;</span></span>, JSON.stringify(<span class="local-variable">this</span>.information,  (key, value) =&gt; {
@@ -2563,8 +2564,9 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     async onSubmit(Calculator) {
         <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-        <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, this.field.value);</span>
-        const calculator = await <span class="keyword">new</span> Calculator(<span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value]);
+        const fieldInformation = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].value;
+        <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, fieldInformation, Calculator);</span>
+        const calculator = await <span class="keyword">new</span> (await Calculator)(fieldInformation);
         <span class="local-variable">this</span>.output.value = await calculator.eval(<span class="local-variable">this</span>.input.value);
     }
 }</code></pre>
@@ -2715,7 +2717,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
     <span class="directive">public</span> Solver(Ring&lt;E&gt; structure) {
         <span class="local-variable">this</span>.structure = structure;
-
     }
 
     <span class="directive">native</span> <span class="type">void</span> callBack(<span class="type">long</span> considered, <span class="type">long</span> tried, <span class="type">long</span> total, <span class="predefined-type">Expression</span>&lt;E&gt; expression);
