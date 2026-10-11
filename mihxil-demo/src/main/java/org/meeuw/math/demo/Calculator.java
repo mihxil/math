@@ -36,7 +36,11 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 public class Calculator {
 
     public Calculator(FieldInformation fi) {
-        this.field = fi.getField();
+        this(fi.getField());
+    }
+
+    public Calculator(Magma<?> field) {
+        this.field = field;
     }
 
     // tag::eval[]

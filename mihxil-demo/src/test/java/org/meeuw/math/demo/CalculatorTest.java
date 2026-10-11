@@ -50,7 +50,7 @@ class CalculatorTest {
 
     @Test
     void complex() {
-        Calculator calculator = new Calculator(complex);
+        Calculator calculator = new Calculator(complex.getField());
 
         String result = calculator.eval("""
             "2 + 3i" ⋅ i

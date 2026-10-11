@@ -138,7 +138,8 @@ export class CalculatorClass extends BaseClass {
                 unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                 finite: await value.isFinite(),
                 description: await value.getDescription(),
-                help: await value.getHelp()
+                help: await value.getHelp(),
+                value: value,
             };
         }
         console.log("information", JSON.stringify(this.information,  (key, value) => {
@@ -252,8 +253,9 @@ export class CalculatorClass extends BaseClass {
     async onSubmit(Calculator) {
         this.output.value = '';
         this.textContent = "executing..";
-        //console.log("evaluating", this.input.value, "for", this.field.value);
-        const calculator = await new Calculator(this.information[this.field.value]);
+        const fieldInformation = this.information[this.field.value].value;
+        //console.log("evaluating", this.input.value, "for", fieldInformation, Calculator);
+        const calculator = await new (await Calculator)(fieldInformation);
         this.output.value = await calculator.eval(this.input.value);
     }
 }

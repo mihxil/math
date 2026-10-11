@@ -1,0 +1,5 @@
+This directory is used to publish documentation to.
+
+It basically does not contain any sources. Everything is derived.
+
+See link:Makefile

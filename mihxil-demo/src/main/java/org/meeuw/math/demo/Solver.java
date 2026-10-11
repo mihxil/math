@@ -44,7 +44,6 @@ public  class Solver<E extends RingElement<E>> {
 
     public Solver(Ring<E> structure) {
         this.structure = structure;
-
     }
 
     native void callBack(long considered, long tried, long total, Expression<E> expression);
