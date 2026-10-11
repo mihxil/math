@@ -398,7 +398,8 @@ This is the source code for the above.
                 unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
                 finite: await value.isFinite(),
                 description: await value.getDescription(),
-                help: await value.getHelp()
+                help: await value.getHelp(),
+                value: value,
             };
         }
         console.log("information", JSON.stringify(this.information,  (key, value) => {
@@ -512,8 +513,9 @@ This is the source code for the above.
     async onSubmit(Calculator) {
         this.output.value = '';
         this.textContent = "executing..";
-        //console.log("evaluating", this.input.value, "for", this.field.value);
-        const calculator = await new Calculator(this.information[this.field.value]);
+        const fieldInformation = this.information[this.field.value].value;
+        //console.log("evaluating", this.input.value, "for", fieldInformation, Calculator);
+        const calculator = await new (await Calculator)(fieldInformation);
         this.output.value = await calculator.eval(this.input.value);
     }
 }
@@ -635,7 +637,6 @@ public  class Solver<E extends RingElement<E>> {
 
     public Solver(Ring<E> structure) {
         this.structure = structure;
-
     }
 
     native void callBack(long considered, long tried, long total, Expression<E> expression);
