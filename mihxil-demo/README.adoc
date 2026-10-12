@@ -180,7 +180,7 @@ public enum FieldInformation {
 
     private final Magma<?> field;
     private final String[] examples;
-    private final String[] elements;
+
     private final String[] binaryOperators;
     private final String[] unaryOperators;
 
@@ -190,7 +190,7 @@ public enum FieldInformation {
         this.field = field;
         this.finite = field.isFinite();
         this.examples = examples;
-        this.elements = elements(field);
+
         this.binaryOperators = field.getSupportedOperators()
             .stream()
             .map(AlgebraicBinaryOperator::getSymbol)
@@ -201,10 +201,14 @@ public enum FieldInformation {
             .map(AlgebraicUnaryOperator::getSymbol)
             .toArray(String[]::new);
 
-        log.fine("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
+        log.fine(() -> "Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
             List.of(binaryOperators),
             List.of(unaryOperators),
-            List.of(examples), List.of(elements)));
+            List.of(examples), List.of(getElements())));
+    }
+
+    public String[] getElements() {
+        return elements(this.field);
     }
 
     public static String[] elements(Magma<?> field) {
@@ -227,10 +231,10 @@ public enum FieldInformation {
     }
 }
 
-private final Magma<?> field;
+private final F field;
 
 
-public String eval(String input) {
+public E eval(String input) {
     final String expression = input.strip();
     try (var r = ConfigurationService.setConfiguration(cb -> cb
         .configure(UncertaintyConfiguration.class,
@@ -245,16 +249,20 @@ public String eval(String input) {
         }
         var parsedExpression = AST.parse(expression, field);
         log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
-        var result = parsedExpression.eval();
-        var resultAsString = result.toString();
-        log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
-        return resultAsString;
+        return parsedExpression.eval();
     } catch (Throwable ex) {
         log.log(Level.SEVERE, ex.getClass() + " " + ex.getMessage(), ex);
         throw ex;
     } finally {
         log.finer("Ready evaluation");
     }
+}
+
+public String evalToString(String input) {
+    var result = eval(input);
+    var resultAsString = result.toString();
+    log.info(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
+    return resultAsString;
 }
 ----
 ====
