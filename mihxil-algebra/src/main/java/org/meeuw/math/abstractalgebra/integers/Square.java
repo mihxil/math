@@ -40,7 +40,10 @@ public class Square
 
 
     public static Square of(BigInteger value) throws InvalidElementCreationException {
-        return Squares.INSTANCE.newElement(value);
+        if (! IntegerUtils.isSquare(value)) {
+            throw new InvalidElementCreationException("The argument must be a square (" + value + " isn't)");
+        }
+        return new Square(value);
     }
     public static Square of(@org.meeuw.math.validation.Square long value) throws InvalidElementCreationException {
         if (! IntegerUtils.isSquare(value)) {

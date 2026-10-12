@@ -69,16 +69,13 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
     }
 
     @Override
-    public Square of(BigInteger value) {
-        return new Square(value);
+    public Square of(@org.meeuw.math.validation.Square BigInteger value) {
+        return Square.of(value);
     }
 
     @Override
-    public Square newElement(BigInteger value) throws InvalidElementCreationException {
-        if (!IntegerUtils.isSquare(value)) {
-            throw new InvalidElementCreationException("The argument must be a square (" + value + " isn't)");
-        }
-        return of(value);
+    public Square newElement(@org.meeuw.math.validation.Square BigInteger value) throws InvalidElementCreationException {
+        return Square.of(value);
     }
 
     @Synonym("0")

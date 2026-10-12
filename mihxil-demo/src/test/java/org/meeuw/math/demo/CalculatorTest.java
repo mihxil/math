@@ -8,7 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import org.meeuw.math.exceptions.InvalidElementCreationException;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.demo.Calculator.FieldInformation.*;
 
 @Log
@@ -19,8 +22,8 @@ class CalculatorTest {
 
     @Test
     void gaussian() {
-        Calculator calculator = new Calculator(gaussian);
-        String result = calculator.eval("""
+        var calculator = new Calculator<>(gaussian);
+        String result = calculator.evalToString("""
            "i"  * "1 + 3i"
            """);
         assertThat(result).isEqualTo("-3 + i");
@@ -28,31 +31,31 @@ class CalculatorTest {
 
     @Test
     void quaternions() {
-        Calculator calculator = new Calculator(quaterniongroup);
-        String result = calculator.eval("-i * i");
+        var calculator = new Calculator<>(quaterniongroup);
+        String result = calculator.evalToString("-i * i");
         assertThat(result).isEqualTo("e");
     }
 
     @Test
     void natural() {
-        Calculator calculator = new Calculator(natural);
-        String result = calculator.eval("2 ^ 10");
+        var calculator = new Calculator<>(natural);
+        String result = calculator.evalToString("2 ^ 10");
         assertThat(result).isEqualTo("1024");
     }
 
     @Test
     void modulo() {
-        Calculator calculator = new Calculator(modulo13);
+        var calculator = new Calculator<>(modulo13);
 
-        String result = calculator.eval("2 ^ 11");
+        String result = calculator.evalToString("2 ^ 11");
         assertThat(result).isEqualTo("7");
     }
 
     @Test
     void complex() {
-        Calculator calculator = new Calculator(complex.getField());
+        var calculator = new Calculator<>(complex.getField());
 
-        String result = calculator.eval("""
+        String result = calculator.evalToString("""
             "2 + 3i" ⋅ i
             """);
         assertThat(result).isEqualTo("-3 + 2i");
@@ -61,26 +64,32 @@ class CalculatorTest {
 
     @Test
     void integers() {
-        log.fine("test");
-        Calculator calculator = new Calculator(integers);
+        var  calculator = new Calculator<>(integers);
 
         {
-            String result = calculator.eval("11 \\ 3");
+            String result = calculator.evalToString("11 \\ 3");
             assertThat(result).isEqualTo("3");
         }
          {
-            String result = calculator.eval("11 % 3");
-            assertThat(result).isEqualTo("2");
+            String result = calculator.evalToString("11 % 3");
+             assertThat(result).isEqualTo("2");
         }
+    }
+
+    @Test
+    void squares() {
+        var calculator = new Calculator<>(squares);
+        assertThat(calculator.evalToString("4 * 4")).isEqualTo("16");
+        assertThatThrownBy(() -> calculator.eval("2 *  8")).isInstanceOf(InvalidElementCreationException.class);
     }
 
     @Test
     void polynomials() {
         log.fine("test");
-        Calculator calculator = new Calculator(polynomials);
+        var calculator = new Calculator<>(polynomials);
 
         {
-            String result = calculator.eval("""
+            String result = calculator.evalToString("""
             "x + 2x^2 + x^5" * "7 + x"
             """);
             assertThat(result).isEqualTo("7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶");
@@ -90,10 +99,10 @@ class CalculatorTest {
     @ParameterizedTest
     @EnumSource(Calculator.FieldInformation.class)
     void tryAll(Calculator.FieldInformation fi) {
-        Calculator calculator = new Calculator(fi);
+        var calculator = new Calculator<>(fi);
         log.info(calculator.toString());
         for (String e : fi.getExamples()) {
-            log.info(e + " - " + calculator.eval(e));
+            log.info(e + " - " + calculator.evalToString(e));
         }
     }
 }

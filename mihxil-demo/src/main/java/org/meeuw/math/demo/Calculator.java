@@ -10,8 +10,7 @@ import java.util.logging.Level;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
-import org.meeuw.math.abstractalgebra.Magma;
-import org.meeuw.math.abstractalgebra.Streamable;
+import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalField;
 import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
@@ -33,13 +32,13 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 
 @Log
 @ToString
-public class Calculator {
+public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
 
     public Calculator(FieldInformation fi) {
-        this(fi.getField());
+        this((F) fi.getField());
     }
 
-    public Calculator(Magma<?> field) {
+    public Calculator(F field) {
         this.field = field;
     }
 
@@ -143,7 +142,7 @@ public class Calculator {
 
         private final Magma<?> field;
         private final String[] examples;
-        private final String[] elements;
+
         private final String[] binaryOperators;
         private final String[] unaryOperators;
 
@@ -153,7 +152,7 @@ public class Calculator {
             this.field = field;
             this.finite = field.isFinite();
             this.examples = examples;
-            this.elements = elements(field);
+
             this.binaryOperators = field.getSupportedOperators()
                 .stream()
                 .map(AlgebraicBinaryOperator::getSymbol)
@@ -164,10 +163,14 @@ public class Calculator {
                 .map(AlgebraicUnaryOperator::getSymbol)
                 .toArray(String[]::new);
 
-            log.fine("Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
+            log.fine(() -> "Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
                 List.of(binaryOperators),
                 List.of(unaryOperators),
-                List.of(examples), List.of(elements)));
+                List.of(examples), List.of(getElements())));
+        }
+
+        public String[] getElements() {
+            return elements(this.field);
         }
 
         public static String[] elements(Magma<?> field) {
@@ -190,10 +193,10 @@ public class Calculator {
         }
     }
 
-    private final Magma<?> field;
+    private final F field;
 
 
-    public String eval(String input) {
+    public E eval(String input) {
         final String expression = input.strip();
         try (var r = ConfigurationService.setConfiguration(cb -> cb
             .configure(UncertaintyConfiguration.class,
@@ -208,10 +211,7 @@ public class Calculator {
             }
             var parsedExpression = AST.parse(expression, field);
             log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
-            var result = parsedExpression.eval();
-            var resultAsString = result.toString();
-            log.info(() -> "Result: %s = %s".formatted(expression, resultAsString));
-            return resultAsString;
+            return parsedExpression.eval();
         } catch (Throwable ex) {
             log.log(Level.SEVERE, ex.getClass() + " " + ex.getMessage(), ex);
             throw ex;
@@ -219,12 +219,19 @@ public class Calculator {
             log.finer("Ready evaluation");
         }
     }
+
+    public String evalToString(String input) {
+        var result = eval(input);
+        var resultAsString = result.toString();
+        log.info(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
+        return resultAsString;
+    }
     //end::eval[]
 
     public static void main(String[] argv) {
         String arg = argv[0];
         String f = argv.length > 1 ? argv[1] : "rational";
-        Calculator calculator = new Calculator(FieldInformation.valueOf(f));
+        var calculator = new Calculator<>(FieldInformation.valueOf(f));
         System.out.println(arg + " = " + calculator.eval(arg));
     }
 }
