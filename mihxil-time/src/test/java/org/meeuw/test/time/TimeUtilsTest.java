@@ -122,6 +122,8 @@ class TimeUtilsTest {
         assertThat(TimeUtils.parseDuration("6s").get()).isEqualTo(Duration.ofSeconds(6));
         assertThat(TimeUtils.parseDuration("6 s").get()).isEqualTo(Duration.ofSeconds(6));
         assertThat(TimeUtils.parseDuration("7S").get()).isEqualTo(Duration.ofSeconds(7));
+        assertThat(TimeUtils.parseDuration("P7d").get()).isEqualTo(Duration.ofDays(7));
+
         assertThat(TimeUtils.parseDuration("5000").get()).isEqualTo(Duration.ofMillis(5000));
         assertThat(TimeUtils.parseDuration("PT300s").get()).isEqualTo(Duration.ofSeconds(300));
 
@@ -153,6 +155,12 @@ class TimeUtilsTest {
         ZonedDateTime now = ZonedDateTime.parse("2026-10-11T11:00:00+02:00");
         assertThat(TimeUtils.parseDuration("P1MT1M", now).get()).isEqualTo(Duration.ofHours(744).plusMinutes(1));
         assertThat(TimeUtils.parseDuration("P1M", now).get()).isEqualTo(Duration.ofHours(744));
+    }
+
+    @Test
+    void nudeDays() {
+        assertThat(TimeUtils.parseDuration("P7d").get()).isEqualTo(Duration.ofDays(7));
+        assertThat(TimeUtils.parseDuration("7d").get()).isEqualTo(Duration.ofDays(7));
     }
 
     @Test
