@@ -9,7 +9,7 @@
   <artifactId>report-aggregation</artifactId>
   <name>Math - report aggregation</name>
   <description>Aggregates the jacoco reports of the submodules.</description>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
   </properties>

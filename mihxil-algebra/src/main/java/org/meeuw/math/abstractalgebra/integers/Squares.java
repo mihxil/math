@@ -101,7 +101,10 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
 
     @Override
     public Square nextRandom(Random random) {
-        return of(valueOf(RandomConfiguration.nextLong(random) * 2));
+        long l = RandomConfiguration.nextNonNegativeLong(random);
+        return of(
+            valueOf(l * l)
+        );
     }
 
 
