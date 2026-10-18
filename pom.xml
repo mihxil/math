@@ -34,7 +34,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.deploy.skip>true</maven.deploy.skip> <!-- disable deploy plugin entirely, we used central publishing plugin only -->
+    <mihxil-bom.version>${project.version}</mihxil-bom.version>
+
 
     <!-- compile time -->
     <lombok.version>1.18.48</lombok.version>
@@ -88,7 +89,7 @@
         <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-bom</artifactId>
         <type>pom</type>
-        <version>${project.version}</version>
+        <version>${mihxil-bom.version}</version>
         <scope>import</scope>
       </dependency>
       <dependency>
@@ -211,7 +212,7 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.11.0</version>
+        <version>0.12.0</version>
         <extensions>true</extensions>
         <configuration>
           <publishingServerId>central</publishingServerId>
