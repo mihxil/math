@@ -31,7 +31,7 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
 import static org.meeuw.math.operators.BasicAlgebraicUnaryOperator.SQR;
 
 /**
- * The <em>quare</em> integers are an example of a {@link MultiplicativeAbelianSemiGroup}.
+ * The <em>square</em> integers are an example of a {@link MultiplicativeAbelianSemiGroup}.
  *
  * @author Michiel Meeuwissen
  * @since 0.4
@@ -89,14 +89,10 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
         return Square.ONE;
     }
 
-
-
     @Override
     public Stream<Square> stream() {
-
         return  Stream.iterate(BigInteger.ZERO, (i) -> i.add(ONE))
             .map(i -> of(i.multiply(i)));
-
     }
 
     @Override
@@ -106,8 +102,6 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
             valueOf(l * l)
         );
     }
-
-
 
     @Override
     public String toString() {
