@@ -278,7 +278,11 @@ public final class TimeUtils {
                 if (ds.contains("T")) {
                     return parseDuration(dtp, "P" + ds, at);
                 } else {
-                    return parseDuration(dtp, "PT" + ds, at);
+                    try {
+                        return parseDuration(dtp, "PT" + ds, at);
+                    } catch (DateTimeParseException e){
+                        return parseDuration(dtp, "P" + ds, at);
+                    }
                 }
             } else {
                 Matcher completeMatcher = COMPLETE_FORMAT.matcher(ds);
