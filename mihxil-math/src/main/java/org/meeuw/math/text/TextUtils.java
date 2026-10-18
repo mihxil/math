@@ -112,14 +112,13 @@ public final class TextUtils {
 
 
     /**
-     * Given an array of enums, and a array of integers, interpret the second array as exponents for the first one, and
+     * Given an array of enums, and an array of integers, interpret the second array as exponents for the first one, and
      * create a string representation of that using superscript notation.
-     * @param <T> the type of the enums
      * @param values the enum values
      * @param exponents the associated exponents
      * @return a string
      */
-    public static <T extends Enum<T>> String toString(T[] values, int[] exponents) {
+    public static String toString(Object[] values, int[] exponents) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < exponents.length; i++) {
             int b = exponents[i];

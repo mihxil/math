@@ -29,28 +29,28 @@ import org.meeuw.math.abstractalgebra.reals.RealField;
  * @author Michiel Meeuwissen
  * @since 0.6
  */
-public interface SystemOfMeasurements {
+public interface SystemOfMeasurements<D extends Dimension> {
 
     @NonNull
-    Unit forDimension(Dimension dimension);
+    Unit<D> forDimension(D dimension);
 
     /**
      * Returns in this system of measurements the preferred units for the given dimensional analysis. This may not
      * always be unique.
      */
     @NonNull
-    default Units forDimensions(DimensionalAnalysis dimensionalAnalysis) {
+    default Units forDimensions(DimensionalAnalysis<D> dimensionalAnalysis) {
         UnitExponent[] unitExponents = dimensionalAnalysis.stream()
-            .map(dimensionExponent -> dimensionExponent.toUnitExponent(this))
+            .map(dimensionExponent -> dimensionExponent.<D>toUnitExponent(this))
             .toArray(UnitExponent[]::new);
         final RealNumber siFactor = Arrays.stream(unitExponents)
             .map(UnitExponent::getSIFactor)
             .reduce(RealField.INSTANCE.one(), RealNumber::times);
-        return new CompositeUnits(siFactor, unitExponents);
+        return new CompositeUnits<>(siFactor, unitExponents);
     }
 
-    default Units forQuantity(Quantity quantity) {
-        for (Units unit : getUnits()) {
+    default Units<D> forQuantity(Quantity quantity) {
+        for (Units<D> unit : getUnits()) {
             if (unit.getQuantities().contains(quantity)) {
                 return unit;
             }
@@ -59,24 +59,24 @@ public interface SystemOfMeasurements {
     }
 
 
-    default List<BaseUnit> getBaseUnits() {
-        List<BaseUnit> result = new ArrayList<>();
+    default List<? extends BaseUnit<D>> getBaseUnits() {
+        List<BaseUnit<D>> result = new ArrayList<>();
         ReflectionUtils.forConstants(this.getClass(), BaseUnit.class, result::add);
         return Collections.unmodifiableList(result);
     }
 
-    default List<Units> getUnits()  {
-        final List<Units> result = new ArrayList<>(getBaseUnits());
+    default List<Units<D>> getUnits()  {
+        final List<Units<D>> result = new ArrayList<>(getBaseUnits());
         ReflectionUtils.forConstants(this.getClass(), Units.class, result::add);
         return Collections.unmodifiableList(result);
     }
 
-    default Units forDimensions(DimensionExponent... dimensions) {
+    default Units<D> forDimensions(DimensionExponent<D>... dimensions) {
         return forDimensions(DimensionalAnalysis.of(dimensions));
     }
 
-    default Units unitsOf(String s) {
-        for (Units u : getUnits()) {
+    default Units<D> unitsOf(String s) {
+        for (Units<D> u : getUnits()) {
             if (s.equals(u.toString())) {
                 return u;
             }

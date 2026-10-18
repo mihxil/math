@@ -36,7 +36,7 @@ import static org.meeuw.physics.UnitExponent.of;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class SI implements SystemOfMeasurements {
+public class SI implements SystemOfMeasurements<SIDimension> {
 
     public static final SI INSTANCE = new SI();
 
@@ -46,12 +46,12 @@ public class SI implements SystemOfMeasurements {
 
     @Override
     @NonNull
-    public SIUnit forDimension(Dimension dimension) {
+    public SIUnit forDimension(SIDimension dimension) {
         return SIUnit.valueOf(dimension);
     }
 
     @Override
-    public  List<BaseUnit> getBaseUnits() {
+    public  List<SIUnit> getBaseUnits() {
         return Arrays.asList(SIUnit.values());
     }
 
@@ -240,9 +240,9 @@ public class SI implements SystemOfMeasurements {
         }
     }
 
-    public static final Units mPerS = m.per(s).withQuantity(VELOCITY);
+    public static final Units<SIDimension> mPerS = m.per(s).withQuantity(VELOCITY);
 
-    public static final Units km = m.withPrefix(DecimalPrefix.k).withQuantity(DISTANCE);
+    public static final Units<SIDimension> km = m.withPrefix(DecimalPrefix.k).withQuantity(DISTANCE);
 
 
     public static final DerivedUnit litre = new DerivedUnit(

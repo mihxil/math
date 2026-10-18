@@ -17,13 +17,12 @@ package org.meeuw.physics;
 
 import java.util.NavigableSet;
 
-import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.*;
-import org.meeuw.math.exceptions.NotParsable;
-import org.meeuw.math.operators.AlgebraicComparisonOperator;
-import org.meeuw.math.operators.BasicComparisonOperator;
 
 import static org.meeuw.math.CollectionUtils.navigableSet;
+
+import org.meeuw.math.operators.AlgebraicComparisonOperator;
+import org.meeuw.math.operators.BasicComparisonOperator;
 
 /**
  * 'Physical' numbers are numbers of a {@link org.meeuw.math.abstractalgebra.Field} but with {@link Units}.
@@ -34,7 +33,6 @@ import static org.meeuw.math.CollectionUtils.navigableSet;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-@Singleton
 public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
     implements MultiplicativeAbelianGroup<PhysicalNumber> {
 
@@ -42,7 +40,7 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
 
     public static final PhysicalNumbers INSTANCE = new PhysicalNumbers();
 
-    private PhysicalNumbers() {
+    protected PhysicalNumbers() {
         super(PhysicalNumber.class);
     }
 
@@ -64,11 +62,6 @@ public class PhysicalNumbers extends AbstractAlgebraicStructure<PhysicalNumber>
     @Override
     public boolean multiplicationIsCommutative() {
         return true;
-    }
-
-    @Override
-    public PhysicalNumber fromString(String s) {
-        throw new NotParsable.NotImplemented("Not implemented parsing to a PhysicalNumber", s);
     }
 
 }

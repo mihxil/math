@@ -30,23 +30,25 @@ import org.meeuw.math.text.FormatService;
 /**
  * This represents a physical dimensional analysis.
  * <p>
- * It is basically a wrapper for an array of exponents, one for each possible {@link Dimension}
+ * It is basically a wrapper for an array of exponents, one for each possible {@link SIDimension}
  * <p>
  * Numbers with different dimensional analysis cannot be added or subtracted, since that would make no physical sense.
  *
  * @author Michiel Meeuwissen
+ * @param <D> The type of {@link Dimension} this analysis is for.
  */
 @Log
-public class DimensionalAnalysis
+public class DimensionalAnalysis<D extends Dimension>
     implements
-    MultiplicativeGroupElement<DimensionalAnalysis>,
-    Streamable<DimensionExponent> {
+    MultiplicativeGroupElement<DimensionalAnalysis<D>>,
+    Streamable<DimensionExponent<D>> {
 
     @Getter
-    final int[] exponents = new int[Dimension.values().length];
+    final int[] exponents = new int[SIDimension.values().length];
 
-    public DimensionalAnalysis(DimensionExponent... dimensions) {
-        for (DimensionExponent v : dimensions) {
+    @SafeVarargs
+    public DimensionalAnalysis(DimensionExponent<D>... dimensions) {
+        for (DimensionExponent<D> v : dimensions) {
             exponents[v.getDimension().ordinal()] += v.getExponent();
         }
     }
@@ -55,8 +57,8 @@ public class DimensionalAnalysis
         System.arraycopy(exponents, 0, this.exponents, 0, this.exponents.length);
     }
 
-    public static DimensionalAnalysis of(DimensionExponent... dimensions) {
-        return new DimensionalAnalysis(dimensions);
+    public static <D extends Dimension> DimensionalAnalysis<D> of(DimensionExponent<D>... dimensions) {
+        return new DimensionalAnalysis<D>(dimensions);
     }
 
     @Override
@@ -65,13 +67,13 @@ public class DimensionalAnalysis
     }
 
     @Override
-    public DimensionalAnalysis reciprocal() {
+    public DimensionalAnalysis<D> reciprocal() {
         return pow(-1);
     }
 
     @Override
-    public DimensionalAnalysis times(DimensionalAnalysis multiplier) {
-        DimensionalAnalysis copy = copy();
+    public DimensionalAnalysis<D> times(DimensionalAnalysis<D> multiplier) {
+        DimensionalAnalysis<D> copy = copy();
         for (int i = 0; i < exponents.length; i++) {
             copy.exponents[i] += multiplier.exponents[i];
         }
@@ -79,16 +81,16 @@ public class DimensionalAnalysis
     }
 
     @Override
-    public DimensionalAnalysis pow(int exponent) {
-        DimensionalAnalysis copy = copy();
+    public DimensionalAnalysis<D> pow(int exponent) {
+        DimensionalAnalysis<D> copy = copy();
         for (int i = 0; i < exponents.length; i++) {
             copy.exponents[i] *= exponent;
         }
         return copy;
     }
 
-    public DimensionalAnalysis copy() {
-        return new DimensionalAnalysis(exponents);
+    public DimensionalAnalysis<D> copy() {
+        return new DimensionalAnalysis<>(exponents);
     }
 
     @Override
@@ -113,14 +115,14 @@ public class DimensionalAnalysis
 
     @Override
     @NonNull
-    public Stream<DimensionExponent> stream() {
+    public Stream<DimensionExponent<D>> stream() {
         return IntStream
-            .range(0, Dimension.values().length)
-            .mapToObj(i -> DimensionExponent.of(Dimension.values()[i], exponents[i]));
+            .range(0, SIDimension.values().length)
+            .mapToObj(i -> DimensionExponent.of(SIDimension.values()[i], exponents[i]));
     }
 
 
-    public DimensionalAnalysis dividedBy(Quantity quantity) {
+    public DimensionalAnalysis<D> dividedBy(Quantity quantity) {
         return this.dividedBy(quantity.getDimensionalAnalysis());
     }
 }

@@ -30,13 +30,13 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public interface Unit extends Units {
+public interface Unit<D extends Dimension> extends Units {
 
     /**
      * @return the dimensional analysis for this unit
      */
     @Override
-    DimensionalAnalysis getDimensions();
+    DimensionalAnalysis<D> getDimensions();
 
     @Override
     String getDescription();
@@ -49,12 +49,12 @@ public interface Unit extends Units {
         return name();
     }
 
-    default Unit withPrefix(Prefix prefix) {
-        return new PrefixedUnit(this, prefix);
+    default Unit<D> withPrefix(Prefix prefix) {
+        return new PrefixedUnit<>(this, prefix);
     }
 
     @Override
-    Unit withQuantity(Quantity... quantity);
+    Unit<D> withQuantity(Quantity... quantity);
 
 
     @Override
@@ -64,7 +64,7 @@ public interface Unit extends Units {
 
     @Override
     @NonNull
-    default Iterator<UnitExponent> iterator() {
+    default Iterator<UnitExponent<D>> iterator() {
         return Arrays.stream(getCanonicalExponents()).iterator();
     }
 
