@@ -1,7 +1,7 @@
 
 URL:=mihxil/mihxil-demo:latest
-VERSION:=$(shell mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-CP:=$(shell mvn dependency:build-classpath -DincludeScope=compile -Dmdep.outputFile=/dev/stdout -q)
+VERSION:=$(shell mvn -o help:evaluate -Dexpression=project.version -q -DforceStdout)
+CP:=$(shell mvn -o dependency:build-classpath -DincludeScope=compile -Dmdep.outputFile=/dev/stdout -q)
 
 JARS_DIR:=resources/jars
 JARS_STAGE:=target/jars
@@ -19,7 +19,7 @@ target/mihxil-demo-$(VERSION).jar:
 
 jars: target/mihxil-demo-$(VERSION).jar  ## update the jars in resources/jars (the cheerpj classpath), and regenerate $(JARS_JS)
 	rm -rf $(JARS_STAGE)
-	mvn -q dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=$(CURDIR)/$(JARS_STAGE)
+	mvn -o -q dependency:copy-dependencies -DincludeScope=runtime -DoutputDirectory=$(CURDIR)/$(JARS_STAGE)
 	rm $(CURDIR)/$(JARS_STAGE)/jakarta.validation-api-*
 	cp target/original-mihxil-demo-$(VERSION).jar $(JARS_STAGE)/
 	mkdir -p $(JARS_DIR)
@@ -31,6 +31,11 @@ jars: target/mihxil-demo-$(VERSION).jar  ## update the jars in resources/jars (t
 	  echo "export const JARS = ["; \
 	  for jar in $(JARS_DIR)/*.jar; do echo "    \"$$(basename $$jar)\","; done; \
 	  echo "];"; \
+	  echo ""; \
+	  echo "// Byte ranges used to preload the complete classpath in parallel."; \
+	  echo "export const JAR_SIZES = {"; \
+	  for jar in $(JARS_DIR)/*.jar; do echo "    \"$$(basename $$jar)\": $$(wc -c < \"$$jar\" | tr -d ' '),"; done; \
+	  echo "};"; \
 	} > $(JARS_JS)
 	@echo "Wrote $(JARS_JS):" ; sed -n 's/^    /  /p' $(JARS_JS)
 
