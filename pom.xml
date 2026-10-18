@@ -57,6 +57,7 @@
     <javadoc.sourcepath>${delombok.output}</javadoc.sourcepath>
     <argLine />
     <log4j2.stdout.level>info</log4j2.stdout.level>
+    <mihxil-bom.version>${project.version}</mihxil-bom.version>
   </properties>
 
 
@@ -89,7 +90,7 @@
         <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-bom</artifactId>
         <type>pom</type>
-        <version>${project.version}</version>
+        <version>${mihxil-bom.version}</version>
         <scope>import</scope>
       </dependency>
       <dependency>
