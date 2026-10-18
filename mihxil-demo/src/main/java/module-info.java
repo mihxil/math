@@ -7,9 +7,12 @@ module org.mihxil.demo {
     requires org.meeuw.math.algebras;
     requires org.meeuw.math;
     requires org.meeuw.math.parser;
-    requires static lombok;
+
     requires org.meeuw.physics;
     requires org.meeuw.configuration;
+
+    requires static lombok;
+    requires static org.jspecify;
 
     exports org.meeuw.math.demo;
 
