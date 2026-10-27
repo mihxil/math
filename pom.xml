@@ -57,7 +57,7 @@
     <javadoc.sourcepath>${delombok.output}</javadoc.sourcepath>
     <argLine />
     <log4j2.stdout.level>info</log4j2.stdout.level>
-    <mihxil-bom.version>${project.version}</mihxil-bom.version>
+    <mihxil-bom.version>0.22.1-SNAPSHOT</mihxil-bom.version>
   </properties>
 
 

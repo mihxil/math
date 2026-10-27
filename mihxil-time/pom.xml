@@ -15,12 +15,12 @@
   <url>https://github.com/mihxil/math/tree/main/mihxil-time</url>
 
   <properties>
+
   </properties>
 
   <build>
     <plugins>
       <plugin>
-
         <groupId>org.javacc.plugin</groupId>
         <artifactId>javacc-maven-plugin</artifactId>
         <version>3.8.0</version>
@@ -75,6 +75,5 @@
       <artifactId>mihxil-theories</artifactId>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 </project>
