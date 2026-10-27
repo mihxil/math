@@ -4,7 +4,7 @@
   <artifactId>mihxil-math-parent</artifactId>
   <name>Math - parent</name>
   <packaging>pom</packaging>
-  <version>0.22.1</version>
+  <version>0.22.2-SNAPSHOT</version>
 
   <description>Math related utilities. Algebraic interfaces, implementations thereof, physics, statistics, shapes</description>
   <url>https://github.com/mihxil/math/tree/main</url>
@@ -57,7 +57,7 @@
     <javadoc.sourcepath>${delombok.output}</javadoc.sourcepath>
     <argLine />
     <log4j2.stdout.level>info</log4j2.stdout.level>
-    <mihxil-bom.version>0.22.1</mihxil-bom.version>
+    <mihxil-bom.version>0.22.2-SNAPSHOT</mihxil-bom.version>
   </properties>
 
 
@@ -183,7 +183,7 @@
     <connection>scm:git:${project.scm.url}</connection>
     <developerConnection>scm:git:${project.scm.url}</developerConnection>
     <url>https://github.com/mihxil/math</url>
-    <tag>0.22.1</tag>
+    <tag>0.22-SNAPSHOT</tag>
   </scm>
 
   <build>
