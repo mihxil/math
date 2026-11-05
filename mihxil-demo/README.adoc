@@ -204,10 +204,10 @@ public enum FieldInformation {
         log.fine(() -> "Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
             List.of(binaryOperators),
             List.of(unaryOperators),
-            List.of(examples), List.of(getElements())));
+            List.of(examples), List.of(elements())));
     }
 
-    public String[] getElements() {
+    public String[] elements() {
         return elements(this.field);
     }
 
@@ -222,27 +222,25 @@ public enum FieldInformation {
         return elements.toArray(new String[0]);
     }
 
-    public String getDescription() {
+    public String description() {
         return field.getClass().getSimpleName() + " " + field;
     }
 
-    public String getHelp() {
+    public String help() {
         return field.getDescription().orElse(null);
     }
 }
 
+@With
 private final F field;
+
+@With
+private final Configuration configuration;
 
 
 public E eval(String input) {
     final String expression = input.strip();
-    try (var r = ConfigurationService.setConfiguration(cb -> cb
-        .configure(UncertaintyConfiguration.class,
-            (ub) -> ub.withNotation(ROUND_VALUE))
-        .configure(MathContextConfiguration.class,
-            (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
-    )) {
-
+    try (var r = ConfigurationService.setConfiguration(configuration)) {
         log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
         if (field.getSupportedOperators().isEmpty()) {
             log.log(Level.SEVERE,  "Supported operators is empty for " + field);
@@ -261,7 +259,7 @@ public E eval(String input) {
 public String evalToString(String input) {
     var result = eval(input);
     var resultAsString = result.toString();
-    log.info(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
+    log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
     return resultAsString;
 }
 ----
