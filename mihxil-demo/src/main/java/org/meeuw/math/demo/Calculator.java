@@ -1,13 +1,13 @@
 package org.meeuw.math.demo;
 
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
 import java.util.*;
 import java.util.logging.Level;
 
+import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
@@ -35,11 +35,22 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
 
     public Calculator(FieldInformation fi) {
-        this((F) fi.getField());
+        this((F) fi.field(), ConfigurationService.getConfiguration());
     }
 
     public Calculator(F field) {
+        this(field, ConfigurationService.getConfiguration());
+    }
+
+    @lombok.Builder
+    private Calculator(F field, Configuration configuration) {
         this.field = field;
+         this.configuration = configuration == null ? Configuration.builder()
+            .configure(UncertaintyConfiguration.class,
+                (ub) -> ub.withNotation(ROUND_VALUE))
+            .configure(MathContextConfiguration.class,
+                (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
+            .build() : configuration;
     }
 
     // tag::eval[]
@@ -166,10 +177,10 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             log.fine(() -> "Created %s, operators: %s, unary: %s examples: %s, elements: %s".formatted(field,
                 List.of(binaryOperators),
                 List.of(unaryOperators),
-                List.of(examples), List.of(getElements())));
+                List.of(examples), List.of(elements())));
         }
 
-        public String[] getElements() {
+        public String[] elements() {
             return elements(this.field);
         }
 
@@ -184,27 +195,25 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             return elements.toArray(new String[0]);
         }
 
-        public String getDescription() {
+        public String description() {
             return field.getClass().getSimpleName() + " " + field;
         }
 
-        public String getHelp() {
+        public String help() {
             return field.getDescription().orElse(null);
         }
     }
 
+    @With
     private final F field;
+
+    @With
+    private final Configuration configuration;
 
 
     public E eval(String input) {
         final String expression = input.strip();
-        try (var r = ConfigurationService.setConfiguration(cb -> cb
-            .configure(UncertaintyConfiguration.class,
-                (ub) -> ub.withNotation(ROUND_VALUE))
-            .configure(MathContextConfiguration.class,
-                (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
-        )) {
-
+        try (var r = ConfigurationService.setConfiguration(configuration)) {
             log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
             if (field.getSupportedOperators().isEmpty()) {
                 log.log(Level.SEVERE,  "Supported operators is empty for " + field);
@@ -223,7 +232,7 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     public String evalToString(String input) {
         var result = eval(input);
         var resultAsString = result.toString();
-        log.info(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
+        log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
         return resultAsString;
     }
     //end::eval[]
@@ -231,7 +240,8 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     public static void main(String[] argv) {
         String arg = argv[0];
         String f = argv.length > 1 ? argv[1] : "rational";
-        var calculator = new Calculator<>(FieldInformation.valueOf(f));
+        var calculator = new Calculator<>(FieldInformation.valueOf(f))
+            .withConfiguration(ConfigurationService.getConfiguration());
         System.out.println(arg + " = " + calculator.eval(arg));
     }
 }
