@@ -45,6 +45,13 @@
     </dependency>
 
     <dependency>
+      <groupId>org.checkerframework</groupId>
+      <artifactId>checker-qual</artifactId>
+      <scope>provided</scope>
+    </dependency>
+
+
+    <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
       <scope>test</scope>

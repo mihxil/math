@@ -42,7 +42,7 @@
 
     <!-- optional dependencies -->
     <big-math.version>2.3.2</big-math.version>
-    <checkerframework.version>4.3.1</checkerframework.version>
+    <checkerframework.version>4.4.0</checkerframework.version>
     <jakarta-validation.version>3.1.1</jakarta-validation.version>
 
     <!-- test dependencies -->
@@ -50,7 +50,7 @@
     <jacoco.version>0.8.15</jacoco.version>
     <assertj.version>3.27.7</assertj.version>
     <jqwik.version>1.10.2</jqwik.version>
-    <hibernate-validator.version>9.1.4.Final</hibernate-validator.version>
+    <hibernate-validator.version>9.1.6.Final</hibernate-validator.version>
     <javacc.version>8.1.0</javacc.version>
 
     <delombok.output>target/delombok</delombok.output>
@@ -128,6 +128,11 @@
         <artifactId>checker-qual</artifactId>
         <version>${checkerframework.version}</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>1.0.1</version>
       </dependency>
       <dependency>
         <groupId>ch.obermuhlner</groupId>
