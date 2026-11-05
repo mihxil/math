@@ -10,7 +10,7 @@ import java.util.*;
 import net.jqwik.api.lifecycle.*;
 import org.junit.jupiter.api.extension.*;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.jupiter.WithNumberConfiguration;
 import org.meeuw.jupiter.WithUncertaintyConfiguration;

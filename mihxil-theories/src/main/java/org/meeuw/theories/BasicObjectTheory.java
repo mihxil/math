@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 import net.jqwik.api.*;
 import net.jqwik.api.Tuple.Tuple2;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;

@@ -17,7 +17,7 @@ package org.meeuw.theories.abstractalgebra;
 
 import net.jqwik.api.*;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
+import org.jspecify.annotations.NonNull;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.abstractalgebra.Group;
 import org.meeuw.math.exceptions.*;
