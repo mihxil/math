@@ -4,7 +4,7 @@ import lombok.Getter;
 
 import java.util.Optional;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static java.lang.System.Logger.Level.WARNING;
 

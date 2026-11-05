@@ -25,8 +25,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 
 import org.meeuw.configuration.ConfigurationService;
-import org.meeuw.jupiter.WithNumberConfiguration;
-import org.meeuw.jupiter.WithUncertaintyConfiguration;
+import org.meeuw.jupiter.*;
 import org.meeuw.math.abstractalgebra.bigdecimals.BigDecimalElement;
 import org.meeuw.math.numbers.BigDecimalOperations;
 import org.meeuw.math.numbers.MathContextConfiguration;
@@ -127,6 +126,13 @@ class BigDecimalFieldTest implements
         BigDecimalElement base = of(300);
         BigDecimalElement exponent = of(-30.1);
         assertThat(base.pow(exponent).doubleValue()).isNotEqualTo(0d);
+    }
+
+    @Test
+    @WithNumberConfiguration(maxPrecision = 20)
+    void epiminuspi() {
+        BigDecimalElement twenty = INSTANCE.e().pow(INSTANCE.pi()).minus(INSTANCE.pi());
+        assertThat(twenty.toString()).isEqualTo("19.99909997918947576727");
     }
 
     @Test

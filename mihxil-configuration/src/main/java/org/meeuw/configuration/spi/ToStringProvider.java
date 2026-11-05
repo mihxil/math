@@ -2,7 +2,8 @@ package org.meeuw.configuration.spi;
 
 import java.util.Optional;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
+
 
 /**
  * SPI to serialize and deserialize to and from String, without resorting to serialization.

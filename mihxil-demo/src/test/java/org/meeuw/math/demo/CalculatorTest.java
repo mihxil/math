@@ -53,7 +53,7 @@ class CalculatorTest {
 
     @Test
     void complex() {
-        var calculator = new Calculator<>(complex.getField());
+        var calculator = new Calculator<>(complex.field());
 
         String result = calculator.evalToString("""
             "2 + 3i" ⋅ i
@@ -101,8 +101,11 @@ class CalculatorTest {
     void tryAll(Calculator.FieldInformation fi) {
         var calculator = new Calculator<>(fi);
         log.info(calculator.toString());
-        for (String e : fi.getExamples()) {
-            log.info(e + " - " + calculator.evalToString(e));
+        for (String e : fi.examples()) {
+            var evaluated = calculator.evalToString(e);
+            log.info(e + " = " + evaluated);
+            assertThat(calculator.evalToString(evaluated)).isEqualTo(evaluated);
+
         }
     }
 }

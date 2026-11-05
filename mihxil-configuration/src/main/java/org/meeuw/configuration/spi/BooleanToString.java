@@ -2,7 +2,7 @@ package org.meeuw.configuration.spi;
 
 import java.util.Optional;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class BooleanToString extends AbstractToString<Boolean> {
 
