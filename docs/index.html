@@ -2433,7 +2433,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 
         <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
             const value = await values[i];
-            const elements = await BaseClass.awaitedArray(value.getElements());
+            const elements = await BaseClass.awaitedArray(value.elements());
             let elementSpans = <span class="predefined-constant">null</span>;
             <span class="keyword">if</span> (elements) {
                 elementSpans = [];
@@ -2448,14 +2448,14 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 }
             }
             <span class="local-variable">this</span>.information[await values[i].name()] = {
-                <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
+                <span class="key">examples</span>: await BaseClass.awaitedArray(value.examples()),
                 <span class="key">elements</span>: elements,
                 <span class="key">elementsSpans</span>: elementSpans,
-                <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
-                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
-                <span class="key">finite</span>: await value.isFinite(),
-                <span class="key">description</span>: await value.getDescription(),
-                <span class="key">help</span>: await value.getHelp(),
+                <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.binaryOperators()),
+                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.unaryOperators()),
+                <span class="key">finite</span>: await value.finite(),
+                <span class="key">description</span>: await value.description(),
+                <span class="key">help</span>: await value.help(),
                 <span class="key">value</span>: value,
             };
         }
@@ -2467,9 +2467,6 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         } , <span class="integer">1</span>));
     }
 
-    <span class="comment">/**
-     *
-     */</span>
     async updateExamples() {
         const selectedField = <span class="local-variable">this</span>.field.value;
         const information = <span class="local-variable">this</span>.information[selectedField];
@@ -2573,7 +2570,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         const fieldInformation = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].value;
         <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, fieldInformation, Calculator);</span>
         const calculator = await <span class="keyword">new</span>  Calculator(fieldInformation);
-        <span class="local-variable">this</span>.output.value = await calculator.eval(<span class="local-variable">this</span>.input.value);
+        <span class="local-variable">this</span>.output.value = await calculator.evalToString(<span class="local-variable">this</span>.input.value);
     }
 }</code></pre>
 </div>

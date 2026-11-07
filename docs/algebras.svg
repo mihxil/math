@@ -8,328 +8,253 @@
  viewBox="0.00 0.00 1291.62 1679.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 1675)">
 <polygon fill="white" stroke="none" points="-4,4 -4,-1675 1287.62,-1675 1287.62,4 -4,4"/>
-<!-- MultiplicativeSemiGroup -->
-<g id="node1" class="node">
-<title>MultiplicativeSemiGroup</title>
-<g id="a_node1_0"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java" xlink:title="MultiplicativeSemiGroup">
-<polygon fill="none" stroke="black" points="415,-567.12 415,-588.38 598.25,-588.38 598.25,-567.12 415,-567.12"/>
-<text text-anchor="start" x="417" y="-573.08" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeSemiGroup</text>
-</a>
-</g>
-<g id="a_node1_1"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.html" xlink:title="javadoc">
-<polygon fill="none" stroke="black" points="598.25,-567.12 598.25,-588.38 642,-588.38 642,-567.12 598.25,-567.12"/>
-<text text-anchor="start" x="610.38" y="-572.33" font-family="Times,serif" font-size="14.00">📖</text>
-</a>
-</g>
-<g id="a_node1_2"><a xlink:title="group binary operator">
-<polygon fill="none" stroke="black" points="415,-545.88 415,-567.12 463.33,-567.12 463.33,-545.88 415,-545.88"/>
-<text text-anchor="start" x="431.29" y="-551.83" font-family="Times,serif" font-size="14.00"> * </text>
-</a>
-</g>
-<g id="a_node1_3"><a xlink:title="binary operators of multiplication">
-<polygon fill="none" stroke="black" points="463.33,-545.88 463.33,-567.12 500.42,-567.12 500.42,-545.88 463.33,-545.88"/>
-<text text-anchor="start" x="479.62" y="-551.83" font-family="Times,serif" font-size="14.00">⋅</text>
-</a>
-</g>
-<g id="a_node1_4"><a xlink:title="other binary operators">
-<polygon fill="none" stroke="black" points="500.42,-545.88 500.42,-567.12 598.25,-567.12 598.25,-545.88 500.42,-545.88"/>
-<text text-anchor="start" x="516.71" y="-551.83" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
-</a>
-</g>
-<g id="a_node1_5"><a xlink:title="Unary operators">
-<polygon fill="none" stroke="black" points="598.25,-545.88 598.25,-567.12 642,-567.12 642,-545.88 598.25,-545.88"/>
-<text text-anchor="start" x="600.25" y="-551.83" font-family="Times,serif" font-size="14.00">+ sqr</text>
-</a>
-</g>
-</g>
-<!-- Magma -->
-<g id="node2" class="node">
-<title>Magma</title>
-<g id="a_node2_6"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Magma.java" xlink:title="Magma">
-<polygon fill="none" stroke="black" points="665.62,-99.75 665.62,-121 735.88,-121 735.88,-99.75 665.62,-99.75"/>
-<text text-anchor="start" x="674.12" y="-105.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">Magma</text>
-</a>
-</g>
-<g id="a_node2_7"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Magma.html" xlink:title="javadoc">
-<polygon fill="none" stroke="black" points="735.88,-99.75 735.88,-121 759.38,-121 759.38,-99.75 735.88,-99.75"/>
-<text text-anchor="start" x="737.88" y="-104.95" font-family="Times,serif" font-size="14.00">📖</text>
-</a>
-</g>
-<g id="a_node2_8"><a xlink:title="group binary operator">
-<polygon fill="none" stroke="black" points="665.62,-78.5 665.62,-99.75 685.38,-99.75 685.38,-78.5 665.62,-78.5"/>
-<text text-anchor="start" x="667.62" y="-84.45" font-family="Times,serif" font-size="14.00"> * </text>
-</a>
-</g>
-<g id="a_node2_9"><a xlink:title="other binary operators">
-<polygon fill="none" stroke="black" points="685.38,-78.5 685.38,-99.75 735.88,-99.75 735.88,-78.5 685.38,-78.5"/>
-<text text-anchor="start" x="687.38" y="-84.45" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
-</a>
-</g>
-<g id="a_node2_10"><a xlink:title="Unary operators">
-<polygon fill="none" stroke="black" points="735.88,-78.5 735.88,-99.75 759.38,-99.75 759.38,-78.5 735.88,-78.5"/>
-<text text-anchor="start" x="741.62" y="-84.45" font-family="Times,serif" font-size="14.00">+</text>
-</a>
-</g>
-</g>
-<!-- MultiplicativeSemiGroup&#45;&gt;Magma -->
-<g id="edge1" class="edge">
-<title>MultiplicativeSemiGroup&#45;&gt;Magma</title>
-<path fill="none" stroke="black" d="M527.53,-546.3C525.43,-482.76 526.9,-281.09 620.5,-157 629.84,-144.61 642.78,-134.35 656.01,-126.14"/>
-<polygon fill="none" stroke="black" points="657.46,-129.34 664.33,-121.28 653.93,-123.29 657.46,-129.34"/>
-</g>
 <!-- AlgebraicStructure -->
-<g id="node3" class="node">
+<g id="node1" class="node">
 <title>AlgebraicStructure</title>
-<g id="a_node3_11"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java" xlink:title="AlgebraicStructure">
+<g id="a_node1_0"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AlgebraicStructure.java" xlink:title="AlgebraicStructure">
 <polygon fill="none" stroke="black" points="630.5,-21.25 630.5,-42.5 771,-42.5 771,-21.25 630.5,-21.25"/>
 <text text-anchor="start" x="632.5" y="-27.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">AlgebraicStructure</text>
 </a>
 </g>
-<g id="a_node3_12"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AlgebraicStructure.html" xlink:title="javadoc">
+<g id="a_node1_1"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AlgebraicStructure.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="771,-21.25 771,-42.5 794.5,-42.5 794.5,-21.25 771,-21.25"/>
 <text text-anchor="start" x="773" y="-26.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node3_13"><a xlink:title="other binary operators">
+<g id="a_node1_2"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="630.5,0 630.5,-21.25 771,-21.25 771,0 630.5,0"/>
 <text text-anchor="start" x="677.5" y="-5.95" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node3_14"><a xlink:title="Unary operators">
+<g id="a_node1_3"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="771,0 771,-21.25 794.5,-21.25 794.5,0 771,0"/>
 <text text-anchor="start" x="776.75" y="-5.95" font-family="Times,serif" font-size="14.00">+</text>
 </a>
 </g>
 </g>
-<!-- Magma&#45;&gt;AlgebraicStructure -->
-<g id="edge26" class="edge">
-<title>Magma&#45;&gt;AlgebraicStructure</title>
-<path fill="none" stroke="black" d="M712.5,-78.65C712.5,-71.07 712.5,-62.25 712.5,-53.86"/>
-<polygon fill="none" stroke="black" points="716,-53.99 712.5,-43.99 709,-53.99 716,-53.99"/>
-</g>
 <!-- AdditiveGroup -->
-<g id="node4" class="node">
+<g id="node2" class="node">
 <title>AdditiveGroup</title>
-<g id="a_node4_15"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroup.java" xlink:title="AdditiveGroup">
+<g id="a_node2_4"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveGroup.java" xlink:title="AdditiveGroup">
 <polygon fill="none" stroke="black" points="794.38,-460.75 794.38,-482 910.12,-482 910.12,-460.75 794.38,-460.75"/>
 <text text-anchor="start" x="800.5" y="-466.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">AdditiveGroup</text>
 </a>
 </g>
-<g id="a_node4_16"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveGroup.html" xlink:title="javadoc">
+<g id="a_node2_5"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="910.12,-460.75 910.12,-482 936.62,-482 936.62,-460.75 910.12,-460.75"/>
 <text text-anchor="start" x="913.62" y="-465.95" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node4_17"><a xlink:title="group binary operator">
+<g id="a_node2_6"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="794.38,-439.5 794.38,-460.75 814.12,-460.75 814.12,-439.5 794.38,-439.5"/>
 <text text-anchor="start" x="796.38" y="-445.45" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node4_18"><a xlink:title="binary operators of addition">
+<g id="a_node2_7"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="814.12,-439.5 814.12,-460.75 834.62,-460.75 834.62,-439.5 814.12,-439.5"/>
 <text text-anchor="start" x="816.12" y="-445.45" font-family="Times,serif" font-size="14.00">+&#45;</text>
 </a>
 </g>
-<g id="a_node4_19"><a xlink:title="other binary operators">
+<g id="a_node2_8"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="834.62,-439.5 834.62,-460.75 885.12,-460.75 885.12,-439.5 834.62,-439.5"/>
 <text text-anchor="start" x="836.62" y="-445.45" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node4_20"><a xlink:title="Unary operators">
+<g id="a_node2_9"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="885.12,-439.5 885.12,-460.75 910.12,-460.75 910.12,-439.5 885.12,-439.5"/>
 <text text-anchor="start" x="887.12" y="-445.45" font-family="Times,serif" font-size="14.00">+ &#45;</text>
 </a>
 </g>
-<g id="a_node4_21"><a xlink:title="special elements">
+<g id="a_node2_10"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="910.12,-439.5 910.12,-460.75 936.62,-460.75 936.62,-439.5 910.12,-439.5"/>
 <text text-anchor="start" x="912.12" y="-445.45" font-family="Times,serif" font-size="14.00">0 u</text>
 </a>
 </g>
 </g>
 <!-- AdditiveMonoid -->
-<g id="node5" class="node">
+<g id="node3" class="node">
 <title>AdditiveMonoid</title>
-<g id="a_node5_22"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveMonoid.java" xlink:title="AdditiveMonoid">
+<g id="a_node3_11"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveMonoid.java" xlink:title="AdditiveMonoid">
 <polygon fill="none" stroke="black" points="694.75,-331.12 694.75,-352.38 836.75,-352.38 836.75,-331.12 694.75,-331.12"/>
 <text text-anchor="start" x="709.5" y="-337.07" font-family="Times,serif" font-size="14.00" fill="#0000a0">AdditiveMonoid</text>
 </a>
 </g>
-<g id="a_node5_23"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveMonoid.html" xlink:title="javadoc">
+<g id="a_node3_12"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveMonoid.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="836.75,-331.12 836.75,-352.38 860.25,-352.38 860.25,-331.12 836.75,-331.12"/>
 <text text-anchor="start" x="838.75" y="-336.32" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node5_24"><a xlink:title="group binary operator">
+<g id="a_node3_13"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="694.75,-309.88 694.75,-331.12 724.44,-331.12 724.44,-309.88 694.75,-309.88"/>
 <text text-anchor="start" x="701.72" y="-315.82" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node5_25"><a xlink:title="binary operators of addition">
+<g id="a_node3_14"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="724.44,-309.88 724.44,-331.12 750.38,-331.12 750.38,-309.88 724.44,-309.88"/>
 <text text-anchor="start" x="731.41" y="-315.82" font-family="Times,serif" font-size="14.00">+</text>
 </a>
 </g>
-<g id="a_node5_26"><a xlink:title="other binary operators">
+<g id="a_node3_15"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="750.38,-309.88 750.38,-331.12 810.81,-331.12 810.81,-309.88 750.38,-309.88"/>
 <text text-anchor="start" x="757.34" y="-315.82" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node5_27"><a xlink:title="Unary operators">
+<g id="a_node3_16"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="810.81,-309.88 810.81,-331.12 836.75,-331.12 836.75,-309.88 810.81,-309.88"/>
 <text text-anchor="start" x="817.78" y="-315.82" font-family="Times,serif" font-size="14.00">+</text>
 </a>
 </g>
-<g id="a_node5_28"><a xlink:title="special elements">
+<g id="a_node3_17"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="836.75,-309.88 836.75,-331.12 860.25,-331.12 860.25,-309.88 836.75,-309.88"/>
 <text text-anchor="start" x="844" y="-315.82" font-family="Times,serif" font-size="14.00">0</text>
 </a>
 </g>
-<g id="a_node5_29"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java" xlink:title="NaturalNumbers">
+<g id="a_node3_18"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringMonoid.java" xlink:title="StringMonoid">
 <polygon fill="none" stroke="black" points="694.75,-288.62 694.75,-309.88 836.75,-309.88 836.75,-288.62 694.75,-288.62"/>
-<text text-anchor="start" x="696.75" y="-294.57" font-family="Times,serif" font-size="14.00" fill="#0000a0">NaturalNumbers ℕ</text>
+<text text-anchor="start" x="716.62" y="-294.57" font-family="Times,serif" font-size="14.00" fill="#0000a0">StringMonoid</text>
 </a>
 </g>
-<g id="a_node5_30"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.html" xlink:title="javadoc">
+<g id="a_node3_19"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/strings/StringMonoid.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="836.75,-288.62 836.75,-309.88 860.25,-309.88 860.25,-288.62 836.75,-288.62"/>
 <text text-anchor="start" x="838.75" y="-293.82" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node5_31"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/strings/StringMonoid.java" xlink:title="StringMonoid">
+<g id="a_node3_20"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.java" xlink:title="NaturalNumbers">
 <polygon fill="none" stroke="black" points="694.75,-267.38 694.75,-288.62 836.75,-288.62 836.75,-267.38 694.75,-267.38"/>
-<text text-anchor="start" x="716.62" y="-273.32" font-family="Times,serif" font-size="14.00" fill="#0000a0">StringMonoid</text>
+<text text-anchor="start" x="696.75" y="-273.32" font-family="Times,serif" font-size="14.00" fill="#0000a0">NaturalNumbers ℕ</text>
 </a>
 </g>
-<g id="a_node5_32"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/strings/StringMonoid.html" xlink:title="javadoc">
+<g id="a_node3_21"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/NaturalNumbers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="836.75,-267.38 836.75,-288.62 860.25,-288.62 860.25,-267.38 836.75,-267.38"/>
 <text text-anchor="start" x="838.75" y="-272.57" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- AdditiveGroup&#45;&gt;AdditiveMonoid -->
-<g id="edge2" class="edge">
+<g id="edge1" class="edge">
 <title>AdditiveGroup&#45;&gt;AdditiveMonoid</title>
 <path fill="none" stroke="black" d="M853.63,-439.67C841.89,-419.81 823.44,-388.59 807.64,-361.86"/>
 <polygon fill="none" stroke="black" points="810.83,-360.38 802.73,-353.55 804.8,-363.94 810.83,-360.38"/>
 </g>
 <!-- Group -->
-<g id="node6" class="node">
+<g id="node4" class="node">
 <title>Group</title>
-<g id="a_node6_33"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Group.java" xlink:title="Group">
+<g id="a_node4_22"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Group.java" xlink:title="Group">
 <polygon fill="none" stroke="black" points="878.12,-363 878.12,-384.25 1021.38,-384.25 1021.38,-363 878.12,-363"/>
 <text text-anchor="start" x="927.62" y="-368.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">Group</text>
 </a>
 </g>
-<g id="a_node6_34"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Group.html" xlink:title="javadoc">
+<g id="a_node4_23"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Group.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-363 1021.38,-384.25 1044.88,-384.25 1044.88,-363 1021.38,-363"/>
 <text text-anchor="start" x="1023.38" y="-368.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node6_35"><a xlink:title="group binary operator">
+<g id="a_node4_24"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="878.12,-341.75 878.12,-363 897.88,-363 897.88,-341.75 878.12,-341.75"/>
 <text text-anchor="start" x="880.12" y="-347.7" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node6_36"><a xlink:title="other binary operators">
+<g id="a_node4_25"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="897.88,-341.75 897.88,-363 948.38,-363 948.38,-341.75 897.88,-341.75"/>
 <text text-anchor="start" x="899.88" y="-347.7" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node6_37"><a xlink:title="Unary operators">
+<g id="a_node4_26"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="948.38,-341.75 948.38,-363 1021.38,-363 1021.38,-341.75 948.38,-341.75"/>
 <text text-anchor="start" x="950.38" y="-347.7" font-family="Times,serif" font-size="14.00">+ inverse</text>
 </a>
 </g>
-<g id="a_node6_38"><a xlink:title="special elements">
+<g id="a_node4_27"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="1021.38,-341.75 1021.38,-363 1044.88,-363 1044.88,-341.75 1021.38,-341.75"/>
 <text text-anchor="start" x="1028.62" y="-347.7" font-family="Times,serif" font-size="14.00">u</text>
 </a>
 </g>
-<g id="a_node6_39"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java" xlink:title="TrivialGroup">
+<g id="a_node4_28"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/klein/KleinGroup.java" xlink:title="KleinGroup">
 <polygon fill="none" stroke="black" points="878.12,-320.5 878.12,-341.75 1021.38,-341.75 1021.38,-320.5 878.12,-320.5"/>
-<text text-anchor="start" x="894.62" y="-326.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">TrivialGroup C₁</text>
+<text text-anchor="start" x="902.12" y="-326.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">KleinGroup V</text>
 </a>
 </g>
-<g id="a_node6_40"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.html" xlink:title="javadoc">
+<g id="a_node4_29"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/klein/KleinGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-320.5 1021.38,-341.75 1044.88,-341.75 1044.88,-320.5 1021.38,-320.5"/>
 <text text-anchor="start" x="1023.38" y="-325.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node6_41"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/klein/KleinGroup.java" xlink:title="KleinGroup">
+<g id="a_node4_30"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java" xlink:title="TrivialGroup">
 <polygon fill="none" stroke="black" points="878.12,-299.25 878.12,-320.5 1021.38,-320.5 1021.38,-299.25 878.12,-299.25"/>
-<text text-anchor="start" x="902.12" y="-305.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">KleinGroup V</text>
+<text text-anchor="start" x="894.62" y="-305.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">TrivialGroup C₁</text>
 </a>
 </g>
-<g id="a_node6_42"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/klein/KleinGroup.html" xlink:title="javadoc">
+<g id="a_node4_31"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-299.25 1021.38,-320.5 1044.88,-320.5 1044.88,-299.25 1021.38,-299.25"/>
 <text text-anchor="start" x="1023.38" y="-304.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node6_43"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Integers.java" xlink:title="Integers">
+<g id="a_node4_32"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.java" xlink:title="dihedral symmetry group representing the symmetries of a regular 3&#45;gon">
 <polygon fill="none" stroke="black" points="878.12,-278 878.12,-299.25 1021.38,-299.25 1021.38,-278 878.12,-278"/>
-<text text-anchor="start" x="944.5" y="-283.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ</text>
+<text text-anchor="start" x="941.5" y="-283.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">D₃</text>
 </a>
 </g>
-<g id="a_node6_44"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Integers.html" xlink:title="javadoc">
+<g id="a_node4_33"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-278 1021.38,-299.25 1044.88,-299.25 1044.88,-278 1021.38,-278"/>
 <text text-anchor="start" x="1023.38" y="-283.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node6_45"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.java" xlink:title="dihedral symmetry group representing the symmetries of a regular 3&#45;gon">
+<g id="a_node4_34"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Integers.java" xlink:title="Integers">
 <polygon fill="none" stroke="black" points="878.12,-256.75 878.12,-278 1021.38,-278 1021.38,-256.75 878.12,-256.75"/>
-<text text-anchor="start" x="941.5" y="-262.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">D₃</text>
+<text text-anchor="start" x="944.5" y="-262.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ</text>
 </a>
 </g>
-<g id="a_node6_46"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.html" xlink:title="javadoc">
+<g id="a_node4_35"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Integers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-256.75 1021.38,-278 1044.88,-278 1044.88,-256.75 1021.38,-256.75"/>
 <text text-anchor="start" x="1023.38" y="-261.95" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node6_47"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/product/ProductGroup.java" xlink:title="ProductGroup">
+<g id="a_node4_36"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/product/ProductGroup.java" xlink:title="ProductGroup">
 <polygon fill="none" stroke="black" points="878.12,-235.5 878.12,-256.75 1021.38,-256.75 1021.38,-235.5 878.12,-235.5"/>
 <text text-anchor="start" x="934" y="-241.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">V⨯V</text>
 </a>
 </g>
-<g id="a_node6_48"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/product/ProductGroup.html" xlink:title="javadoc">
+<g id="a_node4_37"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/product/ProductGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1021.38,-235.5 1021.38,-256.75 1044.88,-256.75 1044.88,-235.5 1021.38,-235.5"/>
 <text text-anchor="start" x="1023.38" y="-240.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- AdditiveGroup&#45;&gt;Group -->
-<g id="edge3" class="edge">
+<g id="edge2" class="edge">
 <title>AdditiveGroup&#45;&gt;Group</title>
 <path fill="none" stroke="black" d="M878.45,-439.67C886.35,-427.42 897.04,-410.84 908.12,-393.66"/>
 <polygon fill="none" stroke="black" points="911,-395.65 913.47,-385.35 905.11,-391.86 911,-395.65"/>
 </g>
 <!-- AdditiveSemiGroup -->
-<g id="node18" class="node">
+<g id="node17" class="node">
 <title>AdditiveSemiGroup</title>
-<g id="a_node18_49"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.java" xlink:title="AdditiveSemiGroup">
+<g id="a_node17_38"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.java" xlink:title="AdditiveSemiGroup">
 <polygon fill="none" stroke="black" points="629,-178.25 629,-199.5 772.5,-199.5 772.5,-178.25 629,-178.25"/>
 <text text-anchor="start" x="631" y="-184.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">AdditiveSemiGroup</text>
 </a>
 </g>
-<g id="a_node18_50"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.html" xlink:title="javadoc">
+<g id="a_node17_39"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveSemiGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="772.5,-178.25 772.5,-199.5 796,-199.5 796,-178.25 772.5,-178.25"/>
 <text text-anchor="start" x="774.5" y="-183.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node18_51"><a xlink:title="group binary operator">
+<g id="a_node17_40"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="629,-157 629,-178.25 667.83,-178.25 667.83,-157 629,-157"/>
 <text text-anchor="start" x="640.54" y="-162.95" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node18_52"><a xlink:title="binary operators of addition">
+<g id="a_node17_41"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="667.83,-157 667.83,-178.25 702.92,-178.25 702.92,-157 667.83,-157"/>
 <text text-anchor="start" x="679.38" y="-162.95" font-family="Times,serif" font-size="14.00">+</text>
 </a>
 </g>
-<g id="a_node18_53"><a xlink:title="other binary operators">
+<g id="a_node17_42"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="702.92,-157 702.92,-178.25 772.5,-178.25 772.5,-157 702.92,-157"/>
 <text text-anchor="start" x="714.46" y="-162.95" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node18_54"><a xlink:title="Unary operators">
+<g id="a_node17_43"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="772.5,-157 772.5,-178.25 796,-178.25 796,-157 772.5,-157"/>
 <text text-anchor="start" x="778.25" y="-162.95" font-family="Times,serif" font-size="14.00">+</text>
 </a>
@@ -341,517 +266,580 @@
 <path fill="none" stroke="black" d="M756.75,-267.5C747.28,-248.61 736.26,-226.63 727.59,-209.34"/>
 <polygon fill="none" stroke="black" points="730.82,-207.97 723.21,-200.6 724.56,-211.11 730.82,-207.97"/>
 </g>
+<!-- Magma -->
+<g id="node19" class="node">
+<title>Magma</title>
+<g id="a_node19_44"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Magma.java" xlink:title="Magma">
+<polygon fill="none" stroke="black" points="665.62,-99.75 665.62,-121 735.88,-121 735.88,-99.75 665.62,-99.75"/>
+<text text-anchor="start" x="674.12" y="-105.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">Magma</text>
+</a>
+</g>
+<g id="a_node19_45"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Magma.html" xlink:title="javadoc">
+<polygon fill="none" stroke="black" points="735.88,-99.75 735.88,-121 759.38,-121 759.38,-99.75 735.88,-99.75"/>
+<text text-anchor="start" x="737.88" y="-104.95" font-family="Times,serif" font-size="14.00">📖</text>
+</a>
+</g>
+<g id="a_node19_46"><a xlink:title="group binary operator">
+<polygon fill="none" stroke="black" points="665.62,-78.5 665.62,-99.75 685.38,-99.75 685.38,-78.5 665.62,-78.5"/>
+<text text-anchor="start" x="667.62" y="-84.45" font-family="Times,serif" font-size="14.00"> * </text>
+</a>
+</g>
+<g id="a_node19_47"><a xlink:title="other binary operators">
+<polygon fill="none" stroke="black" points="685.38,-78.5 685.38,-99.75 735.88,-99.75 735.88,-78.5 685.38,-78.5"/>
+<text text-anchor="start" x="687.38" y="-84.45" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
+</a>
+</g>
+<g id="a_node19_48"><a xlink:title="Unary operators">
+<polygon fill="none" stroke="black" points="735.88,-78.5 735.88,-99.75 759.38,-99.75 759.38,-78.5 735.88,-78.5"/>
+<text text-anchor="start" x="741.62" y="-84.45" font-family="Times,serif" font-size="14.00">+</text>
+</a>
+</g>
+</g>
 <!-- Group&#45;&gt;Magma -->
-<g id="edge25" class="edge">
+<g id="edge15" class="edge">
 <title>Group&#45;&gt;Magma</title>
 <path fill="none" stroke="black" d="M893.18,-235.71C866.97,-209.48 836.01,-180.58 805.5,-157 791.29,-146.02 774.8,-135.43 759.68,-126.46"/>
 <polygon fill="none" stroke="black" points="761.69,-123.58 751.29,-121.57 758.17,-129.63 761.69,-123.58"/>
 </g>
 <!-- MultiplicativeAbelianGroup -->
-<g id="node7" class="node">
+<g id="node5" class="node">
 <title>MultiplicativeAbelianGroup</title>
-<g id="a_node7_55"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java" xlink:title="MultiplicativeAbelianGroup">
+<g id="a_node5_49"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.java" xlink:title="MultiplicativeAbelianGroup">
 <polygon fill="none" stroke="black" points="500.5,-1001.12 500.5,-1022.38 782,-1022.38 782,-1001.12 500.5,-1001.12"/>
 <text text-anchor="start" x="543" y="-1007.08" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeAbelianGroup</text>
 </a>
 </g>
-<g id="a_node7_56"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.html" xlink:title="javadoc">
+<g id="a_node5_50"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeAbelianGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="782,-1001.12 782,-1022.38 808.5,-1022.38 808.5,-1001.12 782,-1001.12"/>
 <text text-anchor="start" x="785.5" y="-1006.33" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node7_57"><a xlink:title="group binary operator">
+<g id="a_node5_51"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="500.5,-962.62 500.5,-1001.12 520.25,-1001.12 520.25,-962.62 500.5,-962.62"/>
 <text text-anchor="start" x="502.5" y="-977.2" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node7_58"><a xlink:title="binary operators of multiplication">
+<g id="a_node5_52"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="520.25,-962.62 520.25,-1001.12 536.25,-1001.12 536.25,-962.62 520.25,-962.62"/>
 <text text-anchor="start" x="523.75" y="-985.83" font-family="Times,serif" font-size="14.00">⋅/</text>
 <text text-anchor="start" x="522.25" y="-968.58" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node7_59"><a xlink:title="other binary operators">
+<g id="a_node5_53"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="536.25,-962.62 536.25,-1001.12 605.5,-1001.12 605.5,-962.62 536.25,-962.62"/>
 <text text-anchor="start" x="538.25" y="-977.2" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node7_60"><a xlink:title="Unary operators">
+<g id="a_node5_54"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="605.5,-962.62 605.5,-1001.12 782,-1001.12 782,-962.62 605.5,-962.62"/>
 <text text-anchor="start" x="607.5" y="-977.2" font-family="Times,serif" font-size="14.00">+ reciprocal inverse sqr</text>
 </a>
 </g>
-<g id="a_node7_61"><a xlink:title="special elements">
+<g id="a_node5_55"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="782,-962.62 782,-1001.12 808.5,-1001.12 808.5,-962.62 782,-962.62"/>
 <text text-anchor="start" x="784" y="-977.2" font-family="Times,serif" font-size="14.00">1 u</text>
 </a>
 </g>
 </g>
 <!-- MultiplicativeGroup -->
-<g id="node8" class="node">
+<g id="node6" class="node">
 <title>MultiplicativeGroup</title>
-<g id="a_node8_62"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java" xlink:title="MultiplicativeGroup">
+<g id="a_node6_56"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java" xlink:title="MultiplicativeGroup">
 <polygon fill="none" stroke="black" points="788,-843.62 788,-864.88 1066.5,-864.88 1066.5,-843.62 788,-843.62"/>
 <text text-anchor="start" x="855.62" y="-849.58" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeGroup</text>
 </a>
 </g>
-<g id="a_node8_63"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeGroup.html" xlink:title="javadoc">
+<g id="a_node6_57"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1066.5,-843.62 1066.5,-864.88 1093,-864.88 1093,-843.62 1066.5,-843.62"/>
 <text text-anchor="start" x="1070" y="-848.83" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node8_64"><a xlink:title="group binary operator">
+<g id="a_node6_58"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="788,-822.38 788,-843.62 807.75,-843.62 807.75,-822.38 788,-822.38"/>
 <text text-anchor="start" x="790" y="-828.33" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node8_65"><a xlink:title="binary operators of multiplication">
+<g id="a_node6_59"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="807.75,-822.38 807.75,-843.62 820.75,-843.62 820.75,-822.38 807.75,-822.38"/>
 <text text-anchor="start" x="809.75" y="-828.33" font-family="Times,serif" font-size="14.00">⋅/</text>
 </a>
 </g>
-<g id="a_node8_66"><a xlink:title="other binary operators">
+<g id="a_node6_60"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="820.75,-822.38 820.75,-843.62 890,-843.62 890,-822.38 820.75,-822.38"/>
 <text text-anchor="start" x="822.75" y="-828.33" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node8_67"><a xlink:title="Unary operators">
+<g id="a_node6_61"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="890,-822.38 890,-843.62 1066.5,-843.62 1066.5,-822.38 890,-822.38"/>
 <text text-anchor="start" x="892" y="-828.33" font-family="Times,serif" font-size="14.00">+ reciprocal inverse sqr</text>
 </a>
 </g>
-<g id="a_node8_68"><a xlink:title="special elements">
+<g id="a_node6_62"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="1066.5,-822.38 1066.5,-843.62 1093,-843.62 1093,-822.38 1066.5,-822.38"/>
 <text text-anchor="start" x="1068.5" y="-828.33" font-family="Times,serif" font-size="14.00">1 u</text>
 </a>
 </g>
-<g id="a_node8_69"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java" xlink:title="PermutationGroup">
+<g id="a_node6_63"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java" xlink:title="PermutationGroup">
 <polygon fill="none" stroke="black" points="788,-801.12 788,-822.38 1066.5,-822.38 1066.5,-801.12 788,-801.12"/>
 <text text-anchor="start" x="860.88" y="-807.08" font-family="Times,serif" font-size="14.00" fill="#0000a0">PermutationGroup</text>
 </a>
 </g>
-<g id="a_node8_70"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.html" xlink:title="javadoc">
+<g id="a_node6_64"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1066.5,-801.12 1066.5,-822.38 1093,-822.38 1093,-801.12 1066.5,-801.12"/>
 <text text-anchor="start" x="1070" y="-806.33" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node8_71"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java" xlink:title="GeneralLinearGroup">
+<g id="a_node6_65"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java" xlink:title="GeneralLinearGroup">
 <polygon fill="none" stroke="black" points="788,-779.88 788,-801.12 1066.5,-801.12 1066.5,-779.88 788,-779.88"/>
 <text text-anchor="start" x="903.25" y="-785.83" font-family="Times,serif" font-size="14.00" fill="#0000a0">GL₂(ℚ)</text>
 </a>
 </g>
-<g id="a_node8_72"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.html" xlink:title="javadoc">
+<g id="a_node6_66"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="1066.5,-779.88 1066.5,-801.12 1093,-801.12 1093,-779.88 1066.5,-779.88"/>
 <text text-anchor="start" x="1070" y="-785.08" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- MultiplicativeAbelianGroup&#45;&gt;MultiplicativeGroup -->
-<g id="edge4" class="edge">
+<g id="edge3" class="edge">
 <title>MultiplicativeAbelianGroup&#45;&gt;MultiplicativeGroup</title>
 <path fill="none" stroke="black" d="M703.34,-962.79C746.34,-937.51 809.79,-900.21 860.24,-870.55"/>
 <polygon fill="none" stroke="black" points="862,-873.58 868.85,-865.5 858.45,-867.55 862,-873.58"/>
 </g>
 <!-- MultiplicativeAbelianSemiGroup -->
-<g id="node9" class="node">
+<g id="node7" class="node">
 <title>MultiplicativeAbelianSemiGroup</title>
-<g id="a_node9_73"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java" xlink:title="MultiplicativeAbelianSemiGroup">
+<g id="a_node7_67"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.java" xlink:title="MultiplicativeAbelianSemiGroup">
 <polygon fill="none" stroke="black" points="204.38,-841.62 204.38,-862.88 440.88,-862.88 440.88,-841.62 204.38,-841.62"/>
 <text text-anchor="start" x="206.38" y="-847.58" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeAbelianSemiGroup</text>
 </a>
 </g>
-<g id="a_node9_74"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.html" xlink:title="javadoc">
+<g id="a_node7_68"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeAbelianSemiGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="440.88,-841.62 440.88,-862.88 484.62,-862.88 484.62,-841.62 440.88,-841.62"/>
 <text text-anchor="start" x="453" y="-846.83" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node9_75"><a xlink:title="group binary operator">
+<g id="a_node7_69"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="204.38,-803.12 204.38,-841.62 267.96,-841.62 267.96,-803.12 204.38,-803.12"/>
 <text text-anchor="start" x="228.29" y="-817.7" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node9_76"><a xlink:title="binary operators of multiplication">
+<g id="a_node7_70"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="267.96,-803.12 267.96,-841.62 327.79,-841.62 327.79,-803.12 267.96,-803.12"/>
 <text text-anchor="start" x="295.62" y="-826.33" font-family="Times,serif" font-size="14.00">⋅</text>
 <text text-anchor="start" x="291.88" y="-809.08" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node9_77"><a xlink:title="other binary operators">
+<g id="a_node7_71"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="327.79,-803.12 327.79,-841.62 440.88,-841.62 440.88,-803.12 327.79,-803.12"/>
 <text text-anchor="start" x="351.71" y="-817.7" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node9_78"><a xlink:title="Unary operators">
+<g id="a_node7_72"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="440.88,-803.12 440.88,-841.62 484.62,-841.62 484.62,-803.12 440.88,-803.12"/>
 <text text-anchor="start" x="442.88" y="-817.7" font-family="Times,serif" font-size="14.00">+ sqr</text>
 </a>
 </g>
-<g id="a_node9_79"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
+<g id="a_node7_73"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
 <polygon fill="none" stroke="black" points="204.38,-781.88 204.38,-803.12 440.88,-803.12 440.88,-781.88 204.38,-781.88"/>
 <text text-anchor="start" x="265.25" y="-787.83" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddIntegers ℕo</text>
 </a>
 </g>
-<g id="a_node9_80"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/OddIntegers.html" xlink:title="javadoc">
+<g id="a_node7_74"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/OddIntegers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="440.88,-781.88 440.88,-803.12 484.62,-803.12 484.62,-781.88 440.88,-781.88"/>
 <text text-anchor="start" x="453" y="-787.08" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- MultiplicativeAbelianGroup&#45;&gt;MultiplicativeAbelianSemiGroup -->
-<g id="edge5" class="edge">
+<g id="edge4" class="edge">
 <title>MultiplicativeAbelianGroup&#45;&gt;MultiplicativeAbelianSemiGroup</title>
 <path fill="none" stroke="black" d="M601.56,-962.79C553.68,-936.82 482.41,-898.17 427.05,-868.15"/>
 <polygon fill="none" stroke="black" points="429.05,-865.25 418.59,-863.56 425.71,-871.4 429.05,-865.25"/>
 </g>
 <!-- MultiplicativeGroup&#45;&gt;Group -->
-<g id="edge17" class="edge">
+<g id="edge25" class="edge">
 <title>MultiplicativeGroup&#45;&gt;Group</title>
 <path fill="none" stroke="black" d="M943.06,-780.2C943.9,-765.97 944.8,-749.91 945.5,-735.25 951.14,-617.49 955.97,-481.28 958.81,-395.6"/>
 <polygon fill="none" stroke="black" points="962.31,-395.74 959.14,-385.63 955.31,-395.51 962.31,-395.74"/>
 </g>
 <!-- MultiplicativeMonoid -->
-<g id="node17" class="node">
+<g id="node12" class="node">
 <title>MultiplicativeMonoid</title>
-<g id="a_node17_81"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java" xlink:title="MultiplicativeMonoid">
+<g id="a_node12_75"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java" xlink:title="MultiplicativeMonoid">
 <polygon fill="none" stroke="black" points="756.62,-705.38 756.62,-726.62 912.88,-726.62 912.88,-705.38 756.62,-705.38"/>
 <text text-anchor="start" x="758.62" y="-711.33" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeMonoid</text>
 </a>
 </g>
-<g id="a_node17_82"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.html" xlink:title="javadoc">
+<g id="a_node12_76"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="912.88,-705.38 912.88,-726.62 936.38,-726.62 936.38,-705.38 912.88,-705.38"/>
 <text text-anchor="start" x="914.88" y="-710.58" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node17_83"><a xlink:title="group binary operator">
+<g id="a_node12_77"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="756.62,-684.12 756.62,-705.38 780.12,-705.38 780.12,-684.12 756.62,-684.12"/>
 <text text-anchor="start" x="760.5" y="-690.08" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node17_84"><a xlink:title="binary operators of multiplication">
+<g id="a_node12_78"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="780.12,-684.12 780.12,-705.38 792.38,-705.38 792.38,-684.12 780.12,-684.12"/>
 <text text-anchor="start" x="784" y="-690.08" font-family="Times,serif" font-size="14.00">⋅</text>
 </a>
 </g>
-<g id="a_node17_85"><a xlink:title="other binary operators">
+<g id="a_node12_79"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="792.38,-684.12 792.38,-705.38 865.38,-705.38 865.38,-684.12 792.38,-684.12"/>
 <text text-anchor="start" x="796.25" y="-690.08" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node17_86"><a xlink:title="Unary operators">
+<g id="a_node12_80"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="865.38,-684.12 865.38,-705.38 912.88,-705.38 912.88,-684.12 865.38,-684.12"/>
 <text text-anchor="start" x="869.25" y="-690.08" font-family="Times,serif" font-size="14.00">+ sqr</text>
 </a>
 </g>
-<g id="a_node17_87"><a xlink:title="special elements">
+<g id="a_node12_81"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="912.88,-684.12 912.88,-705.38 936.38,-705.38 936.38,-684.12 912.88,-684.12"/>
 <text text-anchor="start" x="920.12" y="-690.08" font-family="Times,serif" font-size="14.00">1</text>
 </a>
 </g>
-<g id="a_node17_88"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Squares.java" xlink:title="Squares">
+<g id="a_node12_82"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
 <polygon fill="none" stroke="black" points="756.62,-662.88 756.62,-684.12 912.88,-684.12 912.88,-662.88 756.62,-662.88"/>
-<text text-anchor="start" x="795.38" y="-668.83" font-family="Times,serif" font-size="14.00" fill="#0000a0">Squares ℤ²</text>
+<text text-anchor="start" x="777.38" y="-668.83" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddIntegers ℕo</text>
 </a>
 </g>
-<g id="a_node17_89"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Squares.html" xlink:title="javadoc">
+<g id="a_node12_83"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/OddIntegers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="912.88,-662.88 912.88,-684.12 936.38,-684.12 936.38,-662.88 912.88,-662.88"/>
 <text text-anchor="start" x="914.88" y="-668.08" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node17_90"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/OddIntegers.java" xlink:title="OddIntegers">
+<g id="a_node12_84"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Squares.java" xlink:title="Squares">
 <polygon fill="none" stroke="black" points="756.62,-641.62 756.62,-662.88 912.88,-662.88 912.88,-641.62 756.62,-641.62"/>
-<text text-anchor="start" x="777.38" y="-647.58" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddIntegers ℕo</text>
+<text text-anchor="start" x="795.38" y="-647.58" font-family="Times,serif" font-size="14.00" fill="#0000a0">Squares ℤ²</text>
 </a>
 </g>
-<g id="a_node17_91"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/OddIntegers.html" xlink:title="javadoc">
+<g id="a_node12_85"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Squares.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="912.88,-641.62 912.88,-662.88 936.38,-662.88 936.38,-641.62 912.88,-641.62"/>
 <text text-anchor="start" x="914.88" y="-646.83" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- MultiplicativeGroup&#45;&gt;MultiplicativeMonoid -->
-<g id="edge18" class="edge">
+<g id="edge26" class="edge">
 <title>MultiplicativeGroup&#45;&gt;MultiplicativeMonoid</title>
 <path fill="none" stroke="black" d="M912.04,-780.13C902.38,-766.12 891.47,-750.31 881.36,-735.66"/>
 <polygon fill="none" stroke="black" points="884.28,-733.72 875.72,-727.48 878.52,-737.7 884.28,-733.72"/>
 </g>
+<!-- MultiplicativeSemiGroup -->
+<g id="node13" class="node">
+<title>MultiplicativeSemiGroup</title>
+<g id="a_node13_86"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java" xlink:title="MultiplicativeSemiGroup">
+<polygon fill="none" stroke="black" points="415,-567.12 415,-588.38 598.25,-588.38 598.25,-567.12 415,-567.12"/>
+<text text-anchor="start" x="417" y="-573.08" font-family="Times,serif" font-size="14.00" fill="#0000a0">MultiplicativeSemiGroup</text>
+</a>
+</g>
+<g id="a_node13_87"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.html" xlink:title="javadoc">
+<polygon fill="none" stroke="black" points="598.25,-567.12 598.25,-588.38 642,-588.38 642,-567.12 598.25,-567.12"/>
+<text text-anchor="start" x="610.38" y="-572.33" font-family="Times,serif" font-size="14.00">📖</text>
+</a>
+</g>
+<g id="a_node13_88"><a xlink:title="group binary operator">
+<polygon fill="none" stroke="black" points="415,-545.88 415,-567.12 463.33,-567.12 463.33,-545.88 415,-545.88"/>
+<text text-anchor="start" x="431.29" y="-551.83" font-family="Times,serif" font-size="14.00"> * </text>
+</a>
+</g>
+<g id="a_node13_89"><a xlink:title="binary operators of multiplication">
+<polygon fill="none" stroke="black" points="463.33,-545.88 463.33,-567.12 500.42,-567.12 500.42,-545.88 463.33,-545.88"/>
+<text text-anchor="start" x="479.62" y="-551.83" font-family="Times,serif" font-size="14.00">⋅</text>
+</a>
+</g>
+<g id="a_node13_90"><a xlink:title="other binary operators">
+<polygon fill="none" stroke="black" points="500.42,-545.88 500.42,-567.12 598.25,-567.12 598.25,-545.88 500.42,-545.88"/>
+<text text-anchor="start" x="516.71" y="-551.83" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
+</a>
+</g>
+<g id="a_node13_91"><a xlink:title="Unary operators">
+<polygon fill="none" stroke="black" points="598.25,-545.88 598.25,-567.12 642,-567.12 642,-545.88 598.25,-545.88"/>
+<text text-anchor="start" x="600.25" y="-551.83" font-family="Times,serif" font-size="14.00">+ sqr</text>
+</a>
+</g>
+</g>
 <!-- MultiplicativeAbelianSemiGroup&#45;&gt;MultiplicativeSemiGroup -->
-<g id="edge14" class="edge">
+<g id="edge13" class="edge">
 <title>MultiplicativeAbelianSemiGroup&#45;&gt;MultiplicativeSemiGroup</title>
 <path fill="none" stroke="black" d="M370.48,-782.15C396.32,-743.6 437.48,-683.4 475.5,-633 484.53,-621.03 494.89,-608.17 504.04,-597.09"/>
 <polygon fill="none" stroke="black" points="506.71,-599.35 510.41,-589.42 501.33,-594.87 506.71,-599.35"/>
 </g>
 <!-- AdditiveAbelianGroup -->
-<g id="node10" class="node">
+<g id="node8" class="node">
 <title>AdditiveAbelianGroup</title>
-<g id="a_node10_92"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java" xlink:title="AdditiveAbelianGroup">
+<g id="a_node8_92"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.java" xlink:title="AdditiveAbelianGroup">
 <polygon fill="none" stroke="black" points="659.88,-575.75 659.88,-597 820.62,-597 820.62,-575.75 659.88,-575.75"/>
 <text text-anchor="start" x="661.88" y="-581.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">AdditiveAbelianGroup</text>
 </a>
 </g>
-<g id="a_node10_93"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.html" xlink:title="javadoc">
+<g id="a_node8_93"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveAbelianGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="820.62,-575.75 820.62,-597 847.12,-597 847.12,-575.75 820.62,-575.75"/>
 <text text-anchor="start" x="824.12" y="-580.95" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node10_94"><a xlink:title="group binary operator">
+<g id="a_node8_94"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="659.88,-537.25 659.88,-575.75 690.88,-575.75 690.88,-537.25 659.88,-537.25"/>
 <text text-anchor="start" x="667.5" y="-551.83" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node10_95"><a xlink:title="binary operators of addition">
+<g id="a_node8_95"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="690.88,-537.25 690.88,-575.75 722.62,-575.75 722.62,-537.25 690.88,-537.25"/>
 <text text-anchor="start" x="698.5" y="-560.45" font-family="Times,serif" font-size="14.00">+&#45;</text>
 <text text-anchor="start" x="700.75" y="-543.2" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node10_96"><a xlink:title="other binary operators">
+<g id="a_node8_96"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="722.62,-537.25 722.62,-575.75 784.38,-575.75 784.38,-537.25 722.62,-537.25"/>
 <text text-anchor="start" x="730.25" y="-551.83" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node10_97"><a xlink:title="Unary operators">
+<g id="a_node8_97"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="784.38,-537.25 784.38,-575.75 820.62,-575.75 820.62,-537.25 784.38,-537.25"/>
 <text text-anchor="start" x="792" y="-551.83" font-family="Times,serif" font-size="14.00">+ &#45;</text>
 </a>
 </g>
-<g id="a_node10_98"><a xlink:title="special elements">
+<g id="a_node8_98"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="820.62,-537.25 820.62,-575.75 847.12,-575.75 847.12,-537.25 820.62,-537.25"/>
 <text text-anchor="start" x="822.62" y="-551.83" font-family="Times,serif" font-size="14.00">0 u</text>
 </a>
 </g>
 </g>
 <!-- AdditiveAbelianGroup&#45;&gt;AdditiveGroup -->
-<g id="edge6" class="edge">
+<g id="edge5" class="edge">
 <title>AdditiveAbelianGroup&#45;&gt;AdditiveGroup</title>
 <path fill="none" stroke="black" d="M784.4,-537.33C800.35,-522.46 819.73,-504.4 835.55,-489.67"/>
 <polygon fill="none" stroke="black" points="837.88,-492.27 842.81,-482.89 833.11,-487.15 837.88,-492.27"/>
 </g>
 <!-- AdditiveAbelianSemiGroup -->
-<g id="node11" class="node">
+<g id="node9" class="node">
 <title>AdditiveAbelianSemiGroup</title>
-<g id="a_node11_99"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java" xlink:title="AdditiveAbelianSemiGroup">
+<g id="a_node9_99"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.java" xlink:title="AdditiveAbelianSemiGroup">
 <polygon fill="none" stroke="black" points="556.38,-480 556.38,-501.25 753.12,-501.25 753.12,-480 556.38,-480"/>
 <text text-anchor="start" x="558.38" y="-485.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">AdditiveAbelianSemiGroup</text>
 </a>
 </g>
-<g id="a_node11_100"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.html" xlink:title="javadoc">
+<g id="a_node9_100"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AdditiveAbelianSemiGroup.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="753.12,-480 753.12,-501.25 776.62,-501.25 776.62,-480 753.12,-480"/>
 <text text-anchor="start" x="755.12" y="-485.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node11_101"><a xlink:title="group binary operator">
+<g id="a_node9_101"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="556.38,-441.5 556.38,-480 612.96,-480 612.96,-441.5 556.38,-441.5"/>
 <text text-anchor="start" x="576.79" y="-456.07" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node11_102"><a xlink:title="binary operators of addition">
+<g id="a_node9_102"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="612.96,-441.5 612.96,-480 665.79,-480 665.79,-441.5 612.96,-441.5"/>
 <text text-anchor="start" x="633.38" y="-464.7" font-family="Times,serif" font-size="14.00">+</text>
 <text text-anchor="start" x="633.38" y="-447.45" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node11_103"><a xlink:title="other binary operators">
+<g id="a_node9_103"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="665.79,-441.5 665.79,-480 753.12,-480 753.12,-441.5 665.79,-441.5"/>
 <text text-anchor="start" x="686.21" y="-456.07" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ </text>
 </a>
 </g>
-<g id="a_node11_104"><a xlink:title="Unary operators">
+<g id="a_node9_104"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="753.12,-441.5 753.12,-480 776.62,-480 776.62,-441.5 753.12,-441.5"/>
 <text text-anchor="start" x="758.88" y="-456.07" font-family="Times,serif" font-size="14.00">+</text>
 </a>
 </g>
-<g id="a_node11_105"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.java" xlink:title="NegativeIntegers">
+<g id="a_node9_105"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.java" xlink:title="NegativeIntegers">
 <polygon fill="none" stroke="black" points="556.38,-420.25 556.38,-441.5 753.12,-441.5 753.12,-420.25 556.38,-420.25"/>
 <text text-anchor="start" x="580.12" y="-426.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">NegativeIntegers ℕ⁻</text>
 </a>
 </g>
-<g id="a_node11_106"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.html" xlink:title="javadoc">
+<g id="a_node9_106"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/NegativeIntegers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="753.12,-420.25 753.12,-441.5 776.62,-441.5 776.62,-420.25 753.12,-420.25"/>
 <text text-anchor="start" x="755.12" y="-425.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- AdditiveAbelianGroup&#45;&gt;AdditiveAbelianSemiGroup -->
-<g id="edge7" class="edge">
+<g id="edge6" class="edge">
 <title>AdditiveAbelianGroup&#45;&gt;AdditiveAbelianSemiGroup</title>
 <path fill="none" stroke="black" d="M729.5,-537.33C722.33,-528.73 714.28,-519.08 706.39,-509.61"/>
 <polygon fill="none" stroke="black" points="709.28,-507.6 700.19,-502.16 703.9,-512.09 709.28,-507.6"/>
 </g>
 <!-- AdditiveAbelianSemiGroup&#45;&gt;AdditiveSemiGroup -->
-<g id="edge13" class="edge">
+<g id="edge12" class="edge">
 <title>AdditiveAbelianSemiGroup&#45;&gt;AdditiveSemiGroup</title>
 <path fill="none" stroke="black" d="M665.57,-420.52C665.47,-375.16 668.29,-298.64 685.5,-235.5 687.88,-226.78 691.57,-217.77 695.47,-209.58"/>
 <polygon fill="none" stroke="black" points="698.56,-211.24 699.95,-200.74 692.31,-208.08 698.56,-211.24"/>
 </g>
 <!-- AbelianRing -->
-<g id="node12" class="node">
+<g id="node10" class="node">
 <title>AbelianRing</title>
-<g id="a_node12_107"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AbelianRing.java" xlink:title="AbelianRing">
+<g id="a_node10_107"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/AbelianRing.java" xlink:title="AbelianRing">
 <polygon fill="none" stroke="black" points="206.88,-1054.25 206.88,-1075.5 442.12,-1075.5 442.12,-1054.25 206.88,-1054.25"/>
 <text text-anchor="start" x="281.38" y="-1060.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">AbelianRing</text>
 </a>
 </g>
-<g id="a_node12_108"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AbelianRing.html" xlink:title="javadoc">
+<g id="a_node10_108"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/AbelianRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-1054.25 442.12,-1075.5 482.12,-1075.5 482.12,-1054.25 442.12,-1054.25"/>
 <text text-anchor="start" x="452.38" y="-1059.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node12_109"><a xlink:title="group binary operator">
+<g id="a_node10_109"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="206.88,-1015.75 206.88,-1054.25 226.62,-1054.25 226.62,-1015.75 206.88,-1015.75"/>
 <text text-anchor="start" x="208.88" y="-1030.33" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node12_110"><a xlink:title="binary operators of addition">
+<g id="a_node10_110"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="226.62,-1015.75 226.62,-1054.25 247.12,-1054.25 247.12,-1015.75 226.62,-1015.75"/>
 <text text-anchor="start" x="228.62" y="-1038.95" font-family="Times,serif" font-size="14.00">+&#45;</text>
 <text text-anchor="start" x="230.88" y="-1021.7" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node12_111"><a xlink:title="binary operators of multiplication">
+<g id="a_node10_111"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="247.12,-1015.75 247.12,-1054.25 263.12,-1054.25 263.12,-1015.75 247.12,-1015.75"/>
 <text text-anchor="start" x="252.88" y="-1038.95" font-family="Times,serif" font-size="14.00">⋅</text>
 <text text-anchor="start" x="249.12" y="-1021.7" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node12_112"><a xlink:title="other binary operators">
+<g id="a_node10_112"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="263.12,-1015.75 263.12,-1054.25 332.38,-1054.25 332.38,-1015.75 263.12,-1015.75"/>
 <text text-anchor="start" x="265.12" y="-1030.33" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node12_113"><a xlink:title="Unary operators">
+<g id="a_node10_113"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="332.38,-1015.75 332.38,-1054.25 442.12,-1054.25 442.12,-1015.75 332.38,-1015.75"/>
 <text text-anchor="start" x="334.38" y="-1030.33" font-family="Times,serif" font-size="14.00">+ &#45; inverse sqr</text>
 </a>
 </g>
-<g id="a_node12_114"><a xlink:title="special elements">
+<g id="a_node10_114"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="442.12,-1015.75 442.12,-1054.25 482.12,-1054.25 482.12,-1015.75 442.12,-1015.75"/>
 <text text-anchor="start" x="444.12" y="-1030.33" font-family="Times,serif" font-size="14.00">0 u 1</text>
 </a>
 </g>
-<g id="a_node12_115"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/bool/BooleanRing.java" xlink:title="BooleanRing">
+<g id="a_node10_115"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.java" xlink:title="OddEvenRing">
 <polygon fill="none" stroke="black" points="206.88,-994.5 206.88,-1015.75 442.12,-1015.75 442.12,-994.5 206.88,-994.5"/>
-<text text-anchor="start" x="272" y="-1000.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">BooleanRing R</text>
+<text text-anchor="start" x="275.38" y="-1000.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddEvenRing</text>
 </a>
 </g>
-<g id="a_node12_116"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/bool/BooleanRing.html" xlink:title="javadoc">
+<g id="a_node10_116"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-994.5 442.12,-1015.75 482.12,-1015.75 482.12,-994.5 442.12,-994.5"/>
 <text text-anchor="start" x="452.38" y="-999.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node12_117"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.java" xlink:title="OddEvenRing">
+<g id="a_node10_117"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/bool/BooleanRing.java" xlink:title="BooleanRing">
 <polygon fill="none" stroke="black" points="206.88,-973.25 206.88,-994.5 442.12,-994.5 442.12,-973.25 206.88,-973.25"/>
-<text text-anchor="start" x="275.38" y="-979.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">OddEvenRing</text>
+<text text-anchor="start" x="272" y="-979.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">BooleanRing R</text>
 </a>
 </g>
-<g id="a_node12_118"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.html" xlink:title="javadoc">
+<g id="a_node10_118"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/bool/BooleanRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-973.25 442.12,-994.5 482.12,-994.5 482.12,-973.25 442.12,-973.25"/>
 <text text-anchor="start" x="452.38" y="-978.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node12_119"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java" xlink:title="The polynomial ring in x over ℚ">
+<g id="a_node10_119"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java" xlink:title="The polynomial ring in x over ℚ">
 <polygon fill="none" stroke="black" points="206.88,-952 206.88,-973.25 442.12,-973.25 442.12,-952 206.88,-952"/>
 <text text-anchor="start" x="309.12" y="-957.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℚ[x]</text>
 </a>
 </g>
-<g id="a_node12_120"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html" xlink:title="javadoc">
+<g id="a_node10_120"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-952 442.12,-973.25 482.12,-973.25 482.12,-952 442.12,-952"/>
 <text text-anchor="start" x="452.38" y="-957.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node12_121"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java" xlink:title="The polynomial ring in x over ℤ">
+<g id="a_node10_121"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java" xlink:title="The polynomial ring in x over ℤ">
 <polygon fill="none" stroke="black" points="206.88,-930.75 206.88,-952 442.12,-952 442.12,-930.75 206.88,-930.75"/>
 <text text-anchor="start" x="309.88" y="-936.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ[x]</text>
 </a>
 </g>
-<g id="a_node12_122"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html" xlink:title="javadoc">
+<g id="a_node10_122"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-930.75 442.12,-952 482.12,-952 482.12,-930.75 442.12,-930.75"/>
 <text text-anchor="start" x="452.38" y="-935.95" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node12_123"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRing.java" xlink:title="ModuloRing">
+<g id="a_node10_123"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloRing.java" xlink:title="ModuloRing">
 <polygon fill="none" stroke="black" points="206.88,-909.5 206.88,-930.75 442.12,-930.75 442.12,-909.5 206.88,-909.5"/>
 <text text-anchor="start" x="307.25" y="-915.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/8ℤ</text>
 </a>
 </g>
-<g id="a_node12_124"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloRing.html" xlink:title="javadoc">
+<g id="a_node10_124"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="442.12,-909.5 442.12,-930.75 482.12,-930.75 482.12,-909.5 442.12,-909.5"/>
 <text text-anchor="start" x="452.38" y="-914.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- AbelianRing&#45;&gt;MultiplicativeAbelianSemiGroup -->
-<g id="edge8" class="edge">
+<g id="edge7" class="edge">
 <title>AbelianRing&#45;&gt;MultiplicativeAbelianSemiGroup</title>
 <path fill="none" stroke="black" d="M344.5,-909.9C344.5,-897.73 344.5,-885.49 344.5,-874.2"/>
 <polygon fill="none" stroke="black" points="348,-874.34 344.5,-864.34 341,-874.34 348,-874.34"/>
 </g>
 <!-- Ring -->
-<g id="node13" class="node">
+<g id="node11" class="node">
 <title>Ring</title>
-<g id="a_node13_125"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Ring.java" xlink:title="Ring">
+<g id="a_node11_125"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Ring.java" xlink:title="Ring">
 <polygon fill="none" stroke="black" points="502.62,-852.25 502.62,-873.5 730.38,-873.5 730.38,-852.25 502.62,-852.25"/>
 <text text-anchor="start" x="600" y="-858.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">Ring</text>
 </a>
 </g>
-<g id="a_node13_126"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Ring.html" xlink:title="javadoc">
+<g id="a_node11_126"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Ring.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="730.38,-852.25 730.38,-873.5 770.38,-873.5 770.38,-852.25 730.38,-852.25"/>
 <text text-anchor="start" x="740.62" y="-857.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node13_127"><a xlink:title="group binary operator">
+<g id="a_node11_127"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="502.62,-813.75 502.62,-852.25 522.38,-852.25 522.38,-813.75 502.62,-813.75"/>
 <text text-anchor="start" x="504.62" y="-828.33" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node13_128"><a xlink:title="binary operators of addition">
+<g id="a_node11_128"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="522.38,-813.75 522.38,-852.25 542.88,-852.25 542.88,-813.75 522.38,-813.75"/>
 <text text-anchor="start" x="524.38" y="-836.95" font-family="Times,serif" font-size="14.00">+&#45;</text>
 <text text-anchor="start" x="526.62" y="-819.7" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node13_129"><a xlink:title="binary operators of multiplication">
+<g id="a_node11_129"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="542.88,-813.75 542.88,-852.25 551.38,-852.25 551.38,-813.75 542.88,-813.75"/>
 <text text-anchor="start" x="544.88" y="-828.33" font-family="Times,serif" font-size="14.00">⋅</text>
 </a>
 </g>
-<g id="a_node13_130"><a xlink:title="other binary operators">
+<g id="a_node11_130"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="551.38,-813.75 551.38,-852.25 620.62,-852.25 620.62,-813.75 551.38,-813.75"/>
 <text text-anchor="start" x="553.38" y="-828.33" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node13_131"><a xlink:title="Unary operators">
+<g id="a_node11_131"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="620.62,-813.75 620.62,-852.25 730.38,-852.25 730.38,-813.75 620.62,-813.75"/>
 <text text-anchor="start" x="622.62" y="-828.33" font-family="Times,serif" font-size="14.00">+ &#45; inverse sqr</text>
 </a>
 </g>
-<g id="a_node13_132"><a xlink:title="special elements">
+<g id="a_node11_132"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="730.38,-813.75 730.38,-852.25 770.38,-852.25 770.38,-813.75 730.38,-813.75"/>
 <text text-anchor="start" x="732.38" y="-828.33" font-family="Times,serif" font-size="14.00">0 u 1</text>
 </a>
 </g>
-<g id="a_node13_133"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialRing.java" xlink:title="TrivialRing">
+<g id="a_node11_133"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/trivial/TrivialRing.java" xlink:title="TrivialRing">
 <polygon fill="none" stroke="black" points="502.62,-792.5 502.62,-813.75 730.38,-813.75 730.38,-792.5 502.62,-792.5"/>
 <text text-anchor="start" x="561.38" y="-798.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">TrivialRing {0}</text>
 </a>
 </g>
-<g id="a_node13_134"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/TrivialRing.html" xlink:title="javadoc">
+<g id="a_node11_134"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/trivial/TrivialRing.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="730.38,-792.5 730.38,-813.75 770.38,-813.75 770.38,-792.5 730.38,-792.5"/>
 <text text-anchor="start" x="740.62" y="-797.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node13_135"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Integers.java" xlink:title="Integers">
+<g id="a_node11_135"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/Integers.java" xlink:title="Integers">
 <polygon fill="none" stroke="black" points="502.62,-771.25 502.62,-792.5 730.38,-792.5 730.38,-771.25 502.62,-771.25"/>
 <text text-anchor="start" x="611.25" y="-777.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ</text>
 </a>
 </g>
-<g id="a_node13_136"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Integers.html" xlink:title="javadoc">
+<g id="a_node11_136"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/Integers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="730.38,-771.25 730.38,-792.5 770.38,-792.5 770.38,-771.25 730.38,-771.25"/>
 <text text-anchor="start" x="740.62" y="-776.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- AbelianRing&#45;&gt;Ring -->
-<g id="edge9" class="edge">
+<g id="edge8" class="edge">
 <title>AbelianRing&#45;&gt;Ring</title>
 <path fill="none" stroke="black" d="M481.95,-912.36C501.51,-901.1 521.28,-889.72 539.84,-879.03"/>
 <polygon fill="none" stroke="black" points="541.49,-882.12 548.41,-874.1 537.99,-876.05 541.49,-882.12"/>
@@ -932,6 +920,18 @@
 <title>Ring&#45;&gt;Rng</title>
 <path fill="none" stroke="black" d="M627.33,-771.41C625.84,-763.27 624.28,-754.75 622.74,-746.37"/>
 <polygon fill="none" stroke="black" points="626.19,-745.77 620.94,-736.57 619.3,-747.04 626.19,-745.77"/>
+</g>
+<!-- MultiplicativeMonoid&#45;&gt;MultiplicativeSemiGroup -->
+<g id="edge9" class="edge">
+<title>MultiplicativeMonoid&#45;&gt;MultiplicativeSemiGroup</title>
+<path fill="none" stroke="black" d="M767.92,-641.74C761.08,-638.63 754.21,-635.67 747.5,-633 706.66,-616.77 660.13,-602.43 620.5,-591.39"/>
+<polygon fill="none" stroke="black" points="621.55,-588.05 610.98,-588.77 619.69,-594.8 621.55,-588.05"/>
+</g>
+<!-- MultiplicativeSemiGroup&#45;&gt;Magma -->
+<g id="edge19" class="edge">
+<title>MultiplicativeSemiGroup&#45;&gt;Magma</title>
+<path fill="none" stroke="black" d="M527.53,-546.3C525.43,-482.76 526.9,-281.09 620.5,-157 629.84,-144.61 642.78,-134.35 656.01,-126.14"/>
+<polygon fill="none" stroke="black" points="657.46,-129.34 664.33,-121.28 653.93,-123.29 657.46,-129.34"/>
 </g>
 <!-- CompleteScalarField -->
 <g id="node14" class="node">
@@ -1024,22 +1024,22 @@
 <text text-anchor="start" x="591.25" y="-1530.08" font-family="Times,serif" font-size="14.00">0 u 1 𝜑 γ 𝜋 gamma ℯ</text>
 </a>
 </g>
-<g id="a_node15_165"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.java" xlink:title="BigComplexNumbers">
+<g id="a_node15_165"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.java" xlink:title="BigDecimalField">
 <polygon fill="none" stroke="black" points="0,-1494.25 0,-1515.5 589.25,-1515.5 589.25,-1494.25 0,-1494.25"/>
-<text text-anchor="start" x="210.62" y="-1500.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">BigComplexNumbers ℂ</text>
+<text text-anchor="start" x="227.5" y="-1500.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">BigDecimalField ℝ</text>
 </a>
 </g>
-<g id="a_node15_166"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.html" xlink:title="javadoc">
+<g id="a_node15_166"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="589.25,-1494.25 589.25,-1515.5 741,-1515.5 741,-1494.25 589.25,-1494.25"/>
 <text text-anchor="start" x="655.38" y="-1499.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node15_167"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.java" xlink:title="BigDecimalField">
+<g id="a_node15_167"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.java" xlink:title="BigComplexNumbers">
 <polygon fill="none" stroke="black" points="0,-1473 0,-1494.25 589.25,-1494.25 589.25,-1473 0,-1473"/>
-<text text-anchor="start" x="227.5" y="-1478.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">BigDecimalField ℝ</text>
+<text text-anchor="start" x="210.62" y="-1478.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">BigComplexNumbers ℂ</text>
 </a>
 </g>
-<g id="a_node15_168"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.html" xlink:title="javadoc">
+<g id="a_node15_168"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="589.25,-1473 589.25,-1494.25 741,-1494.25 741,-1473 589.25,-1473"/>
 <text text-anchor="start" x="655.38" y="-1478.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
@@ -1134,107 +1134,101 @@
 <polygon fill="none" stroke="black" points="917.92,-1550.96 925.8,-1543.87 915.23,-1544.5 917.92,-1550.96"/>
 </g>
 <!-- Field -->
-<g id="node19" class="node">
+<g id="node18" class="node">
 <title>Field</title>
-<g id="a_node19_183"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java" xlink:title="Field">
+<g id="a_node18_183"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-math/src/main/java/org/meeuw/math/abstractalgebra/Field.java" xlink:title="Field">
 <polygon fill="none" stroke="black" points="520,-1373.25 520,-1394.5 831,-1394.5 831,-1373.25 520,-1373.25"/>
 <text text-anchor="start" x="657.5" y="-1379.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">Field</text>
 </a>
 </g>
-<g id="a_node19_184"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Field.html" xlink:title="javadoc">
+<g id="a_node18_184"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-math/latest/org.meeuw.math/org/meeuw/math/abstractalgebra/Field.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="831,-1373.25 831,-1394.5 871,-1394.5 871,-1373.25 831,-1373.25"/>
 <text text-anchor="start" x="841.25" y="-1378.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node19_185"><a xlink:title="group binary operator">
+<g id="a_node18_185"><a xlink:title="group binary operator">
 <polygon fill="none" stroke="black" points="520,-1334.75 520,-1373.25 539.75,-1373.25 539.75,-1334.75 520,-1334.75"/>
 <text text-anchor="start" x="522" y="-1349.33" font-family="Times,serif" font-size="14.00"> * </text>
 </a>
 </g>
-<g id="a_node19_186"><a xlink:title="binary operators of addition">
+<g id="a_node18_186"><a xlink:title="binary operators of addition">
 <polygon fill="none" stroke="black" points="539.75,-1334.75 539.75,-1373.25 560.25,-1373.25 560.25,-1334.75 539.75,-1334.75"/>
 <text text-anchor="start" x="541.75" y="-1357.95" font-family="Times,serif" font-size="14.00">+&#45;</text>
 <text text-anchor="start" x="544" y="-1340.7" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node19_187"><a xlink:title="binary operators of multiplication">
+<g id="a_node18_187"><a xlink:title="binary operators of multiplication">
 <polygon fill="none" stroke="black" points="560.25,-1334.75 560.25,-1373.25 576.25,-1373.25 576.25,-1334.75 560.25,-1334.75"/>
 <text text-anchor="start" x="563.75" y="-1357.95" font-family="Times,serif" font-size="14.00">⋅/</text>
 <text text-anchor="start" x="562.25" y="-1340.7" font-family="Times,serif" font-size="14.00">⇆</text>
 </a>
 </g>
-<g id="a_node19_188"><a xlink:title="other binary operators">
+<g id="a_node18_188"><a xlink:title="other binary operators">
 <polygon fill="none" stroke="black" points="576.25,-1334.75 576.25,-1373.25 645.5,-1373.25 645.5,-1334.75 576.25,-1334.75"/>
 <text text-anchor="start" x="578.25" y="-1349.33" font-family="Times,serif" font-size="14.00"> ≈ &#160;&#160;≉ &#160;xⁿ</text>
 </a>
 </g>
-<g id="a_node19_189"><a xlink:title="Unary operators">
+<g id="a_node18_189"><a xlink:title="Unary operators">
 <polygon fill="none" stroke="black" points="645.5,-1334.75 645.5,-1373.25 831,-1373.25 831,-1334.75 645.5,-1334.75"/>
 <text text-anchor="start" x="647.5" y="-1349.33" font-family="Times,serif" font-size="14.00">+ &#45; reciprocal inverse sqr</text>
 </a>
 </g>
-<g id="a_node19_190"><a xlink:title="special elements">
+<g id="a_node18_190"><a xlink:title="special elements">
 <polygon fill="none" stroke="black" points="831,-1334.75 831,-1373.25 871,-1373.25 871,-1334.75 831,-1334.75"/>
 <text text-anchor="start" x="833" y="-1349.33" font-family="Times,serif" font-size="14.00">0 u 1</text>
 </a>
 </g>
-<g id="a_node19_191"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java" xlink:title="ModuloField">
+<g id="a_node18_191"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java" xlink:title="GaussianRationals">
 <polygon fill="none" stroke="black" points="520,-1313.5 520,-1334.75 831,-1334.75 831,-1313.5 520,-1313.5"/>
-<text text-anchor="start" x="658.25" y="-1319.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/pℤ</text>
+<text text-anchor="start" x="593.75" y="-1319.45" font-family="Times,serif" font-size="14.00" fill="#0000a0">GaussianRationals 𝐐(i)</text>
 </a>
 </g>
-<g id="a_node19_192"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloField.html" xlink:title="javadoc">
+<g id="a_node18_192"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/complex/GaussianRationals.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="831,-1313.5 831,-1334.75 871,-1334.75 871,-1313.5 831,-1313.5"/>
 <text text-anchor="start" x="841.25" y="-1318.7" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node19_193"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java" xlink:title="GaussianRationals">
+<g id="a_node18_193"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java" xlink:title="ModuloField">
 <polygon fill="none" stroke="black" points="520,-1292.25 520,-1313.5 831,-1313.5 831,-1292.25 520,-1292.25"/>
-<text text-anchor="start" x="593.75" y="-1298.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">GaussianRationals 𝐐(i)</text>
+<text text-anchor="start" x="658.25" y="-1298.2" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/pℤ</text>
 </a>
 </g>
-<g id="a_node19_194"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/complex/GaussianRationals.html" xlink:title="javadoc">
+<g id="a_node18_194"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloField.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="831,-1292.25 831,-1313.5 871,-1313.5 871,-1292.25 831,-1292.25"/>
 <text text-anchor="start" x="841.25" y="-1297.45" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node19_195"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java" xlink:title="ModuloField">
+<g id="a_node18_195"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/integers/ModuloField.java" xlink:title="ModuloField">
 <polygon fill="none" stroke="black" points="520,-1271 520,-1292.25 831,-1292.25 831,-1271 520,-1271"/>
 <text text-anchor="start" x="658.25" y="-1276.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">ℤ/3ℤ</text>
 </a>
 </g>
-<g id="a_node19_196"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloField.html" xlink:title="javadoc">
+<g id="a_node18_196"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/integers/ModuloField.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="831,-1271 831,-1292.25 871,-1292.25 871,-1271 831,-1271"/>
 <text text-anchor="start" x="841.25" y="-1276.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
 </g>
 <!-- CompleteField&#45;&gt;Field -->
-<g id="edge24" class="edge">
+<g id="edge23" class="edge">
 <title>CompleteField&#45;&gt;Field</title>
 <path fill="none" stroke="black" d="M508.33,-1430.57C528.14,-1420.32 548.46,-1409.81 568.06,-1399.67"/>
 <polygon fill="none" stroke="black" points="569.62,-1402.81 576.9,-1395.1 566.41,-1396.59 569.62,-1402.81"/>
 </g>
 <!-- ScalarField&#45;&gt;Field -->
-<g id="edge15" class="edge">
+<g id="edge14" class="edge">
 <title>ScalarField&#45;&gt;Field</title>
 <path fill="none" stroke="black" d="M945.07,-1462.46C908.82,-1443.76 864.52,-1420.92 823.36,-1399.69"/>
 <polygon fill="none" stroke="black" points="825.09,-1396.64 814.6,-1395.17 821.88,-1402.87 825.09,-1396.64"/>
 </g>
-<!-- MultiplicativeMonoid&#45;&gt;MultiplicativeSemiGroup -->
-<g id="edge12" class="edge">
-<title>MultiplicativeMonoid&#45;&gt;MultiplicativeSemiGroup</title>
-<path fill="none" stroke="black" d="M767.92,-641.74C761.08,-638.63 754.21,-635.67 747.5,-633 706.66,-616.77 660.13,-602.43 620.5,-591.39"/>
-<polygon fill="none" stroke="black" points="621.55,-588.05 610.98,-588.77 619.69,-594.8 621.55,-588.05"/>
-</g>
 <!-- AdditiveSemiGroup&#45;&gt;Magma -->
-<g id="edge19" class="edge">
+<g id="edge18" class="edge">
 <title>AdditiveSemiGroup&#45;&gt;Magma</title>
 <path fill="none" stroke="black" d="M712.5,-157.15C712.5,-149.57 712.5,-140.75 712.5,-132.36"/>
 <polygon fill="none" stroke="black" points="716,-132.49 712.5,-122.49 709,-132.49 716,-132.49"/>
 </g>
 <!-- Field&#45;&gt;AbelianRing -->
-<g id="edge21" class="edge">
+<g id="edge20" class="edge">
 <title>Field&#45;&gt;AbelianRing</title>
 <path fill="none" stroke="black" d="M520.14,-1317.22C406.86,-1303.77 274.15,-1278.99 238.5,-1235 203.94,-1192.36 218.86,-1162.75 238.5,-1111.5 242.01,-1102.35 246.59,-1093.45 251.88,-1084.93"/>
 <polygon fill="none" stroke="black" points="254.71,-1087.01 257.3,-1076.73 248.87,-1083.15 254.71,-1087.01"/>
@@ -1295,7 +1289,7 @@
 </g>
 </g>
 <!-- Field&#45;&gt;DivisionRing -->
-<g id="edge22" class="edge">
+<g id="edge21" class="edge">
 <title>Field&#45;&gt;DivisionRing</title>
 <path fill="none" stroke="black" d="M814.28,-1271.06C830.11,-1260.25 845.38,-1248.17 858.5,-1235 914.69,-1178.58 957.09,-1095.55 980.35,-1043.02"/>
 <polygon fill="none" stroke="black" points="983.5,-1044.57 984.28,-1034.01 977.08,-1041.77 983.5,-1044.57"/>
@@ -1341,10 +1335,16 @@
 </g>
 </g>
 <!-- Field&#45;&gt;DivisibleGroup -->
-<g id="edge23" class="edge">
+<g id="edge22" class="edge">
 <title>Field&#45;&gt;DivisibleGroup</title>
 <path fill="none" stroke="black" d="M695.5,-1271.31C695.5,-1252.28 695.5,-1231.74 695.5,-1214.47"/>
 <polygon fill="none" stroke="black" points="699,-1214.62 695.5,-1204.62 692,-1214.62 699,-1214.62"/>
+</g>
+<!-- Magma&#45;&gt;AlgebraicStructure -->
+<g id="edge24" class="edge">
+<title>Magma&#45;&gt;AlgebraicStructure</title>
+<path fill="none" stroke="black" d="M712.5,-78.65C712.5,-71.07 712.5,-62.25 712.5,-53.86"/>
+<polygon fill="none" stroke="black" points="716,-53.99 712.5,-43.99 709,-53.99 716,-53.99"/>
 </g>
 <!-- VectorSpace -->
 <g id="node20" class="node">
@@ -1391,22 +1391,22 @@
 <text text-anchor="start" x="485.12" y="-1189.83" font-family="Times,serif" font-size="14.00">u 1 0</text>
 </a>
 </g>
-<g id="a_node20_222"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim2/Vector2Space.java" xlink:title="Vector2Space">
+<g id="a_node20_222"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java" xlink:title="Vector3Space">
 <polygon fill="none" stroke="black" points="247.88,-1154 247.88,-1175.25 483.12,-1175.25 483.12,-1154 247.88,-1154"/>
-<text text-anchor="start" x="303.25" y="-1159.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">Vector2Space ℝᵤ³</text>
+<text text-anchor="start" x="303.25" y="-1159.95" font-family="Times,serif" font-size="14.00" fill="#0000a0">Vector3Space ℝᵤ³</text>
 </a>
 </g>
-<g id="a_node20_223"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dim2/Vector2Space.html" xlink:title="javadoc">
+<g id="a_node20_223"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dim3/Vector3Space.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="483.12,-1154 483.12,-1175.25 523.12,-1175.25 523.12,-1154 483.12,-1154"/>
 <text text-anchor="start" x="493.38" y="-1159.2" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
 </g>
-<g id="a_node20_224"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java" xlink:title="Vector3Space">
+<g id="a_node20_224"><a xlink:href="https://github.com/mihxil/math/blob/main/mihxil-algebra/src/main/java/org/meeuw/math/abstractalgebra/dim2/Vector2Space.java" xlink:title="Vector2Space">
 <polygon fill="none" stroke="black" points="247.88,-1132.75 247.88,-1154 483.12,-1154 483.12,-1132.75 247.88,-1132.75"/>
-<text text-anchor="start" x="303.25" y="-1138.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">Vector3Space ℝᵤ³</text>
+<text text-anchor="start" x="303.25" y="-1138.7" font-family="Times,serif" font-size="14.00" fill="#0000a0">Vector2Space ℝᵤ³</text>
 </a>
 </g>
-<g id="a_node20_225"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dim3/Vector3Space.html" xlink:title="javadoc">
+<g id="a_node20_225"><a xlink:href="https://javadoc.io/doc/org.meeuw.math/mihxil-algebra/latest/org.meeuw.math.algebras/org/meeuw/math/abstractalgebra/dim2/Vector2Space.html" xlink:title="javadoc">
 <polygon fill="none" stroke="black" points="483.12,-1132.75 483.12,-1154 523.12,-1154 523.12,-1132.75 483.12,-1132.75"/>
 <text text-anchor="start" x="493.38" y="-1137.95" font-family="Times,serif" font-size="14.00">📖</text>
 </a>
@@ -1423,7 +1423,7 @@
 </g>
 </g>
 <!-- VectorSpace&#45;&gt;AbelianRing -->
-<g id="edge20" class="edge">
+<g id="edge17" class="edge">
 <title>VectorSpace&#45;&gt;AbelianRing</title>
 <path fill="none" stroke="black" d="M371.62,-1111.73C369.72,-1103.47 367.75,-1094.84 365.76,-1086.17"/>
 <polygon fill="none" stroke="black" points="369.22,-1085.63 363.58,-1076.67 362.4,-1087.2 369.22,-1085.63"/>
@@ -1452,17 +1452,17 @@
 <path fill="none" stroke="black" d="M688.91,-1143.53C682.07,-1113.69 671.31,-1066.78 663.64,-1033.36"/>
 <polygon fill="none" stroke="black" points="667.06,-1032.59 661.41,-1023.62 660.23,-1034.15 667.06,-1032.59"/>
 </g>
-<!-- Rng&#45;&gt;MultiplicativeSemiGroup -->
-<g id="edge29" class="edge">
-<title>Rng&#45;&gt;MultiplicativeSemiGroup</title>
-<path fill="none" stroke="black" d="M575.34,-633.02C566.55,-620.85 557.44,-608.23 549.62,-597.39"/>
-<polygon fill="none" stroke="black" points="552.69,-595.66 544,-589.6 547.02,-599.76 552.69,-595.66"/>
-</g>
 <!-- Rng&#45;&gt;AdditiveAbelianGroup -->
-<g id="edge30" class="edge">
+<g id="edge29" class="edge">
 <title>Rng&#45;&gt;AdditiveAbelianGroup</title>
 <path fill="none" stroke="black" d="M673.37,-633.02C685.4,-623.28 697.79,-613.24 709.12,-604.07"/>
 <polygon fill="none" stroke="black" points="711.2,-606.88 716.77,-597.87 706.8,-601.44 711.2,-606.88"/>
+</g>
+<!-- Rng&#45;&gt;MultiplicativeSemiGroup -->
+<g id="edge30" class="edge">
+<title>Rng&#45;&gt;MultiplicativeSemiGroup</title>
+<path fill="none" stroke="black" d="M575.34,-633.02C566.55,-620.85 557.44,-608.23 549.62,-597.39"/>
+<polygon fill="none" stroke="black" points="552.69,-595.66 544,-589.6 547.02,-599.76 552.69,-595.66"/>
 </g>
 </g>
 </svg>

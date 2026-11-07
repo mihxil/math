@@ -481,7 +481,7 @@
 
         <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
             const value = await values[i];
-            const elements = await BaseClass.awaitedArray(value.getElements());
+            const elements = await BaseClass.awaitedArray(value.elements());
             let elementSpans = <span class="predefined-constant">null</span>;
             <span class="keyword">if</span> (elements) {
                 elementSpans = [];
@@ -496,14 +496,14 @@
                 }
             }
             <span class="local-variable">this</span>.information[await values[i].name()] = {
-                <span class="key">examples</span>: await BaseClass.awaitedArray(value.getExamples()),
+                <span class="key">examples</span>: await BaseClass.awaitedArray(value.examples()),
                 <span class="key">elements</span>: elements,
                 <span class="key">elementsSpans</span>: elementSpans,
-                <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.getBinaryOperators()),
-                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.getUnaryOperators()),
-                <span class="key">finite</span>: await value.isFinite(),
-                <span class="key">description</span>: await value.getDescription(),
-                <span class="key">help</span>: await value.getHelp(),
+                <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.binaryOperators()),
+                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.unaryOperators()),
+                <span class="key">finite</span>: await value.finite(),
+                <span class="key">description</span>: await value.description(),
+                <span class="key">help</span>: await value.help(),
                 <span class="key">value</span>: value,
             };
         }
@@ -515,9 +515,6 @@
         } , <span class="integer">1</span>));
     }
 
-    <span class="comment">/**
-     *
-     */</span>
     async updateExamples() {
         const selectedField = <span class="local-variable">this</span>.field.value;
         const information = <span class="local-variable">this</span>.information[selectedField];
@@ -621,7 +618,7 @@
         const fieldInformation = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].value;
         <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, fieldInformation, Calculator);</span>
         const calculator = await <span class="keyword">new</span>  Calculator(fieldInformation);
-        <span class="local-variable">this</span>.output.value = await calculator.eval(<span class="local-variable">this</span>.input.value);
+        <span class="local-variable">this</span>.output.value = await calculator.evalToString(<span class="local-variable">this</span>.input.value);
     }
 }</code></pre>
 </div>
@@ -1141,7 +1138,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-11-06 10:46:02 UTC
+Last updated 2026-11-07 22:46:15 UTC
 </div>
 </div>
 </body>
