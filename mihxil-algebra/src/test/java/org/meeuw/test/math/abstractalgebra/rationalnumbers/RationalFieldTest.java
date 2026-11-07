@@ -56,6 +56,16 @@ class RationalFieldTest implements FieldTheory<RationalNumber>,
     }
 
     @Test
+    void fromStringIntegerAndFraction() {
+        assertThat(INSTANCE.fromString("2¹⁄₂").toString()).isEqualTo("⁵⁄₂");
+        assertThat(INSTANCE.fromString("-2¹⁄₂").toString()).isEqualTo("-⁵⁄₂");
+        assertThat(INSTANCE.fromString("-¹⁄₂").toString()).isEqualTo("-¹⁄₂");
+        assertThat(INSTANCE.fromString("2 1/2").toString()).isEqualTo("⁵⁄₂");
+        assertThat(INSTANCE.fromString("21/2").toString()).isEqualTo("²¹⁄₂");
+        assertThat(INSTANCE.fromString(" 7 ").toString()).isEqualTo("7");
+    }
+
+    @Test
     void minus() {
         assertThat(of(1).minus(of(0))).isEqualTo(of(1));
     }

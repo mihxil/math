@@ -145,9 +145,16 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
         return "ℚ";
     }
 
-    static Pattern PATTERN = Pattern.compile("^\\s*(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+)\\s*$");
+    static Pattern PATTERN = Pattern.compile("^\\s*(?:(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+))\\s*$");
+
+    /**
+     * In {@link org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration.Mode#INTEGER_AND_FRACTION} the integer part is directly followed by the superscripted numerator (e.g. {@code 2¹⁄₂}). Before unsuperscripting, a space must be inserted, otherwise the digits would merge.
+     */
+    static final Pattern INTEGER_BEFORE_SUPERSCRIPT = Pattern.compile("(\\d)(?=[⁰¹²³⁴⁵⁶⁷⁸⁹⁻])");
+
     @Override
     public RationalNumber fromString(String s) {
+        s = INTEGER_BEFORE_SUPERSCRIPT.matcher(s).replaceAll("$1 ");
         s = TextUtils.unsuperscript(TextUtils.unsubscript(s));
         s = s.replace(TextUtils.FRACTION_SLASH, '/');
         Matcher m = PATTERN.matcher(s);
