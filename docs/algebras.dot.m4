@@ -12,16 +12,6 @@ digraph {
     changecom(`  #')
 
 
-# interface org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup
-MultiplicativeSemiGroup[
-		margin=2	label=<
-<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='3' title='MultiplicativeSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java'><font color='#0000a0'>MultiplicativeSemiGroup</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ sqr</td></tr></table>
->
-]
-MultiplicativeSemiGroup -> {Magma}
-
-
 # interface org.meeuw.math.abstractalgebra.AlgebraicStructure
 AlgebraicStructure[
 		margin=2	label=<
@@ -40,17 +30,6 @@ AdditiveGroup[
 ]
 AdditiveGroup -> {AdditiveMonoid
 Group}
-
-
-# interface org.meeuw.math.abstractalgebra.CompleteScalarField
-CompleteScalarField[
-		margin=2	label=<
-<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='CompleteScalarField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteScalarField.java'><font color='#0000a0'>CompleteScalarField</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/CompleteScalarField.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ^   ≈   ≉   &lt;   ≲   &gt;   ≳  xⁿ ⁿ√x ⁿx</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr sqrt sin cos exp ln sinh cosh |x| x₌ ⌊x⌉</td><td title='special elements' href=''>0 u 1 𝜑 γ gamma ℯ 𝜋</td></tr></table>
->
-]
-CompleteScalarField -> {CompleteField
-ScalarField}
 
 
 # interface org.meeuw.math.abstractalgebra.MultiplicativeAbelianGroup
@@ -79,7 +58,7 @@ AdditiveAbelianSemiGroup}
 AbelianRing[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='OddEvenRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.java'><font color='#0000a0'>OddEvenRing</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.html'>📖</td></tr><tr><td  colspan='5' title='BooleanRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/bool/BooleanRing.java'><font color='#0000a0'>BooleanRing R</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/bool/BooleanRing.html'>📖</td></tr><tr><td  colspan='5' title='ModuloRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloRing.java'><font color='#0000a0'>ℤ/8ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloRing.html'>📖</td></tr><tr><td  colspan='5' title='The polynomial ring in x over ℚ' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java'><font color='#0000a0'>ℚ[x]</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html'>📖</td></tr><tr><td  colspan='5' title='The polynomial ring in x over ℤ' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java'><font color='#0000a0'>ℤ[x]</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html'>📖</td></tr></table>
+<tr><td  colspan='5' title='AbelianRing' href='MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.java'><font color='#0000a0'>AbelianRing</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/AbelianRing.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='OddEvenRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.java'><font color='#0000a0'>OddEvenRing</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/OddEvenRing.html'>📖</td></tr><tr><td  colspan='5' title='BooleanRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/bool/BooleanRing.java'><font color='#0000a0'>BooleanRing R</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/bool/BooleanRing.html'>📖</td></tr><tr><td  colspan='5' title='The polynomial ring in x over ℚ' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java'><font color='#0000a0'>ℚ[x]</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html'>📖</td></tr><tr><td  colspan='5' title='The polynomial ring in x over ℤ' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.java'><font color='#0000a0'>ℤ[x]</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/polynomial/PolynomialRing.html'>📖</td></tr><tr><td  colspan='5' title='ModuloRing' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloRing.java'><font color='#0000a0'>ℤ/8ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloRing.html'>📖</td></tr></table>
 >
 ]
 AbelianRing -> {Ring
@@ -90,10 +69,21 @@ MultiplicativeAbelianSemiGroup}
 MultiplicativeMonoid[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='4' title='MultiplicativeMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java'><font color='#0000a0'>MultiplicativeMonoid</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ sqr</td><td title='special elements' href=''>1</td></tr><tr><td  colspan='4' title='Squares' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Squares.java'><font color='#0000a0'>Squares ℤ²</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Squares.html'>📖</td></tr><tr><td  colspan='4' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.html'>📖</td></tr></table>
+<tr><td  colspan='4' title='MultiplicativeMonoid' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.java'><font color='#0000a0'>MultiplicativeMonoid</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeMonoid.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ sqr</td><td title='special elements' href=''>1</td></tr><tr><td  colspan='4' title='OddIntegers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.java'><font color='#0000a0'>OddIntegers ℕo</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/OddIntegers.html'>📖</td></tr><tr><td  colspan='4' title='Squares' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Squares.java'><font color='#0000a0'>Squares ℤ²</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Squares.html'>📖</td></tr></table>
 >
 ]
 MultiplicativeMonoid -> {MultiplicativeSemiGroup}
+
+
+# interface org.meeuw.math.abstractalgebra.CompleteScalarField
+CompleteScalarField[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td  colspan='5' title='CompleteScalarField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteScalarField.java'><font color='#0000a0'>CompleteScalarField</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/CompleteScalarField.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ^   ≈   ≉   &lt;   ≲   &gt;   ≳  xⁿ ⁿ√x ⁿx</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr sqrt sin cos exp ln sinh cosh |x| x₌ ⌊x⌉</td><td title='special elements' href=''>0 u 1 𝜑 γ gamma ℯ 𝜋</td></tr></table>
+>
+]
+CompleteScalarField -> {CompleteField
+ScalarField}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveAbelianSemiGroup
@@ -116,16 +106,6 @@ MultiplicativeAbelianSemiGroup[
 MultiplicativeAbelianSemiGroup -> {MultiplicativeSemiGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.Group
-Group[
-		margin=2	label=<
-<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='3' title='Group' href='MATH_URL/org/meeuw/math/abstractalgebra/Group.java'><font color='#0000a0'>Group</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/Group.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+ inverse</td><td title='special elements' href=''>u</td></tr><tr><td  colspan='3' title='TrivialGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java'><font color='#0000a0'>TrivialGroup C₁</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.html'>📖</td></tr><tr><td  colspan='3' title='KleinGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/klein/KleinGroup.java'><font color='#0000a0'>KleinGroup V</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/klein/KleinGroup.html'>📖</td></tr><tr><td  colspan='3' title='Integers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.java'><font color='#0000a0'>ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.html'>📖</td></tr><tr><td  colspan='3' title='ProductGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/product/ProductGroup.java'><font color='#0000a0'>V⨯V</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/product/ProductGroup.html'>📖</td></tr><tr><td  colspan='3' title='dihedral symmetry group representing the symmetries of a regular 3-gon' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.java'><font color='#0000a0'>D₃</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.html'>📖</td></tr></table>
->
-]
-Group -> {Magma}
-
-
 # interface org.meeuw.math.abstractalgebra.ScalarField
 ScalarField[
 		margin=2	label=<
@@ -134,6 +114,16 @@ ScalarField[
 >
 ]
 ScalarField -> {Field}
+
+
+# interface org.meeuw.math.abstractalgebra.Group
+Group[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td  colspan='3' title='Group' href='MATH_URL/org/meeuw/math/abstractalgebra/Group.java'><font color='#0000a0'>Group</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/Group.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='other binary operators' href=''> ≈   ≉ </td><td title='Unary operators' href=''>+ inverse</td><td title='special elements' href=''>u</td></tr><tr><td  colspan='3' title='KleinGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/klein/KleinGroup.java'><font color='#0000a0'>KleinGroup V</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/klein/KleinGroup.html'>📖</td></tr><tr><td  colspan='3' title='TrivialGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.java'><font color='#0000a0'>TrivialGroup C₁</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/trivial/TrivialGroup.html'>📖</td></tr><tr><td  colspan='3' title='dihedral symmetry group representing the symmetries of a regular 3-gon' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.java'><font color='#0000a0'>D₃</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dihedral/DihedralGroup.html'>📖</td></tr><tr><td  colspan='3' title='Integers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.java'><font color='#0000a0'>ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/Integers.html'>📖</td></tr><tr><td  colspan='3' title='ProductGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/product/ProductGroup.java'><font color='#0000a0'>V⨯V</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/product/ProductGroup.html'>📖</td></tr></table>
+>
+]
+Group -> {Magma}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveMonoid
@@ -146,15 +136,14 @@ AdditiveMonoid[
 AdditiveMonoid -> {AdditiveSemiGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.MultiplicativeGroup
-MultiplicativeGroup[
+# interface org.meeuw.math.abstractalgebra.VectorSpace
+VectorSpace[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='4' title='MultiplicativeGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java'><font color='#0000a0'>MultiplicativeGroup</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅/</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ reciprocal inverse sqr</td><td title='special elements' href=''>1 u</td></tr><tr><td  colspan='4' title='PermutationGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java'><font color='#0000a0'>PermutationGroup</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.html'>📖</td></tr><tr><td  colspan='4' title='GeneralLinearGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java'><font color='#0000a0'>GL₂(ℚ)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.html'>📖</td></tr></table>
+<tr><td  colspan='5' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - inverse sqr</td><td title='special elements' href=''>u 1 0</td></tr><tr><td  colspan='5' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝᵤ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.html'>📖</td></tr><tr><td  colspan='5' title='Vector2Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim2/Vector2Space.java'><font color='#0000a0'>Vector2Space ℝᵤ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim2/Vector2Space.html'>📖</td></tr><tr><td  colspan='5' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.html'>📖</td></tr></table>
 >
 ]
-MultiplicativeGroup -> {MultiplicativeMonoid
-Group}
+VectorSpace -> {AbelianRing}
 
 
 # interface org.meeuw.math.abstractalgebra.AdditiveSemiGroup
@@ -167,23 +156,21 @@ AdditiveSemiGroup[
 AdditiveSemiGroup -> {Magma}
 
 
-# interface org.meeuw.math.abstractalgebra.DivisionRing
-DivisionRing[
+# interface org.meeuw.math.abstractalgebra.MultiplicativeSemiGroup
+MultiplicativeSemiGroup[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.html'>📖</td></tr></table>
+<tr><td  colspan='3' title='MultiplicativeSemiGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.java'><font color='#0000a0'>MultiplicativeSemiGroup</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeSemiGroup.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ sqr</td></tr></table>
 >
 ]
-DivisionRing -> {MultiplicativeGroup
-MultiplicativeMonoid
-Ring}
+MultiplicativeSemiGroup -> {Magma}
 
 
 # interface org.meeuw.math.abstractalgebra.Field
 Field[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='Field' href='MATH_URL/org/meeuw/math/abstractalgebra/Field.java'><font color='#0000a0'>Field</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/Field.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/pℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.html'>📖</td></tr><tr><td  colspan='5' title='GaussianRationals' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java'><font color='#0000a0'>GaussianRationals 𝐐(i)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/GaussianRationals.html'>📖</td></tr><tr><td  colspan='5' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/3ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.html'>📖</td></tr></table>
+<tr><td  colspan='5' title='Field' href='MATH_URL/org/meeuw/math/abstractalgebra/Field.java'><font color='#0000a0'>Field</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/Field.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='GaussianRationals' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/GaussianRationals.java'><font color='#0000a0'>GaussianRationals 𝐐(i)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/GaussianRationals.html'>📖</td></tr><tr><td  colspan='5' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/pℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.html'>📖</td></tr><tr><td  colspan='5' title='ModuloField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.java'><font color='#0000a0'>ℤ/3ℤ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/integers/ModuloField.html'>📖</td></tr></table>
 >
 ]
 Field -> {DivisionRing
@@ -195,7 +182,7 @@ DivisibleGroup}
 CompleteField[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='CompleteField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteField.java'><font color='#0000a0'>CompleteField</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/CompleteField.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ^   ≈   ≉  xⁿ ⁿ√x ⁿx</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr sqrt sin cos exp ln sinh cosh</td><td title='special elements' href=''>0 u 1 𝜑 γ 𝜋 gamma ℯ</td></tr><tr><td  colspan='5' title='ComplexNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.java'><font color='#0000a0'>ComplexNumbers ℂₚ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.html'>📖</td></tr><tr><td  colspan='5' title='BigComplexNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.java'><font color='#0000a0'>BigComplexNumbers ℂ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.html'>📖</td></tr><tr><td  colspan='5' title='RealField' href='MATH_URL/org/meeuw/math/abstractalgebra/reals/RealField.java'><font color='#0000a0'>RealField ℝᵤ</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/reals/RealField.html'>📖</td></tr><tr><td  colspan='5' title='BigDecimalField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.java'><font color='#0000a0'>BigDecimalField ℝ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.html'>📖</td></tr></table>
+<tr><td  colspan='5' title='CompleteField' href='MATH_URL/org/meeuw/math/abstractalgebra/CompleteField.java'><font color='#0000a0'>CompleteField</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/CompleteField.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/<br />⇆</td><td title='other binary operators' href=''> ^   ≈   ≉  xⁿ ⁿ√x ⁿx</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr sqrt sin cos exp ln sinh cosh</td><td title='special elements' href=''>0 u 1 𝜑 γ 𝜋 gamma ℯ</td></tr><tr><td  colspan='5' title='BigDecimalField' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.java'><font color='#0000a0'>BigDecimalField ℝ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/bigdecimals/BigDecimalField.html'>📖</td></tr><tr><td  colspan='5' title='BigComplexNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.java'><font color='#0000a0'>BigComplexNumbers ℂ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/BigComplexNumbers.html'>📖</td></tr><tr><td  colspan='5' title='RealField' href='MATH_URL/org/meeuw/math/abstractalgebra/reals/RealField.java'><font color='#0000a0'>RealField ℝᵤ</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/reals/RealField.html'>📖</td></tr><tr><td  colspan='5' title='ComplexNumbers' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.java'><font color='#0000a0'>ComplexNumbers ℂₚ</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/complex/ComplexNumbers.html'>📖</td></tr></table>
 >
 ]
 CompleteField -> {Field}
@@ -209,6 +196,17 @@ Magma[
 >
 ]
 Magma -> {AlgebraicStructure}
+
+
+# interface org.meeuw.math.abstractalgebra.MultiplicativeGroup
+MultiplicativeGroup[
+		margin=2	label=<
+<table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
+<tr><td  colspan='4' title='MultiplicativeGroup' href='MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.java'><font color='#0000a0'>MultiplicativeGroup</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/MultiplicativeGroup.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of multiplication' href=''>⋅/</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ reciprocal inverse sqr</td><td title='special elements' href=''>1 u</td></tr><tr><td  colspan='4' title='PermutationGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.java'><font color='#0000a0'>PermutationGroup</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/permutations/PermutationGroup.html'>📖</td></tr><tr><td  colspan='4' title='GeneralLinearGroup' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.java'><font color='#0000a0'>GL₂(ℚ)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/linear/GeneralLinearGroup.html'>📖</td></tr></table>
+>
+]
+MultiplicativeGroup -> {MultiplicativeMonoid
+Group}
 
 
 # interface org.meeuw.math.abstractalgebra.Ring
@@ -243,12 +241,14 @@ DivisibleGroup[
 DivisibleGroup -> {MultiplicativeAbelianGroup}
 
 
-# interface org.meeuw.math.abstractalgebra.VectorSpace
-VectorSpace[
+# interface org.meeuw.math.abstractalgebra.DivisionRing
+DivisionRing[
 		margin=2	label=<
 <table border='0'  cellborder='1' cellspacing='0' cellpadding='1'>
-<tr><td  colspan='5' title='VectorSpace' href='MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.java'><font color='#0000a0'>VectorSpace</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/VectorSpace.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅<br />⇆</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - inverse sqr</td><td title='special elements' href=''>u 1 0</td></tr><tr><td  colspan='5' title='Vector3Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.java'><font color='#0000a0'>Vector3Space ℝᵤ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim3/Vector3Space.html'>📖</td></tr><tr><td  colspan='5' title='Vector2Space' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim2/Vector2Space.java'><font color='#0000a0'>Vector2Space ℝᵤ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/dim2/Vector2Space.html'>📖</td></tr><tr><td  colspan='5' title='NVectorSpace' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.java'><font color='#0000a0'>ℚ³</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/vectorspace/NVectorSpace.html'>📖</td></tr></table>
+<tr><td  colspan='5' title='DivisionRing' href='MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.java'><font color='#0000a0'>DivisionRing</font></td><td  title='javadoc' href='JAVADOC_MATH_URL/org/meeuw/math/abstractalgebra/DivisionRing.html'>📖</td></tr><tr><td title='group binary operator' href=''> * </td><td title='binary operators of addition' href=''>+-<br />⇆</td><td title='binary operators of multiplication' href=''>⋅/</td><td title='other binary operators' href=''> ≈   ≉  xⁿ</td><td title='Unary operators' href=''>+ - reciprocal inverse sqr</td><td title='special elements' href=''>0 u 1</td></tr><tr><td  colspan='5' title='Quaternions' href='ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.java'><font color='#0000a0'>ℍ(ℚ)</font></td><td  title='javadoc' href='JAVADOC_ALGEBRA_URL/org/meeuw/math/abstractalgebra/quaternions/Quaternions.html'>📖</td></tr></table>
 >
 ]
-VectorSpace -> {AbelianRing}
+DivisionRing -> {MultiplicativeGroup
+MultiplicativeMonoid
+Ring}
 }
