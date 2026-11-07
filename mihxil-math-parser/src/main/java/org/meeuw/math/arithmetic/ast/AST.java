@@ -11,6 +11,7 @@ import org.meeuw.math.IntegerUtils;
 import org.meeuw.math.abstractalgebra.*;
 import org.meeuw.math.arithmetic.ast.infix.InfixParser;
 import org.meeuw.math.arithmetic.ast.infix.ParseException;
+import org.meeuw.math.arithmetic.ast.infix.TokenMgrException;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.text.TextUtils;
 
@@ -127,14 +128,45 @@ public class AST {
      */
     static final Pattern MIXED_NUMBER = Pattern.compile("(\\d+)([⁰¹²³⁴⁵⁶⁷⁸⁹]+)\u2044([₀₁₂₃₄₅₆₇₈₉]+)");
 
+    /**
+     * A number in scientific notation, like {@code 1.5·10⁻¹⁶} (optionally followed by an imaginary unit), as e.g. produced by real and complex numbers.
+     */
+    static final Pattern SCIENTIFIC_NOTATION = Pattern.compile("\\d+(?:\\.\\d+)?\u00B710[⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+[ijk]?");
+
+    /**
+     * Applies {@link TextUtils#undo(CharSequence)}, but not to quoted literals, which are passed as is to {@link AlgebraicStructure#fromString(String)}.
+     */
+    static String undoOutsideQuotes(String parse) {
+        StringBuilder result = new StringBuilder();
+        String[] parts = parse.split("\"", -1);
+        for (int i = 0; i < parts.length; i++) {
+            if (i > 0) {
+                result.append('"');
+            }
+            result.append(i % 2 == 0 ? TextUtils.undo(parts[i]) : parts[i]);
+        }
+        return result.toString();
+    }
+
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant)  {
         try {
             // mixed numbers are handed as one literal to the structure, so that they are not confused with a division
-            parse = MIXED_NUMBER.matcher(parse).replaceAll("\"$1 $2\u2044$3\"");
-            InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field, getConstant);
+            String infix = MIXED_NUMBER.matcher(parse).replaceAll("\"$1 $2\u2044$3\"");
+            // so is scientific notation, which would otherwise be confused with a multiplication and a subtraction
+            infix = SCIENTIFIC_NOTATION.matcher(infix).replaceAll("\"$0\"");
+            InfixParser<E> parser = new InfixParser<>(undoOutsideQuotes(infix), field, getConstant);
             return parser.parse();
-        } catch (ParseException e) {
-            throw new IllegalArgumentException(e.getMessage());
+        } catch (ParseException | TokenMgrException e) {
+            // Perhaps the complete string is just one element, in the structure's own notation (e.g. a polynomial like 7\u00b7x + x\u00b2)
+            return asLiteral(parse, field).orElseThrow(() -> new IllegalArgumentException(e.getMessage(), e));
+        }
+    }
+
+    private static <E extends AlgebraicElement<E>> Optional<Expression<E>> asLiteral(String parse, AlgebraicStructure<E> field) {
+        try {
+            return Optional.of(new Value<>(field.fromString(parse.strip())));
+        } catch (RuntimeException notParsable) {
+            return Optional.empty();
         }
     }
 

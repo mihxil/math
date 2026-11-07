@@ -15,7 +15,7 @@ class Parser {
         input = input
             .replaceAll("\\s+", "")
             .replace("-", "+-");
-        input = TextUtils.unsuperscript(input);
+        // Don't unsuperscript the complete input, coefficients may contain superscripts too (e.g. 2³⁄₄ in a rational coefficient). That's up to the coefficient ring
         if (input.startsWith("+")) {
             input = input.substring(1);
         }
@@ -24,22 +24,20 @@ class Parser {
         String[] terms = input.split("\\+");
         Map<Integer, E> coeffs = new HashMap<>();
 
-        Pattern termPattern = Pattern.compile("(.*?)·?(?:" + ring.getVariable() + "\\^?(\\d*))?");
+        Pattern termPattern = Pattern.compile("(.*?)·?(?:(" + Pattern.quote(ring.getVariable()) + ")(\\^\\d+|[⁰¹²³⁴⁵⁶⁷⁸⁹]+)?)?");
         for (String term : terms) {
             if (term.isEmpty()) continue;
             Matcher m = termPattern.matcher(term);
             if (m.matches()) {
                 String coeff = m.group(1);
-                String e = m.group(2);
                 final int exp;
-                if (e == null) {
+                if (m.group(2) == null) {
+                    // no variable
                     exp = 0;
+                } else if (m.group(3) == null) {
+                    exp = 1;
                 } else {
-                    if (e.isEmpty()) {
-                        exp = 1;
-                    } else {
-                        exp = Integer.parseInt(e);
-                    }
+                    exp = Integer.parseInt(TextUtils.unsuperscript(m.group(3)).replace("^", ""));
                 }
                 E coeffValue;
                 if (coeff.isEmpty()) {
