@@ -21,7 +21,7 @@
 module org.meeuw.math.parser {
 
     requires static lombok;
-
+    requires static org.checkerframework.checker.qual;
     requires java.logging;
 
     requires org.meeuw.functional;
