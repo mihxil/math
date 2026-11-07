@@ -3,6 +3,7 @@ package org.meeuw.math.arithmetic.ast;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -90,33 +91,46 @@ public class AST {
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field)  {
         return parse(parse, field, (sign, name) ->
-            field.getConstant(name).map(c -> {
-                if (c instanceof AdditiveGroupElement<?> groupElement) {
-                    if ("-".equals(sign)) {
-                        return (E) groupElement.negation();
-
-                    } else {
-                        return c;
-                    }
-                } else if (c instanceof GroupElement<?> groupElement) {
-                    if ("-".equals(sign)) {
-                        return (E) groupElement.inverse();
-                    } else {
-                        return c;
-                    }
-                } else {
-                    if (sign != null) {
-                        // it may be parseable?
-                        return field.fromString(sign + c);
-                    }
-                    return c;
-                }
-            })
+            field.getConstant(name).map(c -> withSign(sign, c, field))
         );
     }
 
+    /**
+     * Applies a (unary) sign to an element. For additive groups, a {@code -} means negation, for (multiplicative) groups it means the inverse.
+     * @param sign {@code null}, {@code "+"} or {@code "-"}
+     */
+    @SuppressWarnings("unchecked")
+    public static <E extends AlgebraicElement<E>> E withSign(String sign, E c, AlgebraicStructure<E> field) {
+        if (c instanceof AdditiveGroupElement<?> groupElement) {
+            if ("-".equals(sign)) {
+                return (E) groupElement.negation();
+            } else {
+                return c;
+            }
+        } else if (c instanceof GroupElement<?> groupElement) {
+            if ("-".equals(sign)) {
+                return (E) groupElement.inverse();
+            } else {
+                return c;
+            }
+        } else {
+            if (sign != null) {
+                // it may be parseable?
+                return field.fromString(sign + c);
+            }
+            return c;
+        }
+    }
+
+    /**
+     * A 'mixed number' like {@code 1³⁄₅} (as e.g. produced by rational numbers in 'INTEGER_AND_FRACTION' mode). If {@link TextUtils#undo(CharSequence)} would be applied to this directly, it would become {@code 13/5}, which is something else entirely.
+     */
+    static final Pattern MIXED_NUMBER = Pattern.compile("(\\d+)([⁰¹²³⁴⁵⁶⁷⁸⁹]+)\u2044([₀₁₂₃₄₅₆₇₈₉]+)");
+
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant)  {
         try {
+            // mixed numbers are handed as one literal to the structure, so that they are not confused with a division
+            parse = MIXED_NUMBER.matcher(parse).replaceAll("\"$1 $2\u2044$3\"");
             InfixParser<E> parser = new InfixParser<>(TextUtils.undo(parse), field, getConstant);
             return parser.parse();
         } catch (ParseException e) {

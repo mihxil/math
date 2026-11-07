@@ -84,6 +84,15 @@ class CalculatorTest {
     }
 
     @Test
+    void integerAndFraction() {
+        var calculator = new Calculator<>(rational);
+        assertThat(calculator.evalToString("1³⁄₅")).isEqualTo("1³⁄₅");
+        assertThat(calculator.evalToString("-1³⁄₅")).isEqualTo("-1³⁄₅");
+        assertThat(calculator.evalToString("2 - 1³⁄₅")).isEqualTo("²⁄₅");
+        assertThat(calculator.evalToString("13/5")).isEqualTo("2³⁄₅");
+    }
+
+    @Test
     void polynomials() {
         log.fine("test");
         var calculator = new Calculator<>(polynomials);
@@ -104,8 +113,10 @@ class CalculatorTest {
         for (String e : fi.examples()) {
             var evaluated = calculator.evalToString(e);
             log.info(e + " = " + evaluated);
-            assertThat(calculator.evalToString(evaluated)).isEqualTo(evaluated);
-
+            var evalEvaluated = calculator.evalToString(evaluated);
+            assertThat(evalEvaluated)
+                .withFailMessage(() -> "eval(" + evaluated + ") = " + evalEvaluated + " (should be " + evaluated + ")")
+                .isEqualTo(evaluated);
         }
     }
 }

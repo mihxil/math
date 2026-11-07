@@ -175,17 +175,19 @@ Value<E> number() : {
     Token t;
 }
 {
-   ((
     (sign = <SIGN>)?
-    t = <NUMBER>
-    ) |
     (
+      t = <NUMBER>
+    |
       t = <QUOTED_STRING>
     )
-    )
     {
-       String numberString = (sign == null ? "" : sign.image) +
-       (t.kind == QUOTED_STRING ? t.image.substring(1, t.image.length() - 1) : t.image);
+       if (t.kind == QUOTED_STRING) {
+          // a quoted literal is parsed as a whole, a sign before it applies to the entire value
+          E value = structure.fromString(t.image.substring(1, t.image.length() - 1));
+          return new Value<>(AST.withSign(sign == null ? null : sign.image, value, structure));
+       }
+       String numberString = (sign == null ? "" : sign.image) + t.image;
        return new Value<>(structure.fromString(numberString));
     }
 }
