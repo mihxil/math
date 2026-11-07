@@ -11,7 +11,7 @@
 <meta name="keywords" content="open source, documentation" />
 <meta name="demo" content="demo" />
 
-<script src="https://cjrtnc.leaningtech.com/4.3/loader.js"></script>
+<script src="https://cjrtnc.leaningtech.com/5.0/loader.js"></script>
 
 <script src="resources/js/demo.js" type="module" ></script>
 <script src="resources/js/demo-standalone.js" type="module" ></script>
@@ -274,7 +274,7 @@
 
     <span class="directive">private</span> <span class="directive">final</span> Magma&lt;?&gt; field;
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> examples;
-    <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> elements;
+
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> binaryOperators;
     <span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">String</span><span class="type">[]</span> unaryOperators;
 
@@ -284,7 +284,7 @@
         <span class="local-variable">this</span>.field = field;
         <span class="local-variable">this</span>.finite = field.isFinite();
         <span class="local-variable">this</span>.examples = examples;
-        <span class="local-variable">this</span>.elements = elements(field);
+
         <span class="local-variable">this</span>.binaryOperators = field.getSupportedOperators()
             .stream()
             .map(AlgebraicBinaryOperator::getSymbol)
@@ -295,10 +295,14 @@
             .map(AlgebraicUnaryOperator::getSymbol)
             .toArray(<span class="predefined-type">String</span><span class="type">[]</span>::<span class="keyword">new</span>);
 
-        log.fine(<span class="string"><span class="delimiter">&quot;</span><span class="content">Created %s, operators: %s, unary: %s examples: %s, elements: %s</span><span class="delimiter">&quot;</span></span>.formatted(field,
+        log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Created %s, operators: %s, unary: %s examples: %s, elements: %s</span><span class="delimiter">&quot;</span></span>.formatted(field,
             <span class="predefined-type">List</span>.of(binaryOperators),
             <span class="predefined-type">List</span>.of(unaryOperators),
-            <span class="predefined-type">List</span>.of(examples), <span class="predefined-type">List</span>.of(elements)));
+            <span class="predefined-type">List</span>.of(examples), <span class="predefined-type">List</span>.of(elements())));
+    }
+
+    <span class="directive">public</span> <span class="predefined-type">String</span><span class="type">[]</span> elements() {
+        <span class="keyword">return</span> elements(<span class="local-variable">this</span>.field);
     }
 
     <span class="directive">public</span> <span class="directive">static</span> <span class="predefined-type">String</span><span class="type">[]</span> elements(Magma&lt;?&gt; field) {
@@ -312,43 +316,45 @@
         <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
     }
 
-    <span class="directive">public</span> <span class="predefined-type">String</span> getDescription() {
+    <span class="directive">public</span> <span class="predefined-type">String</span> description() {
         <span class="keyword">return</span> field.getClass().getSimpleName() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + field;
     }
 
-    <span class="directive">public</span> <span class="predefined-type">String</span> getHelp() {
+    <span class="directive">public</span> <span class="predefined-type">String</span> help() {
         <span class="keyword">return</span> field.getDescription().orElse(<span class="predefined-constant">null</span>);
     }
 }
 
-<span class="directive">private</span> <span class="directive">final</span> Magma&lt;?&gt; field;
+<span class="annotation">@With</span>
+<span class="directive">private</span> <span class="directive">final</span> F field;
+
+<span class="annotation">@With</span>
+<span class="directive">private</span> <span class="directive">final</span> <span class="predefined-type">Configuration</span> configuration;
 
 
-<span class="directive">public</span> <span class="predefined-type">String</span> eval(<span class="predefined-type">String</span> input) {
+<span class="directive">public</span> E eval(<span class="predefined-type">String</span> input) {
     <span class="directive">final</span> <span class="predefined-type">String</span> expression = input.strip();
-    <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(cb -&gt; cb
-        .configure(UncertaintyConfiguration.class,
-            (ub) -&gt; ub.withNotation(ROUND_VALUE))
-        .configure(MathContextConfiguration.class,
-            (mc) -&gt; mc.withContext(<span class="keyword">new</span> <span class="predefined-type">MathContext</span>(Utils.PI.length())))
-    )) {
-
+    <span class="keyword">try</span> (<span class="type">var</span> r = ConfigurationService.setConfiguration(configuration)) {
         log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Evaluating expression in %s: %s. Binary: %s, Unary: %s</span><span class="delimiter">&quot;</span></span>.formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
         <span class="keyword">if</span> (field.getSupportedOperators().isEmpty()) {
             log.log(<span class="predefined-type">Level</span>.SEVERE,  <span class="string"><span class="delimiter">&quot;</span><span class="content">Supported operators is empty for </span><span class="delimiter">&quot;</span></span> + field);
         }
         <span class="type">var</span> parsedExpression = AST.parse(expression, field);
         log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Parsed expression: %s</span><span class="delimiter">&quot;</span></span>.formatted(parsedExpression));
-        <span class="type">var</span> result = parsedExpression.eval();
-        <span class="type">var</span> resultAsString = result.toString();
-        log.info(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(expression, resultAsString));
-        <span class="keyword">return</span> resultAsString;
+        <span class="keyword">return</span> parsedExpression.eval();
     } <span class="keyword">catch</span> (<span class="predefined-type">Throwable</span> ex) {
         log.log(<span class="predefined-type">Level</span>.SEVERE, ex.getClass() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + ex.getMessage(), ex);
         <span class="keyword">throw</span> ex;
     } <span class="keyword">finally</span> {
         log.finer(<span class="string"><span class="delimiter">&quot;</span><span class="content">Ready evaluation</span><span class="delimiter">&quot;</span></span>);
     }
+}
+
+<span class="directive">public</span> <span class="predefined-type">String</span> evalToString(<span class="predefined-type">String</span> input) {
+    <span class="type">var</span> result = eval(input);
+    <span class="type">var</span> resultAsString = result.toString();
+    log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(input.strip(), resultAsString));
+    <span class="keyword">return</span> resultAsString;
 }</code></pre>
 </div>
 </div>
@@ -614,7 +620,7 @@
         <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
         const fieldInformation = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].value;
         <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, fieldInformation, Calculator);</span>
-        const calculator = await <span class="keyword">new</span> (await Calculator)(fieldInformation);
+        const calculator = await <span class="keyword">new</span>  Calculator(fieldInformation);
         <span class="local-variable">this</span>.output.value = await calculator.eval(<span class="local-variable">this</span>.input.value);
     }
 }</code></pre>
@@ -1135,7 +1141,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-10-11 16:52:37 UTC
+Last updated 2026-11-06 10:46:02 UTC
 </div>
 </div>
 </body>
