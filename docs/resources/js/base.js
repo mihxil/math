@@ -1,5 +1,5 @@
 /* DO NOT EDIT. Copied from ../mihxil-demo/js/resources/ */
-import { JARS } from './jars.js';
+import { JARS, JAR_SIZES } from './jars.js';
 
 export const NATIVES = {};
 
@@ -8,6 +8,9 @@ export class BaseClass {
     static instances = [];
     static cj = null;
     static cjInit = null;
+    static classCache = new Map();
+    static classLoadPromises = new Map();
+    static loggingInit = null;
 
     constructor(formSelector, ...classes) {
 
@@ -27,7 +30,6 @@ export class BaseClass {
 
     static async getCheerpj() {
         if (BaseClass.cjInit === null) {
-            BaseClass.cjInit = "locked";
             const properties = [
                 `user.timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`];
             const buttons =  document.querySelectorAll('button.cheerpjprogress');
@@ -46,10 +48,25 @@ export class BaseClass {
                 version: 17,
                 enableDebug: false,
                 javaProperties: properties,
-                //cjGetRuntimeResources();
-                preloadResources: {"/lt/17/lib/tzdb.dat":[0,131072],"/lt/17/lib/modules":[0,131072,1179648,3801088,3932160,5898240,6029312,6291456,6422528,6553600,6684672,7077888,7864320,8126464,9568256,9699328,9830400,10092544,19005440,19136512,27787264,27918336,37486592,37617664,38010880,38141952],"/lt/etc/users":[0,131072],"/lt/17/jre/lib/cheerpj-handlers.jar":[0,131072],"/lt/17/jre/lib/cheerpj-awt.jar":[0,131072],"/lt/17/jre/lib/cheerpj-jsobject.jar":[0,131072],"/lt/17/conf/security/java.security":[0,131072],"/lt/etc/localtime":[],"/lt/17/conf/logging.properties":[0,131072]},
+                preloadResources: {
+                    "/lt/17/lib/tzdb.dat": [0, 131072],
+                    "/lt/17/lib/modules": [0, 131072, 1179648, 3801088, 3932160, 5898240, 6029312, 6291456, 6422528, 6553600, 6684672, 7077888, 7864320, 8126464, 9568256, 9699328, 9830400, 10092544, 19005440, 19136512, 27787264, 27918336, 37486592, 37617664, 38010880, 38141952],
+                    "/lt/etc/users": [0, 131072],
+                    "/lt/17/jre/lib/cheerpj-handlers.jar": [0, 131072],
+                    "/lt/17/jre/lib/cheerpj-awt.jar": [0, 131072],
+                    "/lt/17/jre/lib/cheerpj-jsobject.jar": [0, 131072],
+                    "/lt/17/conf/security/java.security": [0, 131072],
+                    "/lt/etc/localtime": [],
+                    "/lt/17/conf/logging.properties": [0, 131072]
+                },
                 preloadProgress: showPreloadProgress,
                 natives: NATIVES
+            }
+            const pref = document.location.pathname.startsWith("/math") ?
+                "/app/math/resources/jars/" :
+                "/app/resources/jars/";
+            for (const [jar, size] of Object.entries(JAR_SIZES)) {
+                settings.preloadResources[pref + jar] = [0, size];
             }
             console.log("init cheerpj", settings);
             BaseClass.cjInit = cheerpjInit(settings);
@@ -69,17 +86,40 @@ export class BaseClass {
 
     static async loadClassesForForm(className, classNames) {
         const cjj = await BaseClass.getCheerpj();
+        const cacheKey = JSON.stringify([className, classNames]);
+        const cached = BaseClass.classCache.get(cacheKey);
+        if (cached) {
+            return cached;
+        }
+        const pending = BaseClass.classLoadPromises.get(cacheKey);
+        if (pending) {
+            return pending;
+        }
 
-        await (await cjj['org.meeuw.math.demo.DemoUtils']).setupLogging('INFO');
-        console.log(cjj, "setting up", className, classNames);
-        for (const c of classNames) {
-            await cjj[c]
+        const loadPromise = (async () => {
+            if (BaseClass.loggingInit === null) {
+                BaseClass.loggingInit = (async () => {
+                    await (await cjj['org.meeuw.math.demo.DemoUtils']).setupLogging('INFO');
+                })();
+            }
+            await BaseClass.loggingInit;
+            console.log(cjj, "setting up", className, classNames);
+            for (const c of classNames) {
+                await cjj[c]
+            }
+            const clazz = await cjj[className];
+            if (!clazz) {
+                throw new Error(`Could not load ${className} (${classNames.join(', ')})`);
+            }
+            BaseClass.classCache.set(cacheKey, clazz);
+            return clazz;
+        })();
+        BaseClass.classLoadPromises.set(cacheKey, loadPromise);
+        try {
+            return await loadPromise;
+        } finally {
+            BaseClass.classLoadPromises.delete(cacheKey);
         }
-        const clazz = await cjj[className];
-        if (!clazz) {
-            throw new Error(cjj, "Could not load ", className, classNames);
-        }
-        return clazz;
     }
 
     static async awaitedArray(array) {

@@ -116,7 +116,7 @@ export class CalculatorClass extends BaseClass {
 
         for (let i = 0; i < values.length; i++) {
             const value = await values[i];
-            const elements = await BaseClass.awaitedArray(value.getElements());
+            const elements = await BaseClass.awaitedArray(value.elements());
             let elementSpans = null;
             if (elements) {
                 elementSpans = [];
@@ -131,14 +131,14 @@ export class CalculatorClass extends BaseClass {
                 }
             }
             this.information[await values[i].name()] = {
-                examples: await BaseClass.awaitedArray(value.getExamples()),
+                examples: await BaseClass.awaitedArray(value.examples()),
                 elements: elements,
                 elementsSpans: elementSpans,
-                binaryOperators: await BaseClass.awaitedArray(value.getBinaryOperators()),
-                unaryOperators: await BaseClass.awaitedArray(value.getUnaryOperators()),
-                finite: await value.isFinite(),
-                description: await value.getDescription(),
-                help: await value.getHelp(),
+                binaryOperators: await BaseClass.awaitedArray(value.binaryOperators()),
+                unaryOperators: await BaseClass.awaitedArray(value.unaryOperators()),
+                finite: await value.finite(),
+                description: await value.description(),
+                help: await value.help(),
                 value: value,
             };
         }
@@ -150,9 +150,6 @@ export class CalculatorClass extends BaseClass {
         } , 1));
     }
 
-    /**
-     *
-     */
     async updateExamples() {
         const selectedField = this.field.value;
         const information = this.information[selectedField];
@@ -256,7 +253,7 @@ export class CalculatorClass extends BaseClass {
         const fieldInformation = this.information[this.field.value].value;
         //console.log("evaluating", this.input.value, "for", fieldInformation, Calculator);
         const calculator = await new  Calculator(fieldInformation);
-        this.output.value = await calculator.eval(this.input.value);
+        this.output.value = await calculator.evalToString(this.input.value);
     }
 }
 

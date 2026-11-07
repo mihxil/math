@@ -34,7 +34,7 @@ jars: target/mihxil-demo-$(VERSION).jar  ## update the jars in resources/jars (t
 	  echo ""; \
 	  echo "// Byte ranges used to preload the complete classpath in parallel."; \
 	  echo "export const JAR_SIZES = {"; \
-	  for jar in $(JARS_DIR)/*.jar; do echo "    \"$$(basename $$jar)\": $$(wc -c < \"$$jar\" | tr -d ' '),"; done; \
+	  for jar in $(JARS_DIR)/*.jar; do echo "    \"$$(basename $$jar)\": $$(wc -c < "$$jar" | tr -d ' '),"; done; \
 	  echo "};"; \
 	} > $(JARS_JS)
 	@echo "Wrote $(JARS_JS):" ; sed -n 's/^    /  /p' $(JARS_JS)

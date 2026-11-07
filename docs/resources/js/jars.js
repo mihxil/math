@@ -4,6 +4,7 @@
 export const JARS = [
     "big-math-2.3.2.jar",
     "fastdoubleparser-2.0.1.jar",
+    "jspecify-1.0.1.jar",
     "mihxil-algebra-0.23-SNAPSHOT.jar",
     "mihxil-configuration-0.23-SNAPSHOT.jar",
     "mihxil-functional-1.21.jar",
@@ -14,3 +15,19 @@ export const JARS = [
     "mihxil-time-0.23-SNAPSHOT.jar",
     "original-mihxil-demo-0.23-SNAPSHOT.jar",
 ];
+
+// Byte ranges used to preload the complete classpath in parallel.
+export const JAR_SIZES = {
+    "big-math-2.3.2.jar": 58140,
+    "fastdoubleparser-2.0.1.jar": 195941,
+    "jspecify-1.0.1.jar": 3064,
+    "mihxil-algebra-0.23-SNAPSHOT.jar": 292546,
+    "mihxil-configuration-0.23-SNAPSHOT.jar": 45967,
+    "mihxil-functional-1.21.jar": 147177,
+    "mihxil-math-0.23-SNAPSHOT.jar": 314000,
+    "mihxil-math-parser-0.23-SNAPSHOT.jar": 56796,
+    "mihxil-physics-0.23-SNAPSHOT.jar": 77306,
+    "mihxil-statistics-0.23-SNAPSHOT.jar": 61179,
+    "mihxil-time-0.23-SNAPSHOT.jar": 111206,
+    "original-mihxil-demo-0.23-SNAPSHOT.jar": 26939,
+};
