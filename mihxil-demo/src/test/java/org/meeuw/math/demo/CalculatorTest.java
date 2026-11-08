@@ -9,6 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import org.meeuw.math.exceptions.InvalidElementCreationException;
+import org.meeuw.math.uncertainnumbers.Uncertain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -93,6 +94,23 @@ class CalculatorTest {
     }
 
     @Test
+    void resultAsOperand() {
+        var calculator = new Calculator<>(gaussian);
+        var result = calculator.calculate("\"1 + 3i\" ⋅ i");
+        assertThat(result.result()).isEqualTo("-3 + i");
+        assertThat(result.operand()).isEqualTo("\"-3 + i\"");
+        assertThat(calculator.evalToString(result.operand() + " ⋅ i")).isEqualTo("-1 - 3i");
+    }
+
+    @Test
+    void calculateError() {
+        var calculator = new Calculator<>(integers);
+        var result = calculator.calculate("1 +");
+        assertThat(result.result()).isNull();
+        assertThat(result.error()).isNotBlank();
+    }
+
+    @Test
     void polynomials() {
         log.fine("test");
         var calculator = new Calculator<>(polynomials);
@@ -117,6 +135,25 @@ class CalculatorTest {
             assertThat(evalEvaluated)
                 .withFailMessage(() -> "eval(" + evaluated + ") = " + evalEvaluated + " (should be " + evaluated + ")")
                 .isEqualTo(evaluated);
+
+            // the result can be used as an operand of a next calculation
+            var calculated = calculator.calculate(e);
+            assertThat(calculated.result()).isEqualTo(evaluated);
+            var evalOperand = calculator.evalToString(calculated.operand());
+            assertThat(evalOperand)
+                .withFailMessage(() -> "eval(" + calculated.operand() + ") = " + evalOperand + " (should be " + evaluated + ")")
+                .isEqualTo(evaluated);
+            boolean exact = !(calculator.eval(e) instanceof Uncertain uncertain) || uncertain.isExact();
+            if (exact && fi.binaryOperators().length > 0) {
+                // combined with an operator too, and then it must be the same as the original expression between brackets
+                // (only for exact results, a displayed uncertain value is rounded, so continuing with it may differ within the uncertainty)
+                String op = fi.binaryOperators()[0];
+                String viaOperand = calculator.evalToString(calculated.operand() + " " + op + " " + calculated.operand());
+                String viaBrackets = calculator.evalToString("(" + e + ") " + op + " (" + e + ")");
+                assertThat(viaOperand)
+                    .withFailMessage(() -> calculated.operand() + " " + op + " " + calculated.operand() + " = " + viaOperand + " (should be " + viaBrackets + ")")
+                    .isEqualTo(viaBrackets);
+            }
         }
     }
 }

@@ -50,7 +50,10 @@
 
 ++++
 <div class="form">
-  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+  <ol class="tape" aria-live="polite">
+   <!-- previous calculations, filled by calculator.js -->
+  </ol>
+  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" autocomplete="off" title="Enter or = evaluates. The result can be used for the next calculation. Esc clears." />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>

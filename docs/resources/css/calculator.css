@@ -3,5 +3,34 @@ div:is(.sect1, .sect2):has(> #demo_calculator) .admonitionblock.tip table th {
   border: none;
   padding: 0.5em 0;
 }
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape {
+  list-style: none;
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  max-height: 12em;
+  overflow-y: auto;
+  text-align: right;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape:empty {
+  display: none;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape li {
+  opacity: 0.7;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape li:last-child {
+  opacity: 1;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .expression, div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .result {
+  cursor: pointer;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .expression:hover, div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .result:hover {
+  text-decoration: underline;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .result {
+  font-weight: bold;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator output.error {
+  color: darkred;
+}
 
 /*# sourceMappingURL=calculator.css.map */

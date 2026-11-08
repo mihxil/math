@@ -134,7 +134,31 @@ public class AST {
     static final Pattern SCIENTIFIC_NOTATION = Pattern.compile("\\d+(?:\\.\\d+)?\u00B710[⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+[ijk]?");
 
     /**
-     * Applies {@link TextUtils#undo(CharSequence)}, but not to quoted literals, which are passed as is to {@link AlgebraicStructure#fromString(String)}.
+     * Prepares a string for the {@link InfixParser}. Mixed numbers and scientific notation are made quoted literals, and {@link TextUtils#undo(CharSequence)} is applied. All this not to (already) quoted literals, which are passed as is to {@link AlgebraicStructure#fromString(String)}.
+     * @since 0.23
+     */
+    static String prepare(String parse) {
+        StringBuilder result = new StringBuilder();
+        String[] parts = parse.split("\"", -1);
+        for (int i = 0; i < parts.length; i++) {
+            if (i > 0) {
+                result.append('"');
+            }
+            if (i % 2 == 0) {
+                // mixed numbers are handed as one literal to the structure, so that they are not confused with a division
+                String part = MIXED_NUMBER.matcher(parts[i]).replaceAll("\"$1 $2\u2044$3\"");
+                // so is scientific notation, which would otherwise be confused with a multiplication and a subtraction
+                part = SCIENTIFIC_NOTATION.matcher(part).replaceAll("\"$0\"");
+                result.append(undoOutsideQuotes(part));
+            } else {
+                result.append(parts[i]);
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * Applies {@link TextUtils#undo(CharSequence)}, but not to quoted literals.
      */
     static String undoOutsideQuotes(String parse) {
         StringBuilder result = new StringBuilder();
@@ -148,13 +172,25 @@ public class AST {
         return result.toString();
     }
 
+    static final Pattern SIMPLE_OPERAND = Pattern.compile("-?\\d+(?:\\.\\d+)?|[\\p{L}𝜋𝜑][\\p{L}\\p{N}]*");
+
+    /**
+     * Makes the string representation of an element (e.g. the result of an evaluation) usable as an operand in a new expression. E.g. the complex number {@code -3 + i} must become {@code "-3 + i"}, otherwise {@code -3 + i ⋅ i} would mean something else than intended.
+     * <p>
+     * Simple numbers and names are left alone, everything else is quoted, so it will be parsed as a whole by {@link AlgebraicStructure#fromString(String)}.
+     * @since 0.23
+     */
+    public static String asOperand(String element) {
+        String stripped = element.strip();
+        if (SIMPLE_OPERAND.matcher(stripped).matches() || stripped.contains("\"")) {
+            return stripped;
+        }
+        return "\"" + stripped + "\"";
+    }
+
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant)  {
         try {
-            // mixed numbers are handed as one literal to the structure, so that they are not confused with a division
-            String infix = MIXED_NUMBER.matcher(parse).replaceAll("\"$1 $2\u2044$3\"");
-            // so is scientific notation, which would otherwise be confused with a multiplication and a subtraction
-            infix = SCIENTIFIC_NOTATION.matcher(infix).replaceAll("\"$0\"");
-            InfixParser<E> parser = new InfixParser<>(undoOutsideQuotes(infix), field, getConstant);
+            InfixParser<E> parser = new InfixParser<>(prepare(parse), field, getConstant);
             return parser.parse();
         } catch (ParseException | TokenMgrException e) {
             // Perhaps the complete string is just one element, in the structure's own notation (e.g. a polynomial like 7\u00b7x + x\u00b2)

@@ -119,4 +119,22 @@ class ASTTest {
                 ADDITION,MULTIPLICATION)
         ).toList()).hasSize(AST.streamSize(2, 2).intValue());
     }
+
+    @Test
+    public void asOperand() {
+        assertThat(AST.asOperand("12")).isEqualTo("12");
+        assertThat(AST.asOperand("-1.5")).isEqualTo("-1.5");
+        assertThat(AST.asOperand("k")).isEqualTo("k");
+        assertThat(AST.asOperand("r1")).isEqualTo("r1");
+        assertThat(AST.asOperand("-3 + i")).isEqualTo("\"-3 + i\"");
+        assertThat(AST.asOperand("³⁄₂")).isEqualTo("\"³⁄₂\"");
+        assertThat(AST.asOperand("1·10⁻¹⁶")).isEqualTo("\"1·10⁻¹⁶\"");
+    }
+
+    @Test
+    public void quotedLiteralsAreLeftAlone() {
+        // a quoted literal must not be rewritten, also if it contains a mixed number or scientific notation
+        assertThat(AST.parse("\"1.5·10³\" + 1", INSTANCE).eval().doubleValue()).isEqualTo(1501.0);
+        assertThat(AST.parse("1.5·10³ + 1", INSTANCE).eval().doubleValue()).isEqualTo(1501.0);
+    }
 }

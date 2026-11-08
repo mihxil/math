@@ -235,6 +235,25 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
         return resultAsString;
     }
+
+    /**
+     * Evaluates, but never throws. Meant for the web app.
+     * @param result  the result as a string, or {@code null} if evaluation failed
+     * @param operand the result in a form that can be used as an operand in a next expression (see {@link AST#asOperand(String)}), or {@code null}
+     * @param error   a message describing why evaluation failed, or {@code null}
+     */
+    public record Result(String input, String result, String operand, String error) {
+    }
+
+    public Result calculate(String input) {
+        try {
+            String result = evalToString(input);
+            return new Result(input, result, AST.asOperand(result), null);
+        } catch (RuntimeException e) {
+            String message = e.getMessage() == null || e.getMessage().isBlank() ? e.getClass().getSimpleName() : e.getMessage().strip();
+            return new Result(input, null, null, message);
+        }
+    }
     //end::eval[]
 
     public static void main(String[] argv) {

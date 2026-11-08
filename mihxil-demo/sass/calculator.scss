@@ -7,4 +7,43 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
     padding: 0.5em 0;
   }
 
+  form#calculator {
+    ol.tape {
+      list-style: none;
+      margin: 0 0 0.5em 0;
+      padding: 0;
+      max-height: 12em;
+      overflow-y: auto;
+      text-align: right;
+
+      &:empty {
+        display: none;
+      }
+
+      li {
+        opacity: 0.7;
+
+        &:last-child {
+          opacity: 1;
+        }
+      }
+
+      .expression, .result {
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .result {
+        font-weight: bold;
+      }
+    }
+
+    output.error {
+      color: darkred;
+    }
+  }
+
 }
