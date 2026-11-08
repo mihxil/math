@@ -2037,82 +2037,25 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="title">Tip</div>
 </td>
 <td class="content">
-<div id="calculator_digits" class="dlist">
-<dl>
-<dt class="hdlist1">0</dt>
-<dt class="hdlist1">1</dt>
-<dt class="hdlist1">2</dt>
-<dt class="hdlist1">3</dt>
-<dt class="hdlist1">4</dt>
-<dt class="hdlist1">5</dt>
-<dt class="hdlist1">6</dt>
-<dt class="hdlist1">7</dt>
-<dt class="hdlist1">8</dt>
-<dt class="hdlist1">9</dt>
-</dl>
+<div id="calculator_keypad" class="keypad">
+  <!-- buttons filled by calculator.js, depending on the selected field -->
+  <div class="elements"></div>
+  <div class="binary"></div>
+  <div class="unary"></div>
+  <div class="special"></div>
 </div>
-<div id="calculator_operators" class="dlist">
-<dl>
-<dt class="hdlist1">+</dt>
-<dd>
-<p>for addition</p>
-</dd>
-<dt class="hdlist1">-</dt>
-<dd>
-<p>for subtraction</p>
-</dd>
-<dt class="hdlist1">⋅</dt>
-<dd>
-<p>for multiplication</p>
-</dd>
-<dt class="hdlist1">/</dt>
-<dd>
-<p>for division</p>
-</dd>
-<dt class="hdlist1">\</dt>
-<dd>
-<p>for euclidean division</p>
-</dd>
-<dt class="hdlist1">%</dt>
-<dd>
-<p>for modulo division</p>
-</dd>
-<dt class="hdlist1">*</dt>
-<dd>
-<p>for the default 'group operation'</p>
-</dd>
-<dt class="hdlist1">^</dt>
-<dd>
-<p>for exponentiation</p>
-</dd>
-</dl>
-</div>
-<div id="calculator_unary_operator" class="dlist">
-<dl>
-<dt class="hdlist1">-</dt>
-<dd>
-<p>negation</p>
-</dd>
-</dl>
-</div>
-<div id="calculator_special" class="dlist">
-<dl>
-<dt class="hdlist1">( )</dt>
-<dd>
-<p>brackets</p>
-</dd>
-<dt class="hdlist1">""</dt>
-<dd>
-<p>quotes</p>
-</dd>
-</dl>
+<div class="paragraph">
+<p>Operators applied to a selection (e.g. the previous result) take that as operand. Hover over a key for its meaning.</p>
 </div>
 </td>
 </tr>
 </table>
 </div>
 <div class="form">
-  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" />
+  <ol class="tape" aria-live="polite">
+   <!-- previous calculations, filled by calculator.js -->
+  </ol>
+  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" autocomplete="off" title="Enter or = evaluates. The result can be used for the next calculation. ; types *. Esc clears." />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>
@@ -2268,6 +2211,87 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="keyword">return</span> elements.toArray(<span class="keyword">new</span> <span class="predefined-type">String</span>[<span class="integer">0</span>]);
     }
 
+    <span class="comment">/**
+     * The keys of an on-screen keypad for this structure.
+     * &lt;ul&gt;
+     *   &lt;li&gt;{@code element}: for finite structures all elements, otherwise digits, constants, imaginary units, the variable of polynomials,
+     *   as far as the structure accepts them&lt;/li&gt;
+     *   &lt;li&gt;{@code binary}: the binary operators&lt;/li&gt;
+     *   &lt;li&gt;{@code unary}: the unary operators. {@link Key#insert()} is then a template, where {@link #SLOT} is to be replaced with the operand&lt;/li&gt;
+     * &lt;/ul&gt;
+     */</span>
+    <span class="directive">public</span> <span class="predefined-type">Key</span><span class="type">[]</span> keys() {
+        <span class="keyword">if</span> (keys == <span class="predefined-constant">null</span>) {
+            <span class="predefined-type">List</span>&lt;<span class="predefined-type">Key</span>&gt; result = <span class="keyword">new</span> <span class="predefined-type">ArrayList</span>&lt;&gt;();
+            elementKeys(result);
+            <span class="type">boolean</span> hasMultiplication = field.getSupportedOperators().stream().anyMatch(op -&gt; op.getSymbol().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">⋅</span><span class="delimiter">&quot;</span></span>));
+            <span class="keyword">for</span> (AlgebraicBinaryOperator op : field.getSupportedOperators()) {
+                <span class="keyword">if</span> (hasMultiplication &amp;&amp; op.getSymbol().equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">*</span><span class="delimiter">&quot;</span></span>)) {
+                    <span class="comment">// '*' is the generic group operation, which here is the same as '⋅'</span>
+                    <span class="keyword">continue</span>;
+                }
+                result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(op.getSymbol(), op.getSymbol(), <span class="string"><span class="delimiter">&quot;</span><span class="content">binary</span><span class="delimiter">&quot;</span></span>, title(op.name())));
+            }
+            <span class="keyword">for</span> (AlgebraicUnaryOperator op : field.getSupportedUnaryOperators()) {
+                <span class="predefined-type">String</span> template = inputTemplate(op);
+                <span class="keyword">if</span> (template != <span class="predefined-constant">null</span>) {
+                    result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(op.stringify(SLOT), template, <span class="string"><span class="delimiter">&quot;</span><span class="content">unary</span><span class="delimiter">&quot;</span></span>, title(op.name())));
+                }
+            }
+            keys = result.toArray(<span class="keyword">new</span> <span class="predefined-type">Key</span>[<span class="integer">0</span>]);
+        }
+        <span class="keyword">return</span> keys;
+    }
+    <span class="directive">private</span> <span class="predefined-type">Key</span><span class="type">[]</span> keys;
+
+    <span class="directive">private</span> <span class="type">void</span> elementKeys(<span class="predefined-type">List</span>&lt;<span class="predefined-type">Key</span>&gt; result) {
+        <span class="keyword">if</span> (finite &amp;&amp; field <span class="keyword">instanceof</span> Streamable&lt;?&gt; streamable) {
+            streamable.stream().limit(<span class="integer">100</span>).map(<span class="predefined-type">Object</span>::toString).forEach(e -&gt;
+                result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(e, AST.asOperand(e), <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>))
+            );
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="integer">0</span>; i &lt;= <span class="integer">9</span>; i++) {
+            result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(<span class="predefined-type">String</span>.valueOf(i), <span class="predefined-type">String</span>.valueOf(i), <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>));
+        }
+        <span class="keyword">if</span> (accepts(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5</span><span class="delimiter">&quot;</span></span>)) {
+            result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">decimal point</span><span class="delimiter">&quot;</span></span>));
+        }
+        <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; candidates = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;();
+        <span class="keyword">for</span> (<span class="predefined-type">String</span> constant : field.getConstants().keySet()) {
+            <span class="comment">// names like 'unity', 'zero', 'pi' are aliases, and not useful as keys</span>
+            <span class="keyword">if</span> (!constant.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">[a-z]{2,}</span><span class="delimiter">&quot;</span></span>)) {
+                candidates.add(constant);
+            }
+        }
+        candidates.addAll(<span class="predefined-type">List</span>.of(<span class="string"><span class="delimiter">&quot;</span><span class="content">i</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">j</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">k</span><span class="delimiter">&quot;</span></span>));
+        <span class="keyword">for</span> (<span class="predefined-type">String</span> candidate : candidates) {
+            <span class="keyword">if</span> (accepts(candidate)) {
+                result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(candidate, candidate, <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="predefined-constant">null</span>));
+            }
+        }
+        <span class="keyword">if</span> (field <span class="keyword">instanceof</span> PolynomialRing&lt;?&gt; polynomialRing) {
+            result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(polynomialRing.getVariable(), <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span> + polynomialRing.getVariable() + <span class="string"><span class="delimiter">&quot;</span><span class="char">\&quot;</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">the variable</span><span class="delimiter">&quot;</span></span>));
+        }
+    }
+
+    <span class="comment">/**
+     * Whether the given input is a valid expression for this structure (without logging, failure is normal here)
+     */</span>
+    <span class="annotation">@SuppressWarnings</span>({<span class="string"><span class="delimiter">&quot;</span><span class="content">unchecked</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">rawtypes</span><span class="delimiter">&quot;</span></span>})
+    <span class="directive">private</span> <span class="type">boolean</span> accepts(<span class="predefined-type">String</span> input) {
+        <span class="keyword">try</span> {
+            AST.parse(input, (AlgebraicStructure) field).eval();
+            <span class="keyword">return</span> <span class="predefined-constant">true</span>;
+        } <span class="keyword">catch</span> (<span class="exception">RuntimeException</span> e) {
+            <span class="keyword">return</span> <span class="predefined-constant">false</span>;
+        }
+    }
+
+    <span class="directive">private</span> <span class="directive">static</span> <span class="predefined-type">String</span> title(<span class="predefined-type">String</span> name) {
+        <span class="keyword">return</span> name.toLowerCase().replace(<span class="string"><span class="delimiter">'</span><span class="content">_</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>);
+    }
+
     <span class="directive">public</span> <span class="predefined-type">String</span> description() {
         <span class="keyword">return</span> field.getClass().getSimpleName() + <span class="string"><span class="delimiter">&quot;</span><span class="content"> </span><span class="delimiter">&quot;</span></span> + field;
     }
@@ -2275,6 +2299,48 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     <span class="directive">public</span> <span class="predefined-type">String</span> help() {
         <span class="keyword">return</span> field.getDescription().orElse(<span class="predefined-constant">null</span>);
     }
+}
+
+<span class="comment">/**
+ * In templates for unary operators, the place where the operand goes.
+ */</span>
+<span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> SLOT = <span class="string"><span class="delimiter">&quot;</span><span class="content">□</span><span class="delimiter">&quot;</span></span>;
+
+<span class="comment">/**
+ * A key on the on-screen keypad.
+ * @param label  what is shown on the key
+ * @param insert what is inserted in the expression (for unary operators a template containing {@link #SLOT})
+ * @param type   'element', 'binary' or 'unary'
+ * @param title  a description, or {@code null}
+ */</span>
+<span class="directive">public</span> record <span class="predefined-type">Key</span>(<span class="predefined-type">String</span> label, <span class="predefined-type">String</span> insert, <span class="predefined-type">String</span> type, <span class="predefined-type">String</span> title) {
+}
+
+<span class="comment">/**
+ * How a unary operator can be entered in the infix notation, with {@link #SLOT} for the operand. Or {@code null} if it can't (or there is no point, like for the identity '+').
+ */</span>
+<span class="directive">static</span> <span class="predefined-type">String</span> inputTemplate(AlgebraicUnaryOperator op) {
+    <span class="predefined-type">String</span> symbol = op.getSymbol();
+    <span class="predefined-type">String</span> x = TextUtils.PLACEHOLDER;
+    <span class="keyword">if</span> (symbol.matches(<span class="string"><span class="delimiter">&quot;</span><span class="content">[a-z][a-z0-9]*</span><span class="delimiter">&quot;</span></span>)) {
+        <span class="comment">// function notation, like sqr(x), sin(x), inverse(x)</span>
+        <span class="keyword">return</span> symbol + <span class="string"><span class="delimiter">&quot;</span><span class="content">(</span><span class="delimiter">&quot;</span></span> + SLOT + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>;
+    }
+    <span class="keyword">if</span> (symbol.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">-</span><span class="delimiter">&quot;</span></span>)) {
+        <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">-(</span><span class="delimiter">&quot;</span></span> + SLOT + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>;
+    }
+    <span class="keyword">if</span> (symbol.equals(<span class="string"><span class="delimiter">&quot;</span><span class="content">'</span><span class="delimiter">&quot;</span></span>)) {
+        <span class="keyword">return</span> SLOT + <span class="string"><span class="delimiter">&quot;</span><span class="content">'</span><span class="delimiter">&quot;</span></span>;
+    }
+    <span class="keyword">if</span> (symbol.length() &gt; <span class="integer">1</span> &amp;&amp; symbol.startsWith(x)) {
+        <span class="comment">// postfix, like x!</span>
+        <span class="keyword">return</span> SLOT + symbol.substring(x.length());
+    }
+    <span class="keyword">if</span> (symbol.length() &gt; <span class="integer">1</span> &amp;&amp; symbol.endsWith(x)) {
+        <span class="comment">// prefix, like !x</span>
+        <span class="keyword">return</span> symbol.substring(<span class="integer">0</span>, symbol.length() - x.length()) + SLOT;
+    }
+    <span class="keyword">return</span> <span class="predefined-constant">null</span>;
 }
 
 <span class="annotation">@With</span>
@@ -2307,6 +2373,25 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     <span class="type">var</span> resultAsString = result.toString();
     log.fine(() -&gt; <span class="string"><span class="delimiter">&quot;</span><span class="content">Result: %s = %s</span><span class="delimiter">&quot;</span></span>.formatted(input.strip(), resultAsString));
     <span class="keyword">return</span> resultAsString;
+}
+
+<span class="comment">/**
+ * Evaluates, but never throws. Meant for the web app.
+ * @param result  the result as a string, or {@code null} if evaluation failed
+ * @param operand the result in a form that can be used as an operand in a next expression (see {@link AST#asOperand(String)}), or {@code null}
+ * @param error   a message describing why evaluation failed, or {@code null}
+ */</span>
+<span class="directive">public</span> record <span class="predefined-type">Result</span>(<span class="predefined-type">String</span> input, <span class="predefined-type">String</span> result, <span class="predefined-type">String</span> operand, <span class="predefined-type">String</span> error) {
+}
+
+<span class="directive">public</span> <span class="predefined-type">Result</span> calculate(<span class="predefined-type">String</span> input) {
+    <span class="keyword">try</span> {
+        <span class="predefined-type">String</span> result = evalToString(input);
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">Result</span>(input, result, AST.asOperand(result), <span class="predefined-constant">null</span>);
+    } <span class="keyword">catch</span> (<span class="exception">RuntimeException</span> e) {
+        <span class="predefined-type">String</span> message = e.getMessage() == <span class="predefined-constant">null</span> || e.getMessage().isBlank() ? e.getClass().getSimpleName() : e.getMessage().strip();
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="predefined-type">Result</span>(input, <span class="predefined-constant">null</span>, <span class="predefined-constant">null</span>, message);
+    }
 }</code></pre>
 </div>
 </div>
@@ -2322,72 +2407,180 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="javascript">    constructor() {
         <span class="reserved">super</span>(<span class="string"><span class="delimiter">'</span><span class="content">#calculator</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">org.meeuw.math.demo.Calculator</span><span class="delimiter">'</span></span>);
+        <span class="comment">// the keypad buttons are in the form too, so be explicit about which one submits</span>
+        <span class="local-variable">this</span>.button = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button[name=submit]</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.input = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.field = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.inputDataList= <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">datalist</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.tape = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">ol.tape</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.help = <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">span.help</span><span class="delimiter">'</span></span>);
+        <span class="local-variable">this</span>.keypad = document.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">#calculator_keypad</span><span class="delimiter">'</span></span>);
         <span class="local-variable">this</span>.information = <span class="predefined-constant">null</span>;
+        <span class="local-variable">this</span>.calculators = {};
+        <span class="local-variable">this</span>.listenersSetUp = <span class="predefined-constant">false</span>;
+        <span class="comment">// true when the input contains the result of the previous calculation (completely selected)</span>
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+        <span class="local-variable">this</span>.previewTimer = <span class="predefined-constant">null</span>;
+        <span class="local-variable">this</span>.previewSequence = <span class="integer">0</span>;
     }
 
-    insert(string) {
+    get fieldInformation() {
+        <span class="keyword">return</span> <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+    }
+
+    <span class="comment">/**
+     * One Calculator instance per field
+     */</span>
+    async calculator() {
+        const name = <span class="local-variable">this</span>.field.value;
+        <span class="keyword">if</span> (!<span class="local-variable">this</span>.calculators[name]) {
+            const Calculator = <span class="local-variable">this</span>.Class;
+            <span class="local-variable">this</span>.calculators[name] = await <span class="keyword">new</span> Calculator(<span class="local-variable">this</span>.fieldInformation.value);
+        }
+        <span class="keyword">return</span> <span class="local-variable">this</span>.calculators[name];
+    }
+
+    <span class="comment">/**
+     * Inserts the string at the cursor, replacing the selection (if any)
+     */</span>
+    insert(string, cursorOffset = string.length) {
         const input = <span class="local-variable">this</span>.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(<span class="integer">0</span>, start) + string + value.slice(end);
-        input.setSelectionRange(
-            start + string.length,
-            start + string.length
-        );
+        input.setSelectionRange(start + cursorOffset, start + cursorOffset);
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
         input.focus();
+        <span class="local-variable">this</span>.schedulePreview();
     }
 
-    insertOperator(string) {
-        const needsBrackets = string.length &gt; <span class="integer">1</span>;
-        <span class="keyword">if</span> (! needsBrackets) {
-            <span class="keyword">return</span> <span class="local-variable">this</span>.insert(string);
-        }
+    <span class="comment">/**
+     * Inserts a binary operator. If the input contains a previous result, then the calculation continues with that.
+     */</span>
+    insertBinaryOperator(operator) {
         const input = <span class="local-variable">this</span>.input;
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const value = input.value;
-        <span class="keyword">if</span> (start === end) {
-            input.value = string + <span class="string"><span class="delimiter">&quot;</span><span class="content">(</span><span class="delimiter">&quot;</span></span> + value + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span>;
-            input.setSelectionRange(
-                start + string.length + <span class="integer">1</span>,
-                start + string.length + <span class="integer">1</span>
-            );
-        } <span class="keyword">else</span> {
-            input.value = value.slice(<span class="integer">0</span>, start) + string + <span class="string"><span class="delimiter">&quot;</span><span class="content">(</span><span class="delimiter">&quot;</span></span> + value.slice(start, end) + <span class="string"><span class="delimiter">&quot;</span><span class="content">)</span><span class="delimiter">&quot;</span></span> + value.slice(end);
-            input.setSelectionRange(
-                start,
-                end  + string.length + <span class="integer">2</span>
-            );
+        <span class="keyword">if</span> (<span class="local-variable">this</span>.fresh) {
+            input.setSelectionRange(input.value.length, input.value.length);
         }
+        const before = input.value.slice(<span class="integer">0</span>, input.selectionStart);
+        const padded = (before === <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> || before.endsWith(<span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) ? <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> : <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>) + operator + <span class="string"><span class="delimiter">'</span><span class="content"> </span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.insert(padded);
+    }
 
+    <span class="comment">/**
+     * Applies a unary operator, given as a template like 'sqr(□)', '□!' or '-(□)'. If something is selected (e.g. the previous
+     * result), that becomes the operand. Otherwise the template is inserted with the cursor where the operand should go.
+     */</span>
+    insertUnaryOperator(template) {
+        const input = <span class="local-variable">this</span>.input;
+        const [before, after] = template.split(SLOT);
+        const selected = input.value.slice(input.selectionStart, input.selectionEnd).trim();
+        <span class="keyword">if</span> (selected !== <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>) {
+            const bracketed = template.includes(<span class="string"><span class="delimiter">'</span><span class="content">(</span><span class="delimiter">'</span></span> + SLOT + <span class="string"><span class="delimiter">'</span><span class="content">)</span><span class="delimiter">'</span></span>);
+            const operand = bracketed || SIMPLE_OPERAND.test(selected) ? selected : <span class="string"><span class="delimiter">'</span><span class="content">(</span><span class="delimiter">'</span></span> + selected + <span class="string"><span class="delimiter">'</span><span class="content">)</span><span class="delimiter">'</span></span>;
+            <span class="local-variable">this</span>.insert(before + operand + after);
+        } <span class="keyword">else</span> {
+            <span class="comment">// postfix operators (like □!) go after the cursor, others leave the cursor at the operand's place</span>
+            <span class="local-variable">this</span>.insert(before + after, before === <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> ? after.length : before.length);
+        }
+    }
+
+    backspace() {
+        const input = <span class="local-variable">this</span>.input;
+        let start = input.selectionStart;
+        const end = input.selectionEnd;
+        <span class="keyword">if</span> (start === end &amp;&amp; start &gt; <span class="integer">0</span>) {
+            start--;
+        }
+        input.value = input.value.slice(<span class="integer">0</span>, start) + input.value.slice(end);
+        input.setSelectionRange(start, start);
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
         input.focus();
+        <span class="local-variable">this</span>.schedulePreview();
+    }
+
+    <span class="comment">/**
+     * Replaces the complete input (e.g. with an expression from the tape)
+     */</span>
+    setInput(value) {
+        <span class="local-variable">this</span>.input.value = value;
+        <span class="local-variable">this</span>.input.setSelectionRange(value.length, value.length);
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+        <span class="local-variable">this</span>.input.focus();
+        <span class="local-variable">this</span>.schedulePreview();
+    }
+
+    clear() {
+        <span class="local-variable">this</span>.input.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.clearOutput();
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+        <span class="local-variable">this</span>.input.focus();
+    }
+
+    clearOutput() {
+        <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.output.classList.remove(<span class="string"><span class="delimiter">'</span><span class="content">error</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">preview</span><span class="delimiter">'</span></span>);
+    }
+
+    <span class="comment">/**
+     * Whether typing '*' should produce '⋅'. Only if this field has no '*' operator of its own (in groups '*' is the group operation)
+     */</span>
+    remapStar() {
+        const operators = <span class="local-variable">this</span>.fieldInformation.binaryOperators;
+        <span class="keyword">return</span> operators.includes(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>) &amp;&amp; !operators.includes(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>);
     }
 
     async setupForm() {
         await <span class="reserved">super</span>.setupForm();
-        <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, async (e) =&gt; {
-            <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">=</span><span class="delimiter">'</span></span>) {
-                console.log(<span class="local-variable">this</span>.input.value);
+        <span class="keyword">if</span> (<span class="local-variable">this</span>.listenersSetUp) {
+            <span class="comment">// setupForm is called every time the form comes into view</span>
+            <span class="keyword">return</span>;
+        }
+        <span class="local-variable">this</span>.listenersSetUp = <span class="predefined-constant">true</span>;
+        <span class="local-variable">this</span>.input.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">beforeinput</span><span class="delimiter">'</span></span>, async (e) =&gt; {
+            <span class="local-variable">this</span>.help.textContent = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+            <span class="keyword">if</span> (!e.inputType.startsWith(<span class="string"><span class="delimiter">'</span><span class="content">insert</span><span class="delimiter">'</span></span>) || !e.data || e.data.length !== <span class="integer">1</span>) {
+                <span class="comment">// deletions, pastes, etc.</span>
+                <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+                <span class="keyword">return</span>;
+            }
+            let data = e.data;
+            <span class="keyword">if</span> (data === <span class="string"><span class="delimiter">'</span><span class="content">=</span><span class="delimiter">'</span></span>) {
                 e.preventDefault();
-                e.stopImmediatePropagation();
                 await <span class="local-variable">this</span>.handleSubmit();
+                <span class="keyword">return</span>;
             }
-            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) {
-                <span class="local-variable">this</span>.form.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">span.help</span><span class="delimiter">&quot;</span></span>).innerHTML = <span class="string"><span class="delimiter">&quot;</span><span class="content">to type * use ;</span><span class="delimiter">&quot;</span></span>;
+            <span class="keyword">if</span> (data === <span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>) {
+                <span class="comment">// shortcut for '*', which can be typed without shift</span>
+                data = <span class="local-variable">this</span>.fieldInformation.binaryOperators.includes(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>) ? <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span> : <span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (data === <span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span> &amp;&amp; <span class="local-variable">this</span>.remapStar()) {
+                data = <span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>;
+                <span class="local-variable">this</span>.help.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">(* is ⋅ here)</span><span class="delimiter">&quot;</span></span>;
+            }
+            <span class="keyword">if</span> (<span class="local-variable">this</span>.fresh &amp;&amp; <span class="local-variable">this</span>.fieldInformation.binaryOperators.includes(data)) {
+                <span class="comment">// continue with the previous result</span>
                 e.preventDefault();
-                e.stopImmediatePropagation();
-                <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">⋅</span><span class="delimiter">'</span></span>)
-            }
-            <span class="keyword">if</span> (e.data === <span class="string"><span class="delimiter">'</span><span class="content">;</span><span class="delimiter">'</span></span>) {
+                <span class="local-variable">this</span>.insertBinaryOperator(data);
+            } <span class="keyword">else</span> <span class="keyword">if</span> (data !== e.data) {
                 e.preventDefault();
-                e.stopImmediatePropagation();
-                <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">*</span><span class="delimiter">'</span></span>)
+                <span class="local-variable">this</span>.insert(data);
+            } <span class="keyword">else</span> {
+                <span class="comment">// just typing, which replaces the previous result if that was there</span>
+                <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
             }
+        });
+        <span class="local-variable">this</span>.input.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>, () =&gt; {
+            <span class="local-variable">this</span>.schedulePreview();
+        });
+        <span class="local-variable">this</span>.input.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">keydown</span><span class="delimiter">'</span></span>, (e) =&gt; {
+            <span class="keyword">if</span> (e.key === <span class="string"><span class="delimiter">'</span><span class="content">Escape</span><span class="delimiter">'</span></span>) {
+                e.preventDefault();
+                <span class="local-variable">this</span>.clear();
+            }
+        });
+        <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, async () =&gt; {
+            await <span class="local-variable">this</span>.updateField();
         });
     }
 
@@ -2395,23 +2588,23 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         await <span class="reserved">super</span>.onInView(Calculator);
         <span class="keyword">if</span> (<span class="local-variable">this</span>.information === <span class="predefined-constant">null</span>) {
             await <span class="local-variable">this</span>.loadInformation();
-            await <span class="local-variable">this</span>.updateFieldList();
-            await <span class="local-variable">this</span>.updateExamples();
-            await <span class="local-variable">this</span>.updateHelp();
-            await <span class="local-variable">this</span>.updateOperators();
-            await <span class="local-variable">this</span>.updateDigits();
+            <span class="local-variable">this</span>.updateFieldList();
+            await <span class="local-variable">this</span>.updateField();
         }
+    }
 
-        <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, () =&gt; {
-            <span class="local-variable">this</span>.updateExamples();
-            <span class="local-variable">this</span>.updateHelp();
-            <span class="local-variable">this</span>.updateOperators();
-            <span class="local-variable">this</span>.updateDigits();
-
-        });
-
-
-
+    <span class="comment">/**
+     * Called when the field changes. Everything that depends on the field is updated, and previous results are cleared, since
+     * they mean nothing in another field
+     */</span>
+    async updateField() {
+        <span class="local-variable">this</span>.updateExamples();
+        <span class="local-variable">this</span>.updateHelp();
+        <span class="local-variable">this</span>.tape.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.input.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="local-variable">this</span>.clearOutput();
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+        await <span class="local-variable">this</span>.updateKeypad();
     }
 
     updateFieldList() {
@@ -2424,7 +2617,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     <span class="comment">/**
-     * Load all information about the supported fields
+     * Load all information about the supported fields. The keys of the keypad are loaded when needed (see loadKeys)
      */</span>
     async loadInformation() {
         <span class="local-variable">this</span>.information = {};
@@ -2434,63 +2627,66 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         <span class="keyword">for</span> (let i = <span class="integer">0</span>; i &lt; values.length; i++) {
             const value = await values[i];
             const elements = await BaseClass.awaitedArray(value.elements());
-            let elementSpans = <span class="predefined-constant">null</span>;
+            let elementsSpans = <span class="predefined-constant">null</span>;
             <span class="keyword">if</span> (elements) {
-                elementSpans = [];
+                elementsSpans = [];
                 <span class="keyword">for</span> (let j = <span class="integer">0</span>; j &lt; elements.length; j++) {
                     const span = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
                     span.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">element</span><span class="delimiter">'</span></span>);
                     span.textContent = elements[j];
-                    span.onclick = async e =&gt; {
-                        <span class="local-variable">this</span>.insert(e.target.textContent);
-                    };
-                    elementSpans[j] = span;
+                    elementsSpans[j] = span;
                 }
             }
             <span class="local-variable">this</span>.information[await values[i].name()] = {
                 <span class="key">examples</span>: await BaseClass.awaitedArray(value.examples()),
                 <span class="key">elements</span>: elements,
-                <span class="key">elementsSpans</span>: elementSpans,
+                <span class="key">elementsSpans</span>: elementsSpans,
                 <span class="key">binaryOperators</span>: await BaseClass.awaitedArray(value.binaryOperators()),
-                <span class="key">unaryOperators</span>: await BaseClass.awaitedArray(value.unaryOperators()),
                 <span class="key">finite</span>: await value.finite(),
                 <span class="key">description</span>: await value.description(),
                 <span class="key">help</span>: await value.help(),
+                <span class="key">keys</span>: <span class="predefined-constant">null</span>,
                 <span class="key">value</span>: value,
             };
         }
-        console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">information</span><span class="delimiter">&quot;</span></span>, JSON.stringify(<span class="local-variable">this</span>.information,  (key, value) =&gt; {
-            <span class="keyword">if</span> (key === <span class="string"><span class="delimiter">'</span><span class="content">elementsSpans</span><span class="delimiter">'</span></span>) {
-                <span class="keyword">return</span> <span class="predefined-constant">undefined</span>;
-            }
-            <span class="keyword">return</span> value;
-        } , <span class="integer">1</span>));
     }
 
-    async updateExamples() {
-        const selectedField = <span class="local-variable">this</span>.field.value;
-        const information = <span class="local-variable">this</span>.information[selectedField];
-        <span class="keyword">if</span> (information) {
-            <span class="local-variable">this</span>.inputDataList.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-            <span class="keyword">for</span> (const example of information.examples) {
-                const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
-                option.value = example;
-                <span class="local-variable">this</span>.inputDataList.appendChild(option);
+    async loadKeys(information) {
+        <span class="keyword">if</span> (information.keys === <span class="predefined-constant">null</span>) {
+            const keys = await BaseClass.awaitedArray(information.value.keys());
+            information.keys = [];
+            <span class="keyword">for</span> (const key of keys) {
+                information.keys.push({
+                    <span class="key">label</span>: await key.label(),
+                    <span class="key">insert</span>: await key.insert(),
+                    <span class="key">type</span>: await key.type(),
+                    <span class="key">title</span>: await key.title(),
+                });
             }
-            console.log(<span class="string"><span class="delimiter">&quot;</span><span class="content">Updated example li for</span><span class="delimiter">&quot;</span></span>, selectedField, information.examples);
+        }
+        <span class="keyword">return</span> information.keys;
+    }
+
+    updateExamples() {
+        <span class="local-variable">this</span>.inputDataList.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        <span class="keyword">for</span> (const example of <span class="local-variable">this</span>.fieldInformation.examples) {
+            const option = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">option</span><span class="delimiter">'</span></span>);
+            option.value = example;
+            <span class="local-variable">this</span>.inputDataList.appendChild(option);
         }
     }
 
-    async updateHelp() {
-        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
+    updateHelp() {
+        const fieldInformation =  <span class="local-variable">this</span>.fieldInformation;
         const div = <span class="local-variable">this</span>.field.parentNode.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">div.help</span><span class="delimiter">&quot;</span></span>);
         div.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         let help = fieldInformation.help;
         <span class="keyword">if</span> (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].elementSpans;
-        <span class="keyword">if</span> (elements) {
+        <span class="comment">// for infinite structures just a sample, the keypad is for entering them</span>
+        const elements = fieldInformation.finite ? fieldInformation.elementsSpans : fieldInformation.elementsSpans?.slice(<span class="integer">0</span>, <span class="integer">20</span>);
+        <span class="keyword">if</span> (elements &amp;&amp; elements.length &gt; <span class="integer">0</span>) {
             div.appendChild(document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">br</span><span class="delimiter">&quot;</span></span>));
             div.appendChild(document.createTextNode(<span class="string"><span class="delimiter">&quot;</span><span class="content">elements: </span><span class="delimiter">&quot;</span></span>));
             elements.forEach(element =&gt; {
@@ -2502,75 +2698,145 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
     }
 
-    operatorDts(dl, operators) {
-        <span class="local-variable">this</span>.dts(dl, operators, async e =&gt; {
-            <span class="local-variable">this</span>.insertOperator(e.target.textContent);
-        });
+    keyButton(label, title, onclick, ...classes) {
+        const button = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>);
+        button.type = <span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>;
+        button.textContent = label;
+        <span class="keyword">if</span> (title) {
+            button.title = title;
+        }
+        button.classList.add(...classes);
+        <span class="comment">// don't take the focus from the input, so its selection stays</span>
+        button.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">mousedown</span><span class="delimiter">'</span></span>, e =&gt; e.preventDefault());
+        button.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">click</span><span class="delimiter">'</span></span>, onclick);
+        <span class="keyword">return</span> button;
     }
 
-
-    dts(dl, items, onclick, limit=<span class="integer">10000</span>) {
-        const list = dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
-
-        const currentlyInList = Array.from(list).map(e =&gt; e.textContent.trim());
-        const unmatchedItems = items.slice(<span class="integer">0</span>, limit).filter(op =&gt; !currentlyInList.includes(op));
-
-        <span class="comment">// add the ones not yet in it.</span>
-        unmatchedItems.forEach(op =&gt; {
-            const dt = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>);
-            <span class="comment">//dt.classList.add('hdlist1');</span>
-            dt.textContent = op;
-            dl.appendChild(dt);
-            const dd = document.createElement(<span class="string"><span class="delimiter">&quot;</span><span class="content">dd</span><span class="delimiter">&quot;</span></span>);
-            dl.appendChild(dd);
-        });
-        let count = <span class="integer">0</span>;
-        <span class="keyword">for</span> (const e of dl.querySelectorAll(<span class="string"><span class="delimiter">&quot;</span><span class="content">dt</span><span class="delimiter">&quot;</span></span>)) {
-            const symbol = e.textContent.trim();
-            const title = e.nextElementSibling.textContent;
-            <span class="keyword">if</span> (!e.hasAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>)) {
-                e.setAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>, window.getComputedStyle(e).display);
-                e.onclick =onclick;
-            }
-            <span class="keyword">if</span> (!items.includes(symbol)) {
-                e.style.display = <span class="string"><span class="delimiter">'</span><span class="content">none</span><span class="delimiter">'</span></span>;
-                e.nextElementSibling.hidden = <span class="predefined-constant">true</span>;
-            } <span class="keyword">else</span> {
-                e.title = title;
-                e.style.display = e.getAttribute(<span class="string"><span class="delimiter">&quot;</span><span class="content">original-display</span><span class="delimiter">&quot;</span></span>);
-                e.nextElementSibling.hidden = <span class="predefined-constant">false</span>;
-                count++;
-                <span class="keyword">if</span> (count &gt;= limit) {
+    <span class="comment">/**
+     * (Re)builds the on-screen keypad for the current field
+     */</span>
+    async updateKeypad() {
+        <span class="keyword">if</span> (!<span class="local-variable">this</span>.keypad) {
+            <span class="keyword">return</span>;
+        }
+        const name = <span class="local-variable">this</span>.field.value;
+        const keys = await <span class="local-variable">this</span>.loadKeys(<span class="local-variable">this</span>.fieldInformation);
+        <span class="keyword">if</span> (name !== <span class="local-variable">this</span>.field.value) {
+            <span class="comment">// field changed again in the meantime</span>
+            <span class="keyword">return</span>;
+        }
+        const groups = {
+            <span class="key">element</span>: <span class="local-variable">this</span>.keypad.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">.elements</span><span class="delimiter">'</span></span>),
+            <span class="key">binary</span>: <span class="local-variable">this</span>.keypad.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">.binary</span><span class="delimiter">'</span></span>),
+            <span class="key">unary</span>: <span class="local-variable">this</span>.keypad.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">.unary</span><span class="delimiter">'</span></span>),
+        };
+        Object.values(groups).forEach(g =&gt; g.innerHTML = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>);
+        <span class="keyword">for</span> (const key of keys) {
+            let onclick;
+            <span class="keyword">switch</span> (key.type) {
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">binary</span><span class="delimiter">'</span></span>:
+                    onclick = () =&gt; <span class="local-variable">this</span>.insertBinaryOperator(key.insert);
                     <span class="keyword">break</span>;
-                }
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">unary</span><span class="delimiter">'</span></span>:
+                    onclick = () =&gt; <span class="local-variable">this</span>.insertUnaryOperator(key.insert);
+                    <span class="keyword">break</span>;
+                <span class="keyword">default</span>:
+                    onclick = () =&gt; <span class="local-variable">this</span>.insert(key.insert);
             }
+            groups[key.type]?.appendChild(<span class="local-variable">this</span>.keyButton(key.label, key.title, onclick, <span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, key.type));
+        }
+        const special = <span class="local-variable">this</span>.keypad.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">.special</span><span class="delimiter">'</span></span>);
+        <span class="keyword">if</span> (special.childElementCount === <span class="integer">0</span>) {
+            special.append(
+                <span class="local-variable">this</span>.keyButton(<span class="string"><span class="delimiter">'</span><span class="content">(</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">opening bracket</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">(</span><span class="delimiter">'</span></span>)),
+                <span class="local-variable">this</span>.keyButton(<span class="string"><span class="delimiter">'</span><span class="content">)</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">closing bracket</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">)</span><span class="delimiter">'</span></span>)),
+                <span class="local-variable">this</span>.keyButton(<span class="string"><span class="delimiter">'</span><span class="content">&quot; &quot;</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">quotes, for an element in its own notation, like &quot;1 + 2i&quot;</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.insert(<span class="string"><span class="delimiter">'</span><span class="content">&quot;&quot;</span><span class="delimiter">'</span></span>, <span class="integer">1</span>)),
+                <span class="local-variable">this</span>.keyButton(<span class="string"><span class="delimiter">'</span><span class="content">⌫</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">backspace</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.backspace()),
+                <span class="local-variable">this</span>.keyButton(<span class="string"><span class="delimiter">'</span><span class="content">C</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">clear (Esc)</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.clear()),
+            );
+            special.querySelectorAll(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>).forEach(b =&gt; b.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">special</span><span class="delimiter">'</span></span>));
         }
     }
 
-    async updateOperators() {
-        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
-        const operators = fieldInformation.binaryOperators;
-        <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_operators dl</span><span class="delimiter">&quot;</span></span>), operators);
-        const unaryOperators = fieldInformation.unaryOperators;
-        <span class="local-variable">this</span>.operatorDts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_unary_operator dl</span><span class="delimiter">&quot;</span></span>), unaryOperators);
+    <span class="comment">/**
+     * Evaluates while typing (a bit delayed), and shows the result as a preview
+     */</span>
+    schedulePreview() {
+        clearTimeout(<span class="local-variable">this</span>.previewTimer);
+        <span class="local-variable">this</span>.previewTimer = setTimeout(() =&gt; <span class="local-variable">this</span>.preview(), <span class="integer">400</span>);
     }
 
-
-    async updateDigits() {
-        const fieldInformation =  <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value];
-        const elements = fieldInformation.elements;
-        <span class="local-variable">this</span>.dts(document.querySelector(<span class="string"><span class="delimiter">&quot;</span><span class="content">#calculator_digits dl</span><span class="delimiter">&quot;</span></span>), elements, async e =&gt; {
-            <span class="local-variable">this</span>.insert(e.target.textContent);
-        }, <span class="integer">10</span>);
+    async preview() {
+        const expression = <span class="local-variable">this</span>.input.value.trim();
+        const sequence = ++<span class="local-variable">this</span>.previewSequence;
+        <span class="keyword">if</span> (<span class="local-variable">this</span>.running || <span class="local-variable">this</span>.fresh || !<span class="local-variable">this</span>.Class || <span class="local-variable">this</span>.Class === <span class="string"><span class="delimiter">&quot;</span><span class="content">locked</span><span class="delimiter">&quot;</span></span>) {
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">if</span> (expression === <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>) {
+            <span class="local-variable">this</span>.clearOutput();
+            <span class="keyword">return</span>;
+        }
+        const result = await (await <span class="local-variable">this</span>.calculator()).calculate(expression);
+        <span class="keyword">if</span> (sequence !== <span class="local-variable">this</span>.previewSequence || <span class="local-variable">this</span>.running || <span class="local-variable">this</span>.input.value.trim() !== expression) {
+            <span class="comment">// outdated</span>
+            <span class="keyword">return</span>;
+        }
+        const error = await result.error();
+        <span class="local-variable">this</span>.output.classList.remove(<span class="string"><span class="delimiter">'</span><span class="content">error</span><span class="delimiter">'</span></span>);
+        <span class="keyword">if</span> (error) {
+            <span class="comment">// probably just not finished typing</span>
+            <span class="local-variable">this</span>.output.classList.remove(<span class="string"><span class="delimiter">'</span><span class="content">preview</span><span class="delimiter">'</span></span>);
+            <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
+        } <span class="keyword">else</span> {
+            <span class="local-variable">this</span>.output.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">preview</span><span class="delimiter">'</span></span>);
+            <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="content">= </span><span class="delimiter">'</span></span> + await result.result();
+        }
     }
 
-    async onSubmit(Calculator) {
-        <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
-        <span class="local-variable">this</span>.textContent = <span class="string"><span class="delimiter">&quot;</span><span class="content">executing..</span><span class="delimiter">&quot;</span></span>;
-        const fieldInformation = <span class="local-variable">this</span>.information[<span class="local-variable">this</span>.field.value].value;
-        <span class="comment">//console.log(&quot;evaluating&quot;, this.input.value, &quot;for&quot;, fieldInformation, Calculator);</span>
-        const calculator = await <span class="keyword">new</span>  Calculator(fieldInformation);
-        <span class="local-variable">this</span>.output.value = await calculator.evalToString(<span class="local-variable">this</span>.input.value);
+    addToTape(expression, result, operand) {
+        const li = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">li</span><span class="delimiter">'</span></span>);
+        const expressionSpan = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
+        expressionSpan.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">expression</span><span class="delimiter">'</span></span>);
+        expressionSpan.textContent = expression;
+        expressionSpan.title = <span class="string"><span class="delimiter">'</span><span class="content">use this expression again</span><span class="delimiter">'</span></span>;
+        expressionSpan.onclick = () =&gt; <span class="local-variable">this</span>.setInput(expression);
+        const resultSpan = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
+        resultSpan.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">result</span><span class="delimiter">'</span></span>);
+        resultSpan.textContent = result;
+        resultSpan.title = <span class="string"><span class="delimiter">'</span><span class="content">use this result</span><span class="delimiter">'</span></span>;
+        resultSpan.onclick = () =&gt; <span class="local-variable">this</span>.setInput(operand);
+        li.append(expressionSpan, <span class="string"><span class="delimiter">'</span><span class="content"> = </span><span class="delimiter">'</span></span>, resultSpan);
+        <span class="local-variable">this</span>.tape.appendChild(li);
+        <span class="local-variable">this</span>.tape.scrollTop = <span class="local-variable">this</span>.tape.scrollHeight;
+    }
+
+    async onSubmit() {
+        clearTimeout(<span class="local-variable">this</span>.previewTimer);
+        <span class="local-variable">this</span>.previewSequence++;
+        const expression = <span class="local-variable">this</span>.input.value.trim();
+        <span class="local-variable">this</span>.clearOutput();
+        <span class="keyword">if</span> (expression === <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>) {
+            <span class="keyword">return</span>;
+        }
+        const result = await (await <span class="local-variable">this</span>.calculator()).calculate(expression);
+        const error = await result.error();
+        <span class="keyword">if</span> (error) {
+            <span class="comment">// leave the input, so it can be corrected</span>
+            <span class="local-variable">this</span>.output.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">error</span><span class="delimiter">'</span></span>);
+            <span class="local-variable">this</span>.output.value = error;
+            <span class="local-variable">this</span>.input.focus();
+            <span class="keyword">return</span>;
+        }
+        const value = await result.result();
+        const operand = await result.operand();
+        <span class="local-variable">this</span>.output.value = value;
+        <span class="local-variable">this</span>.addToTape(expression, value, operand);
+        <span class="comment">// the result becomes the start of the next calculation. It is selected, so typing something new replaces it,</span>
+        <span class="comment">// and typing an operator continues with it</span>
+        <span class="local-variable">this</span>.input.value = operand;
+        <span class="local-variable">this</span>.input.focus();
+        <span class="local-variable">this</span>.input.select();
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">true</span>;
     }
 }</code></pre>
 </div>

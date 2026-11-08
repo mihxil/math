@@ -25,9 +25,9 @@ export const JAR_SIZES = {
     "mihxil-configuration-0.23-SNAPSHOT.jar": 45958,
     "mihxil-functional-2.0.jar": 147994,
     "mihxil-math-0.23-SNAPSHOT.jar": 315409,
-    "mihxil-math-parser-0.23-SNAPSHOT.jar": 58253,
+    "mihxil-math-parser-0.23-SNAPSHOT.jar": 61023,
     "mihxil-physics-0.23-SNAPSHOT.jar": 77441,
     "mihxil-statistics-0.23-SNAPSHOT.jar": 61696,
     "mihxil-time-0.23-SNAPSHOT.jar": 111389,
-    "original-mihxil-demo-0.23-SNAPSHOT.jar": 28375,
+    "original-mihxil-demo-0.23-SNAPSHOT.jar": 32841,
 };
