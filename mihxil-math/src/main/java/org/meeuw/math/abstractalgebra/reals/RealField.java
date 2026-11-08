@@ -45,7 +45,7 @@ import static org.meeuw.math.DoubleUtils.uncertaintyForDouble;
  * @since 0.4
  */
 @SuppressWarnings("NonAsciiCharacters")
-@Example(CompleteField.class)
+@Example(CompleteScalarField.class)
 @Singleton
 public class RealField
     extends AbstractAlgebraicStructure<RealNumber>
