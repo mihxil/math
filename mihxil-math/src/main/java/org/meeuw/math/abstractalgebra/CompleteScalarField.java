@@ -22,8 +22,7 @@ import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import static org.meeuw.math.CollectionUtils.navigableSet;
 
 /**
- *  A <a href="https://en.wikipedia.org/wiki/Complete_field">complete field</a> element has no 'gaps', which means e.g. that operations like
- *  * {@link CompleteFieldElement#sqrt()} and trigonometric operations like {@link CompleteFieldElement#sin()} are possible.
+ * A {@link CompleteField} that is also a {@link ScalarField}
  * @author Michiel Meeuwissen
  * @since 0.4
  */
