@@ -66,6 +66,32 @@ public class InfixParser<E extends AlgebraicElement<E>> {
             });
         }
 
+    /**
+     * Postfix operators, like x! (factorial), x!! (double factorial) and x' (derivative). Their symbol may or may not include the placeholder 'x'.
+     */
+    AlgebraicUnaryOperator getPostfixOperationBySymbol(Token token) {
+        java.util.Optional<AlgebraicUnaryOperator> op = structure.getUnaryOperationBySymbol("x" + token.image);
+        if (op.isEmpty()) {
+            op = structure.getUnaryOperationBySymbol(token.image);
+        }
+        return op.orElseThrow(noSuchUnaryOperator(token.image));
+    }
+
+    /**
+     * Prefix operators, like !x (subfactorial).
+     */
+    AlgebraicUnaryOperator getPrefixOperationBySymbol(Token token) {
+        return structure.getUnaryOperationBySymbol(token.image + "x").orElseThrow(noSuchUnaryOperator(token.image + "x"));
+    }
+
+    private Supplier<IllegalArgumentException> noSuchUnaryOperator(String symbol) {
+        return new Supplier<>() {
+          public IllegalArgumentException get() {
+             return new IllegalArgumentException("No such unary operator '" + symbol + "' in " + structure + " (" + structure.getSupportedUnaryOperators() + ")");
+          }
+        };
+    }
+
     private Supplier<IllegalArgumentException> illegalArgument(String type, Token illegalValue) {
         return new Supplier<>() {
           public IllegalArgumentException get() {
@@ -91,8 +117,8 @@ TOKEN : {
 |   < LPAREN: "(" >
 |   < RPAREN: ")" >
 |   < FUNCTION: (["a"-"z"]) (["a"-"z", "0"-"9"])* >
-|   < UNARY_POSTFIX: ( "!" ) >
-|   < SYMBOLS: "𝜋" |  "𝜑"  >
+|   < UNARY_POSTFIX: ( "!!" | "!" | "'" ) >
+|   < SYMBOLS: "𝜋" |  "𝜑" | ["\u03b1"-"\u03c9"] >
 
 }
 
@@ -133,7 +159,8 @@ Expression<E> product() :
 {
     left = power()
      (
-        op = <MULT>
+        // a word may be an infix operator too, e.g. 'a eml b'
+        ( op = <MULT> | op = <FUNCTION> )
         right = power()
         {left = new BinaryOperation<>(getOperationBySymbol(op), left, right);}
      )*
@@ -159,15 +186,23 @@ Expression<E> power() :
 Expression<E> factor() :
 {
     Expression<E> base = null;
+    Token prefix = null;
     Token postfix;
 }
 {
+    // e.g. !x for subfactorial
+    ( prefix = <UNARY_POSTFIX> )?
     base = term()
     (
         postfix = <UNARY_POSTFIX>
-        { base = new UnaryOperation<>(getUnaryOperationBySymbol("x", postfix), base); }
+        { base = new UnaryOperation<>(getPostfixOperationBySymbol(postfix), base); }
     )*
-    { return base; }
+    {
+      if (prefix != null) {
+         base = new UnaryOperation<>(getPrefixOperationBySymbol(prefix), base);
+      }
+      return base;
+    }
 }
 
 Value<E> number() : {
@@ -199,10 +234,26 @@ Expression<E> term() :
     expr = number()
 
  |  <LPAREN> expr = sum() <RPAREN>
+ |  expr = signedBrackets()
 |   expr = function()
 | expr = constant()
 )
    {return expr;}
+}
+
+/**
+ * -(a + b)
+ */
+UnaryOperation<E> signedBrackets() :
+{
+      Token sign;
+      Expression<E> expr;
+}
+{
+    sign = <SIGN> <LPAREN> expr = sum() <RPAREN>
+    {
+      return new UnaryOperation<>(getUnaryOperationBySymbol(sign), expr);
+    }
 }
 
 UnaryOperation<E> function() :

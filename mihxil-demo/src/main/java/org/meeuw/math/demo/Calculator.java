@@ -26,6 +26,7 @@ import org.meeuw.math.exceptions.NotStreamable;
 import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
+import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
@@ -195,6 +196,87 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             return elements.toArray(new String[0]);
         }
 
+        /**
+         * The keys of an on-screen keypad for this structure.
+         * <ul>
+         *   <li>{@code element}: for finite structures all elements, otherwise digits, constants, imaginary units, the variable of polynomials,
+         *   as far as the structure accepts them</li>
+         *   <li>{@code binary}: the binary operators</li>
+         *   <li>{@code unary}: the unary operators. {@link Key#insert()} is then a template, where {@link #SLOT} is to be replaced with the operand</li>
+         * </ul>
+         */
+        public Key[] keys() {
+            if (keys == null) {
+                List<Key> result = new ArrayList<>();
+                elementKeys(result);
+                boolean hasMultiplication = field.getSupportedOperators().stream().anyMatch(op -> op.getSymbol().equals("⋅"));
+                for (AlgebraicBinaryOperator op : field.getSupportedOperators()) {
+                    if (hasMultiplication && op.getSymbol().equals("*")) {
+                        // '*' is the generic group operation, which here is the same as '⋅'
+                        continue;
+                    }
+                    result.add(new Key(op.getSymbol(), op.getSymbol(), "binary", title(op.name())));
+                }
+                for (AlgebraicUnaryOperator op : field.getSupportedUnaryOperators()) {
+                    String template = inputTemplate(op);
+                    if (template != null) {
+                        result.add(new Key(op.stringify(SLOT), template, "unary", title(op.name())));
+                    }
+                }
+                keys = result.toArray(new Key[0]);
+            }
+            return keys;
+        }
+        private Key[] keys;
+
+        private void elementKeys(List<Key> result) {
+            if (finite && field instanceof Streamable<?> streamable) {
+                streamable.stream().limit(100).map(Object::toString).forEach(e ->
+                    result.add(new Key(e, AST.asOperand(e), "element", null))
+                );
+                return;
+            }
+            for (int i = 0; i <= 9; i++) {
+                result.add(new Key(String.valueOf(i), String.valueOf(i), "element", null));
+            }
+            if (accepts("1.5")) {
+                result.add(new Key(".", ".", "element", "decimal point"));
+            }
+            Set<String> candidates = new LinkedHashSet<>();
+            for (String constant : field.getConstants().keySet()) {
+                // names like 'unity', 'zero', 'pi' are aliases, and not useful as keys
+                if (!constant.matches("[a-z]{2,}")) {
+                    candidates.add(constant);
+                }
+            }
+            candidates.addAll(List.of("i", "j", "k"));
+            for (String candidate : candidates) {
+                if (accepts(candidate)) {
+                    result.add(new Key(candidate, candidate, "element", null));
+                }
+            }
+            if (field instanceof PolynomialRing<?> polynomialRing) {
+                result.add(new Key(polynomialRing.getVariable(), "\"" + polynomialRing.getVariable() + "\"", "element", "the variable"));
+            }
+        }
+
+        /**
+         * Whether the given input is a valid expression for this structure (without logging, failure is normal here)
+         */
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        private boolean accepts(String input) {
+            try {
+                AST.parse(input, (AlgebraicStructure) field).eval();
+                return true;
+            } catch (RuntimeException e) {
+                return false;
+            }
+        }
+
+        private static String title(String name) {
+            return name.toLowerCase().replace('_', ' ');
+        }
+
         public String description() {
             return field.getClass().getSimpleName() + " " + field;
         }
@@ -202,6 +284,48 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         public String help() {
             return field.getDescription().orElse(null);
         }
+    }
+
+    /**
+     * In templates for unary operators, the place where the operand goes.
+     */
+    public static final String SLOT = "□";
+
+    /**
+     * A key on the on-screen keypad.
+     * @param label  what is shown on the key
+     * @param insert what is inserted in the expression (for unary operators a template containing {@link #SLOT})
+     * @param type   'element', 'binary' or 'unary'
+     * @param title  a description, or {@code null}
+     */
+    public record Key(String label, String insert, String type, String title) {
+    }
+
+    /**
+     * How a unary operator can be entered in the infix notation, with {@link #SLOT} for the operand. Or {@code null} if it can't (or there is no point, like for the identity '+').
+     */
+    static String inputTemplate(AlgebraicUnaryOperator op) {
+        String symbol = op.getSymbol();
+        String x = TextUtils.PLACEHOLDER;
+        if (symbol.matches("[a-z][a-z0-9]*")) {
+            // function notation, like sqr(x), sin(x), inverse(x)
+            return symbol + "(" + SLOT + ")";
+        }
+        if (symbol.equals("-")) {
+            return "-(" + SLOT + ")";
+        }
+        if (symbol.equals("'")) {
+            return SLOT + "'";
+        }
+        if (symbol.length() > 1 && symbol.startsWith(x)) {
+            // postfix, like x!
+            return SLOT + symbol.substring(x.length());
+        }
+        if (symbol.length() > 1 && symbol.endsWith(x)) {
+            // prefix, like !x
+            return symbol.substring(0, symbol.length() - x.length()) + SLOT;
+        }
+        return null;
     }
 
     @With

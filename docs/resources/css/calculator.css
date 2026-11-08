@@ -1,9 +1,44 @@
-div:is(.sect1, .sect2):has(> #demo_calculator) .admonitionblock.tip table th {
-  background: red;
-  border: none;
-  padding: 0.5em 0;
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4em;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad > div:empty {
+  display: none;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key {
+  width: auto;
+  min-width: 2.4em;
+  padding: 0.3em 0.5em;
+  font-size: 1em;
+  border: 1px solid #aaa;
+  border-radius: 0.3em;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key:hover {
+  background: #e8eef7;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key:active {
+  background: #d0dcef;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.binary {
+  background: #eef3e6;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.unary {
+  background: #f3eee6;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.special {
+  background: #eee;
 }
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape {
+  width: 50%;
+  box-sizing: border-box;
   list-style: none;
   margin: 0 0 0.5em 0;
   padding: 0;
@@ -31,6 +66,10 @@ div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape .result {
 }
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator output.error {
   color: darkred;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator output.preview {
+  opacity: 0.6;
+  font-style: italic;
 }
 
 /*# sourceMappingURL=calculator.css.map */

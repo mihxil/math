@@ -1,14 +1,59 @@
 
 div:is(.sect1, .sect2):has(>#demo_calculator)  {
 
-  .admonitionblock.tip table th {
-    background: red;
-    border: none;
-    padding: 0.5em 0;
+  .keypad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+
+    > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25em;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    button.key {
+      // the general rules for buttons in demo forms make them 50% or 100% wide
+      width: auto;
+      min-width: 2.4em;
+      padding: 0.3em 0.5em;
+      font-size: 1em;
+      border: 1px solid #aaa;
+      border-radius: 0.3em;
+      background: #f7f7f7;
+      cursor: pointer;
+
+      &:hover {
+        background: #e8eef7;
+      }
+
+      &:active {
+        background: #d0dcef;
+      }
+
+      &.binary {
+        background: #eef3e6;
+      }
+
+      &.unary {
+        background: #f3eee6;
+      }
+
+      &.special {
+        background: #eee;
+      }
+    }
   }
 
   form#calculator {
     ol.tape {
+      // same width as the input (see .tips-aside in demo.scss)
+      width: 50%;
+      box-sizing: border-box;
       list-style: none;
       margin: 0 0 0.5em 0;
       padding: 0;
@@ -43,6 +88,11 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
 
     output.error {
       color: darkred;
+    }
+
+    output.preview {
+      opacity: 0.6;
+      font-style: italic;
     }
   }
 

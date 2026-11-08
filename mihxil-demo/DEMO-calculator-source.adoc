@@ -16,35 +16,16 @@
 
 [TIP]
 ====
-[#calculator_digits]
-0::
-1::
-2::
-3::
-4::
-5::
-6::
-7::
-8::
-9::
-
-[#calculator_operators]
-+:: for addition
--:: for subtraction
-⋅:: for multiplication
-/:: for division
-\:: for euclidean division
-%:: for modulo division
-*:: for the default 'group operation'
-^:: for exponentiation
-
-[#calculator_unary_operator]
--:: negation
-
-[#calculator_special]
-( ):: brackets
-"":: quotes
-
+++++
+<div id="calculator_keypad" class="keypad">
+  <!-- buttons filled by calculator.js, depending on the selected field -->
+  <div class="elements"></div>
+  <div class="binary"></div>
+  <div class="unary"></div>
+  <div class="special"></div>
+</div>
+++++
+Operators applied to a selection (e.g. the previous result) take that as operand. Hover over a key for its meaning.
 ====
 
 
@@ -53,7 +34,7 @@
   <ol class="tape" aria-live="polite">
    <!-- previous calculations, filled by calculator.js -->
   </ol>
-  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" autocomplete="off" title="Enter or = evaluates. The result can be used for the next calculation. Esc clears." />
+  <label for="calculator_toparse">Expression to evaluate: <span class="help"></span></label> <input type="text" id="calculator_toparse"  list="calculator_toparse-examples" value="" autocomplete="off" title="Enter or = evaluates. The result can be used for the next calculation. ; types *. Esc clears." />
    <datalist id="calculator_toparse-examples">
    <!-- filled by calculator.js -->
    </datalist>

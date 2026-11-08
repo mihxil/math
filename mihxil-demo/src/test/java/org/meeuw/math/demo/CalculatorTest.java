@@ -2,6 +2,7 @@ package org.meeuw.math.demo;
 
 import lombok.extern.java.Log;
 
+import java.util.List;
 import java.util.logging.Level;
 
 import org.junit.jupiter.api.Test;
@@ -108,6 +109,62 @@ class CalculatorTest {
         var result = calculator.calculate("1 +");
         assertThat(result.result()).isNull();
         assertThat(result.error()).isNotBlank();
+    }
+
+    @Test
+    void unaryOperatorSyntax() {
+        assertThat(new Calculator<>(integers).evalToString("-(1 + 2)")).isEqualTo("-3");
+        assertThat(new Calculator<>(integers).evalToString("2 ⋅ -(1 + 2)")).isEqualTo("-6");
+        assertThat(new Calculator<>(integers).evalToString("5!")).isEqualTo("120");
+        assertThat(new Calculator<>(integers).evalToString("5!!")).isEqualTo("15");
+        assertThat(new Calculator<>(integers).evalToString("!4")).isEqualTo("9");
+        assertThat(new Calculator<>(polynomials).evalToString("\"x^3\"'")).isEqualTo("3·x²");
+        assertThat(new Calculator<>(real).evalToString("γ")).startsWith("0.577");
+        assertThat(new Calculator<>(complex).calculate("1 eml 1").error()).isNull();
+    }
+
+    /**
+     * Every key of the keypad must produce something that can be parsed.
+     */
+    @ParameterizedTest
+    @EnumSource(Calculator.FieldInformation.class)
+    void keys(Calculator.FieldInformation fi) {
+        var calculator = new Calculator<>(fi);
+        var keys = List.of(fi.keys());
+        String sample = null;
+        for (var key : keys) {
+            if (key.type().equals("element")) {
+                if (key.insert().matches("[0-9.]")) {
+                    // digits are for typing numbers, they need not be valid on their own (e.g. 2 is not a square)
+                    continue;
+                }
+                var result = calculator.calculate(key.insert());
+                assertThat(result.error()).withFailMessage(() -> key + ": " + result.error()).isNull();
+                if (sample == null) {
+                    sample = key.insert();
+                }
+            }
+        }
+        if (sample == null || keys.stream().anyMatch(k -> k.insert().equals("2"))) {
+            sample = calculator.calculate("2").error() == null ? "2" : calculator.calculate("4").error() == null ? "4" : sample;
+        }
+        assertThat(sample).isNotNull();
+        for (var key : keys) {
+            if (key.type().equals("unary")) {
+                String input = key.insert().replace(Calculator.SLOT, sample);
+                var result = calculator.calculate(input);
+                // the operation itself may fail (e.g. no square root of 2 in the integers), but it must be parseable
+                assertThat(result.error() == null ? "" : result.error())
+                    .withFailMessage(() -> input + ": " + result.error())
+                    .doesNotContain("Encountered", "Lexical", "No such");
+            } else if (key.type().equals("binary")) {
+                String input = sample + " " + key.insert() + " " + sample;
+                var result = calculator.calculate(input);
+                assertThat(result.error() == null ? "" : result.error())
+                    .withFailMessage(() -> input + ": " + result.error())
+                    .doesNotContain("Encountered", "Lexical", "No such");
+            }
+        }
     }
 
     @Test

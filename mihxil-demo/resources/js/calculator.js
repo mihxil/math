@@ -1,19 +1,35 @@
 import { BaseClass } from './base.js';
 
+/**
+ * In templates for unary operators, the place where the operand goes (Calculator.SLOT)
+ */
+const SLOT = '□';
+
+/**
+ * Things that can be used as an operand without brackets
+ */
+const SIMPLE_OPERAND = /^(-?\d+(\.\d+)?|[\p{L}][\p{L}\p{N}]*|"[^"]*")$/u;
+
 export class CalculatorClass extends BaseClass {
 
 // tag::calculator[]
     constructor() {
         super('#calculator', 'org.meeuw.math.demo.Calculator');
+        // the keypad buttons are in the form too, so be explicit about which one submits
+        this.button = this.form.querySelector('button[name=submit]');
         this.input = this.form.querySelector('input');
         this.field = this.form.querySelector('select');
         this.inputDataList= this.form.querySelector('datalist');
         this.tape = this.form.querySelector('ol.tape');
         this.help = this.form.querySelector('span.help');
+        this.keypad = document.querySelector('#calculator_keypad');
         this.information = null;
+        this.calculators = {};
         this.listenersSetUp = false;
         // true when the input contains the result of the previous calculation (completely selected)
         this.fresh = false;
+        this.previewTimer = null;
+        this.previewSequence = 0;
     }
 
     get fieldInformation() {
@@ -21,60 +37,75 @@ export class CalculatorClass extends BaseClass {
     }
 
     /**
+     * One Calculator instance per field
+     */
+    async calculator() {
+        const name = this.field.value;
+        if (!this.calculators[name]) {
+            const Calculator = this.Class;
+            this.calculators[name] = await new Calculator(this.fieldInformation.value);
+        }
+        return this.calculators[name];
+    }
+
+    /**
      * Inserts the string at the cursor, replacing the selection (if any)
      */
-    insert(string) {
+    insert(string, cursorOffset = string.length) {
         const input = this.input;
         const start = input.selectionStart;
         const end = input.selectionEnd;
         const value = input.value;
         input.value = value.slice(0, start) + string + value.slice(end);
-        input.setSelectionRange(
-            start + string.length,
-            start + string.length
-        );
+        input.setSelectionRange(start + cursorOffset, start + cursorOffset);
         this.fresh = false;
         input.focus();
+        this.schedulePreview();
     }
 
     /**
      * Inserts a binary operator. If the input contains a previous result, then the calculation continues with that.
      */
     insertBinaryOperator(operator) {
+        const input = this.input;
         if (this.fresh) {
-            const input = this.input;
-            input.value = input.value + ' ' + operator + ' ';
             input.setSelectionRange(input.value.length, input.value.length);
-            this.fresh = false;
-            input.focus();
-        } else {
-            this.insert(operator);
         }
+        const before = input.value.slice(0, input.selectionStart);
+        const padded = (before === '' || before.endsWith(' ') ? '' : ' ') + operator + ' ';
+        this.insert(padded);
     }
 
     /**
-     * Inserts a unary operator. Single character operators (like '-') are just inserted. Others are functions, which are
-     * applied to the selection (e.g. the previous result), or otherwise inserted with the cursor between the brackets.
+     * Applies a unary operator, given as a template like 'sqr(□)', '□!' or '-(□)'. If something is selected (e.g. the previous
+     * result), that becomes the operand. Otherwise the template is inserted with the cursor where the operand should go.
      */
-    insertUnaryOperator(operator) {
-        if (operator.length === 1) {
-            return this.insert(operator);
-        }
+    insertUnaryOperator(template) {
         const input = this.input;
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const value = input.value;
-        if (start === end) {
-            input.value = value.slice(0, start) + operator + "()" + value.slice(end);
-            const cursor = start + operator.length + 1;
-            input.setSelectionRange(cursor, cursor);
+        const [before, after] = template.split(SLOT);
+        const selected = input.value.slice(input.selectionStart, input.selectionEnd).trim();
+        if (selected !== '') {
+            const bracketed = template.includes('(' + SLOT + ')');
+            const operand = bracketed || SIMPLE_OPERAND.test(selected) ? selected : '(' + selected + ')';
+            this.insert(before + operand + after);
         } else {
-            const wrapped = operator + "(" + value.slice(start, end) + ")";
-            input.value = value.slice(0, start) + wrapped + value.slice(end);
-            input.setSelectionRange(start + wrapped.length, start + wrapped.length);
+            // postfix operators (like □!) go after the cursor, others leave the cursor at the operand's place
+            this.insert(before + after, before === '' ? after.length : before.length);
         }
+    }
+
+    backspace() {
+        const input = this.input;
+        let start = input.selectionStart;
+        const end = input.selectionEnd;
+        if (start === end && start > 0) {
+            start--;
+        }
+        input.value = input.value.slice(0, start) + input.value.slice(end);
+        input.setSelectionRange(start, start);
         this.fresh = false;
         input.focus();
+        this.schedulePreview();
     }
 
     /**
@@ -83,17 +114,21 @@ export class CalculatorClass extends BaseClass {
     setInput(value) {
         this.input.value = value;
         this.input.setSelectionRange(value.length, value.length);
-        this.output.value = '';
         this.fresh = false;
         this.input.focus();
+        this.schedulePreview();
     }
 
     clear() {
         this.input.value = '';
-        this.output.value = '';
-        this.output.classList.remove('error');
+        this.clearOutput();
         this.fresh = false;
         this.input.focus();
+    }
+
+    clearOutput() {
+        this.output.value = '';
+        this.output.classList.remove('error', 'preview');
     }
 
     /**
@@ -124,7 +159,10 @@ export class CalculatorClass extends BaseClass {
                 await this.handleSubmit();
                 return;
             }
-            if (data === '*' && this.remapStar()) {
+            if (data === ';') {
+                // shortcut for '*', which can be typed without shift
+                data = this.fieldInformation.binaryOperators.includes('*') ? '*' : '⋅';
+            } else if (data === '*' && this.remapStar()) {
                 data = '⋅';
                 this.help.textContent = "(* is ⋅ here)";
             }
@@ -140,14 +178,17 @@ export class CalculatorClass extends BaseClass {
                 this.fresh = false;
             }
         });
+        this.input.addEventListener('input', () => {
+            this.schedulePreview();
+        });
         this.input.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 e.preventDefault();
                 this.clear();
             }
         });
-        this.field.addEventListener('change', () => {
-            this.updateField();
+        this.field.addEventListener('change', async () => {
+            await this.updateField();
         });
     }
 
@@ -156,7 +197,7 @@ export class CalculatorClass extends BaseClass {
         if (this.information === null) {
             await this.loadInformation();
             this.updateFieldList();
-            this.updateField();
+            await this.updateField();
         }
     }
 
@@ -164,16 +205,14 @@ export class CalculatorClass extends BaseClass {
      * Called when the field changes. Everything that depends on the field is updated, and previous results are cleared, since
      * they mean nothing in another field
      */
-    updateField() {
+    async updateField() {
         this.updateExamples();
         this.updateHelp();
-        this.updateOperators();
-        this.updateDigits();
         this.tape.innerHTML = '';
         this.input.value = '';
-        this.output.value = '';
-        this.output.classList.remove('error');
+        this.clearOutput();
         this.fresh = false;
+        await this.updateKeypad();
     }
 
     updateFieldList() {
@@ -186,7 +225,7 @@ export class CalculatorClass extends BaseClass {
     }
 
     /**
-     * Load all information about the supported fields
+     * Load all information about the supported fields. The keys of the keypad are loaded when needed (see loadKeys)
      */
     async loadInformation() {
         this.information = {};
@@ -203,9 +242,6 @@ export class CalculatorClass extends BaseClass {
                     const span = document.createElement('span');
                     span.classList.add('element');
                     span.textContent = elements[j];
-                    span.onclick = async e => {
-                        this.insert(e.target.textContent);
-                    };
                     elementsSpans[j] = span;
                 }
             }
@@ -214,13 +250,29 @@ export class CalculatorClass extends BaseClass {
                 elements: elements,
                 elementsSpans: elementsSpans,
                 binaryOperators: await BaseClass.awaitedArray(value.binaryOperators()),
-                unaryOperators: await BaseClass.awaitedArray(value.unaryOperators()),
                 finite: await value.finite(),
                 description: await value.description(),
                 help: await value.help(),
+                keys: null,
                 value: value,
             };
         }
+    }
+
+    async loadKeys(information) {
+        if (information.keys === null) {
+            const keys = await BaseClass.awaitedArray(information.value.keys());
+            information.keys = [];
+            for (const key of keys) {
+                information.keys.push({
+                    label: await key.label(),
+                    insert: await key.insert(),
+                    type: await key.type(),
+                    title: await key.title(),
+                });
+            }
+        }
+        return information.keys;
     }
 
     updateExamples() {
@@ -240,7 +292,8 @@ export class CalculatorClass extends BaseClass {
         if (help) {
             div.appendChild(document.createTextNode(help));
         }
-        const elements = fieldInformation.elementsSpans;
+        // for infinite structures just a sample, the keypad is for entering them
+        const elements = fieldInformation.finite ? fieldInformation.elementsSpans : fieldInformation.elementsSpans?.slice(0, 20);
         if (elements && elements.length > 0) {
             div.appendChild(document.createElement("br"));
             div.appendChild(document.createTextNode("elements: "));
@@ -253,57 +306,99 @@ export class CalculatorClass extends BaseClass {
         }
     }
 
-    dts(dl, items, onclick, limit=10000) {
-        const list = dl.querySelectorAll("dt");
+    keyButton(label, title, onclick, ...classes) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        if (title) {
+            button.title = title;
+        }
+        button.classList.add(...classes);
+        // don't take the focus from the input, so its selection stays
+        button.addEventListener('mousedown', e => e.preventDefault());
+        button.addEventListener('click', onclick);
+        return button;
+    }
 
-        const currentlyInList = Array.from(list).map(e => e.textContent.trim());
-        const unmatchedItems = items.slice(0, limit).filter(op => !currentlyInList.includes(op));
-
-        // add the ones not yet in it.
-        unmatchedItems.forEach(op => {
-            const dt = document.createElement("dt");
-            dt.textContent = op;
-            dl.appendChild(dt);
-            const dd = document.createElement("dd");
-            dl.appendChild(dd);
-        });
-        let count = 0;
-        for (const e of dl.querySelectorAll("dt")) {
-            const symbol = e.textContent.trim();
-            const title = e.nextElementSibling.textContent;
-            if (!e.hasAttribute("original-display")) {
-                e.setAttribute("original-display", window.getComputedStyle(e).display);
-                e.onclick = onclick;
+    /**
+     * (Re)builds the on-screen keypad for the current field
+     */
+    async updateKeypad() {
+        if (!this.keypad) {
+            return;
+        }
+        const name = this.field.value;
+        const keys = await this.loadKeys(this.fieldInformation);
+        if (name !== this.field.value) {
+            // field changed again in the meantime
+            return;
+        }
+        const groups = {
+            element: this.keypad.querySelector('.elements'),
+            binary: this.keypad.querySelector('.binary'),
+            unary: this.keypad.querySelector('.unary'),
+        };
+        Object.values(groups).forEach(g => g.innerHTML = '');
+        for (const key of keys) {
+            let onclick;
+            switch (key.type) {
+                case 'binary':
+                    onclick = () => this.insertBinaryOperator(key.insert);
+                    break;
+                case 'unary':
+                    onclick = () => this.insertUnaryOperator(key.insert);
+                    break;
+                default:
+                    onclick = () => this.insert(key.insert);
             }
-            if (!items.includes(symbol) || count >= limit) {
-                e.style.display = 'none';
-                e.nextElementSibling.hidden = true;
-            } else {
-                e.title = title;
-                e.style.display = e.getAttribute("original-display");
-                e.nextElementSibling.hidden = false;
-                count++;
-            }
+            groups[key.type]?.appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
+        }
+        const special = this.keypad.querySelector('.special');
+        if (special.childElementCount === 0) {
+            special.append(
+                this.keyButton('(', 'opening bracket', () => this.insert('(')),
+                this.keyButton(')', 'closing bracket', () => this.insert(')')),
+                this.keyButton('" "', 'quotes, for an element in its own notation, like "1 + 2i"', () => this.insert('""', 1)),
+                this.keyButton('⌫', 'backspace', () => this.backspace()),
+                this.keyButton('C', 'clear (Esc)', () => this.clear()),
+            );
+            special.querySelectorAll('button').forEach(b => b.classList.add('key', 'special'));
         }
     }
 
-    updateOperators() {
-        const fieldInformation =  this.fieldInformation;
-        this.dts(document.querySelector("#calculator_operators dl"), fieldInformation.binaryOperators, e => {
-            this.insertBinaryOperator(e.target.textContent.trim());
-        });
-        this.dts(document.querySelector("#calculator_unary_operator dl"), fieldInformation.unaryOperators, e => {
-            this.insertUnaryOperator(e.target.textContent.trim());
-        });
+    /**
+     * Evaluates while typing (a bit delayed), and shows the result as a preview
+     */
+    schedulePreview() {
+        clearTimeout(this.previewTimer);
+        this.previewTimer = setTimeout(() => this.preview(), 400);
     }
 
-    updateDigits() {
-        const fieldInformation =  this.fieldInformation;
-        // finite structures are small enough to show all elements
-        const limit = fieldInformation.finite ? fieldInformation.elements.length : 10;
-        this.dts(document.querySelector("#calculator_digits dl"), fieldInformation.elements, e => {
-            this.insert(e.target.textContent.trim());
-        }, limit);
+    async preview() {
+        const expression = this.input.value.trim();
+        const sequence = ++this.previewSequence;
+        if (this.running || this.fresh || !this.Class || this.Class === "locked") {
+            return;
+        }
+        if (expression === '') {
+            this.clearOutput();
+            return;
+        }
+        const result = await (await this.calculator()).calculate(expression);
+        if (sequence !== this.previewSequence || this.running || this.input.value.trim() !== expression) {
+            // outdated
+            return;
+        }
+        const error = await result.error();
+        this.output.classList.remove('error');
+        if (error) {
+            // probably just not finished typing
+            this.output.classList.remove('preview');
+            this.output.value = '';
+        } else {
+            this.output.classList.add('preview');
+            this.output.value = '= ' + await result.result();
+        }
     }
 
     addToTape(expression, result, operand) {
@@ -323,14 +418,15 @@ export class CalculatorClass extends BaseClass {
         this.tape.scrollTop = this.tape.scrollHeight;
     }
 
-    async onSubmit(Calculator) {
+    async onSubmit() {
+        clearTimeout(this.previewTimer);
+        this.previewSequence++;
         const expression = this.input.value.trim();
-        this.output.classList.remove('error');
+        this.clearOutput();
         if (expression === '') {
             return;
         }
-        const calculator = await new Calculator(this.fieldInformation.value);
-        const result = await calculator.calculate(expression);
+        const result = await (await this.calculator()).calculate(expression);
         const error = await result.error();
         if (error) {
             // leave the input, so it can be corrected
