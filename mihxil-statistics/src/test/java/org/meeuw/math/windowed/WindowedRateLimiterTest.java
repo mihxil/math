@@ -1,10 +1,15 @@
 package org.meeuw.math.windowed;
 
+import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.management.*;
+import javax.management.openmbean.CompositeData;
+import javax.management.openmbean.TabularData;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
@@ -170,5 +175,42 @@ class WindowedRateLimiterTest {
         assertThat(keyed.get("b").getWindow()).isEqualTo(Duration.ofMinutes(2));
         keyed.close();
         assertThat(keyed.getLimiters()).isEmpty();
+    }
+
+    @Test
+    void mxBean() throws Exception {
+        KeyedWindowedRateLimiter<String> keyed = KeyedWindowedRateLimiter.<String>builder()
+            .window(Duration.ofMinutes(1))
+            .bucketCount(6)
+            .allowedPerWindow(5)
+            .clock(clock)
+            .build();
+        keyed.tryAcquire("a");
+        keyed.tryAcquire("a");
+        keyed.tryAcquire("b");
+
+        MBeanServer server = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = new ObjectName("org.meeuw.math.windowed:type=KeyedWindowedRateLimiter,name=test");
+        server.registerMBean(keyed.getMXBean(), name);
+        try {
+            assertThat(server.getAttribute(name, "Window")).isEqualTo("PT1M");
+            assertThat(server.getAttribute(name, "AllowedPerWindow")).isEqualTo(5L);
+            TabularData counts = (TabularData) server.getAttribute(name, "Counts");
+            assertThat(counts.size()).isEqualTo(2);
+            CompositeData a = counts.get(new Object[] {"a"});
+            assertThat(a.get("value")).isEqualTo(2L);
+
+            server.setAttribute(name, new Attribute("Window", "2m"));
+            server.setAttribute(name, new Attribute("AllowedPerWindow", 2L));
+            assertThat(keyed.getWindow()).isEqualTo(Duration.ofMinutes(2));
+            assertThat(keyed.get("a").getAllowedPerWindow()).isEqualTo(2);
+            assertThat(keyed.tryAcquire("a")).isFalse();
+
+            server.invoke(name, "clear", new Object[0], new String[0]);
+            assertThat(keyed.getLimiters()).isEmpty();
+            assertThat(keyed.tryAcquire("a")).isTrue();
+        } finally {
+            server.unregisterMBean(name);
+        }
     }
 }

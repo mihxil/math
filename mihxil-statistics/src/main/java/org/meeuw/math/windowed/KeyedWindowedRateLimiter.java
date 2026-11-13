@@ -23,10 +23,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.time.Sleeper;
+import org.meeuw.time.TimeUtils;
 
 /**
  * Maintains a {@link WindowedRateLimiter} per key (e.g. per user, or per customer), all with the same configuration.
  * Changes in the configuration are propagated to all existing limiters.
+ * <p>
+ * It can be managed via JMX, see {@link #getMXBean()}.
  *
  * @param <K> the type of the keys
  * @author Michiel Meeuwissen
@@ -39,6 +42,8 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
     private final @Nullable Integer bucketCount;
     private final @Nullable Clock clock;
     private final @Nullable Sleeper sleeper;
+
+    private final KeyedWindowedRateLimiterMXBean mxBean = new MXBean();
 
     private volatile Duration window;
     private volatile long allowedPerWindow;
@@ -141,14 +146,67 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
         limiters.values().forEach(l -> l.setAllowedPerWindow(allowedPerWindow));
     }
 
+    /**
+     * Forgets about all keys and their events.
+     */
+    public void clear() {
+        final List<WindowedRateLimiter> removed = new ArrayList<>(limiters.values());
+        limiters.clear();
+        removed.forEach(WindowedRateLimiter::close);
+    }
+
+    /**
+     * @return An object that can be registered as an MXBean to inspect and configure this limiter via JMX. Always the same instance.
+     */
+    public @NonNull KeyedWindowedRateLimiterMXBean getMXBean() {
+        return mxBean;
+    }
+
+    /**
+     * Equivalent to {@link #clear()}.
+     */
     @Override
     public void close() {
-        limiters.values().forEach(WindowedRateLimiter::close);
-        limiters.clear();
+        clear();
     }
 
     @Override
     public String toString() {
         return getCounts() + " (max " + allowedPerWindow + " per " + window + ")";
+    }
+
+    private class MXBean implements KeyedWindowedRateLimiterMXBean {
+
+        @Override
+        public String getWindow() {
+            return KeyedWindowedRateLimiter.this.getWindow().toString();
+        }
+
+        @Override
+        public void setWindow(String window) {
+            KeyedWindowedRateLimiter.this.setWindow(TimeUtils.parseDurationOrThrow(window));
+        }
+
+        @Override
+        public long getAllowedPerWindow() {
+            return KeyedWindowedRateLimiter.this.getAllowedPerWindow();
+        }
+
+        @Override
+        public void setAllowedPerWindow(long allowedPerWindow) {
+            KeyedWindowedRateLimiter.this.setAllowedPerWindow(allowedPerWindow);
+        }
+
+        @Override
+        public Map<String, Long> getCounts() {
+            final Map<String, Long> result = new TreeMap<>();
+            limiters.forEach((k, l) -> result.put(String.valueOf(k), l.getCount()));
+            return result;
+        }
+
+        @Override
+        public void clear() {
+            KeyedWindowedRateLimiter.this.clear();
+        }
     }
 }

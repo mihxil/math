@@ -47,4 +47,25 @@
     </dependency>
 
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <!-- tests use JMX (KeyedWindowedRateLimiterMXBean), main code doesn't need java.management. (Surefire runs on the class path, so needs nothing) -->
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-testCompile</id>
+            <configuration>
+              <compilerArgs combine.children="append">
+                <arg>--add-modules</arg>
+                <arg>java.management</arg>
+                <arg>--add-reads</arg>
+                <arg>org.meeuw.math.statistics=java.management</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
