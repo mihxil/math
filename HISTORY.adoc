@@ -10,9 +10,38 @@ I'm maintaining this mainly as a hobby project.
 | ?
 | Refactor physical units, to be agnostic about axes.
 
+| 0.23
+| ?
+|
+ `mihxil-statistics` has a rate limiter based on `WindowedEventRate`: `WindowedRateLimiter` (at most n events per sliding window, with exact `retryAfter`), and `KeyedWindowedRateLimiter` (one limiter per key, e.g. per user). An alternative for guava's (still `@Beta`) token bucket `RateLimiter`, more suited for quota.
+
+ `mihxil-time` has `Sleeper`, an abstraction of `Thread.sleep`, which `TestClock` implements, so code that waits can be tested without actually waiting.
+
+ Calculator improvements (parsing its own results, integer and fraction notation). Modules migrated to jspecify null annotations, fewer dependencies.
+
+| 0.22
+| october, 2026
+|
+ Some time related utilities ported from `vpro-shared-util` to `mihxil-time`. Fixed: `P1M` was parsed as one minute in stead of one month.
+
+
+| 0.21
+| september, 2026
+|
+ Introduces `Angle` (backed by the `CircleGroup`, a 'fraction of a turn'), to represent how much a figure is turned.
+
+ The test configuration annotations were renamed from `@Set...` to `@With...`, and are supported on package level too. Build simplified.
+
+| 0.20
+| september, 2026
+|
+ For scalar fields the notion of 'completion' was introduced, so that e.g. trigonometry can be done on rational numbers. `ElementaryElement` for elements supporting elementary functions. Booleans as a proper ring.
+
+ `Shape` is now the generalization of `Figure` (2d) and `Solid` (3d). Configurable formatting of rational numbers and of angles (radians/degrees).
+
 
 | 0.19
-| july, 2025
+| april, 2026
 |
  Introduces also the 'arithmetic' package, which contains an AST implementation to represent combination of operators and elements.
 

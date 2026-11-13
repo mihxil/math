@@ -28,7 +28,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @author Michiel Meeuwissen
  * @since 0.4
  */
-public class TestClock extends Clock implements Consumer<Duration> {
+public class TestClock extends Clock implements Consumer<Duration>, Sleeper {
 
     @Getter
     private final ZoneId zone;
@@ -128,6 +128,15 @@ public class TestClock extends Clock implements Consumer<Duration> {
      */
     public void sleep(long millis) {
         tick(millis);
+    }
+
+    /**
+     * Progresses the clock with the given duration. A virtual sleep, see {@link #sleep(long)}.
+     * @since 0.23
+     */
+    @Override
+    public void sleep(@NonNull Duration duration) {
+        tick(duration);
     }
 
     /**
