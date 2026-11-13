@@ -20,6 +20,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.checkerframework.checker.index.qual.Positive;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.meeuw.time.Sleeper;
@@ -55,7 +56,7 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
     private KeyedWindowedRateLimiter(
         @NonNull Duration window,
         @Nullable Integer bucketCount,
-        long allowedPerWindow,
+        @Positive long allowedPerWindow,
         @Nullable Clock clock,
         @Nullable Sleeper sleeper) {
         if (allowedPerWindow <= 0) {
