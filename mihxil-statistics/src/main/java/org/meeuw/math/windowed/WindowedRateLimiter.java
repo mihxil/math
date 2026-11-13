@@ -31,6 +31,9 @@ import org.meeuw.time.Sleeper;
  * may be consumed at once, and when a bucket expires, all events in it become available again. This makes it suitable to
  * implement quota like 'at most 60 calls per hour'. Finer grained buckets make the window slide more smoothly.
  * <p>
+ * To avoid such bursts (e.g. after a quiet period), {@link #getMaxPerBucket() maxPerBucket} can be set. Then also at most that many
+ * events are permitted per {@link WindowedEventRate#getBucketDuration() bucket}, which spreads the events more evenly over the window.
+ * <p>
  * E.g.:
  * <pre>{@code
  *   WindowedRateLimiter limiter = WindowedRateLimiter.builder()
@@ -59,12 +62,14 @@ public class WindowedRateLimiter implements AutoCloseable {
     private final @Nullable Integer bucketCount;
 
     private volatile long allowedPerWindow;
+    private volatile long maxPerBucket;
     private WindowedEventRate rate; // guarded by this
 
     /**
      * @param window           The window in which at most {@code allowedPerWindow} events are permitted
      * @param bucketCount      The number of buckets the window is divided in. Defaults to 20 (see {@link Windowed}).
      * @param allowedPerWindow The number of events permitted per window. Must be positive.
+     * @param maxPerBucket     The number of events permitted per bucket. Zero or negative (the default) means no limit per bucket.
      * @param clock            Defaults to {@link Clock#systemUTC()}
      * @param sleeper          How to wait. Defaults to {@link Sleeper#THREAD}. A {@link org.meeuw.time.TestClock} can be used in tests.
      */
@@ -73,9 +78,11 @@ public class WindowedRateLimiter implements AutoCloseable {
         @NonNull Duration window,
         @Nullable Integer bucketCount,
         long allowedPerWindow,
+        long maxPerBucket,
         @Nullable Clock clock,
         @Nullable Sleeper sleeper) {
         checkAllowed(allowedPerWindow);
+        this.maxPerBucket = maxPerBucket;
         this.clock = clock == null ? Clock.systemUTC() : clock;
         this.sleeper = sleeper == null ? Sleeper.THREAD : sleeper;
         this.bucketCount = bucketCount;
@@ -102,11 +109,17 @@ public class WindowedRateLimiter implements AutoCloseable {
      * @return whether the permit was acquired (and accounted for)
      */
     public synchronized boolean tryAcquire() {
-        if (rate.getTotalCount() < allowedPerWindow) {
+        synchronized (rate) {
+            if (rate.getTotalCount() >= allowedPerWindow) {
+                return false;
+            }
+            final long max = maxPerBucket;
+            if (max > 0 && rate.currentBucket().get() >= max) {
+                return false;
+            }
             rate.newEvent();
             return true;
         }
-        return false;
     }
 
     /**
@@ -157,25 +170,35 @@ public class WindowedRateLimiter implements AutoCloseable {
     public synchronized @NonNull Duration retryAfter() {
         synchronized (rate) {
             final AtomicLong[] buckets = rate.getBuckets(); // shifts, and orders the oldest first
+            final long now = clock.millis();
+            final long currentBucketEnd = rate.currentBucketTime + rate.bucketDuration + 1; // first moment the next bucket is current
+
+            long availableAt = now;
+
+            // the window
             long total = 0;
             for (AtomicLong bucket : buckets) {
                 total += bucket.get();
             }
             final long toExpire = total - allowedPerWindow + 1;
-            if (toExpire <= 0) {
-                return Duration.ZERO;
-            }
-            long expiring = 0;
-            for (int k = 0; k < buckets.length; k++) {
-                expiring += buckets[k].get();
-                if (expiring >= toExpire) {
-                    // the k-th oldest bucket is discarded as soon as more than k + 1 bucket durations have passed since the start of the current bucket
-                    final long discardedAt = rate.currentBucketTime + (k + 1) * rate.bucketDuration + 1;
-                    return Duration.ofMillis(Math.max(0, discardedAt - clock.millis()));
+            if (toExpire > 0) {
+                long expiring = 0;
+                for (int k = 0; k < buckets.length; k++) {
+                    expiring += buckets[k].get();
+                    if (expiring >= toExpire) {
+                        // the k-th oldest bucket is discarded as soon as more than k + 1 bucket durations have passed since the start of the current bucket
+                        availableAt = Math.max(availableAt, currentBucketEnd + k * rate.bucketDuration);
+                        break;
+                    }
                 }
             }
-            // cannot happen, since allowedPerWindow > 0, toExpire <= total
-            throw new IllegalStateException();
+
+            // the current bucket
+            final long max = maxPerBucket;
+            if (max > 0 && buckets[buckets.length - 1].get() >= max) {
+                availableAt = Math.max(availableAt, currentBucketEnd);
+            }
+            return Duration.ofMillis(availableAt - now);
         }
     }
 
@@ -197,6 +220,28 @@ public class WindowedRateLimiter implements AutoCloseable {
     public void setAllowedPerWindow(long allowedPerWindow) {
         checkAllowed(allowedPerWindow);
         this.allowedPerWindow = allowedPerWindow;
+    }
+
+    /**
+     * @return The maximal number of events per bucket. Zero means: no limit per bucket.
+     */
+    public long getMaxPerBucket() {
+        return Math.max(0, maxPerBucket);
+    }
+
+    /**
+     * Changes the maximal number of events per bucket. Note that the duration of a bucket is {@link #getWindow() window} divided by the number of buckets.
+     * @param maxPerBucket new value. Zero or negative means: no limit per bucket.
+     */
+    public void setMaxPerBucket(long maxPerBucket) {
+        this.maxPerBucket = maxPerBucket;
+    }
+
+    /**
+     * @return the duration of one bucket
+     */
+    public synchronized @NonNull Duration getBucketDuration() {
+        return rate.getBucketDuration();
     }
 
     public synchronized @NonNull Duration getWindow() {
@@ -235,6 +280,7 @@ public class WindowedRateLimiter implements AutoCloseable {
 
     @Override
     public String toString() {
-        return getCount() + "/" + getAllowedPerWindow() + " per " + getWindow();
+        final long max = getMaxPerBucket();
+        return getCount() + "/" + getAllowedPerWindow() + " per " + getWindow() + (max > 0 ? " (max " + max + " per " + getBucketDuration() + ")" : "");
     }
 }

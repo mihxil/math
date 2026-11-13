@@ -95,6 +95,39 @@ class WindowedRateLimiterTest {
     }
 
     @Test
+    void maxPerBucket() throws InterruptedException {
+        WindowedRateLimiter limiter = WindowedRateLimiter.builder()
+            .window(Duration.ofMinutes(1))
+            .bucketCount(6) // buckets of 10 s
+            .allowedPerWindow(6)
+            .maxPerBucket(2)
+            .clock(clock)
+            .sleeper(clock)
+            .build();
+        assertThat(limiter.tryAcquire()).isTrue();
+        assertThat(limiter.tryAcquire()).isTrue();
+        // the window is not full, but the bucket is
+        assertThat(limiter.tryAcquire()).isFalse();
+        assertThat(limiter.retryAfter()).isEqualTo(Duration.ofSeconds(10).plusMillis(1));
+        assertThat(limiter.toString()).isEqualTo("2/6 per PT1M (max 2 per PT10S)");
+
+        clock.tick(Duration.ofSeconds(10).plusMillis(1));
+        assertThat(limiter.tryAcquire()).isTrue();
+        limiter.acquire();
+        limiter.acquire(); // needs to wait for the next bucket
+        limiter.acquire();
+        assertThat(limiter.getCount()).isEqualTo(6);
+        assertThat(Duration.ofMillis(clock.millis() - TestClock.twentyTwenty().millis())).isEqualTo(Duration.ofSeconds(20).plusMillis(1));
+
+        // now the window is full, which takes longer than the bucket
+        assertThat(limiter.retryAfter()).isEqualTo(Duration.ofSeconds(40));
+
+        limiter.setMaxPerBucket(0);
+        assertThat(limiter.getMaxPerBucket()).isEqualTo(0);
+        assertThat(limiter.toString()).isEqualTo("6/6 per PT1M");
+    }
+
+    @Test
     void setAllowedPerWindowKeepsCount() {
         WindowedRateLimiter limiter = limiter(3);
         limiter.tryAcquire();
@@ -173,6 +206,10 @@ class WindowedRateLimiterTest {
 
         keyed.setWindow(Duration.ofMinutes(2));
         assertThat(keyed.get("b").getWindow()).isEqualTo(Duration.ofMinutes(2));
+
+        keyed.setMaxPerBucket(1);
+        assertThat(keyed.get("b").getMaxPerBucket()).isEqualTo(1);
+        assertThat(keyed.get("c").getMaxPerBucket()).isEqualTo(1);
         keyed.close();
         assertThat(keyed.getLimiters()).isEmpty();
     }
@@ -199,6 +236,10 @@ class WindowedRateLimiterTest {
             assertThat(counts.size()).isEqualTo(2);
             CompositeData a = counts.get(new Object[] {"a"});
             assertThat(a.get("value")).isEqualTo(2L);
+
+            assertThat(server.getAttribute(name, "MaxPerBucket")).isEqualTo(0L);
+            server.setAttribute(name, new Attribute("MaxPerBucket", 3L));
+            assertThat(keyed.get("a").getMaxPerBucket()).isEqualTo(3);
 
             server.setAttribute(name, new Attribute("Window", "2m"));
             server.setAttribute(name, new Attribute("AllowedPerWindow", 2L));

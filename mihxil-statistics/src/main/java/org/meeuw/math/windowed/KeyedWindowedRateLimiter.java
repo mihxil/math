@@ -48,6 +48,7 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
 
     private volatile Duration window;
     private volatile long allowedPerWindow;
+    private volatile long maxPerBucket;
 
     /**
      * See {@link WindowedRateLimiter#builder()} for the parameters.
@@ -57,6 +58,7 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
         @NonNull Duration window,
         @Nullable Integer bucketCount,
         @Positive long allowedPerWindow,
+        long maxPerBucket,
         @Nullable Clock clock,
         @Nullable Sleeper sleeper) {
         if (allowedPerWindow <= 0) {
@@ -65,6 +67,7 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
         this.window = window;
         this.bucketCount = bucketCount;
         this.allowedPerWindow = allowedPerWindow;
+        this.maxPerBucket = maxPerBucket;
         this.clock = clock;
         this.sleeper = sleeper;
     }
@@ -77,6 +80,7 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
             .window(window)
             .bucketCount(bucketCount)
             .allowedPerWindow(allowedPerWindow)
+            .maxPerBucket(maxPerBucket)
             .clock(clock)
             .sleeper(sleeper)
             .build()
@@ -147,6 +151,18 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
         limiters.values().forEach(l -> l.setAllowedPerWindow(allowedPerWindow));
     }
 
+    public long getMaxPerBucket() {
+        return Math.max(0, maxPerBucket);
+    }
+
+    /**
+     * @see WindowedRateLimiter#setMaxPerBucket(long)
+     */
+    public synchronized void setMaxPerBucket(long maxPerBucket) {
+        this.maxPerBucket = maxPerBucket;
+        limiters.values().forEach(l -> l.setMaxPerBucket(maxPerBucket));
+    }
+
     /**
      * Forgets about all keys and their events.
      */
@@ -196,6 +212,16 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
         @Override
         public void setAllowedPerWindow(long allowedPerWindow) {
             KeyedWindowedRateLimiter.this.setAllowedPerWindow(allowedPerWindow);
+        }
+
+        @Override
+        public long getMaxPerBucket() {
+            return KeyedWindowedRateLimiter.this.getMaxPerBucket();
+        }
+
+        @Override
+        public void setMaxPerBucket(long maxPerBucket) {
+            KeyedWindowedRateLimiter.this.setMaxPerBucket(maxPerBucket);
         }
 
         @Override

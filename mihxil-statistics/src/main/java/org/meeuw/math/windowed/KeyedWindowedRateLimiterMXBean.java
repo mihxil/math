@@ -50,6 +50,16 @@ public interface KeyedWindowedRateLimiterMXBean {
     void setAllowedPerWindow(long allowedPerWindow);
 
     /**
+     * @return the maximal number of events per bucket. Zero means: no limit per bucket.
+     */
+    long getMaxPerBucket();
+
+    /**
+     * @param maxPerBucket the new maximal number of events per bucket. Zero means: no limit per bucket.
+     */
+    void setMaxPerBucket(long maxPerBucket);
+
+    /**
      * @return per key (as a string) the number of events in the current window
      */
     Map<String, Long> getCounts();
