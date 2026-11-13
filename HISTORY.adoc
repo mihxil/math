@@ -11,7 +11,7 @@ I'm maintaining this mainly as a hobby project.
 | Refactor physical units, to be agnostic about axes.
 
 | 0.23
-| ?
+| november, 2026
 |
  `mihxil-statistics` has a rate limiter based on `WindowedEventRate`: `WindowedRateLimiter` (at most n events per sliding window, with exact `retryAfter`, and optionally at most m per bucket to avoid bursts), and `KeyedWindowedRateLimiter` (one limiter per key, e.g. per user, which can be managed via JMX with its `KeyedWindowedRateLimiterMXBean`). An alternative for guava's (still `@Beta`) token bucket `RateLimiter`, more suited for quota.
 
