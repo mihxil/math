@@ -34,7 +34,6 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <mihxil-bom.version>${project.version}</mihxil-bom.version>
 
 
     <!-- compile time -->
@@ -89,7 +88,7 @@
         <groupId>org.meeuw.math</groupId>
         <artifactId>mihxil-bom</artifactId>
         <type>pom</type>
-        <version>${mihxil-bom.version}</version>
+        <version>${project.version}</version>
         <scope>import</scope>
       </dependency>
       <dependency>
