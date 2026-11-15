@@ -40,51 +40,41 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
 
     private final Map<K, WindowedRateLimiter> limiters = new ConcurrentHashMap<>();
 
-    private final @Nullable Integer bucketCount;
-    private final @Nullable Clock clock;
-    private final @Nullable Sleeper sleeper;
+    /**
+     * Holds the configuration. It is never acquired from itself, but copied for every new key.
+     */
+    private final WindowedRateLimiter template;
 
     private final KeyedWindowedRateLimiterMXBean mxBean = new MXBean();
-
-    private volatile Duration window;
-    private volatile long allowedPerWindow;
-    private volatile long maxPerBucket;
 
     /**
      * See {@link WindowedRateLimiter#builder()} for the parameters.
      */
     @lombok.Builder
     private KeyedWindowedRateLimiter(
-        @NonNull Duration window,
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
         @Positive long allowedPerWindow,
         long maxPerBucket,
         @Nullable Clock clock,
         @Nullable Sleeper sleeper) {
-        if (allowedPerWindow <= 0) {
-            throw new IllegalArgumentException("allowedPerWindow must be positive (" + allowedPerWindow + ")");
-        }
-        this.window = window;
-        this.bucketCount = bucketCount;
-        this.allowedPerWindow = allowedPerWindow;
-        this.maxPerBucket = maxPerBucket;
-        this.clock = clock;
-        this.sleeper = sleeper;
+        this.template = WindowedRateLimiter.builder()
+            .window(window)
+            .bucketDuration(bucketDuration)
+            .bucketCount(bucketCount)
+            .allowedPerWindow(allowedPerWindow)
+            .maxPerBucket(maxPerBucket)
+            .clock(clock)
+            .sleeper(sleeper)
+            .build();
     }
 
     /**
      * @return the limiter for the given key, which is created if it didn't exist yet
      */
     public @NonNull WindowedRateLimiter get(@NonNull K key) {
-        return limiters.computeIfAbsent(key, k -> WindowedRateLimiter.builder()
-            .window(window)
-            .bucketCount(bucketCount)
-            .allowedPerWindow(allowedPerWindow)
-            .maxPerBucket(maxPerBucket)
-            .clock(clock)
-            .sleeper(sleeper)
-            .build()
-        );
+        return limiters.computeIfAbsent(key, k -> template.copy());
     }
 
     /**
@@ -125,41 +115,38 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
     }
 
     public @NonNull Duration getWindow() {
-        return window;
+        return template.getWindow();
     }
 
     /**
      * @see WindowedRateLimiter#setWindow(Duration)
      */
     public synchronized void setWindow(@NonNull Duration window) {
-        this.window = window;
+        template.setWindow(window);
         limiters.values().forEach(l -> l.setWindow(window));
     }
 
     public long getAllowedPerWindow() {
-        return allowedPerWindow;
+        return template.getAllowedPerWindow();
     }
 
     /**
      * @see WindowedRateLimiter#setAllowedPerWindow(long)
      */
     public synchronized void setAllowedPerWindow(long allowedPerWindow) {
-        if (allowedPerWindow <= 0) {
-            throw new IllegalArgumentException("allowedPerWindow must be positive (" + allowedPerWindow + ")");
-        }
-        this.allowedPerWindow = allowedPerWindow;
+        template.setAllowedPerWindow(allowedPerWindow);
         limiters.values().forEach(l -> l.setAllowedPerWindow(allowedPerWindow));
     }
 
     public long getMaxPerBucket() {
-        return Math.max(0, maxPerBucket);
+        return template.getMaxPerBucket();
     }
 
     /**
      * @see WindowedRateLimiter#setMaxPerBucket(long)
      */
     public synchronized void setMaxPerBucket(long maxPerBucket) {
-        this.maxPerBucket = maxPerBucket;
+        template.setMaxPerBucket(maxPerBucket);
         limiters.values().forEach(l -> l.setMaxPerBucket(maxPerBucket));
     }
 
@@ -185,11 +172,12 @@ public class KeyedWindowedRateLimiter<K> implements AutoCloseable {
     @Override
     public void close() {
         clear();
+        template.close();
     }
 
     @Override
     public String toString() {
-        return getCounts() + " (max " + allowedPerWindow + " per " + window + ")";
+        return getCounts() + " (max " + getAllowedPerWindow() + " per " + getWindow() + ")";
     }
 
     private class MXBean implements KeyedWindowedRateLimiterMXBean {

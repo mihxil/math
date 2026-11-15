@@ -49,6 +49,41 @@ class WindowedRateLimiterTest {
     }
 
     @Test
+    void bucketDuration() {
+        WindowedRateLimiter withWindow = WindowedRateLimiter.builder()
+            .window(Duration.ofMinutes(1))
+            .bucketDuration(Duration.ofSeconds(5))
+            .allowedPerWindow(3)
+            .clock(clock)
+            .build();
+        assertThat(withWindow.getWindow()).isEqualTo(Duration.ofMinutes(1));
+        assertThat(withWindow.getBucketCount()).isEqualTo(12);
+
+        WindowedRateLimiter withCount = WindowedRateLimiter.builder()
+            .bucketDuration(Duration.ofSeconds(5))
+            .bucketCount(6)
+            .allowedPerWindow(3)
+            .clock(clock)
+            .build();
+        assertThat(withCount.getWindow()).isEqualTo(Duration.ofSeconds(30));
+        assertThat(withCount.getBucketDuration()).isEqualTo(Duration.ofSeconds(5));
+
+        // changing the window keeps the number of buckets
+        withCount.setWindow(Duration.ofMinutes(1));
+        assertThat(withCount.getBucketCount()).isEqualTo(6);
+        assertThat(withCount.getBucketDuration()).isEqualTo(Duration.ofSeconds(10));
+
+        KeyedWindowedRateLimiter<String> keyed = KeyedWindowedRateLimiter.<String>builder()
+            .window(Duration.ofMinutes(1))
+            .bucketDuration(Duration.ofSeconds(5))
+            .allowedPerWindow(3)
+            .clock(clock)
+            .build();
+        assertThat(keyed.get("a").getBucketCount()).isEqualTo(12);
+        assertThat(keyed.get("a").getBucketDuration()).isEqualTo(Duration.ofSeconds(5));
+    }
+
+    @Test
     void retryAfter() {
         WindowedRateLimiter limiter = limiter(3);
         limiter.tryAcquire();             // bucket 1

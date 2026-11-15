@@ -59,15 +59,15 @@ public class WindowedRateLimiter implements AutoCloseable {
 
     private final Clock clock;
     private final Sleeper sleeper;
-    private final @Nullable Integer bucketCount;
 
     private volatile long allowedPerWindow;
     private volatile long maxPerBucket;
     private WindowedEventRate rate; // guarded by this
 
     /**
-     * @param window           The window in which at most {@code allowedPerWindow} events are permitted
-     * @param bucketCount      The number of buckets the window is divided in. Defaults to 20 (see {@link Windowed}).
+     * @param window           The window in which at most {@code allowedPerWindow} events are permitted. May be {@code null} if {@code bucketDuration} is given.
+     * @param bucketDuration   The duration of one bucket. Alternative to (or, if consistent, combined with) {@code window} or {@code bucketCount}.
+     * @param bucketCount      The number of buckets the window is divided in. Defaults to 20, or {@code window / bucketDuration} if both of those are given (see {@link Windowed}).
      * @param allowedPerWindow The number of events permitted per window. Must be positive.
      * @param maxPerBucket     The number of events permitted per bucket. Zero or negative (the default) means no limit per bucket.
      * @param clock            Defaults to {@link Clock#systemUTC()}
@@ -75,7 +75,8 @@ public class WindowedRateLimiter implements AutoCloseable {
      */
     @lombok.Builder
     private WindowedRateLimiter(
-        @NonNull Duration window,
+        @Nullable Duration window,
+        @Nullable Duration bucketDuration,
         @Nullable Integer bucketCount,
         long allowedPerWindow,
         long maxPerBucket,
@@ -85,14 +86,21 @@ public class WindowedRateLimiter implements AutoCloseable {
         this.maxPerBucket = maxPerBucket;
         this.clock = clock == null ? Clock.systemUTC() : clock;
         this.sleeper = sleeper == null ? Sleeper.THREAD : sleeper;
-        this.bucketCount = bucketCount;
         this.allowedPerWindow = allowedPerWindow;
-        this.rate = createRate(window);
+        this.rate = createRate(window, bucketDuration, bucketCount);
     }
 
-    private WindowedEventRate createRate(Duration window) {
+    /**
+     * @return a new limiter with the same configuration as this one, but without any events
+     */
+    synchronized WindowedRateLimiter copy() {
+        return new WindowedRateLimiter(getWindow(), null, rate.getBucketCount(), allowedPerWindow, maxPerBucket, clock, sleeper);
+    }
+
+    private WindowedEventRate createRate(@Nullable Duration window, @Nullable Duration bucketDuration, @Nullable Integer bucketCount) {
         return WindowedEventRate.builder()
             .window(window)
+            .bucketDuration(bucketDuration)
             .bucketCount(bucketCount)
             .clock(clock)
             .build();
@@ -238,6 +246,13 @@ public class WindowedRateLimiter implements AutoCloseable {
     }
 
     /**
+     * @return the number of buckets the window is divided in
+     */
+    public synchronized int getBucketCount() {
+        return rate.getBucketCount();
+    }
+
+    /**
      * @return the duration of one bucket
      */
     public synchronized @NonNull Duration getBucketDuration() {
@@ -251,6 +266,8 @@ public class WindowedRateLimiter implements AutoCloseable {
     /**
      * Changes the window. The events already registered in the current window are (conservatively) all accounted to the
      * current bucket of the new window, so they will all expire after the new window has passed.
+     * <p>
+     * The {@link #getBucketCount() number of buckets} remains the same, so the {@link #getBucketDuration() bucket duration} scales with the window.
      * @param window the new window
      */
     public synchronized void setWindow(@NonNull Duration window) {
@@ -258,7 +275,7 @@ public class WindowedRateLimiter implements AutoCloseable {
             return;
         }
         final long count = rate.getTotalCount();
-        final WindowedEventRate newRate = createRate(window);
+        final WindowedEventRate newRate = createRate(window, null, rate.getBucketCount());
         if (count > 0) {
             newRate.newEvents((int) Math.min(Integer.MAX_VALUE, count));
         }
