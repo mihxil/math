@@ -4,7 +4,9 @@ import lombok.*;
 import lombok.extern.java.Log;
 
 import java.math.MathContext;
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 import org.jspecify.annotations.Nullable;
@@ -38,17 +40,23 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 @ToString
 public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
 
+    /**
+     * Calculations taking longer than this are stopped (see {@link #withMaximalDuration(Duration)})
+     */
+    public static final Duration DEFAULT_MAXIMAL_DURATION = Duration.ofSeconds(10);
+
     public Calculator(FieldInformation fi) {
-        this((F) fi.field(), null);
+        this((F) fi.field(), null, DEFAULT_MAXIMAL_DURATION);
     }
 
     public Calculator(F field) {
-        this(field, null);
+        this(field, null, DEFAULT_MAXIMAL_DURATION);
     }
 
     @lombok.Builder
-    private Calculator(F field, @Nullable Configuration configuration) {
+    private Calculator(F field, @Nullable Configuration configuration, @Nullable Duration maximalDuration) {
         this.field = field;
+        this.maximalDuration = maximalDuration;
         this.configuration = configuration == null ? ConfigurationService.getConfiguration()
             .toBuilder()
             .configure(MathContextConfiguration.class,
@@ -89,6 +97,33 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         // previous results can still be used
         result.results.putAll(results);
         return result;
+    }
+
+    /**
+     * @param maximalDuration calculations taking longer than this are stopped, and result an error. {@code null} for no limit.
+     * @return a new calculator, with the given maximal duration for calculations
+     */
+    public Calculator<E, F> withMaximalDuration(@Nullable Duration maximalDuration) {
+        if (maximalDuration != null && (maximalDuration.isNegative() || maximalDuration.isZero())) {
+            throw new IllegalArgumentException("Maximal duration must be positive: " + maximalDuration);
+        }
+        Calculator<E, F> result = new Calculator<>(field, configuration, maximalDuration);
+        result.results.putAll(results);
+        return result;
+    }
+
+    /**
+     * As {@link #withMaximalDuration(Duration)}, in (possibly fractional) seconds. Convenient for javascript.
+     */
+    public Calculator<E, F> withMaximalDurationInSeconds(double seconds) {
+        return withMaximalDuration(Duration.ofNanos(Math.round(seconds * 1_000_000_000d)));
+    }
+
+    /**
+     * As {@link #withMaximalDuration(Duration)}, with {@link #DEFAULT_MAXIMAL_DURATION}
+     */
+    public Calculator<E, F> withDefaultMaximalDuration() {
+        return withMaximalDuration(DEFAULT_MAXIMAL_DURATION);
     }
 
     /**
@@ -327,6 +362,9 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
          */
         public String[] settings() {
             List<String> settings = new ArrayList<>();
+            if (mayBeExpensive(field)) {
+                settings.add("maximalDuration");
+            }
             if (hasDecimals(field)) {
                 settings.add("maximalPrecision");
             }
@@ -334,17 +372,28 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         }
 
         /**
-         * Whether elements of the given structure are (or consist of) decimal numbers (which may be shown rounded)
+         * Whether calculations in the given structure may take long. That is the case if its elements can become arbitrarily big (e.g. integers, rational numbers,
+         * polynomials), but not if the structure is finite, or its elements are (built from) doubles.
          */
-        static boolean hasDecimals(Object structure) {
+        static boolean mayBeExpensive(AlgebraicStructure<?> structure) {
+            if (structure.isFinite() || structure instanceof RealField) {
+                return false;
+            }
+            if (structure instanceof CompoundStructure<?> compound && compound.isFiniteDimensional()) {
+                return mayBeExpensive(compound.getElementStructure());
+            }
+            return true;
+        }
+
+        /**
+         * Whether elements of the given structure are (or are built from) decimal numbers (which may be shown rounded)
+         */
+        static boolean hasDecimals(AlgebraicStructure<?> structure) {
             if (structure instanceof CompleteScalarField<?>) {
                 return true;
             }
-            if (structure instanceof AbstractComplexNumbers<?, ?, ?, ?> complexNumbers) {
-                return hasDecimals(complexNumbers.getElementStructure());
-            }
-            if (structure instanceof Quaternions<?, ?> quaternions) {
-                return hasDecimals(quaternions.getElementStructure());
+            if (structure instanceof CompoundStructure<?> compound) {
+                return hasDecimals(compound.getElementStructure());
             }
             return false;
         }
@@ -406,6 +455,15 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     @With
     private final Configuration configuration;
 
+    private final @Nullable Duration maximalDuration;
+
+    /**
+     * @return the maximal duration of a calculation, or {@code null} if there is no limit
+     */
+    public @Nullable Duration getMaximalDuration() {
+        return maximalDuration;
+    }
+
     /**
      * The maximal number of previous results that are remembered (see {@link #results})
      */
@@ -424,6 +482,10 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
 
 
     public E eval(String input) {
+        return withTimeout(() -> doEval(input));
+    }
+
+    private E doEval(String input) {
         final String expression = input.strip();
         return ConfigurationService.withConfiguration(evalConfiguration(), () -> {
             try {
@@ -445,11 +507,39 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     }
 
     public String evalToString(String input) {
-        var result = eval(input);
-        final String resultAsString = ConfigurationService.withConfiguration(formatConfiguration(), result::toString);
-        results.put(resultAsString, result);
+        // presenting the result is limited in time too, since that may be expensive as well (e.g. a huge integer)
+        var evaluated = withTimeout(() -> {
+            E result = doEval(input);
+            return Map.entry(ConfigurationService.withConfiguration(formatConfiguration(), result::toString), result);
+        });
+        final String resultAsString = evaluated.getKey();
+        results.put(resultAsString, evaluated.getValue());
         log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
         return resultAsString;
+    }
+
+    /**
+     * Runs the calculation, and stops it if it takes longer than {@link #maximalDuration} (see {@link Utils#withMaximalDuration(Duration, java.util.function.Supplier)}).
+     * The calculation is performed in the current thread, since in cheerpj threads are not preemptive.
+     *
+     * @throws CancellationException if it took too long
+     */
+    <T> T withTimeout(java.util.function.Supplier<T> calculation) {
+        if (maximalDuration == null) {
+            return calculation.get();
+        }
+        try {
+            return Utils.withMaximalDuration(maximalDuration, calculation);
+        } catch (CancellationException e) {
+            throw new CancellationException("Calculation took longer than " + format(maximalDuration));
+        }
+    }
+
+    static String format(Duration duration) {
+        if (duration.toMillis() < 1000) {
+            return duration.toMillis() + " ms";
+        }
+        return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + " s";
     }
 
     /**

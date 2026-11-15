@@ -15,6 +15,10 @@
  */
 package org.meeuw.math;
 
+import java.time.Duration;
+import java.util.concurrent.CancellationException;
+import java.util.function.Supplier;
+
 /**
  * Currently just contains some mathematical constants
  * @author Michiel Meeuwissen
@@ -53,4 +57,48 @@ public final class Utils {
     public static final double Math_2PI = 2d * Math.PI;
 
     public static final double TAU = Math_2PI;
+
+    private static final ThreadLocal<Long> DEADLINE = new ThreadLocal<>();
+
+    /**
+     * Performs a calculation, which is stopped (with a {@link CancellationException}) if it takes longer than the given duration. This only works for calculations
+     * that call {@link #checkInterrupted()} regularly (like the potentially long-running ones in {@link IntegerUtils}).
+     * <p>
+     * This does not need another thread, so it also works in environments where threads are not preemptive (like cheerpj).
+     *
+     * @param maximalDuration the maximal duration of the calculation
+     * @param calculation the calculation to perform
+     * @since 0.24
+     */
+    public static <T> T withMaximalDuration(Duration maximalDuration, Supplier<T> calculation) {
+        final Long previous = DEADLINE.get();
+        final long deadline = System.nanoTime() + maximalDuration.toNanos();
+        DEADLINE.set(previous == null || deadline - previous < 0 ? deadline : previous);
+        try {
+            return calculation.get();
+        } finally {
+            if (previous == null) {
+                DEADLINE.remove();
+            } else {
+                DEADLINE.set(previous);
+            }
+        }
+    }
+
+    /**
+     * To be called in loops of (potentially) long-running calculations, so that these can be stopped, if they take too long (see {@link #withMaximalDuration(Duration, Supplier)}),
+     * or when the thread is {@link Thread#interrupt() interrupted} (the interrupted status is kept).
+     *
+     * @throws CancellationException if the current thread was interrupted, or the calculation passed its deadline
+     * @since 0.24
+     */
+    public static void checkInterrupted() {
+        if (Thread.currentThread().isInterrupted()) {
+            throw new CancellationException("Calculation was interrupted");
+        }
+        final Long deadline = DEADLINE.get();
+        if (deadline != null && System.nanoTime() - deadline > 0) {
+            throw new CancellationException("Calculation took too long");
+        }
+    }
 }

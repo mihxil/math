@@ -42,7 +42,7 @@ public abstract class AbstractComplexNumbers<
     C extends CompleteScalarFieldElement<C>
     >
     extends AbstractAlgebraicStructure<S>
-    implements Field<S> {
+    implements Field<S>, CompoundStructure<ES> {
 
     @Getter
     private final ES elementStructure;

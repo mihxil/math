@@ -17,11 +17,12 @@ public class ScientificNotationTest {
     UncertaintyConfiguration.Notation notation = UncertaintyConfiguration.Notation.ROUND_VALUE;
     int minimumExponent = 3;
     boolean stripZeros = false;
+    int maximalPrecision = 1000; // as the default of NumberConfiguration
 
     // here it is:
     final ScientificNotation<Double> scientific = new ScientificNotation<>(
         () -> minimumExponent,
-        () -> 6,
+        () -> maximalPrecision,
         () -> notation,
         (n, o) -> stripZeros,
         NumberConfiguration::getDefaultNumberFormat,
@@ -37,6 +38,18 @@ public class ScientificNotationTest {
     void notationRound() {
         assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
             .isEqualTo("1000.00000000000000000");
+    }
+
+    /**
+     * The maximal precision (the maximal number of fraction digits) applies to exact values too.
+     */
+    @Test
+    void notationRoundMaximalPrecision() {
+        maximalPrecision = 6;
+        assertThat(scientific.formatWithUncertainty(1000.0d, 0d))
+            .isEqualTo("1000.000000");
+        assertThat(scientific.formatWithUncertainty(1.0d / 3, 0d))
+            .isEqualTo("0.333333");
     }
 
     @Test

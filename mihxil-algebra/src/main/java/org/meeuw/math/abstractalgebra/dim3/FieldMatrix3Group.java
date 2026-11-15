@@ -31,7 +31,7 @@ import static java.lang.System.Logger.Level.INFO;
  */
 public class FieldMatrix3Group<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     extends AbstractAlgebraicStructure<FieldMatrix3<E, C>>
-    implements MultiplicativeGroup<FieldMatrix3<E, C>> {
+    implements MultiplicativeGroup<FieldMatrix3<E, C>>, CompoundStructure<ScalarField<E, C>> {
 
     private static final System.Logger log = System.getLogger(FieldMatrix3Group.class.getName());
 

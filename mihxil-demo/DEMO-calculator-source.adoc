@@ -17,6 +17,10 @@
       <label for="calculator_maximalPrecision">Maximal number of decimals:</label>
       <input type="number" id="calculator_maximalPrecision" name="maximalPrecision" min="0" max="1000" step="1" placeholder="1000" title="Empty for the default (1000). Only affects how results are shown." />
     </div>
+    <div data-setting="maximalDuration">
+      <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
+      <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
+    </div>
   </details>
 
 ++++

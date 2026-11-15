@@ -44,7 +44,7 @@ import static java.lang.System.Logger.Level.DEBUG;
  */
 public class Quaternions<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     extends AbstractAlgebraicStructure<Quaternion<E, C>>
-    implements DivisionRing<Quaternion<E, C>>, Streamable<Quaternion<E, C>> {
+    implements DivisionRing<Quaternion<E, C>>, Streamable<Quaternion<E, C>>, CompoundStructure<ScalarField<E, C>> {
 
     private static final System.Logger log = System.getLogger(Quaternions.class.getName());
     private static final Map<ScalarField<?, ?>, Quaternions<?, ?>> INSTANCES = new ConcurrentHashMap<>();

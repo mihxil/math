@@ -32,7 +32,8 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     extends AbstractAlgebraicStructure<Polynomial<E>>
     implements
     AbelianRing<Polynomial<E>>,
-    Streamable<Polynomial<E>> {
+    Streamable<Polynomial<E>>,
+    CompoundStructure<AbelianRing<E>> {
     private static final Map<AbelianRing<?>, Map<String, PolynomialRing<?>>> CACHE = new ConcurrentHashMap<>();
 
 
@@ -69,6 +70,22 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     private final AbelianRing<E> coefficientRing;
     @Getter
     private final String variable;
+
+    /**
+     * The elements of a polynomial ring are built from its {@link #getCoefficientRing() coefficients}.
+     */
+    @Override
+    public AbelianRing<E> getElementStructure() {
+        return coefficientRing;
+    }
+
+    /**
+     * A polynomial can have any number of coefficients.
+     */
+    @Override
+    public boolean isFiniteDimensional() {
+        return false;
+    }
 
     private PolynomialRing(AbelianRing<E> coefficientRing, String variable) {
         this.coefficientRing = coefficientRing;

@@ -41,7 +41,8 @@ public abstract class AbstractGeneralLinearGroup<
     >
     extends AbstractAlgebraicStructure<M>
     implements MultiplicativeGroup<M>,
-    Streamable<M>
+    Streamable<M>,
+    CompoundStructure<ES>
 {
     @Getter
     protected final int dimension;

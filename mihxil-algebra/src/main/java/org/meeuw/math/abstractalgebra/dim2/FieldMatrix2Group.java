@@ -29,7 +29,7 @@ import org.meeuw.math.abstractalgebra.*;
  */
 public class FieldMatrix2Group<E extends ScalarFieldElement<E, C>, C extends CompleteScalarFieldElement<C>>
     extends AbstractAlgebraicStructure<FieldMatrix2<E, C>>
-    implements MultiplicativeGroup<FieldMatrix2<E, C>> {
+    implements MultiplicativeGroup<FieldMatrix2<E, C>>, CompoundStructure<ScalarField<E, C>> {
 
 
     public static final Map<ScalarField<?, ?>, FieldMatrix2Group<?, ?>> INSTANCES = new HashMap<>();

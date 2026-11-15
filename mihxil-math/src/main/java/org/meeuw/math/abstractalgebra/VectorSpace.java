@@ -21,7 +21,7 @@ package org.meeuw.math.abstractalgebra;
  * @param <E> The type of the elements of the vectors in this space
  * @param <V> The type of the vectors itself.
  */
-public interface VectorSpace<E extends FieldElement<E>, V extends Vector<V, E>> extends AbelianRing<V> {
+public interface VectorSpace<E extends FieldElement<E>, V extends Vector<V, E>> extends AbelianRing<V>, CompoundStructure<Field<E>> {
 
     int getDimension();
 
@@ -29,6 +29,14 @@ public interface VectorSpace<E extends FieldElement<E>, V extends Vector<V, E>> 
     V zero();
 
     Field<E> getField();
+
+    /**
+     * The elements of a vector space are built from elements of its {@link #getField() field}.
+     */
+    @Override
+    default Field<E> getElementStructure() {
+        return getField();
+    }
 
 
 }

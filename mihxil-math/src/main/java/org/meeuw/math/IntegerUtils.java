@@ -358,6 +358,7 @@ public final class IntegerUtils {
         long i = 1;
         long answer = 1;
         while(++i <= value) {
+            Utils.checkInterrupted();
             answer *= i;
         }
         return answer;
@@ -371,6 +372,7 @@ public final class IntegerUtils {
 
         BigInteger product = BigInteger.ONE;
         for (BigInteger i = BigInteger.ONE; i.compareTo(value) <= 0; i = i.add(BigInteger.ONE)) {
+            Utils.checkInterrupted();
             product = product.multiply(i);
         }
         return product;
@@ -409,6 +411,7 @@ public final class IntegerUtils {
         long maxBits = ConfigurationService.getConfigurationAspect(MathContextConfiguration.class).getMaxBits();
         // branching will make this slow
        while (e.signum() > 0) {
+           Utils.checkInterrupted();
            result = result.multiply(base);
            if (result.bitLength() > maxBits) {
                throw new OverflowException("Too big", base + TextUtils.superscript(e.toString()));
@@ -439,6 +442,7 @@ public final class IntegerUtils {
         if (n.equals(BigInteger.ONE)) {
             return BigInteger.ZERO;
         }
+        Utils.checkInterrupted();
         BigInteger nMinusOne = n.add(MINUS_ONE);
         BigInteger nMinusOneSub = answers.get(nMinusOne);
         if (nMinusOneSub == null) {
@@ -460,6 +464,7 @@ public final class IntegerUtils {
         }
         BigInteger product = BigInteger.ONE;
         while(value.compareTo(BigInteger.ONE) > 0) {
+            Utils.checkInterrupted();
             product = product.multiply(value);
             value = value.add(MINUS_TWO);
         }

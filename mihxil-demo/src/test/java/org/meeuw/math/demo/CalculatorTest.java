@@ -2,7 +2,9 @@ package org.meeuw.math.demo;
 
 import lombok.extern.java.Log;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 import java.util.logging.Level;
 
 import org.junit.jupiter.api.Test;
@@ -171,6 +173,9 @@ class CalculatorTest {
         assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
             .filter(fi -> List.of(fi.settings()).contains("maximalPrecision")))
             .containsExactlyInAnyOrder(real, bigdecimal, complex, bigcomplex, quaternions_bigdecimal);
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
+            .filter(fi -> List.of(fi.settings()).contains("maximalDuration")))
+            .containsExactlyInAnyOrder(rational, bigdecimal, gaussian, bigcomplex, quaternions, quaternions_bigdecimal, integers, natural, even, odd, squares, polynomials);
     }
 
     @Test
@@ -180,6 +185,29 @@ class CalculatorTest {
         assertThat(result.result()).isEqualTo("-3 + i");
         assertThat(result.operand()).isEqualTo("\"-3 + i\"");
         assertThat(calculator.evalToString(result.operand() + " ⋅ i")).isEqualTo("-1 - 3i");
+    }
+
+    @Test
+    void maximalDuration() {
+        var calculator = new Calculator<>(integers).withMaximalDuration(Duration.ofMillis(500));
+        long start = System.nanoTime();
+        var result = calculator.calculate("(100!)!");
+        Duration took = Duration.ofNanos(System.nanoTime() - start);
+        log.info(() -> "Took " + took + ": " + result);
+        assertThat(result.result()).isNull();
+        assertThat(result.error()).isEqualTo("Calculation took longer than 500 ms");
+        assertThat(took).isLessThan(Duration.ofSeconds(5));
+
+        // the calculator is still usable
+        assertThat(calculator.evalToString("5!")).isEqualTo("120");
+
+        assertThatThrownBy(() -> new Calculator<>(integers).withMaximalDurationInSeconds(1.5).eval("(100!)!!"))
+            .isInstanceOf(CancellationException.class)
+            .hasMessage("Calculation took longer than 1.5 s");
+        assertThat(new Calculator<>(integers).getMaximalDuration()).isEqualTo(Calculator.DEFAULT_MAXIMAL_DURATION);
+        assertThat(calculator.withDefaultMaximalDuration().getMaximalDuration()).isEqualTo(Calculator.DEFAULT_MAXIMAL_DURATION);
+        assertThat(new Calculator<>(integers).withMaximalDuration(null).evalToString("5!")).isEqualTo("120");
+        assertThatThrownBy(() -> new Calculator<>(integers).withMaximalDuration(Duration.ZERO)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
