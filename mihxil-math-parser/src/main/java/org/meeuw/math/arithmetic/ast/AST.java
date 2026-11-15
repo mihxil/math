@@ -3,6 +3,7 @@ package org.meeuw.math.arithmetic.ast;
 import java.math.BigInteger;
 import java.util.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -189,18 +190,35 @@ public class AST {
     }
 
     public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant)  {
+        return parse(parse, field, getConstant, s -> Optional.empty());
+    }
+
+    /**
+     * As {@link #parse(String, AlgebraicStructure)}, but literals (numbers, and the contents of quoted strings) are first offered to {@code literals}.
+     * This can e.g. be used to recognize a (rounded) representation of a previous result, and use the actual (more precise) value of it.
+     * @since 0.24
+     */
+    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, Function<String, Optional<E>> literals)  {
+        return parse(parse, field, (sign, name) ->
+            field.getConstant(name).map(c -> withSign(sign, c, field)),
+            literals
+        );
+    }
+
+    public static <E extends AlgebraicElement<E>>  Expression<E> parse(String parse, AlgebraicStructure<E> field, BiFunction<String, String, Optional<E>> getConstant, Function<String, Optional<E>> literals)  {
         try {
-            InfixParser<E> parser = new InfixParser<>(prepare(parse), field, getConstant);
+            InfixParser<E> parser = new InfixParser<>(prepare(parse), field, getConstant).withLiterals(literals);
             return parser.parse();
         } catch (ParseException | TokenMgrException e) {
             // Perhaps the complete string is just one element, in the structure's own notation (e.g. a polynomial like 7\u00b7x + x\u00b2)
-            return asLiteral(parse, field).orElseThrow(() -> new IllegalArgumentException(e.getMessage(), e));
+            return asLiteral(parse, field, literals).orElseThrow(() -> new IllegalArgumentException(e.getMessage(), e));
         }
     }
 
-    private static <E extends AlgebraicElement<E>> Optional<Expression<E>> asLiteral(String parse, AlgebraicStructure<E> field) {
+    private static <E extends AlgebraicElement<E>> Optional<Expression<E>> asLiteral(String parse, AlgebraicStructure<E> field, Function<String, Optional<E>> literals) {
         try {
-            return Optional.of(new Value<>(field.fromString(parse.strip())));
+            String stripped = parse.strip();
+            return Optional.of(new Value<>(literals.apply(stripped).orElseGet(() -> field.fromString(stripped))));
         } catch (RuntimeException notParsable) {
             return Optional.empty();
         }

@@ -25,6 +25,11 @@ public class InfixParser<E extends AlgebraicElement<E>> {
 
     private BiFunction<String, String, Optional<E>> getConstant;
 
+    /**
+     * Optionally resolves literals (numbers and quoted strings) before {@link AlgebraicStructure#fromString(String)} is used
+     */
+    private Function<String, Optional<E>> literals = null;
+
 
     public InfixParser(Provider provider, AlgebraicStructure<E> s, BiFunction<String, String, Optional<E>> getConstant) {
         this(provider);
@@ -36,6 +41,26 @@ public class InfixParser<E extends AlgebraicElement<E>> {
         this(string);
         this.structure = s;
         this.getConstant = getConstant;
+    }
+
+    /**
+     * @param literals A function that may resolve a literal (a number, or the contents of a quoted string) to a value. If it
+     * returns empty, the literal is parsed with {@link AlgebraicStructure#fromString(String)}
+     * @return this
+     */
+    public InfixParser<E> withLiterals(Function<String, Optional<E>> literals) {
+        this.literals = literals;
+        return this;
+    }
+
+    E literal(String string) {
+        if (literals != null) {
+            Optional<E> resolved = literals.apply(string);
+            if (resolved.isPresent()) {
+                return resolved.get();
+            }
+        }
+        return structure.fromString(string);
     }
 
     AlgebraicBinaryOperator getOperationBySymbol(Token string) {
@@ -219,11 +244,11 @@ Value<E> number() : {
     {
        if (t.kind == QUOTED_STRING) {
           // a quoted literal is parsed as a whole, a sign before it applies to the entire value
-          E value = structure.fromString(t.image.substring(1, t.image.length() - 1));
+          E value = literal(t.image.substring(1, t.image.length() - 1));
           return new Value<>(AST.withSign(sign == null ? null : sign.image, value, structure));
        }
        String numberString = (sign == null ? "" : sign.image) + t.image;
-       return new Value<>(structure.fromString(numberString));
+       return new Value<>(literal(numberString));
     }
 }
 

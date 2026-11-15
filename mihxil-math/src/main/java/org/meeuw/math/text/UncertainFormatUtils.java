@@ -151,13 +151,19 @@ public class UncertainFormatUtils {
     public static void strip(StringBuffer appendable, FieldPosition position) {
         int dot = appendable.lastIndexOf(".");
         if (dot >= 0) {
-            int j = appendable.length();
-            while (j > dot && appendable.charAt(--j) == '0') {
-                appendable.deleteCharAt(j);
+            // the fraction ends at the first non-digit (e.g. an exponent like ·10⁻¹⁶)
+            int end = dot + 1;
+            while (end < appendable.length() && isDigit(appendable.charAt(end))) {
+                end++;
             }
-            if (j == dot) {
-                appendable.deleteCharAt(dot);
+            int j = end;
+            while (j > dot + 1 && appendable.charAt(j - 1) == '0') {
+                j--;
             }
+            if (j == dot + 1) {
+                j = dot;
+            }
+            appendable.delete(j, end);
         }
     }
 }

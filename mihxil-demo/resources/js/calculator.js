@@ -10,6 +10,11 @@ const SLOT = '□';
  */
 const SIMPLE_OPERAND = /^(-?\d+(\.\d+)?|[\p{L}][\p{L}\p{N}]*|"[^"]*")$/u;
 
+/**
+ * Key in local storage for the settings of the calculator
+ */
+const SETTINGS_KEY = 'mihxil.calculator.settings';
+
 export class CalculatorClass extends BaseClass {
 
 // tag::calculator[]
@@ -17,7 +22,10 @@ export class CalculatorClass extends BaseClass {
         super('#calculator', 'org.meeuw.math.demo.Calculator');
         // the keypad buttons are in the form too, so be explicit about which one submits
         this.button = this.form.querySelector('button[name=submit]');
-        this.input = this.form.querySelector('input');
+        this.input = this.form.querySelector('#calculator_toparse');
+        this.maximalPrecisionInput = this.form.querySelector('input[name=maximalPrecision]');
+        this.settingsElement = this.form.querySelector('details.settings');
+        this.settings = CalculatorClass.loadSettings();
         this.field = this.form.querySelector('select');
         this.inputDataList= this.form.querySelector('datalist');
         this.tape = this.form.querySelector('ol.tape');
@@ -37,15 +45,67 @@ export class CalculatorClass extends BaseClass {
     }
 
     /**
-     * One Calculator instance per field
+     * One Calculator instance per field (with the current settings applied)
      */
     async calculator() {
         const name = this.field.value;
         if (!this.calculators[name]) {
             const Calculator = this.Class;
-            this.calculators[name] = await new Calculator(this.fieldInformation.value);
+            let calculator = await new Calculator(this.fieldInformation.value);
+            if (Number.isInteger(this.settings.maximalPrecision)) {
+                calculator = await calculator.withMaximalPrecision(this.settings.maximalPrecision);
+            }
+            this.calculators[name] = calculator;
         }
         return this.calculators[name];
+    }
+
+    /**
+     * Settings are remembered in local storage. That may not be available (e.g. in private mode), in which case the defaults are used.
+     */
+    static loadSettings() {
+        try {
+            const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+            if (settings && typeof settings === 'object') {
+                return settings;
+            }
+        } catch (e) {
+            console.log("Could not load calculator settings", e);
+        }
+        return {};
+    }
+
+    saveSettings() {
+        try {
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(this.settings));
+        } catch (e) {
+            console.log("Could not save calculator settings", e);
+        }
+    }
+
+    /**
+     * Called when the maximal precision input changes. An empty (or invalid) value means the default.
+     */
+    updateMaximalPrecision() {
+        const input = this.maximalPrecisionInput;
+        const value = input.value.trim() === '' ? NaN : Number(input.value);
+        if (Number.isInteger(value) && value >= 0 && value <= Number(input.max)) {
+            this.settings.maximalPrecision = value;
+        } else {
+            delete this.settings.maximalPrecision;
+            input.value = '';
+        }
+        this.saveSettings();
+        // apply to the existing calculators, which remember the previous results (so they can be used with full precision)
+        for (const [name, calculator] of Object.entries(this.calculators)) {
+            this.calculators[name] = Promise.resolve(calculator).then(c =>
+                Number.isInteger(this.settings.maximalPrecision) ? c.withMaximalPrecision(this.settings.maximalPrecision) : c.withDefaultMaximalPrecision()
+            );
+        }
+        if (this.input.value.trim() !== '') {
+            this.fresh = false;
+            this.schedulePreview();
+        }
     }
 
     /**
@@ -146,6 +206,19 @@ export class CalculatorClass extends BaseClass {
             return;
         }
         this.listenersSetUp = true;
+        if (this.maximalPrecisionInput) {
+            if (Number.isInteger(this.settings.maximalPrecision)) {
+                this.maximalPrecisionInput.value = this.settings.maximalPrecision;
+            }
+            this.maximalPrecisionInput.addEventListener('change', () => this.updateMaximalPrecision());
+            this.maximalPrecisionInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    // don't submit the form, just apply the setting
+                    e.preventDefault();
+                    this.updateMaximalPrecision();
+                }
+            });
+        }
         this.input.addEventListener('beforeinput', async (e) => {
             this.help.textContent = '';
             if (!e.inputType.startsWith('insert') || !e.data || e.data.length !== 1) {
@@ -208,11 +281,29 @@ export class CalculatorClass extends BaseClass {
     async updateField() {
         this.updateExamples();
         this.updateHelp();
+        this.updateSettings();
         this.tape.innerHTML = '';
         this.input.value = '';
         this.clearOutput();
         this.fresh = false;
         await this.updateKeypad();
+    }
+
+    /**
+     * Shows only the settings that are relevant for the current field, and no settings at all if there are none
+     */
+    updateSettings() {
+        if (!this.settingsElement) {
+            return;
+        }
+        const relevant = this.fieldInformation.settings || [];
+        let anyShown = false;
+        for (const setting of this.settingsElement.querySelectorAll('[data-setting]')) {
+            const show = relevant.includes(setting.dataset.setting);
+            setting.hidden = !show;
+            anyShown ||= show;
+        }
+        this.settingsElement.hidden = !anyShown;
     }
 
     updateFieldList() {
@@ -253,6 +344,7 @@ export class CalculatorClass extends BaseClass {
                 finite: await value.finite(),
                 description: await value.description(),
                 help: await value.help(),
+                settings: await BaseClass.awaitedArray(value.settings()),
                 keys: null,
                 value: value,
             };

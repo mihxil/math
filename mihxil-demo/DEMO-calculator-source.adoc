@@ -10,6 +10,14 @@
    <!-- filled by calculator.js -->
   </select>
   <div class="help"></div>
+  <!-- only the settings relevant for the current field are shown (see FieldInformation#settings), and nothing if there are none -->
+  <details class="settings" hidden>
+    <summary>settings</summary>
+    <div data-setting="maximalPrecision">
+      <label for="calculator_maximalPrecision">Maximal number of decimals:</label>
+      <input type="number" id="calculator_maximalPrecision" name="maximalPrecision" min="0" max="1000" step="1" placeholder="1000" title="Empty for the default (1000). Only affects how results are shown." />
+    </div>
+  </details>
 
 ++++
 

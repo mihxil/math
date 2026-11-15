@@ -55,12 +55,18 @@ class CalculatorTest {
 
     @Test
     void complex() {
-        var calculator = new Calculator<>(complex.field());
+        var calculator = new Calculator<>(complex);
 
         String result = calculator.evalToString("""
             "2 + 3i" ⋅ i
             """);
         assertThat(result).isEqualTo("-3 + 2i");
+
+
+        assertThat(calculator.evalToString("4 * 4")).isEqualTo("16");
+        assertThat(calculator.calculate("sin(\uD835\uDF0B/2)").result()).isEqualTo("1");
+        assertThat(calculator.calculate("exp(-i ⋅ \uD835\uDF0B)").result()).isEqualTo("-1");
+
     }
 
 
@@ -92,6 +98,79 @@ class CalculatorTest {
         assertThat(calculator.evalToString("-1³⁄₅")).isEqualTo("-1³⁄₅");
         assertThat(calculator.evalToString("2 - 1³⁄₅")).isEqualTo("²⁄₅");
         assertThat(calculator.evalToString("13/5")).isEqualTo("2³⁄₅");
+    }
+
+
+    @Test
+    void bigdecimal() {
+        // The test framework (ConfigurationExtension) applies a test-specific configuration (ROUND_VALUE notation, 50 fraction digits).
+        // The browser uses the real defaults, so use those.
+        var calculator = new Calculator<>(bigdecimal);
+        assertThat(calculator.evalToString("4 * 4")).isEqualTo("16");
+        assertThat(calculator.calculate("sin(\uD835\uDF0B/2)").result()).isEqualTo("1");
+    }
+
+
+    /**
+     * Typed numbers are exact. (In ROUND_VALUE notation '1' would be parsed as 1 ± 5, and 1/3 would be 0)
+     */
+    @Test
+    void literalsAreExact() {
+        assertThat(new Calculator<>(real).evalToString("1/3")).isEqualTo("0.3333333333333333");
+        assertThat(new Calculator<>(complex).evalToString("1/3")).startsWith("0.33333333333333");
+        assertThat(new Calculator<>(complex).evalToString("sin(𝜋/2)")).isEqualTo("1");
+    }
+
+    @Test
+    void maximalPrecision() {
+        assertThat(new Calculator<>(real).withMaximalPrecision(5).evalToString("1/3")).isEqualTo("0.33333");
+        assertThat(new Calculator<>(bigdecimal).withMaximalPrecision(5).evalToString("1/3")).isEqualTo("0.33333");
+        assertThat(new Calculator<>(complex).withMaximalPrecision(3).evalToString("𝜋")).isEqualTo("3.142");
+        assertThat(new Calculator<>(bigcomplex).withMaximalPrecision(3).evalToString("𝜋")).isEqualTo("3.142");
+        // trailing zeros are still stripped
+        assertThat(new Calculator<>(bigdecimal).withMaximalPrecision(5).evalToString("1/4")).isEqualTo("0.25");
+        assertThatThrownBy(() -> new Calculator<>(real).withMaximalPrecision(-1)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    /**
+     * Results are shown rounded, but when used in a next calculation, the full precision is used.
+     */
+    @Test
+    void previousResultHasFullPrecision() {
+        var calculator = new Calculator<>(real).withMaximalPrecision(5);
+        var third = calculator.calculate("1/3");
+        assertThat(third.result()).isEqualTo("0.33333");
+        assertThat(calculator.evalToString(third.operand() + " * 3")).isEqualTo("1");
+        assertThat(calculator.evalToString("3 * " + third.operand())).isEqualTo("1");
+
+        // negative
+        var minusThird = calculator.calculate("-1/3");
+        assertThat(minusThird.result()).isEqualTo("-0.33333");
+        assertThat(calculator.evalToString(minusThird.operand() + " * 3")).isEqualTo("-1");
+
+        // also after changing the precision
+        var moreDigits = calculator.withMaximalPrecision(10);
+        assertThat(moreDigits.evalToString(third.operand())).isEqualTo("0.3333333333");
+        assertThat(moreDigits.withDefaultMaximalPrecision().evalToString(third.operand())).isEqualTo("0.3333333333333333");
+
+        // if it is edited, it is just the number
+        assertThat(calculator.evalToString("0.333331 * 3")).isEqualTo("0.99999");
+    }
+
+    @Test
+    void previousResultHasFullPrecisionComplex() {
+        var calculator = new Calculator<>(complex).withMaximalPrecision(5);
+        var result = calculator.calculate("\"1 + 2i\" / 3");
+        assertThat(result.result()).isEqualTo("0.33333 + 0.66667i");
+        assertThat(result.operand()).isEqualTo("\"0.33333 + 0.66667i\"");
+        assertThat(calculator.evalToString(result.operand() + " ⋅ 3")).isEqualTo("1 + 2i");
+    }
+
+    @Test
+    void settings() {
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
+            .filter(fi -> List.of(fi.settings()).contains("maximalPrecision")))
+            .containsExactlyInAnyOrder(real, bigdecimal, complex, bigcomplex, quaternions_bigdecimal);
     }
 
     @Test

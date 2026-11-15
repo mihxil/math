@@ -138,14 +138,16 @@ public class ScientificNotation<N extends Number> {
                     minimumExponent,
                     maximalPrecision
                 );
-                useE = splitMean.exponent != 0;
+                // a value that is rounded to zero needs no power of ten, unless the uncertainty is shown too (like (0 ± 3)·10⁻¹⁵)
+                useE = splitMean.exponent != 0 &&
+                    !(uncertaintyNotation == UncertaintyConfiguration.Notation.ROUND_VALUE && operations.isZero(splitMean.coefficient));
             } else {
                 boolean stripTrailingZeros = stripTrailingZerosSupplier.test(uncertaintyNotation, mean);
                 arrangeErrorForExact(
                     splitMean,
                     format,
                     minimumExponent,
-                    operations.precision(splitMean.coefficient),
+                    Math.min(operations.precision(splitMean.coefficient), maximalPrecision),
                     stripTrailingZeros
                 );
                 useE = Math.abs(splitMean.exponent) > minimumExponent;
@@ -192,7 +194,7 @@ public class ScientificNotation<N extends Number> {
         int maximalPrecision) {
         // use difference of order of magnitude of std to determine how mean digits of the mean are
         // relevant
-        final int magnitudeDifference = splitMean.exponent - splitStd.exponent;
+        int magnitudeDifference = splitMean.exponent - splitStd.exponent;
         //System.out.println("Md: " + mean + " " + std + magnitudeDifference);
 
         int meanDigits =  magnitudeDifference; // at least one digit
@@ -202,6 +204,16 @@ public class ScientificNotation<N extends Number> {
             operations.signum(splitStd.coefficient) > 0) {
             //System.out.println("Extra digit");
             meanDigits++;
+        }
+        final boolean rescaled = meanDigits < 0;
+        if (rescaled) {
+            // The uncertainty is of a larger order of magnitude than the mean itself (e.g. 1.2·10⁻¹⁶ ± 2.7·10⁻¹⁵).
+            // A negative number of fraction digits would just show the coefficient rounded to an integer (1·10⁻¹⁶),
+            // so express the mean in the same power of ten as the uncertainty (0.12·10⁻¹⁵), so that it gets rounded correctly.
+            splitMean.coefficient = operations.scaleByPowerOfTen(splitMean.coefficient, meanDigits);
+            splitMean.exponent -= meanDigits;
+            magnitudeDifference -= meanDigits;
+            meanDigits = 0;
         }
 
         //System.out.println("number of relevant digits " + meanDigits + " (" + std + ")");
@@ -231,6 +243,11 @@ public class ScientificNotation<N extends Number> {
             splitStd.coefficient = operations.scaleByPowerOfTen(splitStd.coefficient, splitMean.exponent);
             splitMean.exponent = 0;
 
+        }
+        if (rescaled && splitMean.exponent != 0 &&
+            operations.lt(operations.multiply(operations.abs(splitMean.coefficient), 2), 1)) {
+            // it would be rounded to zero anyway. Avoid '-0'
+            splitMean.coefficient = operations.zero();
         }
 
 

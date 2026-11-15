@@ -50,6 +50,20 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
   }
 
   form#calculator {
+    details.settings {
+      margin: 0.3em 0;
+      font-size: 0.9em;
+
+      summary {
+        cursor: pointer;
+        opacity: 0.7;
+      }
+
+      input[type=number] {
+        width: 6em;
+      }
+    }
+
     ol.tape {
       // same width as the input (see .tips-aside in demo.scss)
       width: 50%;

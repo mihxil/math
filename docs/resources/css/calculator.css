@@ -36,6 +36,17 @@ div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.unary {
 div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.special {
   background: #eee;
 }
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings {
+  margin: 0.3em 0;
+  font-size: 0.9em;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings summary {
+  cursor: pointer;
+  opacity: 0.7;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings input[type=number] {
+  width: 6em;
+}
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape {
   width: 50%;
   box-sizing: border-box;

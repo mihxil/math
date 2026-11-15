@@ -7,6 +7,7 @@ import java.math.MathContext;
 import java.util.*;
 import java.util.logging.Level;
 
+import org.jspecify.annotations.Nullable;
 import org.meeuw.configuration.Configuration;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
@@ -27,8 +28,10 @@ import org.meeuw.math.numbers.MathContextConfiguration;
 import org.meeuw.math.operators.AlgebraicBinaryOperator;
 import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
 
+import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PLUS_MINUS;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
 
 @Log
@@ -36,22 +39,63 @@ import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notatio
 public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
 
     public Calculator(FieldInformation fi) {
-        this((F) fi.field(), ConfigurationService.getConfiguration());
+        this((F) fi.field(), null);
     }
 
     public Calculator(F field) {
-        this(field, ConfigurationService.getConfiguration());
+        this(field, null);
     }
 
     @lombok.Builder
-    private Calculator(F field, Configuration configuration) {
+    private Calculator(F field, @Nullable Configuration configuration) {
         this.field = field;
-         this.configuration = configuration == null ? Configuration.builder()
-            .configure(UncertaintyConfiguration.class,
-                (ub) -> ub.withNotation(ROUND_VALUE))
+        this.configuration = configuration == null ? ConfigurationService.getConfiguration()
+            .toBuilder()
             .configure(MathContextConfiguration.class,
                 (mc) -> mc.withContext(new MathContext(Utils.PI.length())))
-            .build() : configuration;
+            .build()
+            :
+            configuration;
+    }
+
+    /**
+     * The configuration used to evaluate. Numbers typed in a calculator are exact. In {@link UncertaintyConfiguration.Notation#ROUND_VALUE ROUND_VALUE}
+     * notation a literal like {@code 1} would be parsed as {@code 1 ± 5} (its implicit precision), so that {@code 1/3} would result {@code 0}.
+     */
+    private Configuration evalConfiguration() {
+        return configuration.with(UncertaintyConfiguration.class,
+            (ub) -> ub.getNotation() == ROUND_VALUE ? ub.withNotation(PLUS_MINUS) : ub);
+    }
+
+    /**
+     * The configuration used to present results. The calculator never shows uncertainties: just round the value (e.g. sin(𝜋/2) = 1, not 1 ± 0.000…1).
+     * By default zeros are only stripped from exact values, but e.g. the imaginary part of sin(𝜋/2) is 0 ± 1e-13, which would show as 0.00000000000000.
+     */
+    private Configuration formatConfiguration() {
+        return configuration.with(UncertaintyConfiguration.class,
+            (ub) -> ub.withNotation(ROUND_VALUE).withExplicitStripZeros(true));
+    }
+
+    /**
+     * @param maximalPrecision the maximal number of fraction digits to show (the calculation itself is not affected)
+     * @return a new calculator, showing results with at most this number of fraction digits
+     */
+    public Calculator<E, F> withMaximalPrecision(int maximalPrecision) {
+        if (maximalPrecision < 0) {
+            throw new IllegalArgumentException("Maximal precision cannot be negative: " + maximalPrecision);
+        }
+        Calculator<E, F> result = withConfiguration(configuration.with(NumberConfiguration.class,
+            (nc) -> nc.withMaximalPrecision(maximalPrecision)));
+        // previous results can still be used
+        result.results.putAll(results);
+        return result;
+    }
+
+    /**
+     * As {@link #withMaximalPrecision(int)}, with the default maximal precision (of {@link NumberConfiguration})
+     */
+    public Calculator<E, F> withDefaultMaximalPrecision() {
+        return withMaximalPrecision(new NumberConfiguration().getMaximalPrecision());
     }
 
     // tag::eval[]
@@ -277,6 +321,34 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             return name.toLowerCase().replace('_', ' ');
         }
 
+        /**
+         * The names of the settings that are relevant for this field (see calculator.js), e.g. {@code maximalPrecision}
+         * only makes sense if the elements contain decimal numbers.
+         */
+        public String[] settings() {
+            List<String> settings = new ArrayList<>();
+            if (hasDecimals(field)) {
+                settings.add("maximalPrecision");
+            }
+            return settings.toArray(new String[0]);
+        }
+
+        /**
+         * Whether elements of the given structure are (or consist of) decimal numbers (which may be shown rounded)
+         */
+        static boolean hasDecimals(Object structure) {
+            if (structure instanceof CompleteScalarField<?>) {
+                return true;
+            }
+            if (structure instanceof AbstractComplexNumbers<?, ?, ?, ?> complexNumbers) {
+                return hasDecimals(complexNumbers.getElementStructure());
+            }
+            if (structure instanceof Quaternions<?, ?> quaternions) {
+                return hasDecimals(quaternions.getElementStructure());
+            }
+            return false;
+        }
+
         public String description() {
             return field.getClass().getSimpleName() + " " + field;
         }
@@ -334,28 +406,48 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     @With
     private final Configuration configuration;
 
+    /**
+     * The maximal number of previous results that are remembered (see {@link #results})
+     */
+    static final int REMEMBERED_RESULTS = 100;
+
+    /**
+     * Results are shown rounded (see {@link #withMaximalPrecision(int)}). When such a shown result is used in a next
+     * calculation, the actual value is used. This maps the shown strings of the most recent results to their values.
+     */
+    private final Map<String, E> results = Collections.synchronizedMap(new LinkedHashMap<>(16, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, E> eldest) {
+            return size() > REMEMBERED_RESULTS;
+        }
+    });
+
 
     public E eval(String input) {
         final String expression = input.strip();
-        try (var r = ConfigurationService.setConfiguration(configuration)) {
-            log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
-            if (field.getSupportedOperators().isEmpty()) {
-                log.log(Level.SEVERE,  "Supported operators is empty for " + field);
+        return ConfigurationService.withConfiguration(evalConfiguration(), () -> {
+            try {
+                log.fine(() -> "Evaluating expression in %s: %s. Binary: %s, Unary: %s".formatted(field, expression, field.getSupportedOperators(), field.getSupportedUnaryOperators()));
+                if (field.getSupportedOperators().isEmpty()) {
+                    log.log(Level.SEVERE, "Supported operators is empty for " + field);
+                }
+                // a literal that is exactly a previous result (as it was shown) is that result, with its full precision
+                var parsedExpression = AST.parse(expression, field, (literal) -> Optional.ofNullable(results.get(literal.strip())));
+                log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
+                return parsedExpression.eval();
+            } catch (Throwable ex) {
+                log.log(Level.SEVERE, ex.getClass() + " " + ex.getMessage(), ex);
+                throw ex;
+            } finally {
+                log.finer("Ready evaluation");
             }
-            var parsedExpression = AST.parse(expression, field);
-            log.fine(() -> "Parsed expression: %s".formatted(parsedExpression));
-            return parsedExpression.eval();
-        } catch (Throwable ex) {
-            log.log(Level.SEVERE, ex.getClass() + " " + ex.getMessage(), ex);
-            throw ex;
-        } finally {
-            log.finer("Ready evaluation");
-        }
+        });
     }
 
     public String evalToString(String input) {
         var result = eval(input);
-        var resultAsString = result.toString();
+        final String resultAsString = ConfigurationService.withConfiguration(formatConfiguration(), result::toString);
+        results.put(resultAsString, result);
         log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
         return resultAsString;
     }
