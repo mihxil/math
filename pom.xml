@@ -465,7 +465,7 @@
               <detectLinks />
               <detectJavaApiLink />
               <includeDependencySources />
-              <detectOfflineLinks>true</detectOfflineLinks>
+              <detectOfflineLinks>false</detectOfflineLinks>
               <additionalJOption>-Xdoclint:all</additionalJOption>
               <additionalJOption>-Xdoclint:-missing</additionalJOption>
                <sourcepath>

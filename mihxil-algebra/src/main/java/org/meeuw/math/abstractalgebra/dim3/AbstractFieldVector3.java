@@ -31,7 +31,7 @@ import org.meeuw.math.numbers.Sizeable;
  *
  * @author Michiel Meeuwissen
  */
-abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends CompleteScalarFieldElement<C>, SELF extends AbstractFieldVector3<E, C, SELF>>
+public abstract class AbstractFieldVector3<E extends ScalarFieldElement<E,C>, C extends CompleteScalarFieldElement<C>, SELF extends AbstractFieldVector3<E, C, SELF>>
     implements
     Sizeable<C>,
     Vector<SELF, E>,
