@@ -33,6 +33,10 @@ This section is work in progress
       <label for="calculator_maximalPrecision">Maximal number of decimals:</label>
       <input type="number" id="calculator_maximalPrecision" name="maximalPrecision" min="0" max="1000" step="1" placeholder="1000" title="Empty for the default (1000). Only affects how results are shown." />
     </div>
+    <div data-setting="maximalDuration">
+      <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
+      <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
+    </div>
   </details>
 
 ++++
@@ -301,6 +305,9 @@ public enum FieldInformation {
      */
     public String[] settings() {
         List<String> settings = new ArrayList<>();
+        if (mayBeExpensive(field)) {
+            settings.add("maximalDuration");
+        }
         if (hasDecimals(field)) {
             settings.add("maximalPrecision");
         }
@@ -308,17 +315,28 @@ public enum FieldInformation {
     }
 
     /**
-     * Whether elements of the given structure are (or consist of) decimal numbers (which may be shown rounded)
+     * Whether calculations in the given structure may take long. That is the case if its elements can become arbitrarily big (e.g. integers, rational numbers,
+     * polynomials), but not if the structure is finite, or its elements are (built from) doubles.
      */
-    static boolean hasDecimals(Object structure) {
+    static boolean mayBeExpensive(AlgebraicStructure<?> structure) {
+        if (structure.isFinite() || structure instanceof RealField) {
+            return false;
+        }
+        if (structure instanceof CompoundStructure<?> compound && compound.isFiniteDimensional()) {
+            return mayBeExpensive(compound.getElementStructure());
+        }
+        return true;
+    }
+
+    /**
+     * Whether elements of the given structure are (or are built from) decimal numbers (which may be shown rounded)
+     */
+    static boolean hasDecimals(AlgebraicStructure<?> structure) {
         if (structure instanceof CompleteScalarField<?>) {
             return true;
         }
-        if (structure instanceof AbstractComplexNumbers<?, ?, ?, ?> complexNumbers) {
-            return hasDecimals(complexNumbers.getElementStructure());
-        }
-        if (structure instanceof Quaternions<?, ?> quaternions) {
-            return hasDecimals(quaternions.getElementStructure());
+        if (structure instanceof CompoundStructure<?> compound) {
+            return hasDecimals(compound.getElementStructure());
         }
         return false;
     }
@@ -380,6 +398,15 @@ private final F field;
 @With
 private final Configuration configuration;
 
+private final @Nullable Duration maximalDuration;
+
+/**
+ * @return the maximal duration of a calculation, or {@code null} if there is no limit
+ */
+public @Nullable Duration getMaximalDuration() {
+    return maximalDuration;
+}
+
 /**
  * The maximal number of previous results that are remembered (see {@link #results})
  */
@@ -398,6 +425,10 @@ private final Map<String, E> results = Collections.synchronizedMap(new LinkedHas
 
 
 public E eval(String input) {
+    return withTimeout(() -> doEval(input));
+}
+
+private E doEval(String input) {
     final String expression = input.strip();
     return ConfigurationService.withConfiguration(evalConfiguration(), () -> {
         try {
@@ -419,11 +450,39 @@ public E eval(String input) {
 }
 
 public String evalToString(String input) {
-    var result = eval(input);
-    final String resultAsString = ConfigurationService.withConfiguration(formatConfiguration(), result::toString);
-    results.put(resultAsString, result);
+    // presenting the result is limited in time too, since that may be expensive as well (e.g. a huge integer)
+    var evaluated = withTimeout(() -> {
+        E result = doEval(input);
+        return Map.entry(ConfigurationService.withConfiguration(formatConfiguration(), result::toString), result);
+    });
+    final String resultAsString = evaluated.getKey();
+    results.put(resultAsString, evaluated.getValue());
     log.fine(() -> "Result: %s = %s".formatted(input.strip(), resultAsString));
     return resultAsString;
+}
+
+/**
+ * Runs the calculation, and stops it if it takes longer than {@link #maximalDuration} (see {@link Utils#withMaximalDuration(Duration, java.util.function.Supplier)}).
+ * The calculation is performed in the current thread, since in cheerpj threads are not preemptive.
+ *
+ * @throws CancellationException if it took too long
+ */
+<T> T withTimeout(java.util.function.Supplier<T> calculation) {
+    if (maximalDuration == null) {
+        return calculation.get();
+    }
+    try {
+        return Utils.withMaximalDuration(maximalDuration, calculation);
+    } catch (CancellationException e) {
+        throw new CancellationException("Calculation took longer than " + format(maximalDuration));
+    }
+}
+
+static String format(Duration duration) {
+    if (duration.toMillis() < 1000) {
+        return duration.toMillis() + " ms";
+    }
+    return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + " s";
 }
 
 /**
@@ -456,7 +515,6 @@ This is the source code for the above.
         // the keypad buttons are in the form too, so be explicit about which one submits
         this.button = this.form.querySelector('button[name=submit]');
         this.input = this.form.querySelector('#calculator_toparse');
-        this.maximalPrecisionInput = this.form.querySelector('input[name=maximalPrecision]');
         this.settingsElement = this.form.querySelector('details.settings');
         this.settings = CalculatorClass.loadSettings();
         this.field = this.form.querySelector('select');
@@ -485,8 +543,10 @@ This is the source code for the above.
         if (!this.calculators[name]) {
             const Calculator = this.Class;
             let calculator = await new Calculator(this.fieldInformation.value);
-            if (Number.isInteger(this.settings.maximalPrecision)) {
-                calculator = await calculator.withMaximalPrecision(this.settings.maximalPrecision);
+            for (const [setting, {apply}] of Object.entries(SETTINGS)) {
+                if (this.settings[setting] !== undefined) {
+                    calculator = await apply(calculator, this.settings[setting]);
+                }
             }
             this.calculators[name] = calculator;
         }
@@ -517,23 +577,20 @@ This is the source code for the above.
     }
 
     /**
-     * Called when the maximal precision input changes. An empty (or invalid) value means the default.
+     * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
-    updateMaximalPrecision() {
-        const input = this.maximalPrecisionInput;
+    updateSetting(setting, input) {
         const value = input.value.trim() === '' ? NaN : Number(input.value);
-        if (Number.isInteger(value) && value >= 0 && value <= Number(input.max)) {
-            this.settings.maximalPrecision = value;
+        if (SETTINGS[setting].valid(value, input)) {
+            this.settings[setting] = value;
         } else {
-            delete this.settings.maximalPrecision;
+            delete this.settings[setting];
             input.value = '';
         }
         this.saveSettings();
         // apply to the existing calculators, which remember the previous results (so they can be used with full precision)
         for (const [name, calculator] of Object.entries(this.calculators)) {
-            this.calculators[name] = Promise.resolve(calculator).then(c =>
-                Number.isInteger(this.settings.maximalPrecision) ? c.withMaximalPrecision(this.settings.maximalPrecision) : c.withDefaultMaximalPrecision()
-            );
+            this.calculators[name] = Promise.resolve(calculator).then(c => SETTINGS[setting].apply(c, this.settings[setting]));
         }
         if (this.input.value.trim() !== '') {
             this.fresh = false;
@@ -639,16 +696,20 @@ This is the source code for the above.
             return;
         }
         this.listenersSetUp = true;
-        if (this.maximalPrecisionInput) {
-            if (Number.isInteger(this.settings.maximalPrecision)) {
-                this.maximalPrecisionInput.value = this.settings.maximalPrecision;
+        for (const setting of Object.keys(SETTINGS)) {
+            const input = this.form.querySelector(`input[name=${setting}]`);
+            if (!input) {
+                continue;
             }
-            this.maximalPrecisionInput.addEventListener('change', () => this.updateMaximalPrecision());
-            this.maximalPrecisionInput.addEventListener('keydown', (e) => {
+            if (this.settings[setting] !== undefined) {
+                input.value = this.settings[setting];
+            }
+            input.addEventListener('change', () => this.updateSetting(setting, input));
+            input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     // don't submit the form, just apply the setting
                     e.preventDefault();
-                    this.updateMaximalPrecision();
+                    this.updateSetting(setting, input);
                 }
             });
         }
