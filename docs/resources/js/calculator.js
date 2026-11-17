@@ -17,6 +17,11 @@ const SIMPLE_OPERAND = /^(-?\d+(\.\d+)?|[\p{L}][\p{L}\p{N}]*|"[^"]*")$/u;
 const SETTINGS_KEY = 'mihxil.calculator.settings';
 
 /**
+ * The query parameter in the URL with the selected field, so that it can be bookmarked (the hash is used to navigate between the demos)
+ */
+const FIELD_PARAMETER = 'field';
+
+/**
  * The value of a number input, or undefined if it is empty or invalid
  */
 function numberValue(input, valid) {
@@ -304,6 +309,7 @@ export class CalculatorClass extends BaseClass {
             }
         });
         this.field.addEventListener('change', async () => {
+            this.fieldToUrl();
             await this.updateField();
         });
     }
@@ -356,6 +362,19 @@ export class CalculatorClass extends BaseClass {
             option.text = value.description;
             this.field.appendChild(option);
         }
+        const fromUrl = new URLSearchParams(location.search).get(FIELD_PARAMETER);
+        if (fromUrl !== null && Object.hasOwn(this.information, fromUrl)) {
+            this.field.value = fromUrl;
+        }
+    }
+
+    /**
+     * Puts the selected field in the URL (replacing the current history entry), so it can be bookmarked
+     */
+    fieldToUrl() {
+        const url = new URL(location.href);
+        url.searchParams.set(FIELD_PARAMETER, this.field.value);
+        history.replaceState(history.state, '', url);
     }
 
     /**

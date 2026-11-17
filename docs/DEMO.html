@@ -862,6 +862,7 @@
             }
         });
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, async () =&gt; {
+            <span class="local-variable">this</span>.fieldToUrl();
             await <span class="local-variable">this</span>.updateField();
         });
     }
@@ -914,6 +915,19 @@
             option.text = value.description;
             <span class="local-variable">this</span>.field.appendChild(option);
         }
+        const fromUrl = <span class="keyword">new</span> URLSearchParams(location.search).get(FIELD_PARAMETER);
+        <span class="keyword">if</span> (fromUrl !== <span class="predefined-constant">null</span> &amp;&amp; Object.hasOwn(<span class="local-variable">this</span>.information, fromUrl)) {
+            <span class="local-variable">this</span>.field.value = fromUrl;
+        }
+    }
+
+    <span class="comment">/**
+     * Puts the selected field in the URL (replacing the current history entry), so it can be bookmarked
+     */</span>
+    fieldToUrl() {
+        const url = <span class="keyword">new</span> URL(location.href);
+        url.searchParams.set(FIELD_PARAMETER, <span class="local-variable">this</span>.field.value);
+        history.replaceState(history.state, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>, url);
     }
 
     <span class="comment">/**
@@ -1657,7 +1671,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-11-17 22:59:54 UTC
+Last updated 2026-11-17 23:05:43 UTC
 </div>
 </div>
 </body>
