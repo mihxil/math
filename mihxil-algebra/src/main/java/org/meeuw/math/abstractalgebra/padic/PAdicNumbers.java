@@ -245,5 +245,8 @@ public class PAdicNumbers implements Field<PAdicNumber>, Randomizable<PAdicNumbe
         return result.rightShift(fractionDigits);
     }
 
-
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The %d-adic numbers: numbers with infinitely many digits (in base %d) before the point, and finitely many after it. Supported are those of which the digits eventually repeat, which are exactly the rational numbers. They are close to each other if their difference is divisible by a high power of %d.".formatted(base, base, base));
+    }
 }

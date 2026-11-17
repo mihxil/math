@@ -213,4 +213,9 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
             throw new NotParsable("Invalid rational number: " + s);
         }
     }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The field of rational numbers: fractions of two integers. Calculations are exact, since numerator and denominator can become arbitrarily big.");
+    }
 }

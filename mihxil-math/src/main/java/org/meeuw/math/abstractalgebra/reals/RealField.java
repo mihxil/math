@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.reals;
 
+import java.util.Optional;
+
 
 import java.util.Random;
 
@@ -134,5 +136,10 @@ public class RealField
             value,
             uncertaintyForDouble(value) // TODO
         );
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The field of real numbers, approximated by floating point numbers (doubles). The uncertainty of every value is tracked, so it is known how many digits of a result are significant.");
     }
 }

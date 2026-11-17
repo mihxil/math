@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.Random;
@@ -106,5 +108,10 @@ public class Squares extends AbstractIntegers<Square, Square, Squares>
     @Override
     public String toString() {
         return SQR.stringify("ℤ");
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The square integers (0, 1, 4, 9, 16, …). The product of two squares is a square again, but their sum in general is not, so only multiplication is supported.");
     }
 }

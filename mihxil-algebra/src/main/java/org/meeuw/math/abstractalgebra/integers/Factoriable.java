@@ -87,7 +87,7 @@ public interface Factoriable<F extends MultiplicativeMonoidElement<F>>  {
         private final Long maxDoubleArgument;
 
         public Configuration() {
-            this(50000L, 2000L, null);
+            this(500000L, 2000L, null);
         }
 
         @lombok.Builder

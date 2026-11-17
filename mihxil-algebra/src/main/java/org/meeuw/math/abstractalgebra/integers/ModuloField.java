@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -70,4 +72,8 @@ public class ModuloField extends ModuloStructure<ModuloFieldElement, ModuloField
         return new ModuloFieldElement(v, this);
     }
 
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The integers modulo %d: the remainders 0 to %d after division by %d. Addition and multiplication wrap around, e.g. %d + 1 = 0. Since %d is prime, every element but 0 has a reciprocal, so this is a field.".formatted(divisor, divisor - 1, divisor, divisor - 1, divisor));
+    }
 }

@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import jakarta.validation.constraints.Min;
 
 import java.math.BigInteger;
@@ -144,5 +146,10 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     @Override
     public String toString() {
         return "ℕ";
+    }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The natural numbers 0, 1, 2, …, of arbitrary size. There are no negative numbers, so subtraction is only possible if the result is not negative.");
     }
 }

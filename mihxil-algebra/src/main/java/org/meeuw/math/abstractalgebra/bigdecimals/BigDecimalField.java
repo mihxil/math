@@ -121,4 +121,9 @@ public class BigDecimalField
     public BigDecimalElement approx(BigDecimalElement bigDecimalElement) {
         return null;
     }
+
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The field of real numbers, approximated by decimal numbers of arbitrary precision (big decimals). The precision of calculations is determined by the configured math context.");
+    }
 }

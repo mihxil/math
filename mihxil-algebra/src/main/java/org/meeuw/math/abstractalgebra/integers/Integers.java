@@ -147,5 +147,8 @@ public class Integers extends AbstractIntegers<IntegerElement, IntegerElement, I
         return "ℤ";
     }
 
-
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The ring of integers (…, -2, -1, 0, 1, 2, …), of arbitrary size. Division is not possible in general.");
+    }
 }

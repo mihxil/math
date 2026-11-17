@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import java.util.Optional;
+
 import org.meeuw.math.Example;
 import org.meeuw.math.Singleton;
 import org.meeuw.math.abstractalgebra.CompleteField;
@@ -56,4 +58,8 @@ public class BigComplexNumbers extends CompleteComplexNumbers<BigComplexNumber, 
         return BigDecimalField.INSTANCE.atan2(imaginary, real);
     }
 
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The field of complex numbers a + bi, with decimal numbers of arbitrary precision for a and b, and i² = -1. It is complete, so functions like sin, exp and sqrt are supported.");
+    }
 }

@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import lombok.Getter;
 
 import java.util.NavigableSet;
@@ -134,4 +136,8 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
         //return element(Long.parseLong(s, (int) divisor));
     }
 
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The integers modulo %d: the remainders 0 to %d after division by %d. Addition and multiplication wrap around, e.g. %d + 1 = 0.".formatted(divisor, divisor - 1, divisor, divisor - 1));
+    }
 }

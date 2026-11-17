@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.integers;
 
+import java.util.Optional;
+
 import java.math.BigInteger;
 import java.util.NavigableSet;
 import java.util.Random;
@@ -105,4 +107,8 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
         return "ℕ" + TextUtils.subscript("o");
     }
 
+    @Override
+    public Optional<String> getDescription() {
+        return Optional.of("The odd integers (…, -3, -1, 1, 3, …). The product of two odd integers is odd again, but their sum is not, so only multiplication is supported.");
+    }
 }
