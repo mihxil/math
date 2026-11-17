@@ -201,9 +201,7 @@ class PAdicNumbersTest {
             assertThat(x.toString()).startsWith("…").hasSize(12)
         );
         // 1/1000003 has a repetend of 1000002 digits
-        ConfigurationService.withAspect(PAdicConfiguration.class, c -> c.withMaximalNumberOfDigits(1_000_002), () ->
-            assertThat(x.toString()).startsWith("...").hasSize(3 + 1_000_002 + 1 + 1 + 1)
-        );
+        assertThat(x.adicDigits(1_000_100).orElseThrow().repetend).hasSize(1_000_002);
     }
 
     @Test
