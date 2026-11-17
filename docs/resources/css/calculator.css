@@ -36,6 +36,9 @@ div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.unary {
 div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.special {
   background: #eee;
 }
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator [hidden] {
+  display: none !important;
+}
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings {
   margin: 0.3em 0;
   font-size: 0.9em;
