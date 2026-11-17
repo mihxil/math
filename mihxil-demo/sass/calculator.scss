@@ -53,7 +53,17 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
     }
   }
 
+  // repeating digits (see showWithOverlines in calculator.js)
+  .overline {
+    text-decoration: overline;
+  }
+
   form#calculator {
+    // fonts in which combining overlines (repeating digits) look reasonable
+    #calculator_toparse {
+      font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    }
+
     // the asciidoctor stylesheet gives 'details' a display, which would otherwise win over the hidden attribute (set by calculator.js)
     [hidden] {
       display: none !important;

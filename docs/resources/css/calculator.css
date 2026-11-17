@@ -39,6 +39,12 @@ div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.unary {
 div:is(.sect1, .sect2):has(> #demo_calculator) .keypad button.key.special {
   background: #eee;
 }
+div:is(.sect1, .sect2):has(> #demo_calculator) .overline {
+  text-decoration: overline;
+}
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator #calculator_toparse {
+  font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator [hidden] {
   display: none !important;
 }

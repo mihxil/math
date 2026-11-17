@@ -26,6 +26,50 @@ const FIELD_PARAMETER = 'field';
 const OVERLINE = '\u0305';
 
 /**
+ * Runs of characters each followed by an OVERLINE
+ */
+const OVERLINED_RUN = /((?:[^\u0305]\u0305)+)/u;
+
+/**
+ * Shows the text in the element. Overlined characters (with a combining OVERLINE) are shown with a CSS overline (in a span.overline), since the combining
+ * characters look bad in many fonts (the line is interrupted, or shifted).
+ */
+function showWithOverlines(element, text) {
+    element.textContent = '';
+    for (const part of text.split(OVERLINED_RUN)) {
+        if (part === '') {
+            continue;
+        }
+        if (part.includes(OVERLINE)) {
+            const span = document.createElement('span');
+            span.classList.add('overline');
+            span.textContent = part.replaceAll(OVERLINE, '');
+            element.appendChild(span);
+        } else {
+            element.appendChild(document.createTextNode(part));
+        }
+    }
+}
+
+/**
+ * When copying text shown by showWithOverlines, the overlines are put back as combining characters (otherwise they would be lost)
+ */
+function copyWithOverlines(event) {
+    const selection = document.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+        return;
+    }
+    const fragment = selection.getRangeAt(0).cloneContents();
+    const spans = fragment.querySelectorAll('span.overline');
+    if (spans.length === 0) {
+        return;
+    }
+    spans.forEach(span => span.replaceWith(Array.from(span.textContent).map(c => c + OVERLINE).join('')));
+    event.clipboardData.setData('text/plain', fragment.textContent);
+    event.preventDefault();
+}
+
+/**
  * The value of a number input, or undefined if it is empty or invalid
  */
 function numberValue(input, valid) {
@@ -359,6 +403,7 @@ export class CalculatorClass extends BaseClass {
                 this.clear();
             }
         });
+        this.form.addEventListener('copy', copyWithOverlines);
         // show the overline key only if something is selected
         for (const type of ['select', 'selectionchange', 'input', 'keyup', 'mouseup', 'focus']) {
             this.input.addEventListener(type, () => this.updateOverlineKey());
@@ -624,7 +669,7 @@ export class CalculatorClass extends BaseClass {
             this.output.value = '';
         } else {
             this.output.classList.add('preview');
-            this.output.value = '= ' + await result.result();
+            showWithOverlines(this.output, '= ' + await result.result());
         }
     }
 
@@ -632,12 +677,12 @@ export class CalculatorClass extends BaseClass {
         const li = document.createElement('li');
         const expressionSpan = document.createElement('span');
         expressionSpan.classList.add('expression');
-        expressionSpan.textContent = expression;
+        showWithOverlines(expressionSpan, expression);
         expressionSpan.title = 'use this expression again';
         expressionSpan.onclick = () => this.setInput(expression);
         const resultSpan = document.createElement('span');
         resultSpan.classList.add('result');
-        resultSpan.textContent = result;
+        showWithOverlines(resultSpan, result);
         resultSpan.title = 'use this result';
         resultSpan.onclick = () => this.setInput(operand);
         li.append(expressionSpan, ' = ', resultSpan);
@@ -664,7 +709,7 @@ export class CalculatorClass extends BaseClass {
         }
         const value = await result.result();
         const operand = await result.operand();
-        this.output.value = value;
+        showWithOverlines(this.output, value);
         this.addToTape(expression, value, operand);
         // the result becomes the start of the next calculation. It is selected, so typing something new replaces it,
         // and typing an operator continues with it
