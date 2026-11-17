@@ -1,2 +1,3 @@
 org.meeuw.math.abstractalgebra.permutations.text.PermutationFormatProvider
 org.meeuw.math.abstractalgebra.rationalnumbers.text.spi.RationalNumberFormatProvider
+org.meeuw.math.abstractalgebra.padic.text.PAdicNumberFormatProvider

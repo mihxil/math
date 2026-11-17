@@ -18,14 +18,19 @@ package org.meeuw.test.math.abstractalgebra.rationalnumbers.text;
 import java.math.MathContext;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration.Mode;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberFormat;
 import org.meeuw.math.numbers.MathContextConfiguration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber.of;
 
 class RationalNumberFormatTest {
@@ -49,6 +54,24 @@ class RationalNumberFormatTest {
         assertThat(format.format(of(1, 8))).isEqualTo("0.125");
         assertThat(format.format(of(-1, 6))).isEqualTo("-0.16̅");
         assertThat(format.format(of(22, 7))).isEqualTo("3.1̅4̅2̅8̅5̅7̅");
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1/8, 0.125", "-1/6, -0.16̅", "22/7, 3.1̅4̅2̅8̅5̅7̅", "1/3, 0.3̅", "7, 7", "-7/2, -3.5", "1/7, 0.1̅4̅2̅8̅5̅7̅"})
+    void decimalWithRepeatAndBack(String fraction, String decimal) {
+        RationalNumberFormat format = new RationalNumberFormat(Mode.DECIMAL_WITH_REPEAT);
+        RationalNumber value = RationalNumbers.INSTANCE.fromString(fraction);
+        assertThat(format.format(value)).isEqualTo(decimal);
+        assertThat(RationalNumbers.INSTANCE.fromString(decimal)).isEqualTo(value);
+    }
+
+    @Test
+    void parseDecimals() {
+        assertThat(RationalNumbers.INSTANCE.fromString("0.5")).isEqualTo(of(1, 2));
+        assertThat(RationalNumbers.INSTANCE.fromString(".25")).isEqualTo(of(1, 4));
+        assertThat(RationalNumbers.INSTANCE.fromString("0.9̅")).isEqualTo(of(1, 1));
+        assertThat(RationalNumbers.INSTANCE.fromString("1.23̅4̅")).isEqualTo(of(1222, 990));
+        assertThatThrownBy(() -> RationalNumbers.INSTANCE.fromString(".")).isInstanceOf(NotParsable.class);
     }
 
     @Test

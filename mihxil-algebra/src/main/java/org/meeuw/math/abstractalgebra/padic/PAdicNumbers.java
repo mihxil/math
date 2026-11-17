@@ -12,6 +12,8 @@ import org.meeuw.math.abstractalgebra.Cardinality;
 import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicConfiguration;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicNumberFormat;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
 import org.meeuw.math.exceptions.NotParsable;
@@ -120,13 +122,16 @@ public class PAdicNumbers implements Field<PAdicNumber>, Randomizable<PAdicNumbe
     }
 
     /**
-     * Parses a p-adic number. Two forms are accepted:
+     * Parses a p-adic number. Accepted are
      * <ul>
-     *   <li>p-adic digits, as produced by {@link PAdicNumber#toString()}: {@code ...} followed by the repetend, a space, and the other digits (which may contain a point),
-     *    optionally followed by the base as a subscript. E.g. {@code ...4 3.21₅}. Digits above 9 are letters ({@code a} is 10, {@code b} is 11, etc.)</li>
+     *   <li>p-adic digits in {@link PAdicConfiguration.Notation#ELLIPSIS ellipsis notation}: {@code ...} followed by the repetend, a space, and the other
+     *   digits (which may contain a point), optionally followed by the base as a subscript. E.g. {@code ...4 3.21₅}</li>
+     *   <li>p-adic digits in {@link PAdicConfiguration.Notation#OVERLINE overline notation}: the repetend overlined, followed by the other digits,
+     *   and optionally the base as a subscript. E.g. {@code 4̅3.21₅}</li>
+     *   <li>p-adic digits without a repetend (so a repetend of zeros), followed by the base as a subscript (which is required then), e.g. {@code 12₅}</li>
      *   <li>anything else is parsed as a {@link RationalNumbers#fromString(String) rational number}, e.g. {@code 12}, {@code 1/3}, {@code 0.5} (in base 10)</li>
      * </ul>
-     * Both forms may be preceded by a minus sign.
+     * Digits above 9 are letters ({@code a} is 10, {@code b} is 11, etc.). All forms may be preceded by a minus sign.
      */
     @Override
     public PAdicNumber fromString(String string) throws NotParsable {
@@ -134,48 +139,56 @@ public class PAdicNumbers implements Field<PAdicNumber>, Randomizable<PAdicNumbe
         if (s.startsWith("-")) {
             return fromString(s.substring(1)).negation();
         }
-        if (s.startsWith(PAdicNumber.ELLIPSIS)) {
+        if (s.startsWith(PAdicNumberFormat.ELLIPSIS)) {
             throw new NotParsable("Not all digits of the repetend are given", string);
         }
-        if (!s.startsWith(REPETEND_PREFIX)) {
+        final String baseSuffix = TextUtils.subscript(base);
+        final boolean hasBaseSuffix = s.endsWith(baseSuffix);
+        if (hasBaseSuffix) {
+            s = s.substring(0, s.length() - baseSuffix.length()).strip();
+        }
+        if (!s.isEmpty() && !TextUtils.unsubscript(s.substring(s.length() - 1)).equals(s.substring(s.length() - 1))) {
+            throw new NotParsable("Not a " + base + "-adic number", string);
+        }
+        final String repetend;
+        final String digits;
+        if (s.startsWith(REPETEND_PREFIX)) {
+            String[] parts = s.substring(REPETEND_PREFIX.length()).strip().split("\\s+", 2);
+            repetend = parts[0];
+            digits = parts.length > 1 ? parts[1] : "";
+        } else if (s.indexOf(OVERLINE) > 0) {
+            // the overlined characters at the start are the repetend
+            StringBuilder overlined = new StringBuilder();
+            int i = 0;
+            while (i + 1 < s.length() && s.charAt(i + 1) == OVERLINE) {
+                overlined.append(s.charAt(i));
+                i += 2;
+            }
+            repetend = overlined.toString();
+            digits = s.substring(i);
+        } else if (hasBaseSuffix) {
+            repetend = "0";
+            digits = s;
+        } else {
             try {
                 return of(RationalNumbers.INSTANCE.fromString(s));
             } catch (RuntimeException e) {
-                try {
-                    // decimal fractions
-                    return of(RationalNumber.of(new java.math.BigDecimal(s)));
-                } catch (NumberFormatException nfe) {
-                    throw new NotParsable(e.getMessage(), e, string);
-                }
+                throw new NotParsable(e.getMessage(), e, string);
             }
         }
-        int end = s.length();
-        while (end > 0 && SUBSCRIPT_DIGITS.indexOf(s.charAt(end - 1)) >= 0) {
-            end--;
-        }
-        if (end < s.length()) {
-            int givenBase = Integer.parseInt(TextUtils.unsubscript(s.substring(end)));
-            if (givenBase != base) {
-                throw new NotParsable("This is a " + givenBase + "-adic number, not a " + base + "-adic one", string);
-            }
-            s = s.substring(0, end);
-        }
-        String[] parts = s.substring(REPETEND_PREFIX.length()).strip().split("\\s+", 2);
         // digits above 9 are letters (a = 10, b = 11, ...)
-        String repetend = parts[0].toLowerCase();
-        String digits = parts.length > 1 ? parts[1].toLowerCase() : "";
-        if (!repetend.matches("[0-9a-z]+") || !digits.matches("[0-9a-z]*(\\.[0-9a-z]*)?")) {
-            throw new NotParsable("Expected something like ...<repetend> <digits>", string);
+        if (!repetend.toLowerCase().matches("[0-9a-z]+") || !digits.toLowerCase().matches("[0-9a-z]*(\\.[0-9a-z]*)?")) {
+            throw new NotParsable("Expected p-adic digits, like ...4 3.21" + baseSuffix + " or " + TextUtils.overLine("4") + "3.21" + baseSuffix, string);
         }
         try {
-            return of(repetend, digits);
+            return of(repetend.toLowerCase(), digits.toLowerCase());
         } catch (RuntimeException e) {
             throw new NotParsable(e.getMessage(), e, string);
         }
     }
 
     private static final String REPETEND_PREFIX = "...";
-    private static final String SUBSCRIPT_DIGITS = "₀₁₂₃₄₅₆₇₈₉";
+    private static final char OVERLINE = '\u0305';
 
     public PAdicNumber of(RationalNumber value) {
         return new PAdicNumber(this, value);

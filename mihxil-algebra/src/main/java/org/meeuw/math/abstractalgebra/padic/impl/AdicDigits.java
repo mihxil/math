@@ -190,14 +190,27 @@ public class AdicDigits {
 
     @Override
     public String toString() {
+        return "..." + repetendToString() + ' ' + digitsToString();
+    }
+
+    /**
+     * @return the repetend as a string, the most significant digit first
+     */
+    public String repetendToString() {
+        return toString(repetend);
+    }
+
+    /**
+     * @return the non-repeating digits as a string, the most significant digit first
+     */
+    public String digitsToString() {
+        return toString(digits);
+    }
+
+    private static String toString(byte[] inverseDigits) {
         StringBuilder builder = new StringBuilder();
-        builder.append("...");
-        for (int i = repetend.length - 1; i >= 0; i--) {
-            builder.append(DigitUtils.digitToString(repetend[i]));
-        }
-        builder.append(' ');
-        for (int i = digits.length - 1; i >= 0; i--) {
-            builder.append(DigitUtils.digitToString(digits[i]));
+        for (int i = inverseDigits.length - 1; i >= 0; i--) {
+            builder.append(DigitUtils.digitToString(inverseDigits[i]));
         }
         return builder.toString();
     }

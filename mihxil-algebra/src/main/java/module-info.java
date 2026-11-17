@@ -19,6 +19,8 @@ import org.meeuw.math.abstractalgebra.permutations.text.PermutationConfiguration
 import org.meeuw.math.abstractalgebra.permutations.text.PermutationFormatProvider;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration;
 import org.meeuw.math.abstractalgebra.rationalnumbers.text.spi.RationalNumberFormatProvider;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicConfiguration;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicNumberFormatProvider;
 import org.meeuw.math.text.spi.AlgebraicElementFormatProvider;
 
 /**
@@ -52,6 +54,7 @@ module org.meeuw.math.algebras {
     exports org.meeuw.math.abstractalgebra.dim2;
     exports org.meeuw.math.abstractalgebra.padic;
     exports org.meeuw.math.abstractalgebra.padic.impl;
+    exports org.meeuw.math.abstractalgebra.padic.text;
 
     opens org.meeuw.math.abstractalgebra.dim3 to org.hibernate.validator;
     opens org.meeuw.math.abstractalgebra.dim2 to org.hibernate.validator;
@@ -65,9 +68,9 @@ module org.meeuw.math.algebras {
 
     uses AlgebraicElementFormatProvider;
 
-    provides AlgebraicElementFormatProvider with PermutationFormatProvider, RationalNumberFormatProvider;
+    provides AlgebraicElementFormatProvider with PermutationFormatProvider, RationalNumberFormatProvider, PAdicNumberFormatProvider;
 
-    provides ConfigurationAspect with PermutationConfiguration, Configuration, RationalNumberConfiguration;
+    provides ConfigurationAspect with PermutationConfiguration, Configuration, RationalNumberConfiguration, PAdicConfiguration;
 
 }
 

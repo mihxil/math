@@ -145,6 +145,26 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
         return "ℚ";
     }
 
+    private static RationalNumber parseDecimal(String s, Matcher decimal) {
+        final String integerPart = decimal.group(2);
+        final String fraction = decimal.group(3);
+        final String repeating = decimal.group(4).replace("\u0305", "");
+        if (integerPart.isEmpty() && fraction.isEmpty() && repeating.isEmpty()) {
+            throw new NotParsable("Invalid rational number: '" + s + "'");
+        }
+        // i.ffff(rrr) = (iffff + rrr / (10ᵏ - 1)) / 10ⁿ
+        final BigInteger shifted = new BigInteger((integerPart.isEmpty() ? "0" : integerPart) + fraction);
+        final BigInteger tenToN = BigInteger.TEN.pow(fraction.length());
+        RationalNumber result;
+        if (repeating.isEmpty()) {
+            result = RationalNumber.of(shifted, tenToN);
+        } else {
+            final BigInteger nines = BigInteger.TEN.pow(repeating.length()).subtract(BigInteger.ONE);
+            result = RationalNumber.of(shifted.multiply(nines).add(new BigInteger(repeating)), tenToN.multiply(nines));
+        }
+        return decimal.group(1) == null ? result : result.negation();
+    }
+
     static Pattern PATTERN = Pattern.compile("^\\s*(?:(?:(-?\\d+)\\s+)?(-?\\d+)\\s*/\\s*(-?\\d+)|(-?\\d+))\\s*$");
 
     /**
@@ -152,8 +172,22 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
      */
     static final Pattern INTEGER_BEFORE_SUPERSCRIPT = Pattern.compile("(\\d)(?=[⁰¹²³⁴⁵⁶⁷⁸⁹⁻])");
 
+    /**
+     * A decimal number, possibly with repeating digits at the end, which are {@link TextUtils#overLine(CharSequence) overlined} (as produced by
+     * {@link org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration.Mode#DECIMAL_WITH_REPEAT}), e.g. {@code 0.16̅}.
+     */
+    static final Pattern DECIMAL = Pattern.compile("^\\s*(-)?(\\d*)\\.(\\d*)((?:\\d\u0305)*)\\s*$");
+
+    /**
+     * Parses a rational number. Accepted are integers ({@code 12}), fractions ({@code 1/3}, {@code ¹⁄₃}), mixed numbers ({@code 2 1/3}, {@code 2¹⁄₃}), and decimal numbers, possibly
+     * with repeating digits overlined ({@code 0.25}, {@code 0.16̅}).
+     */
     @Override
     public RationalNumber fromString(String s) {
+        Matcher decimal = DECIMAL.matcher(s);
+        if (decimal.matches()) {
+            return parseDecimal(s, decimal);
+        }
         s = INTEGER_BEFORE_SUPERSCRIPT.matcher(s).replaceAll("$1 ");
         s = TextUtils.unsuperscript(TextUtils.unsubscript(s));
         s = s.replace(TextUtils.FRACTION_SLASH, '/');

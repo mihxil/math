@@ -7,13 +7,12 @@ import java.math.BigInteger;
 import java.util.Optional;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.meeuw.math.DigitUtils;
 import org.meeuw.math.abstractalgebra.FieldElement;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
 import org.meeuw.math.exceptions.*;
-import org.meeuw.math.text.TextUtils;
+import org.meeuw.math.text.FormatService;
 
 /**
  * A p-adic number with (eventually) repeating digits.
@@ -25,14 +24,6 @@ import org.meeuw.math.text.TextUtils;
  */
 @EqualsAndHashCode
 public class PAdicNumber implements FieldElement<PAdicNumber> {
-
-    /**
-     * The maximal number of digits {@link #toString()} calculates to find the repetend. The repetend may be much longer than the number itself (e.g. the
-     * repetend of 1/1000003 in base 5 has 500001 digits). In that case only the least significant digits are shown, preceded by '{@value #ELLIPSIS}'.
-     */
-    public static final int MAXIMAL_SHOWN_DIGITS = 1000;
-
-    static final String ELLIPSIS = "…";
 
     final PAdicNumbers structure;
 
@@ -160,7 +151,7 @@ public class PAdicNumber implements FieldElement<PAdicNumber> {
         if (!isInteger()) {
             throw new IllegalArgumentException(this + " has digits after the point");
         }
-        final AdicDigits digits = AdicDigitUtils.toAdicDigits(structure.base, value, MAXIMAL_SHOWN_DIGITS)
+        final AdicDigits digits = AdicDigitUtils.toAdicDigits(structure.base, value, 100_000)
             .orElseThrow(() -> new IllegalArgumentException(this + " has a repetend already"));
         return structure.of(digits.withRepetend(repetend));
     }
@@ -170,10 +161,13 @@ public class PAdicNumber implements FieldElement<PAdicNumber> {
      * @return the digits of {@code this · pⁿ}, where {@code n} is the number of digits after the point (so {@code -1 · } {@link #valuation()} if that is negative)
      */
     public Optional<AdicDigits> adicDigits(int maximalNumberOfDigits) {
-        return AdicDigitUtils.toAdicDigits(structure.base, value.times(structure.bbase.pow(numberOfFractionDigits())), maximalNumberOfDigits);
+        return AdicDigitUtils.toAdicDigits(structure.base, value.times(structure.bbase.pow(getNumberOfFractionDigits())), maximalNumberOfDigits);
     }
 
-    int numberOfFractionDigits() {
+    /**
+     * @return the number of digits after the point (which is {@code -1 · }{@link #valuation()} if that is negative, and otherwise {@code 0})
+     */
+    public int getNumberOfFractionDigits() {
         return multiplicity(value.getDenominator());
     }
 
@@ -182,38 +176,12 @@ public class PAdicNumber implements FieldElement<PAdicNumber> {
     }
 
     /**
-     * Presents the p-adic digits. First the repetend, then a space, then the other digits, and possibly digits after the point. E.g. {@code ...4 ₅} is
-     * {@code -1}, {@code ...0 2.4₅} is {@code 14/5}, and {@code ...04 1₅} is {@code 1/6}.
-     * <p>
-     * If the repetend is too long (see {@link #MAXIMAL_SHOWN_DIGITS}), then only the least significant digits are shown, preceded by {@code '…'}.
+     * Presents the p-adic digits, as configured by {@link org.meeuw.math.abstractalgebra.padic.text.PAdicConfiguration}. By default first the repetend, then a space,
+     * then the other digits, and possibly digits after the point. E.g. {@code ...4 ₅} is {@code -1}, {@code ...0 2.4₅} is {@code 14/5}, and {@code ...04 1₅} is
+     * {@code 1/6}.
      */
     @Override
     public String toString() {
-        final int fractionDigits = numberOfFractionDigits();
-        final RationalNumber shifted = value.times(structure.bbase.pow(fractionDigits));
-        final StringBuilder builder = new StringBuilder();
-        final Optional<AdicDigits> digits = AdicDigitUtils.toAdicDigits(structure.base, shifted, MAXIMAL_SHOWN_DIGITS);
-        if (digits.isPresent()) {
-            builder.append(digits.get().rightShift(fractionDigits));
-            appendFraction(builder, fractionDigits, i -> digits.get().get(i).value());
-        } else {
-            final byte[] leastSignificant = AdicDigitUtils.leastSignificantDigits(structure.base, shifted, Math.max(MAXIMAL_SHOWN_DIGITS, fractionDigits));
-            builder.append(ELLIPSIS);
-            for (int i = leastSignificant.length - 1; i >= fractionDigits; i--) {
-                builder.append(DigitUtils.digitToString(leastSignificant[i]));
-            }
-            appendFraction(builder, fractionDigits, i -> leastSignificant[i]);
-        }
-        builder.append(TextUtils.subscript(structure.base));
-        return builder.toString();
-    }
-
-    private static void appendFraction(StringBuilder builder, int fractionDigits, java.util.function.IntFunction<Byte> digit) {
-        if (fractionDigits > 0) {
-            builder.append('.');
-            for (int i = fractionDigits - 1; i >= 0; i--) {
-                builder.append(DigitUtils.digitToString(digit.apply(i)));
-            }
-        }
+        return FormatService.toString(this);
     }
 }

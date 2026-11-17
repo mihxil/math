@@ -20,7 +20,7 @@ export const JAR_SIZES = {
     "big-math-2.3.2.jar": 58140,
     "fastdoubleparser-2.0.1.jar": 195941,
     "jspecify-1.0.1.jar": 3064,
-    "mihxil-algebra-0.24-SNAPSHOT.jar": 295383,
+    "mihxil-algebra-0.24-SNAPSHOT.jar": 295165,
     "mihxil-configuration-0.24-SNAPSHOT.jar": 45957,
     "mihxil-functional-2.0.jar": 147994,
     "mihxil-math-0.24-SNAPSHOT.jar": 313694,

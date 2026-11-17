@@ -15,6 +15,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import org.meeuw.math.abstractalgebra.padic.PAdicNumber;
 import org.meeuw.math.abstractalgebra.padic.PAdicNumbers;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicConfiguration;
+import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.exceptions.NotFiniteException;
@@ -188,10 +190,20 @@ class PAdicNumbersTest {
     @Test
     void longRepetend() {
         PAdicNumber x = p5.one().dividedBy(BigInteger.valueOf(1000003));
-        assertThat(x.adicDigits(PAdicNumber.MAXIMAL_SHOWN_DIGITS)).isEmpty();
+        int maximalNumberOfDigits = new PAdicConfiguration().getMaximalNumberOfDigits();
+        assertThat(x.adicDigits(maximalNumberOfDigits)).isEmpty();
         String string = x.toString();
-        assertThat(string).startsWith("…").endsWith("₅").hasSize(PAdicNumber.MAXIMAL_SHOWN_DIGITS + 2);
+        assertThat(string).startsWith("…").endsWith("₅").hasSize(maximalNumberOfDigits + 2);
         assertThat(x.times(1000003)).isEqualTo(p5.one());
+
+        // configurable
+        ConfigurationService.withAspect(PAdicConfiguration.class, c -> c.withMaximalNumberOfDigits(10), () ->
+            assertThat(x.toString()).startsWith("…").hasSize(12)
+        );
+        // 1/1000003 has a repetend of 1000002 digits
+        ConfigurationService.withAspect(PAdicConfiguration.class, c -> c.withMaximalNumberOfDigits(1_000_002), () ->
+            assertThat(x.toString()).startsWith("...").hasSize(3 + 1_000_002 + 1 + 1 + 1)
+        );
     }
 
     @Test
@@ -241,6 +253,36 @@ class PAdicNumbersTest {
             return Arbitraries
                 .randomValue(r -> p13.nextRandom(r));
         }
+    }
+
+    @Test
+    void overline() {
+        ConfigurationService.withAspect(PAdicConfiguration.class, c -> c.withNotation(PAdicConfiguration.Notation.OVERLINE), () -> {
+            assertThat(p5.valueOf(-1).toString()).isEqualTo("4̅₅");
+            assertThat(p5.one().dividedBy(BigInteger.valueOf(3)).toString()).isEqualTo("1̅3̅2₅");
+            assertThat(p5.valueOf(7).toString()).isEqualTo("12₅");
+            assertThat(p5.zero().toString()).isEqualTo("0₅");
+            assertThat(p5.of("4", "3.21").toString()).isEqualTo("4̅3.21₅");
+            assertThat(p5.one().dividedBy(BigInteger.valueOf(5)).toString()).isEqualTo("0.1₅");
+            assertThat(PAdicNumbers.of(13).valueOf(-1).toString()).isEqualTo("c̅₁₃");
+        });
+        assertThat(p5.fromString("4̅₅")).isEqualTo(p5.valueOf(-1));
+        assertThat(p5.fromString("1̅3̅2")).isEqualTo(p5.one().dividedBy(BigInteger.valueOf(3)));
+        assertThat(p5.fromString("4̅3.21₅")).isEqualTo(p5.of("4", "3.21"));
+        assertThat(p5.fromString("12₅")).isEqualTo(p5.valueOf(7));
+        assertThat(p5.fromString("0.1₅")).isEqualTo(p5.one().dividedBy(BigInteger.valueOf(5)));
+        // without the base, it's a decimal number
+        assertThat(p5.fromString("12")).isEqualTo(p5.valueOf(12));
+        assertThatThrownBy(() -> p5.fromString("12₇")).isInstanceOf(NotParsable.class);
+        assertThatThrownBy(() -> p5.fromString("1̅5")).isInstanceOf(NotParsable.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1", "-1", "7", "-3/7", "14/5", "1/1250", "1/3"})
+    void toStringAndBackOverline(String rational) {
+        PAdicNumber x = p5.fromString(rational);
+        String string = ConfigurationService.withAspect(PAdicConfiguration.class, c -> c.withNotation(PAdicConfiguration.Notation.OVERLINE), x::toString);
+        assertThat(p5.fromString(string)).isEqualTo(x);
     }
 
     @Test

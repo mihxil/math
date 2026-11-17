@@ -65,7 +65,7 @@ public class AdicDigitUtils {
      * {@code a - d·b} is divisible by the base. The next digits are those of {@code (a - d·b)/base / b}. The denominator stays the same, and the numerators
      * end up in a bounded range, so they must repeat at some point. From then on, the digits repeat too.
      * <p>
-     * The length of the repetend can be big though (e.g. {@code 1/1000003} in base {@code 5} repeats only after {@code 500001} digits), so a maximum must be given.
+     * The length of the repetend can be big though (e.g. {@code 1/1000003} in base {@code 5} repeats only after {@code 1000002} digits), so a maximum must be given.
      *
      * @param base the base
      * @param value the value. Its denominator must be coprime to the base.
@@ -111,10 +111,14 @@ public class AdicDigitUtils {
         final Map<BigInteger, Integer> seen = new HashMap<>();
         final byte[] digits = new byte[maximalNumberOfDigits];
         BigInteger numerator = value.getNumerator();
-        for (int i = 0; i < maximalNumberOfDigits; i++) {
+        // one more iteration than digits, since a repetend is only recognized after it is complete
+        for (int i = 0; i <= maximalNumberOfDigits; i++) {
             final Integer previous = seen.putIfAbsent(numerator, i);
             if (previous != null) {
                 return new Expansion(Arrays.copyOf(digits, i), previous);
+            }
+            if (i == maximalNumberOfDigits) {
+                break;
             }
             final BigInteger digit = numerator.multiply(inverse).mod(b);
             digits[i] = digit.byteValue();
