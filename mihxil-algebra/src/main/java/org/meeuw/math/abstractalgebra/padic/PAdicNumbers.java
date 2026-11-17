@@ -13,6 +13,8 @@ import org.meeuw.math.abstractalgebra.Field;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigitUtils;
 import org.meeuw.math.abstractalgebra.padic.impl.AdicDigits;
 import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumber;
+import org.meeuw.math.abstractalgebra.rationalnumbers.RationalNumbers;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.operators.AbstractAlgebraicIntOperator;
@@ -116,6 +118,64 @@ public class PAdicNumbers implements Field<PAdicNumber>, Randomizable<PAdicNumbe
             throw new InvalidElementCreationException("digit must be smaller than " + base);
         }
     }
+
+    /**
+     * Parses a p-adic number. Two forms are accepted:
+     * <ul>
+     *   <li>p-adic digits, as produced by {@link PAdicNumber#toString()}: {@code ...} followed by the repetend, a space, and the other digits (which may contain a point),
+     *    optionally followed by the base as a subscript. E.g. {@code ...4 3.21₅}. Digits above 9 are letters ({@code a} is 10, {@code b} is 11, etc.)</li>
+     *   <li>anything else is parsed as a {@link RationalNumbers#fromString(String) rational number}, e.g. {@code 12}, {@code 1/3}, {@code 0.5} (in base 10)</li>
+     * </ul>
+     * Both forms may be preceded by a minus sign.
+     */
+    @Override
+    public PAdicNumber fromString(String string) throws NotParsable {
+        String s = string.strip();
+        if (s.startsWith("-")) {
+            return fromString(s.substring(1)).negation();
+        }
+        if (s.startsWith(PAdicNumber.ELLIPSIS)) {
+            throw new NotParsable("Not all digits of the repetend are given", string);
+        }
+        if (!s.startsWith(REPETEND_PREFIX)) {
+            try {
+                return of(RationalNumbers.INSTANCE.fromString(s));
+            } catch (RuntimeException e) {
+                try {
+                    // decimal fractions
+                    return of(RationalNumber.of(new java.math.BigDecimal(s)));
+                } catch (NumberFormatException nfe) {
+                    throw new NotParsable(e.getMessage(), e, string);
+                }
+            }
+        }
+        int end = s.length();
+        while (end > 0 && SUBSCRIPT_DIGITS.indexOf(s.charAt(end - 1)) >= 0) {
+            end--;
+        }
+        if (end < s.length()) {
+            int givenBase = Integer.parseInt(TextUtils.unsubscript(s.substring(end)));
+            if (givenBase != base) {
+                throw new NotParsable("This is a " + givenBase + "-adic number, not a " + base + "-adic one", string);
+            }
+            s = s.substring(0, end);
+        }
+        String[] parts = s.substring(REPETEND_PREFIX.length()).strip().split("\\s+", 2);
+        // digits above 9 are letters (a = 10, b = 11, ...)
+        String repetend = parts[0].toLowerCase();
+        String digits = parts.length > 1 ? parts[1].toLowerCase() : "";
+        if (!repetend.matches("[0-9a-z]+") || !digits.matches("[0-9a-z]*(\\.[0-9a-z]*)?")) {
+            throw new NotParsable("Expected something like ...<repetend> <digits>", string);
+        }
+        try {
+            return of(repetend, digits);
+        } catch (RuntimeException e) {
+            throw new NotParsable(e.getMessage(), e, string);
+        }
+    }
+
+    private static final String REPETEND_PREFIX = "...";
+    private static final String SUBSCRIPT_DIGITS = "₀₁₂₃₄₅₆₇₈₉";
 
     public PAdicNumber of(RationalNumber value) {
         return new PAdicNumber(this, value);

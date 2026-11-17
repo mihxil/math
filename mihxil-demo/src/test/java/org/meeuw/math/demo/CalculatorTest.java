@@ -175,7 +175,7 @@ class CalculatorTest {
             .containsExactlyInAnyOrder(real, bigdecimal, complex, bigcomplex, quaternions_bigdecimal);
         assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
             .filter(fi -> List.of(fi.settings()).contains("maximalDuration")))
-            .containsExactlyInAnyOrder(rational, bigdecimal, gaussian, bigcomplex, quaternions, quaternions_bigdecimal, integers, natural, even, odd, squares, polynomials);
+            .containsExactlyInAnyOrder(rational, bigdecimal, gaussian, bigcomplex, quaternions, quaternions_bigdecimal, integers, natural, even, odd, squares, padic5, padic13, polynomials);
     }
 
     @Test
@@ -208,6 +208,29 @@ class CalculatorTest {
         assertThat(calculator.withDefaultMaximalDuration().getMaximalDuration()).isEqualTo(Calculator.DEFAULT_MAXIMAL_DURATION);
         assertThat(new Calculator<>(integers).withMaximalDuration(null).evalToString("5!")).isEqualTo("120");
         assertThatThrownBy(() -> new Calculator<>(integers).withMaximalDuration(Duration.ZERO)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void padic() {
+        var calculator = new Calculator<>(padic5);
+        assertThat(calculator.evalToString("1 / 3")).isEqualTo("...13 2₅");
+        assertThat(calculator.evalToString("\"...4 \" + 1")).isEqualTo("...0 ₅");
+        assertThat(calculator.evalToString("\"...0 12\" ⋅ 5")).isEqualTo("...0 120₅");
+        assertThat(calculator.evalToString("1 / 50")).isEqualTo("...2 .23₅");
+
+        // a result can be used again
+        var result = calculator.calculate("1 / 3");
+        assertThat(result.operand()).isEqualTo("\"...13 2₅\"");
+        assertThat(calculator.evalToString(result.operand() + " ⋅ 3")).isEqualTo("...0 1₅");
+    }
+
+    @Test
+    void padic13() {
+        var calculator = new Calculator<>(Calculator.FieldInformation.padic13);
+        assertThat(calculator.evalToString("\"...c \" + 1")).isEqualTo("...0 ₁₃");
+        assertThat(calculator.evalToString("\"...0 1a\" ⋅ 13")).isEqualTo("...0 1a0₁₃");
+        var result = calculator.calculate("1 / 3");
+        assertThat(calculator.evalToString(result.operand() + " ⋅ 3")).isEqualTo("...0 1₁₃");
     }
 
     @Test

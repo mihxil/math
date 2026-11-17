@@ -19,6 +19,7 @@ import org.meeuw.math.abstractalgebra.complex.*;
 import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
+import org.meeuw.math.abstractalgebra.padic.PAdicNumbers;
 import org.meeuw.math.abstractalgebra.polynomial.PolynomialRing;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
@@ -225,6 +226,18 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         dihedral4(DihedralGroup.of(4),
             "r1 * r2",
             "s0 * r1 * s0 * s3"
+        ),
+        padic5(PAdicNumbers.of(5),
+            "1 / 3",
+            "\"...4 \" + 1",
+            "\"...0 12\" ⋅ 5",
+            "1 / 50"
+        ),
+        padic13(PAdicNumbers.of(13),
+            "1 / 3",
+            "\"...c \" + 1",
+            "\"...0 1a\" ⋅ 13",
+            "1 / 26"
         ),
         polynomials(PolynomialRing.of(GaussianRationals.INSTANCE),
             "\"7·x + 15·x² + 2·x³ + 7·x⁵ + x⁶\" ⋅ \"15·x² + 2·x³\"",

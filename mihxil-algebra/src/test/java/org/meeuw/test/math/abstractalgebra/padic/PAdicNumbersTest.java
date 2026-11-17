@@ -18,6 +18,7 @@ import org.meeuw.math.abstractalgebra.padic.PAdicNumbers;
 import org.meeuw.math.exceptions.InvalidElementCreationException;
 import org.meeuw.math.exceptions.InvalidStructureCreationException;
 import org.meeuw.math.exceptions.NotFiniteException;
+import org.meeuw.math.exceptions.NotParsable;
 import org.meeuw.theories.abstractalgebra.FieldTheory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -191,6 +192,55 @@ class PAdicNumbersTest {
         String string = x.toString();
         assertThat(string).startsWith("…").endsWith("₅").hasSize(PAdicNumber.MAXIMAL_SHOWN_DIGITS + 2);
         assertThat(x.times(1000003)).isEqualTo(p5.one());
+    }
+
+    @Test
+    void fromString() {
+        assertThat(p5.fromString("...4 3.21₅")).isEqualTo(p5.of("4", "3.21"));
+        assertThat(p5.fromString("...4 ")).isEqualTo(p5.valueOf(-1));
+        assertThat(p5.fromString("...0 12")).isEqualTo(p5.valueOf(7));
+        assertThat(p5.fromString("12")).isEqualTo(p5.valueOf(12));
+        assertThat(p5.fromString("-1/3")).isEqualTo(p5.one().negation().dividedBy(BigInteger.valueOf(3)));
+        assertThat(p5.fromString("0.5")).isEqualTo(p5.one().dividedBy(BigInteger.TWO));
+        assertThat(p5.fromString("-...0 1")).isEqualTo(p5.valueOf(-1));
+
+        assertThatThrownBy(() -> p5.fromString("...4 3₇")).isInstanceOf(NotParsable.class);
+        assertThatThrownBy(() -> p5.fromString("...4 5")).isInstanceOf(NotParsable.class);
+        assertThatThrownBy(() -> p5.fromString("…1234")).isInstanceOf(NotParsable.class);
+        assertThatThrownBy(() -> p5.fromString("...")).isInstanceOf(NotParsable.class);
+        assertThatThrownBy(() -> p5.fromString("1/5x")).isInstanceOf(NotParsable.class);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"1", "-1", "7", "-3/7", "14/5", "1/1250", "1/3"})
+    void toStringAndBack(String rational) {
+        PAdicNumber x = p5.fromString(rational);
+        assertThat(p5.fromString(x.toString())).isEqualTo(x);
+    }
+
+    @Test
+    void base13() {
+        PAdicNumbers p13 = PAdicNumbers.of(13);
+        PAdicNumber minusOne = p13.valueOf(-1);
+        assertThat(minusOne.toString()).isEqualTo("...c ₁₃");
+        assertThat(p13.fromString("...c ₁₃")).isEqualTo(minusOne);
+        assertThat(p13.fromString("...C 1")).isEqualTo(p13.valueOf(-12));
+        assertThat(p13.fromString("...0 a")).isEqualTo(p13.valueOf(10));
+        assertThatThrownBy(() -> p13.fromString("...0 d")).isInstanceOf(NotParsable.class);
+        PAdicNumber third = p13.one().dividedBy(BigInteger.valueOf(3));
+        assertThat(p13.fromString(third.toString())).isEqualTo(third);
+        assertThat(third.times(3)).isEqualTo(p13.one());
+    }
+
+    public static class PAdic13Test implements FieldTheory<PAdicNumber> {
+
+        PAdicNumbers p13 = PAdicNumbers.of(13);
+
+        @Override
+        public Arbitrary<PAdicNumber> elements() {
+            return Arbitraries
+                .randomValue(r -> p13.nextRandom(r));
+        }
     }
 
     @Test
