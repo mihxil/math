@@ -861,6 +861,7 @@ This is the source code for the above.
                 this.clear();
             }
         });
+        this.form.addEventListener('copy', copyWithOverlines);
         // show the overline key only if something is selected
         for (const type of ['select', 'selectionchange', 'input', 'keyup', 'mouseup', 'focus']) {
             this.input.addEventListener(type, () => this.updateOverlineKey());
@@ -1126,7 +1127,7 @@ This is the source code for the above.
             this.output.value = '';
         } else {
             this.output.classList.add('preview');
-            this.output.value = '= ' + await result.result();
+            showWithOverlines(this.output, '= ' + await result.result());
         }
     }
 
@@ -1134,12 +1135,12 @@ This is the source code for the above.
         const li = document.createElement('li');
         const expressionSpan = document.createElement('span');
         expressionSpan.classList.add('expression');
-        expressionSpan.textContent = expression;
+        showWithOverlines(expressionSpan, expression);
         expressionSpan.title = 'use this expression again';
         expressionSpan.onclick = () => this.setInput(expression);
         const resultSpan = document.createElement('span');
         resultSpan.classList.add('result');
-        resultSpan.textContent = result;
+        showWithOverlines(resultSpan, result);
         resultSpan.title = 'use this result';
         resultSpan.onclick = () => this.setInput(operand);
         li.append(expressionSpan, ' = ', resultSpan);
@@ -1166,7 +1167,7 @@ This is the source code for the above.
         }
         const value = await result.result();
         const operand = await result.operand();
-        this.output.value = value;
+        showWithOverlines(this.output, value);
         this.addToTape(expression, value, operand);
         // the result becomes the start of the next calculation. It is selected, so typing something new replaces it,
         // and typing an operator continues with it
