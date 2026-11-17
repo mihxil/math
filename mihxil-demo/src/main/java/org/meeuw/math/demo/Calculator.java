@@ -11,6 +11,7 @@ import java.util.logging.Level;
 
 import org.jspecify.annotations.Nullable;
 import org.meeuw.configuration.Configuration;
+import org.meeuw.configuration.ConfigurationAspect;
 import org.meeuw.configuration.ConfigurationService;
 import org.meeuw.math.Utils;
 import org.meeuw.math.abstractalgebra.*;
@@ -20,6 +21,8 @@ import org.meeuw.math.abstractalgebra.dihedral.DihedralGroup;
 import org.meeuw.math.abstractalgebra.integers.*;
 import org.meeuw.math.abstractalgebra.klein.KleinGroup;
 import org.meeuw.math.abstractalgebra.padic.PAdicNumbers;
+import org.meeuw.math.abstractalgebra.padic.text.PAdicConfiguration;
+import org.meeuw.math.abstractalgebra.rationalnumbers.text.RationalNumberConfiguration;
 import org.meeuw.math.abstractalgebra.polynomial.PolynomialRing;
 import org.meeuw.math.abstractalgebra.quaternions.Quaternions;
 import org.meeuw.math.abstractalgebra.quaternions.q8.QuaternionGroup;
@@ -125,6 +128,45 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
      */
     public Calculator<E, F> withDefaultMaximalDuration() {
         return withMaximalDuration(DEFAULT_MAXIMAL_DURATION);
+    }
+
+    /**
+     * @param notation the name of a {@link PAdicConfiguration.Notation}, how p-adic numbers are shown
+     * @return a new calculator, showing p-adic numbers in the given notation
+     */
+    public Calculator<E, F> withPAdicNotation(String notation) {
+        PAdicConfiguration.Notation n = PAdicConfiguration.Notation.valueOf(notation);
+        return withAspect(PAdicConfiguration.class, c -> c.withNotation(n));
+    }
+
+    /**
+     * As {@link #withPAdicNotation(String)}, with the default notation
+     */
+    public Calculator<E, F> withDefaultPAdicNotation() {
+        return withPAdicNotation(new PAdicConfiguration().getNotation().name());
+    }
+
+    /**
+     * @param mode the name of a {@link RationalNumberConfiguration.Mode}, how rational numbers are shown
+     * @return a new calculator, showing rational numbers (also as parts of e.g. complex numbers) in the given mode
+     */
+    public Calculator<E, F> withRationalNotation(String mode) {
+        RationalNumberConfiguration.Mode m = RationalNumberConfiguration.Mode.valueOf(mode);
+        return withAspect(RationalNumberConfiguration.class, c -> c.withMode(m));
+    }
+
+    /**
+     * As {@link #withRationalNotation(String)}, with the default mode
+     */
+    public Calculator<E, F> withDefaultRationalNotation() {
+        return withRationalNotation(new RationalNumberConfiguration().getMode().name());
+    }
+
+    private <A extends ConfigurationAspect> Calculator<E, F> withAspect(Class<A> aspect, java.util.function.UnaryOperator<A> change) {
+        Calculator<E, F> result = withConfiguration(configuration.with(aspect, change));
+        // previous results can still be used
+        result.results.putAll(results);
+        return result;
     }
 
     /**
@@ -381,6 +423,12 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             if (hasDecimals(field)) {
                 settings.add("maximalPrecision");
             }
+            if (field instanceof PAdicNumbers) {
+                settings.add("padicNotation");
+            }
+            if (hasRationals(field)) {
+                settings.add("rationalNotation");
+            }
             return settings.toArray(new String[0]);
         }
 
@@ -396,6 +444,19 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
                 return mayBeExpensive(compound.getElementStructure());
             }
             return true;
+        }
+
+        /**
+         * Whether elements of the given structure are (or are built from) rational numbers
+         */
+        static boolean hasRationals(AlgebraicStructure<?> structure) {
+            if (structure instanceof RationalNumbers) {
+                return true;
+            }
+            if (structure instanceof CompoundStructure<?> compound) {
+                return hasRationals(compound.getElementStructure());
+            }
+            return false;
         }
 
         /**

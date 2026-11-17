@@ -28,7 +28,7 @@ class SolverTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("no assertions, takes a bit long")
     void solve2() {
         StatisticalLong duration = new StatisticalLong(UncertainJavaTime.Mode.DURATION);
         for (int i = 0; i < 5; i++) {

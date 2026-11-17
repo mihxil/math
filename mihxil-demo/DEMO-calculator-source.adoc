@@ -21,6 +21,22 @@
       <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
       <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
     </div>
+    <!-- for selects, the first option is the default -->
+    <div data-setting="rationalNotation">
+      <label for="calculator_rationalNotation">Rational numbers:</label>
+      <select id="calculator_rationalNotation" name="rationalNotation" title="How rational numbers are shown">
+        <option value="FRACTION">fraction (²²⁄₇)</option>
+        <option value="INTEGER_AND_FRACTION">integer and fraction (3¹⁄₇)</option>
+        <option value="DECIMAL_WITH_REPEAT">repeating decimal (3.1̅4̅2̅8̅5̅7̅)</option>
+      </select>
+    </div>
+    <div data-setting="padicNotation">
+      <label for="calculator_padicNotation">Repeating digits:</label>
+      <select id="calculator_padicNotation" name="padicNotation" title="How the repeating digits of p-adic numbers are shown">
+        <option value="ELLIPSIS">ellipsis (...13 2₅)</option>
+        <option value="OVERLINE">overline (1̅3̅2₅)</option>
+      </select>
+    </div>
   </details>
 
 ++++

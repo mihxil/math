@@ -176,6 +176,12 @@ class CalculatorTest {
         assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
             .filter(fi -> List.of(fi.settings()).contains("maximalDuration")))
             .containsExactlyInAnyOrder(rational, bigdecimal, gaussian, bigcomplex, quaternions, quaternions_bigdecimal, integers, natural, even, odd, squares, padic5, padic13, polynomials);
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
+            .filter(fi -> List.of(fi.settings()).contains("padicNotation")))
+            .containsExactlyInAnyOrder(padic5, padic13);
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
+            .filter(fi -> List.of(fi.settings()).contains("rationalNotation")))
+            .containsExactlyInAnyOrder(rational, gaussian, quaternions, polynomials);
     }
 
     @Test
@@ -231,6 +237,31 @@ class CalculatorTest {
         assertThat(calculator.evalToString("\"...0 1a\" ⋅ 13")).isEqualTo("...0 1a0₁₃");
         var result = calculator.calculate("1 / 3");
         assertThat(calculator.evalToString(result.operand() + " ⋅ 3")).isEqualTo("...0 1₁₃");
+    }
+
+    @Test
+    void padicNotation() {
+        var calculator = new Calculator<>(padic5).withPAdicNotation("OVERLINE");
+        assertThat(calculator.evalToString("1 / 3")).isEqualTo("1̅3̅2₅");
+        assertThat(calculator.evalToString("\"4̅\" + 2")).isEqualTo("1₅");
+        assertThat(new Calculator<>(padic5).evalToString("\"1̅3̅2₅\" ⋅ 3")).isEqualTo("...0 1₅");
+        assertThat(calculator.withDefaultPAdicNotation().evalToString("1 / 3")).isEqualTo("...13 2₅");
+        assertThatThrownBy(() -> calculator.withPAdicNotation("FOO")).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void rationalNotation() {
+        var calculator = new Calculator<>(rational).withRationalNotation("DECIMAL_WITH_REPEAT");
+        assertThat(calculator.evalToString("22 / 7")).isEqualTo("3.1̅4̅2̅8̅5̅7̅");
+        assertThat(new Calculator<>(rational).withDefaultRationalNotation().evalToString("\"0.16̅\" + 1")).isEqualTo("⁷⁄₆");
+        assertThat(calculator.withRationalNotation("INTEGER_AND_FRACTION").evalToString("22 / 7")).isEqualTo("3¹⁄₇");
+        assertThat(calculator.withDefaultRationalNotation().evalToString("22 / 7")).isEqualTo("²²⁄₇");
+
+        // also for structures built from rational numbers
+        var gaussian = new Calculator<>(Calculator.FieldInformation.gaussian).withRationalNotation("DECIMAL_WITH_REPEAT");
+        var result = gaussian.calculate("\"1 + 2i\" / 3");
+        assertThat(result.result()).isEqualTo("0.3̅ + 0.6̅i");
+        assertThat(new Calculator<>(Calculator.FieldInformation.gaussian).evalToString(result.operand() + " ⋅ 3")).isEqualTo("1 + 2i");
     }
 
     @Test

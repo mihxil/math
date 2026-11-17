@@ -16,17 +16,40 @@ const SIMPLE_OPERAND = /^(-?\d+(\.\d+)?|[\p{L}][\p{L}\p{N}]*|"[^"]*")$/u;
 const SETTINGS_KEY = 'mihxil.calculator.settings';
 
 /**
- * The settings of the calculator. Each has an input in the form (with that name), a check whether a value is valid for it, and how to apply
- * it to a Calculator (the value is undefined for the default)
+ * The value of a number input, or undefined if it is empty or invalid
+ */
+function numberValue(input, valid) {
+    const value = input.value.trim() === '' ? NaN : Number(input.value);
+    return valid(value) ? value : undefined;
+}
+
+/**
+ * The value of a select, or undefined if it is the first option (the default)
+ */
+function selectValue(select) {
+    return select.selectedIndex > 0 ? select.value : undefined;
+}
+
+/**
+ * The settings of the calculator. Each has an input (or select) in the form (with that name), a function to get the value from it (undefined for the
+ * default), and how to apply it to a Calculator
  */
 const SETTINGS = {
     maximalPrecision: {
-        valid: (value, input) => Number.isInteger(value) && value >= 0 && value <= Number(input.max),
+        value: input => numberValue(input, value => Number.isInteger(value) && value >= 0 && value <= Number(input.max)),
         apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalPrecision() : calculator.withMaximalPrecision(value)
     },
     maximalDuration: {
-        valid: (value, input) => Number.isFinite(value) && value > 0 && value <= Number(input.max),
+        value: input => numberValue(input, value => Number.isFinite(value) && value > 0 && value <= Number(input.max)),
         apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalDuration() : calculator.withMaximalDurationInSeconds(value)
+    },
+    rationalNotation: {
+        value: selectValue,
+        apply: (calculator, value) => value === undefined ? calculator.withDefaultRationalNotation() : calculator.withRationalNotation(value)
+    },
+    padicNotation: {
+        value: selectValue,
+        apply: (calculator, value) => value === undefined ? calculator.withDefaultPAdicNotation() : calculator.withPAdicNotation(value)
     }
 };
 
@@ -40,7 +63,7 @@ export class CalculatorClass extends BaseClass {
         this.input = this.form.querySelector('#calculator_toparse');
         this.settingsElement = this.form.querySelector('details.settings');
         this.settings = CalculatorClass.loadSettings();
-        this.field = this.form.querySelector('select');
+        this.field = this.form.querySelector('#calculator_field');
         this.inputDataList= this.form.querySelector('datalist');
         this.tape = this.form.querySelector('ol.tape');
         this.help = this.form.querySelector('span.help');
@@ -103,12 +126,14 @@ export class CalculatorClass extends BaseClass {
      * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
     updateSetting(setting, input) {
-        const value = input.value.trim() === '' ? NaN : Number(input.value);
-        if (SETTINGS[setting].valid(value, input)) {
+        const value = SETTINGS[setting].value(input);
+        if (value !== undefined) {
             this.settings[setting] = value;
         } else {
             delete this.settings[setting];
-            input.value = '';
+            if (input.tagName !== 'SELECT') {
+                input.value = '';
+            }
         }
         this.saveSettings();
         // apply to the existing calculators, which remember the previous results (so they can be used with full precision)
@@ -220,7 +245,7 @@ export class CalculatorClass extends BaseClass {
         }
         this.listenersSetUp = true;
         for (const setting of Object.keys(SETTINGS)) {
-            const input = this.form.querySelector(`input[name=${setting}]`);
+            const input = this.form.querySelector(`[name=${setting}]`);
             if (!input) {
                 continue;
             }
