@@ -7,3 +7,4 @@ jqwik-database
 delombok
 .DS_Store
 */dependency-reduced-pom.xml
+.jqwik-database
