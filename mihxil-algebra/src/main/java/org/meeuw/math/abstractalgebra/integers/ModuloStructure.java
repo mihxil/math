@@ -137,7 +137,9 @@ public abstract class ModuloStructure<E extends ModuloElement<E, S>, S extends M
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The integers modulo %d: the remainders 0 to %d after division by %d. Addition and multiplication wrap around, e.g. %d + 1 = 0.".formatted(divisor, divisor - 1, divisor, divisor - 1));
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The integers modulo %d: the remainders 0 to %d after division by %d. Addition and multiplication wrap around, e.g. %d + 1 = 0.".formatted(divisor, divisor - 1, divisor, divisor - 1),
+            "https://en.wikipedia.org/wiki/Modular_arithmetic"));
     }
 }

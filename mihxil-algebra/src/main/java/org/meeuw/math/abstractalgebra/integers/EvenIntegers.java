@@ -108,7 +108,9 @@ public class EvenIntegers extends AbstractIntegers<EvenInteger, EvenInteger, Eve
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The even integers (…, -2, 0, 2, 4, …). They can be added, subtracted and multiplied, but there is no 1, so this is a ring without unity (a rng).");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The even integers (…, -2, 0, 2, 4, …). They can be added, subtracted and multiplied, but there is no 1, so this is a ring without unity (a rng).",
+            "https://en.wikipedia.org/wiki/Parity_(mathematics)"));
     }
 }

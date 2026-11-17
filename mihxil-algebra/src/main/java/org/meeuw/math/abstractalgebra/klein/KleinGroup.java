@@ -83,8 +83,10 @@ public class KleinGroup implements Group<KleinElement>, Streamable<KleinElement>
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The Klein four-group is an abelian group with four elements, in which each element is self-inverse (composing it with itself produces the identity) and in which composing any two of the three non-identity elements produces the third one");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The Klein four-group is an abelian group with four elements, in which each element is self-inverse (composing it with itself produces the identity) and in which composing any two of the three non-identity elements produces the third one",
+            "https://en.wikipedia.org/wiki/Klein_four-group"));
     }
 
     @Override

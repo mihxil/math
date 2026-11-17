@@ -123,7 +123,9 @@ public class BigDecimalField
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The field of real numbers, approximated by decimal numbers of arbitrary precision (big decimals). The precision of calculations is determined by the configured math context.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The field of real numbers, approximated by decimal numbers of arbitrary precision (big decimals). The precision of calculations is determined by the configured math context.",
+            "https://en.wikipedia.org/wiki/Arbitrary-precision_arithmetic"));
     }
 }

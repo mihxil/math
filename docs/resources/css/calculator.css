@@ -80,7 +80,7 @@ div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings 
   margin: 0;
   height: auto;
 }
-div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings [data-setting] input[type=number] {
+div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings [data-setting] input[type=number], div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator details.settings [data-setting] input[type=text] {
   width: 6em;
 }
 div:is(.sect1, .sect2):has(> #demo_calculator) form#calculator ol.tape {

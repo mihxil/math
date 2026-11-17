@@ -156,8 +156,10 @@ public class PolynomialRing<E extends AbelianRingElement<E>>
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The polynomial ring in %s over %s".formatted(variable, coefficientRing.toString()));
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The polynomial ring in %s over %s".formatted(variable, coefficientRing.toString()),
+            "https://en.wikipedia.org/wiki/Polynomial_ring"));
     }
 
 

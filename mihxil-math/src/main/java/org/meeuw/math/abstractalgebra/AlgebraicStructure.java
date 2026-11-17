@@ -274,10 +274,10 @@ public interface AlgebraicStructure<E extends AlgebraicElement<E>> extends Rando
     }
 
     /**
-     * Returns a description of this algebraic structure. Defaults to {@code Optional.empty()}.
-     * @return A string describing this algebraic structure.
+     * Returns a description of this algebraic structure, possibly with a link to more information. Defaults to {@code Optional.empty()}.
+     * @return A description of this algebraic structure.
      */
-    default Optional<String> getDescription() {
+    default Optional<Description> getDescription() {
         return Optional.empty();
     }
 

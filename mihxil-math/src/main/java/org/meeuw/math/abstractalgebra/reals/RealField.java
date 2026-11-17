@@ -139,7 +139,9 @@ public class RealField
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The field of real numbers, approximated by floating point numbers (doubles). The uncertainty of every value is tracked, so it is known how many digits of a result are significant.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The field of real numbers, approximated by floating point numbers (doubles). The uncertainty of every value is tracked, so it is known how many digits of a result are significant.",
+            "https://en.wikipedia.org/wiki/Real_number"));
     }
 }

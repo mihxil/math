@@ -108,8 +108,10 @@ public class DihedralGroup implements Group<DihedralSymmetry>, Streamable<Dihedr
         return "D" + subscript(n);
     }
 
-    public Optional<String> getDescription() {
-        return Optional.of("dihedral symmetry group representing the symmetries of a regular " + n + "-gon");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "dihedral symmetry group representing the symmetries of a regular " + n + "-gon",
+            "https://en.wikipedia.org/wiki/Dihedral_group"));
     }
 
     @Override

@@ -15,6 +15,8 @@
  */
 package org.meeuw.math.abstractalgebra.complex;
 
+import org.meeuw.math.abstractalgebra.Description;
+
 import java.util.Optional;
 
 import java.util.stream.Stream;
@@ -72,7 +74,9 @@ public class GaussianRationals extends AbstractComplexNumbers<GaussianRational, 
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The field of complex numbers a + bi, with rational numbers for a and b, and i² = -1. Calculations are exact.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The field of complex numbers a + bi, with rational numbers for a and b, and i² = -1. Calculations are exact.",
+            "https://en.wikipedia.org/wiki/Gaussian_rational"));
     }
 }

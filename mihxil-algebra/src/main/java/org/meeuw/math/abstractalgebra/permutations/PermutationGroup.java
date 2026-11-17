@@ -133,8 +133,10 @@ public class PermutationGroup extends AbstractAlgebraicStructure<Permutation>
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("permutation group of degree " + degree);
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "permutation group of degree " + degree,
+            "https://en.wikipedia.org/wiki/Permutation_group"));
     }
 
     @Override

@@ -201,7 +201,9 @@ public class Quaternions<E extends ScalarFieldElement<E, C>, C extends CompleteS
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The quaternions over %s: numbers a + bi + cj + dk, where i² = j² = k² = ijk = -1. Multiplication is not commutative (ij = k, but ji = -k), so this is a division ring, not a field.".formatted(elementStructure));
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The quaternions over %s: numbers a + bi + cj + dk, where i² = j² = k² = ijk = -1. Multiplication is not commutative (ij = k, but ji = -k), so this is a division ring, not a field.".formatted(elementStructure),
+            "https://en.wikipedia.org/wiki/Quaternion"));
     }
 }

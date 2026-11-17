@@ -215,7 +215,9 @@ public class RationalNumbers extends AbstractAlgebraicStructure<RationalNumber>
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The field of rational numbers: fractions of two integers. Calculations are exact, since numerator and denominator can become arbitrarily big.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The field of rational numbers: fractions of two integers. Calculations are exact, since numerator and denominator can become arbitrarily big.",
+            "https://en.wikipedia.org/wiki/Rational_number"));
     }
 }

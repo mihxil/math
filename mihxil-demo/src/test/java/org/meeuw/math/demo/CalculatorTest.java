@@ -201,15 +201,15 @@ class CalculatorTest {
         Duration took = Duration.ofNanos(System.nanoTime() - start);
         log.info(() -> "Took " + took + ": " + result);
         assertThat(result.result()).isNull();
-        assertThat(result.error()).isEqualTo("Calculation took longer than 500 ms");
+        assertThat(result.error()).isEqualTo("Calculation took longer than 0.5s");
         assertThat(took).isLessThan(Duration.ofSeconds(5));
 
         // the calculator is still usable
         assertThat(calculator.evalToString("5!")).isEqualTo("120");
 
-        assertThatThrownBy(() -> new Calculator<>(integers).withMaximalDurationInSeconds(1.5).eval("(100!)!!"))
+        assertThatThrownBy(() -> new Calculator<>(integers).withMaximalDurationText("1.5s").eval("(100!)!!"))
             .isInstanceOf(CancellationException.class)
-            .hasMessage("Calculation took longer than 1.5 s");
+            .hasMessage("Calculation took longer than 1.5s");
         assertThat(new Calculator<>(integers).getMaximalDuration()).isEqualTo(Calculator.DEFAULT_MAXIMAL_DURATION);
         assertThat(calculator.withDefaultMaximalDuration().getMaximalDuration()).isEqualTo(Calculator.DEFAULT_MAXIMAL_DURATION);
         assertThat(new Calculator<>(integers).withMaximalDuration(null).evalToString("5!")).isEqualTo("120");
@@ -279,6 +279,26 @@ class CalculatorTest {
         assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
             .filter(fi -> java.util.Arrays.stream(fi.keys()).anyMatch(k -> k.type().equals("overline"))))
             .containsExactlyInAnyOrder(rational, gaussian, quaternions, padic5, padic13, polynomials);
+    }
+
+    @ParameterizedTest
+    @EnumSource(Calculator.FieldInformation.class)
+    void help(Calculator.FieldInformation fi) {
+        assertThat(fi.help()).isNotBlank();
+        assertThat(fi.helpUrl()).startsWith("https://en.wikipedia.org/wiki/");
+    }
+
+    @Test
+    void parseMaximalDuration() {
+        assertThat(Calculator.parseMaximalDuration("10s")).isEqualTo(Duration.ofSeconds(10));
+        assertThat(Calculator.parseMaximalDuration("0.5s")).isEqualTo(Duration.ofMillis(500));
+        assertThat(Calculator.parseMaximalDuration("1m30s")).isEqualTo(Duration.ofSeconds(90));
+        assertThat(Calculator.parseMaximalDuration("PT10S")).isEqualTo(Duration.ofSeconds(10));
+        assertThat(Calculator.isValidMaximalDuration("10 s")).isTrue();
+        assertThat(Calculator.isValidMaximalDuration("abc")).isFalse();
+        assertThat(Calculator.isValidMaximalDuration("0s")).isFalse();
+        assertThat(Calculator.isValidMaximalDuration("")).isFalse();
+        assertThat(new Calculator<>(integers).withMaximalDurationText("2s").getMaximalDuration()).isEqualTo(Duration.ofSeconds(2));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package org.meeuw.math.abstractalgebra.padic;
 
+import org.meeuw.math.abstractalgebra.Description;
+
 import lombok.EqualsAndHashCode;
 
 import java.math.BigInteger;
@@ -246,7 +248,9 @@ public class PAdicNumbers implements Field<PAdicNumber>, Randomizable<PAdicNumbe
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The %d-adic numbers: numbers with infinitely many digits (in base %d) before the point, and finitely many after it. Supported are those of which the digits eventually repeat, which are exactly the rational numbers. They are close to each other if their difference is divisible by a high power of %d.".formatted(base, base, base));
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The %d-adic numbers: numbers with infinitely many digits (in base %d) before the point, and finitely many after it. Supported are those of which the digits eventually repeat, which are exactly the rational numbers. They are close to each other if their difference is divisible by a high power of %d.".formatted(base, base, base),
+            "https://en.wikipedia.org/wiki/P-adic_number"));
     }
 }

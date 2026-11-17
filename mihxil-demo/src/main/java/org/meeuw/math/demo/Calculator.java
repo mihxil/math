@@ -36,6 +36,7 @@ import org.meeuw.math.operators.AlgebraicUnaryOperator;
 import org.meeuw.math.text.TextUtils;
 import org.meeuw.math.text.configuration.NumberConfiguration;
 import org.meeuw.math.text.configuration.UncertaintyConfiguration;
+import org.meeuw.time.TimeUtils;
 
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.PLUS_MINUS;
 import static org.meeuw.math.text.configuration.UncertaintyConfiguration.Notation.ROUND_VALUE;
@@ -117,10 +118,42 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
     }
 
     /**
-     * As {@link #withMaximalDuration(Duration)}, in (possibly fractional) seconds. Convenient for javascript.
+     * As {@link #withMaximalDuration(Duration)}, but the duration as a string, like {@code 10s}, {@code 0.5s}, {@code 1m} or {@code PT10S} (see {@link #parseMaximalDuration(String)}).
+     * Convenient for javascript.
      */
-    public Calculator<E, F> withMaximalDurationInSeconds(double seconds) {
-        return withMaximalDuration(Duration.ofNanos(Math.round(seconds * 1_000_000_000d)));
+    public Calculator<E, F> withMaximalDurationText(String duration) {
+        return withMaximalDuration(parseMaximalDuration(duration));
+    }
+
+    /**
+     * Parses a maximal duration, using {@link TimeUtils#parseDuration(CharSequence)}. So e.g. {@code 10s}, {@code 0.5s}, {@code 1m} or {@code PT10S}. Note that
+     * a plain number is a number of milliseconds.
+     * @throws IllegalArgumentException if it can't be parsed, or is not positive
+     */
+    public static Duration parseMaximalDuration(String duration) {
+        final Optional<Duration> parsed;
+        try {
+            parsed = TimeUtils.parseDuration(duration);
+        } catch (RuntimeException e) {
+            throw new IllegalArgumentException("Not a duration: " + duration, e);
+        }
+        Duration result = parsed.orElseThrow(() -> new IllegalArgumentException("Not a duration: " + duration));
+        if (result.isNegative() || result.isZero()) {
+            throw new IllegalArgumentException("Maximal duration must be positive: " + duration);
+        }
+        return result;
+    }
+
+    /**
+     * @return whether {@link #parseMaximalDuration(String)} accepts the given string
+     */
+    public static boolean isValidMaximalDuration(String duration) {
+        try {
+            parseMaximalDuration(duration);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     /**
@@ -481,8 +514,18 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             return field.getClass().getSimpleName() + " " + field;
         }
 
+        /**
+         * @return the text of the {@link AlgebraicStructure#getDescription() description} of the structure, or {@code null}
+         */
         public String help() {
-            return field.getDescription().orElse(null);
+            return field.getDescription().map(Description::text).orElse(null);
+        }
+
+        /**
+         * @return a link to more information about the structure (e.g. a wikipedia page), or {@code null}
+         */
+        public String helpUrl() {
+            return field.getDescription().flatMap(Description::getUrl).map(Object::toString).orElse(null);
         }
     }
 
@@ -614,11 +657,11 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         }
     }
 
+    /**
+     * Formats a duration in seconds, in the same way as it can be given (see {@link #parseMaximalDuration(String)}), e.g. {@code 10s} or {@code 0.5s}
+     */
     static String format(Duration duration) {
-        if (duration.toMillis() < 1000) {
-            return duration.toMillis() + " ms";
-        }
-        return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + " s";
+        return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + "s";
     }
 
     /**

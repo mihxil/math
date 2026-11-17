@@ -149,7 +149,9 @@ public class NaturalNumbers extends AbstractIntegers<NaturalNumber, NaturalNumbe
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The natural numbers 0, 1, 2, …, of arbitrary size. There are no negative numbers, so subtraction is only possible if the result is not negative.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The natural numbers 0, 1, 2, …, of arbitrary size. There are no negative numbers, so subtraction is only possible if the result is not negative.",
+            "https://en.wikipedia.org/wiki/Natural_number"));
     }
 }

@@ -108,7 +108,9 @@ public class OddIntegers extends AbstractIntegers<OddInteger, OddInteger, OddInt
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The odd integers (…, -3, -1, 1, 3, …). The product of two odd integers is odd again, but their sum is not, so only multiplication is supported.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The odd integers (…, -3, -1, 1, 3, …). The product of two odd integers is odd again, but their sum is not, so only multiplication is supported.",
+            "https://en.wikipedia.org/wiki/Parity_(mathematics)"));
     }
 }

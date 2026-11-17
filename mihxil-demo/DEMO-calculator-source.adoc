@@ -18,8 +18,8 @@
       <input type="number" id="calculator_maximalPrecision" name="maximalPrecision" min="0" max="1000" step="1" placeholder="1000" title="Empty for the default (1000). Only affects how results are shown." />
     </div>
     <div data-setting="maximalDuration">
-      <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
-      <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
+      <label for="calculator_maximalDuration">Maximal duration of a calculation:</label>
+      <input type="text" id="calculator_maximalDuration" name="maximalDuration" placeholder="10s" title="Calculations taking longer are stopped. E.g. 10s, 0.5s, 1m. Empty for the default (10s)." />
     </div>
     <!-- for selects, the first option is the default -->
     <div data-setting="rationalNotation">

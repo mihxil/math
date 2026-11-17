@@ -48,8 +48,10 @@ public class QuaternionGroup implements Group<QuaternionElement>, Streamable<Qua
     }
 
     @Override
-    public Optional<String> getDescription() {
-        return Optional.of("The quaternion group is a non-abelian group of order eight, isomorphic to the eight-element subset {1,i,j,k,-1,-i,-j,-k} of the quaternions under multiplication.");
+    public Optional<Description> getDescription() {
+        return Optional.of(Description.of(
+            "The quaternion group is a non-abelian group of order eight, isomorphic to the eight-element subset {1,i,j,k,-1,-i,-j,-k} of the quaternions under multiplication.",
+            "https://en.wikipedia.org/wiki/Quaternion_group"));
     }
 
     @Override
