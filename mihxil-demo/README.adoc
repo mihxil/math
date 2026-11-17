@@ -251,6 +251,7 @@ public enum FieldInformation {
      * <ul>
      *   <li>{@code element}: for finite structures all elements, otherwise digits, constants, imaginary units, the variable of polynomials,
      *   as far as the structure accepts them</li>
+     *   <li>{@code overline}: if the structure accepts numbers with repeating digits, to overline the selected digits</li>
      *   <li>{@code binary}: the binary operators</li>
      *   <li>{@code unary}: the unary operators. {@link Key#insert()} is then a template, where {@link #SLOT} is to be replaced with the operand</li>
      * </ul>
@@ -291,6 +292,10 @@ public enum FieldInformation {
         }
         if (accepts("1.5")) {
             result.add(new Key(".", ".", "element", "decimal point"));
+        }
+        if (accepts("0.3\u0305") || accepts("3\u0305")) {
+            // repeating digits, like 0.3̅ (rational numbers) or 1̅3̅2 (p-adic numbers)
+            result.add(new Key(TextUtils.overLine("x"), "\u0305", "overline", "overline: marks the selected digits as repeating (again to remove it)"));
         }
         Set<String> candidates = new LinkedHashSet<>();
         for (String constant : field.getConstants().keySet()) {
@@ -648,6 +653,45 @@ This is the source code for the above.
     }
 
     /**
+     * Overlines the selected characters (marking repeating digits). If they are all overlined already, the overline is removed again.
+     */
+    toggleOverline() {
+        const input = this.input;
+        const value = input.value;
+        const start = input.selectionStart;
+        let end = input.selectionEnd;
+        if (start === end) {
+            // nothing selected (the button should not even be visible then)
+            return;
+        }
+        if (value[end] === OVERLINE) {
+            // don't split a character from its overline
+            end++;
+        }
+        const characters = Array.from(value.slice(start, end).replaceAll(OVERLINE, '')).filter(c => c.trim() !== '');
+        const selected = value.slice(start, end);
+        const allOverlined = characters.length > 0 && selected.replaceAll(/\s/g, '') === characters.map(c => c + OVERLINE).join('');
+        const replacement = allOverlined ?
+            selected.replaceAll(OVERLINE, '') :
+            Array.from(selected.replaceAll(OVERLINE, '')).map(c => c.trim() === '' ? c : c + OVERLINE).join('');
+        input.value = value.slice(0, start) + replacement + value.slice(end);
+        input.setSelectionRange(start, start + replacement.length);
+        this.fresh = false;
+        input.focus();
+        this.schedulePreview();
+    }
+
+    /**
+     * The overline key (if the current field has one) only makes sense if something is selected, so it is only shown then
+     */
+    updateOverlineKey() {
+        const key = this.keypad?.querySelector('button.overline');
+        if (key) {
+            key.hidden = this.input.selectionStart === this.input.selectionEnd;
+        }
+    }
+
+    /**
      * Inserts the string at the cursor, replacing the selection (if any)
      */
     insert(string, cursorOffset = string.length) {
@@ -803,6 +847,11 @@ This is the source code for the above.
                 this.clear();
             }
         });
+        // show the overline key only if something is selected
+        for (const type of ['select', 'selectionchange', 'input', 'keyup', 'mouseup', 'focus']) {
+            this.input.addEventListener(type, () => this.updateOverlineKey());
+        }
+        document.addEventListener('selectionchange', () => this.updateOverlineKey());
         this.field.addEventListener('change', async () => {
             this.fieldToUrl();
             await this.updateField();
@@ -997,10 +1046,13 @@ This is the source code for the above.
                 case 'unary':
                     onclick = () => this.insertUnaryOperator(key.insert);
                     break;
+                case 'overline':
+                    onclick = () => this.toggleOverline();
+                    break;
                 default:
                     onclick = () => this.insert(key.insert);
             }
-            groups[key.type]?.appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
+            (groups[key.type] ?? groups.element).appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
         }
         const special = this.keypad.querySelector('.special');
         if (special.childElementCount === 0) {
@@ -1013,6 +1065,7 @@ This is the source code for the above.
             );
             special.querySelectorAll('button').forEach(b => b.classList.add('key', 'special'));
         }
+        this.updateOverlineKey();
     }
 
     /**
