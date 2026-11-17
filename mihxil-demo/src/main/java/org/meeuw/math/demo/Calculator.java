@@ -335,6 +335,7 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
          * <ul>
          *   <li>{@code element}: for finite structures all elements, otherwise digits, constants, imaginary units, the variable of polynomials,
          *   as far as the structure accepts them</li>
+         *   <li>{@code overline}: if the structure accepts numbers with repeating digits, to overline the selected digits</li>
          *   <li>{@code binary}: the binary operators</li>
          *   <li>{@code unary}: the unary operators. {@link Key#insert()} is then a template, where {@link #SLOT} is to be replaced with the operand</li>
          * </ul>
@@ -375,6 +376,10 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
             }
             if (accepts("1.5")) {
                 result.add(new Key(".", ".", "element", "decimal point"));
+            }
+            if (accepts("0.3\u0305") || accepts("3\u0305")) {
+                // repeating digits, like 0.3̅ (rational numbers) or 1̅3̅2 (p-adic numbers)
+                result.add(new Key(TextUtils.overLine("x"), "\u0305", "overline", "overline: marks the selected digits as repeating (again to remove it)"));
             }
             Set<String> candidates = new LinkedHashSet<>();
             for (String constant : field.getConstants().keySet()) {

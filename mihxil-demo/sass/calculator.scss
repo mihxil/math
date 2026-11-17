@@ -6,6 +6,10 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
     flex-direction: column;
     gap: 0.4em;
 
+    [hidden] {
+      display: none !important;
+    }
+
     > div {
       display: flex;
       flex-wrap: wrap;
@@ -55,17 +59,54 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
       display: none !important;
     }
 
+    // settings: only shown on request, so compact, and a bit set apart from the rest of the form
     details.settings {
-      margin: 0.3em 0;
-      font-size: 0.9em;
+      align-self: flex-start;
+      width: fit-content;
+      max-width: 100%;
+      margin: 0;
+      font-size: 0.8em;
 
       summary {
         cursor: pointer;
         opacity: 0.7;
+        width: fit-content;
       }
 
-      input[type=number] {
-        width: 6em;
+      &[open] {
+        padding: 0.3em 0.7em 0.5em 0.7em;
+        background-color: rgba(128, 128, 128, 0.12);
+        border: 1px dashed rgba(128, 128, 128, 0.6);
+        border-radius: 0.4em;
+
+        summary {
+          margin-bottom: 0.3em;
+        }
+      }
+
+      // one line per setting: the label, and next to it the control in its natural width
+      [data-setting] {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.2em 0.6em;
+        margin: 0.2em 0;
+
+        label {
+          margin: 0;
+        }
+
+        input, select {
+          width: auto;
+          font-size: inherit;
+          padding: 0.1em 0.3em;
+          margin: 0;
+          height: auto;
+        }
+
+        input[type=number] {
+          width: 6em;
+        }
       }
     }
 

@@ -135,7 +135,7 @@ public class AST {
     static final Pattern SCIENTIFIC_NOTATION = Pattern.compile("\\d+(?:\\.\\d+)?\u00B710[⁻⁺]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+[ijk]?");
 
     /**
-     * Prepares a string for the {@link InfixParser}. Mixed numbers and scientific notation are made quoted literals, and {@link TextUtils#undo(CharSequence)} is applied. All this not to (already) quoted literals, which are passed as is to {@link AlgebraicStructure#fromString(String)}.
+     * Prepares a string for the {@link InfixParser}. Mixed numbers, scientific notation and numbers with overlined digits are made quoted literals, and {@link TextUtils#undo(CharSequence)} is applied. All this not to (already) quoted literals, which are passed as is to {@link AlgebraicStructure#fromString(String)}.
      * @since 0.23
      */
     static String prepare(String parse) {
@@ -150,6 +150,8 @@ public class AST {
                 String part = MIXED_NUMBER.matcher(parts[i]).replaceAll("\"$1 $2\u2044$3\"");
                 // so is scientific notation, which would otherwise be confused with a multiplication and a subtraction
                 part = SCIENTIFIC_NOTATION.matcher(part).replaceAll("\"$0\"");
+                // and numbers with overlined (repeating) digits, which the parser would not recognize as one number otherwise
+                part = OVERLINED_NUMBER.matcher(part).replaceAll("\"$0\"");
                 result.append(undoOutsideQuotes(part));
             } else {
                 result.append(parts[i]);
@@ -172,6 +174,12 @@ public class AST {
         }
         return result.toString();
     }
+
+    /**
+     * A number with repeating digits indicated by an overline (see {@link TextUtils#overLine(CharSequence)}), like {@code 0.16̅} (rational numbers) or
+     * {@code 1̅3̅2₅} (p-adic numbers, digits above 9 are letters). The {@link TextUtils#undo(CharSequence) subscript of the base} must stay too.
+     */
+    static final Pattern OVERLINED_NUMBER = Pattern.compile("(?<![\\p{L}\\d.])(?:[0-9a-z.]|[0-9a-z]\u0305)*[0-9a-z]\u0305(?:[0-9a-z.]|[0-9a-z]\u0305)*[₀₁₂₃₄₅₆₇₈₉]*");
 
     static final Pattern SIMPLE_OPERAND = Pattern.compile("-?\\d+(?:\\.\\d+)?|[\\p{L}𝜋𝜑][\\p{L}\\p{N}]*");
 

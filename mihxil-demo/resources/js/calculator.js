@@ -21,6 +21,11 @@ const SETTINGS_KEY = 'mihxil.calculator.settings';
 const FIELD_PARAMETER = 'field';
 
 /**
+ * The combining character to mark repeating digits
+ */
+const OVERLINE = '\u0305';
+
+/**
  * The value of a number input, or undefined if it is empty or invalid
  */
 function numberValue(input, valid) {
@@ -148,6 +153,45 @@ export class CalculatorClass extends BaseClass {
         if (this.input.value.trim() !== '') {
             this.fresh = false;
             this.schedulePreview();
+        }
+    }
+
+    /**
+     * Overlines the selected characters (marking repeating digits). If they are all overlined already, the overline is removed again.
+     */
+    toggleOverline() {
+        const input = this.input;
+        const value = input.value;
+        const start = input.selectionStart;
+        let end = input.selectionEnd;
+        if (start === end) {
+            // nothing selected (the button should not even be visible then)
+            return;
+        }
+        if (value[end] === OVERLINE) {
+            // don't split a character from its overline
+            end++;
+        }
+        const characters = Array.from(value.slice(start, end).replaceAll(OVERLINE, '')).filter(c => c.trim() !== '');
+        const selected = value.slice(start, end);
+        const allOverlined = characters.length > 0 && selected.replaceAll(/\s/g, '') === characters.map(c => c + OVERLINE).join('');
+        const replacement = allOverlined ?
+            selected.replaceAll(OVERLINE, '') :
+            Array.from(selected.replaceAll(OVERLINE, '')).map(c => c.trim() === '' ? c : c + OVERLINE).join('');
+        input.value = value.slice(0, start) + replacement + value.slice(end);
+        input.setSelectionRange(start, start + replacement.length);
+        this.fresh = false;
+        input.focus();
+        this.schedulePreview();
+    }
+
+    /**
+     * The overline key (if the current field has one) only makes sense if something is selected, so it is only shown then
+     */
+    updateOverlineKey() {
+        const key = this.keypad?.querySelector('button.overline');
+        if (key) {
+            key.hidden = this.input.selectionStart === this.input.selectionEnd;
         }
     }
 
@@ -307,6 +351,11 @@ export class CalculatorClass extends BaseClass {
                 this.clear();
             }
         });
+        // show the overline key only if something is selected
+        for (const type of ['select', 'selectionchange', 'input', 'keyup', 'mouseup', 'focus']) {
+            this.input.addEventListener(type, () => this.updateOverlineKey());
+        }
+        document.addEventListener('selectionchange', () => this.updateOverlineKey());
         this.field.addEventListener('change', async () => {
             this.fieldToUrl();
             await this.updateField();
@@ -501,10 +550,13 @@ export class CalculatorClass extends BaseClass {
                 case 'unary':
                     onclick = () => this.insertUnaryOperator(key.insert);
                     break;
+                case 'overline':
+                    onclick = () => this.toggleOverline();
+                    break;
                 default:
                     onclick = () => this.insert(key.insert);
             }
-            groups[key.type]?.appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
+            (groups[key.type] ?? groups.element).appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
         }
         const special = this.keypad.querySelector('.special');
         if (special.childElementCount === 0) {
@@ -517,6 +569,7 @@ export class CalculatorClass extends BaseClass {
             );
             special.querySelectorAll('button').forEach(b => b.classList.add('key', 'special'));
         }
+        this.updateOverlineKey();
     }
 
     /**

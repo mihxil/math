@@ -265,6 +265,23 @@ class CalculatorTest {
     }
 
     @Test
+    void overlinedNumbersNeedNoQuotes() {
+        assertThat(new Calculator<>(rational).withDefaultRationalNotation().evalToString("1 / 0.3̅")).isEqualTo("3");
+        assertThat(new Calculator<>(rational).withDefaultRationalNotation().evalToString("0.16̅ + 1 / 6")).isEqualTo("¹⁄₃");
+        assertThat(new Calculator<>(padic5).evalToString("1̅3̅2₅ ⋅ 3")).isEqualTo("...0 1₅");
+        assertThat(new Calculator<>(padic5).evalToString("4̅ + 1")).isEqualTo("...0 ₅");
+        assertThat(new Calculator<>(padic13).evalToString("c̅ + 1")).isEqualTo("...0 ₁₃");
+        assertThat(new Calculator<>(gaussian).withDefaultRationalNotation().evalToString("(0.3̅ + 0.6̅i) ⋅ 3")).isEqualTo("1 + 2i");
+    }
+
+    @Test
+    void overlineKey() {
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
+            .filter(fi -> java.util.Arrays.stream(fi.keys()).anyMatch(k -> k.type().equals("overline"))))
+            .containsExactlyInAnyOrder(rational, gaussian, quaternions, padic5, padic13, polynomials);
+    }
+
+    @Test
     void calculateError() {
         var calculator = new Calculator<>(integers);
         var result = calculator.calculate("1 +");
