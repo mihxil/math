@@ -16,6 +16,21 @@ const SIMPLE_OPERAND = /^(-?\d+(\.\d+)?|[\p{L}][\p{L}\p{N}]*|"[^"]*")$/u;
  */
 const SETTINGS_KEY = 'mihxil.calculator.settings';
 
+/**
+ * The settings of the calculator. Each has an input in the form (with that name), a check whether a value is valid for it, and how to apply
+ * it to a Calculator (the value is undefined for the default)
+ */
+const SETTINGS = {
+    maximalPrecision: {
+        valid: (value, input) => Number.isInteger(value) && value >= 0 && value <= Number(input.max),
+        apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalPrecision() : calculator.withMaximalPrecision(value)
+    },
+    maximalDuration: {
+        valid: (value, input) => Number.isFinite(value) && value > 0 && value <= Number(input.max),
+        apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalDuration() : calculator.withMaximalDurationInSeconds(value)
+    }
+};
+
 export class CalculatorClass extends BaseClass {
 
 // tag::calculator[]
@@ -24,7 +39,6 @@ export class CalculatorClass extends BaseClass {
         // the keypad buttons are in the form too, so be explicit about which one submits
         this.button = this.form.querySelector('button[name=submit]');
         this.input = this.form.querySelector('#calculator_toparse');
-        this.maximalPrecisionInput = this.form.querySelector('input[name=maximalPrecision]');
         this.settingsElement = this.form.querySelector('details.settings');
         this.settings = CalculatorClass.loadSettings();
         this.field = this.form.querySelector('select');
@@ -53,8 +67,10 @@ export class CalculatorClass extends BaseClass {
         if (!this.calculators[name]) {
             const Calculator = this.Class;
             let calculator = await new Calculator(this.fieldInformation.value);
-            if (Number.isInteger(this.settings.maximalPrecision)) {
-                calculator = await calculator.withMaximalPrecision(this.settings.maximalPrecision);
+            for (const [setting, {apply}] of Object.entries(SETTINGS)) {
+                if (this.settings[setting] !== undefined) {
+                    calculator = await apply(calculator, this.settings[setting]);
+                }
             }
             this.calculators[name] = calculator;
         }
@@ -85,23 +101,20 @@ export class CalculatorClass extends BaseClass {
     }
 
     /**
-     * Called when the maximal precision input changes. An empty (or invalid) value means the default.
+     * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
-    updateMaximalPrecision() {
-        const input = this.maximalPrecisionInput;
+    updateSetting(setting, input) {
         const value = input.value.trim() === '' ? NaN : Number(input.value);
-        if (Number.isInteger(value) && value >= 0 && value <= Number(input.max)) {
-            this.settings.maximalPrecision = value;
+        if (SETTINGS[setting].valid(value, input)) {
+            this.settings[setting] = value;
         } else {
-            delete this.settings.maximalPrecision;
+            delete this.settings[setting];
             input.value = '';
         }
         this.saveSettings();
         // apply to the existing calculators, which remember the previous results (so they can be used with full precision)
         for (const [name, calculator] of Object.entries(this.calculators)) {
-            this.calculators[name] = Promise.resolve(calculator).then(c =>
-                Number.isInteger(this.settings.maximalPrecision) ? c.withMaximalPrecision(this.settings.maximalPrecision) : c.withDefaultMaximalPrecision()
-            );
+            this.calculators[name] = Promise.resolve(calculator).then(c => SETTINGS[setting].apply(c, this.settings[setting]));
         }
         if (this.input.value.trim() !== '') {
             this.fresh = false;
@@ -207,16 +220,20 @@ export class CalculatorClass extends BaseClass {
             return;
         }
         this.listenersSetUp = true;
-        if (this.maximalPrecisionInput) {
-            if (Number.isInteger(this.settings.maximalPrecision)) {
-                this.maximalPrecisionInput.value = this.settings.maximalPrecision;
+        for (const setting of Object.keys(SETTINGS)) {
+            const input = this.form.querySelector(`input[name=${setting}]`);
+            if (!input) {
+                continue;
             }
-            this.maximalPrecisionInput.addEventListener('change', () => this.updateMaximalPrecision());
-            this.maximalPrecisionInput.addEventListener('keydown', (e) => {
+            if (this.settings[setting] !== undefined) {
+                input.value = this.settings[setting];
+            }
+            input.addEventListener('change', () => this.updateSetting(setting, input));
+            input.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     // don't submit the form, just apply the setting
                     e.preventDefault();
-                    this.updateMaximalPrecision();
+                    this.updateSetting(setting, input);
                 }
             });
         }
