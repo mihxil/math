@@ -2256,6 +2256,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
      * &lt;ul&gt;
      *   &lt;li&gt;{@code element}: for finite structures all elements, otherwise digits, constants, imaginary units, the variable of polynomials,
      *   as far as the structure accepts them&lt;/li&gt;
+     *   &lt;li&gt;{@code overline}: if the structure accepts numbers with repeating digits, to overline the selected digits&lt;/li&gt;
      *   &lt;li&gt;{@code binary}: the binary operators&lt;/li&gt;
      *   &lt;li&gt;{@code unary}: the unary operators. {@link Key#insert()} is then a template, where {@link #SLOT} is to be replaced with the operand&lt;/li&gt;
      * &lt;/ul&gt;
@@ -2296,6 +2297,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
         }
         <span class="keyword">if</span> (accepts(<span class="string"><span class="delimiter">&quot;</span><span class="content">1.5</span><span class="delimiter">&quot;</span></span>)) {
             result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">.</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">element</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">decimal point</span><span class="delimiter">&quot;</span></span>));
+        }
+        <span class="keyword">if</span> (accepts(<span class="string"><span class="delimiter">&quot;</span><span class="content">0.3</span><span class="char">\u0305</span><span class="delimiter">&quot;</span></span>) || accepts(<span class="string"><span class="delimiter">&quot;</span><span class="content">3</span><span class="char">\u0305</span><span class="delimiter">&quot;</span></span>)) {
+            <span class="comment">// repeating digits, like 0.3̅ (rational numbers) or 1̅3̅2 (p-adic numbers)</span>
+            result.add(<span class="keyword">new</span> <span class="predefined-type">Key</span>(TextUtils.overLine(<span class="string"><span class="delimiter">&quot;</span><span class="content">x</span><span class="delimiter">&quot;</span></span>), <span class="string"><span class="delimiter">&quot;</span><span class="char">\u0305</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">overline</span><span class="delimiter">&quot;</span></span>, <span class="string"><span class="delimiter">&quot;</span><span class="content">overline: marks the selected digits as repeating (again to remove it)</span><span class="delimiter">&quot;</span></span>));
         }
         <span class="predefined-type">Set</span>&lt;<span class="predefined-type">String</span>&gt; candidates = <span class="keyword">new</span> <span class="predefined-type">LinkedHashSet</span>&lt;&gt;();
         <span class="keyword">for</span> (<span class="predefined-type">String</span> constant : field.getConstants().keySet()) {
@@ -2658,6 +2663,45 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     <span class="comment">/**
+     * Overlines the selected characters (marking repeating digits). If they are all overlined already, the overline is removed again.
+     */</span>
+    toggleOverline() {
+        const input = <span class="local-variable">this</span>.input;
+        const value = input.value;
+        const start = input.selectionStart;
+        let end = input.selectionEnd;
+        <span class="keyword">if</span> (start === end) {
+            <span class="comment">// nothing selected (the button should not even be visible then)</span>
+            <span class="keyword">return</span>;
+        }
+        <span class="keyword">if</span> (value[end] === OVERLINE) {
+            <span class="comment">// don't split a character from its overline</span>
+            end++;
+        }
+        const characters = Array.from(value.slice(start, end).replaceAll(OVERLINE, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>)).filter(c =&gt; c.trim() !== <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>);
+        const selected = value.slice(start, end);
+        const allOverlined = characters.length &gt; <span class="integer">0</span> &amp;&amp; selected.replaceAll(<span class="regexp"><span class="delimiter">/</span><span class="char">\s</span><span class="delimiter">/</span><span class="modifier">g</span></span>, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>) === characters.map(c =&gt; c + OVERLINE).join(<span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>);
+        const replacement = allOverlined ?
+            selected.replaceAll(OVERLINE, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>) :
+            Array.from(selected.replaceAll(OVERLINE, <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>)).map(c =&gt; c.trim() === <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span> ? c : c + OVERLINE).join(<span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>);
+        input.value = value.slice(<span class="integer">0</span>, start) + replacement + value.slice(end);
+        input.setSelectionRange(start, start + replacement.length);
+        <span class="local-variable">this</span>.fresh = <span class="predefined-constant">false</span>;
+        input.focus();
+        <span class="local-variable">this</span>.schedulePreview();
+    }
+
+    <span class="comment">/**
+     * The overline key (if the current field has one) only makes sense if something is selected, so it is only shown then
+     */</span>
+    updateOverlineKey() {
+        const key = <span class="local-variable">this</span>.keypad?.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">button.overline</span><span class="delimiter">'</span></span>);
+        <span class="keyword">if</span> (key) {
+            key.hidden = <span class="local-variable">this</span>.input.selectionStart === <span class="local-variable">this</span>.input.selectionEnd;
+        }
+    }
+
+    <span class="comment">/**
      * Inserts the string at the cursor, replacing the selection (if any)
      */</span>
     insert(string, cursorOffset = string.length) {
@@ -2813,6 +2857,11 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 <span class="local-variable">this</span>.clear();
             }
         });
+        <span class="comment">// show the overline key only if something is selected</span>
+        <span class="keyword">for</span> (const type of [<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">selectionchange</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">keyup</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">mouseup</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">focus</span><span class="delimiter">'</span></span>]) {
+            <span class="local-variable">this</span>.input.addEventListener(type, () =&gt; <span class="local-variable">this</span>.updateOverlineKey());
+        }
+        document.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">selectionchange</span><span class="delimiter">'</span></span>, () =&gt; <span class="local-variable">this</span>.updateOverlineKey());
         <span class="local-variable">this</span>.field.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">change</span><span class="delimiter">'</span></span>, async () =&gt; {
             <span class="local-variable">this</span>.fieldToUrl();
             await <span class="local-variable">this</span>.updateField();
@@ -3007,10 +3056,13 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">unary</span><span class="delimiter">'</span></span>:
                     onclick = () =&gt; <span class="local-variable">this</span>.insertUnaryOperator(key.insert);
                     <span class="keyword">break</span>;
+                <span class="keyword">case</span> <span class="string"><span class="delimiter">'</span><span class="content">overline</span><span class="delimiter">'</span></span>:
+                    onclick = () =&gt; <span class="local-variable">this</span>.toggleOverline();
+                    <span class="keyword">break</span>;
                 <span class="keyword">default</span>:
                     onclick = () =&gt; <span class="local-variable">this</span>.insert(key.insert);
             }
-            groups[key.type]?.appendChild(<span class="local-variable">this</span>.keyButton(key.label, key.title, onclick, <span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, key.type));
+            (groups[key.type] ?? groups.element).appendChild(<span class="local-variable">this</span>.keyButton(key.label, key.title, onclick, <span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, key.type));
         }
         const special = <span class="local-variable">this</span>.keypad.querySelector(<span class="string"><span class="delimiter">'</span><span class="content">.special</span><span class="delimiter">'</span></span>);
         <span class="keyword">if</span> (special.childElementCount === <span class="integer">0</span>) {
@@ -3023,6 +3075,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
             );
             special.querySelectorAll(<span class="string"><span class="delimiter">'</span><span class="content">button</span><span class="delimiter">'</span></span>).forEach(b =&gt; b.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">special</span><span class="delimiter">'</span></span>));
         }
+        <span class="local-variable">this</span>.updateOverlineKey();
     }
 
     <span class="comment">/**
