@@ -2,9 +2,7 @@ package org.meeuw.math;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.*;
 
-import java.util.*;
 
 import static java.lang.Byte.toUnsignedInt;
 import static java.lang.System.arraycopy;
@@ -186,57 +184,6 @@ public final class DigitUtils {
 
     static byte repetitiveDigit(int n, byte[] digits) {
         return digits[n % digits.length];
-    }
-
-    @AllArgsConstructor
-    @EqualsAndHashCode
-    public static class CarryAndIndex {
-        final int carry;
-        final int index;
-
-        @Override
-        public String toString() {
-            return index + " carry " + carry;
-        }
-    }
-
-    @AllArgsConstructor
-    @EqualsAndHashCode
-    public static class MultiplierAndNewDigitAndCarry {
-        final int index;
-        final byte multiplier;
-        final byte newDigit;
-        final byte carry;
-
-        @Override
-        public String toString() {
-            return index + "(" + toUnsignedInt(multiplier) + ")->" + toUnsignedInt(newDigit) + " (carry " + carry + ")";
-        }
-    }
-
-    @AllArgsConstructor
-    public static class CarryAndIndices {
-        final int carry;
-        final int[] indices;
-        @Override
-        public String toString() {
-            return carry + "," + ArrayUtils.toString(indices);
-        }
-
-      @SuppressWarnings({"EqualsWhichDoesntCheckParameterClass", "EqualsDoesntCheckParameterClass"})
-        @Override
-        public final boolean equals(Object o) {
-            if (this == o) return true;
-            CarryAndIndices that = (CarryAndIndices) o ;
-            return carry == that.carry && Arrays.equals(indices, that.indices);
-        }
-
-        @Override
-        public int hashCode() {
-            int result = carry;
-            result = 31 * result + Arrays.hashCode(indices);
-            return result;
-        }
     }
 
     public static String digitToString(byte b) {
