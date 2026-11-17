@@ -804,6 +804,7 @@ This is the source code for the above.
             }
         });
         this.field.addEventListener('change', async () => {
+            this.fieldToUrl();
             await this.updateField();
         });
     }
@@ -856,6 +857,19 @@ This is the source code for the above.
             option.text = value.description;
             this.field.appendChild(option);
         }
+        const fromUrl = new URLSearchParams(location.search).get(FIELD_PARAMETER);
+        if (fromUrl !== null && Object.hasOwn(this.information, fromUrl)) {
+            this.field.value = fromUrl;
+        }
+    }
+
+    /**
+     * Puts the selected field in the URL (replacing the current history entry), so it can be bookmarked
+     */
+    fieldToUrl() {
+        const url = new URL(location.href);
+        url.searchParams.set(FIELD_PARAMETER, this.field.value);
+        history.replaceState(history.state, '', url);
     }
 
     /**
