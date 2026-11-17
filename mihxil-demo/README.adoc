@@ -34,8 +34,8 @@ This section is work in progress
       <input type="number" id="calculator_maximalPrecision" name="maximalPrecision" min="0" max="1000" step="1" placeholder="1000" title="Empty for the default (1000). Only affects how results are shown." />
     </div>
     <div data-setting="maximalDuration">
-      <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
-      <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
+      <label for="calculator_maximalDuration">Maximal duration of a calculation:</label>
+      <input type="text" id="calculator_maximalDuration" name="maximalDuration" placeholder="10s" title="Calculations taking longer are stopped. E.g. 10s, 0.5s, 1m. Empty for the default (10s)." />
     </div>
     <!-- for selects, the first option is the default -->
     <div data-setting="rationalNotation">
@@ -397,8 +397,18 @@ public enum FieldInformation {
         return field.getClass().getSimpleName() + " " + field;
     }
 
+    /**
+     * @return the text of the {@link AlgebraicStructure#getDescription() description} of the structure, or {@code null}
+     */
     public String help() {
-        return field.getDescription().orElse(null);
+        return field.getDescription().map(Description::text).orElse(null);
+    }
+
+    /**
+     * @return a link to more information about the structure (e.g. a wikipedia page), or {@code null}
+     */
+    public String helpUrl() {
+        return field.getDescription().flatMap(Description::getUrl).map(Object::toString).orElse(null);
     }
 }
 
@@ -530,11 +540,11 @@ public String evalToString(String input) {
     }
 }
 
+/**
+ * Formats a duration in seconds, in the same way as it can be given (see {@link #parseMaximalDuration(String)}), e.g. {@code 10s} or {@code 0.5s}
+ */
 static String format(Duration duration) {
-    if (duration.toMillis() < 1000) {
-        return duration.toMillis() + " ms";
-    }
-    return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + " s";
+    return java.math.BigDecimal.valueOf(duration.toMillis(), 3).stripTrailingZeros().toPlainString() + "s";
 }
 
 /**
@@ -612,6 +622,10 @@ This is the source code for the above.
         try {
             const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
             if (settings && typeof settings === 'object') {
+                if (typeof settings.maximalDuration === 'number') {
+                    // used to be a number of seconds
+                    settings.maximalDuration = settings.maximalDuration + 's';
+                }
                 return settings;
             }
         } catch (e) {
@@ -631,8 +645,8 @@ This is the source code for the above.
     /**
      * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
-    updateSetting(setting, input) {
-        const value = SETTINGS[setting].value(input);
+    async updateSetting(setting, input) {
+        const value = await SETTINGS[setting].value(input, this.Class);
         if (value !== undefined) {
             this.settings[setting] = value;
         } else {
@@ -950,6 +964,7 @@ This is the source code for the above.
                 finite: await value.finite(),
                 description: await value.description(),
                 help: await value.help(),
+                helpUrl: await value.helpUrl(),
                 settings: await BaseClass.awaitedArray(value.settings()),
                 keys: null,
                 value: value,
@@ -989,6 +1004,18 @@ This is the source code for the above.
         let help = fieldInformation.help;
         if (help) {
             div.appendChild(document.createTextNode(help));
+        }
+        if (fieldInformation.helpUrl) {
+            const link = document.createElement('a');
+            link.href = fieldInformation.helpUrl;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = 'more…';
+            link.title = fieldInformation.helpUrl;
+            if (help) {
+                div.appendChild(document.createTextNode(' '));
+            }
+            div.appendChild(link);
         }
         // for infinite structures just a sample, the keypad is for entering them
         const elements = fieldInformation.finite ? fieldInformation.elementsSpans : fieldInformation.elementsSpans?.slice(0, 20);
