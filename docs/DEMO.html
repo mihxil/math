@@ -919,6 +919,7 @@
                 <span class="local-variable">this</span>.clear();
             }
         });
+        <span class="local-variable">this</span>.form.addEventListener(<span class="string"><span class="delimiter">'</span><span class="content">copy</span><span class="delimiter">'</span></span>, copyWithOverlines);
         <span class="comment">// show the overline key only if something is selected</span>
         <span class="keyword">for</span> (const type of [<span class="string"><span class="delimiter">'</span><span class="content">select</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">selectionchange</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">input</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">keyup</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">mouseup</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">focus</span><span class="delimiter">'</span></span>]) {
             <span class="local-variable">this</span>.input.addEventListener(type, () =&gt; <span class="local-variable">this</span>.updateOverlineKey());
@@ -1184,7 +1185,7 @@
             <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="delimiter">'</span></span>;
         } <span class="keyword">else</span> {
             <span class="local-variable">this</span>.output.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">preview</span><span class="delimiter">'</span></span>);
-            <span class="local-variable">this</span>.output.value = <span class="string"><span class="delimiter">'</span><span class="content">= </span><span class="delimiter">'</span></span> + await result.result();
+            showWithOverlines(<span class="local-variable">this</span>.output, <span class="string"><span class="delimiter">'</span><span class="content">= </span><span class="delimiter">'</span></span> + await result.result());
         }
     }
 
@@ -1192,12 +1193,12 @@
         const li = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">li</span><span class="delimiter">'</span></span>);
         const expressionSpan = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
         expressionSpan.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">expression</span><span class="delimiter">'</span></span>);
-        expressionSpan.textContent = expression;
+        showWithOverlines(expressionSpan, expression);
         expressionSpan.title = <span class="string"><span class="delimiter">'</span><span class="content">use this expression again</span><span class="delimiter">'</span></span>;
         expressionSpan.onclick = () =&gt; <span class="local-variable">this</span>.setInput(expression);
         const resultSpan = document.createElement(<span class="string"><span class="delimiter">'</span><span class="content">span</span><span class="delimiter">'</span></span>);
         resultSpan.classList.add(<span class="string"><span class="delimiter">'</span><span class="content">result</span><span class="delimiter">'</span></span>);
-        resultSpan.textContent = result;
+        showWithOverlines(resultSpan, result);
         resultSpan.title = <span class="string"><span class="delimiter">'</span><span class="content">use this result</span><span class="delimiter">'</span></span>;
         resultSpan.onclick = () =&gt; <span class="local-variable">this</span>.setInput(operand);
         li.append(expressionSpan, <span class="string"><span class="delimiter">'</span><span class="content"> = </span><span class="delimiter">'</span></span>, resultSpan);
@@ -1224,7 +1225,7 @@
         }
         const value = await result.result();
         const operand = await result.operand();
-        <span class="local-variable">this</span>.output.value = value;
+        showWithOverlines(<span class="local-variable">this</span>.output, value);
         <span class="local-variable">this</span>.addToTape(expression, value, operand);
         <span class="comment">// the result becomes the start of the next calculation. It is selected, so typing something new replaces it,</span>
         <span class="comment">// and typing an operator continues with it</span>
@@ -1751,7 +1752,7 @@
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2026-11-17 23:37:56 UTC
+Last updated 2026-11-17 23:43:01 UTC
 </div>
 </div>
 </body>
