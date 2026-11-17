@@ -238,6 +238,28 @@ export class CalculatorClass extends BaseClass {
     }
 
     /**
+     * A digit typed next to repeating (overlined) digits, on the side where they can continue, is overlined too: after them for rational numbers
+     * (0.16̅ → 0.16̅7̅), before them for p-adic numbers (1̅3̅2 → 4̅1̅3̅2). Anything else would be invalid anyway.
+     * @return the character, possibly with an OVERLINE
+     */
+    withOverlineIfRepeating(character) {
+        const where = this.fieldInformation?.repeatingDigits;
+        if (!where || character.length !== 1) {
+            return character;
+        }
+        // p-adic numbers can have digits above 9 (letters)
+        const digit = where === 'leading' ? /^[0-9a-z]$/i : /^[0-9]$/;
+        if (!digit.test(character)) {
+            return character;
+        }
+        const value = this.input.value;
+        const continues = where === 'trailing' ?
+            value[this.input.selectionStart - 1] === OVERLINE :
+            value[this.input.selectionEnd + 1] === OVERLINE;
+        return continues ? character + OVERLINE : character;
+    }
+
+    /**
      * The overline key (if the current field has one) only makes sense if something is selected, so it is only shown then
      */
     updateOverlineKey() {
@@ -386,7 +408,10 @@ export class CalculatorClass extends BaseClass {
                 // continue with the previous result
                 e.preventDefault();
                 this.insertBinaryOperator(data);
-            } else if (data !== e.data) {
+                return;
+            }
+            data = this.withOverlineIfRepeating(data);
+            if (data !== e.data) {
                 e.preventDefault();
                 this.insert(data);
             } else {
@@ -509,6 +534,7 @@ export class CalculatorClass extends BaseClass {
                 help: await value.help(),
                 helpUrl: await value.helpUrl(),
                 settings: await BaseClass.awaitedArray(value.settings()),
+                repeatingDigits: await value.repeatingDigits(),
                 keys: null,
                 value: value,
             };
@@ -620,7 +646,7 @@ export class CalculatorClass extends BaseClass {
                     onclick = () => this.toggleOverline();
                     break;
                 default:
-                    onclick = () => this.insert(key.insert);
+                    onclick = () => this.insert(this.withOverlineIfRepeating(key.insert));
             }
             (groups[key.type] ?? groups.element).appendChild(this.keyButton(key.label, key.title, onclick, 'key', key.type));
         }

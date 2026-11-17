@@ -485,6 +485,24 @@ public class Calculator<E extends MagmaElement<E>, F extends Magma<E>> {
         }
 
         /**
+         * Where the repeating (overlined) digits are in numbers of this structure, so where they can be extended while typing:
+         * <ul>
+         *     <li>{@code trailing}: at the end, like in {@code 0.16̅} (rational numbers, and structures built from them)</li>
+         *     <li>{@code leading}: at the start, like in {@code 1̅3̅2₅} (p-adic numbers)</li>
+         * </ul>
+         * @return {@code trailing}, {@code leading} or {@code null} if there are no repeating digits
+         */
+        public String repeatingDigits() {
+            if (field instanceof PAdicNumbers) {
+                return "leading";
+            }
+            if (hasRationals((AlgebraicStructure<?>) field)) {
+                return "trailing";
+            }
+            return null;
+        }
+
+        /**
          * Whether elements of the given structure are (or are built from) rational numbers
          */
         static boolean hasRationals(AlgebraicStructure<?> structure) {

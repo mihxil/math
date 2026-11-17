@@ -275,6 +275,19 @@ class CalculatorTest {
     }
 
     @Test
+    void repeatingDigits() {
+        assertThat(rational.repeatingDigits()).isEqualTo("trailing");
+        assertThat(gaussian.repeatingDigits()).isEqualTo("trailing");
+        assertThat(padic5.repeatingDigits()).isEqualTo("leading");
+        assertThat(padic13.repeatingDigits()).isEqualTo("leading");
+        assertThat(real.repeatingDigits()).isNull();
+        assertThat(integers.repeatingDigits()).isNull();
+        // the same fields that have the overline key
+        assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values()).filter(fi -> fi.repeatingDigits() != null))
+            .containsExactlyInAnyOrder(rational, gaussian, quaternions, padic5, padic13, polynomials);
+    }
+
+    @Test
     void overlineKey() {
         assertThat(java.util.Arrays.stream(Calculator.FieldInformation.values())
             .filter(fi -> java.util.Arrays.stream(fi.keys()).anyMatch(k -> k.type().equals("overline"))))
