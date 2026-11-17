@@ -2373,6 +2373,24 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     <span class="comment">/**
+     * Where the repeating (overlined) digits are in numbers of this structure, so where they can be extended while typing:
+     * &lt;ul&gt;
+     *     &lt;li&gt;{@code trailing}: at the end, like in {@code 0.16̅} (rational numbers, and structures built from them)&lt;/li&gt;
+     *     &lt;li&gt;{@code leading}: at the start, like in {@code 1̅3̅2₅} (p-adic numbers)&lt;/li&gt;
+     * &lt;/ul&gt;
+     * @return {@code trailing}, {@code leading} or {@code null} if there are no repeating digits
+     */</span>
+    <span class="directive">public</span> <span class="predefined-type">String</span> repeatingDigits() {
+        <span class="keyword">if</span> (field <span class="keyword">instanceof</span> PAdicNumbers) {
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">leading</span><span class="delimiter">&quot;</span></span>;
+        }
+        <span class="keyword">if</span> (hasRationals((AlgebraicStructure&lt;?&gt;) field)) {
+            <span class="keyword">return</span> <span class="string"><span class="delimiter">&quot;</span><span class="content">trailing</span><span class="delimiter">&quot;</span></span>;
+        }
+        <span class="keyword">return</span> <span class="predefined-constant">null</span>;
+    }
+
+    <span class="comment">/**
      * Whether elements of the given structure are (or are built from) rational numbers
      */</span>
     <span class="directive">static</span> <span class="type">boolean</span> hasRationals(AlgebraicStructure&lt;?&gt; structure) {
@@ -2706,6 +2724,28 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
     }
 
     <span class="comment">/**
+     * A digit typed next to repeating (overlined) digits, on the side where they can continue, is overlined too: after them for rational numbers
+     * (0.16̅ → 0.16̅7̅), before them for p-adic numbers (1̅3̅2 → 4̅1̅3̅2). Anything else would be invalid anyway.
+     * @return the character, possibly with an OVERLINE
+     */</span>
+    withOverlineIfRepeating(character) {
+        const where = <span class="local-variable">this</span>.fieldInformation?.repeatingDigits;
+        <span class="keyword">if</span> (!where || character.length !== <span class="integer">1</span>) {
+            <span class="keyword">return</span> character;
+        }
+        <span class="comment">// p-adic numbers can have digits above 9 (letters)</span>
+        const digit = where === <span class="string"><span class="delimiter">'</span><span class="content">leading</span><span class="delimiter">'</span></span> ? <span class="regexp"><span class="delimiter">/</span><span class="content">^[0-9a-z]$</span><span class="delimiter">/</span><span class="modifier">i</span></span> : <span class="regexp"><span class="delimiter">/</span><span class="content">^[0-9]$</span><span class="delimiter">/</span></span>;
+        <span class="keyword">if</span> (!digit.test(character)) {
+            <span class="keyword">return</span> character;
+        }
+        const value = <span class="local-variable">this</span>.input.value;
+        const continues = where === <span class="string"><span class="delimiter">'</span><span class="content">trailing</span><span class="delimiter">'</span></span> ?
+            value[<span class="local-variable">this</span>.input.selectionStart - <span class="integer">1</span>] === OVERLINE :
+            value[<span class="local-variable">this</span>.input.selectionEnd + <span class="integer">1</span>] === OVERLINE;
+        <span class="keyword">return</span> continues ? character + OVERLINE : character;
+    }
+
+    <span class="comment">/**
      * The overline key (if the current field has one) only makes sense if something is selected, so it is only shown then
      */</span>
     updateOverlineKey() {
@@ -2854,7 +2894,10 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 <span class="comment">// continue with the previous result</span>
                 e.preventDefault();
                 <span class="local-variable">this</span>.insertBinaryOperator(data);
-            } <span class="keyword">else</span> <span class="keyword">if</span> (data !== e.data) {
+                <span class="keyword">return</span>;
+            }
+            data = <span class="local-variable">this</span>.withOverlineIfRepeating(data);
+            <span class="keyword">if</span> (data !== e.data) {
                 e.preventDefault();
                 <span class="local-variable">this</span>.insert(data);
             } <span class="keyword">else</span> {
@@ -2977,6 +3020,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                 <span class="key">help</span>: await value.help(),
                 <span class="key">helpUrl</span>: await value.helpUrl(),
                 <span class="key">settings</span>: await BaseClass.awaitedArray(value.settings()),
+                <span class="key">repeatingDigits</span>: await value.repeatingDigits(),
                 <span class="key">keys</span>: <span class="predefined-constant">null</span>,
                 <span class="key">value</span>: value,
             };
@@ -3088,7 +3132,7 @@ NumberConfiguration aspect = configuration.getAspect(NumberConfiguration.class);
                     onclick = () =&gt; <span class="local-variable">this</span>.toggleOverline();
                     <span class="keyword">break</span>;
                 <span class="keyword">default</span>:
-                    onclick = () =&gt; <span class="local-variable">this</span>.insert(key.insert);
+                    onclick = () =&gt; <span class="local-variable">this</span>.insert(<span class="local-variable">this</span>.withOverlineIfRepeating(key.insert));
             }
             (groups[key.type] ?? groups.element).appendChild(<span class="local-variable">this</span>.keyButton(key.label, key.title, onclick, <span class="string"><span class="delimiter">'</span><span class="content">key</span><span class="delimiter">'</span></span>, key.type));
         }

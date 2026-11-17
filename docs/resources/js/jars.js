@@ -29,5 +29,5 @@ export const JAR_SIZES = {
     "mihxil-physics-0.24-SNAPSHOT.jar": 77442,
     "mihxil-statistics-0.24-SNAPSHOT.jar": 73809,
     "mihxil-time-0.24-SNAPSHOT.jar": 112339,
-    "original-mihxil-demo-0.24-SNAPSHOT.jar": 38301,
+    "original-mihxil-demo-0.24-SNAPSHOT.jar": 38387,
 };
