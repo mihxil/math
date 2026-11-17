@@ -43,7 +43,7 @@ function selectValue(select) {
 
 /**
  * The settings of the calculator. Each has an input (or select) in the form (with that name), a function to get the value from it (undefined for the
- * default), and how to apply it to a Calculator
+ * default, may return a promise, and gets the Calculator class), and how to apply it to a Calculator
  */
 const SETTINGS = {
     maximalPrecision: {
@@ -51,8 +51,12 @@ const SETTINGS = {
         apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalPrecision() : calculator.withMaximalPrecision(value)
     },
     maximalDuration: {
-        value: input => numberValue(input, value => Number.isFinite(value) && value > 0 && value <= Number(input.max)),
-        apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalDuration() : calculator.withMaximalDurationInSeconds(value)
+        // like '10s', '0.5s', '1m'. Parsed (and checked) in java
+        value: async (input, Calculator) => {
+            const value = input.value.trim();
+            return value !== '' && await Calculator.isValidMaximalDuration(value) ? value : undefined;
+        },
+        apply: (calculator, value) => value === undefined ? calculator.withDefaultMaximalDuration() : calculator.withMaximalDurationText(value)
     },
     rationalNotation: {
         value: selectValue,
@@ -117,6 +121,10 @@ export class CalculatorClass extends BaseClass {
         try {
             const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY));
             if (settings && typeof settings === 'object') {
+                if (typeof settings.maximalDuration === 'number') {
+                    // used to be a number of seconds
+                    settings.maximalDuration = settings.maximalDuration + 's';
+                }
                 return settings;
             }
         } catch (e) {
@@ -136,8 +144,8 @@ export class CalculatorClass extends BaseClass {
     /**
      * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
-    updateSetting(setting, input) {
-        const value = SETTINGS[setting].value(input);
+    async updateSetting(setting, input) {
+        const value = await SETTINGS[setting].value(input, this.Class);
         if (value !== undefined) {
             this.settings[setting] = value;
         } else {
@@ -455,6 +463,7 @@ export class CalculatorClass extends BaseClass {
                 finite: await value.finite(),
                 description: await value.description(),
                 help: await value.help(),
+                helpUrl: await value.helpUrl(),
                 settings: await BaseClass.awaitedArray(value.settings()),
                 keys: null,
                 value: value,
@@ -494,6 +503,18 @@ export class CalculatorClass extends BaseClass {
         let help = fieldInformation.help;
         if (help) {
             div.appendChild(document.createTextNode(help));
+        }
+        if (fieldInformation.helpUrl) {
+            const link = document.createElement('a');
+            link.href = fieldInformation.helpUrl;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = 'more…';
+            link.title = fieldInformation.helpUrl;
+            if (help) {
+                div.appendChild(document.createTextNode(' '));
+            }
+            div.appendChild(link);
         }
         // for infinite structures just a sample, the keypad is for entering them
         const elements = fieldInformation.finite ? fieldInformation.elementsSpans : fieldInformation.elementsSpans?.slice(0, 20);
