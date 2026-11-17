@@ -51,6 +51,11 @@ div:is(.sect1, .sect2):has(>#demo_calculator)  {
   }
 
   form#calculator {
+    // the asciidoctor stylesheet gives 'details' a display, which would otherwise win over the hidden attribute (set by calculator.js)
+    [hidden] {
+      display: none !important;
+    }
+
     details.settings {
       margin: 0.3em 0;
       font-size: 0.9em;
