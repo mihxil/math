@@ -37,6 +37,22 @@ This section is work in progress
       <label for="calculator_maximalDuration">Maximal duration of a calculation (s):</label>
       <input type="number" id="calculator_maximalDuration" name="maximalDuration" min="0.1" max="600" step="any" placeholder="10" title="Empty for the default (10 seconds). Calculations taking longer are stopped." />
     </div>
+    <!-- for selects, the first option is the default -->
+    <div data-setting="rationalNotation">
+      <label for="calculator_rationalNotation">Rational numbers:</label>
+      <select id="calculator_rationalNotation" name="rationalNotation" title="How rational numbers are shown">
+        <option value="FRACTION">fraction (²²⁄₇)</option>
+        <option value="INTEGER_AND_FRACTION">integer and fraction (3¹⁄₇)</option>
+        <option value="DECIMAL_WITH_REPEAT">repeating decimal (3.1̅4̅2̅8̅5̅7̅)</option>
+      </select>
+    </div>
+    <div data-setting="padicNotation">
+      <label for="calculator_padicNotation">Repeating digits:</label>
+      <select id="calculator_padicNotation" name="padicNotation" title="How the repeating digits of p-adic numbers are shown">
+        <option value="ELLIPSIS">ellipsis (...13 2₅)</option>
+        <option value="OVERLINE">overline (1̅3̅2₅)</option>
+      </select>
+    </div>
   </details>
 
 ++++
@@ -323,6 +339,12 @@ public enum FieldInformation {
         if (hasDecimals(field)) {
             settings.add("maximalPrecision");
         }
+        if (field instanceof PAdicNumbers) {
+            settings.add("padicNotation");
+        }
+        if (hasRationals(field)) {
+            settings.add("rationalNotation");
+        }
         return settings.toArray(new String[0]);
     }
 
@@ -338,6 +360,19 @@ public enum FieldInformation {
             return mayBeExpensive(compound.getElementStructure());
         }
         return true;
+    }
+
+    /**
+     * Whether elements of the given structure are (or are built from) rational numbers
+     */
+    static boolean hasRationals(AlgebraicStructure<?> structure) {
+        if (structure instanceof RationalNumbers) {
+            return true;
+        }
+        if (structure instanceof CompoundStructure<?> compound) {
+            return hasRationals(compound.getElementStructure());
+        }
+        return false;
     }
 
     /**
@@ -529,7 +564,7 @@ This is the source code for the above.
         this.input = this.form.querySelector('#calculator_toparse');
         this.settingsElement = this.form.querySelector('details.settings');
         this.settings = CalculatorClass.loadSettings();
-        this.field = this.form.querySelector('select');
+        this.field = this.form.querySelector('#calculator_field');
         this.inputDataList= this.form.querySelector('datalist');
         this.tape = this.form.querySelector('ol.tape');
         this.help = this.form.querySelector('span.help');
@@ -592,12 +627,14 @@ This is the source code for the above.
      * Called when the input of a setting changes. An empty (or invalid) value means the default.
      */
     updateSetting(setting, input) {
-        const value = input.value.trim() === '' ? NaN : Number(input.value);
-        if (SETTINGS[setting].valid(value, input)) {
+        const value = SETTINGS[setting].value(input);
+        if (value !== undefined) {
             this.settings[setting] = value;
         } else {
             delete this.settings[setting];
-            input.value = '';
+            if (input.tagName !== 'SELECT') {
+                input.value = '';
+            }
         }
         this.saveSettings();
         // apply to the existing calculators, which remember the previous results (so they can be used with full precision)
@@ -709,7 +746,7 @@ This is the source code for the above.
         }
         this.listenersSetUp = true;
         for (const setting of Object.keys(SETTINGS)) {
-            const input = this.form.querySelector(`input[name=${setting}]`);
+            const input = this.form.querySelector(`[name=${setting}]`);
             if (!input) {
                 continue;
             }
